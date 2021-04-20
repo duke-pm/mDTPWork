@@ -1,0 +1,54 @@
+/**
+ ** Name: 
+ ** Author: 
+ ** CreateAt: 2021
+ ** Description: Description of .js
+ **/
+import React from 'react';
+import {
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+/** COMMON */
+import { colors, cStyles } from '~/utils/style';
+
+function CIconButton(props) {
+  const {
+    style,
+    iconName = '',
+    iconColor = colors.BLACK,
+    iconProps = {},
+    onPress = () => { },
+  } = props;
+
+  return (
+    <TouchableOpacity
+      style={[
+        cStyles.rounded10,
+        cStyles.center,
+        styles.con,
+        style
+      ]}
+      activeOpacity={0.5}
+      onPress={onPress}
+    >
+      <Icon
+        style={cStyles.p4}
+        name={iconName}
+        color={iconColor}
+        size={20}
+        {...iconProps}
+      />
+    </TouchableOpacity>
+  )
+};
+
+const styles = StyleSheet.create({
+  con: {
+    height: 50,
+    width: 50,
+  }
+});
+
+export default CIconButton;

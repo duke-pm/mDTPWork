@@ -1,0 +1,15 @@
+{
+  "common": {
+    "app_name": "DTP-Education"
+  },
+  "sign_in": {
+    "title": "Sign In",
+    "input_email": "E-mail",
+    "input_password": "Password",
+    "save_account": "Save account",
+    "forgot_password": "Forgot password?"
+  },
+  "sign_up": {
+    "title": "Sign Up"
+  }
+}
