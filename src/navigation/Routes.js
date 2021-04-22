@@ -6,6 +6,8 @@
  **/
 import SignInScreen from '~/screens/authentication/signIn';
 import Dashboard from '~/screens/dashboard';
+import Approved from '~/screens/approved';
+import AddApproved from '~/screens/approved/add';
 
 const Routes = {
   AUTHENTICATION: {
@@ -21,6 +23,14 @@ const Routes = {
     DASHBOARD: {
       name: 'Dashboard',
       path: Dashboard,
+    },
+    APPROVED: {
+      name: 'Approved',
+      path: Approved,
+    },
+    ADD_APPROVED: {
+      name: 'AddApproved',
+      path: AddApproved,
     }
   },
 }

@@ -9,12 +9,14 @@ import {
   StyleSheet,
   TextInput,
   View,
-  useColorScheme
+  useColorScheme,
+  TouchableOpacity,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { useTranslation } from 'react-i18next';
 /* COMPONENTS */
 /* COMMON */
+import Configs from '~/config';
 import { colors, cStyles } from '~/utils/style';
 import { RFPercentage } from '~/utils/helper';
 
@@ -23,16 +25,19 @@ function CInput(props) {
 
   const {
     id = '',
+    containerStyle = {},
     style = {},
+    styleFocus = {},
 
     disabled = false,
 
     icon = null,
     iconColor = colors.BLACK,
+    iconLast = null,
+    iconLastColor = colors.BLACK,
 
     holder = '',
     holderColor = colors.GRAY_500,
-    value = '',
     valueColor = colors.BLACK,
     textAlign = 'left',
     keyboard = 'default',
@@ -40,12 +45,14 @@ function CInput(props) {
 
     password = false,
     autoFocus = false,
+    locked = false,
 
     onChangeInput = null,
+    onPressIconLast = null,
   } = props;
 
   const [form, setForm] = useState({
-    value,
+    value: props.value,
     focus: null,
   });
 
@@ -75,9 +82,10 @@ function CInput(props) {
       cStyles.row,
       cStyles.itemsCenter,
       cStyles.rounded1,
-      cStyles.mt16,
+      cStyles.mt12,
       styles.con_input,
-      form.focus === id && styles.input_focus,
+      form.focus === id && [styles.input_focus, styleFocus],
+      containerStyle,
       style,
     ]}>
       {icon &&
@@ -94,13 +102,11 @@ function CInput(props) {
         </View>
       }
 
-      <View style={cStyles.flex1}>
+      <View style={[cStyles.flex1, cStyles.px12]}>
         <TextInput
           ref={props.inputRef}
           style={[
             cStyles.textDefault,
-            cStyles.flex1,
-            cStyles.px12,
             styles.input,
           ]}
           editable={!disabled}
@@ -111,6 +117,7 @@ function CInput(props) {
           autoCompleteType={'off'}
           autoFocus={autoFocus}
           autoCapitalize
+          autoCorrect={false}
           secureTextEntry={password}
           enablesReturnKeyAutomatically={true}
           blurOnSubmit={true}
@@ -127,6 +134,25 @@ function CInput(props) {
           {...props}
         />
       </View>
+
+      {iconLast &&
+        <TouchableOpacity
+          style={[
+            cStyles.center,
+            cStyles.roundedTopRight1,
+            cStyles.roundedBottomRight1,
+            styles.con_input_icon,
+            { backgroundColor: colors.GRAY_300 },
+          ]}
+          onPress={onPressIconLast}
+        >
+          <Icon
+            name={iconLast}
+            color={iconLastColor}
+            size={RFPercentage(3)}
+          />
+        </TouchableOpacity>
+      }
     </View>
   )
 };
@@ -136,17 +162,19 @@ const styles = StyleSheet.create({
     height: 50,
     width: '100%',
     backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    borderColor: colors.GRAY_500,
+    borderWidth: 0.5,
   },
   con_input_icon: {
     width: 50,
-    height: 50,
+    height: 48.5,
   },
   input: {
     width: '100%',
     color: colors.WHITE,
   },
   input_focus: {
-    borderColor: colors.GRAY_500,
+    borderColor: colors.GRAY_100,
     borderWidth: 0.5,
   },
   input_icon: {

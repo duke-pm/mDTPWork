@@ -6,6 +6,7 @@
  **/
 import 'react-native-gesture-handler';
 import React, { useState, useEffect } from 'react';
+import { Provider } from 'react-redux';
 import {
   StatusBar,
   useColorScheme,
@@ -20,6 +21,9 @@ import NetInfo from '@react-native-community/netinfo';
 import '~/utils/language/config-i18n';
 /** COMPOENNTS */
 import Navigator from '~/navigation/Navigator';
+/** REDUX */
+import Store from './src/redux/store';
+import { colors } from '~/utils/style';
 
 const App = () => {
 
@@ -51,10 +55,15 @@ const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
   return (
     <NavigationContainer theme={isDarkMode ? DarkTheme : DefaultTheme}>
-      <SafeAreaProvider>
-        <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-        <Navigator />
-      </SafeAreaProvider>
+      <Provider store={Store}>
+        <SafeAreaProvider>
+          <StatusBar
+            barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+            backgroundColor={colors.PRIMARY}
+          />
+          <Navigator />
+        </SafeAreaProvider>
+      </Provider>
     </NavigationContainer>
   );
 };

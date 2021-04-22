@@ -10,19 +10,28 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Routes from './Routes';
 /** INIT NAVIGATOR OF APP */
 const StackMain = createStackNavigator();
+const StackChild = createStackNavigator();
 
 export function RootStack(props) {
 
   return (
-    <StackMain.Navigator
+    <StackChild.Navigator
       initialRouteName={Routes.MAIN.DASHBOARD.name}
       headerMode={'none'}
     >
-      <StackMain.Screen
+      <StackChild.Screen
         name={Routes.MAIN.DASHBOARD.name}
         component={Routes.MAIN.DASHBOARD.path}
       />
-    </StackMain.Navigator>
+      <StackChild.Screen
+        name={Routes.MAIN.APPROVED.name}
+        component={Routes.MAIN.APPROVED.path}
+      />
+      <StackChild.Screen
+        name={Routes.MAIN.ADD_APPROVED.name}
+        component={Routes.MAIN.ADD_APPROVED.path}
+      />
+    </StackChild.Navigator>
   );
 };
 
@@ -37,9 +46,8 @@ export function RootMain(props) {
         name={Routes.AUTHENTICATION.SIGN_IN.name}
         component={Routes.AUTHENTICATION.SIGN_IN.path}
       />
-
       <StackMain.Screen
-        name={'RootStack'}
+        name={Routes.ROOT_STACK.name}
         component={RootStack}
       />
     </StackMain.Navigator>

@@ -9,10 +9,10 @@ import { Platform, Dimensions } from 'react-native';
 import { RFPercentage } from '~/utils/helper';
 import Colors from './Colors';
 
-const fBold = 'Montserrat-SemiBold';
-const fMedium = 'Montserrat-Medium';
-const fRegular = 'Montserrat-Regular';
-const fLight = 'Montserrat-Light';
+const fBold = 'Roboto-Bold';
+const fMedium = 'Roboto-Medium';
+const fRegular = 'Roboto-Regular';
+const fLight = 'Roboto-Light';
 
 const PLATFORM = {
   ANDROID: 'android',
@@ -466,20 +466,34 @@ const text = {
   H4: { fontSize: RFPercentage(3.5), color: 'black', fontFamily: fBold, lineHeight: 28 },
   H5: { fontSize: RFPercentage(3), color: 'black', fontFamily: fMedium, lineHeight: 26 },
   H6: { fontSize: RFPercentage(2.5), color: 'black', fontFamily: fMedium, lineHeight: 23 },
-  textMeta: { fontSize: RFPercentage(1.7), color: '#4a5568', fontFamily: fLight, lineHeight: 20 },
-  textDefault: {
-    fontSize: RFPercentage(2),
+  textTitle: {
+    fontSize: RFPercentage(2.3),
     color: 'black',
-    fontFamily: fRegular,
+    fontFamily: fMedium,
     lineHeight: platform === PLATFORM.IOS ? 23 : 24
   },
-  textButton: { fontSize: RFPercentage(2), color: 'white', fontFamily: fBold, lineHeight: 20 },
-
+  textMeta: {
+    fontSize: RFPercentage(1.7),
+    color: '#4a5568',
+    fontFamily: fLight,
+    lineHeight: 20
+  },
+  textDefault: {
+    fontSize: RFPercentage(2.2),
+    color: 'black',
+    fontFamily: fRegular,
+    lineHeight: platform === PLATFORM.IOS ? 23 : 24,
+  },
+  textButton: {
+    fontSize: RFPercentage(2),
+    color: 'white',
+    fontFamily: fBold,
+    lineHeight: 20
+  },
   fontBold: { fontFamily: fBold },
   fontMedium: { fontFamily: fMedium },
   fontRegular: { fontFamily: fRegular },
   fontLight: { fontFamily: fLight },
-
   textLeft: { textAlign: 'left' },
   textRight: { textAlign: 'right' },
   textCenter: { textAlign: 'center' },
@@ -501,7 +515,55 @@ const border = {
   rounded9: { borderRadius: 45 },
   rounded10: { borderRadius: 50 },
 
+  roundedTopLeft1: { borderTopLeftRadius: 5 },
+  roundedTopLeft2: { borderTopLeftRadius: 10 },
+  roundedTopLeft3: { borderTopLeftRadius: 15 },
+  roundedTopLeft4: { borderTopLeftRadius: 20 },
+  roundedTopLeft5: { borderTopLeftRadius: 25 },
+  roundedTopLeft6: { borderTopLeftRadius: 30 },
+  roundedTopLeft7: { borderTopLeftRadius: 35 },
+  roundedTopLeft8: { borderTopLeftRadius: 40 },
+  roundedTopLeft9: { borderTopLeftRadius: 45 },
+  roundedTopLeft10: { borderTopLeftRadius: 50 },
+
+  roundedTopRight1: { borderTopRightRadius: 5 },
+  roundedTopRight2: { borderTopRightRadius: 10 },
+  roundedTopRight3: { borderTopRightRadius: 15 },
+  roundedTopRight4: { borderTopRightRadius: 20 },
+  roundedTopRight5: { borderTopRightRadius: 25 },
+  roundedTopRight6: { borderTopRightRadius: 30 },
+  roundedTopRight7: { borderTopRightRadius: 35 },
+  roundedTopRight8: { borderTopRightRadius: 40 },
+  roundedTopRight9: { borderTopRightRadius: 45 },
+  roundedTopRight10: { borderTopRightRadius: 50 },
+
+  roundedBottomLeft1: { borderBottomLeftRadius: 5 },
+  roundedBottomLeft2: { borderBottomLeftRadius: 10 },
+  roundedBottomLeft3: { borderBottomLeftRadius: 15 },
+  roundedBottomLeft4: { borderBottomLeftRadius: 20 },
+  roundedBottomLeft5: { borderBottomLeftRadius: 25 },
+  roundedBottomLeft6: { borderBottomLeftRadius: 30 },
+  roundedBottomLeft7: { borderBottomLeftRadius: 35 },
+  roundedBottomLeft8: { borderBottomLeftRadius: 40 },
+  roundedBottomLeft9: { borderBottomLeftRadius: 45 },
+  roundedBottomLeft10: { borderBottomLeftRadius: 50 },
+
+  roundedBottomRight1: { borderBottomRightRadius: 5 },
+  roundedBottomRight2: { borderBottomRightRadius: 10 },
+  roundedBottomRight3: { borderBottomRightRadius: 15 },
+  roundedBottomRight4: { borderBottomRightRadius: 20 },
+  roundedBottomRight5: { borderBottomRightRadius: 25 },
+  roundedBottomRight6: { borderBottomRightRadius: 30 },
+  roundedBottomRight7: { borderBottomRightRadius: 35 },
+  roundedBottomRight8: { borderBottomRightRadius: 40 },
+  roundedBottomRight9: { borderBottomRightRadius: 45 },
+  roundedBottomRight10: { borderBottomRightRadius: 50 },
+
+  borderAll: { borderColor: Colors.GRAY_500, borderWidth: 0.5 },
+  borderTop: { borderTopColor: Colors.GRAY_500, borderTopWidth: 0.5 },
+  borderBottom: { borderBottomColor: Colors.GRAY_500, borderBottomWidth: 0.5 },
   borderRight: { borderRightColor: Colors.GRAY_500, borderRightWidth: 0.5 },
+  borderLeft: { borderLeftColor: Colors.GRAY_500, borderLeftWidth: 0.5 },
 
 }
 

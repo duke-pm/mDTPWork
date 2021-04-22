@@ -1,0 +1,48 @@
+{
+  "common": {
+    "app_name": "DTP-Education",
+    "cancel": "Hủy bỏ",
+    "ok": "OK",
+    "close": "Đóng",
+    "choose_date": "Chọn ngày"
+  },
+  "sign_in": {
+    "title": "Đăng Nhập",
+    "input_email": "E-mail",
+    "input_password": "Mật khẩu",
+    "save_account": "Lưu tài khoản",
+    "forgot_password": "Quên mật khẩu?"
+  },
+  "sign_up": {
+    "title": "Đăng Ký"
+  },
+  "dashboard": {
+    "title": "Tổng Quan"
+  },
+  "approved": {
+    "title": "Yêu Cầu Cấp Phát Tài Sản"
+  },
+  "add_approved": {
+    "title": "Tạo mới yêu cầu",
+    "name": "Tên",
+    "department": "Bộ phận",
+    "holder_department": "Chọn bộ phận",
+    "date_request": "Ngày yêu cầu",
+    "area": "Khu vực",
+    "assets": "Tài sản",
+    "add_assets": "Thêm tài sản",
+    "description": "Mô tả",
+    "amount": "Số lượng",
+    "price": "Đơn giá",
+    "total": "Thành tiền",
+    "where_use": "Nơi dùng",
+    "reason": "Lý do",
+    "type_assets": "Loại tài sản",
+    "buy_new": "Mua mới",
+    "additional": "Bổ sung thêm",
+    "in_planning": "Khoản mua sắm này có nằm trong kế hoạch?",
+    "yes": "Có",
+    "no": "Không",
+    "supplier": "Nhà cung cấp đề nghị (nếu có)"
+  }
+}

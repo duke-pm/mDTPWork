@@ -11,5 +11,15 @@
   },
   "sign_up": {
     "title": "Sign Up"
+  },
+  "dashboard": {
+    "title": "Dashboard"
+  },
+  "approved": {
+    "title": "Approved"
+  },
+  "add_approved": {
+    "title": "Request Assets",
+    "name": "Name"
   }
 }

@@ -10,8 +10,8 @@ import { initReactI18next } from 'react-i18next';
 import languages from './locales';
 
 i18n.use(initReactI18next).init({
-  fallbackLng: 'en_US',
-  lng: 'en_US',
+  fallbackLng: 'vi_VN',
+  lng: 'vi_VN',
 
   resources: languages,
 

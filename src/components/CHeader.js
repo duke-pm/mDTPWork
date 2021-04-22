@@ -15,12 +15,16 @@ import { cStyles, colors } from '~/utils/style';
 function CHeader(props) {
   const {
     background = colors.PRIMARY,
-    span = false,
     hasBack = false,
     hasMenu = false,
     hasSearch = false,
+    hasAddNew = false,
     title = '',
     subTitle = null,
+    left = null,
+    right = null,
+
+    onPressAddNew = () => { }
   } = props;
 
   const { t } = useTranslation();
@@ -32,6 +36,10 @@ function CHeader(props) {
 
   const handleSearch = () => {
 
+  };
+
+  const handleAddNew = () => {
+    onPressAddNew();
   };
 
   /** RENDER */
@@ -70,6 +78,7 @@ function CHeader(props) {
             />
           </TouchableOpacity>
         }
+        {left && left}
       </View>
 
       <View style={[styles.con_body, cStyles.center]}>
@@ -79,12 +88,17 @@ function CHeader(props) {
         }
       </View>
 
-      <View style={styles.con_right}>
+      <View
+        style={[
+          cStyles.flex1,
+          cStyles.justifyCenter,
+          styles.con_right
+        ]}>
         {hasSearch &&
           <TouchableOpacity
             style={cStyles.itemsEnd}
             activeOpacity={0.5}
-            onPress={handleBack}
+            onPress={handleSearch}
           >
             <Icon
               style={cStyles.p16}
@@ -94,6 +108,23 @@ function CHeader(props) {
             />
           </TouchableOpacity>
         }
+
+        {hasAddNew &&
+          <TouchableOpacity
+            style={cStyles.itemsEnd}
+            activeOpacity={0.5}
+            onPress={handleAddNew}
+          >
+            <Icon
+              style={cStyles.p16}
+              name={'plus'}
+              color={colors.WHITE}
+              size={20}
+            />
+          </TouchableOpacity>
+        }
+
+        {right && right}
       </View>
     </View>
   );

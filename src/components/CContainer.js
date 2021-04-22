@@ -19,17 +19,23 @@ function CContainer(props) {
   const {
     safeArea,
     style,
-    headerBackground,
+
     header,
     content,
     footer,
 
-    headerSpan,
+    headerBackground,
+    headerLeft,
+    headerRight,
     hasBack,
     hasMenu,
     hasSearch,
+    hasAddNew,
+
     title,
     subTitle,
+
+    onPressAddNew,
   } = props;
 
   // Theme
@@ -54,9 +60,12 @@ function CContainer(props) {
             hasBack={hasBack}
             hasMenu={hasMenu}
             hasSearch={hasSearch}
+            hasAddNew={hasAddNew}
             title={title}
             subTitle={subTitle}
-            span={headerSpan}
+            left={headerLeft}
+            right={headerRight}
+            onPressAddNew={onPressAddNew}
           />
         )}
         {content}

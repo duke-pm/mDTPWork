@@ -20,7 +20,7 @@ import CInput from '~/components/CInput';
 import CCheckbox from '~/components/CCheckbox';
 import CText from '~/components/CText';
 import CButton from '~/components/CButton';
-import CIconButton from '~/components/CIconButton';
+// import CIconButton from '~/components/CIconButton';
 /* COMMON */
 import Routes from '~/navigation/Routes';
 import Assets from '~/utils/asset/Assets';
@@ -31,11 +31,11 @@ const INPUT_NAME = {
   EMAIL: 'email',
   PASSWORD: 'password',
 };
-const SOCIALS_NAME = {
-  FACEBOOK: 'facebook',
-  GOOGLE: 'google',
-  APPLE: 'apple'
-};
+// const SOCIALS_NAME = {
+//   FACEBOOK: 'facebook',
+//   GOOGLE: 'google',
+//   APPLE: 'apple'
+// };
 
 function SignIn(props) {
   const { t } = useTranslation();
@@ -141,11 +141,11 @@ function SignIn(props) {
                     onPress={handleSignIn}
                   />
 
-                  <View style={cStyles.center}>
+                  {/* <View style={cStyles.center}>
                     <View style={[cStyles.my16, styles.separator]} />
-                  </View>
+                  </View> */}
 
-                  <View style={[
+                  {/* <View style={[
                     cStyles.row,
                     cStyles.itemsCenter,
                     cStyles.justifyEvenly,
@@ -179,7 +179,7 @@ function SignIn(props) {
                       }}
                       onPress={() => handleSignInSocials(SOCIALS_NAME.APPLE)}
                     />
-                  </View>
+                  </View> */}
                 </View>
               </CContent>
             </KeyboardAvoidingView>

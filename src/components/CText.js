@@ -15,10 +15,10 @@ function CText(props) {
   const { t } = useTranslation();
 
   const {
-    styles,
-    customStyles,
-    label,
-    onPress,
+    styles = '',
+    customStyles = {},
+    label = '',
+    customLabel = null,
   } = props;
 
   let tmpStyles = styles.split(' ');
@@ -28,13 +28,13 @@ function CText(props) {
   return (
     <Text
       style={[
+        cStyles.textDefault,
         allStyles,
         customStyles,
       ]}
       allowFontScaling={true}
-      onPress={onPress}
       {...props}>
-      {t(label)}
+      {customLabel || t(label)}
     </Text>
   )
 };
