@@ -19,6 +19,7 @@ import { useTranslation } from 'react-i18next';
 import Configs from '~/config';
 import { colors, cStyles } from '~/utils/style';
 import { RFPercentage } from '~/utils/helper';
+import CText from './CText';
 
 function CInput(props) {
   const { t } = useTranslation();
@@ -45,7 +46,7 @@ function CInput(props) {
 
     password = false,
     autoFocus = false,
-    locked = false,
+    dateTimePicker = false,
 
     onChangeInput = null,
     onPressIconLast = null,
@@ -103,36 +104,44 @@ function CInput(props) {
       }
 
       <View style={[cStyles.flex1, cStyles.px12]}>
-        <TextInput
-          ref={props.inputRef}
-          style={[
-            cStyles.textDefault,
-            styles.input,
-          ]}
-          editable={!disabled}
-          placeholder={t(holder)}
-          placeholderTextColor={holderColor}
-          selectionColor={valueColor}
-          value={form.value}
-          autoCompleteType={'off'}
-          autoFocus={autoFocus}
-          autoCapitalize
-          autoCorrect={false}
-          secureTextEntry={password}
-          enablesReturnKeyAutomatically={true}
-          blurOnSubmit={true}
-          selectTextOnFocus={true}
-          textAlign={textAlign}
-          clearButtonMode={'while-editing'}
-          keyboardAppearance={isDarkMode ? 'dark' : 'light'}
-          keyboardType={keyboard}
-          returnKeyType={returnKey}
-          onFocus={() => handleFocusInput(id)}
-          onBlur={() => handleFocusInput(null)}
-          onChangeText={handleChangeInput}
-          onSubmitEditing={handleSubmitEditing}
-          {...props}
-        />
+        {dateTimePicker &&
+          <View style={[cStyles.textDefault, styles.input]}>
+            <CText customLabel={props.value} />
+          </View>
+        }
+
+        {!dateTimePicker &&
+          <TextInput
+            ref={props.inputRef}
+            style={[
+              cStyles.textDefault,
+              styles.input,
+            ]}
+            editable={!disabled}
+            placeholder={t(holder)}
+            placeholderTextColor={holderColor}
+            selectionColor={valueColor}
+            value={form.value}
+            autoCompleteType={'off'}
+            autoFocus={autoFocus}
+            autoCapitalize
+            autoCorrect={false}
+            secureTextEntry={password}
+            enablesReturnKeyAutomatically={true}
+            blurOnSubmit={true}
+            selectTextOnFocus={true}
+            textAlign={textAlign}
+            clearButtonMode={'while-editing'}
+            keyboardAppearance={isDarkMode ? 'dark' : 'light'}
+            keyboardType={keyboard}
+            returnKeyType={returnKey}
+            onFocus={() => handleFocusInput(id)}
+            onBlur={() => handleFocusInput(null)}
+            onChangeText={handleChangeInput}
+            onSubmitEditing={handleSubmitEditing}
+            {...props}
+          />
+        }
       </View>
 
       {iconLast &&

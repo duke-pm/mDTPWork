@@ -9,11 +9,13 @@ import { PixelRatio, Platform, StatusBar, Dimensions } from 'react-native';
 
 export const IS_ANDROID = Platform.OS === 'android';
 export const IS_IOS = Platform.OS === 'ios';
+export const SCREEN_HEIGHT = Dimensions.get('window').height;
+export const SCREEN_WIDTH = Dimensions.get('window').width;
 
 export const { height, width } = Dimensions.get('window');
 const STANDARD_LENGTH = width > height ? width : height;
 const OFFSET =
-  width > height ? 0 : Platform.OS === 'ios' ? 78 : StatusBar.currentHeight; // iPhone X style SafeAreaView size in portrait
+  width > height ? 0 : Platform.OS === 'ios' ? 150 : StatusBar.currentHeight; // iPhone X style SafeAreaView size in portrait
 
 const deviceHeight =
   isIphoneX() || Platform.OS === 'android'

@@ -7,22 +7,21 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import DropDownPicker from 'react-native-dropdown-picker';
 /* COMPONENTS */
-
+import DropDownPicker from '~/libs/DropDownPicker';
+// import DropDownPicker from 'react-native-dropdown-picker';
 /* COMMON */
 import { cStyles, colors } from '~/utils/style';
 /* REDUX */
 
-
 function CDropdown(props) {
+  const { t } = useTranslation();
   const {
     data,
     defaultValue,
-    zIndex,
-    onChangeItem,
+    holder = '',
+    onChangeItem = () => { },
   } = props;
-  const { t } = useTranslation();
 
   /** RENDER */
   return (
@@ -31,15 +30,13 @@ function CDropdown(props) {
       style={styles.box}
       itemStyle={styles.item}
       globalTextStyle={cStyles.textDefault}
-      dropDownStyle={styles.dropdown}
       arrowSize={20}
-      zIndex={zIndex}
-      zIndexInverse={5000}
       items={data}
       defaultValue={defaultValue}
-      placeholder={t('add_approved:holder_department')}
+      placeholder={t(holder)}
       placeholderStyle={[cStyles.textMeta, { fontSize: cStyles.textDefault.fontSize }]}
       onChangeItem={onChangeItem}
+      {...props}
     />
   );
 };
@@ -53,13 +50,11 @@ const styles = StyleSheet.create({
   box: {
     borderColor: colors.GRAY_500,
     borderWidth: 0.5,
+    height: 50,
   },
   item: {
     justifyContent: 'flex-start',
   },
-  dropdown: {
-    backgroundColor: colors.WHITE,
-  }
 });
 
 export default CDropdown;

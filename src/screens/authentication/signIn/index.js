@@ -5,6 +5,7 @@
  ** Description: Description of SignIn.js
  **/
 import React, { useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   StyleSheet,
   ImageBackground,
@@ -12,7 +13,6 @@ import {
   View,
   KeyboardAvoidingView,
 } from 'react-native';
-import { useTranslation } from 'react-i18next';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
@@ -25,6 +25,7 @@ import CButton from '~/components/CButton';
 import Routes from '~/navigation/Routes';
 import Assets from '~/utils/asset/Assets';
 import { colors, cStyles } from '~/utils/style';
+import { IS_IOS } from '~/utils/helper';
 /* REDUX */
 
 const INPUT_NAME = {
@@ -43,6 +44,11 @@ function SignIn(props) {
   let passwordRef = useRef();
 
   const [loading, setLoading] = useState(false);
+  const [form, setForm] = useState({
+    email: '',
+    password: '',
+    saveAccount: false,
+  });
 
   /** HANDLE FUNC */
   const handleChangeInput = (inputRef) => {
@@ -51,6 +57,13 @@ function SignIn(props) {
 
   const handleForgotPassword = () => {
 
+  };
+
+  const handleSaveAccount = (checked) => {
+    setForm({
+      ...form,
+      saveAccount: checked
+    });
   };
 
   const handleSignIn = () => {
@@ -77,7 +90,10 @@ function SignIn(props) {
           blurRadius={15}
         >
           <View style={[cStyles.flex1, styles.content]}>
-            <KeyboardAvoidingView style={cStyles.flex1} behavior={'padding'}>
+            <KeyboardAvoidingView
+              style={cStyles.flex1}
+              behavior={IS_IOS ? 'padding' : undefined}
+            >
               <CContent contentStyle={[cStyles.flexCenter, cStyles.px48]}>
                 <View style={[cStyles.justifyEnd, styles.con_icon_app]}>
                   <Image
@@ -125,6 +141,8 @@ function SignIn(props) {
                     <CCheckbox
                       labelStyle={'textDefault pl10 colorWhite'}
                       label={'sign_in:save_account'}
+                      value={form.saveAccount}
+                      onChange={handleSaveAccount}
                     />
 
                     <CText

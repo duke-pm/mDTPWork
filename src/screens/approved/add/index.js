@@ -12,13 +12,14 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import Icon from 'react-native-vector-icons/FontAwesome5';
 import {
   Table,
   Row,
   TableWrapper,
   Cell,
 } from 'react-native-table-component';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
@@ -27,15 +28,16 @@ import CInput from '~/components/CInput';
 import CDateTimePicker from '~/components/CDateTimePicker';
 import CDropdown from '~/components/CDropdown';
 /* COMMON */
-import { colors, cStyles } from '~/utils/style';
-import moment from 'moment';
 import Configs from '~/config';
+import { colors, cStyles } from '~/utils/style';
+import { IS_IOS } from '~/utils/helper';
 /* REDUX */
 
 const INPUT_NAME = {
   DATE_REQUEST: 'dateRequest',
   NAME: 'name',
   DEPARTMENT: 'department',
+  AREA: 'area',
   ASEETS: 'ASSETS',
   WHERE_USE: 'whereUse',
   REASON: 'reason',
@@ -49,6 +51,9 @@ function AddApproved(props) {
 
   let dateRequestRef = useRef();
   let nameRef = useRef();
+  let departmentRef = useRef();
+  let areaRef = useRef();
+  let whereUseRef = useRef();
   let reasonRef = useRef();
   let supplierRef = useRef();
 
@@ -68,7 +73,7 @@ function AddApproved(props) {
       ],
       data: [
         ['', '', '', ''],
-      ]
+      ],
     },
     whereUse: null,
     reason: '',
@@ -79,14 +84,14 @@ function AddApproved(props) {
   });
 
   /** FUNC */
-  const onChangeDateRequest = (dateView, showPicker) => {
-    if (dateView) {
+  const onChangeDateRequest = (newDate, showPicker) => {
+    setShowPickerDate(showPicker);
+    if (newDate) {
       setForm({
         ...form,
-        dateRequest: moment(dateView).format(Configs.dateFormat)
+        dateRequest: moment(newDate).format(Configs.dateFormat),
       });
     }
-    setShowPickerDate(showPicker);
   };
 
   const onChangeCellItem = (value, rowIndex, cellIndex) => {
@@ -97,7 +102,7 @@ function AddApproved(props) {
       assets: {
         ...form.assets,
         data: newData,
-      }
+      },
     });
   }
 
@@ -106,8 +111,14 @@ function AddApproved(props) {
     setShowPickerDate(true);
   };
 
-  const handleChangeInput = (inputRef) => {
-    if (inputRef) inputRef.focus();
+  const handleChangeInput = (inputRef, type) => {
+    if (inputRef) {
+      if (!type) {
+        inputRef.focus();
+      } else if (type === 'combobox') {
+        inputRef.current.toggle();
+      }
+    }
   };
 
   const handleAddAssets = () => {
@@ -140,6 +151,31 @@ function AddApproved(props) {
     }
   };
 
+  const handleCombobox = (data, field, nextField) => {
+    if (field === INPUT_NAME.DEPARTMENT) {
+      setForm({
+        ...form,
+        department: data.value,
+      });
+      departmentRef.current.close();
+      areaRef.current.open();
+    } else if (field === INPUT_NAME.AREA) {
+      setForm({
+        ...form,
+        area: data.value,
+      });
+      areaRef.current.close();
+      whereUseRef.current.open();
+    } else if (field === INPUT_NAME.WHERE_USE) {
+      setForm({
+        ...form,
+        whereUse: data.value,
+      });
+      whereUseRef.current.close();
+      if (nextField) nextField.focus();
+    }
+  }
+
   /** RENDER */
   const cellItem = (data, rowIndex, cellIndex) => {
     return (
@@ -163,10 +199,9 @@ function AddApproved(props) {
 
   return (
     <CContainer
-      contentStyle={cStyles.justifyEnd}
       safeArea={{
         top: true,
-        bottom: true,
+        bottom: false,
       }}
       loading={loading}
       header
@@ -183,6 +218,7 @@ function AddApproved(props) {
                 id={INPUT_NAME.DATE_REQUEST}
                 inputRef={ref => dateRequestRef = ref}
                 disabled={true}
+                dateTimePicker={true}
                 holder={'add_approved:date_request'}
                 value={moment(form.dateRequest).format(Configs.dateFormatView)}
                 valueColor={colors.BLACK}
@@ -207,39 +243,41 @@ function AddApproved(props) {
                 keyboard={'default'}
                 returnKey={'next'}
                 autoFocus
-                onChangeInput={() => handleChangeInput(departmentRef)}
+                onChangeInput={() => handleChangeInput(departmentRef, 'combobox')}
               />
             </View>
 
             {/** Department & Area */}
-            <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pt12]}>
+            <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pt12, IS_IOS && { zIndex: 6000 }]}>
               {/** Department */}
               <View style={[cStyles.flex1, cStyles.pr4]}>
                 <CText styles={'textTitle'} label={'add_approved:department'} />
                 <CDropdown
+                  controller={instance => departmentRef.current = instance}
                   data={[
                     { label: 'Bộ phận IT', value: 'it' },
                     { label: 'Bộ phận HR', value: 'hr' },
-                    { label: 'Bộ phận Merketing', value: 'mk' },
+                    { label: 'Bộ phận Marketing', value: 'mk' },
                   ]}
+                  holder={'add_approved:holder_department'}
                   defaultValue={form.department}
-                  onChangeItem={item => setForm({ ...form, department: item.value, })}
+                  onChangeItem={item => handleCombobox(item, INPUT_NAME.DEPARTMENT)}
                 />
               </View>
 
               {/** Area */}
               <View style={[cStyles.flex1, cStyles.pl4]}>
                 <CText styles={'textTitle'} label={'add_approved:area'} />
-                <View>
-                  <CDropdown
-                    data={[
-                      { label: 'Hồ Chí Minh', value: 'hcm' },
-                      { label: 'Hà Nội', value: 'hn' },
-                    ]}
-                    defaultValue={form.area}
-                    onChangeItem={item => setForm({ ...form, area: item.value, })}
-                  />
-                </View>
+                <CDropdown
+                  controller={instance => areaRef.current = instance}
+                  data={[
+                    { label: 'Hồ Chí Minh', value: 'hcm' },
+                    { label: 'Hà Nội', value: 'hn' },
+                  ]}
+                  holder={'add_approved:holder_area'}
+                  defaultValue={form.area}
+                  onChangeItem={item => handleCombobox(item, INPUT_NAME.AREA)}
+                />
               </View>
             </View>
 
@@ -272,26 +310,32 @@ function AddApproved(props) {
                   </TableWrapper>
                 ))}
               </Table>
-              <TouchableOpacity style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyEnd, cStyles.pt10]} activeOpacity={0.5} onPress={handleAddAssets}>
-                <Icon name={'plus-circle'} size={15} color={colors.GRAY_500} />
-                <CText styles={'textMeta textUnderline pl6'} label={'add_approved:add_assets'} />
-              </TouchableOpacity>
+              <View style={[cStyles.flex1, cStyles.itemsEnd, cStyles.pt10]}>
+                <TouchableOpacity
+                  style={[cStyles.row, cStyles.itemsCenter]}
+                  activeOpacity={0.5}
+                  onPress={handleAddAssets}
+                >
+                  <Icon name={'plus-circle'} size={15} color={colors.GRAY_500} />
+                  <CText styles={'textMeta textUnderline pl6'} label={'add_approved:add_assets'} />
+                </TouchableOpacity>
+              </View>
             </View>
 
             {/** where use */}
-            <View style={cStyles.pr4}>
+            <View style={[cStyles.pr4, IS_IOS && { zIndex: 6000 }]}>
               <CText styles={'textTitle'} label={'add_approved:where_use'} />
-              <View style={{ zIndex: 2 }}>
-                <CDropdown
-                  data={[
-                    { label: 'Bộ phận IT', value: 'it' },
-                    { label: 'Bộ phận HR', value: 'hr' },
-                    { label: 'Bộ phận Merketing', value: 'mk' },
-                  ]}
-                  defaultValue={form.whereUse}
-                  onChangeItem={item => setForm({ ...form, whereUse: item.value, })}
-                />
-              </View>
+              <CDropdown
+                controller={instance => whereUseRef.current = instance}
+                data={[
+                  { label: 'Bộ phận IT', value: 'it' },
+                  { label: 'Bộ phận HR', value: 'hr' },
+                  { label: 'Bộ phận Marketing', value: 'mk' },
+                ]}
+                holder={'add_approved:holder_where_use'}
+                defaultValue={form.whereUse}
+                onChangeItem={item => handleCombobox(item, INPUT_NAME.WHERE_USE, reasonRef)}
+              />
             </View>
 
             {/** Reason */}
@@ -317,7 +361,7 @@ function AddApproved(props) {
             {/** Type assets */}
             <View style={cStyles.pt12}>
               <CText styles={'textTitle'} label={'add_approved:type_assets'} />
-              <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyEvenly, cStyles.pt10]}>
+              <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pt10]}>
                 <TouchableOpacity activeOpacity={0.5} onPress={() => handleChooseTypeAssets('new')}>
                   <View style={[cStyles.row, cStyles.itemsCenter]}>
                     <Icon
@@ -330,7 +374,7 @@ function AddApproved(props) {
                 </TouchableOpacity>
 
                 <TouchableOpacity activeOpacity={0.5} onPress={() => handleChooseTypeAssets('additional')}>
-                  <View style={[cStyles.row, cStyles.itemsCenter]}>
+                  <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pl32]}>
                     <Icon
                       name={form.typeAssets === 'additional' ? 'check-circle' : 'circle'}
                       size={20}
@@ -345,7 +389,7 @@ function AddApproved(props) {
             {/** In Planning */}
             <View style={cStyles.pt12}>
               <CText styles={'textTitle'} label={'add_approved:in_planning'} />
-              <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyEvenly, cStyles.pt10]}>
+              <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pt10]}>
                 <TouchableOpacity activeOpacity={0.5} onPress={() => handleChooseInPlanning(true)}>
                   <View style={[cStyles.row, cStyles.itemsCenter]}>
                     <Icon
@@ -358,7 +402,7 @@ function AddApproved(props) {
                 </TouchableOpacity>
 
                 <TouchableOpacity activeOpacity={0.5} onPress={() => handleChooseInPlanning(false)}>
-                  <View style={[cStyles.row, cStyles.itemsCenter]}>
+                  <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pl32]}>
                     <Icon
                       name={!form.inPlanning ? 'check-circle' : 'circle'}
                       size={20}
@@ -371,7 +415,7 @@ function AddApproved(props) {
             </View>
 
             {/** Supplier */}
-            <View style={cStyles.pt12}>
+            <View style={cStyles.py12}>
               <CText styles={'textTitle'} label={'add_approved:supplier'} />
               <CInput
                 containerStyle={cStyles.mt6}
@@ -380,14 +424,14 @@ function AddApproved(props) {
                 id={INPUT_NAME.SUPPLIER}
                 inputRef={ref => supplierRef = ref}
                 disabled={loading}
-                holder={'add_approved:supplier'}
+                holder={'add_approved:holder_supplier'}
                 valueColor={colors.BLACK}
                 keyboard={'default'}
                 returnKey={'done'}
               />
             </View>
-
           </View>
+
           {/** PICKER */}
           <CDateTimePicker
             show={showPickerDate}

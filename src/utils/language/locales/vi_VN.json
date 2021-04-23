@@ -29,6 +29,7 @@
     "holder_department": "Chọn bộ phận",
     "date_request": "Ngày yêu cầu",
     "area": "Khu vực",
+    "holder_area": "Chọn khu vực",
     "assets": "Tài sản",
     "add_assets": "Thêm tài sản",
     "description": "Mô tả",
@@ -36,6 +37,7 @@
     "price": "Đơn giá",
     "total": "Thành tiền",
     "where_use": "Nơi dùng",
+    "holder_where_use": "Chọn nơi dùng",
     "reason": "Lý do",
     "type_assets": "Loại tài sản",
     "buy_new": "Mua mới",
@@ -43,6 +45,7 @@
     "in_planning": "Khoản mua sắm này có nằm trong kế hoạch?",
     "yes": "Có",
     "no": "Không",
-    "supplier": "Nhà cung cấp đề nghị (nếu có)"
+    "supplier": "Nhà cung cấp đề nghị (nếu có)",
+    "holder_supplier": "Nhà cung cấp"
   }
 }

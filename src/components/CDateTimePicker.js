@@ -28,7 +28,7 @@ function CDateTimePicker(props) {
   const languageState = useSelector(({ language }) => language.data);
 
   /** HANDLE FUNC */
-  const onChangeDateOfBirth = (date) => {
+  const handleChangePicker = (date) => {
     onChangeDate(date, false);
   };
 
@@ -47,7 +47,7 @@ function CDateTimePicker(props) {
       cancelTextIOS={t('common:close')}
       confirmTextIOS={t('common:ok')}
       headerTextIOS={t('common:choose_date')}
-      onConfirm={onChangeDateOfBirth}
+      onConfirm={handleChangePicker}
       onCancel={handleClosePicker}
     />
   );

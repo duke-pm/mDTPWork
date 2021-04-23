@@ -6,24 +6,26 @@
  **/
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import CheckBox from '@react-native-community/checkbox';
 import { useTranslation } from 'react-i18next';
+import CheckBox from '@react-native-community/checkbox';
 /** COMPONENTS */
 import CText from '~/components/CText';
 /** COMMON */
-import { cStyles } from '~/utils/style';
+import { colors, cStyles } from '~/utils/style';
 
 function CCheckbox(props) {
+  const { t } = useTranslation();
   const {
     style,
     label,
     labelStyle,
     disabled,
     value,
-    tintColors,
+    onCheckColor = colors.PRIMARY,
+    onTintColor = colors.PRIMARY,
+    tintColors = { true: colors.PRIMARY, false: colors.GRAY_500 },
     onChange,
   } = props;
-  const { t } = useTranslation();
 
   return (
     <View
@@ -39,6 +41,8 @@ function CCheckbox(props) {
         value={value}
         boxType={'square'}
         tintColors={tintColors}
+        onCheckColor={onCheckColor}
+        onTintColor={onTintColor}
         onValueChange={onChange}
       />
 
