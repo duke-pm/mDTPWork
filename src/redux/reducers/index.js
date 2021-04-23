@@ -9,8 +9,10 @@ import { combineReducers } from 'redux';
 /* REDUCER */
 import connection from './connection';
 import language from './language';
+import masterData from './masterData';
 
 export default combineReducers({
   connection,
   language,
+  masterData,
 });

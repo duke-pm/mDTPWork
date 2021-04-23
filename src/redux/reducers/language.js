@@ -6,9 +6,12 @@
  **/
 /* LIBRARY */
 import * as types from '../actions/types';
+import {
+  DEFAULT_LANGUAGE_CODE
+} from '~/config/constants';
 
 const initialState = {
-  data: 'vi_VN',
+  data: DEFAULT_LANGUAGE_CODE,
 };
 
 export default function (state = initialState, action = {}) {

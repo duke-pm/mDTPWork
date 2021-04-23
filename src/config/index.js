@@ -5,7 +5,8 @@
  ** Description: Description of configs.js
  **/
 const Configs = {
-  host: 'http://192.168.1.1:1337',
+  hostDevelopment: 'http://api.dtp-education.com',
+  hostProduction: 'http://api.dtp-education.com',
   dateFormat: 'YYYY-MM-DD',
   dateFormatView: 'DD/MM/YYYY',
 };
