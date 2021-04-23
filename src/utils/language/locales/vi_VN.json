@@ -6,6 +6,9 @@
     "close": "Đóng",
     "choose_date": "Chọn ngày"
   },
+  "success": {
+    "send_request": "Đã gửi yêu cầu thành công!"
+  },
   "sign_in": {
     "title": "Đăng Nhập",
     "input_email": "E-mail",
@@ -20,10 +23,14 @@
     "title": "Tổng Quan"
   },
   "approved": {
-    "title": "Yêu Cầu Cấp Phát Tài Sản"
+    "title": "Cấp Phát Tài Sản",
+    "filter": "Bộ lọc:",
+    "status": "Trạng thái",
+    "date_request": "Ngày gửi: ",
+    "date_approved": "Ngày duyệt: "
   },
   "add_approved": {
-    "title": "Tạo mới yêu cầu",
+    "title": "Thêm mới",
     "name": "Tên",
     "department": "Bộ phận",
     "holder_department": "Chọn bộ phận",
@@ -46,6 +53,7 @@
     "yes": "Có",
     "no": "Không",
     "supplier": "Nhà cung cấp đề nghị (nếu có)",
-    "holder_supplier": "Nhà cung cấp"
+    "holder_supplier": "Nhà cung cấp",
+    "send": "Gửi yêu cầu"
   }
 }

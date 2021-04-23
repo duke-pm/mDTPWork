@@ -7,12 +7,15 @@
 import React from 'react';
 import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import CText from './CText';
 /** COMMON */
 import { cStyles, colors } from '~/utils/style';
 
 function CHeader(props) {
+  const { t } = useTranslation();
+  const navigation = useNavigation();
   const {
     background = colors.PRIMARY,
     hasBack = false,
@@ -27,11 +30,10 @@ function CHeader(props) {
     onPressAddNew = () => { }
   } = props;
 
-  const { t } = useTranslation();
 
   /** HANDLE FUNC */
   const handleBack = () => {
-
+    navigation.goBack();
   };
 
   const handleSearch = () => {
@@ -46,7 +48,11 @@ function CHeader(props) {
   return (
     <View
       style={[styles.container, cStyles.shadowHeader, { backgroundColor: background }]}>
-      <View style={styles.con_left}>
+      <View style={[
+        cStyles.flex1,
+        cStyles.justifyCenter,
+        styles.con_left
+      ]}>
         {hasBack &&
           <TouchableOpacity
             style={cStyles.itemsStart}

@@ -19,6 +19,7 @@ import {
   Cell,
 } from 'react-native-table-component';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import { showMessage } from "react-native-flash-message";
 import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
@@ -27,6 +28,7 @@ import CText from '~/components/CText';
 import CInput from '~/components/CInput';
 import CDateTimePicker from '~/components/CDateTimePicker';
 import CDropdown from '~/components/CDropdown';
+import CButton from '~/components/CButton';
 /* COMMON */
 import Configs from '~/config';
 import { colors, cStyles } from '~/utils/style';
@@ -174,7 +176,21 @@ function AddApproved(props) {
       whereUseRef.current.close();
       if (nextField) nextField.focus();
     }
-  }
+  };
+
+  const handleSendRequest = () => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      showMessage({
+        message: t('common:app_name'),
+        description: t('success:send_request'),
+        icon: "success",
+        type: "success",
+      });
+      props.navigation.goBack();
+    }, 2000);
+  };
 
   /** RENDER */
   const cellItem = (data, rowIndex, cellIndex) => {
@@ -205,6 +221,7 @@ function AddApproved(props) {
       }}
       loading={loading}
       header
+      hasBack
       title={'add_approved:title'}
       content={
         <CContent padder>
@@ -431,6 +448,13 @@ function AddApproved(props) {
               />
             </View>
           </View>
+
+          <CButton
+            block
+            disabled={loading}
+            label={'add_approved:send'}
+            onPress={handleSendRequest}
+          />
 
           {/** PICKER */}
           <CDateTimePicker

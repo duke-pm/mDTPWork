@@ -18,6 +18,7 @@ import {
 } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import NetInfo from '@react-native-community/netinfo';
+import FlashMessage from "react-native-flash-message";
 import '~/utils/language/config-i18n';
 /** COMPOENNTS */
 import Navigator from '~/navigation/Navigator';
@@ -62,6 +63,7 @@ const App = () => {
             backgroundColor={colors.PRIMARY}
           />
           <Navigator />
+          <FlashMessage position="top" />
         </SafeAreaProvider>
       </Provider>
     </NavigationContainer>
