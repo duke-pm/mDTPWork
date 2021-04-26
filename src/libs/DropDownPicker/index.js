@@ -9,6 +9,7 @@ import {
 	TextInput,
 	Dimensions,
 	Keyboard,
+	ActivityIndicator
 } from 'react-native';
 
 // PR: https://github.com/hossein-zare/react-native-dropdown-picker/pull/132
@@ -577,7 +578,7 @@ class DropDownPicker extends React.Component {
 						this.adjustStylesToDirection(
 							styles.dropDown,
 							{
-								flexDirection: 'row', flex: 1
+								flexDirection: 'row'
 							},
 							this.props.style,
 							(this.state.isVisible && this.props.noBottomRadius) && styles.noBottomRadius,
@@ -607,83 +608,89 @@ class DropDownPicker extends React.Component {
 						) : label}
 					</Text>
 
-					{this.props.showArrow && (
-						<View style={[styles.arrow]}>
-							<View style={[this.props.arrowStyle, { opacity }]}>
-								{
-									!this.state.isVisible ? (
-										this.props.customArrowDown(this.props.arrowSize, this.props.arrowColor)
-									) : (
-										this.props.customArrowUp(this.props.arrowSize, this.props.arrowColor)
-									)
-								}
-							</View>
-						</View>
-					)}
-				</TouchableOpacity>
-				<View style={[
-					this.adjustStylesToDirection(
-						styles.dropDown,
-						styles.dropDownBox,
-						this.props.noTopRadius && styles.noTopRadius,
-						this.props.dropDownStyle,
-					),
-
-					!this.state.isVisible && styles.hidden, {
-						[this.state.direction]: this.state.top,
-						maxHeight: this.props.dropDownMaxHeight,
-						zIndex: this.state.direction === 'top' ? this.props.zIndex : this.props.zIndexInverse,
-					},
-					this.state.isVisible && {
-						borderColor: colors.PRIMARY
-					}
-				]}>
-					{
-						this.props.searchable && (
-							<View style={{ width: '100%', flexDirection: 'row' }}>
-								<TextInput
-									style={[styles.input, this.props.globalTextStyle, this.props.searchableStyle]}
-									defaultValue={this.state.searchableText}
-									placeholder={this.props.searchablePlaceholder}
-									placeholderTextColor={this.props.searchablePlaceholderTextColor}
-									{...searchTextInputProps}
-									onChangeText={(text) => {
-										this.setState({
-											searchableText: text
-										})
-										this.props.onSearch(text);
-										if (searchTextInputProps.onChangeText) searchTextInputProps.onChangeText(text);
-									}}
-								/>
-							</View>
-						)
-					}
-
-					<ScrollView
-						style={{ width: '100%' }}
-						nestedScrollEnabled={true}
-						ref={ref => {
-							this.scrollViewRef = ref;
-						}}
-						{...scrollViewProps}>
-						{items.length > 0 ? items.map((item, index) =>
-							this.renderItem(item, index, items.length)
-						) : (
-							<View style={styles.notFound}>
-								{this.props.searchableError(this.props.style.globalTextStyle)}
+					{this.props.loading
+						? <ActivityIndicator color={colors.GRAY_500} />
+						:
+						this.props.showArrow && (
+							<View style={[styles.arrow]}>
+								<View style={[this.props.arrowStyle, { opacity }]}>
+									{
+										!this.state.isVisible ? (
+											this.props.customArrowDown(this.props.arrowSize, this.props.arrowColor)
+										) : (
+											this.props.customArrowUp(this.props.arrowSize, this.props.arrowColor)
+										)
+									}
+								</View>
 							</View>
 						)}
-					</ScrollView>
-				</View>
+				</TouchableOpacity>
+				{!this.props.loading &&
+					<View style={[
+						this.adjustStylesToDirection(
+							styles.dropDown,
+							styles.dropDownBox,
+							this.props.noTopRadius && styles.noTopRadius,
+							this.props.dropDownStyle,
+						),
+
+						!this.state.isVisible && styles.hidden, {
+							[this.state.direction]: this.state.top,
+							maxHeight: this.props.dropDownMaxHeight,
+							zIndex: this.state.direction === 'top' ? this.props.zIndex : this.props.zIndexInverse,
+						},
+						this.state.isVisible && {
+							borderColor: colors.PRIMARY
+						}
+					]}>
+						{
+							this.props.searchable && (
+								<View style={{ width: '100%', flexDirection: 'row' }}>
+									<TextInput
+										style={[styles.input, this.props.globalTextStyle, this.props.searchableStyle]}
+										defaultValue={this.state.searchableText}
+										placeholder={this.props.searchablePlaceholder}
+										placeholderTextColor={this.props.searchablePlaceholderTextColor}
+										{...searchTextInputProps}
+										onChangeText={(text) => {
+											this.setState({
+												searchableText: text
+											})
+											this.props.onSearch(text);
+											if (searchTextInputProps.onChangeText) searchTextInputProps.onChangeText(text);
+										}}
+									/>
+								</View>
+							)
+						}
+
+						<ScrollView
+							style={{ width: '100%' }}
+							nestedScrollEnabled={true}
+							ref={ref => {
+								this.scrollViewRef = ref;
+							}}
+							{...scrollViewProps}>
+							{items.length > 0 ? items.map((item, index) =>
+								this.renderItem(item, index, items.length)
+							) : (
+								<View style={styles.notFound}>
+									{this.props.searchableError(this.props.style.globalTextStyle)}
+								</View>
+							)}
+						</ScrollView>
+					</View>
+				}
 			</View>
 		);
 	}
 }
 
 DropDownPicker.defaultProps = {
+	loading: false,
 	items: [],
 	placeholder: 'Select an item',
-	dropDownMaxHeight: 150,
+	dropDownMaxHeight: 200,
 	style: {},
 	dropDownStyle: {},
 	containerStyle: {},

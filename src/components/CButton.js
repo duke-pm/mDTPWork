@@ -23,12 +23,13 @@ const MyIndicator = Animated.createAnimatedComponent(ActivityIndicator);
 
 function CButton(props) {
   const {
+    style = {},
     loading = false,
     fullWidth = false,
     block = false,
     disabled = false,
     variant = 'contained', // contained | outlined | text
-    label,
+    label = '',
     color = colors.PRIMARY,
     onPress = () => { },
   } = props;
@@ -83,6 +84,7 @@ function CButton(props) {
         cStyles.center,
         cStyles.rounded1,
         cStyles.my6,
+        cStyles.px16,
         styles.con_button,
         { backgroundColor: color },
         fullWidth && styles.full_width,
@@ -97,6 +99,7 @@ function CButton(props) {
         },
         ((disabled || loading) && variant === 'contained') && styles.disabled_contained,
         ((disabled || loading) && variant === 'outlined') && styles.disabled_outlined,
+        style,
       ]}>
         <MyIndicator
           style={{

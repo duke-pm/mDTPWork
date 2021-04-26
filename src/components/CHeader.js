@@ -8,7 +8,8 @@ import React from 'react';
 import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import Feather from 'react-native-vector-icons/Feather';
 import CText from './CText';
 /** COMMON */
 import { cStyles, colors } from '~/utils/style';
@@ -59,12 +60,11 @@ function CHeader(props) {
             activeOpacity={0.5}
             onPress={handleBack}
           >
-            <Icon
+            <Feather
               style={cStyles.p16}
               name={'chevron-left'}
               color={colors.WHITE}
-              size={20}
-
+              size={25}
             />
           </TouchableOpacity>
         }

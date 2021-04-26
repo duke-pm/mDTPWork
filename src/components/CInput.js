@@ -79,88 +79,93 @@ function CInput(props) {
   /** RENDER */
   const isDarkMode = useColorScheme() === 'dark';
   return (
-    <View style={[
-      cStyles.row,
-      cStyles.itemsCenter,
-      cStyles.rounded1,
-      cStyles.mt12,
-      styles.con_input,
-      form.focus === id && [styles.input_focus, styleFocus],
-      containerStyle,
-      style,
-    ]}>
-      {icon &&
-        <View style={[
-          cStyles.borderRight,
-          cStyles.center,
-          styles.con_input_icon
-        ]}>
-          <Icon
-            name={icon}
-            color={iconColor}
-            size={RFPercentage(3)}
-          />
-        </View>
-      }
-
-      <View style={[cStyles.flex1, cStyles.px12]}>
-        {dateTimePicker &&
-          <View style={[cStyles.textDefault, styles.input]}>
-            <CText customLabel={props.value} />
+    <View style={{ width: '100%' }}>
+      <View style={[
+        cStyles.row,
+        cStyles.itemsCenter,
+        cStyles.rounded1,
+        cStyles.mt12,
+        styles.con_input,
+        form.focus === id && [styles.input_focus, styleFocus],
+        containerStyle,
+        style,
+      ]}>
+        {icon &&
+          <View style={[
+            cStyles.borderRight,
+            cStyles.center,
+            styles.con_input_icon
+          ]}>
+            <Icon
+              name={icon}
+              color={iconColor}
+              size={RFPercentage(3)}
+            />
           </View>
         }
 
-        {!dateTimePicker &&
-          <TextInput
-            ref={props.inputRef}
+        <View style={[cStyles.flex1, cStyles.px12]}>
+          {dateTimePicker &&
+            <View style={[cStyles.textDefault, styles.input]}>
+              <CText customLabel={props.value} />
+            </View>
+          }
+
+          {!dateTimePicker &&
+            <TextInput
+              ref={props.inputRef}
+              style={[
+                cStyles.textDefault,
+                styles.input,
+              ]}
+              editable={!disabled}
+              placeholder={t(holder)}
+              placeholderTextColor={holderColor}
+              selectionColor={valueColor}
+              value={form.value}
+              autoCompleteType={'off'}
+              autoFocus={autoFocus}
+              autoCapitalize
+              autoCorrect={false}
+              secureTextEntry={password}
+              enablesReturnKeyAutomatically={true}
+              blurOnSubmit={true}
+              selectTextOnFocus={true}
+              textAlign={textAlign}
+              clearButtonMode={'while-editing'}
+              keyboardAppearance={isDarkMode ? 'dark' : 'light'}
+              keyboardType={keyboard}
+              returnKeyType={returnKey}
+              onFocus={() => handleFocusInput(id)}
+              onBlur={() => handleFocusInput(null)}
+              onChangeText={handleChangeInput}
+              onSubmitEditing={handleSubmitEditing}
+              {...props}
+            />
+          }
+        </View>
+
+        {iconLast &&
+          <TouchableOpacity
             style={[
-              cStyles.textDefault,
-              styles.input,
+              cStyles.center,
+              cStyles.roundedTopRight1,
+              cStyles.roundedBottomRight1,
+              styles.con_input_icon,
+              { backgroundColor: colors.GRAY_300 },
             ]}
-            editable={!disabled}
-            placeholder={t(holder)}
-            placeholderTextColor={holderColor}
-            selectionColor={valueColor}
-            value={form.value}
-            autoCompleteType={'off'}
-            autoFocus={autoFocus}
-            autoCapitalize
-            autoCorrect={false}
-            secureTextEntry={password}
-            enablesReturnKeyAutomatically={true}
-            blurOnSubmit={true}
-            selectTextOnFocus={true}
-            textAlign={textAlign}
-            clearButtonMode={'while-editing'}
-            keyboardAppearance={isDarkMode ? 'dark' : 'light'}
-            keyboardType={keyboard}
-            returnKeyType={returnKey}
-            onFocus={() => handleFocusInput(id)}
-            onBlur={() => handleFocusInput(null)}
-            onChangeText={handleChangeInput}
-            onSubmitEditing={handleSubmitEditing}
-            {...props}
-          />
+            onPress={onPressIconLast}
+          >
+            <Icon
+              name={iconLast}
+              color={iconLastColor}
+              size={RFPercentage(3)}
+            />
+          </TouchableOpacity>
         }
       </View>
-
-      {iconLast &&
-        <TouchableOpacity
-          style={[
-            cStyles.center,
-            cStyles.roundedTopRight1,
-            cStyles.roundedBottomRight1,
-            styles.con_input_icon,
-            { backgroundColor: colors.GRAY_300 },
-          ]}
-          onPress={onPressIconLast}
-        >
-          <Icon
-            name={iconLast}
-            color={iconLastColor}
-            size={RFPercentage(3)}
-          />
-        </TouchableOpacity>
+      {props.error &&
+        <CText styles={'textMeta colorRed mt6'} label={t(props.errorHelper)} />
       }
     </View>
   )

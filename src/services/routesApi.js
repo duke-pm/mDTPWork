@@ -5,7 +5,12 @@
  ** Description: Description of routesApi.js
  **/
 const Routes = {
-  MASTER_DATA: '/MasterData/GetDataForForm',
+  MASTER_DATA: {
+    GET_ALL: '/MasterData/GetDataForForm',
+  },
+  APPROVED: {
+    ADD_REQUEST: '/ProvideRequest/Create',
+  },
 }
 
 export default Routes;

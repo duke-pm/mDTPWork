@@ -4,42 +4,37 @@
  ** CreatedAt: 2021
  ** Description: Description of masterData.js
 **/
-/* TYPES */
+/* COMMON */
 import * as types from './types';
+import Services from '~/services';
 
-export const changeMasterAll = data => ({
+export const getError = error => ({
+  type: types.ERROR_FETCH_MASTER_DATA,
+  payload: error
+});
+
+export const changeMasterData = data => ({
   type: types.CHANGE_MASTER_ALL,
   payload: data
 });
-export const changeMasterRegions = regions => ({
-  type: types.CHANGE_MASTER_REGIONS,
-  payload: regions
-});
-export const changeMasterDepartments = departments => ({
-  type: types.CHANGE_MASTER_DEPARTMENT,
-  payload: departments
-});
-export const changeMasterEmployees = employees => ({
-  type: types.CHANGE_MASTER_EMPLOYEES,
-  payload: employees
-});
-export const changeMasterSuppliers = suppliers => ({
-  type: types.CHANGE_MASTER_SUPPLIERS,
-  payload: suppliers
-});
-export const changeMasterCompanys = companys => ({
-  type: types.CHANGE_MASTER_COMPANYS,
-  payload: companys
-});
-export const changeMasterAssetsType = assetsType => ({
-  type: types.CHANGE_MASTER_ASSETSTYPE,
-  payload: assetsType
-});
-export const changeMasterAssetsGroup = assetsGroup => ({
-  type: types.CHANGE_MASTER_ASSETSGROUP,
-  payload: assetsGroup
-});
-export const changeMasterAssetsGroupDetail = assetsGroupDetail => ({
-  type: types.CHANGE_MASTER_ASSETSGROUPDETAIL,
-  payload: assetsGroupDetail
-});
+
+export const fetchMasterData = params => {
+  return dispatch => {
+    dispatch({
+      type: types.START_FETCH_MASTER_DATA,
+    });
+
+    Services.master.get(params)
+      .then((res) => {
+        if (!res.isError) {
+          return dispatch(changeMasterData(res.data));
+        } else {
+          return dispatch(getError(res.errorMessage));
+        }
+      })
+      .catch(error => {
+        return dispatch(getError(error));
+      });
+
+  }
+};

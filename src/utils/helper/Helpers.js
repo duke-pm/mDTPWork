@@ -5,7 +5,13 @@
  ** Description: Description of .js
  **/
 import { isIphoneX } from 'react-native-iphone-x-helper';
-import { PixelRatio, Platform, StatusBar, Dimensions } from 'react-native';
+import {
+  PixelRatio,
+  Platform,
+  StatusBar,
+  Dimensions,
+  Alert,
+} from 'react-native';
 
 export const IS_ANDROID = Platform.OS === 'android';
 export const IS_IOS = Platform.OS === 'ios';
@@ -42,3 +48,24 @@ export function sW(widthPercent) {
   return PixelRatio.roundToNearestPixel((screenWidth * elemWidth) / 100);
 };
 
+export function alert(t, message, onPressOK) {
+  return Alert.alert(
+    t('common:app_name'),
+    t(message),
+    [
+      {
+        text: t('common:cancel'),
+        style: 'cancel',
+        onPress: () => console.log('[LOG] === Alert Cancel === '),
+      },
+      {
+        text: t('common:ok'),
+        style: 'default',
+        onPress: onPressOK,
+      },
+    ],
+    {
+      cancelable: true,
+    }
+  );
+};

@@ -1,31 +1,27 @@
 /**
- ** Name: JWT Services
+ ** Name: JWT Services Config
  ** Author: 
  ** CreatedAt: 2021
- ** Description: Description of JWTServices.js
+ ** Description: Description of JWTServiceConfig.js
 **/
 /* COMMON */
 import Configs from "~/config";
 
 const JWT_PROD_CONFIG = {
-  URL: Configs.hostProduction,
-  prefix: '/api',
+  baseURL: Configs.hostProduction + '/api',
   timeout: 30000,
   headers: {
     Accept: "application/json",
-    'Content-Type': 'application/json'
   },
   responseType: "json",
   responseEncoding: "utf8",
 };
 
 const JWT_DEV_CONFIG = {
-  URL: Configs.hostDevelopment,
-  prefix: '/api',
+  baseURL: Configs.hostDevelopment + '/api',
   timeout: 30000,
   headers: {
     Accept: "application/json",
-    'Content-Type': 'application/json'
   },
   responseType: "json",
   responseEncoding: "utf8",

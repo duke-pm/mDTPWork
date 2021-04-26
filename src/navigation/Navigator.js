@@ -4,11 +4,12 @@
  ** CreateAt: 2021
  ** Description: Description of Navigator.js
  **/
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import { compose } from 'redux';
 import { useSelector, useDispatch } from 'react-redux';
 import { withTranslation } from 'react-i18next';
-import { compose } from 'redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import SplashScreen from 'react-native-splash-screen';
 /* COMPONENTS */
 import RootMain from './Root';
 import NavigationService from './NavigationService';
@@ -24,32 +25,27 @@ function Navigator(props) {
 
   const dispatch = useDispatch();
   const languageState = useSelector(({ language }) => language.data);
+  const masterState = useSelector(({ masterData }) => masterData);
+
+  const [loading, setLoading] = useState(true);
 
   /** FUNC */
-  const onPrepareMasterData = async () => {
-    try {
-      const jsonMaster = await AsyncStorage.getItem(MASTER_DATA);
-      jsonMaster = jsonMaster !== null ? JSON.parse(jsonMaster) : null;
-      if (!jsonMaster) {
-        onFetchMasterData();
-      } else {
-        onSaveMasterData(jsonMaster);
-      }
-    } catch (e) {
-      onFetchMasterData();
-    }
-
-  }
-
   const onFetchMasterData = () => {
+    let params = {
+      listType: 'Region, Company',
+    }
+    dispatch(Actions.fetchMasterData(params));
+  };
 
-  }
-
-  const onSaveMasterData = (masterData) => {
-    dispatch(Actions.changeMasterAll(masterData));
-  }
+  const onStartApp = () => {
+    SplashScreen.hide();
+  };
 
   /** LIFE CYCLE */
+  useEffect(() => {
+    onFetchMasterData();
+  }, []);
+
   useEffect(() => {
     if (languageState !== props.i18n.language) {
       props.i18n.changeLanguage(language);
@@ -60,9 +56,16 @@ function Navigator(props) {
     props.i18n.changeLanguage,
   ]);
 
-  useEffect(() => {
-    onPrepareMasterData();
-  }, []);
+  useEffect(async () => {
+    if (loading) {
+      if (!masterState.submitting) {
+        onStartApp();
+      }
+    }
+  }, [
+    loading,
+    masterState.submitting,
+  ]);
 
   /** RENDER */
   return (

@@ -16,15 +16,19 @@ import {
   DarkTheme,
   DefaultTheme
 } from '@react-navigation/native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
 import NetInfo from '@react-native-community/netinfo';
 import FlashMessage from "react-native-flash-message";
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import axios from 'axios';
 import '~/utils/language/config-i18n';
 /** COMPOENNTS */
 import Navigator from '~/navigation/Navigator';
+import Unconnected from '~/screens/connection/Unconnected';
+/** COMMON */
+import { colors } from '~/utils/style';
+import jwtServiceConfig from '~/services/jwtServiceConfig';
 /** REDUX */
 import Store from './src/redux/store';
-import { colors } from '~/utils/style';
 
 const App = () => {
 
@@ -33,8 +37,26 @@ const App = () => {
     connected: true,
   });
 
+  const onCheckConnection = () => {
+    setState({
+      ...state,
+      checked: true,
+    })
+  };
+
+  const setDefaultAxios = () => {
+    axios.defaults.baseURL = jwtServiceConfig.baseURL;
+    axios.defaults.timeout = 30000;
+    axios.defaults.headers = {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    };
+    axios.defaults.responseType = 'json';
+  }
+
   /** LIFE CYCLE */
   useEffect(() => {
+    setDefaultAxios();
     NetInfo.addEventListener(stateConnect => {
       const { isConnected } = stateConnect;
       if (!isConnected) {
@@ -62,7 +84,12 @@ const App = () => {
             barStyle={isDarkMode ? 'light-content' : 'dark-content'}
             backgroundColor={colors.PRIMARY}
           />
-          <Navigator />
+
+          {!state.connected
+            ? <Unconnected onTryAgain={onCheckConnection} />
+            : <Navigator />
+          }
+
           <FlashMessage position="top" />
         </SafeAreaProvider>
       </Provider>

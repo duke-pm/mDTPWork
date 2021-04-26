@@ -87,7 +87,7 @@ function SignIn(props) {
           style={styles.img_background}
           source={Assets.bgAuthentication}
           resizeMode={'cover'}
-          blurRadius={15}
+          blurRadius={5}
         >
           <View style={[cStyles.flex1, styles.content]}>
             <KeyboardAvoidingView

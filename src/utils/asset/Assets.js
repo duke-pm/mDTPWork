@@ -6,9 +6,10 @@
  **/
 
 const Assets = {
-  bgAuthentication: require('../../../assets/images/background/authentication.jpeg'),
+  bgAuthentication: require('../../../assets/images/background/authentication.jpg'),
 
   iconApp: require('../../../assets/images/icon/react.png'),
+  iconLostNetwork: require('../../../assets/images/icon/lostNetwork.jpg'),
 
 };
 
