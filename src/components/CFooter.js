@@ -15,10 +15,7 @@ function CFooter(props) {
   } = props;
 
   return (
-    <View style={[
-      cStyles.flex1,
-      styles.con,
-    ]}>
+    <View style={styles.con}>
       {content}
     </View>
   )
@@ -26,7 +23,7 @@ function CFooter(props) {
 
 const styles = StyleSheet.create({
   con: {
-    height: cStyles.isIphoneX ? 60 : 50,
+    height: cStyles.isIphoneX ? 86 : 50,
     width: '100%'
   }
 });

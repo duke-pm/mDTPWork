@@ -11,6 +11,7 @@ import {
   View,
   TextInput,
   TouchableOpacity,
+  KeyboardAvoidingView,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import {
@@ -403,261 +404,257 @@ function AddApproved(props) {
       hasBack
       title={'add_approved:title'}
       content={
-        <CContent padder>
-          <View style={cStyles.flex1}>
-            {/** Date request */}
-            <View>
-              <CText styles={'textTitle'} label={'add_approved:date_request'} />
-              <CInput
-                containerStyle={cStyles.mt6}
-                style={styles.input}
-                id={INPUT_NAME.DATE_REQUEST}
-                inputRef={ref => dateRequestRef = ref}
-                disabled={true}
-                dateTimePicker={true}
-                holder={'add_approved:date_request'}
-                value={moment(form.dateRequest).format(Configs.dateFormatView)}
-                valueColor={colors.BLACK}
-                iconLast={'calendar-alt'}
-                iconLastColor={colors.GRAY_700}
-                onPressIconLast={handleDateInput}
-              />
-            </View>
-
-            {/** Name */}
-            <View style={cStyles.pt12}>
-              <CText styles={'textTitle'} label={'add_approved:name'} />
-              <CInput
-                containerStyle={cStyles.mt6}
-                style={styles.input}
-                styleFocus={styles.input_focus}
-                id={INPUT_NAME.NAME}
-                inputRef={ref => nameRef = ref}
-                disabled={true}
-                holder={'add_approved:name'}
-                valueColor={colors.BLACK}
-                keyboard={'default'}
-                returnKey={'next'}
-                autoFocus
-                onChangeInput={() => handleChangeInput(departmentRef, 'combobox')}
-              />
-            </View>
-
-            {/** Department & Area */}
-            <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pt12, IS_IOS && { zIndex: 2000 }]}>
-              {/** Department */}
-              <View style={[cStyles.flex1, cStyles.pr4]}>
-                <CText styles={'textTitle'} label={'add_approved:department'} />
-                <CDropdown
-                  loading={loading.main}
-                  controller={instance => departmentRef.current = instance}
-                  data={masterState.department}
-                  disabled={loading.main || loading.submit}
-                  error={error.department.status}
-                  errorHelper={error.department.helper}
-                  holder={'add_approved:holder_department'}
-                  defaultValue={form.department}
-                  onChangeItem={item => handleCombobox(item, INPUT_NAME.DEPARTMENT)}
-                  onOpen={() => onOpenCombobox(INPUT_NAME.DEPARTMENT)}
+        <KeyboardAvoidingView style={cStyles.flex1} behavior={IS_IOS ? 'padding' : undefined}>
+          <CContent padder>
+            <View style={cStyles.flex1}>
+              {/** Date request */}
+              <View>
+                <CText styles={'textTitle'} label={'add_approved:date_request'} />
+                <CInput
+                  containerStyle={cStyles.mt6}
+                  style={styles.input}
+                  id={INPUT_NAME.DATE_REQUEST}
+                  inputRef={ref => dateRequestRef = ref}
+                  disabled={true}
+                  dateTimePicker={true}
+                  holder={'add_approved:date_request'}
+                  value={moment(form.dateRequest).format(Configs.dateFormatView)}
+                  valueColor={colors.BLACK}
+                  iconLast={'calendar-alt'}
+                  iconLastColor={colors.GRAY_700}
+                  onPressIconLast={handleDateInput}
                 />
               </View>
 
-              {/** Area */}
-              <View style={[cStyles.flex1, cStyles.pl4]}>
-                <CText styles={'textTitle'} label={'add_approved:area'} />
-                <CDropdown
-                  loading={loading.main}
-                  controller={instance => areaRef.current = instance}
-                  data={masterState.region}
-                  disabled={loading.main || loading.submit}
-                  error={error.area.status}
-                  errorHelper={error.area.helper}
-                  holder={'add_approved:holder_area'}
-                  defaultValue={form.area}
-                  onChangeItem={item => handleCombobox(item, INPUT_NAME.AREA)}
-                  onOpen={() => onOpenCombobox(INPUT_NAME.AREA)}
+              {/** Name */}
+              <View style={cStyles.pt12}>
+                <CText styles={'textTitle'} label={'add_approved:name'} />
+                <CInput
+                  containerStyle={cStyles.mt6}
+                  style={styles.input}
+                  styleFocus={styles.input_focus}
+                  id={INPUT_NAME.NAME}
+                  inputRef={ref => nameRef = ref}
+                  disabled={true}
+                  holder={'add_approved:name'}
+                  valueColor={colors.BLACK}
+                  keyboard={'default'}
+                  returnKey={'next'}
+                  autoFocus
+                  onChangeInput={() => handleChangeInput(departmentRef, 'combobox')}
                 />
               </View>
-            </View>
 
-            {/** Assets */}
-            <View style={cStyles.pt12}>
-              <CText styles={'textTitle'} label={'add_approved:assets'} />
-              <Table borderStyle={styles.table} style={cStyles.mt6}>
-                <Row
-                  style={styles.table_header}
-                  textStyle={[
-                    cStyles.textMeta,
-                    cStyles.m3,
-                    cStyles.textCenter,
-                    styles.table_text_header
-                  ]}
-                  flexArr={[1.97, 1, 1, 1]}
-                  data={form.assets.header}
-                />
-                {form.assets.data.map((rowData, rowIndex) => (
-                  <TableWrapper key={rowIndex.toString()} style={cStyles.row}>
-                    {rowData.map((cellData, cellIndex) => {
-                      let disabled = loading.main || loading.submit || cellIndex === 3;
-                      return (
-                        <Cell
-                          key={cellIndex.toString()}
-                          width={cellIndex === 0 ? '39.5%' : '20.2%'}
-                          data={cellItem(cellData, rowIndex, cellIndex, disabled, onChangeCellItem)}
-                        />
-                      )
-                    })}
-                  </TableWrapper>
-                ))}
-              </Table>
-              <View style={[cStyles.flex1, cStyles.row, cStyles.justifyBetween, cStyles.itemsCenter, cStyles.pt10]}>
-                <View style={{ flex: 0.6 }}>
-                  {error.assets.status &&
-                    <CText styles={'textMeta colorRed'} label={t(error.assets.helper)} />
-                  }
+              {/** Department & Area */}
+              <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pt12, IS_IOS && { zIndex: 2000 }]}>
+                {/** Department */}
+                <View style={[cStyles.flex1, cStyles.pr4]}>
+                  <CText styles={'textTitle'} label={'add_approved:department'} />
+                  <CDropdown
+                    loading={loading.main}
+                    controller={instance => departmentRef.current = instance}
+                    data={masterState.department}
+                    disabled={loading.main || loading.submit}
+                    error={error.department.status}
+                    errorHelper={error.department.helper}
+                    holder={'add_approved:holder_department'}
+                    defaultValue={form.department}
+                    onChangeItem={item => handleCombobox(item, INPUT_NAME.DEPARTMENT)}
+                    onOpen={() => onOpenCombobox(INPUT_NAME.DEPARTMENT)}
+                  />
                 </View>
 
-                <TouchableOpacity
-                  style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyEnd, { flex: 0.4 }]}
-                  activeOpacity={0.5}
+                {/** Area */}
+                <View style={[cStyles.flex1, cStyles.pl4]}>
+                  <CText styles={'textTitle'} label={'add_approved:area'} />
+                  <CDropdown
+                    loading={loading.main}
+                    controller={instance => areaRef.current = instance}
+                    data={masterState.region}
+                    disabled={loading.main || loading.submit}
+                    error={error.area.status}
+                    errorHelper={error.area.helper}
+                    holder={'add_approved:holder_area'}
+                    defaultValue={form.area}
+                    onChangeItem={item => handleCombobox(item, INPUT_NAME.AREA)}
+                    onOpen={() => onOpenCombobox(INPUT_NAME.AREA)}
+                  />
+                </View>
+              </View>
+
+              {/** Assets */}
+
+              <View style={cStyles.pt12}>
+                <CText styles={'textTitle'} label={'add_approved:assets'} />
+                <Table borderStyle={styles.table} style={cStyles.mt6}>
+                  <Row
+                    style={styles.table_header}
+                    textStyle={[
+                      cStyles.textMeta,
+                      cStyles.m3,
+                      cStyles.textCenter,
+                      styles.table_text_header
+                    ]}
+                    flexArr={[1.97, 1, 1, 1]}
+                    data={form.assets.header}
+                  />
+                  {form.assets.data.map((rowData, rowIndex) => (
+                    <TableWrapper key={rowIndex.toString()} style={cStyles.row}>
+                      {rowData.map((cellData, cellIndex) => {
+                        let disabled = loading.main || loading.submit || cellIndex === 3;
+                        return (
+                          <Cell
+                            key={cellIndex.toString()}
+                            width={cellIndex === 0 ? '39.5%' : '20.2%'}
+                            data={cellItem(cellData, rowIndex, cellIndex, disabled, onChangeCellItem)}
+                          />
+                        )
+                      })}
+                    </TableWrapper>
+                  ))}
+                </Table>
+                <View style={[cStyles.flex1, cStyles.row, cStyles.justifyBetween, cStyles.itemsCenter, cStyles.pt10]}>
+                  <View style={{ flex: 0.6 }}>
+                    {error.assets.status &&
+                      <CText styles={'textMeta colorRed'} label={t(error.assets.helper)} />
+                    }
+                  </View>
+
+                  <TouchableOpacity
+                    style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyEnd, { flex: 0.4 }]}
+                    activeOpacity={0.5}
+                    disabled={loading.main || loading.submit}
+                    onPress={handleAddAssets}
+                  >
+                    <Icon name={'plus-circle'} size={15} color={colors.GRAY_500} />
+                    <CText styles={'textMeta textUnderline pl6'} label={'add_approved:add_assets'} />
+                  </TouchableOpacity>
+                </View>
+              </View>
+
+              {/** where use */}
+              <View style={[cStyles.pt12, cStyles.pr4, IS_IOS && { zIndex: 1000 }]}>
+                <CText styles={'textTitle'} label={'add_approved:where_use'} />
+                <CDropdown
+                  loading={loading.main}
+                  controller={instance => whereUseRef.current = instance}
+                  data={masterState.department}
                   disabled={loading.main || loading.submit}
-                  onPress={handleAddAssets}
-                >
-                  <Icon name={'plus-circle'} size={15} color={colors.GRAY_500} />
-                  <CText styles={'textMeta textUnderline pl6'} label={'add_approved:add_assets'} />
-                </TouchableOpacity>
+                  error={error.whereUse.status}
+                  errorHelper={error.whereUse.helper}
+                  holder={'add_approved:holder_where_use'}
+                  defaultValue={form.whereUse}
+                  onChangeItem={item => handleCombobox(item, INPUT_NAME.WHERE_USE, reasonRef)}
+                  onOpen={() => onOpenCombobox(INPUT_NAME.WHERE_USE)}
+                />
+              </View>
+
+              {/** Reason */}
+              <View style={cStyles.pt12}>
+                <CText styles={'textTitle'} label={'add_approved:reason'} />
+                <CInput
+                  containerStyle={cStyles.mt6}
+                  style={styles.input}
+                  styleFocus={styles.input_focus}
+                  id={INPUT_NAME.REASON}
+                  inputRef={ref => reasonRef = ref}
+                  disabled={loading.main || loading.submit}
+                  holder={'add_approved:reason'}
+                  valueColor={colors.BLACK}
+                  keyboard={'default'}
+                  returnKey={'next'}
+                  multiline
+                  textAlignVertical={'top'}
+                  onChangeInput={() => handleChangeInput(supplierRef)}
+                />
+              </View>
+
+              {/** Type assets */}
+              <View style={cStyles.pt12}>
+                <CText styles={'textTitle'} label={'add_approved:type_assets'} />
+                <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pt10]}>
+                  <TouchableOpacity
+                    activeOpacity={0.5}
+                    disabled={loading.main || loading.submit}
+                    onPress={() => handleChooseTypeAssets('N')}>
+                    <View style={[cStyles.row, cStyles.itemsCenter]}>
+                      <Icon
+                        name={form.typeAssets === 'N' ? 'check-circle' : 'circle'}
+                        size={20}
+                        color={form.typeAssets === 'N' ? colors.PRIMARY : colors.GRAY_500}
+                      />
+                      <CText styles={'pl10'} label={'add_approved:buy_new'} />
+                    </View>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    activeOpacity={0.5}
+                    disabled={loading.main || loading.submit}
+                    onPress={() => handleChooseTypeAssets('A')}>
+                    <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pl32]}>
+                      <Icon
+                        name={form.typeAssets === 'A' ? 'check-circle' : 'circle'}
+                        size={20}
+                        color={form.typeAssets === 'A' ? colors.PRIMARY : colors.GRAY_500}
+                      />
+                      <CText styles={'pl10'} label={'add_approved:additional'} />
+                    </View>
+                  </TouchableOpacity>
+                </View>
+              </View>
+
+              {/** In Planning */}
+              <View style={cStyles.pt12}>
+                <CText styles={'textTitle'} label={'add_approved:in_planning'} />
+                <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pt10]}>
+                  <TouchableOpacity
+                    activeOpacity={0.5}
+                    disabled={loading.main || loading.submit}
+                    onPress={() => handleChooseInPlanning(true)}>
+                    <View style={[cStyles.row, cStyles.itemsCenter]}>
+                      <Icon
+                        name={form.inPlanning ? 'check-circle' : 'circle'}
+                        size={20}
+                        color={form.inPlanning ? colors.PRIMARY : colors.GRAY_500}
+                      />
+                      <CText styles={'pl10'} label={'add_approved:yes'} />
+                    </View>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    activeOpacity={0.5}
+                    disabled={loading.main || loading.submit}
+                    onPress={() => handleChooseInPlanning(false)}>
+                    <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pl32]}>
+                      <Icon
+                        name={!form.inPlanning ? 'check-circle' : 'circle'}
+                        size={20}
+                        color={!form.inPlanning ? colors.PRIMARY : colors.GRAY_500}
+                      />
+                      <CText styles={'pl10'} label={'add_approved:no'} />
+                    </View>
+                  </TouchableOpacity>
+                </View>
+              </View>
+
+              {/** Supplier */}
+              <View style={[cStyles.pt12, cStyles.pb32]}>
+                <CText styles={'textTitle'} label={'add_approved:supplier'} />
+                <CInput
+                  containerStyle={cStyles.mt6}
+                  style={styles.input}
+                  styleFocus={styles.input_focus}
+                  id={INPUT_NAME.SUPPLIER}
+                  inputRef={ref => supplierRef = ref}
+                  disabled={loading.main || loading.submit}
+                  holder={'add_approved:holder_supplier'}
+                  valueColor={colors.BLACK}
+                  keyboard={'default'}
+                  returnKey={'done'}
+                />
               </View>
             </View>
-
-            {/** where use */}
-            <View style={[cStyles.pt12, cStyles.pr4, IS_IOS && { zIndex: 1000 }]}>
-              <CText styles={'textTitle'} label={'add_approved:where_use'} />
-              <CDropdown
-                loading={loading.main}
-                controller={instance => whereUseRef.current = instance}
-                data={masterState.department}
-                disabled={loading.main || loading.submit}
-                error={error.whereUse.status}
-                errorHelper={error.whereUse.helper}
-                holder={'add_approved:holder_where_use'}
-                defaultValue={form.whereUse}
-                onChangeItem={item => handleCombobox(item, INPUT_NAME.WHERE_USE, reasonRef)}
-                onOpen={() => onOpenCombobox(INPUT_NAME.WHERE_USE)}
-              />
-            </View>
-
-            {/** Reason */}
-            <View style={cStyles.pt12}>
-              <CText styles={'textTitle'} label={'add_approved:reason'} />
-              <CInput
-                containerStyle={cStyles.mt6}
-                style={styles.input}
-                styleFocus={styles.input_focus}
-                id={INPUT_NAME.REASON}
-                inputRef={ref => reasonRef = ref}
-                disabled={loading.main || loading.submit}
-                holder={'add_approved:reason'}
-                valueColor={colors.BLACK}
-                keyboard={'default'}
-                returnKey={'next'}
-                multiline
-                textAlignVertical={'top'}
-                onChangeInput={() => handleChangeInput(supplierRef)}
-              />
-            </View>
-
-            {/** Type assets */}
-            <View style={cStyles.pt12}>
-              <CText styles={'textTitle'} label={'add_approved:type_assets'} />
-              <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pt10]}>
-                <TouchableOpacity
-                  activeOpacity={0.5}
-                  disabled={loading.main || loading.submit}
-                  onPress={() => handleChooseTypeAssets('N')}>
-                  <View style={[cStyles.row, cStyles.itemsCenter]}>
-                    <Icon
-                      name={form.typeAssets === 'N' ? 'check-circle' : 'circle'}
-                      size={20}
-                      color={form.typeAssets === 'N' ? colors.PRIMARY : colors.GRAY_500}
-                    />
-                    <CText styles={'pl10'} label={'add_approved:buy_new'} />
-                  </View>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  activeOpacity={0.5}
-                  disabled={loading.main || loading.submit}
-                  onPress={() => handleChooseTypeAssets('A')}>
-                  <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pl32]}>
-                    <Icon
-                      name={form.typeAssets === 'A' ? 'check-circle' : 'circle'}
-                      size={20}
-                      color={form.typeAssets === 'A' ? colors.PRIMARY : colors.GRAY_500}
-                    />
-                    <CText styles={'pl10'} label={'add_approved:additional'} />
-                  </View>
-                </TouchableOpacity>
-              </View>
-            </View>
-
-            {/** In Planning */}
-            <View style={cStyles.pt12}>
-              <CText styles={'textTitle'} label={'add_approved:in_planning'} />
-              <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pt10]}>
-                <TouchableOpacity
-                  activeOpacity={0.5}
-                  disabled={loading.main || loading.submit}
-                  onPress={() => handleChooseInPlanning(true)}>
-                  <View style={[cStyles.row, cStyles.itemsCenter]}>
-                    <Icon
-                      name={form.inPlanning ? 'check-circle' : 'circle'}
-                      size={20}
-                      color={form.inPlanning ? colors.PRIMARY : colors.GRAY_500}
-                    />
-                    <CText styles={'pl10'} label={'add_approved:yes'} />
-                  </View>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  activeOpacity={0.5}
-                  disabled={loading.main || loading.submit}
-                  onPress={() => handleChooseInPlanning(false)}>
-                  <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pl32]}>
-                    <Icon
-                      name={!form.inPlanning ? 'check-circle' : 'circle'}
-                      size={20}
-                      color={!form.inPlanning ? colors.PRIMARY : colors.GRAY_500}
-                    />
-                    <CText styles={'pl10'} label={'add_approved:no'} />
-                  </View>
-                </TouchableOpacity>
-              </View>
-            </View>
-
-            {/** Supplier */}
-            <View style={cStyles.py12}>
-              <CText styles={'textTitle'} label={'add_approved:supplier'} />
-              <CInput
-                containerStyle={cStyles.mt6}
-                style={styles.input}
-                styleFocus={styles.input_focus}
-                id={INPUT_NAME.SUPPLIER}
-                inputRef={ref => supplierRef = ref}
-                disabled={loading.main || loading.submit}
-                holder={'add_approved:holder_supplier'}
-                valueColor={colors.BLACK}
-                keyboard={'default'}
-                returnKey={'done'}
-              />
-            </View>
-          </View>
-
-          <CButton
-            block
-            disabled={loading.main || loading.submit}
-            label={'add_approved:send'}
-            onPress={onSendRequest}
-          />
+          </CContent>
 
           {/** PICKER */}
           <CDateTimePicker
@@ -665,7 +662,17 @@ function AddApproved(props) {
             value={form.dateRequest}
             onChangeDate={onChangeDateRequest}
           />
-        </CContent>
+        </KeyboardAvoidingView>
+      }
+      footer={
+        <View style={cStyles.px16}>
+          <CButton
+            block
+            disabled={loading.main || loading.submit}
+            label={'add_approved:send'}
+            onPress={onSendRequest}
+          />
+        </View>
       }
     />
   );
