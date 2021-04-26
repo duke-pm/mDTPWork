@@ -167,6 +167,9 @@ function AddApproved(props) {
         department: data.value,
         whereUse: data.value,
       });
+      if (error.department.status) {
+        setError({ ...error, department: { status: false, helper: '' } });
+      }
       departmentRef.current.close();
       areaRef.current.open();
     } else if (field === INPUT_NAME.AREA) {
@@ -174,6 +177,9 @@ function AddApproved(props) {
         ...form,
         area: data.value,
       });
+      if (error.area.status) {
+        setError({ ...error, area: { status: false, helper: '' } });
+      }
       areaRef.current.close();
       whereUseRef.current.open();
     } else if (field === INPUT_NAME.WHERE_USE) {
@@ -181,6 +187,9 @@ function AddApproved(props) {
         ...form,
         whereUse: data.value,
       });
+      if (error.whereUse.status) {
+        setError({ ...error, whereUse: { status: false, helper: '' } });
+      }
       whereUseRef.current.close();
       if (nextField) nextField.focus();
     }
@@ -308,6 +317,9 @@ function AddApproved(props) {
         data: newData,
       },
     });
+    if (error.assets.status) {
+      setError({ ...error, assets: { status: false, helper: '' } });
+    }
   }
 
   /** LIFE CYCLE */
