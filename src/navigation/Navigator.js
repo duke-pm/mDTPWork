@@ -15,16 +15,13 @@ import RootMain from './Root';
 import NavigationService from './NavigationService';
 /* COMMON */
 import '~/utils/language/config-i18n';
-import {
-  MASTER_DATA
-} from '~/config/constants';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 
 function Navigator(props) {
 
   const dispatch = useDispatch();
-  const languageState = useSelector(({ language }) => language.data);
+  const commonState = useSelector(({ common }) => common);
   const masterState = useSelector(({ masterData }) => masterData);
 
   const [loading, setLoading] = useState(true);
@@ -47,24 +44,24 @@ function Navigator(props) {
   }, []);
 
   useEffect(() => {
-    if (languageState !== props.i18n.language) {
+    if (commonState.get('language') !== props.i18n.language) {
       props.i18n.changeLanguage(language);
     }
   }, [
-    languageState,
+    commonState.get('language'),
     props.i18n.language,
     props.i18n.changeLanguage,
   ]);
 
   useEffect(async () => {
     if (loading) {
-      if (!masterState.submitting) {
+      if (!masterState.get('submitting')) {
         onStartApp();
       }
     }
   }, [
     loading,
-    masterState.submitting,
+    masterState.get('submitting'),
   ]);
 
   /** RENDER */

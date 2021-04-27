@@ -18,14 +18,16 @@ export default {
       axios
         .get(jwtServiceConfig.baseURL + Routes.MASTER_DATA.GET_ALL, configs)
         .then((response) => {
-          console.log("FETCH MASTER => ", response);
+          console.log("FETCH MASTER DATA => ", response);
           if (response.status === 200 && response.data) {
             resolve(response.data);
+          } else {
+            reject(response.statusText);
           }
         })
         .catch((error) => {
-          console.log("ERROR FETCH MASTER => ", error);
-          reject(error.response ? error.response.data : null);
+          console.log("ERROR MASTER DATA => ", error);
+          reject(error.response ? error.response.data : error);
         });
     });
   },

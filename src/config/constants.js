@@ -1,3 +1,11 @@
+/**
+ ** Name: Constants
+ ** Author: 
+ ** CreateAt: 2021
+ ** Description: Description of Constants.js
+ **/
 export const DEFAULT_LANGUAGE_CODE = 'vi';
-
-export const MASTER_DATA = 'MASTER_DATA';
+export const DEFAULT_PER_PAGE = 10;
+export const DEFAULT_FORMAT_DATE_1 = 'YYYY-MM-DD';
+export const DEFAULT_FORMAT_DATE_2 = 'DD/MM/YYYY';
+export const DEFAULT_FORMAT_DATE_3 = 'YYYY/MM/DD';

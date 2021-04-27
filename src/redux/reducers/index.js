@@ -7,14 +7,12 @@
 /* LIBRARY */
 import { combineReducers } from 'redux';
 /* REDUCER */
-import connection from './connection';
-import language from './language';
+import common from './common';
 import masterData from './masterData';
 import approved from './approved';
 
 export default combineReducers({
-  connection,
-  language,
+  common,
   masterData,
   approved,
 });

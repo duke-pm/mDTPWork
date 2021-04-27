@@ -7,7 +7,7 @@
 import SignInScreen from '~/screens/authentication/signIn';
 import Dashboard from '~/screens/dashboard';
 import Approved from '~/screens/approved';
-import AddApproved from '~/screens/approved/add';
+import AddRequestAsset from '~/screens/approved/add/Request';
 
 const Routes = {
   AUTHENTICATION: {
@@ -29,8 +29,8 @@ const Routes = {
       path: Approved,
     },
     ADD_APPROVED: {
-      name: 'AddApproved',
-      path: AddApproved,
+      name: 'AddRequestAsset',
+      path: AddRequestAsset,
     }
   },
 }

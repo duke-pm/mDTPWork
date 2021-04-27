@@ -5,9 +5,10 @@
  ** Description: Description of masterData.js
  **/
 /* LIBRARY */
+import { fromJS } from 'immutable';
 import * as types from '../actions/types';
 
-const initialState = {
+export const initialState = fromJS({
   submitting: false,
   error: false,
   errorHelper: '',
@@ -20,49 +21,48 @@ const initialState = {
   assetType: [],
   assetGroup: [],
   assetGroupDetail: [],
-};
+});
 
 export default function (state = initialState, action = {}) {
-  switch (action.type) {
+  const { type, payload } = action;
+  switch (type) {
     case types.START_FETCH_MASTER_DATA:
-      return {
-        ...state,
-        submitting: true,
-        error: false,
-        errorHelper: '',
-      };
+      return state
+        .set('submitting', true)
+        .set('error', false)
+        .set('errorHelper', '');
+
     case types.ERROR_FETCH_MASTER_DATA:
-      return {
-        ...state,
-        submitting: false,
-        error: true,
-        errorHelper: action.payload,
-      };
+      return state
+        .set('submitting', false)
+        .set('error', true)
+        .set('errorHelper', payload);
+
     case types.CHANGE_MASTER_ALL:
-      let tmpRegions = action.payload.region.length > 0
-        ? action.payload.region
-        : state.region;
-      let tmpDepartments = action.payload.department.length > 0
-        ? action.payload.department
-        : state.department;
-      let tmpEmployees = action.payload.employees.length > 0
-        ? action.payload.employees
-        : state.employees;
-      let tmpSuppliers = action.payload.supplier.length > 0
-        ? action.payload.supplier
-        : state.supplier;
-      let tmpCompanys = action.payload.company.length > 0
-        ? action.payload.company
-        : state.company;
-      let tmpAssetsType = action.payload.assetType.length > 0
-        ? action.payload.assetType
-        : state.assetType;
-      let tmpAssetsGroup = action.payload.assetGroup.length > 0
-        ? action.payload.assetGroup
-        : state.assetGroup;
-      let tmpAssetsGroupDetail = action.payload.assetGroupDetail.length > 0
-        ? action.payload.assetGroupDetail
-        : state.assetGroupDetail;
+      let tmpRegions = payload.region.length > 0
+        ? payload.region
+        : state.get('region');
+      let tmpDepartments = payload.department.length > 0
+        ? payload.department
+        : state.get('department');
+      let tmpEmployees = payload.employees.length > 0
+        ? payload.employees
+        : state.get('employees');
+      let tmpSuppliers = payload.supplier.length > 0
+        ? payload.supplier
+        : state.get('supplier');
+      let tmpCompanys = payload.company.length > 0
+        ? payload.company
+        : state.get('company');
+      let tmpAssetsType = payload.assetType.length > 0
+        ? payload.assetType
+        : state.get('assetsType');
+      let tmpAssetsGroup = payload.assetGroup.length > 0
+        ? payload.assetGroup
+        : state.get('assetGroup');
+      let tmpAssetsGroupDetail = payload.assetGroupDetail.length > 0
+        ? payload.assetGroupDetail
+        : state.get('assetGroupDetail');
       let i;
 
       /** prepare regions */
@@ -135,22 +135,20 @@ export default function (state = initialState, action = {}) {
         };
       }
 
-      return {
-        ...state,
-        submitting: false,
-        error: false,
-        errorHelper: '',
-        region: tmpRegions,
-        department: tmpDepartments,
-        employees: tmpEmployees,
-        supplier: tmpSuppliers,
-        company: tmpCompanys,
-        assetType: tmpAssetsType,
-        assetGroup: tmpAssetsGroup,
-        assetGroupDetail: tmpAssetsGroupDetail,
-      };
+      return state
+        .set('submitting', false)
+        .set('error', false)
+        .set('errorHelper', '')
+        .set('region', tmpRegions)
+        .set('department', tmpDepartments)
+        .set('employees', tmpEmployees)
+        .set('supplier', tmpSuppliers)
+        .set('company', tmpCompanys)
+        .set('assetType', tmpAssetsType)
+        .set('assetGroup', tmpAssetsGroup)
+        .set('assetGroupDetail', tmpAssetsGroupDetail);
 
     default:
       return state;
   }
-}
+};

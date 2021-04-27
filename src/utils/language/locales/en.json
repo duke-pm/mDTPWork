@@ -1,25 +1,72 @@
 {
   "common": {
-    "app_name": "DTP-Education"
+    "app_name": "DTP-Education",
+    "cancel": "Hủy bỏ",
+    "ok": "OK",
+    "close": "Đóng",
+    "choose_date": "Chọn ngày",
+    "try_connect": "Try Connect Again",
+    "warning_send_request_approved": "Bạn có chắc muốn gửi đơn cấp phát này không?"
+  },
+  "success": {
+    "title": "Thành Công",
+    "send_request": "Đã gửi yêu cầu thành công!"
+  },
+  "error": {
+    "title": "Lỗi",
+    "send_request": "Gửi yêu cầu không thành công!",
+    "lost_network": "Kết nối không thành công!\nVui lòng kiểm tra kết nối của bạn!",
+    "not_choose_department": "Chưa chọn bộ phận",
+    "not_choose_region": "Chưa chọn khu vực",
+    "not_choose_where_use": "Chưa chọn nơi dùng",
+    "not_enough_assets": "Vui lòng điền tài sản cần cấp",
+    "assets_need_larger_than_zero": "Số lượng phải lớn hơn 0"
   },
   "sign_in": {
-    "title": "Sign In",
-    "input_email": "E-mail",
-    "input_password": "Password",
-    "save_account": "Save account",
-    "forgot_password": "Forgot password?"
+    "title": "Đăng Nhập",
+    "input_username": "Tên đăng nhập",
+    "input_password": "Mật khẩu",
+    "save_account": "Lưu tài khoản",
+    "forgot_password": "Quên mật khẩu?"
   },
   "sign_up": {
-    "title": "Sign Up"
+    "title": "Đăng Ký"
   },
   "dashboard": {
-    "title": "Dashboard"
+    "title": "Tổng Quan"
   },
   "approved": {
-    "title": "Approved"
+    "title": "Cấp Phát Tài Sản",
+    "filter": "Bộ lọc:",
+    "status": "Trạng thái",
+    "date_request": "Ngày gửi: ",
+    "date_approved": "Ngày duyệt: "
   },
   "add_approved": {
-    "title": "Request Assets",
-    "name": "Name"
+    "title": "Thêm mới",
+    "name": "Tên",
+    "department": "Bộ phận",
+    "holder_department": "Chọn bộ phận",
+    "date_request": "Ngày yêu cầu",
+    "area": "Khu vực",
+    "holder_area": "Chọn khu vực",
+    "assets": "Tài sản",
+    "add_assets": "Thêm tài sản",
+    "description": "Mô tả",
+    "amount": "Số lượng",
+    "price": "Đơn giá",
+    "total": "Thành tiền",
+    "where_use": "Nơi dùng",
+    "holder_where_use": "Chọn nơi dùng",
+    "reason": "Lý do",
+    "type_assets": "Loại tài sản",
+    "buy_new": "Mua mới",
+    "additional": "Bổ sung thêm",
+    "in_planning": "Khoản mua sắm này có nằm trong kế hoạch?",
+    "yes": "Có",
+    "no": "Không",
+    "supplier": "Nhà cung cấp đề nghị (nếu có)",
+    "holder_supplier": "Nhà cung cấp",
+    "send": "Gửi yêu cầu"
   }
 }

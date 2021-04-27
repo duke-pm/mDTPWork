@@ -10,7 +10,9 @@ const Assets = {
 
   iconApp: require('../../../assets/images/icon/react.png'),
   iconLostNetwork: require('../../../assets/images/icon/lostNetwork.jpg'),
-
+  iconRequest: require('../../../assets/images/icon/request.png'),
+  iconApproved: require('../../../assets/images/icon/approved.png'),
+  iconReject: require('../../../assets/images/icon/reject.png'),
 };
 
 export default Assets;

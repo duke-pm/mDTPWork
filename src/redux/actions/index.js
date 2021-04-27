@@ -1,4 +1,3 @@
-export * from './connection';
-export * from './language';
+export * from './common';
 export * from './masterData';
 export * from './approved';

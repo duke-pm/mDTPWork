@@ -2,14 +2,13 @@
  ** Name: Add new request
  ** Author: 
  ** CreateAt: 2021
- ** Description: Description of Add.js
+ ** Description: Description of Request.js
  **/
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   StyleSheet,
   View,
-  TextInput,
   TouchableOpacity,
   KeyboardAvoidingView,
 } from 'react-native';
@@ -31,11 +30,9 @@ import CInput from '~/components/CInput';
 import CDateTimePicker from '~/components/CDateTimePicker';
 import CDropdown from '~/components/CDropdown';
 import CButton from '~/components/CButton';
+import AssetItem from '../components/AssetItem';
 /* COMMON */
 import Configs from '~/config';
-import {
-  alert
-} from '~/utils/helper';
 import { colors, cStyles } from '~/utils/style';
 import { IS_IOS } from '~/utils/helper';
 /* REDUX */
@@ -45,7 +42,7 @@ const INPUT_NAME = {
   DATE_REQUEST: 'dateRequest',
   NAME: 'name',
   DEPARTMENT: 'department',
-  AREA: 'area',
+  REGION: 'region',
   ASEETS: 'assets',
   WHERE_USE: 'whereUse',
   REASON: 'reason',
@@ -54,20 +51,20 @@ const INPUT_NAME = {
   SUPPLIER: 'supplier',
 }
 
-function AddApproved(props) {
+function AddRequest(props) {
   const { t } = useTranslation();
 
   let dateRequestRef = useRef();
   let nameRef = useRef();
   let departmentRef = useRef();
-  let areaRef = useRef();
+  let regionRef = useRef();
   let whereUseRef = useRef();
   let reasonRef = useRef();
   let supplierRef = useRef();
 
   const dispatch = useDispatch();
   const masterState = useSelector(({ masterData }) => masterData);
-  const languageState = useSelector(({ language }) => language.data);
+  const commonState = useSelector(({ common }) => common);
   const approvedState = useSelector(({ approved }) => approved);
 
   const [loading, setLoading] = useState({
@@ -76,10 +73,10 @@ function AddApproved(props) {
   });
   const [showPickerDate, setShowPickerDate] = useState(false);
   const [form, setForm] = useState({
-    dateRequest: moment().format(Configs.dateFormat),
+    dateRequest: moment().format(commonState.get('formatDate')),
     name: '',
     department: '',
-    area: '',
+    region: '',
     assets: {
       header: [
         t('add_approved:description'),
@@ -102,7 +99,7 @@ function AddApproved(props) {
       status: false,
       helper: '',
     },
-    area: {
+    region: {
       status: false,
       helper: '',
     },
@@ -172,16 +169,16 @@ function AddApproved(props) {
         setError({ ...error, department: { status: false, helper: '' } });
       }
       departmentRef.current.close();
-      areaRef.current.open();
-    } else if (field === INPUT_NAME.AREA) {
+      regionRef.current.open();
+    } else if (field === INPUT_NAME.REGION) {
       setForm({
         ...form,
-        area: data.value,
+        region: data.value,
       });
-      if (error.area.status) {
-        setError({ ...error, area: { status: false, helper: '' } });
+      if (error.region.status) {
+        setError({ ...error, region: { status: false, helper: '' } });
       }
-      areaRef.current.close();
+      regionRef.current.close();
       whereUseRef.current.open();
     } else if (field === INPUT_NAME.WHERE_USE) {
       setForm({
@@ -204,9 +201,9 @@ function AddApproved(props) {
       tmpError.department.helper = 'error:not_choose_department';
       status = false;
     }
-    if (form.area === '') {
-      tmpError.area.status = true;
-      tmpError.area.helper = 'error:not_choose_region';
+    if (form.region === '') {
+      tmpError.region.status = true;
+      tmpError.region.helper = 'error:not_choose_region';
       status = false;
     }
     if (form.whereUse === '') {
@@ -252,14 +249,14 @@ function AddApproved(props) {
       let params = {
         'EmpCode': 'D0850',
         'DeptCode': form.department,
-        'RegionCode': form.area,
+        'RegionCode': form.region,
         'DocDate': form.dateRequest,
         'Location': form.whereUse,
         'Reason': form.reason,
         'DocType': form.typeAssets,
         'IsBudget': form.inPlanning,
         'SupplierName': form.supplier,
-        'Lang': languageState,
+        'Lang': commonState.get('language'),
         'ListAssets': assets,
       };
       dispatch(Actions.fetchAddRequestApproved(params));
@@ -272,16 +269,16 @@ function AddApproved(props) {
   const onOpenCombobox = (inputName) => {
     switch (inputName) {
       case INPUT_NAME.DEPARTMENT:
-        areaRef.current.close();
+        regionRef.current.close();
         whereUseRef.current.close();
         break;
-      case INPUT_NAME.AREA:
+      case INPUT_NAME.REGION:
         departmentRef.current.close();
         whereUseRef.current.close();
         break;
       case INPUT_NAME.WHERE_USE:
         departmentRef.current.close();
-        areaRef.current.close();
+        regionRef.current.close();
         break;
     }
   };
@@ -298,7 +295,7 @@ function AddApproved(props) {
     if (newDate) {
       setForm({
         ...form,
-        dateRequest: moment(newDate).format(Configs.dateFormat),
+        dateRequest: moment(newDate).format(commonState.get('formatDate')),
       });
     }
   };
@@ -308,7 +305,9 @@ function AddApproved(props) {
     newData[rowIndex][cellIndex] = value;
     if (newData[rowIndex][1] !== '') {
       if (newData[rowIndex][2] !== '') {
-        newData[rowIndex][3] = JSON.stringify(Number(newData[rowIndex][1]) * Number(newData[rowIndex][2]));
+        newData[rowIndex][3] = JSON.stringify(
+          Number(newData[rowIndex][1]) * Number(newData[rowIndex][2])
+        );
       } else newData[rowIndex][3] = '';
     } else newData[rowIndex][3] = '';
     setForm({
@@ -330,20 +329,20 @@ function AddApproved(props) {
 
   useEffect(() => {
     if (loading.main) {
-      if (masterState.department.length > 0) {
+      if (masterState.get('department').length > 0) {
         setLoading({ ...loading, main: false });
       }
     }
   }, [
     loading.main,
-    masterState.submitting,
+    masterState.get('department'),
   ]);
 
   useEffect(() => {
     if (loading.submit) {
-      if (!approvedState.submitting) {
+      if (!approvedState.get('submitting')) {
         setLoading({ ...loading, submit: false });
-        if (approvedState.successAddRequest) {
+        if (approvedState.get('successAddRequest')) {
           showMessage({
             message: t('common:app_name'),
             description: t('success:send_request'),
@@ -353,10 +352,10 @@ function AddApproved(props) {
           props.navigation.goBack();
         }
 
-        if (approvedState.errorAddRequest) {
+        if (approvedState.get('errorAddRequest')) {
           showMessage({
             message: t('common:app_name'),
-            description: approvedState.errorHelperAddRequest,
+            description: approvedState.get('errorHelperAddRequest'),
             type: 'danger',
             icon: 'danger',
           });
@@ -365,34 +364,12 @@ function AddApproved(props) {
     }
   }, [
     loading.submit,
-    approvedState.submitting,
-    approvedState.successAddRequest,
-    approvedState.errorAddRequest,
+    approvedState.get('submitting'),
+    approvedState.get('successAddRequest'),
+    approvedState.get('errorAddRequest'),
   ]);
 
   /** RENDER */
-  const cellItem = (data, rowIndex, cellIndex, disabled, onChangeRow) => {
-    return (
-      <View style={cStyles.flex1}>
-        <TextInput
-          value={data}
-          style={[
-            cStyles.textDefault,
-            cStyles.flexWrap,
-            cStyles.p4,
-            cellIndex === 0 ? cStyles.textLeft : cStyles.textCenter,
-            { color: colors.BLACK }
-          ]}
-          keyboardType={cellIndex !== 0 ? 'number-pad' : 'default'}
-          selectionColor={colors.BLACK}
-          multiline
-          editable={!disabled}
-          onChangeText={(value) => onChangeRow(value, rowIndex, cellIndex)}
-        />
-      </View>
-    );
-  };
-
   return (
     <CContainer
       safeArea={{
@@ -418,7 +395,9 @@ function AddApproved(props) {
                   disabled={true}
                   dateTimePicker={true}
                   holder={'add_approved:date_request'}
-                  value={moment(form.dateRequest).format(Configs.dateFormatView)}
+                  value={moment(form.dateRequest).format(
+                    commonState.get('formatDateView')
+                  )}
                   valueColor={colors.BLACK}
                   iconLast={'calendar-alt'}
                   iconLastColor={colors.GRAY_700}
@@ -445,7 +424,7 @@ function AddApproved(props) {
                 />
               </View>
 
-              {/** Department & Area */}
+              {/** Department & Region */}
               <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pt12, IS_IOS && { zIndex: 2000 }]}>
                 {/** Department */}
                 <View style={[cStyles.flex1, cStyles.pr4]}>
@@ -453,7 +432,7 @@ function AddApproved(props) {
                   <CDropdown
                     loading={loading.main}
                     controller={instance => departmentRef.current = instance}
-                    data={masterState.department}
+                    data={masterState.get('department')}
                     disabled={loading.main || loading.submit}
                     error={error.department.status}
                     errorHelper={error.department.helper}
@@ -464,20 +443,20 @@ function AddApproved(props) {
                   />
                 </View>
 
-                {/** Area */}
+                {/** Region */}
                 <View style={[cStyles.flex1, cStyles.pl4]}>
-                  <CText styles={'textTitle'} label={'add_approved:area'} />
+                  <CText styles={'textTitle'} label={'add_approved:region'} />
                   <CDropdown
                     loading={loading.main}
-                    controller={instance => areaRef.current = instance}
-                    data={masterState.region}
+                    controller={instance => regionRef.current = instance}
+                    data={masterState.get('region')}
                     disabled={loading.main || loading.submit}
-                    error={error.area.status}
-                    errorHelper={error.area.helper}
-                    holder={'add_approved:holder_area'}
-                    defaultValue={form.area}
-                    onChangeItem={item => handleCombobox(item, INPUT_NAME.AREA)}
-                    onOpen={() => onOpenCombobox(INPUT_NAME.AREA)}
+                    error={error.region.status}
+                    errorHelper={error.region.helper}
+                    holder={'add_approved:holder_region'}
+                    defaultValue={form.region}
+                    onChangeItem={item => handleCombobox(item, INPUT_NAME.REGION)}
+                    onOpen={() => onOpenCombobox(INPUT_NAME.REGION)}
                   />
                 </View>
               </View>
@@ -506,7 +485,7 @@ function AddApproved(props) {
                           <Cell
                             key={cellIndex.toString()}
                             width={cellIndex === 0 ? '39.5%' : '20.2%'}
-                            data={cellItem(cellData, rowIndex, cellIndex, disabled, onChangeCellItem)}
+                            data={AssetItem(cellData, rowIndex, cellIndex, disabled, onChangeCellItem)}
                           />
                         )
                       })}
@@ -538,7 +517,7 @@ function AddApproved(props) {
                 <CDropdown
                   loading={loading.main}
                   controller={instance => whereUseRef.current = instance}
-                  data={masterState.department}
+                  data={masterState.get('department')}
                   disabled={loading.main || loading.submit}
                   error={error.whereUse.status}
                   errorHelper={error.whereUse.helper}
@@ -688,4 +667,4 @@ const styles = StyleSheet.create({
   table_text_header: { color: colors.BLACK },
 });
 
-export default AddApproved;
+export default AddRequest;

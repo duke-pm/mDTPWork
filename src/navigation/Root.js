@@ -18,6 +18,7 @@ export function RootStack(props) {
     <StackChild.Navigator
       initialRouteName={Routes.MAIN.DASHBOARD.name}
       headerMode={'none'}
+      screenOptions={{ gestureEnabled: false }}
     >
       <StackChild.Screen
         name={Routes.MAIN.DASHBOARD.name}
@@ -41,6 +42,7 @@ export function RootMain(props) {
     <StackMain.Navigator
       initialRouteName={Routes.AUTHENTICATION.SIGN_IN.name}
       headerMode={'none'}
+      screenOptions={{ gestureEnabled: false }}
     >
       <StackMain.Screen
         name={Routes.AUTHENTICATION.SIGN_IN.name}

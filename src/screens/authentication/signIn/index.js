@@ -20,7 +20,6 @@ import CInput from '~/components/CInput';
 import CCheckbox from '~/components/CCheckbox';
 import CText from '~/components/CText';
 import CButton from '~/components/CButton';
-// import CIconButton from '~/components/CIconButton';
 /* COMMON */
 import Routes from '~/navigation/Routes';
 import Assets from '~/utils/asset/Assets';
@@ -29,23 +28,18 @@ import { IS_IOS } from '~/utils/helper';
 /* REDUX */
 
 const INPUT_NAME = {
-  EMAIL: 'email',
+  USER_NAME: 'userName',
   PASSWORD: 'password',
 };
-// const SOCIALS_NAME = {
-//   FACEBOOK: 'facebook',
-//   GOOGLE: 'google',
-//   APPLE: 'apple'
-// };
 
 function SignIn(props) {
   const { t } = useTranslation();
-  let emailRef = useRef();
+  let userNameRef = useRef();
   let passwordRef = useRef();
 
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
-    email: '',
+    userName: '',
     password: '',
     saveAccount: false,
   });
@@ -107,14 +101,13 @@ function SignIn(props) {
 
                 <View style={styles.con_input}>
                   <CInput
-                    id={INPUT_NAME.EMAIL}
-                    inputRef={ref => emailRef = ref}
+                    id={INPUT_NAME.USER_NAME}
+                    inputRef={ref => userNameRef = ref}
                     disabled={loading}
-                    icon={'at'}
+                    icon={'user'}
                     iconColor={colors.GRAY_500}
-                    holder={'sign_in:input_email'}
+                    holder={'sign_in:input_username'}
                     valueColor={colors.WHITE}
-                    keyboard={'email-address'}
                     returnKey={'next'}
                     autoFocus
                     onChangeInput={() => handleChangeInput(passwordRef)}
@@ -158,59 +151,9 @@ function SignIn(props) {
                     label={'sign_in:title'}
                     onPress={handleSignIn}
                   />
-
-                  {/* <View style={cStyles.center}>
-                    <View style={[cStyles.my16, styles.separator]} />
-                  </View> */}
-
-                  {/* <View style={[
-                    cStyles.row,
-                    cStyles.itemsCenter,
-                    cStyles.justifyEvenly,
-                  ]}>
-                    <CIconButton
-                      style={styles.con_facebook}
-                      iconName={'facebook-f'}
-                      iconColor={colors.WHITE}
-                      iconProps={{
-                        brand: true,
-                      }}
-                      onPress={() => handleSignInSocials(SOCIALS_NAME.FACEBOOK)}
-                    />
-
-                    <CIconButton
-                      style={styles.con_google}
-                      iconName={'google'}
-                      iconColor={colors.WHITE}
-                      iconProps={{
-                        brand: true,
-                      }}
-                      onPress={() => handleSignInSocials(SOCIALS_NAME.GOOGLE)}
-                    />
-
-                    <CIconButton
-                      style={styles.con_apple}
-                      iconName={'apple'}
-                      iconColor={colors.BLACK}
-                      iconProps={{
-                        brand: true,
-                      }}
-                      onPress={() => handleSignInSocials(SOCIALS_NAME.APPLE)}
-                    />
-                  </View> */}
                 </View>
               </CContent>
             </KeyboardAvoidingView>
-
-            <View style={[cStyles.px48, cStyles.isIphoneX() && cStyles.pb16]}>
-              <CButton
-                block
-                disabled={loading}
-                variant={'outlined'}
-                label={'sign_up:title'}
-                onPress={handleSignIn}
-              />
-            </View>
           </View>
         </ImageBackground>
       }
@@ -230,20 +173,6 @@ const styles = StyleSheet.create({
   },
   con_input: {
     flex: 0.6,
-  },
-  con_facebook: {
-    backgroundColor: colors.FACEBOOK,
-  },
-  con_google: {
-    backgroundColor: colors.GOOGLE,
-  },
-  con_apple: {
-    backgroundColor: colors.APPLE,
-  },
-  separator: {
-    backgroundColor: colors.WHITE,
-    height: 1,
-    width: 150
   },
 
   img_background: {

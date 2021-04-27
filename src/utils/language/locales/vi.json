@@ -24,7 +24,7 @@
   },
   "sign_in": {
     "title": "Đăng Nhập",
-    "input_email": "E-mail",
+    "input_username": "Tên đăng nhập",
     "input_password": "Mật khẩu",
     "save_account": "Lưu tài khoản",
     "forgot_password": "Quên mật khẩu?"
@@ -39,8 +39,17 @@
     "title": "Cấp Phát Tài Sản",
     "filter": "Bộ lọc:",
     "status": "Trạng thái",
+    "user_request": "Người yêu cầu: ",
+    "department_request": "Bộ phận: ",
+    "region_request": "Khu vực: ",
     "date_request": "Ngày gửi: ",
-    "date_approved": "Ngày duyệt: "
+    "date_approved": "Ngày duyệt: ",
+    "title_request_item": "Yêu cầu cấp phát Tài Sản số #",
+    "status_all": "Tất cả",
+    "status_wait": "Chờ phê duyệt",
+    "status_approved": "Đã duyệt",
+    "status_done": "Hoàn thành",
+    "status_reject": "Từ chối"
   },
   "add_approved": {
     "title": "Thêm mới",
@@ -48,8 +57,8 @@
     "department": "Bộ phận",
     "holder_department": "Chọn bộ phận",
     "date_request": "Ngày yêu cầu",
-    "area": "Khu vực",
-    "holder_area": "Chọn khu vực",
+    "region": "Khu vực",
+    "holder_region": "Chọn khu vực",
     "assets": "Tài sản",
     "add_assets": "Thêm tài sản",
     "description": "Mô tả",

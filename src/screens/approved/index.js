@@ -5,100 +5,29 @@
  ** Description: Description of Approved.js
  **/
 import React, { useState, useEffect } from 'react';
-import { View, SectionList } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome5';
-import moment from 'moment';
+import { useSelector, useDispatch } from 'react-redux';
+import { fromJS } from 'immutable';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
-import CText from '~/components/CText';
 /* COMMON */
 import Routes from '~/navigation/Routes';
-import { colors, cStyles } from '~/utils/style';
-import Configs from '~/config';
+import ListRequest from './list/Request';
 /* REDUX */
-
-const DATA = [
-  {
-    id: 1,
-    title: 'Đơn xin cấp phát tài sản #001',
-    status: 0,
-    date: '2021-04-21',
-  },
-  {
-    id: 2,
-    title: 'Đơn xin cấp phát tài sản #002',
-    status: 1,
-    date: '2021-04-22',
-  },
-  {
-    id: 3,
-    title: 'Đơn xin cấp phát tài sản #003',
-    status: 2,
-    date: '2021-04-24',
-  },
-  {
-    id: 4,
-    title: 'Đơn xin cấp phát tài sản #004',
-    status: 0,
-    date: '2021-04-24',
-  },
-  {
-    id: 5,
-    title: 'Đơn xin cấp phát tài sản #005',
-    status: 2,
-    date: '2021-04-20',
-  },
-]
-
-const ApprovedItem = (index, data) => {
-  return (
-    <View style={[cStyles.py10, cStyles.px16, index !== 0 && cStyles.borderTop]}>
-      <CText styles={'textTitle'} customLabel={data.title} />
-      <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween, cStyles.pt10]}>
-        <View style={[cStyles.row, cStyles.itemsCenter]}>
-          <CText styles={'textMeta'} label={'approved:date_request'} />
-          <CText styles={'textMeta'} customLabel={moment(data.date).format(Configs.dateFormatView)} />
-        </View>
-
-        {data.status === 2 &&
-          <View style={[cStyles.row, cStyles.itemsCenter]}>
-            <CText styles={'textMeta'} label={'approved:date_approved'} />
-            <CText styles={'textMeta'} customLabel={moment(data.date).format(Configs.dateFormatView)} />
-          </View>
-        }
-      </View>
-    </View>
-  )
-}
-
-const RenderHeaderSection = (section) => {
-  if (section.data.length === 0) return null;
-
-  let nameIcon = '', colorIcon = 'black';
-  if (section.data[0].status === 0) {
-    nameIcon = 'paper-plane';
-    colorIcon = colors.ORANGE;
-  } else if (section.data[0].status === 1) {
-    nameIcon = 'check';
-    colorIcon = colors.BLUE;
-  } else if (section.data[0].status === 2) {
-    nameIcon = 'check-double';
-    colorIcon = colors.GREEN;
-  }
-
-  return (
-    <View style={[cStyles.row, cStyles.itemsCenter, cStyles.p10, cStyles.rounded1, { backgroundColor: colors.GRAY_300 }]}>
-      <Icon name={nameIcon} size={20} color={colorIcon} />
-      <CText styles={'pl16'} customLabel={section.title} />
-    </View>
-  )
-}
+import * as Actions from '~/redux/actions';
 
 function Approved(props) {
+  const dispatch = useDispatch();
+  const commonState = useSelector(({ common }) => common);
+  const approvedState = useSelector(({ approved }) => approved);
 
   const [loading, setLoading] = useState(true);
-  const [data, setData] = useState([]);
+  const [error, setError] = useState(false);
+  const [data, setData] = useState({
+    requests: [],
+    page: 1,
+    perPage: commonState.get('perPage'),
+  });
 
   /** HANDLE FUNC */
   const handleAddNew = () => {
@@ -106,33 +35,50 @@ function Approved(props) {
   };
 
   /** FUNC */
-  const prepareData = () => {
-    let filter1 = DATA.filter(f => f.status === 0);
-    let filter2 = DATA.filter(f => f.status === 1);
-    let filter3 = DATA.filter(f => f.status === 2);
+  const onFetchData = () => {
+    let params = fromJS({
+      'FromDate': '2021/04/01',
+      'ToDate': '2021/04/30',
+      'StatusID': 0,
+      'PageSize': data.perPage,
+      'PageNum': data.page,
+      'Search': '',
+    });
+    dispatch(Actions.fetchListRequestApproved(params));
+  };
 
-    let filter = [
-      {
-        title: 'Đã gửi yêu cầu',
-        data: filter1,
-      },
-      {
-        title: 'Trưởng Bộ Phận',
-        data: filter2,
-      },
-      {
-        title: 'Cấp phê duyệt (TGĐ/GĐHC)',
-        data: filter3,
-      },
-    ]
-    setData(filter);
+  const onPrepareData = (status) => {
+    setData({
+      ...data,
+      requests: status ? approvedState.get('requests') : [],
+    });
+    setError(!status);
     setLoading(false);
   };
 
   /** LIFE CYCLE */
   useEffect(() => {
-    prepareData();
+    onFetchData();
   }, []);
+
+  useEffect(() => {
+    if (loading) {
+      if (!approvedState.get('submitting')) {
+        if (approvedState.get('successListRequest')) {
+          return onPrepareData(true);
+        }
+
+        if (approvedState.get('errorListRequest')) {
+          return onPrepareData(false);
+        }
+      }
+    }
+  }, [
+    loading,
+    approvedState.get('submitting'),
+    approvedState.get('successListRequest'),
+    approvedState.get('errorListRequest')
+  ]);
 
   /** RENDER */
   return (
@@ -144,28 +90,14 @@ function Approved(props) {
       loading={loading}
       header
       hasAddNew
+      hasBack
       title={'approved:title'}
       onPressAddNew={handleAddNew}
       content={
         <CContent padder>
-          {/* <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pb16]}>
-            <CText label={'approved:filter'} />
-            <View style={[cStyles.row, cStyles.itemsCenter, cStyles.p10, cStyles.ml10, cStyles.rounded1, { backgroundColor: colors.GRAY_300 }]}>
-              <CText label={'approved:status'} />
-              <Icon style={cStyles.pl10} name={'times-circle'} size={15} color={colors.GRAY_700} />
-            </View>
-          </View> */}
-
           {!loading &&
-            <SectionList
-              sections={data}
-              renderSectionHeader={({ section }) => RenderHeaderSection(section)}
-              renderItem={({ item, index }) => {
-                return ApprovedItem(index, item);
-              }}
-              keyExtractor={(item, index) => index.toString()}
-              stickySectionHeadersEnabled={true}
-              showsVerticalScrollIndicator={false}
+            <ListRequest
+              data={data.requests}
             />
           }
         </CContent>

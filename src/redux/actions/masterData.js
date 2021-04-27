@@ -1,5 +1,5 @@
 /**
- ** Name: Master data
+ ** Name: Master actions
  ** Author:
  ** CreatedAt: 2021
  ** Description: Description of masterData.js

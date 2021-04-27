@@ -17,15 +17,15 @@ import { useTranslation } from 'react-i18next';
 
 
 function CDateTimePicker(props) {
+  const colorScheme = useColorScheme();
+  const { t } = useTranslation();
+  const commonState = useSelector(({ common }) => common);
+
   const {
     show,
     value,
     onChangeDate,
   } = props;
-  const colorScheme = useColorScheme();
-  const { t } = useTranslation();
-
-  const languageState = useSelector(({ language }) => language.data);
 
   /** HANDLE FUNC */
   const handleChangePicker = (date) => {
@@ -40,7 +40,7 @@ function CDateTimePicker(props) {
   return (
     <DateTimePickerModal
       isVisible={show}
-      locale={languageState}
+      locale={commonState.get('language')}
       mode={'date'}
       isDarkModeEnabled={colorScheme === 'dark'}
       date={new Date(value)}

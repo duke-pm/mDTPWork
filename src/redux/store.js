@@ -5,14 +5,18 @@
  ** Description: 
 **/
 /* LIBRARY */
-import { createStore, applyMiddleware } from 'redux';
-import { createLogger } from 'redux-logger';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 /* REDUCERS */
 import rootReducer from './reducers';
 
-const loggerMiddleware = createLogger({ predicate: (getState, action) => __DEV__ === true });
-const createStoreWithMiddleware = applyMiddleware(thunk, loggerMiddleware)(createStore);
-const Store = createStoreWithMiddleware(rootReducer);
+const composeEnhancers =
+  process.env.NODE_ENV === 'development'
+    ? composeWithDevTools({ realtime: true })
+    : compose;
 
-export default Store;
+const createStoreWithMiddleware = composeEnhancers(applyMiddleware(thunk))(createStore);
+const store = createStoreWithMiddleware(rootReducer);
+
+export default store;
