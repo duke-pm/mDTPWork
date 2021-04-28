@@ -49,12 +49,14 @@ export const listRequestApprovedSuccess = (
   countRequest,
   requests,
   requestsDetail,
+  processApproved,
 ) => ({
   type: types.SUCCESS_FETCH_LIST_REQUEST_APPROVED,
   payload: {
     countRequest,
     requests,
     requestsDetail,
+    processApproved,
   }
 });
 
@@ -71,7 +73,8 @@ export const fetchListRequestApproved = params => {
             listRequestApprovedSuccess(
               res.data.header.countAllocation,
               res.data.listRequest,
-              res.data.listRequestDetail
+              res.data.listRequestDetail,
+              res.data.listProcessApprove,
             ));
         } else {
           return dispatch(listRequestApprovedError(res.errorMessage));

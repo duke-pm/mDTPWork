@@ -13,33 +13,42 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
-import Feather from 'react-native-vector-icons/Feather';
 /* COMPONENTS */
 import CText from '~/components/CText';
 /* COMMON */
 import Routes from '~/navigation/Routes';
-import { colors, cStyles } from '~/utils/style';
+import { cStyles } from '~/utils/style';
 import Commons from '~/utils/common/Commons';
 import Assets from '~/utils/asset/Assets';
 
 function RequestItem(props) {
   const { t } = useTranslation();
   const navigation = useNavigation();
+  const {
+    onPressProcess
+  } = props;
 
   /** HANDLE FUNC */
-  const handleRequestItem = (request) => {
+  const handleRequestItem = () => {
+
+
     navigation.navigate(Routes.MAIN.ADD_APPROVED.name, {
-      data: request,
+      data: props.data,
+      dataDetail: props.dataDetail,
     })
   };
 
   /** RENDER */
-  const statusIcon = Assets.iconRequest;
+  let statusIcon = Assets.iconRequest;
+  let colorText = 'colorOrange';
+
   if (props.data.status === Commons.STATUS_REQUEST.APPROVED.code ||
     props.data.status === Commons.STATUS_REQUEST.DONE.code) {
     statusIcon = Assets.iconApproved;
+    colorText = 'colorGreen';
   } else if (props.data.status === Commons.STATUS_REQUEST.REJECT.code) {
     statusIcon = Assets.iconReject;
+    colorText = 'colorRed';
   }
 
   return (
@@ -56,7 +65,7 @@ function RequestItem(props) {
             cStyles.itemsStart,
             cStyles.justifyBetween
           ]}>
-            <View style={[cStyles.row, cStyles.itemsStart, styles.header_left]}>
+            <View style={[cStyles.row, cStyles.itemsStart]}>
               <Image
                 style={styles.icon_status}
                 source={statusIcon}
@@ -67,10 +76,6 @@ function RequestItem(props) {
                 customLabel={t('approved:title_request_item') + props.data.requestID}
               />
             </View>
-
-            <View style={[cStyles.itemsEnd, styles.header_right]}>
-
-            </View>
           </View>
 
           <View style={[
@@ -78,38 +83,52 @@ function RequestItem(props) {
             cStyles.itemsCenter,
             cStyles.justifyBetween,
           ]}>
-            <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween, cStyles.pt10]}>
-              <View>
-                <View style={[cStyles.row, cStyles.itemsCenter]}>
-                  <CText styles={'textMeta'} label={'approved:region_request'} />
-                  <CText styles={'textMeta'} customLabel={props.data.regionName} />
-                </View>
-
-                <View style={[cStyles.row, cStyles.itemsCenter]}>
-                  <CText styles={'textMeta'} label={'approved:user_request'} />
-                  <CText styles={'textMeta'} customLabel={props.data.personRequest} />
-                </View>
-
-                <View style={[cStyles.row, cStyles.itemsCenter]}>
-                  <CText styles={'textMeta'} label={'approved:department_request'} />
-                  <CText styles={'textMeta'} customLabel={props.data.deptName} />
-                </View>
-
-                <View style={[cStyles.row, cStyles.itemsCenter]}>
+            <View style={[cStyles.flex1, cStyles.pt10]}>
+              <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween]}>
+                <View style={[cStyles.row, cStyles.itemsCenter, styles.header_left]}>
                   <CText styles={'textMeta'} label={'approved:date_request'} />
-                  <CText styles={'textMeta'} customLabel={props.data.requestDate} />
+                  <CText styles={'textMeta colorBlack'} customLabel={props.data.requestDate} />
+                </View>
+
+                <View style={[cStyles.row, cStyles.itemsCenter]}>
+                  <CText styles={'textMeta'} label={'approved:status_request'} />
+                  <CText styles={'textMeta fontBold ' + colorText} customLabel={props.data.statusName} />
                 </View>
               </View>
 
-              {(props.data.status === Commons.STATUS_REQUEST.APPROVED.code ||
-                props.data.status === Commons.STATUS_REQUEST.DONE.code) &&
-                <View style={[cStyles.row, cStyles.itemsCenter]}>
-                  <CText styles={'textMeta'} label={'approved:date_approved'} />
-                  <CText styles={'textMeta'} customLabel={props.data.requestDate} />
+              <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween]}>
+                <View style={[cStyles.row, cStyles.itemsCenter, styles.header_left]}>
+                  <CText styles={'textMeta'} label={'approved:region_request'} />
+                  <CText styles={'textMeta colorBlack'} customLabel={props.data.regionName} />
                 </View>
-              }
+
+                <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyEnd, styles.header_right]}>
+                  <CText styles={'textMeta'} label={'approved:user_request'} />
+                  <CText styles={'textMeta colorBlack'} customLabel={props.data.personRequest} />
+                </View>
+              </View>
+
+              <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween]}>
+                <View style={[cStyles.row, cStyles.itemsStart, styles.header_left]}>
+                  <CText styles={'textMeta'} label={'approved:department_request'} />
+                  <CText styles={'textMeta colorBlack'} customLabel={props.data.deptName} />
+                </View>
+
+                {/* {props.data.status >= 2 &&
+                  <TouchableOpacity
+                    activeOpacity={0.5}
+                    onPress={() => onPressProcess(props.data)}
+                  >
+                    <View style={[cStyles.justifyStart, cStyles.itemsEnd, styles.header_right]}>
+                      <CText
+                        styles={'textMeta textUnderline textItalic colorPrimary'}
+                        label={'approved:show_timeline'}
+                      />
+                    </View>
+                  </TouchableOpacity>
+                } */}
+              </View>
             </View>
-            <Feather name={'chevron-right'} color={colors.GRAY_500} size={18} />
           </View>
         </View>
       </View>
@@ -119,10 +138,10 @@ function RequestItem(props) {
 
 const styles = StyleSheet.create({
   header_left: {
-    flex: 0.7,
+    flex: 0.5,
   },
   header_right: {
-    flex: 0.3,
+    flex: 0.5,
   },
 
   icon_status: {

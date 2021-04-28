@@ -6,7 +6,10 @@
     "close": "Đóng",
     "choose_date": "Chọn ngày",
     "try_connect": "Try Connect Again",
-    "warning_send_request_approved": "Bạn có chắc muốn gửi đơn cấp phát này không?"
+    "warning_send_request_approved": "Bạn có chắc muốn gửi đơn cấp phát này không?",
+    "empty_data": "Dữ liệu rỗng",
+    "cannot_find_data_filter": "Không tìm thấy dữ liệu tương ứng!\nVui lòng thử lại sau!",
+    "loading": "Đang tải..."
   },
   "success": {
     "title": "Thành Công",
@@ -39,17 +42,25 @@
     "title": "Cấp Phát Tài Sản",
     "filter": "Bộ lọc:",
     "status": "Trạng thái",
-    "user_request": "Người yêu cầu: ",
+    "user_request": "Người gửi: ",
     "department_request": "Bộ phận: ",
     "region_request": "Khu vực: ",
     "date_request": "Ngày gửi: ",
     "date_approved": "Ngày duyệt: ",
+    "status_request": "Trạng thái: ",
     "title_request_item": "Yêu cầu cấp phát Tài Sản số #",
     "status_all": "Tất cả",
     "status_wait": "Chờ phê duyệt",
     "status_approved": "Đã duyệt",
     "status_done": "Hoàn thành",
-    "status_reject": "Từ chối"
+    "status_reject": "Từ chối",
+    "search_request": "Tìm kiếm...",
+    "from_date": "Từ ngày: ",
+    "to_date": "Đến ngày: ",
+    "filter_start": "Lọc",
+    "show_timeline": "Thông tin trạng thái",
+    "person_approved": "Người duyệt: ",
+    "reason_reject": "Lý do: "
   },
   "add_approved": {
     "title": "Thêm mới",
@@ -76,6 +87,8 @@
     "no": "Không",
     "supplier": "Nhà cung cấp đề nghị (nếu có)",
     "holder_supplier": "Nhà cung cấp",
-    "send": "Gửi yêu cầu"
+    "send": "Gửi yêu cầu",
+    "approved": "Duyệt",
+    "reject": "Không duyệt"
   }
 }

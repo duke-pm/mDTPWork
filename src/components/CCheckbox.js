@@ -16,6 +16,7 @@ import { colors, cStyles } from '~/utils/style';
 function CCheckbox(props) {
   const { t } = useTranslation();
   const {
+    containerStyle,
     style,
     label,
     labelStyle,
@@ -33,10 +34,10 @@ function CCheckbox(props) {
         cStyles.row,
         cStyles.itemsCenter,
         cStyles.py16,
-        style
+        containerStyle
       ]}>
       <CheckBox
-        style={styles.checkbox}
+        style={[styles.checkbox, style]}
         disabled={disabled}
         value={value}
         boxType={'square'}

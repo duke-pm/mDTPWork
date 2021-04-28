@@ -15,11 +15,15 @@ function AssetItem(props) {
     cellIndex,
     onChangeRow
   } = props;
+  const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'VND',
+    maximumFractionDigits: 0,
+  });
 
   return (
     <View style={cStyles.flex1}>
       <TextInput
-        value={props.data}
         style={[
           cStyles.textDefault,
           cStyles.flexWrap,
@@ -31,6 +35,11 @@ function AssetItem(props) {
         selectionColor={colors.BLACK}
         multiline
         editable={!props.disabled}
+        value={typeof props.cellData === 'string'
+          ? props.cellData
+          : (cellIndex === 2 || cellIndex === 3)
+            ? formatter.format(props.cellData)
+            : JSON.stringify(props.cellData)}
         onChangeText={(value) => onChangeRow(value, rowIndex, cellIndex)}
       />
     </View>

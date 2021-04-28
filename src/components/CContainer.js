@@ -36,6 +36,7 @@ function CContainer(props) {
     subTitle,
 
     onPressAddNew,
+    onPressSearch,
   } = props;
 
   // Theme
@@ -66,6 +67,7 @@ function CContainer(props) {
             left={headerLeft}
             right={headerRight}
             onPressAddNew={onPressAddNew}
+            onPressSearch={onPressSearch}
           />
         )}
         {content}

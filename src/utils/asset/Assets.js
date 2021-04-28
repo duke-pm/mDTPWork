@@ -13,6 +13,7 @@ const Assets = {
   iconRequest: require('../../../assets/images/icon/request.png'),
   iconApproved: require('../../../assets/images/icon/approved.png'),
   iconReject: require('../../../assets/images/icon/reject.png'),
+  iconEmpty: require('../../../assets/images/icon/empty.png'),
 };
 
 export default Assets;

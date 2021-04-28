@@ -27,6 +27,11 @@ export const changeFormatDateView = format => ({
   payload: format,
 });
 
+export const changeFormatDateCustom1 = format => ({
+  type: types.CHANGE_FORMAT_DATE_CUSTOM1,
+  payload: format,
+});
+
 export const changePerPage = perPage => ({
   type: types.CHANGE_PER_PAGE,
   payload: perPage,

@@ -4,7 +4,7 @@
  ** CreateAt: 2021
  ** Description: Description of CInput.js
  **/
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   TextInput,
@@ -18,7 +18,7 @@ import { useTranslation } from 'react-i18next';
 /* COMMON */
 import Configs from '~/config';
 import { colors, cStyles } from '~/utils/style';
-import { RFPercentage } from '~/utils/helper';
+import { IS_ANDROID, RFPercentage } from '~/utils/helper';
 import CText from './CText';
 
 function CInput(props) {
@@ -36,6 +36,7 @@ function CInput(props) {
     iconColor = colors.BLACK,
     iconLast = null,
     iconLastColor = colors.BLACK,
+    iconLastStyle = {},
 
     holder = '',
     holderColor = colors.GRAY_500,
@@ -47,9 +48,11 @@ function CInput(props) {
     password = false,
     autoFocus = false,
     dateTimePicker = false,
+    hasRemove = false,
 
     onChangeInput = null,
     onPressIconLast = null,
+    onPressRemoveValue = null,
   } = props;
 
   const [form, setForm] = useState({
@@ -59,7 +62,7 @@ function CInput(props) {
 
   /** HANDLE FUNC */
   const handleSubmitEditing = () => {
-    if (onChangeInput) onChangeInput();
+    if (onChangeInput) onChangeInput(form.value);
   }
 
   const handleChangeInput = (value) => {
@@ -76,10 +79,33 @@ function CInput(props) {
     });
   };
 
+  const handleIconLast = () => {
+    if (onPressIconLast) onPressIconLast(form.value);
+  };
+
+  const handleRemoveValue = () => {
+    setForm({
+      ...form,
+      value: '',
+    });
+    if (onPressRemoveValue) onPressRemoveValue();
+  };
+
+  useEffect(() => {
+    if (props.value !== form.value) {
+      setForm({
+        ...form,
+        value: props.value,
+      });
+    }
+  }, [
+    props.value,
+  ])
+
   /** RENDER */
   const isDarkMode = useColorScheme() === 'dark';
   return (
-    <View style={{ width: '100%' }}>
+    <View style={[{ width: '100%' }, containerStyle]}>
       <View style={[
         cStyles.row,
         cStyles.itemsCenter,
@@ -87,7 +113,6 @@ function CInput(props) {
         cStyles.mt12,
         styles.con_input,
         form.focus === id && [styles.input_focus, styleFocus],
-        containerStyle,
         style,
       ]}>
         {icon &&
@@ -145,16 +170,34 @@ function CInput(props) {
           }
         </View>
 
+        {hasRemove && form.value !== '' &&
+          <TouchableOpacity
+            style={[
+              cStyles.center,
+              styles.con_input_icon,
+            ]}
+            onPress={handleRemoveValue}
+          >
+            <Icon
+              name={'times-circle'}
+              color={colors.GRAY_500}
+              size={RFPercentage(2)}
+            />
+          </TouchableOpacity>
+        }
+
         {iconLast &&
           <TouchableOpacity
             style={[
               cStyles.center,
               cStyles.roundedTopRight1,
               cStyles.roundedBottomRight1,
-              styles.con_input_icon,
               { backgroundColor: colors.GRAY_300 },
+              IS_ANDROID && cStyles.mr1,
+              styles.con_input_icon,
+              iconLastStyle,
             ]}
-            onPress={onPressIconLast}
+            onPress={handleIconLast}
           >
             <Icon
               name={iconLast}

@@ -12,18 +12,18 @@ import Routes from '../routesApi';
 export default {
   listRequest: (params) => {
     return new Promise((resolve, reject) => {
-      let newURL = Routes.APPROVED.LIST_REQUEST + '?';
-      if (params.get('StatusID')) newURL += 'StatusID=' + params.get('StatusID');
-      if (params.get('FromDate')) newURL += 'FromDate=' + params.get('FromDate');
-      if (params.get('ToDate')) newURL += 'ToDate=' + params.get('ToDate');
-      if (params.get('PageSize')) newURL += 'PageSize=' + params.get('PageSize');
-      if (params.get('PageNum')) newURL += 'PageNum=' + params.get('PageNum');
-      if (params.get('Search')) newURL += 'Search=' + params.get('Search');
+      let tmpConfigs = { params: {} };
+      if (params.get('StatusID')) tmpConfigs.params['StatusID'] = params.get('StatusID');
+      if (params.get('FromDate')) tmpConfigs.params['FromDate'] = params.get('FromDate');
+      if (params.get('ToDate')) tmpConfigs.params['ToDate'] = params.get('ToDate');
+      if (params.get('PageSize')) tmpConfigs.params['PageSize'] = params.get('PageSize');
+      if (params.get('PageNum')) tmpConfigs.params['PageNum'] = params.get('PageNum');
+      if (params.get('Search')) tmpConfigs.params['Search'] = params.get('Search');
 
       axios
         .get(
-          jwtServiceConfig.baseURL + newURL,
-          Object.assign({}, jwtServiceConfig)
+          jwtServiceConfig.baseURL + Routes.APPROVED.LIST_REQUEST,
+          tmpConfigs
         )
         .then((response) => {
           console.log("FETCH LIST REQUEST => ", response);

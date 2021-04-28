@@ -9,7 +9,7 @@ export default {
   SECONDARY: '#ed4079',
   TRANSPARENT: 'transparent',
 
-  BACKGROUND_MODAL: 'rgba(0, 0, 0, 0.3)',
+  BACKGROUND_MODAL: 'rgba(0, 0, 0, 0.5)',
 
   GRAY_100: '#f7fafc',
   GRAY_200: '#edf2f7',

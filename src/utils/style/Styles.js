@@ -29,6 +29,7 @@ const main = {
   flex1: { flex: 1 },
   flexWrap: { flexWrap: 'wrap' },
   flexNoWrap: { flexWrap: 'nowrap' },
+  flexGrow: { flexGrow: 1 },
   flexWrapReverse: { flexWrap: 'wrap-reverse' },
   row: { flexDirection: 'row' },
   col: { flexDirection: 'column' },
@@ -438,6 +439,8 @@ const shadow = {
 };
 
 const text = {
+  colorPrimary: { color: '#00adef' },
+  colorSecondary: { color: '#ed4079' },
   colorTransparent: { color: 'transparent' },
   colorBlack: { color: 'black' },
   colorWhite: { color: 'white' },

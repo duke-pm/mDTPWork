@@ -14,6 +14,7 @@ export const initialState = fromJS({
   countRequests: 0,
   requests: List(),
   requestsDetail: List(),
+  processApproved: List(),
   successListRequest: false,
   errorListRequest: false,
   errorHelperListRequest: '',
@@ -42,7 +43,8 @@ export default function (state = initialState, action = {}) {
         .set('errorHelperListRequest', '')
         .set('countRequests', payload.countRequests)
         .set('requests', payload.requests)
-        .set('requestsDetail', payload.requestsDetail);
+        .set('requestsDetail', payload.requestsDetail)
+        .set('processApproved', payload.processApproved);
 
     case types.ERROR_FETCH_LIST_REQUEST_APPROVED:
       return state
