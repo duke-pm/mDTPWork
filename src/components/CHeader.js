@@ -33,7 +33,7 @@ function CHeader(props) {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const {
-    background = colors.PRIMARY,
+    background = colors.BACKGROUND_HEADER,
     hasBack = false,
     hasMenu = false,
     hasSearch = false,
@@ -70,8 +70,8 @@ function CHeader(props) {
   /** RENDER */
   return (
     <View style={[
-      styles.container,
       cStyles.shadowHeader,
+      styles.container,
       isSearch && cStyles.px16,
       { backgroundColor: background }
     ]}>

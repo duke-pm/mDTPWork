@@ -7,8 +7,10 @@
 /** SERVICES */
 import master from './master';
 import approved from './approved';
+import authentication from './authentication';
 
 const Services = {
+  authentication,
   master,
   approved,
 };

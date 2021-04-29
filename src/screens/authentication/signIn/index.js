@@ -4,7 +4,9 @@
  ** CreateAt: 2021
  ** Description: Description of SignIn.js
  **/
-import React, { useRef, useState } from 'react';
+import { fromJS } from 'immutable';
+import React, { createRef, useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import {
   StyleSheet,
@@ -13,6 +15,7 @@ import {
   View,
   KeyboardAvoidingView,
 } from 'react-native';
+import { showMessage } from 'react-native-flash-message';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
@@ -23,21 +26,32 @@ import CButton from '~/components/CButton';
 /* COMMON */
 import Routes from '~/navigation/Routes';
 import Assets from '~/utils/asset/Assets';
+import { LOGIN } from '~/config/constants';
 import { colors, cStyles } from '~/utils/style';
-import { IS_IOS } from '~/utils/helper';
+import { IS_IOS, resetRoute } from '~/utils/helper';
 /* REDUX */
+import * as Actions from '~/redux/actions';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const INPUT_NAME = {
   USER_NAME: 'userName',
   PASSWORD: 'password',
 };
+let userNameRef = createRef();
+let passwordRef = createRef();
 
 function SignIn(props) {
   const { t } = useTranslation();
-  let userNameRef = useRef();
-  let passwordRef = useRef();
 
-  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const authState = useSelector(({ auth }) => auth);
+  const commonState = useSelector(({ common }) => common);
+
+  const [loading, setLoading] = useState({
+    main: true,
+    submit: false,
+  });
   const [form, setForm] = useState({
     userName: '',
     password: '',
@@ -45,28 +59,113 @@ function SignIn(props) {
   });
 
   /** HANDLE FUNC */
-  const handleChangeInput = (inputRef) => {
-    if (inputRef) inputRef.focus();
+  const handleChangeText = (value, nameInput) => {
+    if (nameInput === INPUT_NAME.USER_NAME) {
+      setForm({ ...form, userName: value });
+    } else {
+      setForm({ ...form, password: value });
+    }
+  };
+
+  const handleChangeInput = () => {
+    passwordRef.current.focus();
   };
 
   const handleForgotPassword = () => {
-
+    props.navigation.navigate(Routes.AUTHENTICATION.FORGOT_PASSWORD.name);
   };
 
   const handleSaveAccount = (checked) => {
-    setForm({
-      ...form,
-      saveAccount: checked
-    });
+    setForm({ ...form, saveAccount: checked });
   };
 
   const handleSignIn = () => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      props.navigation.navigate(Routes.ROOT_STACK.name);
-    }, 2000);
+    setLoading({ ...loading, submit: true });
+    let params = fromJS({
+      'Username': form.userName,
+      'Password': form.password,
+      'Lang': commonState.get('language'),
+    });
+    dispatch(Actions.fetchLogin(params));
   };
+
+  /** FUNC */
+  const onPrepareData = async () => {
+    let dataLogin = {
+      accessToken: authState.getIn(['login', 'accessToken']),
+      tokenType: authState.getIn(['login', 'tokenType']),
+      expiresIn: authState.getIn(['login', 'expiresIn']),
+      refreshToken: authState.getIn(['login', 'refreshToken']),
+      userName: authState.getIn(['login', 'userName']),
+    }
+    await AsyncStorage.setItem(LOGIN, JSON.stringify(dataLogin));
+    onStart();
+  };
+
+  const onLoginError = () => {
+    showMessage({
+      message: t('common:app_name'),
+      description: authState.get('errorHelperLogin'),
+      type: 'danger',
+      icon: 'danger',
+    });
+    setLoading({ ...loading, submit: false });
+  };
+
+  const onStart = () => {
+    showMessage({
+      message: t('common:app_name'),
+      description: t('sign_in:success_login'),
+      type: 'success',
+      icon: 'success',
+    });
+    setLoading({ main: false, submit: false });
+    resetRoute(props.navigation, Routes.ROOT_TAB.name);
+  };
+
+  const onCheckDataLogin = async () => {
+    let dataLogin = await AsyncStorage.getItem(LOGIN);
+    if (dataLogin) {
+      dataLogin = JSON.parse(dataLogin);
+      dispatch(Actions.loginSuccess(dataLogin));
+    } else {
+      setLoading({ ...loading, main: false });
+    }
+  };
+
+  /** LIFE CYCLE */
+  useEffect(() => {
+    onCheckDataLogin();
+  }, []);
+
+  useEffect(() => {
+    if (loading.main) {
+      if (authState.get('successLogin')) {
+        onStart();
+      }
+    }
+  }, [
+    loading.main,
+    authState.get('successLogin')
+  ]);
+
+  useEffect(() => {
+    if (loading.submit) {
+      if (!authState.get('submitting')) {
+        if (authState.get('successLogin')) {
+          return onPrepareData();
+        }
+        if (authState.get('errorLogin')) {
+          return onLoginError();
+        }
+      }
+    }
+  }, [
+    loading.submit,
+    authState.get('submitting'),
+    authState.get('successLogin'),
+    authState.get('errorLogin'),
+  ]);
 
   /** RENDER */
   return (
@@ -75,7 +174,7 @@ function SignIn(props) {
         top: false,
         bottom: false,
       }}
-      loading={loading}
+      loading={loading.main || loading.submit}
       content={
         <ImageBackground
           style={styles.img_background}
@@ -88,7 +187,10 @@ function SignIn(props) {
               style={cStyles.flex1}
               behavior={IS_IOS ? 'padding' : undefined}
             >
-              <CContent contentStyle={[cStyles.flexCenter, cStyles.px48]}>
+              <CContent
+                style={styles.con}
+                contentStyle={[cStyles.flexCenter, cStyles.px48]}
+              >
                 <View style={[cStyles.justifyEnd, styles.con_icon_app]}>
                   <Image
                     style={styles.img_icon_app}
@@ -101,28 +203,37 @@ function SignIn(props) {
 
                 <View style={styles.con_input}>
                   <CInput
-                    id={INPUT_NAME.USER_NAME}
-                    inputRef={ref => userNameRef = ref}
-                    disabled={loading}
+                    name={INPUT_NAME.USER_NAME}
+                    style={styles.input}
+                    valueColor={colors.WHITE}
+                    holderColor={colors.GRAY_500}
+                    inputRef={userNameRef}
+                    disabled={loading.submit}
+                    value={form.userName}
                     icon={'user'}
                     iconColor={colors.GRAY_500}
                     holder={'sign_in:input_username'}
-                    valueColor={colors.WHITE}
                     returnKey={'next'}
                     autoFocus
-                    onChangeInput={() => handleChangeInput(passwordRef)}
+                    onChangeInput={handleChangeInput}
+                    onChangeValue={handleChangeText}
                   />
 
                   <CInput
-                    id={INPUT_NAME.PASSWORD}
-                    inputRef={ref => passwordRef = ref}
-                    disabled={loading}
+                    name={INPUT_NAME.PASSWORD}
+                    style={styles.input}
+                    valueColor={colors.WHITE}
+                    holderColor={colors.GRAY_500}
+                    inputRef={passwordRef}
+                    disabled={loading.submit}
+                    value={form.password}
                     icon={'lock'}
                     iconColor={colors.GRAY_500}
                     holder={'sign_in:input_password'}
-                    valueColor={colors.WHITE}
                     returnKey={'done'}
                     password
+                    onChangeInput={handleSignIn}
+                    onChangeValue={handleChangeText}
                   />
 
                   <View style={[
@@ -147,7 +258,7 @@ function SignIn(props) {
 
                   <CButton
                     block
-                    disabled={loading}
+                    disabled={loading.submit}
                     label={'sign_in:title'}
                     onPress={handleSignIn}
                   />
@@ -162,27 +273,18 @@ function SignIn(props) {
 };
 
 const styles = StyleSheet.create({
-  content: {
-    backgroundColor: 'rgba(0, 0, 0, 0.4)',
-  },
-  con_icon_app: {
-    flex: 0.3
-  },
-  con_middle: {
-    flex: 0.1
-  },
-  con_input: {
-    flex: 0.6,
+  con: { backgroundColor: colors.TRANSPARENT, },
+  content: { backgroundColor: 'rgba(0, 0, 0, 0.4)', },
+  con_icon_app: { flex: 0.3 },
+  con_middle: { flex: 0.1 },
+  con_input: { flex: 0.6, },
+  input: {
+    backgroundColor: colors.TRANSPARENT,
+    color: colors.WHITE,
   },
 
-  img_background: {
-    height: '100%',
-    width: '100%'
-  },
-  img_icon_app: {
-    height: 100,
-    width: 100
-  }
+  img_background: { height: '100%', width: '100%' },
+  img_icon_app: { height: 100, width: 100 },
 });
 
 export default SignIn;

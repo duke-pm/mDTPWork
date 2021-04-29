@@ -32,6 +32,7 @@ function CDropdown(props) {
         style={[
           styles.box,
           props.error && styles.error_box,
+          disabled && styles.disabled,
         ]}
         placeholderStyle={[
           cStyles.textMeta,
@@ -73,6 +74,9 @@ const styles = StyleSheet.create({
   item: {
     justifyContent: 'flex-start',
   },
+  disabled: {
+    backgroundColor: colors.GRAY_300,
+  }
 });
 
 export default CDropdown;

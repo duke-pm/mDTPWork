@@ -7,7 +7,7 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 /** COMMON */
-import { cStyles } from '~/utils/style';
+import { colors, cStyles } from '~/utils/style';
 
 function CFooter(props) {
   const {
@@ -24,7 +24,7 @@ function CFooter(props) {
 const styles = StyleSheet.create({
   con: {
     height: cStyles.isIphoneX ? 86 : 50,
-    width: '100%'
+    width: '100%',
   }
 });
 

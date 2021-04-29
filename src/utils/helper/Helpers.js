@@ -12,6 +12,7 @@ import {
   Dimensions,
   Alert,
 } from 'react-native';
+import { CommonActions } from '@react-navigation/native';
 
 export const IS_ANDROID = Platform.OS === 'android';
 export const IS_IOS = Platform.OS === 'ios';
@@ -54,7 +55,7 @@ export function alert(t, message, onPressOK) {
     t(message),
     [
       {
-        text: t('common:cancel'),
+        text: t('common:close'),
         style: 'cancel',
         onPress: () => console.log('[LOG] === Alert Cancel === '),
       },
@@ -67,5 +68,19 @@ export function alert(t, message, onPressOK) {
     {
       cancelable: true,
     }
+  );
+};
+
+export function resetRoute(navigation, routeName, params) {
+  return navigation.dispatch(
+    CommonActions.reset({
+      index: 1,
+      routes: [
+        {
+          name: routeName,
+          params,
+        },
+      ],
+    })
   );
 };

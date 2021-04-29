@@ -13,13 +13,8 @@ function AssetItem(props) {
   const {
     rowIndex,
     cellIndex,
-    onChangeRow
+    onChangeCellItem
   } = props;
-  const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'VND',
-    maximumFractionDigits: 0,
-  });
 
   return (
     <View style={cStyles.flex1}>
@@ -38,9 +33,9 @@ function AssetItem(props) {
         value={typeof props.cellData === 'string'
           ? props.cellData
           : (cellIndex === 2 || cellIndex === 3)
-            ? formatter.format(props.cellData)
+            ? props.cellData === 0 ? '-' : props.cellData.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')
             : JSON.stringify(props.cellData)}
-        onChangeText={(value) => onChangeRow(value, rowIndex, cellIndex)}
+        onChangeText={(value) => onChangeCellItem(value, rowIndex, cellIndex)}
       />
     </View>
   );

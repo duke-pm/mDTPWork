@@ -4,7 +4,7 @@
  ** CreateAt: 2021
  ** Description: Description of CInput.js
  **/
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   TextInput,
@@ -16,7 +16,6 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import { useTranslation } from 'react-i18next';
 /* COMPONENTS */
 /* COMMON */
-import Configs from '~/config';
 import { colors, cStyles } from '~/utils/style';
 import { IS_ANDROID, RFPercentage } from '~/utils/helper';
 import CText from './CText';
@@ -25,10 +24,10 @@ function CInput(props) {
   const { t } = useTranslation();
 
   const {
-    id = '',
     containerStyle = {},
     style = {},
     styleFocus = {},
+    styleInput = {},
 
     disabled = false,
 
@@ -39,8 +38,6 @@ function CInput(props) {
     iconLastStyle = {},
 
     holder = '',
-    holderColor = colors.GRAY_500,
-    valueColor = colors.BLACK,
     textAlign = 'left',
     keyboard = 'default',
     returnKey = 'next',
@@ -51,59 +48,37 @@ function CInput(props) {
     hasRemove = false,
 
     onChangeInput = null,
+    onChangeValue = null,
     onPressIconLast = null,
     onPressRemoveValue = null,
   } = props;
 
-  const [form, setForm] = useState({
-    value: props.value,
-    focus: null,
-  });
+  const [focus, setFocus] = useState(null);
 
   /** HANDLE FUNC */
   const handleSubmitEditing = () => {
-    if (onChangeInput) onChangeInput(form.value);
+    if (onChangeInput) onChangeInput();
   }
 
-  const handleChangeInput = (value) => {
-    setForm({
-      ...form,
-      value,
-    });
+  const handleChangeValue = (value) => {
+    if (onChangeValue) onChangeValue(value, props.name);
   };
 
-  const handleFocusInput = (nameInput) => {
-    setForm({
-      ...form,
-      focus: nameInput,
-    });
+  const handleFocusInput = () => {
+    setFocus(props.name);
   };
 
   const handleIconLast = () => {
-    if (onPressIconLast) onPressIconLast(form.value);
+    if (onPressIconLast) onPressIconLast();
   };
 
   const handleRemoveValue = () => {
-    setForm({
-      ...form,
-      value: '',
-    });
     if (onPressRemoveValue) onPressRemoveValue();
   };
 
-  useEffect(() => {
-    if (props.value !== form.value) {
-      setForm({
-        ...form,
-        value: props.value,
-      });
-    }
-  }, [
-    props.value,
-  ])
-
   /** RENDER */
   const isDarkMode = useColorScheme() === 'dark';
+  const Component = disabled ? View : TouchableOpacity;
   return (
     <View style={[{ width: '100%' }, containerStyle]}>
       <View style={[
@@ -112,7 +87,8 @@ function CInput(props) {
         cStyles.rounded1,
         cStyles.mt12,
         styles.con_input,
-        form.focus === id && [styles.input_focus, styleFocus],
+        disabled && styles.disabled,
+        focus === props.name && [styles.input_focus, styleFocus],
         style,
       ]}>
         {icon &&
@@ -139,15 +115,12 @@ function CInput(props) {
           {!dateTimePicker &&
             <TextInput
               ref={props.inputRef}
-              style={[
-                cStyles.textDefault,
-                styles.input,
-              ]}
+              style={[cStyles.textDefault, { color: props.valueColor }, styleInput]}
               editable={!disabled}
               placeholder={t(holder)}
-              placeholderTextColor={holderColor}
-              selectionColor={valueColor}
-              value={form.value}
+              placeholderTextColor={props.holderColor}
+              selectionColor={props.valueColor}
+              value={props.value}
               autoCompleteType={'off'}
               autoFocus={autoFocus}
               autoCapitalize
@@ -161,17 +134,17 @@ function CInput(props) {
               keyboardAppearance={isDarkMode ? 'dark' : 'light'}
               keyboardType={keyboard}
               returnKeyType={returnKey}
-              onFocus={() => handleFocusInput(id)}
+              onFocus={handleFocusInput}
               onBlur={() => handleFocusInput(null)}
-              onChangeText={handleChangeInput}
+              onChangeText={handleChangeValue}
               onSubmitEditing={handleSubmitEditing}
               {...props}
             />
           }
         </View>
 
-        {hasRemove && form.value !== '' &&
-          <TouchableOpacity
+        {hasRemove && props.value !== '' &&
+          <Component
             style={[
               cStyles.center,
               styles.con_input_icon,
@@ -183,11 +156,11 @@ function CInput(props) {
               color={colors.GRAY_500}
               size={RFPercentage(2)}
             />
-          </TouchableOpacity>
+          </Component>
         }
 
         {iconLast &&
-          <TouchableOpacity
+          <Component
             style={[
               cStyles.center,
               cStyles.roundedTopRight1,
@@ -204,7 +177,7 @@ function CInput(props) {
               color={iconLastColor}
               size={RFPercentage(3)}
             />
-          </TouchableOpacity>
+          </Component>
         }
       </View>
       {props.error &&
@@ -218,7 +191,7 @@ const styles = StyleSheet.create({
   con_input: {
     height: 50,
     width: '100%',
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    backgroundColor: colors.WHITE,
     borderColor: colors.GRAY_500,
     borderWidth: 0.5,
   },
@@ -237,6 +210,9 @@ const styles = StyleSheet.create({
   input_icon: {
     width: 50,
     height: 50,
+  },
+  disabled: {
+    backgroundColor: colors.GRAY_300,
   },
 });
 

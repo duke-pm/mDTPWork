@@ -4,12 +4,15 @@
     "cancel": "Hủy bỏ",
     "ok": "OK",
     "close": "Đóng",
+    "send": "Gửi",
     "choose_date": "Chọn ngày",
     "try_connect": "Try Connect Again",
     "warning_send_request_approved": "Bạn có chắc muốn gửi đơn cấp phát này không?",
     "empty_data": "Dữ liệu rỗng",
     "cannot_find_data_filter": "Không tìm thấy dữ liệu tương ứng!\nVui lòng thử lại sau!",
-    "loading": "Đang tải..."
+    "loading": "Đang tải...",
+    "sign_out": "Đăng xuất",
+    "warning_sign_out": "Bạn có chắc muốn đăng xuất không?"
   },
   "success": {
     "title": "Thành Công",
@@ -30,10 +33,13 @@
     "input_username": "Tên đăng nhập",
     "input_password": "Mật khẩu",
     "save_account": "Lưu tài khoản",
-    "forgot_password": "Quên mật khẩu?"
+    "forgot_password": "Quên mật khẩu?",
+    "success_login": "Đăng nhập thành công!"
   },
-  "sign_up": {
-    "title": "Đăng Ký"
+  "forgot_password": {
+    "title": "Quên mật khẩu",
+    "input_email": "E-mail",
+    "sub_title": "Vui lòng nhập E-mail để chúng tôi có thể gửi lại mật khảu mới cho bạn"
   },
   "dashboard": {
     "title": "Tổng Quan"
@@ -89,6 +95,17 @@
     "holder_supplier": "Nhà cung cấp",
     "send": "Gửi yêu cầu",
     "approved": "Duyệt",
-    "reject": "Không duyệt"
-  }
+    "reject": "Không duyệt",
+    "message_confirm_approved": "Bạn có chắc chấp thuận đơn cấp phát tài sản này?",
+    "message_confirm_reject": "Bạn có chắc từ chối đơn cấp phát tài sản này?",
+    "user_request": "Người gửi: ",
+    "person_approved": "Người duyệt: ",
+    "status_approved": "Trạng thái: ",
+    "reason_reject": "Lý do: ",
+    "table_process": "Quy trình xét duyệt",
+    "status_wait": "Chờ phê duyệt"
+  },
+  "account": {
+    "title": "Tài khoản"
+  },
 }

@@ -439,8 +439,8 @@ const shadow = {
 };
 
 const text = {
-  colorPrimary: { color: '#00adef' },
-  colorSecondary: { color: '#ed4079' },
+  colorPrimary: { color: '#003737' },
+  colorSecondary: { color: '#ff9910' },
   colorTransparent: { color: 'transparent' },
   colorBlack: { color: 'black' },
   colorWhite: { color: 'white' },

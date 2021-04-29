@@ -225,7 +225,7 @@ function Filter(props) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.GRAY_200,
+    backgroundColor: colors.GRAY_300,
   },
   text_date: { flex: 0.3 },
   input_date: { flex: 0.7 },

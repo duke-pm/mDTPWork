@@ -81,7 +81,7 @@ const App = () => {
       <Provider store={Store}>
         <SafeAreaProvider>
           <StatusBar
-            barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+            barStyle={'light-content'}
             backgroundColor={colors.PRIMARY}
           />
 

@@ -32,7 +32,7 @@ function Item(props) {
       style={[
         cStyles.itemsCenter,
         cStyles.rounded1,
-        { width: styles.container.width }
+        { width: styles.container.width },
       ]}>
       <TouchableOpacity activeOpacity={0.5} onPress={() => onPress('Approved')}>
         <View style={[styles.container, cStyles.center, cStyles.rounded2, cStyles.borderAll]}>
@@ -40,7 +40,11 @@ function Item(props) {
         </View>
       </TouchableOpacity>
 
-      <CText styles={'pt4 textCenter textMeta colorBlack'} label={'approved:title'} numberOfLines={3} />
+      <CText
+        styles={'pt4 textCenter textMeta colorBlack'}
+        label={'approved:title'}
+        numberOfLines={3}
+      />
     </View>
   );
 };
@@ -49,6 +53,7 @@ const styles = StyleSheet.create({
   container: {
     height: sW('20%'),
     width: sW('20%'),
+    backgroundColor: colors.WHITE,
   }
 });
 

@@ -55,11 +55,14 @@ function ListRequest(props) {
         data={props.data}
         renderItem={({ item, index }) => {
           let detail = props.dataDetail.filter(f => f.requestID === item.requestID);
+          let process = props.dataProcess.filter(f => f.requestID === item.requestID);
+          process = process.sort((a, b) => a.levelApproval - b.levelApproval);
           return (
             <RequestItem
               index={index}
               data={item}
               dataDetail={detail}
+              dataProcess={process}
               onPressProcess={handleShowModal}
             />
           )

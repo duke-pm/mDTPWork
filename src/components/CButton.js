@@ -5,6 +5,7 @@
  ** Description: Description of CButton.js
  **/
 import React, { useRef, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   StyleSheet,
   TouchableOpacity,
@@ -12,7 +13,7 @@ import {
   ActivityIndicator,
   Animated,
 } from 'react-native';
-import { useTranslation } from 'react-i18next';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 /** COMPONENTS */
 import CText from '~/components/CText';
 /** COMMON */
@@ -31,6 +32,7 @@ function CButton(props) {
     variant = 'contained', // contained | outlined | text
     label = '',
     color = colors.PRIMARY,
+    icon = null,
     onPress = () => { },
   } = props;
   const { t } = useTranslation();
@@ -115,6 +117,15 @@ function CButton(props) {
           color={colors.GRAY_700}
           size={'small'}
         />
+
+        {icon &&
+          <Icon
+            style={cStyles.pr6}
+            name={icon}
+            color={colors.WHITE}
+            size={15}
+          />
+        }
 
         <CText
           styles={'textButton'}

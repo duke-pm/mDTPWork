@@ -5,6 +5,9 @@
  ** Description: Description of routesApi.js
  **/
 const Routes = {
+  AUTHENTICATION: {
+    LOGIN: '/User/Login',
+  },
   MASTER_DATA: {
     GET_ALL: '/MasterData/GetDataForForm',
   },

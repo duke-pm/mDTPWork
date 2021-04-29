@@ -5,10 +5,13 @@
  ** Description: Description of colors.js
  **/
 export default {
-  PRIMARY: '#00adef',
-  SECONDARY: '#ed4079',
+  PRIMARY: '#003737',
+  SECONDARY: '#ff9910',
   TRANSPARENT: 'transparent',
 
+  BACKGROUND_MAIN: '#f7fafc',
+  BACKGROUND_HEADER: '#006565',
+  BACKGROUND_FOOTER: '#006565',
   BACKGROUND_MODAL: 'rgba(0, 0, 0, 0.5)',
 
   GRAY_100: '#f7fafc',
@@ -20,6 +23,7 @@ export default {
   GRAY_700: '#4a5568',
   GRAY_800: '#2d3748',
   GRAY_900: '#1a202c',
+
   WHITE: '#FFF',
   BLACK: '#000',
   RED: '#E3342F',

@@ -41,7 +41,7 @@ function CContainer(props) {
 
   // Theme
   const backgroundStyle = {
-    backgroundColor: headerBackground || colors.PRIMARY,
+    backgroundColor: headerBackground || colors.BACKGROUND_HEADER,
   };
 
   let tmpSafeArea = ['right', 'left'];

@@ -8,7 +8,7 @@ import React from 'react';
 import { Platform, ScrollView, KeyboardAvoidingView } from 'react-native';
 import { IS_ANDROID, IS_IOS } from '~/utils/helper';
 /** COMMON */
-import { cStyles } from '~/utils/style';
+import { colors, cStyles } from '~/utils/style';
 
 function CContent(props) {
   const {
@@ -22,7 +22,7 @@ function CContent(props) {
 
   return (
     <ScrollView
-      style={cStyles.flex1}
+      style={[cStyles.flex1, { backgroundColor: colors.BACKGROUND_MAIN }, style]}
       contentContainerStyle={[stylePadder, contentStyle]}
       keyboardShouldPersistTaps={'handled'}
       removeClippedSubviews={false}

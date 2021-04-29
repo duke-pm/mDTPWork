@@ -7,6 +7,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
 import {
   StyleSheet,
   View,
@@ -20,21 +21,22 @@ import Routes from '~/navigation/Routes';
 import { cStyles } from '~/utils/style';
 import Commons from '~/utils/common/Commons';
 import Assets from '~/utils/asset/Assets';
+import moment from 'moment';
 
 function RequestItem(props) {
   const { t } = useTranslation();
   const navigation = useNavigation();
+  const commonState = useSelector(({ common }) => common);
   const {
     onPressProcess
   } = props;
 
   /** HANDLE FUNC */
   const handleRequestItem = () => {
-
-
     navigation.navigate(Routes.MAIN.ADD_APPROVED.name, {
       data: props.data,
       dataDetail: props.dataDetail,
+      dataProcess: props.dataProcess,
     })
   };
 
@@ -84,31 +86,34 @@ function RequestItem(props) {
             cStyles.justifyBetween,
           ]}>
             <View style={[cStyles.flex1, cStyles.pt10]}>
-              <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween]}>
-                <View style={[cStyles.row, cStyles.itemsCenter, styles.header_left]}>
+              <View style={[cStyles.row, cStyles.itemsStart, cStyles.justifyBetween]}>
+                <View style={[cStyles.row, cStyles.itemsStart, styles.header_left]}>
                   <CText styles={'textMeta'} label={'approved:date_request'} />
-                  <CText styles={'textMeta colorBlack'} customLabel={props.data.requestDate} />
+                  <CText
+                    styles={'textMeta colorBlack'}
+                    customLabel={moment(props.data.requestDate, 'YYYY-MM-DDTHH:mm:ss')
+                      .format(commonState.get('formatDateView'))} />
                 </View>
 
-                <View style={[cStyles.row, cStyles.itemsCenter]}>
+                <View style={[cStyles.row, cStyles.itemsStart]}>
                   <CText styles={'textMeta'} label={'approved:status_request'} />
                   <CText styles={'textMeta fontBold ' + colorText} customLabel={props.data.statusName} />
                 </View>
               </View>
 
-              <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween]}>
-                <View style={[cStyles.row, cStyles.itemsCenter, styles.header_left]}>
+              <View style={[cStyles.row, cStyles.itemsStart, cStyles.justifyBetween]}>
+                <View style={[cStyles.row, cStyles.itemsStart, styles.header_left]}>
                   <CText styles={'textMeta'} label={'approved:region_request'} />
                   <CText styles={'textMeta colorBlack'} customLabel={props.data.regionName} />
                 </View>
 
-                <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyEnd, styles.header_right]}>
+                <View style={[cStyles.row, cStyles.itemsStart, cStyles.justifyEnd, styles.header_right]}>
                   <CText styles={'textMeta'} label={'approved:user_request'} />
                   <CText styles={'textMeta colorBlack'} customLabel={props.data.personRequest} />
                 </View>
               </View>
 
-              <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween]}>
+              <View style={[cStyles.row, cStyles.itemsStart, cStyles.justifyBetween]}>
                 <View style={[cStyles.row, cStyles.itemsStart, styles.header_left]}>
                   <CText styles={'textMeta'} label={'approved:department_request'} />
                   <CText styles={'textMeta colorBlack'} customLabel={props.data.deptName} />
