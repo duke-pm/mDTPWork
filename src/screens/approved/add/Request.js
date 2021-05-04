@@ -196,6 +196,14 @@ function AddRequest(props) {
     }
   };
 
+  const handleChangeText = (value, nameInput) => {
+    if (nameInput === INPUT_NAME.REASON) {
+      setForm({ ...form, reason: value });
+    } else {
+      setForm({ ...form, supplier: value });
+    }
+  };
+
   const handleApproved = () => {
     alert(t, 'add_approved:message_confirm_approved', onApproved);
   };
@@ -205,7 +213,7 @@ function AddRequest(props) {
   };
 
   /** FUNC */
-  const onCheckValidate = () => {
+  const onValidate = () => {
     let tmpError = error, status = true;
     if (form.department === '') {
       tmpError.department.status = true;
@@ -244,11 +252,11 @@ function AddRequest(props) {
 
   const onSendRequest = () => {
     setLoading({ ...loading, submit: true });
-    let isValid = onCheckValidate();
+    let isValid = onValidate();
     if (isValid.status) {
       /** prepare assets */
-      let assets = [];
-      for (let item of form.assets.data) {
+      let assets = [], item = null;
+      for (item of form.assets.data) {
         assets.push({
           'Descr': item[0],
           'Qty': Number(item[1]),
@@ -261,7 +269,8 @@ function AddRequest(props) {
         'EmpCode': 'D0850',
         'DeptCode': form.department,
         'RegionCode': form.region,
-        'DocDate': form.dateRequest,
+        'JobTitle': 'Đại diện Kinh doanh',
+        'RequestDate': form.dateRequest,
         'Location': form.whereUse,
         'Reason': form.reason,
         'DocType': form.typeAssets,
@@ -296,7 +305,7 @@ function AddRequest(props) {
 
   const onPrepareData = () => {
     let params = {
-      listType: 'Department',
+      listType: 'Department, Region',
     }
     dispatch(Actions.fetchMasterData(params));
   };
@@ -465,9 +474,8 @@ function AddRequest(props) {
             <View>
               <CText styles={'textTitle'} label={'add_approved:date_request'} />
               <CInput
-                containerStyle={cStyles.mt6}
+                name={INPUT_NAME.DATE_REQUEST}
                 style={styles.input}
-                id={INPUT_NAME.DATE_REQUEST}
                 inputRef={ref => dateRequestRef = ref}
                 disabled={true}
                 dateTimePicker={true}
@@ -482,13 +490,12 @@ function AddRequest(props) {
             </View>
 
             {/** Name */}
-            <View style={cStyles.pt12}>
+            <View style={cStyles.pt16}>
               <CText styles={'textTitle'} label={'add_approved:name'} />
               <CInput
-                containerStyle={cStyles.mt6}
+                name={INPUT_NAME.NAME}
                 style={styles.input}
                 styleFocus={styles.input_focus}
-                id={INPUT_NAME.NAME}
                 inputRef={ref => nameRef = ref}
                 disabled={true}
                 holder={'add_approved:name'}
@@ -502,7 +509,7 @@ function AddRequest(props) {
             </View>
 
             {/** Department & Region */}
-            <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pt12, IS_IOS && { zIndex: 2000 }]}>
+            <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pt16, IS_IOS && { zIndex: 2000 }]}>
               {/** Department */}
               <View style={[cStyles.flex1, cStyles.pr4]}>
                 <CText styles={'textTitle'} label={'add_approved:department'} />
@@ -511,6 +518,8 @@ function AddRequest(props) {
                   controller={instance => departmentRef.current = instance}
                   data={masterState.get('department')}
                   disabled={loading.main || loading.submit || isDetail}
+                  searchable={true}
+                  searchablePlaceholder={t('add_approved:search_department')}
                   error={error.department.status}
                   errorHelper={error.department.helper}
                   holder={'add_approved:holder_department'}
@@ -539,7 +548,7 @@ function AddRequest(props) {
             </View>
 
             {/** Assets */}
-            <View style={cStyles.pt12}>
+            <View style={cStyles.pt16}>
               <CText styles={'textTitle'} label={'add_approved:assets'} />
               <Table borderStyle={styles.table} style={cStyles.mt6}>
                 <Row
@@ -548,6 +557,7 @@ function AddRequest(props) {
                     cStyles.textMeta,
                     cStyles.m3,
                     cStyles.textCenter,
+                    cStyles.fontMedium,
                     styles.table_text_header
                   ]}
                   flexArr={[1.97, 1, 1, 1]}
@@ -591,21 +601,23 @@ function AddRequest(props) {
                     disabled={loading.main || loading.submit || isDetail}
                     onPress={handleAddAssets}
                   >
-                    <Icon name={'plus-circle'} size={15} color={colors.GRAY_500} />
-                    <CText styles={'textMeta textUnderline pl6'} label={'add_approved:add_assets'} />
+                    <Icon name={'plus-circle'} size={15} color={colors.BLACK} />
+                    <CText styles={'textMeta textUnderline pl6 colorBlack'} label={'add_approved:add_assets'} />
                   </TouchableOpacity>
                 }
               </View>
             </View>
 
             {/** where use */}
-            <View style={[cStyles.pt12, cStyles.pr4, IS_IOS && { zIndex: 1000 }]}>
+            <View style={[cStyles.pt16, cStyles.pr4, IS_IOS && { zIndex: 1000 }]}>
               <CText styles={'textTitle'} label={'add_approved:where_use'} />
               <CDropdown
                 loading={loading.main}
                 controller={instance => whereUseRef.current = instance}
                 data={masterState.get('department')}
                 disabled={loading.main || loading.submit || isDetail}
+                searchable={true}
+                searchablePlaceholder={t('add_approved:search_department')}
                 error={error.whereUse.status}
                 errorHelper={error.whereUse.helper}
                 holder={'add_approved:holder_where_use'}
@@ -616,13 +628,12 @@ function AddRequest(props) {
             </View>
 
             {/** Reason */}
-            <View style={cStyles.pt12}>
+            <View style={cStyles.pt16}>
               <CText styles={'textTitle'} label={'add_approved:reason'} />
               <CInput
-                containerStyle={cStyles.mt6}
+                name={INPUT_NAME.REASON}
                 style={styles.input}
                 styleFocus={styles.input_focus}
-                id={INPUT_NAME.REASON}
                 inputRef={ref => reasonRef = ref}
                 disabled={loading.main || loading.submit || isDetail}
                 holder={'add_approved:reason'}
@@ -633,14 +644,16 @@ function AddRequest(props) {
                 multiline
                 textAlignVertical={'top'}
                 onChangeInput={() => handleChangeInput(supplierRef)}
+                onChangeValue={handleChangeText}
               />
             </View>
 
             {/** Type assets */}
-            <View style={cStyles.pt12}>
+            <View style={cStyles.pt16}>
               <CText styles={'textTitle'} label={'add_approved:type_assets'} />
               <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pt10]}>
                 <TouchableOpacity
+                  style={{ flex: 0.4 }}
                   activeOpacity={0.5}
                   disabled={loading.main || loading.submit || isDetail}
                   onPress={() => handleChooseTypeAssets('N')}>
@@ -648,21 +661,24 @@ function AddRequest(props) {
                     <Icon
                       name={form.typeAssets === 'N' ? 'check-circle' : 'circle'}
                       size={20}
-                      color={form.typeAssets === 'N' ? colors.PRIMARY : colors.GRAY_500}
+                      color={form.typeAssets === 'N' ? colors.SECONDARY : colors.PRIMARY}
+                      solid={form.typeAssets === 'N'}
                     />
                     <CText styles={'pl10'} label={'add_approved:buy_new'} />
                   </View>
                 </TouchableOpacity>
 
                 <TouchableOpacity
+                  style={{ flex: 0.6 }}
                   activeOpacity={0.5}
                   disabled={loading.main || loading.submit || isDetail}
                   onPress={() => handleChooseTypeAssets('A')}>
-                  <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pl32]}>
+                  <View style={[cStyles.row, cStyles.itemsCenter]}>
                     <Icon
                       name={form.typeAssets === 'A' ? 'check-circle' : 'circle'}
                       size={20}
-                      color={form.typeAssets === 'A' ? colors.PRIMARY : colors.GRAY_500}
+                      color={form.typeAssets === 'A' ? colors.SECONDARY : colors.PRIMARY}
+                      solid={form.typeAssets === 'A'}
                     />
                     <CText styles={'pl10'} label={'add_approved:additional'} />
                   </View>
@@ -671,10 +687,11 @@ function AddRequest(props) {
             </View>
 
             {/** In Planning */}
-            <View style={cStyles.pt12}>
+            <View style={cStyles.pt16}>
               <CText styles={'textTitle'} label={'add_approved:in_planning'} />
               <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pt10]}>
                 <TouchableOpacity
+                  style={{ flex: 0.4 }}
                   activeOpacity={0.5}
                   disabled={loading.main || loading.submit || isDetail}
                   onPress={() => handleChooseInPlanning(true)}>
@@ -682,21 +699,24 @@ function AddRequest(props) {
                     <Icon
                       name={form.inPlanning ? 'check-circle' : 'circle'}
                       size={20}
-                      color={form.inPlanning ? colors.PRIMARY : colors.GRAY_500}
+                      color={form.inPlanning ? colors.SECONDARY : colors.PRIMARY}
+                      solid={form.inPlanning}
                     />
                     <CText styles={'pl10'} label={'add_approved:yes'} />
                   </View>
                 </TouchableOpacity>
 
                 <TouchableOpacity
+                  style={{ flex: 0.6 }}
                   activeOpacity={0.5}
                   disabled={loading.main || loading.submit || isDetail}
                   onPress={() => handleChooseInPlanning(false)}>
-                  <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pl32]}>
+                  <View style={[cStyles.row, cStyles.itemsCenter]}>
                     <Icon
                       name={!form.inPlanning ? 'check-circle' : 'circle'}
                       size={20}
-                      color={!form.inPlanning ? colors.PRIMARY : colors.GRAY_500}
+                      color={!form.inPlanning ? colors.SECONDARY : colors.PRIMARY}
+                      solid={!form.inPlanning}
                     />
                     <CText styles={'pl10'} label={'add_approved:no'} />
                   </View>
@@ -705,13 +725,12 @@ function AddRequest(props) {
             </View>
 
             {/** Supplier */}
-            <View style={[cStyles.pt12, cStyles.pb32]}>
+            <View style={[cStyles.pt16, cStyles.pb32]}>
               <CText styles={'textTitle'} label={'add_approved:supplier'} />
               <CInput
-                containerStyle={cStyles.mt6}
+                name={INPUT_NAME.SUPPLIER}
                 style={styles.input}
                 styleFocus={styles.input_focus}
-                id={INPUT_NAME.SUPPLIER}
                 inputRef={ref => supplierRef = ref}
                 disabled={loading.main || loading.submit || isDetail}
                 holder={'add_approved:holder_supplier'}
@@ -719,6 +738,8 @@ function AddRequest(props) {
                 valueColor={colors.BLACK}
                 keyboard={'default'}
                 returnKey={'done'}
+                onChangeInput={onSendRequest}
+                onChangeValue={handleChangeText}
               />
             </View>
           </View>
@@ -894,8 +915,8 @@ const styles = StyleSheet.create({
     borderColor: colors.PRIMARY,
     borderWidth: 0.5,
   },
-  table: { borderWidth: 1, borderColor: '#c8e1ff' },
-  table_header: { height: 30, backgroundColor: '#f1f8ff', },
+  table: { borderWidth: 1, borderColor: colors.TABLE_LINE },
+  table_header: { height: 30, backgroundColor: colors.TABLE_HEADER, },
   table_text_header: { color: colors.BLACK },
   button_approved: { width: cStyles.deviceWidth / 2.5 },
   button_reject: { width: cStyles.deviceWidth / 2.5 },

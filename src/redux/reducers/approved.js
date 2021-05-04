@@ -37,14 +37,14 @@ export default function (state = initialState, action = {}) {
 
     case types.SUCCESS_FETCH_LIST_REQUEST_APPROVED:
       return state
-        .set('submitting', false)
-        .set('successListRequest', true)
-        .set('errorListRequest', false)
-        .set('errorHelperListRequest', '')
         .set('countRequests', payload.countRequests)
         .set('requests', payload.requests)
         .set('requestsDetail', payload.requestsDetail)
-        .set('processApproved', payload.processApproved);
+        .set('processApproved', payload.processApproved)
+        .set('submitting', false)
+        .set('successListRequest', true)
+        .set('errorListRequest', false)
+        .set('errorHelperListRequest', '');
 
     case types.ERROR_FETCH_LIST_REQUEST_APPROVED:
       return state

@@ -5,6 +5,7 @@
  ** Description: Description of Account.js
  **/
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 /* COMPONENTS */
@@ -13,13 +14,14 @@ import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
 /* COMMON */
 import Routes from '~/navigation/Routes';
-import { LOGIN } from '~/config/constants';
 import { alert, resetRoute } from '~/utils/helper';
 /* REDUX */
-
+import * as Actions from '~/redux/actions';
 
 function Account(props) {
   const { t } = useTranslation();
+
+  const dispatch = useDispatch();
 
   const [loading, setLoading] = useState(false);
 
@@ -29,9 +31,11 @@ function Account(props) {
 
   const handleOk = async () => {
     setLoading(true);
-    await AsyncStorage.removeItem(LOGIN);
+    await AsyncStorage.clear();
+    dispatch(Actions.logout());
+    setLoading(false);
     resetRoute(props.navigation, Routes.AUTHENTICATION.SIGN_IN.name);
-  }
+  };
 
   return (
     <CContainer
@@ -40,7 +44,7 @@ function Account(props) {
         bottom: false,
       }}
       header
-      loading={false}
+      loading={loading}
       title={'account:title'}
       content={
         <CContent padder>

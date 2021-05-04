@@ -12,8 +12,8 @@ const Routes = {
     GET_ALL: '/MasterData/GetDataForForm',
   },
   APPROVED: {
-    LIST_REQUEST: '/ProvideRequest/GetList',
-    ADD_REQUEST: '/ProvideRequest/Create',
+    LIST_REQUEST: '/RQAsset/GetList',
+    ADD_REQUEST: '/RQAsset/CreateAllocation',
   },
 }
 

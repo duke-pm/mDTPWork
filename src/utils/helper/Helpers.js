@@ -12,7 +12,6 @@ import {
   Dimensions,
   Alert,
 } from 'react-native';
-import { CommonActions } from '@react-navigation/native';
 
 export const IS_ANDROID = Platform.OS === 'android';
 export const IS_IOS = Platform.OS === 'ios';
@@ -72,15 +71,13 @@ export function alert(t, message, onPressOK) {
 };
 
 export function resetRoute(navigation, routeName, params) {
-  return navigation.dispatch(
-    CommonActions.reset({
-      index: 1,
-      routes: [
-        {
-          name: routeName,
-          params,
-        },
-      ],
-    })
-  );
+  return navigation.reset({
+    index: 0,
+    routes: [
+      {
+        name: routeName,
+        params,
+      },
+    ],
+  });
 };

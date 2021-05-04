@@ -625,6 +625,7 @@ class DropDownPicker extends React.Component {
 							</View>
 						)}
 				</TouchableOpacity>
+
 				{!this.props.loading &&
 					<View style={[
 						this.adjustStylesToDirection(

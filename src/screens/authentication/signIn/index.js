@@ -16,6 +16,7 @@ import {
   KeyboardAvoidingView,
 } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
+import axios from 'axios';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
@@ -57,13 +58,21 @@ function SignIn(props) {
     password: '',
     saveAccount: false,
   });
+  const [error, setError] = useState({
+    userName: false,
+    password: false,
+    userNameHelper: '',
+    passwordHelper: '',
+  });
 
   /** HANDLE FUNC */
   const handleChangeText = (value, nameInput) => {
     if (nameInput === INPUT_NAME.USER_NAME) {
       setForm({ ...form, userName: value });
+      if (error.userName) setError({ ...error, userName: false });
     } else {
       setForm({ ...form, password: value });
+      if (error.password) setError({ ...error, password: false });
     }
   };
 
@@ -80,26 +89,54 @@ function SignIn(props) {
   };
 
   const handleSignIn = () => {
-    setLoading({ ...loading, submit: true });
-    let params = fromJS({
-      'Username': form.userName,
-      'Password': form.password,
-      'Lang': commonState.get('language'),
-    });
-    dispatch(Actions.fetchLogin(params));
+    let isValid = onValidate();
+    if (isValid) {
+      setLoading({ ...loading, submit: true });
+      let params = fromJS({
+        'Username': form.userName,
+        'Password': form.password,
+        'Lang': commonState.get('language'),
+      });
+      dispatch(Actions.fetchLogin(params));
+    };
   };
 
   /** FUNC */
   const onPrepareData = async () => {
-    let dataLogin = {
-      accessToken: authState.getIn(['login', 'accessToken']),
-      tokenType: authState.getIn(['login', 'tokenType']),
-      expiresIn: authState.getIn(['login', 'expiresIn']),
-      refreshToken: authState.getIn(['login', 'refreshToken']),
-      userName: authState.getIn(['login', 'userName']),
+    if (form.saveAccount) {
+      let dataLogin = {
+        accessToken: authState.getIn(['login', 'accessToken']),
+        tokenType: authState.getIn(['login', 'tokenType']),
+        expiresIn: authState.getIn(['login', 'expiresIn']),
+        refreshToken: authState.getIn(['login', 'refreshToken']),
+        userName: authState.getIn(['login', 'userName']),
+      }
+      console.log('[LOG] === dataLogin ===> ', dataLogin);
+      await AsyncStorage.setItem(LOGIN, JSON.stringify(dataLogin));
     }
-    await AsyncStorage.setItem(LOGIN, JSON.stringify(dataLogin));
     onStart();
+  };
+
+  const onValidate = () => {
+    let isUNEmpty = form.userName.trim().length === 0;
+    let isPWEmpty = form.password.trim().length === 0;
+    let error = {};
+
+    if (isUNEmpty) {
+      error.userName = true;
+      error.userNameHelper = 'error:user_name_empty';
+    }
+    if (isPWEmpty) {
+      error.password = true;
+      error.passwordHelper = 'error:password_empty';
+    }
+
+    if (isUNEmpty || isPWEmpty) {
+      setError(error);
+      return false;
+    } else {
+      return true;
+    }
   };
 
   const onLoginError = () => {
@@ -127,7 +164,15 @@ function SignIn(props) {
     let dataLogin = await AsyncStorage.getItem(LOGIN);
     if (dataLogin) {
       dataLogin = JSON.parse(dataLogin);
+      dataLogin = {
+        access_token: dataLogin.accessToken,
+        token_type: dataLogin.tokenType,
+        expires_in: dataLogin.expiresIn,
+        refresh_token: dataLogin.refreshToken,
+        userName: dataLogin.userName,
+      }
       dispatch(Actions.loginSuccess(dataLogin));
+      setForm({ ...form, saveAccount: true });
     } else {
       setLoading({ ...loading, main: false });
     }
@@ -215,6 +260,8 @@ function SignIn(props) {
                     holder={'sign_in:input_username'}
                     returnKey={'next'}
                     autoFocus
+                    error={error.userName}
+                    errorHelper={error.userNameHelper}
                     onChangeInput={handleChangeInput}
                     onChangeValue={handleChangeText}
                   />
@@ -232,6 +279,8 @@ function SignIn(props) {
                     holder={'sign_in:input_password'}
                     returnKey={'done'}
                     password
+                    error={error.password}
+                    errorHelper={error.passwordHelper}
                     onChangeInput={handleSignIn}
                     onChangeValue={handleChangeText}
                   />
@@ -245,6 +294,9 @@ function SignIn(props) {
                     <CCheckbox
                       labelStyle={'textDefault pl10 colorWhite'}
                       label={'sign_in:save_account'}
+                      onCheckColor={colors.SECONDARY}
+                      onTintColor={colors.SECONDARY}
+                      tintColors={{ true: colors.SECONDARY, false: colors.GRAY_500 }}
                       value={form.saveAccount}
                       onChange={handleSaveAccount}
                     />

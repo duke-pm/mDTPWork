@@ -139,7 +139,6 @@ function Filter(props) {
             <CInput
               containerStyle={[cStyles.justifyEnd, styles.input_date]}
               style={styles.con_input_date}
-              disabled={true}
               hasRemove={true}
               dateTimePicker={true}
               value={data.fromDate === ''
@@ -162,7 +161,6 @@ function Filter(props) {
             <CInput
               containerStyle={[cStyles.justifyEnd, styles.input_date]}
               style={styles.con_input_date}
-              disabled={true}
               hasRemove={true}
               dateTimePicker={true}
               value={data.toDate === ''

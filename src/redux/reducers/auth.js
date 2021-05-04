@@ -27,7 +27,22 @@ export const initialState = fromJS({
 export default function (state = initialState, action = {}) {
   const { type, payload } = action;
   switch (type) {
-    /** For list request **/
+    /** Common */
+    case types.LOGOUT:
+      return state
+        .set('submitting', false)
+        .set('successLogin', false)
+        .set('errorLogin', false)
+        .set('errorHelperLogin', '')
+
+        .setIn(['login', 'accessToken'], null)
+        .setIn(['login', 'tokenType'], null)
+        .setIn(['login', 'expiresIn'], 0)
+        .setIn(['login', 'refreshToken'], null)
+        .setIn(['login', 'userName'], null);
+    /*****************************/
+
+    /** For login **/
     case types.START_LOGIN:
       return state
         .set('submitting', true)

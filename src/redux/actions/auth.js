@@ -8,6 +8,10 @@
 import * as types from './types';
 import Services from '~/services';
 
+export const logout = () => ({
+  type: types.LOGOUT
+});
+
 export const loginError = error => ({
   type: types.ERROR_LOGIN,
   payload: error

@@ -8,6 +8,8 @@ export default {
   PRIMARY: '#003737',
   SECONDARY: '#ff9910',
   TRANSPARENT: 'transparent',
+  TABLE_LINE: '#ccd0d0',
+  TABLE_HEADER: '#e7ffff',
 
   BACKGROUND_MAIN: '#f7fafc',
   BACKGROUND_HEADER: '#006565',

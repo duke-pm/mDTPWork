@@ -472,7 +472,7 @@ const text = {
   textTitle: {
     fontSize: RFPercentage(2.3),
     color: 'black',
-    fontFamily: fMedium,
+    fontFamily: fRegular,
     lineHeight: platform === PLATFORM.IOS ? 23 : 24
   },
   textMeta: {

@@ -9,6 +9,11 @@ import { View, TextInput } from 'react-native';
 /* COMMON */
 import { colors, cStyles } from '~/utils/style';
 
+Number.prototype.format = function (n, x) {
+  var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
+  return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,') + 'đ';
+};
+
 function AssetItem(props) {
   const {
     rowIndex,
@@ -23,6 +28,7 @@ function AssetItem(props) {
           cStyles.textDefault,
           cStyles.flexWrap,
           cStyles.p4,
+          cStyles.textMeta,
           cellIndex === 0 ? cStyles.textLeft : cStyles.textCenter,
           { color: colors.BLACK }
         ]}
@@ -31,10 +37,10 @@ function AssetItem(props) {
         multiline
         editable={!props.disabled}
         value={typeof props.cellData === 'string'
-          ? props.cellData
-          : (cellIndex === 2 || cellIndex === 3)
-            ? props.cellData === 0 ? '-' : props.cellData.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')
-            : JSON.stringify(props.cellData)}
+          ? (cellIndex === 3) ? Number(props.cellData).format() : props.cellData
+          : (cellIndex === 3 || cellIndex === 2)
+            ? props.cellData === 0 ? '-' : Number(props.cellData).format()
+            : props.cellData + ''}
         onChangeText={(value) => onChangeCellItem(value, rowIndex, cellIndex)}
       />
     </View>

@@ -26,7 +26,10 @@
     "not_choose_region": "Chưa chọn khu vực",
     "not_choose_where_use": "Chưa chọn nơi dùng",
     "not_enough_assets": "Vui lòng điền tài sản cần cấp",
-    "assets_need_larger_than_zero": "Số lượng phải lớn hơn 0"
+    "assets_need_larger_than_zero": "Số lượng phải lớn hơn 0",
+    "user_name_empty": "Tên Đăng Nhập không được rỗng",
+    "password_empty": "Mật Khẩu không được rỗng",
+    "list_request": "Nhận danh sách yêu cầu không thành công!"
   },
   "sign_in": {
     "title": "Đăng Nhập",
@@ -103,9 +106,10 @@
     "status_approved": "Trạng thái: ",
     "reason_reject": "Lý do: ",
     "table_process": "Quy trình xét duyệt",
-    "status_wait": "Chờ phê duyệt"
+    "status_wait": "Chờ phê duyệt",
+    "search_department": "Tìm bộ phận..."
   },
   "account": {
     "title": "Tài khoản"
-  },
+  }
 }

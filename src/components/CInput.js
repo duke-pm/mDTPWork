@@ -38,6 +38,7 @@ function CInput(props) {
     iconLastStyle = {},
 
     holder = '',
+    holderColor = colors.GRAY_600,
     textAlign = 'left',
     keyboard = 'default',
     returnKey = 'next',
@@ -85,10 +86,11 @@ function CInput(props) {
         cStyles.row,
         cStyles.itemsCenter,
         cStyles.rounded1,
-        cStyles.mt12,
+        cStyles.mt6,
         styles.con_input,
         disabled && styles.disabled,
         focus === props.name && [styles.input_focus, styleFocus],
+        props.error && styles.error,
         style,
       ]}>
         {icon &&
@@ -118,7 +120,7 @@ function CInput(props) {
               style={[cStyles.textDefault, { color: props.valueColor }, styleInput]}
               editable={!disabled}
               placeholder={t(holder)}
-              placeholderTextColor={props.holderColor}
+              placeholderTextColor={holderColor}
               selectionColor={props.valueColor}
               value={props.value}
               autoCompleteType={'off'}
@@ -213,6 +215,9 @@ const styles = StyleSheet.create({
   },
   disabled: {
     backgroundColor: colors.GRAY_300,
+  },
+  error: {
+    borderColor: colors.RED,
   },
 });
 

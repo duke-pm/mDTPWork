@@ -31,7 +31,7 @@ function CButton(props) {
     disabled = false,
     variant = 'contained', // contained | outlined | text
     label = '',
-    color = colors.PRIMARY,
+    color = colors.SECONDARY,
     icon = null,
     onPress = () => { },
   } = props;

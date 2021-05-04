@@ -4,9 +4,11 @@
  ** CreateAt: 2021
  ** Description: Description of Approved.js
  **/
+import { fromJS } from 'immutable';
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fromJS } from 'immutable';
+import { useTranslation } from 'react-i18next';
+import { showMessage } from "react-native-flash-message";
 import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
@@ -24,21 +26,22 @@ import {
 import * as Actions from '~/redux/actions';
 
 function Approved(props) {
+  const { t } = useTranslation();
+
   const dispatch = useDispatch();
   const commonState = useSelector(({ common }) => common);
   const approvedState = useSelector(({ approved }) => approved);
 
   const [loading, setLoading] = useState({
-    main: true,
+    main: false,
     search: false,
     refreshing: false,
     loadmore: false,
     isLoadmore: true,
   });
-  const [error, setError] = useState(false);
   const [data, setData] = useState({
-    fromDate: moment().clone().startOf('month').format(commonState.get('formatDateCustom1')),
-    toDate: moment().clone().endOf('month').format(commonState.get('formatDateCustom1')),
+    fromDate: moment().clone().startOf('month').format(commonState.get('formatDate')),
+    toDate: moment().clone().endOf('month').format(commonState.get('formatDate')),
     status: '1,2,3,4',
     requests: [],
     requestsDetail: [],
@@ -64,14 +67,14 @@ function Approved(props) {
     );
   };
 
-  const handleFilter = (formDate, toDate, status) => {
+  const handleFilter = (fromDate, toDate, status) => {
     setLoading({ ...loading, search: true });
+    setData({ ...data, page: 1, status, fromDate, toDate });
     onFetchData(
-      formDate,
+      fromDate,
       toDate,
       status
     );
-    setData({ ...data, page: 1, status, });
   };
 
   /** FUNC */
@@ -82,6 +85,7 @@ function Approved(props) {
     pageSize = data.perPage,
     pageNum = 1,
     search = '',
+    requestTypeID = 1,
   ) => {
     let params = fromJS({
       'FromDate': fromDate,
@@ -90,11 +94,12 @@ function Approved(props) {
       'PageSize': pageSize,
       'PageNum': pageNum,
       'Search': search,
+      'RequestTypeID': requestTypeID,
     });
     dispatch(Actions.fetchListRequestApproved(params));
   };
 
-  const onPrepareData = (type, status) => {
+  const onPrepareData = (type) => {
     let tmpRequests = [...data.requests];
     let tmpRequestDetail = [...data.requestsDetail];
     let tmpProcessApproveds = [...data.processApproveds];
@@ -102,36 +107,28 @@ function Approved(props) {
     if (approvedState.get('requests').length < commonState.get('perPage')) {
       isLoadmore = false;
     }
-
+    console.log('[LOG] ===  ===> ', approvedState.get('requests'));
     if (type === REFRESH) {
-      tmpRequests = status ? approvedState.get('requests') : [];
-      tmpRequestDetail = status ? approvedState.get('requestsDetail') : [];
-      tmpProcessApproveds = status ? approvedState.get('processApproved') : [];
+      tmpRequests = approvedState.get('requests');
+      tmpRequestDetail = approvedState.get('requestsDetail');
+      tmpProcessApproveds = approvedState.get('processApproved');
     } else if (type === LOAD_MORE) {
-      tmpRequests = status
-        ? [...tmpRequests, ...approvedState.get('requests')]
-        : tmpRequests;
-      tmpRequestDetail = status
-        ? [...tmpRequestDetail, ...approvedState.get('requestsDetail')]
-        : tmpRequestDetail;
-      tmpProcessApproveds = status
-        ? [...tmpProcessApproveds, ...approvedState.get('processApproved')]
-        : tmpProcessApproveds;
+      tmpRequests = [...tmpRequests, ...approvedState.get('requests')];
+      tmpRequestDetail = [...tmpRequestDetail, ...approvedState.get('requestsDetail')];
+      tmpProcessApproveds = [...tmpProcessApproveds, ...approvedState.get('processApproved')];
     }
-
     setData({
       ...data,
       requests: tmpRequests,
       requestsDetail: tmpRequestDetail,
       processApproveds: tmpProcessApproveds,
     });
-    setError(!status);
     setLoading({
       main: false,
       search: false,
       refreshing: false,
       loadmore: false,
-      isLoadmore
+      isLoadmore,
     });
   };
 
@@ -166,6 +163,24 @@ function Approved(props) {
     }
   };
 
+  const onError = () => {
+    showMessage({
+      message: t('common:app_name'),
+      description: approvedState.getIn(['errorHelperListRequest', 'message'])
+        || t('error:list_request'),
+      type: 'danger',
+      icon: 'danger',
+    });
+
+    return setLoading({
+      main: false,
+      search: false,
+      refreshing: false,
+      loadmore: false,
+      isLoadmore: false,
+    });
+  }
+
   /** LIFE CYCLE */
   useEffect(() => {
     onFetchData(
@@ -176,6 +191,7 @@ function Approved(props) {
       data.page,
       '',
     );
+    setLoading({ ...loading, main: true });
   }, []);
 
   useEffect(() => {
@@ -185,17 +201,19 @@ function Approved(props) {
         if (loading.loadmore) type = LOAD_MORE;
 
         if (approvedState.get('successListRequest')) {
-          return onPrepareData(type, true);
+          return onPrepareData(type);
         }
 
         if (approvedState.get('errorListRequest')) {
-          return onPrepareData(type, false);
+          return onError();
         }
       }
     }
   }, [
     loading.main,
     loading.search,
+    loading.refreshing,
+    loading.loadmore,
     approvedState.get('submitting'),
     approvedState.get('successListRequest'),
     approvedState.get('errorListRequest')
