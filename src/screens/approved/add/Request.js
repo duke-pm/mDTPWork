@@ -503,13 +503,12 @@ function AddRequest(props) {
                 valueColor={colors.BLACK}
                 keyboard={'default'}
                 returnKey={'next'}
-                autoFocus
                 onChangeInput={() => handleChangeInput(departmentRef, 'combobox')}
               />
             </View>
 
             {/** Department & Region */}
-            <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pt16, IS_IOS && { zIndex: 2000 }]}>
+            <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pt16, IS_IOS && { zIndex: 3000 }]}>
               {/** Department */}
               <View style={[cStyles.flex1, cStyles.pr4]}>
                 <CText styles={'textTitle'} label={'add_approved:department'} />
@@ -528,8 +527,10 @@ function AddRequest(props) {
                   onOpen={() => onOpenCombobox(INPUT_NAME.DEPARTMENT)}
                 />
               </View>
+            </View>
 
-              {/** Region */}
+            {/** Region */}
+            <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pt16, IS_IOS && { zIndex: 2000 }]}>
               <View style={[cStyles.flex1, cStyles.pl4]}>
                 <CText styles={'textTitle'} label={'add_approved:region'} />
                 <CDropdown

@@ -294,9 +294,6 @@ function SignIn(props) {
                     <CCheckbox
                       labelStyle={'textDefault pl10 colorWhite'}
                       label={'sign_in:save_account'}
-                      onCheckColor={colors.SECONDARY}
-                      onTintColor={colors.SECONDARY}
-                      tintColors={{ true: colors.SECONDARY, false: colors.GRAY_500 }}
                       value={form.saveAccount}
                       onChange={handleSaveAccount}
                     />

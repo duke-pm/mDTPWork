@@ -22,9 +22,9 @@ function CCheckbox(props) {
     labelStyle,
     disabled,
     value,
-    onCheckColor = colors.PRIMARY,
-    onTintColor = colors.PRIMARY,
-    tintColors = { true: colors.PRIMARY, false: colors.GRAY_500 },
+    onCheckColor = colors.SECONDARY,
+    onTintColor = colors.SECONDARY,
+    tintColors = { true: colors.SECONDARY, false: colors.PRIMARY },
     onChange,
   } = props;
 

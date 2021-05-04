@@ -6,24 +6,25 @@
  **/
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
+import { isIphoneX } from 'react-native-iphone-x-helper';
 /** COMMON */
-import { colors, cStyles } from '~/utils/style';
+import { cStyles } from '~/utils/style';
 
 function CFooter(props) {
-  const {
-    content
-  } = props;
 
   return (
-    <View style={styles.con}>
-      {content}
+    <View style={[
+      cStyles.py6,
+      isIphoneX() && cStyles.pb24,
+      styles.con
+    ]}>
+      {props.content}
     </View>
   )
 };
 
 const styles = StyleSheet.create({
   con: {
-    height: cStyles.isIphoneX ? 86 : 50,
     width: '100%',
   }
 });

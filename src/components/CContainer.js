@@ -72,9 +72,7 @@ function CContainer(props) {
         )}
         {content}
         {footer &&
-          <CFooter
-            content={footer}
-          />
+          <CFooter content={footer} />
         }
       </View>
 
