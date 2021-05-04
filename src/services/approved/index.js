@@ -5,9 +5,12 @@
  ** Description: Description of approved.js
  **/
 import axios from 'axios';
+axios
 /** API */
 import jwtServiceConfig from '../jwtServiceConfig';
 import Routes from '../routesApi';
+
+
 
 export default {
   listRequest: (params) => {
@@ -19,6 +22,8 @@ export default {
       if (params.get('PageSize')) tmpConfigs.params['PageSize'] = params.get('PageSize');
       if (params.get('PageNum')) tmpConfigs.params['PageNum'] = params.get('PageNum');
       if (params.get('Search')) tmpConfigs.params['Search'] = params.get('Search');
+      if (params.get('RequestTypeID'))
+        tmpConfigs.params['RequestTypeID'] = params.get('RequestTypeID');
 
       axios
         .get(
