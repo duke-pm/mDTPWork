@@ -7,6 +7,7 @@
 import { fromJS } from 'immutable';
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { showMessage } from "react-native-flash-message";
 import moment from 'moment';
@@ -18,10 +19,8 @@ import ListRequest from './list/Request';
 /* COMMON */
 import Routes from '~/navigation/Routes';
 import { cStyles } from '~/utils/style';
-import {
-  LOAD_MORE,
-  REFRESH,
-} from '~/config/constants';
+import { LOAD_MORE, REFRESH } from '~/config/constants';
+import { IS_IOS } from '~/utils/helper';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 
@@ -52,7 +51,12 @@ function Approved(props) {
 
   /** HANDLE FUNC */
   const handleAddNew = () => {
-    props.navigation.navigate(Routes.MAIN.ADD_APPROVED.name);
+    props.navigation.navigate(
+      Routes.MAIN.ADD_APPROVED.name,
+      {
+        onRefresh: () => onRefresh(),
+      }
+    );
   };
 
   const handleSearch = (value) => {
@@ -107,7 +111,6 @@ function Approved(props) {
     if (approvedState.get('requests').length < commonState.get('perPage')) {
       isLoadmore = false;
     }
-    console.log('[LOG] ===  ===> ', approvedState.get('requests'));
     if (type === REFRESH) {
       tmpRequests = approvedState.get('requests');
       tmpRequestDetail = approvedState.get('requestsDetail');
@@ -235,7 +238,7 @@ function Approved(props) {
       onPressAddNew={handleAddNew}
       onPressSearch={handleSearch}
       content={
-        <CContent padder contentStyle={cStyles.flex1} scrollEnabled={false}>
+        <CContent>
           <Filter onFilter={handleFilter} />
 
           {!loading.main &&

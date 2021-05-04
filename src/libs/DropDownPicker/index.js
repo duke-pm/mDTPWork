@@ -178,23 +178,24 @@ class DropDownPicker extends React.Component {
 
 	async toggle() {
 
-		const [, positionY] = await new Promise((resolve) =>
-			this.layoutRef.measureInWindow((...rect) => resolve(rect)),
-		);
+		// const [, positionY] = await new Promise((resolve) =>
+		// 	this.layoutRef.measureInWindow((...rect) => resolve(rect)),
+		// );
 
-		const screenHeight = Dimensions.get('window').height;
-		const dropdownHeight = this.props.dropDownMaxHeight;
+		// const screenHeight = Dimensions.get('window').height;
+		// const dropdownHeight = this.props.dropDownMaxHeight;
 
-		const lowestPointOfDropdown =
-			positionY + // Position in window
-			this.state.top + // Size of input
-			dropdownHeight + // Height of dropdown
-			this.props.bottomOffset + // Extra space, if we have bottom tab or something
-			this.state.keyboardHeight; // Height of keyboard (0 if not showing)
+		// const lowestPointOfDropdown =
+		// 	positionY + // Position in window
+		// 	this.state.top + // Size of input
+		// 	dropdownHeight + // Height of dropdown
+		// 	this.props.bottomOffset + // Extra space, if we have bottom tab or something
+		// 	this.state.keyboardHeight; // Height of keyboard (0 if not showing)
 
 		this.setState({
 			isVisible: !this.state.isVisible,
-			direction: lowestPointOfDropdown < screenHeight ? 'top' : 'bottom',
+			// direction: lowestPointOfDropdown < screenHeight ? 'top' : 'bottom',
+			direction: 'top',
 		}, () => {
 			const isVisible = this.state.isVisible;
 			if (isVisible) {
@@ -563,7 +564,8 @@ class DropDownPicker extends React.Component {
 			<View style={[this.props.containerStyle, {
 
 				...(Platform.OS !== 'android' && {
-					zIndex: this.state.direction === 'top' ? this.props.zIndex : this.props.zIndexInverse
+					// zIndex: this.state.direction === 'top' ? this.props.zIndex : this.props.zIndexInverse
+					zIndex: this.props.zIndex
 				})
 
 			}]}
@@ -638,7 +640,8 @@ class DropDownPicker extends React.Component {
 						!this.state.isVisible && styles.hidden, {
 							[this.state.direction]: this.state.top,
 							maxHeight: this.props.dropDownMaxHeight,
-							zIndex: this.state.direction === 'top' ? this.props.zIndex : this.props.zIndexInverse,
+							// zIndex: this.state.direction === 'top' ? this.props.zIndex : this.props.zIndexInverse,
+							zIndex: this.props.zIndex,
 						},
 						this.state.isVisible && {
 							borderColor: colors.PRIMARY

@@ -52,6 +52,7 @@ function ListRequest(props) {
     <View style={cStyles.flex1}>
       <FlatList
         style={[cStyles.flex1, cStyles.mt16]}
+        contentContainerStyle={cStyles.px16}
         data={props.data}
         renderItem={({ item, index }) => {
           let detail = props.dataDetail.filter(f => f.requestID === item.requestID);
@@ -69,7 +70,6 @@ function ListRequest(props) {
         }}
         keyExtractor={(item, index) => index.toString()}
         removeClippedSubviews={IS_ANDROID}
-        showsVerticalScrollIndicator={false}
         refreshing={props.refreshing}
         onRefresh={onRefresh}
         onEndReachedThreshold={0.5}

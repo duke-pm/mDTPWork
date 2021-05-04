@@ -119,7 +119,13 @@ function Filter(props) {
 
   /** RENDER */
   return (
-    <View style={[cStyles.rounded1, styles.container]}>
+    <View style={[
+      cStyles.rounded1,
+      cStyles.mx16,
+      cStyles.mt16,
+      show && cStyles.pb12,
+      styles.container
+    ]}>
       <TouchableOpacity
         activeOpacity={0.5}
         onPress={handleToggle}
