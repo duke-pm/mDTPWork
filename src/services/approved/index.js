@@ -4,13 +4,9 @@
  ** CreateAt: 2021
  ** Description: Description of approved.js
  **/
-import axios from 'axios';
-axios
-/** API */
 import jwtServiceConfig from '../jwtServiceConfig';
 import Routes from '../routesApi';
-
-
+import API from '../axios';
 
 export default {
   listRequest: (params) => {
@@ -25,7 +21,7 @@ export default {
       if (params.get('RequestTypeID'))
         tmpConfigs.params['RequestTypeID'] = params.get('RequestTypeID');
 
-      axios
+      API
         .get(
           jwtServiceConfig.baseURL + Routes.APPROVED.LIST_REQUEST,
           tmpConfigs
@@ -47,11 +43,10 @@ export default {
 
   addRequest: (params) => {
     return new Promise((resolve, reject) => {
-      axios
+      API
         .post(
           jwtServiceConfig.baseURL + Routes.APPROVED.ADD_REQUEST,
           params,
-          Object.assign({}, jwtServiceConfig)
         )
         .then((response) => {
           console.log("FETCH ADD REQUEST => ", response);

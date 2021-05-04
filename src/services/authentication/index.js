@@ -4,15 +4,15 @@
  ** CreateAt: 2021
  ** Description: Description of Authentication.js
  **/
-import axios from 'axios';
 /** API */
 import jwtServiceConfig from '../jwtServiceConfig';
 import Routes from '../routesApi';
+import API from '../axios';
 
 export default {
   login: (params) => {
     return new Promise((resolve, reject) => {
-      axios
+      API
         .post(
           jwtServiceConfig.baseURL + Routes.AUTHENTICATION.LOGIN,
           params,

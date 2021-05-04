@@ -4,10 +4,9 @@
  ** CreateAt: 2021
  ** Description: Description of master.js
  **/
-import axios from 'axios';
-/** API */
 import jwtServiceConfig from '../jwtServiceConfig';
 import Routes from '../routesApi';
+import API from '../axios';
 
 export default {
   get: (params) => {
@@ -15,8 +14,11 @@ export default {
       let configs = Object.assign({}, jwtServiceConfig);
       configs.params = params;
 
-      axios
-        .get(jwtServiceConfig.baseURL + Routes.MASTER_DATA.GET_ALL, configs)
+      API
+        .get(
+          jwtServiceConfig.baseURL + Routes.MASTER_DATA.GET_ALL,
+          configs
+        )
         .then((response) => {
           console.log("FETCH MASTER DATA => ", response);
           if (response.status === 200 && response.data) {

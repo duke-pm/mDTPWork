@@ -15,8 +15,8 @@ import {
   View,
   KeyboardAvoidingView,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { showMessage } from 'react-native-flash-message';
-import axios from 'axios';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
@@ -32,7 +32,7 @@ import { colors, cStyles } from '~/utils/style';
 import { IS_IOS, resetRoute } from '~/utils/helper';
 /* REDUX */
 import * as Actions from '~/redux/actions';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import API from '~/services/axios';
 
 
 const INPUT_NAME = {
@@ -111,7 +111,6 @@ function SignIn(props) {
         refreshToken: authState.getIn(['login', 'refreshToken']),
         userName: authState.getIn(['login', 'userName']),
       }
-      console.log('[LOG] === dataLogin ===> ', dataLogin);
       await AsyncStorage.setItem(LOGIN, JSON.stringify(dataLogin));
     }
     onStart();
@@ -172,6 +171,7 @@ function SignIn(props) {
         userName: dataLogin.userName,
       }
       dispatch(Actions.loginSuccess(dataLogin));
+      API.defaults.headers.common['Authorization'] = 'Bearer ' + dataLogin.access_token;
       setForm({ ...form, saveAccount: true });
     } else {
       setLoading({ ...loading, main: false });
