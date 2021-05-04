@@ -6,16 +6,16 @@
  **/
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { isIphoneX } from 'react-native-iphone-x-helper';
 /** COMMON */
-import { cStyles } from '~/utils/style';
+import { colors, cStyles } from '~/utils/style';
 
 function CFooter(props) {
 
   return (
     <View style={[
       cStyles.py6,
-      isIphoneX() && cStyles.pb24,
+      cStyles.isIphoneX() && cStyles.pb24,
+      { backgroundColor: colors.BACKGROUND_FOOTER },
       styles.con
     ]}>
       {props.content}

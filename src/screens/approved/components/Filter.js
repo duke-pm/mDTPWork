@@ -127,7 +127,7 @@ function Filter(props) {
       styles.container
     ]}>
       <TouchableOpacity
-        activeOpacity={0.5}
+        activeOpacity={1}
         onPress={handleToggle}
       >
         <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween, cStyles.p16]}>

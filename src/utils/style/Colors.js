@@ -13,7 +13,7 @@ export default {
 
   BACKGROUND_MAIN: '#f7fafc',
   BACKGROUND_HEADER: '#006565',
-  BACKGROUND_FOOTER: '#006565',
+  BACKGROUND_FOOTER: '#f7fafc',
   BACKGROUND_MODAL: 'rgba(0, 0, 0, 0.5)',
 
   GRAY_100: '#f7fafc',

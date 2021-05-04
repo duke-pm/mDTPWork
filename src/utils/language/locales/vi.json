@@ -16,7 +16,9 @@
   },
   "success": {
     "title": "Thành Công",
-    "send_request": "Đã gửi yêu cầu thành công!"
+    "send_request": "Đã gửi yêu cầu thành công!",
+    "approved_request": "Phê duyệt yêu cầu thành công!",
+    "reject_request": "Hủy bỏ yêu cầu thành công!"
   },
   "error": {
     "title": "Lỗi",
@@ -100,14 +102,14 @@
     "approved": "Duyệt",
     "reject": "Không duyệt",
     "message_confirm_approved": "Bạn có chắc chấp thuận đơn cấp phát tài sản này?",
-    "message_confirm_reject": "Bạn có chắc từ chối đơn cấp phát tài sản này?",
+    "message_confirm_reject": "Nếu bạn từ chối đơn cấp phát tài sản này, vui lòng điền lý do dưới đây",
     "user_request": "Người gửi: ",
     "person_approved": "Người duyệt: ",
     "status_approved": "Trạng thái: ",
     "reason_reject": "Lý do: ",
     "table_process": "Quy trình xét duyệt",
     "status_wait": "Chờ phê duyệt",
-    "search_department": "Tìm bộ phận..."
+    "search_department": "Tìm bộ phận...",
   },
   "account": {
     "title": "Tài khoản"

@@ -476,13 +476,13 @@ const text = {
     lineHeight: platform === PLATFORM.IOS ? 23 : 24
   },
   textMeta: {
-    fontSize: RFPercentage(1.7),
+    fontSize: RFPercentage(1.8),
     color: '#4a5568',
     fontFamily: fLight,
     lineHeight: 20
   },
   textDefault: {
-    fontSize: RFPercentage(2.2),
+    fontSize: RFPercentage(2.3),
     color: 'black',
     fontFamily: fRegular,
     lineHeight: platform === PLATFORM.IOS ? 23 : 24,

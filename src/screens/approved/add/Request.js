@@ -12,8 +12,11 @@ import {
   TouchableOpacity,
   ScrollView,
   KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import Modal from 'react-native-modal';
 import {
   Table,
   Row,
@@ -37,6 +40,8 @@ import { colors, cStyles } from '~/utils/style';
 import { IS_IOS, alert } from '~/utils/helper';
 /* REDUX */
 import * as Actions from '~/redux/actions';
+import API from '~/services/axios';
+import Services from '~/services';
 
 const INPUT_NAME = {
   DATE_REQUEST: 'dateRequest',
@@ -49,6 +54,7 @@ const INPUT_NAME = {
   TYPE_ASSETS: 'typeAssets',
   IN_PLANNING: 'inPlanning',
   SUPPLIER: 'supplier',
+  REASON_REJECT: 'reasonReject',
 };
 
 function AddRequest(props) {
@@ -72,9 +78,13 @@ function AddRequest(props) {
     submit: false,
   });
   const [showPickerDate, setShowPickerDate] = useState(false);
+  const [showReject, setShowReject] = useState(false);
   const [isDetail, setIsDetail] = useState(props.route.params?.data ? true : false);
   const [process, setProcess] = useState([]);
+  const [reasonReject, setReasonReject] = useState('');
   const [form, setForm] = useState({
+    id: '',
+    personRequestId: '',
     dateRequest: moment().format(commonState.get('formatDate')),
     name: '',
     department: '',
@@ -209,7 +219,11 @@ function AddRequest(props) {
   };
 
   const handleReject = () => {
-    alert(t, 'add_approved:message_confirm_reject', onReject);
+    setShowReject(true);
+  };
+
+  const handleChangeReasonReject = (value) => {
+    setReasonReject(value);
   };
 
   /** FUNC */
@@ -344,11 +358,17 @@ function AddRequest(props) {
 
   const onPrepareDetail = () => {
     let tmp = {
+      id: isDetail
+        ? props.route.params?.data?.requestID
+        : '',
+      personRequestId: isDetail
+        ? props.route.params?.data?.personRequestID
+        : '',
       dateRequest: isDetail
-        ? moment(props.route.params?.data.requestDate, 'YYYY-MM-DDTHH:mm:ss').format(commonState.get('formatDate'))
+        ? moment(props.route.params?.data?.requestDate, 'YYYY-MM-DDTHH:mm:ss').format(commonState.get('formatDate'))
         : moment().format(commonState.get('formatDate')),
       name: isDetail
-        ? props.route.params?.data.personRequest
+        ? props.route.params?.data?.personRequest
         : '',
       department: isDetail
         ? props.route.params?.data?.deptCode
@@ -398,12 +418,35 @@ function AddRequest(props) {
   };
 
   const onApproved = () => {
-
+    setLoading({ ...loading, submit: true });
+    let params = {
+      'RequestID': form.id,
+      'RequestTypeID': 1,
+      'PersonRequestID': form.personRequestId,
+      'Status': true,
+      'Reason': '',
+      'Lang': commonState.get('language'),
+    }
+    dispatch(Actions.fetchApprovedRequest(params));
   };
 
   const onReject = () => {
-
+    setLoading({ ...loading, submit: true });
+    let params = {
+      'RequestID': form.id,
+      'RequestTypeID': 1,
+      'PersonRequestID': form.personRequestId,
+      'Status': false,
+      'Reason': reasonReject,
+      'Lang': commonState.get('language'),
+    }
+    dispatch(Actions.fetchApprovedRequest(params));
   };
+
+  const onCloseReject = () => {
+    setReasonReject('');
+    setShowReject(false);
+  }
 
   /** LIFE CYCLE */
   useEffect(() => {
@@ -459,6 +502,74 @@ function AddRequest(props) {
     approvedState.get('errorAddRequest'),
   ]);
 
+  useEffect(() => {
+    if (loading.submit) {
+      if (!approvedState.get('submitting')) {
+        setLoading({ ...loading, submit: false });
+        if (approvedState.get('successApprovedRequest')) {
+          showMessage({
+            message: t('common:app_name'),
+            description: t('success:approved_request'),
+            type: 'success',
+            icon: 'success'
+          });
+          props.navigation.goBack();
+          if (props.route.params.onRefresh) {
+            props.route.params.onRefresh();
+          }
+        }
+
+        if (approvedState.get('errorApprovedRequest')) {
+          showMessage({
+            message: t('common:app_name'),
+            description: approvedState.get('errorHelperApprovedRequest'),
+            type: 'danger',
+            icon: 'danger',
+          });
+        }
+      }
+    }
+  }, [
+    loading.submit,
+    approvedState.get('submitting'),
+    approvedState.get('successApprovedRequest'),
+    approvedState.get('errorApprovedRequest'),
+  ]);
+
+  useEffect(() => {
+    if (loading.submit) {
+      if (!approvedState.get('submitting')) {
+        setLoading({ ...loading, submit: false });
+        if (approvedState.get('successRejectRequest')) {
+          showMessage({
+            message: t('common:app_name'),
+            description: t('success:reject_request'),
+            type: 'success',
+            icon: 'success'
+          });
+          props.navigation.goBack();
+          if (props.route.params.onRefresh) {
+            props.route.params.onRefresh();
+          }
+        }
+
+        if (approvedState.get('errorRejectRequest')) {
+          showMessage({
+            message: t('common:app_name'),
+            description: approvedState.get('errorHelperRejectRequest'),
+            type: 'danger',
+            icon: 'danger',
+          });
+        }
+      }
+    }
+  }, [
+    loading.submit,
+    approvedState.get('submitting'),
+    approvedState.get('successRejectRequest'),
+    approvedState.get('errorRejectRequest'),
+  ]);
+
   /** RENDER */
   return (
     <CContainer
@@ -483,7 +594,6 @@ function AddRequest(props) {
                 <CText styles={'textTitle'} label={'add_approved:date_request'} />
                 <CInput
                   name={INPUT_NAME.DATE_REQUEST}
-                  style={styles.input}
                   inputRef={ref => dateRequestRef = ref}
                   disabled={true}
                   dateTimePicker={true}
@@ -502,7 +612,6 @@ function AddRequest(props) {
                 <CText styles={'textTitle'} label={'add_approved:name'} />
                 <CInput
                   name={INPUT_NAME.NAME}
-                  style={styles.input}
                   styleFocus={styles.input_focus}
                   inputRef={ref => nameRef = ref}
                   disabled={true}
@@ -641,7 +750,6 @@ function AddRequest(props) {
                 <CText styles={'textTitle'} label={'add_approved:reason'} />
                 <CInput
                   name={INPUT_NAME.REASON}
-                  style={styles.input}
                   styleFocus={styles.input_focus}
                   inputRef={ref => reasonRef = ref}
                   disabled={loading.main || loading.submit || isDetail}
@@ -738,7 +846,6 @@ function AddRequest(props) {
                 <CText styles={'textTitle'} label={'add_approved:supplier'} />
                 <CInput
                   name={INPUT_NAME.SUPPLIER}
-                  style={styles.input}
                   styleFocus={styles.input_focus}
                   inputRef={ref => supplierRef = ref}
                   disabled={loading.main || loading.submit || isDetail}
@@ -761,7 +868,8 @@ function AddRequest(props) {
               cStyles.rounded1,
               cStyles.itemsCenter,
               cStyles.borderAll,
-              cStyles.mb16,
+              cStyles.m16,
+              cStyles.mt32,
               styles.con_process
             ]}>
               <View style={[
@@ -876,12 +984,67 @@ function AddRequest(props) {
             </View>
           }
 
-          {/** PICKER */}
+          {/** MODAL */}
           <CDateTimePicker
             show={showPickerDate}
             value={form.dateRequest}
             onChangeDate={onChangeDateRequest}
           />
+
+          <Modal
+            isVisible={showReject}
+            animationIn={'fadeInUp'}
+            animationOut={'fadeOutDown'}
+            onBackButtonPress={onCloseReject}
+            onBackdropPress={onCloseReject}
+          >
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+              <View style={cStyles.flexCenter}>
+                <View style={[cStyles.rounded1, { backgroundColor: colors.WHITE }]}>
+                  <View style={[cStyles.py10, cStyles.roundedTopLeft1, cStyles.roundedTopRight1, { backgroundColor: colors.PRIMARY }]}>
+                    <CText styles={'colorWhite textCenter'} label={'common:app_name'} />
+                  </View>
+
+                  <View style={[cStyles.p10]}>
+                    <CText styles={'textCenter'} label={'add_approved:message_confirm_reject'} />
+
+                    <CInput
+                      name={INPUT_NAME.REASON_REJECT}
+                      style={{ height: 150 }}
+                      styleFocus={styles.input_focus}
+                      disabled={loading.submit}
+                      holder={'add_approved:reason'}
+                      value={reasonReject}
+                      valueColor={colors.BLACK}
+                      keyboard={'default'}
+                      returnKey={'done'}
+                      multiline
+                      textAlignVertical={'top'}
+                      onChangeInput={onApproved}
+                      onChangeValue={handleChangeReasonReject}
+                    />
+                  </View>
+
+                  <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyEvenly, cStyles.px16]}>
+                    <CButton
+                      style={styles.button_base}
+                      block
+                      color={colors.GRAY_800}
+                      label={'common:cancel'}
+                      onPress={onCloseReject}
+                    />
+
+                    <CButton
+                      style={styles.button_base}
+                      block
+                      label={'common:send'}
+                      onPress={onReject}
+                    />
+                  </View>
+                </View>
+              </View>
+            </TouchableWithoutFeedback>
+          </Modal>
         </CContent>
       }
       footer={
@@ -932,6 +1095,7 @@ const styles = StyleSheet.create({
   table_text_header: { color: colors.BLACK },
   button_approved: { width: cStyles.deviceWidth / 2.5 },
   button_reject: { width: cStyles.deviceWidth / 2.5 },
+  button_base: { width: cStyles.deviceWidth / 3 },
   con_process: { backgroundColor: colors.GRAY_300 },
   con_title_process: { backgroundColor: colors.WHITE, position: 'absolute', top: -15, },
   con_time_process: { backgroundColor: colors.SECONDARY },

@@ -65,6 +65,7 @@ function ListRequest(props) {
               dataDetail={detail}
               dataProcess={process}
               onPressProcess={handleShowModal}
+              onRefresh={onRefresh}
             />
           )
         }}

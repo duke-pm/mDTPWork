@@ -62,4 +62,48 @@ export default {
         });
     });
   },
+
+  approvedRequest: (params) => {
+    return new Promise((resolve, reject) => {
+      API
+        .post(
+          jwtServiceConfig.baseURL + Routes.APPROVED.APPROVED_REQUEST,
+          params,
+        )
+        .then((response) => {
+          console.log("FETCH APPROVED REQUEST => ", response);
+          if (response.status === 200 && response.data) {
+            resolve(response.data);
+          } else {
+            reject(response.statusText);
+          }
+        })
+        .catch((error) => {
+          console.log("ERROR APPROVED REQUEST => ", error);
+          reject(error.response ? error.response.data : error);
+        });
+    });
+  },
+
+  rejectRequest: (params) => {
+    return new Promise((resolve, reject) => {
+      API
+        .post(
+          jwtServiceConfig.baseURL + Routes.APPROVED.REJECT_REQUEST,
+          params,
+        )
+        .then((response) => {
+          console.log("FETCH REJECT REQUEST => ", response);
+          if (response.status === 200 && response.data) {
+            resolve(response.data);
+          } else {
+            reject(response.statusText);
+          }
+        })
+        .catch((error) => {
+          console.log("ERROR REJECT REQUEST => ", error);
+          reject(error.response ? error.response.data : error);
+        });
+    });
+  },
 };

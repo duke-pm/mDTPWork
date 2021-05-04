@@ -26,7 +26,6 @@ function CContent(props) {
     <SafeAreaView style={cStyles.flex1}>
       <View style={[
         cStyles.flex1,
-        { backgroundColor: colors.BACKGROUND_MAIN },
         stylePadder,
         contentStyle
       ]}>

@@ -22,6 +22,14 @@ export const initialState = fromJS({
   successAddRequest: false,
   errorAddRequest: false,
   errorHelperAddRequest: '',
+
+  successApprovedRequest: false,
+  errorApprovedRequest: false,
+  errorHelperApprovedRequest: '',
+
+  successRejectRequest: false,
+  errorRejectRequest: false,
+  errorHelperRejectRequest: '',
 });
 
 export default function (state = initialState, action = {}) {
@@ -75,6 +83,52 @@ export default function (state = initialState, action = {}) {
         .set('successAddRequest', false)
         .set('errorAddRequest', true)
         .set('errorHelperAddRequest', payload);
+    /*****************************/
+
+    /** For approved request **/
+    case types.START_FETCH_APPROVED_REQUEST:
+      return state
+        .set('submitting', true)
+        .set('successApprovedRequest', false)
+        .set('errorApprovedRequest', false)
+        .set('errorHelperApprovedRequest', '');
+
+    case types.SUCCESS_FETCH_APPROVED_REQUEST:
+      return state
+        .set('submitting', false)
+        .set('successApprovedRequest', true)
+        .set('errorApprovedRequest', false)
+        .set('errorHelperApprovedRequest', '');
+
+    case types.ERROR_FETCH_APPROVED_REQUEST:
+      return state
+        .set('submitting', false)
+        .set('successApprovedRequest', false)
+        .set('errorApprovedRequest', true)
+        .set('errorHelperApprovedRequest', payload);
+    /*****************************/
+
+    /** For reject request **/
+    case types.START_FETCH_REJECT_REQUEST:
+      return state
+        .set('submitting', true)
+        .set('successRejectRequest', false)
+        .set('errorRejectRequest', false)
+        .set('errorHelperRejectRequest', '');
+
+    case types.SUCCESS_FETCH_REJECT_REQUEST:
+      return state
+        .set('submitting', false)
+        .set('successRejectRequest', true)
+        .set('errorRejectRequest', false)
+        .set('errorHelperRejectRequest', '');
+
+    case types.ERROR_FETCH_REJECT_REQUEST:
+      return state
+        .set('submitting', false)
+        .set('successRejectRequest', false)
+        .set('errorRejectRequest', true)
+        .set('errorHelperRejectRequest', payload);
     /*****************************/
 
     default:

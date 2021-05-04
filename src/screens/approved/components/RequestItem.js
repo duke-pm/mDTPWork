@@ -37,6 +37,7 @@ function RequestItem(props) {
       data: props.data,
       dataDetail: props.dataDetail,
       dataProcess: props.dataProcess,
+      onRefresh: () => props.onRefresh(),
     })
   };
 
@@ -44,11 +45,11 @@ function RequestItem(props) {
   let statusIcon = Assets.iconRequest;
   let colorText = 'colorOrange';
 
-  if (props.data.status === Commons.STATUS_REQUEST.APPROVED.code ||
-    props.data.status === Commons.STATUS_REQUEST.DONE.code) {
+  if (props.data.statusID === Commons.STATUS_REQUEST.APPROVED.code ||
+    props.data.statusID === Commons.STATUS_REQUEST.DONE.code) {
     statusIcon = Assets.iconApproved;
     colorText = 'colorGreen';
-  } else if (props.data.status === Commons.STATUS_REQUEST.REJECT.code) {
+  } else if (props.data.statusID === Commons.STATUS_REQUEST.REJECT.code) {
     statusIcon = Assets.iconReject;
     colorText = 'colorRed';
   }
@@ -118,20 +119,6 @@ function RequestItem(props) {
                   <CText styles={'textMeta'} label={'approved:department_request'} />
                   <CText styles={'textMeta colorBlack'} customLabel={props.data.deptName} />
                 </View>
-
-                {/* {props.data.status >= 2 &&
-                  <TouchableOpacity
-                    activeOpacity={0.5}
-                    onPress={() => onPressProcess(props.data)}
-                  >
-                    <View style={[cStyles.justifyStart, cStyles.itemsEnd, styles.header_right]}>
-                      <CText
-                        styles={'textMeta textUnderline textItalic colorPrimary'}
-                        label={'approved:show_timeline'}
-                      />
-                    </View>
-                  </TouchableOpacity>
-                } */}
               </View>
             </View>
           </View>

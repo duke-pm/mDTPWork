@@ -137,7 +137,7 @@ function CInput(props) {
               keyboardType={keyboard}
               returnKeyType={returnKey}
               onFocus={handleFocusInput}
-              onBlur={() => handleFocusInput(null)}
+              onBlur={() => setFocus(null)}
               onChangeText={handleChangeValue}
               onSubmitEditing={handleSubmitEditing}
               {...props}

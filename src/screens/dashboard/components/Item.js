@@ -31,11 +31,17 @@ function Item(props) {
     <View
       style={[
         cStyles.itemsCenter,
-        cStyles.rounded1,
         { width: styles.container.width },
       ]}>
-      <TouchableOpacity activeOpacity={0.5} onPress={() => onPress('Approved')}>
-        <View style={[styles.container, cStyles.center, cStyles.rounded2, cStyles.borderAll]}>
+      <TouchableOpacity activeOpacity={1} onPress={() => onPress('Approved')}>
+        <View style={[
+          styles.container,
+          cStyles.m2,
+          cStyles.ml3,
+          cStyles.center,
+          cStyles.rounded1,
+          cStyles.shadow1
+        ]}>
           <Icon name={'check-double'} size={30} color={colors.BLACK} />
         </View>
       </TouchableOpacity>

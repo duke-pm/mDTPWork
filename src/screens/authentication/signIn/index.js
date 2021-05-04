@@ -115,6 +115,7 @@ function SignIn(props) {
       }
       await AsyncStorage.setItem(LOGIN, JSON.stringify(dataLogin));
     }
+    API.defaults.headers.common['Authorization'] = 'Bearer ' + authState.getIn(['login', 'accessToken']);
     onStart();
   };
 

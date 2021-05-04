@@ -14,6 +14,8 @@ const Routes = {
   APPROVED: {
     LIST_REQUEST: '/RQAsset/GetList',
     ADD_REQUEST: '/RQAsset/CreateAllocation',
+    APPROVED_REQUEST: '/RequestApprove/Approve',
+    REJECT_REQUEST: '/RequestApprove/Approve',
   },
 }
 
