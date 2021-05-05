@@ -5,7 +5,7 @@
  ** Description: Description of CDropdown.js
  **/
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 /* COMPONENTS */
 import DropDownPicker from '~/libs/DropDownPicker';
@@ -17,7 +17,6 @@ import { cStyles, colors } from '~/utils/style';
 function CDropdown(props) {
   const { t } = useTranslation();
   const {
-    loading = false,
     defaultValue,
     holder = '',
     disabled = false,
@@ -25,6 +24,14 @@ function CDropdown(props) {
   } = props;
 
   /** RENDER */
+  if (props.loading) {
+    return (
+      <View style={[cStyles.flexCenter, styles.container]}>
+        <ActivityIndicator />
+      </View>
+    )
+  }
+
   return (
     <>
       <DropDownPicker
@@ -42,7 +49,6 @@ function CDropdown(props) {
         globalTextStyle={cStyles.textDefault}
         arrowSize={20}
         items={props.data}
-        loading={loading}
         disabled={disabled}
         defaultValue={defaultValue}
         placeholder={t(holder)}

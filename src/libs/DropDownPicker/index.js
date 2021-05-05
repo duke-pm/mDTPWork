@@ -7,7 +7,7 @@ import {
 	ScrollView,
 	Platform,
 	TextInput,
-	Dimensions,
+	FlatList,
 	Keyboard,
 	ActivityIndicator
 } from 'react-native';
@@ -17,7 +17,8 @@ import {
 
 // Icon
 import Feather from 'react-native-vector-icons/Feather';
-import { colors } from '~/utils/style';
+import { IS_ANDROID, IS_IOS } from '~/utils/helper';
+import { colors, cStyles } from '~/utils/style';
 Feather.loadFont();
 
 class DropDownPicker extends React.Component {
@@ -176,25 +177,10 @@ class DropDownPicker extends React.Component {
 		}
 	}
 
-	async toggle() {
-
-		// const [, positionY] = await new Promise((resolve) =>
-		// 	this.layoutRef.measureInWindow((...rect) => resolve(rect)),
-		// );
-
-		// const screenHeight = Dimensions.get('window').height;
-		// const dropdownHeight = this.props.dropDownMaxHeight;
-
-		// const lowestPointOfDropdown =
-		// 	positionY + // Position in window
-		// 	this.state.top + // Size of input
-		// 	dropdownHeight + // Height of dropdown
-		// 	this.props.bottomOffset + // Extra space, if we have bottom tab or something
-		// 	this.state.keyboardHeight; // Height of keyboard (0 if not showing)
+	toggle = async () => {
 
 		this.setState({
 			isVisible: !this.state.isVisible,
-			// direction: lowestPointOfDropdown < screenHeight ? 'top' : 'bottom',
 			direction: 'top',
 		}, () => {
 			const isVisible = this.state.isVisible;
@@ -356,15 +342,19 @@ class DropDownPicker extends React.Component {
 			this.props.onClose();
 	}
 
-	getLayout(layout) {
+	getLayout = (event) => {
 		this.setState({
-			top: layout.height - 1
+			top: event.nativeEvent.layout.height - 1
 		});
 	}
 
 	getItems(parent = false) {
 		const items = this.props.items.filter(item => {
-			return ((parent !== false && item.parent === parent) || parent === false && !item.hasOwnProperty('parent')) && (typeof item.hidden === 'undefined' || item.hidden === false);
+			return (
+				(parent !== false && item.parent === parent)
+				|| parent === false && !item.hasOwnProperty('parent')
+			)
+				&& (typeof item.hidden === 'undefined' || item.hidden === false);
 		});
 
 		if (parent)
@@ -440,7 +430,7 @@ class DropDownPicker extends React.Component {
 		return merged;
 	}
 
-	renderItem(item, index, itemsLength, child_index = false) {
+	renderItem = (item, index, itemsLength, child_index = false) => {
 		const { renderSeperator, multiple } = this.props;
 		const children = this.getChildren(item.value);
 
@@ -454,7 +444,6 @@ class DropDownPicker extends React.Component {
 
 		return (
 			<View
-				key={index}
 				onLayout={event => {
 					const layout = event.nativeEvent.layout;
 					this.dropdownCoordinates[index] = layout.y;
@@ -462,14 +451,12 @@ class DropDownPicker extends React.Component {
 				{...this.automationId(testId, true)}
 			>
 				<TouchableOpacity
-					key={index}
 					onPress={() => !item.untouchable && this.select(item)}
-					style={[styles.dropDownItem, this.props.itemStyle, item.viewStyle,
+					style={[styles.dropDownItem, this.props.itemStyle, item.viewStyle, cStyles.itemsCenter,
 					(
 						this.state.choice.value === item.value && this.props.activeItemStyle
 					), {
 						opacity: item?.disabled ? 0.3 : 1,
-						alignItems: 'center',
 						...(
 							multiple && {
 								justifyContent: 'space-between',
@@ -489,7 +476,7 @@ class DropDownPicker extends React.Component {
 						}),
 						alignContent: 'center'
 					}}>
-						<View style={{ justifyContent: 'center' }}>
+						<View style={cStyles.justifyCenter}>
 							{item.icon && item.icon()}
 						</View>
 						<Text style={[
@@ -515,8 +502,7 @@ class DropDownPicker extends React.Component {
 				</TouchableOpacity>
 
 				{children.length > 0 && (
-					<View style={[{
-						paddingLeft: 30,
+					<View style={[cStyles.pl32, {
 					}, this.props.childrenContainerStyle]}>
 						{renderSeperator()}
 						{children.map((child, childIndex) => this.renderItem(child, this.concatNums(index, childIndex), children.length, childIndex))}
@@ -553,7 +539,7 @@ class DropDownPicker extends React.Component {
 	render() {
 		this.props.controller(this);
 		const { multiple, disabled } = this.state.props;
-		const { placeholder, scrollViewProps, searchTextInputProps } = this.props;
+		const { placeholder, searchTextInputProps } = this.props;
 		const isPlaceholderActive = this.state.choice.label === null || (Array.isArray(this.state.choice) && this.state.choice.length === 0);
 		const label = isPlaceholderActive ? (placeholder) : this.getLabel(this.state.choice?.label, true);
 		const placeholderStyle = isPlaceholderActive && this.props.placeholderStyle;
@@ -562,26 +548,19 @@ class DropDownPicker extends React.Component {
 
 		return (
 			<View style={[this.props.containerStyle, {
-
-				...(Platform.OS !== 'android' && {
-					// zIndex: this.state.direction === 'top' ? this.props.zIndex : this.props.zIndexInverse
-					zIndex: this.props.zIndex
-				})
-
+				...(IS_IOS && { zIndex: this.props.zIndex })
 			}]}
 				{...this.props.containerProps}>
 				<TouchableOpacity
-					onLayout={(event) => this.getLayout(event.nativeEvent.layout)}
+					onLayout={this.getLayout}
 					ref={(ref) => (this.layoutRef = ref)}
 					disabled={disabled}
-					onPress={() => this.toggle()}
-					activeOpacity={1}
+					onPress={this.toggle}
+					activeOpacity={0.5}
 					style={[
 						this.adjustStylesToDirection(
+							cStyles.row,
 							styles.dropDown,
-							{
-								flexDirection: 'row'
-							},
 							this.props.style,
 							(this.state.isVisible && this.props.noBottomRadius) && styles.noBottomRadius,
 						),
@@ -596,7 +575,7 @@ class DropDownPicker extends React.Component {
 					<Text style={[
 						{ color: '#000' }, // default label color
 						this.props.globalTextStyle,
-						{ opacity, flex: 1 }, {
+						cStyles.flex1, {
 							marginLeft: (this.props.labelStyle.hasOwnProperty('textAlign') && this.props.labelStyle.textAlign === 'left') || !this.props.labelStyle.hasOwnProperty('textAlign') ? 5 : 0,
 							marginRight: (this.props.labelStyle.hasOwnProperty('textAlign') && this.props.labelStyle.textAlign === 'right') ? 5 : 0,
 						},
@@ -640,7 +619,6 @@ class DropDownPicker extends React.Component {
 						!this.state.isVisible && styles.hidden, {
 							[this.state.direction]: this.state.top,
 							maxHeight: this.props.dropDownMaxHeight,
-							// zIndex: this.state.direction === 'top' ? this.props.zIndex : this.props.zIndexInverse,
 							zIndex: this.props.zIndex,
 						},
 						this.state.isVisible && {
@@ -649,7 +627,7 @@ class DropDownPicker extends React.Component {
 					]}>
 						{
 							this.props.searchable && (
-								<View style={{ width: '100%', flexDirection: 'row' }}>
+								<View style={[cStyles.fullWidth, cStyles.row]}>
 									<TextInput
 										style={[styles.input, this.props.globalTextStyle, this.props.searchableStyle]}
 										defaultValue={this.state.searchableText}
@@ -659,7 +637,7 @@ class DropDownPicker extends React.Component {
 										onChangeText={(text) => {
 											this.setState({
 												searchableText: text
-											})
+											});
 											this.props.onSearch(text);
 											if (searchTextInputProps.onChangeText) searchTextInputProps.onChangeText(text);
 										}}
@@ -668,21 +646,20 @@ class DropDownPicker extends React.Component {
 							)
 						}
 
-						<ScrollView
-							style={{ width: '100%' }}
+						<FlatList
+							ref={ref => this.scrollViewRef = ref}
+							style={cStyles.fullWidth}
+							data={items}
+							renderItem={({ item, index }) => this.renderItem(item, index, items.length)}
+							keyExtractor={(item, index) => index.toString()}
 							nestedScrollEnabled={true}
-							ref={ref => {
-								this.scrollViewRef = ref;
-							}}
-							{...scrollViewProps}>
-							{items.length > 0 ? items.map((item, index) =>
-								this.renderItem(item, index, items.length)
-							) : (
+							removeClippedSubviews={IS_ANDROID}
+							ListEmptyComponent={
 								<View style={styles.notFound}>
 									{this.props.searchableError(this.props.style.globalTextStyle)}
 								</View>
-							)}
-						</ScrollView>
+							}
+						/>
 					</View>
 				}
 			</View>

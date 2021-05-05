@@ -32,7 +32,7 @@ function Approved(props) {
   const approvedState = useSelector(({ approved }) => approved);
 
   const [loading, setLoading] = useState({
-    main: false,
+    main: true,
     search: false,
     refreshing: false,
     loadmore: false,
@@ -47,6 +47,7 @@ function Approved(props) {
     processApproveds: [],
     page: 1,
     perPage: commonState.get('perPage'),
+    showResolveRequest: false,
   });
 
   /** HANDLE FUNC */
@@ -71,13 +72,18 @@ function Approved(props) {
     );
   };
 
-  const handleFilter = (fromDate, toDate, status) => {
+  const handleFilter = (fromDate, toDate, status, showResolveRequest) => {
     setLoading({ ...loading, search: true });
-    setData({ ...data, page: 1, status, fromDate, toDate });
+    setData({ ...data, page: 1, status, fromDate, toDate, showResolveRequest });
     onFetchData(
       fromDate,
       toDate,
-      status
+      status,
+      null,
+      null,
+      null,
+      null,
+      showResolveRequest
     );
   };
 
@@ -90,6 +96,7 @@ function Approved(props) {
     pageNum = 1,
     search = '',
     requestTypeID = 1,
+    showResolveRequest = false,
   ) => {
     let params = fromJS({
       'FromDate': fromDate,
@@ -99,6 +106,7 @@ function Approved(props) {
       'PageNum': pageNum,
       'Search': search,
       'RequestTypeID': requestTypeID,
+      'IsResolveRequest': showResolveRequest,
     });
     dispatch(Actions.fetchListRequestApproved(params));
   };
@@ -194,12 +202,11 @@ function Approved(props) {
       data.page,
       '',
     );
-    setLoading({ ...loading, main: true });
   }, []);
 
   useEffect(() => {
     if (loading.main || loading.search || loading.refreshing || loading.loadmore) {
-      if (!approvedState.get('submitting')) {
+      if (!approvedState.get('submittingList')) {
         let type = REFRESH;
         if (loading.loadmore) type = LOAD_MORE;
 

@@ -20,6 +20,8 @@ export default {
       if (params.get('Search')) tmpConfigs.params['Search'] = params.get('Search');
       if (params.get('RequestTypeID'))
         tmpConfigs.params['RequestTypeID'] = params.get('RequestTypeID');
+      if (params.get('IsResolveRequest'))
+        tmpConfigs.params['IsResolveRequest'] = params.get('IsResolveRequest');
 
       API
         .get(

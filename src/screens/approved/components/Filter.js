@@ -59,6 +59,7 @@ function Filter(props) {
     approved: true,
     reject: true,
   });
+  const [resolveRequest, setResolveRequest] = useState(false);
 
   /** HANDLE FUNC */
   const handleToggle = () => {
@@ -96,12 +97,17 @@ function Filter(props) {
     setData({ ...data, status: tmpStatus });
   };
 
+  const handleChangeResolveRequest = (checked) => {
+    setResolveRequest(checked);
+  };
+
   const handleFilter = () => {
     setShow(false);
     onFilter(
       data.fromDate,
       data.toDate,
       data.status.join(),
+      resolveRequest,
     );
   };
 
@@ -205,6 +211,16 @@ function Filter(props) {
               label={'approved:status_reject'}
               value={statusRequest.reject}
               onChange={(checked) => handleChangeStatus('4', 'reject', checked)}
+            />
+          </View>
+
+          <View>
+            <CCheckbox
+              style={styles.con_input_status}
+              labelStyle={'textDefault pl10'}
+              label={'approved:resolve_request'}
+              value={resolveRequest}
+              onChange={handleChangeResolveRequest}
             />
           </View>
 

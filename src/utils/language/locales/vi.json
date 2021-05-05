@@ -72,7 +72,8 @@
     "filter_start": "Lọc",
     "show_timeline": "Thông tin trạng thái",
     "person_approved": "Người duyệt: ",
-    "reason_reject": "Lý do: "
+    "reason_reject": "Lý do: ",
+    "resolve_request": "Chỉ hiện yêu cầu cần thiết"
   },
   "add_approved": {
     "title": "Thêm mới",

@@ -10,6 +10,7 @@ import * as types from '../actions/types';
 
 export const initialState = fromJS({
   submitting: false,
+  success: false,
   error: false,
   errorHelper: '',
 
@@ -29,12 +30,14 @@ export default function (state = initialState, action = {}) {
     case types.START_FETCH_MASTER_DATA:
       return state
         .set('submitting', true)
+        .set('success', false)
         .set('error', false)
         .set('errorHelper', '');
 
     case types.ERROR_FETCH_MASTER_DATA:
       return state
         .set('submitting', false)
+        .set('success', false)
         .set('error', true)
         .set('errorHelper', payload);
 
@@ -137,6 +140,7 @@ export default function (state = initialState, action = {}) {
 
       return state
         .set('submitting', false)
+        .set('success', true)
         .set('error', false)
         .set('errorHelper', '')
         .set('region', tmpRegions)

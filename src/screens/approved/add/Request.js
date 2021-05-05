@@ -13,8 +13,8 @@ import {
   TouchableOpacity,
   ScrollView,
   KeyboardAvoidingView,
-  TouchableWithoutFeedback,
-  Keyboard,
+  Text,
+  TouchableHighlight
 } from 'react-native';
 import {
   Table,
@@ -23,8 +23,9 @@ import {
   Cell,
 } from 'react-native-table-component';
 import { showMessage } from "react-native-flash-message";
+import { SwipeListView, SwipeRow } from 'react-native-swipe-list-view';
+import Swipeable from 'react-native-swipeable-row';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import Modal from 'react-native-modal';
 import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
@@ -35,6 +36,7 @@ import CDateTimePicker from '~/components/CDateTimePicker';
 import CDropdown from '~/components/CDropdown';
 import CButton from '~/components/CButton';
 import AssetItem from '../components/AssetItem';
+import RejectModal from '../components/RejectModal';
 /* COMMON */
 import { colors, cStyles } from '~/utils/style';
 import { IS_IOS, alert } from '~/utils/helper';
@@ -52,7 +54,6 @@ const INPUT_NAME = {
   TYPE_ASSETS: 'typeAssets',
   IN_PLANNING: 'inPlanning',
   SUPPLIER: 'supplier',
-  REASON_REJECT: 'reasonReject',
 };
 
 function AddRequest(props) {
@@ -70,23 +71,26 @@ function AddRequest(props) {
   const masterState = useSelector(({ masterData }) => masterData);
   const commonState = useSelector(({ common }) => common);
   const approvedState = useSelector(({ approved }) => approved);
+  const authState = useSelector(({ auth }) => auth);
 
   const [loading, setLoading] = useState({
     main: true,
     submit: false,
+    submitAdd: false,
+    submitApproved: false,
+    submitReject: false,
   });
   const [showPickerDate, setShowPickerDate] = useState(false);
   const [showReject, setShowReject] = useState(false);
   const [isDetail, setIsDetail] = useState(props.route.params?.data ? true : false);
   const [process, setProcess] = useState([]);
-  const [reasonReject, setReasonReject] = useState('');
   const [form, setForm] = useState({
     id: '',
     personRequestId: '',
     dateRequest: moment().format(commonState.get('formatDate')),
-    name: '',
-    department: '',
-    region: '',
+    name: authState.getIn(['login', 'fullName']),
+    department: authState.getIn(['login', 'deptCode']),
+    region: authState.getIn(['login', 'regionCode']),
     assets: {
       header: [
         t('add_approved:description'),
@@ -98,12 +102,13 @@ function AddRequest(props) {
         ['', '', '', ''],
       ],
     },
-    whereUse: '',
+    whereUse: authState.getIn(['login', 'deptCode']),
     reason: '',
     typeAssets: 'N',
     inPlanning: false,
     supplier: '',
     status: 1,
+    isAllowApproved: false,
   });
   const [error, setError] = useState({
     department: {
@@ -119,10 +124,6 @@ function AddRequest(props) {
       helper: '',
     },
     whereUse: {
-      status: false,
-      helper: '',
-    },
-    reasonReject: {
       status: false,
       helper: '',
     },
@@ -224,18 +225,6 @@ function AddRequest(props) {
     setShowReject(true);
   };
 
-  const handleChangeReasonReject = (value) => {
-    setReasonReject(value);
-    if (error.reasonReject.status)
-      setError({
-        ...error,
-        reasonReject: {
-          status: false,
-          helper: '',
-        },
-      });
-  };
-
   /** FUNC */
   const onValidate = () => {
     let tmpError = error, status = true;
@@ -275,7 +264,7 @@ function AddRequest(props) {
   };
 
   const onSendRequest = () => {
-    setLoading({ ...loading, submit: true });
+    setLoading({ ...loading, submitAdd: true });
     let isValid = onValidate();
     if (isValid.status) {
       /** prepare assets */
@@ -290,10 +279,10 @@ function AddRequest(props) {
       }
 
       let params = {
-        'EmpCode': 'D0850',
-        'DeptCode': form.department,
-        'RegionCode': form.region,
-        'JobTitle': 'Đại diện Kinh doanh',
+        'EmpCode': authState.getIn(['login', 'empCode']),
+        'DeptCode': authState.getIn(['login', 'deptCode']),
+        'RegionCode': authState.getIn(['login', 'regionCode']),
+        'JobTitle': authState.getIn(['login', 'jobTitle']),
         'RequestDate': form.dateRequest,
         'Location': form.whereUse,
         'Reason': form.reason,
@@ -306,7 +295,7 @@ function AddRequest(props) {
       dispatch(Actions.fetchAddRequestApproved(params));
     } else {
       setError(isValid.data);
-      setLoading({ ...loading, submit: false });
+      setLoading({ ...loading, submitAdd: false });
     };
   };
 
@@ -394,7 +383,7 @@ function AddRequest(props) {
           t('add_approved:total'),
         ],
         data: [
-          ['', '', '', '-'],
+          ['', '', '', ''],
         ],
       },
       whereUse: isDetail
@@ -407,6 +396,7 @@ function AddRequest(props) {
       inPlanning: isDetail ? props.route.params?.data?.isBudget : false,
       supplier: isDetail ? props.route.params?.data?.supplierName : '',
       status: isDetail ? props.route.params?.data?.statusID : 1,
+      isAllowApproved: isDetail ? props.route.params?.data?.isAllowApproved : false,
     };
     if (props.route.params?.dataDetail) {
       let arrayDetail = props.route.params?.dataDetail;
@@ -440,31 +430,20 @@ function AddRequest(props) {
     dispatch(Actions.fetchApprovedRequest(params));
   };
 
-  const onReject = () => {
-    if (reasonReject.trim() !== '') {
-      setLoading({ ...loading, submit: true });
-      let params = {
-        'RequestID': form.id,
-        'RequestTypeID': 1,
-        'PersonRequestID': form.personRequestId,
-        'Status': false,
-        'Reason': reasonReject,
-        'Lang': commonState.get('language'),
-      }
-      dispatch(Actions.fetchApprovedRequest(params));
-    } else {
-      setError({
-        ...error,
-        reasonReject: {
-          status: true,
-          helper: 'error:reason_reject_empty'
-        }
-      })
+  const onReject = (reason) => {
+    setLoading({ ...loading, submitReject: true });
+    let params = {
+      'RequestID': form.id,
+      'RequestTypeID': 1,
+      'PersonRequestID': form.personRequestId,
+      'Status': false,
+      'Reason': reason,
+      'Lang': commonState.get('language'),
     }
+    dispatch(Actions.fetchRejectRequest(params));
   };
 
   const onCloseReject = () => {
-    setReasonReject('');
     setShowReject(false);
   };
 
@@ -489,9 +468,9 @@ function AddRequest(props) {
   ]);
 
   useEffect(() => {
-    if (loading.submit) {
-      if (!approvedState.get('submitting')) {
-        setLoading({ ...loading, submit: false });
+    if (loading.submitAdd) {
+      if (!approvedState.get('submittingAdd')) {
+        setLoading({ ...loading, submitAdd: false });
         if (approvedState.get('successAddRequest')) {
           showMessage({
             message: t('common:app_name'),
@@ -516,16 +495,16 @@ function AddRequest(props) {
       }
     }
   }, [
-    loading.submit,
-    approvedState.get('submitting'),
+    loading.submitAdd,
+    approvedState.get('submittingAdd'),
     approvedState.get('successAddRequest'),
     approvedState.get('errorAddRequest'),
   ]);
 
   useEffect(() => {
-    if (loading.submit) {
-      if (!approvedState.get('submitting')) {
-        setLoading({ ...loading, submit: false });
+    if (loading.submitApproved) {
+      if (!approvedState.get('submittingApproved')) {
+        setLoading({ ...loading, submitApproved: false });
         if (approvedState.get('successApprovedRequest')) {
           showMessage({
             message: t('common:app_name'),
@@ -550,16 +529,17 @@ function AddRequest(props) {
       }
     }
   }, [
-    loading.submit,
-    approvedState.get('submitting'),
+    loading.submitApproved,
+    approvedState.get('submittingApproved'),
     approvedState.get('successApprovedRequest'),
     approvedState.get('errorApprovedRequest'),
   ]);
 
   useEffect(() => {
-    if (loading.submit) {
-      if (!approvedState.get('submitting')) {
-        setLoading({ ...loading, submit: false });
+    if (loading.submitReject) {
+      if (!approvedState.get('submittingReject')) {
+        setLoading({ ...loading, submitReject: false });
+        setShowReject(false);
         if (approvedState.get('successRejectRequest')) {
           showMessage({
             message: t('common:app_name'),
@@ -584,20 +564,29 @@ function AddRequest(props) {
       }
     }
   }, [
-    loading.submit,
-    approvedState.get('submitting'),
+    loading.submitReject,
+    approvedState.get('submittingReject'),
     approvedState.get('successRejectRequest'),
     approvedState.get('errorRejectRequest'),
   ]);
 
   /** RENDER */
+  const rightButtons = [
+    <TouchableHighlight><Text>Button 1</Text></TouchableHighlight>
+  ];
+
   return (
     <CContainer
       safeArea={{
         top: true,
         bottom: false,
       }}
-      loading={loading.main || loading.submit}
+      loading={
+        loading.main
+        || loading.submitAdd
+        || loading.submitApproved
+        || loading.submitReject
+      }
       header
       hasBack
       title={'add_approved:title'}
@@ -644,12 +633,12 @@ function AddRequest(props) {
                 />
               </View>
 
-              {/** Department & Region */}
+              {/** Department */}
               <View style={[
                 cStyles.row,
                 cStyles.itemsCenter,
                 cStyles.pt16,
-                IS_IOS && { zIndex: 3000 }
+                IS_IOS && { zIndex: 10 }
               ]}>
                 {/** Department */}
                 <View style={[cStyles.flex1, cStyles.pr4]}>
@@ -658,14 +647,14 @@ function AddRequest(props) {
                     loading={loading.main}
                     controller={instance => departmentRef.current = instance}
                     data={masterState.get('department')}
-                    disabled={loading.main || loading.submit || isDetail}
+                    disabled={true}
                     searchable={true}
                     searchablePlaceholder={t('add_approved:search_department')}
                     error={error.department.status}
                     errorHelper={error.department.helper}
                     holder={'add_approved:holder_department'}
                     defaultValue={form.department}
-                    onChangeItem={item => handleCombobox(item, INPUT_NAME.DEPARTMENT)}
+                    onChangeItem={value => handleCombobox(value, INPUT_NAME.DEPARTMENT)}
                     onOpen={() => onOpenCombobox(INPUT_NAME.DEPARTMENT)}
                   />
                 </View>
@@ -676,7 +665,7 @@ function AddRequest(props) {
                 cStyles.row,
                 cStyles.itemsCenter,
                 cStyles.pt16,
-                IS_IOS && { zIndex: 2000 }
+                IS_IOS && { zIndex: 9 }
               ]}>
                 <View style={[cStyles.flex1, cStyles.pl4]}>
                   <CText styles={'textTitle'} label={'add_approved:region'} />
@@ -684,12 +673,12 @@ function AddRequest(props) {
                     loading={loading.main}
                     controller={instance => regionRef.current = instance}
                     data={masterState.get('region')}
-                    disabled={loading.main || loading.submit || isDetail}
+                    disabled={true}
                     error={error.region.status}
                     errorHelper={error.region.helper}
                     holder={'add_approved:holder_region'}
                     defaultValue={form.region}
-                    onChangeItem={item => handleCombobox(item, INPUT_NAME.REGION)}
+                    onChangeItem={value => handleCombobox(value, INPUT_NAME.REGION)}
                     onOpen={() => onOpenCombobox(INPUT_NAME.REGION)}
                   />
                 </View>
@@ -733,6 +722,7 @@ function AddRequest(props) {
                         )
                       })}
                     </TableWrapper>
+
                   ))}
                 </Table>
                 <View style={[cStyles.flex1, cStyles.row, cStyles.justifyBetween, cStyles.itemsCenter, cStyles.pt10]}>
@@ -744,9 +734,15 @@ function AddRequest(props) {
 
                   {!isDetail &&
                     <TouchableOpacity
-                      style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyEnd, { flex: 0.4 }]}
+                      style={[
+                        cStyles.row,
+                        cStyles.itemsCenter,
+                        cStyles.justifyEnd,
+                        cStyles.py10,
+                        { flex: 0.4 }
+                      ]}
                       activeOpacity={0.5}
-                      disabled={loading.main || loading.submit || isDetail}
+                      disabled={loading.main || loading.submitAdd || isDetail}
                       onPress={handleAddAssets}
                     >
                       <Icon name={'plus-circle'} size={15} color={colors.BLACK} />
@@ -760,21 +756,21 @@ function AddRequest(props) {
               <View style={[
                 cStyles.pt16,
                 cStyles.pr4,
-                IS_IOS && { zIndex: 1000 }
+                IS_IOS && { zIndex: 8 }
               ]}>
                 <CText styles={'textTitle'} label={'add_approved:where_use'} />
                 <CDropdown
                   loading={loading.main}
                   controller={instance => whereUseRef.current = instance}
                   data={masterState.get('department')}
-                  disabled={loading.main || loading.submit || isDetail}
+                  disabled={loading.main || loading.submitAdd || isDetail}
                   searchable={true}
                   searchablePlaceholder={t('add_approved:search_department')}
                   error={error.whereUse.status}
                   errorHelper={error.whereUse.helper}
                   holder={'add_approved:holder_where_use'}
                   defaultValue={form.whereUse}
-                  onChangeItem={item => handleCombobox(item, INPUT_NAME.WHERE_USE, reasonRef)}
+                  onChangeItem={value => handleCombobox(value, INPUT_NAME.WHERE_USE, reasonRef)}
                   onOpen={() => onOpenCombobox(INPUT_NAME.WHERE_USE)}
                 />
               </View>
@@ -786,7 +782,7 @@ function AddRequest(props) {
                   name={INPUT_NAME.REASON}
                   styleFocus={styles.input_focus}
                   inputRef={ref => reasonRef = ref}
-                  disabled={loading.main || loading.submit || isDetail}
+                  disabled={loading.main || loading.submitAdd || isDetail}
                   holder={'add_approved:reason'}
                   value={form.reason}
                   valueColor={colors.BLACK}
@@ -806,7 +802,7 @@ function AddRequest(props) {
                   <TouchableOpacity
                     style={{ flex: 0.4 }}
                     activeOpacity={0.5}
-                    disabled={loading.main || loading.submit || isDetail}
+                    disabled={loading.main || loading.submitAdd || isDetail}
                     onPress={() => handleChooseTypeAssets('N')}>
                     <View style={[cStyles.row, cStyles.itemsCenter]}>
                       <Icon
@@ -822,7 +818,7 @@ function AddRequest(props) {
                   <TouchableOpacity
                     style={{ flex: 0.6 }}
                     activeOpacity={0.5}
-                    disabled={loading.main || loading.submit || isDetail}
+                    disabled={loading.main || loading.submitAdd || isDetail}
                     onPress={() => handleChooseTypeAssets('A')}>
                     <View style={[cStyles.row, cStyles.itemsCenter]}>
                       <Icon
@@ -844,7 +840,7 @@ function AddRequest(props) {
                   <TouchableOpacity
                     style={{ flex: 0.4 }}
                     activeOpacity={0.5}
-                    disabled={loading.main || loading.submit || isDetail}
+                    disabled={loading.main || loading.submitAdd || isDetail}
                     onPress={() => handleChooseInPlanning(true)}>
                     <View style={[cStyles.row, cStyles.itemsCenter]}>
                       <Icon
@@ -860,7 +856,7 @@ function AddRequest(props) {
                   <TouchableOpacity
                     style={{ flex: 0.6 }}
                     activeOpacity={0.5}
-                    disabled={loading.main || loading.submit || isDetail}
+                    disabled={loading.main || loading.submitAdd || isDetail}
                     onPress={() => handleChooseInPlanning(false)}>
                     <View style={[cStyles.row, cStyles.itemsCenter]}>
                       <Icon
@@ -882,7 +878,7 @@ function AddRequest(props) {
                   name={INPUT_NAME.SUPPLIER}
                   styleFocus={styles.input_focus}
                   inputRef={ref => supplierRef = ref}
-                  disabled={loading.main || loading.submit || isDetail}
+                  disabled={loading.main || loading.submitAdd || isDetail}
                   holder={'add_approved:holder_supplier'}
                   value={form.supplier}
                   valueColor={colors.BLACK}
@@ -1025,72 +1021,12 @@ function AddRequest(props) {
             onChangeDate={onChangeDateRequest}
           />
 
-          <Modal
-            isVisible={showReject}
-            animationIn={'fadeInUp'}
-            animationOut={'fadeOutDown'}
-            onBackButtonPress={onCloseReject}
-            onBackdropPress={onCloseReject}
-          >
-            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-              <View style={cStyles.flexCenter}>
-                <View style={[cStyles.rounded1, { backgroundColor: colors.WHITE }]}>
-                  <View style={[
-                    cStyles.py10,
-                    cStyles.roundedTopLeft1,
-                    cStyles.roundedTopRight1,
-                    { backgroundColor: colors.PRIMARY }
-                  ]}>
-                    <CText styles={'colorWhite textCenter'} label={'common:app_name'} />
-                  </View>
-
-                  <View style={[cStyles.p10]}>
-                    <CText styles={'textCenter'} label={'add_approved:message_confirm_reject'} />
-
-                    <CInput
-                      name={INPUT_NAME.REASON_REJECT}
-                      style={{ height: 150 }}
-                      styleFocus={styles.input_focus}
-                      disabled={loading.submit}
-                      holder={'add_approved:reason'}
-                      value={reasonReject}
-                      valueColor={colors.BLACK}
-                      keyboard={'default'}
-                      returnKey={'done'}
-                      multiline
-                      error={error.reasonReject.status}
-                      errorHelper={error.reasonReject.helper}
-                      textAlignVertical={'top'}
-                      onChangeInput={onReject}
-                      onChangeValue={handleChangeReasonReject}
-                    />
-                  </View>
-
-                  <View style={[
-                    cStyles.row,
-                    cStyles.itemsCenter,
-                    cStyles.justifyEvenly,
-                    cStyles.px16
-                  ]}>
-                    <CButton
-                      style={styles.button_base}
-                      block
-                      color={colors.GRAY_800}
-                      label={'common:cancel'}
-                      onPress={onCloseReject}
-                    />
-
-                    <CButton
-                      style={styles.button_base}
-                      block
-                      label={'common:ok'}
-                      onPress={onReject}
-                    />
-                  </View>
-                </View>
-              </View>
-            </TouchableWithoutFeedback>
-          </Modal>
+          <RejectModal
+            loading={loading.submitReject}
+            showReject={showReject}
+            onReject={onReject}
+            onCloseReject={onCloseReject}
+          />
         </CContent>
       }
       footer={
@@ -1098,20 +1034,20 @@ function AddRequest(props) {
           <View style={cStyles.px16}>
             <CButton
               block
-              disabled={loading.main || loading.submit}
+              disabled={loading.main || loading.submitAdd}
               label={'add_approved:send'}
               onPress={onSendRequest}
             />
           </View>
           :
-          form.status < 3
+          form.isAllowApproved
             ?
             <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyEvenly, cStyles.px16]}>
               <CButton
                 style={styles.button_approved}
                 block
                 color={colors.RED}
-                disabled={loading.main || loading.submit}
+                disabled={loading.main}
                 icon={'times-circle'}
                 label={'add_approved:reject'}
                 onPress={handleReject}
@@ -1119,7 +1055,7 @@ function AddRequest(props) {
               <CButton
                 style={styles.button_reject}
                 block
-                disabled={loading.main || loading.submit}
+                disabled={loading.main}
                 icon={'check-double'}
                 label={'add_approved:approved'}
                 onPress={handleApproved}
@@ -1141,10 +1077,41 @@ const styles = StyleSheet.create({
   table_text_header: { color: colors.BLACK },
   button_approved: { width: cStyles.deviceWidth / 2.5 },
   button_reject: { width: cStyles.deviceWidth / 2.5 },
-  button_base: { width: cStyles.deviceWidth / 3 },
   con_process: { backgroundColor: colors.GRAY_300 },
   con_title_process: { backgroundColor: colors.WHITE, position: 'absolute', top: -15, },
   con_time_process: { backgroundColor: colors.SECONDARY },
+
+  backTextWhite: {
+    color: '#FFF',
+  },
+  rowFront: {
+    backgroundColor: '#FFF',
+    height: 50,
+  },
+  rowBack: {
+    alignItems: 'center',
+    backgroundColor: '#DDD',
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingLeft: 15,
+  },
+  backRightBtn: {
+    alignItems: 'center',
+    bottom: 0,
+    justifyContent: 'center',
+    position: 'absolute',
+    top: 0,
+    width: 75,
+  },
+  backRightBtnLeft: {
+    backgroundColor: 'blue',
+    right: 75,
+  },
+  backRightBtnRight: {
+    backgroundColor: 'red',
+    right: 0,
+  },
 });
 
 export default AddRequest;

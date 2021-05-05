@@ -46,7 +46,7 @@ const main = {
   justifyStart: { justifyContent: 'flex-start' },
   justifyEnd: { justifyContent: 'flex-end' },
   justifyCenter: { justifyContent: 'center' },
-
+  fullWidth: { width: '100%' },
   platform,
   isIphoneX,
   toolbarHeight,

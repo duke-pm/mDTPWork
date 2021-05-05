@@ -9,7 +9,10 @@ import { fromJS, List } from 'immutable';
 import * as types from '../actions/types';
 
 export const initialState = fromJS({
-  submitting: false,
+  submittingList: false,
+  submittingAdd: false,
+  submittingApproved: false,
+  submittingReject: false,
 
   countRequests: 0,
   requests: List(),
@@ -38,7 +41,7 @@ export default function (state = initialState, action = {}) {
     /** For list request **/
     case types.START_FETCH_LIST_REQUEST_APPROVED:
       return state
-        .set('submitting', true)
+        .set('submittingList', true)
         .set('successListRequest', false)
         .set('errorListRequest', false)
         .set('errorHelperListRequest', '');
@@ -49,14 +52,14 @@ export default function (state = initialState, action = {}) {
         .set('requests', payload.requests)
         .set('requestsDetail', payload.requestsDetail)
         .set('processApproved', payload.processApproved)
-        .set('submitting', false)
+        .set('submittingList', false)
         .set('successListRequest', true)
         .set('errorListRequest', false)
         .set('errorHelperListRequest', '');
 
     case types.ERROR_FETCH_LIST_REQUEST_APPROVED:
       return state
-        .set('submitting', false)
+        .set('submittingList', false)
         .set('successListRequest', false)
         .set('errorListRequest', true)
         .set('errorHelperListRequest', payload);
@@ -65,70 +68,124 @@ export default function (state = initialState, action = {}) {
     /** For add request **/
     case types.START_FETCH_ADD_REQUEST_APPROVED:
       return state
-        .set('submitting', true)
+        .set('submittingAdd', true)
         .set('successAddRequest', false)
         .set('errorAddRequest', false)
-        .set('errorHelperAddRequest', '');
+        .set('errorHelperAddRequest', '')
+        .set('successApprovedRequest', false)
+        .set('errorApprovedRequest', false)
+        .set('errorHelperApprovedRequest', '')
+        .set('successRejectRequest', false)
+        .set('errorRejectRequest', false)
+        .set('errorHelperRejectRequest', '');
 
     case types.SUCCESS_FETCH_ADD_REQUEST_APPROVED:
       return state
-        .set('submitting', false)
+        .set('submittingAdd', false)
         .set('successAddRequest', true)
         .set('errorAddRequest', false)
-        .set('errorHelperAddRequest', '');
+        .set('errorHelperAddRequest', '')
+        .set('successApprovedRequest', false)
+        .set('errorApprovedRequest', false)
+        .set('errorHelperApprovedRequest', '')
+        .set('successRejectRequest', false)
+        .set('errorRejectRequest', false)
+        .set('errorHelperRejectRequest', '');
 
     case types.ERROR_FETCH_ADD_REQUEST_APPROVED:
       return state
-        .set('submitting', false)
+        .set('submittingAdd', false)
         .set('successAddRequest', false)
         .set('errorAddRequest', true)
-        .set('errorHelperAddRequest', payload);
+        .set('errorHelperAddRequest', payload)
+        .set('successApprovedRequest', false)
+        .set('errorApprovedRequest', false)
+        .set('errorHelperApprovedRequest', '')
+        .set('successRejectRequest', false)
+        .set('errorRejectRequest', false)
+        .set('errorHelperRejectRequest', '');
     /*****************************/
 
     /** For approved request **/
     case types.START_FETCH_APPROVED_REQUEST:
       return state
-        .set('submitting', true)
+        .set('submittingApproved', true)
         .set('successApprovedRequest', false)
         .set('errorApprovedRequest', false)
-        .set('errorHelperApprovedRequest', '');
+        .set('errorHelperApprovedRequest', '')
+        .set('successRejectRequest', false)
+        .set('errorRejectRequest', false)
+        .set('errorHelperRejectRequest', '')
+        .set('successAddRequest', false)
+        .set('errorAddRequest', false)
+        .set('errorHelperAddRequest', '');
 
     case types.SUCCESS_FETCH_APPROVED_REQUEST:
       return state
-        .set('submitting', false)
+        .set('submittingApproved', false)
         .set('successApprovedRequest', true)
         .set('errorApprovedRequest', false)
-        .set('errorHelperApprovedRequest', '');
+        .set('errorHelperApprovedRequest', '')
+        .set('successRejectRequest', false)
+        .set('errorRejectRequest', false)
+        .set('errorHelperRejectRequest', '')
+        .set('successAddRequest', false)
+        .set('errorAddRequest', false)
+        .set('errorHelperAddRequest', '');
 
     case types.ERROR_FETCH_APPROVED_REQUEST:
       return state
-        .set('submitting', false)
+        .set('submittingApproved', false)
         .set('successApprovedRequest', false)
         .set('errorApprovedRequest', true)
-        .set('errorHelperApprovedRequest', payload);
+        .set('errorHelperApprovedRequest', payload)
+        .set('successRejectRequest', false)
+        .set('errorRejectRequest', false)
+        .set('errorHelperRejectRequest', '')
+        .set('successAddRequest', false)
+        .set('errorAddRequest', false)
+        .set('errorHelperAddRequest', '');
     /*****************************/
 
     /** For reject request **/
     case types.START_FETCH_REJECT_REQUEST:
       return state
-        .set('submitting', true)
+        .set('submittingReject', true)
+        .set('successApprovedRequest', false)
+        .set('errorApprovedRequest', false)
+        .set('errorHelperApprovedRequest', '')
         .set('successRejectRequest', false)
         .set('errorRejectRequest', false)
-        .set('errorHelperRejectRequest', '');
+        .set('errorHelperRejectRequest', '')
+        .set('successAddRequest', false)
+        .set('errorAddRequest', false)
+        .set('errorHelperAddRequest', '');
 
     case types.SUCCESS_FETCH_REJECT_REQUEST:
       return state
-        .set('submitting', false)
+        .set('submittingReject', false)
+        .set('successApprovedRequest', false)
+        .set('errorApprovedRequest', false)
+        .set('errorHelperApprovedRequest', '')
         .set('successRejectRequest', true)
         .set('errorRejectRequest', false)
-        .set('errorHelperRejectRequest', '');
+        .set('errorHelperRejectRequest', '')
+        .set('successAddRequest', false)
+        .set('errorAddRequest', false)
+        .set('errorHelperAddRequest', '');
 
     case types.ERROR_FETCH_REJECT_REQUEST:
       return state
-        .set('submitting', false)
+        .set('submittingReject', false)
+        .set('successApprovedRequest', false)
+        .set('errorApprovedRequest', false)
+        .set('errorHelperApprovedRequest', '')
         .set('successRejectRequest', false)
         .set('errorRejectRequest', true)
-        .set('errorHelperRejectRequest', payload);
+        .set('errorHelperRejectRequest', payload)
+        .set('successAddRequest', false)
+        .set('errorAddRequest', false)
+        .set('errorHelperAddRequest', '');
     /*****************************/
 
     default:

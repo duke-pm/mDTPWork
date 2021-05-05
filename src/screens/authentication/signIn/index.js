@@ -33,8 +33,7 @@ import { LOGIN } from '~/config/constants';
 import { colors, cStyles } from '~/utils/style';
 import {
   IS_IOS,
-  resetRoute,
-  checkTokenValid
+  resetRoute
 } from '~/utils/helper';
 import API from '~/services/axios';
 /* REDUX */
@@ -63,7 +62,7 @@ function SignIn(props) {
   const [form, setForm] = useState({
     userName: '',
     password: '',
-    saveAccount: false,
+    saveAccount: true,
   });
   const [error, setError] = useState({
     userName: false,
@@ -177,6 +176,7 @@ function SignIn(props) {
   const onCheckDataLogin = async () => {
     let dataLogin = await AsyncStorage.getItem(LOGIN);
     if (dataLogin) {
+      setLoading({ main: false, submit: true });
       dataLogin = JSON.parse(dataLogin);
       dataLogin = {
         access_token: dataLogin.accessToken,
@@ -214,17 +214,20 @@ function SignIn(props) {
 
   useEffect(() => {
     if (loading.main) {
-      if (authState.get('successLogin')) {
-        onStart();
+      if (!authState.get('submitting')) {
+        if (authState.get('successLogin')) {
+          onFetchMasterData();
+        }
       }
     }
   }, [
     loading.main,
+    authState.get('submitting'),
     authState.get('successLogin')
   ]);
 
   useEffect(() => {
-    if (loading.submit) {
+    if (loading.submit && !loading.main) {
       if (!authState.get('submitting')) {
         if (authState.get('successLogin')) {
           return onPrepareData();
@@ -235,21 +238,25 @@ function SignIn(props) {
       }
     }
   }, [
+    loading.main,
     loading.submit,
     authState.get('submitting'),
     authState.get('successLogin'),
     authState.get('errorLogin'),
   ]);
 
-  useEffect(async () => {
+  useEffect(() => {
     if (loading.submit) {
       if (!masterState.get('submitting')) {
-        onStart();
+        if (masterState.get('success')) {
+          onStart();
+        }
       }
     }
   }, [
     loading.submit,
     masterState.get('submitting'),
+    masterState.get('success'),
   ]);
 
   /** RENDER */

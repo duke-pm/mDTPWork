@@ -10,8 +10,9 @@ import { View, TextInput } from 'react-native';
 import { colors, cStyles } from '~/utils/style';
 
 Number.prototype.format = function (n, x) {
-  var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
-  return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,') + 'đ';
+  if (n == 0) return '';
+  let re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
+  return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
 };
 
 function AssetItem(props) {
@@ -22,28 +23,26 @@ function AssetItem(props) {
   } = props;
 
   return (
-    <View style={cStyles.flex1}>
-      <TextInput
-        style={[
-          cStyles.textDefault,
-          cStyles.flexWrap,
-          cStyles.p4,
-          cStyles.textMeta,
-          cellIndex === 0 ? cStyles.textLeft : cStyles.textCenter,
-          { color: colors.BLACK }
-        ]}
-        keyboardType={cellIndex !== 0 ? 'number-pad' : 'default'}
-        selectionColor={colors.BLACK}
-        multiline
-        editable={!props.disabled}
-        value={typeof props.cellData === 'string'
-          ? (cellIndex === 3) ? Number(props.cellData).format() : props.cellData
-          : (cellIndex === 3 || cellIndex === 2)
-            ? props.cellData === 0 ? '-' : Number(props.cellData).format()
-            : props.cellData + ''}
-        onChangeText={(value) => onChangeCellItem(value, rowIndex, cellIndex)}
-      />
-    </View>
+    <TextInput
+      style={[
+        cStyles.textDefault,
+        cStyles.flexWrap,
+        cStyles.p4,
+        cStyles.textMeta,
+        cellIndex === 0 ? cStyles.textLeft : cStyles.textCenter,
+        { color: colors.BLACK }
+      ]}
+      keyboardType={cellIndex !== 0 ? 'number-pad' : 'default'}
+      selectionColor={colors.BLACK}
+      multiline
+      editable={!props.disabled}
+      value={typeof props.cellData === 'string'
+        ? (cellIndex === 3) ? props.cellData == '' ? '' : Number(props.cellData).format() : props.cellData
+        : (cellIndex === 3 || cellIndex === 2)
+          ? props.cellData === 0 ? '' : props.cellData == '' ? '' : Number(props.cellData).format()
+          : props.cellData + ''}
+      onChangeText={(value) => onChangeCellItem(value, rowIndex, cellIndex)}
+    />
   );
 };
 

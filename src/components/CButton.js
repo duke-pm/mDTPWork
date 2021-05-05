@@ -114,7 +114,7 @@ function CButton(props) {
               }),
             }],
           }}
-          color={colors.GRAY_700}
+          color={colors.WHITE}
           size={'small'}
         />
 
@@ -131,8 +131,8 @@ function CButton(props) {
           styles={'textButton'}
           customStyles={[
             { color: colors.WHITE },
-            customStylesButton
-          ]}
+            customStylesButton,
+            (disabled || loading) && styles.disabled_text]}
           label={t(label)}
         />
       </View>
@@ -151,14 +151,14 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   disabled_contained: {
-    backgroundColor: colors.GRAY_100,
+    backgroundColor: colors.GRAY_500,
   },
   disabled_outlined: {
     borderColor: colors.GRAY_500,
     borderWidth: 1,
   },
   disabled_text: {
-
+    color: 'black'
   },
 });
 
