@@ -22,8 +22,8 @@
   },
   "error": {
     "title": "Lỗi",
-    "send_request": "Gửi yêu cầu không thành công!",
-    "lost_network": "Kết nối không thành công!\nVui lòng kiểm tra kết nối của bạn!",
+    "send_request": "Gửi yêu cầu thất bại",
+    "lost_network": "Kết nối thất bại!\nVui lòng kiểm tra kết nối của bạn!",
     "not_choose_department": "Chưa chọn bộ phận",
     "not_choose_region": "Chưa chọn khu vực",
     "not_choose_where_use": "Chưa chọn nơi dùng",
@@ -31,7 +31,8 @@
     "assets_need_larger_than_zero": "Số lượng phải lớn hơn 0",
     "user_name_empty": "Tên Đăng Nhập không được rỗng",
     "password_empty": "Mật Khẩu không được rỗng",
-    "list_request": "Nhận danh sách yêu cầu không thành công!"
+    "list_request": "Nhận danh sách yêu cầu thất bại",
+    "reason_reject_empty": "Lý do từ chối không thể trống"
   },
   "sign_in": {
     "title": "Đăng Nhập",

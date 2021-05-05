@@ -11,6 +11,9 @@ import * as types from '../actions/types';
 export const initialState = fromJS({
   submitting: false,
 
+  successRefreshToken: false,
+  errorRefreshToken: false,
+
   successLogin: false,
   errorLogin: false,
   errorHelperLogin: '',
@@ -21,6 +24,13 @@ export const initialState = fromJS({
     expiresIn: 0,
     refreshToken: null,
     userName: null,
+    userID: null,
+    empCode: null,
+    fullName: null,
+    regionCode: null,
+    deptCode: null,
+    jobTitle: null,
+    expired: null,
   },
 });
 
@@ -39,7 +49,34 @@ export default function (state = initialState, action = {}) {
         .setIn(['login', 'tokenType'], null)
         .setIn(['login', 'expiresIn'], 0)
         .setIn(['login', 'refreshToken'], null)
-        .setIn(['login', 'userName'], null);
+        .setIn(['login', 'userName'], null)
+        .setIn(['login', 'userID'], null)
+        .setIn(['login', 'empCode'], null)
+        .setIn(['login', 'fullName'], null)
+        .setIn(['login', 'regionCode'], null)
+        .setIn(['login', 'deptCode'], null)
+        .setIn(['login', 'jobTitle'], null)
+        .setIn(['login', 'expired'], null);
+    /*****************************/
+
+    /** For refresh token **/
+    case types.START_REFRESH_TOKEN:
+      return state
+        .set('submitting', true)
+        .set('successRefreshToken', false)
+        .set('errorRefreshToken', false);
+
+    case types.SUCCESS_REFRESH_TOKEN:
+      return state
+        .set('submitting', true)
+        .set('successRefreshToken', true)
+        .set('errorRefreshToken', false);
+
+    case types.ERROR_REFRESH_TOKEN:
+      return state
+        .set('submitting', true)
+        .set('successRefreshToken', false)
+        .set('errorRefreshToken', true);
     /*****************************/
 
     /** For login **/
@@ -54,6 +91,8 @@ export default function (state = initialState, action = {}) {
       return state
         .set('submitting', false)
         .set('successLogin', true)
+        .set('successRefreshToken', true)
+        .set('errorRefreshToken', false)
         .set('errorLogin', false)
         .set('errorHelperLogin', '')
 
@@ -61,7 +100,14 @@ export default function (state = initialState, action = {}) {
         .setIn(['login', 'tokenType'], payload.tokenType)
         .setIn(['login', 'expiresIn'], payload.expiresIn)
         .setIn(['login', 'refreshToken'], payload.refreshToken)
-        .setIn(['login', 'userName'], payload.userName);
+        .setIn(['login', 'userName'], payload.userName)
+        .setIn(['login', 'userID'], payload.userID)
+        .setIn(['login', 'empCode'], payload.empCode)
+        .setIn(['login', 'fullName'], payload.fullName)
+        .setIn(['login', 'regionCode'], payload.regionCode)
+        .setIn(['login', 'deptCode'], payload.deptCode)
+        .setIn(['login', 'jobTitle'], payload.jobTitle)
+        .setIn(['login', 'expired'], payload.expired);
 
     case types.ERROR_LOGIN:
       return state

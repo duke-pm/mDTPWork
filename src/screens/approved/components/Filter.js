@@ -204,7 +204,7 @@ function Filter(props) {
               labelStyle={'textDefault pl10'}
               label={'approved:status_reject'}
               value={statusRequest.reject}
-              onChange={(checked) => handleChangeStatus('0', 'reject', checked)}
+              onChange={(checked) => handleChangeStatus('4', 'reject', checked)}
             />
           </View>
 

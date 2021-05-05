@@ -6,6 +6,7 @@
  **/
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import {
   StyleSheet,
   View,
@@ -15,16 +16,15 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
-import { useTranslation } from 'react-i18next';
-import Modal from 'react-native-modal';
 import {
   Table,
   Row,
   TableWrapper,
   Cell,
 } from 'react-native-table-component';
-import Icon from 'react-native-vector-icons/FontAwesome5';
 import { showMessage } from "react-native-flash-message";
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import Modal from 'react-native-modal';
 import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
@@ -40,8 +40,6 @@ import { colors, cStyles } from '~/utils/style';
 import { IS_IOS, alert } from '~/utils/helper';
 /* REDUX */
 import * as Actions from '~/redux/actions';
-import API from '~/services/axios';
-import Services from '~/services';
 
 const INPUT_NAME = {
   DATE_REQUEST: 'dateRequest',
@@ -121,6 +119,10 @@ function AddRequest(props) {
       helper: '',
     },
     whereUse: {
+      status: false,
+      helper: '',
+    },
+    reasonReject: {
       status: false,
       helper: '',
     },
@@ -224,6 +226,14 @@ function AddRequest(props) {
 
   const handleChangeReasonReject = (value) => {
     setReasonReject(value);
+    if (error.reasonReject.status)
+      setError({
+        ...error,
+        reasonReject: {
+          status: false,
+          helper: '',
+        },
+      });
   };
 
   /** FUNC */
@@ -354,7 +364,7 @@ function AddRequest(props) {
     if (error.assets.status) {
       setError({ ...error, assets: { status: false, helper: '' } });
     }
-  }
+  };
 
   const onPrepareDetail = () => {
     let tmp = {
@@ -431,22 +441,32 @@ function AddRequest(props) {
   };
 
   const onReject = () => {
-    setLoading({ ...loading, submit: true });
-    let params = {
-      'RequestID': form.id,
-      'RequestTypeID': 1,
-      'PersonRequestID': form.personRequestId,
-      'Status': false,
-      'Reason': reasonReject,
-      'Lang': commonState.get('language'),
+    if (reasonReject.trim() !== '') {
+      setLoading({ ...loading, submit: true });
+      let params = {
+        'RequestID': form.id,
+        'RequestTypeID': 1,
+        'PersonRequestID': form.personRequestId,
+        'Status': false,
+        'Reason': reasonReject,
+        'Lang': commonState.get('language'),
+      }
+      dispatch(Actions.fetchApprovedRequest(params));
+    } else {
+      setError({
+        ...error,
+        reasonReject: {
+          status: true,
+          helper: 'error:reason_reject_empty'
+        }
+      })
     }
-    dispatch(Actions.fetchApprovedRequest(params));
   };
 
   const onCloseReject = () => {
     setReasonReject('');
     setShowReject(false);
-  }
+  };
 
   /** LIFE CYCLE */
   useEffect(() => {
@@ -625,7 +645,12 @@ function AddRequest(props) {
               </View>
 
               {/** Department & Region */}
-              <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pt16, IS_IOS && { zIndex: 3000 }]}>
+              <View style={[
+                cStyles.row,
+                cStyles.itemsCenter,
+                cStyles.pt16,
+                IS_IOS && { zIndex: 3000 }
+              ]}>
                 {/** Department */}
                 <View style={[cStyles.flex1, cStyles.pr4]}>
                   <CText styles={'textTitle'} label={'add_approved:department'} />
@@ -647,7 +672,12 @@ function AddRequest(props) {
               </View>
 
               {/** Region */}
-              <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pt16, IS_IOS && { zIndex: 2000 }]}>
+              <View style={[
+                cStyles.row,
+                cStyles.itemsCenter,
+                cStyles.pt16,
+                IS_IOS && { zIndex: 2000 }
+              ]}>
                 <View style={[cStyles.flex1, cStyles.pl4]}>
                   <CText styles={'textTitle'} label={'add_approved:region'} />
                   <CDropdown
@@ -727,7 +757,11 @@ function AddRequest(props) {
               </View>
 
               {/** where use */}
-              <View style={[cStyles.pt16, cStyles.pr4, IS_IOS && { zIndex: 1000 }]}>
+              <View style={[
+                cStyles.pt16,
+                cStyles.pr4,
+                IS_IOS && { zIndex: 1000 }
+              ]}>
                 <CText styles={'textTitle'} label={'add_approved:where_use'} />
                 <CDropdown
                   loading={loading.main}
@@ -1001,7 +1035,12 @@ function AddRequest(props) {
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
               <View style={cStyles.flexCenter}>
                 <View style={[cStyles.rounded1, { backgroundColor: colors.WHITE }]}>
-                  <View style={[cStyles.py10, cStyles.roundedTopLeft1, cStyles.roundedTopRight1, { backgroundColor: colors.PRIMARY }]}>
+                  <View style={[
+                    cStyles.py10,
+                    cStyles.roundedTopLeft1,
+                    cStyles.roundedTopRight1,
+                    { backgroundColor: colors.PRIMARY }
+                  ]}>
                     <CText styles={'colorWhite textCenter'} label={'common:app_name'} />
                   </View>
 
@@ -1019,13 +1058,20 @@ function AddRequest(props) {
                       keyboard={'default'}
                       returnKey={'done'}
                       multiline
+                      error={error.reasonReject.status}
+                      errorHelper={error.reasonReject.helper}
                       textAlignVertical={'top'}
-                      onChangeInput={onApproved}
+                      onChangeInput={onReject}
                       onChangeValue={handleChangeReasonReject}
                     />
                   </View>
 
-                  <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyEvenly, cStyles.px16]}>
+                  <View style={[
+                    cStyles.row,
+                    cStyles.itemsCenter,
+                    cStyles.justifyEvenly,
+                    cStyles.px16
+                  ]}>
                     <CButton
                       style={styles.button_base}
                       block
@@ -1037,7 +1083,7 @@ function AddRequest(props) {
                     <CButton
                       style={styles.button_base}
                       block
-                      label={'common:send'}
+                      label={'common:ok'}
                       onPress={onReject}
                     />
                   </View>

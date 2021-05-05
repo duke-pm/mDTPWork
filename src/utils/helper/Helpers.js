@@ -4,7 +4,6 @@
  ** CreateAt: 2021
  ** Description: Description of .js
  **/
-import { isIphoneX } from 'react-native-iphone-x-helper';
 import {
   PixelRatio,
   Platform,
@@ -12,6 +11,7 @@ import {
   Dimensions,
   Alert,
 } from 'react-native';
+import { isIphoneX } from 'react-native-iphone-x-helper';
 
 export const IS_ANDROID = Platform.OS === 'android';
 export const IS_IOS = Platform.OS === 'ios';

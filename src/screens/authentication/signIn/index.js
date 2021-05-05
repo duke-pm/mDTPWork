@@ -31,10 +31,14 @@ import Routes from '~/navigation/Routes';
 import Assets from '~/utils/asset/Assets';
 import { LOGIN } from '~/config/constants';
 import { colors, cStyles } from '~/utils/style';
-import { IS_IOS, resetRoute } from '~/utils/helper';
+import {
+  IS_IOS,
+  resetRoute,
+  checkTokenValid
+} from '~/utils/helper';
+import API from '~/services/axios';
 /* REDUX */
 import * as Actions from '~/redux/actions';
-import API from '~/services/axios';
 
 
 const INPUT_NAME = {
@@ -50,6 +54,7 @@ function SignIn(props) {
   const dispatch = useDispatch();
   const authState = useSelector(({ auth }) => auth);
   const commonState = useSelector(({ common }) => common);
+  const masterState = useSelector(({ masterData }) => masterData);
 
   const [loading, setLoading] = useState({
     main: true,
@@ -95,8 +100,8 @@ function SignIn(props) {
     if (isValid) {
       setLoading({ ...loading, submit: true });
       let params = fromJS({
-        'Username': form.userName,
-        'Password': form.password,
+        'Username': form.userName.trim().toLowerCase(),
+        'Password': form.password.trim(),
         'Lang': commonState.get('language'),
       });
       dispatch(Actions.fetchLogin(params));
@@ -112,11 +117,18 @@ function SignIn(props) {
         expiresIn: authState.getIn(['login', 'expiresIn']),
         refreshToken: authState.getIn(['login', 'refreshToken']),
         userName: authState.getIn(['login', 'userName']),
+        userID: authState.getIn(['login', 'userID']),
+        empCode: authState.getIn(['login', 'empCode']),
+        fullName: authState.getIn(['login', 'fullName']),
+        regionCode: authState.getIn(['login', 'regionCode']),
+        deptCode: authState.getIn(['login', 'deptCode']),
+        jobTitle: authState.getIn(['login', 'jobTitle']),
+        expired: authState.getIn(['login', 'expired']),
       }
       await AsyncStorage.setItem(LOGIN, JSON.stringify(dataLogin));
     }
     API.defaults.headers.common['Authorization'] = 'Bearer ' + authState.getIn(['login', 'accessToken']);
-    onStart();
+    onFetchMasterData();
   };
 
   const onValidate = () => {
@@ -172,6 +184,13 @@ function SignIn(props) {
         expires_in: dataLogin.expiresIn,
         refresh_token: dataLogin.refreshToken,
         userName: dataLogin.userName,
+        userID: dataLogin.userID,
+        empCode: dataLogin.empCode,
+        fullName: dataLogin.fullName,
+        regionCode: dataLogin.regionCode,
+        deptCode: dataLogin.deptCode,
+        jobTitle: dataLogin.jobTitle,
+        '.expires': dataLogin.expired,
       }
       dispatch(Actions.loginSuccess(dataLogin));
       API.defaults.headers.common['Authorization'] = 'Bearer ' + dataLogin.access_token;
@@ -179,6 +198,13 @@ function SignIn(props) {
     } else {
       setLoading({ ...loading, main: false });
     }
+  };
+
+  const onFetchMasterData = () => {
+    let params = {
+      listType: 'Region, Company',
+    }
+    dispatch(Actions.fetchMasterData(params));
   };
 
   /** LIFE CYCLE */
@@ -213,6 +239,17 @@ function SignIn(props) {
     authState.get('submitting'),
     authState.get('successLogin'),
     authState.get('errorLogin'),
+  ]);
+
+  useEffect(async () => {
+    if (loading.submit) {
+      if (!masterState.get('submitting')) {
+        onStart();
+      }
+    }
+  }, [
+    loading.submit,
+    masterState.get('submitting'),
   ]);
 
   /** RENDER */

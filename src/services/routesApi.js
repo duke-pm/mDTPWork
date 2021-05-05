@@ -7,6 +7,7 @@
 const Routes = {
   AUTHENTICATION: {
     LOGIN: '/User/Login',
+    REFRESH_TOKEN: '/User/RefreshToken',
   },
   MASTER_DATA: {
     GET_ALL: '/MasterData/GetDataForForm',

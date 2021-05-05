@@ -25,6 +25,13 @@ export const loginSuccess = data => ({
     expiresIn: data.expires_in,
     refreshToken: data.refresh_token,
     userName: data.userName,
+    userID: data.userID,
+    empCode: data.empCode,
+    fullName: data.fullName,
+    regionCode: data.regionCode,
+    deptCode: data.deptCode,
+    jobTitle: data.jobTitle,
+    expired: data['.expires'],
   }
 });
 

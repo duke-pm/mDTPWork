@@ -16,7 +16,6 @@ export default {
         .post(
           jwtServiceConfig.baseURL + Routes.AUTHENTICATION.LOGIN,
           params,
-          Object.assign({}, jwtServiceConfig),
         )
         .then((response) => {
           console.log("FETCH USER LOGIN => ", response);
@@ -28,6 +27,28 @@ export default {
         })
         .catch((error) => {
           console.log("ERROR USER LOGIN => ", error);
+          reject(error.response ? error.response.data : error);
+        });
+    });
+  },
+
+  refreshToken: (params) => {
+    return new Promise((resolve, reject) => {
+      API
+        .post(
+          jwtServiceConfig.baseURL + Routes.AUTHENTICATION.REFRESH_TOKEN,
+          params,
+        )
+        .then((response) => {
+          console.log("FETCH REFRESH TOKEN => ", response);
+          if (response.status === 200 && response.data) {
+            resolve(response.data);
+          } else {
+            reject(response.statusText);
+          }
+        })
+        .catch((error) => {
+          console.log("ERROR REFRESH TOKEN => ", error);
           reject(error.response ? error.response.data : error);
         });
     });
