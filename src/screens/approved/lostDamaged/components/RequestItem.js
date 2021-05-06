@@ -14,6 +14,7 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
+import moment from 'moment';
 /* COMPONENTS */
 import CText from '~/components/CText';
 /* COMMON */
@@ -21,7 +22,6 @@ import Routes from '~/navigation/Routes';
 import { cStyles } from '~/utils/style';
 import Commons from '~/utils/common/Commons';
 import Assets from '~/utils/asset/Assets';
-import moment from 'moment';
 
 function RequestItem(props) {
   const { t } = useTranslation();
@@ -42,6 +42,10 @@ function RequestItem(props) {
   };
 
   /** RENDER */
+  let title = t('approved_lost_damaged:title_request_item_1')
+    + props.data.requestTypeName
+    + t('approved_lost_damaged:title_request_item_2')
+    + props.data.requestID;
   let statusIcon = Assets.iconRequest;
   let colorText = 'colorOrange';
 
@@ -76,7 +80,7 @@ function RequestItem(props) {
               />
               <CText
                 styles={'textTitle pl10'}
-                customLabel={t('approved:title_request_item') + props.data.requestID}
+                customLabel={title}
               />
             </View>
           </View>
@@ -89,7 +93,7 @@ function RequestItem(props) {
             <View style={[cStyles.flex1, cStyles.pt10]}>
               <View style={[cStyles.row, cStyles.itemsStart, cStyles.justifyBetween]}>
                 <View style={[cStyles.row, cStyles.itemsStart, styles.header_left]}>
-                  <CText styles={'textMeta'} label={'approved:date_request'} />
+                  <CText styles={'textMeta'} label={'approved_lost_damaged:date_request'} />
                   <CText
                     styles={'textMeta colorBlack'}
                     customLabel={moment(props.data.requestDate, 'YYYY-MM-DDTHH:mm:ss')
@@ -97,26 +101,26 @@ function RequestItem(props) {
                 </View>
 
                 <View style={[cStyles.row, cStyles.itemsStart]}>
-                  <CText styles={'textMeta'} label={'approved:status_request'} />
+                  <CText styles={'textMeta'} label={'approved_lost_damaged:status_request'} />
                   <CText styles={'textMeta fontBold ' + colorText} customLabel={props.data.statusName} />
                 </View>
               </View>
 
               <View style={[cStyles.row, cStyles.itemsStart, cStyles.justifyBetween]}>
                 <View style={[cStyles.row, cStyles.itemsStart, styles.header_left]}>
-                  <CText styles={'textMeta'} label={'approved:region_request'} />
+                  <CText styles={'textMeta'} label={'approved_lost_damaged:region_request'} />
                   <CText styles={'textMeta colorBlack'} customLabel={props.data.regionName} />
                 </View>
 
                 <View style={[cStyles.row, cStyles.itemsStart, cStyles.justifyEnd, styles.header_right]}>
-                  <CText styles={'textMeta'} label={'approved:user_request'} />
+                  <CText styles={'textMeta'} label={'approved_lost_damaged:user_request'} />
                   <CText styles={'textMeta colorBlack'} customLabel={props.data.personRequest} />
                 </View>
               </View>
 
               <View style={[cStyles.row, cStyles.itemsStart, cStyles.justifyBetween]}>
                 <View style={[cStyles.row, cStyles.itemsStart, styles.header_left]}>
-                  <CText styles={'textMeta'} label={'approved:department_request'} />
+                  <CText styles={'textMeta'} label={'approved_lost_damaged:department_request'} />
                   <CText styles={'textMeta colorBlack'} customLabel={props.data.deptName} />
                 </View>
               </View>

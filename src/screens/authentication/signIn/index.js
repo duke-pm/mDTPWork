@@ -101,8 +101,6 @@ function SignIn(props) {
       let params = fromJS({
         'Username': form.userName.trim().toLowerCase(),
         'Password': form.password.trim(),
-        'RefreshToken': authState.getIn(['login', 'refreshToken']),
-        'Lang': commonState.get('language'),
       });
       dispatch(Actions.fetchLogin(params));
     };
@@ -208,7 +206,7 @@ function SignIn(props) {
       'RefreshToken': authState.getIn(['login', 'refreshToken']),
       'Lang': commonState.get('language'),
     }
-    dispatch(Actions.fetchMasterData(params));
+    dispatch(Actions.fetchMasterData(params, props.navigation));
   };
 
   /** LIFE CYCLE */

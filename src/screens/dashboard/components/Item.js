@@ -33,7 +33,7 @@ function Item(props) {
         cStyles.itemsCenter,
         { width: styles.container.width },
       ]}>
-      <TouchableOpacity activeOpacity={1} onPress={() => onPress('Approved')}>
+      <TouchableOpacity activeOpacity={1} onPress={() => onPress(data.name)}>
         <View style={[
           styles.container,
           cStyles.m2,
@@ -48,7 +48,7 @@ function Item(props) {
 
       <CText
         styles={'pt4 textCenter textMeta colorBlack'}
-        label={'approved:title'}
+        label={'approved:assets'}
         numberOfLines={3}
       />
     </View>

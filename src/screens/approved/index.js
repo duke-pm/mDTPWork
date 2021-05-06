@@ -1,236 +1,36 @@
 /**
- ** Name: Approved page
+ ** Name: Allocation
  ** Author: 
  ** CreateAt: 2021
- ** Description: Description of Approved.js
+ ** Description: Description of Allocation.js
  **/
-import { fromJS } from 'immutable';
 import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { View } from 'react-native';
-import { useTranslation } from 'react-i18next';
-import { showMessage } from "react-native-flash-message";
-import moment from 'moment';
-/* COMPONENTS */
+import {
+  FlatList
+} from 'react-native';
+/** COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
-import Filter from './components/Filter';
-import ListRequest from './list/Request';
-/* COMMON */
-import Routes from '~/navigation/Routes';
+import Item from './components/Item';
+/** COMMON */
+import MockupData from './common/mockup';
 import { cStyles } from '~/utils/style';
-import { LOAD_MORE, REFRESH } from '~/config/constants';
-import { IS_IOS } from '~/utils/helper';
-/* REDUX */
-import * as Actions from '~/redux/actions';
+import { IS_ANDROID } from '~/utils/helper';
 
-function Approved(props) {
-  const { t } = useTranslation();
 
-  const dispatch = useDispatch();
-  const commonState = useSelector(({ common }) => common);
-  const approvedState = useSelector(({ approved }) => approved);
-  const authState = useSelector(({ auth }) => auth);
+function Allocation(props) {
 
-  const [loading, setLoading] = useState({
-    main: true,
-    search: false,
-    refreshing: false,
-    loadmore: false,
-    isLoadmore: true,
-  });
-  const [data, setData] = useState({
-    fromDate: moment().clone().startOf('month').format(commonState.get('formatDate')),
-    toDate: moment().clone().endOf('month').format(commonState.get('formatDate')),
-    status: '1,2,3,4',
-    requests: [],
-    requestsDetail: [],
-    processApproveds: [],
-    page: 1,
-    perPage: commonState.get('perPage'),
-    showResolveRequest: false,
-  });
+  const [loading, setLoading] = useState(true);
 
   /** HANDLE FUNC */
-  const handleAddNew = () => {
-    props.navigation.navigate(
-      Routes.MAIN.ADD_APPROVED.name,
-      {
-        onRefresh: () => onRefresh(),
-      }
-    );
+  const handleItem = (data) => {
+    props.navigation.navigate(data);
   };
-
-  const handleSearch = (value) => {
-    setLoading({ ...loading, search: true });
-    onFetchData(
-      data.fromDate,
-      data.toDate,
-      data.status,
-      data.perPage,
-      data.page,
-      value,
-    );
-  };
-
-  const handleFilter = (fromDate, toDate, status, showResolveRequest) => {
-    setLoading({ ...loading, search: true });
-    setData({ ...data, page: 1, status, fromDate, toDate, showResolveRequest });
-    onFetchData(
-      fromDate,
-      toDate,
-      status,
-      null,
-      null,
-      null,
-      null,
-      showResolveRequest
-    );
-  };
-
-  /** FUNC */
-  const onFetchData = (
-    fromDate = null,
-    toDate = null,
-    statusId = '1,2,3,4',
-    pageSize = data.perPage,
-    pageNum = 1,
-    search = '',
-    requestTypeID = 1,
-    showResolveRequest = false,
-  ) => {
-    let params = fromJS({
-      'FromDate': fromDate,
-      'ToDate': toDate,
-      'StatusID': statusId,
-      'PageSize': pageSize,
-      'PageNum': pageNum,
-      'Search': search,
-      'RequestTypeID': requestTypeID,
-      'IsResolveRequest': showResolveRequest,
-      'RefreshToken': authState.getIn(['login', 'refreshToken']),
-      'Lang': commonState.get('language'),
-    });
-    dispatch(Actions.fetchListRequestApproved(params));
-  };
-
-  const onPrepareData = (type) => {
-    let tmpRequests = [...data.requests];
-    let tmpRequestDetail = [...data.requestsDetail];
-    let tmpProcessApproveds = [...data.processApproveds];
-    let isLoadmore = true;
-    if (approvedState.get('requests').length < commonState.get('perPage')) {
-      isLoadmore = false;
-    }
-    if (type === REFRESH) {
-      tmpRequests = approvedState.get('requests');
-      tmpRequestDetail = approvedState.get('requestsDetail');
-      tmpProcessApproveds = approvedState.get('processApproved');
-    } else if (type === LOAD_MORE) {
-      tmpRequests = [...tmpRequests, ...approvedState.get('requests')];
-      tmpRequestDetail = [...tmpRequestDetail, ...approvedState.get('requestsDetail')];
-      tmpProcessApproveds = [...tmpProcessApproveds, ...approvedState.get('processApproved')];
-    }
-    setData({
-      ...data,
-      requests: tmpRequests,
-      requestsDetail: tmpRequestDetail,
-      processApproveds: tmpProcessApproveds,
-    });
-    setLoading({
-      main: false,
-      search: false,
-      refreshing: false,
-      loadmore: false,
-      isLoadmore,
-    });
-  };
-
-  const onRefresh = () => {
-    if (!loading.refreshing) {
-      setLoading({ ...loading, refreshing: true, isLoadmore: true });
-      setData({ ...data, page: 1 });
-      onFetchData(
-        data.fromDate,
-        data.toDate,
-        data.status,
-        data.perPage,
-        1,
-        '',
-      );
-    }
-  };
-
-  const onLoadmore = () => {
-    if (!loading.loadmore && loading.isLoadmore) {
-      let newPage = data.page + 1;
-      setLoading({ ...loading, loadmore: true });
-      setData({ ...data, page: newPage });
-      onFetchData(
-        data.fromDate,
-        data.toDate,
-        data.status,
-        data.perPage,
-        newPage,
-        '',
-      );
-    }
-  };
-
-  const onError = () => {
-    showMessage({
-      message: t('common:app_name'),
-      description: approvedState.getIn(['errorHelperListRequest', 'message'])
-        || t('error:list_request'),
-      type: 'danger',
-      icon: 'danger',
-    });
-
-    return setLoading({
-      main: false,
-      search: false,
-      refreshing: false,
-      loadmore: false,
-      isLoadmore: false,
-    });
-  }
 
   /** LIFE CYCLE */
   useEffect(() => {
-    onFetchData(
-      data.fromDate,
-      data.toDate,
-      data.status,
-      data.perPage,
-      data.page,
-      '',
-    );
+    setLoading(false);
   }, []);
-
-  useEffect(() => {
-    if (loading.main || loading.search || loading.refreshing || loading.loadmore) {
-      if (!approvedState.get('submittingList')) {
-        let type = REFRESH;
-        if (loading.loadmore) type = LOAD_MORE;
-
-        if (approvedState.get('successListRequest')) {
-          return onPrepareData(type);
-        }
-
-        if (approvedState.get('errorListRequest')) {
-          return onError();
-        }
-      }
-    }
-  }, [
-    loading.main,
-    loading.search,
-    loading.refreshing,
-    loading.loadmore,
-    approvedState.get('submitting'),
-    approvedState.get('successListRequest'),
-    approvedState.get('errorListRequest')
-  ]);
 
   /** RENDER */
   return (
@@ -239,33 +39,31 @@ function Approved(props) {
         top: true,
         bottom: false,
       }}
-      loading={loading.main || loading.search}
-      title={'approved:title'}
+      loading={loading}
+      title={'approved:assets'}
       header
-      hasAddNew
-      hasSearch
       hasBack
-      onPressAddNew={handleAddNew}
-      onPressSearch={handleSearch}
       content={
-        <CContent>
-          <Filter onFilter={handleFilter} />
-
-          {!loading.main &&
-            <ListRequest
-              refreshing={loading.refreshing}
-              loadmore={loading.loadmore}
-              data={data.requests}
-              dataDetail={data.requestsDetail}
-              dataProcess={data.processApproveds}
-              onRefresh={onRefresh}
-              onLoadmore={onLoadmore}
-            />
-          }
+        <CContent padder>
+          <FlatList
+            style={cStyles.flex1}
+            data={MockupData.Approved}
+            renderItem={({ item, index }) => {
+              return (
+                <Item
+                  index={index}
+                  data={item}
+                  onPress={handleItem}
+                />
+              )
+            }}
+            keyExtractor={(item, index) => index.toString()}
+            removeClippedSubviews={IS_ANDROID}
+          />
         </CContent>
       }
     />
-  );
+  )
 };
 
-export default Approved;
+export default Allocation;

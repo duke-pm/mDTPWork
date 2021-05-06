@@ -87,7 +87,7 @@ function CHeader(props) {
             iconLastStyle={styles.con_search}
             iconLast={'magnify'}
             iconLastColor={colors.GRAY_600}
-            holder={'approved:search_request'}
+            holder={'approved_assets:search_request'}
             autoFocus
             returnKey={'search'}
             onChangeInput={handleSearch}

@@ -5,6 +5,18 @@
  ** Description: Description of Common.js
  **/
 const Commons = {
+  APPROVED_TYPE: {
+    ASSETS: {
+      code: 1,
+    },
+    DAMAGED: {
+      code: 2,
+    },
+    LOST: {
+      code: 3,
+    }
+  },
+
   STATUS_REQUEST: {
     ALL: {
       code: 0,
@@ -21,7 +33,7 @@ const Commons = {
     REJECT: {
       code: 4,
     },
-  }
+  },
 };
 
 export default Commons;

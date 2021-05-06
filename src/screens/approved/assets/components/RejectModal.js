@@ -84,14 +84,14 @@ function RejectModal(props) {
             </View>
 
             <View style={cStyles.p10}>
-              <CText styles={'textCenter'} label={'add_approved:message_confirm_reject'} />
+              <CText styles={'textCenter'} label={'add_approved_assets:message_confirm_reject'} />
 
               <CInput
                 name={INPUT_NAME.REASON_REJECT}
                 style={styles.input}
                 styleFocus={styles.input_focus}
                 disabled={props.loading}
-                holder={'add_approved:reason'}
+                holder={'add_approved_assets:reason'}
                 value={reasonReject}
                 valueColor={colors.BLACK}
                 keyboard={'default'}

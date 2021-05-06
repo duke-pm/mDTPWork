@@ -9,7 +9,7 @@ import * as types from './types';
 import * as Actions from '~/redux/actions';
 import Services from '~/services';
 
-/** For get list request */
+/** For get list request assets */
 export const listRequestApprovedError = error => ({
   type: types.ERROR_FETCH_LIST_REQUEST_APPROVED,
   payload: error
@@ -30,7 +30,7 @@ export const listRequestApprovedSuccess = (
   }
 });
 
-export const fetchListRequestApproved = params => {
+export const fetchListRequestApproved = (params, navigation) => {
   return dispatch => {
     dispatch({
       type: types.START_FETCH_LIST_REQUEST_APPROVED,
@@ -54,12 +54,13 @@ export const fetchListRequestApproved = params => {
         dispatch(listRequestApprovedError(error));
         if (error.message && error.message.search('Authorization') !== -1) {
           let tmp = {
-            'RefreshToken': params.RefreshToken,
-            'Lang': params.Lang,
+            'RefreshToken': params.get('RefreshToken'),
+            'Lang': params.get('Lang'),
           }
           return dispatch(Actions.fetchRefreshToken(
             tmp,
-            () => fetchListRequestApproved(params)
+            () => fetchListRequestApproved(params),
+            navigation,
           ));
         }
       });
@@ -77,7 +78,7 @@ export const addRequestApprovedSuccess = () => ({
   type: types.SUCCESS_FETCH_ADD_REQUEST_APPROVED,
 });
 
-export const fetchAddRequestApproved = params => {
+export const fetchAddRequestApproved = (params, navigation) => {
   return dispatch => {
     dispatch({
       type: types.START_FETCH_ADD_REQUEST_APPROVED,
@@ -100,7 +101,8 @@ export const fetchAddRequestApproved = params => {
           }
           return dispatch(Actions.fetchRefreshToken(
             tmp,
-            () => fetchAddRequestApproved(params)
+            () => fetchAddRequestApproved(params),
+            navigation,
           ));
         }
       });
@@ -118,7 +120,7 @@ export const approvedRequestSuccess = () => ({
   type: types.SUCCESS_FETCH_APPROVED_REQUEST,
 });
 
-export const fetchApprovedRequest = params => {
+export const fetchApprovedRequest = (params, navigation) => {
   return dispatch => {
     dispatch({
       type: types.START_FETCH_APPROVED_REQUEST,
@@ -141,7 +143,8 @@ export const fetchApprovedRequest = params => {
           }
           return dispatch(Actions.fetchRefreshToken(
             tmp,
-            () => fetchApprovedRequest(params)
+            () => fetchApprovedRequest(params),
+            navigation,
           ));
         }
       });
@@ -159,7 +162,7 @@ export const rejectRequestSuccess = () => ({
   type: types.SUCCESS_FETCH_REJECT_REQUEST,
 });
 
-export const fetchRejectRequest = params => {
+export const fetchRejectRequest = (params, navigation) => {
   return dispatch => {
     dispatch({
       type: types.START_FETCH_REJECT_REQUEST,
@@ -182,7 +185,8 @@ export const fetchRejectRequest = params => {
           }
           return dispatch(Actions.fetchRefreshToken(
             tmp,
-            () => fetchRejectRequest(params)
+            () => fetchRejectRequest(params),
+            navigation,
           ));
         }
       });

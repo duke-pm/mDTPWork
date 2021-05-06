@@ -6,10 +6,17 @@
  **/
 import SignInScreen from '~/screens/authentication/signIn';
 import ForgotPasswordScreen from '~/screens/authentication/forgotPassword';
+
 import Dashboard from '~/screens/dashboard';
 import Account from '~/screens/account';
+
+/** APPROVED */
 import Approved from '~/screens/approved';
-import AddRequestAsset from '~/screens/approved/add/Request';
+
+import ApprovedAssets from '~/screens/approved/assets';
+import AddRequestAsset from '~/screens/approved/assets/add/Request';
+
+import ApprovedLostDamaged from '~/screens/approved/lostDamaged';
 
 const Routes = {
   AUTHENTICATION: {
@@ -25,9 +32,6 @@ const Routes = {
   ROOT_TAB: {
     name: 'RootTab',
   },
-  ROOT_STACK: {
-    name: 'RootStack',
-  },
   MAIN: {
     DASHBOARD: {
       name: 'Dashboard',
@@ -41,9 +45,17 @@ const Routes = {
       name: 'Approved',
       path: Approved,
     },
+    APPROVED_ASSETS: {
+      name: 'ApprovedAssets',
+      path: ApprovedAssets,
+    },
     ADD_APPROVED: {
       name: 'AddRequestAsset',
       path: AddRequestAsset,
+    },
+    APPROVED_LOST_DAMAGED: {
+      name: 'ApprovedLostDamaged',
+      path: ApprovedLostDamaged,
     },
   },
 }

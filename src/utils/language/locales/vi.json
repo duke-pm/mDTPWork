@@ -32,7 +32,9 @@
     "user_name_empty": "Tên Đăng Nhập không được rỗng",
     "password_empty": "Mật Khẩu không được rỗng",
     "list_request": "Nhận danh sách yêu cầu thất bại",
-    "reason_reject_empty": "Lý do từ chối không thể trống"
+    "reason_reject_empty": "Lý do từ chối không thể trống",
+    "status_not_found": "Trạng thái không thể trống",
+    "type_lost_damaged_not_found": "Loại báo hỏng mất không thể trống"
   },
   "sign_in": {
     "title": "Đăng Nhập",
@@ -50,8 +52,16 @@
   "dashboard": {
     "title": "Tổng Quan"
   },
+  "account": {
+    "title": "Tài khoản"
+  },
   "approved": {
+    "title": "Cấp Phát",
+    "assets": "Tài sản"
+  },
+  "approved_assets": {
     "title": "Cấp Phát Tài Sản",
+    "title_assets": "Tài Sản",
     "filter": "Bộ lọc:",
     "status": "Trạng thái",
     "user_request": "Người gửi: ",
@@ -75,7 +85,7 @@
     "reason_reject": "Lý do: ",
     "resolve_request": "Chỉ hiện yêu cầu cần thiết"
   },
-  "add_approved": {
+  "add_approved_assets": {
     "title": "Thêm mới",
     "name": "Tên",
     "department": "Bộ phận",
@@ -114,7 +124,33 @@
     "search_department": "Tìm bộ phận...",
     "detail": "Chi tiết cấp phát"
   },
-  "account": {
-    "title": "Tài khoản"
+  "approved_lost_damaged": {
+    "title": "Báo hỏng | Báo mất",
+    "title_assets": "Tài Sản",
+    "filter": "Bộ lọc:",
+    "status": "Trạng thái",
+    "user_request": "Người gửi: ",
+    "department_request": "Bộ phận: ",
+    "region_request": "Khu vực: ",
+    "date_request": "Ngày gửi: ",
+    "date_approved": "Ngày duyệt: ",
+    "status_request": "Trạng thái: ",
+    "title_request_item_1": "Yêu cầu ",
+    "title_request_item_2": " số #",
+    "status_all": "Tất cả",
+    "status_wait": "Chờ phê duyệt",
+    "status_approved": "Đã duyệt",
+    "status_done": "Hoàn thành",
+    "status_reject": "Từ chối",
+    "search_request": "Tìm kiếm...",
+    "from_date": "Từ ngày: ",
+    "to_date": "Đến ngày: ",
+    "filter_start": "Lọc",
+    "show_timeline": "Thông tin trạng thái",
+    "person_approved": "Người duyệt: ",
+    "reason_reject": "Lý do: ",
+    "resolve_request": "Chỉ hiện yêu cầu cần thiết",
+    "damaged": "Tài sản hỏng",
+    "lost": "Tài sản mất"
   }
 }

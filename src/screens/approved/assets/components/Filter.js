@@ -6,6 +6,7 @@
  **/
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import {
   StyleSheet,
   View,
@@ -13,7 +14,7 @@ import {
   LayoutAnimation,
   UIManager,
 } from 'react-native';
-import Feather from 'react-native-vector-icons/Feather';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import moment from 'moment';
 /* COMPONENTS */
 import CText from '~/components/CText';
@@ -24,7 +25,6 @@ import CCheckbox from '~/components/CCheckbox';
 /* COMMON */
 import { colors, cStyles } from '~/utils/style';
 import { IS_ANDROID } from '~/utils/helper';
-/* REDUX */
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -41,6 +41,7 @@ function Filter(props) {
   const {
     onFilter = () => { },
   } = props;
+  const { t } = useTranslation();
 
   const commonState = useSelector(({ common }) => common);
 
@@ -102,13 +103,22 @@ function Filter(props) {
   };
 
   const handleFilter = () => {
-    setShow(false);
-    onFilter(
-      data.fromDate,
-      data.toDate,
-      data.status.join(),
-      resolveRequest,
-    );
+    if (data.status.length === 0) {
+      showMessage({
+        message: t('common:app_name'),
+        description: t('error:status_not_found'),
+        type: 'danger',
+        icon: 'danger',
+      });
+    } else {
+      setShow(false);
+      onFilter(
+        data.fromDate,
+        data.toDate,
+        data.status.join(),
+        resolveRequest,
+      );
+    }
   };
 
   /** FUNC */
@@ -137,8 +147,19 @@ function Filter(props) {
         onPress={handleToggle}
       >
         <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween, cStyles.p16]}>
-          <CText styles={'H6'} label={'approved:filter'} />
-          <Feather name={show ? 'chevron-up' : 'chevron-down'} size={20} color={colors.BLACK} />
+          <View style={[cStyles.row, cStyles.itemsCenter]}>
+            <Icon
+              name={'filter'}
+              color={colors.BLACK}
+              size={20}
+            />
+            <CText styles={'H6 pl10'} label={'approved_lost_damaged:filter'} />
+          </View>
+          <Icon
+            name={show ? 'chevron-up' : 'chevron-down'}
+            size={25}
+            color={colors.BLACK}
+          />
         </View>
       </TouchableOpacity>
 
@@ -146,7 +167,7 @@ function Filter(props) {
         <View style={cStyles.px16}>
           <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween]}>
             <View style={styles.text_date}>
-              <CText customStyles={[cStyles.pt16, cStyles.textLeft,]} label={'approved:from_date'} />
+              <CText customStyles={[cStyles.pt16, cStyles.textLeft,]} label={'approved_assets:from_date'} />
             </View>
             <CInput
               containerStyle={[cStyles.justifyEnd, styles.input_date]}
@@ -168,7 +189,7 @@ function Filter(props) {
 
           <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween]}>
             <View style={styles.text_date}>
-              <CText customStyles={[cStyles.pt16, cStyles.textLeft,]} label={'approved:to_date'} />
+              <CText customStyles={[cStyles.pt16, cStyles.textLeft,]} label={'approved_assets:to_date'} />
             </View>
             <CInput
               containerStyle={[cStyles.justifyEnd, styles.input_date]}
@@ -192,7 +213,7 @@ function Filter(props) {
             <CCheckbox
               style={styles.con_input_status}
               labelStyle={'textDefault pl10'}
-              label={'approved:status_wait'}
+              label={'approved_assets:status_wait'}
               value={statusRequest.wait}
               onChange={(checked) => handleChangeStatus('1', 'wait', checked)}
             />
@@ -200,7 +221,7 @@ function Filter(props) {
             <CCheckbox
               style={styles.con_input_status}
               labelStyle={'textDefault pl10'}
-              label={'approved:status_approved'}
+              label={'approved_assets:status_approved'}
               value={statusRequest.approved}
               onChange={(checked) => handleChangeStatus([2, 3], 'approved', checked)}
             />
@@ -208,7 +229,7 @@ function Filter(props) {
             <CCheckbox
               style={styles.con_input_status}
               labelStyle={'textDefault pl10'}
-              label={'approved:status_reject'}
+              label={'approved_assets:status_reject'}
               value={statusRequest.reject}
               onChange={(checked) => handleChangeStatus('4', 'reject', checked)}
             />
@@ -218,14 +239,14 @@ function Filter(props) {
             <CCheckbox
               style={styles.con_input_status}
               labelStyle={'textDefault pl10'}
-              label={'approved:resolve_request'}
+              label={'approved_assets:resolve_request'}
               value={resolveRequest}
               onChange={handleChangeResolveRequest}
             />
           </View>
 
           <CButton
-            label={'approved:filter_start'}
+            label={'approved_assets:filter_start'}
             onPress={handleFilter}
           />
         </View>

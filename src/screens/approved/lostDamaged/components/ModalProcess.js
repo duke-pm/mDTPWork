@@ -49,10 +49,10 @@ function ModalProcess(props) {
             .format('DD/MM/YYYY')}\n${moment(item.approveDate, 'DD/MM/YYYY - HH:mm')
               .format('HH:mm')}`;
           tmpItem.title = item.requestTypeName;
-          tmpItem.description = t('approved:person_approved') + item.personApproveName;
+          tmpItem.description = t('approved_lost_damaged:person_approved') + item.personApproveName;
           tmpItem.reason =
             (!item.statusID && item.reason)
-              ? t('approved:person_approved') + item.reason
+              ? t('approved_lost_damaged:person_approved') + item.reason
               : '';
 
           if (!item.statusID && !item.reason) {
@@ -100,7 +100,7 @@ function ModalProcess(props) {
             cStyles.roundedTopRight1,
             styles.header,
           ]}>
-            <CText styles={'H6 colorWhite'} label={'approved:show_timeline'} />
+            <CText styles={'H6 colorWhite'} label={'approved_lost_damaged:show_timeline'} />
           </View>
 
           <View style={cStyles.p16}>

@@ -4,10 +4,16 @@
  ** CreatedAt: 2021
  ** Description: Description of Auth.js
 **/
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { CommonActions } from '@react-navigation/native';
 /* COMMON */
 import * as types from './types';
+import * as Actions from '~/redux/actions';
 import Services from '~/services';
 import API from '~/services/axios';
+import { resetRoute } from '~/utils/helper';
+import { LOGIN } from '~/config/constants';
+import Routes from '~/navigation/Routes';
 
 export const logout = () => ({
   type: types.LOGOUT
@@ -60,7 +66,7 @@ export const fetchLogin = params => {
   }
 };
 
-export const fetchRefreshToken = (params, callback) => {
+export const fetchRefreshToken = (params, callback, navigation) => {
   return dispatch => {
     dispatch({
       type: types.START_REFRESH_TOKEN,
@@ -72,12 +78,15 @@ export const fetchRefreshToken = (params, callback) => {
           dispatch(loginSuccess(res.data));
           return dispatch(callback());
         } else {
-          return dispatch(loginError(res.errorMessage));
+          AsyncStorage.removeItem(LOGIN);
+          dispatch(loginError('error'));
+          dispatch(Actions.logout());
+          return resetRoute(navigation, Routes.AUTHENTICATION.SIGN_IN.name);
         }
       })
       .catch(error => {
-        return dispatch(loginError(error));
+        dispatch(loginError(error));
+        return resetRoute(navigation, Routes.AUTHENTICATION.SIGN_IN.name);
       });
-
   }
 };

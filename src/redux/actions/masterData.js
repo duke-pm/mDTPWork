@@ -19,7 +19,7 @@ export const changeMasterData = data => ({
   payload: data
 });
 
-export const fetchMasterData = params => {
+export const fetchMasterData = (params, navigation) => {
   return dispatch => {
     dispatch({
       type: types.START_FETCH_MASTER_DATA,
@@ -40,9 +40,12 @@ export const fetchMasterData = params => {
             'RefreshToken': params.RefreshToken,
             'Lang': params.Lang,
           }
-          return dispatch(Actions.fetchRefreshToken(tmp, () => fetchMasterData(params)));
+          return dispatch(Actions.fetchRefreshToken(
+            tmp,
+            () => fetchMasterData(params),
+            navigation,
+          ));
         }
       });
-
   }
 };

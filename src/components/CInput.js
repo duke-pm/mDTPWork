@@ -163,9 +163,9 @@ function CInput(props) {
             onPress={handleRemoveValue}
           >
             <Icon
-              name={'times-circle'}
+              name={'close-circle-outline'}
               color={colors.GRAY_500}
-              size={RFPercentage(2)}
+              size={25}
             />
           </Component>
         }

@@ -91,10 +91,10 @@ function AddRequest(props) {
     region: authState.getIn(['login', 'regionCode']),
     assets: {
       header: [
-        t('add_approved:description'),
-        t('add_approved:amount'),
-        t('add_approved:price'),
-        t('add_approved:total'),
+        t('add_approved_assets:description'),
+        t('add_approved_assets:amount'),
+        t('add_approved_assets:price'),
+        t('add_approved_assets:total'),
         '',
       ],
       data: [
@@ -217,7 +217,7 @@ function AddRequest(props) {
   };
 
   const handleApproved = () => {
-    alert(t, 'add_approved:message_confirm_approved', onApproved);
+    alert(t, 'add_approved_assets:message_confirm_approved', onApproved);
   };
 
   const handleReject = () => {
@@ -293,7 +293,7 @@ function AddRequest(props) {
         'RefreshToken': authState.getIn(['login', 'refreshToken']),
         'Lang': commonState.get('language'),
       };
-      dispatch(Actions.fetchAddRequestApproved(params));
+      dispatch(Actions.fetchAddRequestApproved(params, props.navigation));
     } else {
       setError(isValid.data);
       setLoading({ ...loading, submitAdd: false });
@@ -323,7 +323,7 @@ function AddRequest(props) {
       'RefreshToken': authState.getIn(['login', 'refreshToken']),
       'Lang': commonState.get('language'),
     }
-    dispatch(Actions.fetchMasterData(params));
+    dispatch(Actions.fetchMasterData(params, props.navigation));
   };
 
   const onChangeDateRequest = (newDate, showPicker) => {
@@ -392,10 +392,10 @@ function AddRequest(props) {
         : '',
       assets: {
         header: [
-          t('add_approved:description'),
-          t('add_approved:amount'),
-          t('add_approved:price'),
-          t('add_approved:total'),
+          t('add_approved_assets:description'),
+          t('add_approved_assets:amount'),
+          t('add_approved_assets:price'),
+          t('add_approved_assets:total'),
         ],
         data: [
           ['', '', '', ''],
@@ -443,7 +443,7 @@ function AddRequest(props) {
       'RefreshToken': authState.getIn(['login', 'refreshToken']),
       'Lang': commonState.get('language'),
     }
-    dispatch(Actions.fetchApprovedRequest(params));
+    dispatch(Actions.fetchApprovedRequest(params, props.navigation));
   };
 
   const onReject = (reason) => {
@@ -457,7 +457,7 @@ function AddRequest(props) {
       'RefreshToken': authState.getIn(['login', 'refreshToken']),
       'Lang': commonState.get('language'),
     }
-    dispatch(Actions.fetchRejectRequest(params));
+    dispatch(Actions.fetchRejectRequest(params, props.navigation));
   };
 
   const onCloseReject = () => {
@@ -602,7 +602,7 @@ function AddRequest(props) {
       }
       header
       hasBack
-      title={'add_approved:' + (isDetail ? 'detail' : 'title')}
+      title={'add_approved_assets:' + (isDetail ? 'detail' : 'title')}
       content={
         <CContent>
           <KeyboardAvoidingView style={cStyles.flex1} behavior={IS_IOS ? 'padding' : 'height'}
@@ -613,7 +613,7 @@ function AddRequest(props) {
             >
               {/** Date request */}
               <View>
-                <CText styles={'textTitle'} label={'add_approved:date_request'} />
+                <CText styles={'textTitle'} label={'add_approved_assets:date_request'} />
                 <CInput
                   name={INPUT_NAME.DATE_REQUEST}
                   inputRef={ref => dateRequestRef = ref}
@@ -631,13 +631,13 @@ function AddRequest(props) {
 
               {/** Name */}
               <View style={cStyles.pt16}>
-                <CText styles={'textTitle'} label={'add_approved:name'} />
+                <CText styles={'textTitle'} label={'add_approved_assets:name'} />
                 <CInput
                   name={INPUT_NAME.NAME}
                   styleFocus={styles.input_focus}
                   inputRef={ref => nameRef = ref}
                   disabled={true}
-                  holder={'add_approved:name'}
+                  holder={'add_approved_assets:name'}
                   value={form.name}
                   valueColor={colors.BLACK}
                   keyboard={'default'}
@@ -655,17 +655,17 @@ function AddRequest(props) {
               ]}>
                 {/** Department */}
                 <View style={[cStyles.flex1, cStyles.pr4]}>
-                  <CText styles={'textTitle'} label={'add_approved:department'} />
+                  <CText styles={'textTitle'} label={'add_approved_assets:department'} />
                   <CDropdown
                     loading={loading.main}
                     controller={instance => departmentRef.current = instance}
                     data={masterState.get('department')}
                     disabled={true}
                     searchable={true}
-                    searchablePlaceholder={t('add_approved:search_department')}
+                    searchablePlaceholder={t('add_approved_assets:search_department')}
                     error={error.department.status}
                     errorHelper={error.department.helper}
-                    holder={'add_approved:holder_department'}
+                    holder={'add_approved_assets:holder_department'}
                     defaultValue={form.department}
                     onChangeItem={value => handleCombobox(value, INPUT_NAME.DEPARTMENT)}
                     onOpen={() => onOpenCombobox(INPUT_NAME.DEPARTMENT)}
@@ -681,7 +681,7 @@ function AddRequest(props) {
                 IS_IOS && { zIndex: 9 }
               ]}>
                 <View style={[cStyles.flex1, cStyles.pl4]}>
-                  <CText styles={'textTitle'} label={'add_approved:region'} />
+                  <CText styles={'textTitle'} label={'add_approved_assets:region'} />
                   <CDropdown
                     loading={loading.main}
                     controller={instance => regionRef.current = instance}
@@ -689,7 +689,7 @@ function AddRequest(props) {
                     disabled={true}
                     error={error.region.status}
                     errorHelper={error.region.helper}
-                    holder={'add_approved:holder_region'}
+                    holder={'add_approved_assets:holder_region'}
                     defaultValue={form.region}
                     onChangeItem={value => handleCombobox(value, INPUT_NAME.REGION)}
                     onOpen={() => onOpenCombobox(INPUT_NAME.REGION)}
@@ -699,7 +699,7 @@ function AddRequest(props) {
 
               {/** Assets */}
               <View style={[cStyles.flex1, cStyles.pt16]}>
-                <CText styles={'textTitle'} label={'add_approved:assets'} />
+                <CText styles={'textTitle'} label={'add_approved_assets:assets'} />
                 <ScrollView horizontal>
                   <Table borderStyle={styles.table} style={cStyles.mt6}>
                     <Row
@@ -762,7 +762,7 @@ function AddRequest(props) {
                       onPress={handleAddAssets}
                     >
                       <Icon name={'plus-circle'} size={15} color={colors.BLACK} />
-                      <CText styles={'textMeta textUnderline pl6 colorBlack'} label={'add_approved:add_assets'} />
+                      <CText styles={'textMeta textUnderline pl6 colorBlack'} label={'add_approved_assets:add_assets'} />
                     </TouchableOpacity>
                   }
                 </View>
@@ -774,17 +774,17 @@ function AddRequest(props) {
                 cStyles.pr4,
                 IS_IOS && { zIndex: 8 }
               ]}>
-                <CText styles={'textTitle'} label={'add_approved:where_use'} />
+                <CText styles={'textTitle'} label={'add_approved_assets:where_use'} />
                 <CDropdown
                   loading={loading.main}
                   controller={instance => whereUseRef.current = instance}
                   data={masterState.get('department')}
                   disabled={loading.main || loading.submitAdd || isDetail}
                   searchable={true}
-                  searchablePlaceholder={t('add_approved:search_department')}
+                  searchablePlaceholder={t('add_approved_assets:search_department')}
                   error={error.whereUse.status}
                   errorHelper={error.whereUse.helper}
-                  holder={'add_approved:holder_where_use'}
+                  holder={'add_approved_assets:holder_where_use'}
                   defaultValue={form.whereUse}
                   onChangeItem={value => handleCombobox(value, INPUT_NAME.WHERE_USE, reasonRef)}
                   onOpen={() => onOpenCombobox(INPUT_NAME.WHERE_USE)}
@@ -793,13 +793,13 @@ function AddRequest(props) {
 
               {/** Reason */}
               <View style={cStyles.pt16}>
-                <CText styles={'textTitle'} label={'add_approved:reason'} />
+                <CText styles={'textTitle'} label={'add_approved_assets:reason'} />
                 <CInput
                   name={INPUT_NAME.REASON}
                   styleFocus={styles.input_focus}
                   inputRef={ref => reasonRef = ref}
                   disabled={loading.main || loading.submitAdd || isDetail}
-                  holder={'add_approved:reason'}
+                  holder={'add_approved_assets:reason'}
                   value={form.reason}
                   valueColor={colors.BLACK}
                   keyboard={'default'}
@@ -813,7 +813,7 @@ function AddRequest(props) {
 
               {/** Type assets */}
               <View style={cStyles.pt16}>
-                <CText styles={'textTitle'} label={'add_approved:type_assets'} />
+                <CText styles={'textTitle'} label={'add_approved_assets:type_assets'} />
                 <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pt10]}>
                   <TouchableOpacity
                     style={{ flex: 0.4 }}
@@ -827,7 +827,7 @@ function AddRequest(props) {
                         color={form.typeAssets === 'N' ? colors.SECONDARY : colors.PRIMARY}
                         solid={form.typeAssets === 'N'}
                       />
-                      <CText styles={'pl10'} label={'add_approved:buy_new'} />
+                      <CText styles={'pl10'} label={'add_approved_assets:buy_new'} />
                     </View>
                   </TouchableOpacity>
 
@@ -843,7 +843,7 @@ function AddRequest(props) {
                         color={form.typeAssets === 'A' ? colors.SECONDARY : colors.PRIMARY}
                         solid={form.typeAssets === 'A'}
                       />
-                      <CText styles={'pl10'} label={'add_approved:additional'} />
+                      <CText styles={'pl10'} label={'add_approved_assets:additional'} />
                     </View>
                   </TouchableOpacity>
                 </View>
@@ -851,7 +851,7 @@ function AddRequest(props) {
 
               {/** In Planning */}
               <View style={cStyles.pt16}>
-                <CText styles={'textTitle'} label={'add_approved:in_planning'} />
+                <CText styles={'textTitle'} label={'add_approved_assets:in_planning'} />
                 <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pt10]}>
                   <TouchableOpacity
                     style={{ flex: 0.4 }}
@@ -865,7 +865,7 @@ function AddRequest(props) {
                         color={form.inPlanning ? colors.SECONDARY : colors.PRIMARY}
                         solid={form.inPlanning}
                       />
-                      <CText styles={'pl10'} label={'add_approved:yes'} />
+                      <CText styles={'pl10'} label={'add_approved_assets:yes'} />
                     </View>
                   </TouchableOpacity>
 
@@ -881,7 +881,7 @@ function AddRequest(props) {
                         color={!form.inPlanning ? colors.SECONDARY : colors.PRIMARY}
                         solid={!form.inPlanning}
                       />
-                      <CText styles={'pl10'} label={'add_approved:no'} />
+                      <CText styles={'pl10'} label={'add_approved_assets:no'} />
                     </View>
                   </TouchableOpacity>
                 </View>
@@ -889,13 +889,13 @@ function AddRequest(props) {
 
               {/** Supplier */}
               <View style={[cStyles.pt16, cStyles.pb32]}>
-                <CText styles={'textTitle'} label={'add_approved:supplier'} />
+                <CText styles={'textTitle'} label={'add_approved_assets:supplier'} />
                 <CInput
                   name={INPUT_NAME.SUPPLIER}
                   styleFocus={styles.input_focus}
                   inputRef={ref => supplierRef = ref}
                   disabled={loading.main || loading.submitAdd || isDetail}
-                  holder={'add_approved:holder_supplier'}
+                  holder={'add_approved_assets:holder_supplier'}
                   value={form.supplier}
                   valueColor={colors.BLACK}
                   keyboard={'default'}
@@ -925,7 +925,7 @@ function AddRequest(props) {
                 cStyles.ml10,
                 styles.con_title_process
               ]}>
-                <CText styles={'textTitle'} label={'add_approved:table_process'} />
+                <CText styles={'textTitle'} label={'add_approved_assets:table_process'} />
               </View>
 
               <View style={[cStyles.itemsStart, cStyles.p10, cStyles.pt24]}>
@@ -956,16 +956,16 @@ function AddRequest(props) {
 
                   <View style={[cStyles.rounded1, cStyles.pr10]}>
                     <View style={[cStyles.row, cStyles.itemsStart]}>
-                      <CText styles={'textMeta'} label={'add_approved:user_request'} />
+                      <CText styles={'textMeta'} label={'add_approved_assets:user_request'} />
                       <CText styles={'textMeta fontBold'} customLabel={form.name} />
                     </View>
                     <View style={[cStyles.row, cStyles.itemsStart, cStyles.justifyStart]}>
-                      <CText styles={'textMeta'} label={'add_approved:status_approved'} />
-                      <CText styles={'textMeta fontBold'} label={'add_approved:status_wait'} />
+                      <CText styles={'textMeta'} label={'add_approved_assets:status_approved'} />
+                      <CText styles={'textMeta fontBold'} label={'add_approved_assets:status_wait'} />
                     </View>
                     {form.reason !== '' &&
                       <View style={[cStyles.row, cStyles.itemsStart, cStyles.justifyStart, { width: '90%' }]}>
-                        <CText styles={'textMeta'} label={'add_approved:reason_reject'} />
+                        <CText styles={'textMeta'} label={'add_approved_assets:reason_reject'} />
                         <CText styles={'textMeta'} customLabel={form.reason} />
                       </View>
                     }
@@ -1009,16 +1009,16 @@ function AddRequest(props) {
 
                       <View style={[cStyles.rounded1, cStyles.pr10]}>
                         <View style={[cStyles.row, cStyles.itemsStart]}>
-                          <CText styles={'textMeta'} label={'add_approved:person_approved'} />
+                          <CText styles={'textMeta'} label={'add_approved_assets:person_approved'} />
                           <CText styles={'textMeta fontBold'} customLabel={item.personApproveName} />
                         </View>
                         <View style={[cStyles.row, cStyles.itemsStart, cStyles.justifyStart]}>
-                          <CText styles={'textMeta'} label={'add_approved:status_approved'} />
+                          <CText styles={'textMeta'} label={'add_approved_assets:status_approved'} />
                           <CText styles={'textMeta fontBold'} customLabel={item.statusName} />
                         </View>
                         {!item.statusID &&
                           <View style={[cStyles.row, cStyles.itemsStart, cStyles.justifyStart, { width: '90%' }]}>
-                            <CText styles={'textMeta'} label={'add_approved:reason_reject'} />
+                            <CText styles={'textMeta'} label={'add_approved_assets:reason_reject'} />
                             <CText styles={'textMeta'} customLabel={item.reason} />
                           </View>
                         }
@@ -1051,7 +1051,7 @@ function AddRequest(props) {
             <CButton
               block
               disabled={loading.main || loading.submitAdd}
-              label={'add_approved:send'}
+              label={'add_approved_assets:send'}
               onPress={onSendRequest}
             />
           </View>
@@ -1065,7 +1065,7 @@ function AddRequest(props) {
                 color={colors.RED}
                 disabled={loading.main}
                 icon={'times-circle'}
-                label={'add_approved:reject'}
+                label={'add_approved_assets:reject'}
                 onPress={handleReject}
               />
               <CButton
@@ -1073,7 +1073,7 @@ function AddRequest(props) {
                 block
                 disabled={loading.main}
                 icon={'check-double'}
-                label={'add_approved:approved'}
+                label={'add_approved_assets:approved'}
                 onPress={handleApproved}
               />
             </View>
