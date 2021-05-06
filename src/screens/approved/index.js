@@ -30,6 +30,7 @@ function Approved(props) {
   const dispatch = useDispatch();
   const commonState = useSelector(({ common }) => common);
   const approvedState = useSelector(({ approved }) => approved);
+  const authState = useSelector(({ auth }) => auth);
 
   const [loading, setLoading] = useState({
     main: true,
@@ -107,6 +108,8 @@ function Approved(props) {
       'Search': search,
       'RequestTypeID': requestTypeID,
       'IsResolveRequest': showResolveRequest,
+      'RefreshToken': authState.getIn(['login', 'refreshToken']),
+      'Lang': commonState.get('language'),
     });
     dispatch(Actions.fetchListRequestApproved(params));
   };

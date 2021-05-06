@@ -23,8 +23,6 @@ import {
   Cell,
 } from 'react-native-table-component';
 import { showMessage } from "react-native-flash-message";
-import { SwipeListView, SwipeRow } from 'react-native-swipe-list-view';
-import Swipeable from 'react-native-swipeable-row';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import moment from 'moment';
 /* COMPONENTS */
@@ -97,9 +95,10 @@ function AddRequest(props) {
         t('add_approved:amount'),
         t('add_approved:price'),
         t('add_approved:total'),
+        '',
       ],
       data: [
-        ['', '', '', ''],
+        ['', '', '', '', null],
       ],
     },
     whereUse: authState.getIn(['login', 'deptCode']),
@@ -146,7 +145,7 @@ function AddRequest(props) {
 
   const handleAddAssets = () => {
     let newData = [...form.assets.data];
-    newData.push(['', '', '', '']);
+    newData.push(['', '', '', '', null]);
     setForm({
       ...form,
       assets: {
@@ -291,6 +290,8 @@ function AddRequest(props) {
         'SupplierName': form.supplier,
         'Lang': commonState.get('language'),
         'ListAssets': assets,
+        'RefreshToken': authState.getIn(['login', 'refreshToken']),
+        'Lang': commonState.get('language'),
       };
       dispatch(Actions.fetchAddRequestApproved(params));
     } else {
@@ -318,7 +319,9 @@ function AddRequest(props) {
 
   const onPrepareData = () => {
     let params = {
-      listType: 'Department, Region',
+      'listType': 'Department, Region',
+      'RefreshToken': authState.getIn(['login', 'refreshToken']),
+      'Lang': commonState.get('language'),
     }
     dispatch(Actions.fetchMasterData(params));
   };
@@ -353,6 +356,18 @@ function AddRequest(props) {
     if (error.assets.status) {
       setError({ ...error, assets: { status: false, helper: '' } });
     }
+  };
+
+  const onRemoveRow = (rowIndex) => {
+    let newData = [...form.assets.data];
+    newData.splice(rowIndex, 1);
+    setForm({
+      ...form,
+      assets: {
+        ...form.assets,
+        data: newData,
+      }
+    });
   };
 
   const onPrepareDetail = () => {
@@ -425,6 +440,7 @@ function AddRequest(props) {
       'PersonRequestID': form.personRequestId,
       'Status': true,
       'Reason': '',
+      'RefreshToken': authState.getIn(['login', 'refreshToken']),
       'Lang': commonState.get('language'),
     }
     dispatch(Actions.fetchApprovedRequest(params));
@@ -438,6 +454,7 @@ function AddRequest(props) {
       'PersonRequestID': form.personRequestId,
       'Status': false,
       'Reason': reason,
+      'RefreshToken': authState.getIn(['login', 'refreshToken']),
       'Lang': commonState.get('language'),
     }
     dispatch(Actions.fetchRejectRequest(params));
@@ -571,10 +588,6 @@ function AddRequest(props) {
   ]);
 
   /** RENDER */
-  const rightButtons = [
-    <TouchableHighlight><Text>Button 1</Text></TouchableHighlight>
-  ];
-
   return (
     <CContainer
       safeArea={{
@@ -589,7 +602,7 @@ function AddRequest(props) {
       }
       header
       hasBack
-      title={'add_approved:title'}
+      title={'add_approved:' + (isDetail ? 'detail' : 'title')}
       content={
         <CContent>
           <KeyboardAvoidingView style={cStyles.flex1} behavior={IS_IOS ? 'padding' : 'height'}
@@ -685,46 +698,49 @@ function AddRequest(props) {
               </View>
 
               {/** Assets */}
-              <View style={cStyles.pt16}>
+              <View style={[cStyles.flex1, cStyles.pt16]}>
                 <CText styles={'textTitle'} label={'add_approved:assets'} />
-                <Table borderStyle={styles.table} style={cStyles.mt6}>
-                  <Row
-                    style={styles.table_header}
-                    textStyle={[
-                      cStyles.textMeta,
-                      cStyles.m3,
-                      cStyles.textCenter,
-                      cStyles.fontMedium,
-                      styles.table_text_header
-                    ]}
-                    flexArr={[1.97, 1, 1, 1]}
-                    data={form.assets.header}
-                  />
-                  {form.assets.data.map((rowData, rowIndex) => (
-                    <TableWrapper key={rowIndex.toString()} style={cStyles.row}>
-                      {rowData.map((cellData, cellIndex) => {
-                        let disabled = loading.main || loading.submit || cellIndex === 3 || isDetail;
-                        return (
-                          <Cell
-                            key={cellIndex.toString()}
-                            width={cellIndex === 0 ? '39.5%' : '20.2%'}
-                            data={
-                              <AssetItem
-                                disabled={disabled}
-                                cellData={cellData}
-                                rowIndex={rowIndex}
-                                cellIndex={cellIndex}
-                                onChangeCellItem={onChangeCellItem}
+                <ScrollView horizontal>
+                  <Table borderStyle={styles.table} style={cStyles.mt6}>
+                    <Row
+                      style={styles.table_header}
+                      textStyle={[
+                        cStyles.textMeta,
+                        cStyles.m3,
+                        cStyles.textCenter,
+                        cStyles.fontMedium,
+                        styles.table_text_header
+                      ]}
+                      widthArr={isDetail ? [180, 70, 100, 100] : [180, 70, 100, 100, 42]}
+                      data={form.assets.header}
+                    />
+                    {form.assets.data.map((rowData, rowIndex) => (
+                      <TableWrapper key={rowIndex.toString()} style={[cStyles.flex1, cStyles.row]} borderStyle={styles.table}>
+                        {rowData.map((cellData, cellIndex) => {
+                          let disabled = loading.main || loading.submit || cellIndex === 3 || isDetail;
+                          return (
+                            <Cell
+                              key={cellIndex.toString()}
+                              width={cellIndex === 0 ? 180 : cellIndex === 1 ? 70 : cellIndex === 4 ? 42 : 100}
+                              height={40}
+                              data={
+                                <AssetItem
+                                  disabled={disabled}
+                                  cellData={cellData}
+                                  rowIndex={rowIndex}
+                                  cellIndex={cellIndex}
+                                  onChangeCellItem={onChangeCellItem}
+                                  onRemoveRow={onRemoveRow}
+                                />
+                              }
+                            />
+                          )
+                        })}
+                      </TableWrapper>
+                    ))}
+                  </Table>
+                </ScrollView>
 
-                              />
-                            }
-                          />
-                        )
-                      })}
-                    </TableWrapper>
-
-                  ))}
-                </Table>
                 <View style={[cStyles.flex1, cStyles.row, cStyles.justifyBetween, cStyles.itemsCenter, cStyles.pt10]}>
                   <View style={{ flex: 0.6 }}>
                     {error.assets.status &&
@@ -896,7 +912,6 @@ function AddRequest(props) {
           {isDetail &&
             <View style={[
               cStyles.rounded1,
-              cStyles.itemsCenter,
               cStyles.borderAll,
               cStyles.m16,
               cStyles.mt32,
@@ -907,12 +922,13 @@ function AddRequest(props) {
                 cStyles.px10,
                 cStyles.py3,
                 cStyles.borderAll,
+                cStyles.ml10,
                 styles.con_title_process
               ]}>
-                <CText label={'add_approved:table_process'} />
+                <CText styles={'textTitle'} label={'add_approved:table_process'} />
               </View>
 
-              <View style={[cStyles.p10, cStyles.pt24]}>
+              <View style={[cStyles.itemsStart, cStyles.p10, cStyles.pt24]}>
                 <View style={[cStyles.row, cStyles.itemsStart, cStyles.py6]}>
                   <View style={[
                     cStyles.rounded1,
@@ -927,30 +943,30 @@ function AddRequest(props) {
                     />
                   </View>
 
-                  <View style={[cStyles.px10, cStyles.itemsCenter]}>
+                  <View style={[cStyles.px10, cStyles.pt10, cStyles.itemsCenter]}>
                     <Icon
                       name={'file-import'}
-                      size={20}
+                      size={15}
                       color={colors.GRAY_700}
                     />
                     {process.length > 0 &&
-                      <View style={[cStyles.mt16, { width: 2, backgroundColor: colors.PRIMARY, height: 30 }]} />
+                      <View style={[cStyles.mt10, { width: 2, backgroundColor: colors.PRIMARY, height: 20 }]} />
                     }
                   </View>
 
-                  <View style={[cStyles.rounded1, cStyles.pr10, { width: '60%' }]}>
+                  <View style={[cStyles.rounded1, cStyles.pr10]}>
                     <View style={[cStyles.row, cStyles.itemsStart]}>
-                      <CText label={'add_approved:user_request'} />
-                      <CText styles={'fontBold'} customLabel={form.name} />
+                      <CText styles={'textMeta'} label={'add_approved:user_request'} />
+                      <CText styles={'textMeta fontBold'} customLabel={form.name} />
                     </View>
                     <View style={[cStyles.row, cStyles.itemsStart, cStyles.justifyStart]}>
-                      <CText label={'add_approved:status_approved'} />
-                      <CText styles={'fontBold'} label={'add_approved:status_wait'} />
+                      <CText styles={'textMeta'} label={'add_approved:status_approved'} />
+                      <CText styles={'textMeta fontBold'} label={'add_approved:status_wait'} />
                     </View>
                     {form.reason !== '' &&
-                      <View style={[cStyles.row, cStyles.itemsStart, cStyles.justifyStart]}>
-                        <CText label={'add_approved:reason_reject'} />
-                        <CText customLabel={form.reason} />
+                      <View style={[cStyles.row, cStyles.itemsStart, cStyles.justifyStart, { width: '90%' }]}>
+                        <CText styles={'textMeta'} label={'add_approved:reason_reject'} />
+                        <CText styles={'textMeta'} customLabel={form.reason} />
                       </View>
                     }
                   </View>
@@ -958,7 +974,7 @@ function AddRequest(props) {
 
                 {process.map((item, index) => {
                   return (
-                    <View key={index.toString()} style={[cStyles.row, cStyles.itemsStart, cStyles.py10]}>
+                    <View key={index.toString()} style={[cStyles.row, cStyles.itemsStart]}>
                       <View style={[
                         cStyles.rounded1,
                         cStyles.px10,
@@ -979,31 +995,31 @@ function AddRequest(props) {
                         />
                       </View>
 
-                      <View style={[cStyles.px10, cStyles.itemsCenter]}>
+                      <View style={[cStyles.px10, cStyles.pt6, cStyles.itemsCenter]}>
                         <Icon
                           name={item.statusID ? 'check-circle' : 'times-circle'}
-                          size={20}
+                          size={15}
                           color={item.statusID ? colors.GREEN : colors.RED}
                           solid
                         />
                         {index !== process.length - 1 &&
-                          <View style={[cStyles.mt16, { width: 2, backgroundColor: colors.PRIMARY, height: 30 }]} />
+                          <View style={[cStyles.mt10, { width: 2, backgroundColor: colors.PRIMARY, height: 20 }]} />
                         }
                       </View>
 
                       <View style={[cStyles.rounded1, cStyles.pr10]}>
                         <View style={[cStyles.row, cStyles.itemsStart]}>
-                          <CText label={'add_approved:person_approved'} />
-                          <CText styles={'fontBold'} customLabel={item.personApproveName} />
+                          <CText styles={'textMeta'} label={'add_approved:person_approved'} />
+                          <CText styles={'textMeta fontBold'} customLabel={item.personApproveName} />
                         </View>
                         <View style={[cStyles.row, cStyles.itemsStart, cStyles.justifyStart]}>
-                          <CText label={'add_approved:status_approved'} />
-                          <CText styles={'fontBold'} customLabel={item.statusName} />
+                          <CText styles={'textMeta'} label={'add_approved:status_approved'} />
+                          <CText styles={'textMeta fontBold'} customLabel={item.statusName} />
                         </View>
                         {!item.statusID &&
-                          <View style={[cStyles.row, cStyles.itemsStart, cStyles.justifyStart]}>
-                            <CText label={'add_approved:reason_reject'} />
-                            <CText customLabel={item.reason} />
+                          <View style={[cStyles.row, cStyles.itemsStart, cStyles.justifyStart, { width: '90%' }]}>
+                            <CText styles={'textMeta'} label={'add_approved:reason_reject'} />
+                            <CText styles={'textMeta'} customLabel={item.reason} />
                           </View>
                         }
                       </View>

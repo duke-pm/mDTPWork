@@ -101,6 +101,7 @@ function SignIn(props) {
       let params = fromJS({
         'Username': form.userName.trim().toLowerCase(),
         'Password': form.password.trim(),
+        'RefreshToken': authState.getIn(['login', 'refreshToken']),
         'Lang': commonState.get('language'),
       });
       dispatch(Actions.fetchLogin(params));
@@ -125,8 +126,9 @@ function SignIn(props) {
         expired: authState.getIn(['login', 'expired']),
       }
       await AsyncStorage.setItem(LOGIN, JSON.stringify(dataLogin));
+    } else {
+      await AsyncStorage.removeItem(LOGIN);
     }
-    API.defaults.headers.common['Authorization'] = 'Bearer ' + authState.getIn(['login', 'accessToken']);
     onFetchMasterData();
   };
 
@@ -193,16 +195,18 @@ function SignIn(props) {
         '.expires': dataLogin.expired,
       }
       dispatch(Actions.loginSuccess(dataLogin));
-      API.defaults.headers.common['Authorization'] = 'Bearer ' + dataLogin.access_token;
+
       setForm({ ...form, saveAccount: true });
     } else {
-      setLoading({ ...loading, main: false });
+      setLoading({ main: false, submit: false });
     }
   };
 
   const onFetchMasterData = () => {
     let params = {
-      listType: 'Region, Company',
+      'listType': 'Region, Company',
+      'RefreshToken': authState.getIn(['login', 'refreshToken']),
+      'Lang': commonState.get('language'),
     }
     dispatch(Actions.fetchMasterData(params));
   };
@@ -307,7 +311,6 @@ function SignIn(props) {
                       iconColor={colors.GRAY_500}
                       holder={'sign_in:input_username'}
                       returnKey={'next'}
-                      autoFocus
                       error={error.userName}
                       errorHelper={error.userNameHelper}
                       onChangeInput={handleChangeInput}

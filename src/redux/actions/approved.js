@@ -6,6 +6,7 @@
 **/
 /* COMMON */
 import * as types from './types';
+import * as Actions from '~/redux/actions';
 import Services from '~/services';
 
 /** For get list request */
@@ -50,7 +51,17 @@ export const fetchListRequestApproved = params => {
         }
       })
       .catch(error => {
-        return dispatch(listRequestApprovedError(error));
+        dispatch(listRequestApprovedError(error));
+        if (error.message && error.message.search('Authorization') !== -1) {
+          let tmp = {
+            'RefreshToken': params.RefreshToken,
+            'Lang': params.Lang,
+          }
+          return dispatch(Actions.fetchRefreshToken(
+            tmp,
+            () => fetchListRequestApproved(params)
+          ));
+        }
       });
   }
 };
@@ -81,7 +92,17 @@ export const fetchAddRequestApproved = params => {
         }
       })
       .catch(error => {
-        return dispatch(addRequestApprovedError(error));
+        dispatch(addRequestApprovedError(error));
+        if (error.message && error.message.search('Authorization') !== -1) {
+          let tmp = {
+            'RefreshToken': params.RefreshToken,
+            'Lang': params.Lang,
+          }
+          return dispatch(Actions.fetchRefreshToken(
+            tmp,
+            () => fetchAddRequestApproved(params)
+          ));
+        }
       });
   }
 };
@@ -112,7 +133,17 @@ export const fetchApprovedRequest = params => {
         }
       })
       .catch(error => {
-        return dispatch(approvedRequestError(error));
+        dispatch(approvedRequestError(error));
+        if (error.message && error.message.search('Authorization') !== -1) {
+          let tmp = {
+            'RefreshToken': params.RefreshToken,
+            'Lang': params.Lang,
+          }
+          return dispatch(Actions.fetchRefreshToken(
+            tmp,
+            () => fetchApprovedRequest(params)
+          ));
+        }
       });
   }
 };
@@ -143,7 +174,17 @@ export const fetchRejectRequest = params => {
         }
       })
       .catch(error => {
-        return dispatch(rejectRequestError(error));
+        dispatch(rejectRequestError(error));
+        if (error.message && error.message.search('Authorization') !== -1) {
+          let tmp = {
+            'RefreshToken': params.RefreshToken,
+            'Lang': params.Lang,
+          }
+          return dispatch(Actions.fetchRefreshToken(
+            tmp,
+            () => fetchRejectRequest(params)
+          ));
+        }
       });
   }
 };

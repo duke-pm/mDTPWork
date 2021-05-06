@@ -46,8 +46,8 @@ function CIconButton(props) {
 
 const styles = StyleSheet.create({
   con: {
-    height: 50,
-    width: 50,
+    height: 40,
+    width: 40,
   }
 });
 

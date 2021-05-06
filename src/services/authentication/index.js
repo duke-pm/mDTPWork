@@ -32,7 +32,7 @@ export default {
     });
   },
 
-  refreshToken: (params) => {
+  refreshToken: (params, callback) => {
     return new Promise((resolve, reject) => {
       API
         .post(

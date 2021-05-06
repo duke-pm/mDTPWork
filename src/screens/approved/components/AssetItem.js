@@ -6,6 +6,7 @@
  **/
 import React from 'react';
 import { View, TextInput } from 'react-native';
+import CIconButton from '~/components/CIconButton';
 /* COMMON */
 import { colors, cStyles } from '~/utils/style';
 
@@ -19,17 +20,41 @@ function AssetItem(props) {
   const {
     rowIndex,
     cellIndex,
-    onChangeCellItem
+    onChangeCellItem,
+    onRemoveRow
   } = props;
 
+  if (cellIndex === 4 && rowIndex === 0) {
+    return <View />;
+  }
+
+  if (cellIndex === 4 && rowIndex !== 0) {
+    return (
+      <CIconButton
+        iconName={'times-circle'}
+        iconColor={colors.RED}
+        iconProps={{
+          solid: true,
+          size: 17
+        }}
+        onPress={() => onRemoveRow(rowIndex)}
+      />
+    )
+  }
+
+  let styleText = cellIndex === 0
+    ? cStyles.textLeft
+    : cellIndex === 1
+      ? cStyles.textCenter
+      : cStyles.textRight;
   return (
     <TextInput
       style={[
-        cStyles.textDefault,
+        cStyles.textMeta,
         cStyles.flexWrap,
         cStyles.p4,
-        cStyles.textMeta,
-        cellIndex === 0 ? cStyles.textLeft : cStyles.textCenter,
+        cStyles.fontMedium,
+        styleText,
         { color: colors.BLACK }
       ]}
       keyboardType={cellIndex !== 0 ? 'number-pad' : 'default'}

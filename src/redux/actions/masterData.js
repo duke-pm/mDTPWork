@@ -6,6 +6,7 @@
 **/
 /* COMMON */
 import * as types from './types';
+import * as Actions from '~/redux/actions';
 import Services from '~/services';
 
 export const getError = error => ({
@@ -33,7 +34,14 @@ export const fetchMasterData = params => {
         }
       })
       .catch(error => {
-        return dispatch(getError(error));
+        dispatch(getError(error));
+        if (error.message && error.message.search('Authorization') !== -1) {
+          let tmp = {
+            'RefreshToken': params.RefreshToken,
+            'Lang': params.Lang,
+          }
+          return dispatch(Actions.fetchRefreshToken(tmp, () => fetchMasterData(params)));
+        }
       });
 
   }
