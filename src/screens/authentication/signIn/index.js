@@ -307,7 +307,7 @@ function SignIn(props) {
                       inputRef={userNameRef}
                       disabled={loading.submit}
                       value={form.userName}
-                      icon={'user'}
+                      icon={'account'}
                       iconColor={colors.GRAY_500}
                       holder={'sign_in:input_username'}
                       returnKey={'next'}

@@ -14,8 +14,7 @@ import {
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/FontAwesome5';
-import Feather from 'react-native-vector-icons/Feather';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 /** COMPONENTS */
 import CText from './CText';
 import CInput from './CInput';
@@ -86,7 +85,7 @@ function CHeader(props) {
             containerStyle={styles.input_search}
             style={styles.con_search}
             iconLastStyle={styles.con_search}
-            iconLast={'search'}
+            iconLast={'magnify'}
             iconLastColor={colors.GRAY_600}
             holder={'approved:search_request'}
             autoFocus
@@ -112,11 +111,11 @@ function CHeader(props) {
                 activeOpacity={0.5}
                 onPress={handleBack}
               >
-                <Feather
+                <Icon
                   style={cStyles.p16}
-                  name={'chevron-left'}
+                  name={'arrow-left'}
                   color={colors.WHITE}
-                  size={25}
+                  size={20}
                 />
               </TouchableOpacity>
             }
@@ -129,7 +128,7 @@ function CHeader(props) {
               >
                 <Icon
                   style={cStyles.p16}
-                  name={'bars'}
+                  name={'menu'}
                   color={colors.WHITE}
                   size={20}
 
@@ -162,7 +161,7 @@ function CHeader(props) {
               >
                 <Icon
                   style={cStyles.p16}
-                  name={'search'}
+                  name={'magnify'}
                   color={colors.WHITE}
                   size={20}
                 />
@@ -177,7 +176,7 @@ function CHeader(props) {
               >
                 <Icon
                   style={cStyles.p16}
-                  name={'plus'}
+                  name={'text-box-plus-outline'}
                   color={colors.WHITE}
                   size={20}
                 />

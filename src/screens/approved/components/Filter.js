@@ -159,7 +159,7 @@ function Filter(props) {
                   commonState.get('formatDateView')
                 )}
               valueColor={colors.BLACK}
-              iconLast={'calendar-alt'}
+              iconLast={'calendar'}
               iconLastColor={colors.GRAY_700}
               onPressIconLast={() => handleDateInput(INPUT_NAME.FROM_DATE)}
               onPressRemoveValue={() => setData({ ...data, fromDate: '' })}
@@ -181,7 +181,7 @@ function Filter(props) {
                   commonState.get('formatDateView')
                 )}
               valueColor={colors.BLACK}
-              iconLast={'calendar-alt'}
+              iconLast={'calendar'}
               iconLastColor={colors.GRAY_700}
               onPressIconLast={() => handleDateInput(INPUT_NAME.TO_DATE)}
               onPressRemoveValue={() => setData({ ...data, toDate: '' })}

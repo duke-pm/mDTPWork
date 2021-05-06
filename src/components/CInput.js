@@ -5,6 +5,7 @@
  ** Description: Description of CInput.js
  **/
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   StyleSheet,
   TextInput,
@@ -12,13 +13,16 @@ import {
   useColorScheme,
   TouchableOpacity,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome5';
-import { useTranslation } from 'react-i18next';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 /* COMPONENTS */
+import CText from './CText';
 /* COMMON */
 import { colors, cStyles } from '~/utils/style';
-import { IS_ANDROID, RFPercentage } from '~/utils/helper';
-import CText from './CText';
+import {
+  IS_ANDROID,
+  IS_IOS,
+  RFPercentage
+} from '~/utils/helper';
 
 function CInput(props) {
   const { t } = useTranslation();
@@ -80,6 +84,7 @@ function CInput(props) {
   /** RENDER */
   const isDarkMode = useColorScheme() === 'dark';
   const Component = disabled ? View : TouchableOpacity;
+
   return (
     <View style={[{ width: '100%' }, containerStyle]}>
       <View style={[
@@ -102,7 +107,7 @@ function CInput(props) {
             <Icon
               name={icon}
               color={iconColor}
-              size={RFPercentage(3)}
+              size={25}
             />
           </View>
         }
@@ -117,7 +122,11 @@ function CInput(props) {
           {!dateTimePicker &&
             <TextInput
               ref={props.inputRef}
-              style={[cStyles.textDefault, { color: props.valueColor }, styleInput]}
+              style={[
+                cStyles.textDefault,
+                { color: props.valueColor },
+                IS_IOS && cStyles.mb6,
+                styleInput]}
               editable={!disabled}
               placeholder={t(holder)}
               placeholderTextColor={holderColor}
@@ -177,7 +186,7 @@ function CInput(props) {
             <Icon
               name={iconLast}
               color={iconLastColor}
-              size={RFPercentage(3)}
+              size={25}
             />
           </Component>
         }

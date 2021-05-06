@@ -623,7 +623,7 @@ function AddRequest(props) {
                     commonState.get('formatDateView')
                   )}
                   valueColor={colors.BLACK}
-                  iconLast={'calendar-alt'}
+                  iconLast={'calendar'}
                   iconLastColor={colors.GRAY_700}
                   onPressIconLast={handleDateInput}
                 />

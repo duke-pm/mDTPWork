@@ -8,7 +8,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 /** COMMON */
 import Routes from './Routes';
 import { IS_IOS } from '~/utils/helper';
@@ -34,14 +34,14 @@ export function RootTab(props) {
 
           switch (route.name) {
             case Routes.MAIN.DASHBOARD.name:
-              iconName = 'atom';
+              iconName = focused ? 'home-variant' : 'home-variant-outline';
               break;
             case Routes.MAIN.ACCOUNT.name:
-              iconName = 'user';
+              iconName = focused ? 'account' : 'account-outline';
               break;
           }
 
-          return <Icon style={cStyles.mt6} name={iconName} size={tmpSize} color={color} solid={focused} />;
+          return <Icon style={cStyles.mt6} name={iconName} size={tmpSize} color={color} />;
         },
         tabBarLabel: ({ focused, color, size }) => {
           let title = '';

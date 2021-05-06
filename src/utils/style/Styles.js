@@ -499,7 +499,7 @@ const text = {
   fontLight: { fontFamily: fLight },
   textLeft: { textAlign: 'left' },
   textRight: { textAlign: 'right' },
-  textCenter: { textAlign: 'center' },
+  textCenter: { textAlign: 'center', textAlignVertical: 'center' },
   textJustify: { textAlign: 'justify' },
   textUnderline: { textDecorationLine: 'underline' },
   textItalic: { fontStyle: 'italic' },
