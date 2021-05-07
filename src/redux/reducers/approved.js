@@ -106,6 +106,47 @@ export default function (state = initialState, action = {}) {
         .set('errorHelperRejectRequest', '');
     /*****************************/
 
+    /** For add request lost/damage **/
+    case types.START_FETCH_ADD_REQUEST_LOST:
+      return state
+        .set('submittingAdd', true)
+        .set('successAddRequest', false)
+        .set('errorAddRequest', false)
+        .set('errorHelperAddRequest', '')
+        .set('successApprovedRequest', false)
+        .set('errorApprovedRequest', false)
+        .set('errorHelperApprovedRequest', '')
+        .set('successRejectRequest', false)
+        .set('errorRejectRequest', false)
+        .set('errorHelperRejectRequest', '');
+
+    case types.SUCCESS_FETCH_ADD_REQUEST_LOST:
+      return state
+        .set('submittingAdd', false)
+        .set('successAddRequest', true)
+        .set('errorAddRequest', false)
+        .set('errorHelperAddRequest', '')
+        .set('successApprovedRequest', false)
+        .set('errorApprovedRequest', false)
+        .set('errorHelperApprovedRequest', '')
+        .set('successRejectRequest', false)
+        .set('errorRejectRequest', false)
+        .set('errorHelperRejectRequest', '');
+
+    case types.ERROR_FETCH_ADD_REQUEST_LOST:
+      return state
+        .set('submittingAdd', false)
+        .set('successAddRequest', false)
+        .set('errorAddRequest', true)
+        .set('errorHelperAddRequest', payload)
+        .set('successApprovedRequest', false)
+        .set('errorApprovedRequest', false)
+        .set('errorHelperApprovedRequest', '')
+        .set('successRejectRequest', false)
+        .set('errorRejectRequest', false)
+        .set('errorHelperRejectRequest', '');
+    /*****************************/
+
     /** For approved request **/
     case types.START_FETCH_APPROVED_REQUEST:
       return state

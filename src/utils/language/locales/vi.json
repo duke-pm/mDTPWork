@@ -12,7 +12,12 @@
     "cannot_find_data_filter": "Không tìm thấy dữ liệu tương ứng!\nVui lòng thử lại sau!",
     "loading": "Đang tải...",
     "sign_out": "Đăng xuất",
-    "warning_sign_out": "Bạn có chắc muốn đăng xuất không?"
+    "warning_sign_out": "Bạn có chắc muốn đăng xuất không?",
+    "empty_info": "Không có thông tin",
+    "upload": "Tải lên",
+    "from_upload": "Bạn có thể chọn ảnh từ",
+    "from_gallery": "Thư viện ảnh",
+    "from_camera": "Camera"
   },
   "success": {
     "title": "Thành Công",
@@ -34,7 +39,9 @@
     "list_request": "Nhận danh sách yêu cầu thất bại",
     "reason_reject_empty": "Lý do từ chối không thể trống",
     "status_not_found": "Trạng thái không thể trống",
-    "type_lost_damaged_not_found": "Loại báo hỏng mất không thể trống"
+    "type_lost_damaged_not_found": "Loại báo hỏng mất không thể trống",
+    "assets_not_empty": "Tài sản không thể trống",
+    "reason_not_empty": "Lý do không thể trống"
   },
   "sign_in": {
     "title": "Đăng Nhập",
@@ -86,7 +93,7 @@
     "resolve_request": "Chỉ hiện yêu cầu cần thiết"
   },
   "add_approved_assets": {
-    "title": "Thêm mới",
+    "title": "Thêm Mới Cấp Phát",
     "name": "Tên",
     "department": "Bộ phận",
     "holder_department": "Chọn bộ phận",
@@ -102,6 +109,7 @@
     "where_use": "Nơi dùng",
     "holder_where_use": "Chọn nơi dùng",
     "reason": "Lý do",
+    "holder_reason": "Điền lý do...",
     "type_assets": "Loại tài sản",
     "buy_new": "Mua mới",
     "additional": "Bổ sung thêm",
@@ -110,10 +118,10 @@
     "no": "Không",
     "supplier": "Nhà cung cấp đề nghị (nếu có)",
     "holder_supplier": "Nhà cung cấp",
-    "send": "Gửi yêu cầu",
+    "send": "Gửi Yêu Cầu",
     "approved": "Duyệt",
     "reject": "Không duyệt",
-    "message_confirm_approved": "Bạn có chắc chấp thuận đơn cấp phát tài sản này?",
+    "message_confirm_approved": "Bạn có muốn chấp thuận đơn cấp phát tài sản này?",
     "message_confirm_reject": "Nếu bạn từ chối đơn cấp phát tài sản này, vui lòng điền lý do dưới đây",
     "user_request": "Người gửi: ",
     "person_approved": "Người duyệt: ",
@@ -152,5 +160,43 @@
     "resolve_request": "Chỉ hiện yêu cầu cần thiết",
     "damaged": "Tài sản hỏng",
     "lost": "Tài sản mất"
+  },
+  "add_approved_lost_damaged": {
+    "title": "Thêm mới báo hỏng/mất",
+    "date_request": "Ngày yêu cầu",
+    "assets": "Tài sản",
+    "holder_assets": "Chọn tài sản...",
+    "search_assets": "Tìm tài sản",
+    "reason": "Lý do báo hỏng/mất",
+    "holder_reason": "Điền lý do...",
+    "type_update": "Tài sản cần",
+    "lost_assets": "Báo mất",
+    "damage_assets": "Báo hỏng",
+    "send": "Gửi Yêu Cầu",
+    "approved": "Duyệt",
+    "reject": "Không duyệt",
+    "message_confirm_approved_lost": "Bạn có muốn chấp thuận đơn báo mất tài sản này?",
+    "message_confirm_approved_damage": "Bạn có muốn chấp thuận đơn báo hỏng tài sản này?",
+    "message_confirm_reject_lost": "Nếu bạn từ chối đơn báo mất tài sản này, vui lòng điền lý do dưới đây",
+    "message_confirm_reject_damage": "Nếu bạn từ chối đơn báo hỏng tài sản này, vui lòng điền lý do dưới đây",
+    "user_request": "Người gửi: ",
+    "person_approved": "Người duyệt: ",
+    "status_approved": "Trạng thái: ",
+    "reason_reject": "Lý do: ",
+    "table_process": "Quy trình xét duyệt",
+    "status_wait": "Chờ phê duyệt",
+    "search_department": "Tìm bộ phận...",
+    "detail": "Chi tiết báo hỏng/mất",
+    "process_assets": "Tài sản: ",
+    "detail_asset": "Chi tiết: ",
+    "status_asset": "Tình trạng: ",
+    "type_asset": "Loại: ",
+    "purchase_date_asset": "Ngày mua: ",
+    "price_asset": "Giá mua: ",
+    "desc_asset": "Thông tin: ",
+    "info_asset": "Thông tin tài sản",
+    "file_upload": "File đính kèm",
+    "holder_upload_file": "Nhấn vào đây để chọn file...",
+    "button_choose_again": "Chọn lại"
   }
 }

@@ -13,8 +13,7 @@ import {
   TouchableOpacity,
   ScrollView,
   KeyboardAvoidingView,
-  Text,
-  TouchableHighlight
+  Keyboard,
 } from 'react-native';
 import {
   Table,
@@ -35,6 +34,7 @@ import CDropdown from '~/components/CDropdown';
 import CButton from '~/components/CButton';
 import AssetItem from '../components/AssetItem';
 import RejectModal from '../components/RejectModal';
+import CCard from '~/components/CCard';
 /* COMMON */
 import { colors, cStyles } from '~/utils/style';
 import { IS_IOS, alert } from '~/utils/helper';
@@ -73,7 +73,6 @@ function AddRequest(props) {
 
   const [loading, setLoading] = useState({
     main: true,
-    submit: false,
     submitAdd: false,
     submitApproved: false,
     submitReject: false,
@@ -288,7 +287,6 @@ function AddRequest(props) {
         'DocType': form.typeAssets,
         'IsBudget': form.inPlanning,
         'SupplierName': form.supplier,
-        'Lang': commonState.get('language'),
         'ListAssets': assets,
         'RefreshToken': authState.getIn(['login', 'refreshToken']),
         'Lang': commonState.get('language'),
@@ -305,14 +303,17 @@ function AddRequest(props) {
       case INPUT_NAME.DEPARTMENT:
         regionRef.current.close();
         whereUseRef.current.close();
+        Keyboard.dismiss();
         break;
       case INPUT_NAME.REGION:
         departmentRef.current.close();
         whereUseRef.current.close();
+        Keyboard.dismiss();
         break;
       case INPUT_NAME.WHERE_USE:
         departmentRef.current.close();
         regionRef.current.close();
+        Keyboard.dismiss();
         break;
     }
   };
@@ -433,7 +434,7 @@ function AddRequest(props) {
   };
 
   const onApproved = () => {
-    setLoading({ ...loading, submit: true });
+    setLoading({ ...loading, submitApproved: true });
     let params = {
       'RequestID': form.id,
       'RequestTypeID': 1,
@@ -487,8 +488,8 @@ function AddRequest(props) {
   useEffect(() => {
     if (loading.submitAdd) {
       if (!approvedState.get('submittingAdd')) {
-        setLoading({ ...loading, submitAdd: false });
         if (approvedState.get('successAddRequest')) {
+          setLoading({ ...loading, submitAdd: false });
           showMessage({
             message: t('common:app_name'),
             description: t('success:send_request'),
@@ -502,6 +503,7 @@ function AddRequest(props) {
         }
 
         if (approvedState.get('errorAddRequest')) {
+          setLoading({ ...loading, submitAdd: false });
           showMessage({
             message: t('common:app_name'),
             description: approvedState.get('errorHelperAddRequest'),
@@ -521,8 +523,9 @@ function AddRequest(props) {
   useEffect(() => {
     if (loading.submitApproved) {
       if (!approvedState.get('submittingApproved')) {
-        setLoading({ ...loading, submitApproved: false });
+
         if (approvedState.get('successApprovedRequest')) {
+          setLoading({ ...loading, submitApproved: false });
           showMessage({
             message: t('common:app_name'),
             description: t('success:approved_request'),
@@ -536,6 +539,7 @@ function AddRequest(props) {
         }
 
         if (approvedState.get('errorApprovedRequest')) {
+          setLoading({ ...loading, submitApproved: false });
           showMessage({
             message: t('common:app_name'),
             description: approvedState.get('errorHelperApprovedRequest'),
@@ -555,9 +559,9 @@ function AddRequest(props) {
   useEffect(() => {
     if (loading.submitReject) {
       if (!approvedState.get('submittingReject')) {
-        setLoading({ ...loading, submitReject: false });
         setShowReject(false);
         if (approvedState.get('successRejectRequest')) {
+          setLoading({ ...loading, submitReject: false });
           showMessage({
             message: t('common:app_name'),
             description: t('success:reject_request'),
@@ -571,6 +575,7 @@ function AddRequest(props) {
         }
 
         if (approvedState.get('errorRejectRequest')) {
+          setLoading({ ...loading, submitReject: false });
           showMessage({
             message: t('common:app_name'),
             description: approvedState.get('errorHelperRejectRequest'),
@@ -653,7 +658,6 @@ function AddRequest(props) {
                 cStyles.pt16,
                 IS_IOS && { zIndex: 10 }
               ]}>
-                {/** Department */}
                 <View style={[cStyles.flex1, cStyles.pr4]}>
                   <CText styles={'textTitle'} label={'add_approved_assets:department'} />
                   <CDropdown
@@ -717,7 +721,7 @@ function AddRequest(props) {
                     {form.assets.data.map((rowData, rowIndex) => (
                       <TableWrapper key={rowIndex.toString()} style={[cStyles.flex1, cStyles.row]} borderStyle={styles.table}>
                         {rowData.map((cellData, cellIndex) => {
-                          let disabled = loading.main || loading.submit || cellIndex === 3 || isDetail;
+                          let disabled = loading.main || cellIndex === 3 || isDetail;
                           return (
                             <Cell
                               key={cellIndex.toString()}
@@ -796,10 +800,11 @@ function AddRequest(props) {
                 <CText styles={'textTitle'} label={'add_approved_assets:reason'} />
                 <CInput
                   name={INPUT_NAME.REASON}
+                  style={styles.input_multiline}
                   styleFocus={styles.input_focus}
                   inputRef={ref => reasonRef = ref}
                   disabled={loading.main || loading.submitAdd || isDetail}
-                  holder={'add_approved_assets:reason'}
+                  holder={'add_approved_assets:holder_reason'}
                   value={form.reason}
                   valueColor={colors.BLACK}
                   keyboard={'default'}
@@ -910,124 +915,111 @@ function AddRequest(props) {
           </KeyboardAvoidingView>
 
           {isDetail &&
-            <View style={[
-              cStyles.rounded1,
-              cStyles.borderAll,
-              cStyles.m16,
-              cStyles.mt32,
-              styles.con_process
-            ]}>
-              <View style={[
-                cStyles.rounded1,
-                cStyles.px10,
-                cStyles.py3,
-                cStyles.borderAll,
-                cStyles.ml10,
-                styles.con_title_process
-              ]}>
-                <CText styles={'textTitle'} label={'add_approved_assets:table_process'} />
-              </View>
-
-              <View style={[cStyles.itemsStart, cStyles.p10, cStyles.pt24]}>
-                <View style={[cStyles.row, cStyles.itemsStart, cStyles.py6]}>
-                  <View style={[
-                    cStyles.rounded1,
-                    cStyles.px10,
-                    cStyles.py6,
-                    cStyles.itemsCenter,
-                    styles.con_time_process
-                  ]}>
-                    <CText
-                      styles={'textMeta fontBold colorWhite'}
-                      customLabel={moment(form.dateRequest).format(commonState.get('formatDateView'))}
-                    />
-                  </View>
-
-                  <View style={[cStyles.px10, cStyles.pt10, cStyles.itemsCenter]}>
-                    <Icon
-                      name={'file-import'}
-                      size={15}
-                      color={colors.GRAY_700}
-                    />
-                    {process.length > 0 &&
-                      <View style={[cStyles.mt10, { width: 2, backgroundColor: colors.PRIMARY, height: 20 }]} />
-                    }
-                  </View>
-
-                  <View style={[cStyles.rounded1, cStyles.pr10]}>
-                    <View style={[cStyles.row, cStyles.itemsStart]}>
-                      <CText styles={'textMeta'} label={'add_approved_assets:user_request'} />
-                      <CText styles={'textMeta fontBold'} customLabel={form.name} />
+            <CCard
+              containerStyle={cStyles.m16}
+              label={'add_approved_assets:table_process'}
+              cardContent={
+                <View style={[cStyles.itemsStart, cStyles.pt16]}>
+                  <View style={[cStyles.row, cStyles.itemsStart]}>
+                    <View style={[
+                      cStyles.rounded1,
+                      cStyles.px10,
+                      cStyles.py6,
+                      cStyles.itemsCenter,
+                      styles.con_time_process
+                    ]}>
+                      <CText
+                        styles={'textMeta fontBold colorWhite'}
+                        customLabel={moment(form.dateRequest).format(commonState.get('formatDateView'))}
+                      />
                     </View>
-                    <View style={[cStyles.row, cStyles.itemsStart, cStyles.justifyStart]}>
-                      <CText styles={'textMeta'} label={'add_approved_assets:status_approved'} />
-                      <CText styles={'textMeta fontBold'} label={'add_approved_assets:status_wait'} />
+
+                    <View style={[cStyles.px10, cStyles.pt10, cStyles.itemsCenter]}>
+                      <Icon
+                        name={'file-import'}
+                        size={15}
+                        color={colors.GRAY_700}
+                      />
+                      {process.length > 0 &&
+                        <View style={[cStyles.mt10, { width: 2, backgroundColor: colors.PRIMARY, height: 40 }]} />
+                      }
                     </View>
-                    {form.reason !== '' &&
-                      <View style={[cStyles.row, cStyles.itemsStart, cStyles.justifyStart, { width: '90%' }]}>
-                        <CText styles={'textMeta'} label={'add_approved_assets:reason_reject'} />
-                        <CText styles={'textMeta'} customLabel={form.reason} />
+
+                    <View style={[cStyles.rounded1, cStyles.pr10]}>
+                      <View style={[cStyles.row, cStyles.itemsStart]}>
+                        <CText styles={'textMeta'} label={'add_approved_assets:user_request'} />
+                        <CText styles={'textMeta fontBold'} customLabel={form.name} />
                       </View>
-                    }
+                      <View style={[cStyles.row, cStyles.itemsStart, cStyles.justifyStart]}>
+                        <CText styles={'textMeta'} label={'add_approved_assets:status_approved'} />
+                        <CText styles={'textMeta fontBold'} label={'add_approved_assets:status_wait'} />
+                      </View>
+                      {form.reason !== '' &&
+                        <View style={[cStyles.row, cStyles.itemsStart, cStyles.justifyStart, { width: '75%' }]}>
+                          <CText styles={'textMeta'} label={'add_approved_assets:reason_reject'} />
+                          <CText styles={'textMeta'} customLabel={form.reason} />
+                        </View>
+                      }
+                    </View>
                   </View>
-                </View>
 
-                {process.map((item, index) => {
-                  return (
-                    <View key={index.toString()} style={[cStyles.row, cStyles.itemsStart]}>
-                      <View style={[
-                        cStyles.rounded1,
-                        cStyles.px10,
-                        cStyles.py6,
-                        cStyles.itemsCenter,
-                        styles.con_time_process,
-                      ]}>
-                        <CText
-                          styles={'textMeta fontBold colorWhite'}
-                          customLabel={
-                            moment(item.approveDate, 'DD/MM/YYYY - HH:mm')
-                              .format(commonState.get('formatDateView'))
+                  {process.map((item, index) => {
+                    return (
+                      <View key={index.toString()} style={[cStyles.row, cStyles.itemsStart, cStyles.pt10]}>
+                        <View style={[
+                          cStyles.rounded1,
+                          cStyles.px10,
+                          cStyles.py6,
+                          cStyles.itemsCenter,
+                          styles.con_time_process,
+                        ]}>
+                          <CText
+                            styles={'textMeta fontBold colorWhite'}
+                            customLabel={
+                              moment(item.approveDate, 'DD/MM/YYYY - HH:mm')
+                                .format(commonState.get('formatDateView'))
+                            }
+                          />
+                          <CText
+                            styles={'textMeta fontBold colorWhite'}
+                            customLabel={moment(item.approveDate, 'DD/MM/YYYY - HH:mm').format('HH:mm')}
+                          />
+                        </View>
+
+                        <View style={[cStyles.px10, cStyles.pt6, cStyles.itemsCenter]}>
+                          <Icon
+                            name={item.statusID ? 'check-circle' : 'times-circle'}
+                            size={15}
+                            color={item.statusID ? colors.GREEN : colors.RED}
+                            solid
+                          />
+                          {index !== process.length - 1 &&
+                            <View style={[cStyles.mt10, { width: 2, backgroundColor: colors.PRIMARY, height: 20 }]} />
                           }
-                        />
-                        <CText
-                          styles={'textMeta fontBold colorWhite'}
-                          customLabel={moment(item.approveDate, 'DD/MM/YYYY - HH:mm').format('HH:mm')}
-                        />
-                      </View>
-
-                      <View style={[cStyles.px10, cStyles.pt6, cStyles.itemsCenter]}>
-                        <Icon
-                          name={item.statusID ? 'check-circle' : 'times-circle'}
-                          size={15}
-                          color={item.statusID ? colors.GREEN : colors.RED}
-                          solid
-                        />
-                        {index !== process.length - 1 &&
-                          <View style={[cStyles.mt10, { width: 2, backgroundColor: colors.PRIMARY, height: 20 }]} />
-                        }
-                      </View>
-
-                      <View style={[cStyles.rounded1, cStyles.pr10]}>
-                        <View style={[cStyles.row, cStyles.itemsStart]}>
-                          <CText styles={'textMeta'} label={'add_approved_assets:person_approved'} />
-                          <CText styles={'textMeta fontBold'} customLabel={item.personApproveName} />
                         </View>
-                        <View style={[cStyles.row, cStyles.itemsStart, cStyles.justifyStart]}>
-                          <CText styles={'textMeta'} label={'add_approved_assets:status_approved'} />
-                          <CText styles={'textMeta fontBold'} customLabel={item.statusName} />
-                        </View>
-                        {!item.statusID &&
-                          <View style={[cStyles.row, cStyles.itemsStart, cStyles.justifyStart, { width: '90%' }]}>
-                            <CText styles={'textMeta'} label={'add_approved_assets:reason_reject'} />
-                            <CText styles={'textMeta'} customLabel={item.reason} />
+
+                        <View style={[cStyles.rounded1, cStyles.pr10]}>
+                          <View style={[cStyles.row, cStyles.itemsStart]}>
+                            <CText styles={'textMeta'} label={'add_approved_assets:person_approved'} />
+                            <CText styles={'textMeta fontBold'} customLabel={item.personApproveName} />
                           </View>
-                        }
+                          <View style={[cStyles.row, cStyles.itemsStart, cStyles.justifyStart]}>
+                            <CText styles={'textMeta'} label={'add_approved_assets:status_approved'} />
+                            <CText styles={'textMeta fontBold'} customLabel={item.statusName} />
+                          </View>
+                          {!item.statusID &&
+                            <View style={[cStyles.row, cStyles.itemsStart, cStyles.justifyStart, { width: '75%' }]}>
+                              <CText styles={'textMeta'} label={'add_approved_assets:reason_reject'} />
+                              <CText styles={'textMeta'} customLabel={item.reason} />
+                            </View>
+                          }
+                        </View>
                       </View>
-                    </View>
-                  )
-                })}
-              </View>
-            </View>
+                    )
+                  })}
+                </View>
+              }
+            />
           }
 
           {/** MODAL */}
@@ -1058,21 +1050,27 @@ function AddRequest(props) {
           :
           form.isAllowApproved
             ?
-            <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyEvenly, cStyles.px16]}>
+            <View style={[
+              cStyles.row,
+              cStyles.itemsCenter,
+              cStyles.justifyEvenly,
+              cStyles.px16
+            ]}>
               <CButton
                 style={styles.button_approved}
                 block
                 color={colors.RED}
                 disabled={loading.main}
-                icon={'times-circle'}
+                icon={'hand-right'}
                 label={'add_approved_assets:reject'}
                 onPress={handleReject}
               />
               <CButton
                 style={styles.button_reject}
                 block
+                color={colors.GREEN}
                 disabled={loading.main}
-                icon={'check-double'}
+                icon={'check-decagram'}
                 label={'add_approved_assets:approved'}
                 onPress={handleApproved}
               />
@@ -1096,38 +1094,7 @@ const styles = StyleSheet.create({
   con_process: { backgroundColor: colors.GRAY_300 },
   con_title_process: { backgroundColor: colors.WHITE, position: 'absolute', top: -15, },
   con_time_process: { backgroundColor: colors.SECONDARY },
-
-  backTextWhite: {
-    color: '#FFF',
-  },
-  rowFront: {
-    backgroundColor: '#FFF',
-    height: 50,
-  },
-  rowBack: {
-    alignItems: 'center',
-    backgroundColor: '#DDD',
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingLeft: 15,
-  },
-  backRightBtn: {
-    alignItems: 'center',
-    bottom: 0,
-    justifyContent: 'center',
-    position: 'absolute',
-    top: 0,
-    width: 75,
-  },
-  backRightBtnLeft: {
-    backgroundColor: 'blue',
-    right: 75,
-  },
-  backRightBtnRight: {
-    backgroundColor: 'red',
-    right: 0,
-  },
+  input_multiline: { height: 100 },
 });
 
 export default AddRequest;

@@ -12,6 +12,8 @@ import {
   Alert,
 } from 'react-native';
 import { isIphoneX } from 'react-native-iphone-x-helper';
+import ImagePicker from 'react-native-image-crop-picker';
+import { PERMISSIONS, request } from 'react-native-permissions';
 
 export const IS_ANDROID = Platform.OS === 'android';
 export const IS_IOS = Platform.OS === 'ios';
@@ -48,6 +50,14 @@ export function sW(widthPercent) {
   return PixelRatio.roundToNearestPixel((screenWidth * elemWidth) / 100);
 };
 
+export function borderRadius(number) {
+  if (IS_ANDROID) {
+    return number;
+  } else if (IS_IOS) {
+    return number / 2;
+  }
+};
+
 export function alert(t, message, onPressOK) {
   return Alert.alert(
     t('common:app_name'),
@@ -80,4 +90,68 @@ export function resetRoute(navigation, routeName, params) {
       },
     ],
   });
+};
+
+export async function askPermissionsCamera() {
+  let perCamera =
+    Platform.OS === 'android'
+      ? PERMISSIONS.ANDROID.CAMERA
+      : PERMISSIONS.IOS.CAMERA;
+  let result = await request(perCamera);
+  if (result !== 'granted') {
+    alert(
+      'You need allow permission for Camera to upload avatar or album in Settings!',
+    );
+    return false;
+  } else {
+    let perGallery =
+      Platform.OS === 'android'
+        ? PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE
+        : PERMISSIONS.IOS.PHOTO_LIBRARY;
+    result = await request(perGallery);
+    if (result !== 'granted') {
+      alert(
+        'You need allow permission for Gallery to upload avatar or album in Settings!',
+      );
+      return false;
+    } else {
+      return true;
+    }
+  }
+};
+
+export async function choosePhotoFromCamera(props) {
+  let params = {
+    mediaTypes: 'photo',
+    cropping: false,
+    includeBase64: true,
+    includeExif: true,
+  };
+  if (props && props.height) {
+    params.compressImageMaxHeight = props.height;
+  }
+  if (props && props.width) {
+    params.compressImageMaxWidth = props.width;
+  }
+
+  let result = await ImagePicker.openCamera(params);
+  return result;
+};
+
+export async function choosePhotoFromGallery(props) {
+  let params = {
+    mediaTypes: 'photo',
+    cropping: false,
+    includeBase64: true,
+    includeExif: true,
+  };
+  if (props && props.height) {
+    params.compressImageMaxHeight = props.height;
+  }
+  if (props && props.width) {
+    params.compressImageMaxWidth = props.width;
+  }
+
+  let result = await ImagePicker.openPicker(params);
+  return result;
 };

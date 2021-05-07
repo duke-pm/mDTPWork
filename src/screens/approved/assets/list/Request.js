@@ -13,7 +13,6 @@ import {
 import RequestItem from '../components/RequestItem';
 import CEmpty from '~/components/CEmpty';
 import CFooterList from '~/components/CFooterList';
-import ModalProcess from '../components/ModalProcess';
 /* COMMON */
 import { IS_ANDROID } from '~/utils/helper';
 import { cStyles } from '~/utils/style';
@@ -49,48 +48,39 @@ function ListRequest(props) {
 
   /** RENDER */
   return (
-    <View style={cStyles.flex1}>
-      <FlatList
-        style={[cStyles.flex1, cStyles.mt16]}
-        contentContainerStyle={cStyles.px16}
-        data={props.data}
-        renderItem={({ item, index }) => {
-          let detail = props.dataDetail.filter(f => f.requestID === item.requestID);
-          let process = props.dataProcess.filter(f => f.requestID === item.requestID);
-          process = process.sort((a, b) => a.levelApproval - b.levelApproval);
-          return (
-            <RequestItem
-              index={index}
-              data={item}
-              dataDetail={detail}
-              dataProcess={process}
-              onPressProcess={handleShowModal}
-              onRefresh={onRefresh}
-            />
-          )
-        }}
-        keyExtractor={(item, index) => index.toString()}
-        removeClippedSubviews={IS_ANDROID}
-        refreshing={props.refreshing}
-        onRefresh={onRefresh}
-        onEndReachedThreshold={0.5}
-        onEndReached={onLoadmore}
-        ListEmptyComponent={
-          <CEmpty
-            label={'common:empty_data'}
-            description={'common:cannot_find_data_filter'}
+    <FlatList
+      style={[cStyles.flex1, cStyles.mt16]}
+      contentContainerStyle={cStyles.px16}
+      data={props.data}
+      renderItem={({ item, index }) => {
+        let detail = props.dataDetail.filter(f => f.requestID === item.requestID);
+        let process = props.dataProcess.filter(f => f.requestID === item.requestID);
+        process = process.sort((a, b) => a.levelApproval - b.levelApproval);
+        return (
+          <RequestItem
+            index={index}
+            data={item}
+            dataDetail={detail}
+            dataProcess={process}
+            onPressProcess={handleShowModal}
+            onRefresh={onRefresh}
           />
-        }
-        ListFooterComponent={props.loadmore ? <CFooterList /> : null}
-      />
-
-      <ModalProcess
-        show={modal.show}
-        dataRequest={modal.data}
-        dataProcess={modal.dataProcess}
-        onPressClose={handleCloseModal}
-      />
-    </View>
+        )
+      }}
+      keyExtractor={(item, index) => index.toString()}
+      removeClippedSubviews={IS_ANDROID}
+      refreshing={props.refreshing}
+      onRefresh={onRefresh}
+      onEndReachedThreshold={0.5}
+      onEndReached={onLoadmore}
+      ListEmptyComponent={
+        <CEmpty
+          label={'common:empty_data'}
+          description={'common:cannot_find_data_filter'}
+        />
+      }
+      ListFooterComponent={props.loadmore ? <CFooterList /> : null}
+    />
   );
 };
 

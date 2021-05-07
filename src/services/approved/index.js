@@ -65,6 +65,29 @@ export default {
     });
   },
 
+  addRequestLostDamage: (params) => {
+    return new Promise((resolve, reject) => {
+      API
+        .post(
+          jwtServiceConfig.baseURL + Routes.APPROVED.ADD_REQUEST_LOST_DAMAGE,
+          params,
+          { headers: { "Content-Type": "multipart/form-data" } }
+        )
+        .then((response) => {
+          console.log("FETCH ADD REQUEST LOST DAMAGE => ", response);
+          if (response.status === 200 && response.data) {
+            resolve(response.data);
+          } else {
+            reject(response.statusText);
+          }
+        })
+        .catch((error) => {
+          console.log("ERROR ADD REQUEST LOST DAMAGE => ", error);
+          reject(error.response ? error.response.data : error);
+        });
+    });
+  },
+
   approvedRequest: (params) => {
     return new Promise((resolve, reject) => {
       API

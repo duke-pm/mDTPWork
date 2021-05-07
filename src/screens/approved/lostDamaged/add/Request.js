@@ -13,15 +13,8 @@ import {
   TouchableOpacity,
   ScrollView,
   KeyboardAvoidingView,
-  Text,
-  TouchableHighlight
+  Keyboard,
 } from 'react-native';
-import {
-  Table,
-  Row,
-  TableWrapper,
-  Cell,
-} from 'react-native-table-component';
 import { showMessage } from "react-native-flash-message";
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import moment from 'moment';
@@ -32,38 +25,34 @@ import CText from '~/components/CText';
 import CInput from '~/components/CInput';
 import CDateTimePicker from '~/components/CDateTimePicker';
 import CDropdown from '~/components/CDropdown';
+import CCard from '~/components/CCard';
 import CButton from '~/components/CButton';
-import AssetItem from '../components/AssetItem';
+import CUploadImage from '~/components/CUploadImage';
 import RejectModal from '../components/RejectModal';
 /* COMMON */
 import { colors, cStyles } from '~/utils/style';
-import { IS_IOS, alert } from '~/utils/helper';
+import {
+  IS_IOS,
+  alert,
+} from '~/utils/helper';
+import Commons from '~/utils/common/Commons';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 
 const INPUT_NAME = {
   DATE_REQUEST: 'dateRequest',
-  NAME: 'name',
-  DEPARTMENT: 'department',
-  REGION: 'region',
-  ASEETS: 'assets',
-  WHERE_USE: 'whereUse',
+  ASSETID: 'assetID',
   REASON: 'reason',
-  TYPE_ASSETS: 'typeAssets',
-  IN_PLANNING: 'inPlanning',
-  SUPPLIER: 'supplier',
+  TYPE_UPDATE: 'typeUpdate',
+  FILE: 'file',
 };
+
 
 function AddRequest(props) {
   const { t } = useTranslation();
 
-  let dateRequestRef = useRef();
-  let nameRef = useRef();
-  let departmentRef = useRef();
-  let regionRef = useRef();
-  let whereUseRef = useRef();
+  let assetsRef = useRef();
   let reasonRef = useRef();
-  let supplierRef = useRef();
 
   const dispatch = useDispatch();
   const masterState = useSelector(({ masterData }) => masterData);
@@ -73,7 +62,6 @@ function AddRequest(props) {
 
   const [loading, setLoading] = useState({
     main: true,
-    submit: false,
     submitAdd: false,
     submitApproved: false,
     submitReject: false,
@@ -83,46 +71,26 @@ function AddRequest(props) {
   const [isDetail, setIsDetail] = useState(props.route.params?.data ? true : false);
   const [process, setProcess] = useState([]);
   const [form, setForm] = useState({
+    dateRequest: moment().format(commonState.get('formatDate')),
+    reason: '',
+    typeUpdate: Commons.APPROVED_TYPE.DAMAGED.code, // 2: Damage or 3: Lost
+    assetID: '',
+    file: null,
+    fileBase64: '',
     id: '',
     personRequestId: '',
-    dateRequest: moment().format(commonState.get('formatDate')),
-    name: authState.getIn(['login', 'fullName']),
+    name: '',
     department: authState.getIn(['login', 'deptCode']),
     region: authState.getIn(['login', 'regionCode']),
-    assets: {
-      header: [
-        t('add_approved_assets:description'),
-        t('add_approved_assets:amount'),
-        t('add_approved_assets:price'),
-        t('add_approved_assets:total'),
-        '',
-      ],
-      data: [
-        ['', '', '', '', null],
-      ],
-    },
-    whereUse: authState.getIn(['login', 'deptCode']),
-    reason: '',
-    typeAssets: 'N',
-    inPlanning: false,
-    supplier: '',
     status: 1,
     isAllowApproved: false,
   });
   const [error, setError] = useState({
-    department: {
-      status: false,
-      helper: '',
-    },
-    region: {
-      status: false,
-      helper: '',
-    },
     assets: {
       status: false,
       helper: '',
     },
-    whereUse: {
+    reason: {
       status: false,
       helper: '',
     },
@@ -133,77 +101,24 @@ function AddRequest(props) {
     setShowPickerDate(true);
   };
 
-  const handleChangeInput = (inputRef, type) => {
-    if (inputRef) {
-      if (!type) {
-        inputRef.focus();
-      } else if (type === 'combobox') {
-        inputRef.current.toggle();
-      }
-    }
-  };
-
-  const handleAddAssets = () => {
-    let newData = [...form.assets.data];
-    newData.push(['', '', '', '', null]);
-    setForm({
-      ...form,
-      assets: {
-        ...form.assets,
-        data: newData,
-      }
-    });
-  };
-
   const handleChooseTypeAssets = (type) => {
-    if (type !== form.typeAssets) {
+    if (type !== form.typeUpdate) {
       setForm({
         ...form,
-        typeAssets: type
-      });
-    }
-  };
-
-  const handleChooseInPlanning = (inplanning) => {
-    if (inplanning !== form.inPlanning) {
-      setForm({
-        ...form,
-        inPlanning: inplanning
+        typeUpdate: type
       });
     }
   };
 
   const handleCombobox = (data, field, nextField) => {
-    if (field === INPUT_NAME.DEPARTMENT) {
+    if (field === INPUT_NAME.ASSETID) {
       setForm({
         ...form,
-        department: data.value,
-        whereUse: data.value,
+        assetID: data.value,
       });
-      if (error.department.status) {
-        setError({ ...error, department: { status: false, helper: '' } });
+      if (error.assets.status) {
+        setError({ ...error, assets: { status: false, helper: '' } });
       }
-      departmentRef.current.close();
-      regionRef.current.open();
-    } else if (field === INPUT_NAME.REGION) {
-      setForm({
-        ...form,
-        region: data.value,
-      });
-      if (error.region.status) {
-        setError({ ...error, region: { status: false, helper: '' } });
-      }
-      regionRef.current.close();
-      whereUseRef.current.open();
-    } else if (field === INPUT_NAME.WHERE_USE) {
-      setForm({
-        ...form,
-        whereUse: data.value,
-      });
-      if (error.whereUse.status) {
-        setError({ ...error, whereUse: { status: false, helper: '' } });
-      }
-      whereUseRef.current.close();
       if (nextField) nextField.focus();
     }
   };
@@ -211,13 +126,24 @@ function AddRequest(props) {
   const handleChangeText = (value, nameInput) => {
     if (nameInput === INPUT_NAME.REASON) {
       setForm({ ...form, reason: value });
-    } else {
-      setForm({ ...form, supplier: value });
+      if (error.reason.status)
+        setError({
+          ...error,
+          reason: {
+            status: false,
+            helper: '',
+          }
+        });
     }
   };
 
   const handleApproved = () => {
-    alert(t, 'add_approved_assets:message_confirm_approved', onApproved);
+    alert(t,
+      form.typeUpdate === Commons.APPROVED_TYPE.DAMAGED.code
+        ? 'add_approved_lost_damaged:message_confirm_approved_damage'
+        : 'add_approved_lost_damaged:message_confirm_approved_lost',
+      onApproved
+    );
   };
 
   const handleReject = () => {
@@ -225,37 +151,28 @@ function AddRequest(props) {
   };
 
   /** FUNC */
+  const onPrepareData = () => {
+    let params = {
+      'EmpCode': authState.getIn(['login', 'empCode']),
+      'RefreshToken': authState.getIn(['login', 'refreshToken']),
+      'Lang': commonState.get('language'),
+    };
+    dispatch(Actions.fetchAssetByUser(params));
+  };
+
   const onValidate = () => {
     let tmpError = error, status = true;
-    if (form.department === '') {
-      tmpError.department.status = true;
-      tmpError.department.helper = 'error:not_choose_department';
+    if (form.assetID === '') {
+      tmpError.assets.status = true;
+      tmpError.assets.helper = 'error:assets_not_empty';
       status = false;
     }
-    if (form.region === '') {
-      tmpError.region.status = true;
-      tmpError.region.helper = 'error:not_choose_region';
-      status = false;
-    }
-    if (form.whereUse === '') {
-      tmpError.whereUse.status = true;
-      tmpError.whereUse.helper = 'error:not_choose_where_use';
+    if (form.reason === '') {
+      tmpError.reason.status = true;
+      tmpError.reason.helper = 'error:reason_not_empty';
       status = false;
     }
 
-    for (let item of form.assets.data) {
-      if (item[0].trim().length === 0) {
-        tmpError.assets.status = true;
-        tmpError.assets.helper = 'error:not_enough_assets';
-        status = false;
-      } else {
-        if ((item[1] === '') || (item[1] !== '' && Number(item[1]) < 1)) {
-          tmpError.assets.status = true;
-          tmpError.assets.helper = 'error:assets_need_larger_than_zero';
-          status = false;
-        }
-      }
-    }
     return {
       status,
       data: tmpError,
@@ -267,33 +184,34 @@ function AddRequest(props) {
     let isValid = onValidate();
     if (isValid.status) {
       /** prepare assets */
-      let assets = [], item = null;
-      for (item of form.assets.data) {
-        assets.push({
-          'Descr': item[0],
-          'Qty': Number(item[1]),
-          'UnitPrice': item[2] === '' ? 0 : Number(item[2]),
-          'TotalAmt': item[3] === '' ? 0 : Number(item[3]),
+      let formData = new FormData();
+      formData.append('EmpCode', authState.getIn(['login', 'empCode']));
+      formData.append('DeptCode', authState.getIn(['login', 'deptCode']));
+      formData.append('RegionCode', authState.getIn(['login', 'regionCode']));
+      formData.append('JobTitle', authState.getIn(['login', 'jobTitle']));
+      formData.append('RequestDate', form.dateRequest);
+      formData.append('Reasons', form.reason);
+      formData.append('TypeUpdate',
+        form.typeUpdate === Commons.APPROVED_TYPE.DAMAGED.code
+          ? 'Damage'
+          : 'Lost'
+      );
+      formData.append('AssetID', form.assetID);
+      formData.append('Lang', commonState.get('language'));
+      if (form.file) {
+        formData.append('FileUpload', {
+          uri: form.file.path,
+          type: form.file.type,
+          name: form.file.name,
         });
       }
 
       let params = {
-        'EmpCode': authState.getIn(['login', 'empCode']),
-        'DeptCode': authState.getIn(['login', 'deptCode']),
-        'RegionCode': authState.getIn(['login', 'regionCode']),
-        'JobTitle': authState.getIn(['login', 'jobTitle']),
-        'RequestDate': form.dateRequest,
-        'Location': form.whereUse,
-        'Reason': form.reason,
-        'DocType': form.typeAssets,
-        'IsBudget': form.inPlanning,
-        'SupplierName': form.supplier,
-        'Lang': commonState.get('language'),
-        'ListAssets': assets,
         'RefreshToken': authState.getIn(['login', 'refreshToken']),
         'Lang': commonState.get('language'),
       };
-      dispatch(Actions.fetchAddRequestApproved(params, props.navigation));
+
+      dispatch(Actions.fetchAddRequestLostDamage(params, formData, props.navigation));
     } else {
       setError(isValid.data);
       setLoading({ ...loading, submitAdd: false });
@@ -302,28 +220,10 @@ function AddRequest(props) {
 
   const onOpenCombobox = (inputName) => {
     switch (inputName) {
-      case INPUT_NAME.DEPARTMENT:
-        regionRef.current.close();
-        whereUseRef.current.close();
-        break;
-      case INPUT_NAME.REGION:
-        departmentRef.current.close();
-        whereUseRef.current.close();
-        break;
-      case INPUT_NAME.WHERE_USE:
-        departmentRef.current.close();
-        regionRef.current.close();
+      case INPUT_NAME.ASSETID:
+        Keyboard.dismiss();
         break;
     }
-  };
-
-  const onPrepareData = () => {
-    let params = {
-      'listType': 'Department, Region',
-      'RefreshToken': authState.getIn(['login', 'refreshToken']),
-      'Lang': commonState.get('language'),
-    }
-    dispatch(Actions.fetchMasterData(params, props.navigation));
   };
 
   const onChangeDateRequest = (newDate, showPicker) => {
@@ -336,40 +236,6 @@ function AddRequest(props) {
     }
   };
 
-  const onChangeCellItem = (value, rowIndex, cellIndex) => {
-    let newData = form.assets.data;
-    newData[rowIndex][cellIndex] = value;
-    if (newData[rowIndex][1] !== '') {
-      if (newData[rowIndex][2] !== '') {
-        newData[rowIndex][3] = JSON.stringify(
-          Number(newData[rowIndex][1]) * Number(newData[rowIndex][2])
-        );
-      } else newData[rowIndex][3] = '';
-    } else newData[rowIndex][3] = '';
-    setForm({
-      ...form,
-      assets: {
-        ...form.assets,
-        data: newData,
-      },
-    });
-    if (error.assets.status) {
-      setError({ ...error, assets: { status: false, helper: '' } });
-    }
-  };
-
-  const onRemoveRow = (rowIndex) => {
-    let newData = [...form.assets.data];
-    newData.splice(rowIndex, 1);
-    setForm({
-      ...form,
-      assets: {
-        ...form.assets,
-        data: newData,
-      }
-    });
-  };
-
   const onPrepareDetail = () => {
     let tmp = {
       id: isDetail
@@ -378,50 +244,31 @@ function AddRequest(props) {
       personRequestId: isDetail
         ? props.route.params?.data?.personRequestID
         : '',
-      dateRequest: isDetail
-        ? moment(props.route.params?.data?.requestDate, 'YYYY-MM-DDTHH:mm:ss').format(commonState.get('formatDate'))
-        : moment().format(commonState.get('formatDate')),
       name: isDetail
         ? props.route.params?.data?.personRequest
         : '',
+      dateRequest: isDetail
+        ? moment(props.route.params?.data?.requestDate, 'YYYY-MM-DDTHH:mm:ss')
+          .format(commonState.get('formatDate'))
+        : moment().format(commonState.get('formatDate')),
       department: isDetail
         ? props.route.params?.data?.deptCode
         : '',
       region: isDetail
         ? props.route.params?.data?.regionCode
         : '',
-      assets: {
-        header: [
-          t('add_approved_assets:description'),
-          t('add_approved_assets:amount'),
-          t('add_approved_assets:price'),
-          t('add_approved_assets:total'),
-        ],
-        data: [
-          ['', '', '', ''],
-        ],
-      },
-      whereUse: isDetail
-        ? props.route.params?.data?.locationCode
+      assetID: isDetail
+        ? props.route.params?.data?.assetID
         : '',
       reason: isDetail
         ? props.route.params?.data?.reason
         : '',
-      typeAssets: isDetail ? props.route.params?.data?.docType : 'N',
-      inPlanning: isDetail ? props.route.params?.data?.isBudget : false,
-      supplier: isDetail ? props.route.params?.data?.supplierName : '',
+      typeUpdate: isDetail
+        ? props.route.params?.data?.requestTypeID
+        : Commons.APPROVED_TYPE.DAMAGED.code,
       status: isDetail ? props.route.params?.data?.statusID : 1,
       isAllowApproved: isDetail ? props.route.params?.data?.isAllowApproved : false,
     };
-    if (props.route.params?.dataDetail) {
-      let arrayDetail = props.route.params?.dataDetail;
-      if (arrayDetail.length > 0) {
-        tmp.assets.data = [];
-        for (let item of arrayDetail) {
-          tmp.assets.data.push([item.descr, item.qty, item.unitPrice, item.totalAmt]);
-        }
-      }
-    }
     if (props.route.params?.dataProcess) {
       let arrayProcess = props.route.params?.dataProcess;
       if (arrayProcess.length > 0) {
@@ -433,10 +280,10 @@ function AddRequest(props) {
   };
 
   const onApproved = () => {
-    setLoading({ ...loading, submit: true });
+    setLoading({ ...loading, submitApproved: true });
     let params = {
       'RequestID': form.id,
-      'RequestTypeID': 1,
+      'RequestTypeID': form.typeUpdate,
       'PersonRequestID': form.personRequestId,
       'Status': true,
       'Reason': '',
@@ -450,7 +297,7 @@ function AddRequest(props) {
     setLoading({ ...loading, submitReject: true });
     let params = {
       'RequestID': form.id,
-      'RequestTypeID': 1,
+      'RequestTypeID': form.typeUpdate,
       'PersonRequestID': form.personRequestId,
       'Status': false,
       'Reason': reason,
@@ -471,12 +318,10 @@ function AddRequest(props) {
 
   useEffect(() => {
     if (loading.main) {
-      if (masterState.get('department').length > 0) {
-        if (isDetail) {
-          onPrepareDetail();
-        } else {
-          setLoading({ ...loading, main: false });
-        }
+      if (isDetail) {
+        onPrepareDetail();
+      } else {
+        setLoading({ ...loading, main: false });
       }
     }
   }, [
@@ -487,24 +332,25 @@ function AddRequest(props) {
   useEffect(() => {
     if (loading.submitAdd) {
       if (!approvedState.get('submittingAdd')) {
-        setLoading({ ...loading, submitAdd: false });
         if (approvedState.get('successAddRequest')) {
+          setLoading({ ...loading, submitAdd: false });
           showMessage({
-            message: t('common:app_name'),
-            description: t('success:send_request'),
+            message: t('success:send_request'),
             type: 'success',
             icon: 'success'
           });
-          props.navigation.goBack();
-          if (props.route.params.onRefresh) {
-            props.route.params.onRefresh();
-          }
+          setTimeout(() => {
+            props.navigation.goBack();
+            if (props.route.params.onRefresh) {
+              props.route.params.onRefresh();
+            }
+          }, 1000);
         }
 
         if (approvedState.get('errorAddRequest')) {
+          setLoading({ ...loading, submitAdd: false });
           showMessage({
-            message: t('common:app_name'),
-            description: approvedState.get('errorHelperAddRequest'),
+            message: approvedState.get('errorHelperAddRequest'),
             type: 'danger',
             icon: 'danger',
           });
@@ -521,8 +367,9 @@ function AddRequest(props) {
   useEffect(() => {
     if (loading.submitApproved) {
       if (!approvedState.get('submittingApproved')) {
-        setLoading({ ...loading, submitApproved: false });
+        console.log('[LOG] ===  ===> ', approvedState.get('successApprovedRequest'));
         if (approvedState.get('successApprovedRequest')) {
+          setLoading({ ...loading, submitApproved: false });
           showMessage({
             message: t('common:app_name'),
             description: t('success:approved_request'),
@@ -536,6 +383,7 @@ function AddRequest(props) {
         }
 
         if (approvedState.get('errorApprovedRequest')) {
+          setLoading({ ...loading, submitApproved: false });
           showMessage({
             message: t('common:app_name'),
             description: approvedState.get('errorHelperApprovedRequest'),
@@ -543,6 +391,7 @@ function AddRequest(props) {
             icon: 'danger',
           });
         }
+
       }
     }
   }, [
@@ -555,9 +404,10 @@ function AddRequest(props) {
   useEffect(() => {
     if (loading.submitReject) {
       if (!approvedState.get('submittingReject')) {
-        setLoading({ ...loading, submitReject: false });
+
         setShowReject(false);
         if (approvedState.get('successRejectRequest')) {
+          setLoading({ ...loading, submitReject: false });
           showMessage({
             message: t('common:app_name'),
             description: t('success:reject_request'),
@@ -571,6 +421,7 @@ function AddRequest(props) {
         }
 
         if (approvedState.get('errorRejectRequest')) {
+          setLoading({ ...loading, submitReject: false });
           showMessage({
             message: t('common:app_name'),
             description: approvedState.get('errorHelperRejectRequest'),
@@ -602,7 +453,7 @@ function AddRequest(props) {
       }
       header
       hasBack
-      title={'add_approved_assets:' + (isDetail ? 'detail' : 'title')}
+      title={'add_approved_lost_damaged:' + (isDetail ? 'detail' : 'title')}
       content={
         <CContent>
           <KeyboardAvoidingView style={cStyles.flex1} behavior={IS_IOS ? 'padding' : 'height'}
@@ -613,7 +464,7 @@ function AddRequest(props) {
             >
               {/** Date request */}
               <View>
-                <CText styles={'textTitle'} label={'add_approved_assets:date_request'} />
+                <CText styles={'textTitle'} label={'add_approved_lost_damaged:date_request'} />
                 <CInput
                   name={INPUT_NAME.DATE_REQUEST}
                   inputRef={ref => dateRequestRef = ref}
@@ -629,205 +480,78 @@ function AddRequest(props) {
                 />
               </View>
 
-              {/** Name */}
-              <View style={cStyles.pt16}>
-                <CText styles={'textTitle'} label={'add_approved_assets:name'} />
-                <CInput
-                  name={INPUT_NAME.NAME}
-                  styleFocus={styles.input_focus}
-                  inputRef={ref => nameRef = ref}
-                  disabled={true}
-                  holder={'add_approved_assets:name'}
-                  value={form.name}
-                  valueColor={colors.BLACK}
-                  keyboard={'default'}
-                  returnKey={'next'}
-                  onChangeInput={() => handleChangeInput(departmentRef, 'combobox')}
-                />
-              </View>
-
-              {/** Department */}
-              <View style={[
-                cStyles.row,
-                cStyles.itemsCenter,
-                cStyles.pt16,
-                IS_IOS && { zIndex: 10 }
-              ]}>
-                {/** Department */}
-                <View style={[cStyles.flex1, cStyles.pr4]}>
-                  <CText styles={'textTitle'} label={'add_approved_assets:department'} />
-                  <CDropdown
-                    loading={loading.main}
-                    controller={instance => departmentRef.current = instance}
-                    data={masterState.get('department')}
-                    disabled={true}
-                    searchable={true}
-                    searchablePlaceholder={t('add_approved_assets:search_department')}
-                    error={error.department.status}
-                    errorHelper={error.department.helper}
-                    holder={'add_approved_assets:holder_department'}
-                    defaultValue={form.department}
-                    onChangeItem={value => handleCombobox(value, INPUT_NAME.DEPARTMENT)}
-                    onOpen={() => onOpenCombobox(INPUT_NAME.DEPARTMENT)}
-                  />
-                </View>
-              </View>
-
-              {/** Region */}
-              <View style={[
-                cStyles.row,
-                cStyles.itemsCenter,
-                cStyles.pt16,
-                IS_IOS && { zIndex: 9 }
-              ]}>
-                <View style={[cStyles.flex1, cStyles.pl4]}>
-                  <CText styles={'textTitle'} label={'add_approved_assets:region'} />
-                  <CDropdown
-                    loading={loading.main}
-                    controller={instance => regionRef.current = instance}
-                    data={masterState.get('region')}
-                    disabled={true}
-                    error={error.region.status}
-                    errorHelper={error.region.helper}
-                    holder={'add_approved_assets:holder_region'}
-                    defaultValue={form.region}
-                    onChangeItem={value => handleCombobox(value, INPUT_NAME.REGION)}
-                    onOpen={() => onOpenCombobox(INPUT_NAME.REGION)}
-                  />
-                </View>
-              </View>
-
               {/** Assets */}
-              <View style={[cStyles.flex1, cStyles.pt16]}>
-                <CText styles={'textTitle'} label={'add_approved_assets:assets'} />
-                <ScrollView horizontal>
-                  <Table borderStyle={styles.table} style={cStyles.mt6}>
-                    <Row
-                      style={styles.table_header}
-                      textStyle={[
-                        cStyles.textMeta,
-                        cStyles.m3,
-                        cStyles.textCenter,
-                        cStyles.fontMedium,
-                        styles.table_text_header
-                      ]}
-                      widthArr={isDetail ? [180, 70, 100, 100] : [180, 70, 100, 100, 42]}
-                      data={form.assets.header}
+              {!isDetail &&
+                <View style={[
+                  cStyles.row,
+                  cStyles.itemsCenter,
+                  cStyles.pt16,
+                  IS_IOS && { zIndex: 10 }
+                ]}>
+                  <View style={[cStyles.flex1, cStyles.pr4]}>
+                    <CText styles={'textTitle'} label={'add_approved_lost_damaged:assets'} />
+                    <CDropdown
+                      loading={loading.main}
+                      controller={instance => assetsRef.current = instance}
+                      data={masterState.get('assetByUser')}
+                      disabled={loading.main || isDetail}
+                      searchable={true}
+                      searchablePlaceholder={t('add_approved_lost_damaged:search_assets')}
+                      error={error.assets.status}
+                      errorHelper={error.assets.helper}
+                      holder={'add_approved_lost_damaged:holder_assets'}
+                      defaultValue={form.assetID}
+                      onChangeItem={value => handleCombobox(value, INPUT_NAME.ASSETID, reasonRef)}
+                      onOpen={() => onOpenCombobox(INPUT_NAME.ASSETID)}
                     />
-                    {form.assets.data.map((rowData, rowIndex) => (
-                      <TableWrapper key={rowIndex.toString()} style={[cStyles.flex1, cStyles.row]} borderStyle={styles.table}>
-                        {rowData.map((cellData, cellIndex) => {
-                          let disabled = loading.main || loading.submit || cellIndex === 3 || isDetail;
-                          return (
-                            <Cell
-                              key={cellIndex.toString()}
-                              width={cellIndex === 0 ? 180 : cellIndex === 1 ? 70 : cellIndex === 4 ? 42 : 100}
-                              height={40}
-                              data={
-                                <AssetItem
-                                  disabled={disabled}
-                                  cellData={cellData}
-                                  rowIndex={rowIndex}
-                                  cellIndex={cellIndex}
-                                  onChangeCellItem={onChangeCellItem}
-                                  onRemoveRow={onRemoveRow}
-                                />
-                              }
-                            />
-                          )
-                        })}
-                      </TableWrapper>
-                    ))}
-                  </Table>
-                </ScrollView>
-
-                <View style={[cStyles.flex1, cStyles.row, cStyles.justifyBetween, cStyles.itemsCenter, cStyles.pt10]}>
-                  <View style={{ flex: 0.6 }}>
-                    {error.assets.status &&
-                      <CText styles={'textMeta colorRed'} label={t(error.assets.helper)} />
-                    }
                   </View>
-
-                  {!isDetail &&
-                    <TouchableOpacity
-                      style={[
-                        cStyles.row,
-                        cStyles.itemsCenter,
-                        cStyles.justifyEnd,
-                        cStyles.py10,
-                        { flex: 0.4 }
-                      ]}
-                      activeOpacity={0.5}
-                      disabled={loading.main || loading.submitAdd || isDetail}
-                      onPress={handleAddAssets}
-                    >
-                      <Icon name={'plus-circle'} size={15} color={colors.BLACK} />
-                      <CText styles={'textMeta textUnderline pl6 colorBlack'} label={'add_approved_assets:add_assets'} />
-                    </TouchableOpacity>
-                  }
                 </View>
-              </View>
-
-              {/** where use */}
-              <View style={[
-                cStyles.pt16,
-                cStyles.pr4,
-                IS_IOS && { zIndex: 8 }
-              ]}>
-                <CText styles={'textTitle'} label={'add_approved_assets:where_use'} />
-                <CDropdown
-                  loading={loading.main}
-                  controller={instance => whereUseRef.current = instance}
-                  data={masterState.get('department')}
-                  disabled={loading.main || loading.submitAdd || isDetail}
-                  searchable={true}
-                  searchablePlaceholder={t('add_approved_assets:search_department')}
-                  error={error.whereUse.status}
-                  errorHelper={error.whereUse.helper}
-                  holder={'add_approved_assets:holder_where_use'}
-                  defaultValue={form.whereUse}
-                  onChangeItem={value => handleCombobox(value, INPUT_NAME.WHERE_USE, reasonRef)}
-                  onOpen={() => onOpenCombobox(INPUT_NAME.WHERE_USE)}
-                />
-              </View>
+              }
 
               {/** Reason */}
               <View style={cStyles.pt16}>
-                <CText styles={'textTitle'} label={'add_approved_assets:reason'} />
+                <CText styles={'textTitle'} label={'add_approved_lost_damaged:reason'} />
                 <CInput
                   name={INPUT_NAME.REASON}
+                  style={styles.input_multiline}
                   styleFocus={styles.input_focus}
                   inputRef={ref => reasonRef = ref}
                   disabled={loading.main || loading.submitAdd || isDetail}
-                  holder={'add_approved_assets:reason'}
+                  holder={'add_approved_lost_damaged:holder_reason'}
                   value={form.reason}
                   valueColor={colors.BLACK}
                   keyboard={'default'}
-                  returnKey={'next'}
+                  returnKey={'done'}
                   multiline
                   textAlignVertical={'top'}
-                  onChangeInput={() => handleChangeInput(supplierRef)}
+                  error={error.reason.status}
+                  errorHelper={error.reason.helper}
+                  onChangeInput={Keyboard.dismiss}
                   onChangeValue={handleChangeText}
                 />
               </View>
 
-              {/** Type assets */}
+              {/** Type update */}
               <View style={cStyles.pt16}>
-                <CText styles={'textTitle'} label={'add_approved_assets:type_assets'} />
+                <CText styles={'textTitle'} label={'add_approved_lost_damaged:type_update'} />
                 <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pt10]}>
                   <TouchableOpacity
                     style={{ flex: 0.4 }}
                     activeOpacity={0.5}
                     disabled={loading.main || loading.submitAdd || isDetail}
-                    onPress={() => handleChooseTypeAssets('N')}>
+                    onPress={() => handleChooseTypeAssets(2)}>
                     <View style={[cStyles.row, cStyles.itemsCenter]}>
                       <Icon
-                        name={form.typeAssets === 'N' ? 'check-circle' : 'circle'}
+                        name={form.typeUpdate === Commons.APPROVED_TYPE.DAMAGED.code
+                          ? 'check-circle'
+                          : 'circle'}
                         size={20}
-                        color={form.typeAssets === 'N' ? colors.SECONDARY : colors.PRIMARY}
-                        solid={form.typeAssets === 'N'}
+                        color={form.typeUpdate === Commons.APPROVED_TYPE.DAMAGED.code
+                          ? colors.SECONDARY
+                          : colors.PRIMARY}
+                        solid={form.typeUpdate === Commons.APPROVED_TYPE.DAMAGED.code}
                       />
-                      <CText styles={'pl10'} label={'add_approved_assets:buy_new'} />
+                      <CText styles={'pl10'} label={'add_approved_lost_damaged:damage_assets'} />
                     </View>
                   </TouchableOpacity>
 
@@ -835,199 +559,199 @@ function AddRequest(props) {
                     style={{ flex: 0.6 }}
                     activeOpacity={0.5}
                     disabled={loading.main || loading.submitAdd || isDetail}
-                    onPress={() => handleChooseTypeAssets('A')}>
+                    onPress={() => handleChooseTypeAssets(3)}>
                     <View style={[cStyles.row, cStyles.itemsCenter]}>
                       <Icon
-                        name={form.typeAssets === 'A' ? 'check-circle' : 'circle'}
+                        name={form.typeUpdate === Commons.APPROVED_TYPE.LOST.code
+                          ? 'check-circle'
+                          : 'circle'}
                         size={20}
-                        color={form.typeAssets === 'A' ? colors.SECONDARY : colors.PRIMARY}
-                        solid={form.typeAssets === 'A'}
+                        color={form.typeUpdate === Commons.APPROVED_TYPE.LOST.code
+                          ? colors.SECONDARY
+                          : colors.PRIMARY}
+                        solid={form.typeUpdate === Commons.APPROVED_TYPE.LOST.code}
                       />
-                      <CText styles={'pl10'} label={'add_approved_assets:additional'} />
+                      <CText styles={'pl10'} label={'add_approved_lost_damaged:lost_assets'} />
                     </View>
                   </TouchableOpacity>
                 </View>
               </View>
 
-              {/** In Planning */}
-              <View style={cStyles.pt16}>
-                <CText styles={'textTitle'} label={'add_approved_assets:in_planning'} />
-                <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pt10]}>
-                  <TouchableOpacity
-                    style={{ flex: 0.4 }}
-                    activeOpacity={0.5}
-                    disabled={loading.main || loading.submitAdd || isDetail}
-                    onPress={() => handleChooseInPlanning(true)}>
-                    <View style={[cStyles.row, cStyles.itemsCenter]}>
-                      <Icon
-                        name={form.inPlanning ? 'check-circle' : 'circle'}
-                        size={20}
-                        color={form.inPlanning ? colors.SECONDARY : colors.PRIMARY}
-                        solid={form.inPlanning}
-                      />
-                      <CText styles={'pl10'} label={'add_approved_assets:yes'} />
-                    </View>
-                  </TouchableOpacity>
+              {/** Assets for detail */}
+              {isDetail &&
+                <CCard
+                  label={'add_approved_lost_damaged:info_asset'}
+                  cardHeader={
+                    <CText styles={'textTitle'} customLabel={props.route.params?.data?.assetName} />
+                  }
+                  cardContent={
+                    <View>
+                      <View style={[cStyles.row, cStyles.justifyStart]}>
+                        <CText styles={'textMeta'} label={'add_approved_lost_damaged:detail_asset'} />
+                        <CText styles={'textMeta fontBold'}
+                          customLabel={props.route.params?.data?.descr !== ''
+                            ? props.route.params?.data?.descr
+                            : t('common:empty_info')} />
+                      </View>
+                      <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween]}>
+                        <View style={[cStyles.row, cStyles.justifyStart]}>
+                          <CText styles={'textMeta'} label={'add_approved_lost_damaged:type_asset'} />
+                          <CText styles={'textMeta fontBold'} customLabel={props.route.params?.data?.assetTypeName} />
+                        </View>
+                        <View style={[cStyles.row, cStyles.justifyStart]}>
+                          <CText styles={'textMeta'} label={'add_approved_lost_damaged:purchase_date_asset'} />
+                          <CText styles={'textMeta fontBold'}
+                            customLabel={moment(props.route.params?.data?.purchaseDate, 'YYYY-MM-DDTHH:mm:ss')
+                              .format(commonState.get('formatDateView'))}
+                          />
+                        </View>
+                      </View>
 
-                  <TouchableOpacity
-                    style={{ flex: 0.6 }}
-                    activeOpacity={0.5}
-                    disabled={loading.main || loading.submitAdd || isDetail}
-                    onPress={() => handleChooseInPlanning(false)}>
-                    <View style={[cStyles.row, cStyles.itemsCenter]}>
-                      <Icon
-                        name={!form.inPlanning ? 'check-circle' : 'circle'}
-                        size={20}
-                        color={!form.inPlanning ? colors.SECONDARY : colors.PRIMARY}
-                        solid={!form.inPlanning}
-                      />
-                      <CText styles={'pl10'} label={'add_approved_assets:no'} />
+                      <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween]}>
+                        <View style={[cStyles.row, cStyles.justifyStart]}>
+                          <CText styles={'textMeta'} label={'add_approved_lost_damaged:price_asset'} />
+                          <CText styles={'textMeta fontBold'}
+                            customLabel={Number(props.route.params?.data?.originalPrice).format()} />
+                        </View>
+                        <View style={[cStyles.row, cStyles.justifyStart]}>
+                          <CText styles={'textMeta'} label={'add_approved_lost_damaged:status_asset'} />
+                          <CText styles={'textMeta fontBold'} customLabel={props.route.params?.data?.assetStatusName} />
+                        </View>
+                      </View>
                     </View>
-                  </TouchableOpacity>
-                </View>
-              </View>
-
-              {/** Supplier */}
-              <View style={[cStyles.pt16, cStyles.pb32]}>
-                <CText styles={'textTitle'} label={'add_approved_assets:supplier'} />
-                <CInput
-                  name={INPUT_NAME.SUPPLIER}
-                  styleFocus={styles.input_focus}
-                  inputRef={ref => supplierRef = ref}
-                  disabled={loading.main || loading.submitAdd || isDetail}
-                  holder={'add_approved_assets:holder_supplier'}
-                  value={form.supplier}
-                  valueColor={colors.BLACK}
-                  keyboard={'default'}
-                  returnKey={'done'}
-                  onChangeInput={onSendRequest}
-                  onChangeValue={handleChangeText}
+                  }
                 />
-              </View>
+              }
+
+              {/** File upload */}
+              {!isDetail &&
+                <CUploadImage
+                  loading={loading.submitAdd}
+                  file={{
+                    data: form.file,
+                    data64: form.fileBase64
+                  }}
+                  onChange={(data) => setForm({ ...form, ...data })}
+                />
+              }
 
               <View style={cStyles.flex1} />
             </ScrollView>
           </KeyboardAvoidingView>
 
           {isDetail &&
-            <View style={[
-              cStyles.rounded1,
-              cStyles.borderAll,
-              cStyles.m16,
-              cStyles.mt32,
-              styles.con_process
-            ]}>
-              <View style={[
-                cStyles.rounded1,
-                cStyles.px10,
-                cStyles.py3,
-                cStyles.borderAll,
-                cStyles.ml10,
-                styles.con_title_process
-              ]}>
-                <CText styles={'textTitle'} label={'add_approved_assets:table_process'} />
-              </View>
-
-              <View style={[cStyles.itemsStart, cStyles.p10, cStyles.pt24]}>
-                <View style={[cStyles.row, cStyles.itemsStart, cStyles.py6]}>
-                  <View style={[
-                    cStyles.rounded1,
-                    cStyles.px10,
-                    cStyles.py6,
-                    cStyles.itemsCenter,
-                    styles.con_time_process
-                  ]}>
-                    <CText
-                      styles={'textMeta fontBold colorWhite'}
-                      customLabel={moment(form.dateRequest).format(commonState.get('formatDateView'))}
-                    />
-                  </View>
-
-                  <View style={[cStyles.px10, cStyles.pt10, cStyles.itemsCenter]}>
-                    <Icon
-                      name={'file-import'}
-                      size={15}
-                      color={colors.GRAY_700}
-                    />
-                    {process.length > 0 &&
-                      <View style={[cStyles.mt10, { width: 2, backgroundColor: colors.PRIMARY, height: 20 }]} />
-                    }
-                  </View>
-
-                  <View style={[cStyles.rounded1, cStyles.pr10]}>
-                    <View style={[cStyles.row, cStyles.itemsStart]}>
-                      <CText styles={'textMeta'} label={'add_approved_assets:user_request'} />
-                      <CText styles={'textMeta fontBold'} customLabel={form.name} />
+            <CCard
+              containerStyle={cStyles.m16}
+              label={'add_approved_lost_damaged:table_process'}
+              cardContent={
+                <View style={[cStyles.itemsStart, cStyles.pt16]}>
+                  <View style={[cStyles.row, cStyles.itemsStart]}>
+                    <View style={[
+                      cStyles.rounded1,
+                      cStyles.px10,
+                      cStyles.py6,
+                      cStyles.itemsCenter,
+                      styles.con_time_process
+                    ]}>
+                      <CText
+                        styles={'textMeta fontBold colorWhite'}
+                        customLabel={moment(form.dateRequest).format(commonState.get('formatDateView'))}
+                      />
                     </View>
-                    <View style={[cStyles.row, cStyles.itemsStart, cStyles.justifyStart]}>
-                      <CText styles={'textMeta'} label={'add_approved_assets:status_approved'} />
-                      <CText styles={'textMeta fontBold'} label={'add_approved_assets:status_wait'} />
+
+                    <View style={[cStyles.px10, cStyles.pt10, cStyles.itemsCenter]}>
+                      <Icon
+                        name={'file-import'}
+                        size={15}
+                        color={colors.GRAY_700}
+                      />
+                      {process.length > 0 &&
+                        <View style={[cStyles.mt10, { width: 2, backgroundColor: colors.PRIMARY, height: 40 }]} />
+                      }
                     </View>
-                    {form.reason !== '' &&
-                      <View style={[cStyles.row, cStyles.itemsStart, cStyles.justifyStart, { width: '90%' }]}>
-                        <CText styles={'textMeta'} label={'add_approved_assets:reason_reject'} />
-                        <CText styles={'textMeta'} customLabel={form.reason} />
+
+                    <View style={[cStyles.rounded1, cStyles.pr10]}>
+                      <View style={[cStyles.row, cStyles.itemsStart]}>
+                        <CText styles={'textMeta'} label={'add_approved_lost_damaged:user_request'} />
+                        <CText styles={'textMeta fontBold'} customLabel={props.route.params?.data?.personRequest} />
                       </View>
-                    }
+                      <View style={[cStyles.row, cStyles.itemsStart, cStyles.justifyStart]}>
+                        <CText styles={'textMeta'} label={'add_approved_lost_damaged:status_approved'} />
+                        <CText styles={'textMeta fontBold'} label={'add_approved_lost_damaged:status_wait'} />
+                      </View>
+                      <View style={[cStyles.row, cStyles.itemsStart, cStyles.justifyStart]}>
+                        <CText styles={'textMeta'} label={'add_approved_lost_damaged:process_assets'} />
+                        <CText styles={'textMeta fontBold'}
+                          label={'add_approved_lost_damaged:' + (form.typeUpdate === Commons.APPROVED_TYPE.DAMAGED.code
+                            ? 'damage_assets'
+                            : 'lost_assets')} />
+                      </View>
+                      {props.route.params?.data?.reason !== '' &&
+                        <View style={[cStyles.row, cStyles.itemsStart, cStyles.justifyStart, { width: '75%' }]}>
+                          <CText styles={'textMeta'} label={'add_approved_lost_damaged:reason_reject'} />
+                          <CText styles={'textMeta'} customLabel={props.route.params?.data?.reason} />
+                        </View>
+                      }
+                    </View>
                   </View>
-                </View>
 
-                {process.map((item, index) => {
-                  return (
-                    <View key={index.toString()} style={[cStyles.row, cStyles.itemsStart]}>
-                      <View style={[
-                        cStyles.rounded1,
-                        cStyles.px10,
-                        cStyles.py6,
-                        cStyles.itemsCenter,
-                        styles.con_time_process,
-                      ]}>
-                        <CText
-                          styles={'textMeta fontBold colorWhite'}
-                          customLabel={
-                            moment(item.approveDate, 'DD/MM/YYYY - HH:mm')
-                              .format(commonState.get('formatDateView'))
+                  {process.map((item, index) => {
+                    return (
+                      <View key={index.toString()} style={[cStyles.row, cStyles.itemsStart, cStyles.pt10]}>
+                        <View style={[
+                          cStyles.rounded1,
+                          cStyles.px10,
+                          cStyles.py6,
+                          cStyles.itemsCenter,
+                          styles.con_time_process,
+                        ]}>
+                          <CText
+                            styles={'textMeta fontBold colorWhite'}
+                            customLabel={
+                              moment(item.approveDate, 'DD/MM/YYYY - HH:mm')
+                                .format(commonState.get('formatDateView'))
+                            }
+                          />
+                          <CText
+                            styles={'textMeta fontBold colorWhite'}
+                            customLabel={moment(item.approveDate, 'DD/MM/YYYY - HH:mm').format('HH:mm')}
+                          />
+                        </View>
+
+                        <View style={[cStyles.px10, cStyles.pt6, cStyles.itemsCenter]}>
+                          <Icon
+                            name={item.statusID ? 'check-circle' : 'times-circle'}
+                            size={15}
+                            color={item.statusID ? colors.GREEN : colors.RED}
+                            solid
+                          />
+                          {index !== process.length - 1 &&
+                            <View style={[cStyles.mt10, { width: 2, backgroundColor: colors.PRIMARY, height: 20 }]} />
                           }
-                        />
-                        <CText
-                          styles={'textMeta fontBold colorWhite'}
-                          customLabel={moment(item.approveDate, 'DD/MM/YYYY - HH:mm').format('HH:mm')}
-                        />
-                      </View>
-
-                      <View style={[cStyles.px10, cStyles.pt6, cStyles.itemsCenter]}>
-                        <Icon
-                          name={item.statusID ? 'check-circle' : 'times-circle'}
-                          size={15}
-                          color={item.statusID ? colors.GREEN : colors.RED}
-                          solid
-                        />
-                        {index !== process.length - 1 &&
-                          <View style={[cStyles.mt10, { width: 2, backgroundColor: colors.PRIMARY, height: 20 }]} />
-                        }
-                      </View>
-
-                      <View style={[cStyles.rounded1, cStyles.pr10]}>
-                        <View style={[cStyles.row, cStyles.itemsStart]}>
-                          <CText styles={'textMeta'} label={'add_approved_assets:person_approved'} />
-                          <CText styles={'textMeta fontBold'} customLabel={item.personApproveName} />
                         </View>
-                        <View style={[cStyles.row, cStyles.itemsStart, cStyles.justifyStart]}>
-                          <CText styles={'textMeta'} label={'add_approved_assets:status_approved'} />
-                          <CText styles={'textMeta fontBold'} customLabel={item.statusName} />
-                        </View>
-                        {!item.statusID &&
-                          <View style={[cStyles.row, cStyles.itemsStart, cStyles.justifyStart, { width: '90%' }]}>
-                            <CText styles={'textMeta'} label={'add_approved_assets:reason_reject'} />
-                            <CText styles={'textMeta'} customLabel={item.reason} />
+
+                        <View style={[cStyles.rounded1, cStyles.pr10]}>
+                          <View style={[cStyles.row, cStyles.itemsStart]}>
+                            <CText styles={'textMeta'} label={'add_approved_lost_damaged:person_approved'} />
+                            <CText styles={'textMeta fontBold'} customLabel={item.personApproveName} />
                           </View>
-                        }
+                          <View style={[cStyles.row, cStyles.itemsStart, cStyles.justifyStart]}>
+                            <CText styles={'textMeta'} label={'add_approved_lost_damaged:status_approved'} />
+                            <CText styles={'textMeta fontBold'} customLabel={item.statusName} />
+                          </View>
+                          {!item.statusID &&
+                            <View style={[cStyles.row, cStyles.itemsStart, cStyles.justifyStart, { width: '75%' }]}>
+                              <CText styles={'textMeta'} label={'add_approved_lost_damaged:reason_reject'} />
+                              <CText styles={'textMeta'} customLabel={item.reason} />
+                            </View>
+                          }
+                        </View>
                       </View>
-                    </View>
-                  )
-                })}
-              </View>
-            </View>
+                    )
+                  })}
+                </View>
+              }
+            />
           }
 
           {/** MODAL */}
@@ -1040,6 +764,10 @@ function AddRequest(props) {
           <RejectModal
             loading={loading.submitReject}
             showReject={showReject}
+            description={form.typeUpdate === Commons.APPROVED_TYPE.DAMAGED.code
+              ? 'add_approved_lost_damaged:message_confirm_reject_damage'
+              : 'add_approved_lost_damaged:message_confirm_reject_lost'
+            }
             onReject={onReject}
             onCloseReject={onCloseReject}
           />
@@ -1051,29 +779,35 @@ function AddRequest(props) {
             <CButton
               block
               disabled={loading.main || loading.submitAdd}
-              label={'add_approved_assets:send'}
+              label={'add_approved_lost_damaged:send'}
               onPress={onSendRequest}
             />
           </View>
           :
           form.isAllowApproved
             ?
-            <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyEvenly, cStyles.px16]}>
+            <View style={[
+              cStyles.row,
+              cStyles.itemsCenter,
+              cStyles.justifyEvenly,
+              cStyles.px16
+            ]}>
               <CButton
                 style={styles.button_approved}
                 block
                 color={colors.RED}
                 disabled={loading.main}
-                icon={'times-circle'}
-                label={'add_approved_assets:reject'}
+                icon={'hand-right'}
+                label={'add_approved_lost_damaged:reject'}
                 onPress={handleReject}
               />
               <CButton
                 style={styles.button_reject}
                 block
+                color={colors.GREEN}
                 disabled={loading.main}
-                icon={'check-double'}
-                label={'add_approved_assets:approved'}
+                icon={'check-decagram'}
+                label={'add_approved_lost_damaged:approved'}
                 onPress={handleApproved}
               />
             </View>
@@ -1088,46 +822,14 @@ const styles = StyleSheet.create({
     borderColor: colors.PRIMARY,
     borderWidth: 0.5,
   },
-  table: { borderWidth: 1, borderColor: colors.TABLE_LINE },
-  table_header: { height: 30, backgroundColor: colors.TABLE_HEADER, },
-  table_text_header: { color: colors.BLACK },
   button_approved: { width: cStyles.deviceWidth / 2.5 },
   button_reject: { width: cStyles.deviceWidth / 2.5 },
   con_process: { backgroundColor: colors.GRAY_300 },
   con_title_process: { backgroundColor: colors.WHITE, position: 'absolute', top: -15, },
   con_time_process: { backgroundColor: colors.SECONDARY },
-
-  backTextWhite: {
-    color: '#FFF',
-  },
-  rowFront: {
-    backgroundColor: '#FFF',
-    height: 50,
-  },
-  rowBack: {
-    alignItems: 'center',
-    backgroundColor: '#DDD',
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingLeft: 15,
-  },
-  backRightBtn: {
-    alignItems: 'center',
-    bottom: 0,
-    justifyContent: 'center',
-    position: 'absolute',
-    top: 0,
-    width: 75,
-  },
-  backRightBtnLeft: {
-    backgroundColor: 'blue',
-    right: 75,
-  },
-  backRightBtnRight: {
-    backgroundColor: 'red',
-    right: 0,
-  },
+  input_multiline: { height: 100 },
+  button_upload: { width: 100, flex: 0 },
+  image_upload: { height: 150, width: '100%' },
 });
 
 export default AddRequest;

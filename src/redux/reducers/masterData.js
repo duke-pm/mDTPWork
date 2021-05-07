@@ -22,6 +22,7 @@ export const initialState = fromJS({
   assetType: [],
   assetGroup: [],
   assetGroupDetail: [],
+  assetByUser: [],
 });
 
 export default function (state = initialState, action = {}) {
@@ -42,30 +43,33 @@ export default function (state = initialState, action = {}) {
         .set('errorHelper', payload);
 
     case types.CHANGE_MASTER_ALL:
-      let tmpRegions = payload.region.length > 0
+      let tmpRegions = payload.region && payload.region.length > 0
         ? payload.region
         : state.get('region');
-      let tmpDepartments = payload.department.length > 0
+      let tmpDepartments = payload.department && payload.department.length > 0
         ? payload.department
         : state.get('department');
-      let tmpEmployees = payload.employees.length > 0
+      let tmpEmployees = payload.employees && payload.employees.length > 0
         ? payload.employees
         : state.get('employees');
-      let tmpSuppliers = payload.supplier.length > 0
+      let tmpSuppliers = payload.supplier && payload.supplier.length > 0
         ? payload.supplier
         : state.get('supplier');
-      let tmpCompanys = payload.company.length > 0
+      let tmpCompanys = payload.company && payload.company.length > 0
         ? payload.company
         : state.get('company');
-      let tmpAssetsType = payload.assetType.length > 0
+      let tmpAssetsType = payload.assetType && payload.assetType.length > 0
         ? payload.assetType
         : state.get('assetsType');
-      let tmpAssetsGroup = payload.assetGroup.length > 0
+      let tmpAssetsGroup = payload.assetGroup && payload.assetGroup.length > 0
         ? payload.assetGroup
         : state.get('assetGroup');
-      let tmpAssetsGroupDetail = payload.assetGroupDetail.length > 0
+      let tmpAssetsGroupDetail = payload.assetGroupDetail && payload.assetGroupDetail.length > 0
         ? payload.assetGroupDetail
         : state.get('assetGroupDetail');
+      let tmpAssetsByUser = payload.assetByUser && payload.assetByUser.length > 0
+        ? payload.assetByUser
+        : state.get('assetByUser');
       let i;
 
       /** prepare regions */
@@ -138,6 +142,16 @@ export default function (state = initialState, action = {}) {
         };
       }
 
+      /** prepare assetByUser */
+      if (tmpAssetsByUser &&
+        tmpAssetsByUser.length > 0 &&
+        tmpAssetsByUser[0].hasOwnProperty('assetID')) {
+        for (i = 0; i < tmpAssetsByUser.length; i++) {
+          tmpAssetsByUser[i].value = tmpAssetsByUser[i]['assetID'];
+          tmpAssetsByUser[i].label = tmpAssetsByUser[i]['assetName'];
+        };
+      }
+
       return state
         .set('submitting', false)
         .set('success', true)
@@ -150,7 +164,8 @@ export default function (state = initialState, action = {}) {
         .set('company', tmpCompanys)
         .set('assetType', tmpAssetsType)
         .set('assetGroup', tmpAssetsGroup)
-        .set('assetGroupDetail', tmpAssetsGroupDetail);
+        .set('assetGroupDetail', tmpAssetsGroupDetail)
+        .set('assetByUser', tmpAssetsByUser);
 
     default:
       return state;

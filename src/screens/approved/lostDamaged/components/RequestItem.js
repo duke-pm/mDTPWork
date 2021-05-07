@@ -33,9 +33,8 @@ function RequestItem(props) {
 
   /** HANDLE FUNC */
   const handleRequestItem = () => {
-    navigation.navigate(Routes.MAIN.ADD_APPROVED.name, {
+    navigation.navigate(Routes.MAIN.ADD_APPROVED_LOST_DAMAGED.name, {
       data: props.data,
-      dataDetail: props.dataDetail,
       dataProcess: props.dataProcess,
       onRefresh: () => props.onRefresh(),
     })

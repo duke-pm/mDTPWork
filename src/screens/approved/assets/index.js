@@ -51,7 +51,7 @@ function ApprovedAssets(props) {
   /** HANDLE FUNC */
   const handleAddNew = () => {
     props.navigation.navigate(
-      Routes.MAIN.ADD_APPROVED.name,
+      Routes.MAIN.ADD_APPROVED_ASSETS.name,
       {
         onRefresh: () => onRefresh(),
       }

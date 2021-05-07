@@ -25,6 +25,7 @@ const INPUT_NAME = {
 
 function RejectModal(props) {
   const {
+    description = null,
     onCloseReject,
     onReject,
   } = props;
@@ -84,7 +85,13 @@ function RejectModal(props) {
             </View>
 
             <View style={cStyles.p10}>
-              <CText styles={'textCenter'} label={'add_approved_assets:message_confirm_reject'} />
+              <CText
+                styles={'textCenter'}
+                label={
+                  description
+                    ? description
+                    : 'add_approved_assets:message_confirm_reject'}
+              />
 
               <CInput
                 name={INPUT_NAME.REASON_REJECT}

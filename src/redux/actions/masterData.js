@@ -42,7 +42,40 @@ export const fetchMasterData = (params, navigation) => {
           }
           return dispatch(Actions.fetchRefreshToken(
             tmp,
-            () => fetchMasterData(params),
+            () => fetchMasterData(params, navigation),
+            navigation,
+          ));
+        }
+      });
+  }
+};
+
+export const fetchAssetByUser = (params, navigation) => {
+  return dispatch => {
+    dispatch({
+      type: types.START_FETCH_ASSET_BY_USER,
+    });
+
+    Services.master.getAssetsByUser(params)
+      .then((res) => {
+        if (!res.isError) {
+          let tmp = { assetByUser: res.data };
+          return dispatch(changeMasterData(tmp));
+        } else {
+          return dispatch(getError(res.errorMessage));
+        }
+      })
+      .catch(error => {
+        console.log('[LOG] === error ===> ', error);
+        dispatch(getError(error));
+        if (error.message && error.message.search('Authorization') !== -1) {
+          let tmp = {
+            'RefreshToken': params.RefreshToken,
+            'Lang': params.Lang,
+          }
+          return dispatch(Actions.fetchRefreshToken(
+            tmp,
+            () => fetchMasterData(params, navigation),
             navigation,
           ));
         }

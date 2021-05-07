@@ -646,20 +646,27 @@ class DropDownPicker extends React.Component {
 							)
 						}
 
-						<FlatList
-							ref={ref => this.scrollViewRef = ref}
-							style={cStyles.fullWidth}
-							data={items}
-							renderItem={({ item, index }) => this.renderItem(item, index, items.length)}
-							keyExtractor={(item, index) => index.toString()}
-							nestedScrollEnabled={true}
-							removeClippedSubviews={IS_ANDROID}
-							ListEmptyComponent={
-								<View style={styles.notFound}>
-									{this.props.searchableError(this.props.style.globalTextStyle)}
-								</View>
-							}
-						/>
+						{items.length > 0
+							?
+							<FlatList
+								ref={ref => this.scrollViewRef = ref}
+								style={cStyles.fullWidth}
+								data={items}
+								renderItem={({ item, index }) => this.renderItem(item, index, items.length)}
+								keyExtractor={(item, index) => index.toString()}
+								nestedScrollEnabled={true}
+								removeClippedSubviews={IS_ANDROID}
+								ListEmptyComponent={
+									<View style={styles.notFound}>
+										{this.props.searchableError(this.props.style.globalTextStyle)}
+									</View>
+								}
+							/>
+							:
+							<View style={styles.notFound}>
+								{this.props.searchableError(this.props.style.globalTextStyle)}
+							</View>
+						}
 					</View>
 				}
 			</View>

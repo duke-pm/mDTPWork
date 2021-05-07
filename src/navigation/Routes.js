@@ -17,6 +17,7 @@ import ApprovedAssets from '~/screens/approved/assets';
 import AddRequestAsset from '~/screens/approved/assets/add/Request';
 
 import ApprovedLostDamaged from '~/screens/approved/lostDamaged';
+import AddRequestLostDamage from '~/screens/approved/lostDamaged/add/Request';
 
 const Routes = {
   AUTHENTICATION: {
@@ -49,13 +50,17 @@ const Routes = {
       name: 'ApprovedAssets',
       path: ApprovedAssets,
     },
-    ADD_APPROVED: {
+    ADD_APPROVED_ASSETS: {
       name: 'AddRequestAsset',
       path: AddRequestAsset,
     },
     APPROVED_LOST_DAMAGED: {
       name: 'ApprovedLostDamaged',
       path: ApprovedLostDamaged,
+    },
+    ADD_APPROVED_LOST_DAMAGED: {
+      name: 'AddRequestLostDamage',
+      path: AddRequestLostDamage,
     },
   },
 }

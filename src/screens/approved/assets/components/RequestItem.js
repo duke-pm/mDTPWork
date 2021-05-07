@@ -33,7 +33,7 @@ function RequestItem(props) {
 
   /** HANDLE FUNC */
   const handleRequestItem = () => {
-    navigation.navigate(Routes.MAIN.ADD_APPROVED.name, {
+    navigation.navigate(Routes.MAIN.ADD_APPROVED_ASSETS.name, {
       data: props.data,
       dataDetail: props.dataDetail,
       dataProcess: props.dataProcess,

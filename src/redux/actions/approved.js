@@ -101,7 +101,7 @@ export const fetchAddRequestApproved = (params, navigation) => {
           }
           return dispatch(Actions.fetchRefreshToken(
             tmp,
-            () => fetchAddRequestApproved(params),
+            () => fetchAddRequestApproved(params, navigation),
             navigation,
           ));
         }
@@ -143,7 +143,7 @@ export const fetchApprovedRequest = (params, navigation) => {
           }
           return dispatch(Actions.fetchRefreshToken(
             tmp,
-            () => fetchApprovedRequest(params),
+            () => fetchApprovedRequest(params, navigation),
             navigation,
           ));
         }
@@ -185,7 +185,49 @@ export const fetchRejectRequest = (params, navigation) => {
           }
           return dispatch(Actions.fetchRefreshToken(
             tmp,
-            () => fetchRejectRequest(params),
+            () => fetchRejectRequest(params, navigation),
+            navigation,
+          ));
+        }
+      });
+  }
+};
+/*****************************/
+
+/** For add request lost/damage */
+export const addRequestLostDamageError = error => ({
+  type: types.ERROR_FETCH_ADD_REQUEST_LOST,
+  payload: error
+});
+
+export const addRequestLostDamageSuccess = () => ({
+  type: types.SUCCESS_FETCH_ADD_REQUEST_LOST,
+});
+
+export const fetchAddRequestLostDamage = (params, formData, navigation) => {
+  return dispatch => {
+    dispatch({
+      type: types.START_FETCH_ADD_REQUEST_LOST,
+    });
+
+    Services.approved.addRequestLostDamage(formData)
+      .then((res) => {
+        if (!res.isError) {
+          return dispatch(addRequestLostDamageSuccess());
+        } else {
+          return dispatch(addRequestLostDamageError(res.errorMessage));
+        }
+      })
+      .catch(error => {
+        dispatch(addRequestLostDamageError(error));
+        if (error && error.message && error.message.search('Authorization') !== -1) {
+          let tmp = {
+            'RefreshToken': params.RefreshToken,
+            'Lang': params.Lang,
+          }
+          return dispatch(Actions.fetchRefreshToken(
+            tmp,
+            () => fetchAddRequestLostDamage(params, formData, navigation),
             navigation,
           ));
         }

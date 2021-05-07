@@ -107,12 +107,16 @@ export function RootMain(props) {
         component={Routes.MAIN.APPROVED_ASSETS.path}
       />
       <StackMain.Screen
-        name={Routes.MAIN.ADD_APPROVED.name}
-        component={Routes.MAIN.ADD_APPROVED.path}
+        name={Routes.MAIN.ADD_APPROVED_ASSETS.name}
+        component={Routes.MAIN.ADD_APPROVED_ASSETS.path}
       />
       <StackMain.Screen
         name={Routes.MAIN.APPROVED_LOST_DAMAGED.name}
         component={Routes.MAIN.APPROVED_LOST_DAMAGED.path}
+      />
+      <StackMain.Screen
+        name={Routes.MAIN.ADD_APPROVED_LOST_DAMAGED.name}
+        component={Routes.MAIN.ADD_APPROVED_LOST_DAMAGED.path}
       />
     </StackMain.Navigator>
   );

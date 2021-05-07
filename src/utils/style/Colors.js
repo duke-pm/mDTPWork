@@ -15,6 +15,7 @@ export default {
   BACKGROUND_HEADER: '#006565',
   BACKGROUND_FOOTER: '#f7fafc',
   BACKGROUND_MODAL: 'rgba(0, 0, 0, 0.5)',
+  BACKGROUND_CARD: '#edf2f7',
 
   GRAY_100: '#f7fafc',
   GRAY_200: '#edf2f7',
