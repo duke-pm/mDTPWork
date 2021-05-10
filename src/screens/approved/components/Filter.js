@@ -14,6 +14,7 @@ import {
   LayoutAnimation,
   UIManager,
 } from 'react-native';
+import { showMessage } from 'react-native-flash-message';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import moment from 'moment';
 /* COMPONENTS */
@@ -39,6 +40,7 @@ const INPUT_NAME = {
 
 function Filter(props) {
   const {
+    hasLostDamage = false,
     onFilter = () => { },
   } = props;
   const { t } = useTranslation();
@@ -50,17 +52,22 @@ function Filter(props) {
     status: false,
     active: null,
   });
+  const [resolveRequest, setResolveRequest] = useState(false);
   const [data, setData] = useState({
     fromDate: moment().clone().startOf('month').format(commonState.get('formatDate')),
     toDate: moment().clone().endOf('month').format(commonState.get('formatDate')),
     status: [1, 2, 3, 4],
+    type: [2, 3],
   });
   const [statusRequest, setStatusRequest] = useState({
     wait: true,
     approved: true,
     reject: true,
   });
-  const [resolveRequest, setResolveRequest] = useState(false);
+  const [typeRequest, setTypeRequest] = useState({
+    damaged: true,
+    lost: true,
+  });
 
   /** HANDLE FUNC */
   const handleToggle = () => {
@@ -98,12 +105,31 @@ function Filter(props) {
     setData({ ...data, status: tmpStatus });
   };
 
+  const handleChangeType = (type, nameType, checked) => {
+    let tmpType = [...data.type];
+    if (checked) {
+      tmpType.push(type);
+    } else {
+      let findType = tmpType.findIndex(f => f == type);
+      if (findType !== -1) tmpType.splice(findType, 1);
+    }
+    setTypeRequest({ ...typeRequest, [nameType]: checked });
+    setData({ ...data, type: tmpType });
+  };
+
   const handleChangeResolveRequest = (checked) => {
     setResolveRequest(checked);
   };
 
   const handleFilter = () => {
-    if (data.status.length === 0) {
+    if (hasLostDamage && data.type.length === 0) {
+      showMessage({
+        message: t('common:app_name'),
+        description: t('error:type_lost_damaged_not_found'),
+        type: 'danger',
+        icon: 'danger',
+      });
+    } else if (data.status.length === 0) {
       showMessage({
         message: t('common:app_name'),
         description: t('error:status_not_found'),
@@ -116,6 +142,7 @@ function Filter(props) {
         data.fromDate,
         data.toDate,
         data.status.join(),
+        data.type.join(),
         resolveRequest,
       );
     }
@@ -136,7 +163,7 @@ function Filter(props) {
   /** RENDER */
   return (
     <View style={[
-      cStyles.rounded1,
+      cStyles.rounded2,
       cStyles.mx16,
       cStyles.mt16,
       show && cStyles.pb12,
@@ -146,14 +173,19 @@ function Filter(props) {
         activeOpacity={1}
         onPress={handleToggle}
       >
-        <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween, cStyles.p16]}>
+        <View style={[
+          cStyles.row,
+          cStyles.itemsCenter,
+          cStyles.justifyBetween,
+          cStyles.p16
+        ]}>
           <View style={[cStyles.row, cStyles.itemsCenter]}>
             <Icon
               name={'filter'}
               color={colors.BLACK}
               size={20}
             />
-            <CText styles={'H6 pl10'} label={'approved_lost_damaged:filter'} />
+            <CText styles={'H6 pl10'} label={'approved_assets:filter'} />
           </View>
           <Icon
             name={show ? 'chevron-up' : 'chevron-down'}
@@ -208,6 +240,26 @@ function Filter(props) {
               onPressRemoveValue={() => setData({ ...data, toDate: '' })}
             />
           </View>
+
+          {hasLostDamage &&
+            <View style={[cStyles.row, cStyles.justifyBetween]}>
+              <CCheckbox
+                style={styles.con_input_status}
+                labelStyle={'textDefault pl10'}
+                label={'approved_assets:damaged'}
+                value={typeRequest.damaged}
+                onChange={(checked) => handleChangeType(2, 'damaged', checked)}
+              />
+
+              <CCheckbox
+                style={styles.con_input_status}
+                labelStyle={'textDefault pl10'}
+                label={'approved_assets:lost'}
+                value={typeRequest.lost}
+                onChange={(checked) => handleChangeType(3, 'lost', checked)}
+              />
+            </View>
+          }
 
           <View style={[cStyles.row, cStyles.justifyBetween]}>
             <CCheckbox

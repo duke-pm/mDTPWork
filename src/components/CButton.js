@@ -84,7 +84,7 @@ function CButton(props) {
       <View style={[
         cStyles.row,
         cStyles.center,
-        cStyles.rounded1,
+        cStyles.rounded2,
         cStyles.my6,
         cStyles.px16,
         styles.con_button,

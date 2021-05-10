@@ -43,31 +43,31 @@ export default function (state = initialState, action = {}) {
         .set('errorHelper', payload);
 
     case types.CHANGE_MASTER_ALL:
-      let tmpRegions = payload.region && payload.region.length > 0
+      let tmpRegions = payload.region
         ? payload.region
         : state.get('region');
-      let tmpDepartments = payload.department && payload.department.length > 0
+      let tmpDepartments = payload.department
         ? payload.department
         : state.get('department');
-      let tmpEmployees = payload.employees && payload.employees.length > 0
+      let tmpEmployees = payload.employees
         ? payload.employees
         : state.get('employees');
-      let tmpSuppliers = payload.supplier && payload.supplier.length > 0
+      let tmpSuppliers = payload.supplier
         ? payload.supplier
         : state.get('supplier');
-      let tmpCompanys = payload.company && payload.company.length > 0
+      let tmpCompanys = payload.company
         ? payload.company
         : state.get('company');
-      let tmpAssetsType = payload.assetType && payload.assetType.length > 0
+      let tmpAssetsType = payload.assetType
         ? payload.assetType
         : state.get('assetsType');
-      let tmpAssetsGroup = payload.assetGroup && payload.assetGroup.length > 0
+      let tmpAssetsGroup = payload.assetGroup
         ? payload.assetGroup
         : state.get('assetGroup');
-      let tmpAssetsGroupDetail = payload.assetGroupDetail && payload.assetGroupDetail.length > 0
+      let tmpAssetsGroupDetail = payload.assetGroupDetail
         ? payload.assetGroupDetail
         : state.get('assetGroupDetail');
-      let tmpAssetsByUser = payload.assetByUser && payload.assetByUser.length > 0
+      let tmpAssetsByUser = payload.assetByUser
         ? payload.assetByUser
         : state.get('assetByUser');
       let i;

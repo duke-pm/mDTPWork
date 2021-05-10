@@ -66,7 +66,6 @@ export const fetchAssetByUser = (params, navigation) => {
         }
       })
       .catch(error => {
-        console.log('[LOG] === error ===> ', error);
         dispatch(getError(error));
         if (error.message && error.message.search('Authorization') !== -1) {
           let tmp = {

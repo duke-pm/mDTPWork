@@ -13,7 +13,7 @@ import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
-import Filter from './components/Filter';
+import Filter from '../components/Filter';
 import ListRequest from './list/Request';
 /* COMMON */
 import Routes from '~/navigation/Routes';
@@ -86,8 +86,8 @@ function ApprovedLostDamaged(props) {
       fromDate,
       toDate,
       status,
-      null,
-      null,
+      commonState.get('perPage'),
+      1,
       null,
       type,
       showResolveRequest,
@@ -160,8 +160,8 @@ function ApprovedLostDamaged(props) {
         data.fromDate,
         data.toDate,
         data.status,
-        null,
-        null,
+        commonState.get('perPage'),
+        1,
         null,
         data.type,
         data.showResolveRequest,
@@ -251,10 +251,6 @@ function ApprovedLostDamaged(props) {
   /** RENDER */
   return (
     <CContainer
-      safeArea={{
-        top: true,
-        bottom: false,
-      }}
       loading={loading.main || loading.search}
       title={'approved_lost_damaged:title'}
       header
@@ -265,7 +261,10 @@ function ApprovedLostDamaged(props) {
       onPressSearch={handleSearch}
       content={
         <CContent>
-          <Filter onFilter={handleFilter} />
+          <Filter
+            hasLostDamage={true}
+            onFilter={handleFilter}
+          />
 
           {!loading.main &&
             <ListRequest

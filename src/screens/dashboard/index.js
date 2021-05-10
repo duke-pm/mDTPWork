@@ -37,10 +37,6 @@ function Dashboard(props) {
   /** RENDER */
   return (
     <CContainer
-      safeArea={{
-        top: true,
-        bottom: false,
-      }}
       loading={loading}
       header
       title={'dashboard:title'}

@@ -33,7 +33,7 @@ import CDateTimePicker from '~/components/CDateTimePicker';
 import CDropdown from '~/components/CDropdown';
 import CButton from '~/components/CButton';
 import AssetItem from '../components/AssetItem';
-import RejectModal from '../components/RejectModal';
+import RejectModal from '../../components/RejectModal';
 import CCard from '~/components/CCard';
 /* COMMON */
 import { colors, cStyles } from '~/utils/style';
@@ -595,10 +595,6 @@ function AddRequest(props) {
   /** RENDER */
   return (
     <CContainer
-      safeArea={{
-        top: true,
-        bottom: false,
-      }}
       loading={
         loading.main
         || loading.submitAdd

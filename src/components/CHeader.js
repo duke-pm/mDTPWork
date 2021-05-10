@@ -75,7 +75,7 @@ function CHeader(props) {
       { backgroundColor: background }
     ]}>
       {isSearch &&
-        <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pb10]}>
+        <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pb6]}>
           <CText
             styles={'colorWhite pr16 pt6'}
             label={'common:close'}

@@ -16,10 +16,9 @@ import {
 // import {TouchableOpacity, ScrollView} from 'react-native-gesture-handler';
 
 // Icon
-import Feather from 'react-native-vector-icons/Feather';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { IS_ANDROID, IS_IOS } from '~/utils/helper';
 import { colors, cStyles } from '~/utils/style';
-Feather.loadFont();
 
 class DropDownPicker extends React.Component {
 	constructor(props) {
@@ -692,9 +691,9 @@ DropDownPicker.defaultProps = {
 	arrowColor: '#000',
 	showArrow: true,
 	arrowSize: 15,
-	customArrowUp: (size, color) => <Feather name="chevron-up" size={size} color={color} />,
-	customArrowDown: (size, color) => <Feather name="chevron-down" size={size} color={color} />,
-	customTickIcon: () => <Feather name="check" size={15} />,
+	customArrowUp: (size, color) => <Icon name="chevron-up" size={size} color={color} size={25} />,
+	customArrowDown: (size, color) => <Icon name="chevron-down" size={size} color={color} size={25} />,
+	customTickIcon: () => <Icon name="check" size={25} />,
 	zIndex: 5000,
 	zIndexInverse: 6000,
 	disabled: false,

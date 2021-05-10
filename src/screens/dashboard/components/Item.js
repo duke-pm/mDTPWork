@@ -8,9 +8,9 @@ import React from 'react';
 import {
   StyleSheet,
   View,
-  TouchableOpacity
+  TouchableOpacity,
+  Image,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 /* COMPONENTS */
 import CText from '~/components/CText';
 /** COMMON */
@@ -28,27 +28,18 @@ function Item(props) {
 
   if (!data) return null;
   return (
-    <View
-      style={[
-        cStyles.itemsCenter,
-        { width: styles.container.width },
-      ]}>
+    <View style={[cStyles.itemsCenter, styles.item]}>
       <TouchableOpacity activeOpacity={1} onPress={() => onPress(data.name)}>
-        <View style={[
-          styles.container,
-          cStyles.m2,
-          cStyles.ml3,
-          cStyles.center,
-          cStyles.rounded1,
-          cStyles.shadow1
-        ]}>
-          <Icon name={'check-decagram'} size={30} color={colors.BLACK} />
-        </View>
+        <Image
+          style={styles.image_item}
+          source={data.icon}
+          resizeMode={'contain'}
+        />
       </TouchableOpacity>
 
       <CText
-        styles={'pt4 textCenter textMeta colorBlack'}
-        label={'approved:assets'}
+        styles={'pt10 textCenter'}
+        label={data.title}
         numberOfLines={3}
       />
     </View>
@@ -60,6 +51,11 @@ const styles = StyleSheet.create({
     height: sW('20%'),
     width: sW('20%'),
     backgroundColor: colors.WHITE,
+  },
+  item: { flex: 0.33, width: sW('21%') },
+  image_item: {
+    height: sW('21%'),
+    width: sW('21%'),
   }
 });
 

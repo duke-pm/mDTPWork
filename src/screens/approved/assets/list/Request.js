@@ -4,17 +4,11 @@
  ** CreateAt: 2021
  ** Description: Description of ListRequest.js
  **/
-import React, { useState } from 'react';
-import {
-  View,
-  FlatList,
-} from 'react-native';
+import React from 'react';
 /* COMPONENTS */
-import RequestItem from '../components/RequestItem';
-import CEmpty from '~/components/CEmpty';
-import CFooterList from '~/components/CFooterList';
+import RequestItem from '../../components/RequestItem';
+import CList from '~/components/CList';
 /* COMMON */
-import { IS_ANDROID } from '~/utils/helper';
 import { cStyles } from '~/utils/style';
 
 function ListRequest(props) {
@@ -23,63 +17,30 @@ function ListRequest(props) {
     onRefresh,
   } = props;
 
-  const [modal, setModal] = useState({
-    show: false,
-    data: null,
-    dataProcess: null,
-  });
-
-  /** HANDLE FUNC */
-  const handleShowModal = (request) => {
-    setModal({
-      show: true,
-      data: request,
-      dataProcess: props.dataProcess,
-    });
-  };
-
-  const handleCloseModal = () => {
-    setModal({
-      show: false,
-      data: null,
-      dataProcess: null,
-    });
-  };
-
   /** RENDER */
   return (
-    <FlatList
-      style={[cStyles.flex1, cStyles.mt16]}
-      contentContainerStyle={cStyles.px16}
+    <CList
+      style={cStyles.mt16}
       data={props.data}
-      renderItem={({ item, index }) => {
-        let detail = props.dataDetail.filter(f => f.requestID === item.requestID);
-        let process = props.dataProcess.filter(f => f.requestID === item.requestID);
+      item={(index, data, onPress) => {
+        let detail = props.dataDetail.filter(f => f.requestID === data.requestID);
+        let process = props.dataProcess.filter(f => f.requestID === data.requestID);
         process = process.sort((a, b) => a.levelApproval - b.levelApproval);
         return (
           <RequestItem
+            isLostDamage={false}
             index={index}
-            data={item}
+            data={data}
             dataDetail={detail}
             dataProcess={process}
-            onPressProcess={handleShowModal}
             onRefresh={onRefresh}
           />
         )
       }}
-      keyExtractor={(item, index) => index.toString()}
-      removeClippedSubviews={IS_ANDROID}
       refreshing={props.refreshing}
       onRefresh={onRefresh}
-      onEndReachedThreshold={0.5}
-      onEndReached={onLoadmore}
-      ListEmptyComponent={
-        <CEmpty
-          label={'common:empty_data'}
-          description={'common:cannot_find_data_filter'}
-        />
-      }
-      ListFooterComponent={props.loadmore ? <CFooterList /> : null}
+      loadingmore={props.loadmore}
+      onLoadmore={onLoadmore}
     />
   );
 };

@@ -17,7 +17,10 @@ import { cStyles, colors } from '~/utils/style';
 
 function CContainer(props) {
   const {
-    safeArea,
+    safeArea = {
+      top: true,
+      bottom: false,
+    },
     style,
 
     header,

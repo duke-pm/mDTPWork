@@ -13,7 +13,7 @@ import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
-import Filter from './components/Filter';
+import Filter from '../components/Filter';
 import ListRequest from './list/Request';
 /* COMMON */
 import Routes from '~/navigation/Routes';
@@ -70,17 +70,17 @@ function ApprovedAssets(props) {
     );
   };
 
-  const handleFilter = (fromDate, toDate, status, showResolveRequest) => {
+  const handleFilter = (fromDate, toDate, status, type, showResolveRequest) => {
     setLoading({ ...loading, search: true });
     setData({ ...data, page: 1, status, fromDate, toDate, showResolveRequest });
     onFetchData(
       fromDate,
       toDate,
       status,
-      null,
-      null,
-      null,
-      null,
+      commonState.get('perPage'),
+      1,
+      '',
+      1,
       showResolveRequest
     );
   };
@@ -234,10 +234,6 @@ function ApprovedAssets(props) {
   /** RENDER */
   return (
     <CContainer
-      safeArea={{
-        top: true,
-        bottom: false,
-      }}
       loading={loading.main || loading.search}
       title={'approved_assets:title'}
       header
@@ -248,7 +244,10 @@ function ApprovedAssets(props) {
       onPressSearch={handleSearch}
       content={
         <CContent>
-          <Filter onFilter={handleFilter} />
+          <Filter
+            hasLostDamage={false}
+            onFilter={handleFilter}
+          />
 
           {!loading.main &&
             <ListRequest

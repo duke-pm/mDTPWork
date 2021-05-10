@@ -15,6 +15,8 @@
     "warning_sign_out": "Bạn có chắc muốn đăng xuất không?",
     "empty_info": "Không có thông tin",
     "upload": "Tải lên",
+    "download": "Tải về",
+    "preview": "Xem trước",
     "from_upload": "Bạn có thể chọn ảnh từ",
     "from_gallery": "Thư viện ảnh",
     "from_camera": "Camera"
@@ -41,7 +43,8 @@
     "status_not_found": "Trạng thái không thể trống",
     "type_lost_damaged_not_found": "Loại báo hỏng mất không thể trống",
     "assets_not_empty": "Tài sản không thể trống",
-    "reason_not_empty": "Lý do không thể trống"
+    "reason_not_empty": "Lý do không thể trống",
+    "cannot_open_file_upload": "Không thể truy cập file đính kèm. Vui lòng thử lại sau!"
   },
   "sign_in": {
     "title": "Đăng Nhập",
@@ -49,12 +52,13 @@
     "input_password": "Mật khẩu",
     "save_account": "Lưu tài khoản",
     "forgot_password": "Quên mật khẩu?",
-    "success_login": "Đăng nhập thành công!"
+    "success_login": "Đăng nhập thành công!",
+    "error_login": "Đăng nhập không thành công. Vui lòng thử lại sau!"
   },
   "forgot_password": {
     "title": "Quên mật khẩu",
     "input_email": "E-mail",
-    "sub_title": "Vui lòng nhập E-mail để chúng tôi có thể gửi lại mật khảu mới cho bạn"
+    "sub_title": "Vui lòng nhập E-mail để chúng tôi có thể gửi lại mật khẩu mới cho bạn"
   },
   "dashboard": {
     "title": "Tổng Quan"
@@ -90,7 +94,9 @@
     "show_timeline": "Thông tin trạng thái",
     "person_approved": "Người duyệt: ",
     "reason_reject": "Lý do: ",
-    "resolve_request": "Chỉ hiện yêu cầu cần thiết"
+    "resolve_request": "Chỉ hiện yêu cầu cần thiết",
+    "damaged": "Tài sản hỏng",
+    "lost": "Tài sản mất"
   },
   "add_approved_assets": {
     "title": "Thêm Mới Cấp Phát",

@@ -39,10 +39,6 @@ function Account(props) {
 
   return (
     <CContainer
-      safeArea={{
-        top: true,
-        bottom: false,
-      }}
       header
       loading={loading}
       title={'account:title'}

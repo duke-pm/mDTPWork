@@ -24,16 +24,18 @@ import Commons from '~/utils/common/Commons';
 import Assets from '~/utils/asset/Assets';
 
 function RequestItem(props) {
+  const { isLostDamage = false } = props;
+
   const { t } = useTranslation();
   const navigation = useNavigation();
   const commonState = useSelector(({ common }) => common);
-  const {
-    onPressProcess
-  } = props;
 
   /** HANDLE FUNC */
   const handleRequestItem = () => {
-    navigation.navigate(Routes.MAIN.ADD_APPROVED_LOST_DAMAGED.name, {
+    let route = Routes.MAIN.ADD_APPROVED_ASSETS.name;
+    if (isLostDamage) route = Routes.MAIN.ADD_APPROVED_LOST_DAMAGED.name;
+
+    navigation.navigate(route, {
       data: props.data,
       dataProcess: props.dataProcess,
       onRefresh: () => props.onRefresh(),
@@ -41,12 +43,16 @@ function RequestItem(props) {
   };
 
   /** RENDER */
-  let title = t('approved_lost_damaged:title_request_item_1')
-    + props.data.requestTypeName
-    + t('approved_lost_damaged:title_request_item_2')
-    + props.data.requestID;
+  let title = t('approved_assets:title_request_item') + props.data.requestID;
   let statusIcon = Assets.iconRequest;
   let colorText = 'colorOrange';
+
+  if (isLostDamage) {
+    title = t('approved_lost_damaged:title_request_item_1')
+      + props.data.requestTypeName
+      + t('approved_lost_damaged:title_request_item_2')
+      + props.data.requestID;
+  }
 
   if (props.data.statusID === Commons.STATUS_REQUEST.APPROVED.code ||
     props.data.statusID === Commons.STATUS_REQUEST.DONE.code) {

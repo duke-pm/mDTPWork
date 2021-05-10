@@ -14,6 +14,7 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   Keyboard,
+  Linking,
 } from 'react-native';
 import { showMessage } from "react-native-flash-message";
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -28,16 +29,17 @@ import CDropdown from '~/components/CDropdown';
 import CCard from '~/components/CCard';
 import CButton from '~/components/CButton';
 import CUploadImage from '~/components/CUploadImage';
-import RejectModal from '../components/RejectModal';
+import RejectModal from '../../components/RejectModal';
 /* COMMON */
+import Commons from '~/utils/common/Commons';
 import { colors, cStyles } from '~/utils/style';
 import {
   IS_IOS,
   alert,
 } from '~/utils/helper';
-import Commons from '~/utils/common/Commons';
 /* REDUX */
 import * as Actions from '~/redux/actions';
+import API from '~/services/axios';
 
 const INPUT_NAME = {
   DATE_REQUEST: 'dateRequest',
@@ -148,6 +150,22 @@ function AddRequest(props) {
 
   const handleReject = () => {
     setShowReject(true);
+  };
+
+  const handlePreview = () => {
+    Linking.canOpenURL(
+      API.defaults.baseURL.substring(0, API.defaults.baseURL.length - 3) + form.file
+    ).then(supported => {
+      if (supported) {
+        Linking.openURL(API.defaults.baseURL.substring(0, API.defaults.baseURL.length - 3) + form.file);
+      } else {
+        showMessage({
+          message: t('error:cannot_open_file_upload'),
+          type: 'danger',
+          icon: 'danger',
+        });
+      }
+    });
   };
 
   /** FUNC */
@@ -268,6 +286,7 @@ function AddRequest(props) {
         : Commons.APPROVED_TYPE.DAMAGED.code,
       status: isDetail ? props.route.params?.data?.statusID : 1,
       isAllowApproved: isDetail ? props.route.params?.data?.isAllowApproved : false,
+      file: isDetail ? props.route.params?.data?.attachFiles : null,
     };
     if (props.route.params?.dataProcess) {
       let arrayProcess = props.route.params?.dataProcess;
@@ -339,12 +358,10 @@ function AddRequest(props) {
             type: 'success',
             icon: 'success'
           });
-          setTimeout(() => {
-            props.navigation.goBack();
-            if (props.route.params.onRefresh) {
-              props.route.params.onRefresh();
-            }
-          }, 1000);
+          props.navigation.goBack();
+          if (props.route.params.onRefresh) {
+            props.route.params.onRefresh();
+          }
         }
 
         if (approvedState.get('errorAddRequest')) {
@@ -441,10 +458,6 @@ function AddRequest(props) {
   /** RENDER */
   return (
     <CContainer
-      safeArea={{
-        top: true,
-        bottom: false,
-      }}
       loading={
         loading.main
         || loading.submitAdd
@@ -577,6 +590,36 @@ function AddRequest(props) {
                 </View>
               </View>
 
+              {/** File upload */}
+              {!isDetail &&
+                <CUploadImage
+                  loading={loading.submitAdd}
+                  file={{
+                    data: form.file,
+                    data64: form.fileBase64
+                  }}
+                  onChange={(data) => setForm({ ...form, ...data })}
+                />
+              }
+
+              {/** File for detail */}
+              {isDetail && form.file &&
+                <View style={[
+                  cStyles.pt16,
+                  cStyles.row,
+                  cStyles.itemsCenter,
+                  cStyles.justifyBetween
+                ]}>
+                  <CText styles={'textTitle'} label={'add_approved_lost_damaged:file_upload'} />
+                  <CButton
+                    style={styles.button_preview}
+                    label={'common:preview'}
+                    icon={'printer-eye'}
+                    onPress={handlePreview}
+                  />
+                </View>
+              }
+
               {/** Assets for detail */}
               {isDetail &&
                 <CCard
@@ -622,19 +665,6 @@ function AddRequest(props) {
                   }
                 />
               }
-
-              {/** File upload */}
-              {!isDetail &&
-                <CUploadImage
-                  loading={loading.submitAdd}
-                  file={{
-                    data: form.file,
-                    data64: form.fileBase64
-                  }}
-                  onChange={(data) => setForm({ ...form, ...data })}
-                />
-              }
-
               <View style={cStyles.flex1} />
             </ScrollView>
           </KeyboardAvoidingView>
@@ -828,8 +858,7 @@ const styles = StyleSheet.create({
   con_title_process: { backgroundColor: colors.WHITE, position: 'absolute', top: -15, },
   con_time_process: { backgroundColor: colors.SECONDARY },
   input_multiline: { height: 100 },
-  button_upload: { width: 100, flex: 0 },
-  image_upload: { height: 150, width: '100%' },
+  button_preview: { width: 150 },
 });
 
 export default AddRequest;

@@ -90,7 +90,7 @@ function CInput(props) {
       <View style={[
         cStyles.row,
         cStyles.itemsCenter,
-        cStyles.rounded1,
+        cStyles.rounded2,
         cStyles.mt6,
         styles.con_input,
         disabled && styles.disabled,
@@ -174,8 +174,8 @@ function CInput(props) {
           <Component
             style={[
               cStyles.center,
-              cStyles.roundedTopRight1,
-              cStyles.roundedBottomRight1,
+              cStyles.roundedTopRight2,
+              cStyles.roundedBottomRight2,
               { backgroundColor: colors.GRAY_300 },
               IS_ANDROID && cStyles.mr1,
               styles.con_input_icon,

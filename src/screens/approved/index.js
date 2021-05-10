@@ -35,10 +35,6 @@ function Allocation(props) {
   /** RENDER */
   return (
     <CContainer
-      safeArea={{
-        top: true,
-        bottom: false,
-      }}
       loading={loading}
       title={'approved:assets'}
       header

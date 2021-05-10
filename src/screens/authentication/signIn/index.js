@@ -155,7 +155,7 @@ function SignIn(props) {
   const onLoginError = () => {
     showMessage({
       message: t('common:app_name'),
-      description: authState.get('errorHelperLogin'),
+      description: t('sign_in:error_login'),
       type: 'danger',
       icon: 'danger',
     });
