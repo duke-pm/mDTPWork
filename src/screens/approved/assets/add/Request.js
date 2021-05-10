@@ -951,7 +951,7 @@ function AddRequest(props) {
                         <CText styles={'textMeta fontBold'} label={'add_approved_assets:status_wait'} />
                       </View>
                       {form.reason !== '' &&
-                        <View style={[cStyles.row, cStyles.itemsStart, cStyles.justifyStart, { width: '75%' }]}>
+                        <View style={[cStyles.row, cStyles.itemsStart, cStyles.justifyStart, { width: '80%' }]}>
                           <CText styles={'textMeta'} label={'add_approved_assets:reason_reject'} />
                           <CText styles={'textMeta'} customLabel={form.reason} />
                         </View>
@@ -1004,7 +1004,7 @@ function AddRequest(props) {
                             <CText styles={'textMeta fontBold'} customLabel={item.statusName} />
                           </View>
                           {!item.statusID &&
-                            <View style={[cStyles.row, cStyles.itemsStart, cStyles.justifyStart, { width: '75%' }]}>
+                            <View style={[cStyles.row, cStyles.itemsStart, cStyles.justifyStart, { width: '80%' }]}>
                               <CText styles={'textMeta'} label={'add_approved_assets:reason_reject'} />
                               <CText styles={'textMeta'} customLabel={item.reason} />
                             </View>

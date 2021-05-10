@@ -33,6 +33,7 @@ import Assets from '~/utils/asset/Assets';
 import { LOGIN } from '~/config/constants';
 import { colors, cStyles } from '~/utils/style';
 import {
+  IS_ANDROID,
   IS_IOS,
   resetRoute
 } from '~/utils/helper';
@@ -210,7 +211,7 @@ function SignIn(props) {
 
   /** LIFE CYCLE */
   useEffect(() => {
-    StatusBar.setBackgroundColor(colors.BLACK);
+    IS_ANDROID && StatusBar.setBackgroundColor(colors.BLACK);
     onCheckDataLogin();
   }, []);
 
@@ -262,6 +263,7 @@ function SignIn(props) {
     loading.submit,
     masterState.get('submitting'),
     masterState.get('success'),
+    masterState.get('error'),
   ]);
 
   /** RENDER */
@@ -303,6 +305,7 @@ function SignIn(props) {
                     <CInput
                       name={INPUT_NAME.USER_NAME}
                       style={styles.input}
+                      styleFocus={styles.input_focus}
                       valueColor={colors.WHITE}
                       holderColor={colors.GRAY_500}
                       inputRef={userNameRef}
@@ -321,6 +324,7 @@ function SignIn(props) {
                     <CInput
                       name={INPUT_NAME.PASSWORD}
                       style={styles.input}
+                      styleFocus={styles.input_focus}
                       valueColor={colors.WHITE}
                       holderColor={colors.GRAY_500}
                       inputRef={passwordRef}
@@ -384,6 +388,9 @@ const styles = StyleSheet.create({
   input: {
     backgroundColor: colors.TRANSPARENT,
     color: colors.WHITE,
+  },
+  input_focus: {
+    backgroundColor: colors.BACKGROUND_INPUT_FOCUS,
   },
 
   img_background: { height: '100%', width: '100%' },

@@ -36,7 +36,7 @@ function CList(props) {
       refreshing={props.refreshing}
       onRefresh={onRefresh}
 
-      onEndReachedThreshold={0.5}
+      onEndReachedThreshold={0.1}
       onEndReached={onLoadmore}
 
       ListEmptyComponent={

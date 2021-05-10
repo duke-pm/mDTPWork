@@ -82,7 +82,7 @@ function CUploadImage(props) {
             file: {
               type: result.mime,
               name: IS_ANDROID ? ('image' + moment().valueOf()) : result.filename,
-              path: IS_ANDROID ? result.path : result.sourceURL,
+              path: result.path,
             },
             fileBase64: `data:${result.mime};base64,${result.data}`,
           });
@@ -105,7 +105,7 @@ function CUploadImage(props) {
             file: {
               type: result.mime,
               name: IS_ANDROID ? ('image' + moment().valueOf()) : result.filename,
-              path: IS_ANDROID ? result.path : result.sourceURL,
+              path: result.path,
             },
             fileBase64: `data:${result.mime};base64,${result.data}`,
           });

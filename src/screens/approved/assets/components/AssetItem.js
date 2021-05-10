@@ -7,6 +7,7 @@
 import React from 'react';
 import { View, TextInput } from 'react-native';
 import CIconButton from '~/components/CIconButton';
+import { scalePx } from '~/utils/helper';
 /* COMMON */
 import { colors, cStyles } from '~/utils/style';
 
@@ -31,11 +32,10 @@ function AssetItem(props) {
   if (cellIndex === 4 && rowIndex !== 0) {
     return (
       <CIconButton
-        iconName={'times-circle'}
+        iconName={'close-circle-outline'}
         iconColor={colors.RED}
         iconProps={{
-          solid: true,
-          size: 17
+          size: scalePx(3)
         }}
         onPress={() => onRemoveRow(rowIndex)}
       />

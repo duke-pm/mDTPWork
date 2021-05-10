@@ -123,17 +123,13 @@ export async function askPermissionsCamera() {
 export async function choosePhotoFromCamera(props) {
   let params = {
     mediaTypes: 'photo',
-    cropping: false,
     includeBase64: true,
-    includeExif: true,
+    forceJpg: true,
+    cropping: true,
+    height: 1024,
+    width: 768,
   };
-  if (props && props.height) {
-    params.compressImageMaxHeight = props.height;
-  }
-  if (props && props.width) {
-    params.compressImageMaxWidth = props.width;
-  }
-
+  if (props) params = { ...params, ...props };
   let result = await ImagePicker.openCamera(params);
   return result;
 };
@@ -141,17 +137,13 @@ export async function choosePhotoFromCamera(props) {
 export async function choosePhotoFromGallery(props) {
   let params = {
     mediaTypes: 'photo',
-    cropping: false,
     includeBase64: true,
-    includeExif: true,
+    forceJpg: true,
+    cropping: true,
+    height: 1024,
+    width: 768,
   };
-  if (props && props.height) {
-    params.compressImageMaxHeight = props.height;
-  }
-  if (props && props.width) {
-    params.compressImageMaxWidth = props.width;
-  }
-
+  if (props) params = { ...params, ...props };
   let result = await ImagePicker.openPicker(params);
   return result;
 };

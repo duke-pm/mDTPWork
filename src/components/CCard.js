@@ -8,14 +8,13 @@ import React from 'react';
 import {
   StyleSheet,
   View,
-  TouchableOpacity
 } from 'react-native';
 /* COMPONENTS */
 import CText from './CText';
 /* COMMON */
 import { colors, cStyles } from '~/utils/style';
 
-function CCard(props) {
+const CCard = React.memo(function CCard(props) {
   const {
     containerStyle = {},
     contentLabelStyle = {},
@@ -23,12 +22,10 @@ function CCard(props) {
     cardHeader = null,
     cardContent = null,
     cardFooter = null,
-    onPress = null
   } = props;
 
-  const Component = onPress ? TouchableOpacity : View;
   return (
-    <Component style={[
+    <View style={[
       cStyles.rounded2,
       cStyles.shadow1,
       cStyles.mt32,
@@ -66,9 +63,9 @@ function CCard(props) {
           {cardFooter}
         </View>
       }
-    </Component>
+    </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   container: {

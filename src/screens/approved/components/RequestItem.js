@@ -38,6 +38,7 @@ function RequestItem(props) {
     navigation.navigate(route, {
       data: props.data,
       dataProcess: props.dataProcess,
+      dataDetail: props.dataDetail,
       onRefresh: () => props.onRefresh(),
     })
   };

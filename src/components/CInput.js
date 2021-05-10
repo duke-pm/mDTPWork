@@ -99,9 +99,9 @@ function CInput(props) {
         cStyles.mt6,
         styles.con_input,
         disabled && styles.disabled,
-        focus === props.name && [styles.input_focus, styleFocus],
         props.error && styles.error,
         style,
+        focus === props.name && [styles.input_focus, styleFocus],
       ]}>
         {icon &&
           <View style={[
@@ -147,6 +147,7 @@ function CInput(props) {
               selectTextOnFocus={true}
               textAlign={textAlign}
               clearButtonMode={'while-editing'}
+              removeClippedSubviews={IS_ANDROID}
               keyboardAppearance={isDarkMode ? 'dark' : 'light'}
               keyboardType={keyboard}
               returnKeyType={returnKey}

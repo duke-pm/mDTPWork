@@ -36,10 +36,11 @@ import { colors, cStyles } from '~/utils/style';
 import {
   IS_IOS,
   alert,
+  scalePx,
 } from '~/utils/helper';
+import API from '~/services/axios';
 /* REDUX */
 import * as Actions from '~/redux/actions';
-import API from '~/services/axios';
 
 const INPUT_NAME = {
   DATE_REQUEST: 'dateRequest',
@@ -384,7 +385,6 @@ function AddRequest(props) {
   useEffect(() => {
     if (loading.submitApproved) {
       if (!approvedState.get('submittingApproved')) {
-        console.log('[LOG] ===  ===> ', approvedState.get('successApprovedRequest'));
         if (approvedState.get('successApprovedRequest')) {
           setLoading({ ...loading, submitApproved: false });
           showMessage({
@@ -692,7 +692,7 @@ function AddRequest(props) {
                     <View style={[cStyles.px10, cStyles.pt10, cStyles.itemsCenter]}>
                       <Icon
                         name={'file-import'}
-                        size={scalePx(3.5)}
+                        size={scalePx(3)}
                         color={colors.GRAY_700}
                       />
                       {process.length > 0 &&
@@ -717,7 +717,7 @@ function AddRequest(props) {
                             : 'lost_assets')} />
                       </View>
                       {props.route.params?.data?.reason !== '' &&
-                        <View style={[cStyles.row, cStyles.itemsStart, cStyles.justifyStart, { width: '75%' }]}>
+                        <View style={[cStyles.row, cStyles.itemsStart, cStyles.justifyStart, { width: '80%' }]}>
                           <CText styles={'textMeta'} label={'add_approved_lost_damaged:reason_reject'} />
                           <CText styles={'textMeta'} customLabel={props.route.params?.data?.reason} />
                         </View>
@@ -751,7 +751,7 @@ function AddRequest(props) {
                         <View style={[cStyles.px10, cStyles.pt6, cStyles.itemsCenter]}>
                           <Icon
                             name={item.statusID ? 'check-circle' : 'times-circle'}
-                            size={scalePx(3.5)}
+                            size={scalePx(3)}
                             color={item.statusID ? colors.GREEN : colors.RED}
                             solid
                           />
@@ -770,7 +770,7 @@ function AddRequest(props) {
                             <CText styles={'textMeta fontBold'} customLabel={item.statusName} />
                           </View>
                           {!item.statusID &&
-                            <View style={[cStyles.row, cStyles.itemsStart, cStyles.justifyStart, { width: '75%' }]}>
+                            <View style={[cStyles.row, cStyles.itemsStart, cStyles.justifyStart, { width: '80%' }]}>
                               <CText styles={'textMeta'} label={'add_approved_lost_damaged:reason_reject'} />
                               <CText styles={'textMeta'} customLabel={item.reason} />
                             </View>
