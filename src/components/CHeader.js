@@ -20,7 +20,7 @@ import CText from './CText';
 import CInput from './CInput';
 /** COMMON */
 import { cStyles, colors } from '~/utils/style';
-import { IS_ANDROID } from '~/utils/helper';
+import { IS_ANDROID, scalePx } from '~/utils/helper';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -115,7 +115,7 @@ function CHeader(props) {
                   style={cStyles.p16}
                   name={'arrow-left'}
                   color={colors.WHITE}
-                  size={20}
+                  size={scalePx(3.5)}
                 />
               </TouchableOpacity>
             }
@@ -130,7 +130,7 @@ function CHeader(props) {
                   style={cStyles.p16}
                   name={'menu'}
                   color={colors.WHITE}
-                  size={20}
+                  size={scalePx(3.5)}
 
                 />
               </TouchableOpacity>
@@ -163,7 +163,7 @@ function CHeader(props) {
                   style={cStyles.p16}
                   name={'magnify'}
                   color={colors.WHITE}
-                  size={20}
+                  size={scalePx(3.5)}
                 />
               </TouchableOpacity>
             }
@@ -178,7 +178,7 @@ function CHeader(props) {
                   style={cStyles.p16}
                   name={'text-box-plus-outline'}
                   color={colors.WHITE}
-                  size={20}
+                  size={scalePx(3.5)}
                 />
               </TouchableOpacity>
             }

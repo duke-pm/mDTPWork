@@ -28,7 +28,7 @@ import CDateTimePicker from '~/components/CDateTimePicker';
 import CDropdown from '~/components/CDropdown';
 import CCard from '~/components/CCard';
 import CButton from '~/components/CButton';
-import CUploadImage from '~/components/CUploadImage';
+// import CUploadImage from '~/components/CUploadImage';
 import RejectModal from '../../components/RejectModal';
 /* COMMON */
 import Commons from '~/utils/common/Commons';
@@ -152,21 +152,21 @@ function AddRequest(props) {
     setShowReject(true);
   };
 
-  const handlePreview = () => {
-    Linking.canOpenURL(
-      API.defaults.baseURL.substring(0, API.defaults.baseURL.length - 3) + form.file
-    ).then(supported => {
-      if (supported) {
-        Linking.openURL(API.defaults.baseURL.substring(0, API.defaults.baseURL.length - 3) + form.file);
-      } else {
-        showMessage({
-          message: t('error:cannot_open_file_upload'),
-          type: 'danger',
-          icon: 'danger',
-        });
-      }
-    });
-  };
+  // const handlePreview = () => {
+  //   Linking.canOpenURL(
+  //     API.defaults.baseURL.substring(0, API.defaults.baseURL.length - 3) + form.file
+  //   ).then(supported => {
+  //     if (supported) {
+  //       Linking.openURL(API.defaults.baseURL.substring(0, API.defaults.baseURL.length - 3) + form.file);
+  //     } else {
+  //       showMessage({
+  //         message: t('error:cannot_open_file_upload'),
+  //         type: 'danger',
+  //         icon: 'danger',
+  //       });
+  //     }
+  //   });
+  // };
 
   /** FUNC */
   const onPrepareData = () => {
@@ -558,7 +558,7 @@ function AddRequest(props) {
                         name={form.typeUpdate === Commons.APPROVED_TYPE.DAMAGED.code
                           ? 'check-circle'
                           : 'circle'}
-                        size={20}
+                        size={scalePx(3.5)}
                         color={form.typeUpdate === Commons.APPROVED_TYPE.DAMAGED.code
                           ? colors.SECONDARY
                           : colors.PRIMARY}
@@ -578,7 +578,7 @@ function AddRequest(props) {
                         name={form.typeUpdate === Commons.APPROVED_TYPE.LOST.code
                           ? 'check-circle'
                           : 'circle'}
-                        size={20}
+                        size={scalePx(3.5)}
                         color={form.typeUpdate === Commons.APPROVED_TYPE.LOST.code
                           ? colors.SECONDARY
                           : colors.PRIMARY}
@@ -591,7 +591,7 @@ function AddRequest(props) {
               </View>
 
               {/** File upload */}
-              {!isDetail &&
+              {/* {!isDetail &&
                 <CUploadImage
                   loading={loading.submitAdd}
                   file={{
@@ -600,10 +600,10 @@ function AddRequest(props) {
                   }}
                   onChange={(data) => setForm({ ...form, ...data })}
                 />
-              }
+              } */}
 
               {/** File for detail */}
-              {isDetail && form.file &&
+              {/* {isDetail && form.file &&
                 <View style={[
                   cStyles.pt16,
                   cStyles.row,
@@ -618,7 +618,7 @@ function AddRequest(props) {
                     onPress={handlePreview}
                   />
                 </View>
-              }
+              } */}
 
               {/** Assets for detail */}
               {isDetail &&
@@ -692,7 +692,7 @@ function AddRequest(props) {
                     <View style={[cStyles.px10, cStyles.pt10, cStyles.itemsCenter]}>
                       <Icon
                         name={'file-import'}
-                        size={15}
+                        size={scalePx(3.5)}
                         color={colors.GRAY_700}
                       />
                       {process.length > 0 &&
@@ -751,7 +751,7 @@ function AddRequest(props) {
                         <View style={[cStyles.px10, cStyles.pt6, cStyles.itemsCenter]}>
                           <Icon
                             name={item.statusID ? 'check-circle' : 'times-circle'}
-                            size={15}
+                            size={scalePx(3.5)}
                             color={item.statusID ? colors.GREEN : colors.RED}
                             solid
                           />

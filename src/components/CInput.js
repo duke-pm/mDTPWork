@@ -21,7 +21,7 @@ import { colors, cStyles } from '~/utils/style';
 import {
   IS_ANDROID,
   IS_IOS,
-  RFPercentage
+  scalePx
 } from '~/utils/helper';
 
 function CInput(props) {
@@ -59,6 +59,7 @@ function CInput(props) {
   } = props;
 
   const [focus, setFocus] = useState(null);
+  const [showPassword, setShowPassword] = useState(false);
 
   /** HANDLE FUNC */
   const handleSubmitEditing = () => {
@@ -79,6 +80,10 @@ function CInput(props) {
 
   const handleRemoveValue = () => {
     if (onPressRemoveValue) onPressRemoveValue();
+  };
+
+  const handleShowPassword = () => {
+    setShowPassword(!showPassword);
   };
 
   /** RENDER */
@@ -107,7 +112,7 @@ function CInput(props) {
             <Icon
               name={icon}
               color={iconColor}
-              size={25}
+              size={scalePx(3.5)}
             />
           </View>
         }
@@ -136,7 +141,7 @@ function CInput(props) {
               autoFocus={autoFocus}
               autoCapitalize
               autoCorrect={false}
-              secureTextEntry={password}
+              secureTextEntry={password && !showPassword}
               enablesReturnKeyAutomatically={true}
               blurOnSubmit={true}
               selectTextOnFocus={true}
@@ -165,7 +170,7 @@ function CInput(props) {
             <Icon
               name={'close-circle-outline'}
               color={colors.GRAY_500}
-              size={25}
+              size={scalePx(3.5)}
             />
           </Component>
         }
@@ -186,7 +191,27 @@ function CInput(props) {
             <Icon
               name={iconLast}
               color={iconLastColor}
-              size={25}
+              size={scalePx(3.5)}
+            />
+          </Component>
+        }
+
+        {password &&
+          <Component
+            style={[
+              cStyles.center,
+              cStyles.roundedTopRight2,
+              cStyles.roundedBottomRight2,
+              IS_ANDROID && cStyles.mr1,
+              styles.con_input_icon,
+              iconLastStyle,
+            ]}
+            onPress={handleShowPassword}
+          >
+            <Icon
+              name={showPassword ? 'eye-off' : 'eye'}
+              color={colors.GRAY_600}
+              size={scalePx(3.5)}
             />
           </Component>
         }

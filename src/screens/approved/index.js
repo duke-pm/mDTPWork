@@ -1,8 +1,8 @@
 /**
- ** Name: Allocation
+ ** Name: Approved
  ** Author: 
  ** CreateAt: 2021
- ** Description: Description of Allocation.js
+ ** Description: Description of Approved.js
  **/
 import React, { useState, useEffect } from 'react';
 import {
@@ -17,8 +17,7 @@ import MockupData from './common/mockup';
 import { cStyles } from '~/utils/style';
 import { IS_ANDROID } from '~/utils/helper';
 
-
-function Allocation(props) {
+function Approved(props) {
 
   const [loading, setLoading] = useState(true);
 
@@ -53,6 +52,7 @@ function Allocation(props) {
                 />
               )
             }}
+            numColumns={3}
             keyExtractor={(item, index) => index.toString()}
             removeClippedSubviews={IS_ANDROID}
           />
@@ -62,4 +62,4 @@ function Allocation(props) {
   )
 };
 
-export default Allocation;
+export default Approved;

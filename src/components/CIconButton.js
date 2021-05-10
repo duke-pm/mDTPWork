@@ -9,8 +9,9 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 /** COMMON */
+import { scalePx } from '~/utils/helper';
 import { colors, cStyles } from '~/utils/style';
 
 function CIconButton(props) {
@@ -37,7 +38,7 @@ function CIconButton(props) {
         style={cStyles.p4}
         name={iconName}
         color={iconColor}
-        size={20}
+        size={scalePx(3.5)}
         {...iconProps}
       />
     </TouchableOpacity>

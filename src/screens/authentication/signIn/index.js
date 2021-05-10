@@ -16,6 +16,7 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
+  StatusBar,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { showMessage } from 'react-native-flash-message';
@@ -35,10 +36,8 @@ import {
   IS_IOS,
   resetRoute
 } from '~/utils/helper';
-import API from '~/services/axios';
 /* REDUX */
 import * as Actions from '~/redux/actions';
-
 
 const INPUT_NAME = {
   USER_NAME: 'userName',
@@ -98,10 +97,10 @@ function SignIn(props) {
     let isValid = onValidate();
     if (isValid) {
       setLoading({ ...loading, submit: true });
-      let params = fromJS({
+      let params = {
         'Username': form.userName.trim().toLowerCase(),
         'Password': form.password.trim(),
-      });
+      };
       dispatch(Actions.fetchLogin(params));
     };
   };
@@ -159,7 +158,7 @@ function SignIn(props) {
       type: 'danger',
       icon: 'danger',
     });
-    setLoading({ ...loading, submit: false });
+    setLoading({ main: false, submit: false });
   };
 
   const onStart = () => {
@@ -211,6 +210,7 @@ function SignIn(props) {
 
   /** LIFE CYCLE */
   useEffect(() => {
+    StatusBar.setBackgroundColor(colors.BLACK);
     onCheckDataLogin();
   }, []);
 
@@ -251,7 +251,10 @@ function SignIn(props) {
     if (loading.submit) {
       if (!masterState.get('submitting')) {
         if (masterState.get('success')) {
-          onStart();
+          return onStart();
+        }
+        if (masterState.get('error')) {
+          return onLoginError();
         }
       }
     }

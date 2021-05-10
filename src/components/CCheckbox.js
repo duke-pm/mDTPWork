@@ -12,6 +12,7 @@ import CheckBox from '@react-native-community/checkbox';
 import CText from '~/components/CText';
 /** COMMON */
 import { colors, cStyles } from '~/utils/style';
+import { scalePx } from '~/utils/helper';
 
 function CCheckbox(props) {
   const { t } = useTranslation();
@@ -33,6 +34,7 @@ function CCheckbox(props) {
       style={[
         cStyles.row,
         cStyles.itemsCenter,
+        cStyles.justifyStart,
         cStyles.py16,
         containerStyle
       ]}>
@@ -59,8 +61,8 @@ function CCheckbox(props) {
 
 const styles = StyleSheet.create({
   checkbox: {
-    height: 20,
-    width: 20,
+    height: scalePx(3),
+    width: scalePx(3),
   }
 });
 

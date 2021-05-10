@@ -19,6 +19,7 @@ import CText from '~/components/CText';
 /** COMMON */
 import { colors, cStyles } from '~/utils/style';
 import { usePrevious } from '~/utils/hook';
+import { scalePx } from '~/utils/helper';
 
 const MyIndicator = Animated.createAnimatedComponent(ActivityIndicator);
 
@@ -123,7 +124,7 @@ function CButton(props) {
             style={cStyles.pr6}
             name={icon}
             color={colors.WHITE}
-            size={15}
+            size={scalePx(3)}
           />
         }
 

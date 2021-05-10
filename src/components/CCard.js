@@ -11,13 +11,9 @@ import {
   TouchableOpacity
 } from 'react-native';
 /* COMPONENTS */
-
+import CText from './CText';
 /* COMMON */
 import { colors, cStyles } from '~/utils/style';
-import CText from './CText';
-
-/* REDUX */
-
 
 function CCard(props) {
   const {
@@ -31,7 +27,6 @@ function CCard(props) {
   } = props;
 
   const Component = onPress ? TouchableOpacity : View;
-
   return (
     <Component style={[
       cStyles.rounded2,

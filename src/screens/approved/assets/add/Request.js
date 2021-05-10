@@ -37,7 +37,7 @@ import RejectModal from '../../components/RejectModal';
 import CCard from '~/components/CCard';
 /* COMMON */
 import { colors, cStyles } from '~/utils/style';
-import { IS_IOS, alert } from '~/utils/helper';
+import { IS_IOS, alert, scalePx } from '~/utils/helper';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 
@@ -761,14 +761,14 @@ function AddRequest(props) {
                       disabled={loading.main || loading.submitAdd || isDetail}
                       onPress={handleAddAssets}
                     >
-                      <Icon name={'plus-circle'} size={15} color={colors.BLACK} />
+                      <Icon name={'plus-circle'} size={scalePx(3)} color={colors.BLACK} />
                       <CText styles={'textMeta textUnderline pl6 colorBlack'} label={'add_approved_assets:add_assets'} />
                     </TouchableOpacity>
                   }
                 </View>
               </View>
 
-              {/** where use */}
+              {/** Where use */}
               <View style={[
                 cStyles.pt16,
                 cStyles.pr4,
@@ -824,7 +824,7 @@ function AddRequest(props) {
                     <View style={[cStyles.row, cStyles.itemsCenter]}>
                       <Icon
                         name={form.typeAssets === 'N' ? 'check-circle' : 'circle'}
-                        size={20}
+                        size={scalePx(3.5)}
                         color={form.typeAssets === 'N' ? colors.SECONDARY : colors.PRIMARY}
                         solid={form.typeAssets === 'N'}
                       />
@@ -840,7 +840,7 @@ function AddRequest(props) {
                     <View style={[cStyles.row, cStyles.itemsCenter]}>
                       <Icon
                         name={form.typeAssets === 'A' ? 'check-circle' : 'circle'}
-                        size={20}
+                        size={scalePx(3.5)}
                         color={form.typeAssets === 'A' ? colors.SECONDARY : colors.PRIMARY}
                         solid={form.typeAssets === 'A'}
                       />
@@ -862,7 +862,7 @@ function AddRequest(props) {
                     <View style={[cStyles.row, cStyles.itemsCenter]}>
                       <Icon
                         name={form.inPlanning ? 'check-circle' : 'circle'}
-                        size={20}
+                        size={scalePx(3.5)}
                         color={form.inPlanning ? colors.SECONDARY : colors.PRIMARY}
                         solid={form.inPlanning}
                       />
@@ -878,7 +878,7 @@ function AddRequest(props) {
                     <View style={[cStyles.row, cStyles.itemsCenter]}>
                       <Icon
                         name={!form.inPlanning ? 'check-circle' : 'circle'}
-                        size={20}
+                        size={scalePx(3.5)}
                         color={!form.inPlanning ? colors.SECONDARY : colors.PRIMARY}
                         solid={!form.inPlanning}
                       />
@@ -933,7 +933,7 @@ function AddRequest(props) {
                     <View style={[cStyles.px10, cStyles.pt10, cStyles.itemsCenter]}>
                       <Icon
                         name={'file-import'}
-                        size={15}
+                        size={scalePx(3)}
                         color={colors.GRAY_700}
                       />
                       {process.length > 0 &&
@@ -985,7 +985,7 @@ function AddRequest(props) {
                         <View style={[cStyles.px10, cStyles.pt6, cStyles.itemsCenter]}>
                           <Icon
                             name={item.statusID ? 'check-circle' : 'times-circle'}
-                            size={15}
+                            size={scalePx(3)}
                             color={item.statusID ? colors.GREEN : colors.RED}
                             solid
                           />

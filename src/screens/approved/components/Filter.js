@@ -25,7 +25,7 @@ import CButton from '~/components/CButton';
 import CCheckbox from '~/components/CCheckbox';
 /* COMMON */
 import { colors, cStyles } from '~/utils/style';
-import { IS_ANDROID } from '~/utils/helper';
+import { IS_ANDROID, scalePx } from '~/utils/helper';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -183,7 +183,7 @@ function Filter(props) {
             <Icon
               name={'filter'}
               color={colors.BLACK}
-              size={20}
+              size={scalePx(3.5)}
             />
             <CText styles={'H6 pl10'} label={'approved_assets:filter'} />
           </View>

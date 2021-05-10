@@ -9,10 +9,11 @@ import { useTranslation } from 'react-i18next';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+/** COMPONENTS */
+import CText from '~/components/CText';
 /** COMMON */
 import Routes from './Routes';
-import { IS_IOS } from '~/utils/helper';
-import CText from '~/components/CText';
+import { IS_IOS, scalePx } from '~/utils/helper';
 import { colors, cStyles } from '~/utils/style';
 /** INIT NAVIGATOR OF APP */
 const StackMain = createStackNavigator();
@@ -30,7 +31,7 @@ export function RootTab(props) {
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName = 'home';
-          let tmpSize = IS_IOS ? 22 : 20;
+          let tmpSize = IS_IOS ? scalePx(3.5) : scalePx(3.3);
 
           switch (route.name) {
             case Routes.MAIN.DASHBOARD.name:

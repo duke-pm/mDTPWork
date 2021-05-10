@@ -30,7 +30,7 @@ const deviceHeight =
     ? STANDARD_LENGTH - OFFSET
     : STANDARD_LENGTH;
 
-export function RFPercentage(percent) {
+export function scalePx(percent) {
   const heightPercent = (percent * deviceHeight) / 100;
   return Math.round(heightPercent);
 }

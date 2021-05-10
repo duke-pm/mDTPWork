@@ -41,7 +41,7 @@ const App = () => {
     setState({
       ...state,
       checked: true,
-    })
+    });
   };
 
   const setDefaultAxios = () => {

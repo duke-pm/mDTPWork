@@ -29,9 +29,7 @@ function Dashboard(props) {
 
   /** LIFE CYCLE */
   useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000);
+    setLoading(false);
   }, []);
 
   /** RENDER */
@@ -55,7 +53,7 @@ function Dashboard(props) {
               )
             }}
             keyExtractor={(item, index) => index.toString()}
-            numColumns={4}
+            numColumns={3}
             removeClippedSubviews={IS_ANDROID}
           />
         </CContent>

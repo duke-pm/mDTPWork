@@ -17,7 +17,7 @@ import {
 
 // Icon
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { IS_ANDROID, IS_IOS } from '~/utils/helper';
+import { IS_ANDROID, IS_IOS, scalePx } from '~/utils/helper';
 import { colors, cStyles } from '~/utils/style';
 
 class DropDownPicker extends React.Component {
@@ -691,9 +691,9 @@ DropDownPicker.defaultProps = {
 	arrowColor: '#000',
 	showArrow: true,
 	arrowSize: 15,
-	customArrowUp: (size, color) => <Icon name="chevron-up" size={size} color={color} size={25} />,
-	customArrowDown: (size, color) => <Icon name="chevron-down" size={size} color={color} size={25} />,
-	customTickIcon: () => <Icon name="check" size={25} />,
+	customArrowUp: (size, color) => <Icon name="chevron-up" size={size} color={color} size={scalePx(3.5)} />,
+	customArrowDown: (size, color) => <Icon name="chevron-down" size={size} color={color} size={scalePx(3.5)} />,
+	customTickIcon: () => <Icon name="check" size={scalePx(3.5)} />,
 	zIndex: 5000,
 	zIndexInverse: 6000,
 	disabled: false,

@@ -6,7 +6,7 @@
  **/
 import { isIphoneX } from "react-native-iphone-x-helper";
 import { Platform, Dimensions } from 'react-native';
-import { RFPercentage } from '~/utils/helper';
+import { scalePx } from '~/utils/helper';
 import Colors from './Colors';
 
 const fBold = 'Roboto-Bold';
@@ -463,32 +463,32 @@ const text = {
   colorPurple: { color: '#9561E2' },
   colorPink: { color: '#F66D9B' },
 
-  H1: { fontSize: RFPercentage(5), color: 'black', fontFamily: fBold, lineHeight: 34 },
-  H2: { fontSize: RFPercentage(4.5), color: 'black', fontFamily: fBold, lineHeight: 32 },
-  H3: { fontSize: RFPercentage(4), color: 'black', fontFamily: fBold, lineHeight: 30 },
-  H4: { fontSize: RFPercentage(3.5), color: 'black', fontFamily: fBold, lineHeight: 28 },
-  H5: { fontSize: RFPercentage(3), color: 'black', fontFamily: fMedium, lineHeight: 26 },
-  H6: { fontSize: RFPercentage(2.5), color: 'black', fontFamily: fMedium, lineHeight: 23 },
+  H1: { fontSize: scalePx(5), color: 'black', fontFamily: fBold, lineHeight: 34 },
+  H2: { fontSize: scalePx(4.5), color: 'black', fontFamily: fBold, lineHeight: 32 },
+  H3: { fontSize: scalePx(3.5), color: 'black', fontFamily: fBold, lineHeight: 30 },
+  H4: { fontSize: scalePx(3.5), color: 'black', fontFamily: fBold, lineHeight: 28 },
+  H5: { fontSize: scalePx(3), color: 'black', fontFamily: fMedium, lineHeight: 26 },
+  H6: { fontSize: scalePx(2.5), color: 'black', fontFamily: fMedium, lineHeight: 23 },
   textTitle: {
-    fontSize: RFPercentage(2.3),
+    fontSize: scalePx(2.3),
     color: 'black',
     fontFamily: fMedium,
     lineHeight: platform === PLATFORM.IOS ? 23 : 24
   },
   textMeta: {
-    fontSize: RFPercentage(1.8),
+    fontSize: scalePx(1.8),
     color: '#4a5568',
     fontFamily: fLight,
     lineHeight: 20
   },
   textDefault: {
-    fontSize: RFPercentage(2.3),
+    fontSize: scalePx(2.3),
     color: 'black',
     fontFamily: fRegular,
     lineHeight: platform === PLATFORM.IOS ? 23 : 24,
   },
   textButton: {
-    fontSize: RFPercentage(2),
+    fontSize: scalePx(2),
     color: 'white',
     fontFamily: fBold,
     lineHeight: 20

@@ -27,6 +27,7 @@ import {
   choosePhotoFromCamera,
   choosePhotoFromGallery,
   IS_ANDROID,
+  scalePx,
 } from '~/utils/helper';
 import { colors, cStyles } from '~/utils/style';
 /* REDUX */
@@ -165,7 +166,7 @@ function CUploadImage(props) {
             <View style={[cStyles.row, cStyles.itemsCenter, cStyles.py16, cStyles.px16]}>
               <Icon
                 name={'camera'}
-                size={25}
+                size={scalePx(3.5)}
                 color={colors.RED}
               />
               <CText styles={'textTitle pl16'} label={'common:from_camera'} />
@@ -179,7 +180,7 @@ function CUploadImage(props) {
             <View style={[cStyles.row, cStyles.itemsCenter, cStyles.py16, cStyles.px16]}>
               <Icon
                 name={'image-multiple-outline'}
-                size={25}
+                size={scalePx(3.5)}
                 color={colors.GREEN}
               />
               <CText styles={'textTitle pl16'} label={'common:from_gallery'} />
