@@ -22,10 +22,10 @@ import CText from '~/components/CText';
 import CInput from '~/components/CInput';
 import CDateTimePicker from '~/components/CDateTimePicker';
 import CButton from '~/components/CButton';
-import CCheckbox from '~/components/CCheckbox';
 /* COMMON */
 import { colors, cStyles } from '~/utils/style';
 import { IS_ANDROID, scalePx } from '~/utils/helper';
+import CGroupFilter from '~/components/CGroupFilter';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -37,6 +37,39 @@ const INPUT_NAME = {
   FROM_DATE: 'fromDate',
   TO_DATE: 'toDate',
 };
+
+const TYPES_ASSETS = [
+  {
+    value: 2,
+    label: 'approved_lost_damaged:title_damaged',
+  },
+  {
+    value: 3,
+    label: 'approved_lost_damaged:title_lost',
+  }
+];
+
+const STATUS_REQUEST = [
+  {
+    value: 1,
+    label: 'approved_assets:status_wait',
+  },
+  {
+    value: 2,
+    label: 'approved_assets:status_approved',
+  },
+  {
+    value: 4,
+    label: 'approved_assets:status_reject',
+  }
+];
+
+const NEED_REQUEST = [
+  {
+    value: false,
+    label: 'approved_assets:resolve_request',
+  },
+];
 
 function Filter(props) {
   const {
@@ -52,21 +85,12 @@ function Filter(props) {
     status: false,
     active: null,
   });
-  const [resolveRequest, setResolveRequest] = useState(false);
   const [data, setData] = useState({
     fromDate: moment().clone().startOf('month').format(commonState.get('formatDate')),
     toDate: moment().clone().endOf('month').format(commonState.get('formatDate')),
     status: [1, 2, 3, 4],
     type: [2, 3],
-  });
-  const [statusRequest, setStatusRequest] = useState({
-    wait: true,
-    approved: true,
-    reject: true,
-  });
-  const [typeRequest, setTypeRequest] = useState({
-    damaged: true,
-    lost: true,
+    resolveRequest: false,
   });
 
   /** HANDLE FUNC */
@@ -82,43 +106,19 @@ function Filter(props) {
     });
   };
 
-  const handleChangeStatus = (status, nameStatus, checked) => {
-    let tmpStatus = [...data.status];
-    if (checked) {
-      if (typeof status === 'string') {
-        tmpStatus.push(status);
-      } else {
-        for (let i of status) tmpStatus.push(i);
-      }
-    } else {
-      if (typeof status === 'string') {
-        let findStatus = tmpStatus.findIndex(f => f == status);
-        if (findStatus !== -1) tmpStatus.splice(findStatus, 1);
-      } else {
-        for (let j of status) {
-          let findStatus = tmpStatus.findIndex(f => f == j);
-          if (findStatus !== -1) tmpStatus.splice(findStatus, 1);
-        }
-      }
-    }
-    setStatusRequest({ ...statusRequest, [nameStatus]: checked });
-    setData({ ...data, status: tmpStatus });
+  const handleChangeType = (typesChoose) => {
+    setData({ ...data, type: typesChoose });
   };
 
-  const handleChangeType = (type, nameType, checked) => {
-    let tmpType = [...data.type];
-    if (checked) {
-      tmpType.push(type);
-    } else {
-      let findType = tmpType.findIndex(f => f == type);
-      if (findType !== -1) tmpType.splice(findType, 1);
-    }
-    setTypeRequest({ ...typeRequest, [nameType]: checked });
-    setData({ ...data, type: tmpType });
+  const handleChangeStatus = (statusChoose) => {
+    let tmp = statusChoose;
+    let index = tmp.indexOf(2);
+    if (index !== -1) tmp.push(3);
+    setData({ ...data, status: tmp });
   };
 
   const handleChangeResolveRequest = (checked) => {
-    setResolveRequest(checked);
+    setData({ ...data, resolveRequest: checked.length > 0 ? true : false });
   };
 
   const handleFilter = () => {
@@ -143,7 +143,7 @@ function Filter(props) {
         data.toDate,
         data.status.join(),
         data.type.join(),
-        resolveRequest,
+        data.resolveRequest,
       );
     }
   };
@@ -242,63 +242,34 @@ function Filter(props) {
           </View>
 
           {hasLostDamage &&
-            <View style={[cStyles.row, cStyles.justifyBetween]}>
-              <CCheckbox
-                style={styles.con_input_status}
-                labelStyle={'textDefault pl10'}
-                label={'approved_assets:damaged'}
-                value={typeRequest.damaged}
-                onChange={(checked) => handleChangeType(2, 'damaged', checked)}
-              />
-
-              <CCheckbox
-                style={styles.con_input_status}
-                labelStyle={'textDefault pl10'}
-                label={'approved_assets:lost'}
-                value={typeRequest.lost}
-                onChange={(checked) => handleChangeType(3, 'lost', checked)}
-              />
-            </View>
+            <CGroupFilter
+              row
+              label={'common:type'}
+              items={TYPES_ASSETS}
+              itemsChoose={data.type}
+              onChange={handleChangeType}
+            />
           }
 
-          <View style={[cStyles.row, cStyles.justifyBetween]}>
-            <CCheckbox
-              style={styles.con_input_status}
-              labelStyle={'textDefault pl10'}
-              label={'approved_assets:status_wait'}
-              value={statusRequest.wait}
-              onChange={(checked) => handleChangeStatus('1', 'wait', checked)}
-            />
+          <CGroupFilter
+            row
+            label={'common:status'}
+            items={STATUS_REQUEST}
+            itemsChoose={data.status}
+            onChange={handleChangeStatus}
+          />
 
-            <CCheckbox
-              style={styles.con_input_status}
-              labelStyle={'textDefault pl10'}
-              label={'approved_assets:status_approved'}
-              value={statusRequest.approved}
-              onChange={(checked) => handleChangeStatus([2, 3], 'approved', checked)}
-            />
-
-            <CCheckbox
-              style={styles.con_input_status}
-              labelStyle={'textDefault pl10'}
-              label={'approved_assets:status_reject'}
-              value={statusRequest.reject}
-              onChange={(checked) => handleChangeStatus('4', 'reject', checked)}
-            />
-          </View>
-
-          <View>
-            <CCheckbox
-              style={styles.con_input_status}
-              labelStyle={'textDefault pl10'}
-              label={'approved_assets:resolve_request'}
-              value={resolveRequest}
-              onChange={handleChangeResolveRequest}
-            />
-          </View>
+          <CGroupFilter
+            activeAll={false}
+            row
+            label={'approved_assets:resolve_request'}
+            items={NEED_REQUEST}
+            itemsChoose={[data.resolveRequest]}
+            onChange={handleChangeResolveRequest}
+          />
 
           <CButton
-            label={'approved_assets:filter_start'}
+            label={'common:apply'}
             onPress={handleFilter}
           />
         </View>

@@ -38,7 +38,7 @@ import {
   alert,
   scalePx,
 } from '~/utils/helper';
-import API from '~/services/axios';
+// import API from '~/services/axios';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 
@@ -49,7 +49,6 @@ const INPUT_NAME = {
   TYPE_UPDATE: 'typeUpdate',
   FILE: 'file',
 };
-
 
 function AddRequest(props) {
   const { t } = useTranslation();
@@ -117,7 +116,7 @@ function AddRequest(props) {
     if (field === INPUT_NAME.ASSETID) {
       setForm({
         ...form,
-        assetID: data.value,
+        assetID: data[Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.value],
       });
       if (error.assets.status) {
         setError({ ...error, assets: { status: false, helper: '' } });
@@ -474,6 +473,7 @@ function AddRequest(props) {
             <ScrollView
               style={cStyles.flex1}
               contentContainerStyle={[cStyles.p16, cStyles.justifyEnd]}
+              keyboardShouldPersistTaps={'handled'}
             >
               {/** Date request */}
               <View>
@@ -501,7 +501,7 @@ function AddRequest(props) {
                   cStyles.pt16,
                   IS_IOS && { zIndex: 10 }
                 ]}>
-                  <View style={[cStyles.flex1, cStyles.pr4]}>
+                  <View style={cStyles.flex1}>
                     <CText styles={'textTitle'} label={'add_approved_lost_damaged:assets'} />
                     <CDropdown
                       loading={loading.main}
@@ -513,6 +513,12 @@ function AddRequest(props) {
                       error={error.assets.status}
                       errorHelper={error.assets.helper}
                       holder={'add_approved_lost_damaged:holder_assets'}
+                      schema={{
+                        label: Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.label,
+                        value: Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.value,
+                        icon: Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.icon,
+                        hidden: Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.hidden,
+                      }}
                       defaultValue={form.assetID}
                       onChangeItem={value => handleCombobox(value, INPUT_NAME.ASSETID, reasonRef)}
                       onOpen={() => onOpenCombobox(INPUT_NAME.ASSETID)}

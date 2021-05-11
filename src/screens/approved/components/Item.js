@@ -49,7 +49,7 @@ function Item(props) {
                 </TouchableOpacity>
 
                 <CText
-                  styles={'pt10 textCenter'}
+                  styles={'pt10'}
                   label={item.title}
                   numberOfLines={3}
                 />

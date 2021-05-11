@@ -40,6 +40,7 @@ import { colors, cStyles } from '~/utils/style';
 import { IS_IOS, alert, scalePx } from '~/utils/helper';
 /* REDUX */
 import * as Actions from '~/redux/actions';
+import Commons from '~/utils/common/Commons';
 
 const INPUT_NAME = {
   DATE_REQUEST: 'dateRequest',
@@ -176,8 +177,8 @@ function AddRequest(props) {
     if (field === INPUT_NAME.DEPARTMENT) {
       setForm({
         ...form,
-        department: data.value,
-        whereUse: data.value,
+        department: data[Commons.SCHEMA_DROPDOWN.DEPARTMENT.value],
+        whereUse: data[Commons.SCHEMA_DROPDOWN.DEPARTMENT.value],
       });
       if (error.department.status) {
         setError({ ...error, department: { status: false, helper: '' } });
@@ -187,7 +188,7 @@ function AddRequest(props) {
     } else if (field === INPUT_NAME.REGION) {
       setForm({
         ...form,
-        region: data.value,
+        region: data[Commons.SCHEMA_DROPDOWN.REGION.value],
       });
       if (error.region.status) {
         setError({ ...error, region: { status: false, helper: '' } });
@@ -197,7 +198,7 @@ function AddRequest(props) {
     } else if (field === INPUT_NAME.WHERE_USE) {
       setForm({
         ...form,
-        whereUse: data.value,
+        whereUse: data[Commons.SCHEMA_DROPDOWN.DEPARTMENT.value],
       });
       if (error.whereUse.status) {
         setError({ ...error, whereUse: { status: false, helper: '' } });
@@ -611,6 +612,7 @@ function AddRequest(props) {
             <ScrollView
               style={cStyles.flex1}
               contentContainerStyle={[cStyles.p16, cStyles.justifyEnd]}
+              keyboardShouldPersistTaps={'handled'}
             >
               {/** Date request */}
               <View>
@@ -666,8 +668,14 @@ function AddRequest(props) {
                     error={error.department.status}
                     errorHelper={error.department.helper}
                     holder={'add_approved_assets:holder_department'}
+                    schema={{
+                      label: Commons.SCHEMA_DROPDOWN.DEPARTMENT.label,
+                      value: Commons.SCHEMA_DROPDOWN.DEPARTMENT.value,
+                      icon: Commons.SCHEMA_DROPDOWN.DEPARTMENT.icon,
+                      hidden: Commons.SCHEMA_DROPDOWN.DEPARTMENT.hidden,
+                    }}
                     defaultValue={form.department}
-                    onChangeItem={value => handleCombobox(value, INPUT_NAME.DEPARTMENT)}
+                    onChangeItem={(value, index) => handleCombobox(value, INPUT_NAME.DEPARTMENT)}
                     onOpen={() => onOpenCombobox(INPUT_NAME.DEPARTMENT)}
                   />
                 </View>
@@ -690,6 +698,12 @@ function AddRequest(props) {
                     error={error.region.status}
                     errorHelper={error.region.helper}
                     holder={'add_approved_assets:holder_region'}
+                    schema={{
+                      label: Commons.SCHEMA_DROPDOWN.REGION.label,
+                      value: Commons.SCHEMA_DROPDOWN.REGION.value,
+                      icon: Commons.SCHEMA_DROPDOWN.REGION.icon,
+                      hidden: Commons.SCHEMA_DROPDOWN.REGION.hidden,
+                    }}
                     defaultValue={form.region}
                     onChangeItem={value => handleCombobox(value, INPUT_NAME.REGION)}
                     onOpen={() => onOpenCombobox(INPUT_NAME.REGION)}
@@ -785,6 +799,12 @@ function AddRequest(props) {
                   error={error.whereUse.status}
                   errorHelper={error.whereUse.helper}
                   holder={'add_approved_assets:holder_where_use'}
+                  schema={{
+                    label: Commons.SCHEMA_DROPDOWN.DEPARTMENT.label,
+                    value: Commons.SCHEMA_DROPDOWN.DEPARTMENT.value,
+                    icon: Commons.SCHEMA_DROPDOWN.DEPARTMENT.icon,
+                    hidden: Commons.SCHEMA_DROPDOWN.DEPARTMENT.hidden,
+                  }}
                   defaultValue={form.whereUse}
                   onChangeItem={value => handleCombobox(value, INPUT_NAME.WHERE_USE, reasonRef)}
                   onOpen={() => onOpenCombobox(INPUT_NAME.WHERE_USE)}

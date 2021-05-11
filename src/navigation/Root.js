@@ -31,7 +31,7 @@ export function RootTab(props) {
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName = 'home';
-          let tmpSize = IS_IOS ? scalePx(3.5) : scalePx(3.3);
+          let tmpSize = IS_IOS ? scalePx(4) : scalePx(3.5);
 
           switch (route.name) {
             case Routes.MAIN.DASHBOARD.name:
@@ -42,31 +42,32 @@ export function RootTab(props) {
               break;
           }
 
-          return <Icon style={cStyles.mt6} name={iconName} size={tmpSize} color={color} />;
+          return <Icon name={iconName} size={tmpSize} color={color} />;
         },
-        tabBarLabel: ({ focused, color, size }) => {
-          let title = '';
+        // tabBarLabel: ({ focused, color, size }) => {
+        //   let title = '';
 
-          switch (route.name) {
-            case Routes.MAIN.DASHBOARD.name:
-              title = 'dashboard:title';
-              break;
-            case Routes.MAIN.ACCOUNT.name:
-              title = 'account:title';
-              break;
-          }
-          return (
-            <CText
-              styles={'textMeta ' + (focused ? 'colorPrimary' : 'colorGray600')}
-              label={t(title)}
-            />
-          );
-        },
+        //   switch (route.name) {
+        //     case Routes.MAIN.DASHBOARD.name:
+        //       title = 'dashboard:title';
+        //       break;
+        //     case Routes.MAIN.ACCOUNT.name:
+        //       title = 'account:title';
+        //       break;
+        //   }
+        //   return (
+        //     <CText
+        //       styles={'textMeta ' + (focused ? 'colorPrimary' : 'colorGray600')}
+        //       label={t(title)}
+        //     />
+        //   );
+        // },
       })}
       tabBarOptions={{
         activeTintColor: colors.PRIMARY,
-        inactiveTintColor: colors.GRAY_600,
+        inactiveTintColor: colors.PRIMARY,
         keyboardHidesTabBar: true,
+        showLabel: false,
       }}
     >
       <TabMain.Screen

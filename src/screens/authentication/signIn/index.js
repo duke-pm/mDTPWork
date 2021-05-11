@@ -4,7 +4,6 @@
  ** CreateAt: 2021
  ** Description: Description of SignIn.js
  **/
-import { fromJS } from 'immutable';
 import React, { createRef, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -52,8 +51,6 @@ function SignIn(props) {
 
   const dispatch = useDispatch();
   const authState = useSelector(({ auth }) => auth);
-  const commonState = useSelector(({ common }) => common);
-  const masterState = useSelector(({ masterData }) => masterData);
 
   const [loading, setLoading] = useState({
     main: true,
@@ -127,7 +124,7 @@ function SignIn(props) {
     } else {
       await AsyncStorage.removeItem(LOGIN);
     }
-    onFetchMasterData();
+    onStart();
   };
 
   const onValidate = () => {
@@ -176,6 +173,7 @@ function SignIn(props) {
   const onCheckDataLogin = async () => {
     let dataLogin = await AsyncStorage.getItem(LOGIN);
     if (dataLogin) {
+      console.log('[LOG] === SignIn Local === ');
       setLoading({ main: false, submit: true });
       dataLogin = JSON.parse(dataLogin);
       dataLogin = {
@@ -193,20 +191,10 @@ function SignIn(props) {
         '.expires': dataLogin.expired,
       }
       dispatch(Actions.loginSuccess(dataLogin));
-
-      setForm({ ...form, saveAccount: true });
     } else {
+      console.log('[LOG] === SignIn Server === ');
       setLoading({ main: false, submit: false });
     }
-  };
-
-  const onFetchMasterData = () => {
-    let params = {
-      'listType': 'Region, Company',
-      'RefreshToken': authState.getIn(['login', 'refreshToken']),
-      'Lang': commonState.get('language'),
-    }
-    dispatch(Actions.fetchMasterData(params, props.navigation));
   };
 
   /** LIFE CYCLE */
@@ -214,20 +202,6 @@ function SignIn(props) {
     IS_ANDROID && StatusBar.setBackgroundColor(colors.BLACK);
     onCheckDataLogin();
   }, []);
-
-  useEffect(() => {
-    if (loading.main) {
-      if (!authState.get('submitting')) {
-        if (authState.get('successLogin')) {
-          onFetchMasterData();
-        }
-      }
-    }
-  }, [
-    loading.main,
-    authState.get('submitting'),
-    authState.get('successLogin')
-  ]);
 
   useEffect(() => {
     if (loading.submit && !loading.main) {
@@ -246,24 +220,6 @@ function SignIn(props) {
     authState.get('submitting'),
     authState.get('successLogin'),
     authState.get('errorLogin'),
-  ]);
-
-  useEffect(() => {
-    if (loading.submit) {
-      if (!masterState.get('submitting')) {
-        if (masterState.get('success')) {
-          return onStart();
-        }
-        if (masterState.get('error')) {
-          return onLoginError();
-        }
-      }
-    }
-  }, [
-    loading.submit,
-    masterState.get('submitting'),
-    masterState.get('success'),
-    masterState.get('error'),
   ]);
 
   /** RENDER */

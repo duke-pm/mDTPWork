@@ -5,6 +5,33 @@
  ** Description: Description of Common.js
  **/
 const Commons = {
+  SCHEMA_DROPDOWN: {
+    DEPARTMENT: {
+      label: 'deptName',
+      value: 'deptCode',
+      icon: 'icon',
+      hidden: 'hidden',
+    },
+    REGION: {
+      label: 'regionName',
+      value: 'regionCode',
+      icon: 'icon',
+      hidden: 'hidden',
+    },
+    COMPANY: {
+      label: 'cmpnName',
+      value: 'cmpnID',
+      icon: 'icon',
+      hidden: 'hidden',
+    },
+    ASSETS_OF_USER: {
+      label: 'assetName',
+      value: 'assetID',
+      icon: 'icon',
+      hidden: 'hidden',
+    },
+  },
+
   APPROVED_TYPE: {
     ASSETS: {
       code: 1,

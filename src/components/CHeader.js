@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
+import { showMessage } from 'react-native-flash-message';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 /** COMPONENTS */
 import CText from './CText';
@@ -47,6 +48,7 @@ function CHeader(props) {
   } = props;
 
   const [isSearch, setIsSearch] = useState(false);
+  const [valueSearch, setValueSearch] = useState('');
 
   /** HANDLE FUNC */
   const handleBack = () => {
@@ -62,8 +64,20 @@ function CHeader(props) {
     onPressAddNew();
   };
 
-  const handleSearch = (value) => {
-    onPressSearch(value);
+  const handleSearch = () => {
+    if (valueSearch.trim().length !== 0) {
+      onPressSearch(valueSearch);
+    } else {
+      showMessage({
+        message: t('error:find_not_epmty'),
+        type: 'warning',
+        icon: 'warning',
+      });
+    }
+  };
+
+  const handleChangeValue = (value) => {
+    setValueSearch(value);
   };
 
   /** RENDER */
@@ -90,6 +104,8 @@ function CHeader(props) {
             holder={'approved_assets:search_request'}
             autoFocus
             returnKey={'search'}
+            value={valueSearch}
+            onChangeValue={handleChangeValue}
             onChangeInput={handleSearch}
             onPressIconLast={handleSearch}
           />
