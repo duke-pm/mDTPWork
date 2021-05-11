@@ -65,15 +65,7 @@ function CHeader(props) {
   };
 
   const handleSearch = () => {
-    if (valueSearch.trim().length !== 0) {
-      onPressSearch(valueSearch);
-    } else {
-      showMessage({
-        message: t('error:find_not_epmty'),
-        type: 'warning',
-        icon: 'warning',
-      });
-    }
+    onPressSearch(valueSearch);
   };
 
   const handleChangeValue = (value) => {
