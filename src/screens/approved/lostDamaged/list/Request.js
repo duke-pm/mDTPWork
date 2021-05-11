@@ -22,15 +22,15 @@ function ListRequest(props) {
     <CList
       style={cStyles.mt16}
       data={props.data}
-      item={(index, data, onPress) => {
-        let detail = props.dataDetail.filter(f => f.requestID === data.requestID);
-        let process = props.dataProcess.filter(f => f.requestID === data.requestID);
+      item={({ item, index }) => {
+        let detail = props.dataDetail.filter(f => f.requestID === item.requestID);
+        let process = props.dataProcess.filter(f => f.requestID === item.requestID);
         process = process.sort((a, b) => a.levelApproval - b.levelApproval);
         return (
           <RequestItem
             isLostDamage={true}
             index={index}
-            data={data}
+            data={item}
             dataDetail={detail}
             dataProcess={process}
             onRefresh={onRefresh}

@@ -131,7 +131,8 @@ function CInput(props) {
                 cStyles.textDefault,
                 { color: props.valueColor },
                 IS_IOS && cStyles.mb6,
-                styleInput]}
+                styleInput,
+              ]}
               editable={!disabled}
               placeholder={t(holder)}
               placeholderTextColor={holderColor}
@@ -183,7 +184,6 @@ function CInput(props) {
               cStyles.roundedTopRight2,
               cStyles.roundedBottomRight2,
               { backgroundColor: colors.GRAY_300 },
-              IS_ANDROID && cStyles.mr1,
               styles.con_input_icon,
               iconLastStyle,
             ]}
@@ -203,7 +203,6 @@ function CInput(props) {
               cStyles.center,
               cStyles.roundedTopRight2,
               cStyles.roundedBottomRight2,
-              IS_ANDROID && cStyles.mr1,
               styles.con_input_icon,
               iconLastStyle,
             ]}

@@ -23,7 +23,7 @@ import { cStyles } from '~/utils/style';
 import Commons from '~/utils/common/Commons';
 import Assets from '~/utils/asset/Assets';
 
-function RequestItem(props) {
+const RequestItem = React.memo(function RequestItem(props) {
   const { isLostDamage = false } = props;
 
   const { t } = useTranslation();
@@ -136,7 +136,7 @@ function RequestItem(props) {
       </View>
     </TouchableOpacity>
   );
-};
+});
 
 const styles = StyleSheet.create({
   header_left: {

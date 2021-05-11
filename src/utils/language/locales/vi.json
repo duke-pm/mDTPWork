@@ -60,7 +60,7 @@
     "error_login": "Đăng nhập không thành công. Vui lòng thử lại sau!"
   },
   "forgot_password": {
-    "title": "Quên mật khẩu",
+    "title": "Quên Mật Khẩu",
     "input_email": "E-mail",
     "sub_title": "Vui lòng nhập E-mail để chúng tôi có thể gửi lại mật khẩu mới cho bạn"
   },
@@ -68,7 +68,7 @@
     "title": "Tổng Quan"
   },
   "account": {
-    "title": "Tài khoản"
+    "title": "Tài Khoản"
   },
   "approved": {
     "title": "Cấp Phát",
@@ -143,7 +143,7 @@
     "detail": "Chi tiết cấp phát"
   },
   "approved_lost_damaged": {
-    "title": "Báo hỏng | Báo mất",
+    "title": "Báo Hỏng | Báo Mất",
     "title_assets": "Tài Sản",
     "filter": "Bộ lọc:",
     "status": "Trạng thái",
@@ -174,7 +174,7 @@
     "title_lost": "Mất"
   },
   "add_approved_lost_damaged": {
-    "title": "Thêm mới báo hỏng/mất",
+    "title": "Thêm Mới Báo Hỏng/Mất",
     "date_request": "Ngày yêu cầu",
     "assets": "Tài sản",
     "holder_assets": "Chọn tài sản...",

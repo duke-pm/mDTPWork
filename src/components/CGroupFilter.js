@@ -76,7 +76,7 @@ function CGroupFilter(props) {
       containerStyle
     ]}>
       <View style={[cStyles.pt6, styles.con_left]}>
-        <CText label={t(label)} />
+        <CText styles={'fontMedium'} label={t(label)} />
       </View>
 
       <View style={[cStyles.row, cStyles.itemsCenter, styles.con_right]}>
@@ -110,7 +110,7 @@ function CGroupFilter(props) {
                     !isCheck && styles.unactive,
                     isCheck && styles.active
                   ]}>
-                    <CText styles={'textRight'} label={item.label} />
+                    <CText styles={'textRight textMeta fontMedium'} label={item.label} />
                   </View>
                 </View>
               </TouchableOpacity>
@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.WHITE,
     borderWidth: 1,
     borderColor: colors.SECONDARY,
-    borderTopLeftRadius: 30,
+    borderTopLeftRadius: 40,
   },
   unactive: {
     backgroundColor: colors.WHITE,

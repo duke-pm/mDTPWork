@@ -166,13 +166,11 @@ function Filter(props) {
       cStyles.rounded2,
       cStyles.mx16,
       cStyles.mt16,
+      cStyles.borderAll,
       show && cStyles.pb12,
       styles.container
     ]}>
-      <TouchableOpacity
-        activeOpacity={1}
-        onPress={handleToggle}
-      >
+      <TouchableOpacity activeOpacity={1} onPress={handleToggle}>
         <View style={[
           cStyles.row,
           cStyles.itemsCenter,
@@ -199,7 +197,7 @@ function Filter(props) {
         <View style={cStyles.px16}>
           <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween]}>
             <View style={styles.text_date}>
-              <CText customStyles={[cStyles.pt16, cStyles.textLeft,]} label={'approved_assets:from_date'} />
+              <CText styles={'fontMedium pt16 textLeft'} label={'approved_assets:from_date'} />
             </View>
             <CInput
               containerStyle={[cStyles.justifyEnd, styles.input_date]}
@@ -221,7 +219,7 @@ function Filter(props) {
 
           <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween]}>
             <View style={styles.text_date}>
-              <CText customStyles={[cStyles.pt16, cStyles.textLeft,]} label={'approved_assets:to_date'} />
+              <CText styles={'fontMedium pt16 textLeft'} label={'approved_assets:to_date'} />
             </View>
             <CInput
               containerStyle={[cStyles.justifyEnd, styles.input_date]}
@@ -268,10 +266,19 @@ function Filter(props) {
             onChange={handleChangeResolveRequest}
           />
 
-          <CButton
-            label={'common:apply'}
-            onPress={handleFilter}
-          />
+          <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween, cStyles.pt10]}>
+            <CButton
+              style={{ width: cStyles.deviceWidth / 2.5 }}
+              variant={'outlined'}
+              label={'common:close'}
+              onPress={handleToggle}
+            />
+            <CButton
+              style={{ width: cStyles.deviceWidth / 2.5 }}
+              label={'common:apply'}
+              onPress={handleFilter}
+            />
+          </View>
         </View>
       }
 
@@ -289,7 +296,7 @@ function Filter(props) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.GRAY_300,
+    backgroundColor: colors.GRAY_200,
   },
   text_date: { flex: 0.3 },
   input_date: { flex: 0.7 },

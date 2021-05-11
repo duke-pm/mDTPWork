@@ -29,9 +29,10 @@ function CList(props) {
       style={[cStyles.flex1, style]}
       contentContainerStyle={[cStyles.px16, contentStyle]}
       data={props.data}
-      renderItem={({ item, index }) => props.item(index, item, onPressItem)}
+      renderItem={props.item}
       keyExtractor={(item, index) => index.toString()}
       removeClippedSubviews={IS_ANDROID}
+      initialNumToRender={10}
 
       refreshing={props.refreshing}
       onRefresh={onRefresh}

@@ -74,14 +74,14 @@ function RejectModal(props) {
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={cStyles.flexCenter}>
-          <View style={[cStyles.rounded1, styles.background]}>
+          <View style={[cStyles.rounded2, styles.background]}>
             <View style={[
               cStyles.py10,
-              cStyles.roundedTopLeft1,
-              cStyles.roundedTopRight1,
+              cStyles.roundedTopLeft2,
+              cStyles.roundedTopRight2,
               { backgroundColor: colors.PRIMARY }
             ]}>
-              <CText styles={'colorWhite textCenter'} label={'common:app_name'} />
+              <CText styles={'colorWhite textCenter fontMedium'} label={'common:app_name'} />
             </View>
 
             <View style={cStyles.p10}>
@@ -113,12 +113,13 @@ function RejectModal(props) {
               cStyles.row,
               cStyles.itemsCenter,
               cStyles.justifyEvenly,
-              cStyles.px16
+              cStyles.px16,
+              cStyles.py10
             ]}>
               <CButton
                 style={styles.button_base}
                 block
-                color={colors.GRAY_800}
+                variant={'outlined'}
                 label={'common:cancel'}
                 onPress={onCloseReject}
               />
