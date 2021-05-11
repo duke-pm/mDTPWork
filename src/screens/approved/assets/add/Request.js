@@ -651,64 +651,56 @@ function AddRequest(props) {
 
               {/** Department */}
               <View style={[
-                cStyles.row,
-                cStyles.itemsCenter,
                 cStyles.pt16,
                 IS_IOS && { zIndex: 10 }
               ]}>
-                <View style={[cStyles.flex1, cStyles.pr4]}>
-                  <CText styles={'textTitle'} label={'add_approved_assets:department'} />
-                  <CDropdown
-                    loading={loading.main}
-                    controller={instance => departmentRef.current = instance}
-                    data={masterState.get('department')}
-                    disabled={true}
-                    searchable={true}
-                    searchablePlaceholder={t('add_approved_assets:search_department')}
-                    error={error.department.status}
-                    errorHelper={error.department.helper}
-                    holder={'add_approved_assets:holder_department'}
-                    schema={{
-                      label: Commons.SCHEMA_DROPDOWN.DEPARTMENT.label,
-                      value: Commons.SCHEMA_DROPDOWN.DEPARTMENT.value,
-                      icon: Commons.SCHEMA_DROPDOWN.DEPARTMENT.icon,
-                      hidden: Commons.SCHEMA_DROPDOWN.DEPARTMENT.hidden,
-                    }}
-                    defaultValue={form.department}
-                    onChangeItem={(value, index) => handleCombobox(value, INPUT_NAME.DEPARTMENT)}
-                    onOpen={() => onOpenCombobox(INPUT_NAME.DEPARTMENT)}
-                  />
-                </View>
+                <CText styles={'textTitle'} label={'add_approved_assets:department'} />
+                <CDropdown
+                  loading={loading.main}
+                  controller={instance => departmentRef.current = instance}
+                  data={masterState.get('department')}
+                  disabled={true}
+                  searchable={true}
+                  searchablePlaceholder={t('add_approved_assets:search_department')}
+                  error={error.department.status}
+                  errorHelper={error.department.helper}
+                  holder={'add_approved_assets:holder_department'}
+                  schema={{
+                    label: Commons.SCHEMA_DROPDOWN.DEPARTMENT.label,
+                    value: Commons.SCHEMA_DROPDOWN.DEPARTMENT.value,
+                    icon: Commons.SCHEMA_DROPDOWN.DEPARTMENT.icon,
+                    hidden: Commons.SCHEMA_DROPDOWN.DEPARTMENT.hidden,
+                  }}
+                  defaultValue={form.department}
+                  onChangeItem={(value, index) => handleCombobox(value, INPUT_NAME.DEPARTMENT)}
+                  onOpen={() => onOpenCombobox(INPUT_NAME.DEPARTMENT)}
+                />
               </View>
 
               {/** Region */}
               <View style={[
-                cStyles.row,
-                cStyles.itemsCenter,
                 cStyles.pt16,
                 IS_IOS && { zIndex: 9 }
               ]}>
-                <View style={[cStyles.flex1, cStyles.pl4]}>
-                  <CText styles={'textTitle'} label={'add_approved_assets:region'} />
-                  <CDropdown
-                    loading={loading.main}
-                    controller={instance => regionRef.current = instance}
-                    data={masterState.get('region')}
-                    disabled={true}
-                    error={error.region.status}
-                    errorHelper={error.region.helper}
-                    holder={'add_approved_assets:holder_region'}
-                    schema={{
-                      label: Commons.SCHEMA_DROPDOWN.REGION.label,
-                      value: Commons.SCHEMA_DROPDOWN.REGION.value,
-                      icon: Commons.SCHEMA_DROPDOWN.REGION.icon,
-                      hidden: Commons.SCHEMA_DROPDOWN.REGION.hidden,
-                    }}
-                    defaultValue={form.region}
-                    onChangeItem={value => handleCombobox(value, INPUT_NAME.REGION)}
-                    onOpen={() => onOpenCombobox(INPUT_NAME.REGION)}
-                  />
-                </View>
+                <CText styles={'textTitle'} label={'add_approved_assets:region'} />
+                <CDropdown
+                  loading={loading.main}
+                  controller={instance => regionRef.current = instance}
+                  data={masterState.get('region')}
+                  disabled={true}
+                  error={error.region.status}
+                  errorHelper={error.region.helper}
+                  holder={'add_approved_assets:holder_region'}
+                  schema={{
+                    label: Commons.SCHEMA_DROPDOWN.REGION.label,
+                    value: Commons.SCHEMA_DROPDOWN.REGION.value,
+                    icon: Commons.SCHEMA_DROPDOWN.REGION.icon,
+                    hidden: Commons.SCHEMA_DROPDOWN.REGION.hidden,
+                  }}
+                  defaultValue={form.region}
+                  onChangeItem={value => handleCombobox(value, INPUT_NAME.REGION)}
+                  onOpen={() => onOpenCombobox(INPUT_NAME.REGION)}
+                />
               </View>
 
               {/** Assets */}
@@ -785,7 +777,6 @@ function AddRequest(props) {
               {/** Where use */}
               <View style={[
                 cStyles.pt16,
-                cStyles.pr4,
                 IS_IOS && { zIndex: 8 }
               ]}>
                 <CText styles={'textTitle'} label={'add_approved_assets:where_use'} />

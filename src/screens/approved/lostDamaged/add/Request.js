@@ -496,34 +496,30 @@ function AddRequest(props) {
               {/** Assets */}
               {!isDetail &&
                 <View style={[
-                  cStyles.row,
-                  cStyles.itemsCenter,
                   cStyles.pt16,
                   IS_IOS && { zIndex: 10 }
                 ]}>
-                  <View style={cStyles.flex1}>
-                    <CText styles={'textTitle'} label={'add_approved_lost_damaged:assets'} />
-                    <CDropdown
-                      loading={loading.main}
-                      controller={instance => assetsRef.current = instance}
-                      data={masterState.get('assetByUser')}
-                      disabled={loading.main || isDetail}
-                      searchable={true}
-                      searchablePlaceholder={t('add_approved_lost_damaged:search_assets')}
-                      error={error.assets.status}
-                      errorHelper={error.assets.helper}
-                      holder={'add_approved_lost_damaged:holder_assets'}
-                      schema={{
-                        label: Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.label,
-                        value: Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.value,
-                        icon: Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.icon,
-                        hidden: Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.hidden,
-                      }}
-                      defaultValue={form.assetID}
-                      onChangeItem={value => handleCombobox(value, INPUT_NAME.ASSETID, reasonRef)}
-                      onOpen={() => onOpenCombobox(INPUT_NAME.ASSETID)}
-                    />
-                  </View>
+                  <CText styles={'textTitle'} label={'add_approved_lost_damaged:assets'} />
+                  <CDropdown
+                    loading={loading.main}
+                    controller={instance => assetsRef.current = instance}
+                    data={masterState.get('assetByUser')}
+                    disabled={loading.main || isDetail}
+                    searchable={true}
+                    searchablePlaceholder={t('add_approved_lost_damaged:search_assets')}
+                    error={error.assets.status}
+                    errorHelper={error.assets.helper}
+                    holder={'add_approved_lost_damaged:holder_assets'}
+                    schema={{
+                      label: Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.label,
+                      value: Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.value,
+                      icon: Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.icon,
+                      hidden: Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.hidden,
+                    }}
+                    defaultValue={form.assetID}
+                    onChangeItem={value => handleCombobox(value, INPUT_NAME.ASSETID, reasonRef)}
+                    onOpen={() => onOpenCombobox(INPUT_NAME.ASSETID)}
+                  />
                 </View>
               }
 
