@@ -9,8 +9,8 @@ const Mockup = [
   {
     id: 'approved',
     name: 'Approved',
-    title: 'approved:title',
-    icon: require('../../../../../assets/images/icon/listApproved.png')
+    title: 'approved:assets',
+    icon: require('../../../../../assets/images/icon/assets.png')
   },
 ];
 

@@ -79,13 +79,12 @@ function CButton(props) {
   return (
     <TouchableOpacity
       disabled={disabled || loading}
-      activeOpacity={0.5}
       onPress={onPress}
     >
       <View style={[
         cStyles.row,
         cStyles.center,
-        cStyles.rounded2,
+        cStyles.rounded1,
         cStyles.my6,
         cStyles.px16,
         styles.con_button,
@@ -95,7 +94,7 @@ function CButton(props) {
         variant === 'outlined' && {
           borderColor: color,
           borderWidth: 1,
-          backgroundColor: 'transparent',
+          backgroundColor: colors.WHITE,
         },
         variant === 'text' && {
           backgroundColor: 'transparent',

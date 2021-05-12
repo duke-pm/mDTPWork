@@ -160,6 +160,7 @@ function SignIn(props) {
   };
 
   const onStart = () => {
+    IS_ANDROID && StatusBar.setBackgroundColor(colors.PRIMARY);
     showMessage({
       message: t('common:app_name'),
       description: t('sign_in:success_login'),

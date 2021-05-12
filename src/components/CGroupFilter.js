@@ -35,6 +35,7 @@ function CGroupFilter(props) {
   const [values, setValues] = useState(items);
   const [valuesChoose, setValuesChoose] = useState(activeAll ? items : []);
 
+  /** HANDLE FUNC */
   const handleItem = (data) => {
     let tmpValues = [...valuesChoose];
     let fItem = tmpValues.findIndex(f => f.value == data.value);
@@ -45,6 +46,7 @@ function CGroupFilter(props) {
     onChange(callback);
   };
 
+  /** LIFE CYCLE */
   useEffect(() => {
     let chooses = [];
     for (let i of itemsChoose) {
@@ -66,8 +68,9 @@ function CGroupFilter(props) {
       }
     }
     setValuesChoose(chooses);
-  }, [])
+  }, []);
 
+  /** RENDER */
   return (
     <View style={[
       cStyles.pt10,
@@ -81,6 +84,7 @@ function CGroupFilter(props) {
 
       <View style={[cStyles.row, cStyles.itemsCenter, styles.con_right]}>
         <FlatList
+          contentContainerStyle={[cStyles.row, cStyles.flexWrap]}
           data={values}
           renderItem={({ item, index }) => {
             let isCheck = valuesChoose.find(f => f.value == item.value);
@@ -89,7 +93,7 @@ function CGroupFilter(props) {
               <TouchableOpacity onPress={() => handleItem(item)}>
                 <View style={[
                   cStyles.rounded1,
-                  cStyles.ml10,
+                  cStyles.ml6,
                   cStyles.mt6,
                   !isCheck && styles.con_unactive,
                   isCheck && styles.con_active,
@@ -110,15 +114,17 @@ function CGroupFilter(props) {
                     !isCheck && styles.unactive,
                     isCheck && styles.active
                   ]}>
-                    <CText styles={'textRight textMeta fontMedium'} label={item.label} />
+                    <CText styles={'textMeta fontMedium colorPrimary'} label={item.label} />
                   </View>
                 </View>
               </TouchableOpacity>
             )
           }}
           keyExtractor={(item, index) => index.toString()}
-          numColumns={2}
           removeClippedSubviews={IS_ANDROID}
+          scrollEnabled={false}
+          horizontal={false}
+          showsVerticalScrollIndicator={false}
         />
       </View>
     </View>

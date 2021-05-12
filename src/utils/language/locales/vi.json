@@ -20,7 +20,7 @@
     "from_upload": "Bạn có thể chọn ảnh từ",
     "from_gallery": "Thư viện ảnh",
     "from_camera": "Camera",
-    "apply": "Áp dụng",
+    "apply": "Áp Dụng",
     "type": "Tài sản ",
     "status": "Trạng thái "
   },
@@ -72,7 +72,7 @@
   },
   "approved": {
     "title": "Cấp Phát",
-    "assets": "Tài sản"
+    "assets": "Tài Sản"
   },
   "approved_assets": {
     "title": "Cấp Phát Tài Sản",
@@ -89,6 +89,7 @@
     "status_all": "Tất cả",
     "status_wait": "Chờ duyệt",
     "status_approved": "Đã duyệt",
+    "status_approved_done": "Đã duyệt/Hoàn thành",
     "status_done": "Hoàn thành",
     "status_reject": "Từ chối",
     "search_request": "Tìm kiếm...",

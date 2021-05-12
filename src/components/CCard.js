@@ -26,7 +26,7 @@ const CCard = React.memo(function CCard(props) {
 
   return (
     <View style={[
-      cStyles.rounded2,
+      cStyles.rounded1,
       cStyles.mt32,
       cStyles.borderAll,
       styles.container,

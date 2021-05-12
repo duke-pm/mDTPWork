@@ -56,7 +56,7 @@ const STATUS_REQUEST = [
   },
   {
     value: 2,
-    label: 'approved_assets:status_approved',
+    label: 'approved_assets:status_approved_done',
   },
   {
     value: 4,
@@ -163,7 +163,7 @@ function Filter(props) {
   /** RENDER */
   return (
     <View style={[
-      cStyles.rounded2,
+      cStyles.rounded1,
       cStyles.mx16,
       cStyles.mt16,
       cStyles.borderAll,
@@ -180,15 +180,15 @@ function Filter(props) {
           <View style={[cStyles.row, cStyles.itemsCenter]}>
             <Icon
               name={'filter'}
-              color={colors.BLACK}
-              size={scalePx(3.5)}
+              color={colors.TEXT_BASE}
+              size={scalePx(3)}
             />
             <CText styles={'H6 pl10'} label={'approved_assets:filter'} />
           </View>
           <Icon
             name={show ? 'chevron-up' : 'chevron-down'}
-            size={25}
-            color={colors.BLACK}
+            size={scalePx(3)}
+            color={colors.ICON_BASE}
           />
         </View>
       </TouchableOpacity>
@@ -209,9 +209,9 @@ function Filter(props) {
                 : moment(data.fromDate).format(
                   commonState.get('formatDateView')
                 )}
-              valueColor={colors.BLACK}
+              valueColor={colors.TEXT_BASE}
               iconLast={'calendar'}
-              iconLastColor={colors.GRAY_700}
+              iconLastColor={colors.ICON_BASE}
               onPressIconLast={() => handleDateInput(INPUT_NAME.FROM_DATE)}
               onPressRemoveValue={() => setData({ ...data, fromDate: '' })}
             />
@@ -231,9 +231,9 @@ function Filter(props) {
                 : moment(data.toDate).format(
                   commonState.get('formatDateView')
                 )}
-              valueColor={colors.BLACK}
+              valueColor={colors.TEXT_BASE}
               iconLast={'calendar'}
-              iconLastColor={colors.GRAY_700}
+              iconLastColor={colors.ICON_BASE}
               onPressIconLast={() => handleDateInput(INPUT_NAME.TO_DATE)}
               onPressRemoveValue={() => setData({ ...data, toDate: '' })}
             />

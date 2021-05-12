@@ -14,7 +14,6 @@ import {
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
-import { showMessage } from 'react-native-flash-message';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 /** COMPONENTS */
 import CText from './CText';

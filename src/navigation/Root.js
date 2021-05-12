@@ -5,23 +5,18 @@
  ** Description: Description of Root.js
  **/
 import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator, TransitionPresets } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-/** COMPONENTS */
-import CText from '~/components/CText';
 /** COMMON */
 import Routes from './Routes';
 import { IS_IOS, scalePx } from '~/utils/helper';
-import { colors, cStyles } from '~/utils/style';
+import { colors } from '~/utils/style';
 /** INIT NAVIGATOR OF APP */
 const StackMain = createStackNavigator();
 const TabMain = createBottomTabNavigator();
 
 export function RootTab(props) {
-  const { t } = useTranslation();
-
   return (
     <TabMain.Navigator
       initialRouteName={Routes.MAIN.DASHBOARD.name}
@@ -44,24 +39,6 @@ export function RootTab(props) {
 
           return <Icon name={iconName} size={tmpSize} color={color} />;
         },
-        // tabBarLabel: ({ focused, color, size }) => {
-        //   let title = '';
-
-        //   switch (route.name) {
-        //     case Routes.MAIN.DASHBOARD.name:
-        //       title = 'dashboard:title';
-        //       break;
-        //     case Routes.MAIN.ACCOUNT.name:
-        //       title = 'account:title';
-        //       break;
-        //   }
-        //   return (
-        //     <CText
-        //       styles={'textMeta ' + (focused ? 'colorPrimary' : 'colorGray600')}
-        //       label={t(title)}
-        //     />
-        //   );
-        // },
       })}
       tabBarOptions={{
         activeTintColor: colors.PRIMARY,
@@ -85,8 +62,11 @@ export function RootMain(props) {
   return (
     <StackMain.Navigator
       initialRouteName={Routes.AUTHENTICATION.SIGN_IN.name}
-      headerMode={'none'}
-      screenOptions={{ gestureEnabled: false }}
+      screenOptions={{
+        headerShown: false,
+        gestureEnabled: true,
+        ...TransitionPresets.ScaleFromCenterAndroid,
+      }}
     >
       <StackMain.Screen
         name={Routes.AUTHENTICATION.SIGN_IN.name}

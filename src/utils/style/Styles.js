@@ -8,6 +8,7 @@ import { isIphoneX } from "react-native-iphone-x-helper";
 import { Platform, Dimensions } from 'react-native';
 import { scalePx } from '~/utils/helper';
 import Colors from './Colors';
+import { colors } from ".";
 
 const fBold = 'Roboto-Bold';
 const fMedium = 'Roboto-Medium';
@@ -463,27 +464,27 @@ const text = {
   colorPurple: { color: '#9561E2' },
   colorPink: { color: '#F66D9B' },
 
-  H1: { fontSize: scalePx(5), color: 'black', fontFamily: fBold, lineHeight: 34 },
-  H2: { fontSize: scalePx(4.5), color: 'black', fontFamily: fBold, lineHeight: 32 },
-  H3: { fontSize: scalePx(3.5), color: 'black', fontFamily: fBold, lineHeight: 30 },
-  H4: { fontSize: scalePx(3.5), color: 'black', fontFamily: fBold, lineHeight: 28 },
-  H5: { fontSize: scalePx(3), color: 'black', fontFamily: fMedium, lineHeight: 26 },
-  H6: { fontSize: scalePx(2.5), color: 'black', fontFamily: fMedium, lineHeight: 23 },
+  H1: { fontSize: scalePx(5), color: '#242833', fontFamily: fBold, lineHeight: 34 },
+  H2: { fontSize: scalePx(4.5), color: '#242833', fontFamily: fBold, lineHeight: 32 },
+  H3: { fontSize: scalePx(3.5), color: '#242833', fontFamily: fBold, lineHeight: 30 },
+  H4: { fontSize: scalePx(3.5), color: '#242833', fontFamily: fBold, lineHeight: 28 },
+  H5: { fontSize: scalePx(3), color: '#242833', fontFamily: fMedium, lineHeight: 26 },
+  H6: { fontSize: scalePx(2.5), color: '#242833', fontFamily: fMedium, lineHeight: 23 },
   textTitle: {
     fontSize: scalePx(2.3),
-    color: 'black',
+    color: '#242833',
     fontFamily: fMedium,
     lineHeight: platform === PLATFORM.IOS ? 23 : 24
   },
   textMeta: {
     fontSize: scalePx(1.8),
-    color: '#4a5568',
+    color: '#8D94A6',
     fontFamily: fLight,
     lineHeight: 20
   },
   textDefault: {
     fontSize: scalePx(2.3),
-    color: 'black',
+    color: '#242833',
     fontFamily: fRegular,
     lineHeight: platform === PLATFORM.IOS ? 23 : 24,
   },

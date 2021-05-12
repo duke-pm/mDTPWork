@@ -74,7 +74,7 @@ function RejectModal(props) {
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={cStyles.flexCenter}>
-          <View style={[cStyles.rounded2, styles.background]}>
+          <View style={[cStyles.rounded1, styles.background]}>
             <View style={[
               cStyles.py10,
               cStyles.roundedTopLeft2,

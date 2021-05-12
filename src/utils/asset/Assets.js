@@ -17,6 +17,7 @@ const Assets = {
   iconListApproved: require('../../../assets/images/icon/listApproved.png'),
   iconUserDefault: require('../../../assets/images/icon/userDefault.png'),
   iconImageDefault: require('../../../assets/images/icon/imageDefault.png'),
+  iconAssets: require('../../../assets/images/icon/assets.png'),
 };
 
 export default Assets;

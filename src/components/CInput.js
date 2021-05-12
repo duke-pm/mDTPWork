@@ -36,13 +36,13 @@ function CInput(props) {
     disabled = false,
 
     icon = null,
-    iconColor = colors.BLACK,
+    iconColor = colors.ICON_BASE,
     iconLast = null,
-    iconLastColor = colors.BLACK,
+    iconLastColor = colors.ICON_BASE,
     iconLastStyle = {},
 
     holder = '',
-    holderColor = colors.GRAY_600,
+    holderColor = colors.TEXT_META,
     textAlign = 'left',
     keyboard = 'default',
     returnKey = 'next',
@@ -95,7 +95,7 @@ function CInput(props) {
       <View style={[
         cStyles.row,
         cStyles.itemsCenter,
-        cStyles.rounded2,
+        cStyles.rounded1,
         cStyles.mt6,
         styles.con_input,
         disabled && styles.disabled,
@@ -171,8 +171,8 @@ function CInput(props) {
           >
             <Icon
               name={'close-circle-outline'}
-              color={colors.GRAY_500}
-              size={scalePx(3.5)}
+              color={colors.RED}
+              size={scalePx(3)}
             />
           </Component>
         }
@@ -181,8 +181,8 @@ function CInput(props) {
           <Component
             style={[
               cStyles.center,
-              cStyles.roundedTopRight2,
-              cStyles.roundedBottomRight2,
+              cStyles.roundedTopRight1,
+              cStyles.roundedBottomRight1,
               { backgroundColor: colors.GRAY_300 },
               styles.con_input_icon,
               iconLastStyle,
@@ -192,7 +192,7 @@ function CInput(props) {
             <Icon
               name={iconLast}
               color={iconLastColor}
-              size={scalePx(3.5)}
+              size={scalePx(3)}
             />
           </Component>
         }
@@ -201,8 +201,8 @@ function CInput(props) {
           <Component
             style={[
               cStyles.center,
-              cStyles.roundedTopRight2,
-              cStyles.roundedBottomRight2,
+              cStyles.roundedTopRight1,
+              cStyles.roundedBottomRight1,
               styles.con_input_icon,
               iconLastStyle,
             ]}

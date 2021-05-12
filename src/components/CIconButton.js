@@ -18,7 +18,7 @@ function CIconButton(props) {
   const {
     style,
     iconName = '',
-    iconColor = colors.BLACK,
+    iconColor = colors.ICON_BASE,
     iconProps = {},
     onPress = () => { },
   } = props;
