@@ -17,7 +17,6 @@ import {
   Keyboard,
   StatusBar,
 } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { showMessage } from 'react-native-flash-message';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
@@ -32,9 +31,12 @@ import Assets from '~/utils/asset/Assets';
 import { LOGIN } from '~/config/constants';
 import { colors, cStyles } from '~/utils/style';
 import {
+  getSecretInfo,
   IS_ANDROID,
   IS_IOS,
-  resetRoute
+  removeSecretInfo,
+  resetRoute,
+  saveSecretInfo
 } from '~/utils/helper';
 /* REDUX */
 import * as Actions from '~/redux/actions';
@@ -120,9 +122,9 @@ function SignIn(props) {
         jobTitle: authState.getIn(['login', 'jobTitle']),
         expired: authState.getIn(['login', 'expired']),
       }
-      await AsyncStorage.setItem(LOGIN, JSON.stringify(dataLogin));
+      saveSecretInfo({ key: LOGIN, value: dataLogin });
     } else {
-      await AsyncStorage.removeItem(LOGIN);
+      await removeSecretInfo(LOGIN);
     }
     onStart();
   };
@@ -172,11 +174,10 @@ function SignIn(props) {
   };
 
   const onCheckDataLogin = async () => {
-    let dataLogin = await AsyncStorage.getItem(LOGIN);
+    let dataLogin = await getSecretInfo(LOGIN);
     if (dataLogin) {
       console.log('[LOG] === SignIn Local === ');
       setLoading({ main: false, submit: true });
-      dataLogin = JSON.parse(dataLogin);
       dataLogin = {
         access_token: dataLogin.accessToken,
         token_type: dataLogin.tokenType,

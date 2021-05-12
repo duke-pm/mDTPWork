@@ -1,8 +1,8 @@
 /**
- ** Name: 
+ ** Name: Helpers
  ** Author: 
  ** CreateAt: 2021
- ** Description: Description of .js
+ ** Description: Description of Helpers.js
  **/
 import {
   PixelRatio,
@@ -14,6 +14,7 @@ import {
 import { isIphoneX } from 'react-native-iphone-x-helper';
 import ImagePicker from 'react-native-image-crop-picker';
 import { PERMISSIONS, request } from 'react-native-permissions';
+import EncryptedStorage from 'react-native-encrypted-storage';
 
 export const IS_ANDROID = Platform.OS === 'android';
 export const IS_IOS = Platform.OS === 'ios';
@@ -146,4 +147,44 @@ export async function choosePhotoFromGallery(props) {
   if (props) params = { ...params, ...props };
   let result = await ImagePicker.openPicker(params);
   return result;
+};
+
+export async function saveSecretInfo({ key, value }) {
+  try {
+    await EncryptedStorage.setItem(
+      key,
+      JSON.stringify(value)
+    );
+  } catch (error) {
+    return false;
+  }
+};
+
+export async function getSecretInfo(key) {
+  try {
+    const data = await EncryptedStorage.getItem(key);
+    if (data !== undefined) {
+      return JSON.parse(data);
+    } else {
+      return null;
+    }
+  } catch (error) {
+    return false;
+  }
+};
+
+export async function removeSecretInfo(key) {
+  try {
+    await EncryptedStorage.removeItem(key);
+  } catch (error) {
+    return false;
+  }
+};
+
+export async function clearSecretInfo(key) {
+  try {
+    await EncryptedStorage.clear();
+  } catch (error) {
+    return false;
+  }
 };

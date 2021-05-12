@@ -41,6 +41,7 @@ function CHeader(props) {
     subTitle = null,
     left = null,
     right = null,
+    iconBack = null,
 
     onPressAddNew = () => { },
     onPressSearch = () => { },
@@ -76,8 +77,8 @@ function CHeader(props) {
     <View style={[
       cStyles.shadowHeader,
       styles.container,
+      { backgroundColor: background },
       isSearch && cStyles.px16,
-      { backgroundColor: background }
     ]}>
       {isSearch &&
         <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pb6]}>
@@ -115,14 +116,13 @@ function CHeader(props) {
             {hasBack &&
               <TouchableOpacity
                 style={cStyles.itemsStart}
-                activeOpacity={0.5}
                 onPress={handleBack}
               >
                 <Icon
                   style={cStyles.p16}
-                  name={'arrow-left'}
+                  name={iconBack || 'chevron-left'}
                   color={colors.WHITE}
-                  size={scalePx(3.5)}
+                  size={scalePx(4)}
                 />
               </TouchableOpacity>
             }
@@ -130,7 +130,6 @@ function CHeader(props) {
             {hasMenu &&
               <TouchableOpacity
                 style={cStyles.itemsStart}
-                activeOpacity={0.5}
                 onPress={handleBack}
               >
                 <Icon
@@ -163,7 +162,6 @@ function CHeader(props) {
             {hasSearch &&
               <TouchableOpacity
                 style={cStyles.itemsEnd}
-                activeOpacity={0.5}
                 onPress={() => handleToogleSearch(true)}
               >
                 <Icon
@@ -178,7 +176,6 @@ function CHeader(props) {
             {hasAddNew &&
               <TouchableOpacity
                 style={cStyles.itemsEnd}
-                activeOpacity={0.5}
                 onPress={handleAddNew}
               >
                 <Icon

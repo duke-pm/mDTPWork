@@ -4,14 +4,13 @@
  ** CreatedAt: 2021
  ** Description: Description of Auth.js
 **/
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { CommonActions } from '@react-navigation/native';
+import { showMessage } from 'react-native-flash-message';
 /* COMMON */
 import * as types from './types';
 import * as Actions from '~/redux/actions';
 import Services from '~/services';
 import API from '~/services/axios';
-import { resetRoute } from '~/utils/helper';
+import { removeSecretInfo, resetRoute } from '~/utils/helper';
 import { LOGIN } from '~/config/constants';
 import Routes from '~/navigation/Routes';
 
@@ -78,9 +77,14 @@ export const fetchRefreshToken = (params, callback, navigation) => {
           dispatch(loginSuccess(res.data));
           return dispatch(callback());
         } else {
-          AsyncStorage.removeItem(LOGIN);
+          removeSecretInfo(LOGIN);
           dispatch(loginError('error'));
           dispatch(Actions.logout());
+          showMessage({
+            message: 'Phiên làm việc hết hạn. Vui lòng đăng nhập lại!',
+            type: 'warning',
+            icon: 'warning'
+          });
           return resetRoute(navigation, Routes.AUTHENTICATION.SIGN_IN.name);
         }
       })

@@ -465,6 +465,7 @@ function AddRequest(props) {
       }
       header
       hasBack
+      iconBack={'close'}
       title={'add_approved_lost_damaged:' + (isDetail ? 'detail' : 'title')}
       content={
         <CContent>

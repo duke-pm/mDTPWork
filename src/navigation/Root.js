@@ -5,12 +5,12 @@
  ** Description: Description of Root.js
  **/
 import React from 'react';
-import { createStackNavigator, TransitionPresets } from '@react-navigation/stack';
+import { createStackNavigator, TransitionPresets, CardStyleInterpolators } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 /** COMMON */
 import Routes from './Routes';
-import { IS_IOS, scalePx } from '~/utils/helper';
+import { IS_ANDROID, IS_IOS, scalePx } from '~/utils/helper';
 import { colors } from '~/utils/style';
 /** INIT NAVIGATOR OF APP */
 const StackMain = createStackNavigator();
@@ -65,7 +65,6 @@ export function RootMain(props) {
       screenOptions={{
         headerShown: false,
         gestureEnabled: true,
-        ...TransitionPresets.ScaleFromCenterAndroid,
       }}
     >
       <StackMain.Screen
@@ -91,6 +90,11 @@ export function RootMain(props) {
       <StackMain.Screen
         name={Routes.MAIN.ADD_APPROVED_ASSETS.name}
         component={Routes.MAIN.ADD_APPROVED_ASSETS.path}
+        options={{
+          ...IS_ANDROID
+            ? TransitionPresets.RevealFromBottomAndroid
+            : TransitionPresets.ModalTransition
+        }}
       />
       <StackMain.Screen
         name={Routes.MAIN.APPROVED_LOST_DAMAGED.name}
@@ -99,6 +103,11 @@ export function RootMain(props) {
       <StackMain.Screen
         name={Routes.MAIN.ADD_APPROVED_LOST_DAMAGED.name}
         component={Routes.MAIN.ADD_APPROVED_LOST_DAMAGED.path}
+        options={{
+          ...IS_ANDROID
+            ? TransitionPresets.RevealFromBottomAndroid
+            : TransitionPresets.ModalTransition
+        }}
       />
     </StackMain.Navigator>
   );

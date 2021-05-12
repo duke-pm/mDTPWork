@@ -14,7 +14,7 @@ import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
 /* COMMON */
 import Routes from '~/navigation/Routes';
-import { alert, resetRoute } from '~/utils/helper';
+import { alert, clearSecretInfo, resetRoute } from '~/utils/helper';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 
@@ -32,6 +32,7 @@ function Account(props) {
   const handleOk = async () => {
     setLoading(true);
     await AsyncStorage.clear();
+    await clearSecretInfo();
     dispatch(Actions.logout());
     setLoading(false);
     resetRoute(props.navigation, Routes.AUTHENTICATION.SIGN_IN.name);

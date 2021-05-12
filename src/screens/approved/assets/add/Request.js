@@ -604,6 +604,7 @@ function AddRequest(props) {
       }
       header
       hasBack
+      iconBack={'close'}
       title={'add_approved_assets:' + (isDetail ? 'detail' : 'title')}
       content={
         <CContent>

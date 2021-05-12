@@ -37,6 +37,7 @@ function CContainer(props) {
 
     title,
     subTitle,
+    iconBack,
 
     onPressAddNew,
     onPressSearch,
@@ -65,6 +66,7 @@ function CContainer(props) {
             hasMenu={hasMenu}
             hasSearch={hasSearch}
             hasAddNew={hasAddNew}
+            iconBack={iconBack}
             title={title}
             subTitle={subTitle}
             left={headerLeft}
