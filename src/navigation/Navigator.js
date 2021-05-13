@@ -1,13 +1,14 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /**
  ** Name: Navigator
- ** Author: 
+ ** Author:
  ** CreateAt: 2021
  ** Description: Description of Navigator.js
  **/
-import React, { useEffect } from 'react';
-import { compose } from 'redux';
-import { useSelector } from 'react-redux';
-import { withTranslation } from 'react-i18next';
+import React, {useEffect} from 'react';
+import {compose} from 'redux';
+import {useSelector} from 'react-redux';
+import {withTranslation} from 'react-i18next';
 import SplashScreen from 'react-native-splash-screen';
 /* COMPONENTS */
 import RootMain from './Root';
@@ -16,8 +17,7 @@ import NavigationService from './NavigationService';
 import '~/utils/language/config-i18n';
 
 function Navigator(props) {
-
-  const commonState = useSelector(({ common }) => common);
+  const commonState = useSelector(({common}) => common);
 
   /** FUNC */
   const onStartApp = () => {
@@ -31,7 +31,7 @@ function Navigator(props) {
 
   useEffect(() => {
     if (commonState.get('language') !== props.i18n.language) {
-      props.i18n.changeLanguage(language);
+      props.i18n.changeLanguage(commonState.get('language'));
     }
   }, [
     commonState.get('language'),
@@ -50,6 +50,6 @@ function Navigator(props) {
       {...props}
     />
   );
-};
+}
 
 export default compose(withTranslation())(Navigator);

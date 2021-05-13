@@ -1,19 +1,13 @@
 /**
  ** Name: Helpers
- ** Author: 
+ ** Author:
  ** CreateAt: 2021
  ** Description: Description of Helpers.js
  **/
-import {
-  PixelRatio,
-  Platform,
-  StatusBar,
-  Dimensions,
-  Alert,
-} from 'react-native';
-import { isIphoneX } from 'react-native-iphone-x-helper';
+import {PixelRatio, Platform, StatusBar, Dimensions, Alert} from 'react-native';
+import {isIphoneX} from 'react-native-iphone-x-helper';
 import ImagePicker from 'react-native-image-crop-picker';
-import { PERMISSIONS, request } from 'react-native-permissions';
+import {PERMISSIONS, request} from 'react-native-permissions';
 import EncryptedStorage from 'react-native-encrypted-storage';
 
 export const IS_ANDROID = Platform.OS === 'android';
@@ -21,7 +15,7 @@ export const IS_IOS = Platform.OS === 'ios';
 export const SCREEN_HEIGHT = Dimensions.get('window').height;
 export const SCREEN_WIDTH = Dimensions.get('window').width;
 
-export const { height, width } = Dimensions.get('window');
+export const {height, width} = Dimensions.get('window');
 const STANDARD_LENGTH = width > height ? width : height;
 const OFFSET =
   width > height ? 0 : Platform.OS === 'ios' ? 150 : StatusBar.currentHeight; // iPhone X style SafeAreaView size in portrait
@@ -42,14 +36,14 @@ export function sH(heightPercent) {
   // Convert string input to decimal number
   let elemHeight = parseFloat(heightPercent);
   return PixelRatio.roundToNearestPixel((screenHeight * elemHeight) / 100);
-};
+}
 
 export function sW(widthPercent) {
   let screenWidth = Dimensions.get('window').width;
   // Convert string input to decimal number
   let elemWidth = parseFloat(widthPercent);
   return PixelRatio.roundToNearestPixel((screenWidth * elemWidth) / 100);
-};
+}
 
 export function borderRadius(number) {
   if (IS_ANDROID) {
@@ -57,7 +51,7 @@ export function borderRadius(number) {
   } else if (IS_IOS) {
     return number / 2;
   }
-};
+}
 
 export function alert(t, message, onPressOK) {
   return Alert.alert(
@@ -77,9 +71,9 @@ export function alert(t, message, onPressOK) {
     ],
     {
       cancelable: true,
-    }
+    },
   );
-};
+}
 
 export function resetRoute(navigation, routeName, params) {
   return navigation.reset({
@@ -91,7 +85,7 @@ export function resetRoute(navigation, routeName, params) {
       },
     ],
   });
-};
+}
 
 export async function askPermissionsCamera() {
   let perCamera =
@@ -119,7 +113,7 @@ export async function askPermissionsCamera() {
       return true;
     }
   }
-};
+}
 
 export async function choosePhotoFromCamera(props) {
   let params = {
@@ -130,10 +124,12 @@ export async function choosePhotoFromCamera(props) {
     height: 1024,
     width: 768,
   };
-  if (props) params = { ...params, ...props };
+  if (props) {
+    params = {...params, ...props};
+  }
   let result = await ImagePicker.openCamera(params);
   return result;
-};
+}
 
 export async function choosePhotoFromGallery(props) {
   let params = {
@@ -144,21 +140,20 @@ export async function choosePhotoFromGallery(props) {
     height: 1024,
     width: 768,
   };
-  if (props) params = { ...params, ...props };
+  if (props) {
+    params = {...params, ...props};
+  }
   let result = await ImagePicker.openPicker(params);
   return result;
-};
+}
 
-export async function saveSecretInfo({ key, value }) {
+export async function saveSecretInfo({key, value}) {
   try {
-    await EncryptedStorage.setItem(
-      key,
-      JSON.stringify(value)
-    );
+    await EncryptedStorage.setItem(key, JSON.stringify(value));
   } catch (error) {
     return false;
   }
-};
+}
 
 export async function getSecretInfo(key) {
   try {
@@ -171,7 +166,7 @@ export async function getSecretInfo(key) {
   } catch (error) {
     return false;
   }
-};
+}
 
 export async function removeSecretInfo(key) {
   try {
@@ -179,7 +174,7 @@ export async function removeSecretInfo(key) {
   } catch (error) {
     return false;
   }
-};
+}
 
 export async function clearSecretInfo(key) {
   try {
@@ -187,4 +182,4 @@ export async function clearSecretInfo(key) {
   } catch (error) {
     return false;
   }
-};
+}

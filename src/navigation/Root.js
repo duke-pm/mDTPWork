@@ -1,17 +1,17 @@
 /**
  ** Name: Root
- ** Author: 
+ ** Author:
  ** CreateAt: 2021
  ** Description: Description of Root.js
  **/
 import React from 'react';
-import { createStackNavigator, TransitionPresets, CardStyleInterpolators } from '@react-navigation/stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 /** COMMON */
 import Routes from './Routes';
-import { IS_ANDROID, IS_IOS, scalePx } from '~/utils/helper';
-import { colors } from '~/utils/style';
+import {IS_ANDROID, IS_IOS, scalePx} from '~/utils/helper';
+import {colors} from '~/utils/style';
 /** INIT NAVIGATOR OF APP */
 const StackMain = createStackNavigator();
 const TabMain = createBottomTabNavigator();
@@ -23,8 +23,8 @@ export function RootTab(props) {
       backBehavior={'history'}
       headerMode={'none'}
       lazy={true}
-      screenOptions={({ route }) => ({
-        tabBarIcon: ({ focused, color, size }) => {
+      screenOptions={({route}) => ({
+        tabBarIcon: ({focused, color, size}) => {
           let iconName = 'home';
           let tmpSize = IS_IOS ? scalePx(4) : scalePx(3.5);
 
@@ -45,28 +45,27 @@ export function RootTab(props) {
         inactiveTintColor: colors.PRIMARY,
         keyboardHidesTabBar: true,
         showLabel: false,
-      }}
-    >
+      }}>
       <TabMain.Screen
         name={Routes.MAIN.DASHBOARD.name}
-        component={Routes.MAIN.DASHBOARD.path} />
+        component={Routes.MAIN.DASHBOARD.path}
+      />
       <TabMain.Screen
         name={Routes.MAIN.ACCOUNT.name}
-        component={Routes.MAIN.ACCOUNT.path} />
+        component={Routes.MAIN.ACCOUNT.path}
+      />
     </TabMain.Navigator>
   );
-};
+}
 
 export function RootMain(props) {
-
   return (
     <StackMain.Navigator
       initialRouteName={Routes.AUTHENTICATION.SIGN_IN.name}
       screenOptions={{
         headerShown: false,
         gestureEnabled: true,
-      }}
-    >
+      }}>
       <StackMain.Screen
         name={Routes.AUTHENTICATION.SIGN_IN.name}
         component={Routes.AUTHENTICATION.SIGN_IN.path}
@@ -75,10 +74,7 @@ export function RootMain(props) {
         name={Routes.AUTHENTICATION.FORGOT_PASSWORD.name}
         component={Routes.AUTHENTICATION.FORGOT_PASSWORD.path}
       />
-      <StackMain.Screen
-        name={Routes.ROOT_TAB.name}
-        component={RootTab}
-      />
+      <StackMain.Screen name={Routes.ROOT_TAB.name} component={RootTab} />
       <StackMain.Screen
         name={Routes.MAIN.APPROVED.name}
         component={Routes.MAIN.APPROVED.path}
@@ -107,22 +103,22 @@ export function RootMain(props) {
         name={Routes.MAIN.ADD_APPROVED_ASSETS.name}
         component={Routes.MAIN.ADD_APPROVED_ASSETS.path}
         options={{
-          ...IS_ANDROID
+          ...(IS_ANDROID
             ? TransitionPresets.RevealFromBottomAndroid
-            : TransitionPresets.ModalTransition
+            : TransitionPresets.ModalTransition),
         }}
       />
       <StackMain.Screen
         name={Routes.MAIN.ADD_APPROVED_LOST_DAMAGED.name}
         component={Routes.MAIN.ADD_APPROVED_LOST_DAMAGED.path}
         options={{
-          ...IS_ANDROID
+          ...(IS_ANDROID
             ? TransitionPresets.RevealFromBottomAndroid
-            : TransitionPresets.ModalTransition
+            : TransitionPresets.ModalTransition),
         }}
       />
     </StackMain.Navigator>
   );
-};
+}
 
 export default RootMain;

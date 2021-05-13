@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /**
  ** Name: useUpdateEffect.js
- ** Author: 
+ ** Author:
  ** CreateAt: 2021
  ** Description: Description of useUpdateEffect.js
  **/
 /* LIBRARY */
-import { useEffect, useRef } from 'react';
+import {useEffect, useRef} from 'react';
 
 const useUpdateEffect = (effect, deps) => {
   const isInitialMount = useRef(true);
@@ -14,8 +14,8 @@ const useUpdateEffect = (effect, deps) => {
   useEffect(
     isInitialMount.current
       ? () => {
-        isInitialMount.current = false;
-      }
+          isInitialMount.current = false;
+        }
       : effect,
     deps,
   );

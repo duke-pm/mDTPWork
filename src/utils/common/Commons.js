@@ -1,6 +1,6 @@
 /**
  ** Name: Common
- ** Author: 
+ ** Author:
  ** CreateAt: 2021
  ** Description: Description of Common.js
  **/
@@ -41,7 +41,7 @@ const Commons = {
     },
     LOST: {
       code: 3,
-    }
+    },
   },
 
   STATUS_REQUEST: {

@@ -1,6 +1,6 @@
 /**
  ** Name: Routes
- ** Author: 
+ ** Author:
  ** CreateAt: 2021
  ** Description: Description of Routes.js
  **/
@@ -56,8 +56,8 @@ const Routes = {
         LIST_REQUEST_HANDLING: {
           name: 'ListApprovedAssetsHandling',
           path: ListRequestHandling,
-        }
-      }
+        },
+      },
     },
     APPROVED_ASSETS: {
       name: 'ApprovedAssets',
@@ -80,6 +80,6 @@ const Routes = {
       path: AddRequestLostDamage,
     },
   },
-}
+};
 
 export default Routes;

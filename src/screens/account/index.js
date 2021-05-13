@@ -1,25 +1,24 @@
 /**
  ** Name: Account
- ** Author: 
+ ** Author:
  ** CreateAt: 2021
  ** Description: Description of Account.js
  **/
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { useTranslation } from 'react-i18next';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, {useState} from 'react';
+import {useDispatch} from 'react-redux';
+import {useTranslation} from 'react-i18next';
 /* COMPONENTS */
 import CButton from '~/components/CButton';
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
 /* COMMON */
 import Routes from '~/navigation/Routes';
-import { alert, clearSecretInfo, resetRoute } from '~/utils/helper';
+import {alert, clearSecretInfo, resetRoute} from '~/utils/helper';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 
 function Account(props) {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
 
   const dispatch = useDispatch();
 
@@ -27,7 +26,7 @@ function Account(props) {
 
   const handleSignOut = () => {
     alert(t, 'common:warning_sign_out', handleOk);
-  }
+  };
 
   const handleOk = async () => {
     setLoading(true);
@@ -44,14 +43,11 @@ function Account(props) {
       title={'account:title'}
       content={
         <CContent padder>
-          <CButton
-            label={'common:sign_out'}
-            onPress={handleSignOut}
-          />
+          <CButton label={'common:sign_out'} onPress={handleSignOut} />
         </CContent>
       }
     />
   );
-};
+}
 
 export default Account;

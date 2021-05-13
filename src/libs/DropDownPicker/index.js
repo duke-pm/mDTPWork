@@ -137,28 +137,6 @@ class DropDownPicker extends React.Component {
 		return null;
 	}
 
-	/** LIFE CYCLE */
-	componentDidMount() {
-		this.props.controller(this);
-	}
-
-	componentDidUpdate() {
-		// ScrollView scrollTo() can only be used after the ScrollView is rendered
-		// Automatic scrolling to first defaultValue occurs on first render of dropdown ScrollView
-		const item = this.props.items[this.state.defaultValueIndex];
-		const isItemVisible = item && (typeof item[this.props.schema.hidden] === 'undefined' || item[this.props.schema.hidden] === false);
-		if (this.state.initialScroll && this.state.isVisible && isItemVisible) {
-			setTimeout(() => {
-				this.scrollViewRef.scrollTo({
-					x: 0,
-					y: this.dropdownCoordinates[this.state.defaultValueIndex],
-					animated: true,
-				});
-				this.setState({ initialScroll: false });
-			}, 200);
-		}
-	}
-
 	reset() {
 		const item = this.props.multiple ? [] : this.null();
 		this.props.onChangeItem(item, -1);
@@ -173,8 +151,7 @@ class DropDownPicker extends React.Component {
 		}
 	}
 
-	toggle = async () => {
-
+	toggle = () => {
 		this.setState({
 			isVisible: !this.state.isVisible,
 			direction: 'top',
@@ -509,16 +486,34 @@ class DropDownPicker extends React.Component {
 		);
 	}
 
-	automationId(
-		testID,
-		accessible = false,
-	) {
-		if (Platform.OS === 'ios') {
-			return { testID, accessible };
-		}
+	automationId = (testID, accessible = false) => {
+		if (IS_IOS) return { testID, accessible };
 		return { accessibilityLabel: testID, accessible };
 	};
 
+	/** LIFE CYCLE */
+	componentDidMount() {
+		this.props.controller(this);
+	}
+
+	componentDidUpdate() {
+		// ScrollView scrollTo() can only be used after the ScrollView is rendered
+		// Automatic scrolling to first defaultValue occurs on first render of dropdown ScrollView
+		const item = this.props.items[this.state.defaultValueIndex];
+		const isItemVisible = item && (typeof item[this.props.schema.hidden] === 'undefined' || item[this.props.schema.hidden] === false);
+		if (this.state.initialScroll && this.state.isVisible && isItemVisible) {
+			setTimeout(() => {
+				this.scrollViewRef.scrollTo({
+					x: 0,
+					y: this.dropdownCoordinates[this.state.defaultValueIndex],
+					animated: true,
+				});
+				this.setState({ initialScroll: false });
+			}, 200);
+		}
+	}
+
+	/** RENDER */
 	render() {
 		const { multiple, disabled } = this.state.props;
 		const { placeholder, searchTextInputProps } = this.props;
@@ -734,10 +729,10 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 10,
 		paddingVertical: 5,
 		backgroundColor: '#fff',
-		borderTopRightRadius: 10,
-		borderTopLeftRadius: 10,
-		borderBottomRightRadius: 10,
-		borderBottomLeftRadius: 10,
+		borderTopRightRadius: 5,
+		borderTopLeftRadius: 5,
+		borderBottomRightRadius: 5,
+		borderBottomLeftRadius: 5,
 		borderWidth: 0.5,
 		borderColor: '#dfdfdf',
 		alignItems: 'center'

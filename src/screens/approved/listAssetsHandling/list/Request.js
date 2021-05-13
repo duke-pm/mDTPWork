@@ -1,6 +1,6 @@
 /**
  ** Name: List Request
- ** Author: 
+ ** Author:
  ** CreateAt: 2021
  ** Description: Description of ListRequest.js
  **/
@@ -9,22 +9,23 @@ import React from 'react';
 import RequestItem from '~/screens/approved/components/RequestItem';
 import CList from '~/components/CList';
 /* COMMON */
-import { cStyles } from '~/utils/style';
+import {cStyles} from '~/utils/style';
 
 function ListRequest(props) {
-  const {
-    onLoadmore,
-    onRefresh,
-  } = props;
+  const {onLoadmore, onRefresh} = props;
 
   /** RENDER */
   return (
     <CList
       style={cStyles.mt16}
       data={props.data}
-      item={({ item, index }) => {
-        let detail = props.dataDetail.filter(f => f.requestID === item.requestID);
-        let process = props.dataProcess.filter(f => f.requestID === item.requestID);
+      item={({item, index}) => {
+        let detail = props.dataDetail.filter(
+          f => f.requestID === item.requestID,
+        );
+        let process = props.dataProcess.filter(
+          f => f.requestID === item.requestID,
+        );
         process = process.sort((a, b) => a.levelApproval - b.levelApproval);
         return (
           <RequestItem
@@ -34,7 +35,7 @@ function ListRequest(props) {
             dataProcess={process}
             onRefresh={onRefresh}
           />
-        )
+        );
       }}
       refreshing={props.refreshing}
       onRefresh={onRefresh}
@@ -42,6 +43,6 @@ function ListRequest(props) {
       onLoadmore={onLoadmore}
     />
   );
-};
+}
 
 export default ListRequest;

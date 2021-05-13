@@ -1,11 +1,11 @@
 /**
  ** Name: Master data
- ** Author: 
+ ** Author:
  ** CreatedAt: 2021
  ** Description: Description of masterData.js
  **/
 /* LIBRARY */
-import { fromJS, List } from 'immutable';
+import {fromJS, List} from 'immutable';
 import * as types from '../actions/types';
 
 export const initialState = fromJS({
@@ -26,7 +26,7 @@ export const initialState = fromJS({
 });
 
 export default function (state = initialState, action = {}) {
-  const { type, payload } = action;
+  const {type, payload} = action;
   switch (type) {
     case types.START_FETCH_MASTER_DATA:
       return state
@@ -55,10 +55,13 @@ export default function (state = initialState, action = {}) {
         .set('company', payload.company || state.get('company'))
         .set('assetType', payload.assetType || state.get('assetType'))
         .set('assetGroup', payload.assetGroup || state.get('assetGroup'))
-        .set('assetGroupDetail', payload.assetGroupDetail || state.get('assetGroupDetail'))
+        .set(
+          'assetGroupDetail',
+          payload.assetGroupDetail || state.get('assetGroupDetail'),
+        )
         .set('assetByUser', payload.assetByUser || List());
 
     default:
       return state;
   }
-};
+}

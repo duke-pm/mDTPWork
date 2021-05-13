@@ -1,12 +1,13 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /**
  ** Name: SignIn
- ** Author: 
+ ** Author:
  ** CreateAt: 2021
  ** Description: Description of SignIn.js
  **/
-import React, { createRef, useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useTranslation } from 'react-i18next';
+import React, {createRef, useState, useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {useTranslation} from 'react-i18next';
 import {
   StyleSheet,
   ImageBackground,
@@ -17,7 +18,7 @@ import {
   Keyboard,
   StatusBar,
 } from 'react-native';
-import { showMessage } from 'react-native-flash-message';
+import {showMessage} from 'react-native-flash-message';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
@@ -28,15 +29,15 @@ import CButton from '~/components/CButton';
 /* COMMON */
 import Routes from '~/navigation/Routes';
 import Assets from '~/utils/asset/Assets';
-import { LOGIN } from '~/config/constants';
-import { colors, cStyles } from '~/utils/style';
+import {LOGIN} from '~/config/constants';
+import {colors, cStyles} from '~/utils/style';
 import {
   getSecretInfo,
   IS_ANDROID,
   IS_IOS,
   removeSecretInfo,
   resetRoute,
-  saveSecretInfo
+  saveSecretInfo,
 } from '~/utils/helper';
 /* REDUX */
 import * as Actions from '~/redux/actions';
@@ -49,10 +50,10 @@ let userNameRef = createRef();
 let passwordRef = createRef();
 
 function SignIn(props) {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
 
   const dispatch = useDispatch();
-  const authState = useSelector(({ auth }) => auth);
+  const authState = useSelector(({auth}) => auth);
 
   const [loading, setLoading] = useState({
     main: true,
@@ -73,11 +74,15 @@ function SignIn(props) {
   /** HANDLE FUNC */
   const handleChangeText = (value, nameInput) => {
     if (nameInput === INPUT_NAME.USER_NAME) {
-      setForm({ ...form, userName: value });
-      if (error.userName) setError({ ...error, userName: false });
+      setForm({...form, userName: value});
+      if (error.userName) {
+        setError({...error, userName: false});
+      }
     } else {
-      setForm({ ...form, password: value });
-      if (error.password) setError({ ...error, password: false });
+      setForm({...form, password: value});
+      if (error.password) {
+        setError({...error, password: false});
+      }
     }
   };
 
@@ -89,20 +94,20 @@ function SignIn(props) {
     props.navigation.navigate(Routes.AUTHENTICATION.FORGOT_PASSWORD.name);
   };
 
-  const handleSaveAccount = (checked) => {
-    setForm({ ...form, saveAccount: checked });
+  const handleSaveAccount = checked => {
+    setForm({...form, saveAccount: checked});
   };
 
   const handleSignIn = () => {
     let isValid = onValidate();
     if (isValid) {
-      setLoading({ ...loading, submit: true });
+      setLoading({...loading, submit: true});
       let params = {
-        'Username': form.userName.trim().toLowerCase(),
-        'Password': form.password.trim(),
+        Username: form.userName.trim().toLowerCase(),
+        Password: form.password.trim(),
       };
       dispatch(Actions.fetchLogin(params));
-    };
+    }
   };
 
   /** FUNC */
@@ -121,8 +126,8 @@ function SignIn(props) {
         deptCode: authState.getIn(['login', 'deptCode']),
         jobTitle: authState.getIn(['login', 'jobTitle']),
         expired: authState.getIn(['login', 'expired']),
-      }
-      saveSecretInfo({ key: LOGIN, value: dataLogin });
+      };
+      saveSecretInfo({key: LOGIN, value: dataLogin});
     } else {
       await removeSecretInfo(LOGIN);
     }
@@ -158,7 +163,7 @@ function SignIn(props) {
       type: 'danger',
       icon: 'danger',
     });
-    setLoading({ main: false, submit: false });
+    setLoading({main: false, submit: false});
   };
 
   const onStart = () => {
@@ -169,7 +174,7 @@ function SignIn(props) {
       type: 'success',
       icon: 'success',
     });
-    setLoading({ main: false, submit: false });
+    setLoading({main: false, submit: false});
     resetRoute(props.navigation, Routes.ROOT_TAB.name);
   };
 
@@ -177,7 +182,7 @@ function SignIn(props) {
     let dataLogin = await getSecretInfo(LOGIN);
     if (dataLogin) {
       console.log('[LOG] === SignIn Local === ');
-      setLoading({ main: false, submit: true });
+      setLoading({main: false, submit: true});
       dataLogin = {
         access_token: dataLogin.accessToken,
         token_type: dataLogin.tokenType,
@@ -191,11 +196,11 @@ function SignIn(props) {
         deptCode: dataLogin.deptCode,
         jobTitle: dataLogin.jobTitle,
         '.expires': dataLogin.expired,
-      }
+      };
       dispatch(Actions.loginSuccess(dataLogin));
     } else {
       console.log('[LOG] === SignIn Server === ');
-      setLoading({ main: false, submit: false });
+      setLoading({main: false, submit: false});
     }
   };
 
@@ -237,18 +242,15 @@ function SignIn(props) {
           style={styles.img_background}
           source={Assets.bgAuthentication}
           resizeMode={'cover'}
-          blurRadius={5}
-        >
+          blurRadius={5}>
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={[cStyles.flex1, styles.content]}>
               <KeyboardAvoidingView
                 style={cStyles.flex1}
-                behavior={IS_IOS ? 'padding' : 'height'}
-              >
+                behavior={IS_IOS ? 'padding' : 'height'}>
                 <CContent
                   style={styles.con}
-                  contentStyle={[styles.con, cStyles.flexCenter, cStyles.px48]}
-                >
+                  contentStyle={[styles.con, cStyles.flexCenter, cStyles.px48]}>
                   <View style={[cStyles.justifyEnd, styles.con_icon_app]}>
                     <Image
                       style={styles.img_icon_app}
@@ -299,12 +301,13 @@ function SignIn(props) {
                       onChangeValue={handleChangeText}
                     />
 
-                    <View style={[
-                      cStyles.row,
-                      cStyles.itemsCenter,
-                      cStyles.justifyBetween,
-                      cStyles.mt6,
-                    ]}>
+                    <View
+                      style={[
+                        cStyles.row,
+                        cStyles.itemsCenter,
+                        cStyles.justifyBetween,
+                        cStyles.mt6,
+                      ]}>
                       <CCheckbox
                         labelStyle={'textDefault pl10 colorWhite'}
                         label={'sign_in:save_account'}
@@ -330,19 +333,18 @@ function SignIn(props) {
               </KeyboardAvoidingView>
             </View>
           </TouchableWithoutFeedback>
-
         </ImageBackground>
       }
     />
   );
-};
+}
 
 const styles = StyleSheet.create({
-  con: { backgroundColor: colors.TRANSPARENT, },
-  content: { backgroundColor: 'rgba(0, 0, 0, 0.4)', },
-  con_icon_app: { flex: 0.3 },
-  con_middle: { flex: 0.1 },
-  con_input: { flex: 0.6, },
+  con: {backgroundColor: colors.TRANSPARENT},
+  content: {backgroundColor: 'rgba(0, 0, 0, 0.4)'},
+  con_icon_app: {flex: 0.3},
+  con_middle: {flex: 0.1},
+  con_input: {flex: 0.6},
   input: {
     backgroundColor: colors.TRANSPARENT,
     color: colors.WHITE,
@@ -351,8 +353,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.BACKGROUND_INPUT_FOCUS,
   },
 
-  img_background: { height: '100%', width: '100%' },
-  img_icon_app: { height: 100, width: 100 },
+  img_background: {height: '100%', width: '100%'},
+  img_icon_app: {height: 100, width: 100},
 });
 
 export default SignIn;

@@ -5,7 +5,7 @@
  ** Description: Description of useTimeout.js
  **/
 /* LIBRARY */
-import { useEffect, useRef } from 'react';
+import {useEffect, useRef} from 'react';
 
 function useTimeout(callback, delay) {
   const callbackRef = useRef(callback);

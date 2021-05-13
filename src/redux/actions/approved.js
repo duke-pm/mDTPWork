@@ -3,7 +3,7 @@
  ** Author:
  ** CreatedAt: 2021
  ** Description: Description of Approved.js
-**/
+ **/
 /* COMMON */
 import * as types from './types';
 import * as Actions from '~/redux/actions';
@@ -12,7 +12,7 @@ import Services from '~/services';
 /** For get list request assets */
 export const listRequestApprovedError = error => ({
   type: types.ERROR_FETCH_LIST_REQUEST_APPROVED,
-  payload: error
+  payload: error,
 });
 
 export const listRequestApprovedSuccess = (
@@ -27,7 +27,7 @@ export const listRequestApprovedSuccess = (
     requests,
     requestsDetail,
     processApproved,
-  }
+  },
 });
 
 export const fetchListRequestApproved = (params, navigation) => {
@@ -36,8 +36,9 @@ export const fetchListRequestApproved = (params, navigation) => {
       type: types.START_FETCH_LIST_REQUEST_APPROVED,
     });
 
-    Services.approved.listRequest(params)
-      .then((res) => {
+    Services.approved
+      .listRequest(params)
+      .then(res => {
         if (!res.isError) {
           return dispatch(
             listRequestApprovedSuccess(
@@ -45,7 +46,8 @@ export const fetchListRequestApproved = (params, navigation) => {
               res.data.listRequest,
               res.data.listRequestDetail,
               res.data.listProcessApprove,
-            ));
+            ),
+          );
         } else {
           return dispatch(listRequestApprovedError(res.errorMessage));
         }
@@ -54,24 +56,26 @@ export const fetchListRequestApproved = (params, navigation) => {
         dispatch(listRequestApprovedError(error));
         if (error.message && error.message.search('Authorization') !== -1) {
           let tmp = {
-            'RefreshToken': params.get('RefreshToken'),
-            'Lang': params.get('Lang'),
-          }
-          return dispatch(Actions.fetchRefreshToken(
-            tmp,
-            () => fetchListRequestApproved(params),
-            navigation,
-          ));
+            RefreshToken: params.get('RefreshToken'),
+            Lang: params.get('Lang'),
+          };
+          return dispatch(
+            Actions.fetchRefreshToken(
+              tmp,
+              () => fetchListRequestApproved(params),
+              navigation,
+            ),
+          );
         }
       });
-  }
+  };
 };
 /*****************************/
 
 /** For get list request damage */
 export const listRequestDamageError = error => ({
   type: types.ERROR_FETCH_LIST_REQUEST_DAMAGE,
-  payload: error
+  payload: error,
 });
 
 export const listRequestDamageSuccess = (
@@ -86,7 +90,7 @@ export const listRequestDamageSuccess = (
     requests,
     requestsDetail,
     processApproved,
-  }
+  },
 });
 
 export const fetchListRequestDamage = (params, navigation) => {
@@ -95,8 +99,9 @@ export const fetchListRequestDamage = (params, navigation) => {
       type: types.START_FETCH_LIST_REQUEST_DAMAGE,
     });
 
-    Services.approved.listRequest(params)
-      .then((res) => {
+    Services.approved
+      .listRequest(params)
+      .then(res => {
         if (!res.isError) {
           return dispatch(
             listRequestDamageSuccess(
@@ -104,7 +109,8 @@ export const fetchListRequestDamage = (params, navigation) => {
               res.data.listRequest,
               res.data.listRequestDetail,
               res.data.listProcessApprove,
-            ));
+            ),
+          );
         } else {
           return dispatch(listRequestDamageError(res.errorMessage));
         }
@@ -113,24 +119,26 @@ export const fetchListRequestDamage = (params, navigation) => {
         dispatch(listRequestDamageError(error));
         if (error.message && error.message.search('Authorization') !== -1) {
           let tmp = {
-            'RefreshToken': params.get('RefreshToken'),
-            'Lang': params.get('Lang'),
-          }
-          return dispatch(Actions.fetchRefreshToken(
-            tmp,
-            () => fetchListRequestDamage(params),
-            navigation,
-          ));
+            RefreshToken: params.get('RefreshToken'),
+            Lang: params.get('Lang'),
+          };
+          return dispatch(
+            Actions.fetchRefreshToken(
+              tmp,
+              () => fetchListRequestDamage(params),
+              navigation,
+            ),
+          );
         }
       });
-  }
+  };
 };
 /*****************************/
 
 /** For get list request lost */
 export const listRequestLostError = error => ({
   type: types.ERROR_FETCH_LIST_REQUEST_LOST,
-  payload: error
+  payload: error,
 });
 
 export const listRequestLostSuccess = (
@@ -145,7 +153,7 @@ export const listRequestLostSuccess = (
     requests,
     requestsDetail,
     processApproved,
-  }
+  },
 });
 
 export const fetchListRequestLost = (params, navigation) => {
@@ -154,8 +162,9 @@ export const fetchListRequestLost = (params, navigation) => {
       type: types.START_FETCH_LIST_REQUEST_LOST,
     });
 
-    Services.approved.listRequest(params)
-      .then((res) => {
+    Services.approved
+      .listRequest(params)
+      .then(res => {
         if (!res.isError) {
           return dispatch(
             listRequestLostSuccess(
@@ -163,7 +172,8 @@ export const fetchListRequestLost = (params, navigation) => {
               res.data.listRequest,
               res.data.listRequestDetail,
               res.data.listProcessApprove,
-            ));
+            ),
+          );
         } else {
           return dispatch(listRequestLostError(res.errorMessage));
         }
@@ -172,24 +182,26 @@ export const fetchListRequestLost = (params, navigation) => {
         dispatch(listRequestLostError(error));
         if (error.message && error.message.search('Authorization') !== -1) {
           let tmp = {
-            'RefreshToken': params.get('RefreshToken'),
-            'Lang': params.get('Lang'),
-          }
-          return dispatch(Actions.fetchRefreshToken(
-            tmp,
-            () => fetchListRequestLost(params),
-            navigation,
-          ));
+            RefreshToken: params.get('RefreshToken'),
+            Lang: params.get('Lang'),
+          };
+          return dispatch(
+            Actions.fetchRefreshToken(
+              tmp,
+              () => fetchListRequestLost(params),
+              navigation,
+            ),
+          );
         }
       });
-  }
+  };
 };
 /*****************************/
 
 /** For add request */
 export const addRequestApprovedError = error => ({
   type: types.ERROR_FETCH_ADD_REQUEST_APPROVED,
-  payload: error
+  payload: error,
 });
 
 export const addRequestApprovedSuccess = () => ({
@@ -202,8 +214,9 @@ export const fetchAddRequestApproved = (params, navigation) => {
       type: types.START_FETCH_ADD_REQUEST_APPROVED,
     });
 
-    Services.approved.addRequest(params)
-      .then((res) => {
+    Services.approved
+      .addRequest(params)
+      .then(res => {
         if (!res.isError) {
           return dispatch(addRequestApprovedSuccess());
         } else {
@@ -214,24 +227,26 @@ export const fetchAddRequestApproved = (params, navigation) => {
         dispatch(addRequestApprovedError(error));
         if (error.message && error.message.search('Authorization') !== -1) {
           let tmp = {
-            'RefreshToken': params.RefreshToken,
-            'Lang': params.Lang,
-          }
-          return dispatch(Actions.fetchRefreshToken(
-            tmp,
-            () => fetchAddRequestApproved(params, navigation),
-            navigation,
-          ));
+            RefreshToken: params.RefreshToken,
+            Lang: params.Lang,
+          };
+          return dispatch(
+            Actions.fetchRefreshToken(
+              tmp,
+              () => fetchAddRequestApproved(params, navigation),
+              navigation,
+            ),
+          );
         }
       });
-  }
+  };
 };
 /*****************************/
 
 /** For approved request */
 export const approvedRequestError = error => ({
   type: types.ERROR_FETCH_APPROVED_REQUEST,
-  payload: error
+  payload: error,
 });
 
 export const approvedRequestSuccess = () => ({
@@ -244,8 +259,9 @@ export const fetchApprovedRequest = (params, navigation) => {
       type: types.START_FETCH_APPROVED_REQUEST,
     });
 
-    Services.approved.approvedRequest(params)
-      .then((res) => {
+    Services.approved
+      .approvedRequest(params)
+      .then(res => {
         if (!res.isError) {
           return dispatch(approvedRequestSuccess());
         } else {
@@ -256,24 +272,26 @@ export const fetchApprovedRequest = (params, navigation) => {
         dispatch(approvedRequestError(error));
         if (error.message && error.message.search('Authorization') !== -1) {
           let tmp = {
-            'RefreshToken': params.RefreshToken,
-            'Lang': params.Lang,
-          }
-          return dispatch(Actions.fetchRefreshToken(
-            tmp,
-            () => fetchApprovedRequest(params, navigation),
-            navigation,
-          ));
+            RefreshToken: params.RefreshToken,
+            Lang: params.Lang,
+          };
+          return dispatch(
+            Actions.fetchRefreshToken(
+              tmp,
+              () => fetchApprovedRequest(params, navigation),
+              navigation,
+            ),
+          );
         }
       });
-  }
+  };
 };
 /*****************************/
 
 /** For reject request */
 export const rejectRequestError = error => ({
   type: types.ERROR_FETCH_REJECT_REQUEST,
-  payload: error
+  payload: error,
 });
 
 export const rejectRequestSuccess = () => ({
@@ -286,8 +304,9 @@ export const fetchRejectRequest = (params, navigation) => {
       type: types.START_FETCH_REJECT_REQUEST,
     });
 
-    Services.approved.rejectRequest(params)
-      .then((res) => {
+    Services.approved
+      .rejectRequest(params)
+      .then(res => {
         if (!res.isError) {
           return dispatch(rejectRequestSuccess());
         } else {
@@ -298,24 +317,26 @@ export const fetchRejectRequest = (params, navigation) => {
         dispatch(rejectRequestError(error));
         if (error.message && error.message.search('Authorization') !== -1) {
           let tmp = {
-            'RefreshToken': params.RefreshToken,
-            'Lang': params.Lang,
-          }
-          return dispatch(Actions.fetchRefreshToken(
-            tmp,
-            () => fetchRejectRequest(params, navigation),
-            navigation,
-          ));
+            RefreshToken: params.RefreshToken,
+            Lang: params.Lang,
+          };
+          return dispatch(
+            Actions.fetchRefreshToken(
+              tmp,
+              () => fetchRejectRequest(params, navigation),
+              navigation,
+            ),
+          );
         }
       });
-  }
+  };
 };
 /*****************************/
 
 /** For add request lost/damage */
 export const addRequestLostDamageError = error => ({
   type: types.ERROR_FETCH_ADD_REQUEST_LOST,
-  payload: error
+  payload: error,
 });
 
 export const addRequestLostDamageSuccess = () => ({
@@ -328,8 +349,9 @@ export const fetchAddRequestLostDamage = (params, formData, navigation) => {
       type: types.START_FETCH_ADD_REQUEST_LOST,
     });
 
-    Services.approved.addRequestLostDamage(formData)
-      .then((res) => {
+    Services.approved
+      .addRequestLostDamage(formData)
+      .then(res => {
         if (!res.isError) {
           return dispatch(addRequestLostDamageSuccess());
         } else {
@@ -338,18 +360,24 @@ export const fetchAddRequestLostDamage = (params, formData, navigation) => {
       })
       .catch(error => {
         dispatch(addRequestLostDamageError(error));
-        if (error && error.message && error.message.search('Authorization') !== -1) {
+        if (
+          error &&
+          error.message &&
+          error.message.search('Authorization') !== -1
+        ) {
           let tmp = {
-            'RefreshToken': params.RefreshToken,
-            'Lang': params.Lang,
-          }
-          return dispatch(Actions.fetchRefreshToken(
-            tmp,
-            () => fetchAddRequestLostDamage(params, formData, navigation),
-            navigation,
-          ));
+            RefreshToken: params.RefreshToken,
+            Lang: params.Lang,
+          };
+          return dispatch(
+            Actions.fetchRefreshToken(
+              tmp,
+              () => fetchAddRequestLostDamage(params, formData, navigation),
+              navigation,
+            ),
+          );
         }
       });
-  }
+  };
 };
 /*****************************/

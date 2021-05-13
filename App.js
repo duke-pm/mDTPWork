@@ -1,37 +1,34 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /**
  ** Name: App Main
- ** Author: 
+ ** Author:
  ** CreateAt: 2021
  ** Description: Description of App.js
  **/
 import 'react-native-gesture-handler';
-import React, { useState, useEffect } from 'react';
-import { Provider } from 'react-redux';
-import {
-  StatusBar,
-  useColorScheme,
-} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {Provider} from 'react-redux';
+import {StatusBar, useColorScheme} from 'react-native';
 import {
   NavigationContainer,
   DarkTheme,
-  DefaultTheme
+  DefaultTheme,
 } from '@react-navigation/native';
 import NetInfo from '@react-native-community/netinfo';
-import FlashMessage from "react-native-flash-message";
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import FlashMessage from 'react-native-flash-message';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 import axios from 'axios';
 import '~/utils/language/config-i18n';
 /** COMPOENNTS */
 import Navigator from '~/navigation/Navigator';
 import Unconnected from '~/screens/connection/Unconnected';
 /** COMMON */
-import { colors } from '~/utils/style';
+import {colors} from '~/utils/style';
 import jwtServiceConfig from '~/services/jwtServiceConfig';
 /** REDUX */
 import Store from './src/redux/store';
 
 const App = () => {
-
   const [state, setState] = useState({
     checked: false,
     connected: true,
@@ -52,13 +49,13 @@ const App = () => {
       'Content-Type': 'application/json',
     };
     axios.defaults.responseType = 'json';
-  }
+  };
 
   /** LIFE CYCLE */
   useEffect(() => {
     setDefaultAxios();
     NetInfo.addEventListener(stateConnect => {
-      const { isConnected } = stateConnect;
+      const {isConnected} = stateConnect;
       if (!isConnected) {
         setState({
           ...state,
@@ -85,10 +82,11 @@ const App = () => {
             backgroundColor={colors.PRIMARY}
           />
 
-          {!state.connected
-            ? <Unconnected onTryAgain={onCheckConnection} />
-            : <Navigator />
-          }
+          {!state.connected ? (
+            <Unconnected onTryAgain={onCheckConnection} />
+          ) : (
+            <Navigator />
+          )}
 
           <FlashMessage position="top" />
         </SafeAreaProvider>

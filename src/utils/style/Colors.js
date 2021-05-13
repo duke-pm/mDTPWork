@@ -1,6 +1,6 @@
 /**
  ** Name: Colors of App
- ** Author: 
+ ** Author:
  ** CreateAt: 2021
  ** Description: Description of colors.js
  **/
@@ -21,7 +21,11 @@ export default {
   BACKGROUND_INPUT_FOCUS: 'rgba(255,255,255,0.1)',
   BACKGROUND_CARD: '#edf2f7',
 
-  GRADIENT_CARD_1: ['rgba(255,255,255,0)', 'rgba(255,255,255,0.5)', 'rgba(255,255,255,1)'],
+  GRADIENT_CARD_1: [
+    'rgba(255,255,255,0)',
+    'rgba(255,255,255,0.5)',
+    'rgba(255,255,255,1)',
+  ],
 
   GRAY_100: '#f7fafc',
   GRAY_200: '#edf2f7',
@@ -47,5 +51,5 @@ export default {
 
   FACEBOOK: '#3b5999',
   GOOGLE: '#dd4b39',
-  APPLE: '#fff'
-}
+  APPLE: '#fff',
+};

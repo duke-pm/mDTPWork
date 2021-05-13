@@ -1,34 +1,29 @@
 /**
  ** Name: CDateTimePicker
- ** Author: 
+ ** Author:
  ** CreateAt: 2021
  ** Description: Description of CDateTimePicker.js
  **/
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { useColorScheme } from 'react-native-appearance';
+import React from 'react';
+import {useSelector} from 'react-redux';
+import {useColorScheme} from 'react-native-appearance';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 /* COMPONENTS */
 
 /* COMMON */
 
 /* REDUX */
 
-
 function CDateTimePicker(props) {
   const colorScheme = useColorScheme();
-  const { t } = useTranslation();
-  const commonState = useSelector(({ common }) => common);
+  const {t} = useTranslation();
+  const commonState = useSelector(({common}) => common);
 
-  const {
-    show,
-    value,
-    onChangeDate,
-  } = props;
+  const {show, value, onChangeDate} = props;
 
   /** HANDLE FUNC */
-  const handleChangePicker = (date) => {
+  const handleChangePicker = date => {
     onChangeDate(date, false);
   };
 
@@ -51,6 +46,6 @@ function CDateTimePicker(props) {
       onCancel={handleClosePicker}
     />
   );
-};
+}
 
 export default CDateTimePicker;

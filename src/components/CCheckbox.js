@@ -1,21 +1,21 @@
 /**
  ** Name: CCheckbox
- ** Author: 
+ ** Author:
  ** CreateAt: 2021
  ** Description: Description of CCheckbox.js
  **/
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import { useTranslation } from 'react-i18next';
+import {View, StyleSheet} from 'react-native';
+import {useTranslation} from 'react-i18next';
 import CheckBox from '@react-native-community/checkbox';
 /** COMPONENTS */
 import CText from '~/components/CText';
 /** COMMON */
-import { colors, cStyles } from '~/utils/style';
-import { scalePx } from '~/utils/helper';
+import {colors, cStyles} from '~/utils/style';
+import {scalePx} from '~/utils/helper';
 
 function CCheckbox(props) {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   const {
     containerStyle,
     style,
@@ -25,7 +25,7 @@ function CCheckbox(props) {
     value,
     onCheckColor = colors.SECONDARY,
     onTintColor = colors.SECONDARY,
-    tintColors = { true: colors.SECONDARY, false: colors.PRIMARY },
+    tintColors = {true: colors.SECONDARY, false: colors.PRIMARY},
     onChange,
   } = props;
 
@@ -36,7 +36,7 @@ function CCheckbox(props) {
         cStyles.itemsCenter,
         cStyles.justifyStart,
         cStyles.py16,
-        containerStyle
+        containerStyle,
       ]}>
       <CheckBox
         style={[styles.checkbox, style]}
@@ -49,21 +49,16 @@ function CCheckbox(props) {
         onValueChange={onChange}
       />
 
-      {label &&
-        <CText
-          styles={labelStyle}
-          label={t(label)}
-        />
-      }
+      {label && <CText styles={labelStyle} label={t(label)} />}
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   checkbox: {
     height: scalePx(3),
     width: scalePx(3),
-  }
+  },
 });
 
 export default CCheckbox;

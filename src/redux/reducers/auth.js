@@ -1,11 +1,11 @@
 /**
  ** Name: Auth.js
- ** Author: 
+ ** Author:
  ** CreatedAt: 2021
  ** Description: Description of Auth.js
  **/
 /* LIBRARY */
-import { fromJS } from 'immutable';
+import {fromJS} from 'immutable';
 import * as types from '../actions/types';
 
 export const initialState = fromJS({
@@ -35,7 +35,7 @@ export const initialState = fromJS({
 });
 
 export default function (state = initialState, action = {}) {
-  const { type, payload } = action;
+  const {type, payload} = action;
   switch (type) {
     /** Common */
     case types.LOGOUT:
@@ -120,4 +120,4 @@ export default function (state = initialState, action = {}) {
     default:
       return state;
   }
-};
+}

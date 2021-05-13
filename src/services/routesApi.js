@@ -1,6 +1,6 @@
 /**
  ** Name: Routes api
- ** Author: 
+ ** Author:
  ** CreateAt: 2021
  ** Description: Description of routesApi.js
  **/
@@ -20,6 +20,6 @@ const Routes = {
     APPROVED_REQUEST: '/RequestApprove/Approve',
     REJECT_REQUEST: '/RequestApprove/Approve',
   },
-}
+};
 
 export default Routes;

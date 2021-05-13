@@ -1,6 +1,6 @@
 /**
  ** Name: Item Dashboard
- ** Author: 
+ ** Author:
  ** CreateAt: 2021
  ** Description: Description of Item.js
  **/
@@ -10,26 +10,22 @@ import {
   View,
   TouchableOpacity,
   FlatList,
-  Image
+  Image,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 /* COMPONENTS */
 import CText from '~/components/CText';
 import CContent from '~/components/CContent';
 /** COMMON */
-import { cStyles, colors } from '~/utils/style';
-import { sW } from '~/utils/helper';
+import {cStyles, colors} from '~/utils/style';
+import {sW} from '~/utils/helper';
 /* REDUX */
 
-
 function Item(props) {
-  const {
-    index = -1,
-    data = null,
-    onPress = () => { },
-  } = props;
+  const {data = null, onPress = () => {}} = props;
 
-  if (!data) return null;
+  if (!data) {
+    return null;
+  }
 
   return (
     <CContent>
@@ -37,10 +33,12 @@ function Item(props) {
         <FlatList
           columnWrapperStyle={cStyles.justifyStart}
           data={data.children}
-          renderItem={({ item, index }) => {
+          renderItem={({item, index}) => {
             return (
               <View style={[cStyles.itemsCenter, styles.item]}>
-                <TouchableOpacity activeOpacity={1} onPress={() => onPress(item.name)}>
+                <TouchableOpacity
+                  activeOpacity={1}
+                  onPress={() => onPress(item.name)}>
                   <Image
                     style={styles.image_item}
                     source={item.icon}
@@ -54,7 +52,7 @@ function Item(props) {
                   numberOfLines={3}
                 />
               </View>
-            )
+            );
           }}
           numColumns={4}
           keyExtractor={(item, index) => index.toString()}
@@ -62,7 +60,7 @@ function Item(props) {
       </View>
     </CContent>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -70,11 +68,11 @@ const styles = StyleSheet.create({
     width: sW('21%'),
     backgroundColor: colors.WHITE,
   },
-  item: { flex: 0.33, width: sW('21%') },
+  item: {flex: 0.33, width: sW('21%')},
   image_item: {
     height: sW('21%'),
     width: sW('21%'),
-  }
+  },
 });
 
 export default Item;

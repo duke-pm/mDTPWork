@@ -4,8 +4,8 @@
  ** CreateAt: 2021
  ** Description: Description of CHeader.js
  **/
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, {useState} from 'react';
+import {useDispatch} from 'react-redux';
 import {
   StyleSheet,
   View,
@@ -13,15 +13,15 @@ import {
   LayoutAnimation,
   UIManager,
 } from 'react-native';
-import { useTranslation } from 'react-i18next';
-import { useNavigation } from '@react-navigation/native';
+import {useTranslation} from 'react-i18next';
+import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 /** COMPONENTS */
 import CText from './CText';
 import CInput from './CInput';
 /** COMMON */
-import { cStyles, colors } from '~/utils/style';
-import { IS_ANDROID, scalePx } from '~/utils/helper';
+import {cStyles, colors} from '~/utils/style';
+import {IS_ANDROID, scalePx} from '~/utils/helper';
 /** REDUX */
 import * as Actions from '~/redux/actions';
 
@@ -32,7 +32,7 @@ if (IS_ANDROID) {
 }
 
 function CHeader(props) {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   const navigation = useNavigation();
   const {
     background = colors.BACKGROUND_HEADER,
@@ -46,8 +46,8 @@ function CHeader(props) {
     right = null,
     iconBack = null,
 
-    onPressAddNew = () => { },
-    onPressSearch = () => { },
+    onPressAddNew = () => {},
+    onPressSearch = () => {},
   } = props;
 
   const dispatch = useDispatch();
@@ -60,7 +60,7 @@ function CHeader(props) {
     navigation.goBack();
   };
 
-  const handleToogleSearch = (show) => {
+  const handleToogleSearch = show => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setIsSearch(show);
     dispatch(Actions.changeIsSearch(show));
@@ -75,24 +75,26 @@ function CHeader(props) {
     handleToogleSearch(false);
   };
 
-  const handleChangeValue = (value) => {
+  const handleChangeValue = value => {
     setValueSearch(value);
   };
 
   /** RENDER */
   return (
-    <View style={[
-      cStyles.shadowHeader,
-      styles.container,
-      { backgroundColor: background },
-      isSearch && cStyles.px16,
-    ]}>
-      {isSearch &&
+    <View
+      style={[
+        cStyles.shadowHeader,
+        styles.container,
+        {backgroundColor: background},
+        isSearch && cStyles.px16,
+      ]}>
+      {isSearch && (
         <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pb6]}>
           <CText
             styles={'colorWhite pr16 pt6'}
             label={'common:close'}
-            onPress={() => handleToogleSearch(false)} />
+            onPress={() => handleToogleSearch(false)}
+          />
 
           <CInput
             containerStyle={styles.input_search}
@@ -110,22 +112,19 @@ function CHeader(props) {
             onPressIconLast={handleSearch}
           />
         </View>
-      }
+      )}
 
-      {!isSearch &&
+      {!isSearch && (
         <>
           <View
             style={[
               cStyles.row,
               cStyles.justifystart,
               cStyles.itemsCenter,
-              styles.con_left
+              styles.con_left,
             ]}>
-            {hasBack &&
-              <TouchableOpacity
-                style={cStyles.itemsStart}
-                onPress={handleBack}
-              >
+            {hasBack && (
+              <TouchableOpacity style={cStyles.itemsStart} onPress={handleBack}>
                 <Icon
                   style={cStyles.p16}
                   name={iconBack || 'chevron-left'}
@@ -133,30 +132,26 @@ function CHeader(props) {
                   size={scalePx(4)}
                 />
               </TouchableOpacity>
-            }
+            )}
 
-            {hasMenu &&
-              <TouchableOpacity
-                style={cStyles.itemsStart}
-                onPress={handleBack}
-              >
+            {hasMenu && (
+              <TouchableOpacity style={cStyles.itemsStart} onPress={handleBack}>
                 <Icon
                   style={cStyles.p16}
                   name={'menu'}
                   color={colors.WHITE}
                   size={scalePx(3.5)}
-
                 />
               </TouchableOpacity>
-            }
+            )}
             {left && left}
           </View>
 
           <View style={[styles.con_body, cStyles.center]}>
             <CText styles={'H6 colorWhite'} label={t(title)} />
-            {subTitle &&
+            {subTitle && (
               <CText styles={'textMeta colorWhite'} label={t(subTitle)} />
-            }
+            )}
           </View>
 
           <View
@@ -165,13 +160,12 @@ function CHeader(props) {
               cStyles.row,
               cStyles.justifyEnd,
               cStyles.itemsCenter,
-              styles.con_right
+              styles.con_right,
             ]}>
-            {hasSearch &&
+            {hasSearch && (
               <TouchableOpacity
                 style={cStyles.itemsEnd}
-                onPress={() => handleToogleSearch(true)}
-              >
+                onPress={() => handleToogleSearch(true)}>
                 <Icon
                   style={cStyles.p16}
                   name={'magnify'}
@@ -179,13 +173,10 @@ function CHeader(props) {
                   size={scalePx(3.5)}
                 />
               </TouchableOpacity>
-            }
+            )}
 
-            {hasAddNew &&
-              <TouchableOpacity
-                style={cStyles.itemsEnd}
-                onPress={handleAddNew}
-              >
+            {hasAddNew && (
+              <TouchableOpacity style={cStyles.itemsEnd} onPress={handleAddNew}>
                 <Icon
                   style={cStyles.p16}
                   name={'text-box-plus-outline'}
@@ -193,12 +184,12 @@ function CHeader(props) {
                   size={scalePx(3.5)}
                 />
               </TouchableOpacity>
-            }
+            )}
 
             {right && right}
           </View>
         </>
-      }
+      )}
     </View>
   );
 }
@@ -212,11 +203,11 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
   },
-  con_left: { flex: 0.2 },
-  con_body: { flex: 0.6 },
-  con_right: { flex: 0.2 },
-  input_search: { width: '85%' },
-  con_search: { backgroundColor: colors.WHITE },
+  con_left: {flex: 0.2},
+  con_body: {flex: 0.6},
+  con_right: {flex: 0.2},
+  input_search: {width: '85%'},
+  con_search: {backgroundColor: colors.WHITE},
 });
 
 export default CHeader;

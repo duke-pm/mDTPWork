@@ -1,11 +1,11 @@
 /**
  ** Name: CInput
- ** Author: 
+ ** Author:
  ** CreateAt: 2021
  ** Description: Description of CInput.js
  **/
-import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import React, {useState} from 'react';
+import {useTranslation} from 'react-i18next';
 import {
   StyleSheet,
   TextInput,
@@ -17,15 +17,11 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 /* COMPONENTS */
 import CText from './CText';
 /* COMMON */
-import { colors, cStyles } from '~/utils/style';
-import {
-  IS_ANDROID,
-  IS_IOS,
-  scalePx
-} from '~/utils/helper';
+import {colors, cStyles} from '~/utils/style';
+import {IS_ANDROID, IS_IOS, scalePx} from '~/utils/helper';
 
 function CInput(props) {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
 
   const {
     containerStyle = {},
@@ -63,11 +59,15 @@ function CInput(props) {
 
   /** HANDLE FUNC */
   const handleSubmitEditing = () => {
-    if (onChangeInput) onChangeInput();
-  }
+    if (onChangeInput) {
+      onChangeInput();
+    }
+  };
 
-  const handleChangeValue = (value) => {
-    if (onChangeValue) onChangeValue(value, props.name);
+  const handleChangeValue = value => {
+    if (onChangeValue) {
+      onChangeValue(value, props.name);
+    }
   };
 
   const handleFocusInput = () => {
@@ -75,11 +75,15 @@ function CInput(props) {
   };
 
   const handleIconLast = () => {
-    if (onPressIconLast) onPressIconLast();
+    if (onPressIconLast) {
+      onPressIconLast();
+    }
   };
 
   const handleRemoveValue = () => {
-    if (onPressRemoveValue) onPressRemoveValue();
+    if (onPressRemoveValue) {
+      onPressRemoveValue();
+    }
   };
 
   const handleShowPassword = () => {
@@ -91,45 +95,43 @@ function CInput(props) {
   const Component = disabled ? View : TouchableOpacity;
 
   return (
-    <View style={[{ width: '100%' }, containerStyle]}>
-      <View style={[
-        cStyles.row,
-        cStyles.itemsCenter,
-        cStyles.rounded1,
-        cStyles.mt6,
-        styles.con_input,
-        disabled && styles.disabled,
-        props.error && styles.error,
-        style,
-        focus === props.name && [styles.input_focus, styleFocus],
-      ]}>
-        {icon &&
-          <View style={[
-            cStyles.borderRight,
-            cStyles.center,
-            styles.con_input_icon
-          ]}>
-            <Icon
-              name={icon}
-              color={iconColor}
-              size={scalePx(3.5)}
-            />
+    <View style={[{width: '100%'}, containerStyle]}>
+      <View
+        style={[
+          cStyles.row,
+          cStyles.itemsCenter,
+          cStyles.rounded1,
+          cStyles.mt6,
+          styles.con_input,
+          disabled && styles.disabled,
+          props.error && styles.error,
+          style,
+          focus === props.name && [styles.input_focus, styleFocus],
+        ]}>
+        {icon && (
+          <View
+            style={[
+              cStyles.borderRight,
+              cStyles.center,
+              styles.con_input_icon,
+            ]}>
+            <Icon name={icon} color={iconColor} size={scalePx(3.5)} />
           </View>
-        }
+        )}
 
         <View style={[cStyles.flex1, cStyles.px12]}>
-          {dateTimePicker &&
+          {dateTimePicker && (
             <View style={[cStyles.textDefault, styles.input]}>
               <CText customLabel={props.value} />
             </View>
-          }
+          )}
 
-          {!dateTimePicker &&
+          {!dateTimePicker && (
             <TextInput
               ref={props.inputRef}
               style={[
                 cStyles.textDefault,
-                { color: props.valueColor },
+                {color: props.valueColor},
                 IS_IOS && cStyles.mb6,
                 styleInput,
               ]}
@@ -158,46 +160,37 @@ function CInput(props) {
               onSubmitEditing={handleSubmitEditing}
               {...props}
             />
-          }
+          )}
         </View>
 
-        {hasRemove && props.value !== '' &&
+        {hasRemove && props.value !== '' && (
           <Component
-            style={[
-              cStyles.center,
-              styles.con_input_icon,
-            ]}
-            onPress={handleRemoveValue}
-          >
+            style={[cStyles.center, styles.con_input_icon]}
+            onPress={handleRemoveValue}>
             <Icon
               name={'close-circle-outline'}
               color={colors.RED}
               size={scalePx(3)}
             />
           </Component>
-        }
+        )}
 
-        {iconLast &&
+        {iconLast && (
           <Component
             style={[
               cStyles.center,
               cStyles.roundedTopRight1,
               cStyles.roundedBottomRight1,
-              { backgroundColor: colors.GRAY_300 },
+              {backgroundColor: colors.GRAY_300},
               styles.con_input_icon,
               iconLastStyle,
             ]}
-            onPress={handleIconLast}
-          >
-            <Icon
-              name={iconLast}
-              color={iconLastColor}
-              size={scalePx(3.5)}
-            />
+            onPress={handleIconLast}>
+            <Icon name={iconLast} color={iconLastColor} size={scalePx(3.5)} />
           </Component>
-        }
+        )}
 
-        {password &&
+        {password && (
           <Component
             style={[
               cStyles.center,
@@ -206,22 +199,21 @@ function CInput(props) {
               styles.con_input_icon,
               iconLastStyle,
             ]}
-            onPress={handleShowPassword}
-          >
+            onPress={handleShowPassword}>
             <Icon
               name={showPassword ? 'eye-off' : 'eye'}
               color={colors.GRAY_600}
               size={scalePx(3.5)}
             />
           </Component>
-        }
+        )}
       </View>
-      {props.error &&
+      {props.error && (
         <CText styles={'textMeta colorRed mt6'} label={t(props.errorHelper)} />
-      }
+      )}
     </View>
-  )
-};
+  );
+}
 
 const styles = StyleSheet.create({
   con_input: {

@@ -3,28 +3,28 @@
  ** Author:
  ** CreatedAt: 2021
  ** Description: Description of Auth.js
-**/
-import { showMessage } from 'react-native-flash-message';
+ **/
+import {showMessage} from 'react-native-flash-message';
 /* COMMON */
 import * as types from './types';
 import * as Actions from '~/redux/actions';
 import Services from '~/services';
 import API from '~/services/axios';
-import { removeSecretInfo, resetRoute } from '~/utils/helper';
-import { LOGIN } from '~/config/constants';
+import {removeSecretInfo, resetRoute} from '~/utils/helper';
+import {LOGIN} from '~/config/constants';
 import Routes from '~/navigation/Routes';
 
 export const logout = () => ({
-  type: types.LOGOUT
+  type: types.LOGOUT,
 });
 
 export const loginError = error => ({
   type: types.ERROR_LOGIN,
-  payload: error
+  payload: error,
 });
 
 export const loginSuccess = data => {
-  API.defaults.headers.common['Authorization'] = 'Bearer ' + data.access_token;
+  API.defaults.headers.common.Authorization = 'Bearer ' + data.access_token;
   return {
     type: types.SUCCESS_LOGIN,
     payload: {
@@ -40,7 +40,7 @@ export const loginSuccess = data => {
       deptCode: data.deptCode,
       jobTitle: data.jobTitle,
       expired: data['.expires'],
-    }
+    },
   };
 };
 
@@ -50,8 +50,9 @@ export const fetchLogin = params => {
       type: types.START_LOGIN,
     });
 
-    Services.authentication.login(params)
-      .then((res) => {
+    Services.authentication
+      .login(params)
+      .then(res => {
         if (!res.isError) {
           return dispatch(loginSuccess(res.data));
         } else {
@@ -61,8 +62,7 @@ export const fetchLogin = params => {
       .catch(error => {
         return dispatch(loginError(error));
       });
-
-  }
+  };
 };
 
 export const fetchRefreshToken = (params, callback, navigation) => {
@@ -71,8 +71,9 @@ export const fetchRefreshToken = (params, callback, navigation) => {
       type: types.START_REFRESH_TOKEN,
     });
 
-    Services.authentication.refreshToken(params)
-      .then((res) => {
+    Services.authentication
+      .refreshToken(params)
+      .then(res => {
         if (!res.isError) {
           dispatch(loginSuccess(res.data));
           return dispatch(callback());
@@ -83,7 +84,7 @@ export const fetchRefreshToken = (params, callback, navigation) => {
           showMessage({
             message: 'Phiên làm việc hết hạn. Vui lòng đăng nhập lại!',
             type: 'warning',
-            icon: 'warning'
+            icon: 'warning',
           });
           return resetRoute(navigation, Routes.AUTHENTICATION.SIGN_IN.name);
         }
@@ -92,5 +93,5 @@ export const fetchRefreshToken = (params, callback, navigation) => {
         dispatch(loginError(error));
         return resetRoute(navigation, Routes.AUTHENTICATION.SIGN_IN.name);
       });
-  }
+  };
 };

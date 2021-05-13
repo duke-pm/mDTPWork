@@ -1,11 +1,11 @@
 /**
  ** Name: Reducers.js
- ** Author: 
+ ** Author:
  ** CreatedAt: 2021
  ** Description: Description of Reducers.js
  **/
 /* LIBRARY */
-import { combineReducers } from 'redux';
+import {combineReducers} from 'redux';
 /* REDUCER */
 import common from './common';
 import auth from './auth';

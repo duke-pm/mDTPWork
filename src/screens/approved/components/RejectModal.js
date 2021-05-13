@@ -1,10 +1,10 @@
 /**
- ** Name: 
- ** Author: 
+ ** Name:
+ ** Author:
  ** CreateAt: 2021
  ** Description: Description of .js
  **/
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   View,
@@ -17,7 +17,7 @@ import CText from '~/components/CText';
 import CInput from '~/components/CInput';
 import CButton from '~/components/CButton';
 /* COMMON */
-import { colors, cStyles } from '~/utils/style';
+import {colors, cStyles} from '~/utils/style';
 
 const INPUT_NAME = {
   REASON_REJECT: 'reasonReject',
@@ -39,15 +39,16 @@ function RejectModal(props) {
   });
 
   /** HANDLE FUNC */
-  const handleChangeReasonReject = (value) => {
+  const handleChangeReasonReject = value => {
     setReasonReject(value);
-    if (error.reasonReject.status)
+    if (error.reasonReject.status) {
       setError({
         reasonReject: {
           status: false,
           helper: '',
         },
       });
+    }
   };
 
   const handleReject = () => {
@@ -70,25 +71,25 @@ function RejectModal(props) {
       animationIn={'fadeInUp'}
       animationOut={'fadeOutDown'}
       onBackButtonPress={onCloseReject}
-      onBackdropPress={onCloseReject}
-    >
+      onBackdropPress={onCloseReject}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={cStyles.flexCenter}>
           <View style={[cStyles.rounded1, styles.background]}>
-            <View style={[
-              cStyles.py10,
-              cStyles.roundedTopLeft2,
-              cStyles.roundedTopRight2,
-              { backgroundColor: colors.PRIMARY }
-            ]}>
-              <CText styles={'colorWhite textCenter fontMedium'} label={'common:app_name'} />
+            <View
+              style={[
+                cStyles.py10,
+                cStyles.roundedTopLeft2,
+                cStyles.roundedTopRight2,
+                {backgroundColor: colors.PRIMARY},
+              ]}>
+              <CText
+                styles={'colorWhite textCenter fontMedium'}
+                label={'common:app_name'}
+              />
             </View>
 
             <View style={cStyles.p10}>
-              <CText
-                styles={'textCenter'}
-                label={description}
-              />
+              <CText styles={'textCenter'} label={description} />
 
               <CInput
                 name={INPUT_NAME.REASON_REJECT}
@@ -109,13 +110,14 @@ function RejectModal(props) {
               />
             </View>
 
-            <View style={[
-              cStyles.row,
-              cStyles.itemsCenter,
-              cStyles.justifyEvenly,
-              cStyles.px16,
-              cStyles.py10
-            ]}>
+            <View
+              style={[
+                cStyles.row,
+                cStyles.itemsCenter,
+                cStyles.justifyEvenly,
+                cStyles.px16,
+                cStyles.py10,
+              ]}>
               <CButton
                 style={styles.button_base}
                 block
@@ -136,17 +138,17 @@ function RejectModal(props) {
         </View>
       </TouchableWithoutFeedback>
     </Modal>
-  )
-};
+  );
+}
 
 const styles = StyleSheet.create({
-  background: { backgroundColor: colors.WHITE },
-  input: { height: 150 },
+  background: {backgroundColor: colors.WHITE},
+  input: {height: 150},
   input_focus: {
     borderColor: colors.PRIMARY,
     borderWidth: 0.5,
   },
-  button_base: { width: cStyles.deviceWidth / 3 },
+  button_base: {width: cStyles.deviceWidth / 3},
 });
 
 export default RejectModal;

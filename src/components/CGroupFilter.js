@@ -1,26 +1,22 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /**
  ** Name: CGroupFilter
- ** Author: 
+ ** Author:
  ** CreateAt: 2021
  ** Description: Description of CGroupFilter.js
  **/
-import React, { useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import {
-  StyleSheet,
-  FlatList,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {useTranslation} from 'react-i18next';
+import {StyleSheet, FlatList, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 /* COMPONENTS */
 import CText from './CText';
 /* COMMON */
-import { IS_ANDROID, scalePx } from '~/utils/helper';
-import { colors, cStyles } from '~/utils/style';
+import {IS_ANDROID, scalePx} from '~/utils/helper';
+import {colors, cStyles} from '~/utils/style';
 
 function CGroupFilter(props) {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   const {
     containerStyle = {},
     activeAll = true,
@@ -29,18 +25,21 @@ function CGroupFilter(props) {
     label = '',
     items = [],
     itemsChoose = [],
-    onChange = () => { }
+    onChange = () => {},
   } = props;
 
-  const [values, setValues] = useState(items);
+  const [values] = useState(items);
   const [valuesChoose, setValuesChoose] = useState(activeAll ? items : []);
 
   /** HANDLE FUNC */
-  const handleItem = (data) => {
+  const handleItem = data => {
     let tmpValues = [...valuesChoose];
     let fItem = tmpValues.findIndex(f => f.value == data.value);
-    if (fItem !== -1) tmpValues.splice(fItem, 1);
-    else tmpValues.push(data);
+    if (fItem !== -1) {
+      tmpValues.splice(fItem, 1);
+    } else {
+      tmpValues.push(data);
+    }
     setValuesChoose(tmpValues);
     let callback = tmpValues.map(item => item.value);
     onChange(callback);
@@ -72,12 +71,13 @@ function CGroupFilter(props) {
 
   /** RENDER */
   return (
-    <View style={[
-      cStyles.pt10,
-      column && [cStyles.col, cStyles.justifyStart],
-      row && [cStyles.row, cStyles.itemsStart],
-      containerStyle
-    ]}>
+    <View
+      style={[
+        cStyles.pt10,
+        column && [cStyles.col, cStyles.justifyStart],
+        row && [cStyles.row, cStyles.itemsStart],
+        containerStyle,
+      ]}>
       <View style={[cStyles.pt6, styles.con_left]}>
         <CText styles={'fontMedium'} label={t(label)} />
       </View>
@@ -86,39 +86,44 @@ function CGroupFilter(props) {
         <FlatList
           contentContainerStyle={[cStyles.row, cStyles.flexWrap]}
           data={values}
-          renderItem={({ item, index }) => {
+          renderItem={({item, index}) => {
             let isCheck = valuesChoose.find(f => f.value == item.value);
 
             return (
               <TouchableOpacity onPress={() => handleItem(item)}>
-                <View style={[
-                  cStyles.rounded1,
-                  cStyles.ml6,
-                  cStyles.mt6,
-                  !isCheck && styles.con_unactive,
-                  isCheck && styles.con_active,
-                ]}>
-                  {isCheck &&
-                    <View style={{ position: 'absolute', top: 0, left: 0 }}>
+                <View
+                  style={[
+                    cStyles.rounded1,
+                    cStyles.ml6,
+                    cStyles.mt6,
+                    !isCheck && styles.con_unactive,
+                    isCheck && styles.con_active,
+                  ]}>
+                  {isCheck && (
+                    <View style={styles.con_icon}>
                       <Icon
                         name={'check-bold'}
                         size={scalePx(1.5)}
                         color={colors.WHITE}
                       />
                     </View>
-                  }
-                  <View style={[
-                    cStyles.rounded1,
-                    cStyles.py4,
-                    cStyles.px16,
-                    !isCheck && styles.unactive,
-                    isCheck && styles.active
-                  ]}>
-                    <CText styles={'textMeta fontMedium colorPrimary'} label={item.label} />
+                  )}
+                  <View
+                    style={[
+                      cStyles.rounded1,
+                      cStyles.py4,
+                      cStyles.px16,
+                      !isCheck && styles.unactive,
+                      isCheck && styles.active,
+                    ]}>
+                    <CText
+                      styles={'textMeta fontMedium colorPrimary'}
+                      label={item.label}
+                    />
                   </View>
                 </View>
               </TouchableOpacity>
-            )
+            );
           }}
           keyExtractor={(item, index) => index.toString()}
           removeClippedSubviews={IS_ANDROID}
@@ -129,7 +134,7 @@ function CGroupFilter(props) {
       </View>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   con_active: {
@@ -150,11 +155,12 @@ const styles = StyleSheet.create({
     borderColor: colors.PRIMARY,
   },
   con_left: {
-    flex: 0.27
+    flex: 0.27,
   },
   con_right: {
-    flex: 0.73
-  }
+    flex: 0.73,
+  },
+  con_icon: {position: 'absolute', top: 0, left: 0},
 });
 
 export default CGroupFilter;

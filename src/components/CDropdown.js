@@ -1,26 +1,26 @@
 /**
  ** Name: CDropdown
- ** Author: 
+ ** Author:
  ** CreateAt: 2021
  ** Description: Description of CDropdown.js
  **/
 import React from 'react';
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
-import { useTranslation } from 'react-i18next';
+import {ActivityIndicator, StyleSheet, View} from 'react-native';
+import {useTranslation} from 'react-i18next';
 /* COMPONENTS */
 import DropDownPicker from '~/libs/DropDownPicker';
 import CText from '~/components/CText';
 /* COMMON */
-import { cStyles, colors } from '~/utils/style';
+import {cStyles, colors} from '~/utils/style';
 /* REDUX */
 
 function CDropdown(props) {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   const {
     defaultValue,
     holder = '',
     disabled = false,
-    onChangeItem = () => { },
+    onChangeItem = () => {},
   } = props;
 
   /** RENDER */
@@ -29,7 +29,7 @@ function CDropdown(props) {
       <View style={[cStyles.flexCenter, styles.container]}>
         <ActivityIndicator />
       </View>
-    )
+    );
   }
 
   return (
@@ -43,7 +43,7 @@ function CDropdown(props) {
         ]}
         placeholderStyle={[
           cStyles.textMeta,
-          { fontSize: cStyles.textDefault.fontSize },
+          {fontSize: cStyles.textDefault.fontSize},
         ]}
         itemStyle={styles.item}
         globalTextStyle={cStyles.textDefault}
@@ -56,12 +56,12 @@ function CDropdown(props) {
         {...props}
       />
 
-      {props.error &&
+      {props.error && (
         <CText styles={'textMeta colorRed mt6'} label={t(props.errorHelper)} />
-      }
+      )}
     </>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
   },
   disabled: {
     backgroundColor: colors.GRAY_300,
-  }
+  },
 });
 
 export default CDropdown;

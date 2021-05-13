@@ -3,7 +3,7 @@
  ** Author:
  ** CreatedAt: 2021
  ** Description: Description of masterData.js
-**/
+ **/
 /* COMMON */
 import * as types from './types';
 import * as Actions from '~/redux/actions';
@@ -11,12 +11,12 @@ import Services from '~/services';
 
 export const getError = error => ({
   type: types.ERROR_FETCH_MASTER_DATA,
-  payload: error
+  payload: error,
 });
 
 export const changeMasterData = data => ({
   type: types.CHANGE_MASTER_ALL,
-  payload: data
+  payload: data,
 });
 
 export const fetchMasterData = (params, navigation) => {
@@ -25,8 +25,9 @@ export const fetchMasterData = (params, navigation) => {
       type: types.START_FETCH_MASTER_DATA,
     });
 
-    Services.master.get(params)
-      .then((res) => {
+    Services.master
+      .get(params)
+      .then(res => {
         if (!res.isError) {
           return dispatch(changeMasterData(res.data));
         } else {
@@ -37,17 +38,19 @@ export const fetchMasterData = (params, navigation) => {
         dispatch(getError(error));
         if (error.message && error.message.search('Authorization') !== -1) {
           let tmp = {
-            'RefreshToken': params.RefreshToken,
-            'Lang': params.Lang,
-          }
-          return dispatch(Actions.fetchRefreshToken(
-            tmp,
-            () => fetchMasterData(params, navigation),
-            navigation,
-          ));
+            RefreshToken: params.RefreshToken,
+            Lang: params.Lang,
+          };
+          return dispatch(
+            Actions.fetchRefreshToken(
+              tmp,
+              () => fetchMasterData(params, navigation),
+              navigation,
+            ),
+          );
         }
       });
-  }
+  };
 };
 
 export const fetchAssetByUser = (params, navigation) => {
@@ -56,10 +59,11 @@ export const fetchAssetByUser = (params, navigation) => {
       type: types.START_FETCH_ASSET_BY_USER,
     });
 
-    Services.master.getAssetsByUser(params)
-      .then((res) => {
+    Services.master
+      .getAssetsByUser(params)
+      .then(res => {
         if (!res.isError) {
-          let tmp = { assetByUser: res.data };
+          let tmp = {assetByUser: res.data};
           return dispatch(changeMasterData(tmp));
         } else {
           return dispatch(getError(res.errorMessage));
@@ -69,15 +73,17 @@ export const fetchAssetByUser = (params, navigation) => {
         dispatch(getError(error));
         if (error.message && error.message.search('Authorization') !== -1) {
           let tmp = {
-            'RefreshToken': params.RefreshToken,
-            'Lang': params.Lang,
-          }
-          return dispatch(Actions.fetchRefreshToken(
-            tmp,
-            () => fetchMasterData(params, navigation),
-            navigation,
-          ));
+            RefreshToken: params.RefreshToken,
+            Lang: params.Lang,
+          };
+          return dispatch(
+            Actions.fetchRefreshToken(
+              tmp,
+              () => fetchMasterData(params, navigation),
+              navigation,
+            ),
+          );
         }
       });
-  }
+  };
 };

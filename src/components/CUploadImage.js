@@ -1,17 +1,12 @@
 /**
  ** Name: CUploadImage
- ** Author: 
+ ** Author:
  ** CreateAt: 2021
  ** Description: Description of CUploadImage.js
  **/
-import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import {
-  StyleSheet,
-  View,
-  ActionSheetIOS,
-  TouchableOpacity
-} from 'react-native';
+import React, {useState} from 'react';
+import {useTranslation} from 'react-i18next';
+import {StyleSheet, View, ActionSheetIOS, TouchableOpacity} from 'react-native';
 import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import moment from 'moment';
@@ -29,15 +24,12 @@ import {
   IS_ANDROID,
   scalePx,
 } from '~/utils/helper';
-import { colors, cStyles } from '~/utils/style';
+import {colors, cStyles} from '~/utils/style';
 /* REDUX */
 
-
 function CUploadImage(props) {
-  const {
-    onChange
-  } = props;
-  const { t } = useTranslation();
+  const {onChange} = props;
+  const {t} = useTranslation();
 
   const [showUpload, setShowUpload] = useState(false);
 
@@ -54,22 +46,24 @@ function CUploadImage(props) {
           options: [
             t('common:from_camera'),
             t('common:from_gallery'),
-            t('common:cancel')
+            t('common:cancel'),
           ],
           cancelButtonIndex: 2,
         },
         buttonIndex => {
-          if (buttonIndex === 0) { // Camera
+          if (buttonIndex === 0) {
+            // Camera
             onChangeByCamera();
-          } else if (buttonIndex === 1) { // Gallery
+          } else if (buttonIndex === 1) {
+            // Gallery
             onChangeByGallery();
           }
-        }
+        },
       );
     } else {
       setShowUpload(true);
     }
-  }
+  };
 
   /** FUNC */
   const onChangeByCamera = async () => {
@@ -81,16 +75,20 @@ function CUploadImage(props) {
           onChange({
             file: {
               type: result.mime,
-              name: IS_ANDROID ? ('image' + moment().valueOf()) : result.filename,
+              name: IS_ANDROID ? 'image' + moment().valueOf() : result.filename,
               path: result.path,
             },
             fileBase64: `data:${result.mime};base64,${result.data}`,
           });
-          if (IS_ANDROID) setShowUpload(false);
+          if (IS_ANDROID) {
+            setShowUpload(false);
+          }
         }
       } catch (e) {
         console.log('Error: ', e);
-        if (IS_ANDROID) setShowUpload(false);
+        if (IS_ANDROID) {
+          setShowUpload(false);
+        }
       }
     }
   };
@@ -104,16 +102,20 @@ function CUploadImage(props) {
           onChange({
             file: {
               type: result.mime,
-              name: IS_ANDROID ? ('image' + moment().valueOf()) : result.filename,
+              name: IS_ANDROID ? 'image' + moment().valueOf() : result.filename,
               path: result.path,
             },
             fileBase64: `data:${result.mime};base64,${result.data}`,
           });
-          if (IS_ANDROID) setShowUpload(false);
+          if (IS_ANDROID) {
+            setShowUpload(false);
+          }
         }
       } catch (e) {
         console.log('Error: ', e);
-        if (IS_ANDROID) setShowUpload(false);
+        if (IS_ANDROID) {
+          setShowUpload(false);
+        }
       }
     }
   };
@@ -122,30 +124,34 @@ function CUploadImage(props) {
   return (
     <View style={cStyles.pt16}>
       <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween]}>
-        <CText styles={'textTitle'} label={'add_approved_lost_damaged:file_upload'} />
+        <CText
+          styles={'textTitle'}
+          label={'add_approved_lost_damaged:file_upload'}
+        />
         <CButton
           style={styles.button_upload}
           disabled={props.loading.submitAdd}
-          label={props.file.data
-            ? 'add_approved_lost_damaged:button_choose_again'
-            : 'common:upload'
+          label={
+            props.file.data
+              ? 'add_approved_lost_damaged:button_choose_again'
+              : 'common:upload'
           }
           icon={'cloud-upload'}
           onPress={handleUpload}
         />
       </View>
-      {props.file.data &&
+      {props.file.data && (
         <CCard
           containerStyle={cStyles.mt10}
           cardContent={
             <CImage
               style={[cStyles.rounded1, styles.image_upload]}
-              source={{ uri: props.file.data64 }}
+              source={{uri: props.file.data64}}
               resizeMode={'cover'}
             />
           }
         />
-      }
+      )}
 
       <Modal
         style={[cStyles.m0, cStyles.justifyEnd]}
@@ -153,31 +159,32 @@ function CUploadImage(props) {
         swipeDirection={['up', 'left', 'right', 'down']}
         onSwipeComplete={handleCloseUpload}
         onBackButtonPress={handleCloseUpload}
-        onBackdropPress={handleCloseUpload}
-      >
+        onBackdropPress={handleCloseUpload}>
         <View style={[cStyles.pt10, cStyles.pb24, styles.container]}>
           <View style={[cStyles.py10, cStyles.px16]}>
             <CText styles={'textMeta'} label={'common:from_upload'} />
           </View>
-          <TouchableOpacity
-            activeOpacity={0.5}
-            onPress={onChangeByCamera}
-          >
-            <View style={[cStyles.row, cStyles.itemsCenter, cStyles.py16, cStyles.px16]}>
-              <Icon
-                name={'camera'}
-                size={scalePx(3.5)}
-                color={colors.RED}
-              />
+          <TouchableOpacity activeOpacity={0.5} onPress={onChangeByCamera}>
+            <View
+              style={[
+                cStyles.row,
+                cStyles.itemsCenter,
+                cStyles.py16,
+                cStyles.px16,
+              ]}>
+              <Icon name={'camera'} size={scalePx(3.5)} color={colors.RED} />
               <CText styles={'textTitle pl16'} label={'common:from_camera'} />
             </View>
           </TouchableOpacity>
 
-          <TouchableOpacity
-            activeOpacity={0.5}
-            onPress={onChangeByGallery}
-          >
-            <View style={[cStyles.row, cStyles.itemsCenter, cStyles.py16, cStyles.px16]}>
+          <TouchableOpacity activeOpacity={0.5} onPress={onChangeByGallery}>
+            <View
+              style={[
+                cStyles.row,
+                cStyles.itemsCenter,
+                cStyles.py16,
+                cStyles.px16,
+              ]}>
               <Icon
                 name={'image-multiple-outline'}
                 size={scalePx(3.5)}
@@ -189,17 +196,15 @@ function CUploadImage(props) {
         </View>
       </Modal>
     </View>
-  )
-
-
-};
+  );
+}
 
 const styles = StyleSheet.create({
-  input_multiline: { height: 100 },
-  button_upload: { width: 100, flex: 0 },
-  image_upload: { height: 150, width: '100%' },
+  input_multiline: {height: 100},
+  button_upload: {width: 100, flex: 0},
+  image_upload: {height: 150, width: '100%'},
 
-  container: { backgroundColor: colors.WHITE },
+  container: {backgroundColor: colors.WHITE},
 });
 
 export default CUploadImage;

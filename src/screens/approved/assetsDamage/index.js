@@ -1,34 +1,35 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /**
  ** Name: Approved assets damage page
- ** Author: 
+ ** Author:
  ** CreateAt: 2021
  ** Description: Description of ApprovedAssetsDamage.js
  **/
-import { fromJS } from 'immutable';
-import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useTranslation } from 'react-i18next';
-import { ActivityIndicator, View } from 'react-native';
-import { showMessage } from "react-native-flash-message";
+import {fromJS} from 'immutable';
+import React, {useState, useEffect} from 'react';
+import {useSelector, useDispatch} from 'react-redux';
+import {useTranslation} from 'react-i18next';
+import {ActivityIndicator, View} from 'react-native';
+import {showMessage} from 'react-native-flash-message';
 import moment from 'moment';
 /* COMPONENTS */
 import CContent from '~/components/CContent';
 import ListRequest from './list/Request';
 import CText from '~/components/CText';
 /* COMMON */
-import { LOAD_MORE, REFRESH } from '~/config/constants';
-import { colors, cStyles } from '~/utils/style';
-import { usePrevious } from '~/utils/hook';
+import {LOAD_MORE, REFRESH} from '~/config/constants';
+import {colors, cStyles} from '~/utils/style';
+import {usePrevious} from '~/utils/hook';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 
 function ApprovedAssetsDamage(props) {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
 
   const dispatch = useDispatch();
-  const commonState = useSelector(({ common }) => common);
-  const approvedState = useSelector(({ approved }) => approved);
-  const authState = useSelector(({ auth }) => auth);
+  const commonState = useSelector(({common}) => common);
+  const approvedState = useSelector(({approved}) => approved);
+  const authState = useSelector(({auth}) => auth);
   const perPage = commonState.get('perPage');
 
   const [loading, setLoading] = useState({
@@ -39,8 +40,14 @@ function ApprovedAssetsDamage(props) {
     isLoadmore: true,
   });
   const [data, setData] = useState({
-    fromDate: moment().clone().startOf('month').format(commonState.get('formatDate')),
-    toDate: moment().clone().endOf('month').format(commonState.get('formatDate')),
+    fromDate: moment()
+      .clone()
+      .startOf('month')
+      .format(commonState.get('formatDate')),
+    toDate: moment()
+      .clone()
+      .endOf('month')
+      .format(commonState.get('formatDate')),
     status: '1,2,3,4',
     requests: [],
     requestsDetail: [],
@@ -60,28 +67,30 @@ function ApprovedAssetsDamage(props) {
     search = '',
   ) => {
     let params = fromJS({
-      'FromDate': fromDate,
-      'ToDate': toDate,
-      'StatusID': statusId,
-      'PageSize': perPage,
-      'PageNum': page,
-      'Search': search,
-      'RequestTypeID': props.type + '',
-      'IsResolveRequest': false,
-      'RefreshToken': authState.getIn(['login', 'refreshToken']),
-      'Lang': commonState.get('language'),
+      FromDate: fromDate,
+      ToDate: toDate,
+      StatusID: statusId,
+      PageSize: perPage,
+      PageNum: page,
+      Search: search,
+      RequestTypeID: props.type + '',
+      IsResolveRequest: false,
+      RefreshToken: authState.getIn(['login', 'refreshToken']),
+      Lang: commonState.get('language'),
     });
     dispatch(Actions.fetchListRequestDamage(params, props.navigation));
   };
 
-  const onPrepareData = (type) => {
+  const onPrepareData = type => {
     let tmpRequests = [...data.requests];
     let tmpRequestDetail = [...data.requestsDetail];
     let tmpProcessApproveds = [...data.processApproveds];
     let isLoadmore = true;
 
     // Check if count result < perPage => loadmore is unavailable
-    if (approvedState.get('requestsDamage').length < perPage) isLoadmore = false;
+    if (approvedState.get('requestsDamage').length < perPage) {
+      isLoadmore = false;
+    }
 
     // Check type fetch is refresh or loadmore
     if (type === REFRESH) {
@@ -90,8 +99,14 @@ function ApprovedAssetsDamage(props) {
       tmpProcessApproveds = approvedState.get('processDamageApproved');
     } else if (type === LOAD_MORE) {
       tmpRequests = [...tmpRequests, ...approvedState.get('requestsDamage')];
-      tmpRequestDetail = [...tmpRequestDetail, ...approvedState.get('requestsDamageDetail')];
-      tmpProcessApproveds = [...tmpProcessApproveds, ...approvedState.get('processDamageApproved')];
+      tmpRequestDetail = [
+        ...tmpRequestDetail,
+        ...approvedState.get('requestsDamageDetail'),
+      ];
+      tmpProcessApproveds = [
+        ...tmpProcessApproveds,
+        ...approvedState.get('processDamageApproved'),
+      ];
     }
 
     // Update data
@@ -115,23 +130,17 @@ function ApprovedAssetsDamage(props) {
 
   const onRefresh = () => {
     if (!loading.refreshing) {
-      setLoading({ ...loading, refreshing: true, isLoadmore: true });
-      setData({ ...data, page: 1, search: '' });
-      onFetchData(
-        data.fromDate,
-        data.toDate,
-        data.status,
-        1,
-        '',
-      );
+      setLoading({...loading, refreshing: true, isLoadmore: true});
+      setData({...data, page: 1, search: ''});
+      onFetchData(data.fromDate, data.toDate, data.status, 1, '');
     }
   };
 
   const onLoadmore = () => {
     if (!loading.loadmore && loading.isLoadmore) {
       let newPage = data.page + 1;
-      setLoading({ ...loading, loadmore: true });
-      setData({ ...data, page: newPage });
+      setLoading({...loading, loadmore: true});
+      setData({...data, page: newPage});
       onFetchData(
         data.fromDate,
         data.toDate,
@@ -161,25 +170,21 @@ function ApprovedAssetsDamage(props) {
 
   /** LIFE CYCLE */
   useEffect(() => {
-    onFetchData(
-      data.fromDate,
-      data.toDate,
-      data.status,
-      1,
-      data.search,
-    );
-    setLoading({ ...loading, main: true });
+    onFetchData(data.fromDate, data.toDate, data.status, 1, data.search);
+    setLoading({...loading, main: true});
   }, []);
 
   useEffect(() => {
     if (prevData) {
       let curData = props.dataRoute;
-      if ((prevData.fromDate !== curData.fromDate)
-        || (prevData.toDate !== curData.toDate)
-        || (JSON.stringify(prevData.status) !== JSON.stringify(curData.status))
-        || (prevData.search !== curData.search)
-        || (prevData.isRefresh !== curData.isRefresh)) {
-        setLoading({ ...loading, search: true });
+      if (
+        prevData.fromDate !== curData.fromDate ||
+        prevData.toDate !== curData.toDate ||
+        JSON.stringify(prevData.status) !== JSON.stringify(curData.status) ||
+        prevData.search !== curData.search ||
+        prevData.isRefresh !== curData.isRefresh
+      ) {
+        setLoading({...loading, search: true});
         setData({
           ...data,
           fromDate: curData.fromDate,
@@ -197,17 +202,20 @@ function ApprovedAssetsDamage(props) {
         );
       }
     }
-  }, [
-    setLoading,
-    prevData,
-    props.dataRoute
-  ]);
+  }, [setLoading, prevData, props.dataRoute]);
 
   useEffect(() => {
-    if (loading.main || loading.search || loading.refreshing || loading.loadmore) {
+    if (
+      loading.main ||
+      loading.search ||
+      loading.refreshing ||
+      loading.loadmore
+    ) {
       if (!approvedState.get('submittingListDamage')) {
         let type = REFRESH;
-        if (loading.loadmore) type = LOAD_MORE;
+        if (loading.loadmore) {
+          type = LOAD_MORE;
+        }
 
         if (approvedState.get('successListRequestDamage')) {
           return onPrepareData(type);
@@ -225,13 +233,13 @@ function ApprovedAssetsDamage(props) {
     loading.loadmore,
     approvedState.get('submittingListDamage'),
     approvedState.get('successListRequestDamage'),
-    approvedState.get('errorListRequestDamage')
+    approvedState.get('errorListRequestDamage'),
   ]);
 
   /** RENDER */
   return (
     <CContent>
-      {(!loading.main && !loading.search) &&
+      {!loading.main && !loading.search && (
         <ListRequest
           refreshing={loading.refreshing}
           loadmore={loading.loadmore}
@@ -241,16 +249,16 @@ function ApprovedAssetsDamage(props) {
           onRefresh={onRefresh}
           onLoadmore={onLoadmore}
         />
-      }
+      )}
 
-      {(loading.main || loading.search) &&
+      {(loading.main || loading.search) && (
         <View style={[cStyles.flexCenter]}>
           <ActivityIndicator color={colors.PRIMARY} />
           <CText styles={'textMeta pt10 textCenter'} label={'loading'} />
         </View>
-      }
+      )}
     </CContent>
   );
-};
+}
 
 export default React.memo(ApprovedAssetsDamage);

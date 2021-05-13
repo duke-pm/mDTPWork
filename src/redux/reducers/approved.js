@@ -1,11 +1,11 @@
 /**
  ** Name: Approved.js
- ** Author: 
+ ** Author:
  ** CreatedAt: 2021
  ** Description: Description of Approved.js
  **/
 /* LIBRARY */
-import { fromJS, List } from 'immutable';
+import {fromJS, List} from 'immutable';
 import * as types from '../actions/types';
 
 export const initialState = fromJS({
@@ -54,7 +54,7 @@ export const initialState = fromJS({
 });
 
 export default function (state = initialState, action = {}) {
-  const { type, payload } = action;
+  const {type, payload} = action;
   switch (type) {
     /** For list request **/
     case types.START_FETCH_LIST_REQUEST_APPROVED:
@@ -304,4 +304,4 @@ export default function (state = initialState, action = {}) {
     default:
       return state;
   }
-};
+}

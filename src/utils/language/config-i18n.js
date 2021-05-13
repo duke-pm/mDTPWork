@@ -1,11 +1,11 @@
 /**
  ** Name: Config i18n
- ** Author: 
+ ** Author:
  ** CreateAt: 2021
  ** Description: Description of config-i18n.js
  **/
 import i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
+import {initReactI18next} from 'react-i18next';
 
 import languages from './locales';
 
