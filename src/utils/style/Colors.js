@@ -21,6 +21,8 @@ export default {
   BACKGROUND_INPUT_FOCUS: 'rgba(255,255,255,0.1)',
   BACKGROUND_CARD: '#edf2f7',
 
+  GRADIENT_CARD_1: ['rgba(255,255,255,0)', 'rgba(255,255,255,0.5)', 'rgba(255,255,255,1)'],
+
   GRAY_100: '#f7fafc',
   GRAY_200: '#edf2f7',
   GRAY_300: '#e2e8f0',

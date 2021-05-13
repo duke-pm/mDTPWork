@@ -5,6 +5,7 @@
  ** Description: Description of CHeader.js
  **/
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import {
   StyleSheet,
   View,
@@ -21,6 +22,8 @@ import CInput from './CInput';
 /** COMMON */
 import { cStyles, colors } from '~/utils/style';
 import { IS_ANDROID, scalePx } from '~/utils/helper';
+/** REDUX */
+import * as Actions from '~/redux/actions';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -47,6 +50,8 @@ function CHeader(props) {
     onPressSearch = () => { },
   } = props;
 
+  const dispatch = useDispatch();
+
   const [isSearch, setIsSearch] = useState(false);
   const [valueSearch, setValueSearch] = useState('');
 
@@ -58,6 +63,7 @@ function CHeader(props) {
   const handleToogleSearch = (show) => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setIsSearch(show);
+    dispatch(Actions.changeIsSearch(show));
   };
 
   const handleAddNew = () => {
@@ -66,6 +72,7 @@ function CHeader(props) {
 
   const handleSearch = () => {
     onPressSearch(valueSearch);
+    handleToogleSearch(false);
   };
 
   const handleChangeValue = (value) => {
@@ -92,7 +99,8 @@ function CHeader(props) {
             style={styles.con_search}
             iconLastStyle={styles.con_search}
             iconLast={'magnify'}
-            iconLastColor={colors.GRAY_600}
+            iconLastColor={colors.ICON_BASE}
+            valueColor={colors.TEXT_BASE}
             holder={'approved_assets:search_request'}
             autoFocus
             returnKey={'search'}
@@ -202,17 +210,11 @@ const styles = StyleSheet.create({
     borderBottomColor: cStyles.toolbarDefaultBorder,
     top: 0,
     left: 0,
-    right: 0
+    right: 0,
   },
-  con_left: {
-    flex: 0.2,
-  },
-  con_body: {
-    flex: 0.6,
-  },
-  con_right: {
-    flex: 0.2,
-  },
+  con_left: { flex: 0.2 },
+  con_body: { flex: 0.6 },
+  con_right: { flex: 0.2 },
   input_search: { width: '85%' },
   con_search: { backgroundColor: colors.WHITE },
 });

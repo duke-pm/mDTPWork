@@ -192,7 +192,7 @@ function CInput(props) {
             <Icon
               name={iconLast}
               color={iconLastColor}
-              size={scalePx(3)}
+              size={scalePx(3.5)}
             />
           </Component>
         }

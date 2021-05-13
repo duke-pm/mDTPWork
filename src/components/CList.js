@@ -47,9 +47,7 @@ function CList(props) {
         Animated.timing(
           animButtonToTop,
           {
-            toValue: IS_IOS
-              ? (cStyles.deviceHeight - cStyles.deviceHeight / 3)
-              : (cStyles.deviceHeight - cStyles.deviceHeight / 4),
+            toValue: 0,
             duration: 150,
             useNativeDriver: true,
           }
@@ -65,7 +63,7 @@ function CList(props) {
         Animated.timing(
           animButtonToTop,
           {
-            toValue: cStyles.deviceHeight,
+            toValue: 100,
             duration: 150,
             useNativeDriver: true,
           }
@@ -112,7 +110,7 @@ function CList(props) {
       <CIconButton
         style={[styles.button_scroll_to_top, {
           transform: [{
-            translateY: animButtonToTop
+            translateX: animButtonToTop,
           }]
         }]}
         iconName={'arrow-collapse-up'}
@@ -127,6 +125,7 @@ const styles = StyleSheet.create({
   button_scroll_to_top: {
     position: 'absolute',
     right: 30,
+    bottom: 30,
     backgroundColor: colors.SECONDARY,
   }
 });

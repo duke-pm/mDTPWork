@@ -41,3 +41,8 @@ export const changePerPage = perPage => ({
   type: types.CHANGE_PER_PAGE,
   payload: perPage,
 });
+
+export const changeIsSearch = isSearch => ({
+  type: types.CHANGE_IS_SEARCH,
+  payload: isSearch,
+});

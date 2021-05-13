@@ -4,7 +4,7 @@
  ** CreateAt: 2021
  ** Description: Description of Filter.js
  **/
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import {
@@ -26,6 +26,7 @@ import CButton from '~/components/CButton';
 import { colors, cStyles } from '~/utils/style';
 import { IS_ANDROID, scalePx } from '~/utils/helper';
 import CGroupFilter from '~/components/CGroupFilter';
+import { usePrevious } from '~/utils/hook';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -40,12 +41,16 @@ const INPUT_NAME = {
 
 const TYPES_ASSETS = [
   {
+    value: 1,
+    label: 'list_request_assets_handling:title_add',
+  },
+  {
     value: 2,
-    label: 'approved_lost_damaged:title_damaged',
+    label: 'list_request_assets_handling:title_damaged',
   },
   {
     value: 3,
-    label: 'approved_lost_damaged:title_lost',
+    label: 'list_request_assets_handling:title_lost',
   }
 ];
 
@@ -64,16 +69,9 @@ const STATUS_REQUEST = [
   }
 ];
 
-const NEED_REQUEST = [
-  {
-    value: false,
-    label: 'approved_assets:resolve_request',
-  },
-];
-
 function Filter(props) {
   const {
-    hasLostDamage = false,
+    isResolve = false,
     onFilter = () => { },
   } = props;
   const { t } = useTranslation();
@@ -89,9 +87,11 @@ function Filter(props) {
     fromDate: moment().clone().startOf('month').format(commonState.get('formatDate')),
     toDate: moment().clone().endOf('month').format(commonState.get('formatDate')),
     status: [1, 2, 3, 4],
-    type: [2, 3],
-    resolveRequest: false,
+    type: [1, 2, 3],
+    resolveRequest: isResolve,
   });
+
+  let prevData = usePrevious(props.data);
 
   /** HANDLE FUNC */
   const handleToggle = () => {
@@ -117,19 +117,8 @@ function Filter(props) {
     setData({ ...data, status: tmp });
   };
 
-  const handleChangeResolveRequest = (checked) => {
-    setData({ ...data, resolveRequest: checked.length > 0 ? true : false });
-  };
-
   const handleFilter = () => {
-    if (hasLostDamage && data.type.length === 0) {
-      showMessage({
-        message: t('common:app_name'),
-        description: t('error:type_lost_damaged_not_found'),
-        type: 'danger',
-        icon: 'danger',
-      });
-    } else if (data.status.length === 0) {
+    if (data.status.length === 0) {
       showMessage({
         message: t('common:app_name'),
         description: t('error:status_not_found'),
@@ -137,7 +126,6 @@ function Filter(props) {
         icon: 'danger',
       });
     } else {
-      setShow(false);
       onFilter(
         data.fromDate,
         data.toDate,
@@ -157,8 +145,25 @@ function Filter(props) {
         [showPickerDate.active]: moment(newDate).format(commonState.get('formatDate')),
       });
       setShowPickerDate({ ...showPickerDate, status: showPicker });
+    };
+  };
+
+  useEffect(() => {
+    if (prevData) {
+      if (prevData.key !== props.data.key) {
+        setData({
+          ...data,
+          fromDate: props.data.fromDate,
+          toDate: props.data.toDate,
+          status: JSON.parse("[" + props.data.status + "]"),
+          type: JSON.parse("[" + props.data.type + "]"),
+        })
+      }
     }
-  }
+  }, [
+    props.data,
+    prevData,
+  ]);
 
   /** RENDER */
   return (
@@ -239,7 +244,7 @@ function Filter(props) {
             />
           </View>
 
-          {hasLostDamage &&
+          {isResolve &&
             <CGroupFilter
               row
               label={'common:type'}
@@ -249,22 +254,15 @@ function Filter(props) {
             />
           }
 
-          <CGroupFilter
-            row
-            label={'common:status'}
-            items={STATUS_REQUEST}
-            itemsChoose={data.status}
-            onChange={handleChangeStatus}
-          />
-
-          <CGroupFilter
-            activeAll={false}
-            row
-            label={'approved_assets:resolve_request'}
-            items={NEED_REQUEST}
-            itemsChoose={[data.resolveRequest]}
-            onChange={handleChangeResolveRequest}
-          />
+          {!isResolve &&
+            <CGroupFilter
+              row
+              label={'common:status'}
+              items={STATUS_REQUEST}
+              itemsChoose={data.status}
+              onChange={handleChangeStatus}
+            />
+          }
 
           <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween, cStyles.pt10]}>
             <CButton

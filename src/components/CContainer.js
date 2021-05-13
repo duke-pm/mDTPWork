@@ -6,6 +6,7 @@
  * @flow strict-local
  */
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { StyleSheet, View, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 /** COMMON */
@@ -16,6 +17,8 @@ import CLoading from './CLoading';
 import { cStyles, colors } from '~/utils/style';
 
 function CContainer(props) {
+  const commonState = useSelector(({ common }) => common);
+
   const {
     safeArea = {
       top: true,
@@ -75,9 +78,25 @@ function CContainer(props) {
             onPressSearch={onPressSearch}
           />
         )}
-        {content}
+        {content &&
+          <View style={cStyles.flex1}>
+            {content}
+            {commonState.get('isSearch') &&
+              <View style={[cStyles.abs, cStyles.inset0, {
+                backgroundColor: colors.BACKGROUND_MODAL
+              }]} />
+            }
+          </View>
+        }
         {footer &&
-          <CFooter content={footer} />
+          <View>
+            <CFooter content={footer} />
+            {commonState.get('isSearch') &&
+              <View style={[cStyles.abs, cStyles.inset0, {
+                backgroundColor: colors.BACKGROUND_MODAL
+              }]} />
+            }
+          </View>
         }
       </View>
 

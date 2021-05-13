@@ -10,7 +10,7 @@
     "warning_send_request_approved": "Bạn có chắc muốn gửi đơn cấp phát này không?",
     "empty_data": "Dữ liệu rỗng",
     "cannot_find_data_filter": "Không tìm thấy dữ liệu tương ứng!\nVui lòng thử lại sau!",
-    "loading": "Đang tải...",
+    "loading": "Đang tải...\nVui lòng chờ trong giây lát.",
     "sign_out": "Đăng Xuất",
     "warning_sign_out": "Bạn có chắc muốn đăng xuất không?",
     "empty_info": "Không có thông tin",
@@ -48,7 +48,8 @@
     "assets_not_empty": "Tài sản không thể trống",
     "reason_not_empty": "Lý do không thể trống",
     "cannot_open_file_upload": "Không thể truy cập file đính kèm. Vui lòng thử lại sau!",
-    "find_not_epmty": "Tìm kiếm không thể trống!"
+    "find_not_epmty": "Tìm kiếm không thể trống!",
+    "add_request_lost_damage": "Thêm yêu cầu không thành công. Vui lòng thử lại sau!"
   },
   "sign_in": {
     "title": "Đăng Nhập",
@@ -71,8 +72,22 @@
     "title": "Tài Khoản"
   },
   "approved": {
-    "title": "Cấp Phát",
-    "assets": "Tài Sản"
+    "title": "Tài Sản",
+    "assets": "Tài Sản",
+    "list_request": "Danh sách yêu cầu",
+    "list_request_handling": "Danh sách cần xử lý"
+  },
+  "list_request_assets": {
+    "title": "Danh sách yêu cầu",
+    "title_add": "Cấp phát",
+    "title_damaged": "Báo Hỏng",
+    "title_lost": "Báo Mất"
+  },
+  "list_request_assets_handling": {
+    "title": "Danh sách cần xử lý",
+    "title_add": "Cấp phát",
+    "title_damaged": "Hỏng",
+    "title_lost": "Mất"
   },
   "approved_assets": {
     "title": "Cấp Phát Tài Sản",
@@ -120,7 +135,7 @@
     "where_use": "Nơi dùng",
     "holder_where_use": "Chọn nơi dùng",
     "reason": "Lý do",
-    "holder_reason": "Điền lý do...",
+    "holder_reason": "Lý do...",
     "type_assets": "Loại tài sản",
     "buy_new": "Mua mới",
     "additional": "Bổ sung thêm",
@@ -132,6 +147,7 @@
     "send": "Gửi Yêu Cầu",
     "approved": "Duyệt",
     "reject": "Không duyệt",
+    "wait": "Chờ duyệt",
     "message_confirm_approved": "Bạn có muốn chấp thuận đơn cấp phát tài sản này?",
     "message_confirm_reject": "Nếu bạn từ chối đơn cấp phát tài sản này, vui lòng điền lý do dưới đây",
     "user_request": "Người gửi: ",
@@ -181,13 +197,14 @@
     "holder_assets": "Chọn tài sản...",
     "search_assets": "Tìm tài sản",
     "reason": "Lý do báo hỏng/mất",
-    "holder_reason": "Điền lý do...",
+    "holder_reason": "Lý do...",
     "type_update": "Tài sản cần",
     "lost_assets": "Báo mất",
     "damage_assets": "Báo hỏng",
     "send": "Gửi Yêu Cầu",
     "approved": "Duyệt",
     "reject": "Không duyệt",
+    "wait": "Chờ duyệt",
     "message_confirm_approved_lost": "Bạn có muốn chấp thuận đơn báo mất tài sản này?",
     "message_confirm_approved_damage": "Bạn có muốn chấp thuận đơn báo hỏng tài sản này?",
     "message_confirm_reject_lost": "Nếu bạn từ chối đơn báo mất tài sản này, vui lòng điền lý do dưới đây",

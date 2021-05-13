@@ -25,6 +25,7 @@ export const initialState = fromJS({
   formatDateView: DEFAULT_FORMAT_DATE_2,
   formatDateCustom1: DEFAULT_FORMAT_DATE_3,
   perPage: DEFAULT_PER_PAGE,
+  isSearch: false,
 });
 
 export default function (state = initialState, action = {}) {
@@ -57,6 +58,10 @@ export default function (state = initialState, action = {}) {
     case types.CHANGE_PER_PAGE:
       return state
         .set('perPage', payload);
+
+    case types.CHANGE_IS_SEARCH:
+      return state
+        .set('isSearch', payload);
 
     default:
       return state;

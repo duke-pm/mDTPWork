@@ -68,6 +68,124 @@ export const fetchListRequestApproved = (params, navigation) => {
 };
 /*****************************/
 
+/** For get list request damage */
+export const listRequestDamageError = error => ({
+  type: types.ERROR_FETCH_LIST_REQUEST_DAMAGE,
+  payload: error
+});
+
+export const listRequestDamageSuccess = (
+  countRequest,
+  requests,
+  requestsDetail,
+  processApproved,
+) => ({
+  type: types.SUCCESS_FETCH_LIST_REQUEST_DAMAGE,
+  payload: {
+    countRequest,
+    requests,
+    requestsDetail,
+    processApproved,
+  }
+});
+
+export const fetchListRequestDamage = (params, navigation) => {
+  return dispatch => {
+    dispatch({
+      type: types.START_FETCH_LIST_REQUEST_DAMAGE,
+    });
+
+    Services.approved.listRequest(params)
+      .then((res) => {
+        if (!res.isError) {
+          return dispatch(
+            listRequestDamageSuccess(
+              res.data.header.countAllocation,
+              res.data.listRequest,
+              res.data.listRequestDetail,
+              res.data.listProcessApprove,
+            ));
+        } else {
+          return dispatch(listRequestDamageError(res.errorMessage));
+        }
+      })
+      .catch(error => {
+        dispatch(listRequestDamageError(error));
+        if (error.message && error.message.search('Authorization') !== -1) {
+          let tmp = {
+            'RefreshToken': params.get('RefreshToken'),
+            'Lang': params.get('Lang'),
+          }
+          return dispatch(Actions.fetchRefreshToken(
+            tmp,
+            () => fetchListRequestDamage(params),
+            navigation,
+          ));
+        }
+      });
+  }
+};
+/*****************************/
+
+/** For get list request lost */
+export const listRequestLostError = error => ({
+  type: types.ERROR_FETCH_LIST_REQUEST_LOST,
+  payload: error
+});
+
+export const listRequestLostSuccess = (
+  countRequest,
+  requests,
+  requestsDetail,
+  processApproved,
+) => ({
+  type: types.SUCCESS_FETCH_LIST_REQUEST_LOST,
+  payload: {
+    countRequest,
+    requests,
+    requestsDetail,
+    processApproved,
+  }
+});
+
+export const fetchListRequestLost = (params, navigation) => {
+  return dispatch => {
+    dispatch({
+      type: types.START_FETCH_LIST_REQUEST_LOST,
+    });
+
+    Services.approved.listRequest(params)
+      .then((res) => {
+        if (!res.isError) {
+          return dispatch(
+            listRequestLostSuccess(
+              res.data.header.countAllocation,
+              res.data.listRequest,
+              res.data.listRequestDetail,
+              res.data.listProcessApprove,
+            ));
+        } else {
+          return dispatch(listRequestLostError(res.errorMessage));
+        }
+      })
+      .catch(error => {
+        dispatch(listRequestLostError(error));
+        if (error.message && error.message.search('Authorization') !== -1) {
+          let tmp = {
+            'RefreshToken': params.get('RefreshToken'),
+            'Lang': params.get('Lang'),
+          }
+          return dispatch(Actions.fetchRefreshToken(
+            tmp,
+            () => fetchListRequestLost(params),
+            navigation,
+          ));
+        }
+      });
+  }
+};
+/*****************************/
+
 /** For add request */
 export const addRequestApprovedError = error => ({
   type: types.ERROR_FETCH_ADD_REQUEST_APPROVED,

@@ -31,7 +31,6 @@ function Account(props) {
 
   const handleOk = async () => {
     setLoading(true);
-    await AsyncStorage.clear();
     await clearSecretInfo();
     dispatch(Actions.logout());
     setLoading(false);

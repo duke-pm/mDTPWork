@@ -22,7 +22,7 @@ import {
   Cell,
 } from 'react-native-table-component';
 import { showMessage } from "react-native-flash-message";
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
@@ -33,14 +33,14 @@ import CDateTimePicker from '~/components/CDateTimePicker';
 import CDropdown from '~/components/CDropdown';
 import CButton from '~/components/CButton';
 import AssetItem from '../components/AssetItem';
-import RejectModal from '../../components/RejectModal';
+import RejectModal from '../components/RejectModal';
 import CCard from '~/components/CCard';
 /* COMMON */
 import { colors, cStyles } from '~/utils/style';
 import { IS_IOS, alert, scalePx } from '~/utils/helper';
+import Commons from '~/utils/common/Commons';
 /* REDUX */
 import * as Actions from '~/redux/actions';
-import Commons from '~/utils/common/Commons';
 
 const INPUT_NAME = {
   DATE_REQUEST: 'dateRequest',
@@ -928,97 +928,77 @@ function AddRequest(props) {
               label={'add_approved_assets:table_process'}
               cardContent={
                 <View style={[cStyles.itemsStart, cStyles.pt16]}>
-                  <View style={[cStyles.row, cStyles.itemsStart]}>
-                    <View style={[
-                      cStyles.rounded1,
-                      cStyles.px10,
-                      cStyles.py6,
-                      cStyles.itemsCenter,
-                      styles.con_time_process
-                    ]}>
-                      <CText
-                        styles={'textMeta fontBold colorWhite'}
-                        customLabel={moment(form.dateRequest).format(commonState.get('formatDateView'))}
-                      />
-                    </View>
-
-                    <View style={[cStyles.px10, cStyles.pt10, cStyles.itemsCenter]}>
-                      <Icon
-                        name={'file-import'}
-                        size={scalePx(3)}
-                        color={colors.GRAY_700}
-                      />
-                      {process.length > 0 &&
-                        <View style={[cStyles.mt10, { width: 2, backgroundColor: colors.PRIMARY, height: 40 }]} />
-                      }
-                    </View>
-
-                    <View style={[cStyles.rounded1, cStyles.pr10]}>
-                      <View style={[cStyles.row, cStyles.itemsStart]}>
-                        <CText styles={'textMeta'} label={'add_approved_assets:user_request'} />
-                        <CText styles={'textMeta fontBold'} customLabel={form.name} />
-                      </View>
-                      <View style={[cStyles.row, cStyles.itemsStart, cStyles.justifyStart]}>
-                        <CText styles={'textMeta'} label={'add_approved_assets:status_approved'} />
-                        <CText styles={'textMeta fontBold'} label={'add_approved_assets:status_wait'} />
-                      </View>
-                      {form.reason !== '' &&
-                        <View style={[cStyles.row, cStyles.itemsStart, cStyles.justifyStart, { width: '80%' }]}>
-                          <CText styles={'textMeta'} label={'add_approved_assets:reason_reject'} />
-                          <CText styles={'textMeta'} customLabel={form.reason} />
-                        </View>
-                      }
-                    </View>
-                  </View>
-
                   {process.map((item, index) => {
                     return (
                       <View key={index.toString()} style={[cStyles.row, cStyles.itemsStart, cStyles.pt10]}>
-                        <View style={[
-                          cStyles.rounded1,
-                          cStyles.px10,
-                          cStyles.py6,
-                          cStyles.itemsCenter,
-                          styles.con_time_process,
-                        ]}>
-                          <CText
-                            styles={'textMeta fontBold colorWhite'}
-                            customLabel={
-                              moment(item.approveDate, 'DD/MM/YYYY - HH:mm')
-                                .format(commonState.get('formatDateView'))
-                            }
-                          />
-                          <CText
-                            styles={'textMeta fontBold colorWhite'}
-                            customLabel={moment(item.approveDate, 'DD/MM/YYYY - HH:mm').format('HH:mm')}
-                          />
-                        </View>
+                        {item.approveDate ?
+                          <View style={[
+                            cStyles.rounded1,
+                            cStyles.px10,
+                            cStyles.py6,
+                            cStyles.itemsCenter,
+                            styles.con_time_process,
+                          ]}>
+                            <CText
+                              styles={'textMeta fontBold colorWhite'}
+                              customLabel={item.approveDate}
+                            />
+                            <CText
+                              styles={'textMeta fontBold colorWhite'}
+                              customLabel={item.approveTime}
+                            />
+                          </View> : <View style={[
+                            cStyles.rounded1,
+                            cStyles.px10,
+                            cStyles.py6,
+                            cStyles.itemsCenter,
+                            { flex: 0.3 },
+                          ]} />
+                        }
 
-                        <View style={[cStyles.px10, cStyles.pt6, cStyles.itemsCenter]}>
+                        <View style={[cStyles.px10, cStyles.pt6, cStyles.itemsCenter, { flex: 0.1 }]}>
                           <Icon
-                            name={item.statusID ? 'check-circle' : 'times-circle'}
+                            name={!item.approveDate
+                              ? 'help-circle'
+                              : item.statusID === 0
+                                ? 'close-circle'
+                                : 'check-circle'}
                             size={scalePx(3)}
-                            color={item.statusID ? colors.GREEN : colors.RED}
+                            color={!item.approveDate
+                              ? colors.ORANGE
+                              : item.statusID === 0
+                                ? colors.RED
+                                : colors.GREEN}
                             solid
                           />
                           {index !== process.length - 1 &&
-                            <View style={[cStyles.mt10, { width: 2, backgroundColor: colors.PRIMARY, height: 20 }]} />
+                            <View style={[cStyles.mt10, styles.line_2]} />
                           }
                         </View>
 
-                        <View style={[cStyles.rounded1, cStyles.pr10]}>
-                          <View style={[cStyles.row, cStyles.itemsStart]}>
-                            <CText styles={'textMeta'} label={'add_approved_assets:person_approved'} />
-                            <CText styles={'textMeta fontBold'} customLabel={item.personApproveName} />
+                        <View style={[cStyles.rounded1, cStyles.pr10, { flex: 0.6 }]}>
+                          <View style={[cStyles.row, cStyles.itemsStart, { width: '70%' }]}>
+                            <CText styles={'textMeta ' + (item.approveDate && 'colorText')}
+                              label={'add_approved_lost_damaged:' + (index === 0 ? 'user_request' : 'person_approved')} />
+                            <CText styles={'textMeta fontBold ' + (item.approveDate && 'colorText')}
+                              customLabel={item.personApproveName} />
                           </View>
                           <View style={[cStyles.row, cStyles.itemsStart, cStyles.justifyStart]}>
-                            <CText styles={'textMeta'} label={'add_approved_assets:status_approved'} />
-                            <CText styles={'textMeta fontBold'} customLabel={item.statusName} />
+                            <CText styles={'textMeta ' + (item.approveDate && 'colorText')}
+                              label={'add_approved_assets:status_approved'} />
+                            {item.approveDate
+                              ? <CText styles={'textMeta fontBold ' + (item.approveDate && 'colorText')}
+                                customLabel={item.statusName} />
+                              : <CText styles={'textMeta fontBold ' + (item.approveDate && 'colorText')}
+                                label={'add_approved_assets:wait'} />
+                            }
                           </View>
-                          {!item.statusID &&
+                          {item.approveDate && item.reason !== '' &&
                             <View style={[cStyles.row, cStyles.itemsStart, cStyles.justifyStart, { width: '80%' }]}>
-                              <CText styles={'textMeta'} label={'add_approved_assets:reason_reject'} />
-                              <CText styles={'textMeta'} customLabel={item.reason} />
+                              <CText styles={'textMeta ' + (item.approveDate && 'colorText')}
+                                label={'add_approved_assets:reason_reject'} />
+                              <CText styles={'textMeta fontBold ' + (item.approveDate && 'colorText')}
+                                customLabel={item.reason} />
                             </View>
                           }
                         </View>
@@ -1101,8 +1081,10 @@ const styles = StyleSheet.create({
   button_reject: { width: cStyles.deviceWidth / 2.5 },
   con_process: { backgroundColor: colors.GRAY_300 },
   con_title_process: { backgroundColor: colors.WHITE, position: 'absolute', top: -15, },
-  con_time_process: { backgroundColor: colors.SECONDARY },
+  con_time_process: { backgroundColor: colors.SECONDARY, flex: 0.3 },
   input_multiline: { height: 100 },
+  line_1: { width: 2, backgroundColor: colors.PRIMARY, height: 40 },
+  line_2: { width: 2, backgroundColor: colors.PRIMARY, height: 20 }
 });
 
 export default AddRequest;

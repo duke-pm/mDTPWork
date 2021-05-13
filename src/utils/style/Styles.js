@@ -463,6 +463,8 @@ const text = {
   colorIndigo: { color: '#6574CD' },
   colorPurple: { color: '#9561E2' },
   colorPink: { color: '#F66D9B' },
+  colorText: { color: '#242833' },
+  colorIcon: { color: '#242833' },
 
   H1: { fontSize: scalePx(5), color: '#242833', fontFamily: fBold, lineHeight: 34 },
   H2: { fontSize: scalePx(4.5), color: '#242833', fontFamily: fBold, lineHeight: 32 },

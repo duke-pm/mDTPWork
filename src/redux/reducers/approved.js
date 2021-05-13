@@ -10,6 +10,8 @@ import * as types from '../actions/types';
 
 export const initialState = fromJS({
   submittingList: false,
+  submittingListDamage: false,
+  submittingListLost: false,
   submittingAdd: false,
   submittingApproved: false,
   submittingReject: false,
@@ -21,6 +23,22 @@ export const initialState = fromJS({
   successListRequest: false,
   errorListRequest: false,
   errorHelperListRequest: '',
+
+  countRequestsDamage: 0,
+  requestsDamage: List(),
+  requestsDamageDetail: List(),
+  processDamageApproved: List(),
+  successListRequestDamage: false,
+  errorListRequestDamage: false,
+  errorHelperListRequestDamage: '',
+
+  countRequestsLost: 0,
+  requestsLost: List(),
+  requestsLostDetail: List(),
+  processLostApproved: List(),
+  successListRequestLost: false,
+  errorListRequestLost: false,
+  errorHelperListRequestLost: '',
 
   successAddRequest: false,
   errorAddRequest: false,
@@ -63,6 +81,60 @@ export default function (state = initialState, action = {}) {
         .set('successListRequest', false)
         .set('errorListRequest', true)
         .set('errorHelperListRequest', payload);
+    /*****************************/
+
+    /** For list request damage **/
+    case types.START_FETCH_LIST_REQUEST_DAMAGE:
+      return state
+        .set('submittingListDamage', true)
+        .set('successListRequestDamage', false)
+        .set('errorListRequestDamage', false)
+        .set('errorHelperListRequestDamage', '');
+
+    case types.SUCCESS_FETCH_LIST_REQUEST_DAMAGE:
+      return state
+        .set('countRequestsDamage', payload.countRequests)
+        .set('requestsDamage', payload.requests)
+        .set('requestsDamageDetail', payload.requestsDetail)
+        .set('processDamageApproved', payload.processApproved)
+        .set('submittingListDamage', false)
+        .set('successListRequestDamage', true)
+        .set('errorListRequestDamage', false)
+        .set('errorHelperListRequestDamage', '');
+
+    case types.ERROR_FETCH_LIST_REQUEST_DAMAGE:
+      return state
+        .set('submittingListDamage', false)
+        .set('successListRequestDamage', false)
+        .set('errorListRequestDamage', true)
+        .set('errorHelperListRequestDamage', payload);
+    /*****************************/
+
+    /** For list request lost **/
+    case types.START_FETCH_LIST_REQUEST_LOST:
+      return state
+        .set('submittingListLost', true)
+        .set('successListRequestLost', false)
+        .set('errorListRequestLost', false)
+        .set('errorHelperListRequestLost', '');
+
+    case types.SUCCESS_FETCH_LIST_REQUEST_LOST:
+      return state
+        .set('countRequestsLost', payload.countRequests)
+        .set('requestsLost', payload.requests)
+        .set('requestsLostDetail', payload.requestsDetail)
+        .set('processLostApproved', payload.processApproved)
+        .set('submittingListLost', false)
+        .set('successListRequestLost', true)
+        .set('errorListRequestLost', false)
+        .set('errorHelperListRequestLost', '');
+
+    case types.ERROR_FETCH_LIST_REQUEST_LOST:
+      return state
+        .set('submittingListLost', false)
+        .set('successListRequestLost', false)
+        .set('errorListRequestLost', true)
+        .set('errorHelperListRequestLost', payload);
     /*****************************/
 
     /** For add request **/

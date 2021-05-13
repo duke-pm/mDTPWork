@@ -12,16 +12,16 @@ const Mockup = [
     title: 'approved:assets',
     children: [
       {
-        id: 'approvedAssets',
-        name: 'ApprovedAssets',
-        title: 'approved:title',
+        id: 'listApprovedAssets',
+        name: 'ListApprovedAssets',
+        title: 'approved:list_request',
         icon: require('../../../../../assets/images/icon/listApproved.png')
       },
       {
-        id: 'approvedLostDamaged',
-        name: 'ApprovedLostDamaged',
-        title: 'approved_lost_damaged:title',
-        icon: require('../../../../../assets/images/icon/lostDamaged.png')
+        id: 'listApprovedAssetsHandling',
+        name: 'ListApprovedAssetsHandling',
+        title: 'approved:list_request_handling',
+        icon: require('../../../../../assets/images/icon/listAssetsHandling.png')
       },
     ]
   }

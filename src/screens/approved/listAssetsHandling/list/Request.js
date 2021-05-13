@@ -6,7 +6,7 @@
  **/
 import React from 'react';
 /* COMPONENTS */
-import RequestItem from '../../components/RequestItem';
+import RequestItem from '~/screens/approved/components/RequestItem';
 import CList from '~/components/CList';
 /* COMMON */
 import { cStyles } from '~/utils/style';
@@ -28,7 +28,6 @@ function ListRequest(props) {
         process = process.sort((a, b) => a.levelApproval - b.levelApproval);
         return (
           <RequestItem
-            isLostDamage={true}
             index={index}
             data={item}
             dataDetail={detail}

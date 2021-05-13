@@ -16,6 +16,7 @@ import CContent from '~/components/CContent';
 import ListRequest from './list/Request';
 import CText from '~/components/CText';
 /* COMMON */
+import Routes from '~/navigation/Routes';
 import { LOAD_MORE, REFRESH } from '~/config/constants';
 import { colors, cStyles } from '~/utils/style';
 import { usePrevious } from '~/utils/hook';
@@ -71,7 +72,7 @@ function ApprovedAssets(props) {
       'RefreshToken': authState.getIn(['login', 'refreshToken']),
       'Lang': commonState.get('language'),
     });
-    dispatch(Actions.fetchListRequestApproved(params, props.navigation));
+    dispatch(Actions.fetchListRequestLost(params, props.navigation));
   };
 
   const onPrepareData = (type = REFRESH) => {
@@ -81,17 +82,17 @@ function ApprovedAssets(props) {
     let isLoadmore = true;
 
     // Check if count result < perPage => loadmore is unavailable
-    if (approvedState.get('requests').length < perPage) isLoadmore = false;
+    if (approvedState.get('requestsLost').length < perPage) isLoadmore = false;
 
     // Check type fetch is refresh or loadmore
     if (type === REFRESH) {
-      tmpRequests = approvedState.get('requests');
-      tmpRequestDetail = approvedState.get('requestsDetail');
-      tmpProcessApproveds = approvedState.get('processApproved');
+      tmpRequests = approvedState.get('requestsLost');
+      tmpRequestDetail = approvedState.get('requestsLostDetail');
+      tmpProcessApproveds = approvedState.get('processLostApproved');
     } else if (type === LOAD_MORE) {
-      tmpRequests = [...tmpRequests, ...approvedState.get('requests')];
-      tmpRequestDetail = [...tmpRequestDetail, ...approvedState.get('requestsDetail')];
-      tmpProcessApproveds = [...tmpProcessApproveds, ...approvedState.get('processApproved')];
+      tmpRequests = [...tmpRequests, ...approvedState.get('requestsLost')];
+      tmpRequestDetail = [...tmpRequestDetail, ...approvedState.get('requestsLostDetail')];
+      tmpProcessApproveds = [...tmpProcessApproveds, ...approvedState.get('processLostApproved')];
     }
 
     // Update data
@@ -192,7 +193,7 @@ function ApprovedAssets(props) {
           curData.fromDate,
           curData.toDate,
           curData.status,
-          1,
+          curData.page,
           curData.search,
         );
       }
@@ -205,15 +206,15 @@ function ApprovedAssets(props) {
 
   useEffect(() => {
     if (loading.main || loading.search || loading.refreshing || loading.loadmore) {
-      if (!approvedState.get('submittingList')) {
+      if (!approvedState.get('submittingListLost')) {
         let type = REFRESH;
         if (loading.loadmore) type = LOAD_MORE;
 
-        if (approvedState.get('successListRequest')) {
+        if (approvedState.get('successListRequestLost')) {
           return onPrepareData(type);
         }
 
-        if (approvedState.get('errorListRequest')) {
+        if (approvedState.get('errorListRequestLost')) {
           return onError();
         }
       }
@@ -223,9 +224,9 @@ function ApprovedAssets(props) {
     loading.search,
     loading.refreshing,
     loading.loadmore,
-    approvedState.get('submittingList'),
-    approvedState.get('successListRequest'),
-    approvedState.get('errorListRequest')
+    approvedState.get('submittingListLost'),
+    approvedState.get('successListRequestLost'),
+    approvedState.get('errorListRequestLost')
   ]);
 
   /** RENDER */

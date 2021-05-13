@@ -1,8 +1,8 @@
 /**
- ** Name: Approved lost damaged page
+ ** Name: List request handling page
  ** Author: 
  ** CreateAt: 2021
- ** Description: Description of ApprovedLostDamaged.js
+ ** Description: Description of ListHandling.js
  **/
 import { fromJS } from 'immutable';
 import React, { useState, useEffect } from 'react';
@@ -16,12 +16,11 @@ import CContent from '~/components/CContent';
 import Filter from '../components/Filter';
 import ListRequest from './list/Request';
 /* COMMON */
-import Routes from '~/navigation/Routes';
 import { LOAD_MORE, REFRESH } from '~/config/constants';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 
-function ApprovedLostDamaged(props) {
+function ListRequestHandling(props) {
   const { t } = useTranslation();
 
   const dispatch = useDispatch();
@@ -40,25 +39,15 @@ function ApprovedLostDamaged(props) {
     fromDate: moment().clone().startOf('month').format(commonState.get('formatDate')),
     toDate: moment().clone().endOf('month').format(commonState.get('formatDate')),
     status: '1,2,3,4',
-    type: '2,3',
+    type: '1,2,3',
     requests: [],
     requestsDetail: [],
     processApproveds: [],
     page: 1,
     perPage: commonState.get('perPage'),
-    showResolveRequest: false,
   });
 
   /** HANDLE FUNC */
-  const handleAddNew = () => {
-    props.navigation.navigate(
-      Routes.MAIN.ADD_APPROVED_LOST_DAMAGED.name,
-      {
-        onRefresh: () => onRefresh(),
-      }
-    );
-  };
-
   const handleSearch = (value) => {
     setLoading({ ...loading, search: true });
     onFetchData(
@@ -71,7 +60,7 @@ function ApprovedLostDamaged(props) {
     );
   };
 
-  const handleFilter = (fromDate, toDate, status, type, showResolveRequest) => {
+  const handleFilter = (fromDate, toDate, status, type) => {
     setLoading({ ...loading, search: true });
     setData({
       ...data,
@@ -80,7 +69,6 @@ function ApprovedLostDamaged(props) {
       type,
       fromDate,
       toDate,
-      showResolveRequest
     });
     onFetchData(
       fromDate,
@@ -90,7 +78,6 @@ function ApprovedLostDamaged(props) {
       1,
       null,
       type,
-      showResolveRequest,
     );
   };
 
@@ -102,8 +89,7 @@ function ApprovedLostDamaged(props) {
     pageSize = data.perPage,
     pageNum = 1,
     search = '',
-    requestTypeID = '2,3',
-    showResolveRequest = false,
+    requestTypeID = '1,2,3',
   ) => {
     let params = fromJS({
       'FromDate': fromDate,
@@ -113,7 +99,7 @@ function ApprovedLostDamaged(props) {
       'PageNum': pageNum,
       'Search': search,
       'RequestTypeID': requestTypeID,
-      'IsResolveRequest': showResolveRequest,
+      'IsResolveRequest': true,
       'RefreshToken': authState.getIn(['login', 'refreshToken']),
       'Lang': commonState.get('language'),
     });
@@ -164,7 +150,6 @@ function ApprovedLostDamaged(props) {
         1,
         null,
         data.type,
-        data.showResolveRequest,
       );
     }
   };
@@ -182,7 +167,6 @@ function ApprovedLostDamaged(props) {
         newPage,
         '',
         data.type,
-        data.showResolveRequest,
       );
     }
   };
@@ -214,8 +198,7 @@ function ApprovedLostDamaged(props) {
       data.perPage,
       data.page,
       '',
-      '2,3',
-      false
+      '1,2,3',
     );
     setLoading({
       ...loading,
@@ -252,17 +235,15 @@ function ApprovedLostDamaged(props) {
   return (
     <CContainer
       loading={loading.main || loading.search}
-      title={'approved_lost_damaged:title'}
+      title={'list_request_assets_handling:title'}
       header
-      hasAddNew
       hasSearch
       hasBack
-      onPressAddNew={handleAddNew}
       onPressSearch={handleSearch}
       content={
         <CContent>
           <Filter
-            hasLostDamage={true}
+            isResolve
             onFilter={handleFilter}
           />
 
@@ -283,4 +264,4 @@ function ApprovedLostDamaged(props) {
   );
 };
 
-export default ApprovedLostDamaged;
+export default ListRequestHandling;

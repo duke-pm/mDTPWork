@@ -1,8 +1,8 @@
 /**
- ** Name: Approved assets page
+ ** Name: Approved assets damage page
  ** Author: 
  ** CreateAt: 2021
- ** Description: Description of ApprovedAssets.js
+ ** Description: Description of ApprovedAssetsDamage.js
  **/
 import { fromJS } from 'immutable';
 import React, { useState, useEffect } from 'react';
@@ -22,7 +22,7 @@ import { usePrevious } from '~/utils/hook';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 
-function ApprovedAssets(props) {
+function ApprovedAssetsDamage(props) {
   const { t } = useTranslation();
 
   const dispatch = useDispatch();
@@ -71,27 +71,27 @@ function ApprovedAssets(props) {
       'RefreshToken': authState.getIn(['login', 'refreshToken']),
       'Lang': commonState.get('language'),
     });
-    dispatch(Actions.fetchListRequestApproved(params, props.navigation));
+    dispatch(Actions.fetchListRequestDamage(params, props.navigation));
   };
 
-  const onPrepareData = (type = REFRESH) => {
+  const onPrepareData = (type) => {
     let tmpRequests = [...data.requests];
     let tmpRequestDetail = [...data.requestsDetail];
     let tmpProcessApproveds = [...data.processApproveds];
     let isLoadmore = true;
 
     // Check if count result < perPage => loadmore is unavailable
-    if (approvedState.get('requests').length < perPage) isLoadmore = false;
+    if (approvedState.get('requestsDamage').length < perPage) isLoadmore = false;
 
     // Check type fetch is refresh or loadmore
     if (type === REFRESH) {
-      tmpRequests = approvedState.get('requests');
-      tmpRequestDetail = approvedState.get('requestsDetail');
-      tmpProcessApproveds = approvedState.get('processApproved');
+      tmpRequests = approvedState.get('requestsDamage');
+      tmpRequestDetail = approvedState.get('requestsDamageDetail');
+      tmpProcessApproveds = approvedState.get('processDamageApproved');
     } else if (type === LOAD_MORE) {
-      tmpRequests = [...tmpRequests, ...approvedState.get('requests')];
-      tmpRequestDetail = [...tmpRequestDetail, ...approvedState.get('requestsDetail')];
-      tmpProcessApproveds = [...tmpProcessApproveds, ...approvedState.get('processApproved')];
+      tmpRequests = [...tmpRequests, ...approvedState.get('requestsDamage')];
+      tmpRequestDetail = [...tmpRequestDetail, ...approvedState.get('requestsDamageDetail')];
+      tmpProcessApproveds = [...tmpProcessApproveds, ...approvedState.get('processDamageApproved')];
     }
 
     // Update data
@@ -165,7 +165,7 @@ function ApprovedAssets(props) {
       data.fromDate,
       data.toDate,
       data.status,
-      data.page,
+      1,
       data.search,
     );
     setLoading({ ...loading, main: true });
@@ -192,7 +192,7 @@ function ApprovedAssets(props) {
           curData.fromDate,
           curData.toDate,
           curData.status,
-          1,
+          curData.page,
           curData.search,
         );
       }
@@ -205,15 +205,15 @@ function ApprovedAssets(props) {
 
   useEffect(() => {
     if (loading.main || loading.search || loading.refreshing || loading.loadmore) {
-      if (!approvedState.get('submittingList')) {
+      if (!approvedState.get('submittingListDamage')) {
         let type = REFRESH;
         if (loading.loadmore) type = LOAD_MORE;
 
-        if (approvedState.get('successListRequest')) {
+        if (approvedState.get('successListRequestDamage')) {
           return onPrepareData(type);
         }
 
-        if (approvedState.get('errorListRequest')) {
+        if (approvedState.get('errorListRequestDamage')) {
           return onError();
         }
       }
@@ -223,9 +223,9 @@ function ApprovedAssets(props) {
     loading.search,
     loading.refreshing,
     loading.loadmore,
-    approvedState.get('submittingList'),
-    approvedState.get('successListRequest'),
-    approvedState.get('errorListRequest')
+    approvedState.get('submittingListDamage'),
+    approvedState.get('successListRequestDamage'),
+    approvedState.get('errorListRequestDamage')
   ]);
 
   /** RENDER */
@@ -253,4 +253,4 @@ function ApprovedAssets(props) {
   );
 };
 
-export default React.memo(ApprovedAssets);
+export default React.memo(ApprovedAssetsDamage);

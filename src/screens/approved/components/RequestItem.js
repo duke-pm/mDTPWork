@@ -24,17 +24,19 @@ import Commons from '~/utils/common/Commons';
 import Assets from '~/utils/asset/Assets';
 
 const RequestItem = React.memo(function RequestItem(props) {
-  const { isLostDamage = false } = props;
-
   const { t } = useTranslation();
   const navigation = useNavigation();
   const commonState = useSelector(({ common }) => common);
 
+
+
   /** HANDLE FUNC */
   const handleRequestItem = () => {
-    let route = Routes.MAIN.ADD_APPROVED_ASSETS.name;
-    if (isLostDamage) route = Routes.MAIN.ADD_APPROVED_LOST_DAMAGED.name;
-
+    let route = Routes.MAIN.ADD_APPROVED_LOST_DAMAGED.name;
+    if (props.data.requestTypeID === Commons.APPROVED_TYPE.ASSETS.code) {
+      route = Routes.MAIN.ADD_APPROVED_ASSETS.name;
+    }
+    
     navigation.navigate(route, {
       data: props.data,
       dataProcess: props.dataProcess,
@@ -48,7 +50,7 @@ const RequestItem = React.memo(function RequestItem(props) {
   let statusIcon = Assets.iconRequest;
   let colorText = 'colorOrange';
 
-  if (isLostDamage) {
+  if (props.data.requestTypeID !== Commons.APPROVED_TYPE.ASSETS.code) {
     title = t('approved_lost_damaged:title_request_item_1')
       + props.data.requestTypeName
       + t('approved_lost_damaged:title_request_item_2')
@@ -66,7 +68,6 @@ const RequestItem = React.memo(function RequestItem(props) {
 
   return (
     <TouchableOpacity
-      activeOpacity={0.5}
       disabled={props.loading}
       onPress={handleRequestItem}
     >

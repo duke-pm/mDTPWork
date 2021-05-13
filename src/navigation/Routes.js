@@ -13,11 +13,14 @@ import Account from '~/screens/account';
 /** APPROVED */
 import Approved from '~/screens/approved';
 
-import ApprovedAssets from '~/screens/approved/assets';
-import AddRequestAsset from '~/screens/approved/assets/add/Request';
+import ListRequest from '~/screens/approved/listAssets';
+import ListRequestHandling from '~/screens/approved/listAssetsHandling';
 
-import ApprovedLostDamaged from '~/screens/approved/lostDamaged';
-import AddRequestLostDamage from '~/screens/approved/lostDamaged/add/Request';
+import ApprovedAssets from '~/screens/approved/assets';
+import ApprovedAssetsDamage from '~/screens/approved/assetsDamage';
+import ApprovedAssetsLost from '~/screens/approved/assetsLost';
+import AddRequestAsset from '~/screens/approved/addAsset/Request';
+import AddRequestLostDamage from '~/screens/approved/addLostDamage/Request';
 
 const Routes = {
   AUTHENTICATION: {
@@ -45,18 +48,32 @@ const Routes = {
     APPROVED: {
       name: 'Approved',
       path: Approved,
+      childrens: {
+        LIST_REQUEST_ASSETS: {
+          name: 'ListApprovedAssets',
+          path: ListRequest,
+        },
+        LIST_REQUEST_HANDLING: {
+          name: 'ListApprovedAssetsHandling',
+          path: ListRequestHandling,
+        }
+      }
     },
     APPROVED_ASSETS: {
       name: 'ApprovedAssets',
       path: ApprovedAssets,
     },
+    APPROVED_ASSETS_DAMAGE: {
+      name: 'ApprovedAssetsDamage',
+      path: ApprovedAssetsDamage,
+    },
+    APPROVED_ASSETS_LOST: {
+      name: 'ApprovedAssetsLost',
+      path: ApprovedAssetsLost,
+    },
     ADD_APPROVED_ASSETS: {
       name: 'AddRequestAsset',
       path: AddRequestAsset,
-    },
-    APPROVED_LOST_DAMAGED: {
-      name: 'ApprovedLostDamaged',
-      path: ApprovedLostDamaged,
     },
     ADD_APPROVED_LOST_DAMAGED: {
       name: 'AddRequestLostDamage',

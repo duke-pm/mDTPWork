@@ -41,7 +41,7 @@ export function RootTab(props) {
         },
       })}
       tabBarOptions={{
-        activeTintColor: colors.PRIMARY,
+        activeTintColor: colors.SECONDARY,
         inactiveTintColor: colors.PRIMARY,
         keyboardHidesTabBar: true,
         showLabel: false,
@@ -84,8 +84,24 @@ export function RootMain(props) {
         component={Routes.MAIN.APPROVED.path}
       />
       <StackMain.Screen
+        name={Routes.MAIN.APPROVED.childrens.LIST_REQUEST_ASSETS.name}
+        component={Routes.MAIN.APPROVED.childrens.LIST_REQUEST_ASSETS.path}
+      />
+      <StackMain.Screen
+        name={Routes.MAIN.APPROVED.childrens.LIST_REQUEST_HANDLING.name}
+        component={Routes.MAIN.APPROVED.childrens.LIST_REQUEST_HANDLING.path}
+      />
+      <StackMain.Screen
         name={Routes.MAIN.APPROVED_ASSETS.name}
         component={Routes.MAIN.APPROVED_ASSETS.path}
+      />
+      <StackMain.Screen
+        name={Routes.MAIN.APPROVED_ASSETS_DAMAGE.name}
+        component={Routes.MAIN.APPROVED_ASSETS_DAMAGE.path}
+      />
+      <StackMain.Screen
+        name={Routes.MAIN.APPROVED_ASSETS_LOST.name}
+        component={Routes.MAIN.APPROVED_ASSETS_LOST.path}
       />
       <StackMain.Screen
         name={Routes.MAIN.ADD_APPROVED_ASSETS.name}
@@ -95,10 +111,6 @@ export function RootMain(props) {
             ? TransitionPresets.RevealFromBottomAndroid
             : TransitionPresets.ModalTransition
         }}
-      />
-      <StackMain.Screen
-        name={Routes.MAIN.APPROVED_LOST_DAMAGED.name}
-        component={Routes.MAIN.APPROVED_LOST_DAMAGED.path}
       />
       <StackMain.Screen
         name={Routes.MAIN.ADD_APPROVED_LOST_DAMAGED.name}
