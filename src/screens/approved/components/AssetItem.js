@@ -9,9 +9,11 @@
  **/
 import React from 'react';
 import {View, TextInput} from 'react-native';
+import CurrencyInput from 'react-native-currency-input';
+/** COMPONENTS */
 import CIconButton from '~/components/CIconButton';
-import {scalePx} from '~/utils/helper';
 /* COMMON */
+import {scalePx} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
 
 Number.prototype.format = function (n, x) {
@@ -32,12 +34,35 @@ function AssetItem(props) {
   if (cellIndex === 4 && rowIndex !== 0) {
     return (
       <CIconButton
-        iconName={'close-circle-outline'}
+        iconName={'x-circle'}
         iconColor={colors.RED}
         iconProps={{
           size: scalePx(3),
         }}
         onPress={() => onRemoveRow(rowIndex)}
+      />
+    );
+  }
+
+  if (cellIndex === 2 || cellIndex === 3) {
+    return (
+      <CurrencyInput
+        style={[
+          cStyles.flexWrap,
+          cStyles.p4,
+          cStyles.textRight,
+          cStyles.fontMedium,
+          styleText,
+          {color: colors.TEXT_BASE},
+        ]}
+        value={props.cellData}
+        selectionColor={colors.PRIMARY}
+        editable={!props.disabled}
+        onChangeValue={value => onChangeCellItem(value, rowIndex, cellIndex)}
+        // prefix="đ"
+        delimiter={','}
+        separator={'.'}
+        precision={0}
       />
     );
   }
@@ -51,31 +76,21 @@ function AssetItem(props) {
   return (
     <TextInput
       style={[
-        cStyles.textMeta,
         cStyles.flexWrap,
         cStyles.p4,
         cStyles.fontMedium,
+        cStyles.textRight,
         styleText,
-        {color: colors.BLACK},
+        {color: colors.TEXT_BASE},
       ]}
       keyboardType={cellIndex !== 0 ? 'number-pad' : 'default'}
-      selectionColor={colors.BLACK}
+      selectionColor={colors.PRIMARY}
       multiline
       editable={!props.disabled}
       value={
-        typeof props.cellData === 'string'
-          ? cellIndex === 3
-            ? props.cellData == ''
-              ? ''
-              : Number(props.cellData).format()
-            : props.cellData
-          : cellIndex === 3 || cellIndex === 2
-          ? props.cellData === 0
-            ? ''
-            : props.cellData == ''
-            ? ''
-            : Number(props.cellData).format()
-          : props.cellData + ''
+        typeof props.cellData === 'number'
+          ? props.cellData + ''
+          : props.cellData
       }
       onChangeText={value => onChangeCellItem(value, rowIndex, cellIndex)}
     />

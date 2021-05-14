@@ -7,11 +7,12 @@
 import React from 'react';
 import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/Feather';
 /** COMMON */
 import Routes from './Routes';
-import {IS_ANDROID, IS_IOS, scalePx} from '~/utils/helper';
+import {IS_ANDROID, scalePx} from '~/utils/helper';
 import {colors} from '~/utils/style';
+
 /** INIT NAVIGATOR OF APP */
 const StackMain = createStackNavigator();
 const TabMain = createBottomTabNavigator();
@@ -26,23 +27,19 @@ export function RootTab(props) {
       screenOptions={({route}) => ({
         tabBarIcon: ({focused, color, size}) => {
           let iconName = 'home';
-          let tmpSize = IS_IOS ? scalePx(4) : scalePx(3.5);
 
           switch (route.name) {
-            case Routes.MAIN.DASHBOARD.name:
-              iconName = focused ? 'home-variant' : 'home-variant-outline';
-              break;
             case Routes.MAIN.ACCOUNT.name:
-              iconName = focused ? 'account' : 'account-outline';
+              iconName = 'user';
               break;
           }
 
-          return <Icon name={iconName} size={tmpSize} color={color} />;
+          return <Icon name={iconName} size={scalePx(3.5)} color={color} />;
         },
       })}
       tabBarOptions={{
         activeTintColor: colors.SECONDARY,
-        inactiveTintColor: colors.PRIMARY,
+        inactiveTintColor: colors.ICON_META,
         keyboardHidesTabBar: true,
         showLabel: false,
       }}>
@@ -75,6 +72,14 @@ export function RootMain(props) {
         component={Routes.AUTHENTICATION.FORGOT_PASSWORD.path}
       />
       <StackMain.Screen name={Routes.ROOT_TAB.name} component={RootTab} />
+      <StackMain.Screen
+        name={Routes.MAIN.HELP_AND_INFO.name}
+        component={Routes.MAIN.HELP_AND_INFO.path}
+      />
+      <StackMain.Screen
+        name={Routes.MAIN.CONTACT_US.name}
+        component={Routes.MAIN.CONTACT_US.path}
+      />
       <StackMain.Screen
         name={Routes.MAIN.APPROVED.name}
         component={Routes.MAIN.APPROVED.path}

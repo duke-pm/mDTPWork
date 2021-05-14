@@ -28,6 +28,8 @@ function ListRequestHandling(props) {
   const commonState = useSelector(({common}) => common);
   const approvedState = useSelector(({approved}) => approved);
   const authState = useSelector(({auth}) => auth);
+  const perPage = commonState.get('perPage');
+  const formatDate = commonState.get('formatDate');
 
   const [loading, setLoading] = useState({
     main: false,
@@ -40,31 +42,23 @@ function ListRequestHandling(props) {
     fromDate: moment()
       .clone()
       .startOf('month')
-      .format(commonState.get('formatDate')),
+      .format(formatDate),
     toDate: moment()
       .clone()
       .endOf('month')
-      .format(commonState.get('formatDate')),
+      .format(formatDate),
     status: '1,2,3,4',
     type: '1,2,3',
     requests: [],
     requestsDetail: [],
     processApproveds: [],
     page: 1,
-    perPage: commonState.get('perPage'),
   });
 
   /** HANDLE FUNC */
   const handleSearch = value => {
     setLoading({...loading, search: true});
-    onFetchData(
-      data.fromDate,
-      data.toDate,
-      data.status,
-      data.perPage,
-      data.page,
-      value,
-    );
+    onFetchData(data.fromDate, data.toDate, data.status, data.page, value);
   };
 
   const handleFilter = (fromDate, toDate, status, type) => {
@@ -77,15 +71,7 @@ function ListRequestHandling(props) {
       fromDate,
       toDate,
     });
-    onFetchData(
-      fromDate,
-      toDate,
-      status,
-      commonState.get('perPage'),
-      1,
-      null,
-      type,
-    );
+    onFetchData(fromDate, toDate, status, 1, null, type);
   };
 
   /** FUNC */
@@ -93,7 +79,6 @@ function ListRequestHandling(props) {
     fromDate = null,
     toDate = null,
     statusId = '1,2,3,4',
-    pageSize = data.perPage,
     pageNum = 1,
     search = '',
     requestTypeID = '1,2,3',
@@ -102,7 +87,7 @@ function ListRequestHandling(props) {
       FromDate: fromDate,
       ToDate: toDate,
       StatusID: statusId,
-      PageSize: pageSize,
+      PageSize: perPage,
       PageNum: pageNum,
       Search: search,
       RequestTypeID: requestTypeID,
@@ -118,7 +103,7 @@ function ListRequestHandling(props) {
     let tmpRequestDetail = [...data.requestsDetail];
     let tmpProcessApproveds = [...data.processApproveds];
     let isLoadmore = true;
-    if (approvedState.get('requests').length < commonState.get('perPage')) {
+    if (approvedState.get('requests').length < perPage) {
       isLoadmore = false;
     }
     if (type === REFRESH) {
@@ -155,15 +140,7 @@ function ListRequestHandling(props) {
     if (!loading.refreshing) {
       setLoading({...loading, refreshing: true, isLoadmore: true});
       setData({...data, page: 1});
-      onFetchData(
-        data.fromDate,
-        data.toDate,
-        data.status,
-        commonState.get('perPage'),
-        1,
-        null,
-        data.type,
-      );
+      onFetchData(data.fromDate, data.toDate, data.status, 1, null, data.type);
     }
   };
 
@@ -176,7 +153,6 @@ function ListRequestHandling(props) {
         data.fromDate,
         data.toDate,
         data.status,
-        data.perPage,
         newPage,
         '',
         data.type,
@@ -187,9 +163,7 @@ function ListRequestHandling(props) {
   const onError = () => {
     showMessage({
       message: t('common:app_name'),
-      description:
-        approvedState.getIn(['errorHelperListRequest', 'message']) ||
-        t('error:list_request'),
+      description: t('error:list_request'),
       type: 'danger',
       icon: 'danger',
     });
@@ -209,7 +183,6 @@ function ListRequestHandling(props) {
       data.fromDate,
       data.toDate,
       data.status,
-      data.perPage,
       data.page,
       '',
       '1,2,3',

@@ -15,7 +15,7 @@ import {
 } from 'react-native';
 import {useTranslation} from 'react-i18next';
 import {useNavigation} from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/Feather';
 /** COMPONENTS */
 import CText from './CText';
 import CInput from './CInput';
@@ -129,7 +129,7 @@ function CHeader(props) {
                   style={cStyles.p16}
                   name={iconBack || 'chevron-left'}
                   color={colors.WHITE}
-                  size={scalePx(4)}
+                  size={scalePx(3)}
                 />
               </TouchableOpacity>
             )}
@@ -140,7 +140,7 @@ function CHeader(props) {
                   style={cStyles.p16}
                   name={'menu'}
                   color={colors.WHITE}
-                  size={scalePx(3.5)}
+                  size={scalePx(3)}
                 />
               </TouchableOpacity>
             )}
@@ -168,9 +168,9 @@ function CHeader(props) {
                 onPress={() => handleToogleSearch(true)}>
                 <Icon
                   style={cStyles.p16}
-                  name={'magnify'}
+                  name={'search'}
                   color={colors.WHITE}
-                  size={scalePx(3.5)}
+                  size={scalePx(3)}
                 />
               </TouchableOpacity>
             )}
@@ -179,9 +179,9 @@ function CHeader(props) {
               <TouchableOpacity style={cStyles.itemsEnd} onPress={handleAddNew}>
                 <Icon
                   style={cStyles.p16}
-                  name={'text-box-plus-outline'}
+                  name={'file-plus'}
                   color={colors.WHITE}
-                  size={scalePx(3.5)}
+                  size={scalePx(3)}
                 />
               </TouchableOpacity>
             )}

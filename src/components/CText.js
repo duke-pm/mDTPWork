@@ -5,7 +5,7 @@
  ** Description: Description of CText.js
  **/
 import React from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableHighlight} from 'react-native';
 import {useTranslation} from 'react-i18next';
 /** COMMON */
 import {cStyles} from '~/utils/style';
@@ -28,10 +28,10 @@ function CText(props) {
     allStyles.push(cStyles[i]);
   }
 
-  let Component = onPress ? TouchableOpacity : View;
+  let Component = onPress ? TouchableHighlight : View;
 
   return (
-    <Component activeOpacity={0.5} onPress={onPress}>
+    <Component onPress={onPress}>
       <Text
         style={[cStyles.textDefault, allStyles, customStyles]}
         allowFontScaling={true}

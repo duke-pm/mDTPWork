@@ -35,12 +35,15 @@ const Commons = {
   APPROVED_TYPE: {
     ASSETS: {
       code: 1,
+      name: 'add',
     },
     DAMAGED: {
       code: 2,
+      name: 'damage',
     },
     LOST: {
       code: 3,
+      name: 'lost',
     },
   },
 

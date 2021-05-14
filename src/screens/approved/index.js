@@ -4,7 +4,7 @@
  ** CreateAt: 2021
  ** Description: Description of Approved.js
  **/
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {FlatList} from 'react-native';
 /** COMPONENTS */
 import CContainer from '~/components/CContainer';
@@ -16,23 +16,16 @@ import {cStyles} from '~/utils/style';
 import {IS_ANDROID} from '~/utils/helper';
 
 function Approved(props) {
-  const [loading, setLoading] = useState(true);
-
   /** HANDLE FUNC */
   const handleItem = data => {
     props.navigation.navigate(data);
   };
 
-  /** LIFE CYCLE */
-  useEffect(() => {
-    setLoading(false);
-  }, []);
-
   /** RENDER */
   return (
     <CContainer
-      loading={loading}
       title={'approved:assets'}
+      loading={false}
       header
       hasBack
       content={

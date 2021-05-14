@@ -8,7 +8,10 @@ import SignInScreen from '~/screens/authentication/signIn';
 import ForgotPasswordScreen from '~/screens/authentication/forgotPassword';
 
 import Dashboard from '~/screens/dashboard';
+
 import Account from '~/screens/account';
+import HelpAndInfo from '~/screens/helpAndInfo';
+import ContactUs from '~/screens/contactUs';
 
 /** APPROVED */
 import Approved from '~/screens/approved';
@@ -44,6 +47,14 @@ const Routes = {
     ACCOUNT: {
       name: 'Account',
       path: Account,
+    },
+    HELP_AND_INFO: {
+      name: 'HelpAndInfo',
+      path: HelpAndInfo,
+    },
+    CONTACT_US: {
+      name: 'ContactUs',
+      path: ContactUs,
     },
     APPROVED: {
       name: 'Approved',

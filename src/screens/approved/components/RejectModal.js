@@ -98,7 +98,7 @@ function RejectModal(props) {
                 disabled={props.loading}
                 holder={'add_approved_assets:reason'}
                 value={reasonReject}
-                valueColor={colors.BLACK}
+                valueColor={colors.TEXT_BASE}
                 keyboard={'default'}
                 returnKey={'done'}
                 multiline

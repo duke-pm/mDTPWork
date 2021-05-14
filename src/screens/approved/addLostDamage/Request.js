@@ -19,7 +19,7 @@ import {
   // Linking,
 } from 'react-native';
 import {showMessage} from 'react-native-flash-message';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/Feather';
 import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
@@ -392,7 +392,7 @@ function AddRequest(props) {
           setLoading({...loading, submitApproved: false});
           showMessage({
             message: t('common:app_name'),
-            description: approvedState.get('errorHelperApprovedRequest'),
+            description: t('error:approved_request_lost_damage'),
             type: 'danger',
             icon: 'danger',
           });
@@ -428,7 +428,7 @@ function AddRequest(props) {
           setLoading({...loading, submitReject: false});
           showMessage({
             message: t('common:app_name'),
-            description: approvedState.get('errorHelperRejectRequest'),
+            description: t('error:reject_request_lost_damage'),
             type: 'danger',
             icon: 'danger',
           });
@@ -453,7 +453,7 @@ function AddRequest(props) {
       }
       header
       hasBack
-      iconBack={'close'}
+      iconBack={'x'}
       title={'add_approved_lost_damaged:' + (isDetail ? 'detail' : 'title')}
       content={
         <CContent>
@@ -554,7 +554,6 @@ function AddRequest(props) {
                 <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pt10]}>
                   <TouchableOpacity
                     style={{flex: 0.4}}
-                    activeOpacity={0.5}
                     disabled={loading.main || loading.submitAdd || isDetail}
                     onPress={() => handleChooseTypeAssets(2)}>
                     <View style={[cStyles.row, cStyles.itemsCenter]}>
@@ -562,7 +561,7 @@ function AddRequest(props) {
                         name={
                           form.typeUpdate === Commons.APPROVED_TYPE.DAMAGED.code
                             ? 'check-circle'
-                            : 'circle-outline'
+                            : 'circle'
                         }
                         size={scalePx(3.5)}
                         color={
@@ -583,7 +582,6 @@ function AddRequest(props) {
 
                   <TouchableOpacity
                     style={{flex: 0.6}}
-                    activeOpacity={0.5}
                     disabled={loading.main || loading.submitAdd || isDetail}
                     onPress={() => handleChooseTypeAssets(3)}>
                     <View style={[cStyles.row, cStyles.itemsCenter]}>
@@ -591,7 +589,7 @@ function AddRequest(props) {
                         name={
                           form.typeUpdate === Commons.APPROVED_TYPE.LOST.code
                             ? 'check-circle'
-                            : 'circle-outline'
+                            : 'circle'
                         }
                         size={scalePx(3.5)}
                         color={
@@ -636,7 +634,7 @@ function AddRequest(props) {
                   <CButton
                     style={styles.button_preview}
                     label={'common:preview'}
-                    icon={'printer-eye'}
+                    icon={'eye'}
                     onPress={handlePreview}
                   />
                 </View>
@@ -795,7 +793,7 @@ function AddRequest(props) {
                               !item.approveDate
                                 ? 'help-circle'
                                 : item.statusID === 0
-                                ? 'close-circle'
+                                ? 'x-circle'
                                 : 'check-circle'
                             }
                             size={scalePx(3)}
@@ -950,7 +948,7 @@ function AddRequest(props) {
               block
               color={colors.RED}
               disabled={loading.main}
-              icon={'hand-right'}
+              icon={'x-circle'}
               label={'add_approved_lost_damaged:reject'}
               onPress={handleReject}
             />
@@ -959,7 +957,7 @@ function AddRequest(props) {
               block
               color={colors.GREEN}
               disabled={loading.main}
-              icon={'check-decagram'}
+              icon={'check-circle'}
               label={'add_approved_lost_damaged:approved'}
               onPress={handleApproved}
             />

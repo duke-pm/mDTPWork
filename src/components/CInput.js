@@ -13,7 +13,7 @@ import {
   useColorScheme,
   TouchableOpacity,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/Feather';
 /* COMPONENTS */
 import CText from './CText';
 /* COMMON */
@@ -149,7 +149,7 @@ function CInput(props) {
               blurOnSubmit={true}
               selectTextOnFocus={true}
               textAlign={textAlign}
-              clearButtonMode={'while-editing'}
+              // clearButtonMode={'while-editing'}
               removeClippedSubviews={IS_ANDROID}
               keyboardAppearance={isDarkMode ? 'dark' : 'light'}
               keyboardType={keyboard}
@@ -168,7 +168,7 @@ function CInput(props) {
             style={[cStyles.center, styles.con_input_icon]}
             onPress={handleRemoveValue}>
             <Icon
-              name={'close-circle-outline'}
+              name={'x-circle'}
               color={colors.RED}
               size={scalePx(3)}
             />

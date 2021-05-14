@@ -254,12 +254,10 @@ function SignIn(props) {
                   <View style={[cStyles.justifyEnd, styles.con_icon_app]}>
                     <Image
                       style={styles.img_icon_app}
-                      source={Assets.iconApp}
+                      source={Assets.imgLogo}
                       resizeMode={'contain'}
                     />
                   </View>
-
-                  <View style={styles.con_middle} />
 
                   <View style={styles.con_input}>
                     <CInput
@@ -342,8 +340,7 @@ function SignIn(props) {
 const styles = StyleSheet.create({
   con: {backgroundColor: colors.TRANSPARENT},
   content: {backgroundColor: 'rgba(0, 0, 0, 0.4)'},
-  con_icon_app: {flex: 0.3},
-  con_middle: {flex: 0.1},
+  con_icon_app: {flex: 0.4},
   con_input: {flex: 0.6},
   input: {
     backgroundColor: colors.TRANSPARENT,
@@ -354,7 +351,7 @@ const styles = StyleSheet.create({
   },
 
   img_background: {height: '100%', width: '100%'},
-  img_icon_app: {height: 100, width: 100},
+  img_icon_app: {height: 250, width: 250},
 });
 
 export default SignIn;

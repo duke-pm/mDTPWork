@@ -8,7 +8,7 @@
 import React, {useState, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
 import {StyleSheet, FlatList, TouchableOpacity, View} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/Feather';
 /* COMPONENTS */
 import CText from './CText';
 /* COMMON */
@@ -102,7 +102,7 @@ function CGroupFilter(props) {
                   {isCheck && (
                     <View style={styles.con_icon}>
                       <Icon
-                        name={'check-bold'}
+                        name={'check'}
                         size={scalePx(1.5)}
                         color={colors.WHITE}
                       />

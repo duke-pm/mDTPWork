@@ -8,6 +8,10 @@
 const Assets = {
   bgAuthentication: require('../../../assets/images/background/authentication.jpg'),
 
+  imgLogo: require('../../../assets/images/photo/logo.png'),
+  imgFacebook: require('../../../assets/images/photo/facebook.png'),
+  imgYoutube: require('../../../assets/images/photo/youtube.png'),
+
   iconApp: require('../../../assets/images/icon/react.png'),
   iconLostNetwork: require('../../../assets/images/icon/lostNetwork.jpg'),
   iconRequest: require('../../../assets/images/icon/request.png'),

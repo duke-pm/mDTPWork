@@ -15,6 +15,7 @@ function CFooter(props) {
       style={[
         cStyles.py6,
         cStyles.isIphoneX() && cStyles.pb24,
+        !props.hasPaddingFooter && cStyles.isIphoneX() && cStyles.pb0,
         {backgroundColor: colors.BACKGROUND_FOOTER},
         styles.con,
       ]}>

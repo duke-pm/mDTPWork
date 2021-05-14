@@ -9,17 +9,16 @@ import {fromJS} from 'immutable';
 import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-import {ActivityIndicator, View} from 'react-native';
 import {showMessage} from 'react-native-flash-message';
 import moment from 'moment';
 /* COMPONENTS */
 import CContent from '~/components/CContent';
 import ListRequest from './list/Request';
-import CText from '~/components/CText';
+import TabbarLoading from '../components/TabbarLoading';
 /* COMMON */
 import {LOAD_MORE, REFRESH} from '~/config/constants';
-import {colors, cStyles} from '~/utils/style';
 import {usePrevious} from '~/utils/hook';
+import Commons from '~/utils/common/Commons';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 
@@ -31,6 +30,7 @@ function ApprovedAssets(props) {
   const approvedState = useSelector(({approved}) => approved);
   const authState = useSelector(({auth}) => auth);
   const perPage = commonState.get('perPage');
+  const formatDate = commonState.get('formatDate');
 
   const [loading, setLoading] = useState({
     main: false,
@@ -40,14 +40,8 @@ function ApprovedAssets(props) {
     isLoadmore: true,
   });
   const [data, setData] = useState({
-    fromDate: moment()
-      .clone()
-      .startOf('month')
-      .format(commonState.get('formatDate')),
-    toDate: moment()
-      .clone()
-      .endOf('month')
-      .format(commonState.get('formatDate')),
+    fromDate: moment().clone().startOf('month').format(formatDate),
+    toDate: moment().clone().endOf('month').format(formatDate),
     status: '1,2,3,4',
     requests: [],
     requestsDetail: [],
@@ -73,7 +67,7 @@ function ApprovedAssets(props) {
       PageSize: perPage,
       PageNum: page,
       Search: search,
-      RequestTypeID: props.type + '',
+      RequestTypeID: Commons.APPROVED_TYPE.ASSETS.code + '',
       IsResolveRequest: false,
       RefreshToken: authState.getIn(['login', 'refreshToken']),
       Lang: commonState.get('language'),
@@ -257,12 +251,7 @@ function ApprovedAssets(props) {
         />
       )}
 
-      {(loading.main || loading.search) && (
-        <View style={[cStyles.flexCenter]}>
-          <ActivityIndicator color={colors.PRIMARY} />
-          <CText styles={'textMeta pt10 textCenter'} label={'loading'} />
-        </View>
-      )}
+      <TabbarLoading show={loading.main || loading.search} />
     </CContent>
   );
 }

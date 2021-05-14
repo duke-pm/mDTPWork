@@ -107,7 +107,7 @@ function CList(props) {
             ],
           },
         ]}
-        iconName={'arrow-collapse-up'}
+        iconName={'chevrons-up'}
         iconColor={colors.WHITE}
         onPress={handleScrollToTop}
       />

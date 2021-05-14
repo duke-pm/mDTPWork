@@ -19,7 +19,7 @@ import {
 } from 'react-native';
 import {Table, Row, TableWrapper, Cell} from 'react-native-table-component';
 import {showMessage} from 'react-native-flash-message';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/Feather';
 import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
@@ -55,8 +55,6 @@ const INPUT_NAME = {
 function AddRequest(props) {
   const {t} = useTranslation();
 
-  let dateRequestRef = useRef();
-  let nameRef = useRef();
   let departmentRef = useRef();
   let regionRef = useRef();
   let whereUseRef = useRef();
@@ -218,6 +216,8 @@ function AddRequest(props) {
   };
 
   /** FUNC */
+  const onCloseReject = () => setShowReject(false);
+
   const onValidate = () => {
     let tmpError = error,
       status = true;
@@ -409,7 +409,8 @@ function AddRequest(props) {
       let arrayDetail = props.route.params?.dataDetail;
       if (arrayDetail.length > 0) {
         tmp.assets.data = [];
-        for (let item of arrayDetail) {
+        let item = null;
+        for (item of arrayDetail) {
           tmp.assets.data.push([
             item.descr,
             item.qty,
@@ -433,7 +434,7 @@ function AddRequest(props) {
     setLoading({...loading, submitApproved: true});
     let params = {
       RequestID: form.id,
-      RequestTypeID: 1,
+      RequestTypeID: Commons.APPROVED_TYPE.ASSETS.code,
       PersonRequestID: form.personRequestId,
       Status: true,
       Reason: '',
@@ -447,7 +448,7 @@ function AddRequest(props) {
     setLoading({...loading, submitReject: true});
     let params = {
       RequestID: form.id,
-      RequestTypeID: 1,
+      RequestTypeID: Commons.APPROVED_TYPE.ASSETS.code,
       PersonRequestID: form.personRequestId,
       Status: false,
       Reason: reason,
@@ -455,10 +456,6 @@ function AddRequest(props) {
       Lang: commonState.get('language'),
     };
     dispatch(Actions.fetchRejectRequest(params, props.navigation));
-  };
-
-  const onCloseReject = () => {
-    setShowReject(false);
   };
 
   /** LIFE CYCLE */
@@ -499,7 +496,7 @@ function AddRequest(props) {
           setLoading({...loading, submitAdd: false});
           showMessage({
             message: t('common:app_name'),
-            description: approvedState.get('errorHelperAddRequest'),
+            description: t('error:add_request_assets'),
             type: 'danger',
             icon: 'danger',
           });
@@ -534,7 +531,7 @@ function AddRequest(props) {
           setLoading({...loading, submitApproved: false});
           showMessage({
             message: t('common:app_name'),
-            description: approvedState.get('errorHelperApprovedRequest'),
+            description: t('error:approved_request_assets'),
             type: 'danger',
             icon: 'danger',
           });
@@ -570,7 +567,7 @@ function AddRequest(props) {
           setLoading({...loading, submitReject: false});
           showMessage({
             message: t('common:app_name'),
-            description: approvedState.get('errorHelperRejectRequest'),
+            description: t('error:reject_request_assets'),
             type: 'danger',
             icon: 'danger',
           });
@@ -595,7 +592,7 @@ function AddRequest(props) {
       }
       header
       hasBack
-      iconBack={'close'}
+      iconBack={'x'}
       title={'add_approved_assets:' + (isDetail ? 'detail' : 'title')}
       content={
         <CContent>
@@ -615,7 +612,6 @@ function AddRequest(props) {
                 />
                 <CInput
                   name={INPUT_NAME.DATE_REQUEST}
-                  inputRef={ref => (dateRequestRef = ref)}
                   disabled={true}
                   dateTimePicker={true}
                   value={moment(form.dateRequest).format(
@@ -637,7 +633,6 @@ function AddRequest(props) {
                 <CInput
                   name={INPUT_NAME.NAME}
                   styleFocus={styles.input_focus}
-                  inputRef={ref => (nameRef = ref)}
                   disabled={true}
                   holder={'add_approved_assets:name'}
                   value={form.name}
@@ -797,13 +792,12 @@ function AddRequest(props) {
                         cStyles.py10,
                         {flex: 0.4},
                       ]}
-                      activeOpacity={0.5}
                       disabled={loading.main || loading.submitAdd || isDetail}
                       onPress={handleAddAssets}>
                       <Icon
                         name={'plus-circle'}
                         size={scalePx(3)}
-                        color={colors.BLACK}
+                        color={colors.ICON_BASE}
                       />
                       <CText
                         styles={'textMeta textUnderline pl6 colorBlack'}
@@ -879,21 +873,18 @@ function AddRequest(props) {
                 <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pt10]}>
                   <TouchableOpacity
                     style={{flex: 0.4}}
-                    activeOpacity={0.5}
                     disabled={loading.main || loading.submitAdd || isDetail}
                     onPress={() => handleChooseTypeAssets('N')}>
                     <View style={[cStyles.row, cStyles.itemsCenter]}>
                       <Icon
                         name={
-                          form.typeAssets === 'N'
-                            ? 'check-circle'
-                            : 'circle-outline'
+                          form.typeAssets === 'N' ? 'check-circle' : 'circle'
                         }
-                        size={scalePx(3.5)}
+                        size={scalePx(3)}
                         color={
                           form.typeAssets === 'N'
                             ? colors.SECONDARY
-                            : colors.PRIMARY
+                            : colors.ICON_BASE
                         }
                         solid={form.typeAssets === 'N'}
                       />
@@ -906,21 +897,18 @@ function AddRequest(props) {
 
                   <TouchableOpacity
                     style={{flex: 0.6}}
-                    activeOpacity={0.5}
                     disabled={loading.main || loading.submitAdd || isDetail}
                     onPress={() => handleChooseTypeAssets('A')}>
                     <View style={[cStyles.row, cStyles.itemsCenter]}>
                       <Icon
                         name={
-                          form.typeAssets === 'A'
-                            ? 'check-circle'
-                            : 'circle-outline'
+                          form.typeAssets === 'A' ? 'check-circle' : 'circle'
                         }
-                        size={scalePx(3.5)}
+                        size={scalePx(3)}
                         color={
                           form.typeAssets === 'A'
                             ? colors.SECONDARY
-                            : colors.PRIMARY
+                            : colors.ICON_BASE
                         }
                         solid={form.typeAssets === 'A'}
                       />
@@ -942,17 +930,14 @@ function AddRequest(props) {
                 <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pt10]}>
                   <TouchableOpacity
                     style={{flex: 0.4}}
-                    activeOpacity={0.5}
                     disabled={loading.main || loading.submitAdd || isDetail}
                     onPress={() => handleChooseInPlanning(true)}>
                     <View style={[cStyles.row, cStyles.itemsCenter]}>
                       <Icon
-                        name={
-                          form.inPlanning ? 'check-circle' : 'circle-outline'
-                        }
-                        size={scalePx(3.5)}
+                        name={form.inPlanning ? 'check-circle' : 'circle'}
+                        size={scalePx(3)}
                         color={
-                          form.inPlanning ? colors.SECONDARY : colors.PRIMARY
+                          form.inPlanning ? colors.SECONDARY : colors.ICON_BASE
                         }
                         solid={form.inPlanning}
                       />
@@ -965,17 +950,14 @@ function AddRequest(props) {
 
                   <TouchableOpacity
                     style={{flex: 0.6}}
-                    activeOpacity={0.5}
                     disabled={loading.main || loading.submitAdd || isDetail}
                     onPress={() => handleChooseInPlanning(false)}>
                     <View style={[cStyles.row, cStyles.itemsCenter]}>
                       <Icon
-                        name={
-                          !form.inPlanning ? 'check-circle' : 'circle-outline'
-                        }
-                        size={scalePx(3.5)}
+                        name={!form.inPlanning ? 'check-circle' : 'circle'}
+                        size={scalePx(3)}
                         color={
-                          !form.inPlanning ? colors.SECONDARY : colors.PRIMARY
+                          !form.inPlanning ? colors.SECONDARY : colors.ICON_BASE
                         }
                         solid={!form.inPlanning}
                       />
@@ -1063,7 +1045,7 @@ function AddRequest(props) {
                               !item.approveDate
                                 ? 'help-circle'
                                 : item.statusID === 0
-                                ? 'close-circle'
+                                ? 'x-circle'
                                 : 'check-circle'
                             }
                             size={scalePx(3)}
@@ -1209,7 +1191,7 @@ function AddRequest(props) {
               block
               color={colors.RED}
               disabled={loading.main}
-              icon={'hand-right'}
+              icon={'x-circle'}
               label={'add_approved_assets:reject'}
               onPress={handleReject}
             />
@@ -1218,7 +1200,7 @@ function AddRequest(props) {
               block
               color={colors.GREEN}
               disabled={loading.main}
-              icon={'check-decagram'}
+              icon={'check-circle'}
               label={'add_approved_assets:approved'}
               onPress={handleApproved}
             />

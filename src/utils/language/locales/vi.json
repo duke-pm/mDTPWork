@@ -49,7 +49,12 @@
     "reason_not_empty": "Lý do không thể trống",
     "cannot_open_file_upload": "Không thể truy cập file đính kèm. Vui lòng thử lại sau!",
     "find_not_epmty": "Tìm kiếm không thể trống!",
-    "add_request_lost_damage": "Thêm yêu cầu không thành công. Vui lòng thử lại sau!"
+    "add_request_assets": "Thêm yêu cầu không thành công. Vui lòng thử lại sau!",
+    "approved_request_assets": "Duyệt yêu cầu không thành công. Vui lòng thử lại sau!",
+    "reject_request_assets": "Hủy yêu cầu không thành công. Vui lòng thử lại sau!",
+    "add_request_lost_damage": "Thêm yêu cầu không thành công. Vui lòng thử lại sau!",
+    "approved_request_lost_damage": "Duyệt yêu cầu không thành công. Vui lòng thử lại sau!",
+    "reject_request_lost_damage": "Hủy yêu cầu không thành công. Vui lòng thử lại sau!"
   },
   "sign_in": {
     "title": "Đăng Nhập",
@@ -69,8 +74,34 @@
     "title": "Tổng Quan"
   },
   "account": {
-    "title": "Tài Khoản"
+    "title": "Tài Khoản",
+    "language": "Ngôn Ngữ",
+    "information": "Thông tin",
+    "my_account": "Tài khoản của tôi",
+    "settings": "Cài Đặt",
+    "app_settings": "Cài Đặt Ứng Dụng",
+    "help_and_info": "Thông Tin & Trợ Giúp",
+    "hotline": "Hotline",
+    "sign_out": "Đăng Xuất",
+    "dark_theme": "Chế độ tối"
   },
+  "help_and_info": {
+    "title": "Thông Tin & Trợ Giúp",
+    "contact_us": "Liên Hệ",
+    "privacy_policies": "Chính Sách Bảo Mật",
+    "term_conditions": "Điều Khoản & Điều Kiện",
+    "about_us": "Về Chúng Tôi",
+    "rate_app": "Đánh Giá Ứng Dụng"
+  },
+  "contact_us": {
+    "title": "Liên Hệ",
+    "address": "Địa chỉ: ",
+    "phone": "Điện thoại: ",
+    "email": "E-mail: ",
+    "website": "Website: "
+  },
+
+
   "approved": {
     "title": "Tài Sản",
     "assets": "Tài Sản",

@@ -13,9 +13,11 @@ import {colors, cStyles} from '~/utils/style';
 
 const CCard = React.memo(function CCard(props) {
   const {
+    key,
     containerStyle = {},
     contentLabelStyle = {},
     label = null,
+    customLabel = null,
     cardHeader = null,
     cardContent = null,
     cardFooter = null,
@@ -23,6 +25,7 @@ const CCard = React.memo(function CCard(props) {
 
   return (
     <View
+      key={key}
       style={[
         cStyles.rounded1,
         cStyles.mt32,
@@ -42,6 +45,20 @@ const CCard = React.memo(function CCard(props) {
             contentLabelStyle,
           ]}>
           <CText styles={'textTitle'} label={label} />
+        </View>
+      )}
+      {customLabel && (
+        <View
+          style={[
+            cStyles.rounded1,
+            cStyles.px10,
+            cStyles.py3,
+            cStyles.borderAll,
+            cStyles.ml10,
+            styles.con_label,
+            contentLabelStyle,
+          ]}>
+          <CText styles={'textTitle'} customLabel={customLabel} />
         </View>
       )}
 

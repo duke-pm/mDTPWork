@@ -464,6 +464,7 @@ const text = {
   colorPink: {color: '#F66D9B'},
   colorText: {color: '#242833'},
   colorIcon: {color: '#242833'},
+  colorTextMeta: {color: '#8D94A6'},
 
   H1: {
     fontSize: scalePx(5),
@@ -594,11 +595,11 @@ const border = {
   roundedBottomRight9: {borderBottomRightRadius: 45},
   roundedBottomRight10: {borderBottomRightRadius: 50},
 
-  borderAll: {borderColor: Colors.GRAY_500, borderWidth: 0.5},
-  borderTop: {borderTopColor: Colors.GRAY_500, borderTopWidth: 0.5},
-  borderBottom: {borderBottomColor: Colors.GRAY_500, borderBottomWidth: 0.5},
-  borderRight: {borderRightColor: Colors.GRAY_500, borderRightWidth: 0.5},
-  borderLeft: {borderLeftColor: Colors.GRAY_500, borderLeftWidth: 0.5},
+  borderAll: {borderColor: Colors.BORDER_COLOR, borderWidth: 1},
+  borderTop: {borderTopColor: Colors.BORDER_COLOR, borderTopWidth: 1},
+  borderBottom: {borderBottomColor: Colors.BORDER_COLOR, borderBottomWidth: 1},
+  borderRight: {borderRightColor: Colors.BORDER_COLOR, borderRightWidth: 1},
+  borderLeft: {borderLeftColor: Colors.BORDER_COLOR, borderLeftWidth: 1},
 };
 
 export default {

@@ -14,7 +14,7 @@ import {
   ActivityIndicator,
   Animated,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/Feather';
 /** COMPONENTS */
 import CText from '~/components/CText';
 /** COMMON */

@@ -8,7 +8,7 @@ import React, {useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {StyleSheet, View, ActionSheetIOS, TouchableOpacity} from 'react-native';
 import Modal from 'react-native-modal';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/Feather';
 import moment from 'moment';
 /* COMPONENTS */
 import CButton from './CButton';
@@ -136,7 +136,7 @@ function CUploadImage(props) {
               ? 'add_approved_lost_damaged:button_choose_again'
               : 'common:upload'
           }
-          icon={'cloud-upload'}
+          icon={'upload'}
           onPress={handleUpload}
         />
       </View>
@@ -178,18 +178,8 @@ function CUploadImage(props) {
           </TouchableOpacity>
 
           <TouchableOpacity activeOpacity={0.5} onPress={onChangeByGallery}>
-            <View
-              style={[
-                cStyles.row,
-                cStyles.itemsCenter,
-                cStyles.py16,
-                cStyles.px16,
-              ]}>
-              <Icon
-                name={'image-multiple-outline'}
-                size={scalePx(3.5)}
-                color={colors.GREEN}
-              />
+            <View style={[cStyles.row, cStyles.itemsCenter, cStyles.p16]}>
+              <Icon name={'image'} size={scalePx(3.5)} color={colors.GREEN} />
               <CText styles={'textTitle pl16'} label={'common:from_gallery'} />
             </View>
           </TouchableOpacity>

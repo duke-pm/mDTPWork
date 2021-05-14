@@ -14,19 +14,20 @@ import {
   TouchableOpacity,
   LayoutAnimation,
   UIManager,
+  Animated,
 } from 'react-native';
 import {showMessage} from 'react-native-flash-message';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/Feather';
 import moment from 'moment';
 /* COMPONENTS */
 import CText from '~/components/CText';
 import CInput from '~/components/CInput';
 import CDateTimePicker from '~/components/CDateTimePicker';
 import CButton from '~/components/CButton';
+import CGroupFilter from '~/components/CGroupFilter';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
 import {IS_ANDROID, scalePx} from '~/utils/helper';
-import CGroupFilter from '~/components/CGroupFilter';
 import {usePrevious} from '~/utils/hook';
 
 if (IS_ANDROID) {
@@ -75,21 +76,17 @@ function Filter(props) {
   const {t} = useTranslation();
 
   const commonState = useSelector(({common}) => common);
+  const formatDate = commonState.get('formatDate');
 
   const [show, setShow] = useState(false);
+  const [valueAnim] = useState(new Animated.Value(0));
   const [showPickerDate, setShowPickerDate] = useState({
     status: false,
     active: null,
   });
   const [data, setData] = useState({
-    fromDate: moment()
-      .clone()
-      .startOf('month')
-      .format(commonState.get('formatDate')),
-    toDate: moment()
-      .clone()
-      .endOf('month')
-      .format(commonState.get('formatDate')),
+    fromDate: moment().clone().startOf('month').format(formatDate),
+    toDate: moment().clone().endOf('month').format(formatDate),
     status: [1, 2, 3, 4],
     type: [1, 2, 3],
     resolveRequest: isResolve,
@@ -100,6 +97,11 @@ function Filter(props) {
   /** HANDLE FUNC */
   const handleToggle = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    Animated.timing(valueAnim, {
+      toValue: show ? 0 : 1,
+      duration: 200,
+      useNativeDriver: true,
+    }).start();
     setShow(!show);
   };
 
@@ -171,6 +173,10 @@ function Filter(props) {
   }, [props.data, prevData]);
 
   /** RENDER */
+  const rotateData = valueAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0deg', '180deg'],
+  });
   return (
     <View
       style={[
@@ -193,11 +199,13 @@ function Filter(props) {
             <Icon name={'filter'} color={colors.TEXT_BASE} size={scalePx(3)} />
             <CText styles={'H6 pl10'} label={'approved_assets:filter'} />
           </View>
-          <Icon
-            name={show ? 'chevron-up' : 'chevron-down'}
-            size={scalePx(3)}
-            color={colors.ICON_BASE}
-          />
+          <Animated.View style={{transform: [{rotate: rotateData}]}}>
+            <Icon
+              name={'chevron-down'}
+              size={scalePx(3)}
+              color={colors.ICON_BASE}
+            />
+          </Animated.View>
         </View>
       </TouchableOpacity>
 

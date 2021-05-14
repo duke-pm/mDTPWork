@@ -61,22 +61,19 @@ function ForgotPassword(props) {
                 <CContent
                   style={styles.con}
                   contentStyle={[cStyles.flexCenter, cStyles.px48]}>
-                  <View style={[cStyles.justifyEnd, styles.con_icon_app]}>
-                    <Image
-                      style={styles.img_icon_app}
-                      source={Assets.iconApp}
-                      resizeMode={'contain'}
-                    />
-                  </View>
-
-                  <View style={[cStyles.itemsCenter, styles.con_middle]}>
+                  <View
+                    style={[
+                      cStyles.itemsCenter,
+                      cStyles.justifyCenter,
+                      styles.con_icon_app,
+                    ]}>
                     <CText
-                      styles={'textCenter colorWhite mt10'}
+                      styles={'textCenter colorWhite'}
                       label={'forgot_password:sub_title'}
                     />
                   </View>
 
-                  <View style={[cStyles.pt16, styles.con_input]}>
+                  <View style={styles.con_input}>
                     <CInput
                       id={INPUT_NAME.EMAIL}
                       style={styles.input}
@@ -110,16 +107,15 @@ function ForgotPassword(props) {
 const styles = StyleSheet.create({
   con: {backgroundColor: colors.TRANSPARENT},
   content: {backgroundColor: 'rgba(0, 0, 0, 0.4)'},
-  con_icon_app: {flex: 0.3},
-  con_middle: {flex: 0.1},
-  con_input: {flex: 0.6},
+  con_icon_app: {flex: 0.2},
+  con_input: {flex: 0.8},
   input: {
     backgroundColor: colors.TRANSPARENT,
     color: colors.WHITE,
   },
 
   img_background: {height: '100%', width: '100%'},
-  img_icon_app: {height: 100, width: 100},
+  img_icon_app: {height: 250, width: 250},
 });
 
 export default ForgotPassword;
