@@ -110,9 +110,9 @@ function ListItem(props) {
           )}
           {data.isChooseTheme && (
             <Switch
-              trackColor={{false: '#767577', true: colors.PRIMARY}}
-              thumbColor={'#f4f3f4'}
-              ios_backgroundColor={colors.GRAY_200}
+              trackColor={{false: colors.GRAY_500, true: colors.GREEN}}
+              thumbColor={colors.GRAY_100}
+              ios_backgroundColor={colors.GRAY_300}
               onValueChange={onToggle}
               value={data.value}
             />

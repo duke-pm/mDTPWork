@@ -112,7 +112,7 @@ function Settings(props) {
       setLanguages({...languages, active: find});
 
       setLoading(false);
-    }
+    } else setLoading(false);
   };
 
   const onChangeLanguage = index => {
