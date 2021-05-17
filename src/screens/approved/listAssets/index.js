@@ -55,14 +55,8 @@ function ListRequestAll(props) {
     {
       key: Commons.APPROVED_TYPE.LOST.name,
       title: t('list_request_assets:title_lost'),
-      fromDate: moment()
-        .clone()
-        .startOf('month')
-        .format(formatDate),
-      toDate: moment()
-        .clone()
-        .endOf('month')
-        .format(formatDate),
+      fromDate: moment().clone().startOf('month').format(formatDate),
+      toDate: moment().clone().endOf('month').format(formatDate),
       status: '1,2,3,4',
       type: Commons.APPROVED_TYPE.LOST.code + '',
       search: '',
@@ -114,11 +108,11 @@ function ListRequestAll(props) {
   const renderScene = ({route}) => {
     switch (route.key) {
       case Commons.APPROVED_TYPE.LOST.name:
-        return <AssetsLost dataRoute={route} />;
+        return <AssetsLost dataRoute={route} navigation={props.navigation} />;
       case Commons.APPROVED_TYPE.DAMAGED.name:
-        return <AssetsDamage dataRoute={route} />;
+        return <AssetsDamage dataRoute={route} navigation={props.navigation} />;
       case Commons.APPROVED_TYPE.ASSETS.name:
-        return <Assets dataRoute={route} />;
+        return <Assets dataRoute={route} navigation={props.navigation} />;
     }
   };
 

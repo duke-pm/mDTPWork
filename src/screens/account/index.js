@@ -50,7 +50,7 @@ const ACCOUNT = {
         icon: 'settings',
         label: 'account:app_settings',
         value: null,
-        nextRoute: 'SettingsApp',
+        nextRoute: 'Settings',
         isPhone: false,
         isSignOut: false,
         isRate: false,
@@ -137,8 +137,9 @@ function Account(props) {
             style={cStyles.flex1}
             contentContainerStyle={cStyles.px16}
             showsVerticalScrollIndicator={false}>
-            <View style={[cStyles.flexCenter, cStyles.py32, styles.con_avatar]}>
+            <View style={[cStyles.flexCenter, cStyles.py16, styles.con_avatar]}>
               <CAvatar
+                isEdit={true}
                 size={'large'}
                 source={
                   'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8YXZhdGFyfGVufDB8MnwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60'

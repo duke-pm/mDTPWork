@@ -79,7 +79,7 @@ function ForgotPassword(props) {
                       style={styles.input}
                       valueColor={colors.WHITE}
                       disabled={loading}
-                      icon={'at'}
+                      icon={'mail'}
                       iconColor={colors.GRAY_500}
                       holder={'forgot_password:input_email'}
                       returnKey={'send'}

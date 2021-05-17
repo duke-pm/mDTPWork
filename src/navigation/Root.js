@@ -81,6 +81,10 @@ export function RootMain(props) {
         component={Routes.MAIN.CONTACT_US.path}
       />
       <StackMain.Screen
+        name={Routes.MAIN.SETTINGS.name}
+        component={Routes.MAIN.SETTINGS.path}
+      />
+      <StackMain.Screen
         name={Routes.MAIN.APPROVED.name}
         component={Routes.MAIN.APPROVED.path}
       />

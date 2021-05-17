@@ -22,6 +22,8 @@ const Assets = {
   iconUserDefault: require('../../../assets/images/icon/userDefault.png'),
   iconImageDefault: require('../../../assets/images/icon/imageDefault.png'),
   iconAssets: require('../../../assets/images/icon/assets.png'),
+  iconVietnamFlag: require('../../../assets/images/icon/flags/vietnam.png'),
+  iconEnglandFlag: require('../../../assets/images/icon/flags/england.png'),
 };
 
 export default Assets;

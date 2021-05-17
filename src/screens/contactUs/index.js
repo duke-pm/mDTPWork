@@ -151,7 +151,7 @@ function ContactUs(props) {
                             cStyles.pt10,
                           ]}>
                           <CText
-                            styles={'textMeta  pt6'}
+                            styles={'textMeta pt6'}
                             label={'contact_us:phone'}
                           />
                           <View
@@ -164,7 +164,8 @@ function ContactUs(props) {
                               <CText
                                 key={itemPhone}
                                 styles={
-                                  'textMeta fontBold pl10 textUnderline colorPrimary pt6'
+                                  'textMeta fontBold textUnderline colorPrimary pt6 ' +
+                                  (indexPhone !== 0 && 'pl10')
                                 }
                                 customLabel={itemPhone}
                                 onPress={() => handlePhone(itemPhone)}

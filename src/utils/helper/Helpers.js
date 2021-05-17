@@ -9,6 +9,7 @@ import {isIphoneX} from 'react-native-iphone-x-helper';
 import ImagePicker from 'react-native-image-crop-picker';
 import {PERMISSIONS, request} from 'react-native-permissions';
 import EncryptedStorage from 'react-native-encrypted-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const IS_ANDROID = Platform.OS === 'android';
 export const IS_IOS = Platform.OS === 'ios';
@@ -147,6 +148,45 @@ export async function choosePhotoFromGallery(props) {
   return result;
 }
 
+/** LOCAL INFORMATION */
+export async function saveLocalInfo({key, value}) {
+  try {
+    await AsyncStorage.setItem(key, JSON.stringify(value));
+  } catch (error) {
+    return false;
+  }
+}
+
+export async function getLocalInfo(key) {
+  try {
+    const data = await AsyncStorage.getItem(key);
+    if (data) {
+      return JSON.parse(data);
+    } else {
+      return null;
+    }
+  } catch (error) {
+    return false;
+  }
+}
+
+export async function removeSLocalInfo(key) {
+  try {
+    await AsyncStorage.removeItem(key);
+  } catch (error) {
+    return false;
+  }
+}
+
+export async function clearLocalInfo(key) {
+  try {
+    await AsyncStorage.clear();
+  } catch (error) {
+    return false;
+  }
+}
+
+/** SECRET INFORMATION */
 export async function saveSecretInfo({key, value}) {
   try {
     await EncryptedStorage.setItem(key, JSON.stringify(value));

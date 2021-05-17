@@ -22,6 +22,7 @@ function CAvatar(props) {
     imageStyle = {},
     size = 'small', // small | medium | large
     source = null,
+    isEdit = false,
   } = props;
 
   const [loading, setLoading] = useState(true);
@@ -29,7 +30,6 @@ function CAvatar(props) {
   const [src, setSrc] = useState(source);
 
   const onLoad = () => {
-    console.log('[LOG] === onLoad ===> ');
     setLoading(true);
     let animationParams = {
       toValue: 0,
@@ -40,7 +40,6 @@ function CAvatar(props) {
   };
 
   const onError = () => {
-    console.log('[LOG] === onError ===> ');
     setAnim(1);
     setSrc(Assets.iconUserDefault);
     setLoading(false);
@@ -102,23 +101,25 @@ function CAvatar(props) {
         />
       </Animated.View>
 
-      <View
-        style={[
-          cStyles.abs,
-          cStyles.center,
-          cStyles.rounded10,
-          cStyles.borderAll,
-          styles.container_icon_camera,
-          size === 'small' && styles.icon_camera_small,
-          size === 'medium' && styles.icon_camera_medium,
-          size === 'large' && styles.icon_camera_large,
-        ]}>
-        <Icon
-          name={'camera'}
-          color={colors.PRIMARY}
-          size={scalePx(size === 'small' ? 1.6 : size === 'medium' ? 2.3 : 2.8)}
-        />
-      </View>
+      {isEdit &&
+        <View
+          style={[
+            cStyles.abs,
+            cStyles.center,
+            cStyles.rounded10,
+            cStyles.borderAll,
+            styles.container_icon_camera,
+            size === 'small' && styles.icon_camera_small,
+            size === 'medium' && styles.icon_camera_medium,
+            size === 'large' && styles.icon_camera_large,
+          ]}>
+          <Icon
+            name={'camera'}
+            color={colors.PRIMARY}
+            size={scalePx(size === 'small' ? 1.6 : size === 'medium' ? 2.3 : 2.8)}
+          />
+        </View>
+      }
     </View>
   );
 }

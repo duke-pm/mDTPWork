@@ -29,9 +29,10 @@ import CButton from '~/components/CButton';
 /* COMMON */
 import Routes from '~/navigation/Routes';
 import Assets from '~/utils/asset/Assets';
-import {LOGIN} from '~/config/constants';
+import {LOGIN, LANGUAGE} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
 import {
+  getLocalInfo,
   getSecretInfo,
   IS_ANDROID,
   IS_IOS,
@@ -179,6 +180,13 @@ function SignIn(props) {
   };
 
   const onCheckDataLogin = async () => {
+    /** Check Data Language */
+    let dataLanguage = await getLocalInfo(LANGUAGE);
+    if (dataLanguage) {
+      dispatch(Actions.changeLanguage(dataLanguage.value));
+    }
+
+    /** Check Data Login */
     let dataLogin = await getSecretInfo(LOGIN);
     if (dataLogin) {
       console.log('[LOG] === SignIn Local === ');
@@ -269,7 +277,7 @@ function SignIn(props) {
                       inputRef={userNameRef}
                       disabled={loading.submit}
                       value={form.userName}
-                      icon={'account'}
+                      icon={'user'}
                       iconColor={colors.GRAY_500}
                       holder={'sign_in:input_username'}
                       returnKey={'next'}

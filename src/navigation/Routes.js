@@ -12,6 +12,7 @@ import Dashboard from '~/screens/dashboard';
 import Account from '~/screens/account';
 import HelpAndInfo from '~/screens/helpAndInfo';
 import ContactUs from '~/screens/contactUs';
+import Settings from '~/screens/settings';
 
 /** APPROVED */
 import Approved from '~/screens/approved';
@@ -55,6 +56,10 @@ const Routes = {
     CONTACT_US: {
       name: 'ContactUs',
       path: ContactUs,
+    },
+    SETTINGS: {
+      name: 'Settings',
+      path: Settings,
     },
     APPROVED: {
       name: 'Approved',

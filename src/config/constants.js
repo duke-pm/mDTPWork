@@ -8,6 +8,8 @@ export const LOAD_MORE = 'LOAD_MORE';
 export const REFRESH = 'REFRESH';
 
 export const LOGIN = 'LOGIN';
+export const LANGUAGE = 'LANGUAGE';
+export const THEME = 'THEME';
 
 export const DEFAULT_LANGUAGE_CODE = 'vi';
 export const DEFAULT_PER_PAGE = 10;

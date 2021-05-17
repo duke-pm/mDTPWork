@@ -5,23 +5,25 @@
  ** Description: Description of CContent.js
  **/
 import React from 'react';
-import {View, SafeAreaView} from 'react-native';
+import {View, SafeAreaView, ScrollView} from 'react-native';
 /** COMMON */
 import {cStyles} from '~/utils/style';
 
 function CContent(props) {
-  const {contentStyle = {}, padder = null} = props;
+  const {contentStyle = {}, padder = null, scroll = false} = props;
 
   let stylePadder = {};
   if (padder) {
     stylePadder = cStyles.p16;
   }
 
+  const ScrollComponent = scroll ? ScrollView : View;
+
   return (
     <SafeAreaView style={cStyles.flex1}>
-      <View style={[cStyles.flex1, stylePadder, contentStyle]}>
+      <ScrollComponent style={[cStyles.flex1, stylePadder, contentStyle]}>
         {props.children}
-      </View>
+      </ScrollComponent>
     </SafeAreaView>
   );
 }

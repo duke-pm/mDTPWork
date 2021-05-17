@@ -20,7 +20,6 @@ function CList(props) {
   const {
     style = {},
     contentStyle = {},
-    onPressItem = null,
     onRefresh = null,
     onLoadmore = null,
   } = props;

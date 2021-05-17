@@ -10,6 +10,8 @@ import {
   View,
   TouchableWithoutFeedback,
   Linking,
+  Image,
+  Switch,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
@@ -23,7 +25,7 @@ import {colors, cStyles} from '~/utils/style';
 
 function ListItem(props) {
   const navigation = useNavigation();
-  const {index, data, dataLength, onPressSignOut} = props;
+  const {index, data, dataActive, dataLength, onPressSignOut, onToggle} = props;
 
   /** HANDLE FUNC */
   const handleItem = () => {
@@ -48,6 +50,8 @@ function ListItem(props) {
           console.log('[LOG] === SUCCESS RATE ===> ', success);
         }
       });
+    } else if (data.isChooseLang) {
+      data.onPress?.current?.show();
     }
   };
 
@@ -57,6 +61,7 @@ function ListItem(props) {
     data.isSignOut ||
     data.isPhone ||
     data.isURL ||
+    data.isChooseLang ||
     data.isRate
       ? TouchableWithoutFeedback
       : View;
@@ -72,8 +77,10 @@ function ListItem(props) {
           index !== dataLength - 1 && styles.line_bottom,
         ]}>
         <View style={[cStyles.row, cStyles.itemsCenter, styles.con_left]}>
-          <Icon name={data.icon} size={scalePx(3)} color={colors.ICON_META} />
-          <CText styles={'pl16'} label={data.label} />
+          {data.icon && (
+            <Icon name={data.icon} size={scalePx(3)} color={colors.ICON_META} />
+          )}
+          <CText styles={'' + (data.icon && 'pl16')} label={data.label} />
         </View>
 
         <View style={[cStyles.itemsEnd, styles.con_right]}>
@@ -86,6 +93,29 @@ function ListItem(props) {
           )}
           {data.value && data.isPhone && (
             <CText styles={'colorTextMeta'} label={data.value} />
+          )}
+          {data.isChooseLang && (
+            <View
+              style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyEnd]}>
+              <CText
+                styles={'colorTextMeta pr10'}
+                label={dataActive ? dataActive.label : data.data[0].label}
+              />
+              <Image
+                style={styles.img_flag}
+                source={dataActive ? dataActive.icon : data.data[0].icon}
+                resizeMode={'contain'}
+              />
+            </View>
+          )}
+          {data.isChooseTheme && (
+            <Switch
+              trackColor={{false: '#767577', true: colors.PRIMARY}}
+              thumbColor={'#f4f3f4'}
+              ios_backgroundColor={colors.GRAY_200}
+              onValueChange={onToggle}
+              value={data.value}
+            />
           )}
         </View>
       </View>
@@ -100,6 +130,7 @@ const styles = StyleSheet.create({
     borderBottomColor: colors.BORDER_COLOR,
     borderBottomWidth: 1.5,
   },
+  img_flag: {height: 20, width: 20},
 });
 
 export default ListItem;

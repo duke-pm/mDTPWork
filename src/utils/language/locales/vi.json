@@ -6,7 +6,9 @@
     "close": "Đóng",
     "send": "Gửi",
     "choose_date": "Chọn ngày",
-    "try_connect": "Try Connect Again",
+    "choose_language": "Chọn",
+    "choose_theme": "Chọn",
+    "try_connect": "Thử kết nối lại",
     "warning_send_request_approved": "Bạn có chắc muốn gửi đơn cấp phát này không?",
     "empty_data": "Dữ liệu rỗng",
     "cannot_find_data_filter": "Không tìm thấy dữ liệu tương ứng!\nVui lòng thử lại sau!",
@@ -75,23 +77,21 @@
   },
   "account": {
     "title": "Tài Khoản",
-    "language": "Ngôn Ngữ",
     "information": "Thông tin",
     "my_account": "Tài khoản của tôi",
-    "settings": "Cài Đặt",
-    "app_settings": "Cài Đặt Ứng Dụng",
-    "help_and_info": "Thông Tin & Trợ Giúp",
+    "settings": "Cài đặt",
+    "app_settings": "Cài đặt ứng dụng",
+    "help_and_info": "Thông tin & Trợ giúp",
     "hotline": "Hotline",
-    "sign_out": "Đăng Xuất",
-    "dark_theme": "Chế độ tối"
+    "sign_out": "Đăng xuất"
   },
   "help_and_info": {
     "title": "Thông Tin & Trợ Giúp",
-    "contact_us": "Liên Hệ",
-    "privacy_policies": "Chính Sách Bảo Mật",
-    "term_conditions": "Điều Khoản & Điều Kiện",
-    "about_us": "Về Chúng Tôi",
-    "rate_app": "Đánh Giá Ứng Dụng"
+    "contact_us": "Liên hệ",
+    "privacy_policies": "Chính sách bảo mật",
+    "term_conditions": "Điều khoản & Điều kiện",
+    "about_us": "Về chúng tôi",
+    "rate_app": "Đánh giá ứng dụng"
   },
   "contact_us": {
     "title": "Liên Hệ",
@@ -100,8 +100,14 @@
     "email": "E-mail: ",
     "website": "Website: "
   },
-
-
+  "settings": {
+    "title": "Cài Đặt Ứng Dụng",
+    "language": "Ngôn ngữ",
+    "holder_change_language": "Vui lòng chọn ngôn ngữ dưới đây",
+    "vi": "Tiếng việt",
+    "en": "Tiếng anh",
+    "theme": "Chế độ Tối"
+  },
   "approved": {
     "title": "Tài Sản",
     "assets": "Tài Sản",
