@@ -11,20 +11,26 @@ import {useTheme} from '@react-navigation/native';
 /* COMPONENTS */
 import CText from '~/components/CText';
 /* COMMON */
-import {cStyles, colors} from '~/utils/style';
+import {colors, cStyles} from '~/utils/style';
 /* REDUX */
 
 function TabbarType(props) {
-  const {colors} = useTheme();
+  const {customColors} = useTheme();
 
   return (
     <TabBar
       {...props}
       indicatorStyle={styles.indicator_tab}
-      style={{backgroundColor: colors.background}}
+      style={{backgroundColor: customColors.background}}
       renderLabel={({route, focused, color}) => (
         <CText
-          styles={'py5 fontLight ' + (focused ? 'fontBold' : '')}
+          styles={'py5 colorTextMeta ' + (focused ? 'fontBold' : '')}
+          customStyles={[
+            cStyles.py5,
+            cStyles.colorTextMeta,
+            focused && cStyles.fontBold,
+            focused && cStyles.colorSecondary,
+          ]}
           customLabel={route.title}
         />
       )}
