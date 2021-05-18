@@ -80,7 +80,7 @@
     "information": "Information",
     "my_account": "My account",
     "settings": "Settings",
-    "app_settings": "Settings app",
+    "app_settings": "App settings",
     "help_and_info": "Info & Help",
     "hotline": "Hotline",
     "sign_out": "Logout"
@@ -101,7 +101,7 @@
     "website": "Website: "
   },
   "settings": {
-    "title": "Settings App",
+    "title": "App Settings",
     "language": "Language",
     "holder_change_language": "Please select the language below",
     "vi": "Vietnamese",

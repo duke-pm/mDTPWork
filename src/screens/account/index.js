@@ -8,6 +8,8 @@ import React, {useState} from 'react';
 import {useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {StyleSheet, View, Text, ScrollView} from 'react-native';
+import {useTheme} from '@react-navigation/native';
+import {useColorScheme} from 'react-native-appearance';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
@@ -109,6 +111,8 @@ const ACCOUNT = {
 
 function Account(props) {
   const {t} = useTranslation();
+  const {customColors} = useTheme();
+  const isDark = useColorScheme() === 'dark';
 
   const dispatch = useDispatch();
 
@@ -141,6 +145,7 @@ function Account(props) {
               <CAvatar
                 isEdit={true}
                 size={'large'}
+                customColors={customColors}
                 source={
                   'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8YXZhdGFyfGVufDB8MnwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60'
                 }
@@ -158,6 +163,7 @@ function Account(props) {
                   index={index}
                   data={item}
                   dataLength={ACCOUNT.INFORMATION.childrens.length}
+                  customColors={customColors}
                 />
               ))}
             </View>
@@ -173,6 +179,7 @@ function Account(props) {
                   index={index}
                   data={item}
                   dataLength={ACCOUNT.SETTINGS.childrens.length}
+                  customColors={customColors}
                   onPressSignOut={handleSignOut}
                 />
               ))}
@@ -182,12 +189,20 @@ function Account(props) {
             <View style={cStyles.pt16}>
               <View style={[cStyles.row, cStyles.itemsCenter]}>
                 {ACCOUNT.SOCIALS.map((item, index) => (
-                  <SocialItem index={index} data={item} />
+                  <SocialItem
+                    index={index}
+                    data={item}
+                    customColors={customColors}
+                    darkmode={isDark}
+                  />
                 ))}
               </View>
             </View>
 
-            <Text style={[[cStyles.textMeta, cStyles.pt16]]}>
+            <Text
+              style={[
+                [cStyles.textMeta, cStyles.py16, {color: customColors.text}],
+              ]}>
               &#169; 2021 DTP-Education
             </Text>
           </ScrollView>

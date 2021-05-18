@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 /**
  ** Name: SocialItem
  ** Author:
@@ -6,11 +7,8 @@
  **/
 import React from 'react';
 import {StyleSheet, Linking, View, TouchableOpacity, Image} from 'react-native';
-/* COMPONENTS */
-
 /* COMMON */
 import {cStyles} from '~/utils/style';
-/* REDUX */
 
 function SocialItem(props) {
   const {index, data} = props;
@@ -30,6 +28,10 @@ function SocialItem(props) {
           cStyles.center,
           index !== 0 && cStyles.ml16,
           styles.con_social,
+          props.darkmode && {
+            backgroundColor: props.customColors.card,
+            borderWidth: 0,
+          },
         ]}>
         <Image
           style={styles.social}

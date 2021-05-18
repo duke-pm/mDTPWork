@@ -8,6 +8,7 @@
 import React, {useState, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
 import {StyleSheet, FlatList, TouchableOpacity, View} from 'react-native';
+import {useTheme} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
 /* COMPONENTS */
 import CText from './CText';
@@ -17,6 +18,7 @@ import {colors, cStyles} from '~/utils/style';
 
 function CGroupFilter(props) {
   const {t} = useTranslation();
+  const {customColors} = useTheme();
   const {
     containerStyle = {},
     activeAll = true,
@@ -96,30 +98,29 @@ function CGroupFilter(props) {
                     cStyles.rounded1,
                     cStyles.ml6,
                     cStyles.mt6,
-                    !isCheck && styles.con_unactive,
                     isCheck && styles.con_active,
+                    !isCheck && {backgroundColor: customColors.card},
                   ]}>
                   {isCheck && (
                     <View style={styles.con_icon}>
                       <Icon
                         name={'check'}
                         size={scalePx(1.5)}
-                        color={colors.WHITE}
+                        color={'white'}
                       />
                     </View>
                   )}
+
                   <View
                     style={[
                       cStyles.rounded1,
                       cStyles.py4,
                       cStyles.px16,
-                      !isCheck && styles.unactive,
+                      cStyles.borderAll,
                       isCheck && styles.active,
+                      {backgroundColor: customColors.card},
                     ]}>
-                    <CText
-                      styles={'textMeta fontMedium colorPrimary'}
-                      label={item.label}
-                    />
+                    <CText styles={'textMeta fontMedium'} label={item.label} />
                   </View>
                 </View>
               </TouchableOpacity>
@@ -140,19 +141,9 @@ const styles = StyleSheet.create({
   con_active: {
     backgroundColor: colors.SECONDARY,
   },
-  con_unactive: {
-    backgroundColor: colors.WHITE,
-  },
   active: {
-    backgroundColor: colors.WHITE,
-    borderWidth: 1,
     borderColor: colors.SECONDARY,
     borderTopLeftRadius: 40,
-  },
-  unactive: {
-    backgroundColor: colors.WHITE,
-    borderWidth: 1,
-    borderColor: colors.PRIMARY,
   },
   con_left: {
     flex: 0.27,

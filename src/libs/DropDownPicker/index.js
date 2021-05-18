@@ -675,10 +675,8 @@ class DropDownPicker extends React.Component {
                 this.props.noBottomRadius &&
                 styles.noBottomRadius,
             ),
-            this.state.isVisible && {
-              borderColor: colors.PRIMARY,
-              backgroundColor: colors.GRAY_200,
-            },
+            this.state.isVisible && styles.visible,
+            this.state.isVisible && this.props.darkmode && styles.visibleDark,
           ]}>
           {this.state.choice[this.props.schema.icon] &&
             !multiple &&
@@ -752,9 +750,8 @@ class DropDownPicker extends React.Component {
                 maxHeight: this.props.dropDownMaxHeight,
                 zIndex: this.props.zIndex,
               },
-              this.state.isVisible && {
-                borderColor: colors.PRIMARY,
-              },
+              this.state.isVisible && styles.visible,
+              this.state.isVisible && this.props.darkmode && styles.visibleDark,
             ]}>
             {this.props.searchable && (
               <View style={[cStyles.fullWidth, cStyles.row]}>
@@ -799,14 +796,14 @@ class DropDownPicker extends React.Component {
                 ListEmptyComponent={
                   <View style={styles.notFound}>
                     {this.props.searchableError(
-                      this.props.style.globalTextStyle,
+                      this.props.globalTextStyle,
                     )}
                   </View>
                 }
               />
             ) : (
               <View style={styles.notFound}>
-                {this.props.searchableError(this.props.style.globalTextStyle)}
+                {this.props.searchableError(this.props.globalTextStyle)}
               </View>
             )}
           </View>
@@ -817,6 +814,7 @@ class DropDownPicker extends React.Component {
 }
 
 DropDownPicker.defaultProps = {
+  drakmode: false,
   loading: false,
   items: [],
   placeholder: 'Select an item',
@@ -835,19 +833,19 @@ DropDownPicker.defaultProps = {
   showArrow: true,
   arrowSize: 15,
   customArrowUp: (size, color) => (
-    <Icon name="chevron-up" size={size} color={color} size={scalePx(3.5)} />
+    <Icon name="chevron-up" size={size} color={color} size={scalePx(3)} />
   ),
   customArrowDown: (size, color) => (
-    <Icon name="chevron-down" size={size} color={color} size={scalePx(3.5)} />
+    <Icon name="chevron-down" size={size} color={color} size={scalePx(3)} />
   ),
-  customTickIcon: () => <Icon name="check" size={scalePx(3.5)} />,
+  customTickIcon: () => <Icon name="check" size={scalePx(3)} />,
   zIndex: 5000,
   zIndexInverse: 6000,
   disabled: false,
   searchable: false,
   searchablePlaceholder: 'Search for an item',
   searchableError: globalTextStyle => (
-    <Text style={globalTextStyle}>Not Found</Text>
+    <Text style={globalTextStyle}>Không tìm thấy</Text>
   ),
   searchableStyle: {},
   searchablePlaceholderTextColor: 'gray',
@@ -942,6 +940,14 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     marginBottom: 15,
     alignItems: 'center',
+  },
+  visible: {
+    borderColor: colors.SECONDARY,
+    backgroundColor: colors.GRAY_200,
+  },
+  visibleDark: {
+    borderColor: colors.SECONDARY,
+    backgroundColor: colors.GRAY_800,
   },
 });
 

@@ -9,6 +9,7 @@ import {useTranslation} from 'react-i18next';
 import {useNavigation} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
 import {StyleSheet, View, TouchableOpacity, Image} from 'react-native';
+import {useTheme} from '@react-navigation/native';
 import moment from 'moment';
 /* COMPONENTS */
 import CText from '~/components/CText';
@@ -21,6 +22,8 @@ import Assets from '~/utils/asset/Assets';
 const RequestItem = React.memo(function RequestItem(props) {
   const {t} = useTranslation();
   const navigation = useNavigation();
+  const {colors} = useTheme();
+
   const commonState = useSelector(({common}) => common);
 
   /** HANDLE FUNC */
@@ -99,7 +102,7 @@ const RequestItem = React.memo(function RequestItem(props) {
                     label={'approved_lost_damaged:date_request'}
                   />
                   <CText
-                    styles={'textMeta colorBlack'}
+                    styles={'textMeta fontRegular'}
                     customLabel={moment(
                       props.data.requestDate,
                       'YYYY-MM-DDTHH:mm:ss',
@@ -132,7 +135,7 @@ const RequestItem = React.memo(function RequestItem(props) {
                     label={'approved_lost_damaged:region_request'}
                   />
                   <CText
-                    styles={'textMeta colorBlack'}
+                    styles={'textMeta fontRegular'}
                     customLabel={props.data.regionName}
                   />
                 </View>
@@ -149,7 +152,7 @@ const RequestItem = React.memo(function RequestItem(props) {
                     label={'approved_lost_damaged:user_request'}
                   />
                   <CText
-                    styles={'textMeta colorBlack'}
+                    styles={'textMeta fontRegular'}
                     customLabel={props.data.personRequest}
                   />
                 </View>
@@ -168,7 +171,7 @@ const RequestItem = React.memo(function RequestItem(props) {
                     label={'approved_lost_damaged:department_request'}
                   />
                   <CText
-                    styles={'textMeta colorBlack'}
+                    styles={'textMeta fontRegular'}
                     customLabel={props.data.deptName}
                   />
                 </View>

@@ -8,12 +8,13 @@
 import 'react-native-gesture-handler';
 import React, {useState, useEffect} from 'react';
 import {Provider} from 'react-redux';
-import {StatusBar, useColorScheme} from 'react-native';
+import {StatusBar} from 'react-native';
 import {
   NavigationContainer,
   DarkTheme,
   DefaultTheme,
 } from '@react-navigation/native';
+import {AppearanceProvider, useColorScheme} from 'react-native-appearance';
 import NetInfo from '@react-native-community/netinfo';
 import FlashMessage from 'react-native-flash-message';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
@@ -52,7 +53,14 @@ const App = () => {
   };
 
   /** LIFE CYCLE */
+  const isDarkMode = useColorScheme() === 'dark';
   useEffect(() => {
+    StatusBar.setBarStyle('light-content');
+    if (isDarkMode) {
+      StatusBar.setBackgroundColor(DarkTheme.colors.background);
+    } else {
+      StatusBar.setBackgroundColor(colors.PRIMARY);
+    }
     setDefaultAxios();
     NetInfo.addEventListener(stateConnect => {
       const {isConnected} = stateConnect;
@@ -72,26 +80,63 @@ const App = () => {
   }, []);
 
   /** RENDER */
-  const isDarkMode = useColorScheme() === 'dark';
+  const MyDarkTheme = {
+    dark: true,
+    colors: {
+      ...DarkTheme.colors,
+      primary: colors.PRIMARY,
+      icon: colors.WHITE,
+      text: colors.WHITE,
+      card: colors.GRAY_900,
+    },
+    customColors: {
+      ...DarkTheme.colors,
+      primary: colors.PRIMARY,
+      header: colors.BACKGROUND_HEADER_DARK,
+      combobox: colors.TRANSPARENT,
+      icon: colors.WHITE,
+      text: colors.WHITE,
+      card: colors.GRAY_900,
+    },
+  };
+  const MyDefaultTheme = {
+    dark: false,
+    colors: {
+      ...DefaultTheme.colors,
+      primary: colors.PRIMARY,
+      background: colors.BACKGROUND_MAIN,
+      icon: colors.ICON_BASE,
+      text: colors.TEXT_BASE,
+      card: colors.BACKGROUND_CARD,
+    },
+    customColors: {
+      ...DefaultTheme.colors,
+      primary: colors.PRIMARY,
+      background: colors.BACKGROUND_MAIN,
+      // header: colors.BACKGROUND_HEADER,
+      combobox: colors.WHITE,
+      icon: colors.ICON_BASE,
+      text: colors.TEXT_BASE,
+      card: colors.BACKGROUND_CARD,
+    },
+  };
   return (
-    <NavigationContainer theme={isDarkMode ? DarkTheme : DefaultTheme}>
-      <Provider store={Store}>
-        <SafeAreaProvider>
-          <StatusBar
-            barStyle={'light-content'}
-            backgroundColor={colors.PRIMARY}
-          />
+    <AppearanceProvider>
+      <NavigationContainer theme={isDarkMode ? MyDarkTheme : MyDefaultTheme}>
+        <Provider store={Store}>
+          <SafeAreaProvider>
+            <StatusBar barStyle={'light-content'} />
+            {!state.connected ? (
+              <Unconnected onTryAgain={onCheckConnection} />
+            ) : (
+              <Navigator />
+            )}
 
-          {!state.connected ? (
-            <Unconnected onTryAgain={onCheckConnection} />
-          ) : (
-            <Navigator />
-          )}
-
-          <FlashMessage position="top" />
-        </SafeAreaProvider>
-      </Provider>
-    </NavigationContainer>
+            <FlashMessage position="top" />
+          </SafeAreaProvider>
+        </Provider>
+      </NavigationContainer>
+    </AppearanceProvider>
   );
 };
 

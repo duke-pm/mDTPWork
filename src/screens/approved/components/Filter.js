@@ -18,6 +18,7 @@ import {
 } from 'react-native';
 import {showMessage} from 'react-native-flash-message';
 import Icon from 'react-native-vector-icons/Feather';
+import {useTheme} from '@react-navigation/native';
 import moment from 'moment';
 /* COMPONENTS */
 import CText from '~/components/CText';
@@ -74,6 +75,7 @@ const STATUS_REQUEST = [
 function Filter(props) {
   const {isResolve = false, onFilter = () => {}} = props;
   const {t} = useTranslation();
+  const {colors} = useTheme();
 
   const commonState = useSelector(({common}) => common);
   const formatDate = commonState.get('formatDate');
@@ -141,6 +143,7 @@ function Filter(props) {
         data.type.join(),
         data.resolveRequest,
       );
+      handleToggle();
     }
   };
 
@@ -185,7 +188,7 @@ function Filter(props) {
         cStyles.mt16,
         cStyles.borderAll,
         show && cStyles.pb12,
-        styles.container,
+        {backgroundColor: colors.card},
       ]}>
       <TouchableOpacity activeOpacity={1} onPress={handleToggle}>
         <View
@@ -196,15 +199,11 @@ function Filter(props) {
             cStyles.p16,
           ]}>
           <View style={[cStyles.row, cStyles.itemsCenter]}>
-            <Icon name={'filter'} color={colors.TEXT_BASE} size={scalePx(3)} />
-            <CText styles={'H6 pl10'} label={'approved_assets:filter'} />
+            <Icon name={'filter'} color={colors.text} size={scalePx(3)} />
+            <CText styles={'pl10'} label={'approved_assets:filter'} />
           </View>
           <Animated.View style={{transform: [{rotate: rotateData}]}}>
-            <Icon
-              name={'chevron-down'}
-              size={scalePx(3)}
-              color={colors.ICON_BASE}
-            />
+            <Icon name={'chevron-down'} size={scalePx(3)} color={colors.text} />
           </Animated.View>
         </View>
       </TouchableOpacity>
@@ -324,12 +323,8 @@ function Filter(props) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: colors.GRAY_200,
-  },
   text_date: {flex: 0.3},
   input_date: {flex: 0.7},
-  con_input_date: {backgroundColor: colors.WHITE},
   con_input_status: {
     backgroundColor: IS_ANDROID ? 'transparent' : colors.WHITE,
   },

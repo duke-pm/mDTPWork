@@ -5,6 +5,7 @@
  ** Description: Description of HelpAndInfo.js
  **/
 import React from 'react';
+import {useTheme} from '@react-navigation/native';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
@@ -69,6 +70,8 @@ const HELP_AND_INFO = [
 ];
 
 function HelpAndInfo(props) {
+  const {customColors} = useTheme();
+
   return (
     <CContainer
       header
@@ -82,6 +85,7 @@ function HelpAndInfo(props) {
               index={index}
               data={item}
               dataLength={HELP_AND_INFO.length}
+              customColors={customColors}
             />
           ))}
         </CContent>

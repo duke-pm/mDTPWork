@@ -25,7 +25,15 @@ import {colors, cStyles} from '~/utils/style';
 
 function ListItem(props) {
   const navigation = useNavigation();
-  const {index, data, dataActive, dataLength, onPressSignOut, onToggle} = props;
+  const {
+    index,
+    data,
+    dataActive,
+    dataLength,
+    customColors,
+    onPressSignOut,
+    onToggle,
+  } = props;
 
   /** HANDLE FUNC */
   const handleItem = () => {
@@ -88,7 +96,7 @@ function ListItem(props) {
             <Icon
               name={'chevron-right'}
               size={scalePx(3)}
-              color={colors.ICON_BASE}
+              color={customColors.text}
             />
           )}
           {data.value && data.isPhone && (
@@ -108,15 +116,6 @@ function ListItem(props) {
               />
             </View>
           )}
-          {data.isChooseTheme && (
-            <Switch
-              trackColor={{false: colors.GRAY_500, true: colors.GREEN}}
-              thumbColor={colors.GRAY_100}
-              ios_backgroundColor={colors.GRAY_300}
-              onValueChange={onToggle}
-              value={data.value}
-            />
-          )}
         </View>
       </View>
     </Component>
@@ -128,7 +127,7 @@ const styles = StyleSheet.create({
   con_right: {flex: 0.4},
   line_bottom: {
     borderBottomColor: colors.BORDER_COLOR,
-    borderBottomWidth: 1.5,
+    borderBottomWidth: 0.3,
   },
   img_flag: {height: 20, width: 20},
 });

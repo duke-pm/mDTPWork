@@ -20,6 +20,7 @@ import {
 } from 'react-native';
 import {showMessage} from 'react-native-flash-message';
 import Icon from 'react-native-vector-icons/Feather';
+import {useTheme} from '@react-navigation/native';
 import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
@@ -50,6 +51,7 @@ const INPUT_NAME = {
 
 function AddRequest(props) {
   const {t} = useTranslation();
+  const {customColors} = useTheme();
 
   let assetsRef = useRef();
   let reasonRef = useRef();
@@ -172,6 +174,11 @@ function AddRequest(props) {
   const onCloseReject = () => setShowReject(false);
 
   const onPrepareData = () => {
+    let type = props.route.params?.type;
+    if (type) {
+      setForm({...form, typeUpdate: type});
+    }
+
     let params = {
       EmpCode: authState.getIn(['login', 'empCode']),
       RefreshToken: authState.getIn(['login', 'refreshToken']),
@@ -527,7 +534,6 @@ function AddRequest(props) {
                 />
                 <CInput
                   name={INPUT_NAME.REASON}
-                  style={styles.input_multiline}
                   styleFocus={styles.input_focus}
                   inputRef={ref => (reasonRef = ref)}
                   disabled={loading.main || loading.submitAdd || isDetail}
@@ -563,14 +569,11 @@ function AddRequest(props) {
                             ? 'check-circle'
                             : 'circle'
                         }
-                        size={scalePx(3.5)}
+                        size={scalePx(3)}
                         color={
                           form.typeUpdate === Commons.APPROVED_TYPE.DAMAGED.code
                             ? colors.SECONDARY
-                            : colors.PRIMARY
-                        }
-                        solid={
-                          form.typeUpdate === Commons.APPROVED_TYPE.DAMAGED.code
+                            : customColors.text
                         }
                       />
                       <CText
@@ -591,14 +594,11 @@ function AddRequest(props) {
                             ? 'check-circle'
                             : 'circle'
                         }
-                        size={scalePx(3.5)}
+                        size={scalePx(3)}
                         color={
                           form.typeUpdate === Commons.APPROVED_TYPE.LOST.code
                             ? colors.SECONDARY
-                            : colors.PRIMARY
-                        }
-                        solid={
-                          form.typeUpdate === Commons.APPROVED_TYPE.LOST.code
+                            : customColors.text
                         }
                       />
                       <CText
@@ -970,8 +970,7 @@ function AddRequest(props) {
 
 const styles = StyleSheet.create({
   input_focus: {
-    borderColor: colors.PRIMARY,
-    borderWidth: 0.5,
+    borderColor: colors.SECONDARY,
   },
   button_approved: {width: cStyles.deviceWidth / 2.5},
   button_reject: {width: cStyles.deviceWidth / 2.5},
@@ -982,7 +981,6 @@ const styles = StyleSheet.create({
     top: -15,
   },
   con_time_process: {backgroundColor: colors.SECONDARY, flex: 0.3},
-  input_multiline: {height: 100},
   button_preview: {width: 150},
   line_1: {width: 2, backgroundColor: colors.PRIMARY, height: 40},
   line_2: {width: 2, backgroundColor: colors.PRIMARY, height: 20},

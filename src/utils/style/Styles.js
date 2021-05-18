@@ -468,55 +468,46 @@ const text = {
 
   H1: {
     fontSize: scalePx(5),
-    color: '#242833',
     fontFamily: fBold,
     lineHeight: 34,
   },
   H2: {
     fontSize: scalePx(4.5),
-    color: '#242833',
     fontFamily: fBold,
     lineHeight: 32,
   },
   H3: {
     fontSize: scalePx(3.5),
-    color: '#242833',
     fontFamily: fBold,
     lineHeight: 30,
   },
   H4: {
     fontSize: scalePx(3.5),
-    color: '#242833',
     fontFamily: fBold,
     lineHeight: 28,
   },
   H5: {
     fontSize: scalePx(3),
-    color: '#242833',
     fontFamily: fMedium,
     lineHeight: 26,
   },
   H6: {
     fontSize: scalePx(2.5),
-    color: '#242833',
     fontFamily: fMedium,
     lineHeight: 23,
   },
   textTitle: {
     fontSize: scalePx(2.3),
-    color: '#242833',
     fontFamily: fMedium,
     lineHeight: platform === PLATFORM.IOS ? 23 : 24,
   },
   textMeta: {
     fontSize: scalePx(1.8),
-    color: '#8D94A6',
     fontFamily: fLight,
     lineHeight: 20,
   },
   textDefault: {
     fontSize: scalePx(2.3),
-    color: '#242833',
     fontFamily: fRegular,
     lineHeight: platform === PLATFORM.IOS ? 23 : 24,
   },

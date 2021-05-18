@@ -6,14 +6,10 @@
  **/
 import React, {useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {
-  StyleSheet,
-  TextInput,
-  View,
-  useColorScheme,
-  TouchableOpacity,
-} from 'react-native';
+import {StyleSheet, TextInput, View, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
+import {useColorScheme} from 'react-native-appearance';
+import {useTheme} from '@react-navigation/native';
 /* COMPONENTS */
 import CText from './CText';
 /* COMMON */
@@ -22,6 +18,8 @@ import {IS_ANDROID, IS_IOS, scalePx} from '~/utils/helper';
 
 function CInput(props) {
   const {t} = useTranslation();
+  const isDark = useColorScheme() === 'dark';
+  const {customColors} = useTheme();
 
   const {
     containerStyle = {},
@@ -91,7 +89,6 @@ function CInput(props) {
   };
 
   /** RENDER */
-  const isDarkMode = useColorScheme() === 'dark';
   const Component = disabled ? View : TouchableOpacity;
 
   return (
@@ -105,6 +102,8 @@ function CInput(props) {
           styles.con_input,
           disabled && styles.disabled,
           props.error && styles.error,
+          !disabled && isDark && {backgroundColor: colors.TRANSPARENT},
+          disabled && isDark && {backgroundColor: customColors.card},
           style,
           focus === props.name && [styles.input_focus, styleFocus],
         ]}>
@@ -121,7 +120,11 @@ function CInput(props) {
 
         <View style={[cStyles.flex1, cStyles.px12]}>
           {dateTimePicker && (
-            <View style={[cStyles.textDefault, styles.input]}>
+            <View
+              style={[
+                {width: '100%'},
+                isDark && {backgroundColor: colors.TRANSPARENT},
+              ]}>
               <CText customLabel={props.value} />
             </View>
           )}
@@ -131,14 +134,14 @@ function CInput(props) {
               ref={props.inputRef}
               style={[
                 cStyles.textDefault,
-                {color: props.valueColor},
+                {color: customColors.text},
                 IS_IOS && cStyles.mb6,
                 styleInput,
               ]}
               editable={!disabled}
               placeholder={t(holder)}
               placeholderTextColor={holderColor}
-              selectionColor={props.valueColor}
+              selectionColor={customColors.text}
               value={props.value}
               autoCompleteType={'off'}
               autoFocus={autoFocus}
@@ -149,9 +152,8 @@ function CInput(props) {
               blurOnSubmit={true}
               selectTextOnFocus={true}
               textAlign={textAlign}
-              // clearButtonMode={'while-editing'}
               removeClippedSubviews={IS_ANDROID}
-              keyboardAppearance={isDarkMode ? 'dark' : 'light'}
+              keyboardAppearance={isDark ? 'dark' : 'light'}
               keyboardType={keyboard}
               returnKeyType={returnKey}
               onFocus={handleFocusInput}
@@ -167,11 +169,7 @@ function CInput(props) {
           <Component
             style={[cStyles.center, styles.con_input_icon]}
             onPress={handleRemoveValue}>
-            <Icon
-              name={'x-circle'}
-              color={colors.RED}
-              size={scalePx(3)}
-            />
+            <Icon name={'x-circle'} color={colors.RED} size={scalePx(3)} />
           </Component>
         )}
 
@@ -183,10 +181,15 @@ function CInput(props) {
               cStyles.roundedBottomRight1,
               {backgroundColor: colors.GRAY_300},
               styles.con_input_icon,
+              isDark && {backgroundColor: colors.GRAY_600},
               iconLastStyle,
             ]}
             onPress={handleIconLast}>
-            <Icon name={iconLast} color={iconLastColor} size={scalePx(3.5)} />
+            <Icon
+              name={iconLast}
+              color={customColors.text}
+              size={scalePx(3.5)}
+            />
           </Component>
         )}
 

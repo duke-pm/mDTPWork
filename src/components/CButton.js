@@ -15,6 +15,8 @@ import {
   Animated,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
+import {useTheme} from '@react-navigation/native';
+import {useColorScheme} from 'react-native-appearance';
 /** COMPONENTS */
 import CText from '~/components/CText';
 /** COMMON */
@@ -38,6 +40,7 @@ function CButton(props) {
     onPress = () => {},
   } = props;
   const {t} = useTranslation();
+  const isDark = useColorScheme() === 'dark';
   const loadingPrev = usePrevious(loading);
 
   const opacityIndicator = useRef(new Animated.Value(0)).current;
@@ -87,7 +90,7 @@ function CButton(props) {
           variant === 'outlined' && {
             borderColor: color,
             borderWidth: 1,
-            backgroundColor: colors.WHITE,
+            backgroundColor:isDark ? 'transparnet' : colors.WHITE,
           },
           variant === 'text' && {
             backgroundColor: 'transparent',

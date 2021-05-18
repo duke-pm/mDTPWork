@@ -7,11 +7,13 @@
 import React from 'react';
 import {View, Text, TouchableHighlight} from 'react-native';
 import {useTranslation} from 'react-i18next';
+import {useTheme} from '@react-navigation/native';
 /** COMMON */
 import {cStyles} from '~/utils/style';
 
 function CText(props) {
   const {t} = useTranslation();
+  const {colors} = useTheme();
 
   const {
     styles = '',
@@ -33,7 +35,12 @@ function CText(props) {
   return (
     <Component onPress={onPress}>
       <Text
-        style={[cStyles.textDefault, allStyles, customStyles]}
+        style={[
+          cStyles.textDefault,
+          {color: colors.text},
+          allStyles,
+          customStyles,
+        ]}
         allowFontScaling={true}
         {...props}>
         {customLabel || t(label)}

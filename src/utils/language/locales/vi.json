@@ -111,8 +111,8 @@
   "approved": {
     "title": "Tài Sản",
     "assets": "Tài Sản",
-    "list_request": "Danh sách yêu cầu",
-    "list_request_handling": "Danh sách cần xử lý"
+    "list_request": "Yêu cầu của tôi",
+    "list_request_handling": "Yêu cầu cần xử lý"
   },
   "list_request_assets": {
     "title": "Danh sách yêu cầu",
@@ -141,7 +141,7 @@
     "status_all": "Tất cả",
     "status_wait": "Chờ duyệt",
     "status_approved": "Đã duyệt",
-    "status_approved_done": "Đã duyệt/Hoàn thành",
+    "status_approved_done": "Đã duyệt",
     "status_done": "Hoàn thành",
     "status_reject": "Từ chối",
     "search_request": "Tìm kiếm...",

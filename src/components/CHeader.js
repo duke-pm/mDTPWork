@@ -16,11 +16,13 @@ import {
 import {useTranslation} from 'react-i18next';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
+import {useTheme} from '@react-navigation/native';
+import {useColorScheme} from 'react-native-appearance';
 /** COMPONENTS */
 import CText from './CText';
 import CInput from './CInput';
 /** COMMON */
-import {cStyles, colors} from '~/utils/style';
+import {cStyles} from '~/utils/style';
 import {IS_ANDROID, scalePx} from '~/utils/helper';
 /** REDUX */
 import * as Actions from '~/redux/actions';
@@ -34,8 +36,10 @@ if (IS_ANDROID) {
 function CHeader(props) {
   const {t} = useTranslation();
   const navigation = useNavigation();
+  const isDark = useColorScheme() === 'dark';
+  const {customColors} = useTheme();
+
   const {
-    background = colors.BACKGROUND_HEADER,
     hasBack = false,
     hasMenu = false,
     hasSearch = false,
@@ -85,7 +89,7 @@ function CHeader(props) {
       style={[
         cStyles.shadowHeader,
         styles.container,
-        {backgroundColor: background},
+        {backgroundColor: isDark ? customColors.header : customColors.primary},
         isSearch && cStyles.px16,
       ]}>
       {isSearch && (
@@ -100,9 +104,9 @@ function CHeader(props) {
             containerStyle={styles.input_search}
             style={styles.con_search}
             iconLastStyle={styles.con_search}
-            iconLast={'magnify'}
-            iconLastColor={colors.ICON_BASE}
-            valueColor={colors.TEXT_BASE}
+            iconLast={'search'}
+            iconLastColor={'gray'}
+            valueColor={'gray'}
             holder={'approved_assets:search_request'}
             autoFocus
             returnKey={'search'}
@@ -128,7 +132,7 @@ function CHeader(props) {
                 <Icon
                   style={cStyles.p16}
                   name={iconBack || 'chevron-left'}
-                  color={colors.WHITE}
+                  color={'white'}
                   size={scalePx(3)}
                 />
               </TouchableOpacity>
@@ -139,7 +143,7 @@ function CHeader(props) {
                 <Icon
                   style={cStyles.p16}
                   name={'menu'}
-                  color={colors.WHITE}
+                  color={'white'}
                   size={scalePx(3)}
                 />
               </TouchableOpacity>
@@ -148,9 +152,12 @@ function CHeader(props) {
           </View>
 
           <View style={[styles.con_body, cStyles.center]}>
-            <CText styles={'H6 colorWhite'} label={t(title)} />
+            <CText
+              customStyles={[cStyles.H6, cStyles.colorWhite]}
+              label={t(title)}
+            />
             {subTitle && (
-              <CText styles={'textMeta colorWhite'} label={t(subTitle)} />
+              <CText customStyles={cStyles.textMeta} label={t(subTitle)} />
             )}
           </View>
 
@@ -169,7 +176,7 @@ function CHeader(props) {
                 <Icon
                   style={cStyles.p16}
                   name={'search'}
-                  color={colors.WHITE}
+                  color={'white'}
                   size={scalePx(3)}
                 />
               </TouchableOpacity>
@@ -180,7 +187,7 @@ function CHeader(props) {
                 <Icon
                   style={cStyles.p16}
                   name={'file-plus'}
-                  color={colors.WHITE}
+                  color={'white'}
                   size={scalePx(3)}
                 />
               </TouchableOpacity>
@@ -207,7 +214,7 @@ const styles = StyleSheet.create({
   con_body: {flex: 0.6},
   con_right: {flex: 0.2},
   input_search: {width: '85%'},
-  con_search: {backgroundColor: colors.WHITE},
+  con_search: {backgroundColor: 'white'},
 });
 
 export default CHeader;

@@ -16,7 +16,6 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
-  StatusBar,
 } from 'react-native';
 import {showMessage} from 'react-native-flash-message';
 /* COMPONENTS */
@@ -34,7 +33,6 @@ import {colors, cStyles} from '~/utils/style';
 import {
   getLocalInfo,
   getSecretInfo,
-  IS_ANDROID,
   IS_IOS,
   removeSecretInfo,
   resetRoute,
@@ -168,7 +166,6 @@ function SignIn(props) {
   };
 
   const onStart = () => {
-    IS_ANDROID && StatusBar.setBackgroundColor(colors.PRIMARY);
     showMessage({
       message: t('common:app_name'),
       description: t('sign_in:success_login'),
@@ -214,7 +211,6 @@ function SignIn(props) {
 
   /** LIFE CYCLE */
   useEffect(() => {
-    IS_ANDROID && StatusBar.setBackgroundColor(colors.BLACK);
     onCheckDataLogin();
   }, []);
 

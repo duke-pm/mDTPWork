@@ -19,6 +19,7 @@ import {
 } from 'react-native';
 import {Table, Row, TableWrapper, Cell} from 'react-native-table-component';
 import {showMessage} from 'react-native-flash-message';
+import {useTheme} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
 import moment from 'moment';
 /* COMPONENTS */
@@ -54,6 +55,7 @@ const INPUT_NAME = {
 
 function AddRequest(props) {
   const {t} = useTranslation();
+  const {customColors} = useTheme();
 
   let departmentRef = useRef();
   let regionRef = useRef();
@@ -617,7 +619,7 @@ function AddRequest(props) {
                   value={moment(form.dateRequest).format(
                     commonState.get('formatDateView'),
                   )}
-                  valueColor={colors.BLACK}
+                  valueColor={customColors.text}
                   iconLast={'calendar'}
                   iconLastColor={colors.GRAY_700}
                   onPressIconLast={handleDateInput}
@@ -636,7 +638,7 @@ function AddRequest(props) {
                   disabled={true}
                   holder={'add_approved_assets:name'}
                   value={form.name}
-                  valueColor={colors.BLACK}
+                  valueColor={customColors.text}
                   keyboard={'default'}
                   returnKey={'next'}
                   onChangeInput={() =>
@@ -714,13 +716,16 @@ function AddRequest(props) {
                 <ScrollView horizontal>
                   <Table borderStyle={styles.table} style={cStyles.mt6}>
                     <Row
-                      style={styles.table_header}
+                      style={[
+                        styles.table_header,
+                        {backgroundColor: customColors.card},
+                      ]}
                       textStyle={[
                         cStyles.textMeta,
                         cStyles.m3,
                         cStyles.textCenter,
                         cStyles.fontMedium,
-                        styles.table_text_header,
+                        {color: customColors.text},
                       ]}
                       widthArr={
                         isDetail ? [180, 70, 100, 100] : [180, 70, 100, 100, 42]
@@ -797,10 +802,15 @@ function AddRequest(props) {
                       <Icon
                         name={'plus-circle'}
                         size={scalePx(3)}
-                        color={colors.ICON_BASE}
+                        color={colors.ICON_META}
                       />
                       <CText
-                        styles={'textMeta textUnderline pl6 colorBlack'}
+                        customStyles={[
+                          cStyles.textMeta,
+                          cStyles.textUnderline,
+                          cStyles.pl6,
+                          {color: customColors.text},
+                        ]}
                         label={'add_approved_assets:add_assets'}
                       />
                     </TouchableOpacity>
@@ -848,17 +858,14 @@ function AddRequest(props) {
                 />
                 <CInput
                   name={INPUT_NAME.REASON}
-                  style={styles.input_multiline}
                   styleFocus={styles.input_focus}
                   inputRef={ref => (reasonRef = ref)}
                   disabled={loading.main || loading.submitAdd || isDetail}
                   holder={'add_approved_assets:holder_reason'}
                   value={form.reason}
-                  valueColor={colors.BLACK}
                   keyboard={'default'}
                   returnKey={'next'}
                   multiline
-                  textAlignVertical={'top'}
                   onChangeInput={() => handleChangeInput(supplierRef)}
                   onChangeValue={handleChangeText}
                 />
@@ -884,9 +891,8 @@ function AddRequest(props) {
                         color={
                           form.typeAssets === 'N'
                             ? colors.SECONDARY
-                            : colors.ICON_BASE
+                            : customColors.text
                         }
-                        solid={form.typeAssets === 'N'}
                       />
                       <CText
                         styles={'pl10'}
@@ -908,9 +914,8 @@ function AddRequest(props) {
                         color={
                           form.typeAssets === 'A'
                             ? colors.SECONDARY
-                            : colors.ICON_BASE
+                            : customColors.text
                         }
-                        solid={form.typeAssets === 'A'}
                       />
                       <CText
                         styles={'pl10'}
@@ -937,9 +942,8 @@ function AddRequest(props) {
                         name={form.inPlanning ? 'check-circle' : 'circle'}
                         size={scalePx(3)}
                         color={
-                          form.inPlanning ? colors.SECONDARY : colors.ICON_BASE
+                          form.inPlanning ? colors.SECONDARY : customColors.text
                         }
-                        solid={form.inPlanning}
                       />
                       <CText
                         styles={'pl10'}
@@ -957,9 +961,10 @@ function AddRequest(props) {
                         name={!form.inPlanning ? 'check-circle' : 'circle'}
                         size={scalePx(3)}
                         color={
-                          !form.inPlanning ? colors.SECONDARY : colors.ICON_BASE
+                          !form.inPlanning
+                            ? colors.SECONDARY
+                            : customColors.text
                         }
-                        solid={!form.inPlanning}
                       />
                       <CText styles={'pl10'} label={'add_approved_assets:no'} />
                     </View>
@@ -980,7 +985,6 @@ function AddRequest(props) {
                   disabled={loading.main || loading.submitAdd || isDetail}
                   holder={'add_approved_assets:holder_supplier'}
                   value={form.supplier}
-                  valueColor={colors.BLACK}
                   keyboard={'default'}
                   returnKey={'done'}
                   onChangeInput={onSendRequest}
@@ -1213,12 +1217,10 @@ function AddRequest(props) {
 
 const styles = StyleSheet.create({
   input_focus: {
-    borderColor: colors.PRIMARY,
-    borderWidth: 0.5,
+    borderColor: colors.SECONDARY,
   },
   table: {borderWidth: 1, borderColor: colors.TABLE_LINE},
   table_header: {height: 30, backgroundColor: colors.TABLE_HEADER},
-  table_text_header: {color: colors.BLACK},
   button_approved: {width: cStyles.deviceWidth / 2.5},
   button_reject: {width: cStyles.deviceWidth / 2.5},
   con_process: {backgroundColor: colors.GRAY_300},
@@ -1228,7 +1230,6 @@ const styles = StyleSheet.create({
     top: -15,
   },
   con_time_process: {backgroundColor: colors.SECONDARY, flex: 0.3},
-  input_multiline: {height: 100},
   line_1: {width: 2, backgroundColor: colors.PRIMARY, height: 40},
   line_2: {width: 2, backgroundColor: colors.PRIMARY, height: 20},
 });

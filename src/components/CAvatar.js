@@ -23,7 +23,8 @@ function CAvatar(props) {
     size = 'small', // small | medium | large
     source = null,
     isEdit = false,
-  } = props;
+    customColors = { },
+    } = props;
 
   const [loading, setLoading] = useState(true);
   const [anim, setAnim] = useState(new Animated.Value(1));
@@ -57,6 +58,7 @@ function CAvatar(props) {
         size === 'medium' && styles.container_medium,
         size === 'large' && styles.container_large,
         containerStyle,
+        {backgroundColor: customColors.card},
       ]}>
       <FastImage
         style={[
@@ -107,15 +109,15 @@ function CAvatar(props) {
             cStyles.abs,
             cStyles.center,
             cStyles.rounded10,
-            cStyles.borderAll,
             styles.container_icon_camera,
             size === 'small' && styles.icon_camera_small,
             size === 'medium' && styles.icon_camera_medium,
             size === 'large' && styles.icon_camera_large,
+            {backgroundColor: customColors.card},
           ]}>
           <Icon
             name={'camera'}
-            color={colors.PRIMARY}
+            color={customColors.text}
             size={scalePx(size === 'small' ? 1.6 : size === 'medium' ? 2.3 : 2.8)}
           />
         </View>

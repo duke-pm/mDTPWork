@@ -68,14 +68,17 @@ function ListRequestAll(props) {
   const handleAddNew = () => {
     if (index === 1) {
       props.navigation.navigate(Routes.MAIN.ADD_APPROVED_LOST_DAMAGED.name, {
+        type: Commons.APPROVED_TYPE.DAMAGED.code,
         onRefresh: () => handleRefresh(index),
       });
     } else if (index === 2) {
       props.navigation.navigate(Routes.MAIN.ADD_APPROVED_LOST_DAMAGED.name, {
+        type: Commons.APPROVED_TYPE.LOST.code,
         onRefresh: () => handleRefresh(index),
       });
     } else {
       props.navigation.navigate(Routes.MAIN.ADD_APPROVED_ASSETS.name, {
+        type: Commons.APPROVED_TYPE.ASSETS.code,
         onRefresh: () => handleRefresh(index),
       });
     }

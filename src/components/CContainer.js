@@ -9,6 +9,8 @@ import React from 'react';
 import {useSelector} from 'react-redux';
 import {StyleSheet, View, Platform} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {useTheme} from '@react-navigation/native';
+import {useColorScheme} from 'react-native-appearance';
 /** COMMON */
 import CHeader from './CHeader';
 import CFooter from './CFooter';
@@ -17,6 +19,9 @@ import CLoading from './CLoading';
 import {cStyles, colors} from '~/utils/style';
 
 function CContainer(props) {
+  const {customColors} = useTheme();
+  const isDark = useColorScheme() === 'dark';
+
   const commonState = useSelector(({common}) => common);
 
   const {
@@ -30,7 +35,6 @@ function CContainer(props) {
     content,
     footer,
 
-    headerBackground,
     headerLeft,
     headerRight,
     hasBack,
@@ -48,10 +52,6 @@ function CContainer(props) {
   } = props;
 
   // Theme
-  const backgroundStyle = {
-    backgroundColor: headerBackground || colors.BACKGROUND_HEADER,
-  };
-
   let tmpSafeArea = ['right', 'left'];
   if (safeArea.top) {
     tmpSafeArea.push('top');
@@ -61,11 +61,17 @@ function CContainer(props) {
   }
 
   return (
-    <SafeAreaView style={[cStyles.flex1, backgroundStyle]} edges={tmpSafeArea}>
+    <SafeAreaView
+      style={[
+        cStyles.flex1,
+        {
+          backgroundColor: isDark ? customColors.header : customColors.primary,
+        },
+      ]}
+      edges={tmpSafeArea}>
       <View style={[cStyles.flex1, styles.container, style]}>
         {header && (
           <CHeader
-            background={headerBackground}
             hasBack={hasBack}
             hasMenu={hasMenu}
             hasSearch={hasSearch}
@@ -80,7 +86,8 @@ function CContainer(props) {
           />
         )}
         {content && (
-          <View style={cStyles.flex1}>
+          <View
+            style={[cStyles.flex1, {backgroundColor: customColors.background}]}>
             {content}
             {commonState.get('isSearch') && (
               <View

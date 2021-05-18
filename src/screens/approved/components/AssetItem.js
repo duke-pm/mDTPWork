@@ -10,6 +10,8 @@
 import React from 'react';
 import {View, TextInput} from 'react-native';
 import CurrencyInput from 'react-native-currency-input';
+import {useTheme} from '@react-navigation/native';
+import {useColorScheme} from 'react-native-appearance';
 /** COMPONENTS */
 import CIconButton from '~/components/CIconButton';
 /* COMMON */
@@ -25,6 +27,9 @@ Number.prototype.format = function (n, x) {
 };
 
 function AssetItem(props) {
+  const {customColors} = useTheme();
+  const isDark = useColorScheme() === 'dark';
+
   const {rowIndex, cellIndex, onChangeCellItem, onRemoveRow} = props;
 
   if (cellIndex === 4 && rowIndex === 0) {
@@ -53,10 +58,10 @@ function AssetItem(props) {
           cStyles.textRight,
           cStyles.fontMedium,
           styleText,
-          {color: colors.TEXT_BASE},
+          {color: customColors.text},
         ]}
         value={props.cellData}
-        selectionColor={colors.PRIMARY}
+        selectionColor={customColors.text}
         editable={!props.disabled}
         onChangeValue={value => onChangeCellItem(value, rowIndex, cellIndex)}
         // prefix="đ"
@@ -81,10 +86,10 @@ function AssetItem(props) {
         cStyles.fontMedium,
         cStyles.textRight,
         styleText,
-        {color: colors.TEXT_BASE},
+        {color: customColors.text},
       ]}
       keyboardType={cellIndex !== 0 ? 'number-pad' : 'default'}
-      selectionColor={colors.PRIMARY}
+      selectionColor={customColors.text}
       multiline
       editable={!props.disabled}
       value={

@@ -21,6 +21,8 @@ const CCard = React.memo(function CCard(props) {
     cardHeader = null,
     cardContent = null,
     cardFooter = null,
+    customColors = {},
+    darkmode = false,
   } = props;
 
   return (
@@ -29,9 +31,10 @@ const CCard = React.memo(function CCard(props) {
       style={[
         cStyles.rounded1,
         cStyles.mt32,
-        cStyles.borderAll,
+        !darkmode && cStyles.borderAll,
         styles.container,
         containerStyle,
+        {backgroundColor: customColors.card},
       ]}>
       {label && (
         <View
@@ -43,8 +46,12 @@ const CCard = React.memo(function CCard(props) {
             cStyles.ml10,
             styles.con_label,
             contentLabelStyle,
+            {backgroundColor: customColors.header, borderWidth: 0.3},
           ]}>
-          <CText styles={'textTitle'} label={label} />
+          <CText
+            customStyles={[cStyles.textTitle, {color: customColors.text}]}
+            label={label}
+          />
         </View>
       )}
       {customLabel && (
@@ -57,8 +64,12 @@ const CCard = React.memo(function CCard(props) {
             cStyles.ml10,
             styles.con_label,
             contentLabelStyle,
+            {backgroundColor: customColors.header, borderWidth: 0.3},
           ]}>
-          <CText styles={'textTitle'} customLabel={customLabel} />
+          <CText
+            customStyles={[cStyles.textTitle, {color: customColors.text}]}
+            customLabel={customLabel}
+          />
         </View>
       )}
 

@@ -9,6 +9,7 @@ import {useTranslation} from 'react-i18next';
 import {useDispatch} from 'react-redux';
 import {StyleSheet, View} from 'react-native';
 import ActionSheet from 'react-native-actions-sheet';
+import {useTheme} from '@react-navigation/native';
 import Picker from '@gregfrench/react-native-wheel-picker';
 var PickerItem = Picker.Item;
 /* COMPONENTS */
@@ -48,17 +49,11 @@ const SETTINGS = [
     ],
     onPress: actionSheetLangRef,
   },
-  {
-    id: 'theme',
-    label: 'settings:theme',
-    icon: 'edit-3',
-    isChooseTheme: true,
-    value: false,
-  },
 ];
 
 function Settings(props) {
   const {t} = useTranslation();
+  const {customColors} = useTheme();
 
   const dispatch = useDispatch();
 
@@ -90,12 +85,6 @@ function Settings(props) {
       onChangeGlobal(index, tmp[index].value);
     }
     actionSheetLangRef.current?.hide();
-  };
-
-  const handleToggleTheme = value => {
-    let tmp = [...initSettings];
-    tmp[1].value = value;
-    setInitSettings(tmp);
   };
 
   /** FUNC */
@@ -150,7 +139,7 @@ function Settings(props) {
                   data={item}
                   dataLength={initSettings.length}
                   dataActive={item.value}
-                  onToggle={item.isChooseTheme ? handleToggleTheme : null}
+                  customColors={customColors}
                 />
               );
             }}
@@ -161,6 +150,7 @@ function Settings(props) {
             headerAlwaysVisible={true}
             elevation={2}
             indicatorColor={colors.PRIMARY}
+            containerStyle={{backgroundColor: customColors.card}}
             CustomHeaderComponent={
               <View
                 style={[
@@ -183,9 +173,7 @@ function Settings(props) {
             <Picker
               style={styles.con_action}
               lineColor={colors.BLACK} //to set top and bottom line color (Without gradients)
-              lineGradientColorFrom="#008000" //to set top and bottom starting gradient line color
-              lineGradientColorTo="#FF5733" //to set top and bottom ending gradient
-              itemStyle={cStyles.H3}
+              itemStyle={[cStyles.H3, {color: customColors.text}]}
               selectedValue={languages.active}
               onValueChange={onChangeLanguage}>
               {languages.data.map((value, i) => (

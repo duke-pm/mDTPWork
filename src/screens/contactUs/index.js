@@ -5,13 +5,14 @@
  ** Description: Description of ContactUs.js
  **/
 import React from 'react';
-import {StyleSheet, Linking, ScrollView, View, Image} from 'react-native';
-import CCard from '~/components/CCard';
+import {StyleSheet, Linking, ScrollView, View} from 'react-native';
+import {useTheme} from '@react-navigation/native';
+import {useColorScheme} from 'react-native-appearance';
 /* COMPONENTS */
+import CCard from '~/components/CCard';
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
 import CText from '~/components/CText';
-import Assets from '~/utils/asset/Assets';
 /* COMMON */
 import {cStyles} from '~/utils/style';
 /* REDUX */
@@ -97,6 +98,9 @@ const DATA = [
 ];
 
 function ContactUs(props) {
+  const {customColors} = useTheme();
+  const isDark = useColorScheme() === 'dark';
+
   const handlePhone = data => {
     Linking.openURL(`tel:${data}`);
   };
@@ -124,6 +128,9 @@ function ContactUs(props) {
               return (
                 <CCard
                   key={item.id}
+                  containerStyle={cStyles.mt40}
+                  customColors={customColors}
+                  darkmode={isDark}
                   customLabel={item.label}
                   cardContent={
                     <View style={[cStyles.pt16, index === 0 && cStyles.pt40]}>
@@ -159,12 +166,13 @@ function ContactUs(props) {
                               cStyles.row,
                               cStyles.itemsCenter,
                               cStyles.flexWrap,
+                              {width: '95%'}
                             ]}>
                             {item.phone.map((itemPhone, indexPhone) => (
                               <CText
                                 key={itemPhone}
                                 styles={
-                                  'textMeta fontBold textUnderline colorPrimary pt6 ' +
+                                  'textMeta fontBold textUnderline pt6 ' +
                                   (indexPhone !== 0 && 'pl10')
                                 }
                                 customLabel={itemPhone}
@@ -187,9 +195,7 @@ function ContactUs(props) {
                             label={'contact_us:email'}
                           />
                           <CText
-                            styles={
-                              'textMeta fontBold textUnderline colorPrimary'
-                            }
+                            styles={'textMeta fontBold textUnderline'}
                             customLabel={item.email}
                             onPress={() => handleEmail(item.email)}
                           />
@@ -208,9 +214,7 @@ function ContactUs(props) {
                             label={'contact_us:website'}
                           />
                           <CText
-                            styles={
-                              'textMeta fontBold textUnderline colorPrimary'
-                            }
+                            styles={'textMeta fontBold textUnderline'}
                             customLabel={item.website}
                             onPress={() => handleURL(item.website)}
                           />
