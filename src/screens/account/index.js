@@ -5,7 +5,7 @@
  ** Description: Description of Account.js
  **/
 import React, {useState} from 'react';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {StyleSheet, View, Text, ScrollView} from 'react-native';
 import {useTheme} from '@react-navigation/native';
@@ -19,7 +19,7 @@ import ListItem from './components/ListItem';
 import SocialItem from './components/SocialItem';
 /* COMMON */
 import Routes from '~/navigation/Routes';
-import {alert, clearSecretInfo, resetRoute} from '~/utils/helper';
+import {alert, clearSecretInfo, resetRoute, sW} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
 import Assets from '~/utils/asset/Assets';
 /* REDUX */
@@ -115,6 +115,7 @@ function Account(props) {
   const isDark = useColorScheme() === 'dark';
 
   const dispatch = useDispatch();
+  const authState = useSelector(({auth}) => auth);
 
   const [loading, setLoading] = useState(false);
 
@@ -141,50 +142,72 @@ function Account(props) {
             style={cStyles.flex1}
             contentContainerStyle={cStyles.px16}
             showsVerticalScrollIndicator={false}>
-            <View style={[cStyles.flexCenter, cStyles.py16, styles.con_avatar]}>
-              <CAvatar
-                isEdit={true}
-                size={'large'}
-                customColors={customColors}
-                source={
-                  'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8YXZhdGFyfGVufDB8MnwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60'
-                }
-              />
-            </View>
-
-            {/** INFORMATION */}
-            <View style={cStyles.pt16}>
-              <CText
-                styles={'textTitle colorTextMeta'}
-                label={ACCOUNT.INFORMATION.label}
-              />
-              {ACCOUNT.INFORMATION.childrens.map((item, index) => (
-                <ListItem
-                  index={index}
-                  data={item}
-                  dataLength={ACCOUNT.INFORMATION.childrens.length}
+            <View
+              style={[
+                cStyles.rounded2,
+                cStyles.p16,
+                cStyles.mt60,
+                !isDark && cStyles.shadowListItem,
+                {
+                  backgroundColor: isDark ? customColors.card : colors.WHITE,
+                },
+              ]}>
+              <View
+                style={[
+                  cStyles.flexCenter,
+                  cStyles.abs,
+                  {top: -sW('12%'), left: sW('50%') - sW('24%') + 16 - 4},
+                ]}>
+                <CAvatar
+                  isEdit={true}
+                  size={'large'}
                   customColors={customColors}
+                  source={Assets.iconUserDefault}
                 />
-              ))}
-            </View>
 
-            {/** SETTINGS */}
-            <View style={cStyles.pt16}>
-              <CText
-                styles={'textTitle colorTextMeta'}
-                label={ACCOUNT.SETTINGS.label}
-              />
-              {ACCOUNT.SETTINGS.childrens.map((item, index) => (
-                <ListItem
-                  index={index}
-                  data={item}
-                  dataLength={ACCOUNT.SETTINGS.childrens.length}
-                  customColors={customColors}
-                  onPressSignOut={handleSignOut}
+                <CText
+                  styles={'textTitle pt16'}
+                  customLabel={authState.getIn(['login', 'fullName'])}
                 />
-              ))}
-            </View>
+                <CText
+                  styles={'textMeta pt2'}
+                  customLabel={authState.getIn(['login', 'jobTitle'])}
+                />
+              </View>
 
+              {/** INFORMATION */}
+              <View style={{paddingTop: sW('30%')}}>
+                <View style={[cStyles.borderTop, cStyles.fullWidth]} />
+                <CText
+                  styles={'textMeta pt16'}
+                  label={ACCOUNT.INFORMATION.label}
+                />
+                {ACCOUNT.INFORMATION.childrens.map((item, index) => (
+                  <ListItem
+                    showLineBottom={false}
+                    index={index}
+                    data={item}
+                    dataLength={ACCOUNT.INFORMATION.childrens.length}
+                    customColors={customColors}
+                  />
+                ))}
+              </View>
+
+              {/** SETTINGS */}
+              <View style={cStyles.pt16}>
+                <CText styles={'textMeta'} label={ACCOUNT.SETTINGS.label} />
+                {ACCOUNT.SETTINGS.childrens.map((item, index) => (
+                  <ListItem
+                    showLineBottom={false}
+                    index={index}
+                    data={item}
+                    dataLength={ACCOUNT.SETTINGS.childrens.length}
+                    customColors={customColors}
+                    onPressSignOut={handleSignOut}
+                  />
+                ))}
+              </View>
+            </View>
             {/** SOCIALS */}
             <View style={cStyles.pt16}>
               <View style={[cStyles.row, cStyles.itemsCenter]}>
@@ -212,18 +235,6 @@ function Account(props) {
   );
 }
 
-const styles = StyleSheet.create({
-  con_avatar: {
-    flex: 0.2,
-  },
-  con_left: {flex: 0.6},
-  con_right: {flex: 0.4},
-  line_bottom: {
-    borderBottomColor: colors.BORDER_COLOR,
-    borderBottomWidth: 1.5,
-  },
-  con_social: {height: 40, width: 40},
-  social: {height: 20, width: 20},
-});
+const styles = StyleSheet.create({});
 
 export default Account;

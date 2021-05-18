@@ -5,7 +5,7 @@
  ** Description: Description of colors.js
  **/
 export default {
-  PRIMARY: '#003737',
+  PRIMARY: '#006565',
   SECONDARY: '#ff9910',
   TRANSPARENT: 'transparent',
   TABLE_LINE: '#ccd0d0',
@@ -13,12 +13,12 @@ export default {
   TEXT_BASE: '#242833',
   TEXT_META: '#8D94A6',
   ICON_BASE: '#242833',
-  ICON_META: '#8D94A6',
+  ICON_META: '#000',
   BORDER_COLOR: '#cbd5e0',
 
-  BACKGROUND_MAIN: '#fbffff',
-  BACKGROUND_HEADER: '#003737',
-  BACKGROUND_HEADER_DARK: 'rgba(26,32,44,1)',
+  BACKGROUND_MAIN: '#f9ffff',
+  BACKGROUND_HEADER: '#006565',
+  BACKGROUND_HEADER_DARK: '#000',
   BACKGROUND_FOOTER: '#FFF',
   BACKGROUND_MODAL: 'rgba(0, 0, 0, 0.5)',
   BACKGROUND_INPUT_FOCUS: 'rgba(255,255,255,0.1)',

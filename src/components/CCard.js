@@ -29,7 +29,7 @@ const CCard = React.memo(function CCard(props) {
     <View
       key={key}
       style={[
-        cStyles.rounded1,
+        cStyles.rounded2,
         cStyles.mt32,
         !darkmode && cStyles.borderAll,
         styles.container,
@@ -46,7 +46,10 @@ const CCard = React.memo(function CCard(props) {
             cStyles.ml10,
             styles.con_label,
             contentLabelStyle,
-            {backgroundColor: darkmode ?customColors.header : colors.WHITE, borderWidth: 0.3},
+            {
+              backgroundColor: darkmode ? customColors.header : colors.WHITE,
+              borderWidth: 0.3,
+            },
           ]}>
           <CText
             customStyles={[cStyles.textTitle, {color: customColors.text}]}
@@ -64,7 +67,10 @@ const CCard = React.memo(function CCard(props) {
             cStyles.ml10,
             styles.con_label,
             contentLabelStyle,
-            {backgroundColor: darkmode ?customColors.header : colors.WHITE, borderWidth: 0.3},
+            {
+              backgroundColor: darkmode ? customColors.header : colors.WHITE,
+              borderWidth: 0.3,
+            },
           ]}>
           <CText
             customStyles={[cStyles.textTitle, {color: customColors.text}]}

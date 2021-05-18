@@ -26,6 +26,7 @@ import {colors, cStyles} from '~/utils/style';
 function ListItem(props) {
   const navigation = useNavigation();
   const {
+    showLineBottom = true,
     index,
     data,
     dataActive,
@@ -82,11 +83,11 @@ function ListItem(props) {
           cStyles.itemsCenter,
           cStyles.justifyBetween,
           cStyles.py16,
-          index !== dataLength - 1 && styles.line_bottom,
+          index !== dataLength - 1 && showLineBottom && styles.line_bottom,
         ]}>
         <View style={[cStyles.row, cStyles.itemsCenter, styles.con_left]}>
           {data.icon && (
-            <Icon name={data.icon} size={scalePx(3)} color={colors.ICON_META} />
+            <Icon name={data.icon} size={scalePx(3)} color={customColors.text} />
           )}
           <CText styles={'' + (data.icon && 'pl16')} label={data.label} />
         </View>

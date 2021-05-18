@@ -53,6 +53,7 @@ function SignIn(props) {
 
   const dispatch = useDispatch();
   const authState = useSelector(({auth}) => auth);
+  const commonState = useSelector(({common}) => common);
 
   const [loading, setLoading] = useState({
     main: true,
@@ -104,6 +105,7 @@ function SignIn(props) {
       let params = {
         Username: form.userName.trim().toLowerCase(),
         Password: form.password.trim(),
+        Lang: commonState.get('language'),
       };
       dispatch(Actions.fetchLogin(params));
     }
@@ -158,7 +160,8 @@ function SignIn(props) {
   const onLoginError = () => {
     showMessage({
       message: t('common:app_name'),
-      description: t('sign_in:error_login'),
+      description:
+        authState.get('errorHelperLogin') || t('sign_in:error_login'),
       type: 'danger',
       icon: 'danger',
     });

@@ -465,8 +465,8 @@ const text = {
   colorIndigo: {color: '#6574CD'},
   colorPurple: {color: '#9561E2'},
   colorPink: {color: '#F66D9B'},
-  colorText: {color: '#242833'},
-  colorIcon: {color: '#242833'},
+  colorText: {color: '#000'},
+  colorIcon: {color: '#000'},
   colorTextMeta: {color: '#8D94A6'},
 
   H1: {

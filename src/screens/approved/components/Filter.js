@@ -183,7 +183,7 @@ function Filter(props) {
   return (
     <View
       style={[
-        cStyles.rounded1,
+        cStyles.rounded2,
         cStyles.mx16,
         cStyles.mt16,
         cStyles.borderAll,

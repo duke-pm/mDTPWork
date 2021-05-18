@@ -8,6 +8,7 @@ import React from 'react';
 import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Feather';
+import {useTheme} from '@react-navigation/native';
 /** COMMON */
 import Routes from './Routes';
 import {IS_ANDROID, scalePx} from '~/utils/helper';
@@ -18,6 +19,8 @@ const StackMain = createStackNavigator();
 const TabMain = createBottomTabNavigator();
 
 export function RootTab(props) {
+  const {customColors} = useTheme();
+
   return (
     <TabMain.Navigator
       initialRouteName={Routes.MAIN.DASHBOARD.name}
@@ -39,7 +42,7 @@ export function RootTab(props) {
       })}
       tabBarOptions={{
         activeTintColor: colors.SECONDARY,
-        inactiveTintColor: colors.ICON_META,
+        inactiveTintColor: customColors.text,
         keyboardHidesTabBar: true,
         showLabel: false,
       }}>
