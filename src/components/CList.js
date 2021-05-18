@@ -18,70 +18,82 @@ let listRef = createRef();
 
 function CList(props) {
   const {
+    animation = false,
     style = {},
     contentStyle = {},
     onRefresh = null,
     onLoadmore = null,
   } = props;
 
-  const animButtonToTop = useRef(new Animated.Value(cStyles.deviceHeight))
-    .current;
+  // const animButtonToTop = useRef(new Animated.Value(cStyles.deviceHeight))
+  //   .current;
+  const scrollY = useRef(new Animated.Value(0)).current;
 
-  const [scrollDown, setScrollDown] = useState({
-    status: false,
-    offsetY: 0,
-  });
+  // const [scrollDown, setScrollDown] = useState({
+  //   status: false,
+  //   offsetY: 0,
+  // });
 
-  const handleScrollToTop = () => {
-    listRef.scrollToOffset({animated: true, offset: 0});
-  };
+  // const handleScrollToTop = () => {
+  //   listRef.scrollToOffset({animated: true, offset: 0});
+  // };
 
   const onScroll = event => {
-    if (!scrollDown.status) {
-      if (scrollDown.offsetY < event.nativeEvent.contentOffset.y) {
-        Animated.timing(animButtonToTop, {
-          toValue: 0,
-          duration: 150,
-          useNativeDriver: true,
-        }).start();
-
-        setScrollDown({
-          status: true,
-          offsetY: event.nativeEvent.contentOffset.y,
-        });
-      }
-    } else {
-      if (
-        scrollDown.offsetY !== 0 &&
-        scrollDown.offsetY > event.nativeEvent.contentOffset.y
-      ) {
-        Animated.timing(animButtonToTop, {
-          toValue: 100,
-          duration: 150,
-          useNativeDriver: true,
-        }).start();
-
-        setScrollDown({
-          status: false,
-          offsetY: 0,
-        });
-      }
-    }
+    // if (!scrollDown.status) {
+    //   if (scrollDown.offsetY < event.nativeEvent.contentOffset.y) {
+    //     Animated.timing(animButtonToTop, {
+    //       toValue: 0,
+    //       duration: 150,
+    //       useNativeDriver: true,
+    //     }).start();
+    //     setScrollDown({
+    //       status: true,
+    //       offsetY: event.nativeEvent.contentOffset.y,
+    //     });
+    //   }
+    // } else {
+    //   if (
+    //     scrollDown.offsetY !== 0 &&
+    //     scrollDown.offsetY > event.nativeEvent.contentOffset.y
+    //   ) {
+    //     Animated.timing(animButtonToTop, {
+    //       toValue: 100,
+    //       duration: 150,
+    //       useNativeDriver: true,
+    //     }).start();
+    //     setScrollDown({
+    //       status: false,
+    //       offsetY: 0,
+    //     });
+    //   }
+    // }
   };
 
   return (
     <View style={cStyles.flex1}>
-      <FlatList
+      <Animated.FlatList
         ref={ref => (listRef = ref)}
         style={[cStyles.flex1, style]}
-        contentContainerStyle={[cStyles.px16, contentStyle]}
+        contentContainerStyle={[cStyles.px16, cStyles.pb16, contentStyle]}
         data={props.data}
-        renderItem={props.item}
+        renderItem={propsItem =>
+          props.item({
+            item: propsItem.item,
+            index: propsItem.index,
+            scrollY: animation ? scrollY : null,
+          })
+        }
         keyExtractor={(item, index) => index.toString()}
         removeClippedSubviews={IS_ANDROID}
         initialNumToRender={10}
         scrollEventThrottle={16}
-        onScroll={onScroll}
+        onScroll={
+          animation
+            ? Animated.event([{nativeEvent: {contentOffset: {y: scrollY}}}], {
+                useNativeDriver: true,
+              })
+            : onScroll
+        }
         refreshing={props.refreshing}
         onRefresh={onRefresh}
         onEndReachedThreshold={0.1}
@@ -95,7 +107,7 @@ function CList(props) {
         ListFooterComponent={props.loadingmore ? <CFooterList /> : null}
       />
 
-      <CIconButton
+      {/* <CIconButton
         style={[
           styles.button_scroll_to_top,
           {
@@ -109,18 +121,18 @@ function CList(props) {
         iconName={'chevrons-up'}
         iconColor={colors.WHITE}
         onPress={handleScrollToTop}
-      />
+      /> */}
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  button_scroll_to_top: {
-    position: 'absolute',
-    right: 30,
-    bottom: 30,
-    backgroundColor: colors.SECONDARY,
-  },
-});
+// const styles = StyleSheet.create({
+//   button_scroll_to_top: {
+//     position: 'absolute',
+//     right: 30,
+//     bottom: 30,
+//     backgroundColor: colors.SECONDARY,
+//   },
+// });
 
 export default CList;

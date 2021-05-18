@@ -436,6 +436,16 @@ const shadow = {
 
     elevation: 5,
   },
+  shadowListItem: {
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 10,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 10,
+    elevation: 4,
+  },
 };
 
 const text = {

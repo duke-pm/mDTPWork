@@ -24,7 +24,7 @@ import '~/utils/language/config-i18n';
 import Navigator from '~/navigation/Navigator';
 import Unconnected from '~/screens/connection/Unconnected';
 /** COMMON */
-import {colors} from '~/utils/style';
+import {colors, cStyles} from '~/utils/style';
 import jwtServiceConfig from '~/services/jwtServiceConfig';
 /** REDUX */
 import Store from './src/redux/store';
@@ -99,6 +99,8 @@ const App = () => {
       text: colors.WHITE,
       textDisable: colors.GRAY_700,
       card: colors.GRAY_900,
+      listItem: colors.BACKGROUND_LIST_ITEM_DARK,
+      shadowListItem: {},
     },
   };
   const MyDefaultTheme = {
@@ -116,12 +118,13 @@ const App = () => {
       ...DefaultTheme.colors,
       primary: colors.PRIMARY,
       background: colors.BACKGROUND_MAIN,
-      // header: colors.BACKGROUND_HEADER,
       combobox: colors.WHITE,
       icon: colors.ICON_BASE,
       text: colors.TEXT_BASE,
       textDisable: colors.GRAY_700,
       card: colors.BACKGROUND_CARD,
+      listItem: colors.BACKGROUND_LIST_ITEM,
+      shadowListItem: cStyles.shadowListItem,
     },
   };
   return (
