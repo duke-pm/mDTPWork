@@ -128,7 +128,9 @@ function CHeader(props) {
               <TouchableOpacity style={cStyles.itemsStart} onPress={handleBack}>
                 <Icon
                   style={cStyles.p16}
-                  name={iconBack || 'chevron-left'}
+                  name={
+                    iconBack || (IS_ANDROID ? 'arrow-left' : 'chevron-left')
+                  }
                   color={'white'}
                   size={scalePx(3)}
                 />
@@ -148,7 +150,13 @@ function CHeader(props) {
             {left && left}
           </View>
 
-          <View style={[styles.con_body, cStyles.center]}>
+          <View
+            style={[
+              styles.con_body,
+              IS_ANDROID && (hasBack || hasMenu || left)
+                ? cStyles.justifyCenter
+                : cStyles.center,
+            ]}>
             <CText
               customStyles={[cStyles.H6, cStyles.colorWhite]}
               label={t(title)}
@@ -202,7 +210,6 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     height: cStyles.toolbarHeight,
-    borderBottomColor: cStyles.toolbarDefaultBorder,
     top: 0,
     left: 0,
     right: 0,

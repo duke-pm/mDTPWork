@@ -75,7 +75,7 @@ const STATUS_REQUEST = [
 function Filter(props) {
   const {isResolve = false, onFilter = () => {}} = props;
   const {t} = useTranslation();
-  const {colors} = useTheme();
+  const {customColors} = useTheme();
 
   const commonState = useSelector(({common}) => common);
   const formatDate = commonState.get('formatDate');
@@ -188,7 +188,7 @@ function Filter(props) {
         cStyles.mt16,
         cStyles.borderAll,
         show && cStyles.pb12,
-        {backgroundColor: colors.card},
+        {backgroundColor: customColors.card},
       ]}>
       <TouchableOpacity activeOpacity={1} onPress={handleToggle}>
         <View
@@ -199,11 +199,15 @@ function Filter(props) {
             cStyles.p16,
           ]}>
           <View style={[cStyles.row, cStyles.itemsCenter]}>
-            <Icon name={'filter'} color={colors.text} size={scalePx(3)} />
+            <Icon name={'filter'} color={customColors.text} size={scalePx(3)} />
             <CText styles={'pl10'} label={'approved_assets:filter'} />
           </View>
           <Animated.View style={{transform: [{rotate: rotateData}]}}>
-            <Icon name={'chevron-down'} size={scalePx(3)} color={colors.text} />
+            <Icon
+              name={'chevron-down'}
+              size={scalePx(3)}
+              color={customColors.text}
+            />
           </Animated.View>
         </View>
       </TouchableOpacity>

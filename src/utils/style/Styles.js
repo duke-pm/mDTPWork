@@ -395,14 +395,7 @@ const position = {
 
 const shadow = {
   shadowHeader: {
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowOpacity: 0.22,
-    shadowRadius: 2.22,
-    elevation: 3,
+    elevation: 5,
   },
   shadow1: {
     shadowColor: '#000',
@@ -440,10 +433,10 @@ const shadow = {
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 10,
+      height: 3,
     },
-    shadowOpacity: 0.2,
-    shadowRadius: 10,
+    shadowOpacity: 0.15,
+    shadowRadius: 8,
     elevation: 4,
   },
 };

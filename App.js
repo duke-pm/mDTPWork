@@ -112,7 +112,6 @@ const App = () => {
       icon: colors.ICON_BASE,
       text: colors.TEXT_BASE,
       textDisable: colors.GRAY_700,
-      card: colors.BACKGROUND_CARD,
     },
     customColors: {
       ...DefaultTheme.colors,

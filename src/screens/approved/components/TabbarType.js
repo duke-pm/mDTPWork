@@ -22,12 +22,12 @@ function TabbarType(props) {
       {...props}
       indicatorStyle={styles.indicator_tab}
       style={{backgroundColor: customColors.background}}
+      activeColor={colors.SECONDARY}
+      inactiveColor={customColors.text}
       renderLabel={({route, focused, color}) => (
         <CText
-          styles={'py5 colorTextMeta ' + (focused ? 'fontBold' : '')}
           customStyles={[
             cStyles.py5,
-            cStyles.colorTextMeta,
             focused && cStyles.fontBold,
             focused && cStyles.colorSecondary,
           ]}

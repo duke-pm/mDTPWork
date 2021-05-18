@@ -268,7 +268,7 @@ function SignIn(props) {
                       name={INPUT_NAME.USER_NAME}
                       style={styles.input}
                       styleFocus={styles.input_focus}
-                      valueColor={colors.WHITE}
+                      selectionColor={colors.WHITE}
                       holderColor={colors.GRAY_500}
                       inputRef={userNameRef}
                       disabled={loading.submit}
@@ -287,7 +287,7 @@ function SignIn(props) {
                       name={INPUT_NAME.PASSWORD}
                       style={styles.input}
                       styleFocus={styles.input_focus}
-                      valueColor={colors.WHITE}
+                      selectionColor={colors.WHITE}
                       holderColor={colors.GRAY_500}
                       inputRef={passwordRef}
                       disabled={loading.submit}
