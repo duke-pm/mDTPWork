@@ -586,11 +586,14 @@ const border = {
   roundedBottomRight9: {borderBottomRightRadius: 45},
   roundedBottomRight10: {borderBottomRightRadius: 50},
 
-  borderAll: {borderColor: Colors.BORDER_COLOR, borderWidth: 1},
-  borderTop: {borderTopColor: Colors.BORDER_COLOR, borderTopWidth: 1},
-  borderBottom: {borderBottomColor: Colors.BORDER_COLOR, borderBottomWidth: 1},
-  borderRight: {borderRightColor: Colors.BORDER_COLOR, borderRightWidth: 1},
-  borderLeft: {borderLeftColor: Colors.BORDER_COLOR, borderLeftWidth: 1},
+  borderAll: {borderColor: Colors.BORDER_COLOR, borderWidth: 0.5},
+  borderTop: {borderTopColor: Colors.BORDER_COLOR, borderTopWidth: 0.5},
+  borderBottom: {
+    borderBottomColor: Colors.BORDER_COLOR,
+    borderBottomWidth: 0.5,
+  },
+  borderRight: {borderRightColor: Colors.BORDER_COLOR, borderRightWidth: 0.5},
+  borderLeft: {borderLeftColor: Colors.BORDER_COLOR, borderLeftWidth: 0.5},
 };
 
 export default {

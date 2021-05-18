@@ -87,6 +87,7 @@ const App = () => {
       primary: colors.PRIMARY,
       icon: colors.WHITE,
       text: colors.WHITE,
+      textDisable: colors.GRAY_700,
       card: colors.GRAY_900,
     },
     customColors: {
@@ -96,6 +97,7 @@ const App = () => {
       combobox: colors.TRANSPARENT,
       icon: colors.WHITE,
       text: colors.WHITE,
+      textDisable: colors.GRAY_700,
       card: colors.GRAY_900,
     },
   };
@@ -107,6 +109,7 @@ const App = () => {
       background: colors.BACKGROUND_MAIN,
       icon: colors.ICON_BASE,
       text: colors.TEXT_BASE,
+      textDisable: colors.GRAY_700,
       card: colors.BACKGROUND_CARD,
     },
     customColors: {
@@ -117,6 +120,7 @@ const App = () => {
       combobox: colors.WHITE,
       icon: colors.ICON_BASE,
       text: colors.TEXT_BASE,
+      textDisable: colors.GRAY_700,
       card: colors.BACKGROUND_CARD,
     },
   };

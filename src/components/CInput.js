@@ -32,7 +32,6 @@ function CInput(props) {
     icon = null,
     iconColor = colors.ICON_BASE,
     iconLast = null,
-    iconLastColor = colors.ICON_BASE,
     iconLastStyle = {},
 
     holder = '',

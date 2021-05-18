@@ -46,7 +46,7 @@ const CCard = React.memo(function CCard(props) {
             cStyles.ml10,
             styles.con_label,
             contentLabelStyle,
-            {backgroundColor: customColors.header, borderWidth: 0.3},
+            {backgroundColor: darkmode ?customColors.header : colors.WHITE, borderWidth: 0.3},
           ]}>
           <CText
             customStyles={[cStyles.textTitle, {color: customColors.text}]}
@@ -64,7 +64,7 @@ const CCard = React.memo(function CCard(props) {
             cStyles.ml10,
             styles.con_label,
             contentLabelStyle,
-            {backgroundColor: customColors.header, borderWidth: 0.3},
+            {backgroundColor: darkmode ?customColors.header : colors.WHITE, borderWidth: 0.3},
           ]}>
           <CText
             customStyles={[cStyles.textTitle, {color: customColors.text}]}

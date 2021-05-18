@@ -21,6 +21,7 @@ import {
 import {showMessage} from 'react-native-flash-message';
 import Icon from 'react-native-vector-icons/Feather';
 import {useTheme} from '@react-navigation/native';
+import {useColorScheme} from 'react-native-appearance';
 import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
@@ -52,6 +53,7 @@ const INPUT_NAME = {
 function AddRequest(props) {
   const {t} = useTranslation();
   const {customColors} = useTheme();
+  const isDark = useColorScheme() === 'dark';
 
   let assetsRef = useRef();
   let reasonRef = useRef();
@@ -743,6 +745,8 @@ function AddRequest(props) {
           {isDetail && (
             <CCard
               containerStyle={cStyles.m16}
+              customColors={customColors}
+              darkmode={isDark}
               label={'add_approved_lost_damaged:table_process'}
               cardContent={
                 <View style={[cStyles.itemsStart, cStyles.pt16]}>
@@ -820,9 +824,10 @@ function AddRequest(props) {
                               {width: '70%'},
                             ]}>
                             <CText
-                              styles={
-                                'textMeta ' + (item.approveDate && 'colorText')
-                              }
+                              customStyles={[
+                                cStyles.textMeta,
+                                {color: customColors.text},
+                              ]}
                               label={
                                 'add_approved_lost_damaged:' +
                                 (index === 0
@@ -831,10 +836,11 @@ function AddRequest(props) {
                               }
                             />
                             <CText
-                              styles={
-                                'textMeta fontBold ' +
-                                (item.approveDate && 'colorText')
-                              }
+                              customStyles={[
+                                cStyles.textMeta,
+                                item.approveDate && cStyles.fontBold,
+                                {color: customColors.text},
+                              ]}
                               customLabel={item.personApproveName}
                             />
                           </View>
@@ -845,27 +851,29 @@ function AddRequest(props) {
                               cStyles.justifyStart,
                             ]}>
                             <CText
-                              styles={
-                                'textMeta ' + (item.approveDate && 'colorText')
-                              }
+                              customStyles={[
+                                cStyles.textMeta,
+                                {color: customColors.text},
+                              ]}
                               label={
                                 'add_approved_lost_damaged:status_approved'
                               }
                             />
                             {item.approveDate ? (
                               <CText
-                                styles={
-                                  'textMeta fontBold ' +
-                                  (item.approveDate && 'colorText')
-                                }
+                              customStyles={[
+                                cStyles.textMeta,
+                                cStyles.fontBold,
+                                {color: customColors.text},
+                              ]}
                                 customLabel={item.statusName}
                               />
                             ) : (
                               <CText
-                                styles={
-                                  'textMeta fontBold ' +
-                                  (item.approveDate && 'colorText')
-                                }
+                              customStyles={[
+                                cStyles.textMeta,
+                                {color: customColors.text},
+                              ]}
                                 label={'add_approved_lost_damaged:wait'}
                               />
                             )}
@@ -879,19 +887,19 @@ function AddRequest(props) {
                                 {width: '80%'},
                               ]}>
                               <CText
-                                styles={
-                                  'textMeta ' +
-                                  (item.approveDate && 'colorText')
-                                }
+                                customStyles={[
+                                  cStyles.textMeta,
+                                  {color: customColors.text},
+                                ]}
                                 label={
                                   'add_approved_lost_damaged:reason_reject'
                                 }
                               />
                               <CText
-                                styles={
-                                  'textMeta fontBold ' +
-                                  (item.approveDate && 'colorText')
-                                }
+                                customStyles={[
+                                  cStyles.textMeta,
+                                  {color: customColors.text},
+                                ]}
                                 customLabel={item.reason}
                               />
                             </View>

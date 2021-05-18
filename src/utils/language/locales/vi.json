@@ -116,13 +116,13 @@
   },
   "list_request_assets": {
     "title": "Danh sách yêu cầu",
-    "title_add": "Cấp phát",
+    "title_add": "Cấp Phát",
     "title_damaged": "Báo Hỏng",
     "title_lost": "Báo Mất"
   },
   "list_request_assets_handling": {
     "title": "Danh sách cần xử lý",
-    "title_add": "Cấp phát",
+    "title_add": "Cấp Phát",
     "title_damaged": "Hỏng",
     "title_lost": "Mất"
   },
@@ -186,7 +186,7 @@
     "reject": "Không duyệt",
     "wait": "Chờ duyệt",
     "message_confirm_approved": "Bạn có muốn chấp thuận đơn cấp phát tài sản này?",
-    "message_confirm_reject": "Nếu bạn từ chối đơn cấp phát tài sản này, vui lòng điền lý do dưới đây",
+    "message_confirm_reject": "Lý do từ chối đơn cấp phát này",
     "user_request": "Người gửi: ",
     "person_approved": "Người duyệt: ",
     "status_approved": "Trạng thái: ",
@@ -244,8 +244,8 @@
     "wait": "Chờ duyệt",
     "message_confirm_approved_lost": "Bạn có muốn chấp thuận đơn báo mất tài sản này?",
     "message_confirm_approved_damage": "Bạn có muốn chấp thuận đơn báo hỏng tài sản này?",
-    "message_confirm_reject_lost": "Nếu bạn từ chối đơn báo mất tài sản này, vui lòng điền lý do dưới đây",
-    "message_confirm_reject_damage": "Nếu bạn từ chối đơn báo hỏng tài sản này, vui lòng điền lý do dưới đây",
+    "message_confirm_reject_lost": "Lý do từ chối đơn báo mất này",
+    "message_confirm_reject_damage": "Lý do từ chối đơn báo hỏng này",
     "user_request": "Người gửi: ",
     "person_approved": "Người duyệt: ",
     "status_approved": "Trạng thái: ",

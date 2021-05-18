@@ -22,7 +22,7 @@ import {useColorScheme} from 'react-native-appearance';
 import CText from './CText';
 import CInput from './CInput';
 /** COMMON */
-import {cStyles} from '~/utils/style';
+import {cStyles, colors} from '~/utils/style';
 import {IS_ANDROID, scalePx} from '~/utils/helper';
 /** REDUX */
 import * as Actions from '~/redux/actions';
@@ -94,19 +94,11 @@ function CHeader(props) {
       ]}>
       {isSearch && (
         <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pb6]}>
-          <CText
-            styles={'colorWhite pr16 pt6'}
-            label={'common:close'}
-            onPress={() => handleToogleSearch(false)}
-          />
-
           <CInput
             containerStyle={styles.input_search}
-            style={styles.con_search}
-            iconLastStyle={styles.con_search}
             iconLast={'search'}
-            iconLastColor={'gray'}
-            valueColor={'gray'}
+            iconLastColor={colors.GRAY_700}
+            valueColor={customColors.text}
             holder={'approved_assets:search_request'}
             autoFocus
             returnKey={'search'}
@@ -114,6 +106,11 @@ function CHeader(props) {
             onChangeValue={handleChangeValue}
             onChangeInput={handleSearch}
             onPressIconLast={handleSearch}
+          />
+          <CText
+            styles={'colorWhite pl16 pt6'}
+            label={'common:close'}
+            onPress={() => handleToogleSearch(false)}
           />
         </View>
       )}

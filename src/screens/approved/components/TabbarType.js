@@ -21,10 +21,10 @@ function TabbarType(props) {
     <TabBar
       {...props}
       indicatorStyle={styles.indicator_tab}
-      style={[styles.tab, {backgroundColor: colors.background}]}
+      style={{backgroundColor: colors.background}}
       renderLabel={({route, focused, color}) => (
         <CText
-          styles={'p6 fontLight ' + (focused ? 'fontBold' : '')}
+          styles={'py5 fontLight ' + (focused ? 'fontBold' : '')}
           customLabel={route.title}
         />
       )}
@@ -34,7 +34,6 @@ function TabbarType(props) {
 
 const styles = StyleSheet.create({
   indicator_tab: {backgroundColor: colors.SECONDARY, height: 3},
-  con_tab: {width: cStyles.deviceWidth},
 });
 
 export default TabbarType;

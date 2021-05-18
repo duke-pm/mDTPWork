@@ -21,6 +21,7 @@ import {Table, Row, TableWrapper, Cell} from 'react-native-table-component';
 import {showMessage} from 'react-native-flash-message';
 import {useTheme} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
+import {useColorScheme} from 'react-native-appearance';
 import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
@@ -56,6 +57,7 @@ const INPUT_NAME = {
 function AddRequest(props) {
   const {t} = useTranslation();
   const {customColors} = useTheme();
+  const isDark = useColorScheme() === 'dark';
 
   let departmentRef = useRef();
   let regionRef = useRef();
@@ -999,6 +1001,8 @@ function AddRequest(props) {
           {isDetail && (
             <CCard
               containerStyle={cStyles.m16}
+              customColors={customColors}
+              darkmode={isDark}
               label={'add_approved_assets:table_process'}
               cardContent={
                 <View style={[cStyles.itemsStart, cStyles.pt16]}>
@@ -1060,7 +1064,6 @@ function AddRequest(props) {
                                 ? colors.RED
                                 : colors.GREEN
                             }
-                            solid
                           />
                           {index !== process.length - 1 && (
                             <View style={[cStyles.mt10, styles.line_2]} />
@@ -1076,9 +1079,10 @@ function AddRequest(props) {
                               {width: '70%'},
                             ]}>
                             <CText
-                              styles={
-                                'textMeta ' + (item.approveDate && 'colorText')
-                              }
+                              customStyles={[
+                                cStyles.textMeta,
+                                {color: customColors.text},
+                              ]}
                               label={
                                 'add_approved_lost_damaged:' +
                                 (index === 0
@@ -1087,13 +1091,15 @@ function AddRequest(props) {
                               }
                             />
                             <CText
-                              styles={
-                                'textMeta fontBold ' +
-                                (item.approveDate && 'colorText')
-                              }
+                              customStyles={[
+                                cStyles.textMeta,
+                                item.approveDate && cStyles.fontBold,
+                                {color: customColors.text},
+                              ]}
                               customLabel={item.personApproveName}
                             />
                           </View>
+
                           <View
                             style={[
                               cStyles.row,
@@ -1101,25 +1107,27 @@ function AddRequest(props) {
                               cStyles.justifyStart,
                             ]}>
                             <CText
-                              styles={
-                                'textMeta ' + (item.approveDate && 'colorText')
-                              }
+                              customStyles={[
+                                cStyles.textMeta,
+                                {color: customColors.text},
+                              ]}
                               label={'add_approved_assets:status_approved'}
                             />
                             {item.approveDate ? (
                               <CText
-                                styles={
-                                  'textMeta fontBold ' +
-                                  (item.approveDate && 'colorText')
-                                }
+                                customStyles={[
+                                  cStyles.textMeta,
+                                  cStyles.fontBold,
+                                  {color: customColors.text},
+                                ]}
                                 customLabel={item.statusName}
                               />
                             ) : (
                               <CText
-                                styles={
-                                  'textMeta fontBold ' +
-                                  (item.approveDate && 'colorText')
-                                }
+                                customStyles={[
+                                  cStyles.textMeta,
+                                  {color: customColors.text},
+                                ]}
                                 label={'add_approved_assets:wait'}
                               />
                             )}
@@ -1133,17 +1141,18 @@ function AddRequest(props) {
                                 {width: '80%'},
                               ]}>
                               <CText
-                                styles={
-                                  'textMeta ' +
-                                  (item.approveDate && 'colorText')
-                                }
+                                customStyles={[
+                                  cStyles.textMeta,
+                                  {color: customColors.text},
+                                ]}
                                 label={'add_approved_assets:reason_reject'}
                               />
                               <CText
-                                styles={
-                                  'textMeta fontBold ' +
-                                  (item.approveDate && 'colorText')
-                                }
+                                customStyles={[
+                                  cStyles.textMeta,
+                                  cStyles.fontBold,
+                                  {color: customColors.text},
+                                ]}
                                 customLabel={item.reason}
                               />
                             </View>
@@ -1167,6 +1176,7 @@ function AddRequest(props) {
           <RejectModal
             loading={loading.submitReject}
             showReject={showReject}
+            description={'add_approved_assets:message_confirm_reject'}
             onReject={onReject}
             onCloseReject={onCloseReject}
           />

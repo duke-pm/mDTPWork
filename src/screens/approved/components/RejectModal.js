@@ -12,6 +12,8 @@ import {
   Keyboard,
 } from 'react-native';
 import Modal from 'react-native-modal';
+import {useColorScheme} from 'react-native-appearance';
+import {useTheme} from '@react-navigation/native';
 /* COMPONENTS */
 import CText from '~/components/CText';
 import CInput from '~/components/CInput';
@@ -24,6 +26,8 @@ const INPUT_NAME = {
 };
 
 function RejectModal(props) {
+  const {customColors} = useTheme();
+  const isDark = useColorScheme() === 'dark';
   const {
     description = 'add_approved_assets:message_confirm_reject',
     onCloseReject,
@@ -64,6 +68,18 @@ function RejectModal(props) {
     }
   };
 
+  const handleClose = () => {
+    if (error.reasonReject.status) {
+      setError({
+        reasonReject: {
+          status: false,
+          helper: '',
+        },
+      });
+    }
+    onCloseReject();
+  };
+
   /** RENDER */
   return (
     <Modal
@@ -74,13 +90,17 @@ function RejectModal(props) {
       onBackdropPress={onCloseReject}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={cStyles.flexCenter}>
-          <View style={[cStyles.rounded1, styles.background]}>
+          <View
+            style={[
+              cStyles.rounded1,
+              {backgroundColor: customColors.background},
+            ]}>
             <View
               style={[
                 cStyles.py10,
-                cStyles.roundedTopLeft2,
-                cStyles.roundedTopRight2,
-                {backgroundColor: colors.PRIMARY},
+                cStyles.roundedTopLeft1,
+                cStyles.roundedTopRight1,
+                {backgroundColor: isDark ? customColors.card : colors.PRIMARY},
               ]}>
               <CText
                 styles={'colorWhite textCenter fontMedium'}
@@ -93,7 +113,6 @@ function RejectModal(props) {
 
               <CInput
                 name={INPUT_NAME.REASON_REJECT}
-                style={styles.input}
                 styleFocus={styles.input_focus}
                 disabled={props.loading}
                 holder={'add_approved_assets:reason'}
@@ -122,8 +141,8 @@ function RejectModal(props) {
                 style={styles.button_base}
                 block
                 variant={'outlined'}
-                label={'common:cancel'}
-                onPress={onCloseReject}
+                label={'common:close'}
+                onPress={handleClose}
               />
 
               <CButton
@@ -142,13 +161,11 @@ function RejectModal(props) {
 }
 
 const styles = StyleSheet.create({
-  background: {backgroundColor: colors.WHITE},
   input: {height: 150},
   input_focus: {
-    borderColor: colors.PRIMARY,
-    borderWidth: 0.5,
+    borderColor: colors.SECONDARY,
   },
-  button_base: {width: cStyles.deviceWidth / 3},
+  button_base: {width: cStyles.deviceWidth / 3, marginHorizontal: 10},
 });
 
 export default RejectModal;
