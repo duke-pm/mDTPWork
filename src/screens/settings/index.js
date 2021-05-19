@@ -11,7 +11,6 @@ import {StyleSheet, View} from 'react-native';
 import ActionSheet from 'react-native-actions-sheet';
 import {useTheme} from '@react-navigation/native';
 import Picker from '@gregfrench/react-native-wheel-picker';
-var PickerItem = Picker.Item;
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
@@ -22,7 +21,7 @@ import ListItem from '~/screens/account/components/ListItem';
 import Assets from '~/utils/asset/Assets';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
-import {getLocalInfo, saveLocalInfo, sH} from '~/utils/helper';
+import {getLocalInfo, IS_IOS, saveLocalInfo, scalePx, sH} from '~/utils/helper';
 import {LANGUAGE} from '~/config/constants';
 /* REDUX */
 import * as Actions from '~/redux/actions';
@@ -101,7 +100,9 @@ function Settings(props) {
       setLanguages({...languages, active: find});
 
       setLoading(false);
-    } else setLoading(false);
+    } else {
+      setLoading(false);
+    }
   };
 
   const onChangeLanguage = index => {
@@ -151,6 +152,7 @@ function Settings(props) {
             elevation={2}
             indicatorColor={customColors.text}
             containerStyle={{backgroundColor: customColors.card}}
+            defaultOverlayOpacity={0.5}
             CustomHeaderComponent={
               <View
                 style={[
@@ -159,6 +161,7 @@ function Settings(props) {
                   cStyles.row,
                   cStyles.itemsCenter,
                   cStyles.justifyBetween,
+                  {backgroundColor: customColors.card}
                 ]}>
                 <CText
                   styles={'textMeta'}
@@ -172,12 +175,11 @@ function Settings(props) {
             }>
             <Picker
               style={styles.con_action}
-              lineColor={colors.BLACK} //to set top and bottom line color (Without gradients)
-              itemStyle={[cStyles.H5, {color: customColors.text}]}
+              itemStyle={{color: customColors.text, fontSize: scalePx(3)}}
               selectedValue={languages.active}
               onValueChange={onChangeLanguage}>
               {languages.data.map((value, i) => (
-                <PickerItem label={t(value.label)} value={i} key={i} />
+                <Picker.Item label={t(value.label)} value={i} key={i} />
               ))}
             </Picker>
           </ActionSheet>
@@ -188,7 +190,7 @@ function Settings(props) {
 }
 
 const styles = StyleSheet.create({
-  con_action: {width: '100%', height: sH('25%')},
+  con_action: {width: '100%', height: sH('25%'),},
 });
 
 export default Settings;
