@@ -24,7 +24,7 @@ import CText from './CText';
 import CInput from './CInput';
 /** COMMON */
 import {cStyles, colors} from '~/utils/style';
-import {IS_ANDROID, scalePx} from '~/utils/helper';
+import {IS_ANDROID, IS_IOS, scalePx} from '~/utils/helper';
 /** REDUX */
 import * as Actions from '~/redux/actions';
 
@@ -93,7 +93,7 @@ function CHeader(props) {
         {backgroundColor: isDark ? customColors.header : customColors.primary},
         isSearch && cStyles.px16,
       ]}>
-      {isDark && (
+      {isDark && IS_IOS && (
         <BlurView
           style={[cStyles.abs, cStyles.inset0]}
           blurType={'extraDark'}

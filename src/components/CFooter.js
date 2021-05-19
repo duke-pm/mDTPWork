@@ -10,6 +10,7 @@ import {useColorScheme} from 'react-native-appearance';
 import {BlurView} from '@react-native-community/blur';
 /** COMMON */
 import {colors, cStyles} from '~/utils/style';
+import {IS_IOS} from '~/utils/helper';
 
 function CFooter(props) {
   const isDark = useColorScheme() === 'dark';
@@ -26,7 +27,7 @@ function CFooter(props) {
         },
         styles.con,
       ]}>
-      {isDark && (
+      {isDark && IS_IOS && (
         <BlurView
           style={[cStyles.abs, cStyles.inset0]}
           blurType={'extraDark'}

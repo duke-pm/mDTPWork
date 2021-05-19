@@ -5,9 +5,9 @@
  * @format
  * @flow strict-local
  */
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
-import {StyleSheet, View, Platform} from 'react-native';
+import {StyleSheet, View, Platform, StatusBar} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
@@ -18,12 +18,15 @@ import CFooter from './CFooter';
 import CLoading from './CLoading';
 /** COMMON */
 import {cStyles, colors} from '~/utils/style';
+import {IS_IOS} from '~/utils/helper';
 
 function CContainer(props) {
   const {customColors} = useTheme();
   const isDark = useColorScheme() === 'dark';
 
   const commonState = useSelector(({common}) => common);
+
+  const [bgColor, setbgColor] = useState(customColors.primary);
 
   const {
     safeArea = {
@@ -61,16 +64,25 @@ function CContainer(props) {
     tmpSafeArea.push('bottom');
   }
 
+  useEffect(() => {
+    if (isDark) {
+      setbgColor(customColors.header);
+    } else {
+      setbgColor(customColors.primary);
+    }
+  }, [isDark, setbgColor]);
+
   return (
     <SafeAreaView
       style={[
         cStyles.flex1,
         {
-          backgroundColor: isDark ? customColors.header : customColors.primary,
+          backgroundColor: bgColor,
         },
       ]}
       edges={tmpSafeArea}>
-      {isDark && (
+      <StatusBar backgroundColor={bgColor} />
+      {isDark && IS_IOS && (
         <BlurView
           style={[cStyles.abs, cStyles.inset0]}
           blurType={'extraDark'}
