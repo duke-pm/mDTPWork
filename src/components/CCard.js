@@ -22,7 +22,7 @@ const CCard = React.memo(function CCard(props) {
     cardContent = null,
     cardFooter = null,
     customColors = {},
-    darkmode = false,
+    darkMode = false,
   } = props;
 
   return (
@@ -31,53 +31,36 @@ const CCard = React.memo(function CCard(props) {
       style={[
         cStyles.rounded2,
         cStyles.mt32,
-        !darkmode && cStyles.borderAll,
+        !darkMode && cStyles.borderAll,
         styles.container,
         containerStyle,
         {backgroundColor: customColors.card},
       ]}>
-      {label && (
-        <View
-          style={[
-            cStyles.rounded1,
-            cStyles.px10,
-            cStyles.py3,
-            cStyles.borderAll,
-            cStyles.ml10,
-            styles.con_label,
-            contentLabelStyle,
-            {
-              backgroundColor: darkmode ? customColors.header : colors.WHITE,
-              borderWidth: 0.3,
-            },
-          ]}>
-          <CText
-            customStyles={[cStyles.textTitle, {color: customColors.text}]}
-            label={label}
-          />
-        </View>
-      )}
-      {customLabel && (
-        <View
-          style={[
-            cStyles.rounded1,
-            cStyles.px10,
-            cStyles.py3,
-            cStyles.borderAll,
-            cStyles.ml10,
-            styles.con_label,
-            contentLabelStyle,
-            {
-              backgroundColor: darkmode ? customColors.header : colors.WHITE,
-              borderWidth: 0.3,
-            },
-          ]}>
-          <CText
-            customStyles={[cStyles.textTitle, {color: customColors.text}]}
-            customLabel={customLabel}
-          />
-        </View>
-      )}
+      <View
+        style={[
+          cStyles.rounded1,
+          cStyles.px10,
+          cStyles.py3,
+          cStyles.borderAll,
+          cStyles.ml10,
+          cStyles.abs,
+          styles.con_label,
+          contentLabelStyle,
+          {
+            backgroundColor: darkMode
+              ? customColors.header
+              : customColors.primary,
+          },
+        ]}>
+        <CText
+          customStyles={[
+            cStyles.textTitle,
+            {color: darkMode ? customColors.text : colors.WHITE},
+          ]}
+          label={label}
+          customLabel={customLabel}
+        />
+      </View>
 
       {cardHeader && (
         <View style={[cStyles.pt24, cStyles.px16]}>{cardHeader}</View>
@@ -100,7 +83,7 @@ const styles = StyleSheet.create({
   },
   con_label: {
     backgroundColor: colors.WHITE,
-    position: 'absolute',
+    borderWidth: 0.3,
     top: -15,
   },
 });

@@ -28,7 +28,7 @@ function SocialItem(props) {
           cStyles.center,
           index !== 0 && cStyles.ml16,
           styles.con_social,
-          props.darkmode && {
+          props.darkMode && {
             backgroundColor: props.customColors.card,
             borderWidth: 0,
           },

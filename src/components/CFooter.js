@@ -6,27 +6,33 @@
  **/
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
-import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
+import {BlurView} from '@react-native-community/blur';
 /** COMMON */
 import {colors, cStyles} from '~/utils/style';
 
 function CFooter(props) {
   const isDark = useColorScheme() === 'dark';
-  const {customColors} = useTheme();
 
   return (
     <View
       style={[
         cStyles.py6,
+        cStyles.bottom0,
         cStyles.isIphoneX() && cStyles.pb24,
-        {
-          backgroundColor: isDark
-            ? customColors.header
-            : colors.BACKGROUND_FOOTER,
+        isDark && cStyles.abs,
+        !isDark && {
+          backgroundColor: colors.BACKGROUND_FOOTER,
         },
         styles.con,
       ]}>
+      {isDark && (
+        <BlurView
+          style={[cStyles.abs, cStyles.inset0]}
+          blurType={'extraDark'}
+          reducedTransparencyFallbackColor={'black'}
+        />
+      )}
       {props.content}
     </View>
   );

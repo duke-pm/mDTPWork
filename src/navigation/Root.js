@@ -9,10 +9,12 @@ import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Feather';
 import {useTheme} from '@react-navigation/native';
+/** COMPONENTS */
+import CText from '~/components/CText';
 /** COMMON */
 import Routes from './Routes';
 import {IS_ANDROID, scalePx} from '~/utils/helper';
-import {colors} from '~/utils/style';
+import {colors, cStyles} from '~/utils/style';
 
 /** INIT NAVIGATOR OF APP */
 const StackMain = createStackNavigator();
@@ -30,21 +32,37 @@ export function RootTab(props) {
       screenOptions={({route}) => ({
         tabBarIcon: ({focused, color, size}) => {
           let iconName = 'home';
-
           switch (route.name) {
             case Routes.MAIN.ACCOUNT.name:
               iconName = 'user';
               break;
           }
-
-          return <Icon name={iconName} size={scalePx(3.5)} color={color} />;
+          return <Icon name={iconName} size={scalePx(2.8)} color={color} />;
+        },
+        tabBarLabel: ({focused, color}) => {
+          let label = 'dashboard:title';
+          switch (route.name) {
+            case Routes.MAIN.ACCOUNT.name:
+              label = 'account:title';
+              break;
+          }
+          return (
+            <CText
+              customStyles={[
+                cStyles.textMeta,
+                focused && cStyles.fontMedium,
+                {color: color, fontSize: scalePx(1.7)},
+              ]}
+              label={label}
+            />
+          );
         },
       })}
       tabBarOptions={{
         activeTintColor: colors.SECONDARY,
         inactiveTintColor: customColors.text,
         keyboardHidesTabBar: true,
-        showLabel: false,
+        // showLabel: false,
       }}>
       <TabMain.Screen
         name={Routes.MAIN.DASHBOARD.name}

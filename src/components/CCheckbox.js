@@ -42,10 +42,12 @@ function CCheckbox(props) {
         style={[styles.checkbox, style]}
         disabled={disabled}
         value={value}
-        boxType={'square'}
+        boxType={'circle'}
         tintColors={tintColors}
         onCheckColor={onCheckColor}
         onTintColor={onTintColor}
+        onAnimationType={'one-stroke'}
+        offAnimationType={'flat'}
         onValueChange={onChange}
       />
 

@@ -11,6 +11,7 @@ import {StyleSheet, View, Platform} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
+import {BlurView} from '@react-native-community/blur';
 /** COMMON */
 import CHeader from './CHeader';
 import CFooter from './CFooter';
@@ -69,6 +70,13 @@ function CContainer(props) {
         },
       ]}
       edges={tmpSafeArea}>
+      {isDark && (
+        <BlurView
+          style={[cStyles.abs, cStyles.inset0]}
+          blurType={'extraDark'}
+          reducedTransparencyFallbackColor={'black'}
+        />
+      )}
       <View style={[cStyles.flex1, styles.container, style]}>
         {header && (
           <CHeader

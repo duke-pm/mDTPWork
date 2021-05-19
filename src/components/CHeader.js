@@ -18,6 +18,7 @@ import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
+import {BlurView} from '@react-native-community/blur';
 /** COMPONENTS */
 import CText from './CText';
 import CInput from './CInput';
@@ -92,6 +93,13 @@ function CHeader(props) {
         {backgroundColor: isDark ? customColors.header : customColors.primary},
         isSearch && cStyles.px16,
       ]}>
+      {isDark && (
+        <BlurView
+          style={[cStyles.abs, cStyles.inset0]}
+          blurType={'extraDark'}
+          reducedTransparencyFallbackColor={'black'}
+        />
+      )}
       {isSearch && (
         <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pb6]}>
           <CInput

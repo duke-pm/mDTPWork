@@ -24,7 +24,8 @@
     "from_camera": "Camera",
     "apply": "Apply",
     "type": "Asset ",
-    "status": "Status "
+    "status": "Status ",
+    "show_more": "Show more"
   },
   "success": {
     "title": "Successfully!",

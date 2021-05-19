@@ -24,7 +24,8 @@
     "from_camera": "Camera",
     "apply": "Áp Dụng",
     "type": "Tài sản ",
-    "status": "Trạng thái "
+    "status": "Trạng thái ",
+    "show_more": "Xem thêm"
   },
   "success": {
     "title": "Thành Công",

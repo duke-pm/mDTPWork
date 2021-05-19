@@ -6,7 +6,7 @@
  ** CreateAt: 2021
  ** Description: Description of Request.js
  **/
-import React, {useEffect, useRef, useState} from 'react';
+import React, {createRef, useEffect, useRef, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {
@@ -22,6 +22,7 @@ import {showMessage} from 'react-native-flash-message';
 import {useTheme} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
 import {useColorScheme} from 'react-native-appearance';
+import ActionSheet from 'react-native-actions-sheet';
 import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
@@ -53,6 +54,8 @@ const INPUT_NAME = {
   IN_PLANNING: 'inPlanning',
   SUPPLIER: 'supplier',
 };
+
+const actionSheetProcessRef = createRef();
 
 function AddRequest(props) {
   const {t} = useTranslation();
@@ -218,6 +221,8 @@ function AddRequest(props) {
   const handleApproved = () => {
     alert(t, 'add_approved_assets:message_confirm_approved', onApproved);
   };
+
+  const handleShowProcess = () => actionSheetProcessRef.current?.show();
 
   /** FUNC */
   const onCloseReject = () => setShowReject(false);
@@ -598,6 +603,20 @@ function AddRequest(props) {
       hasBack
       iconBack={'x'}
       title={'add_approved_assets:' + (isDetail ? 'detail' : 'title')}
+      headerRight={
+        isDetail ? (
+          <TouchableOpacity
+            style={cStyles.itemsEnd}
+            onPress={handleShowProcess}>
+            <Icon
+              style={cStyles.p16}
+              name={'info'}
+              color={'white'}
+              size={scalePx(3)}
+            />
+          </TouchableOpacity>
+        ) : null
+      }
       content={
         <CContent>
           <KeyboardAvoidingView
@@ -975,7 +994,8 @@ function AddRequest(props) {
               </View>
 
               {/** Supplier */}
-              <View style={[cStyles.pt16, cStyles.pb32]}>
+              <View
+                style={[cStyles.pt16, isDark ? cStyles.pb56 : cStyles.pb32]}>
                 <CText
                   styles={'textTitle'}
                   label={'add_approved_assets:supplier'}
@@ -999,171 +1019,188 @@ function AddRequest(props) {
           </KeyboardAvoidingView>
 
           {isDetail && (
-            <CCard
-              containerStyle={cStyles.m16}
-              customColors={customColors}
-              darkmode={isDark}
-              label={'add_approved_assets:table_process'}
-              cardContent={
-                <View style={[cStyles.itemsStart, cStyles.pt16]}>
-                  {process.map((item, index) => {
-                    return (
-                      <View
-                        key={index.toString()}
-                        style={[cStyles.row, cStyles.itemsStart, cStyles.pt10]}>
-                        {item.approveDate ? (
-                          <View
-                            style={[
-                              cStyles.rounded1,
-                              cStyles.px10,
-                              cStyles.py6,
-                              cStyles.itemsCenter,
-                              styles.con_time_process,
-                            ]}>
-                            <CText
-                              styles={'textMeta fontBold colorWhite'}
-                              customLabel={item.approveDate}
-                            />
-                            <CText
-                              styles={'textMeta fontBold colorWhite'}
-                              customLabel={item.approveTime}
-                            />
-                          </View>
-                        ) : (
-                          <View
-                            style={[
-                              cStyles.rounded1,
-                              cStyles.px10,
-                              cStyles.py6,
-                              cStyles.itemsCenter,
-                              {flex: 0.3},
-                            ]}
-                          />
-                        )}
-
+            <ActionSheet
+              ref={actionSheetProcessRef}
+              headerAlwaysVisible={true}
+              elevation={2}
+              indicatorColor={customColors.text}
+              containerStyle={{backgroundColor: customColors.background}}
+              gestureEnabled={true}
+              defaultOverlayOpacity={isDark ? 0.8 : 0.5}>
+              <CCard
+                containerStyle={cStyles.m16}
+                customColors={customColors}
+                darkMode={isDark}
+                label={'add_approved_assets:table_process'}
+                cardContent={
+                  <View style={[cStyles.itemsStart, cStyles.pt16]}>
+                    {process.map((item, index) => {
+                      return (
                         <View
+                          key={index.toString()}
                           style={[
-                            cStyles.px10,
-                            cStyles.pt6,
-                            cStyles.itemsCenter,
-                            {flex: 0.1},
+                            cStyles.row,
+                            cStyles.itemsStart,
+                            cStyles.pt10,
                           ]}>
-                          <Icon
-                            name={
-                              !item.approveDate
-                                ? 'help-circle'
-                                : item.statusID === 0
-                                ? 'x-circle'
-                                : 'check-circle'
-                            }
-                            size={scalePx(3)}
-                            color={
-                              !item.approveDate
-                                ? colors.ORANGE
-                                : item.statusID === 0
-                                ? colors.RED
-                                : colors.GREEN
-                            }
-                          />
-                          {index !== process.length - 1 && (
-                            <View style={[cStyles.mt10, styles.line_2]} />
+                          {item.approveDate ? (
+                            <View
+                              style={[
+                                cStyles.rounded1,
+                                cStyles.px10,
+                                cStyles.py6,
+                                cStyles.itemsCenter,
+                                styles.con_time_process,
+                              ]}>
+                              <CText
+                                styles={'textMeta fontBold colorWhite'}
+                                customLabel={item.approveDate}
+                              />
+                              <CText
+                                styles={'textMeta fontBold colorWhite'}
+                                customLabel={item.approveTime}
+                              />
+                            </View>
+                          ) : (
+                            <View
+                              style={[
+                                cStyles.rounded1,
+                                cStyles.px10,
+                                cStyles.py6,
+                                cStyles.itemsCenter,
+                                {flex: 0.3},
+                              ]}
+                            />
                           )}
-                        </View>
 
-                        <View
-                          style={[cStyles.rounded1, cStyles.pr10, {flex: 0.6}]}>
                           <View
                             style={[
-                              cStyles.row,
-                              cStyles.itemsStart,
-                              {width: '70%'},
+                              cStyles.px10,
+                              cStyles.pt6,
+                              cStyles.itemsCenter,
+                              {flex: 0.1},
                             ]}>
-                            <CText
-                              customStyles={[
-                                cStyles.textMeta,
-                                {color: customColors.text},
-                              ]}
-                              label={
-                                'add_approved_lost_damaged:' +
-                                (index === 0
-                                  ? 'user_request'
-                                  : 'person_approved')
+                            <Icon
+                              name={
+                                !item.approveDate
+                                  ? 'help-circle'
+                                  : item.statusID === 0
+                                  ? 'x-circle'
+                                  : 'check-circle'
+                              }
+                              size={scalePx(3)}
+                              color={
+                                !item.approveDate
+                                  ? colors.ORANGE
+                                  : item.statusID === 0
+                                  ? colors.RED
+                                  : colors.GREEN
                               }
                             />
-                            <CText
-                              customStyles={[
-                                cStyles.textMeta,
-                                item.approveDate && cStyles.fontBold,
-                                {color: customColors.text},
-                              ]}
-                              customLabel={item.personApproveName}
-                            />
+                            {index !== process.length - 1 && (
+                              <View style={[cStyles.mt10, styles.line_2]} />
+                            )}
                           </View>
 
                           <View
                             style={[
-                              cStyles.row,
-                              cStyles.itemsStart,
-                              cStyles.justifyStart,
+                              cStyles.rounded1,
+                              cStyles.pr10,
+                              {flex: 0.6},
                             ]}>
-                            <CText
-                              customStyles={[
-                                cStyles.textMeta,
-                                {color: customColors.text},
-                              ]}
-                              label={'add_approved_assets:status_approved'}
-                            />
-                            {item.approveDate ? (
-                              <CText
-                                customStyles={[
-                                  cStyles.textMeta,
-                                  cStyles.fontBold,
-                                  {color: customColors.text},
-                                ]}
-                                customLabel={item.statusName}
-                              />
-                            ) : (
-                              <CText
-                                customStyles={[
-                                  cStyles.textMeta,
-                                  {color: customColors.text},
-                                ]}
-                                label={'add_approved_assets:wait'}
-                              />
-                            )}
-                          </View>
-                          {item.approveDate && item.reason !== '' && (
                             <View
                               style={[
                                 cStyles.row,
                                 cStyles.itemsStart,
-                                cStyles.justifyStart,
-                                {width: '80%'},
+                                {width: '70%'},
                               ]}>
                               <CText
                                 customStyles={[
                                   cStyles.textMeta,
                                   {color: customColors.text},
                                 ]}
-                                label={'add_approved_assets:reason_reject'}
+                                label={
+                                  'add_approved_lost_damaged:' +
+                                  (index === 0
+                                    ? 'user_request'
+                                    : 'person_approved')
+                                }
                               />
                               <CText
                                 customStyles={[
                                   cStyles.textMeta,
-                                  cStyles.fontBold,
+                                  item.approveDate && cStyles.fontBold,
                                   {color: customColors.text},
                                 ]}
-                                customLabel={item.reason}
+                                customLabel={item.personApproveName}
                               />
                             </View>
-                          )}
+
+                            <View
+                              style={[
+                                cStyles.row,
+                                cStyles.itemsStart,
+                                cStyles.justifyStart,
+                              ]}>
+                              <CText
+                                customStyles={[
+                                  cStyles.textMeta,
+                                  {color: customColors.text},
+                                ]}
+                                label={'add_approved_assets:status_approved'}
+                              />
+                              {item.approveDate ? (
+                                <CText
+                                  customStyles={[
+                                    cStyles.textMeta,
+                                    cStyles.fontBold,
+                                    {color: customColors.text},
+                                  ]}
+                                  customLabel={item.statusName}
+                                />
+                              ) : (
+                                <CText
+                                  customStyles={[
+                                    cStyles.textMeta,
+                                    {color: customColors.text},
+                                  ]}
+                                  label={'add_approved_assets:wait'}
+                                />
+                              )}
+                            </View>
+                            {item.approveDate && item.reason !== '' && (
+                              <View
+                                style={[
+                                  cStyles.row,
+                                  cStyles.itemsStart,
+                                  cStyles.justifyStart,
+                                  {width: '80%'},
+                                ]}>
+                                <CText
+                                  customStyles={[
+                                    cStyles.textMeta,
+                                    {color: customColors.text},
+                                  ]}
+                                  label={'add_approved_assets:reason_reject'}
+                                />
+                                <CText
+                                  customStyles={[
+                                    cStyles.textMeta,
+                                    cStyles.fontBold,
+                                    {color: customColors.text},
+                                  ]}
+                                  customLabel={item.reason}
+                                />
+                              </View>
+                            )}
+                          </View>
                         </View>
-                      </View>
-                    );
-                  })}
-                </View>
-              }
-            />
+                      );
+                    })}
+                  </View>
+                }
+              />
+            </ActionSheet>
           )}
 
           {/** MODAL */}

@@ -676,7 +676,7 @@ class DropDownPicker extends React.Component {
                 styles.noBottomRadius,
             ),
             this.state.isVisible && styles.visible,
-            this.state.isVisible && this.props.darkmode && styles.visibleDark,
+            this.state.isVisible && this.props.darkMode && styles.visibleDark,
           ]}>
           {this.state.choice[this.props.schema.icon] &&
             !multiple &&
@@ -751,7 +751,7 @@ class DropDownPicker extends React.Component {
                 zIndex: this.props.zIndex,
               },
               this.state.isVisible && styles.visible,
-              this.state.isVisible && this.props.darkmode && styles.visibleDark,
+              this.state.isVisible && this.props.darkMode && styles.visibleDark,
             ]}>
             {this.props.searchable && (
               <View style={[cStyles.fullWidth, cStyles.row]}>

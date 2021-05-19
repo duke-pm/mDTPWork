@@ -149,7 +149,7 @@ function Settings(props) {
             ref={actionSheetLangRef}
             headerAlwaysVisible={true}
             elevation={2}
-            indicatorColor={colors.PRIMARY}
+            indicatorColor={customColors.text}
             containerStyle={{backgroundColor: customColors.card}}
             CustomHeaderComponent={
               <View
@@ -173,7 +173,7 @@ function Settings(props) {
             <Picker
               style={styles.con_action}
               lineColor={colors.BLACK} //to set top and bottom line color (Without gradients)
-              itemStyle={[cStyles.H3, {color: customColors.text}]}
+              itemStyle={[cStyles.H5, {color: customColors.text}]}
               selectedValue={languages.active}
               onValueChange={onChangeLanguage}>
               {languages.data.map((value, i) => (

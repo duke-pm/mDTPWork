@@ -224,6 +224,8 @@ PODS:
   - React-jsinspector (0.64.0)
   - react-native-appearance (0.3.4):
     - React
+  - react-native-blur (0.8.0):
+    - React
   - react-native-encrypted-storage (4.0.2):
     - React-Core
   - react-native-netinfo (6.0.0):
@@ -393,6 +395,7 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-appearance (from `../node_modules/react-native-appearance`)
+  - "react-native-blur (from `../node_modules/@react-native-community/blur`)"
   - react-native-encrypted-storage (from `../node_modules/react-native-encrypted-storage`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-pager-view (from `../node_modules/react-native-pager-view`)
@@ -476,6 +479,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   react-native-appearance:
     :path: "../node_modules/react-native-appearance"
+  react-native-blur:
+    :path: "../node_modules/@react-native-community/blur"
   react-native-encrypted-storage:
     :path: "../node_modules/react-native-encrypted-storage"
   react-native-netinfo:
@@ -563,6 +568,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 06a9c77b56902ae7ffcdd7a4905f664adc5d237b
   React-jsinspector: 0ae35a37b20d5e031eb020a69cc5afdbd6406301
   react-native-appearance: fc2014516054585d531e07aa0b40ab0de1d2be85
+  react-native-blur: cad4d93b364f91e7b7931b3fa935455487e5c33c
   react-native-encrypted-storage: 837c733334debf626204f03d867c7e01d8741e2f
   react-native-netinfo: 34f4d7a42f49157f3b45c14217d256bce7dc9682
   react-native-pager-view: a10e94628bf100ff9a377ebc63690c8c05358ab7

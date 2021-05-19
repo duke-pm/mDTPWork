@@ -61,7 +61,7 @@ function CDropdown(props) {
           isDark && {color: customColors.text},
         ]}
         arrowStyle={{color: customColors.text}}
-        darkmode={isDark}
+        darkMode={isDark}
         items={props.data}
         disabled={disabled}
         defaultValue={defaultValue}
