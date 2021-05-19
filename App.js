@@ -84,7 +84,7 @@ const App = () => {
     dark: true,
     colors: {
       ...DarkTheme.colors,
-      primary: colors.PRIMARY,
+      primary: colors.SECONDARY,
       icon: colors.WHITE,
       text: colors.WHITE,
       textDisable: colors.GRAY_700,
@@ -92,7 +92,7 @@ const App = () => {
     },
     customColors: {
       ...DarkTheme.colors,
-      primary: colors.PRIMARY,
+      primary: colors.SECONDARY,
       header: colors.BACKGROUND_HEADER_DARK,
       combobox: colors.TRANSPARENT,
       icon: colors.WHITE,

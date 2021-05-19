@@ -59,7 +59,7 @@ export function RootTab(props) {
         },
       })}
       tabBarOptions={{
-        activeTintColor: colors.SECONDARY,
+        activeTintColor: customColors.primary,
         inactiveTintColor: customColors.text,
         keyboardHidesTabBar: true,
         // showLabel: false,
