@@ -24,7 +24,7 @@ export const loginError = error => ({
 });
 
 export const loginSuccess = data => {
-  API.defaults.headers.common.Authorization = 'Bearer ' + data.access_token;
+  API.defaults.headers.Authorization = 'Bearer ' + data.access_token;
   return {
     type: types.SUCCESS_LOGIN,
     payload: {
@@ -46,9 +46,7 @@ export const loginSuccess = data => {
 
 export const fetchLogin = params => {
   return dispatch => {
-    dispatch({
-      type: types.START_LOGIN,
-    });
+    dispatch({type: types.START_LOGIN});
 
     Services.authentication
       .login(params)

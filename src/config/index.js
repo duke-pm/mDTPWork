@@ -1,6 +1,6 @@
 /**
  ** Name: Configs
- ** Author: 
+ ** Author:
  ** CreateAt: 2021
  ** Description: Description of configs.js
  **/
