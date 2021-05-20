@@ -55,6 +55,7 @@ const INPUT_NAME = {
   SUPPLIER: 'supplier',
 };
 
+/** All refs use in this screen */
 const actionSheetProcessRef = createRef();
 let departmentRef = createRef();
 let regionRef = createRef();
@@ -67,12 +68,14 @@ function AddRequest(props) {
   const {customColors} = useTheme();
   const isDark = useColorScheme() === 'dark';
 
+  /** Use redux */
   const dispatch = useDispatch();
   const masterState = useSelector(({masterData}) => masterData);
   const commonState = useSelector(({common}) => common);
   const approvedState = useSelector(({approved}) => approved);
   const authState = useSelector(({auth}) => auth);
 
+  /** Use state */
   const [loading, setLoading] = useState({
     main: true,
     submitAdd: false,

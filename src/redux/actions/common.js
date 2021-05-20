@@ -3,14 +3,9 @@
  ** Author:
  ** CreatedAt: 2021
  ** Description: Description of Common.js
-**/
+ **/
 /* TYPES */
 import * as types from './types';
-
-export const changeTheme = theme => ({
-  type: types.CHANGE_THEME,
-  payload: theme,
-});
 
 export const changeLanguage = language => ({
   type: types.CHANGE_LANGUAGE,
