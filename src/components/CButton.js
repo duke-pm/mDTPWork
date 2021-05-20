@@ -1,30 +1,20 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react-native/no-inline-styles */
 /**
  ** Name: CButton
  ** Author:
  ** CreateAt: 2021
  ** Description: Description of CButton.js
  **/
-import React, {useRef, useEffect} from 'react';
+import React from 'react';
 import {useTranslation} from 'react-i18next';
-import {
-  StyleSheet,
-  TouchableOpacity,
-  View,
-  ActivityIndicator,
-  Animated,
-} from 'react-native';
-import Icon from 'react-native-vector-icons/Feather';
-import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import Icon from 'react-native-vector-icons/Feather';
 /** COMPONENTS */
 import CText from '~/components/CText';
 /** COMMON */
 import {colors, cStyles} from '~/utils/style';
-import {usePrevious} from '~/utils/hook';
 import {scalePx} from '~/utils/helper';
-
-const MyIndicator = Animated.createAnimatedComponent(ActivityIndicator);
 
 function CButton(props) {
   const {
@@ -41,28 +31,6 @@ function CButton(props) {
   } = props;
   const {t} = useTranslation();
   const isDark = useColorScheme() === 'dark';
-  const loadingPrev = usePrevious(loading);
-
-  const opacityIndicator = useRef(new Animated.Value(0)).current;
-
-  const onAnimIndicator = opacity => {
-    Animated.timing(opacityIndicator, {
-      toValue: opacity,
-      duration: 80,
-      useNativeDriver: true,
-    }).start();
-  };
-
-  /** LIFE CYCLE */
-  useEffect(() => {
-    if (loadingPrev !== loading) {
-      if (loading) {
-        onAnimIndicator(1);
-      } else {
-        onAnimIndicator(0);
-      }
-    }
-  }, [loading, loadingPrev, opacityIndicator]);
 
   /** RENDER */
   let customStylesButton =
@@ -90,11 +58,9 @@ function CButton(props) {
           variant === 'outlined' && {
             borderColor: color,
             borderWidth: 1,
-            backgroundColor:isDark ? 'transparnet' : colors.WHITE,
+            backgroundColor: isDark ? colors.TRANSPARENT : colors.WHITE,
           },
-          variant === 'text' && {
-            backgroundColor: 'transparent',
-          },
+          variant === 'text' && styles.con_variant_text,
           (disabled || loading) &&
             variant === 'contained' &&
             styles.disabled_contained,
@@ -103,23 +69,6 @@ function CButton(props) {
             styles.disabled_outlined,
           style,
         ]}>
-        <MyIndicator
-          style={{
-            width: 0,
-            opacity: opacityIndicator,
-            transform: [
-              {
-                translateX: opacityIndicator.interpolate({
-                  inputRange: [0, 1],
-                  outputRange: [0, -20],
-                }),
-              },
-            ],
-          }}
-          color={colors.WHITE}
-          size={'small'}
-        />
-
         {icon && (
           <Icon
             style={cStyles.pr6}
@@ -162,6 +111,9 @@ const styles = StyleSheet.create({
   },
   disabled_text: {
     color: 'black',
+  },
+  con_variant_text: {
+    backgroundColor: colors.TRANSPARENT,
   },
 });
 

@@ -6,9 +6,11 @@
  ** CreateAt: 2021
  ** Description: Description of Request.js
  **/
-import React, {createRef, useEffect, useRef, useState} from 'react';
+import React, {createRef, useEffect, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
+import {useColorScheme} from 'react-native-appearance';
+import {useTheme} from '@react-navigation/native';
 import {
   StyleSheet,
   View,
@@ -19,9 +21,7 @@ import {
 } from 'react-native';
 import {Table, Row, TableWrapper, Cell} from 'react-native-table-component';
 import {showMessage} from 'react-native-flash-message';
-import {useTheme} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
-import {useColorScheme} from 'react-native-appearance';
 import ActionSheet from 'react-native-actions-sheet';
 import moment from 'moment';
 /* COMPONENTS */
@@ -56,17 +56,16 @@ const INPUT_NAME = {
 };
 
 const actionSheetProcessRef = createRef();
+let departmentRef = createRef();
+let regionRef = createRef();
+let whereUseRef = createRef();
+let reasonRef = createRef();
+let supplierRef = createRef();
 
 function AddRequest(props) {
   const {t} = useTranslation();
   const {customColors} = useTheme();
   const isDark = useColorScheme() === 'dark';
-
-  let departmentRef = useRef();
-  let regionRef = useRef();
-  let whereUseRef = useRef();
-  let reasonRef = useRef();
-  let supplierRef = useRef();
 
   const dispatch = useDispatch();
   const masterState = useSelector(({masterData}) => masterData);
@@ -183,8 +182,8 @@ function AddRequest(props) {
       if (error.department.status) {
         setError({...error, department: {status: false, helper: ''}});
       }
-      departmentRef.current.close();
-      regionRef.current.open();
+      departmentRef.current?.close();
+      regionRef.current?.open();
     } else if (field === INPUT_NAME.REGION) {
       setForm({
         ...form,
@@ -193,8 +192,8 @@ function AddRequest(props) {
       if (error.region.status) {
         setError({...error, region: {status: false, helper: ''}});
       }
-      regionRef.current.close();
-      whereUseRef.current.open();
+      regionRef.current?.close();
+      whereUseRef.current?.open();
     } else if (field === INPUT_NAME.WHERE_USE) {
       setForm({
         ...form,
@@ -203,7 +202,7 @@ function AddRequest(props) {
       if (error.whereUse.status) {
         setError({...error, whereUse: {status: false, helper: ''}});
       }
-      whereUseRef.current.close();
+      whereUseRef.current?.close();
       if (nextField) {
         nextField.focus();
       }
@@ -306,18 +305,18 @@ function AddRequest(props) {
   const onOpenCombobox = inputName => {
     switch (inputName) {
       case INPUT_NAME.DEPARTMENT:
-        regionRef.current.close();
-        whereUseRef.current.close();
+        regionRef.current?.close();
+        whereUseRef.current?.close();
         Keyboard.dismiss();
         break;
       case INPUT_NAME.REGION:
-        departmentRef.current.close();
-        whereUseRef.current.close();
+        departmentRef.current?.close();
+        whereUseRef.current?.close();
         Keyboard.dismiss();
         break;
       case INPUT_NAME.WHERE_USE:
-        departmentRef.current.close();
-        regionRef.current.close();
+        departmentRef.current?.close();
+        regionRef.current?.close();
         Keyboard.dismiss();
         break;
     }

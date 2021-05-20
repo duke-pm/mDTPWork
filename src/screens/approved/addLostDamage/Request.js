@@ -6,9 +6,11 @@
  ** CreateAt: 2021
  ** Description: Description of RequestLostDamage.js
  **/
-import React, {createRef, useEffect, useRef, useState} from 'react';
+import React, {createRef, useEffect, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
+import {useTheme} from '@react-navigation/native';
+import {useColorScheme} from 'react-native-appearance';
 import {
   StyleSheet,
   View,
@@ -19,10 +21,8 @@ import {
   // Linking,
 } from 'react-native';
 import {showMessage} from 'react-native-flash-message';
-import Icon from 'react-native-vector-icons/Feather';
-import {useTheme} from '@react-navigation/native';
-import {useColorScheme} from 'react-native-appearance';
 import ActionSheet from 'react-native-actions-sheet';
+import Icon from 'react-native-vector-icons/Feather';
 import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
@@ -53,14 +53,13 @@ const INPUT_NAME = {
 };
 
 const actionSheetProcessRef = createRef();
+let assetsRef = createRef();
+let reasonRef = createRef();
 
 function AddRequest(props) {
   const {t} = useTranslation();
   const {customColors} = useTheme();
   const isDark = useColorScheme() === 'dark';
-
-  let assetsRef = useRef();
-  let reasonRef = useRef();
 
   const dispatch = useDispatch();
   const masterState = useSelector(({masterData}) => masterData);
@@ -76,9 +75,7 @@ function AddRequest(props) {
   });
   const [showPickerDate, setShowPickerDate] = useState(false);
   const [showReject, setShowReject] = useState(false);
-  const [isDetail, setIsDetail] = useState(
-    props.route.params?.data ? true : false,
-  );
+  const [isDetail] = useState(props.route.params?.data ? true : false);
   const [process, setProcess] = useState([]);
   const [form, setForm] = useState({
     dateRequest: moment().format(commonState.get('formatDate')),

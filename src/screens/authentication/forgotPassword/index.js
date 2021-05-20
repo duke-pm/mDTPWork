@@ -4,12 +4,10 @@
  ** CreateAt: 2021
  ** Description: Description of ForgotPassword.js
  **/
-import React, {useRef, useState} from 'react';
-import {useTranslation} from 'react-i18next';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   ImageBackground,
-  Image,
   View,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
@@ -25,7 +23,6 @@ import CButton from '~/components/CButton';
 import Assets from '~/utils/asset/Assets';
 import {colors, cStyles} from '~/utils/style';
 import {IS_IOS} from '~/utils/helper';
-/* REDUX */
 
 const INPUT_NAME = {
   EMAIL: 'email',
