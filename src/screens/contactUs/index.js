@@ -121,10 +121,8 @@ function ContactUs(props) {
       title={'contact_us:title'}
       hasBack
       content={
-        <CContent contentStyle={cStyles.pb16}>
-          <ScrollView
-            style={cStyles.flex1}
-            contentContainerStyle={cStyles.px16}>
+        <CContent>
+          <ScrollView style={cStyles.flex1} contentContainerStyle={cStyles.p16}>
             {DATA.map((item, index) => {
               return (
                 <CCard
@@ -167,7 +165,7 @@ function ContactUs(props) {
                               cStyles.row,
                               cStyles.itemsCenter,
                               cStyles.flexWrap,
-                              {width: '95%'}
+                              {width: '95%'},
                             ]}>
                             {item.phone.map((itemPhone, indexPhone) => (
                               <CText

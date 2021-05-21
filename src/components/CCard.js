@@ -70,7 +70,9 @@ const CCard = React.memo(function CCard(props) {
       )}
 
       {cardContent && (
-        <View style={[cStyles.py10, cStyles.px16]}>{cardContent}</View>
+        <View style={[cStyles.pb10, cStyles.px16, cardHeader && cStyles.pt10]}>
+          {cardContent}
+        </View>
       )}
 
       {cardFooter && (
