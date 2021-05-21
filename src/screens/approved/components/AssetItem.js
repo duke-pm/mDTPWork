@@ -8,15 +8,14 @@
  ** Description: Description of AssetItem.js
  **/
 import React from 'react';
+import {useTheme} from '@react-navigation/native';
 import {View, TextInput} from 'react-native';
 import CurrencyInput from 'react-native-currency-input';
-import {useTheme} from '@react-navigation/native';
-import {useColorScheme} from 'react-native-appearance';
 /** COMPONENTS */
 import CIconButton from '~/components/CIconButton';
 /* COMMON */
 import {scalePx} from '~/utils/helper';
-import {colors, cStyles} from '~/utils/style';
+import {cStyles} from '~/utils/style';
 
 Number.prototype.format = function (n, x) {
   if (n == 0) {
@@ -28,7 +27,6 @@ Number.prototype.format = function (n, x) {
 
 function AssetItem(props) {
   const {customColors} = useTheme();
-  const isDark = useColorScheme() === 'dark';
 
   const {rowIndex, cellIndex, onChangeCellItem, onRemoveRow} = props;
 

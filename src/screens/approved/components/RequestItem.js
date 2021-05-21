@@ -72,10 +72,7 @@ const RequestItem = React.memo(function RequestItem(props) {
   }
 
   return (
-    <TouchableOpacity
-      disabled={props.loading}
-      activeOpacity={0.8}
-      onPress={handleRequestItem}>
+    <TouchableOpacity disabled={props.loading} onPress={handleRequestItem}>
       <Animated.View
         style={[
           cStyles.p10,

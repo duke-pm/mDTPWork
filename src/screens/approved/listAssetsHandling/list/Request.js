@@ -12,7 +12,7 @@ import CList from '~/components/CList';
 import {cStyles} from '~/utils/style';
 
 function ListRequest(props) {
-  const {onLoadmore, onRefresh} = props;
+  const {customColors, onLoadmore, onRefresh} = props;
 
   /** RENDER */
   return (
@@ -33,7 +33,7 @@ function ListRequest(props) {
             data={item}
             dataDetail={detail}
             dataProcess={process}
-            customColors={props.customColors}
+            customColors={customColors}
             onRefresh={onRefresh}
           />
         );

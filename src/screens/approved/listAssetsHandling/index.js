@@ -6,6 +6,7 @@
  ** Description: Description of ListHandling.js
  **/
 import {fromJS} from 'immutable';
+import {useTheme} from '@react-navigation/native';
 import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
@@ -23,6 +24,7 @@ import * as Actions from '~/redux/actions';
 
 function ListRequestHandling(props) {
   const {t} = useTranslation();
+  const {customColors} = useTheme();
 
   const dispatch = useDispatch();
   const commonState = useSelector(({common}) => common);
@@ -239,6 +241,7 @@ function ListRequestHandling(props) {
               data={data.requests}
               dataDetail={data.requestsDetail}
               dataProcess={data.processApproveds}
+              customColors={customColors}
               onRefresh={onRefresh}
               onLoadmore={onLoadmore}
             />
