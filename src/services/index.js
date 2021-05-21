@@ -6,13 +6,15 @@
  **/
 /** SERVICES */
 import master from './master';
-import approved from './approved';
 import authentication from './authentication';
+import approved from './approved';
+import projectManagement from './projectManagement';
 
 const Services = {
   authentication,
   master,
   approved,
+  projectManagement,
 };
 
 export default Services;

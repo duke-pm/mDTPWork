@@ -266,5 +266,21 @@
     "file_upload": "Attached file",
     "holder_upload_file": "Click here to select file..",
     "button_choose_again": "Reselect"
+  },
+  "project_management": {
+    "title": "Project Management",
+    "sector": "Sector: ",
+    "status": "Status: ",
+    "public": "Public: ",
+    "date_created": "Date created: ",
+    "description": "Description: ",
+    "status_on_track": "On Track",
+    "status_pending": "Pending",
+    "grade": "Grade: ",
+    "component": "Component: ",
+    "piority": "Piority: ",
+    "start_date": "Start date: ",
+    "end_date": "Finish date: ",
+    "assignee": "Assignee: "
   }
 }

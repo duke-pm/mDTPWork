@@ -50,7 +50,7 @@ export function RootTab(props) {
             <CText
               customStyles={[
                 cStyles.textMeta,
-                focused && cStyles.fontMedium,
+                focused && cStyles.fontBold,
                 {color: color, fontSize: scalePx(1.7)},
               ]}
               label={label}
@@ -59,10 +59,9 @@ export function RootTab(props) {
         },
       })}
       tabBarOptions={{
-        activeTintColor: customColors.primary,
-        inactiveTintColor: customColors.text,
+        activeTintColor: colors.SECONDARY,
+        inactiveTintColor: customColors.icon,
         keyboardHidesTabBar: true,
-        // showLabel: false,
       }}>
       <TabMain.Screen
         name={Routes.MAIN.DASHBOARD.name}
@@ -134,7 +133,7 @@ export function RootMain(props) {
         component={Routes.MAIN.ADD_APPROVED_ASSETS.path}
         options={{
           ...(IS_ANDROID
-            ? TransitionPresets.RevealFromBottomAndroid
+            ? TransitionPresets.FadeFromBottomAndroid
             : TransitionPresets.ModalTransition),
         }}
       />
@@ -143,9 +142,17 @@ export function RootMain(props) {
         component={Routes.MAIN.ADD_APPROVED_LOST_DAMAGED.path}
         options={{
           ...(IS_ANDROID
-            ? TransitionPresets.RevealFromBottomAndroid
+            ? TransitionPresets.FadeFromBottomAndroid
             : TransitionPresets.ModalTransition),
         }}
+      />
+      <StackMain.Screen
+        name={Routes.MAIN.PROJECT_MANAGEMENT.name}
+        component={Routes.MAIN.PROJECT_MANAGEMENT.path}
+      />
+      <StackMain.Screen
+        name={Routes.MAIN.PROJECT_DETAIL.name}
+        component={Routes.MAIN.PROJECT_DETAIL.path}
       />
     </StackMain.Navigator>
   );

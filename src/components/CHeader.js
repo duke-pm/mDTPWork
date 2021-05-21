@@ -46,7 +46,9 @@ function CHeader(props) {
     hasSearch = false,
     hasAddNew = false,
     title = '',
+    customTitle = null,
     subTitle = null,
+    customSubTitle = null,
     left = null,
     right = null,
     iconBack = null,
@@ -168,9 +170,18 @@ function CHeader(props) {
             <CText
               customStyles={[cStyles.H6, cStyles.colorWhite]}
               label={t(title)}
+              customLabel={customTitle}
             />
             {subTitle && (
-              <CText customStyles={cStyles.textMeta} label={t(subTitle)} />
+              <CText
+                customStyles={[
+                  cStyles.textMeta,
+                  cStyles.colorWhite,
+                  cStyles.fontRegular,
+                ]}
+                label={t(subTitle)}
+                customLabel={customSubTitle}
+              />
             )}
           </View>
 

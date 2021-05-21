@@ -21,7 +21,7 @@ function Item(props) {
   }
   return (
     <View style={[cStyles.itemsCenter, styles.item]}>
-      <TouchableOpacity activeOpacity={1} onPress={() => onPress(data.name)}>
+      <TouchableOpacity onPress={() => onPress(data.name)}>
         <Image
           style={styles.image_item}
           source={data.icon}

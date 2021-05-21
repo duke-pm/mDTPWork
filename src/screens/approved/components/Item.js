@@ -36,9 +36,7 @@ function Item(props) {
           renderItem={({item, index}) => {
             return (
               <View style={[cStyles.itemsCenter, styles.item]}>
-                <TouchableOpacity
-                  activeOpacity={1}
-                  onPress={() => onPress(item.name)}>
+                <TouchableOpacity onPress={() => onPress(item.name)}>
                   <Image
                     style={styles.image_item}
                     source={item.icon}
@@ -64,8 +62,8 @@ function Item(props) {
 
 const styles = StyleSheet.create({
   container: {
-    height: sW('21%'),
-    width: sW('21%'),
+    height: sW('20%'),
+    width: sW('20%'),
     backgroundColor: colors.WHITE,
   },
   item: {flex: 0.33, width: sW('21%')},

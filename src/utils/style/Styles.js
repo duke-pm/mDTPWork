@@ -529,6 +529,10 @@ const text = {
   textCenter: {textAlign: 'center', textAlignVertical: 'center'},
   textJustify: {textAlign: 'justify'},
   textUnderline: {textDecorationLine: 'underline'},
+  textThrough: {
+    textDecorationLine: 'line-through',
+    textDecorationStyle: 'solid',
+  },
   textItalic: {fontStyle: 'italic'},
   textBold: {fontWeight: 'bold'},
 };

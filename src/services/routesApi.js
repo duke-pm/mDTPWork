@@ -20,6 +20,10 @@ const Routes = {
     APPROVED_REQUEST: '/RequestApprove/Approve',
     REJECT_REQUEST: '/RequestApprove/Approve',
   },
+  PROJECT_MANAGEMENT: {
+    LIST_PROJECT: '/Project/GetList',
+    LIST_TASK: '/Task/GetList',
+  },
 };
 
 export default Routes;

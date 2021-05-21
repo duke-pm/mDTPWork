@@ -47,9 +47,9 @@ export function sW(widthPercent) {
 }
 
 export function borderRadius(number) {
-  if (IS_ANDROID) {
+  if (Platform.OS === 'android') {
     return number;
-  } else if (IS_IOS) {
+  } else {
     return number / 2;
   }
 }

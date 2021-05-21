@@ -5,7 +5,7 @@
  ** Description: Description of CCard.js
  **/
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View, TouchableOpacity} from 'react-native';
 /* COMPONENTS */
 import CText from './CText';
 /* COMMON */
@@ -23,27 +23,30 @@ const CCard = React.memo(function CCard(props) {
     cardFooter = null,
     customColors = {},
     darkMode = false,
+    onPress = null,
   } = props;
 
+  const Component = onPress ? TouchableOpacity : View;
+
   return (
-    <View
+    <Component
       key={key}
       style={[
         cStyles.rounded2,
         cStyles.mt32,
-        !darkMode && cStyles.borderAll,
+        !darkMode && cStyles.shadowListItem,
         styles.container,
         containerStyle,
         {backgroundColor: customColors.card},
-      ]}>
+      ]}
+      onPress={onPress}>
       <View
         style={[
           cStyles.rounded1,
           cStyles.px10,
           cStyles.py3,
           cStyles.borderAll,
-          cStyles.ml10,
-          cStyles.abs,
+          cStyles.mx16,
           styles.con_label,
           contentLabelStyle,
           {
@@ -63,7 +66,7 @@ const CCard = React.memo(function CCard(props) {
       </View>
 
       {cardHeader && (
-        <View style={[cStyles.pt24, cStyles.px16]}>{cardHeader}</View>
+        <View style={[cStyles.pt10, cStyles.px16]}>{cardHeader}</View>
       )}
 
       {cardContent && (
@@ -71,9 +74,9 @@ const CCard = React.memo(function CCard(props) {
       )}
 
       {cardFooter && (
-        <View style={[cStyles.py10, cStyles.px16]}>{cardFooter}</View>
+        <View style={[cStyles.pb10, cStyles.px16]}>{cardFooter}</View>
       )}
-    </View>
+    </Component>
   );
 });
 

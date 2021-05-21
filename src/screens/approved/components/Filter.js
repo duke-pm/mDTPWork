@@ -35,13 +35,11 @@ if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
   }
-}
-
+};
 const INPUT_NAME = {
   FROM_DATE: 'fromDate',
   TO_DATE: 'toDate',
 };
-
 const TYPES_ASSETS = [
   {
     value: 1,
@@ -56,7 +54,6 @@ const TYPES_ASSETS = [
     label: 'list_request_assets_handling:title_lost',
   },
 ];
-
 const STATUS_REQUEST = [
   {
     value: 1,

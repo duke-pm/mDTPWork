@@ -19,7 +19,7 @@ function ListRequest(props) {
     <CList
       style={cStyles.pt16}
       data={props.data}
-      item={({item, index, scrollY}) => {
+      item={({item, index}) => {
         let detail = props.dataDetail.filter(
           f => f.requestID === item.requestID,
         );
@@ -34,7 +34,7 @@ function ListRequest(props) {
             data={item}
             dataDetail={detail}
             dataProcess={process}
-            scrollY={scrollY}
+            customColors={props.customColors}
             onRefresh={onRefresh}
           />
         );
@@ -43,8 +43,6 @@ function ListRequest(props) {
       onRefresh={onRefresh}
       loadingmore={props.loadmore}
       onLoadmore={onLoadmore}
-
-      animation={true}
     />
   );
 }

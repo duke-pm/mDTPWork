@@ -11,7 +11,7 @@ import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
 import Item from './components/Item';
 /** COMMON */
-import MockupData from './common/mockup';
+import Common from './common';
 import {cStyles} from '~/utils/style';
 import {IS_ANDROID} from '~/utils/helper';
 
@@ -38,7 +38,7 @@ function Dashboard(props) {
         <CContent padder>
           <FlatList
             style={cStyles.flex1}
-            data={MockupData.Approved}
+            data={Common.Data}
             renderItem={({item, index}) => {
               return <Item index={index} data={item} onPress={handleItem} />;
             }}

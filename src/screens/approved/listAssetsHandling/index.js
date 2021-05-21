@@ -39,14 +39,8 @@ function ListRequestHandling(props) {
     isLoadmore: true,
   });
   const [data, setData] = useState({
-    fromDate: moment()
-      .clone()
-      .startOf('month')
-      .format(formatDate),
-    toDate: moment()
-      .clone()
-      .endOf('month')
-      .format(formatDate),
+    fromDate: moment().clone().startOf('month').format(formatDate),
+    toDate: moment().clone().endOf('month').format(formatDate),
     status: '1,2,3,4',
     type: '1,2,3',
     requests: [],

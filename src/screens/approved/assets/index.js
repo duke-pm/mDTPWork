@@ -8,6 +8,7 @@
 import {fromJS} from 'immutable';
 import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
+import { useTheme } from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
 import {showMessage} from 'react-native-flash-message';
 import moment from 'moment';
@@ -24,6 +25,7 @@ import * as Actions from '~/redux/actions';
 
 function ApprovedAssets(props) {
   const {t} = useTranslation();
+  const {customColors} = useTheme();
 
   const dispatch = useDispatch();
   const commonState = useSelector(({common}) => common);
@@ -246,6 +248,7 @@ function ApprovedAssets(props) {
           data={data.requests}
           dataDetail={data.requestsDetail}
           dataProcess={data.processApproveds}
+          customColors={customColors}
           onRefresh={onRefresh}
           onLoadmore={onLoadmore}
         />

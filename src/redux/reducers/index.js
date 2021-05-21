@@ -1,5 +1,5 @@
 /**
- ** Name: Reducers.js
+ ** Name: Reducers for app
  ** Author:
  ** CreatedAt: 2021
  ** Description: Description of Reducers.js
@@ -8,13 +8,15 @@
 import {combineReducers} from 'redux';
 /* REDUCER */
 import common from './common';
-import auth from './auth';
 import masterData from './masterData';
+import auth from './auth';
 import approved from './approved';
+import projectManagement from './projectManagement';
 
 export default combineReducers({
   common,
   auth,
   masterData,
   approved,
+  projectManagement,
 });

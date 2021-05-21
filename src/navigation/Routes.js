@@ -16,15 +16,16 @@ import Settings from '~/screens/settings';
 
 /** APPROVED */
 import Approved from '~/screens/approved';
-
 import ListRequest from '~/screens/approved/listAssets';
 import ListRequestHandling from '~/screens/approved/listAssetsHandling';
-
 import ApprovedAssets from '~/screens/approved/assets';
 import ApprovedAssetsDamage from '~/screens/approved/assetsDamage';
 import ApprovedAssetsLost from '~/screens/approved/assetsLost';
 import AddRequestAsset from '~/screens/approved/addAsset/Request';
 import AddRequestLostDamage from '~/screens/approved/addLostDamage/Request';
+/** PROJECT MANAGEMENT */
+import ProjectManagement from '~/screens/projectManagement';
+import ProjectDetail from '~/screens/projectManagement/detail/Project';
 
 const Routes = {
   AUTHENTICATION: {
@@ -94,6 +95,14 @@ const Routes = {
     ADD_APPROVED_LOST_DAMAGED: {
       name: 'AddRequestLostDamage',
       path: AddRequestLostDamage,
+    },
+    PROJECT_MANAGEMENT: {
+      name: 'ProjectManagement',
+      path: ProjectManagement,
+    },
+    PROJECT_DETAIL: {
+      name: 'ProjectDetail',
+      path: ProjectDetail,
     },
   },
 };

@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 /**
  ** Name: Contact Us
  ** Author:
@@ -128,12 +129,12 @@ function ContactUs(props) {
               return (
                 <CCard
                   key={item.id}
-                  containerStyle={cStyles.mt40}
+                  containerStyle={index === 0 ? cStyles.mt16 : cStyles.mt40}
                   customColors={customColors}
                   darkMode={isDark}
                   customLabel={item.label}
                   cardContent={
-                    <View style={[cStyles.pt16, index === 0 && cStyles.pt40]}>
+                    <View>
                       <View
                         style={[
                           cStyles.row,

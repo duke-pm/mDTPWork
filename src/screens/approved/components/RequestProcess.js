@@ -25,7 +25,7 @@ function RequestProcess(props) {
       darkMode={isDark}
       label={'add_approved_assets:table_process'}
       cardContent={
-        <View style={[cStyles.itemsStart, cStyles.pt16]}>
+        <View>
           {data.map((item, index) => {
             return (
               <View
@@ -85,7 +85,7 @@ function RequestProcess(props) {
                         : colors.GREEN
                     }
                   />
-                  {index !== process.length - 1 && (
+                  {index !== data.length - 1 && (
                     <View
                       style={[
                         cStyles.mt10,

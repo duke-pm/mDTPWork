@@ -1026,7 +1026,11 @@ function AddRequest(props) {
               headerAlwaysVisible={true}
               elevation={2}
               indicatorColor={customColors.text}
-              containerStyle={{backgroundColor: customColors.background}}
+              containerStyle={{
+                backgroundColor: customColors.background,
+                borderColor: customColors.card,
+                borderWidth: 1,
+              }}
               gestureEnabled={true}
               defaultOverlayOpacity={isDark ? 0.8 : 0.5}>
               <RequestProcess

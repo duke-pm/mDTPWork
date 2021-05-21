@@ -15,7 +15,6 @@ import {
   Image,
   Animated,
 } from 'react-native';
-import {useTheme} from '@react-navigation/native';
 import moment from 'moment';
 /* COMPONENTS */
 import CText from '~/components/CText';
@@ -24,13 +23,12 @@ import Routes from '~/navigation/Routes';
 import {cStyles} from '~/utils/style';
 import Commons from '~/utils/common/Commons';
 import Assets from '~/utils/asset/Assets';
-
-const ITEM_SIZE = 70 + 16 * 3;
+import {IS_ANDROID, IS_IOS} from '~/utils/helper';
 
 const RequestItem = React.memo(function RequestItem(props) {
+  const {customColors} = props;
   const {t} = useTranslation();
   const navigation = useNavigation();
-  const {customColors} = useTheme();
 
   const commonState = useSelector(({common}) => common);
 
@@ -73,17 +71,6 @@ const RequestItem = React.memo(function RequestItem(props) {
     colorText = 'colorRed';
   }
 
-  const inputRange = props.scrollY
-    ? [-1, 0, ITEM_SIZE * props.index, ITEM_SIZE * (props.index + 2)]
-    : null;
-
-  const scale = props.scrollY
-    ? props.scrollY.interpolate({
-        inputRange,
-        outputRange: [1, 1, 1, 0],
-      })
-    : null;
-
   return (
     <TouchableOpacity
       disabled={props.loading}
@@ -94,9 +81,9 @@ const RequestItem = React.memo(function RequestItem(props) {
           cStyles.p10,
           cStyles.mb16,
           cStyles.rounded2,
-          customColors.shadowListItem,
+          IS_IOS && cStyles.shadowListItem,
+          IS_ANDROID && cStyles.borderAll,
           {backgroundColor: customColors.listItem},
-          props.scrollY && {transform: [{scale}]},
         ]}>
         <View
           style={[

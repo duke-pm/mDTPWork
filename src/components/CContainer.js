@@ -48,7 +48,9 @@ function CContainer(props) {
     hasPaddingFooter,
 
     title,
+    customTitle,
     subTitle,
+    customSubTitle,
     iconBack,
 
     onPressAddNew,
@@ -98,7 +100,9 @@ function CContainer(props) {
             hasAddNew={hasAddNew}
             iconBack={iconBack}
             title={title}
+            customTitle={customTitle}
             subTitle={subTitle}
+            customSubTitle={customSubTitle}
             left={headerLeft}
             right={headerRight}
             onPressAddNew={onPressAddNew}

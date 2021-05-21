@@ -266,5 +266,21 @@
     "file_upload": "File đính kèm",
     "holder_upload_file": "Nhấn vào đây để chọn file...",
     "button_choose_again": "Chọn lại"
+  },
+  "project_management": {
+    "title": "Quản lý Dự án",
+    "sector": "Khu vực: ",
+    "status": "Trạng thái: ",
+    "public": "Công khai: ",
+    "date_created": "Ngày tạo: ",
+    "description": "Mô tả: ",
+    "status_on_track": "Đang Theo Dõi",
+    "status_pending": "Tạm Dừng",
+    "grade": "Cấp: ",
+    "component": "Thành phần: ",
+    "piority": "Ưu tiên: ",
+    "start_date": "Bắt đầu: ",
+    "end_date": "Kết thúc: ",
+    "assignee": "Giao cho: "
   }
 }
