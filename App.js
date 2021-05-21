@@ -6,7 +6,9 @@
  ** Description: Description of App.js
  **/
 import 'react-native-gesture-handler';
+import '~/utils/language/config-i18n';
 import React, {useState, useEffect} from 'react';
+import {AppearanceProvider, useColorScheme} from 'react-native-appearance';
 import {Provider} from 'react-redux';
 import {StatusBar} from 'react-native';
 import {
@@ -14,17 +16,15 @@ import {
   DarkTheme,
   DefaultTheme,
 } from '@react-navigation/native';
-import {AppearanceProvider, useColorScheme} from 'react-native-appearance';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 import NetInfo from '@react-native-community/netinfo';
 import FlashMessage from 'react-native-flash-message';
-import {SafeAreaProvider} from 'react-native-safe-area-context';
 import axios from 'axios';
-import '~/utils/language/config-i18n';
 /** COMPOENNTS */
 import Navigator from '~/navigation/Navigator';
 import Unconnected from '~/screens/connection/Unconnected';
 /** COMMON */
-import {colors, cStyles} from '~/utils/style';
+import {colors} from '~/utils/style';
 import jwtServiceConfig from '~/services/jwtServiceConfig';
 /** REDUX */
 import Store from './src/redux/store';
@@ -35,6 +35,7 @@ const App = () => {
     connected: true,
   });
 
+  /** FUNC */
   const onCheckConnection = () => {
     setState({
       ...state,
@@ -77,7 +78,7 @@ const App = () => {
         });
       }
     });
-  }, []);
+  }, [state.checked, state.connected]);
 
   /** RENDER */
   const MyDarkTheme = {

@@ -1,39 +1,52 @@
 /**
  ** Name: Unconnected screen
- ** Author: 
+ ** Author:
  ** CreateAt: 2021
  ** Description: Description of Unconnected.js
  **/
 import React from 'react';
-import {
-  View,
-  Image,
-  StyleSheet
-} from 'react-native';
-import CText from '~/components/CText';
+import {useTheme} from '@react-navigation/native';
+import {View} from 'react-native';
+import Icon from 'react-native-vector-icons/Feather';
 /* COMPONENTS */
-/* COMMON */
-import { colors, cStyles } from '~/utils/style';
-import Assets from '~/utils/asset/Assets';
+import CText from '~/components/CText';
 import CButton from '~/components/CButton';
-/* REDUX */
-
+/* COMMON */
+import {cStyles} from '~/utils/style';
+import {scalePx} from '~/utils/helper';
 
 function Unconnected(props) {
-  const {
-    onTryAgain = () => { },
-  } = props;
+  const {customColors} = useTheme();
+  const {onTryAgain} = props;
 
   /** RENDER */
   return (
-    <View style={[cStyles.flexCenter, cStyles.p16, styles.container]}>
-      <Image
-        style={styles.img_lost_network}
-        source={Assets.iconLostNetwork}
-        resizeMode={'contain'}
+    <View
+      style={[
+        cStyles.flexCenter,
+        cStyles.p16,
+        {backgroundColor: customColors.background},
+      ]}>
+      <View style={cStyles.pb32}>
+      <Icon name={'cloud-off'} color={customColors.icon} size={scalePx(10)} />
+      </View>
+      <CText
+        customStyles={[
+          cStyles.H5,
+          cStyles.textCenter,
+          {color: customColors.text},
+        ]}
+        label={'error:title'}
       />
-      <CText styles={'H5 textCenter'} label={'error:title'} />
-      <CText styles={'textMeta pt10 textCenter'} label={'error:lost_network'} />
+      <CText
+        customStyles={[
+          cStyles.textMeta,
+          cStyles.pt10,
+          cStyles.textCenter,
+          {color: customColors.text},
+        ]}
+        label={'error:lost_network'}
+      />
       <CButton
         style={cStyles.mt16}
         label={'common:try_connect'}
@@ -41,16 +54,6 @@ function Unconnected(props) {
       />
     </View>
   );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: colors.WHITE,
-  },
-  img_lost_network: {
-    height: 250,
-    width: 250,
-  },
-});
+}
 
 export default Unconnected;

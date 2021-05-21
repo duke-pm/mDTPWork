@@ -6,7 +6,7 @@
  ** Description: Description of ContactUs.js
  **/
 import React from 'react';
-import {StyleSheet, Linking, ScrollView, View} from 'react-native';
+import {Linking, ScrollView, View} from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
 /* COMPONENTS */
@@ -16,7 +16,6 @@ import CContent from '~/components/CContent';
 import CText from '~/components/CText';
 /* COMMON */
 import {cStyles} from '~/utils/style';
-/* REDUX */
 
 const DATA = [
   {
@@ -98,7 +97,7 @@ const DATA = [
   },
 ];
 
-function ContactUs(props) {
+const ContactUs = React.memo(function ContactUs(props) {
   const {customColors} = useTheme();
   const isDark = useColorScheme() === 'dark';
 
@@ -229,11 +228,6 @@ function ContactUs(props) {
       }
     />
   );
-}
-
-const styles = StyleSheet.create({
-  con_icon_app: {flex: 0.4},
-  img_icon_app: {height: 250, width: 250},
 });
 
 export default ContactUs;
