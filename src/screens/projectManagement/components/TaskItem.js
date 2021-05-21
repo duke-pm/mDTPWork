@@ -1,4 +1,3 @@
-/* eslint-disable no-sparse-arrays */
 /* eslint-disable react-native/no-inline-styles */
 /**
  ** Name: Task Item
@@ -18,7 +17,6 @@ import {
   UIManager,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
-import IconMaterial from 'react-native-vector-icons/MaterialCommunityIcons';
 import moment from 'moment';
 /* COMPONENTS */
 import CText from '~/components/CText';
@@ -36,10 +34,9 @@ if (IS_ANDROID) {
 }
 
 const TaskItem = React.memo(function TaskItem(props) {
-  const {customColors} = props;
   const {t} = useTranslation();
   const navigation = useNavigation();
-  const {index, data, onPress} = props;
+  const {index, data, customColors, darkMode, onPress, onChangeStatus} = props;
 
   const commonState = useSelector(({common}) => common);
 
@@ -68,20 +65,20 @@ const TaskItem = React.memo(function TaskItem(props) {
   }
 
   if (data.status === 'New') {
-    bgStatus = colors.STATUS_NEW;
+    bgStatus = customColors.statusNew;
   } else if (data.status === 'To be scheduled') {
-    bgStatus = colors.STATUS_TO_BE_SCHEDULE;
+    bgStatus = customColors.stausToBeSchedule;
   } else if (data.status === 'Scheduled') {
-    bgStatus = colors.STATUS_SCHEDULE;
+    bgStatus = customColors.statusSchedule;
   } else if (data.status === 'In progress') {
-    bgStatus = colors.STATUS_IN_PROCESS;
+    bgStatus = customColors.statusInProcess;
   } else if (data.status === 'Closed') {
-    bgStatus = colors.STATUS_CLOSE;
+    bgStatus = customColors.statusClose;
   } else if (data.status === 'On hold') {
-    bgStatus = colors.STATUS_ON_HOLD;
+    bgStatus = customColors.statusOnHold;
   } else if (data.status === 'Rejected') {
     isReject = true;
-    bgStatus = colors.STATUS_REJECT;
+    bgStatus = customColors.statusReject;
   }
   const rotateData = valueAnim.interpolate({
     inputRange: [0, 1],
@@ -103,7 +100,7 @@ const TaskItem = React.memo(function TaskItem(props) {
             cStyles.p10,
             cStyles.mb16,
             cStyles.rounded2,
-            IS_IOS && customColors.shadowListItem,
+            IS_IOS && cStyles.shadowListItem,
             data.parent && cStyles.ml24,
             IS_ANDROID && cStyles.borderTop,
             IS_ANDROID && cStyles.borderBottom,
@@ -232,27 +229,33 @@ const TaskItem = React.memo(function TaskItem(props) {
                 />
               </View>
 
-              <View
-                style={[cStyles.row, cStyles.itemsStart, cStyles.justifyStart]}>
-                <CText
-                  styles={'textMeta'}
-                  label={'project_management:status'}
-                />
-                <View style={[cStyles.row, cStyles.itemsCenter]}>
-                  <View
-                    style={{
-                      height: 10,
-                      width: 10,
-                      borderRadius: 10,
-                      backgroundColor: bgStatus,
-                    }}
-                  />
+              <TouchableOpacity onPress={onChangeStatus}>
+                <View
+                  style={[
+                    cStyles.row,
+                    cStyles.itemsStart,
+                    cStyles.justifyStart,
+                  ]}>
                   <CText
-                    styles={'textMeta fontBold pl6'}
-                    customLabel={data.status}
+                    styles={'textMeta'}
+                    label={'project_management:status'}
                   />
+                  <View style={[cStyles.row, cStyles.itemsCenter]}>
+                    <View
+                      style={{
+                        height: 10,
+                        width: 10,
+                        borderRadius: 10,
+                        backgroundColor: bgStatus,
+                      }}
+                    />
+                    <CText
+                      styles={'textMeta fontBold pl6'}
+                      customLabel={data.status}
+                    />
+                  </View>
                 </View>
-              </View>
+              </TouchableOpacity>
             </View>
           </View>
         </Animated.View>
@@ -270,7 +273,12 @@ const TaskItem = React.memo(function TaskItem(props) {
             }}
           />
 
-          <ListTask data={data.childrens} />
+          <ListTask
+            data={data.childrens}
+            customColors={customColors}
+            isDark={darkMode}
+            onChangeStatus={onChangeStatus}
+          />
         </View>
       )}
     </View>

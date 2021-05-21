@@ -502,17 +502,22 @@ const text = {
   textTitle: {
     fontSize: scalePx(2.3),
     fontFamily: fMedium,
-    lineHeight: platform === PLATFORM.IOS ? 23 : 24,
+    lineHeight: platform === PLATFORM.IOS ? 22 : 23,
+  },
+  textSubTitle: {
+    fontSize: scalePx(2),
+    fontFamily: fMedium,
+    lineHeight: platform === PLATFORM.IOS ? 20 : 22,
+  },
+  textDefault: {
+    fontSize: scalePx(2.3),
+    fontFamily: fRegular,
+    lineHeight: platform === PLATFORM.IOS ? 22 : 23,
   },
   textMeta: {
     fontSize: scalePx(1.8),
     fontFamily: fLight,
     lineHeight: 20,
-  },
-  textDefault: {
-    fontSize: scalePx(2.3),
-    fontFamily: fRegular,
-    lineHeight: platform === PLATFORM.IOS ? 23 : 24,
   },
   textButton: {
     fontSize: scalePx(2),

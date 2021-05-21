@@ -100,7 +100,7 @@ function CInput(props) {
           cStyles.mt6,
           styles.con_input,
           disabled && styles.disabled,
-          props.error && styles.error,
+          props.error && {borderColor: customColors.red},
           !disabled && isDark && {backgroundColor: colors.TRANSPARENT},
           disabled && isDark && {backgroundColor: customColors.card},
           style,
@@ -168,7 +168,11 @@ function CInput(props) {
           <Component
             style={[cStyles.center, styles.con_input_icon]}
             onPress={handleRemoveValue}>
-            <Icon name={'x-circle'} color={colors.RED} size={scalePx(3)} />
+            <Icon
+              name={'x-circle'}
+              color={customColors.red}
+              size={scalePx(3)}
+            />
           </Component>
         )}
 
@@ -243,9 +247,6 @@ const styles = StyleSheet.create({
   },
   disabled: {
     backgroundColor: colors.GRAY_300,
-  },
-  error: {
-    borderColor: colors.RED,
   },
 });
 

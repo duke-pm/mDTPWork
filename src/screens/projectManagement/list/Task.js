@@ -1,29 +1,23 @@
 /**
  ** Name: List Task screen
- ** Author: 
+ ** Author:
  ** CreateAt: 2021
  ** Description: Description of Task.js
  **/
 import React from 'react';
-import {useTheme, useNavigation} from '@react-navigation/native';
-import {useColorScheme} from 'react-native-appearance';
+import {useNavigation} from '@react-navigation/native';
 /* COMPONENTS */
 import TaskItem from '../components/TaskItem';
 import CList from '~/components/CList';
 /** COMMON */
 import Routes from '~/navigation/Routes';
-import { cStyles } from '~/utils/style';
 
 function ListTask(props) {
   const navigation = useNavigation();
-  const {customColors} = useTheme();
-  const isDark = useColorScheme() === 'dark';
-  const {onLoadmore, onRefresh} = props;
+  const {customColors, isDark, onLoadmore, onRefresh, onChangeStatus} = props;
 
   /** HANDLE FUNC */
-  const handleTaskItem = data => {
-    
-  };
+  const handleTaskItem = data => {};
 
   /** RENDER */
   return (
@@ -38,6 +32,7 @@ function ListTask(props) {
             darkMode={isDark}
             onRefresh={onRefresh}
             onPress={handleTaskItem}
+            onChangeStatus={onChangeStatus}
           />
         );
       }}
@@ -48,6 +43,6 @@ function ListTask(props) {
       showScrollTop={false}
     />
   );
-};
+}
 
 export default ListTask;

@@ -40,7 +40,7 @@ function AssetItem(props) {
     return (
       <CIconButton
         iconName={'x-circle'}
-        iconColor={colors.RED}
+        iconColor={customColors.red}
         iconProps={{
           size: scalePx(3),
         }}

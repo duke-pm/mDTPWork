@@ -25,7 +25,8 @@
     "apply": "Áp Dụng",
     "type": "Tài sản ",
     "status": "Trạng thái ",
-    "show_more": "Xem thêm"
+    "show_more": "Xem thêm",
+    "choose": "Chọn"
   },
   "success": {
     "title": "Thành Công",
@@ -281,6 +282,7 @@
     "piority": "Ưu tiên: ",
     "start_date": "Bắt đầu: ",
     "end_date": "Kết thúc: ",
-    "assignee": "Giao cho: "
+    "assignee": "Giao cho: ",
+    "holder_change_status": "Vui lòng chọn trạng thái",
   }
 }

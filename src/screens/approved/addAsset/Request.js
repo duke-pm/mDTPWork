@@ -1078,7 +1078,7 @@ function AddRequest(props) {
             <CButton
               style={styles.button_approved}
               block
-              color={colors.RED}
+              color={customColors.red}
               disabled={loading.main}
               icon={'x-circle'}
               label={'add_approved_assets:reject'}
@@ -1087,7 +1087,7 @@ function AddRequest(props) {
             <CButton
               style={styles.button_reject}
               block
-              color={colors.GREEN}
+              color={customColors.green}
               disabled={loading.main}
               icon={'check-circle'}
               label={'add_approved_assets:approved'}

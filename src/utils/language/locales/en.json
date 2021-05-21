@@ -25,7 +25,8 @@
     "apply": "Apply",
     "type": "Asset ",
     "status": "Status ",
-    "show_more": "Show more"
+    "show_more": "Show more",
+    "choose": "Choose"
   },
   "success": {
     "title": "Successfully!",
@@ -281,6 +282,7 @@
     "piority": "Piority: ",
     "start_date": "Start date: ",
     "end_date": "Finish date: ",
-    "assignee": "Assignee: "
+    "assignee": "Assignee: ",
+    "holder_change_status": "Please select the status",
   }
 }

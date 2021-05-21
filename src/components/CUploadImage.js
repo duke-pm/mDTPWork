@@ -6,6 +6,7 @@
  **/
 import React, {useState} from 'react';
 import {useTranslation} from 'react-i18next';
+import {useTheme} from '@react-navigation/native';
 import {StyleSheet, View, ActionSheetIOS, TouchableOpacity} from 'react-native';
 import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/Feather';
@@ -30,6 +31,7 @@ import {colors, cStyles} from '~/utils/style';
 function CUploadImage(props) {
   const {onChange} = props;
   const {t} = useTranslation();
+  const {customColors} = useTheme();
 
   const [showUpload, setShowUpload] = useState(false);
 
@@ -172,14 +174,22 @@ function CUploadImage(props) {
                 cStyles.py16,
                 cStyles.px16,
               ]}>
-              <Icon name={'camera'} size={scalePx(3.5)} color={colors.RED} />
+              <Icon
+                name={'camera'}
+                size={scalePx(3)}
+                color={customColors.red}
+              />
               <CText styles={'textTitle pl16'} label={'common:from_camera'} />
             </View>
           </TouchableOpacity>
 
           <TouchableOpacity activeOpacity={0.5} onPress={onChangeByGallery}>
             <View style={[cStyles.row, cStyles.itemsCenter, cStyles.p16]}>
-              <Icon name={'image'} size={scalePx(3.5)} color={colors.GREEN} />
+              <Icon
+                name={'image'}
+                size={scalePx(3)}
+                color={customColors.green}
+              />
               <CText styles={'textTitle pl16'} label={'common:from_gallery'} />
             </View>
           </TouchableOpacity>

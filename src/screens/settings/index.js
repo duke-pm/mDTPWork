@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 /**
  ** Name: Config settings of App
  ** Author:
@@ -6,10 +7,11 @@
  **/
 import React, {createRef, useState, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
+import {useColorScheme} from 'react-native-appearance';
+import {useTheme} from '@react-navigation/native';
 import {useDispatch} from 'react-redux';
 import {StyleSheet, View} from 'react-native';
 import ActionSheet from 'react-native-actions-sheet';
-import {useTheme} from '@react-navigation/native';
 import Picker from '@gregfrench/react-native-wheel-picker';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
@@ -26,8 +28,8 @@ import {LANGUAGE} from '~/config/constants';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 
+/** All refs use in this screen */
 const actionSheetLangRef = createRef();
-
 const SETTINGS = [
   {
     id: 'language',
@@ -53,6 +55,7 @@ const SETTINGS = [
 function Settings(props) {
   const {t} = useTranslation();
   const {customColors} = useTheme();
+  const isDark = useColorScheme() === 'dark';
 
   const dispatch = useDispatch();
 
@@ -151,8 +154,13 @@ function Settings(props) {
             headerAlwaysVisible={true}
             elevation={2}
             indicatorColor={customColors.text}
-            containerStyle={{backgroundColor: customColors.card}}
-            defaultOverlayOpacity={0.5}
+            containerStyle={{
+              backgroundColor: customColors.background,
+              borderColor: customColors.card,
+              borderWidth: 1,
+            }}
+            gestureEnabled={true}
+            defaultOverlayOpacity={isDark ? 0.8 : 0.5}
             CustomHeaderComponent={
               <View
                 style={[

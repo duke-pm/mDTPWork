@@ -46,7 +46,7 @@ function CDropdown(props) {
         style={[
           styles.box,
           {backgroundColor: customColors.combobox},
-          props.error && styles.error_box,
+          props.error && {borderColor: customColors.red},
           disabled && styles.disabled,
           isDark && disabled && styles.disabled_dark,
         ]}
@@ -101,9 +101,6 @@ const styles = StyleSheet.create({
     borderColor: colors.GRAY_500,
     borderWidth: 0.5,
     height: 50,
-  },
-  error_box: {
-    borderColor: colors.RED,
   },
   item: {
     justifyContent: 'flex-start',

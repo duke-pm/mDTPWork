@@ -79,10 +79,10 @@ function RequestProcess(props) {
                     size={scalePx(3)}
                     color={
                       !item.approveDate
-                        ? colors.ORANGE
+                        ? customColors.orange
                         : item.statusID === 0
-                        ? colors.RED
-                        : colors.GREEN
+                        ? customColors.red
+                        : customColors.green
                     }
                   />
                   {index !== data.length - 1 && (

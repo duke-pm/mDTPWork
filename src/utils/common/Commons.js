@@ -64,6 +64,37 @@ const Commons = {
       code: 4,
     },
   },
+
+  STATUS_TASK: {
+    NEW: {
+      code: 0,
+      name: 'New',
+    },
+    TO_BE_SCHEDULE: {
+      code: 1,
+      name: 'To Be Schedule',
+    },
+    SCHEDULE: {
+      code: 2,
+      name: 'Scheduled',
+    },
+    IN_PROCESS: {
+      code: 3,
+      name: 'In Process',
+    },
+    CLOSED: {
+      code: 4,
+      name: 'Closed',
+    },
+    ON_HOLD: {
+      code: 5,
+      name: 'On Hold',
+    },
+    REJECTED: {
+      code: 6,
+      name: 'Rejected',
+    },
+  },
 };
 
 export default Commons;
