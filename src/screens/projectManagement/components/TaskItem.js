@@ -86,13 +86,15 @@ const TaskItem = React.memo(function TaskItem(props) {
   });
   return (
     <View>
-      <View style={{position: 'absolute', bottom: 20, left: 0}}>
-        <Icon
-          name={'arrow-right'}
-          color={colors.GRAY_400}
-          size={scalePx(1.8)}
-        />
-      </View>
+      {showChildren &&
+        <View style={{position: 'absolute', bottom: 20, left: 0}}>
+          <Icon
+            name={'arrow-right'}
+            color={colors.GRAY_400}
+            size={scalePx(1.8)}
+          />
+        </View>
+      }
 
       <TouchableOpacity disabled={props.loading} onPress={onPress}>
         <Animated.View
@@ -149,7 +151,7 @@ const TaskItem = React.memo(function TaskItem(props) {
           <View
             style={[
               cStyles.row,
-              cStyles.itemsCenter,
+              cStyles.itemsStart,
               cStyles.justifyBetween,
               cStyles.flex1,
             ]}>

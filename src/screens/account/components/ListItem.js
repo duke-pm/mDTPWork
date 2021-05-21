@@ -11,7 +11,6 @@ import {
   TouchableWithoutFeedback,
   Linking,
   Image,
-  Switch,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
@@ -33,7 +32,6 @@ function ListItem(props) {
     dataLength,
     customColors,
     onPressSignOut,
-    onToggle,
   } = props;
 
   /** HANDLE FUNC */
@@ -65,15 +63,14 @@ function ListItem(props) {
   };
 
   /** RENDER */
-  const Component =
+  let isTouch =
     data.nextRoute ||
     data.isSignOut ||
     data.isPhone ||
     data.isURL ||
     data.isChooseLang ||
-    data.isRate
-      ? TouchableWithoutFeedback
-      : View;
+    data.isRate;
+  const Component = isTouch ? TouchableWithoutFeedback : View;
 
   return (
     <Component key={data.id} onPress={handleItem}>
@@ -96,14 +93,13 @@ function ListItem(props) {
           <CText styles={'' + (data.icon && 'pl16')} label={data.label} />
         </View>
 
-        <View style={[cStyles.itemsEnd, styles.con_right]}>
-          {(data.nextRoute || data.isURL) && (
-            <Icon
-              name={'chevron-right'}
-              size={scalePx(2.5)}
-              color={colors.GRAY_500}
-            />
-          )}
+        <View
+          style={[
+            cStyles.row,
+            cStyles.itemsCenter,
+            cStyles.justifyEnd,
+            styles.con_right,
+          ]}>
           {data.value && data.isPhone && (
             <CText styles={'colorTextMeta'} label={data.value} />
           )}
@@ -118,6 +114,19 @@ function ListItem(props) {
                 style={styles.img_flag}
                 source={dataActive ? dataActive.icon : data.data[0].icon}
                 resizeMode={'contain'}
+              />
+            </View>
+          )}
+          {(data.nextRoute ||
+            data.isURL ||
+            data.isChooseLang ||
+            data.isRate ||
+            data.isSignOut) && (
+            <View style={cStyles.pl10}>
+              <Icon
+                name={'chevron-right'}
+                size={scalePx(2.5)}
+                color={colors.GRAY_500}
               />
             </View>
           )}
