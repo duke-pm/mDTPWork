@@ -6,10 +6,13 @@
  **/
 import React from 'react';
 import {useTheme} from '@react-navigation/native';
+import {View} from 'react-native';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
 import ListItem from '../account/components/ListItem';
+/** COMMON */
+import {cStyles} from '~/utils/style';
 
 const HELP_AND_INFO = [
   {
@@ -79,15 +82,17 @@ function HelpAndInfo(props) {
       title={'help_and_info:title'}
       hasBack
       content={
-        <CContent padder>
-          {HELP_AND_INFO.map((item, index) => (
-            <ListItem
-              index={index}
-              data={item}
-              dataLength={HELP_AND_INFO.length}
-              customColors={customColors}
-            />
-          ))}
+        <CContent>
+          <View style={cStyles.px16}>
+            {HELP_AND_INFO.map((item, index) => (
+              <ListItem
+                index={index}
+                data={item}
+                dataLength={HELP_AND_INFO.length}
+                customColors={customColors}
+              />
+            ))}
+          </View>
         </CContent>
       }
     />

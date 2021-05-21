@@ -35,9 +35,10 @@ function Dashboard(props) {
       header
       title={'dashboard:title'}
       content={
-        <CContent padder>
+        <CContent>
           <FlatList
             style={cStyles.flex1}
+            contentContainerStyle={cStyles.pt16}
             data={Common.Data}
             renderItem={({item, index}) => {
               return <Item index={index} data={item} onPress={handleItem} />;

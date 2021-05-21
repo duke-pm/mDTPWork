@@ -29,9 +29,10 @@ function Approved(props) {
       header
       hasBack
       content={
-        <CContent padder>
+        <CContent>
           <FlatList
             style={cStyles.flex1}
+            contentContainerStyle={cStyles.pt16}
             data={MockupData.Approved}
             renderItem={({item, index}) => {
               return <Item index={index} data={item} onPress={handleItem} />;

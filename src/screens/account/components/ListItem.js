@@ -87,7 +87,11 @@ function ListItem(props) {
         ]}>
         <View style={[cStyles.row, cStyles.itemsCenter, styles.con_left]}>
           {data.icon && (
-            <Icon name={data.icon} size={scalePx(3)} color={customColors.text} />
+            <Icon
+              name={data.icon}
+              size={scalePx(3)}
+              color={customColors.text}
+            />
           )}
           <CText styles={'' + (data.icon && 'pl16')} label={data.label} />
         </View>
@@ -96,8 +100,8 @@ function ListItem(props) {
           {(data.nextRoute || data.isURL) && (
             <Icon
               name={'chevron-right'}
-              size={scalePx(3)}
-              color={customColors.text}
+              size={scalePx(2.5)}
+              color={colors.GRAY_500}
             />
           )}
           {data.value && data.isPhone && (

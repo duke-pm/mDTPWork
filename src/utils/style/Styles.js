@@ -23,6 +23,7 @@ const deviceHeight = Dimensions.get('window').height;
 const deviceWidth = Dimensions.get('window').width;
 const platform = Platform.OS;
 const toolbarHeight = platform === PLATFORM.IOS ? 64 : 56;
+const toolbarHeight1 = 88;
 const toolbarDefaultBorder = Colors.PRIMARY;
 
 const main = {
@@ -50,6 +51,7 @@ const main = {
   platform,
   isIphoneX,
   toolbarHeight,
+  toolbarHeight1,
   toolbarDefaultBorder,
   deviceHeight,
   deviceWidth,
