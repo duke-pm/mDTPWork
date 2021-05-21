@@ -6,7 +6,6 @@
  **/
 import React from 'react';
 import {View, StyleSheet, ActivityIndicator, Modal} from 'react-native';
-// import Modal from 'react-native-modal';
 /** COMMON */
 import {colors, cStyles} from '~/utils/style';
 
@@ -20,7 +19,7 @@ function CLoading(props) {
           cStyles.justifyCenter,
           styles.con_modal,
         ]}>
-        <ActivityIndicator size={'small'} color={colors.WHITE} />
+        <ActivityIndicator size={'small'} color={colors.GRAY_500} />
       </View>
     </Modal>
   );

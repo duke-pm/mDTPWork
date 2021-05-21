@@ -17,7 +17,7 @@ function TabbarLoading(props) {
   }
   return (
     <View style={[cStyles.flexCenter]}>
-      <ActivityIndicator color={colors.PRIMARY} />
+      <ActivityIndicator color={colors.GRAY_500} />
       <CText styles={'textMeta pt10 textCenter'} label={'loading'} />
     </View>
   );

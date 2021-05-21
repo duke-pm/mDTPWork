@@ -795,9 +795,7 @@ class DropDownPicker extends React.Component {
                 keyboardShouldPersistTaps={'handled'}
                 ListEmptyComponent={
                   <View style={styles.notFound}>
-                    {this.props.searchableError(
-                      this.props.globalTextStyle,
-                    )}
+                    {this.props.searchableError(this.props.globalTextStyle)}
                   </View>
                 }
               />
@@ -943,7 +941,7 @@ const styles = StyleSheet.create({
   },
   visible: {
     borderColor: colors.SECONDARY,
-    backgroundColor: colors.GRAY_200,
+    backgroundColor: colors.WHITE,
   },
   visibleDark: {
     borderColor: colors.SECONDARY,
