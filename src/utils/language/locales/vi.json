@@ -26,7 +26,8 @@
     "type": "Tài sản ",
     "status": "Trạng thái ",
     "show_more": "Xem thêm",
-    "choose": "Chọn"
+    "choose": "Chọn",
+    "reset": "Đặt lại"
   },
   "success": {
     "title": "Thành Công",
@@ -286,5 +287,22 @@
     "holder_change_status": "Vui lòng chọn trạng thái",
     "from_date": "Từ ngày ",
     "to_date": "Đến ngày ",
+    "filter": "Bộ lọc",
+    "date_filter": "Ngày",
+    "assigned_filter": "Đã giao cho",
+    "status_filter": "Trạng thái",
+    "author_filter": "Tác giả",
+    "assign_to_me": "Tôi",
+    "assign_to": "Đến",
+    "assign_to_any": "Bất kì người dùng",
+    "assign_status_any": "Bất kì",
+    "assign_status_new": "Mới",
+    "assign_status_to_be_schedule": "Đã lên lịch",
+    "assign_status_schedule": "Đã lên kế hoạch",
+    "assign_status_in_progress": "Đang thực hiện",
+    "assign_status_closed": "Đã đóng",
+    "assign_status_on_hold": "Tạm dừng",
+    "assign_status_reject": "Từ chối",
+    "assign_status_completed": "Hoàn thành"
   }
 }

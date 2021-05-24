@@ -10,10 +10,11 @@ import {useSelector, useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import {showMessage} from 'react-native-flash-message';
 import ActionSheet from 'react-native-actions-sheet';
 import Picker from '@gregfrench/react-native-wheel-picker';
+import Icon from 'react-native-vector-icons/Feather';
 import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
@@ -35,7 +36,7 @@ const tasks = [
     label: 'Organize open source conference',
     grade: 'Admin',
     component: 'Conponnet',
-    piority: 'important',
+    piority: 'High',
     type: 'PHASE',
     status: 'In progress',
     startDate: '15/05/2021',
@@ -48,7 +49,7 @@ const tasks = [
         label: 'Set date and location of conference',
         grade: 'Admin',
         component: 'Conponnet',
-        piority: 'important',
+        piority: 'High',
         type: 'TASK',
         status: 'On hold',
         startDate: '15/05/2021',
@@ -62,7 +63,7 @@ const tasks = [
         label: 'Invite attendees to conference',
         grade: 'Admin',
         component: 'Conponnet',
-        piority: 'important',
+        piority: 'Low',
         type: 'TASK',
         status: 'New',
         startDate: '01/06/2021',
@@ -78,7 +79,7 @@ const tasks = [
     label: 'Conference',
     grade: 'Admin',
     component: 'Conponnet',
-    piority: 'important',
+    piority: 'Nomal',
     type: 'MILESTONE',
     status: 'Scheduled',
     startDate: '25/07/2021',
@@ -92,7 +93,7 @@ const tasks = [
     label: 'Follow-up tasks',
     grade: 'Admin',
     component: 'Conponnet',
-    piority: 'important',
+    piority: 'High',
     type: 'PHASE',
     status: 'To be scheduled',
     startDate: '26/07/2021',
@@ -105,7 +106,7 @@ const tasks = [
         label: 'Upload presentations to website',
         grade: 'Admin',
         component: 'Conponnet',
-        piority: 'important',
+        piority: 'High',
         type: 'TASK',
         status: 'New',
         startDate: '26/07/2021',
@@ -119,7 +120,7 @@ const tasks = [
         label: 'Invite attendees to conference',
         grade: 'Admin',
         component: 'Conponnet',
-        piority: 'important',
+        piority: 'High',
         type: 'TASK',
         status: 'New',
         startDate: '26/07/2021',
@@ -133,7 +134,7 @@ const tasks = [
         label: 'Invite attendees',
         grade: 'User',
         component: 'Conponnet',
-        piority: 'important',
+        piority: 'High',
         type: 'TASK',
         status: 'Rejected',
         startDate: '26/07/2021',
@@ -149,7 +150,7 @@ const tasks = [
     label: 'End of project',
     grade: 'Admin',
     component: 'Conponnet',
-    piority: 'important',
+    piority: 'Low',
     type: 'MILESTONE',
     status: 'New',
     startDate: '12/08/2021',
@@ -210,6 +211,7 @@ function ProjectDetail(props) {
     loadmore: false,
     isLoadmore: true,
   });
+  const [showFilter, setShowFilter] = useState(false);
   const [data, setData] = useState({
     fromDate: moment().clone().startOf('month').format(formatDate),
     toDate: moment().clone().endOf('month').format(formatDate),
@@ -223,8 +225,6 @@ function ProjectDetail(props) {
   });
 
   /** HANDLE FUNC */
-  const handleSearch = () => {};
-
   const handleChangeStatus = index => {
     let tasks = [...data.tasks];
     actionSheetStatusRef.current?.hide();
@@ -234,7 +234,13 @@ function ProjectDetail(props) {
     actionSheetStatusRef.current?.show();
   };
 
-  const handleFilter = () => {};
+  const handleShowFilter = () => {
+    setShowFilter(!showFilter);
+  };
+
+  const handleFilter = () => {
+    setShowFilter(!showFilter);
+  };
 
   /** FUNC */
   const onChangeStatus = index => {
@@ -282,12 +288,18 @@ function ProjectDetail(props) {
       }
       header
       hasBack
-      hasSearch
-      onPressSearch={handleSearch}
+      headerRight={
+        <TouchableOpacity style={cStyles.itemsEnd} onPress={handleShowFilter}>
+          <Icon
+            style={cStyles.p16}
+            name={'filter'}
+            color={'white'}
+            size={scalePx(3)}
+          />
+        </TouchableOpacity>
+      }
       content={
         <CContent>
-          <Filter onFilter={handleFilter} />
-
           {!loading.main && (
             <View style={[cStyles.flex1, cStyles.pt16]}>
               <ListTask
@@ -347,6 +359,8 @@ function ProjectDetail(props) {
               ))}
             </Picker>
           </ActionSheet>
+
+          <Filter show={showFilter} onFilter={handleFilter} />
         </CContent>
       }
     />

@@ -41,6 +41,7 @@ function CHeader(props) {
   const {customColors} = useTheme();
 
   const {
+    centerStyle = {},
     hasBack = false,
     hasMenu = false,
     hasSearch = false,
@@ -163,12 +164,13 @@ function CHeader(props) {
           <View
             style={[
               styles.con_body,
-              IS_ANDROID && (hasBack || hasMenu || left)
+              IS_ANDROID && (hasBack || hasMenu || left || right)
                 ? cStyles.justifyCenter
                 : cStyles.center,
+              centerStyle,
             ]}>
             <CText
-              customStyles={[cStyles.H6, cStyles.colorWhite]}
+              styles={'H6 colorWhite'}
               label={t(title)}
               customLabel={customTitle}
             />

@@ -26,7 +26,8 @@
     "type": "Asset ",
     "status": "Status ",
     "show_more": "Show more",
-    "choose": "Choose"
+    "choose": "Choose",
+    "reset": "Reset"
   },
   "success": {
     "title": "Successfully!",
@@ -286,5 +287,22 @@
     "holder_change_status": "Please select the status",
     "from_date": "From date ",
     "to_date": "To date ",
+    "filter": "Filters",
+    "date_filter": "Date",
+    "assigned_filter": "Assigned",
+    "status_filter": "Status",
+    "author_filter": "Author",
+    "assign_to_me": "Me",
+    "assign_to": "To",
+    "assign_to_any": "Any user",
+    "assign_status_any": "Any",
+    "assign_status_new": "All New",
+    "assign_status_to_be_schedule": "All To be scheduled",
+    "assign_status_schedule": "All Scheduled",
+    "assign_status_in_progress": "All In progress",
+    "assign_status_closed": "All Closed",
+    "assign_status_on_hold": "All On hold",
+    "assign_status_reject": "All Reject",
+    "assign_status_completed": "All Completed"
   }
 }
