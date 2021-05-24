@@ -17,6 +17,7 @@ import {scalePx} from '~/utils/helper';
 
 function RequestProcess(props) {
   const {data = [], customColors = {}, isDark = false} = props;
+  let isReject = false;
 
   return (
     <CCard
@@ -27,6 +28,9 @@ function RequestProcess(props) {
       cardContent={
         <View>
           {data.map((item, index) => {
+            if (!isReject && item.statusID === 0) {
+              isReject = true;
+            }
             return (
               <View
                 key={index.toString()}
@@ -102,6 +106,7 @@ function RequestProcess(props) {
                     <CText
                       customStyles={[
                         cStyles.textMeta,
+                        isReject && !item.approveDate && cStyles.textThrough,
                         {color: customColors.text},
                       ]}
                       label={
@@ -113,6 +118,7 @@ function RequestProcess(props) {
                       customStyles={[
                         cStyles.textMeta,
                         item.approveDate && cStyles.fontBold,
+                        isReject && !item.approveDate && cStyles.textThrough,
                         {color: customColors.text},
                       ]}
                       customLabel={item.personApproveName}
@@ -128,6 +134,7 @@ function RequestProcess(props) {
                     <CText
                       customStyles={[
                         cStyles.textMeta,
+                        isReject && !item.approveDate && cStyles.textThrough,
                         {color: customColors.text},
                       ]}
                       label={'add_approved_assets:status_approved'}
@@ -137,6 +144,7 @@ function RequestProcess(props) {
                         customStyles={[
                           cStyles.textMeta,
                           cStyles.fontBold,
+                          isReject && !item.approveDate && cStyles.textThrough,
                           {color: customColors.text},
                         ]}
                         customLabel={item.statusName}
@@ -145,6 +153,7 @@ function RequestProcess(props) {
                       <CText
                         customStyles={[
                           cStyles.textMeta,
+                          isReject && !item.approveDate && cStyles.textThrough,
                           {color: customColors.text},
                         ]}
                         label={'add_approved_assets:wait'}
@@ -162,6 +171,7 @@ function RequestProcess(props) {
                       <CText
                         customStyles={[
                           cStyles.textMeta,
+                          isReject && !item.approveDate && cStyles.textThrough,
                           {color: customColors.text},
                         ]}
                         label={'add_approved_assets:reason_reject'}
@@ -170,6 +180,7 @@ function RequestProcess(props) {
                         customStyles={[
                           cStyles.textMeta,
                           cStyles.fontBold,
+                          isReject && !item.approveDate && cStyles.textThrough,
                           {color: customColors.text},
                         ]}
                         customLabel={item.reason}
