@@ -32,7 +32,7 @@
     "title": "Thành Công",
     "send_request": "Đã gửi yêu cầu thành công!",
     "approved_request": "Phê duyệt yêu cầu thành công!",
-    "reject_request": "Hủy bỏ yêu cầu thành công!"
+    "reject_request": "Từ chối yêu cầu thành công!"
   },
   "error": {
     "title": "Lỗi",
