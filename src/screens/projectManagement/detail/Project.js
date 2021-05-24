@@ -12,8 +12,6 @@ import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import {showMessage} from 'react-native-flash-message';
-import ActionSheet from 'react-native-actions-sheet';
-import Picker from '@gregfrench/react-native-wheel-picker';
 import Icon from 'react-native-vector-icons/Feather';
 import moment from 'moment';
 /* COMPONENTS */
@@ -34,11 +32,13 @@ const tasks = [
   {
     id: 1,
     label: 'Organize open source conference',
+    description:
+      "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).",
     grade: 'Admin',
     component: 'Conponnet',
     piority: 'High',
     type: 'PHASE',
-    status: 'In progress',
+    status: 'In Progress',
     startDate: '15/05/2021',
     endDate: '27/07/2021',
     assignee: 'Alison Becker',
@@ -47,20 +47,25 @@ const tasks = [
       {
         id: 2,
         label: 'Set date and location of conference',
+        description:
+          "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).",
         grade: 'Admin',
         component: 'Conponnet',
         piority: 'High',
         type: 'TASK',
-        status: 'On hold',
+        status: 'On Hold',
         startDate: '15/05/2021',
         endDate: '31/05/2021',
         assignee: 'Wayne Rooney',
         parent: 1,
         childrens: [],
+        project: 'Project 2 - App Development',
       },
       {
         id: 3,
         label: 'Invite attendees to conference',
+        description:
+          "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).",
         grade: 'Admin',
         component: 'Conponnet',
         piority: 'Low',
@@ -71,12 +76,17 @@ const tasks = [
         assignee: 'Cristiano Ronaldo',
         parent: 1,
         childrens: [],
+        project: 'Project 2 - App Development',
       },
     ],
+    project: 'Project 2 - App Development',
   },
   {
     id: 4,
     label: 'Conference',
+    description:
+      "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).",
+
     grade: 'Admin',
     component: 'Conponnet',
     piority: 'Nomal',
@@ -87,15 +97,18 @@ const tasks = [
     assignee: 'David de Gea',
     parent: null,
     childrens: [],
+    project: 'Project 2 - App Development',
   },
   {
     id: 5,
     label: 'Follow-up tasks',
+    description:
+      "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).",
     grade: 'Admin',
     component: 'Conponnet',
     piority: 'High',
     type: 'PHASE',
-    status: 'To be scheduled',
+    status: 'To Be Schedule',
     startDate: '26/07/2021',
     endDate: '11/08/2021',
     assignee: 'David de Gea',
@@ -104,6 +117,9 @@ const tasks = [
       {
         id: 6,
         label: 'Upload presentations to website',
+        description:
+          "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).",
+
         grade: 'Admin',
         component: 'Conponnet',
         piority: 'High',
@@ -114,10 +130,14 @@ const tasks = [
         assignee: 'Wayne Rooney',
         parent: 5,
         childrens: [],
+        project: 'Project 2 - App Development',
       },
       {
         id: 7,
         label: 'Invite attendees to conference',
+        description:
+          "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).",
+
         grade: 'Admin',
         component: 'Conponnet',
         piority: 'High',
@@ -128,10 +148,13 @@ const tasks = [
         assignee: 'Wayne Rooney',
         parent: 5,
         childrens: [],
+        project: 'Project 2 - App Development',
       },
       {
         id: 8,
         label: 'Invite attendees',
+        description:
+          "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).",
         grade: 'User',
         component: 'Conponnet',
         piority: 'High',
@@ -142,12 +165,16 @@ const tasks = [
         assignee: 'Wayne Rooney',
         parent: 5,
         childrens: [],
+        project: 'Project 2 - App Development',
       },
     ],
+    project: 'Project 2 - App Development',
   },
   {
     id: 8,
     label: 'End of project',
+    description:
+      "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).",
     grade: 'Admin',
     component: 'Conponnet',
     piority: 'Low',
@@ -158,38 +185,7 @@ const tasks = [
     assignee: 'David de Gea',
     parent: null,
     childrens: [],
-  },
-];
-/** All refs use in this screen */
-const actionSheetStatusRef = createRef();
-const STATUS = [
-  {
-    value: Commons.STATUS_TASK.NEW.value,
-    label: Commons.STATUS_TASK.NEW.name,
-  },
-  {
-    value: Commons.STATUS_TASK.TO_BE_SCHEDULE.value,
-    label: Commons.STATUS_TASK.TO_BE_SCHEDULE.name,
-  },
-  {
-    value: Commons.STATUS_TASK.SCHEDULE.value,
-    label: Commons.STATUS_TASK.SCHEDULE.name,
-  },
-  {
-    value: Commons.STATUS_TASK.IN_PROCESS.value,
-    label: Commons.STATUS_TASK.IN_PROCESS.name,
-  },
-  {
-    value: Commons.STATUS_TASK.CLOSED.value,
-    label: Commons.STATUS_TASK.CLOSED.name,
-  },
-  {
-    value: Commons.STATUS_TASK.ON_HOLD.value,
-    label: Commons.STATUS_TASK.ON_HOLD.name,
-  },
-  {
-    value: Commons.STATUS_TASK.REJECTED.value,
-    label: Commons.STATUS_TASK.REJECTED.name,
+    project: 'Project 2 - App Development',
   },
 ];
 
@@ -219,32 +215,14 @@ function ProjectDetail(props) {
     tasks: [],
     page: 1,
   });
-  const [status, setStatus] = useState({
-    data: STATUS,
-    active: 0,
-  });
 
   /** HANDLE FUNC */
-  const handleChangeStatus = index => {
-    let tasks = [...data.tasks];
-    actionSheetStatusRef.current?.hide();
-  };
-
-  const handleShowChangeStatus = () => {
-    actionSheetStatusRef.current?.show();
-  };
-
   const handleShowFilter = () => {
     setShowFilter(!showFilter);
   };
 
   const handleFilter = () => {
     setShowFilter(!showFilter);
-  };
-
-  /** FUNC */
-  const onChangeStatus = index => {
-    setStatus({...status, active: index});
   };
 
   /** FUNC */
@@ -310,65 +288,14 @@ function ProjectDetail(props) {
                 isDark={isDark}
                 onRefresh={onRefresh}
                 onLoadmore={onLoadmore}
-                onChangeStatus={handleShowChangeStatus}
               />
             </View>
           )}
-
-          <ActionSheet
-            ref={actionSheetStatusRef}
-            headerAlwaysVisible={true}
-            elevation={2}
-            indicatorColor={customColors.text}
-            containerStyle={{
-              backgroundColor: customColors.background,
-              borderColor: customColors.card,
-              borderWidth: 1,
-            }}
-            gestureEnabled={true}
-            defaultOverlayOpacity={isDark ? 0.8 : 0.5}
-            CustomHeaderComponent={
-              <View
-                style={[
-                  cStyles.pt16,
-                  cStyles.px16,
-                  cStyles.row,
-                  cStyles.itemsCenter,
-                  cStyles.justifyBetween,
-                  cStyles.roundedTopLeft2,
-                  cStyles.roundedTopRight2,
-                  {backgroundColor: customColors.background},
-                ]}>
-                <CText
-                  styles={'textMeta'}
-                  label={'project_management:holder_change_status'}
-                />
-                <CButton
-                  label={'common:choose'}
-                  onPress={() => handleChangeStatus(0)}
-                />
-              </View>
-            }>
-            <Picker
-              style={styles.con_action}
-              itemStyle={{color: customColors.text, fontSize: scalePx(3)}}
-              selectedValue={status.active}
-              onValueChange={onChangeStatus}>
-              {status.data.map((value, i) => (
-                <Picker.Item label={value.label} value={i} key={i} />
-              ))}
-            </Picker>
-          </ActionSheet>
-
           <Filter show={showFilter} onFilter={handleFilter} />
         </CContent>
       }
     />
   );
 }
-
-const styles = StyleSheet.create({
-  con_action: {width: '100%', height: sH('25%')},
-});
 
 export default ProjectDetail;

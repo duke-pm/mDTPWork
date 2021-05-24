@@ -26,6 +26,7 @@ import AddRequestLostDamage from '~/screens/approved/addLostDamage/Request';
 /** PROJECT MANAGEMENT */
 import ProjectManagement from '~/screens/projectManagement';
 import ProjectDetail from '~/screens/projectManagement/detail/Project';
+import TaskDetail from '~/screens/projectManagement/detail/Task';
 
 const Routes = {
   AUTHENTICATION: {
@@ -103,6 +104,10 @@ const Routes = {
     PROJECT_DETAIL: {
       name: 'ProjectDetail',
       path: ProjectDetail,
+    },
+    TASK_DETAIL: {
+      name: 'TaskDetail',
+      path: TaskDetail,
     },
   },
 };

@@ -16,14 +16,15 @@ import {
   LayoutAnimation,
   UIManager,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Feather';
 /* COMPONENTS */
 import CText from '~/components/CText';
 import ListTask from '../list/Task';
 import CIconButton from '~/components/CIconButton';
 /* COMMON */
+import Routes from '~/navigation/Routes';
 import {colors, cStyles} from '~/utils/style';
-import {IS_ANDROID, IS_IOS, scalePx} from '~/utils/helper';
+import {IS_ANDROID, IS_IOS} from '~/utils/helper';
+import Commons from '~/utils/common/Commons';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -34,12 +35,19 @@ if (IS_ANDROID) {
 const TaskItem = React.memo(function TaskItem(props) {
   const {t} = useTranslation();
   const navigation = useNavigation();
-  const {index, data, customColors, isDark, onPress, onChangeStatus} = props;
+  const {index, data, customColors, isDark} = props;
 
   const commonState = useSelector(({common}) => common);
 
   const [showChildren, setShowChildren] = useState(false);
   const [valueAnim] = useState(new Animated.Value(0));
+
+  /** HANDLE FUNC */
+  const handleTaskItem = () => {
+    navigation.navigate(Routes.MAIN.TASK_DETAIL.name, {
+      data,
+    });
+  };
 
   const handleShowChildren = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
@@ -51,6 +59,7 @@ const TaskItem = React.memo(function TaskItem(props) {
     setShowChildren(!showChildren);
   };
 
+  /** RENDER */
   let type = '',
     bgStatus = '',
     isReject = false;
@@ -62,19 +71,19 @@ const TaskItem = React.memo(function TaskItem(props) {
     type = 'colorGreen';
   }
 
-  if (data.status === 'New') {
+  if (data.status === Commons.STATUS_TASK.NEW.label) {
     bgStatus = customColors.statusNew;
-  } else if (data.status === 'To be scheduled') {
+  } else if (data.status === Commons.STATUS_TASK.TO_BE_SCHEDULE.label) {
     bgStatus = customColors.stausToBeSchedule;
-  } else if (data.status === 'Scheduled') {
+  } else if (data.status === Commons.STATUS_TASK.SCHEDULE.label) {
     bgStatus = customColors.statusSchedule;
-  } else if (data.status === 'In progress') {
+  } else if (data.status === Commons.STATUS_TASK.IN_PROCESS.label) {
     bgStatus = customColors.statusInProcess;
-  } else if (data.status === 'Closed') {
+  } else if (data.status === Commons.STATUS_TASK.CLOSED.label) {
     bgStatus = customColors.statusClose;
-  } else if (data.status === 'On hold') {
+  } else if (data.status === Commons.STATUS_TASK.ON_HOLD.label) {
     bgStatus = customColors.statusOnHold;
-  } else if (data.status === 'Rejected') {
+  } else if (data.status === Commons.STATUS_TASK.REJECTED.label) {
     isReject = true;
     bgStatus = customColors.statusReject;
   }
@@ -85,17 +94,7 @@ const TaskItem = React.memo(function TaskItem(props) {
 
   return (
     <View>
-      {showChildren && (
-        <View style={{position: 'absolute', bottom: 20, left: 5}}>
-          <Icon
-            name={'arrow-right'}
-            color={colors.GRAY_400}
-            size={scalePx(1.8)}
-          />
-        </View>
-      )}
-
-      <TouchableOpacity disabled={props.loading} onPress={onPress}>
+      <TouchableOpacity disabled={props.loading} onPress={handleTaskItem}>
         <View
           style={[
             cStyles.p10,
@@ -230,33 +229,27 @@ const TaskItem = React.memo(function TaskItem(props) {
                 />
               </View>
 
-              <TouchableOpacity onPress={onChangeStatus}>
-                <View
-                  style={[
-                    cStyles.row,
-                    cStyles.itemsStart,
-                    cStyles.justifyStart,
-                  ]}>
-                  <CText
-                    styles={'textMeta'}
-                    label={'project_management:status'}
+              <View
+                style={[cStyles.row, cStyles.itemsStart, cStyles.justifyStart]}>
+                <CText
+                  styles={'textMeta'}
+                  label={'project_management:status'}
+                />
+                <View style={[cStyles.row, cStyles.itemsCenter]}>
+                  <View
+                    style={{
+                      height: 10,
+                      width: 10,
+                      borderRadius: 10,
+                      backgroundColor: bgStatus,
+                    }}
                   />
-                  <View style={[cStyles.row, cStyles.itemsCenter]}>
-                    <View
-                      style={{
-                        height: 10,
-                        width: 10,
-                        borderRadius: 10,
-                        backgroundColor: bgStatus,
-                      }}
-                    />
-                    <CText
-                      styles={'textMeta fontBold pl6'}
-                      customLabel={data.status}
-                    />
-                  </View>
+                  <CText
+                    styles={'textMeta fontBold pl6'}
+                    customLabel={data.status}
+                  />
                 </View>
-              </TouchableOpacity>
+              </View>
             </View>
           </View>
         </View>
@@ -278,7 +271,7 @@ const TaskItem = React.memo(function TaskItem(props) {
             data={data.childrens}
             customColors={customColors}
             isDark={isDark}
-            onChangeStatus={onChangeStatus}
+            onPress={handleTaskItem} 
           />
         </View>
       )}

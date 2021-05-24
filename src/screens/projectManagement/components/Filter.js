@@ -142,8 +142,6 @@ function Filter(props) {
     statusNew: false,
     statusInProgress: false,
     statusOnHold: false,
-    statusClosed: false,
-    statusRejected: false,
     statusCompleted: false,
   });
 
@@ -168,8 +166,6 @@ function Filter(props) {
       statusNew: false,
       statusInProgress: false,
       statusOnHold: false,
-      statusClosed: false,
-      statusRejected: false,
       statusCompleted: false,
     });
   };
@@ -204,8 +200,6 @@ function Filter(props) {
       statusNew: !data.statusAll,
       statusInProgress: !data.statusAll,
       statusOnHold: !data.statusAll,
-      statusClosed: !data.statusAll,
-      statusRejected: !data.statusAll,
       statusCompleted: !data.statusAll,
       statusAll: !data.statusAll,
     });
@@ -394,25 +388,9 @@ function Filter(props) {
             {!data.statusAll &&
               RowStatus(
                 customColors,
-                'statusClosed',
-                data.statusClosed,
-                'project_management:assign_status_closed',
-                onChangeStatus,
-              )}
-            {!data.statusAll &&
-              RowStatus(
-                customColors,
                 'statusOnHold',
                 data.statusOnHold,
                 'project_management:assign_status_on_hold',
-                onChangeStatus,
-              )}
-            {!data.statusAll &&
-              RowStatus(
-                customColors,
-                'statusRejected',
-                data.statusRejected,
-                'project_management:assign_status_reject',
                 onChangeStatus,
               )}
             {!data.statusAll &&

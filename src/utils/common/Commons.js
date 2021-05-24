@@ -87,7 +87,7 @@ const Commons = {
     },
     IN_PROCESS: {
       value: 3,
-      label: 'In Process',
+      label: 'In Progress',
     },
     CLOSED: {
       value: 4,
@@ -100,6 +100,10 @@ const Commons = {
     REJECTED: {
       value: 6,
       label: 'Rejected',
+    },
+    COMPLETED: {
+      value: 7,
+      label: 'Completed',
     },
   },
 };

@@ -5,16 +5,12 @@
  ** Description: Description of Task.js
  **/
 import React from 'react';
-import {useNavigation} from '@react-navigation/native';
 /* COMPONENTS */
 import TaskItem from '../components/TaskItem';
 import CList from '~/components/CList';
 
 function ListTask(props) {
-  const {customColors, isDark, onLoadmore, onRefresh, onChangeStatus} = props;
-
-  /** HANDLE FUNC */
-  const handleTaskItem = data => {};
+  const {customColors, isDark, onLoadmore, onRefresh} = props;
 
   /** RENDER */
   return (
@@ -28,8 +24,6 @@ function ListTask(props) {
             customColors={customColors}
             isDark={isDark}
             onRefresh={onRefresh}
-            onPress={handleTaskItem}
-            onChangeStatus={onChangeStatus}
           />
         );
       }}

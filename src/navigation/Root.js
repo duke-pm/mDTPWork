@@ -154,6 +154,10 @@ export function RootMain(props) {
         name={Routes.MAIN.PROJECT_DETAIL.name}
         component={Routes.MAIN.PROJECT_DETAIL.path}
       />
+      <StackMain.Screen
+        name={Routes.MAIN.TASK_DETAIL.name}
+        component={Routes.MAIN.TASK_DETAIL.path}
+      />
     </StackMain.Navigator>
   );
 }

@@ -23,8 +23,8 @@ function CAvatar(props) {
     size = 'small', // small | medium | large
     source = null,
     isEdit = false,
-    customColors = { },
-    } = props;
+    customColors = {},
+  } = props;
 
   const [loading, setLoading] = useState(true);
   const [anim, setAnim] = useState(new Animated.Value(1));
@@ -131,8 +131,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.WHITE,
   },
   container_small: {
-    height: sW('12%'),
-    width: sW('12%'),
+    height: sW('9%'),
+    width: sW('9%'),
   },
   container_medium: {
     height: sW('17%'),
@@ -142,26 +142,28 @@ const styles = StyleSheet.create({
     height: sW('24%'),
     width: sW('24%'),
   },
+
   image_small: {
-    height: sW('10%'),
-    width: sW('10%'),
+    height: sW('8%'),
+    width: sW('8%'),
   },
   image_medium: {
-    height: sW('15%'),
-    width: sW('15%'),
+    height: sW('15.5%'),
+    width: sW('15.5%'),
   },
   image_large: {
     height: sW('22%'),
     width: sW('22%'),
   },
+
   container_icon_camera: {
     bottom: 0,
     right: 0,
     backgroundColor: colors.WHITE,
   },
   icon_camera_small: {
-    height: sW('4.5%'),
-    width: sW('4.5%'),
+    height: sW('2.8%'),
+    width: sW('2.8%'),
   },
   icon_camera_medium: {
     height: sW('6%'),
