@@ -1,6 +1,5 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /**
- ** Name: Filter request
+ ** Name: Filter
  ** Author:
  ** CreateAt: 2021
  ** Description: Description of Filter.js
@@ -30,48 +29,50 @@ import CGroupFilter from '~/components/CGroupFilter';
 import {colors, cStyles} from '~/utils/style';
 import {IS_ANDROID, scalePx} from '~/utils/helper';
 import {usePrevious} from '~/utils/hook';
+import Commons from '~/utils/common/Commons';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
   }
 }
-
 const INPUT_NAME = {
   FROM_DATE: 'fromDate',
   TO_DATE: 'toDate',
 };
-const TYPES_ASSETS = [
+const STATUS_TASK = [
   {
-    value: 1,
-    label: 'list_request_assets_handling:title_add',
+    value: Commons.STATUS_TASK.NEW.value,
+    label: Commons.STATUS_TASK.NEW.label,
   },
   {
-    value: 2,
-    label: 'list_request_assets_handling:title_damaged',
+    value: Commons.STATUS_TASK.TO_BE_SCHEDULE.value,
+    label: Commons.STATUS_TASK.TO_BE_SCHEDULE.label,
   },
   {
-    value: 3,
-    label: 'list_request_assets_handling:title_lost',
-  },
-];
-const STATUS_REQUEST = [
-  {
-    value: 1,
-    label: 'approved_assets:status_wait',
+    value: Commons.STATUS_TASK.SCHEDULE.value,
+    label: Commons.STATUS_TASK.SCHEDULE.label,
   },
   {
-    value: 2,
-    label: 'approved_assets:status_approved_done',
+    value: Commons.STATUS_TASK.IN_PROCESS.value,
+    label: Commons.STATUS_TASK.IN_PROCESS.label,
   },
   {
-    value: 4,
-    label: 'approved_assets:status_reject',
+    value: Commons.STATUS_TASK.CLOSED.value,
+    label: Commons.STATUS_TASK.CLOSED.label,
+  },
+  {
+    value: Commons.STATUS_TASK.ON_HOLD.value,
+    label: Commons.STATUS_TASK.ON_HOLD.label,
+  },
+  {
+    value: Commons.STATUS_TASK.REJECTED.value,
+    label: Commons.STATUS_TASK.REJECTED.label,
   },
 ];
 
 function Filter(props) {
-  const {isResolve = false, onFilter = () => {}} = props;
+  const {onFilter = () => {}} = props;
   const {t} = useTranslation();
   const {customColors} = useTheme();
 
@@ -89,9 +90,7 @@ function Filter(props) {
   const [data, setData] = useState({
     fromDate: moment().clone().startOf('month').format(formatDate),
     toDate: moment().clone().endOf('month').format(formatDate),
-    status: [1, 2, 3, 4],
-    type: [1, 2, 3],
-    resolveRequest: isResolve,
+    status: [0, 1, 2, 3, 4, 5, 6],
   });
 
   /** Use previous */
@@ -115,10 +114,6 @@ function Filter(props) {
     });
   };
 
-  const handleChangeType = typesChoose => {
-    setData({...data, type: typesChoose});
-  };
-
   const handleChangeStatus = statusChoose => {
     let tmp = statusChoose;
     let index = tmp.indexOf(2);
@@ -137,13 +132,7 @@ function Filter(props) {
         icon: 'danger',
       });
     } else {
-      onFilter(
-        data.fromDate,
-        data.toDate,
-        data.status.join(),
-        data.type.join(),
-        data.resolveRequest,
-      );
+      onFilter(data.fromDate, data.toDate, data.status.join());
       handleToggle();
     }
   };
@@ -171,7 +160,6 @@ function Filter(props) {
           fromDate: props.data.fromDate,
           toDate: props.data.toDate,
           status: JSON.parse('[' + props.data.status + ']'),
-          type: JSON.parse('[' + props.data.type + ']'),
         });
       }
     }
@@ -193,6 +181,7 @@ function Filter(props) {
         {backgroundColor: customColors.card},
       ]}>
       <TouchableOpacity activeOpacity={1} onPress={handleToggle}>
+        {/** Header of filter */}
         <View
           style={[
             cStyles.row,
@@ -214,14 +203,16 @@ function Filter(props) {
         </View>
       </TouchableOpacity>
 
+      {/** Content of filter */}
       {show && (
         <View style={cStyles.px16}>
+          {/** From date */}
           <View
             style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween]}>
             <View style={styles.text_date}>
               <CText
                 styles={'fontMedium pt16 textLeft'}
-                label={'approved_assets:from_date'}
+                label={'project_management:from_date'}
               />
             </View>
             <CInput
@@ -244,12 +235,13 @@ function Filter(props) {
             />
           </View>
 
+          {/** To date */}
           <View
             style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween]}>
             <View style={styles.text_date}>
               <CText
                 styles={'fontMedium pt16 textLeft'}
-                label={'approved_assets:to_date'}
+                label={'project_management:to_date'}
               />
             </View>
             <CInput
@@ -272,25 +264,13 @@ function Filter(props) {
             />
           </View>
 
-          {isResolve && (
-            <CGroupFilter
-              row
-              label={'common:type'}
-              items={TYPES_ASSETS}
-              itemsChoose={data.type}
-              onChange={handleChangeType}
-            />
-          )}
-
-          {!isResolve && (
-            <CGroupFilter
-              row
-              label={'common:status'}
-              items={STATUS_REQUEST}
-              itemsChoose={data.status}
-              onChange={handleChangeStatus}
-            />
-          )}
+          <CGroupFilter
+            row
+            label={'common:status'}
+            items={STATUS_TASK}
+            itemsChoose={data.status}
+            onChange={handleChangeStatus}
+          />
 
           <View
             style={[
@@ -327,13 +307,9 @@ function Filter(props) {
     </View>
   );
 }
-
 const styles = StyleSheet.create({
   text_date: {flex: 0.3},
   input_date: {flex: 0.7},
-  con_input_status: {
-    backgroundColor: IS_ANDROID ? 'transparent' : colors.WHITE,
-  },
 });
 
 export default Filter;

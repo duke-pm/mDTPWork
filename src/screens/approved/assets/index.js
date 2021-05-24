@@ -69,7 +69,7 @@ function ApprovedAssets(props) {
       PageSize: perPage,
       PageNum: page,
       Search: search,
-      RequestTypeID: Commons.APPROVED_TYPE.ASSETS.code + '',
+      RequestTypeID: Commons.APPROVED_TYPE.ASSETS.value + '',
       IsResolveRequest: false,
       RefreshToken: authState.getIn(['login', 'refreshToken']),
       Lang: commonState.get('language'),

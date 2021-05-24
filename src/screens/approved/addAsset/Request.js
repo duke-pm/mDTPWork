@@ -445,7 +445,7 @@ function AddRequest(props) {
     setLoading({...loading, submitApproved: true});
     let params = {
       RequestID: form.id,
-      RequestTypeID: Commons.APPROVED_TYPE.ASSETS.code,
+      RequestTypeID: Commons.APPROVED_TYPE.ASSETS.value,
       PersonRequestID: form.personRequestId,
       Status: true,
       Reason: '',
@@ -459,7 +459,7 @@ function AddRequest(props) {
     setLoading({...loading, submitReject: true});
     let params = {
       RequestID: form.id,
-      RequestTypeID: Commons.APPROVED_TYPE.ASSETS.code,
+      RequestTypeID: Commons.APPROVED_TYPE.ASSETS.value,
       PersonRequestID: form.personRequestId,
       Status: false,
       Reason: reason,

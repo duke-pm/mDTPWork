@@ -38,7 +38,7 @@ function ListRequestAll(props) {
       fromDate: moment().clone().startOf('month').format(formatDate),
       toDate: moment().clone().endOf('month').format(formatDate),
       status: '1,2,3,4',
-      type: Commons.APPROVED_TYPE.ASSETS.code + '',
+      type: Commons.APPROVED_TYPE.ASSETS.value + '',
       search: '',
       isRefresh: true,
     },
@@ -48,7 +48,7 @@ function ListRequestAll(props) {
       fromDate: moment().clone().startOf('month').format(formatDate),
       toDate: moment().clone().endOf('month').format(formatDate),
       status: '1,2,3,4',
-      type: Commons.APPROVED_TYPE.DAMAGED.code + '',
+      type: Commons.APPROVED_TYPE.DAMAGED.value + '',
       search: '',
       isRefresh: true,
     },
@@ -58,7 +58,7 @@ function ListRequestAll(props) {
       fromDate: moment().clone().startOf('month').format(formatDate),
       toDate: moment().clone().endOf('month').format(formatDate),
       status: '1,2,3,4',
-      type: Commons.APPROVED_TYPE.LOST.code + '',
+      type: Commons.APPROVED_TYPE.LOST.value + '',
       search: '',
       isRefresh: true,
     },
@@ -68,17 +68,17 @@ function ListRequestAll(props) {
   const handleAddNew = () => {
     if (index === 1) {
       props.navigation.navigate(Routes.MAIN.ADD_APPROVED_LOST_DAMAGED.name, {
-        type: Commons.APPROVED_TYPE.DAMAGED.code,
+        type: Commons.APPROVED_TYPE.DAMAGED.value,
         onRefresh: () => handleRefresh(index),
       });
     } else if (index === 2) {
       props.navigation.navigate(Routes.MAIN.ADD_APPROVED_LOST_DAMAGED.name, {
-        type: Commons.APPROVED_TYPE.LOST.code,
+        type: Commons.APPROVED_TYPE.LOST.value,
         onRefresh: () => handleRefresh(index),
       });
     } else {
       props.navigation.navigate(Routes.MAIN.ADD_APPROVED_ASSETS.name, {
-        type: Commons.APPROVED_TYPE.ASSETS.code,
+        type: Commons.APPROVED_TYPE.ASSETS.value,
         onRefresh: () => handleRefresh(index),
       });
     }

@@ -21,9 +21,10 @@ import CContent from '~/components/CContent';
 import CText from '~/components/CText';
 import CButton from '~/components/CButton';
 import ListTask from '../list/Task';
+import Filter from '../components/Filter';
 /* COMMON */
 import {LOAD_MORE, REFRESH} from '~/config/constants';
-import { cStyles } from '~/utils/style';
+import {cStyles} from '~/utils/style';
 import {scalePx, sH} from '~/utils/helper';
 import Commons from '~/utils/common/Commons';
 /* REDUX */
@@ -162,31 +163,31 @@ const tasks = [
 const actionSheetStatusRef = createRef();
 const STATUS = [
   {
-    value: Commons.STATUS_TASK.NEW.code,
+    value: Commons.STATUS_TASK.NEW.value,
     label: Commons.STATUS_TASK.NEW.name,
   },
   {
-    value: Commons.STATUS_TASK.TO_BE_SCHEDULE.code,
+    value: Commons.STATUS_TASK.TO_BE_SCHEDULE.value,
     label: Commons.STATUS_TASK.TO_BE_SCHEDULE.name,
   },
   {
-    value: Commons.STATUS_TASK.SCHEDULE.code,
+    value: Commons.STATUS_TASK.SCHEDULE.value,
     label: Commons.STATUS_TASK.SCHEDULE.name,
   },
   {
-    value: Commons.STATUS_TASK.IN_PROCESS.code,
+    value: Commons.STATUS_TASK.IN_PROCESS.value,
     label: Commons.STATUS_TASK.IN_PROCESS.name,
   },
   {
-    value: Commons.STATUS_TASK.CLOSED.code,
+    value: Commons.STATUS_TASK.CLOSED.value,
     label: Commons.STATUS_TASK.CLOSED.name,
   },
   {
-    value: Commons.STATUS_TASK.ON_HOLD.code,
+    value: Commons.STATUS_TASK.ON_HOLD.value,
     label: Commons.STATUS_TASK.ON_HOLD.name,
   },
   {
-    value: Commons.STATUS_TASK.REJECTED.code,
+    value: Commons.STATUS_TASK.REJECTED.value,
     label: Commons.STATUS_TASK.REJECTED.name,
   },
 ];
@@ -224,7 +225,7 @@ function ProjectDetail(props) {
   /** HANDLE FUNC */
   const handleSearch = () => {};
 
-  const handleChangeStatus = (index) => {
+  const handleChangeStatus = index => {
     let tasks = [...data.tasks];
     actionSheetStatusRef.current?.hide();
   };
@@ -232,6 +233,8 @@ function ProjectDetail(props) {
   const handleShowChangeStatus = () => {
     actionSheetStatusRef.current?.show();
   };
+
+  const handleFilter = () => {};
 
   /** FUNC */
   const onChangeStatus = index => {
@@ -283,7 +286,9 @@ function ProjectDetail(props) {
       onPressSearch={handleSearch}
       content={
         <CContent>
-          {!loading.main &&
+          <Filter onFilter={handleFilter} />
+
+          {!loading.main && (
             <View style={[cStyles.flex1, cStyles.pt16]}>
               <ListTask
                 refreshing={loading.refreshing}
@@ -296,7 +301,7 @@ function ProjectDetail(props) {
                 onChangeStatus={handleShowChangeStatus}
               />
             </View>
-          }
+          )}
 
           <ActionSheet
             ref={actionSheetStatusRef}

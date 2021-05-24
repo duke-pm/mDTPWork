@@ -35,7 +35,7 @@ const RequestItem = React.memo(function RequestItem(props) {
   /** HANDLE FUNC */
   const handleRequestItem = () => {
     let route = Routes.MAIN.ADD_APPROVED_LOST_DAMAGED.name;
-    if (props.data.requestTypeID === Commons.APPROVED_TYPE.ASSETS.code) {
+    if (props.data.requestTypeID === Commons.APPROVED_TYPE.ASSETS.value) {
       route = Routes.MAIN.ADD_APPROVED_ASSETS.name;
     }
 
@@ -52,7 +52,7 @@ const RequestItem = React.memo(function RequestItem(props) {
   let statusIcon = Assets.iconRequest;
   let colorText = 'colorOrange';
 
-  if (props.data.requestTypeID !== Commons.APPROVED_TYPE.ASSETS.code) {
+  if (props.data.requestTypeID !== Commons.APPROVED_TYPE.ASSETS.value) {
     title =
       t('approved_lost_damaged:title_request_item_1') +
       props.data.requestTypeName +
@@ -61,12 +61,12 @@ const RequestItem = React.memo(function RequestItem(props) {
   }
 
   if (
-    props.data.statusID === Commons.STATUS_REQUEST.APPROVED.code ||
-    props.data.statusID === Commons.STATUS_REQUEST.DONE.code
+    props.data.statusID === Commons.STATUS_REQUEST.APPROVED.value ||
+    props.data.statusID === Commons.STATUS_REQUEST.DONE.value
   ) {
     statusIcon = Assets.iconApproved;
     colorText = 'colorGreen';
-  } else if (props.data.statusID === Commons.STATUS_REQUEST.REJECT.code) {
+  } else if (props.data.statusID === Commons.STATUS_REQUEST.REJECT.value) {
     statusIcon = Assets.iconReject;
     colorText = 'colorRed';
   }

@@ -29,7 +29,7 @@ function CIconButton(props) {
         style={cStyles.p4}
         name={iconName}
         color={iconColor}
-        size={scalePx(3.5)}
+        size={scalePx(3)}
         {...iconProps}
       />
     </TouchableOpacity>

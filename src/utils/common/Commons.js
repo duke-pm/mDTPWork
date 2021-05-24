@@ -1,3 +1,5 @@
+import { colors } from "../style";
+
 /**
  ** Name: Common
  ** Author:
@@ -34,65 +36,70 @@ const Commons = {
 
   APPROVED_TYPE: {
     ASSETS: {
-      code: 1,
-      name: 'add',
+      value: 1,
+      label: 'add',
     },
     DAMAGED: {
-      code: 2,
-      name: 'damage',
+      value: 2,
+      label: 'damage',
     },
     LOST: {
-      code: 3,
-      name: 'lost',
+      value: 3,
+      label: 'lost',
     },
   },
 
   STATUS_REQUEST: {
     ALL: {
-      code: 0,
+      value: 0,
+      label: 'All',
     },
     WAIT: {
-      code: 1,
+      value: 1,
+      label: 'Wait',
     },
     APPROVED: {
-      code: 2,
+      value: 2,
+      label: 'Approved',
     },
     DONE: {
-      code: 3,
+      value: 3,
+      label: 'Done',
     },
     REJECT: {
-      code: 4,
+      value: 4,
+      label: 'Reject',
     },
   },
 
   STATUS_TASK: {
     NEW: {
-      code: 0,
-      name: 'New',
+      value: 0,
+      label: 'New',
     },
     TO_BE_SCHEDULE: {
-      code: 1,
-      name: 'To Be Schedule',
+      value: 1,
+      label: 'To Be Schedule',
     },
     SCHEDULE: {
-      code: 2,
-      name: 'Scheduled',
+      value: 2,
+      label: 'Scheduled',
     },
     IN_PROCESS: {
-      code: 3,
-      name: 'In Process',
+      value: 3,
+      label: 'In Process',
     },
     CLOSED: {
-      code: 4,
-      name: 'Closed',
+      value: 4,
+      label: 'Closed',
     },
     ON_HOLD: {
-      code: 5,
-      name: 'On Hold',
+      value: 5,
+      label: 'On Hold',
     },
     REJECTED: {
-      code: 6,
-      name: 'Rejected',
+      value: 6,
+      label: 'Rejected',
     },
   },
 };

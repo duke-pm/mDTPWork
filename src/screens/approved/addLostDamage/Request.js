@@ -80,7 +80,7 @@ function AddRequest(props) {
   const [form, setForm] = useState({
     dateRequest: moment().format(commonState.get('formatDate')),
     reason: '',
-    typeUpdate: Commons.APPROVED_TYPE.DAMAGED.code, // 2: Damage or 3: Lost
+    typeUpdate: Commons.APPROVED_TYPE.DAMAGED.value, // 2: Damage or 3: Lost
     assetID: '',
     file: null,
     fileBase64: '',
@@ -150,7 +150,7 @@ function AddRequest(props) {
   const handleApproved = () => {
     alert(
       t,
-      form.typeUpdate === Commons.APPROVED_TYPE.DAMAGED.code
+      form.typeUpdate === Commons.APPROVED_TYPE.DAMAGED.value
         ? 'add_approved_lost_damaged:message_confirm_approved_damage'
         : 'add_approved_lost_damaged:message_confirm_approved_lost',
       onApproved,
@@ -226,7 +226,7 @@ function AddRequest(props) {
       formData.append('Reasons', form.reason);
       formData.append(
         'TypeUpdate',
-        form.typeUpdate === Commons.APPROVED_TYPE.DAMAGED.code
+        form.typeUpdate === Commons.APPROVED_TYPE.DAMAGED.value
           ? 'Damage'
           : 'Lost',
       );
@@ -290,7 +290,7 @@ function AddRequest(props) {
       reason: isDetail ? props.route.params?.data?.reason : '',
       typeUpdate: isDetail
         ? props.route.params?.data?.requestTypeID
-        : Commons.APPROVED_TYPE.DAMAGED.code,
+        : Commons.APPROVED_TYPE.DAMAGED.value,
       status: isDetail ? props.route.params?.data?.statusID : 1,
       isAllowApproved: isDetail
         ? props.route.params?.data?.isAllowApproved
@@ -584,13 +584,13 @@ function AddRequest(props) {
                     <View style={[cStyles.row, cStyles.itemsCenter]}>
                       <Icon
                         name={
-                          form.typeUpdate === Commons.APPROVED_TYPE.DAMAGED.code
+                          form.typeUpdate === Commons.APPROVED_TYPE.DAMAGED.value
                             ? 'check-circle'
                             : 'circle'
                         }
                         size={scalePx(3)}
                         color={
-                          form.typeUpdate === Commons.APPROVED_TYPE.DAMAGED.code
+                          form.typeUpdate === Commons.APPROVED_TYPE.DAMAGED.value
                             ? colors.SECONDARY
                             : customColors.text
                         }
@@ -609,13 +609,13 @@ function AddRequest(props) {
                     <View style={[cStyles.row, cStyles.itemsCenter]}>
                       <Icon
                         name={
-                          form.typeUpdate === Commons.APPROVED_TYPE.LOST.code
+                          form.typeUpdate === Commons.APPROVED_TYPE.LOST.value
                             ? 'check-circle'
                             : 'circle'
                         }
                         size={scalePx(3)}
                         color={
-                          form.typeUpdate === Commons.APPROVED_TYPE.LOST.code
+                          form.typeUpdate === Commons.APPROVED_TYPE.LOST.value
                             ? colors.SECONDARY
                             : customColors.text
                         }
@@ -789,7 +789,7 @@ function AddRequest(props) {
             loading={loading.submitReject}
             showReject={showReject}
             description={
-              form.typeUpdate === Commons.APPROVED_TYPE.DAMAGED.code
+              form.typeUpdate === Commons.APPROVED_TYPE.DAMAGED.value
                 ? 'add_approved_lost_damaged:message_confirm_reject_damage'
                 : 'add_approved_lost_damaged:message_confirm_reject_lost'
             }

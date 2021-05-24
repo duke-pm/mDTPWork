@@ -284,5 +284,7 @@
     "end_date": "Kết thúc: ",
     "assignee": "Giao cho: ",
     "holder_change_status": "Vui lòng chọn trạng thái",
+    "from_date": "Từ ngày ",
+    "to_date": "Đến ngày ",
   }
 }

@@ -284,5 +284,7 @@
     "end_date": "Finish date: ",
     "assignee": "Assignee: ",
     "holder_change_status": "Please select the status",
+    "from_date": "From date ",
+    "to_date": "To date ",
   }
 }

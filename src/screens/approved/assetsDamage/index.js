@@ -69,7 +69,7 @@ function ApprovedAssetsDamage(props) {
       PageSize: perPage,
       PageNum: page,
       Search: search,
-      RequestTypeID: Commons.APPROVED_TYPE.DAMAGED.code + '',
+      RequestTypeID: Commons.APPROVED_TYPE.DAMAGED.value + '',
       IsResolveRequest: false,
       RefreshToken: authState.getIn(['login', 'refreshToken']),
       Lang: commonState.get('language'),

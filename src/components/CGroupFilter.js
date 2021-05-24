@@ -90,7 +90,6 @@ function CGroupFilter(props) {
           data={values}
           renderItem={({item, index}) => {
             let isCheck = valuesChoose.find(f => f.value == item.value);
-
             return (
               <TouchableOpacity onPress={() => handleItem(item)}>
                 <View
