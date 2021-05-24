@@ -22,7 +22,7 @@ const CCard = React.memo(function CCard(props) {
     cardContent = null,
     cardFooter = null,
     customColors = {},
-    darkMode = false,
+    isDark = false,
     onPress = null,
   } = props;
 
@@ -34,7 +34,7 @@ const CCard = React.memo(function CCard(props) {
       style={[
         cStyles.rounded2,
         cStyles.mt32,
-        !darkMode && cStyles.shadowListItem,
+        !isDark && cStyles.shadowListItem,
         styles.container,
         containerStyle,
         {backgroundColor: customColors.card},
@@ -50,7 +50,7 @@ const CCard = React.memo(function CCard(props) {
           styles.con_label,
           contentLabelStyle,
           {
-            backgroundColor: darkMode
+            backgroundColor: isDark
               ? customColors.header
               : customColors.primary,
           },
@@ -58,7 +58,7 @@ const CCard = React.memo(function CCard(props) {
         <CText
           customStyles={[
             cStyles.textTitle,
-            {color: darkMode ? customColors.text : colors.WHITE},
+            {color: isDark ? customColors.text : colors.WHITE},
           ]}
           label={label}
           customLabel={customLabel}

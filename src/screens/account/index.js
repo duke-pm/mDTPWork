@@ -216,7 +216,7 @@ function Account(props) {
                     index={index}
                     data={item}
                     customColors={customColors}
-                    darkMode={isDark}
+                    isDark={isDark}
                   />
                 ))}
               </View>

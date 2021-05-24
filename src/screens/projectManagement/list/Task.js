@@ -9,11 +9,8 @@ import {useNavigation} from '@react-navigation/native';
 /* COMPONENTS */
 import TaskItem from '../components/TaskItem';
 import CList from '~/components/CList';
-/** COMMON */
-import Routes from '~/navigation/Routes';
 
 function ListTask(props) {
-  const navigation = useNavigation();
   const {customColors, isDark, onLoadmore, onRefresh, onChangeStatus} = props;
 
   /** HANDLE FUNC */
@@ -29,7 +26,7 @@ function ListTask(props) {
             index={index}
             data={item}
             customColors={customColors}
-            darkMode={isDark}
+            isDark={isDark}
             onRefresh={onRefresh}
             onPress={handleTaskItem}
             onChangeStatus={onChangeStatus}

@@ -36,7 +36,7 @@ function ListProject(props) {
             index={index}
             data={item}
             customColors={customColors}
-            darkMode={isDark}
+            isDark={isDark}
             onRefresh={onRefresh}
             onPress={handleProjectItem}
           />

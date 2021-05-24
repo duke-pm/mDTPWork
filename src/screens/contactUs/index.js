@@ -128,7 +128,7 @@ const ContactUs = React.memo(function ContactUs(props) {
                   key={item.id}
                   containerStyle={index === 0 ? cStyles.mt16 : cStyles.mt40}
                   customColors={customColors}
-                  darkMode={isDark}
+                  isDark={isDark}
                   customLabel={item.label}
                   cardContent={
                     <View>

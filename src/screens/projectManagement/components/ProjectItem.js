@@ -16,14 +16,14 @@ import {cStyles} from '~/utils/style';
 /* REDUX */
 
 function ProjectItem(props) {
-  const {index, data, customColors, darkMode, onPress} = props;
+  const {index, data, customColors, isDark, onPress} = props;
 
   return (
     <CCard
       key={index}
       customLabel={data.label}
       customColors={customColors}
-      darkMode={darkMode}
+      isDark={isDark}
       onPress={() => onPress(data)}
       cardContent={
         <View>

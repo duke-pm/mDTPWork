@@ -17,7 +17,6 @@ import {
   UIManager,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
-import moment from 'moment';
 /* COMPONENTS */
 import CText from '~/components/CText';
 import ListTask from '../list/Task';
@@ -25,7 +24,6 @@ import CIconButton from '~/components/CIconButton';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
 import {IS_ANDROID, IS_IOS, scalePx} from '~/utils/helper';
-/* REDUX */
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -36,7 +34,7 @@ if (IS_ANDROID) {
 const TaskItem = React.memo(function TaskItem(props) {
   const {t} = useTranslation();
   const navigation = useNavigation();
-  const {index, data, customColors, darkMode, onPress, onChangeStatus} = props;
+  const {index, data, customColors, isDark, onPress, onChangeStatus} = props;
 
   const commonState = useSelector(({common}) => common);
 
@@ -84,20 +82,21 @@ const TaskItem = React.memo(function TaskItem(props) {
     inputRange: [0, 1],
     outputRange: ['0deg', '180deg'],
   });
+
   return (
     <View>
-      {showChildren &&
-        <View style={{position: 'absolute', bottom: 20, left: 0}}>
+      {showChildren && (
+        <View style={{position: 'absolute', bottom: 20, left: 5}}>
           <Icon
             name={'arrow-right'}
             color={colors.GRAY_400}
             size={scalePx(1.8)}
           />
         </View>
-      }
+      )}
 
       <TouchableOpacity disabled={props.loading} onPress={onPress}>
-        <Animated.View
+        <View
           style={[
             cStyles.p10,
             cStyles.mb16,
@@ -260,7 +259,7 @@ const TaskItem = React.memo(function TaskItem(props) {
               </TouchableOpacity>
             </View>
           </View>
-        </Animated.View>
+        </View>
       </TouchableOpacity>
 
       {data.childrens.length > 0 && showChildren && (
@@ -278,7 +277,7 @@ const TaskItem = React.memo(function TaskItem(props) {
           <ListTask
             data={data.childrens}
             customColors={customColors}
-            isDark={darkMode}
+            isDark={isDark}
             onChangeStatus={onChangeStatus}
           />
         </View>

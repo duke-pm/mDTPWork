@@ -664,7 +664,7 @@ function AddRequest(props) {
                 <CCard
                   label={'add_approved_lost_damaged:info_asset'}
                   customColors={customColors}
-                  darkMode={isDark}
+                  isDark={isDark}
                   cardHeader={
                     <CText
                       styles={'textTitle'}

@@ -6,10 +6,10 @@
  ** Description: Description of Settings.js
  **/
 import React, {createRef, useState, useEffect} from 'react';
+import {useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {useColorScheme} from 'react-native-appearance';
 import {useTheme} from '@react-navigation/native';
-import {useDispatch} from 'react-redux';
 import {StyleSheet, View} from 'react-native';
 import ActionSheet from 'react-native-actions-sheet';
 import Picker from '@gregfrench/react-native-wheel-picker';
@@ -22,8 +22,8 @@ import CList from '~/components/CList';
 import ListItem from '~/screens/account/components/ListItem';
 import Assets from '~/utils/asset/Assets';
 /* COMMON */
-import {colors, cStyles} from '~/utils/style';
-import {getLocalInfo, IS_IOS, saveLocalInfo, scalePx, sH} from '~/utils/helper';
+import {cStyles} from '~/utils/style';
+import {getLocalInfo, saveLocalInfo, scalePx, sH} from '~/utils/helper';
 import {LANGUAGE} from '~/config/constants';
 /* REDUX */
 import * as Actions from '~/redux/actions';
@@ -101,7 +101,6 @@ function Settings(props) {
         f => f.value === languageLocal.value,
       );
       setLanguages({...languages, active: find});
-
       setLoading(false);
     } else {
       setLoading(false);
@@ -142,7 +141,7 @@ function Settings(props) {
                   index={index}
                   data={item}
                   dataLength={initSettings.length}
-                  dataActive={item.value}
+                  dataActive={languages.data[languages.active]}
                   customColors={customColors}
                 />
               );

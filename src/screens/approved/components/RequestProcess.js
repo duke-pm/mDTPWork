@@ -23,7 +23,7 @@ function RequestProcess(props) {
     <CCard
       containerStyle={cStyles.m16}
       customColors={customColors}
-      darkMode={isDark}
+      isDark={isDark}
       label={'add_approved_assets:table_process'}
       cardContent={
         <View>
