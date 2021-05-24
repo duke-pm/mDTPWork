@@ -1,11 +1,11 @@
 /**
- ** Name: 
- ** Author: 
+ ** Name: Assets data
+ ** Author:
  ** CreateAt: 2021
- ** Description: Description of .js
+ ** Description: Description of Assets.js
  **/
 
-const Mockup = [
+export default [
   {
     id: 1,
     name: 'Assets',
@@ -15,16 +15,14 @@ const Mockup = [
         id: 'listApprovedAssets',
         name: 'ListApprovedAssets',
         title: 'approved:list_request',
-        icon: require('../../../../../assets/images/icon/listApproved.png')
+        icon: require('../../../../assets/images/icon/listApproved.png'),
       },
       {
         id: 'listApprovedAssetsHandling',
         name: 'ListApprovedAssetsHandling',
         title: 'approved:list_request_handling',
-        icon: require('../../../../../assets/images/icon/listAssetsHandling.png')
+        icon: require('../../../../assets/images/icon/listAssetsHandling.png'),
       },
-    ]
-  }
+    ],
+  },
 ];
-
-export default Mockup;

@@ -5,15 +5,14 @@
  ** Description: Description of Approved.js
  **/
 import React from 'react';
-import {FlatList} from 'react-native';
 /** COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
+import CList from '~/components/CList';
 import Item from './components/Item';
 /** COMMON */
-import MockupData from './common/mockup';
+import DataRoute from './common/Assets';
 import {cStyles} from '~/utils/style';
-import {IS_ANDROID} from '~/utils/helper';
 
 function Approved(props) {
   /** HANDLE FUNC */
@@ -30,16 +29,13 @@ function Approved(props) {
       hasBack
       content={
         <CContent>
-          <FlatList
-            style={cStyles.flex1}
-            contentContainerStyle={cStyles.pt16}
-            data={MockupData.Approved}
-            renderItem={({item, index}) => {
+          <CList
+            contentStyle={cStyles.pt16}
+            data={DataRoute}
+            item={({item, index}) => {
               return <Item index={index} data={item} onPress={handleItem} />;
             }}
             numColumns={3}
-            keyExtractor={(item, index) => index.toString()}
-            removeClippedSubviews={IS_ANDROID}
           />
         </CContent>
       }
