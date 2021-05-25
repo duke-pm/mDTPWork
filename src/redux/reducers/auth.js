@@ -31,6 +31,8 @@ export const initialState = fromJS({
     deptCode: null,
     jobTitle: null,
     expired: null,
+    groupID: null,
+    lstMenu: null,
   },
 });
 
@@ -56,7 +58,9 @@ export default function (state = initialState, action = {}) {
         .setIn(['login', 'regionCode'], null)
         .setIn(['login', 'deptCode'], null)
         .setIn(['login', 'jobTitle'], null)
-        .setIn(['login', 'expired'], null);
+        .setIn(['login', 'expired'], null)
+        .setIn(['login', 'groupID'], null)
+        .setIn(['login', 'lstMenu'], null);
     /*****************************/
 
     /** For refresh token **/
@@ -107,7 +111,9 @@ export default function (state = initialState, action = {}) {
         .setIn(['login', 'regionCode'], payload.regionCode)
         .setIn(['login', 'deptCode'], payload.deptCode)
         .setIn(['login', 'jobTitle'], payload.jobTitle)
-        .setIn(['login', 'expired'], payload.expired);
+        .setIn(['login', 'expired'], payload.expired)
+        .setIn(['login', 'groupID'], payload.groupID)
+        .setIn(['login', 'lstMenu'], payload.lstMenu);
 
     case types.ERROR_LOGIN:
       return state

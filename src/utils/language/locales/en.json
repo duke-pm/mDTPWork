@@ -26,6 +26,7 @@
     "type": "Asset ",
     "status": "Status ",
     "show_more": "Show more",
+    "show_less": "Show less",
     "choose": "Choose",
     "reset": "Reset"
   },
@@ -284,6 +285,7 @@
     "start_date": "Start date: ",
     "end_date": "Finish date: ",
     "assignee": "Assignee: ",
+    "assignee_by": "by",
     "holder_change_status": "Please select the status",
     "from_date": "From date ",
     "to_date": "To date ",

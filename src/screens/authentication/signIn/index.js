@@ -105,6 +105,7 @@ function SignIn(props) {
       let params = {
         Username: form.userName.trim().toLowerCase(),
         Password: form.password.trim(),
+        TypeLogin: 2,
         Lang: commonState.get('language'),
       };
       dispatch(Actions.fetchLogin(params));
@@ -127,6 +128,8 @@ function SignIn(props) {
         deptCode: authState.getIn(['login', 'deptCode']),
         jobTitle: authState.getIn(['login', 'jobTitle']),
         expired: authState.getIn(['login', 'expired']),
+        groupID: authState.getIn(['login', 'groupID']),
+        lstMenu: authState.getIn(['login', 'lstMenu']),
       };
       saveSecretInfo({key: LOGIN, value: dataLogin});
     } else {
@@ -204,6 +207,8 @@ function SignIn(props) {
         deptCode: dataLogin.deptCode,
         jobTitle: dataLogin.jobTitle,
         '.expires': dataLogin.expired,
+        groupID: dataLogin.groupID,
+        lstMenu: dataLogin.lstMenu,
       };
       dispatch(Actions.loginSuccess(dataLogin));
     } else {

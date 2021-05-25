@@ -40,6 +40,11 @@ export const loginSuccess = data => {
       deptCode: data.deptCode,
       jobTitle: data.jobTitle,
       expired: data['.expires'],
+      groupID: data.groupID,
+      lstMenu:
+        typeof data.lstMenu === 'string'
+          ? JSON.parse(data.lstMenu)
+          : data.lstMenu,
     },
   };
 };

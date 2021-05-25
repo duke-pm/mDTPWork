@@ -20,7 +20,7 @@ function CAvatar(props) {
   const {
     containerStyle = {},
     imageStyle = {},
-    size = 'small', // small | medium | large
+    size = 'small', // very small | small | medium | large
     source = null,
     isEdit = false,
     customColors = {},
@@ -54,6 +54,7 @@ function CAvatar(props) {
         cStyles.center,
         cStyles.shadow1,
         styles.container,
+        size === 'vsmall' && styles.container_vsmall,
         size === 'small' && styles.container_small,
         size === 'medium' && styles.container_medium,
         size === 'large' && styles.container_large,
@@ -63,6 +64,7 @@ function CAvatar(props) {
       <FastImage
         style={[
           cStyles.rounded10,
+          size === 'vsmall' && styles.image_vsmall,
           size === 'small' && styles.image_small,
           size === 'medium' && styles.image_medium,
           size === 'large' && styles.image_large,
@@ -110,6 +112,7 @@ function CAvatar(props) {
             cStyles.center,
             cStyles.rounded10,
             styles.container_icon_camera,
+            size === 'vsmall' && styles.icon_camera_vsmall,
             size === 'small' && styles.icon_camera_small,
             size === 'medium' && styles.icon_camera_medium,
             size === 'large' && styles.icon_camera_large,
@@ -130,6 +133,10 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.WHITE,
   },
+  container_vsmall: {
+    height: sW('6%'),
+    width: sW('6%'),
+  },
   container_small: {
     height: sW('9%'),
     width: sW('9%'),
@@ -143,6 +150,10 @@ const styles = StyleSheet.create({
     width: sW('24%'),
   },
 
+  image_vsmall: {
+    height: sW('5%'),
+    width: sW('5%'),
+  },
   image_small: {
     height: sW('8%'),
     width: sW('8%'),
@@ -160,6 +171,10 @@ const styles = StyleSheet.create({
     bottom: 0,
     right: 0,
     backgroundColor: colors.WHITE,
+  },
+  icon_camera_vsmall: {
+    height: sW('2%'),
+    width: sW('2%'),
   },
   icon_camera_small: {
     height: sW('2.8%'),

@@ -30,10 +30,9 @@ function Task(props) {
   const {customColors} = useTheme();
   const isDark = useColorScheme() === 'dark';
   const data = props.route.params.data;
-
-  console.log('[LOG] ===  ===> ', props.route.params.data);
   let findStatus = STATUS_TASK.findIndex(f => f.label === data.status);
 
+  /** Use state */
   const [status, setStatus] = useState({
     data: STATUS_TASK,
     active: findStatus,

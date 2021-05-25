@@ -10,10 +10,9 @@ import Icon from 'react-native-vector-icons/Feather';
 /* COMPONENTS */
 import CCard from '~/components/CCard';
 import CText from '~/components/CText';
-import {scalePx} from '~/utils/helper';
 /* COMMON */
+import {scalePx} from '~/utils/helper';
 import {cStyles} from '~/utils/style';
-/* REDUX */
 
 function ProjectItem(props) {
   const {index, data, customColors, isDark, onPress} = props;
@@ -29,6 +28,7 @@ function ProjectItem(props) {
         <View>
           <View
             style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween]}>
+            {/** Sector, date created */}
             <View
               style={[cStyles.pr5, cStyles.itemsStart, styles.con_info_left]}>
               <View
@@ -56,6 +56,7 @@ function ProjectItem(props) {
               </View>
             </View>
 
+            {/** Status, public */}
             <View
               style={[cStyles.pr5, cStyles.itemsStart, styles.con_info_right]}>
               <View
@@ -98,6 +99,7 @@ function ProjectItem(props) {
             </View>
           </View>
 
+          {/** Description */}
           <View style={[cStyles.row, cStyles.itemsStart, cStyles.justifyStart]}>
             <CText
               styles={'textMeta'}

@@ -26,6 +26,7 @@
     "type": "Tài sản ",
     "status": "Trạng thái ",
     "show_more": "Xem thêm",
+    "show_less": "Thu gọn",
     "choose": "Chọn",
     "reset": "Đặt lại"
   },
@@ -284,6 +285,7 @@
     "start_date": "Bắt đầu: ",
     "end_date": "Kết thúc: ",
     "assignee": "Giao cho: ",
+    "assignee_by": "bởi",
     "holder_change_status": "Vui lòng chọn trạng thái",
     "from_date": "Từ ngày ",
     "to_date": "Đến ngày ",

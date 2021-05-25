@@ -94,6 +94,7 @@ const App = () => {
     customColors: {
       ...DarkTheme.colors,
       primary: colors.SECONDARY,
+      secondary: colors.SECONDARY,
       header: colors.BACKGROUND_HEADER_DARK,
       combobox: colors.TRANSPARENT,
       icon: colors.WHITE,
@@ -133,6 +134,7 @@ const App = () => {
     customColors: {
       ...DefaultTheme.colors,
       primary: colors.PRIMARY,
+      secondary: colors.SECONDARY,
       background: colors.BACKGROUND_MAIN,
       combobox: colors.WHITE,
       icon: colors.ICON_BASE,
