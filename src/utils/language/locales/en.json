@@ -28,7 +28,8 @@
     "show_more": "Show more",
     "show_less": "Show less",
     "choose": "Choose",
-    "reset": "Reset"
+    "reset": "Reset",
+    "save": "Save"
   },
   "success": {
     "title": "Successfully!",

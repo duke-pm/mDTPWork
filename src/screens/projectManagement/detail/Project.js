@@ -56,7 +56,7 @@ const tasks = [
         type: 'TASK',
         status: 'On Hold',
         startDate: '15/05/2021',
-        endDate: '31/05/2021',
+        endDate: '18/05/2021',
         assignee: 'Wayne Rooney',
         parent: 1,
         childrens: [],

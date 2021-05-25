@@ -17,6 +17,7 @@ import {
   UIManager,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
+import moment from 'moment';
 /* COMPONENTS */
 import CText from '~/components/CText';
 import ListTask from '../list/Task';
@@ -70,7 +71,8 @@ const TaskItem = React.memo(function TaskItem(props) {
   /** RENDER */
   let typeColor = customColors.secondary, // default is PHASE
     bgStatus = customColors.statusNew, // default is New
-    isReject = false;
+    isReject = false,
+    isOutOfDate = false;
   if (data.type === 'TASK') {
     typeColor = customColors.blue;
   } else if (data.type === 'MILESTONE') {
@@ -90,6 +92,10 @@ const TaskItem = React.memo(function TaskItem(props) {
   } else if (data.status === Commons.STATUS_TASK.REJECTED.label) {
     isReject = true;
     bgStatus = customColors.statusReject;
+  }
+
+  if (moment().valueOf() - moment(data.endDate, 'DD/MM/YYYY').valueOf() > 0) {
+    isOutOfDate = true;
   }
   const rotateData = valueAnim.interpolate({
     inputRange: [0, 1],
@@ -135,7 +141,12 @@ const TaskItem = React.memo(function TaskItem(props) {
                 customLabel={data.type}
               />
 
-              <View style={[cStyles.row, cStyles.itemsCenter, {marginTop: -8}]}>
+              <View
+                style={[
+                  cStyles.row,
+                  cStyles.itemsCenter,
+                  data.childrens.length > 0 && {marginTop: -8},
+                ]}>
                 <View
                   style={{
                     height: 10,
@@ -203,7 +214,7 @@ const TaskItem = React.memo(function TaskItem(props) {
                 cStyles.flex1,
                 cStyles.pt10,
               ]}>
-              <View style={styles.con_content}>
+              <View style={styles.content_left}>
                 {/** grade */}
                 <View
                   style={[
@@ -257,12 +268,18 @@ const TaskItem = React.memo(function TaskItem(props) {
                     styles={
                       'textMeta fontRegular ' + (isReject && 'textThrough')
                     }
+                    customStyles={[
+                      cStyles.textMeta,
+                      cStyles.fontRegular,
+                      isReject && cStyles.textThrough,
+                      isOutOfDate && {color: customColors.red},
+                    ]}
                     customLabel={data.endDate !== '' ? data.endDate : '-'}
                   />
                 </View>
               </View>
 
-              <View style={styles.con_content}>
+              <View style={styles.content_right}>
                 {/** Component */}
                 <View
                   style={[
@@ -313,14 +330,14 @@ const TaskItem = React.memo(function TaskItem(props) {
                     label={'project_management:assignee'}
                   />
                   <CAvatar
-                    containerStyle={cStyles.ml4}
+                    containerStyle={cStyles.ml2}
                     source={Assets.iconUserDefault}
                     size={'vsmall'}
                     customColors={customColors}
                   />
                   <CText
                     styles={
-                      'textMeta fontRegular pl3 ' + (isReject && 'textThrough')
+                      'textMeta fontRegular pl2 ' + (isReject && 'textThrough')
                     }
                     customLabel={data.assignee !== '' ? data.assignee : '-'}
                   />
@@ -406,7 +423,8 @@ const TaskItem = React.memo(function TaskItem(props) {
 });
 
 const styles = StyleSheet.create({
-  con_content: {flex: 0.5},
+  content_left: {flex: 0.45},
+  content_right: {flex: 0.55},
 });
 
 export default TaskItem;

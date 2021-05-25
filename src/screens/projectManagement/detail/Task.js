@@ -48,6 +48,8 @@ function Task(props) {
     actionSheetStatusRef.current?.show();
   };
 
+  const handleSave = () => {};
+
   /** FUNC */
   const onChangeStatus = index => {
     setStatus({...status, active: index});
@@ -60,6 +62,13 @@ function Task(props) {
       title={''}
       header
       hasBack
+      headerRight={
+        <TouchableOpacity
+          style={[cStyles.itemsEnd, cStyles.pr16]}
+          onPress={handleSave}>
+          <CText styles={'colorWhite'} label={'common:save'} />
+        </TouchableOpacity>
+      }
       content={
         <CContent>
           <ScrollView
