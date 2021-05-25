@@ -4,34 +4,73 @@
  ** CreateAt: 2021
  ** Description: Description of Approved.js
  **/
-import React from 'react';
+import React, {useEffect, useState} from 'react';
+import {useSelector} from 'react-redux';
 /** COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
 import CList from '~/components/CList';
 import Item from './components/Item';
 /** COMMON */
-import DataRoute from './common/Assets';
 import {cStyles} from '~/utils/style';
 
 function Approved(props) {
+  /** Use State */
+  const [loading, setLoading] = useState(true);
+  const [routes, setRoutes] = useState([]);
+
+  /** Use redux */
+  const authState = useSelector(({auth}) => auth);
+
   /** HANDLE FUNC */
-  const handleItem = data => {
-    props.navigation.navigate(data);
+  const handleItem = dataRoute => {
+    props.navigation.navigate(dataRoute.mName, {
+      permission: {
+        write: dataRoute.IsWrite,
+      },
+    });
   };
+
+  /** FUNC */
+  const onPrepareData = () => {
+    let tmpListMenu = authState.getIn(['login', 'lstMenu']);
+    let idRouteParent = props.route.params.idRouteParent;
+    if (idRouteParent && tmpListMenu) {
+      let findChildren = tmpListMenu.lstPermissionItem.find(
+        f => f.menuID === idRouteParent,
+      );
+      if (findChildren) {
+        setRoutes(findChildren.lstPermissionItem);
+        onStart();
+      } else {
+        onStart();
+      }
+    } else {
+      onStart();
+    }
+  };
+
+  const onStart = () => {
+    setLoading(false);
+  };
+
+  /** LIFE CYCLE */
+  useEffect(() => {
+    onPrepareData();
+  }, []);
 
   /** RENDER */
   return (
     <CContainer
+      loading={loading}
       title={'approved:assets'}
-      loading={false}
       header
       hasBack
       content={
         <CContent>
           <CList
             contentStyle={cStyles.pt16}
-            data={DataRoute}
+            data={routes}
             item={({item, index}) => {
               return <Item index={index} data={item} onPress={handleItem} />;
             }}

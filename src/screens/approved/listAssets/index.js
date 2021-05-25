@@ -26,6 +26,7 @@ import {colors, cStyles} from '~/utils/style';
 
 function ListRequestAll(props) {
   const {t} = useTranslation();
+  const isPermissionWrite = props.route.params?.permission?.write || false;
 
   const commonState = useSelector(({common}) => common);
   const formatDate = commonState.get('formatDate');
@@ -33,7 +34,7 @@ function ListRequestAll(props) {
   const [index, setIndex] = useState(0);
   const [routes, setRoutes] = useState([
     {
-      key: Commons.APPROVED_TYPE.ASSETS.name,
+      key: Commons.APPROVED_TYPE.ASSETS.value + '',
       title: t('list_request_assets:title_add'),
       fromDate: moment().clone().startOf('month').format(formatDate),
       toDate: moment().clone().endOf('month').format(formatDate),
@@ -43,7 +44,7 @@ function ListRequestAll(props) {
       isRefresh: true,
     },
     {
-      key: Commons.APPROVED_TYPE.DAMAGED.name,
+      key: Commons.APPROVED_TYPE.DAMAGED.value + '',
       title: t('list_request_assets:title_damaged'),
       fromDate: moment().clone().startOf('month').format(formatDate),
       toDate: moment().clone().endOf('month').format(formatDate),
@@ -53,7 +54,7 @@ function ListRequestAll(props) {
       isRefresh: true,
     },
     {
-      key: Commons.APPROVED_TYPE.LOST.name,
+      key: Commons.APPROVED_TYPE.LOST.value + '',
       title: t('list_request_assets:title_lost'),
       fromDate: moment().clone().startOf('month').format(formatDate),
       toDate: moment().clone().endOf('month').format(formatDate),
@@ -110,11 +111,11 @@ function ListRequestAll(props) {
   /** RENDER */
   const renderScene = ({route}) => {
     switch (route.key) {
-      case Commons.APPROVED_TYPE.LOST.name:
+      case Commons.APPROVED_TYPE.LOST.value + '':
         return <AssetsLost dataRoute={route} navigation={props.navigation} />;
-      case Commons.APPROVED_TYPE.DAMAGED.name:
+      case Commons.APPROVED_TYPE.DAMAGED.value + '':
         return <AssetsDamage dataRoute={route} navigation={props.navigation} />;
-      case Commons.APPROVED_TYPE.ASSETS.name:
+      case Commons.APPROVED_TYPE.ASSETS.value + '':
         return <Assets dataRoute={route} navigation={props.navigation} />;
     }
   };
@@ -125,7 +126,7 @@ function ListRequestAll(props) {
       title={'list_request_assets:title'}
       loading={false}
       header
-      hasAddNew
+      hasAddNew={isPermissionWrite}
       hasSearch
       hasBack
       onPressAddNew={handleAddNew}

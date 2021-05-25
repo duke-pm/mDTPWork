@@ -43,6 +43,7 @@ const RequestItem = React.memo(function RequestItem(props) {
       data: props.data,
       dataProcess: props.dataProcess,
       dataDetail: props.dataDetail,
+      permissionWrite: props.permissionWrite || false,
       onRefresh: () => props.onRefresh(),
     });
   };

@@ -11,25 +11,29 @@ import CText from '~/components/CText';
 /** COMMON */
 import {cStyles, colors} from '~/utils/style';
 import {sW} from '~/utils/helper';
-/* REDUX */
+import Assets from '~/utils/asset/Assets';
 
 function Item(props) {
-  const {index = -1, data = null, onPress = () => {}} = props;
+  const {data = null, onPress = () => {}} = props;
 
+  /** HANDLE FUNC */
+  const handleItem = () => onPress(data);
+
+  /** RENDER */
   if (!data) {
     return null;
   }
   return (
     <View style={[cStyles.itemsCenter, styles.item]}>
-      <TouchableOpacity onPress={() => onPress(data.name)}>
+      <TouchableOpacity onPress={handleItem}>
         <Image
           style={styles.image_item}
-          source={data.icon}
+          source={Assets[data.mIcon]}
           resizeMode={'contain'}
         />
       </TouchableOpacity>
 
-      <CText styles={'pt10 textCenter'} label={data.title} numberOfLines={3} />
+      <CText styles={'pt10 textCenter'} label={data.mName} numberOfLines={3} />
     </View>
   );
 }

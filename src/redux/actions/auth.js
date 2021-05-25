@@ -23,28 +23,31 @@ export const loginError = error => ({
   payload: error,
 });
 
-export const loginSuccess = data => {
-  API.defaults.headers.Authorization = 'Bearer ' + data.access_token;
+export const loginSuccess = (data, isRefresh) => {
+  if (isRefresh) {
+    API.defaults.headers.Authorization = 'Bearer ' + data.access_token;
+  } else {
+    API.defaults.headers.Authorization =
+      'Bearer ' + data.tokenInfo.access_token;
+  }
+
   return {
     type: types.SUCCESS_LOGIN,
     payload: {
-      accessToken: data.access_token,
-      tokenType: data.token_type,
-      expiresIn: data.expires_in,
-      refreshToken: data.refresh_token,
-      userName: data.userName,
-      userID: data.userID,
-      empCode: data.empCode,
-      fullName: data.fullName,
-      regionCode: data.regionCode,
-      deptCode: data.deptCode,
-      jobTitle: data.jobTitle,
-      expired: data['.expires'],
-      groupID: data.groupID,
-      lstMenu:
-        typeof data.lstMenu === 'string'
-          ? JSON.parse(data.lstMenu)
-          : data.lstMenu,
+      accessToken: data.tokenInfo.access_token,
+      tokenType: data.tokenInfo.token_type,
+      expiresIn: data.tokenInfo.expires_in,
+      refreshToken: data.tokenInfo.refresh_token,
+      userName: data.tokenInfo.userName,
+      userID: data.tokenInfo.userID,
+      empCode: data.tokenInfo.empCode,
+      fullName: data.tokenInfo.fullName,
+      regionCode: data.tokenInfo.regionCode,
+      deptCode: data.tokenInfo.deptCode,
+      jobTitle: data.tokenInfo.jobTitle,
+      expired: data.tokenInfo['.expires'],
+      groupID: data.tokenInfo.groupID,
+      lstMenu: data.lstMenu,
     },
   };
 };
@@ -78,7 +81,7 @@ export const fetchRefreshToken = (params, callback, navigation) => {
       .refreshToken(params)
       .then(res => {
         if (!res.isError) {
-          dispatch(loginSuccess(res.data));
+          dispatch(loginSuccess(res.data, true));
           return dispatch(callback());
         } else {
           removeSecretInfo(LOGIN);

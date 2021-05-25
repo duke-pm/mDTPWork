@@ -25,6 +25,7 @@ import * as Actions from '~/redux/actions';
 function ListRequestHandling(props) {
   const {t} = useTranslation();
   const {customColors} = useTheme();
+  const isPermissionWrite = props.route.params?.permission?.write || false;
 
   const dispatch = useDispatch();
   const commonState = useSelector(({common}) => common);
@@ -236,6 +237,7 @@ function ListRequestHandling(props) {
 
           {!loading.main && (
             <ListRequest
+              permissionWrite={isPermissionWrite}
               refreshing={loading.refreshing}
               loadmore={loading.loadmore}
               data={data.requests}

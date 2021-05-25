@@ -195,19 +195,21 @@ function SignIn(props) {
       console.log('[LOG] === SignIn Local === ');
       setLoading({main: false, submit: true});
       dataLogin = {
-        access_token: dataLogin.accessToken,
-        token_type: dataLogin.tokenType,
-        expires_in: dataLogin.expiresIn,
-        refresh_token: dataLogin.refreshToken,
-        userName: dataLogin.userName,
-        userID: dataLogin.userID,
-        empCode: dataLogin.empCode,
-        fullName: dataLogin.fullName,
-        regionCode: dataLogin.regionCode,
-        deptCode: dataLogin.deptCode,
-        jobTitle: dataLogin.jobTitle,
-        '.expires': dataLogin.expired,
-        groupID: dataLogin.groupID,
+        tokenInfo: {
+          access_token: dataLogin.accessToken,
+          token_type: dataLogin.tokenType,
+          expires_in: dataLogin.expiresIn,
+          refresh_token: dataLogin.refreshToken,
+          userName: dataLogin.userName,
+          userID: dataLogin.userID,
+          empCode: dataLogin.empCode,
+          fullName: dataLogin.fullName,
+          regionCode: dataLogin.regionCode,
+          deptCode: dataLogin.deptCode,
+          jobTitle: dataLogin.jobTitle,
+          '.expires': dataLogin.expired,
+          groupID: dataLogin.groupID,
+        },
         lstMenu: dataLogin.lstMenu,
       };
       dispatch(Actions.loginSuccess(dataLogin));
