@@ -47,7 +47,10 @@ export const loginSuccess = (data, isRefresh) => {
       jobTitle: data.tokenInfo.jobTitle,
       expired: data.tokenInfo['.expires'],
       groupID: data.tokenInfo.groupID,
-      lstMenu: data.lstMenu,
+      lstMenu:
+        data.lstMenu.menuID === 1
+          ? data.lstMenu
+          : data.lstMenu.lstPermissionItem[0],
     },
   };
 };

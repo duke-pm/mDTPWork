@@ -192,7 +192,7 @@ function SignIn(props) {
     /** Check Data Login */
     let dataLogin = await getSecretInfo(LOGIN);
     if (dataLogin) {
-      console.log('[LOG] === SignIn Local === ');
+      console.log('[LOG] === SignIn Local === ', dataLogin);
       setLoading({main: false, submit: true});
       dataLogin = {
         tokenInfo: {

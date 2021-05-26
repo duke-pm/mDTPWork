@@ -26,7 +26,7 @@ function Approved(props) {
   const handleItem = dataRoute => {
     props.navigation.navigate(dataRoute.mName, {
       permission: {
-        write: dataRoute.IsWrite,
+        write: dataRoute.isWrite,
       },
     });
   };

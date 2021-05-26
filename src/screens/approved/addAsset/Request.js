@@ -1067,7 +1067,7 @@ function AddRequest(props) {
               onPress={onSendRequest}
             />
           </View>
-        ) : form.isAllowApproved && props.permissionWrite ? (
+        ) : form.isAllowApproved && props.route.params?.permissionWrite ? (
           <View
             style={[
               cStyles.row,

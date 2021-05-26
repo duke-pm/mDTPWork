@@ -51,6 +51,7 @@ function CInput(props) {
     onPressRemoveValue = null,
   } = props;
 
+  /** Use state */
   const [focus, setFocus] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -89,9 +90,8 @@ function CInput(props) {
 
   /** RENDER */
   const Component = disabled ? View : TouchableOpacity;
-
   return (
-    <View style={[{width: '100%'}, containerStyle]}>
+    <View style={[cStyles.fullWidth, containerStyle]}>
       <View
         style={[
           cStyles.row,
@@ -113,7 +113,7 @@ function CInput(props) {
               cStyles.center,
               styles.con_input_icon,
             ]}>
-            <Icon name={icon} color={iconColor} size={scalePx(3.5)} />
+            <Icon name={icon} color={iconColor} size={scalePx(3)} />
           </View>
         )}
 
@@ -121,7 +121,7 @@ function CInput(props) {
           {dateTimePicker && (
             <View
               style={[
-                {width: '100%'},
+                cStyles.fullWidth,
                 isDark && {backgroundColor: colors.TRANSPARENT},
               ]}>
               <CText customLabel={props.value} />
@@ -187,11 +187,12 @@ function CInput(props) {
               isDark && {backgroundColor: colors.GRAY_600},
               iconLastStyle,
             ]}
+            disabled={props.value === ''}
             onPress={handleIconLast}>
             <Icon
               name={iconLast}
-              color={customColors.text}
-              size={scalePx(3.5)}
+              color={props.value === '' ? colors.GRAY_500 : customColors.text}
+              size={scalePx(3)}
             />
           </Component>
         )}
@@ -209,7 +210,7 @@ function CInput(props) {
             <Icon
               name={showPassword ? 'eye-off' : 'eye'}
               color={colors.GRAY_600}
-              size={scalePx(3.5)}
+              size={scalePx(3)}
             />
           </Component>
         )}

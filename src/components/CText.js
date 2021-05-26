@@ -5,16 +5,15 @@
  ** Description: Description of CText.js
  **/
 import React from 'react';
-import {View, Text, TouchableHighlight} from 'react-native';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
+import {View, Text, TouchableHighlight} from 'react-native';
 /** COMMON */
 import {cStyles} from '~/utils/style';
 
 function CText(props) {
   const {t} = useTranslation();
   const {colors} = useTheme();
-
   const {
     styles = '',
     customStyles = {},
@@ -30,8 +29,8 @@ function CText(props) {
     allStyles.push(cStyles[i]);
   }
 
+  /** RENDER */
   let Component = onPress ? TouchableHighlight : View;
-
   return (
     <Component onPress={onPress}>
       <Text

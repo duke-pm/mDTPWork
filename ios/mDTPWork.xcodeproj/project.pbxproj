@@ -21,6 +21,7 @@
 		8DDF4D56C094491DAD242728 /* Montserrat-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 158D0D04B34D48FB893C8ACF /* Montserrat-Light.ttf */; };
 		9415168A96B342A5973D80B2 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C2B0101BEFA74CFE94B0C120 /* Roboto-Medium.ttf */; };
 		AA9020FA36AA4864A5FAF5AB /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 547E54D1841548B28CDBBB4D /* Roboto-Bold.ttf */; };
+		D3B1624F265DFC7F0034559A /* BridgeHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3B1624E265DFC7F0034559A /* BridgeHeader.swift */; };
 		F2BA673C56C22A8FF559CAB4 /* libPods-mDTPWork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C6B794865F71EB2CE1FD9C7 /* libPods-mDTPWork.a */; };
 /* End PBXBuildFile section */
 
@@ -65,6 +66,8 @@
 		BC34EBB6880876CE05ED2569 /* libPods-mDTPWork-mDTPWorkTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-mDTPWork-mDTPWorkTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2B0101BEFA74CFE94B0C120 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Medium.ttf"; path = "../assets/fonts/Roboto-Medium.ttf"; sourceTree = "<group>"; };
 		D0C1A42B0A5319FF324C0B49 /* Pods-mDTPWork.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mDTPWork.release.xcconfig"; path = "Target Support Files/Pods-mDTPWork/Pods-mDTPWork.release.xcconfig"; sourceTree = "<group>"; };
+		D3B1624D265DFC7E0034559A /* mDTPWork-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "mDTPWork-Bridging-Header.h"; sourceTree = "<group>"; };
+		D3B1624E265DFC7F0034559A /* BridgeHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BridgeHeader.swift; sourceTree = "<group>"; };
 		D7562D1AAB154A19AAE07523 /* Montserrat-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Medium.ttf"; path = "../assets/fonts/Montserrat-Medium.ttf"; sourceTree = "<group>"; };
 		DA819BEB1C014A369EDDDCF0 /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; };
 		EB771D58C3E247C5B10BE5AA /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
@@ -159,6 +162,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				D3B1624E265DFC7F0034559A /* BridgeHeader.swift */,
 				13B07FAE1A68108700A75B9A /* mDTPWork */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* mDTPWorkTests */,
@@ -166,6 +170,7 @@
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				4761143DEF3A2D1817C5EB6E /* Pods */,
 				E1522C3CAFF14A66B7A8231E /* Resources */,
+				D3B1624D265DFC7E0034559A /* mDTPWork-Bridging-Header.h */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -269,7 +274,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						LastSwiftMigration = 1120;
+						LastSwiftMigration = 1250;
 					};
 				};
 			};
@@ -446,6 +451,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D3B1624F265DFC7F0034559A /* BridgeHeader.swift in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
@@ -466,6 +472,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3CED7972540AC30A995C1958 /* Pods-mDTPWork-mDTPWorkTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -493,6 +500,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4789258A84BA3B0C0799B3CA /* Pods-mDTPWork-mDTPWorkTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = mDTPWorkTests/Info.plist;
@@ -526,6 +534,63 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/BVLinearGradient\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/DoubleConversion\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FBReactNativeSpec\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Permission-Camera\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Permission-MediaLibrary\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Permission-PhotoLibrary\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Permission-PhotoLibraryAddOnly\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RCT-Folly\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RCTTypeSafety\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RNCAsyncStorage\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RNCCheckbox\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RNCMaskedView\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RNCPicker\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RNDateTimePicker\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RNFastImage\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RNGestureHandler\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RNImageCropPicker\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RNPermissions\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RNRate\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RNReanimated\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RNScreens\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RNVectorIcons\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-Core\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-CoreModules\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTAnimation\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTBlob\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTImage\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTLinking\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTNetwork\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTSettings\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTText\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTVibration\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-cxxreact\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-jsi\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-jsiexecutor\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-jsinspector\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-perflogger\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/ReactCommon\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SDWebImage\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SDWebImageWebPCoder\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/TOCropViewController\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Yoga\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/glog\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/libwebp\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/lottie-ios\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/lottie-react-native\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/react-native-appearance\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/react-native-blur\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/react-native-encrypted-storage\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/react-native-netinfo\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/react-native-pager-view\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/react-native-safe-area-context\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/react-native-splash-screen\"",
+					"\"$(SDKROOT)/usr/lib/swift\\\"",
+				);
 				MARKETING_VERSION = 1.0.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -534,6 +599,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mDTPWork;
 				PRODUCT_NAME = mDTPWork;
+				SWIFT_OBJC_BRIDGING_HEADER = "mDTPWork-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -552,6 +618,63 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/BVLinearGradient\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/DoubleConversion\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FBReactNativeSpec\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Permission-Camera\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Permission-MediaLibrary\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Permission-PhotoLibrary\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Permission-PhotoLibraryAddOnly\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RCT-Folly\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RCTTypeSafety\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RNCAsyncStorage\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RNCCheckbox\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RNCMaskedView\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RNCPicker\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RNDateTimePicker\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RNFastImage\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RNGestureHandler\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RNImageCropPicker\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RNPermissions\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RNRate\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RNReanimated\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RNScreens\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RNVectorIcons\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-Core\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-CoreModules\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTAnimation\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTBlob\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTImage\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTLinking\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTNetwork\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTSettings\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTText\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTVibration\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-cxxreact\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-jsi\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-jsiexecutor\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-jsinspector\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-perflogger\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/ReactCommon\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SDWebImage\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SDWebImageWebPCoder\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/TOCropViewController\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Yoga\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/glog\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/libwebp\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/lottie-ios\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/lottie-react-native\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/react-native-appearance\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/react-native-blur\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/react-native-encrypted-storage\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/react-native-netinfo\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/react-native-pager-view\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/react-native-safe-area-context\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/react-native-splash-screen\"",
+					"\"$(SDKROOT)/usr/lib/swift\\\"",
+				);
 				MARKETING_VERSION = 1.0.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -560,6 +683,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mDTPWork;
 				PRODUCT_NAME = mDTPWork;
+				SWIFT_OBJC_BRIDGING_HEADER = "mDTPWork-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

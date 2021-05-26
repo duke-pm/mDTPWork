@@ -6,7 +6,7 @@
  **/
 import React from 'react';
 import PropTypes from 'prop-types';
-import {StyleSheet, Animated, ActivityIndicator} from 'react-native';
+import {Animated, ActivityIndicator} from 'react-native';
 import FastImage from 'react-native-fast-image';
 /** COMMON */
 import Assets from '~/utils/asset/Assets';
@@ -14,19 +14,8 @@ import {cStyles} from '~/utils/style';
 import {borderRadius} from '~/utils/helper';
 
 const durationLoading = 500;
-
 const styles = {
-  con_loading: [
-    cStyles.flex1,
-    {
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      bottom: 0,
-      right: 0,
-      backgroundColor: 'transparent',
-    },
-  ],
+  con_loading: {backgroundColor: 'transparent'},
   con_avatar_small: {
     width: 50,
     height: 50,
@@ -133,7 +122,13 @@ class CImage extends React.Component {
         onLoad={this._onLoad}
         onError={this._onError}>
         <Animated.View
-          style={[styles.con_loading, {opacity: this.state._animOpacity}]}>
+          style={[
+            cStyles.flex1,
+            cStyles.abs,
+            cStyles.inset0,
+            styles.con_loading,
+            {opacity: this.state._animOpacity},
+          ]}>
           <ActivityIndicator />
         </Animated.View>
         {children}

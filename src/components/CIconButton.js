@@ -1,8 +1,8 @@
 /**
- ** Name:
+ ** Name: CIconButton
  ** Author:
  ** CreateAt: 2021
- ** Description: Description of .js
+ ** Description: Description of CIconButton.js
  **/
 import React from 'react';
 import {StyleSheet, TouchableOpacity} from 'react-native';
@@ -20,10 +20,10 @@ function CIconButton(props) {
     onPress = () => {},
   } = props;
 
+  /** RENDER */
   return (
     <TouchableOpacity
-      style={[cStyles.rounded10, cStyles.center, styles.con, style]}
-      activeOpacity={0.5}
+      style={[cStyles.rounded10, cStyles.center, styles.container, style]}
       onPress={onPress}>
       <Icon
         style={cStyles.p4}
@@ -37,10 +37,7 @@ function CIconButton(props) {
 }
 
 const styles = StyleSheet.create({
-  con: {
-    height: 40,
-    width: 40,
-  },
+  container: {height: 40, width: 40},
 });
 
 export default CIconButton;

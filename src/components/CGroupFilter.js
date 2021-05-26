@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 /* eslint-disable react-hooks/exhaustive-deps */
 /**
  ** Name: CGroupFilter
@@ -30,6 +31,7 @@ function CGroupFilter(props) {
     onChange = () => {},
   } = props;
 
+  /** Use state */
   const [values] = useState(items);
   const [valuesChoose, setValuesChoose] = useState(activeAll ? items : []);
 
@@ -49,8 +51,9 @@ function CGroupFilter(props) {
 
   /** LIFE CYCLE */
   useEffect(() => {
-    let chooses = [];
-    for (let i of itemsChoose) {
+    let chooses = [],
+      i = null;
+    for (i of itemsChoose) {
       let find = values.findIndex(f => f.value == i);
       if (find !== -1) {
         if (typeof i === 'boolean') {
@@ -88,7 +91,7 @@ function CGroupFilter(props) {
         <FlatList
           contentContainerStyle={[cStyles.row, cStyles.flexWrap]}
           data={values}
-          renderItem={({item, index}) => {
+          renderItem={({item}) => {
             let isCheck = valuesChoose.find(f => f.value == item.value);
             return (
               <TouchableOpacity onPress={() => handleItem(item)}>
@@ -101,20 +104,20 @@ function CGroupFilter(props) {
                     !isCheck && {backgroundColor: customColors.card},
                   ]}>
                   {isCheck && (
-                    <View style={styles.con_icon}>
+                    <View style={[cStyles.abs, cStyles.top0, cStyles.left0]}>
                       <Icon
                         name={'check'}
                         size={scalePx(1.5)}
-                        color={'white'}
+                        color={colors.WHITE}
                       />
                     </View>
                   )}
 
                   <View
                     style={[
-                      cStyles.rounded1,
                       cStyles.py4,
                       cStyles.px16,
+                      cStyles.rounded1,
                       cStyles.borderAll,
                       isCheck && styles.active,
                       {backgroundColor: customColors.card},
@@ -128,7 +131,6 @@ function CGroupFilter(props) {
           keyExtractor={(item, index) => index.toString()}
           removeClippedSubviews={IS_ANDROID}
           scrollEnabled={false}
-          horizontal={false}
           showsVerticalScrollIndicator={false}
         />
       </View>
@@ -137,20 +139,13 @@ function CGroupFilter(props) {
 }
 
 const styles = StyleSheet.create({
-  con_active: {
-    backgroundColor: colors.SECONDARY,
-  },
+  con_active: {backgroundColor: colors.SECONDARY},
   active: {
     borderColor: colors.SECONDARY,
     borderTopLeftRadius: 40,
   },
-  con_left: {
-    flex: 0.27,
-  },
-  con_right: {
-    flex: 0.73,
-  },
-  con_icon: {position: 'absolute', top: 0, left: 0},
+  con_left: {flex: 0.27},
+  con_right: {flex: 0.73},
 });
 
 export default CGroupFilter;

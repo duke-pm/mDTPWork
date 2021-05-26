@@ -17,8 +17,8 @@ function CContent(props) {
     stylePadder = cStyles.p16;
   }
 
+  /** RENDER */
   const ScrollComponent = scroll ? ScrollView : View;
-
   return (
     <SafeAreaView style={cStyles.flex1}>
       <ScrollComponent style={[cStyles.flex1, stylePadder, contentStyle]}>

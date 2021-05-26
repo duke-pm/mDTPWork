@@ -8,13 +8,10 @@ import React, {useState} from 'react';
 import {StyleSheet, View, Animated, ActivityIndicator} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import Icon from 'react-native-vector-icons/Feather';
-import Assets from '~/utils/asset/Assets';
-/* COMPONENTS */
-
 /* COMMON */
+import Assets from '~/utils/asset/Assets';
 import {IS_ANDROID, scalePx, sW} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
-/* REDUX */
 
 function CAvatar(props) {
   const {
@@ -26,10 +23,12 @@ function CAvatar(props) {
     customColors = {},
   } = props;
 
+  /** Use state */
   const [loading, setLoading] = useState(true);
   const [anim, setAnim] = useState(new Animated.Value(1));
   const [src, setSrc] = useState(source);
 
+  /** FUNC */
   const onLoad = () => {
     setLoading(true);
     let animationParams = {
@@ -46,6 +45,7 @@ function CAvatar(props) {
     setLoading(false);
   };
 
+  /** RENDER */
   return (
     <View
       style={[
@@ -105,7 +105,7 @@ function CAvatar(props) {
         />
       </Animated.View>
 
-      {isEdit &&
+      {isEdit && (
         <View
           style={[
             cStyles.abs,
@@ -121,18 +121,18 @@ function CAvatar(props) {
           <Icon
             name={'camera'}
             color={customColors.text}
-            size={scalePx(size === 'small' ? 1.6 : size === 'medium' ? 2.3 : 2.8)}
+            size={scalePx(
+              size === 'small' ? 1.6 : size === 'medium' ? 2.3 : 2.8,
+            )}
           />
         </View>
-      }
+      )}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: colors.WHITE,
-  },
+  container: {backgroundColor: colors.WHITE},
   container_vsmall: {
     height: sW('6%'),
     width: sW('6%'),
@@ -172,6 +172,7 @@ const styles = StyleSheet.create({
     right: 0,
     backgroundColor: colors.WHITE,
   },
+
   icon_camera_vsmall: {
     height: sW('2%'),
     width: sW('2%'),
@@ -188,9 +189,7 @@ const styles = StyleSheet.create({
     height: sW('7.5%'),
     width: sW('7.5%'),
   },
-  con_loading: {
-    backgroundColor: 'transparent',
-  },
+  con_loading: {backgroundColor: 'transparent'},
 });
 
 export default CAvatar;

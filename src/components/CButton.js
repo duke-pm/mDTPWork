@@ -17,6 +17,8 @@ import {colors, cStyles} from '~/utils/style';
 import {scalePx} from '~/utils/helper';
 
 function CButton(props) {
+  const {t} = useTranslation();
+  const isDark = useColorScheme() === 'dark';
   const {
     style = {},
     loading = false,
@@ -29,8 +31,6 @@ function CButton(props) {
     icon = null,
     onPress = () => {},
   } = props;
-  const {t} = useTranslation();
-  const isDark = useColorScheme() === 'dark';
 
   /** RENDER */
   let customStylesButton =
@@ -51,22 +51,20 @@ function CButton(props) {
           cStyles.rounded1,
           cStyles.my6,
           cStyles.px16,
-          styles.con_button,
+          styles.container,
           {backgroundColor: color},
           fullWidth && styles.full_width,
-          block && styles.block,
+          block && cStyles.fullWidth,
           variant === 'outlined' && {
             borderColor: color,
-            borderWidth: 1,
+            borderWidth: 0.5,
             backgroundColor: isDark ? colors.TRANSPARENT : colors.WHITE,
           },
           variant === 'text' && styles.con_variant_text,
           (disabled || loading) &&
             variant === 'contained' &&
             styles.disabled_contained,
-          (disabled || loading) &&
-            variant === 'outlined' &&
-            styles.disabled_outlined,
+          (disabled || loading) && variant === 'outlined' && cStyles.borderAll,
           style,
         ]}>
         {icon && (
@@ -93,28 +91,11 @@ function CButton(props) {
 }
 
 const styles = StyleSheet.create({
-  con_button: {
-    height: 40,
-  },
-  full_width: {
-    width: cStyles.deviceWidth,
-  },
-  block: {
-    width: '100%',
-  },
-  disabled_contained: {
-    backgroundColor: colors.GRAY_500,
-  },
-  disabled_outlined: {
-    borderColor: colors.GRAY_500,
-    borderWidth: 1,
-  },
-  disabled_text: {
-    color: 'black',
-  },
-  con_variant_text: {
-    backgroundColor: colors.TRANSPARENT,
-  },
+  container: {height: 40},
+  full_width: {width: cStyles.deviceWidth},
+  disabled_contained: {backgroundColor: colors.GRAY_500},
+  disabled_text: {color: colors.BLACK},
+  con_variant_text: {backgroundColor: colors.TRANSPARENT},
 });
 
 export default CButton;

@@ -5,7 +5,7 @@
  ** Description: Description of CFooter.js
  **/
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {View} from 'react-native';
 import {useColorScheme} from 'react-native-appearance';
 import {BlurView} from '@react-native-community/blur';
 /** COMMON */
@@ -15,6 +15,7 @@ import {IS_IOS} from '~/utils/helper';
 function CFooter(props) {
   const isDark = useColorScheme() === 'dark';
 
+  /** RENDER */
   return (
     <View
       style={[
@@ -25,24 +26,18 @@ function CFooter(props) {
         !isDark && {
           backgroundColor: colors.BACKGROUND_FOOTER,
         },
-        styles.con,
+        cStyles.fullWidth,
       ]}>
       {isDark && IS_IOS && (
         <BlurView
           style={[cStyles.abs, cStyles.inset0]}
           blurType={'extraDark'}
-          reducedTransparencyFallbackColor={'black'}
+          reducedTransparencyFallbackColor={colors.BLACK}
         />
       )}
       {props.content}
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  con: {
-    width: '100%',
-  },
-});
 
 export default CFooter;

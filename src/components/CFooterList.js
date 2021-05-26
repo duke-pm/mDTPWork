@@ -7,11 +7,12 @@
 import React from 'react';
 import {ActivityIndicator, View} from 'react-native';
 /* COMPONENTS */
+import CText from './CText';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
-import CText from './CText';
 
 function CFooterList(props) {
+  /** RENDER */
   return (
     <View style={[cStyles.py16, cStyles.itemsCenter]}>
       <ActivityIndicator color={colors.GRAY_500} />

@@ -5,8 +5,8 @@
  ** Description: Description of CCheckbox.js
  **/
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
 import {useTranslation} from 'react-i18next';
+import {View, StyleSheet} from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
 /** COMPONENTS */
 import CText from '~/components/CText';
@@ -29,6 +29,7 @@ function CCheckbox(props) {
     onChange,
   } = props;
 
+  /** RENDER */
   return (
     <View
       style={[
@@ -57,10 +58,7 @@ function CCheckbox(props) {
 }
 
 const styles = StyleSheet.create({
-  checkbox: {
-    height: scalePx(3),
-    width: scalePx(3),
-  },
+  checkbox: {height: scalePx(3), width: scalePx(3)},
 });
 
 export default CCheckbox;

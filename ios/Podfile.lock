@@ -21,6 +21,10 @@ PODS:
   - libwebp/mux (1.2.0):
     - libwebp/demux
   - libwebp/webp (1.2.0)
+  - lottie-ios (3.1.8)
+  - lottie-react-native (4.0.2):
+    - lottie-ios (~> 3.1.8)
+    - React-Core
   - Permission-Camera (3.0.3):
     - RNPermissions
   - Permission-MediaLibrary (3.0.3):
@@ -377,6 +381,8 @@ DEPENDENCIES:
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../node_modules/react-native/React/FBReactNativeSpec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
+  - lottie-ios (from `../node_modules/lottie-ios`)
+  - lottie-react-native (from `../node_modules/lottie-react-native`)
   - Permission-Camera (from `../node_modules/react-native-permissions/ios/Camera`)
   - Permission-MediaLibrary (from `../node_modules/react-native-permissions/ios/MediaLibrary`)
   - Permission-PhotoLibrary (from `../node_modules/react-native-permissions/ios/PhotoLibrary`)
@@ -447,6 +453,10 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/React/FBReactNativeSpec"
   glog:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
+  lottie-ios:
+    :path: "../node_modules/lottie-ios"
+  lottie-react-native:
+    :path: "../node_modules/lottie-react-native"
   Permission-Camera:
     :path: "../node_modules/react-native-permissions/ios/Camera"
   Permission-MediaLibrary:
@@ -552,6 +562,8 @@ SPEC CHECKSUMS:
   FBReactNativeSpec: bb7db538beafa6f677a32a74a4ccec019c3fc3a5
   glog: 73c2498ac6884b13ede40eda8228cb1eee9d9d62
   libwebp: e90b9c01d99205d03b6bb8f2c8c415e5a4ef66f0
+  lottie-ios: 48fac6be217c76937e36e340e2d09cf7b10b7f5f
+  lottie-react-native: 4dff8fe8d10ddef9e7880e770080f4a56121397e
   Permission-Camera: 104ac17250aa2632a0d488caca4e91b1d42fb70a
   Permission-MediaLibrary: 5da8d6cdc18fcea48f9dd900f852bce112d68754
   Permission-PhotoLibrary: 67f5337aa90463df9b1df53bc195ec280a4a327e

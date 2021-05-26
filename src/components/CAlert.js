@@ -34,12 +34,13 @@ function CAlert(props) {
     onOK = null,
   } = props;
 
+  /** RENDER */
   return (
     <Modal
       isVisible={show}
       animationIn={'fadeInDown'}
       animationOut={'fadeOutUp'}
-      backdropOpacity={0.8}
+      backdropOpacity={0.4}
       onBackButtonPress={loading ? null : onClose}
       onBackdropPress={loading ? null : onClose}>
       <View style={cStyles.center}>

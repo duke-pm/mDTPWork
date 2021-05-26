@@ -26,8 +26,8 @@ const CCard = React.memo(function CCard(props) {
     onPress = null,
   } = props;
 
+  /** RENDER */
   const Component = onPress ? TouchableOpacity : View;
-
   return (
     <Component
       key={key}
@@ -83,9 +83,7 @@ const CCard = React.memo(function CCard(props) {
 });
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: colors.BACKGROUND_CARD,
-  },
+  container: {backgroundColor: colors.BACKGROUND_CARD},
   con_label: {
     backgroundColor: colors.WHITE,
     borderWidth: 0.3,

@@ -6,6 +6,10 @@
  **/
 import React, {useState} from 'react';
 import {useDispatch} from 'react-redux';
+import {useTheme} from '@react-navigation/native';
+import {useColorScheme} from 'react-native-appearance';
+import {useTranslation} from 'react-i18next';
+import {useNavigation} from '@react-navigation/native';
 import {
   StyleSheet,
   View,
@@ -13,11 +17,7 @@ import {
   LayoutAnimation,
   UIManager,
 } from 'react-native';
-import {useTranslation} from 'react-i18next';
-import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
-import {useTheme} from '@react-navigation/native';
-import {useColorScheme} from 'react-native-appearance';
 import {BlurView} from '@react-native-community/blur';
 /** COMPONENTS */
 import CText from './CText';
@@ -39,7 +39,6 @@ function CHeader(props) {
   const navigation = useNavigation();
   const isDark = useColorScheme() === 'dark';
   const {customColors} = useTheme();
-
   const {
     centerStyle = {},
     hasBack = false,
@@ -58,8 +57,10 @@ function CHeader(props) {
     onPressSearch = () => {},
   } = props;
 
+  /** Use redux */
   const dispatch = useDispatch();
 
+  /** Use state */
   const [isSearch, setIsSearch] = useState(false);
   const [valueSearch, setValueSearch] = useState('');
 
@@ -68,10 +69,10 @@ function CHeader(props) {
     navigation.goBack();
   };
 
-  const handleToogleSearch = show => {
+  const handleToogleSearch = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    setIsSearch(show);
-    dispatch(Actions.changeIsSearch(show));
+    dispatch(Actions.changeIsSearch(!isSearch));
+    setIsSearch(!isSearch);
   };
 
   const handleAddNew = () => {
@@ -80,7 +81,7 @@ function CHeader(props) {
 
   const handleSearch = () => {
     onPressSearch(valueSearch);
-    handleToogleSearch(false);
+    handleToogleSearch();
   };
 
   const handleChangeValue = value => {
@@ -92,19 +93,23 @@ function CHeader(props) {
     <View
       style={[
         cStyles.shadowHeader,
+        cStyles.row,
+        cStyles.top0,
+        cStyles.insetX0,
         styles.container,
-        {backgroundColor: isDark ? customColors.header : customColors.primary},
         isSearch && cStyles.px16,
+        {backgroundColor: isDark ? customColors.header : customColors.primary},
       ]}>
       {isDark && IS_IOS && (
         <BlurView
           style={[cStyles.abs, cStyles.inset0]}
           blurType={'extraDark'}
-          reducedTransparencyFallbackColor={'black'}
+          reducedTransparencyFallbackColor={colors.BLACK}
         />
       )}
       {isSearch && (
-        <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pb6]}>
+        <View
+          style={[cStyles.row, cStyles.itemsCenter, IS_ANDROID && cStyles.pb6]}>
           <CInput
             containerStyle={styles.input_search}
             iconLast={'search'}
@@ -121,7 +126,7 @@ function CHeader(props) {
           <CText
             styles={'colorWhite pl16 pt6'}
             label={'common:close'}
-            onPress={() => handleToogleSearch(false)}
+            onPress={handleToogleSearch}
           />
         </View>
       )}
@@ -142,7 +147,7 @@ function CHeader(props) {
                   name={
                     iconBack || (IS_ANDROID ? 'arrow-left' : 'chevron-left')
                   }
-                  color={'white'}
+                  color={colors.WHITE}
                   size={scalePx(3)}
                 />
               </TouchableOpacity>
@@ -153,7 +158,7 @@ function CHeader(props) {
                 <Icon
                   style={cStyles.p16}
                   name={'menu'}
-                  color={'white'}
+                  color={colors.WHITE}
                   size={scalePx(3)}
                 />
               </TouchableOpacity>
@@ -198,11 +203,11 @@ function CHeader(props) {
             {hasSearch && (
               <TouchableOpacity
                 style={cStyles.itemsEnd}
-                onPress={() => handleToogleSearch(true)}>
+                onPress={handleToogleSearch}>
                 <Icon
                   style={cStyles.p16}
                   name={'search'}
-                  color={'white'}
+                  color={colors.WHITE}
                   size={scalePx(3)}
                 />
               </TouchableOpacity>
@@ -213,7 +218,7 @@ function CHeader(props) {
                 <Icon
                   style={cStyles.p16}
                   name={'file-plus'}
-                  color={'white'}
+                  color={colors.WHITE}
                   size={scalePx(3)}
                 />
               </TouchableOpacity>
@@ -228,18 +233,11 @@ function CHeader(props) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    height: cStyles.toolbarHeight,
-    top: 0,
-    left: 0,
-    right: 0,
-  },
+  container: {height: cStyles.toolbarHeight},
   con_left: {flex: 0.2},
   con_body: {flex: 0.6},
   con_right: {flex: 0.2},
   input_search: {width: '85%'},
-  con_search: {backgroundColor: 'white'},
 });
 
 export default CHeader;

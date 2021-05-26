@@ -5,19 +5,42 @@
  ** CreateAt: 2021
  ** Description: Description of RequestProcess.js
  **/
-import React from 'react';
-import {StyleSheet, View} from 'react-native';
-import Icon from 'react-native-vector-icons/Feather';
+import React, {useState, useEffect} from 'react';
+import {StyleSheet, View, Animated} from 'react-native';
+import LottieView from 'lottie-react-native';
 /* COMPONENTS */
 import CText from '~/components/CText';
 import CCard from '~/components/CCard';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
-import {scalePx} from '~/utils/helper';
+import Animations from '~/utils/asset/Animations';
 
 function RequestProcess(props) {
   const {data = [], customColors = {}, isDark = false} = props;
   let isReject = false;
+
+  /** Use state */
+  const [anims, setAnims] = useState([]);
+
+  useEffect(() => {
+    let tmp = [],
+      tmp2 = [];
+    for (let i of data) {
+      tmp.push(new Animated.Value(0));
+    }
+    setAnims(tmp);
+
+    for (let i of tmp) {
+      let t = Animated.timing(i, {
+        toValue: 1,
+        duration: 300,
+        useNativeDriver: true,
+      });
+      tmp2.push(t);
+    }
+
+    Animated.sequence(tmp2).start();
+  }, []);
 
   return (
     <CCard
@@ -32,9 +55,14 @@ function RequestProcess(props) {
               isReject = true;
             }
             return (
-              <View
+              <Animated.View
                 key={index.toString()}
-                style={[cStyles.row, cStyles.itemsStart, cStyles.pt10]}>
+                style={[
+                  cStyles.row,
+                  cStyles.itemsStart,
+                  cStyles.pt10,
+                  {transform: [{scaleY: anims[index]}]},
+                ]}>
                 {item.approveDate ? (
                   <View
                     style={[
@@ -72,22 +100,21 @@ function RequestProcess(props) {
                     cStyles.itemsCenter,
                     {flex: 0.1},
                   ]}>
-                  <Icon
-                    name={
-                      !item.approveDate
-                        ? 'help-circle'
-                        : item.statusID === 0
-                        ? 'x-circle'
-                        : 'check-circle'
+                  <LottieView
+                    style={
+                      item.statusID === 0
+                        ? styles.img_icon_reject
+                        : styles.img_icon
                     }
-                    size={scalePx(3)}
-                    color={
+                    source={
                       !item.approveDate
-                        ? customColors.orange
+                        ? Animations.info
                         : item.statusID === 0
-                        ? customColors.red
-                        : customColors.green
+                        ? Animations.rejected
+                        : Animations.approved
                     }
+                    autoPlay
+                    loop={false}
                   />
                   {index !== data.length - 1 && (
                     <View
@@ -188,7 +215,7 @@ function RequestProcess(props) {
                     </View>
                   )}
                 </View>
-              </View>
+              </Animated.View>
             );
           })}
         </View>
@@ -200,6 +227,8 @@ function RequestProcess(props) {
 const styles = StyleSheet.create({
   con_time_process: {backgroundColor: colors.SECONDARY, flex: 0.3},
   line_2: {width: 2, height: 20},
+  img_icon: {height: 40, width: 40},
+  img_icon_reject: {height: 25, width: 25},
 });
 
 export default RequestProcess;

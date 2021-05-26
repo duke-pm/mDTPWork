@@ -10,6 +10,7 @@ import {View, StyleSheet, ActivityIndicator, Modal} from 'react-native';
 import {colors, cStyles} from '~/utils/style';
 
 function CLoading(props) {
+  /** RENDER */
   return (
     <Modal visible={props.visible} animationType={'fade'} transparent>
       <View
@@ -26,9 +27,7 @@ function CLoading(props) {
 }
 
 const styles = StyleSheet.create({
-  con_modal: {
-    backgroundColor: colors.BACKGROUND_MODAL,
-  },
+  con_modal: {backgroundColor: colors.BACKGROUND_MODAL},
 });
 
 export default CLoading;

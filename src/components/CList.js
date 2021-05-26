@@ -9,10 +9,10 @@ import {StyleSheet, View, FlatList, Animated} from 'react-native';
 /* COMPONENTS */
 import CEmpty from './CEmpty';
 import CFooterList from './CFooterList';
+import CIconButton from './CIconButton';
 /* COMMON */
 import {IS_ANDROID} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
-import CIconButton from './CIconButton';
 
 let listRef = createRef();
 
@@ -25,18 +25,22 @@ function CList(props) {
     onLoadmore = null,
   } = props;
 
+  /** Use ref */
   const animButtonToTop = useRef(new Animated.Value(cStyles.deviceHeight))
     .current;
 
+  /** Use state */
   const [scrollDown, setScrollDown] = useState({
     status: false,
     offsetY: 0,
   });
 
+  /** HANDLE FUNC */
   const handleScrollToTop = () => {
     listRef.scrollToOffset({animated: true, offset: 0});
   };
 
+  /** FUNC */
   const onScroll = event => {
     if (!scrollDown.status) {
       if (scrollDown.offsetY < event.nativeEvent.contentOffset.y) {
@@ -68,6 +72,7 @@ function CList(props) {
     }
   };
 
+  /** RENDER */
   return (
     <View style={cStyles.flex1}>
       <FlatList
@@ -100,30 +105,24 @@ function CList(props) {
         {...props}
       />
 
-      {showScrollTop &&
+      {showScrollTop && (
         <CIconButton
           style={[
+            cStyles.abs,
             styles.button_scroll_to_top,
-            {
-              transform: [
-                {
-                  translateX: animButtonToTop,
-                },
-              ],
-            },
+            {transform: [{translateX: animButtonToTop}]},
           ]}
           iconName={'arrow-up'}
           iconColor={colors.WHITE}
           onPress={handleScrollToTop}
         />
-      }
+      )}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   button_scroll_to_top: {
-    position: 'absolute',
     right: 30,
     bottom: 30,
     backgroundColor: colors.SECONDARY,

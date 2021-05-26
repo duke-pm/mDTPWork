@@ -38,7 +38,6 @@ const RequestItem = React.memo(function RequestItem(props) {
     if (props.data.requestTypeID === Commons.APPROVED_TYPE.ASSETS.value) {
       route = Routes.MAIN.ADD_APPROVED_ASSETS.name;
     }
-
     navigation.navigate(route, {
       data: props.data,
       dataProcess: props.dataProcess,

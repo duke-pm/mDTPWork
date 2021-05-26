@@ -1,16 +1,18 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /**
- * React Native Kit
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
+ **/
+/**
+ ** Name: CContainer
+ ** Author:
+ ** CreateAt: 2021
+ ** Description: Description of CContainer.js
+ **/
 import React, {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
-import {StyleSheet, View, Platform, StatusBar} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
+import {StyleSheet, View, Platform, StatusBar, Modal} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import {BlurView} from '@react-native-community/blur';
 /** COMMON */
 import CHeader from './CHeader';
@@ -23,40 +25,47 @@ import {IS_IOS} from '~/utils/helper';
 function CContainer(props) {
   const {customColors} = useTheme();
   const isDark = useColorScheme() === 'dark';
-
-  const commonState = useSelector(({common}) => common);
-
-  const [bgColor, setbgColor] = useState(customColors.primary);
-
   const {
     safeArea = {
       top: true,
       bottom: false,
     },
-    style,
-
-    header,
-    content,
-    footer,
-
-    headerLeft,
-    headerRight,
-    hasBack,
-    hasMenu,
-    hasSearch,
-    hasAddNew,
-    hasPaddingFooter,
-
+    style = {},
+    header = null,
+    content = null,
+    footer = null,
+    headerLeft = null,
+    headerRight = null,
+    hasBack = false,
+    hasMenu = false,
+    hasSearch = false,
+    hasAddNew = false,
+    hasPaddingFooter = false,
     title,
     customTitle,
     subTitle,
     customSubTitle,
     iconBack,
-
-    onPressAddNew,
-    onPressSearch,
+    onPressAddNew = () => {},
+    onPressSearch = () => {},
   } = props;
 
+  /** Use redux */
+  const commonState = useSelector(({common}) => common);
+
+  /** Use state */
+  const [bgColor, setbgColor] = useState(customColors.primary);
+
+  /** LIFE CYCLE */
+  useEffect(() => {
+    if (isDark) {
+      setbgColor(customColors.header);
+    } else {
+      setbgColor(customColors.primary);
+    }
+  }, [isDark, setbgColor]);
+
+  /** RENDER */
   // Theme
   let tmpSafeArea = ['right', 'left'];
   if (safeArea.top) {
@@ -66,29 +75,16 @@ function CContainer(props) {
     tmpSafeArea.push('bottom');
   }
 
-  useEffect(() => {
-    if (isDark) {
-      setbgColor(customColors.header);
-    } else {
-      setbgColor(customColors.primary);
-    }
-  }, [isDark, setbgColor]);
-
   return (
     <SafeAreaView
-      style={[
-        cStyles.flex1,
-        {
-          backgroundColor: bgColor,
-        },
-      ]}
+      style={[cStyles.flex1, {backgroundColor: bgColor}]}
       edges={tmpSafeArea}>
       <StatusBar backgroundColor={bgColor} />
       {isDark && IS_IOS && (
         <BlurView
           style={[cStyles.abs, cStyles.inset0]}
           blurType={'extraDark'}
-          reducedTransparencyFallbackColor={'black'}
+          reducedTransparencyFallbackColor={colors.BLACK}
         />
       )}
       <View style={[cStyles.flex1, styles.container, style]}>
@@ -118,9 +114,7 @@ function CContainer(props) {
                 style={[
                   cStyles.abs,
                   cStyles.inset0,
-                  {
-                    backgroundColor: colors.BACKGROUND_MODAL,
-                  },
+                  {backgroundColor: colors.BACKGROUND_MODAL},
                 ]}
               />
             )}
@@ -134,9 +128,7 @@ function CContainer(props) {
                 style={[
                   cStyles.abs,
                   cStyles.inset0,
-                  {
-                    backgroundColor: colors.BACKGROUND_MODAL,
-                  },
+                  {backgroundColor: colors.BACKGROUND_MODAL},
                 ]}
               />
             )}
