@@ -14,13 +14,12 @@ import {
   StyleSheet,
   View,
   TouchableOpacity,
-  SafeAreaView,
   Switch,
   UIManager,
   LayoutAnimation,
   ScrollView,
 } from 'react-native';
-import {showMessage} from 'react-native-flash-message';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/Feather';
 import moment from 'moment';
@@ -230,7 +229,9 @@ function Filter(props) {
       isVisible={show}
       animationIn={'slideInUp'}
       animationOut={'slideOutDown'}>
-      <SafeAreaView style={cStyles.flex1}>
+      <SafeAreaView
+        style={[cStyles.flex1, {backgroundColor: customColors.primary}]}
+        edges={['right', 'left', 'top']}>
         <View style={[cStyles.flex1, {backgroundColor: customColors.card}]}>
           {/** Header of filter */}
           <CHeader
@@ -266,7 +267,7 @@ function Filter(props) {
               ]}>
               <View style={styles.text_date}>
                 <CText
-                  styles={'fontMedium pt16 textLeft'}
+                  styles={'pt16 textLeft'}
                   label={'project_management:from_date'}
                 />
               </View>
@@ -300,7 +301,7 @@ function Filter(props) {
               ]}>
               <View style={styles.text_date}>
                 <CText
-                  styles={'fontMedium pt16 textLeft'}
+                  styles={'pt16 textLeft'}
                   label={'project_management:to_date'}
                 />
               </View>

@@ -23,6 +23,7 @@ import {
 import {Table, Row, TableWrapper, Cell} from 'react-native-table-component';
 import Icon from 'react-native-vector-icons/Feather';
 import ActionSheet from 'react-native-actions-sheet';
+import * as Animatable from 'react-native-animatable';
 import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
@@ -41,6 +42,8 @@ import {IS_IOS, alert, scalePx} from '~/utils/helper';
 import Commons from '~/utils/common/Commons';
 /* REDUX */
 import * as Actions from '~/redux/actions';
+
+const MyTableWrapper = Animatable.createAnimatableComponent(TableWrapper);
 
 const INPUT_NAME = {
   DATE_REQUEST: 'dateRequest',
@@ -62,6 +65,10 @@ let regionRef = createRef();
 let whereUseRef = createRef();
 let reasonRef = createRef();
 let supplierRef = createRef();
+let newRef = createRef();
+let addRef = createRef();
+let yesRef = createRef();
+let noRef = createRef();
 
 function AddRequest(props) {
   const {t} = useTranslation();
@@ -110,6 +117,7 @@ function AddRequest(props) {
     supplier: '',
     status: 1,
     isAllowApproved: false,
+    refsAssets: [],
   });
   const [error, setError] = useState({
     department: {
@@ -129,6 +137,7 @@ function AddRequest(props) {
       helper: '',
     },
   });
+  const [valuesRef, setValuesRef] = useState([]);
 
   /** HANDLE FUNC */
   const handleDateInput = () => setShowPickerDate(true);
@@ -147,18 +156,24 @@ function AddRequest(props) {
 
   const handleAddAssets = () => {
     let newData = [...form.assets.data];
+    let newHandleRef = [...form.refsAssets];
     newData.push(['', '', '', '', null]);
+    let handleRef = createRef();
+    newHandleRef.push(handleRef);
+
     setForm({
       ...form,
       assets: {
         ...form.assets,
         data: newData,
       },
+      refsAssets: newHandleRef,
     });
   };
 
-  const handleChooseTypeAssets = type => {
+  const handleChooseTypeAssets = (type, ref) => {
     if (type !== form.typeAssets) {
+      ref.pulse(300);
       setForm({
         ...form,
         typeAssets: type,
@@ -166,8 +181,9 @@ function AddRequest(props) {
     }
   };
 
-  const handleChooseInPlanning = inplanning => {
+  const handleChooseInPlanning = (inplanning, ref) => {
     if (inplanning !== form.inPlanning) {
+      ref.pulse(300);
       setForm({
         ...form,
         inPlanning: inplanning,
@@ -371,14 +387,19 @@ function AddRequest(props) {
   };
 
   const onRemoveRow = rowIndex => {
+    let newHandleRef = [...form.refsAssets];
     let newData = [...form.assets.data];
     newData.splice(rowIndex, 1);
-    setForm({
-      ...form,
-      assets: {
-        ...form.assets,
-        data: newData,
-      },
+    newHandleRef.splice(rowIndex, 2);
+    form.refsAssets[rowIndex].fadeOutLeft(300).then(endState => {
+      setForm({
+        ...form,
+        assets: {
+          ...form.assets,
+          data: newData,
+        },
+        refsAssets: newHandleRef,
+      });
     });
   };
 
@@ -420,7 +441,8 @@ function AddRequest(props) {
       let arrayDetail = props.route.params?.dataDetail;
       if (arrayDetail.length > 0) {
         tmp.assets.data = [];
-        let item = null;
+        let item = null,
+          choosesRef = [];
         for (item of arrayDetail) {
           tmp.assets.data.push([
             item.descr,
@@ -428,7 +450,10 @@ function AddRequest(props) {
             item.unitPrice,
             item.totalAmt,
           ]);
+          let handleRef = createRef();
+          choosesRef.push(handleRef);
         }
+        tmp.refsAssets = choosesRef;
       }
     }
     if (props.route.params?.dataProcess) {
@@ -755,42 +780,48 @@ function AddRequest(props) {
                       }
                       data={form.assets.header}
                     />
-                    {form.assets.data.map((rowData, rowIndex) => (
-                      <TableWrapper
-                        key={rowIndex.toString()}
-                        style={[cStyles.flex1, cStyles.row]}
-                        borderStyle={styles.table}>
-                        {rowData.map((cellData, cellIndex) => {
-                          let disabled =
-                            loading.main || cellIndex === 3 || isDetail;
-                          return (
-                            <Cell
-                              key={cellIndex.toString()}
-                              width={
-                                cellIndex === 0
-                                  ? 180
-                                  : cellIndex === 1
-                                  ? 70
-                                  : cellIndex === 4
-                                  ? 42
-                                  : 100
-                              }
-                              height={40}
-                              data={
-                                <AssetItem
-                                  disabled={disabled}
-                                  cellData={cellData}
-                                  rowIndex={rowIndex}
-                                  cellIndex={cellIndex}
-                                  onChangeCellItem={onChangeCellItem}
-                                  onRemoveRow={onRemoveRow}
-                                />
-                              }
-                            />
-                          );
-                        })}
-                      </TableWrapper>
-                    ))}
+                    {form.assets.data.map((rowData, rowIndex) => {
+                      return (
+                        <MyTableWrapper
+                          ref={ref => (form.refsAssets[rowIndex] = ref)}
+                          key={rowIndex.toString()}
+                          style={[cStyles.flex1, cStyles.row]}
+                          borderStyle={styles.table}
+                          animation={'fadeInLeft'}
+                          duration={300}
+                          useNativeDriver={true}>
+                          {rowData.map((cellData, cellIndex) => {
+                            let disabled =
+                              loading.main || cellIndex === 3 || isDetail;
+                            return (
+                              <Cell
+                                key={cellIndex.toString()}
+                                width={
+                                  cellIndex === 0
+                                    ? 180
+                                    : cellIndex === 1
+                                    ? 70
+                                    : cellIndex === 4
+                                    ? 42
+                                    : 100
+                                }
+                                height={40}
+                                data={
+                                  <AssetItem
+                                    disabled={disabled}
+                                    cellData={cellData}
+                                    rowIndex={rowIndex}
+                                    cellIndex={cellIndex}
+                                    onChangeCellItem={onChangeCellItem}
+                                    onRemoveRow={onRemoveRow}
+                                  />
+                                }
+                              />
+                            );
+                          })}
+                        </MyTableWrapper>
+                      );
+                    })}
                   </Table>
                 </ScrollView>
 
@@ -904,8 +935,11 @@ function AddRequest(props) {
                   <TouchableOpacity
                     style={{flex: 0.4}}
                     disabled={loading.main || loading.submitAdd || isDetail}
-                    onPress={() => handleChooseTypeAssets('N')}>
-                    <View style={[cStyles.row, cStyles.itemsCenter]}>
+                    onPress={() => handleChooseTypeAssets('N', newRef)}>
+                    <Animatable.View
+                      ref={ref => (newRef = ref)}
+                      style={[cStyles.row, cStyles.itemsCenter]}
+                      useNativeDriver={true}>
                       <Icon
                         name={
                           form.typeAssets === 'N' ? 'check-circle' : 'circle'
@@ -921,14 +955,17 @@ function AddRequest(props) {
                         styles={'pl10'}
                         label={'add_approved_assets:buy_new'}
                       />
-                    </View>
+                    </Animatable.View>
                   </TouchableOpacity>
 
                   <TouchableOpacity
                     style={{flex: 0.6}}
                     disabled={loading.main || loading.submitAdd || isDetail}
-                    onPress={() => handleChooseTypeAssets('A')}>
-                    <View style={[cStyles.row, cStyles.itemsCenter]}>
+                    onPress={() => handleChooseTypeAssets('A', addRef)}>
+                    <Animatable.View
+                      ref={ref => (addRef = ref)}
+                      style={[cStyles.row, cStyles.itemsCenter]}
+                      useNativeDriver={true}>
                       <Icon
                         name={
                           form.typeAssets === 'A' ? 'check-circle' : 'circle'
@@ -944,7 +981,7 @@ function AddRequest(props) {
                         styles={'pl10'}
                         label={'add_approved_assets:additional'}
                       />
-                    </View>
+                    </Animatable.View>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -959,8 +996,11 @@ function AddRequest(props) {
                   <TouchableOpacity
                     style={{flex: 0.4}}
                     disabled={loading.main || loading.submitAdd || isDetail}
-                    onPress={() => handleChooseInPlanning(true)}>
-                    <View style={[cStyles.row, cStyles.itemsCenter]}>
+                    onPress={() => handleChooseInPlanning(true, yesRef)}
+                    useNativeDriver={true}>
+                    <Animatable.View
+                      ref={ref => (yesRef = ref)}
+                      style={[cStyles.row, cStyles.itemsCenter]}>
                       <Icon
                         name={form.inPlanning ? 'check-circle' : 'circle'}
                         size={scalePx(3)}
@@ -972,14 +1012,17 @@ function AddRequest(props) {
                         styles={'pl10'}
                         label={'add_approved_assets:yes'}
                       />
-                    </View>
+                    </Animatable.View>
                   </TouchableOpacity>
 
                   <TouchableOpacity
                     style={{flex: 0.6}}
                     disabled={loading.main || loading.submitAdd || isDetail}
-                    onPress={() => handleChooseInPlanning(false)}>
-                    <View style={[cStyles.row, cStyles.itemsCenter]}>
+                    onPress={() => handleChooseInPlanning(false, noRef)}
+                    useNativeDriver={true}>
+                    <Animatable.View
+                      ref={ref => (noRef = ref)}
+                      style={[cStyles.row, cStyles.itemsCenter]}>
                       <Icon
                         name={!form.inPlanning ? 'check-circle' : 'circle'}
                         size={scalePx(3)}
@@ -990,7 +1033,7 @@ function AddRequest(props) {
                         }
                       />
                       <CText styles={'pl10'} label={'add_approved_assets:no'} />
-                    </View>
+                    </Animatable.View>
                   </TouchableOpacity>
                 </View>
               </View>
