@@ -1,10 +1,9 @@
 /**
- ** Name:
- ** Author:
- ** CreateAt:
- ** Description:
+ ** Name: NavigationService
+ ** Author: 
+ ** CreateAt: 2021
+ ** Description: Description of NavigationService.js
  **/
-/* LIBRARY */
 import {CommonActions} from '@react-navigation/native';
 
 let _navigator;

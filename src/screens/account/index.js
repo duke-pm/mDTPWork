@@ -144,6 +144,7 @@ function Account(props) {
             showsVerticalScrollIndicator={false}>
             <View
               style={[
+                cStyles.center,
                 cStyles.rounded2,
                 cStyles.p16,
                 cStyles.mt60,
@@ -156,7 +157,7 @@ function Account(props) {
                 style={[
                   cStyles.flexCenter,
                   cStyles.abs,
-                  {top: -sW('12%'), left: sW('50%') - sW('24%') + 16 - 4},
+                  {top: -sW('12%')},
                 ]}>
                 <CAvatar
                   isEdit={true}
@@ -176,7 +177,7 @@ function Account(props) {
               </View>
 
               {/** INFORMATION */}
-              <View style={{paddingTop: sW('30%')}}>
+              <View style={[cStyles.fullWidth, {paddingTop: sW('30%')}]}>
                 <View style={[cStyles.borderTop, cStyles.fullWidth]} />
                 <CText
                   styles={'textMeta pt16'}
@@ -194,7 +195,7 @@ function Account(props) {
               </View>
 
               {/** SETTINGS */}
-              <View style={cStyles.pt16}>
+              <View style={[cStyles.fullWidth, cStyles.pt16]}>
                 <CText styles={'textMeta'} label={ACCOUNT.SETTINGS.label} />
                 {ACCOUNT.SETTINGS.childrens.map((item, index) => (
                   <ListItem
@@ -209,7 +210,7 @@ function Account(props) {
               </View>
             </View>
             {/** SOCIALS */}
-            <View style={cStyles.pt16}>
+            <View style={[cStyles.fullWidth, cStyles.itemsEnd, cStyles.pt16]}>
               <View style={[cStyles.row, cStyles.itemsCenter]}>
                 {ACCOUNT.SOCIALS.map((item, index) => (
                   <SocialItem
@@ -222,12 +223,14 @@ function Account(props) {
               </View>
             </View>
 
-            <Text
-              style={[
-                [cStyles.textMeta, cStyles.py16, {color: customColors.text}],
-              ]}>
-              &#169; 2021 DTP-Education
-            </Text>
+            <View style={cStyles.itemsEnd}>
+              <Text
+                style={[
+                  [cStyles.textMeta, cStyles.py16, {color: customColors.text}],
+                ]}>
+                &#169; 2021 DTP-Education
+              </Text>
+            </View>
           </ScrollView>
         </CContent>
       }

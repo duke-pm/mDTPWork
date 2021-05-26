@@ -26,6 +26,7 @@ import Unconnected from '~/screens/connection/Unconnected';
 /** COMMON */
 import {colors} from '~/utils/style';
 import jwtServiceConfig from '~/services/jwtServiceConfig';
+import {IS_ANDROID} from '~/utils/helper';
 /** REDUX */
 import Store from './src/redux/store';
 
@@ -35,12 +36,18 @@ const App = () => {
     connected: true,
   });
 
+  /** HANDLE FUNC */
+  const handleNetInfo = obj => {
+    obj.isConnected ? onReverseAnimate() : onAnimate();
+  };
+
   /** FUNC */
-  const onCheckConnection = () => {
-    setState({
-      ...state,
-      checked: true,
-    });
+  const onAnimate = () => {
+    setState({...state, connected: false});
+  };
+
+  const onReverseAnimate = () => {
+    setState({...state, connected: true});
   };
 
   const setDefaultAxios = () => {
@@ -58,27 +65,13 @@ const App = () => {
   useEffect(() => {
     StatusBar.setBarStyle('light-content');
     if (isDarkMode) {
-      StatusBar.setBackgroundColor(DarkTheme.colors.background);
+      IS_ANDROID && StatusBar.setBackgroundColor(DarkTheme.colors.background);
     } else {
-      StatusBar.setBackgroundColor(colors.PRIMARY);
+      IS_ANDROID && StatusBar.setBackgroundColor(colors.PRIMARY);
     }
     setDefaultAxios();
-    NetInfo.addEventListener(stateConnect => {
-      const {isConnected} = stateConnect;
-      if (!isConnected) {
-        setState({
-          ...state,
-          connected: false,
-        });
-      }
-      if (state.checked && isConnected) {
-        setState({
-          connected: true,
-          checked: false,
-        });
-      }
-    });
-  }, [state.checked, state.connected]);
+    NetInfo.addEventListener(handleNetInfo);
+  }, []);
 
   /** RENDER */
   const MyDarkTheme = {
@@ -167,13 +160,10 @@ const App = () => {
         <Provider store={Store}>
           <SafeAreaProvider>
             <StatusBar barStyle={'light-content'} />
-            {!state.connected ? (
-              <Unconnected onTryAgain={onCheckConnection} />
-            ) : (
-              <Navigator />
-            )}
+            <Navigator />
 
             <FlashMessage position="top" />
+            <Unconnected connected={state.connected} />
           </SafeAreaProvider>
         </Provider>
       </NavigationContainer>

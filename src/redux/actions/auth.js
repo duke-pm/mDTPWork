@@ -6,13 +6,14 @@
  **/
 import {showMessage} from 'react-native-flash-message';
 /* COMMON */
-import * as types from './types';
-import * as Actions from '~/redux/actions';
+import Routes from '~/navigation/Routes';
 import Services from '~/services';
 import API from '~/services/axios';
 import {removeSecretInfo, resetRoute} from '~/utils/helper';
 import {LOGIN} from '~/config/constants';
-import Routes from '~/navigation/Routes';
+/** REDUX */
+import * as types from './types';
+import * as Actions from '~/redux/actions';
 
 export const logout = () => ({
   type: types.LOGOUT,

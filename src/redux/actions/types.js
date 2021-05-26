@@ -1,5 +1,5 @@
 /**
- ** Name: Types.js
+ ** Name: Types redux
  ** Author:
  ** CreatedAt: 2021
  ** Description: Description of Types.js
@@ -93,7 +93,6 @@ export const START_FETCH_LIST_PROJECT = '[PROJECT] START_FETCH_LIST_PROJECT';
 export const SUCCESS_FETCH_LIST_PROJECT =
   '[PROJECT] SUCCESS_FETCH_LIST_PROJECT';
 export const ERROR_FETCH_LIST_PROJECT = '[PROJECT] ERROR_FETCH_LIST_PROJECT';
-
 export const START_FETCH_LIST_TASK = '[PROJECT] START_FETCH_LIST_TASK';
 export const SUCCESS_FETCH_LIST_TASK = '[PROJECT] SUCCESS_FETCH_LIST_TASK';
 export const ERROR_FETCH_LIST_TASK = '[PROJECT] ERROR_FETCH_LIST_TASK';

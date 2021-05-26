@@ -6,6 +6,7 @@
  **/
 /* LIBRARY */
 import {fromJS, List} from 'immutable';
+/** REDUX */
 import * as types from '../actions/types';
 
 export const initialState = fromJS({

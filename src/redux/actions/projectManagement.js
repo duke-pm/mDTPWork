@@ -5,9 +5,10 @@
  ** Description: Description of ProjectManagement.js
  **/
 /* COMMON */
+import Services from '~/services';
+/** REDUX */
 import * as types from './types';
 import * as Actions from '~/redux/actions';
-import Services from '~/services';
 
 /** For get list project */
 export const listProjectError = error => ({

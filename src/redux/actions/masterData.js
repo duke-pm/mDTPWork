@@ -5,9 +5,10 @@
  ** Description: Description of masterData.js
  **/
 /* COMMON */
+import Services from '~/services';
+/** REDUX */
 import * as types from './types';
 import * as Actions from '~/redux/actions';
-import Services from '~/services';
 
 export const getError = error => ({
   type: types.ERROR_FETCH_MASTER_DATA,

@@ -14,6 +14,7 @@ import {
   TouchableOpacity,
   Image,
   Animated,
+  TouchableNativeFeedback,
 } from 'react-native';
 import moment from 'moment';
 /* COMPONENTS */
@@ -23,7 +24,7 @@ import Routes from '~/navigation/Routes';
 import {cStyles} from '~/utils/style';
 import Commons from '~/utils/common/Commons';
 import Assets from '~/utils/asset/Assets';
-import {IS_ANDROID, IS_IOS} from '~/utils/helper';
+import {IS_IOS} from '~/utils/helper';
 
 const RequestItem = React.memo(function RequestItem(props) {
   const {customColors} = props;
@@ -71,17 +72,18 @@ const RequestItem = React.memo(function RequestItem(props) {
     colorText = 'colorRed';
   }
 
+  const Touchable = IS_IOS ? TouchableOpacity : TouchableNativeFeedback;
   return (
-    <TouchableOpacity disabled={props.loading} onPress={handleRequestItem}>
+    <Touchable disabled={props.loading} onPress={handleRequestItem}>
       <Animated.View
         style={[
           cStyles.p10,
           cStyles.mb16,
           cStyles.rounded2,
-          IS_IOS && cStyles.shadowListItem,
-          IS_ANDROID && cStyles.borderAll,
+          cStyles.shadowListItem,
           {backgroundColor: customColors.listItem},
-        ]}>
+        ]}
+        renderToHardwareTextureAndroid={true}>
         <View
           style={[
             cStyles.flex1,
@@ -180,7 +182,7 @@ const RequestItem = React.memo(function RequestItem(props) {
           </View>
         </View>
       </Animated.View>
-    </TouchableOpacity>
+    </Touchable>
   );
 });
 

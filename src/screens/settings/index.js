@@ -170,7 +170,7 @@ function Settings(props) {
                   cStyles.justifyBetween,
                   cStyles.roundedTopLeft2,
                   cStyles.roundedTopRight2,
-                  {backgroundColor: customColors.card},
+                  {backgroundColor: customColors.background},
                 ]}>
                 <CText
                   styles={'textMeta'}

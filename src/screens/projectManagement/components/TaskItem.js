@@ -6,13 +6,13 @@
  ** Description: Description of TaskItem.js
  **/
 import React, {useState} from 'react';
-import {useTranslation} from 'react-i18next';
 import {useNavigation} from '@react-navigation/native';
 import {
   StyleSheet,
   View,
   Animated,
   TouchableOpacity,
+  TouchableNativeFeedback,
   LayoutAnimation,
   UIManager,
 } from 'react-native';
@@ -20,15 +20,15 @@ import Icon from 'react-native-vector-icons/Feather';
 import moment from 'moment';
 /* COMPONENTS */
 import CText from '~/components/CText';
+import CAvatar from '~/components/CAvatar';
 import ListTask from '../list/Task';
 import CIconButton from '~/components/CIconButton';
 /* COMMON */
 import Routes from '~/navigation/Routes';
+import Assets from '~/utils/asset/Assets';
 import Commons from '~/utils/common/Commons';
 import {IS_ANDROID, IS_IOS, scalePx} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
-import CAvatar from '~/components/CAvatar';
-import Assets from '~/utils/asset/Assets';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -37,9 +37,8 @@ if (IS_ANDROID) {
 }
 
 const TaskItem = React.memo(function TaskItem(props) {
-  const {t} = useTranslation();
   const navigation = useNavigation();
-  const {index, data, customColors, isDark} = props;
+  const {data, customColors, isDark} = props;
 
   /** Use state */
   const [showChildren, setShowChildren] = useState(false);
@@ -102,19 +101,17 @@ const TaskItem = React.memo(function TaskItem(props) {
     outputRange: ['0deg', '180deg'],
   });
 
+  const Touchable = IS_IOS ? TouchableOpacity : TouchableNativeFeedback;
   return (
     <View>
-      <TouchableOpacity disabled={props.loading} onPress={handleTaskItem}>
+      <Touchable disabled={props.loading} onPress={handleTaskItem}>
         <View
           style={[
             cStyles.p10,
             cStyles.mb16,
             cStyles.rounded2,
-            IS_IOS && cStyles.shadowListItem,
+            cStyles.shadowListItem,
             data.parent && cStyles.ml16,
-            IS_ANDROID && cStyles.borderTop,
-            IS_ANDROID && cStyles.borderBottom,
-            IS_ANDROID && cStyles.borderRight,
             {
               backgroundColor: customColors.listItem,
               borderLeftColor: typeColor,
@@ -147,14 +144,7 @@ const TaskItem = React.memo(function TaskItem(props) {
                   cStyles.itemsCenter,
                   data.childrens.length > 0 && {marginTop: -8},
                 ]}>
-                <View
-                  style={{
-                    height: 10,
-                    width: 10,
-                    borderRadius: 10,
-                    backgroundColor: bgStatus,
-                  }}
-                />
+                <View style={[styles.status, {backgroundColor: bgStatus}]} />
                 <CText
                   styles={'textMeta fontBold pl6 colorWhite'}
                   customStyles={[
@@ -176,12 +166,8 @@ const TaskItem = React.memo(function TaskItem(props) {
                     <View
                       style={[
                         cStyles.center,
-                        {
-                          height: 20,
-                          width: 20,
-                          borderRadius: 20,
-                          backgroundColor: customColors.cardDisable,
-                        },
+                        styles.number_child,
+                        {backgroundColor: customColors.cardDisable},
                       ]}>
                       <CText
                         styles={'textMeta fontRegular'}
@@ -396,19 +382,11 @@ const TaskItem = React.memo(function TaskItem(props) {
             </TouchableOpacity>
           </View>
         </View>
-      </TouchableOpacity>
+      </Touchable>
 
       {data.childrens.length > 0 && showChildren && (
         <View style={[cStyles.row, cStyles.itemsCenter]}>
-          <View
-            style={{
-              borderColor: colors.GRAY_400,
-              borderWidth: 0.5,
-              height: '100%',
-              marginTop: 30,
-              marginBottom: 50,
-            }}
-          />
+          <View style={styles.line_child} />
 
           <ListTask
             data={data.childrens}
@@ -425,6 +403,23 @@ const TaskItem = React.memo(function TaskItem(props) {
 const styles = StyleSheet.create({
   content_left: {flex: 0.45},
   content_right: {flex: 0.55},
+  status: {
+    height: 10,
+    width: 10,
+    borderRadius: 10,
+  },
+  number_child: {
+    height: 20,
+    width: 20,
+    borderRadius: 20,
+  },
+  line_child: {
+    borderColor: colors.GRAY_400,
+    borderWidth: 0.5,
+    height: '100%',
+    marginTop: 30,
+    marginBottom: 50,
+  },
 });
 
 export default TaskItem;

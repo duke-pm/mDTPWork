@@ -10,6 +10,7 @@ const Animations = {
   info: require('../../../assets/animations/info.json'),
   approved: require('../../../assets/animations/approved.json'),
   rejected: require('../../../assets/animations/rejected.json'),
+  connection: require('../../../assets/animations/connection.json'),
 };
 
 export default Animations;

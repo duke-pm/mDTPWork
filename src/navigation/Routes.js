@@ -4,16 +4,16 @@
  ** CreateAt: 2021
  ** Description: Description of Routes.js
  **/
+/** AUTH */
 import SignInScreen from '~/screens/authentication/signIn';
 import ForgotPasswordScreen from '~/screens/authentication/forgotPassword';
-
+/** DASHBOARD */
 import Dashboard from '~/screens/dashboard';
-
+/** ACCOUNT */
 import Account from '~/screens/account';
 import HelpAndInfo from '~/screens/helpAndInfo';
 import ContactUs from '~/screens/contactUs';
 import Settings from '~/screens/settings';
-
 /** APPROVED */
 import Approved from '~/screens/approved';
 import ListRequest from '~/screens/approved/listAssets';

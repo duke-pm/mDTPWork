@@ -7,28 +7,35 @@
 import React from 'react';
 import {useTheme} from '@react-navigation/native';
 import {View} from 'react-native';
-import Icon from 'react-native-vector-icons/Feather';
+import LottieView from 'lottie-react-native';
 /* COMPONENTS */
 import CText from '~/components/CText';
-import CButton from '~/components/CButton';
 /* COMMON */
+import Animations from '~/utils/asset/Animations';
 import {cStyles} from '~/utils/style';
-import {scalePx} from '~/utils/helper';
 
 function Unconnected(props) {
   const {customColors} = useTheme();
-  const {onTryAgain} = props;
 
   /** RENDER */
+  if (props.connected) return null;
+
   return (
     <View
       style={[
         cStyles.flexCenter,
         cStyles.p16,
+        cStyles.abs,
+        cStyles.inset0,
         {backgroundColor: customColors.background},
       ]}>
       <View style={cStyles.pb32}>
-      <Icon name={'cloud-off'} color={customColors.icon} size={scalePx(10)} />
+        <LottieView
+          style={{height: 200, width: 200}}
+          source={Animations.connection}
+          autoPlay
+          loop
+        />
       </View>
       <CText
         customStyles={[
@@ -46,11 +53,6 @@ function Unconnected(props) {
           {color: customColors.text},
         ]}
         label={'error:lost_network'}
-      />
-      <CButton
-        style={cStyles.mt16}
-        label={'common:try_connect'}
-        onPress={onTryAgain}
       />
     </View>
   );

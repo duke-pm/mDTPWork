@@ -6,8 +6,6 @@
  **/
 /* LIBRARY */
 import {fromJS} from 'immutable';
-
-import * as types from '../actions/types';
 import {
   DEFAULT_LANGUAGE_CODE,
   DEFAULT_FORMAT_DATE_1,
@@ -15,6 +13,8 @@ import {
   DEFAULT_FORMAT_DATE_3,
   DEFAULT_PER_PAGE,
 } from '~/config/constants';
+/** REDUX */
+import * as types from '../actions/types';
 
 export const initialState = fromJS({
   connection: true,

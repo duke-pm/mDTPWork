@@ -1,14 +1,13 @@
 /**
- ** Name:
- ** Author:
- ** CreateAt:
- ** Description:
+ ** Name: Stores
+ ** Author: 
+ ** CreateAt: 2021
+ ** Description: Description of Stores.js
  **/
-/* LIBRARY */
 import {composeWithDevTools} from 'redux-devtools-extension';
 import {createStore, applyMiddleware, compose} from 'redux';
 import thunk from 'redux-thunk';
-/* REDUCERS */
+/* REDUX */
 import rootReducer from './reducers';
 
 const composeEnhancers =
