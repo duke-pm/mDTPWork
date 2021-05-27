@@ -49,7 +49,7 @@ function CButton(props) {
           cStyles.row,
           cStyles.center,
           cStyles.rounded1,
-          cStyles.my6,
+          cStyles.py6,
           cStyles.px16,
           styles.container,
           {backgroundColor: color},

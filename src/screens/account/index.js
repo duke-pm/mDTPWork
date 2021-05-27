@@ -154,11 +154,7 @@ function Account(props) {
                 },
               ]}>
               <View
-                style={[
-                  cStyles.flexCenter,
-                  cStyles.abs,
-                  {top: -sW('12%')},
-                ]}>
+                style={[cStyles.flexCenter, cStyles.abs, {top: -sW('12%')}]}>
                 <CAvatar
                   isEdit={true}
                   size={'large'}
@@ -210,7 +206,7 @@ function Account(props) {
               </View>
             </View>
             {/** SOCIALS */}
-            <View style={[cStyles.fullWidth, cStyles.itemsEnd, cStyles.pt16]}>
+            <View style={[cStyles.fullWidth, cStyles.itemsStart, cStyles.pt16]}>
               <View style={[cStyles.row, cStyles.itemsCenter]}>
                 {ACCOUNT.SOCIALS.map((item, index) => (
                   <SocialItem
@@ -223,10 +219,12 @@ function Account(props) {
               </View>
             </View>
 
-            <View style={cStyles.itemsEnd}>
+            <View style={cStyles.itemsStart}>
               <Text
                 style={[
-                  [cStyles.textMeta, cStyles.py16, {color: customColors.text}],
+                  cStyles.textMeta,
+                  cStyles.py16,
+                  {color: customColors.text},
                 ]}>
                 &#169; 2021 DTP-Education
               </Text>

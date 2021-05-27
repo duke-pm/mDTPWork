@@ -137,7 +137,6 @@ function AddRequest(props) {
       helper: '',
     },
   });
-  const [valuesRef, setValuesRef] = useState([]);
 
   /** HANDLE FUNC */
   const handleDateInput = () => setShowPickerDate(true);
@@ -654,30 +653,67 @@ function AddRequest(props) {
               style={cStyles.flex1}
               contentContainerStyle={[cStyles.p16, cStyles.justifyEnd]}
               keyboardShouldPersistTaps={'handled'}>
-              {/** Date request */}
-              <View>
-                <CText
-                  styles={'textTitle'}
-                  label={'add_approved_assets:date_request'}
-                />
-                <CInput
-                  name={INPUT_NAME.DATE_REQUEST}
-                  disabled={true}
-                  dateTimePicker={true}
-                  value={moment(form.dateRequest).format(
-                    commonState.get('formatDateView'),
-                  )}
-                  valueColor={customColors.text}
-                  iconLast={'calendar'}
-                  iconLastColor={colors.GRAY_700}
-                  onPressIconLast={handleDateInput}
-                />
+              <View
+                style={[
+                  cStyles.flex1,
+                  cStyles.row,
+                  cStyles.itemsCenter,
+                  cStyles.justifyBetween,
+                ]}>
+                {/** Date request */}
+                <View style={[cStyles.flex1, cStyles.mr5]}>
+                  <CText
+                    styles={'textMeta fontMedium'}
+                    label={'add_approved_assets:date_request'}
+                  />
+                  <CInput
+                    name={INPUT_NAME.DATE_REQUEST}
+                    disabled={true}
+                    dateTimePicker={true}
+                    value={moment(form.dateRequest).format(
+                      commonState.get('formatDateView'),
+                    )}
+                    valueColor={customColors.text}
+                    iconLast={'calendar'}
+                    iconLastColor={colors.GRAY_700}
+                    onPressIconLast={handleDateInput}
+                  />
+                </View>
+
+                {/** Region */}
+                <View
+                  style={[cStyles.flex1, cStyles.ml5, IS_IOS && {zIndex: 9}]}>
+                  <CText
+                    styles={'textMeta fontMedium'}
+                    label={'add_approved_assets:region'}
+                  />
+                  <CDropdown
+                    loading={loading.main}
+                    controller={instance => (regionRef.current = instance)}
+                    data={masterState.get('region')}
+                    disabled={true}
+                    error={error.region.status}
+                    errorHelper={error.region.helper}
+                    holder={'add_approved_assets:holder_region'}
+                    schema={{
+                      label: Commons.SCHEMA_DROPDOWN.REGION.label,
+                      value: Commons.SCHEMA_DROPDOWN.REGION.value,
+                      icon: Commons.SCHEMA_DROPDOWN.REGION.icon,
+                      hidden: Commons.SCHEMA_DROPDOWN.REGION.hidden,
+                    }}
+                    defaultValue={form.region}
+                    onChangeItem={value =>
+                      handleCombobox(value, INPUT_NAME.REGION)
+                    }
+                    onOpen={() => onOpenCombobox(INPUT_NAME.REGION)}
+                  />
+                </View>
               </View>
 
               {/** Name */}
               <View style={cStyles.pt16}>
                 <CText
-                  styles={'textTitle'}
+                  styles={'textMeta fontMedium'}
                   label={'add_approved_assets:name'}
                 />
                 <CInput
@@ -698,7 +734,7 @@ function AddRequest(props) {
               {/** Department */}
               <View style={[cStyles.pt16, IS_IOS && {zIndex: 10}]}>
                 <CText
-                  styles={'textTitle'}
+                  styles={'textMeta fontMedium'}
                   label={'add_approved_assets:department'}
                 />
                 <CDropdown
@@ -727,42 +763,21 @@ function AddRequest(props) {
                 />
               </View>
 
-              {/** Region */}
-              <View style={[cStyles.pt16, IS_IOS && {zIndex: 9}]}>
-                <CText
-                  styles={'textTitle'}
-                  label={'add_approved_assets:region'}
-                />
-                <CDropdown
-                  loading={loading.main}
-                  controller={instance => (regionRef.current = instance)}
-                  data={masterState.get('region')}
-                  disabled={true}
-                  error={error.region.status}
-                  errorHelper={error.region.helper}
-                  holder={'add_approved_assets:holder_region'}
-                  schema={{
-                    label: Commons.SCHEMA_DROPDOWN.REGION.label,
-                    value: Commons.SCHEMA_DROPDOWN.REGION.value,
-                    icon: Commons.SCHEMA_DROPDOWN.REGION.icon,
-                    hidden: Commons.SCHEMA_DROPDOWN.REGION.hidden,
-                  }}
-                  defaultValue={form.region}
-                  onChangeItem={value =>
-                    handleCombobox(value, INPUT_NAME.REGION)
-                  }
-                  onOpen={() => onOpenCombobox(INPUT_NAME.REGION)}
-                />
-              </View>
-
               {/** Assets */}
               <View style={[cStyles.flex1, cStyles.pt16]}>
                 <CText
-                  styles={'textTitle'}
+                  styles={'textMeta fontMedium'}
                   label={'add_approved_assets:assets'}
                 />
                 <ScrollView horizontal>
-                  <Table borderStyle={styles.table} style={cStyles.mt6}>
+                  <Table
+                    borderStyle={{
+                      borderWidth: 0.5,
+                      borderColor: error.assets.status
+                        ? customColors.red
+                        : colors.TABLE_LINE,
+                    }}
+                    style={cStyles.mt6}>
                     <Row
                       style={[
                         styles.table_header,
@@ -786,7 +801,6 @@ function AddRequest(props) {
                           ref={ref => (form.refsAssets[rowIndex] = ref)}
                           key={rowIndex.toString()}
                           style={[cStyles.flex1, cStyles.row]}
-                          borderStyle={styles.table}
                           animation={'fadeInLeft'}
                           duration={300}
                           useNativeDriver={true}>
@@ -833,10 +847,22 @@ function AddRequest(props) {
                     cStyles.itemsCenter,
                     cStyles.pt10,
                   ]}>
-                  <View style={{flex: 0.6}}>
+                  <View
+                    style={[
+                      cStyles.row,
+                      cStyles.itemsCenter,
+                      styles.con_right,
+                    ]}>
+                    {error.assets.status && (
+                      <Icon
+                        name={'alert-circle'}
+                        size={scalePx(2)}
+                        color={customColors.red}
+                      />
+                    )}
                     {error.assets.status && (
                       <CText
-                        styles={'textMeta colorRed'}
+                        styles={'textMeta colorRed pl6'}
                         label={t(error.assets.helper)}
                       />
                     )}
@@ -849,7 +875,7 @@ function AddRequest(props) {
                         cStyles.itemsCenter,
                         cStyles.justifyEnd,
                         cStyles.py10,
-                        {flex: 0.4},
+                        styles.con_left,
                       ]}
                       disabled={loading.main || loading.submitAdd || isDetail}
                       onPress={handleAddAssets}>
@@ -875,7 +901,7 @@ function AddRequest(props) {
               {/** Where use */}
               <View style={[cStyles.pt16, IS_IOS && {zIndex: 8}]}>
                 <CText
-                  styles={'textTitle'}
+                  styles={'textMeta fontMedium'}
                   label={'add_approved_assets:where_use'}
                 />
                 <CDropdown
@@ -907,7 +933,7 @@ function AddRequest(props) {
               {/** Reason */}
               <View style={cStyles.pt16}>
                 <CText
-                  styles={'textTitle'}
+                  styles={'textMeta fontMedium'}
                   label={'add_approved_assets:reason'}
                 />
                 <CInput
@@ -925,20 +951,49 @@ function AddRequest(props) {
                 />
               </View>
 
+              {/** Supplier */}
+              <View style={cStyles.pt16}>
+                <CText
+                  styles={'textMeta fontMedium'}
+                  label={'add_approved_assets:supplier'}
+                />
+                <CInput
+                  name={INPUT_NAME.SUPPLIER}
+                  styleFocus={styles.input_focus}
+                  inputRef={ref => (supplierRef = ref)}
+                  disabled={loading.main || loading.submitAdd || isDetail}
+                  holder={'add_approved_assets:holder_supplier'}
+                  value={form.supplier}
+                  keyboard={'default'}
+                  returnKey={'done'}
+                  onChangeInput={onSendRequest}
+                  onChangeValue={handleChangeText}
+                />
+              </View>
+
               {/** Type assets */}
               <View style={cStyles.pt16}>
                 <CText
-                  styles={'textTitle'}
+                  styles={'textMeta fontMedium'}
                   label={'add_approved_assets:type_assets'}
                 />
-                <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pt10]}>
+                <View
+                  style={[
+                    cStyles.row,
+                    cStyles.itemsCenter,
+                    cStyles.justifyAround,
+                    cStyles.pt10,
+                  ]}>
                   <TouchableOpacity
-                    style={{flex: 0.4}}
                     disabled={loading.main || loading.submitAdd || isDetail}
                     onPress={() => handleChooseTypeAssets('N', newRef)}>
                     <Animatable.View
                       ref={ref => (newRef = ref)}
-                      style={[cStyles.row, cStyles.itemsCenter]}
+                      style={[
+                        cStyles.row,
+                        cStyles.itemsCenter,
+                        styles.con_left,
+                      ]}
                       useNativeDriver={true}>
                       <Icon
                         name={
@@ -959,12 +1014,15 @@ function AddRequest(props) {
                   </TouchableOpacity>
 
                   <TouchableOpacity
-                    style={{flex: 0.6}}
                     disabled={loading.main || loading.submitAdd || isDetail}
                     onPress={() => handleChooseTypeAssets('A', addRef)}>
                     <Animatable.View
                       ref={ref => (addRef = ref)}
-                      style={[cStyles.row, cStyles.itemsCenter]}
+                      style={[
+                        cStyles.row,
+                        cStyles.itemsCenter,
+                        styles.con_right,
+                      ]}
                       useNativeDriver={true}>
                       <Icon
                         name={
@@ -987,20 +1045,30 @@ function AddRequest(props) {
               </View>
 
               {/** In Planning */}
-              <View style={cStyles.pt16}>
+              <View
+                style={[cStyles.pt16, isDark ? cStyles.pb56 : cStyles.pb32]}>
                 <CText
-                  styles={'textTitle'}
+                  styles={'textMeta fontMedium'}
                   label={'add_approved_assets:in_planning'}
                 />
-                <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pt10]}>
+                <View
+                  style={[
+                    cStyles.row,
+                    cStyles.itemsCenter,
+                    cStyles.justifyAround,
+                    cStyles.pt10,
+                  ]}>
                   <TouchableOpacity
-                    style={{flex: 0.4}}
                     disabled={loading.main || loading.submitAdd || isDetail}
                     onPress={() => handleChooseInPlanning(true, yesRef)}
                     useNativeDriver={true}>
                     <Animatable.View
                       ref={ref => (yesRef = ref)}
-                      style={[cStyles.row, cStyles.itemsCenter]}>
+                      style={[
+                        cStyles.row,
+                        cStyles.itemsCenter,
+                        styles.con_left,
+                      ]}>
                       <Icon
                         name={form.inPlanning ? 'check-circle' : 'circle'}
                         size={scalePx(3)}
@@ -1016,13 +1084,16 @@ function AddRequest(props) {
                   </TouchableOpacity>
 
                   <TouchableOpacity
-                    style={{flex: 0.6}}
                     disabled={loading.main || loading.submitAdd || isDetail}
                     onPress={() => handleChooseInPlanning(false, noRef)}
                     useNativeDriver={true}>
                     <Animatable.View
                       ref={ref => (noRef = ref)}
-                      style={[cStyles.row, cStyles.itemsCenter]}>
+                      style={[
+                        cStyles.row,
+                        cStyles.itemsCenter,
+                        styles.con_right,
+                      ]}>
                       <Icon
                         name={!form.inPlanning ? 'check-circle' : 'circle'}
                         size={scalePx(3)}
@@ -1036,27 +1107,6 @@ function AddRequest(props) {
                     </Animatable.View>
                   </TouchableOpacity>
                 </View>
-              </View>
-
-              {/** Supplier */}
-              <View
-                style={[cStyles.pt16, isDark ? cStyles.pb56 : cStyles.pb32]}>
-                <CText
-                  styles={'textTitle'}
-                  label={'add_approved_assets:supplier'}
-                />
-                <CInput
-                  name={INPUT_NAME.SUPPLIER}
-                  styleFocus={styles.input_focus}
-                  inputRef={ref => (supplierRef = ref)}
-                  disabled={loading.main || loading.submitAdd || isDetail}
-                  holder={'add_approved_assets:holder_supplier'}
-                  value={form.supplier}
-                  keyboard={'default'}
-                  returnKey={'done'}
-                  onChangeInput={onSendRequest}
-                  onChangeValue={handleChangeText}
-                />
               </View>
 
               <View style={cStyles.flex1} />
@@ -1153,6 +1203,8 @@ const styles = StyleSheet.create({
   button_reject: {width: cStyles.deviceWidth / 2.5},
   con_time_process: {backgroundColor: colors.SECONDARY, flex: 0.3},
   line_2: {width: 2, height: 20},
+  con_left: {flex: 0.4},
+  con_right: {flex: 0.6},
 });
 
 export default AddRequest;

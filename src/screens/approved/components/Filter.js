@@ -220,7 +220,7 @@ function Filter(props) {
             style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween]}>
             <View style={styles.text_date}>
               <CText
-                styles={'pt16 textLeft'}
+                styles={'pt12 textLeft'}
                 label={'approved_assets:from_date'}
               />
             </View>
@@ -248,7 +248,7 @@ function Filter(props) {
             style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween]}>
             <View style={styles.text_date}>
               <CText
-                styles={'pt16 textLeft'}
+                styles={'pt12 textLeft'}
                 label={'approved_assets:to_date'}
               />
             </View>
@@ -297,7 +297,7 @@ function Filter(props) {
               cStyles.row,
               cStyles.itemsCenter,
               cStyles.justifyBetween,
-              cStyles.pt10,
+              cStyles.mt10,
             ]}>
             <CButton
               style={{width: cStyles.deviceWidth / 2.5}}

@@ -17,8 +17,8 @@ import {
   LayoutAnimation,
   UIManager,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Feather';
 import {BlurView} from '@react-native-community/blur';
+import Icon from 'react-native-vector-icons/Feather';
 /** COMPONENTS */
 import CText from './CText';
 import CInput from './CInput';
@@ -94,6 +94,7 @@ function CHeader(props) {
       style={[
         cStyles.shadowHeader,
         cStyles.row,
+        cStyles.center,
         cStyles.top0,
         cStyles.insetX0,
         styles.container,
