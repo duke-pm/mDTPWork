@@ -54,6 +54,7 @@ function CContainer(props) {
   const commonState = useSelector(({common}) => common);
 
   /** Use state */
+  const [loading, setLoading] = useState(true);
   const [bgColor, setbgColor] = useState(customColors.primary);
 
   /** LIFE CYCLE */
@@ -64,6 +65,15 @@ function CContainer(props) {
       setbgColor(customColors.primary);
     }
   }, [isDark, setbgColor]);
+
+  useEffect(() => {
+    if (props.loading) {
+      setLoading(true);
+    }
+    if (!props.loading) {
+      setLoading(false);
+    }
+  }, [props.loading, setLoading]);
 
   /** RENDER */
   // Theme
@@ -136,7 +146,7 @@ function CContainer(props) {
         )}
       </View>
 
-      <CLoading visible={props.loading} />
+      <CLoading visible={loading} />
     </SafeAreaView>
   );
 }

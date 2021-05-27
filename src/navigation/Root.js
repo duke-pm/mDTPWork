@@ -81,7 +81,6 @@ export function RootMain(props) {
       initialRouteName={Routes.AUTHENTICATION.SIGN_IN.name}
       screenOptions={{
         headerShown: false,
-        gestureEnabled: true,
       }}>
       <StackMain.Screen
         name={Routes.AUTHENTICATION.SIGN_IN.name}

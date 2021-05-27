@@ -71,8 +71,8 @@ function CHeader(props) {
 
   const handleToogleSearch = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    dispatch(Actions.changeIsSearch(!isSearch));
     setIsSearch(!isSearch);
+    dispatch(Actions.changeIsSearch(!isSearch));
   };
 
   const handleAddNew = () => {
@@ -117,7 +117,6 @@ function CHeader(props) {
             iconLastColor={colors.GRAY_700}
             valueColor={customColors.text}
             holder={'approved_assets:search_request'}
-            autoFocus
             returnKey={'search'}
             value={valueSearch}
             onChangeValue={handleChangeValue}
