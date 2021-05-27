@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 /**
  ** Name: Config settings of App
  ** Author:
@@ -11,15 +10,14 @@ import {useTranslation} from 'react-i18next';
 import {useColorScheme} from 'react-native-appearance';
 import {useTheme} from '@react-navigation/native';
 import {StyleSheet, View} from 'react-native';
-import ActionSheet from 'react-native-actions-sheet';
 import Picker from '@gregfrench/react-native-wheel-picker';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
-import CButton from '~/components/CButton';
-import CText from '~/components/CText';
+import CActionSheet from '~/components/CActionSheet';
 import CList from '~/components/CList';
 import ListItem from '~/screens/account/components/ListItem';
+import CIconButton from '~/components/CIconButton';
 import Assets from '~/utils/asset/Assets';
 /* COMMON */
 import {cStyles} from '~/utils/style';
@@ -148,40 +146,10 @@ function Settings(props) {
             }}
           />
 
-          <ActionSheet
-            ref={actionSheetLangRef}
-            headerAlwaysVisible={true}
-            elevation={2}
-            indicatorColor={customColors.text}
-            containerStyle={{
-              backgroundColor: customColors.background,
-              borderColor: customColors.card,
-              borderWidth: 1,
-            }}
-            gestureEnabled={true}
-            defaultOverlayOpacity={isDark ? 0.8 : 0.5}
-            CustomHeaderComponent={
-              <View
-                style={[
-                  cStyles.pt16,
-                  cStyles.px16,
-                  cStyles.row,
-                  cStyles.itemsCenter,
-                  cStyles.justifyBetween,
-                  cStyles.roundedTopLeft2,
-                  cStyles.roundedTopRight2,
-                  {backgroundColor: customColors.background},
-                ]}>
-                <CText
-                  styles={'textMeta'}
-                  label={'settings:holder_change_language'}
-                />
-                <CButton
-                  label={'common:choose_language'}
-                  onPress={() => handleChange(0)}
-                />
-              </View>
-            }>
+          <CActionSheet
+            actionRef={actionSheetLangRef}
+            headerChoose
+            onConfirm={() => handleChange(0)}>
             <Picker
               style={styles.con_action}
               itemStyle={{color: customColors.text, fontSize: scalePx(3)}}
@@ -191,7 +159,7 @@ function Settings(props) {
                 <Picker.Item label={t(value.label)} value={i} key={i} />
               ))}
             </Picker>
-          </ActionSheet>
+          </CActionSheet>
         </CContent>
       }
     />
@@ -199,7 +167,7 @@ function Settings(props) {
 }
 
 const styles = StyleSheet.create({
-  con_action: {width: '100%', height: sH('25%'),},
+  con_action: {width: '100%', height: sH('25%')},
 });
 
 export default Settings;

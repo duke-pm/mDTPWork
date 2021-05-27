@@ -21,7 +21,6 @@ import {
   // Linking,
 } from 'react-native';
 import {showMessage} from 'react-native-flash-message';
-import ActionSheet from 'react-native-actions-sheet';
 import Icon from 'react-native-vector-icons/Feather';
 import moment from 'moment';
 /* COMPONENTS */
@@ -33,6 +32,7 @@ import CDateTimePicker from '~/components/CDateTimePicker';
 import CDropdown from '~/components/CDropdown';
 import CCard from '~/components/CCard';
 import CButton from '~/components/CButton';
+import CActionSheet from '~/components/CActionSheet';
 // import CUploadImage from '~/components/CUploadImage';
 import RejectModal from '../components/RejectModal';
 import RequestProcess from '../components/RequestProcess';
@@ -762,20 +762,13 @@ function AddRequest(props) {
           </KeyboardAvoidingView>
 
           {isDetail && (
-            <ActionSheet
-              ref={actionSheetProcessRef}
-              headerAlwaysVisible={true}
-              elevation={2}
-              indicatorColor={customColors.text}
-              containerStyle={{backgroundColor: customColors.background}}
-              gestureEnabled={true}
-              defaultOverlayOpacity={isDark ? 0.8 : 0.5}>
+            <CActionSheet actionRef={actionSheetProcessRef}>
               <RequestProcess
                 data={process}
                 customColors={customColors}
                 isDark={isDark}
               />
-            </ActionSheet>
+            </CActionSheet>
           )}
 
           {/** MODAL */}

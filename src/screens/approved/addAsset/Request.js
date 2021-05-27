@@ -22,7 +22,6 @@ import {
 } from 'react-native';
 import {Table, Row, TableWrapper, Cell} from 'react-native-table-component';
 import Icon from 'react-native-vector-icons/Feather';
-import ActionSheet from 'react-native-actions-sheet';
 import * as Animatable from 'react-native-animatable';
 import moment from 'moment';
 /* COMPONENTS */
@@ -36,6 +35,7 @@ import CButton from '~/components/CButton';
 import AssetItem from '../components/AssetItem';
 import RejectModal from '../components/RejectModal';
 import RequestProcess from '../components/RequestProcess';
+import CActionSheet from '~/components/CActionSheet';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
 import {IS_IOS, alert, scalePx} from '~/utils/helper';
@@ -1114,24 +1114,13 @@ function AddRequest(props) {
           </KeyboardAvoidingView>
 
           {isDetail && (
-            <ActionSheet
-              ref={actionSheetProcessRef}
-              headerAlwaysVisible={true}
-              elevation={2}
-              indicatorColor={customColors.text}
-              containerStyle={{
-                backgroundColor: customColors.background,
-                borderColor: customColors.card,
-                borderWidth: 1,
-              }}
-              gestureEnabled={true}
-              defaultOverlayOpacity={isDark ? 0.8 : 0.5}>
+            <CActionSheet actionRef={actionSheetProcessRef}>
               <RequestProcess
                 data={process}
                 customColors={customColors}
                 isDark={isDark}
               />
-            </ActionSheet>
+            </CActionSheet>
           )}
 
           {/** MODAL */}

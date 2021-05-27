@@ -1,5 +1,4 @@
-/* eslint-disable react-native/no-inline-styles */
-/**
+/*
  ** Name: Task
  ** Author:
  ** CreateAt: 2021
@@ -10,7 +9,6 @@ import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
 import {StyleSheet, ScrollView, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
-import ActionSheet from 'react-native-actions-sheet';
 import Picker from '@gregfrench/react-native-wheel-picker';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
@@ -18,6 +16,8 @@ import CContent from '~/components/CContent';
 import CText from '~/components/CText';
 import CButton from '~/components/CButton';
 import CAvatar from '~/components/CAvatar';
+import CActionSheet from '~/components/CActionSheet';
+import CIconButton from '~/components/CIconButton';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
 import {STATUS_TASK} from '~/config/constants';
@@ -174,40 +174,10 @@ function Task(props) {
               </View>
             </View>
 
-            <ActionSheet
-              ref={actionSheetStatusRef}
-              headerAlwaysVisible={true}
-              elevation={2}
-              indicatorColor={customColors.text}
-              containerStyle={{
-                backgroundColor: customColors.background,
-                borderColor: customColors.card,
-                borderWidth: 1,
-              }}
-              gestureEnabled={true}
-              defaultOverlayOpacity={isDark ? 0.8 : 0.5}
-              CustomHeaderComponent={
-                <View
-                  style={[
-                    cStyles.pt16,
-                    cStyles.px16,
-                    cStyles.row,
-                    cStyles.itemsCenter,
-                    cStyles.justifyBetween,
-                    cStyles.roundedTopLeft2,
-                    cStyles.roundedTopRight2,
-                    {backgroundColor: customColors.background},
-                  ]}>
-                  <CText
-                    styles={'textMeta'}
-                    label={'project_management:holder_change_status'}
-                  />
-                  <CButton
-                    label={'common:choose'}
-                    onPress={handleChangeStatus}
-                  />
-                </View>
-              }>
+            <CActionSheet
+              actionRef={actionSheetStatusRef}
+              headerChoose
+              onConfirm={handleChangeStatus}>
               <Picker
                 style={styles.con_action}
                 itemStyle={{color: customColors.text, fontSize: scalePx(3)}}
@@ -217,7 +187,7 @@ function Task(props) {
                   <Picker.Item label={value.label} value={i} key={i} />
                 ))}
               </Picker>
-            </ActionSheet>
+            </CActionSheet>
           </ScrollView>
         </CContent>
       }

@@ -11,6 +11,7 @@ const Animations = {
   approved: require('../../../assets/animations/approved.json'),
   rejected: require('../../../assets/animations/rejected.json'),
   connection: require('../../../assets/animations/connection.json'),
+  warning: require('../../../assets/animations/warning.json'),
 };
 
 export default Animations;
