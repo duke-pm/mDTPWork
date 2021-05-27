@@ -5,28 +5,21 @@
  ** CreateAt: 2021
  ** Description: Description of Project.js
  **/
-import React, {createRef, useState, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
-import {StyleSheet, TouchableOpacity, View} from 'react-native';
-import {showMessage} from 'react-native-flash-message';
+import {TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
-import CText from '~/components/CText';
-import CButton from '~/components/CButton';
 import ListTask from '../list/Task';
-import Filter from '../components/Filter';
+import FilterTask from '../components/FilterTask';
 /* COMMON */
-import {LOAD_MORE, REFRESH} from '~/config/constants';
 import {cStyles} from '~/utils/style';
-import {scalePx, sH} from '~/utils/helper';
-import Commons from '~/utils/common/Commons';
-/* REDUX */
+import {scalePx} from '~/utils/helper';
 
 const tasks = [
   {
@@ -292,7 +285,7 @@ function ProjectDetail(props) {
               />
             </View>
           )}
-          <Filter show={showFilter} onFilter={handleFilter} />
+          <FilterTask show={showFilter} onFilter={handleFilter} />
         </CContent>
       }
     />

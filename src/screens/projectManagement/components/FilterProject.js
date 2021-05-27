@@ -1,15 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /**
- ** Name: Filter
+ ** Name: FilterProject
  ** Author:
  ** CreateAt: 2021
- ** Description: Description of Filter.js
+ ** Description: Description of FilterProject.js
  **/
 import React, {useState, useEffect} from 'react';
 import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-import {useColorScheme} from 'react-native-appearance';
 import {useTheme} from '@react-navigation/native';
+import {useColorScheme} from 'react-native-appearance';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import {
   StyleSheet,
   View,
@@ -19,9 +20,9 @@ import {
   LayoutAnimation,
   ScrollView,
 } from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/Feather';
+import {BlurView} from '@react-native-community/blur';
 import moment from 'moment';
 /* COMPONENTS */
 import CHeader from '~/components/CHeader';
@@ -30,7 +31,7 @@ import CInput from '~/components/CInput';
 import CDateTimePicker from '~/components/CDateTimePicker';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
-import {IS_ANDROID, scalePx} from '~/utils/helper';
+import {IS_ANDROID, IS_IOS, scalePx} from '~/utils/helper';
 import {usePrevious} from '~/utils/hook';
 
 if (IS_ANDROID) {
@@ -44,7 +45,7 @@ const INPUT_NAME = {
   TO_DATE: 'toDate',
 };
 
-const RowLabel = (customColors, label) => {
+const RowLabel = label => {
   return (
     <View
       style={[
@@ -53,7 +54,6 @@ const RowLabel = (customColors, label) => {
         cStyles.pb10,
         cStyles.justifyEnd,
         styles.row_header,
-        {backgroundColor: customColors.cardDisable},
       ]}>
       <CText styles={'textMeta'} customLabel={label.toUpperCase()} />
     </View>
@@ -61,6 +61,7 @@ const RowLabel = (customColors, label) => {
 };
 
 const RowStatus = (
+  isDark,
   customColors,
   slug,
   active,
@@ -79,9 +80,11 @@ const RowStatus = (
           cStyles.row,
           cStyles.itemsCenter,
           cStyles.justifyBetween,
-          cStyles.ml16,
-          isBorder && cStyles.borderBottom,
+          cStyles.pl16,
           styles.row_header,
+          isBorder && isDark && cStyles.borderBottomDark,
+          isBorder && !isDark && cStyles.borderBottom,
+          {backgroundColor: customColors.card},
         ]}>
         <CText label={label} />
         <View style={cStyles.pr16}>
@@ -94,16 +97,18 @@ const RowStatus = (
   );
 };
 
-const RowToggle = (customColors, slug, active, label, onToggle) => {
+const RowToggle = (isDark, customColors, slug, active, label, onToggle) => {
   return (
     <View
       style={[
         cStyles.row,
         cStyles.itemsCenter,
         cStyles.justifyBetween,
-        cStyles.ml16,
-        !active && cStyles.borderBottom,
+        cStyles.pl16,
         styles.row_header,
+        isDark && cStyles.borderBottomDark,
+        !isDark && cStyles.borderBottom,
+        {backgroundColor: customColors.card},
       ]}>
       <CText label={label} />
       <Switch
@@ -117,11 +122,11 @@ const RowToggle = (customColors, slug, active, label, onToggle) => {
   );
 };
 
-function Filter(props) {
+function FilterProject(props) {
   const {show, onFilter = () => {}} = props;
   const {t} = useTranslation();
-  const isDark = useColorScheme() === 'dark';
   const {customColors} = useTheme();
+  const isDark = useColorScheme() === 'dark';
 
   /** Use redux */
   const commonState = useSelector(({common}) => common);
@@ -230,9 +235,24 @@ function Filter(props) {
       animationIn={'slideInUp'}
       animationOut={'slideOutDown'}>
       <SafeAreaView
-        style={[cStyles.flex1, {backgroundColor: customColors.primary}]}
+        style={[
+          cStyles.flex1,
+          {
+            backgroundColor: isDark
+              ? customColors.header
+              : customColors.primary,
+          },
+        ]}
         edges={['right', 'left', 'top']}>
-        <View style={[cStyles.flex1, {backgroundColor: customColors.card}]}>
+        {isDark && IS_IOS && (
+          <BlurView
+            style={[cStyles.abs, cStyles.inset0]}
+            blurType={'extraDark'}
+            reducedTransparencyFallbackColor={colors.BLACK}
+          />
+        )}
+        <View
+          style={[cStyles.flex1, {backgroundColor: customColors.background}]}>
           {/** Header of filter */}
           <CHeader
             centerStyle={cStyles.center}
@@ -255,7 +275,7 @@ function Filter(props) {
 
           {/** Content of filter */}
           <ScrollView>
-            {RowLabel(customColors, t('project_management:date_filter'))}
+            {RowLabel(t('project_management:date_filter'))}
             {/** From date */}
             <View
               style={[
@@ -264,6 +284,7 @@ function Filter(props) {
                 cStyles.row,
                 cStyles.itemsCenter,
                 cStyles.justifyBetween,
+                {backgroundColor: customColors.card},
               ]}>
               <View style={styles.text_date}>
                 <CText
@@ -298,6 +319,7 @@ function Filter(props) {
                 cStyles.row,
                 cStyles.itemsCenter,
                 cStyles.justifyBetween,
+                {backgroundColor: customColors.card},
               ]}>
               <View style={styles.text_date}>
                 <CText
@@ -326,8 +348,9 @@ function Filter(props) {
             </View>
 
             {/** Assigned */}
-            {RowLabel(customColors, t('project_management:assigned_filter'))}
+            {RowLabel(t('project_management:assigned_filter'))}
             {RowToggle(
+              isDark,
               customColors,
               'assignToMe',
               data.assignToMe,
@@ -341,7 +364,8 @@ function Filter(props) {
                     cStyles.row,
                     cStyles.itemsCenter,
                     cStyles.justifyBetween,
-                    cStyles.ml16,
+                    cStyles.pl16,
+                    {backgroundColor: customColors.card},
                     styles.row_header,
                   ]}>
                   <CText label={'project_management:assign_to'} />
@@ -362,8 +386,9 @@ function Filter(props) {
             )}
 
             {/** Status */}
-            {RowLabel(customColors, t('project_management:status_filter'))}
+            {RowLabel(t('project_management:status_filter'))}
             {RowToggle(
+              isDark,
               customColors,
               'statusAll',
               data.statusAll,
@@ -372,6 +397,7 @@ function Filter(props) {
             )}
             {!data.statusAll &&
               RowStatus(
+                isDark,
                 customColors,
                 'statusNew',
                 data.statusNew,
@@ -380,6 +406,7 @@ function Filter(props) {
               )}
             {!data.statusAll &&
               RowStatus(
+                isDark,
                 customColors,
                 'statusInProgress',
                 data.statusInProgress,
@@ -388,6 +415,7 @@ function Filter(props) {
               )}
             {!data.statusAll &&
               RowStatus(
+                isDark,
                 customColors,
                 'statusOnHold',
                 data.statusOnHold,
@@ -396,6 +424,7 @@ function Filter(props) {
               )}
             {!data.statusAll &&
               RowStatus(
+                isDark,
                 customColors,
                 'statusCompleted',
                 data.statusCompleted,
@@ -410,7 +439,6 @@ function Filter(props) {
                 cStyles.pb10,
                 cStyles.justifyEnd,
                 styles.row_header,
-                {backgroundColor: customColors.cardDisable},
               ]}
             />
           </ScrollView>
@@ -447,4 +475,4 @@ const styles = StyleSheet.create({
   input_date: {flex: 0.7},
 });
 
-export default Filter;
+export default FilterProject;

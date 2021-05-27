@@ -10,7 +10,7 @@ import {useTheme} from '@react-navigation/native';
 import {View} from 'react-native';
 import ActionSheet from 'react-native-actions-sheet';
 import CIconButton from './CIconButton';
-import {cStyles} from '~/utils/style';
+import {colors, cStyles} from '~/utils/style';
 
 function CActionSheet(props) {
   const {customColors} = useTheme();
@@ -22,7 +22,7 @@ function CActionSheet(props) {
       ref={actionRef}
       headerAlwaysVisible={true}
       elevation={2}
-      indicatorColor={customColors.text}
+      indicatorColor={colors.GRAY_500}
       containerStyle={{backgroundColor: customColors.card}}
       gestureEnabled={true}
       defaultOverlayOpacity={isDark ? 0.8 : 0.5}

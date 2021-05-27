@@ -7,15 +7,16 @@
  **/
 import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import {useTranslation} from 'react-i18next';
-import {showMessage} from 'react-native-flash-message';
+import {TouchableOpacity, View} from 'react-native';
+import Icon from 'react-native-vector-icons/Feather';
 import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
 import ListProject from './list/Project';
-/* COMMON */
-import {LOAD_MORE, REFRESH} from '~/config/constants';
+import FilterProject from './components/FilterProject';
+import { cStyles } from '~/utils/style';
+import { scalePx } from '~/utils/helper';
 
 const projects = [
   {
@@ -62,6 +63,7 @@ function ProjectManagement(props) {
     loadmore: false,
     isLoadmore: true,
   });
+  const [showFilter, setShowFilter] = useState(false);
   const [data, setData] = useState({
     fromDate: moment().clone().startOf('month').format(formatDate),
     toDate: moment().clone().endOf('month').format(formatDate),
@@ -72,6 +74,14 @@ function ProjectManagement(props) {
 
   /** HANDLE FUNC */
   const handleSearch = value => {};
+
+  const handleShowFilter = () => {
+    setShowFilter(!showFilter);
+  };
+
+  const handleFilter = () => {
+    setShowFilter(!showFilter);
+  };
 
   /** FUNC */
   const onFetchData = () => {
@@ -111,6 +121,16 @@ function ProjectManagement(props) {
       hasBack
       hasSearch
       onPressSearch={handleSearch}
+      headerRight={
+        <TouchableOpacity style={cStyles.itemsEnd} onPress={handleShowFilter}>
+          <Icon
+            style={cStyles.p16}
+            name={'filter'}
+            color={'white'}
+            size={scalePx(3)}
+          />
+        </TouchableOpacity>
+      }
       content={
         <CContent>
           {!loading.main && (
@@ -122,6 +142,7 @@ function ProjectManagement(props) {
               onLoadmore={onLoadmore}
             />
           )}
+          <FilterProject show={showFilter} onFilter={handleFilter} />
         </CContent>
       }
     />

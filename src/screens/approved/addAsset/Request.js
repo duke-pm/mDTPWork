@@ -862,7 +862,10 @@ function AddRequest(props) {
                     )}
                     {error.assets.status && (
                       <CText
-                        styles={'textMeta colorRed pl6'}
+                        styles={'textMeta fontRegular pl6'}
+                        customStyles={{
+                          color: customColors.red,
+                        }}
                         label={t(error.assets.helper)}
                       />
                     )}
@@ -870,20 +873,9 @@ function AddRequest(props) {
 
                   {!isDetail && (
                     <TouchableOpacity
-                      style={[
-                        cStyles.row,
-                        cStyles.itemsCenter,
-                        cStyles.justifyEnd,
-                        cStyles.py10,
-                        styles.con_left,
-                      ]}
+                      style={[cStyles.itemsEnd, cStyles.py10, styles.con_left]}
                       disabled={loading.main || loading.submitAdd || isDetail}
                       onPress={handleAddAssets}>
-                      <Icon
-                        name={'plus-circle'}
-                        size={scalePx(3)}
-                        color={colors.ICON_META}
-                      />
                       <CText
                         customStyles={[
                           cStyles.textMeta,

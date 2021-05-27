@@ -8,6 +8,8 @@
 import React, {useState, useEffect} from 'react';
 import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
+import {useTheme} from '@react-navigation/native';
+import {useColorScheme} from 'react-native-appearance';
 import {
   StyleSheet,
   View,
@@ -18,7 +20,6 @@ import {
 } from 'react-native';
 import {showMessage} from 'react-native-flash-message';
 import Icon from 'react-native-vector-icons/Feather';
-import {useTheme} from '@react-navigation/native';
 import moment from 'moment';
 /* COMPONENTS */
 import CText from '~/components/CText';
@@ -74,6 +75,7 @@ function Filter(props) {
   const {isResolve = false, onFilter = () => {}} = props;
   const {t} = useTranslation();
   const {customColors} = useTheme();
+  const isDark = useColorScheme() === 'dark';
 
   /** Use redux */
   const commonState = useSelector(({common}) => common);
@@ -189,6 +191,7 @@ function Filter(props) {
         cStyles.mx16,
         cStyles.mt16,
         cStyles.borderAll,
+        isDark && cStyles.borderAllDark,
         show && cStyles.pb12,
         {backgroundColor: customColors.card},
       ]}>
@@ -274,7 +277,6 @@ function Filter(props) {
 
           {isResolve && (
             <CGroupFilter
-              row
               label={'common:type'}
               items={TYPES_ASSETS}
               itemsChoose={data.type}
@@ -284,7 +286,6 @@ function Filter(props) {
 
           {!isResolve && (
             <CGroupFilter
-              row
               label={'common:status'}
               items={STATUS_REQUEST}
               itemsChoose={data.status}

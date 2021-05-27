@@ -6,7 +6,7 @@
  **/
 import {isIphoneX} from 'react-native-iphone-x-helper';
 import {Platform, Dimensions} from 'react-native';
-import {scalePx} from '~/utils/helper';
+import {IS_IOS, scalePx} from '~/utils/helper';
 import Colors from './Colors';
 
 const fBold = 'Roboto-Bold';
@@ -439,7 +439,7 @@ const shadow = {
     },
     shadowOpacity: 0.15,
     shadowRadius: 8,
-    elevation: 4,
+    elevation: 2,
   },
 };
 
@@ -600,14 +600,60 @@ const border = {
   roundedBottomRight9: {borderBottomRightRadius: 45},
   roundedBottomRight10: {borderBottomRightRadius: 50},
 
-  borderAll: {borderColor: Colors.BORDER_COLOR, borderWidth: 0.5},
-  borderTop: {borderTopColor: Colors.BORDER_COLOR, borderTopWidth: 0.5},
-  borderBottom: {
-    borderBottomColor: Colors.BORDER_COLOR,
-    borderBottomWidth: 0.5,
+  borderAll: {
+    borderColor: Colors.BORDER_COLOR_IOS,
+    borderWidth: 1,
   },
-  borderRight: {borderRightColor: Colors.BORDER_COLOR, borderRightWidth: 0.5},
-  borderLeft: {borderLeftColor: Colors.BORDER_COLOR, borderLeftWidth: 0.5},
+  borderAllDark: {
+    borderColor: IS_IOS
+      ? Colors.BORDER_COLOR_IOS_DARK
+      : Colors.BORDER_COLOR_ANDROID_DARK,
+    borderWidth: IS_IOS ? 0.3 : 0.5,
+  },
+
+  borderTop: {
+    borderTopColor: Colors.BORDER_COLOR_IOS,
+    borderTopWidth: IS_IOS ? 1 : 0.8,
+  },
+  borderTopDark: {
+    borderTopColor: IS_IOS
+      ? Colors.BORDER_COLOR_IOS_DARK
+      : Colors.BORDER_COLOR_ANDROID_DARK,
+    borderTopWidth: IS_IOS ? 0.3 : 0.5,
+  },
+
+  borderBottom: {
+    borderBottomColor: Colors.BORDER_COLOR_IOS,
+    borderBottomWidth: IS_IOS ? 1 : 0.8,
+  },
+  borderBottomDark: {
+    borderBottomColor: IS_IOS
+      ? Colors.BORDER_COLOR_IOS_DARK
+      : Colors.BORDER_COLOR_ANDROID_DARK,
+    borderBottomWidth: IS_IOS ? 0.3 : 0.5,
+  },
+
+  borderRight: {
+    borderRightColor: Colors.BORDER_COLOR_IOS,
+    borderRightWidth: IS_IOS ? 1 : 0.8,
+  },
+  borderRightDark: {
+    borderRightColor: IS_IOS
+      ? Colors.BORDER_COLOR_IOS_DARK
+      : Colors.BORDER_COLOR_ANDROID_DARK,
+    borderRightWidth: IS_IOS ? 0.3 : 0.5,
+  },
+
+  borderLeft: {
+    borderLeftColor: Colors.BORDER_COLOR_IOS,
+    borderLeftWidth: IS_IOS ? 1 : 0.8,
+  },
+  borderLeftDark: {
+    borderLeftColor: IS_IOS
+      ? Colors.BORDER_COLOR_IOS_DARK
+      : Colors.BORDER_COLOR_ANDROID_DARK,
+    borderLeftWidth: IS_IOS ? 0.3 : 0.5,
+  },
 };
 
 export default {

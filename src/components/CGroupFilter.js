@@ -24,7 +24,6 @@ function CGroupFilter(props) {
   const {
     containerStyle = {},
     activeAll = true,
-    column = false,
     row = false,
     label = '',
     items = [],
@@ -89,16 +88,21 @@ function CGroupFilter(props) {
   return (
     <View
       style={[
-        cStyles.pt10,
-        column && [cStyles.col, cStyles.justifyStart],
+        cStyles.py10,
         row && [cStyles.row, cStyles.itemsStart],
         containerStyle,
       ]}>
-      <View style={[cStyles.pt6, styles.con_left]}>
+      <View style={[cStyles.pt10, row && styles.con_left]}>
         <CText label={t(label)} />
       </View>
 
-      <View style={[cStyles.row, cStyles.itemsCenter, styles.con_right]}>
+      <View
+        style={[
+          cStyles.row,
+          cStyles.itemsCenter,
+          !row && cStyles.py6,
+          row && styles.con_right,
+        ]}>
         <FlatList
           contentContainerStyle={[cStyles.row, cStyles.flexWrap]}
           data={values}
@@ -109,33 +113,36 @@ function CGroupFilter(props) {
                 <Animatable.View
                   ref={ref => (valuesRef[index] = ref)}
                   style={[
-                    cStyles.rounded1,
-                    cStyles.ml6,
+                    index !== 0 && cStyles.ml6,
                     cStyles.mt6,
-                    isCheck && styles.con_active,
                     !isCheck && {backgroundColor: customColors.card},
                   ]}
                   useNativeDriver={true}>
-                  {isCheck && (
-                    <View style={[cStyles.abs, cStyles.top0, cStyles.left0]}>
-                      <Icon
-                        name={'check'}
-                        size={scalePx(1.9)}
-                        color={colors.WHITE}
-                      />
-                    </View>
-                  )}
-
                   <View
                     style={[
-                      cStyles.py10,
-                      cStyles.px16,
-                      cStyles.rounded1,
+                      cStyles.py6,
+                      cStyles.px10,
+                      cStyles.rounded7,
                       cStyles.borderAll,
+                      cStyles.row,
+                      cStyles.itemsCenter,
                       isCheck && styles.active,
                       {backgroundColor: customColors.card},
                     ]}>
-                    <CText styles={'textMeta fontMedium'} label={item.label} />
+                    <Icon
+                      name={'check'}
+                      size={scalePx(2)}
+                      color={isCheck ? colors.SECONDARY : customColors.icon}
+                    />
+                    <CText
+                      customStyles={[
+                        cStyles.textMeta,
+                        cStyles.fontMedium,
+                        cStyles.pl4,
+                        isCheck && cStyles.colorSecondary,
+                      ]}
+                      label={item.label}
+                    />
                   </View>
                 </Animatable.View>
               </TouchableOpacity>
@@ -155,7 +162,6 @@ const styles = StyleSheet.create({
   con_active: {backgroundColor: colors.SECONDARY},
   active: {
     borderColor: colors.SECONDARY,
-    borderTopLeftRadius: 40,
   },
   con_left: {flex: 0.28},
   con_right: {flex: 0.72},
