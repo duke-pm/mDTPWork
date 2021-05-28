@@ -99,10 +99,12 @@ function CInput(props) {
           cStyles.rounded1,
           cStyles.mt6,
           styles.con_input,
-          disabled && styles.disabled,
+          cStyles.borderAll,
+          isDark && cStyles.borderAllDark,
+          disabled && {backgroundColor: customColors.cardDisable},
           props.error && {borderColor: customColors.red},
           !disabled && isDark && {backgroundColor: colors.TRANSPARENT},
-          disabled && isDark && {backgroundColor: customColors.card},
+          disabled && isDark && {backgroundColor: customColors.cardDisable},
           style,
           focus === props.name && [styles.input_focus, styleFocus],
         ]}>
@@ -227,8 +229,6 @@ const styles = StyleSheet.create({
     height: 50,
     width: '100%',
     backgroundColor: colors.WHITE,
-    borderColor: colors.GRAY_500,
-    borderWidth: 0.5,
   },
   con_input_icon: {
     width: 50,
@@ -245,9 +245,6 @@ const styles = StyleSheet.create({
   input_icon: {
     width: 50,
     height: 50,
-  },
-  disabled: {
-    backgroundColor: colors.GRAY_300,
   },
 });
 

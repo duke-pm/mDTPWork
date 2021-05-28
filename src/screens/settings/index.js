@@ -9,7 +9,7 @@ import {useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {useColorScheme} from 'react-native-appearance';
 import {useTheme} from '@react-navigation/native';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet} from 'react-native';
 import Picker from '@gregfrench/react-native-wheel-picker';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
@@ -17,10 +17,8 @@ import CContent from '~/components/CContent';
 import CActionSheet from '~/components/CActionSheet';
 import CList from '~/components/CList';
 import ListItem from '~/screens/account/components/ListItem';
-import CIconButton from '~/components/CIconButton';
-import Assets from '~/utils/asset/Assets';
 /* COMMON */
-import {cStyles} from '~/utils/style';
+import Assets from '~/utils/asset/Assets';
 import {getLocalInfo, saveLocalInfo, scalePx, sH} from '~/utils/helper';
 import {LANGUAGE} from '~/config/constants';
 /* REDUX */

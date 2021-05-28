@@ -189,7 +189,7 @@ function Filter(props) {
       style={[
         cStyles.rounded2,
         cStyles.mx16,
-        cStyles.mt16,
+        cStyles.mt10,
         cStyles.borderAll,
         isDark && cStyles.borderAllDark,
         show && cStyles.pb12,
@@ -201,7 +201,8 @@ function Filter(props) {
             cStyles.row,
             cStyles.itemsCenter,
             cStyles.justifyBetween,
-            cStyles.p16,
+            cStyles.px16,
+            cStyles.py10,
           ]}>
           <View style={[cStyles.row, cStyles.itemsCenter]}>
             <Icon name={'filter'} color={customColors.text} size={scalePx(3)} />

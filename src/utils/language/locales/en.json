@@ -199,7 +199,10 @@
     "table_process": "Approval process",
     "status_wait": "Wait approved",
     "search_department": "Search department...",
-    "detail": "Distribution details"
+    "detail": "Distribution details",
+    "info_user_request": "Information of user",
+    "info_assets": "Information of assets",
+    "info_other": "Other information"
   },
   "approved_lost_damaged": {
     "title": "Failure | Lost",

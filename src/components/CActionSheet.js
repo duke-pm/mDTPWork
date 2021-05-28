@@ -15,15 +15,15 @@ import {colors, cStyles} from '~/utils/style';
 function CActionSheet(props) {
   const {customColors} = useTheme();
   const isDark = useColorScheme() === 'dark';
-  const {actionRef, headerChoose = false, onConfirm} = props;
+  const {actionRef, customHeader, headerChoose = false, onConfirm} = props;
 
   return (
     <ActionSheet
       ref={actionRef}
-      headerAlwaysVisible={true}
-      elevation={2}
-      indicatorColor={colors.GRAY_500}
       containerStyle={{backgroundColor: customColors.card}}
+      elevation={5}
+      headerAlwaysVisible={true}
+      indicatorColor={customColors.cardDisable}
       gestureEnabled={true}
       defaultOverlayOpacity={isDark ? 0.8 : 0.5}
       CustomHeaderComponent={
@@ -50,6 +50,8 @@ function CActionSheet(props) {
               onPress={onConfirm}
             />
           </View>
+        ) : customHeader ? (
+          customHeader
         ) : undefined
       }>
       {props.children}

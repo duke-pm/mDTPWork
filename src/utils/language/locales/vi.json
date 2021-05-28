@@ -174,8 +174,8 @@
     "amount": "Số lượng",
     "price": "Đơn giá",
     "total": "Thành tiền",
-    "where_use": "Nơi dùng (*)",
-    "holder_where_use": "Chọn nơi dùng",
+    "where_use": "Nơi sử dụng (*)",
+    "holder_where_use": "Chọn nơi sử dụng",
     "reason": "Lý do",
     "holder_reason": "Lý do...",
     "type_assets": "Loại tài sản",
@@ -199,7 +199,10 @@
     "table_process": "Quy trình xét duyệt",
     "status_wait": "Chờ phê duyệt",
     "search_department": "Tìm bộ phận...",
-    "detail": "Chi tiết cấp phát"
+    "detail": "Chi tiết cấp phát",
+    "info_user_request": "Thông tin người yêu cầu",
+    "info_assets": "Thông tin tài sản",
+    "info_other": "Thông tin khác"
   },
   "approved_lost_damaged": {
     "title": "Báo Hỏng | Báo Mất",

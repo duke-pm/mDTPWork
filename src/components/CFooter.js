@@ -7,12 +7,14 @@
 import React from 'react';
 import {View} from 'react-native';
 import {useColorScheme} from 'react-native-appearance';
+import {useTheme} from '@react-navigation/native';
 import {BlurView} from '@react-native-community/blur';
 /** COMMON */
 import {colors, cStyles} from '~/utils/style';
 import {IS_IOS} from '~/utils/helper';
 
 function CFooter(props) {
+  const {customColors} = useTheme();
   const isDark = useColorScheme() === 'dark';
 
   /** RENDER */
@@ -22,11 +24,10 @@ function CFooter(props) {
         cStyles.py6,
         cStyles.bottom0,
         cStyles.isIphoneX() && cStyles.pb24,
-        isDark && cStyles.abs,
-        !isDark && {
-          backgroundColor: colors.BACKGROUND_FOOTER,
-        },
         cStyles.fullWidth,
+        {
+          backgroundColor: customColors.background,
+        },
       ]}>
       {isDark && IS_IOS && (
         <BlurView

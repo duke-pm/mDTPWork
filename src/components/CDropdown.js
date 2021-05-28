@@ -51,8 +51,8 @@ function CDropdown(props) {
           styles.box,
           {backgroundColor: customColors.combobox},
           props.error && {borderColor: customColors.red},
-          disabled && styles.disabled,
-          isDark && disabled && styles.disabled_dark,
+          disabled && {backgroundColor: customColors.cardDisable},
+          isDark && disabled && {backgroundColor: customColors.cardDisable},
         ]}
         visibaleStyleDark={{backgroundColor: customColors.card}}
         placeholderStyle={[
@@ -102,8 +102,6 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     height: 50,
   },
-  disabled: {backgroundColor: colors.GRAY_300},
-  disabled_dark: {backgroundColor: colors.GRAY_900},
 });
 
 export default CDropdown;

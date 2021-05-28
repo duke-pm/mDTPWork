@@ -5,11 +5,13 @@
  ** Description: Description of .js
  **/
 import React from 'react';
-import {ActivityIndicator, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
+import Lottie from 'lottie-react-native';
 /* COMPONENTS */
 import CText from '~/components/CText';
 /* COMMON */
-import {colors, cStyles} from '~/utils/style';
+import Animations from '~/utils/asset/Animations';
+import {cStyles} from '~/utils/style';
 
 function TabbarLoading(props) {
   if (!props.show) {
@@ -17,10 +19,14 @@ function TabbarLoading(props) {
   }
   return (
     <View style={[cStyles.flexCenter]}>
-      <ActivityIndicator color={colors.GRAY_500} />
+      <Lottie style={styles.icon} source={Animations.loading} autoPlay loop />
       <CText styles={'textMeta pt10 textCenter'} label={'loading'} />
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  icon: {width: 50, height: 50},
+});
 
 export default TabbarLoading;

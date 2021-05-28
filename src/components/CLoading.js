@@ -5,11 +5,15 @@
  ** Description: Description of CLoading.js
  **/
 import React from 'react';
-import {View, StyleSheet, ActivityIndicator, Modal} from 'react-native';
+import {useTheme} from '@react-navigation/native';
+import {View, StyleSheet, Modal} from 'react-native';
+import Lottie from 'lottie-react-native';
 /** COMMON */
 import {colors, cStyles} from '~/utils/style';
+import Animations from '~/utils/asset/Animations';
 
 function CLoading(props) {
+  const {customColors} = useTheme();
   /** RENDER */
   return (
     <Modal visible={props.visible} animationType={'fade'} transparent>
@@ -20,7 +24,20 @@ function CLoading(props) {
           cStyles.justifyCenter,
           styles.con_modal,
         ]}>
-        <ActivityIndicator size={'small'} color={colors.GRAY_500} />
+        <View
+          style={[
+            cStyles.rounded2,
+            cStyles.center,
+            styles.indicator,
+            {backgroundColor: customColors.cardDisable},
+          ]}>
+          <Lottie
+            style={styles.icon}
+            source={Animations.loading}
+            autoPlay
+            loop
+          />
+        </View>
       </View>
     </Modal>
   );
@@ -28,6 +45,8 @@ function CLoading(props) {
 
 const styles = StyleSheet.create({
   con_modal: {backgroundColor: colors.BACKGROUND_MODAL},
+  indicator: {height: 50, width: 50},
+  icon: {width: 70, height: 70},
 });
 
 export default CLoading;
