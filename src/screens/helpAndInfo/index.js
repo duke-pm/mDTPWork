@@ -6,6 +6,7 @@
  **/
 import React from 'react';
 import {useTheme} from '@react-navigation/native';
+import {useColorScheme} from 'react-native-appearance';
 import {View} from 'react-native';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
@@ -74,6 +75,7 @@ const HELP_AND_INFO = [
 
 function HelpAndInfo(props) {
   const {customColors} = useTheme();
+  const isDark = useColorScheme() === 'dark';
 
   return (
     <CContainer
@@ -83,16 +85,15 @@ function HelpAndInfo(props) {
       hasBack
       content={
         <CContent>
-          <View style={cStyles.px16}>
-            {HELP_AND_INFO.map((item, index) => (
-              <ListItem
-                index={index}
-                data={item}
-                dataLength={HELP_AND_INFO.length}
-                customColors={customColors}
-              />
-            ))}
-          </View>
+          {HELP_AND_INFO.map((item, index) => (
+            <ListItem
+              index={index}
+              data={item}
+              dataLength={HELP_AND_INFO.length}
+              customColors={customColors}
+              isDark={isDark}
+            />
+          ))}
         </CContent>
       }
     />

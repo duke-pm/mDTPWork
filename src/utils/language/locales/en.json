@@ -29,7 +29,9 @@
     "show_less": "Show less",
     "choose": "Choose",
     "reset": "Reset",
-    "save": "Save"
+    "save": "Save",
+    "change": "Change",
+    "holder_warning_option_prepare": "The feature in progress, please come back later!"
   },
   "success": {
     "title": "Successfully!",
@@ -84,6 +86,10 @@
     "title": "Account",
     "information": "Information",
     "my_account": "My account",
+    "change_password": "Change password",
+    "holder_current_password": "Your current password",
+    "holder_new_password": "Your new password",
+    "holder_confirm_password": "Confirm your new password",
     "settings": "Settings",
     "app_settings": "App settings",
     "help_and_info": "Info & Help",

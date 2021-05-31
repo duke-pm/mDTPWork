@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 /**
  ** Name: SocialItem
  ** Author:
@@ -24,14 +23,10 @@ function SocialItem(props) {
       <View
         style={[
           cStyles.rounded2,
-          cStyles.borderAll,
           cStyles.center,
-          index !== 0 && cStyles.ml16,
           styles.con_social,
-          props.isDark && {
-            backgroundColor: props.customColors.card,
-            borderWidth: 0,
-          },
+          {backgroundColor: props.customColors.card},
+          index !== 0 && cStyles.ml16,
         ]}>
         <Image
           style={styles.social}

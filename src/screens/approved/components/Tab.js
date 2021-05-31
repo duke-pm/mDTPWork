@@ -18,13 +18,16 @@ import {IS_ANDROID} from '~/utils/helper';
 import {cStyles} from '~/utils/style';
 
 function Tab(props) {
-  const {title, isFocus, onPress} = props;
+  const {title, onPress} = props;
 
   const Touchable = IS_ANDROID ? TouchableNativeFeedback : TouchableOpacity;
   return (
     <Touchable onPress={onPress}>
       <View style={[cStyles.flexCenter, cStyles.mx2, styles.tab]}>
-        <CText styles={'textMeta fontRegular'} customLabel={title} />
+        <CText
+          customStyles={[cStyles.textMeta, cStyles.fontMedium]}
+          customLabel={title}
+        />
       </View>
     </Touchable>
   );

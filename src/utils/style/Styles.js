@@ -48,6 +48,7 @@ const main = {
   justifyEnd: {justifyContent: 'flex-end'},
   justifyCenter: {justifyContent: 'center'},
   fullWidth: {width: '100%'},
+  fullHeight: {height: '100%'},
   platform,
   isIphoneX,
   toolbarHeight,
@@ -608,7 +609,7 @@ const border = {
     borderColor: IS_IOS
       ? Colors.BORDER_COLOR_IOS_DARK
       : Colors.BORDER_COLOR_ANDROID_DARK,
-    borderWidth: IS_IOS ? 0.3 : 0.5,
+    borderWidth: 0.5,
   },
 
   borderTop: {
@@ -619,7 +620,7 @@ const border = {
     borderTopColor: IS_IOS
       ? Colors.BORDER_COLOR_IOS_DARK
       : Colors.BORDER_COLOR_ANDROID_DARK,
-    borderTopWidth: IS_IOS ? 0.3 : 0.5,
+    borderTopWidth: 0.5,
   },
 
   borderBottom: {
@@ -630,7 +631,7 @@ const border = {
     borderBottomColor: IS_IOS
       ? Colors.BORDER_COLOR_IOS_DARK
       : Colors.BORDER_COLOR_ANDROID_DARK,
-    borderBottomWidth: IS_IOS ? 0.3 : 0.5,
+    borderBottomWidth: 0.5,
   },
 
   borderRight: {
@@ -641,7 +642,7 @@ const border = {
     borderRightColor: IS_IOS
       ? Colors.BORDER_COLOR_IOS_DARK
       : Colors.BORDER_COLOR_ANDROID_DARK,
-    borderRightWidth: IS_IOS ? 0.3 : 0.5,
+    borderRightWidth: 0.5,
   },
 
   borderLeft: {
@@ -652,7 +653,7 @@ const border = {
     borderLeftColor: IS_IOS
       ? Colors.BORDER_COLOR_IOS_DARK
       : Colors.BORDER_COLOR_ANDROID_DARK,
-    borderLeftWidth: IS_IOS ? 0.3 : 0.5,
+    borderLeftWidth: 0.5,
   },
 };
 

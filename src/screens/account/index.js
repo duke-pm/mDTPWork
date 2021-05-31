@@ -7,9 +7,9 @@
 import React, {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-import {StyleSheet, View, Text, ScrollView} from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
+import {View, Text, ScrollView} from 'react-native';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
@@ -35,7 +35,18 @@ const ACCOUNT = {
         icon: 'user',
         label: 'account:my_account',
         value: null,
-        nextRoute: 'MyAccount',
+        nextRoute: 'NotReady',
+        isPhone: false,
+        isSignOut: false,
+        isRate: false,
+        isURL: false,
+      },
+      {
+        id: 'changePassword',
+        icon: 'edit',
+        label: 'account:change_password',
+        value: null,
+        nextRoute: 'NotReady',
         isPhone: false,
         isSignOut: false,
         isRate: false,
@@ -146,7 +157,7 @@ function Account(props) {
               style={[
                 cStyles.center,
                 cStyles.rounded2,
-                cStyles.p16,
+                cStyles.py16,
                 cStyles.mt60,
                 !isDark && cStyles.shadowListItem,
                 {
@@ -174,32 +185,41 @@ function Account(props) {
 
               {/** INFORMATION */}
               <View style={[cStyles.fullWidth, {paddingTop: sW('30%')}]}>
-                <View style={[cStyles.borderTop, cStyles.fullWidth]} />
+                <View
+                  style={[
+                    cStyles.borderTop,
+                    isDark && cStyles.borderTopDark,
+                    cStyles.fullWidth,
+                  ]}
+                />
                 <CText
-                  styles={'textMeta pt16'}
+                  styles={'textMeta pt16 pl16'}
                   label={ACCOUNT.INFORMATION.label}
                 />
                 {ACCOUNT.INFORMATION.childrens.map((item, index) => (
                   <ListItem
-                    showLineBottom={false}
                     index={index}
                     data={item}
                     dataLength={ACCOUNT.INFORMATION.childrens.length}
                     customColors={customColors}
+                    isDark={isDark}
                   />
                 ))}
               </View>
 
               {/** SETTINGS */}
               <View style={[cStyles.fullWidth, cStyles.pt16]}>
-                <CText styles={'textMeta'} label={ACCOUNT.SETTINGS.label} />
+                <CText
+                  styles={'textMeta pl16'}
+                  label={ACCOUNT.SETTINGS.label}
+                />
                 {ACCOUNT.SETTINGS.childrens.map((item, index) => (
                   <ListItem
-                    showLineBottom={false}
                     index={index}
                     data={item}
                     dataLength={ACCOUNT.SETTINGS.childrens.length}
                     customColors={customColors}
+                    isDark={isDark}
                     onPressSignOut={handleSignOut}
                   />
                 ))}
@@ -235,7 +255,5 @@ function Account(props) {
     />
   );
 }
-
-const styles = StyleSheet.create({});
 
 export default Account;

@@ -112,6 +112,7 @@ function CInput(props) {
           <View
             style={[
               cStyles.borderRight,
+              isDark && cStyles.borderRightDark,
               cStyles.center,
               styles.con_input_icon,
             ]}>

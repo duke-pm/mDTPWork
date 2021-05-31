@@ -139,6 +139,7 @@ function Settings(props) {
                   dataLength={initSettings.length}
                   dataActive={languages.data[languages.active]}
                   customColors={customColors}
+                  isDark={isDark}
                 />
               );
             }}

@@ -5,6 +5,7 @@
  ** Description: Description of ListItem.js
  **/
 import React from 'react';
+import {useTranslation} from 'react-i18next';
 import {
   StyleSheet,
   View,
@@ -19,11 +20,12 @@ import Rate, {AndroidMarket} from 'react-native-rate';
 import CText from '~/components/CText';
 /* COMMON */
 import Configs from '~/config';
-import {scalePx} from '~/utils/helper';
+import {alert, scalePx, sW} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
 
 function ListItem(props) {
   const navigation = useNavigation();
+  const {t} = useTranslation();
   const {
     showLineBottom = true,
     index,
@@ -31,6 +33,7 @@ function ListItem(props) {
     dataActive,
     dataLength,
     customColors,
+    isDark,
     onPressSignOut,
   } = props;
 
@@ -39,7 +42,11 @@ function ListItem(props) {
     if (data.isPhone) {
       Linking.openURL(`tel:${data.value}`);
     } else if (data.nextRoute) {
-      navigation.navigate(data.nextRoute);
+      if (data.nextRoute !== 'NotReady') {
+        navigation.navigate(data.nextRoute);
+      } else {
+        alert(t, 'common:holder_warning_option_prepare', () => null);
+      }
     } else if (data.isSignOut) {
       onPressSignOut();
     } else if (data.isURL) {
@@ -71,74 +78,99 @@ function ListItem(props) {
     data.isChooseLang ||
     data.isRate;
   const Component = isTouch ? TouchableWithoutFeedback : View;
+  const showLine = index !== dataLength - 1 && showLineBottom;
+  const showDarkLine = index !== dataLength - 1 && showLineBottom && isDark;
 
   return (
-    <Component key={data.id} onPress={handleItem}>
-      <View
-        style={[
-          cStyles.row,
-          cStyles.itemsCenter,
-          cStyles.justifyBetween,
-          cStyles.py16,
-          index !== dataLength - 1 && showLineBottom && styles.line_bottom,
-        ]}>
-        <View style={[cStyles.row, cStyles.itemsCenter, styles.con_left]}>
-          {data.icon && (
-            <Icon
-              name={data.icon}
-              size={scalePx(3)}
-              color={customColors.text}
-            />
-          )}
-          <CText styles={'' + (data.icon && 'pl16')} label={data.label} />
-        </View>
-
+    <View style={cStyles.itemsEnd}>
+      <Component key={data.id} onPress={handleItem}>
         <View
           style={[
             cStyles.row,
             cStyles.itemsCenter,
-            cStyles.justifyEnd,
-            styles.con_right,
+            cStyles.justifyBetween,
+            cStyles.py16,
+            cStyles.pl16,
           ]}>
-          {data.value && data.isPhone && (
-            <CText styles={'colorTextMeta'} label={data.value} />
-          )}
-          {data.isChooseLang && (
+          <View style={[cStyles.center, styles.con_left]}>
+            {data.icon && (
+              <Icon
+                name={data.icon}
+                size={scalePx(3)}
+                color={customColors.text}
+              />
+            )}
+          </View>
+
+          <View
+            style={[
+              cStyles.row,
+              cStyles.justifyBetween,
+              cStyles.itemsCenter,
+              cStyles.ml16,
+              cStyles.pr16,
+              cStyles.fullHeight,
+              styles.con_right,
+            ]}>
+            <CText label={data.label} />
+
             <View
               style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyEnd]}>
-              <CText
-                styles={'colorTextMeta pr10'}
-                label={dataActive ? dataActive.label : data.data[0].label}
-              />
-              <Image
-                style={styles.img_flag}
-                source={dataActive ? dataActive.icon : data.data[0].icon}
-                resizeMode={'contain'}
-              />
+              {data.value && data.isPhone && (
+                <CText styles={'colorTextMeta'} label={data.value} />
+              )}
+              {data.isChooseLang && (
+                <View
+                  style={[
+                    cStyles.row,
+                    cStyles.itemsCenter,
+                    cStyles.justifyEnd,
+                  ]}>
+                  <CText
+                    styles={'colorTextMeta pr10'}
+                    label={dataActive ? dataActive.label : data.data[0].label}
+                  />
+                  <Image
+                    style={styles.img_flag}
+                    source={dataActive ? dataActive.icon : data.data[0].icon}
+                    resizeMode={'contain'}
+                  />
+                </View>
+              )}
+              {(data.nextRoute ||
+                data.isURL ||
+                data.isChooseLang ||
+                data.isRate ||
+                data.isSignOut) && (
+                <View style={cStyles.pl10}>
+                  <Icon
+                    name={'chevron-right'}
+                    size={scalePx(2.5)}
+                    color={colors.GRAY_500}
+                  />
+                </View>
+              )}
             </View>
-          )}
-          {(data.nextRoute ||
-            data.isURL ||
-            data.isChooseLang ||
-            data.isRate ||
-            data.isSignOut) && (
-            <View style={cStyles.pl10}>
-              <Icon
-                name={'chevron-right'}
-                size={scalePx(2.5)}
-                color={colors.GRAY_500}
-              />
-            </View>
-          )}
+          </View>
         </View>
-      </View>
-    </Component>
+      </Component>
+
+      <View
+        style={[
+          cStyles.itemsEnd,
+          styles.con_line,
+          showLine && cStyles.borderBottom,
+          showDarkLine && cStyles.borderBottomDark,
+        ]}
+      />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  con_left: {flex: 0.6},
-  con_right: {flex: 0.4},
+  con_left: {width: '6%'},
+  con_right: {width: '89%'},
+  con_line: {width: '86%'},
   line_bottom: {
     borderBottomColor: colors.BORDER_COLOR,
     borderBottomWidth: 0.3,

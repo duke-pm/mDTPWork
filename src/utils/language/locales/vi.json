@@ -28,8 +28,10 @@
     "show_more": "Xem thêm",
     "show_less": "Thu gọn",
     "choose": "Chọn",
-    "reset": "Đặt lại",
-    "save": "Lưu"
+    "reset": "Đặt Lại",
+    "save": "Lưu",
+    "change": "Thay Đổi",
+    "holder_warning_option_prepare": "Tính năng này đang phát triển, vui lòng quay lại sau!"
   },
   "success": {
     "title": "Thành Công",
@@ -84,6 +86,10 @@
     "title": "Tài Khoản",
     "information": "Thông tin",
     "my_account": "Tài khoản của tôi",
+    "change_password": "Đổi mật khẩu",
+    "holder_current_password": "Mật khẩu hiện tại",
+    "holder_new_password": "Mật khẩu mới",
+    "holder_confirm_password": "Xác nhận lại mật khẩu",
     "settings": "Cài đặt",
     "app_settings": "Cài đặt ứng dụng",
     "help_and_info": "Thông tin & Trợ giúp",

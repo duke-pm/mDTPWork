@@ -18,15 +18,16 @@ import {IS_IOS} from '~/utils/helper';
 function TabbarType(props) {
   const {customColors} = useTheme();
   const {navigationState, position, jumpTo} = props;
-  let translateX = position.interpolate({
-    inputRange: [0, 1, 2],
-    outputRange: [
-      2,
-      cStyles.deviceWidth / 3 - 8,
-      (cStyles.deviceWidth / 3) * 2 - 16,
-    ],
-  });
+  let translateX = null;
   if (IS_IOS) {
+    translateX = position.interpolate({
+      inputRange: [0, 1, 2],
+      outputRange: [
+        2,
+        cStyles.deviceWidth / 3 - 8,
+        (cStyles.deviceWidth / 3) * 2 - 16,
+      ],
+    });
     return (
       <View
         style={[
@@ -53,13 +54,7 @@ function TabbarType(props) {
           ]}
         />
         {navigationState.routes.map((route, index) => {
-          return (
-            <Tab
-              title={route.title}
-              isFocus={index === navigationState.index}
-              onPress={() => jumpTo(route.key)}
-            />
-          );
+          return <Tab title={route.title} onPress={() => jumpTo(route.key)} />;
         })}
       </View>
     );
