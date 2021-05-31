@@ -30,7 +30,7 @@ function CInput(props) {
     disabled = false,
 
     icon = null,
-    iconColor = colors.ICON_BASE,
+    iconColor = customColors.icon,
     iconLast = null,
     iconLastStyle = {},
 
@@ -185,18 +185,13 @@ function CInput(props) {
               cStyles.center,
               cStyles.roundedTopRight1,
               cStyles.roundedBottomRight1,
-              {backgroundColor: colors.GRAY_300},
+              {backgroundColor: customColors.cardDisable},
               styles.con_input_icon,
-              isDark && {backgroundColor: colors.GRAY_600},
               iconLastStyle,
             ]}
             disabled={props.value === ''}
             onPress={handleIconLast}>
-            <Icon
-              name={iconLast}
-              color={props.value === '' ? colors.GRAY_500 : customColors.text}
-              size={scalePx(3)}
-            />
+            <Icon name={iconLast} color={customColors.icon} size={scalePx(3)} />
           </Component>
         )}
 
@@ -212,14 +207,29 @@ function CInput(props) {
             onPress={handleShowPassword}>
             <Icon
               name={showPassword ? 'eye-off' : 'eye'}
-              color={colors.GRAY_600}
+              color={colors.GRAY_500}
               size={scalePx(3)}
             />
           </Component>
         )}
       </View>
       {props.error && (
-        <CText styles={'textMeta colorRed mt6'} label={t(props.errorHelper)} />
+        <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pt6]}>
+          <Icon
+            name={'alert-circle'}
+            color={customColors.red}
+            size={scalePx(2)}
+          />
+          <CText
+            customStyles={[
+              cStyles.textMeta,
+              cStyles.fontRegular,
+              cStyles.pl6,
+              {color: customColors.red},
+            ]}
+            label={t(props.errorHelper)}
+          />
+        </View>
       )}
     </View>
   );

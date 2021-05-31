@@ -15,12 +15,16 @@ import {
   StyleSheet,
   View,
   TouchableOpacity,
+  TouchableNativeFeedback,
   ScrollView,
   KeyboardAvoidingView,
   Keyboard,
+  ActivityIndicator,
   // Linking,
 } from 'react-native';
 import {showMessage} from 'react-native-flash-message';
+import * as Animatable from 'react-native-animatable';
+import Picker from '@gregfrench/react-native-wheel-picker';
 import Icon from 'react-native-vector-icons/Feather';
 import moment from 'moment';
 /* COMPONENTS */
@@ -29,17 +33,17 @@ import CContent from '~/components/CContent';
 import CText from '~/components/CText';
 import CInput from '~/components/CInput';
 import CDateTimePicker from '~/components/CDateTimePicker';
-import CDropdown from '~/components/CDropdown';
 import CCard from '~/components/CCard';
 import CButton from '~/components/CButton';
 import CActionSheet from '~/components/CActionSheet';
 // import CUploadImage from '~/components/CUploadImage';
 import RejectModal from '../components/RejectModal';
 import RequestProcess from '../components/RequestProcess';
+import CRowLabel from '~/components/CRowLabel';
 /* COMMON */
 import Commons from '~/utils/common/Commons';
 import {colors, cStyles} from '~/utils/style';
-import {IS_IOS, alert, scalePx} from '~/utils/helper';
+import {IS_IOS, alert, scalePx, IS_ANDROID, sH} from '~/utils/helper';
 // import API from '~/services/axios';
 /* REDUX */
 import * as Actions from '~/redux/actions';
@@ -53,8 +57,88 @@ const INPUT_NAME = {
 };
 
 const actionSheetProcessRef = createRef();
-let assetsRef = createRef();
-let reasonRef = createRef();
+const actionSheetAssetsRef = createRef();
+let damageRef = createRef();
+let lostRef = createRef();
+
+const RowSelect = (
+  t,
+  loading,
+  disabled,
+  error,
+  isDark,
+  customColors,
+  data,
+  activeIndex,
+  keyToShow,
+  keyToCompare,
+  onPress,
+) => {
+  const Touchable = IS_ANDROID ? TouchableNativeFeedback : TouchableOpacity;
+  let find = null;
+  if (data) {
+    find = data.find(f => f[keyToCompare] === activeIndex);
+  }
+  return (
+    <View>
+      <Touchable disabled={disabled} onPress={onPress}>
+        <View
+          style={[
+            cStyles.rounded1,
+            cStyles.row,
+            cStyles.itemsCenter,
+            cStyles.justifyBetween,
+            cStyles.px16,
+            cStyles.mt6,
+            cStyles.borderAll,
+            isDark && cStyles.borderAllDark,
+            error && {borderColor: customColors.red},
+            disabled && {
+              backgroundColor: customColors.cardDisable,
+            },
+            {height: 50},
+          ]}>
+          {!loading ? (
+            <CText
+              customLabel={
+                find
+                  ? find[keyToShow]
+                  : t('add_approved_lost_damaged:holder_no_asset')
+              }
+            />
+          ) : (
+            <ActivityIndicator />
+          )}
+          {!disabled && (
+            <Icon
+              name={'chevron-down'}
+              size={scalePx(3)}
+              color={disabled ? customColors.textDisable : customColors.icon}
+            />
+          )}
+        </View>
+      </Touchable>
+      {error && (
+        <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pt6]}>
+          <Icon
+            name={'alert-circle'}
+            color={customColors.red}
+            size={scalePx(2)}
+          />
+          <CText
+            customStyles={[
+              cStyles.textMeta,
+              cStyles.fontRegular,
+              cStyles.pl6,
+              {color: customColors.red},
+            ]}
+            label={'error:assets_not_empty'}
+          />
+        </View>
+      )}
+    </View>
+  );
+};
 
 function AddRequest(props) {
   const {t} = useTranslation();
@@ -77,6 +161,9 @@ function AddRequest(props) {
   const [showReject, setShowReject] = useState(false);
   const [isDetail] = useState(props.route.params?.data ? true : false);
   const [process, setProcess] = useState([]);
+  const [assets, setAssets] = useState(0);
+  const [findAssets, setFindAssets] = useState('');
+  const [dataAssets, setDataAssets] = useState([]);
   const [form, setForm] = useState({
     dateRequest: moment().format(commonState.get('formatDate')),
     reason: '',
@@ -108,27 +195,10 @@ function AddRequest(props) {
 
   const handleReject = () => setShowReject(true);
 
-  const handleChooseTypeAssets = type => {
+  const handleChooseTypeAssets = (type, ref) => {
     if (type !== form.typeUpdate) {
+      ref.pulse(300);
       setForm({...form, typeUpdate: type});
-    }
-  };
-
-  const handleCombobox = (data, field, nextField) => {
-    if (field === INPUT_NAME.ASSETID) {
-      setForm({
-        ...form,
-        assetID: data[Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.value],
-      });
-      if (error.assets.status) {
-        setError({
-          ...error,
-          assets: {status: false, helper: ''},
-        });
-      }
-      if (nextField) {
-        nextField.focus();
-      }
     }
   };
 
@@ -155,6 +225,27 @@ function AddRequest(props) {
         : 'add_approved_lost_damaged:message_confirm_approved_lost',
       onApproved,
     );
+  };
+
+  const handleChangeAssets = () => {
+    let asset = null;
+    if (findAssets === '') {
+      let tmp = masterState.get('assetByUser');
+      if (tmp.length > 0) {
+        asset = tmp[assets];
+      }
+    } else {
+      if (dataAssets.length > 0) {
+        asset = dataAssets[assets];
+      }
+    }
+    if (asset) {
+      setForm({
+        ...form,
+        assetID: asset[Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.value],
+      });
+    }
+    actionSheetAssetsRef.current?.hide();
   };
 
   const handleShowProcess = () => actionSheetProcessRef.current?.show();
@@ -253,14 +344,6 @@ function AddRequest(props) {
     }
   };
 
-  const onOpenCombobox = inputName => {
-    switch (inputName) {
-      case INPUT_NAME.ASSETID:
-        Keyboard.dismiss();
-        break;
-    }
-  };
-
   const onChangeDateRequest = (newDate, showPicker) => {
     setShowPickerDate(showPicker);
     if (newDate) {
@@ -335,6 +418,35 @@ function AddRequest(props) {
     dispatch(Actions.fetchRejectRequest(params, props.navigation));
   };
 
+  const onSearchFilter = text => {
+    if (text) {
+      const newData = dataAssets.filter(function (item) {
+        const itemData = item[Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.label]
+          ? item[Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.label].toUpperCase()
+          : ''.toUpperCase();
+        const textData = text.toUpperCase();
+        return itemData.indexOf(textData) > -1;
+      });
+      setDataAssets(newData);
+      setFindAssets(text);
+      if (newData.length > 0) {
+        setAssets(0);
+      }
+    } else {
+      let tmp = masterState.get('assetByUser');
+      setDataAssets(tmp);
+      setFindAssets(text);
+      if (tmp.length > 0) {
+        setAssets(0);
+      }
+    }
+  };
+
+  const onChangeAssets = index => {
+    console.log('[LOG] === onChangeAssets ===> ', index);
+    setAssets(index);
+  };
+
   /** LIFE CYCLE */
   useEffect(() => {
     onPrepareData();
@@ -345,10 +457,18 @@ function AddRequest(props) {
       if (isDetail) {
         onPrepareDetail();
       } else {
+        setDataAssets(masterState.get('assetByUser'));
+        let data = masterState.get('assetByUser');
+        if (data && data.length > 0) {
+          setForm({
+            ...form,
+            assetID: data[0][Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.value],
+          });
+        }
         setLoading({...loading, main: false});
       }
     }
-  }, [loading.main, masterState.get('department')]);
+  }, [loading.main]);
 
   useEffect(() => {
     if (loading.submitAdd) {
@@ -489,143 +609,162 @@ function AddRequest(props) {
             keyboardVerticalOffset={120}>
             <ScrollView
               style={cStyles.flex1}
-              contentContainerStyle={[cStyles.p16, cStyles.justifyEnd]}
+              contentContainerStyle={cStyles.justifyEnd}
               keyboardShouldPersistTaps={'handled'}>
-              {/** Date request */}
-              <View>
-                <CText
-                  styles={'textTitle'}
-                  label={'add_approved_lost_damaged:date_request'}
-                />
-                <CInput
-                  name={INPUT_NAME.DATE_REQUEST}
-                  disabled={true}
-                  dateTimePicker={true}
-                  value={moment(form.dateRequest).format(
-                    commonState.get('formatDateView'),
-                  )}
-                  valueColor={colors.BLACK}
-                  iconLast={'calendar'}
-                  iconLastColor={colors.GRAY_700}
-                  onPressIconLast={handleDateInput}
-                />
-              </View>
-
-              {/** Assets */}
-              {!isDetail && (
-                <View style={[cStyles.pt16, IS_IOS && {zIndex: 10}]}>
+              <CRowLabel label={t('add_approved_lost_damaged:info_other')} />
+              <View
+                style={[
+                  cStyles.p16,
+                  cStyles.borderTop,
+                  cStyles.borderBottom,
+                  isDark && cStyles.borderTopDark,
+                  isDark && cStyles.borderBottomDark,
+                  {backgroundColor: customColors.group},
+                ]}>
+                {/** Date request */}
+                <View>
                   <CText
-                    styles={'textTitle'}
-                    label={'add_approved_lost_damaged:assets'}
+                    styles={'textMeta fontMedium'}
+                    label={'add_approved_lost_damaged:date_request'}
                   />
-                  <CDropdown
-                    loading={loading.main}
-                    controller={instance => (assetsRef.current = instance)}
-                    data={masterState.get('assetByUser')}
-                    disabled={loading.main || isDetail}
-                    searchable={true}
-                    searchablePlaceholder={t(
-                      'add_approved_lost_damaged:search_assets',
+                  <CInput
+                    name={INPUT_NAME.DATE_REQUEST}
+                    disabled={true}
+                    dateTimePicker={true}
+                    value={moment(form.dateRequest).format(
+                      commonState.get('formatDateView'),
                     )}
-                    error={error.assets.status}
-                    errorHelper={error.assets.helper}
-                    holder={'add_approved_lost_damaged:holder_assets'}
-                    schema={{
-                      label: Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.label,
-                      value: Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.value,
-                      icon: Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.icon,
-                      hidden: Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.hidden,
-                    }}
-                    defaultValue={form.assetID}
-                    onChangeItem={value =>
-                      handleCombobox(value, INPUT_NAME.ASSETID, reasonRef)
-                    }
-                    onOpen={() => onOpenCombobox(INPUT_NAME.ASSETID)}
+                    valueColor={colors.BLACK}
+                    onPressIconLast={handleDateInput}
                   />
                 </View>
-              )}
-
-              {/** Reason */}
-              <View style={cStyles.pt16}>
-                <CText
-                  styles={'textTitle'}
-                  label={'add_approved_lost_damaged:reason'}
-                />
-                <CInput
-                  name={INPUT_NAME.REASON}
-                  styleFocus={styles.input_focus}
-                  inputRef={ref => (reasonRef = ref)}
-                  disabled={loading.main || loading.submitAdd || isDetail}
-                  holder={'add_approved_lost_damaged:holder_reason'}
-                  value={form.reason}
-                  valueColor={colors.BLACK}
-                  keyboard={'default'}
-                  returnKey={'done'}
-                  multiline
-                  textAlignVertical={'top'}
-                  error={error.reason.status}
-                  errorHelper={error.reason.helper}
-                  onChangeInput={Keyboard.dismiss}
-                  onChangeValue={handleChangeText}
-                />
               </View>
 
-              {/** Type update */}
-              <View style={cStyles.pt16}>
-                <CText
-                  styles={'textTitle'}
-                  label={'add_approved_lost_damaged:type_update'}
-                />
-                <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pt10]}>
-                  <TouchableOpacity
-                    style={{flex: 0.4}}
-                    disabled={loading.main || loading.submitAdd || isDetail}
-                    onPress={() => handleChooseTypeAssets(2)}>
-                    <View style={[cStyles.row, cStyles.itemsCenter]}>
-                      <Icon
-                        name={
-                          form.typeUpdate === Commons.APPROVED_TYPE.DAMAGED.value
-                            ? 'check-circle'
-                            : 'circle'
-                        }
-                        size={scalePx(3)}
-                        color={
-                          form.typeUpdate === Commons.APPROVED_TYPE.DAMAGED.value
-                            ? colors.SECONDARY
-                            : customColors.text
-                        }
-                      />
-                      <CText
-                        styles={'pl10'}
-                        label={'add_approved_lost_damaged:damage_assets'}
-                      />
-                    </View>
-                  </TouchableOpacity>
+              <CRowLabel label={t('add_approved_lost_damaged:info_assets')} />
+              <View
+                style={[
+                  cStyles.p16,
+                  cStyles.borderTop,
+                  cStyles.borderBottom,
+                  isDark && cStyles.borderTopDark,
+                  isDark && cStyles.borderBottomDark,
+                  {backgroundColor: customColors.group},
+                ]}>
+                {/** Assets */}
+                {!isDetail && (
+                  <View>
+                    <CText
+                      styles={'textMeta fontMedium'}
+                      label={'add_approved_lost_damaged:assets'}
+                    />
 
-                  <TouchableOpacity
-                    style={{flex: 0.6}}
+                    {RowSelect(
+                      t,
+                      loading.main,
+                      loading.main || loading.submitAdd || isDetail,
+                      error.assets.status,
+                      isDark,
+                      customColors,
+                      masterState.get('assetByUser'),
+                      form.assetID,
+                      Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.label,
+                      Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.value,
+                      () => actionSheetAssetsRef.current?.show(),
+                    )}
+                  </View>
+                )}
+
+                {/** Reason */}
+                <View style={cStyles.pt16}>
+                  <CText
+                    styles={'textMeta fontMedium'}
+                    label={'add_approved_lost_damaged:reason'}
+                  />
+                  <CInput
+                    name={INPUT_NAME.REASON}
+                    styleFocus={styles.input_focus}
                     disabled={loading.main || loading.submitAdd || isDetail}
-                    onPress={() => handleChooseTypeAssets(3)}>
-                    <View style={[cStyles.row, cStyles.itemsCenter]}>
-                      <Icon
-                        name={
-                          form.typeUpdate === Commons.APPROVED_TYPE.LOST.value
-                            ? 'check-circle'
-                            : 'circle'
-                        }
-                        size={scalePx(3)}
-                        color={
-                          form.typeUpdate === Commons.APPROVED_TYPE.LOST.value
-                            ? colors.SECONDARY
-                            : customColors.text
-                        }
-                      />
-                      <CText
-                        styles={'pl10'}
-                        label={'add_approved_lost_damaged:lost_assets'}
-                      />
-                    </View>
-                  </TouchableOpacity>
+                    holder={'add_approved_lost_damaged:holder_reason'}
+                    value={form.reason}
+                    valueColor={colors.BLACK}
+                    keyboard={'default'}
+                    returnKey={'done'}
+                    multiline
+                    textAlignVertical={'top'}
+                    error={error.reason.status}
+                    errorHelper={error.reason.helper}
+                    onChangeInput={Keyboard.dismiss}
+                    onChangeValue={handleChangeText}
+                  />
+                </View>
+
+                {/** Type update */}
+                <View style={cStyles.py16}>
+                  <CText
+                    styles={'textMeta fontMedium'}
+                    label={'add_approved_lost_damaged:type_update'}
+                  />
+                  <View
+                    style={[
+                      cStyles.row,
+                      cStyles.itemsCenter,
+                      cStyles.justifyAround,
+                      cStyles.pt10,
+                    ]}>
+                    <TouchableOpacity
+                      disabled={loading.main || loading.submitAdd || isDetail}
+                      onPress={() => handleChooseTypeAssets(2, damageRef)}>
+                      <Animatable.View
+                        ref={ref => (damageRef = ref)}
+                        style={[cStyles.row, cStyles.itemsCenter]}>
+                        <Icon
+                          name={
+                            form.typeUpdate ===
+                            Commons.APPROVED_TYPE.DAMAGED.value
+                              ? 'check-circle'
+                              : 'circle'
+                          }
+                          size={scalePx(3)}
+                          color={
+                            form.typeUpdate ===
+                            Commons.APPROVED_TYPE.DAMAGED.value
+                              ? colors.SECONDARY
+                              : customColors.text
+                          }
+                        />
+                        <CText
+                          styles={'pl10'}
+                          label={'add_approved_lost_damaged:damage_assets'}
+                        />
+                      </Animatable.View>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                      disabled={loading.main || loading.submitAdd || isDetail}
+                      onPress={() => handleChooseTypeAssets(3, lostRef)}>
+                      <Animatable.View
+                        ref={ref => (lostRef = ref)}
+                        style={[cStyles.row, cStyles.itemsCenter]}>
+                        <Icon
+                          name={
+                            form.typeUpdate === Commons.APPROVED_TYPE.LOST.value
+                              ? 'check-circle'
+                              : 'circle'
+                          }
+                          size={scalePx(3)}
+                          color={
+                            form.typeUpdate === Commons.APPROVED_TYPE.LOST.value
+                              ? colors.SECONDARY
+                              : customColors.text
+                          }
+                        />
+                        <CText
+                          styles={'pl10'}
+                          label={'add_approved_lost_damaged:lost_assets'}
+                        />
+                      </Animatable.View>
+                    </TouchableOpacity>
+                  </View>
                 </View>
               </View>
 
@@ -778,6 +917,37 @@ function AddRequest(props) {
             onChangeDate={onChangeDateRequest}
           />
 
+          <CActionSheet
+            actionRef={actionSheetAssetsRef}
+            headerChoose
+            onConfirm={handleChangeAssets}>
+            <View style={cStyles.px16}>
+              <CInput
+                containerStyle={cStyles.mb10}
+                styleFocus={styles.input_focus}
+                disabled={loading.main || loading.submitAdd || isDetail}
+                holder={'add_approved_lost_damaged:search_assets'}
+                value={findAssets}
+                keyboard={'default'}
+                returnKey={'done'}
+                onChangeValue={onSearchFilter}
+              />
+              <Picker
+                style={styles.con_action}
+                itemStyle={{color: customColors.text, fontSize: scalePx(3)}}
+                selectedValue={assets}
+                onValueChange={onChangeAssets}>
+                {dataAssets.map((value, i) => (
+                  <Picker.Item
+                    label={value[Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.label]}
+                    value={i}
+                    key={i}
+                  />
+                ))}
+              </Picker>
+            </View>
+          </CActionSheet>
+
           <RejectModal
             loading={loading.submitReject}
             showReject={showReject}
@@ -840,8 +1010,8 @@ const styles = StyleSheet.create({
   },
   button_approved: {width: cStyles.deviceWidth / 2.5},
   button_reject: {width: cStyles.deviceWidth / 2.5},
-  con_time_process: {backgroundColor: colors.SECONDARY, flex: 0.3},
   button_preview: {width: 150},
+  con_action: {width: '100%', height: sH('30%')},
 });
 
 export default AddRequest;

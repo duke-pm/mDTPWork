@@ -243,11 +243,11 @@
   },
   "add_approved_lost_damaged": {
     "title": "Thêm Mới Báo Hỏng/Mất",
-    "date_request": "Ngày yêu cầu",
-    "assets": "Tài sản",
+    "date_request": "Ngày yêu cầu (*)",
+    "assets": "Tài sản (*)",
     "holder_assets": "Chọn tài sản...",
     "search_assets": "Tìm tài sản",
-    "reason": "Lý do báo hỏng/mất",
+    "reason": "Lý do báo hỏng/mất (*)",
     "holder_reason": "Lý do...",
     "type_update": "Tài sản cần",
     "lost_assets": "Báo mất",
@@ -278,7 +278,10 @@
     "info_asset": "Thông tin tài sản",
     "file_upload": "File đính kèm",
     "holder_upload_file": "Nhấn vào đây để chọn file...",
-    "button_choose_again": "Chọn lại"
+    "button_choose_again": "Chọn lại",
+    "info_assets": "Thông tin tài sản",
+    "info_other": "Thông tin chung",
+    "holder_no_asset": "Chưa chọn tài sản"
   },
   "project_management": {
     "title": "Quản lý Dự án",

@@ -21,7 +21,6 @@ import {
   TouchableNativeFeedback,
   ActivityIndicator,
 } from 'react-native';
-import {Table, Row, TableWrapper, Cell} from 'react-native-table-component';
 import Picker from '@gregfrench/react-native-wheel-picker';
 import * as Animatable from 'react-native-animatable';
 import Icon from 'react-native-vector-icons/Feather';
@@ -32,19 +31,17 @@ import CContent from '~/components/CContent';
 import CText from '~/components/CText';
 import CInput from '~/components/CInput';
 import CButton from '~/components/CButton';
-import AssetItem from '../components/AssetItem';
 import RejectModal from '../components/RejectModal';
 import RequestProcess from '../components/RequestProcess';
 import CActionSheet from '~/components/CActionSheet';
 import CRowLabel from '~/components/CRowLabel';
+import AssetsTable from '../components/AssetsTable';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
 import {IS_IOS, alert, scalePx, sH, IS_ANDROID} from '~/utils/helper';
 import Commons from '~/utils/common/Commons';
 /* REDUX */
 import * as Actions from '~/redux/actions';
-
-const MyTableWrapper = Animatable.createAnimatableComponent(TableWrapper);
 
 const RowSelect = (
   loading,
@@ -167,24 +164,6 @@ function AddRequest(props) {
     isAllowApproved: false,
     refsAssets: [],
   });
-  const [error, setError] = useState({
-    department: {
-      status: false,
-      helper: '',
-    },
-    region: {
-      status: false,
-      helper: '',
-    },
-    assets: {
-      status: false,
-      helper: '',
-    },
-    whereUse: {
-      status: false,
-      helper: '',
-    },
-  });
 
   /** HANDLE FUNC */
   const handleReject = () => setShowReject(true);
@@ -197,23 +176,6 @@ function AddRequest(props) {
         inputRef.current.toggle();
       }
     }
-  };
-
-  const handleAddAssets = () => {
-    let newData = [...form.assets.data];
-    let newHandleRef = [...form.refsAssets];
-    newData.push(['', '', '', '', null]);
-    let handleRef = createRef();
-    newHandleRef.push(handleRef);
-
-    setForm({
-      ...form,
-      assets: {
-        ...form.assets,
-        data: newData,
-      },
-      refsAssets: newHandleRef,
-    });
   };
 
   const handleChooseTypeAssets = (type, ref) => {
@@ -261,7 +223,10 @@ function AddRequest(props) {
       }
     }
     if (department) {
-      setForm({...form, whereUse: department.deptCode});
+      setForm({
+        ...form,
+        whereUse: department[Commons.SCHEMA_DROPDOWN.DEPARTMENT.value],
+      });
     }
     actionSheetDepartmentRef.current?.hide();
   };
@@ -269,80 +234,8 @@ function AddRequest(props) {
   /** FUNC */
   const onCloseReject = () => setShowReject(false);
 
-  const onValidate = () => {
-    let tmpError = error,
-      status = true;
-    if (form.department === '') {
-      tmpError.department.status = true;
-      tmpError.department.helper = 'error:not_choose_department';
-      status = false;
-    }
-    if (form.region === '') {
-      tmpError.region.status = true;
-      tmpError.region.helper = 'error:not_choose_region';
-      status = false;
-    }
-    if (form.whereUse === '') {
-      tmpError.whereUse.status = true;
-      tmpError.whereUse.helper = 'error:not_choose_where_use';
-      status = false;
-    }
-
-    for (let item of form.assets.data) {
-      if (item[0].trim().length === 0) {
-        tmpError.assets.status = true;
-        tmpError.assets.helper = 'error:not_enough_assets';
-        status = false;
-      } else {
-        if (item[1] === '' || (item[1] !== '' && Number(item[1]) < 1)) {
-          tmpError.assets.status = true;
-          tmpError.assets.helper = 'error:assets_need_larger_than_zero';
-          status = false;
-        }
-      }
-    }
-    return {
-      status,
-      data: tmpError,
-    };
-  };
-
   const onSendRequest = () => {
     setLoading({...loading, submitAdd: true});
-    let isValid = onValidate();
-    if (isValid.status) {
-      /** prepare assets */
-      let assets = [],
-        item = null;
-      for (item of form.assets.data) {
-        assets.push({
-          Descr: item[0],
-          Qty: Number(item[1]),
-          UnitPrice: item[2] === '' ? 0 : Number(item[2]),
-          TotalAmt: item[3] === '' ? 0 : Number(item[3]),
-        });
-      }
-
-      let params = {
-        EmpCode: authState.getIn(['login', 'empCode']),
-        DeptCode: authState.getIn(['login', 'deptCode']),
-        RegionCode: authState.getIn(['login', 'regionCode']),
-        JobTitle: authState.getIn(['login', 'jobTitle']),
-        RequestDate: form.dateRequest,
-        Location: form.whereUse,
-        Reason: form.reason,
-        DocType: form.typeAssets,
-        IsBudget: form.inPlanning,
-        SupplierName: form.supplier,
-        ListAssets: assets,
-        RefreshToken: authState.getIn(['login', 'refreshToken']),
-        Lang: commonState.get('language'),
-      };
-      dispatch(Actions.fetchAddRequestApproved(params, props.navigation));
-    } else {
-      setError(isValid.data);
-      setLoading({...loading, submitAdd: false});
-    }
   };
 
   const onPrepareData = () => {
@@ -352,49 +245,6 @@ function AddRequest(props) {
       Lang: commonState.get('language'),
     };
     dispatch(Actions.fetchMasterData(params, props.navigation));
-  };
-
-  const onChangeCellItem = (value, rowIndex, cellIndex) => {
-    let newData = form.assets.data;
-    newData[rowIndex][cellIndex] = value;
-    if (newData[rowIndex][1] !== '') {
-      if (newData[rowIndex][2] !== '') {
-        newData[rowIndex][3] = JSON.stringify(
-          Number(newData[rowIndex][1]) * Number(newData[rowIndex][2]),
-        );
-      } else {
-        newData[rowIndex][3] = '';
-      }
-    } else {
-      newData[rowIndex][3] = '';
-    }
-    setForm({
-      ...form,
-      assets: {
-        ...form.assets,
-        data: newData,
-      },
-    });
-    if (error.assets.status) {
-      setError({...error, assets: {status: false, helper: ''}});
-    }
-  };
-
-  const onRemoveRow = rowIndex => {
-    let newHandleRef = [...form.refsAssets];
-    let newData = [...form.assets.data];
-    newData.splice(rowIndex, 1);
-    newHandleRef.splice(rowIndex, 2);
-    form.refsAssets[rowIndex].fadeOutLeft(300).then(endState => {
-      setForm({
-        ...form,
-        assets: {
-          ...form.assets,
-          data: newData,
-        },
-        refsAssets: newHandleRef,
-      });
-    });
   };
 
   const onPrepareDetail = () => {
@@ -502,17 +352,56 @@ function AddRequest(props) {
   const onSearchFilter = text => {
     if (text) {
       const newData = dataWhereUse.filter(function (item) {
-        const itemData = item.deptName
-          ? item.deptName.toUpperCase()
+        const itemData = item[Commons.SCHEMA_DROPDOWN.DEPARTMENT.label]
+          ? item[Commons.SCHEMA_DROPDOWN.DEPARTMENT.label].toUpperCase()
           : ''.toUpperCase();
         const textData = text.toUpperCase();
         return itemData.indexOf(textData) > -1;
       });
       setDataWhereUse(newData);
       setFindWhereUse(text);
+      if (newData.length > 0) {
+        setWhereUse(0);
+      }
     } else {
       setDataWhereUse(masterState.get('department'));
       setFindWhereUse(text);
+      setWhereUse(0);
+    }
+  };
+
+  const onCallbackValidate = data => {
+    if (data.status) {
+      /** prepare assets */
+      let assets = [],
+        item = null;
+      for (item of data.data) {
+        assets.push({
+          Descr: item[0],
+          Qty: Number(item[1]),
+          UnitPrice: item[2] === '' ? 0 : Number(item[2]),
+          TotalAmt: item[3] === '' ? 0 : Number(item[3]),
+        });
+      }
+
+      let params = {
+        EmpCode: authState.getIn(['login', 'empCode']),
+        DeptCode: authState.getIn(['login', 'deptCode']),
+        RegionCode: authState.getIn(['login', 'regionCode']),
+        JobTitle: authState.getIn(['login', 'jobTitle']),
+        RequestDate: form.dateRequest,
+        Location: form.whereUse,
+        Reason: form.reason,
+        DocType: form.typeAssets,
+        IsBudget: form.inPlanning,
+        SupplierName: form.supplier,
+        ListAssets: assets,
+        RefreshToken: authState.getIn(['login', 'refreshToken']),
+        Lang: commonState.get('language'),
+      };
+      dispatch(Actions.fetchAddRequestApproved(params, props.navigation));
+    } else {
+      setLoading({...loading, submitAdd: false});
     }
   };
 
@@ -685,7 +574,14 @@ function AddRequest(props) {
               keyboardShouldPersistTaps={'handled'}>
               <CRowLabel label={t('add_approved_assets:info_user_request')} />
               <View
-                style={[cStyles.p16, {backgroundColor: customColors.group}]}>
+                style={[
+                  cStyles.p16,
+                  cStyles.borderTop,
+                  cStyles.borderBottom,
+                  isDark && cStyles.borderTopDark,
+                  isDark && cStyles.borderBottomDark,
+                  {backgroundColor: customColors.group},
+                ]}>
                 {/** Date request and Region */}
                 <View
                   style={[
@@ -811,145 +707,38 @@ function AddRequest(props) {
               {/** Assets */}
               <CRowLabel label={t('add_approved_assets:info_assets')} />
               <View
-                style={[cStyles.py16, {backgroundColor: customColors.group}]}>
-                <View style={cStyles.flex1}>
-                  <CText
-                    styles={'textMeta fontMedium pl16'}
-                    label={'add_approved_assets:assets'}
-                  />
-                  <ScrollView horizontal contentContainerStyle={cStyles.px16}>
-                    <Table
-                      borderStyle={{
-                        borderWidth: 0.5,
-                        borderColor: error.assets.status
-                          ? customColors.red
-                          : colors.TABLE_LINE,
-                      }}
-                      style={cStyles.mt6}>
-                      <Row
-                        style={[
-                          styles.table_header,
-                          {backgroundColor: customColors.card},
-                        ]}
-                        textStyle={[
-                          cStyles.textMeta,
-                          cStyles.m3,
-                          cStyles.textCenter,
-                          cStyles.fontMedium,
-                          {color: customColors.text},
-                        ]}
-                        widthArr={
-                          isDetail
-                            ? [180, 70, 100, 100]
-                            : [180, 70, 100, 100, 42]
-                        }
-                        data={form.assets.header}
-                      />
-                      {form.assets.data.map((rowData, rowIndex) => {
-                        return (
-                          <MyTableWrapper
-                            ref={ref => (form.refsAssets[rowIndex] = ref)}
-                            key={rowIndex.toString()}
-                            style={[cStyles.flex1, cStyles.row]}
-                            animation={'fadeInLeft'}
-                            duration={300}
-                            useNativeDriver={true}>
-                            {rowData.map((cellData, cellIndex) => {
-                              let disabled =
-                                loading.main || cellIndex === 3 || isDetail;
-                              return (
-                                <Cell
-                                  key={cellIndex.toString()}
-                                  width={
-                                    cellIndex === 0
-                                      ? 180
-                                      : cellIndex === 1
-                                      ? 70
-                                      : cellIndex === 4
-                                      ? 42
-                                      : 100
-                                  }
-                                  height={40}
-                                  data={
-                                    <AssetItem
-                                      disabled={disabled}
-                                      cellData={cellData}
-                                      rowIndex={rowIndex}
-                                      cellIndex={cellIndex}
-                                      onChangeCellItem={onChangeCellItem}
-                                      onRemoveRow={onRemoveRow}
-                                    />
-                                  }
-                                />
-                              );
-                            })}
-                          </MyTableWrapper>
-                        );
-                      })}
-                    </Table>
-                  </ScrollView>
-
-                  <View
-                    style={[
-                      cStyles.flex1,
-                      cStyles.row,
-                      cStyles.justifyBetween,
-                      cStyles.itemsCenter,
-                      cStyles.pt6,
-                    ]}>
-                    <View
-                      style={[
-                        cStyles.row,
-                        cStyles.itemsCenter,
-                        styles.con_right,
-                      ]}>
-                      {error.assets.status && (
-                        <Icon
-                          name={'alert-circle'}
-                          size={scalePx(2)}
-                          color={customColors.red}
-                        />
-                      )}
-                      {error.assets.status && (
-                        <CText
-                          styles={'textMeta fontRegular pl6'}
-                          customStyles={{
-                            color: customColors.red,
-                          }}
-                          label={t(error.assets.helper)}
-                        />
-                      )}
-                    </View>
-
-                    {!isDetail && (
-                      <TouchableOpacity
-                        style={[
-                          cStyles.itemsEnd,
-                          cStyles.pt10,
-                          cStyles.pr16,
-                          styles.con_left,
-                        ]}
-                        disabled={loading.main || loading.submitAdd || isDetail}
-                        onPress={handleAddAssets}>
-                        <CText
-                          customStyles={[
-                            cStyles.textMeta,
-                            cStyles.textUnderline,
-                            cStyles.pl6,
-                            {color: customColors.text},
-                          ]}
-                          label={'add_approved_assets:add_assets'}
-                        />
-                      </TouchableOpacity>
-                    )}
-                  </View>
-                </View>
+                style={[
+                  cStyles.borderTop,
+                  cStyles.borderBottom,
+                  isDark && cStyles.borderTopDark,
+                  isDark && cStyles.borderBottomDark,
+                  {backgroundColor: customColors.group},
+                ]}>
+                <AssetsTable
+                  loading={
+                    loading.main ||
+                    loading.submitAdd ||
+                    loading.submitApproved ||
+                    loading.submitReject
+                  }
+                  checking={loading.submitAdd}
+                  isDetail={isDetail}
+                  assets={form.assets}
+                  onCallbackValidate={onCallbackValidate}
+                />
               </View>
 
               {/** Other info */}
               <CRowLabel label={t('add_approved_assets:info_other')} />
               <View
-                style={[cStyles.p16, {backgroundColor: customColors.group}]}>
+                style={[
+                  cStyles.p16,
+                  cStyles.borderTop,
+                  cStyles.borderBottom,
+                  isDark && cStyles.borderTopDark,
+                  isDark && cStyles.borderBottomDark,
+                  {backgroundColor: customColors.group},
+                ]}>
                 {/** Supplier */}
                 <View style={cStyles.pt16}>
                   <CText
@@ -1058,8 +847,7 @@ function AddRequest(props) {
                     ]}>
                     <TouchableOpacity
                       disabled={loading.main || loading.submitAdd || isDetail}
-                      onPress={() => handleChooseInPlanning(true, yesRef)}
-                      useNativeDriver={true}>
+                      onPress={() => handleChooseInPlanning(true, yesRef)}>
                       <Animatable.View
                         ref={ref => (yesRef = ref)}
                         style={[
@@ -1085,8 +873,7 @@ function AddRequest(props) {
 
                     <TouchableOpacity
                       disabled={loading.main || loading.submitAdd || isDetail}
-                      onPress={() => handleChooseInPlanning(false, noRef)}
-                      useNativeDriver={true}>
+                      onPress={() => handleChooseInPlanning(false, noRef)}>
                       <Animatable.View
                         ref={ref => (noRef = ref)}
                         style={[
@@ -1147,7 +934,11 @@ function AddRequest(props) {
                 selectedValue={whereUse}
                 onValueChange={onChangeWhereUse}>
                 {dataWhereUse.map((value, i) => (
-                  <Picker.Item label={value.deptName} value={i} key={i} />
+                  <Picker.Item
+                    label={value[Commons.SCHEMA_DROPDOWN.DEPARTMENT.label]}
+                    value={i}
+                    key={i}
+                  />
                 ))}
               </Picker>
             </View>
@@ -1210,15 +1001,11 @@ const styles = StyleSheet.create({
   input_focus: {
     borderColor: colors.SECONDARY,
   },
-  table: {borderWidth: 1, borderColor: colors.TABLE_LINE},
-  table_header: {height: 30, backgroundColor: colors.TABLE_HEADER},
   button_approved: {width: cStyles.deviceWidth / 2.5},
   button_reject: {width: cStyles.deviceWidth / 2.5},
-  con_time_process: {backgroundColor: colors.SECONDARY, flex: 0.3},
-  line_2: {width: 2, height: 20},
   con_left: {flex: 0.4},
   con_right: {flex: 0.6},
-  con_action: {width: '100%', height: sH('40%')},
+  con_action: {width: '100%', height: sH('30%')},
 });
 
 export default AddRequest;

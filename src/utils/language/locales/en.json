@@ -243,11 +243,11 @@
   },
   "add_approved_lost_damaged": {
     "title": "Add New Failure/Lost",
-    "date_request": "Date request",
-    "assets": "Asset",
+    "date_request": "Date request (*)",
+    "assets": "Asset (*)",
     "holder_assets": "Select asset...",
     "search_assets": "Search asset",
-    "reason": "Reason for damage/loss report",
+    "reason": "Reason for damage/loss report (*)",
     "holder_reason": "Reason...",
     "type_update": "Asset needed",
     "lost_assets": "Failure",
@@ -278,7 +278,10 @@
     "info_asset": "Asset Information",
     "file_upload": "Attached file",
     "holder_upload_file": "Click here to select file..",
-    "button_choose_again": "Reselect"
+    "button_choose_again": "Reselect",
+    "info_assets": "Information of assets",
+    "info_other": "General information",
+    "holder_no_asset": "No asset selected"
   },
   "project_management": {
     "title": "Project Management",
