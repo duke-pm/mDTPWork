@@ -66,9 +66,7 @@ const CCard = React.memo(function CCard(props) {
         />
       </View>
 
-      {cardHeader && (
-        <View style={[cStyles.pt10, cStyles.px16]}>{cardHeader}</View>
-      )}
+      {cardHeader && <View style={cStyles.px16}>{cardHeader}</View>}
 
       {cardContent && (
         <View style={[cStyles.pb10, cStyles.px16, cardHeader && cStyles.pt10]}>

@@ -152,7 +152,7 @@ function AddRequest(props) {
   const authState = useSelector(({auth}) => auth);
 
   const [loading, setLoading] = useState({
-    main: true,
+    main: false,
     submitAdd: false,
     submitApproved: false,
     submitReject: false,
@@ -281,6 +281,7 @@ function AddRequest(props) {
       Lang: commonState.get('language'),
     };
     dispatch(Actions.fetchAssetByUser(params));
+    setLoading({...loading, main: true});
   };
 
   const onValidate = () => {
@@ -443,7 +444,6 @@ function AddRequest(props) {
   };
 
   const onChangeAssets = index => {
-    console.log('[LOG] === onChangeAssets ===> ', index);
     setAssets(index);
   };
 
@@ -454,21 +454,29 @@ function AddRequest(props) {
 
   useEffect(() => {
     if (loading.main) {
-      if (isDetail) {
-        onPrepareDetail();
-      } else {
-        setDataAssets(masterState.get('assetByUser'));
-        let data = masterState.get('assetByUser');
-        if (data && data.length > 0) {
-          setForm({
-            ...form,
-            assetID: data[0][Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.value],
-          });
+      if (!masterState.get('submitting')) {
+        if (masterState.get('success')) {
+          if (isDetail) {
+            onPrepareDetail();
+          } else {
+            setDataAssets(masterState.get('assetByUser'));
+            let data = masterState.get('assetByUser');
+            if (data && data.length > 0) {
+              setForm({
+                ...form,
+                assetID: data[0][Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.value],
+              });
+            }
+            setLoading({...loading, main: false});
+          }
         }
-        setLoading({...loading, main: false});
       }
     }
-  }, [loading.main]);
+  }, [
+    loading.main,
+    masterState.get('assetByUser'),
+    masterState.get('submitting'),
+  ]);
 
   useEffect(() => {
     if (loading.submitAdd) {
@@ -675,7 +683,7 @@ function AddRequest(props) {
                 )}
 
                 {/** Reason */}
-                <View style={cStyles.pt16}>
+                <View style={!isDetail ? cStyles.pt16 : {}}>
                   <CText
                     styles={'textMeta fontMedium'}
                     label={'add_approved_lost_damaged:reason'}
@@ -801,49 +809,17 @@ function AddRequest(props) {
               {/** Assets for detail */}
               {isDetail && (
                 <CCard
-                  label={'add_approved_lost_damaged:info_asset'}
+                  customLabel={props.route.params?.data?.assetName}
                   customColors={customColors}
                   isDark={isDark}
-                  cardHeader={
-                    <CText
-                      styles={'textTitle'}
-                      customLabel={props.route.params?.data?.assetName}
-                    />
-                  }
                   cardContent={
                     <View>
-                      <View style={[cStyles.row, cStyles.justifyStart]}>
-                        <CText
-                          styles={'textMeta'}
-                          label={'add_approved_lost_damaged:detail_asset'}
-                        />
-                        <CText
-                          styles={'textMeta fontBold'}
-                          customLabel={
-                            props.route.params?.data?.descr !== ''
-                              ? props.route.params?.data?.descr
-                              : t('common:empty_info')
-                          }
-                        />
-                      </View>
                       <View
                         style={[
                           cStyles.row,
                           cStyles.itemsCenter,
                           cStyles.justifyBetween,
                         ]}>
-                        <View style={[cStyles.row, cStyles.justifyStart]}>
-                          <CText
-                            styles={'textMeta'}
-                            label={'add_approved_lost_damaged:type_asset'}
-                          />
-                          <CText
-                            styles={'textMeta fontBold'}
-                            customLabel={
-                              props.route.params?.data?.assetTypeName
-                            }
-                          />
-                        </View>
                         <View style={[cStyles.row, cStyles.justifyStart]}>
                           <CText
                             styles={'textMeta'}
@@ -859,8 +835,19 @@ function AddRequest(props) {
                             ).format(commonState.get('formatDateView'))}
                           />
                         </View>
+                        <View style={[cStyles.row, cStyles.justifyStart]}>
+                          <CText
+                            styles={'textMeta'}
+                            label={'add_approved_lost_damaged:type_asset'}
+                          />
+                          <CText
+                            styles={'textMeta fontBold'}
+                            customLabel={
+                              props.route.params?.data?.assetTypeName
+                            }
+                          />
+                        </View>
                       </View>
-
                       <View
                         style={[
                           cStyles.row,
@@ -891,6 +878,20 @@ function AddRequest(props) {
                             }
                           />
                         </View>
+                      </View>
+                      <View style={[cStyles.row, cStyles.justifyStart]}>
+                        <CText
+                          styles={'textMeta'}
+                          label={'add_approved_lost_damaged:detail_asset'}
+                        />
+                        <CText
+                          styles={'textMeta fontBold'}
+                          customLabel={
+                            props.route.params?.data?.descr !== ''
+                              ? props.route.params?.data?.descr
+                              : t('common:empty_info')
+                          }
+                        />
                       </View>
                     </View>
                   }

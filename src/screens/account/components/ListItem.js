@@ -34,7 +34,6 @@ function ListItem(props) {
     dataLength,
     customColors,
     isDark,
-    onPressSignOut,
   } = props;
 
   /** HANDLE FUNC */
@@ -47,8 +46,6 @@ function ListItem(props) {
       } else {
         alert(t, 'common:holder_warning_option_prepare', () => null);
       }
-    } else if (data.isSignOut) {
-      onPressSignOut();
     } else if (data.isURL) {
       Linking.openURL(data.value);
     } else if (data.isRate) {
@@ -140,8 +137,7 @@ function ListItem(props) {
               {(data.nextRoute ||
                 data.isURL ||
                 data.isChooseLang ||
-                data.isRate ||
-                data.isSignOut) && (
+                data.isRate) && (
                 <View style={cStyles.pl10}>
                   <Icon
                     name={'chevron-right'}

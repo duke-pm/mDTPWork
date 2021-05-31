@@ -69,10 +69,10 @@ function CButton(props) {
         ]}>
         {icon && (
           <Icon
-            style={cStyles.pr6}
+            style={cStyles.pr10}
             name={icon}
             color={colors.WHITE}
-            size={scalePx(3)}
+            size={scalePx(2.3)}
           />
         )}
 

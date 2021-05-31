@@ -337,6 +337,7 @@ function SignIn(props) {
                     <CButton
                       block
                       disabled={loading.submit}
+                      icon={'unlock'}
                       label={'sign_in:title'}
                       onPress={handleSignIn}
                     />

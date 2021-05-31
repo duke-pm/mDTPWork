@@ -224,7 +224,7 @@ function Filter(props) {
             style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween]}>
             <View style={styles.text_date}>
               <CText
-                styles={'pt12 textLeft'}
+                styles={'pt6 textLeft'}
                 label={'approved_assets:from_date'}
               />
             </View>
@@ -252,7 +252,7 @@ function Filter(props) {
             style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween]}>
             <View style={styles.text_date}>
               <CText
-                styles={'pt12 textLeft'}
+                styles={'pt6 textLeft'}
                 label={'approved_assets:to_date'}
               />
             </View>

@@ -91,17 +91,6 @@ const ACCOUNT = {
         isRate: false,
         isURL: false,
       },
-      {
-        id: 'signOut',
-        icon: 'log-out',
-        label: 'account:sign_out',
-        value: null,
-        nextRoute: null,
-        isPhone: false,
-        isSignOut: true,
-        isRate: false,
-        isURL: false,
-      },
     ],
   },
   SOCIALS: [
@@ -220,9 +209,17 @@ function Account(props) {
                     dataLength={ACCOUNT.SETTINGS.childrens.length}
                     customColors={customColors}
                     isDark={isDark}
-                    onPressSignOut={handleSignOut}
                   />
                 ))}
+              </View>
+
+              {/** SIGN OUT */}
+              <View style={[cStyles.itemsCenter, cStyles.pt6]}>
+                <CText
+                  customStyles={[{color: customColors.red}]}
+                  label={'common:sign_out'}
+                  onPress={handleSignOut}
+                />
               </View>
             </View>
             {/** SOCIALS */}
