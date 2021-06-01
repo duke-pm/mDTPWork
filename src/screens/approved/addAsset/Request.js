@@ -57,7 +57,9 @@ const RowSelect = (
 ) => {
   const Touchable = IS_ANDROID ? TouchableNativeFeedback : TouchableOpacity;
   let find = null;
-  find = data.find(f => f[keyToCompare] === activeIndex);
+  if (data) {
+    find = data.find(f => f[keyToCompare] === activeIndex);
+  }
   return (
     <Touchable disabled={disabled} onPress={onPress}>
       <View

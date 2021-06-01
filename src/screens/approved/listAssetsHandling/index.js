@@ -6,10 +6,10 @@
  ** Description: Description of ListHandling.js
  **/
 import {fromJS} from 'immutable';
-import {useTheme} from '@react-navigation/native';
 import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
+import {useTheme} from '@react-navigation/native';
 import {showMessage} from 'react-native-flash-message';
 import moment from 'moment';
 /* COMPONENTS */
@@ -27,6 +27,7 @@ function ListRequestHandling(props) {
   const {customColors} = useTheme();
   const isPermissionWrite = props.route.params?.permission?.write || false;
 
+  /** Use redux */
   const dispatch = useDispatch();
   const commonState = useSelector(({common}) => common);
   const approvedState = useSelector(({approved}) => approved);
@@ -34,6 +35,7 @@ function ListRequestHandling(props) {
   const perPage = commonState.get('perPage');
   const formatDate = commonState.get('formatDate');
 
+  /** Use state */
   const [loading, setLoading] = useState({
     main: false,
     search: false,

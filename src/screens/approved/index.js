@@ -15,12 +15,12 @@ import Item from './components/Item';
 import {cStyles} from '~/utils/style';
 
 function Approved(props) {
+  /** Use redux */
+  const authState = useSelector(({auth}) => auth);
+
   /** Use State */
   const [loading, setLoading] = useState(true);
   const [routes, setRoutes] = useState([]);
-
-  /** Use redux */
-  const authState = useSelector(({auth}) => auth);
 
   /** HANDLE FUNC */
   const handleItem = dataRoute => {

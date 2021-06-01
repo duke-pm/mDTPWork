@@ -28,9 +28,11 @@ function ListRequestAll(props) {
   const {t} = useTranslation();
   const isPermissionWrite = props.route.params?.permission?.write || false;
 
+  /** Use redux */
   const commonState = useSelector(({common}) => common);
   const formatDate = commonState.get('formatDate');
 
+  /** use state */
   const [index, setIndex] = useState(0);
   const [routes, setRoutes] = useState([
     {
@@ -119,7 +121,6 @@ function ListRequestAll(props) {
         return <Assets dataRoute={route} navigation={props.navigation} />;
     }
   };
-
   const renderTabBar = props => <TabbarType {...props} />;
   return (
     <CContainer

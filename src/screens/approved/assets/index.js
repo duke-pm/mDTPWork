@@ -8,7 +8,7 @@
 import {fromJS} from 'immutable';
 import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import { useTheme } from '@react-navigation/native';
+import {useTheme} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
 import {showMessage} from 'react-native-flash-message';
 import moment from 'moment';
