@@ -10,6 +10,10 @@ import Services from '~/services';
 import * as types from './types';
 import * as Actions from '~/redux/actions';
 
+export const resetStatusMasterData = () => ({
+  type: types.RESET_STATUS_MASTER_DATA,
+});
+
 export const getError = error => ({
   type: types.ERROR_FETCH_MASTER_DATA,
   payload: error,

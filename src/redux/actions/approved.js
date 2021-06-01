@@ -198,6 +198,10 @@ export const fetchListRequestLost = (params, navigation) => {
 };
 /*****************************/
 
+export const resetAllApproved = () => ({
+  type: types.RESET_REQUEST_APPROVED,
+});
+
 /** For add request */
 export const addRequestApprovedError = error => ({
   type: types.ERROR_FETCH_ADD_REQUEST_APPROVED,

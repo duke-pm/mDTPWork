@@ -450,6 +450,7 @@ function AddRequest(props) {
 
   /** LIFE CYCLE */
   useEffect(() => {
+    dispatch(Actions.resetStatusMasterData());
     onPrepareData();
   }, []);
 
@@ -462,6 +463,7 @@ function AddRequest(props) {
           } else {
             setDataAssets(masterState.get('assetByUser'));
             let data = masterState.get('assetByUser');
+            console.log('[LOG] === useEffect ===> ', data);
             if (data && data.length > 0) {
               setForm({
                 ...form,
@@ -925,29 +927,42 @@ function AddRequest(props) {
             headerChoose
             onConfirm={handleChangeAssets}>
             <View style={cStyles.px16}>
-              <CInput
-                containerStyle={cStyles.mb10}
-                styleFocus={styles.input_focus}
-                disabled={loading.main || loading.submitAdd || isDetail}
-                holder={'add_approved_lost_damaged:search_assets'}
-                value={findAssets}
-                keyboard={'default'}
-                returnKey={'done'}
-                onChangeValue={onSearchFilter}
-              />
-              <Picker
-                style={styles.con_action}
-                itemStyle={{color: customColors.text, fontSize: scalePx(3)}}
-                selectedValue={assets}
-                onValueChange={onChangeAssets}>
-                {dataAssets.map((value, i) => (
-                  <Picker.Item
-                    label={value[Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.label]}
-                    value={i}
-                    key={i}
+              {dataAssets.length > 0 && (
+                <CInput
+                  containerStyle={cStyles.mb10}
+                  styleFocus={styles.input_focus}
+                  disabled={loading.main || loading.submitAdd || isDetail}
+                  holder={'add_approved_lost_damaged:search_assets'}
+                  value={findAssets}
+                  keyboard={'default'}
+                  returnKey={'done'}
+                  onChangeValue={onSearchFilter}
+                />
+              )}
+              {dataAssets.length > 0 ? (
+                <Picker
+                  style={styles.con_action}
+                  itemStyle={{color: customColors.text, fontSize: scalePx(3)}}
+                  selectedValue={assets}
+                  onValueChange={onChangeAssets}>
+                  {dataAssets.map((value, i) => (
+                    <Picker.Item
+                      label={
+                        value[Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.label]
+                      }
+                      value={i}
+                      key={i}
+                    />
+                  ))}
+                </Picker>
+              ) : (
+                <View style={[cStyles.center, {height: '40%'}]}>
+                  <CText
+                    styles={'textMeta'}
+                    customLabel={'Không có tài sản nào'}
                   />
-                ))}
-              </Picker>
+                </View>
+              )}
             </View>
           </CActionSheet>
 

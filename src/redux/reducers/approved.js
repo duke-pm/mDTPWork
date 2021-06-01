@@ -57,6 +57,21 @@ export const initialState = fromJS({
 export default function (state = initialState, action = {}) {
   const {type, payload} = action;
   switch (type) {
+    case types.RESET_REQUEST_APPROVED:
+      return state
+        .set('submittingAdd', false)
+        .set('submittingApproved', false)
+        .set('submittingReject', false)
+        .set('successAddRequest', false)
+        .set('errorAddRequest', false)
+        .set('errorHelperAddRequest', '')
+        .set('successApprovedRequest', false)
+        .set('errorApprovedRequest', false)
+        .set('errorHelperApprovedRequest', '')
+        .set('successRejectRequest', false)
+        .set('errorRejectRequest', false)
+        .set('errorHelperRejectRequest', '');
+
     /** For list request **/
     case types.START_FETCH_LIST_REQUEST_APPROVED:
       return state

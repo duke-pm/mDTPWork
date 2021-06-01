@@ -15,20 +15,25 @@ export const initialState = fromJS({
   error: false,
   errorHelper: '',
 
-  region: List(),
-  department: List(),
-  employees: List(),
-  supplier: List(),
-  company: List(),
-  assetType: List(),
-  assetGroup: List(),
-  assetGroupDetail: List(),
-  assetByUser: List(),
+  region: [],
+  department: [],
+  employees: [],
+  supplier: [],
+  company: [],
+  assetType: [],
+  assetGroup: [],
+  assetGroupDetail: [],
+  assetByUser: [],
 });
 
 export default function (state = initialState, action = {}) {
   const {type, payload} = action;
   switch (type) {
+    case types.RESET_STATUS_MASTER_DATA:
+      return state
+        .set('success', false)
+        .set('error', false)
+        .set('errorHelper', '');
     case types.START_FETCH_MASTER_DATA:
       return state
         .set('submitting', true)

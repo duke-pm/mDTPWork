@@ -246,6 +246,7 @@ function AddRequest(props) {
       Lang: commonState.get('language'),
     };
     dispatch(Actions.fetchMasterData(params, props.navigation));
+    dispatch(Actions.resetAllApproved());
   };
 
   const onPrepareDetail = () => {
@@ -372,7 +373,7 @@ function AddRequest(props) {
   };
 
   const onCallbackValidate = data => {
-    if (data.status) {
+    if (!data.status) {
       /** prepare assets */
       let assets = [],
         item = null;

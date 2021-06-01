@@ -30,11 +30,7 @@ function AssetItem(props) {
 
   const {rowIndex, cellIndex, onChangeCellItem, onRemoveRow} = props;
 
-  if (cellIndex === 4 && rowIndex === 0) {
-    return <View />;
-  }
-
-  if (cellIndex === 4 && rowIndex !== 0) {
+  if (cellIndex === 4) {
     return (
       <CIconButton
         iconName={'x-circle'}

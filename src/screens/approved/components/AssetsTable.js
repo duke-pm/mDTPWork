@@ -6,11 +6,10 @@
  ** CreateAt: 2021
  ** Description: Description of AssetsTable.js
  **/
-import React, {createRef, useState, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
 import {StyleSheet, ScrollView, View, TouchableOpacity} from 'react-native';
-import * as Animatable from 'react-native-animatable';
 import {Table, Row, TableWrapper, Cell} from 'react-native-table-component';
 import Icon from 'react-native-vector-icons/Feather';
 /* COMPONENTS */
@@ -19,8 +18,6 @@ import AssetItem from './AssetItem';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
 import {scalePx} from '~/utils/helper';
-
-const MyTableWrapper = Animatable.createAnimatableComponent(TableWrapper);
 
 function AssetsTable(props) {
   const {t} = useTranslation();
@@ -48,7 +45,6 @@ function AssetsTable(props) {
       ],
       data: [['', '', '', '', null]],
     },
-    refsAssets: [],
   });
   const [error, setError] = useState({
     status: false,
@@ -58,17 +54,13 @@ function AssetsTable(props) {
   /** HANDLE FUNC */
   const handleAddAssets = () => {
     let newData = [...form.assets.data];
-    let newHandleRef = [...form.refsAssets];
     newData.push(['', '', '', '', null]);
-    let handleRef = createRef();
-    newHandleRef.push(handleRef);
     setForm({
       ...form,
       assets: {
         ...form.assets,
         data: newData,
       },
-      refsAssets: newHandleRef,
     });
   };
 
@@ -100,19 +92,14 @@ function AssetsTable(props) {
   };
 
   const onRemoveRow = rowIndex => {
-    let newHandleRef = [...form.refsAssets];
     let newData = [...form.assets.data];
     newData.splice(rowIndex, 1);
-    newHandleRef.splice(rowIndex, 2);
-    form.refsAssets[rowIndex].fadeOutLeft(300).then(endState => {
-      setForm({
-        ...form,
-        assets: {
-          ...form.assets,
-          data: newData,
-        },
-        refsAssets: newHandleRef,
-      });
+    setForm({
+      ...form,
+      assets: {
+        ...form.assets,
+        data: newData,
+      },
     });
   };
 
@@ -121,22 +108,30 @@ function AssetsTable(props) {
       status: false,
       helper: '',
     });
-    let tmpError = error,
+    let tmpError = {
+        status: false,
+        helper: '',
+      },
       item = null;
-    for (item of form.assets.data) {
-      if (item[0].trim().length === 0) {
-        tmpError.status = true;
-        tmpError.helper = 'error:not_enough_assets';
-      } else {
-        if (item[1] === '' || (item[1] !== '' && Number(item[1]) < 1)) {
+    if (form.assets.data.length > 0) {
+      for (item of form.assets.data) {
+        if (item[0].trim() === '') {
           tmpError.status = true;
-          tmpError.helper = 'error:assets_need_larger_than_zero';
+          tmpError.helper = 'error:not_enough_assets';
+        } else {
+          if (item[1] === '' || (item[1] !== '' && Number(item[1]) < 1)) {
+            tmpError.status = true;
+            tmpError.helper = 'error:assets_need_larger_than_zero';
+          }
         }
       }
+    } else {
+      tmpError.status = true;
+      tmpError.helper = 'error:not_enough_assets';
     }
     setError(tmpError);
     onCallbackValidate({
-      status: !tmpError.status,
+      status: tmpError.status,
       data: form.assets.data,
     });
   };
@@ -188,13 +183,9 @@ function AssetsTable(props) {
             />
             {form.assets.data.map((rowData, rowIndex) => {
               return (
-                <MyTableWrapper
-                  ref={ref => (form.refsAssets[rowIndex] = ref)}
+                <TableWrapper
                   key={rowIndex.toString()}
-                  style={[cStyles.flex1, cStyles.row]}
-                  animation={'fadeInLeft'}
-                  duration={300}
-                  useNativeDriver={true}>
+                  style={[cStyles.flex1, cStyles.row]}>
                   {rowData.map((cellData, cellIndex) => {
                     let disabled = loading || cellIndex === 3 || isDetail;
                     return (
@@ -223,7 +214,7 @@ function AssetsTable(props) {
                       />
                     );
                   })}
-                </MyTableWrapper>
+                </TableWrapper>
               );
             })}
           </Table>
