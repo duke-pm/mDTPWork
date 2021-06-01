@@ -7,13 +7,12 @@
 import React from 'react';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
-import {View} from 'react-native';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
 import ListItem from '../account/components/ListItem';
 /** COMMON */
-import {cStyles} from '~/utils/style';
+import {THEME_DARK} from '~/config/constants';
 
 const HELP_AND_INFO = [
   {
@@ -75,7 +74,7 @@ const HELP_AND_INFO = [
 
 function HelpAndInfo(props) {
   const {customColors} = useTheme();
-  const isDark = useColorScheme() === 'dark';
+  const isDark = useColorScheme() === THEME_DARK;
 
   return (
     <CContainer

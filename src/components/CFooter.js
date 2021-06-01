@@ -12,10 +12,11 @@ import {BlurView} from '@react-native-community/blur';
 /** COMMON */
 import {colors, cStyles} from '~/utils/style';
 import {IS_IOS} from '~/utils/helper';
+import {THEME_DARK} from '~/config/constants';
 
 function CFooter(props) {
   const {customColors} = useTheme();
-  const isDark = useColorScheme() === 'dark';
+  const isDark = useColorScheme() === THEME_DARK;
 
   /** RENDER */
   return (

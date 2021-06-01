@@ -13,6 +13,9 @@ export const REFRESH = 'REFRESH';
 export const LOGIN = 'LOGIN';
 export const LANGUAGE = 'LANGUAGE';
 
+export const THEME_DARK = 'dark';
+export const THEME_LIGHT = 'light';
+
 export const DEFAULT_LANGUAGE_CODE = 'vi';
 export const DEFAULT_PER_PAGE = 10;
 export const DEFAULT_FORMAT_DATE_1 = 'YYYY-MM-DD';

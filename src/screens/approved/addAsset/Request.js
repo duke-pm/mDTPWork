@@ -37,6 +37,7 @@ import CActionSheet from '~/components/CActionSheet';
 import CRowLabel from '~/components/CRowLabel';
 import AssetsTable from '../components/AssetsTable';
 /* COMMON */
+import {THEME_DARK} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
 import {IS_IOS, alert, scalePx, sH, IS_ANDROID} from '~/utils/helper';
 import Commons from '~/utils/common/Commons';
@@ -116,7 +117,7 @@ let noRef = createRef();
 function AddRequest(props) {
   const {t} = useTranslation();
   const {customColors} = useTheme();
-  const isDark = useColorScheme() === 'dark';
+  const isDark = useColorScheme() === THEME_DARK;
 
   /** Use redux */
   const dispatch = useDispatch();

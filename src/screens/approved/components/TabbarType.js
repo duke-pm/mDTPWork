@@ -69,11 +69,7 @@ function TabbarType(props) {
       inactiveColor={customColors.text}
       renderLabel={({route, focused, color}) => (
         <CText
-          customStyles={[
-            cStyles.py5,
-            focused && cStyles.fontBold,
-            focused && cStyles.colorSecondary,
-          ]}
+          customStyles={[cStyles.py5, focused && cStyles.colorSecondary]}
           customLabel={route.title}
         />
       )}

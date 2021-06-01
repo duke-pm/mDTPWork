@@ -15,10 +15,11 @@ import CText from '~/components/CText';
 /** COMMON */
 import {colors, cStyles} from '~/utils/style';
 import {scalePx} from '~/utils/helper';
+import {THEME_DARK} from '~/config/constants';
 
 function CButton(props) {
   const {t} = useTranslation();
-  const isDark = useColorScheme() === 'dark';
+  const isDark = useColorScheme() === THEME_DARK;
   const {
     style = {},
     loading = false,

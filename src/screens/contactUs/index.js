@@ -6,9 +6,9 @@
  ** Description: Description of ContactUs.js
  **/
 import React from 'react';
-import {Linking, ScrollView, View} from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
+import {Linking, ScrollView, View} from 'react-native';
 /* COMPONENTS */
 import CCard from '~/components/CCard';
 import CContainer from '~/components/CContainer';
@@ -16,6 +16,7 @@ import CContent from '~/components/CContent';
 import CText from '~/components/CText';
 /* COMMON */
 import {cStyles} from '~/utils/style';
+import {THEME_DARK} from '~/config/constants';
 
 const DATA = [
   {
@@ -99,7 +100,7 @@ const DATA = [
 
 const ContactUs = React.memo(function ContactUs(props) {
   const {customColors} = useTheme();
-  const isDark = useColorScheme() === 'dark';
+  const isDark = useColorScheme() === THEME_DARK;
 
   const handlePhone = data => {
     Linking.openURL(`tel:${data}`);

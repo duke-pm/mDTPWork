@@ -29,6 +29,7 @@ import CDateTimePicker from '~/components/CDateTimePicker';
 import CButton from '~/components/CButton';
 import CGroupFilter from '~/components/CGroupFilter';
 /* COMMON */
+import {THEME_DARK} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
 import {IS_ANDROID, scalePx} from '~/utils/helper';
 import {usePrevious} from '~/utils/hook';
@@ -91,7 +92,7 @@ function Filter(props) {
   const {isResolve = false, onFilter = () => {}} = props;
   const {t} = useTranslation();
   const {customColors} = useTheme();
-  const isDark = useColorScheme() === 'dark';
+  const isDark = useColorScheme() === THEME_DARK;
 
   /** Use redux */
   const commonState = useSelector(({common}) => common);

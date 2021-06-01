@@ -20,9 +20,10 @@ import CButton from './CButton';
 import CLoading from './CLoading';
 /* COMMON */
 import {cStyles, colors} from '~/utils/style';
+import {THEME_DARK} from '~/config/constants';
 
 function CAlert(props) {
-  const isDark = useColorScheme() === 'dark';
+  const isDark = useColorScheme() === THEME_DARK;
   const {customColors} = useTheme();
   const {
     loading = false,

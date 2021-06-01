@@ -1,4 +1,4 @@
-/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable react-hooks/exhaustive-deps */
 /**
  ** Name: Project Detail screen
  ** Author:
@@ -20,6 +20,7 @@ import FilterTask from '../components/FilterTask';
 /* COMMON */
 import {cStyles} from '~/utils/style';
 import {scalePx} from '~/utils/helper';
+import {THEME_DARK} from '~/config/constants';
 
 const tasks = [
   {
@@ -185,7 +186,7 @@ const tasks = [
 
 function ProjectDetail(props) {
   const {customColors} = useTheme();
-  const isDark = useColorScheme() === 'dark';
+  const isDark = useColorScheme() === THEME_DARK;
 
   /** Use redux */
   const dispatch = useDispatch();

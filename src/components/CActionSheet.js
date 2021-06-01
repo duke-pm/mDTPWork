@@ -9,12 +9,15 @@ import {useColorScheme} from 'react-native-appearance';
 import {useTheme} from '@react-navigation/native';
 import {View} from 'react-native';
 import ActionSheet from 'react-native-actions-sheet';
+/** COMPONENTS */
 import CIconButton from './CIconButton';
-import {colors, cStyles} from '~/utils/style';
+/** COMMON */
+import {cStyles} from '~/utils/style';
+import {THEME_DARK} from '~/config/constants';
 
 function CActionSheet(props) {
   const {customColors} = useTheme();
-  const isDark = useColorScheme() === 'dark';
+  const isDark = useColorScheme() === THEME_DARK;
   const {actionRef, customHeader, headerChoose = false, onConfirm} = props;
 
   return (

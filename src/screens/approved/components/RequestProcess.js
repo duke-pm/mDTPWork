@@ -248,8 +248,8 @@ function RequestProcess(props) {
 const styles = StyleSheet.create({
   con_time_process: {backgroundColor: colors.SECONDARY, flex: 0.3},
   line_2: {width: 2, height: 20},
-  img_icon: {height: 40, width: 40},
-  img_icon_rejected: {height: 20, width: 20},
+  img_icon: {height: 42, width: 42},
+  img_icon_rejected: {height: 23, width: 23},
   img_warning: {height: 26, width: 26},
 });
 

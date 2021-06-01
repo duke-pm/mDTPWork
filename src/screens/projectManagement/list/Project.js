@@ -12,11 +12,12 @@ import ProjectItem from '../components/ProjectItem';
 import CList from '~/components/CList';
 /** COMMON */
 import Routes from '~/navigation/Routes';
+import {THEME_DARK} from '~/config/constants';
 
 function ListProject(props) {
   const navigation = useNavigation();
   const {customColors} = useTheme();
-  const isDark = useColorScheme() === 'dark';
+  const isDark = useColorScheme() === THEME_DARK;
   const {onLoadmore, onRefresh} = props;
 
   /** HANDLE FUNC */

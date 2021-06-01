@@ -20,7 +20,7 @@ import CActionSheet from '~/components/CActionSheet';
 import CIconButton from '~/components/CIconButton';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
-import {STATUS_TASK} from '~/config/constants';
+import {STATUS_TASK, THEME_DARK} from '~/config/constants';
 import {scalePx, sH} from '~/utils/helper';
 import Assets from '~/utils/asset/Assets';
 
@@ -29,7 +29,7 @@ const actionSheetStatusRef = createRef();
 
 function Task(props) {
   const {customColors} = useTheme();
-  const isDark = useColorScheme() === 'dark';
+  const isDark = useColorScheme() === THEME_DARK;
   const data = props.route.params.data;
   let findStatus = STATUS_TASK.findIndex(f => f.label === data.status);
 

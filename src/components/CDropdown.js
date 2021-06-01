@@ -16,11 +16,12 @@ import CText from '~/components/CText';
 /* COMMON */
 import {cStyles, colors} from '~/utils/style';
 import {scalePx} from '~/utils/helper';
+import {THEME_DARK} from '~/config/constants';
 
 function CDropdown(props) {
   const {t} = useTranslation();
   const {customColors} = useTheme();
-  const isDark = useColorScheme() === 'dark';
+  const isDark = useColorScheme() === THEME_DARK;
   const {
     defaultValue,
     holder = '',

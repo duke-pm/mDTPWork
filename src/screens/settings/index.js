@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /**
  ** Name: Config settings of App
  ** Author:
@@ -19,8 +20,9 @@ import CList from '~/components/CList';
 import ListItem from '~/screens/account/components/ListItem';
 /* COMMON */
 import Assets from '~/utils/asset/Assets';
+import {LANGUAGE, THEME_DARK} from '~/config/constants';
 import {getLocalInfo, saveLocalInfo, scalePx, sH} from '~/utils/helper';
-import {LANGUAGE} from '~/config/constants';
+import {cStyles} from '~/utils/style';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 
@@ -51,7 +53,7 @@ const SETTINGS = [
 function Settings(props) {
   const {t} = useTranslation();
   const {customColors} = useTheme();
-  const isDark = useColorScheme() === 'dark';
+  const isDark = useColorScheme() === THEME_DARK;
 
   const dispatch = useDispatch();
 
@@ -130,6 +132,7 @@ function Settings(props) {
       content={
         <CContent scroll>
           <CList
+            contentStyle={cStyles.px0}
             data={initSettings}
             item={({item, index}) => {
               return (
@@ -143,6 +146,7 @@ function Settings(props) {
                 />
               );
             }}
+            scrollEnabled={false}
           />
 
           <CActionSheet

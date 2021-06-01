@@ -21,10 +21,11 @@ import CLoading from './CLoading';
 /** COMMON */
 import {cStyles, colors} from '~/utils/style';
 import {IS_IOS} from '~/utils/helper';
+import {THEME_DARK} from '~/config/constants';
 
 function CContainer(props) {
   const {customColors} = useTheme();
-  const isDark = useColorScheme() === 'dark';
+  const isDark = useColorScheme() === THEME_DARK;
   const {
     safeArea = {
       top: true,

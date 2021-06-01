@@ -33,6 +33,7 @@ import CDateTimePicker from '~/components/CDateTimePicker';
 import {colors, cStyles} from '~/utils/style';
 import {IS_ANDROID, IS_IOS, scalePx} from '~/utils/helper';
 import {usePrevious} from '~/utils/hook';
+import {THEME_DARK} from '~/config/constants';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -126,7 +127,7 @@ function FilterTask(props) {
   const {show, onFilter = () => {}} = props;
   const {t} = useTranslation();
   const {customColors} = useTheme();
-  const isDark = useColorScheme() === 'dark';
+  const isDark = useColorScheme() === THEME_DARK;
 
   /** Use redux */
   const commonState = useSelector(({common}) => common);

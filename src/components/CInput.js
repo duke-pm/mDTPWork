@@ -6,19 +6,20 @@
  **/
 import React, {useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {StyleSheet, TextInput, View, TouchableOpacity} from 'react-native';
-import Icon from 'react-native-vector-icons/Feather';
 import {useColorScheme} from 'react-native-appearance';
 import {useTheme} from '@react-navigation/native';
+import {StyleSheet, TextInput, View, TouchableOpacity} from 'react-native';
+import Icon from 'react-native-vector-icons/Feather';
 /* COMPONENTS */
 import CText from './CText';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
 import {IS_ANDROID, IS_IOS, scalePx} from '~/utils/helper';
+import {THEME_DARK} from '~/config/constants';
 
 function CInput(props) {
   const {t} = useTranslation();
-  const isDark = useColorScheme() === 'dark';
+  const isDark = useColorScheme() === THEME_DARK;
   const {customColors} = useTheme();
 
   const {

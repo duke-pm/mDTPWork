@@ -25,6 +25,7 @@ import CInput from './CInput';
 /** COMMON */
 import {cStyles, colors} from '~/utils/style';
 import {IS_ANDROID, IS_IOS, scalePx} from '~/utils/helper';
+import {THEME_DARK} from '~/config/constants';
 /** REDUX */
 import * as Actions from '~/redux/actions';
 
@@ -37,7 +38,7 @@ if (IS_ANDROID) {
 function CHeader(props) {
   const {t} = useTranslation();
   const navigation = useNavigation();
-  const isDark = useColorScheme() === 'dark';
+  const isDark = useColorScheme() === THEME_DARK;
   const {customColors} = useTheme();
   const {
     centerStyle = {},

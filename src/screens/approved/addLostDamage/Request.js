@@ -11,6 +11,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
+import {showMessage} from 'react-native-flash-message';
 import {
   StyleSheet,
   View,
@@ -22,10 +23,9 @@ import {
   ActivityIndicator,
   // Linking,
 } from 'react-native';
-import {showMessage} from 'react-native-flash-message';
-import * as Animatable from 'react-native-animatable';
 import Picker from '@gregfrench/react-native-wheel-picker';
 import Icon from 'react-native-vector-icons/Feather';
+import * as Animatable from 'react-native-animatable';
 import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
@@ -44,6 +44,7 @@ import CRowLabel from '~/components/CRowLabel';
 import Commons from '~/utils/common/Commons';
 import {colors, cStyles} from '~/utils/style';
 import {IS_IOS, alert, scalePx, IS_ANDROID, sH} from '~/utils/helper';
+import {THEME_DARK} from '~/config/constants';
 // import API from '~/services/axios';
 /* REDUX */
 import * as Actions from '~/redux/actions';
@@ -143,7 +144,7 @@ const RowSelect = (
 function AddRequest(props) {
   const {t} = useTranslation();
   const {customColors} = useTheme();
-  const isDark = useColorScheme() === 'dark';
+  const isDark = useColorScheme() === THEME_DARK;
 
   const dispatch = useDispatch();
   const masterState = useSelector(({masterData}) => masterData);
@@ -809,6 +810,7 @@ function AddRequest(props) {
               {/** Assets for detail */}
               {isDetail && (
                 <CCard
+                  containerStyle={[cStyles.mx16, cStyles.mb32]}
                   customLabel={props.route.params?.data?.assetName}
                   customColors={customColors}
                   isDark={isDark}

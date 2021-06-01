@@ -18,10 +18,11 @@ import CText from '~/components/CText';
 import ListItem from './components/ListItem';
 import SocialItem from './components/SocialItem';
 /* COMMON */
+import {THEME_DARK} from '~/config/constants';
+import Assets from '~/utils/asset/Assets';
 import Routes from '~/navigation/Routes';
 import {alert, clearSecretInfo, resetRoute, sW} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
-import Assets from '~/utils/asset/Assets';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 
@@ -112,7 +113,7 @@ const ACCOUNT = {
 function Account(props) {
   const {t} = useTranslation();
   const {customColors} = useTheme();
-  const isDark = useColorScheme() === 'dark';
+  const isDark = useColorScheme() === THEME_DARK;
 
   const dispatch = useDispatch();
   const authState = useSelector(({auth}) => auth);
