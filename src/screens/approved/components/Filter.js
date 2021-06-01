@@ -10,15 +10,16 @@ import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
+import {showMessage} from 'react-native-flash-message';
 import {
   StyleSheet,
   View,
   TouchableOpacity,
+  TouchableNativeFeedback,
   LayoutAnimation,
   UIManager,
   Animated,
 } from 'react-native';
-import {showMessage} from 'react-native-flash-message';
 import Icon from 'react-native-vector-icons/Feather';
 import moment from 'moment';
 /* COMPONENTS */
@@ -70,6 +71,21 @@ const STATUS_REQUEST = [
     label: 'approved_assets:status_reject',
   },
 ];
+
+const TagItem = (customColors, label) => {
+  return (
+    <View
+      style={[
+        cStyles.rounded5,
+        cStyles.py3,
+        cStyles.px6,
+        cStyles.mr3,
+        {backgroundColor: customColors.cardDisable},
+      ]}>
+      <CText styles={'textMeta'} customLabel={label} />
+    </View>
+  );
+};
 
 function Filter(props) {
   const {isResolve = false, onFilter = () => {}} = props;
@@ -180,10 +196,13 @@ function Filter(props) {
   }, [props.data, prevData]);
 
   /** RENDER */
+  /** Animated ronate chevron down/up */
   const rotateData = valueAnim.interpolate({
     inputRange: [0, 1],
     outputRange: ['0deg', '180deg'],
+    extrapolate: 'clamp',
   });
+  const Touchable = IS_ANDROID ? TouchableNativeFeedback : TouchableOpacity;
   return (
     <View
       style={[
@@ -195,7 +214,7 @@ function Filter(props) {
         show && cStyles.pb12,
         {backgroundColor: customColors.card},
       ]}>
-      <TouchableOpacity activeOpacity={1} onPress={handleToggle}>
+      <Touchable onPress={handleToggle}>
         <View
           style={[
             cStyles.row,
@@ -204,10 +223,53 @@ function Filter(props) {
             cStyles.px16,
             cStyles.py10,
           ]}>
-          <View style={[cStyles.row, cStyles.itemsCenter]}>
-            <Icon name={'filter'} color={customColors.text} size={scalePx(3)} />
-            <CText styles={'pl10'} label={'approved_assets:filter'} />
-          </View>
+          {!show ? (
+            !isResolve ? (
+              <View style={[cStyles.row, cStyles.itemsCenter]}>
+                {TagItem(
+                  customColors,
+                  `${moment(data.fromDate).format('DD/MM')} - ${moment(
+                    data.toDate,
+                  ).format('DD/MM')}`,
+                )}
+                {data.status.indexOf(1) !== -1 &&
+                  TagItem(customColors, t('approved_assets:status_wait'))}
+                {data.status.indexOf(2) !== -1 &&
+                  TagItem(
+                    customColors,
+                    t('approved_assets:status_approved_done'),
+                  )}
+                {data.status.indexOf(4) !== -1 &&
+                  TagItem(customColors, t('approved_assets:status_reject'))}
+              </View>
+            ) : (
+              <View style={[cStyles.row, cStyles.itemsCenter]}>
+                {TagItem(
+                  customColors,
+                  `${moment(data.fromDate).format('DD/MM')} - ${moment(
+                    data.toDate,
+                  ).format('DD/MM')}`,
+                )}
+                {data.type.indexOf(1) !== -1 &&
+                  TagItem(
+                    customColors,
+                    t('list_request_assets_handling:title_add'),
+                  )}
+                {data.type.indexOf(2) !== -1 &&
+                  TagItem(
+                    customColors,
+                    t('list_request_assets_handling:title_damaged'),
+                  )}
+                {data.type.indexOf(3) !== -1 &&
+                  TagItem(
+                    customColors,
+                    t('list_request_assets_handling:title_lost'),
+                  )}
+              </View>
+            )
+          ) : (
+            <View style={cStyles.flex1} />
+          )}
           <Animated.View style={{transform: [{rotate: rotateData}]}}>
             <Icon
               name={'chevron-down'}
@@ -216,7 +278,7 @@ function Filter(props) {
             />
           </Animated.View>
         </View>
-      </TouchableOpacity>
+      </Touchable>
 
       {show && (
         <View style={cStyles.px16}>

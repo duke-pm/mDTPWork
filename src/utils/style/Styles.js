@@ -519,7 +519,7 @@ const text = {
   },
   textMeta: {
     fontSize: scalePx(1.8),
-    fontFamily: fLight,
+    fontFamily: fRegular,
     lineHeight: 20,
   },
   textButton: {

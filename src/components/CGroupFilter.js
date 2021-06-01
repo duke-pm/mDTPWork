@@ -39,6 +39,7 @@ function CGroupFilter(props) {
   /** HANDLE FUNC */
   const handleItem = (index, data) => {
     valuesRef[index].pulse(300);
+
     let tmpValues = [...valuesChoose];
     let fItem = tmpValues.findIndex(f => f.value == data.value);
     if (fItem !== -1) {
