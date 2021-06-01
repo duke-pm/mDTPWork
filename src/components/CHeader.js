@@ -76,6 +76,9 @@ function CHeader(props) {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setIsSearch(!isSearch);
     dispatch(Actions.changeIsSearch(!isSearch));
+    if (valueSearch === '' && isSearch) {
+      onPressSearch(valueSearch);
+    }
   };
 
   const handleAddNew = () => {

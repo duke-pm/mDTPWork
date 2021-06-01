@@ -29,12 +29,12 @@ function ListRequest(props) {
         process = process.sort((a, b) => a.levelApproval - b.levelApproval);
         return (
           <RequestItem
+            customColors={customColors}
             index={index}
-            permissionWrite={permissionWrite}
             data={item}
             dataDetail={detail}
             dataProcess={process}
-            customColors={customColors}
+            permissionWrite={permissionWrite}
             onRefresh={onRefresh}
           />
         );

@@ -9,7 +9,7 @@
  **/
 import React from 'react';
 import {useTheme} from '@react-navigation/native';
-import {View, TextInput} from 'react-native';
+import {TextInput} from 'react-native';
 import CurrencyInput from 'react-native-currency-input';
 /** COMPONENTS */
 import CIconButton from '~/components/CIconButton';
@@ -27,7 +27,6 @@ Number.prototype.format = function (n, x) {
 
 function AssetItem(props) {
   const {customColors} = useTheme();
-
   const {rowIndex, cellIndex, onChangeCellItem, onRemoveRow} = props;
 
   if (cellIndex === 4) {
@@ -42,7 +41,6 @@ function AssetItem(props) {
       />
     );
   }
-
   if (cellIndex === 2 || cellIndex === 3) {
     return (
       <CurrencyInput
@@ -65,7 +63,6 @@ function AssetItem(props) {
       />
     );
   }
-
   let styleText =
     cellIndex === 0
       ? cStyles.textLeft

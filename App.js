@@ -8,15 +8,15 @@
 import 'react-native-gesture-handler';
 import '~/utils/language/config-i18n';
 import React, {useState, useEffect} from 'react';
-import {AppearanceProvider, useColorScheme} from 'react-native-appearance';
 import {Provider} from 'react-redux';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {StatusBar} from 'react-native';
 import {
   NavigationContainer,
   DarkTheme,
   DefaultTheme,
 } from '@react-navigation/native';
-import {SafeAreaProvider} from 'react-native-safe-area-context';
+import {AppearanceProvider, useColorScheme} from 'react-native-appearance';
 import NetInfo from '@react-native-community/netinfo';
 import FlashMessage from 'react-native-flash-message';
 import axios from 'axios';
@@ -78,11 +78,6 @@ const App = () => {
     dark: true,
     colors: {
       ...DarkTheme.colors,
-      primary: colors.SECONDARY,
-      icon: colors.WHITE,
-      text: colors.WHITE,
-      textDisable: colors.GRAY_700,
-      card: colors.GRAY_900,
     },
     customColors: {
       ...DarkTheme.colors,
@@ -121,11 +116,6 @@ const App = () => {
     dark: false,
     colors: {
       ...DefaultTheme.colors,
-      primary: colors.PRIMARY,
-      background: colors.BACKGROUND_MAIN,
-      icon: colors.ICON_BASE,
-      text: colors.TEXT_BASE,
-      textDisable: colors.GRAY_700,
     },
     customColors: {
       ...DefaultTheme.colors,
@@ -167,7 +157,6 @@ const App = () => {
           <SafeAreaProvider>
             <StatusBar barStyle={'light-content'} />
             <Navigator />
-
             <FlashMessage position="top" />
             <Unconnected connected={state.connected} />
           </SafeAreaProvider>

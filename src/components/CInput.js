@@ -190,7 +190,7 @@ function CInput(props) {
               styles.con_input_icon,
               iconLastStyle,
             ]}
-            disabled={props.value === ''}
+            // disabled={props.value === ''}
             onPress={handleIconLast}>
             <Icon name={iconLast} color={customColors.icon} size={scalePx(3)} />
           </Component>

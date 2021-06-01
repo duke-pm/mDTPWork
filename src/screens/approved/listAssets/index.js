@@ -22,11 +22,12 @@ import TabbarType from '../components/TabbarType';
 /* COMMON */
 import Routes from '~/navigation/Routes';
 import Commons from '~/utils/common/Commons';
-import {colors, cStyles} from '~/utils/style';
+import {cStyles} from '~/utils/style';
 
 function ListRequestAll(props) {
   const {t} = useTranslation();
-  const isPermissionWrite = props.route.params?.permission?.write || false;
+  const {route, navigation} = props;
+  const isPermissionWrite = route.params?.permission?.write || false;
 
   /** Use redux */
   const commonState = useSelector(({common}) => common);
@@ -70,17 +71,17 @@ function ListRequestAll(props) {
   /** HANDLE FUNC */
   const handleAddNew = () => {
     if (index === 1) {
-      props.navigation.navigate(Routes.MAIN.ADD_APPROVED_LOST_DAMAGED.name, {
+      navigation.navigate(Routes.MAIN.ADD_APPROVED_LOST_DAMAGED.name, {
         type: Commons.APPROVED_TYPE.DAMAGED.value,
         onRefresh: () => handleRefresh(index),
       });
     } else if (index === 2) {
-      props.navigation.navigate(Routes.MAIN.ADD_APPROVED_LOST_DAMAGED.name, {
+      navigation.navigate(Routes.MAIN.ADD_APPROVED_LOST_DAMAGED.name, {
         type: Commons.APPROVED_TYPE.LOST.value,
         onRefresh: () => handleRefresh(index),
       });
     } else {
-      props.navigation.navigate(Routes.MAIN.ADD_APPROVED_ASSETS.name, {
+      navigation.navigate(Routes.MAIN.ADD_APPROVED_ASSETS.name, {
         type: Commons.APPROVED_TYPE.ASSETS.value,
         onRefresh: () => handleRefresh(index),
       });
@@ -114,22 +115,22 @@ function ListRequestAll(props) {
   const renderScene = ({route}) => {
     switch (route.key) {
       case Commons.APPROVED_TYPE.LOST.value + '':
-        return <AssetsLost dataRoute={route} navigation={props.navigation} />;
+        return <AssetsLost dataRoute={route} navigation={navigation} />;
       case Commons.APPROVED_TYPE.DAMAGED.value + '':
-        return <AssetsDamage dataRoute={route} navigation={props.navigation} />;
-      case Commons.APPROVED_TYPE.ASSETS.value + '':
-        return <Assets dataRoute={route} navigation={props.navigation} />;
+        return <AssetsDamage dataRoute={route} navigation={navigation} />;
+      default:
+        return <Assets dataRoute={route} navigation={navigation} />;
     }
   };
   const renderTabBar = props => <TabbarType {...props} />;
   return (
     <CContainer
-      title={'list_request_assets:title'}
       loading={false}
+      title={'list_request_assets:title'}
       header
-      hasAddNew={isPermissionWrite}
       hasSearch
       hasBack
+      hasAddNew={isPermissionWrite}
       onPressAddNew={handleAddNew}
       onPressSearch={handleSearch}
       content={
@@ -155,8 +156,6 @@ function ListRequestAll(props) {
 }
 
 const styles = StyleSheet.create({
-  indicator_tab: {backgroundColor: colors.PRIMARY},
-  tab: {backgroundColor: colors.WHITE},
   con_tab: {width: cStyles.deviceWidth},
 });
 

@@ -9,9 +9,9 @@ import {StyleSheet, View, TouchableOpacity, Image} from 'react-native';
 /* COMPONENTS */
 import CText from '~/components/CText';
 /** COMMON */
-import {cStyles, colors} from '~/utils/style';
-import {sW} from '~/utils/helper';
 import Assets from '~/utils/asset/Assets';
+import {cStyles} from '~/utils/style';
+import {sW} from '~/utils/helper';
 
 function Item(props) {
   const {data = null, onPress = () => {}} = props;
@@ -44,11 +44,6 @@ function Item(props) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    height: sW('20%'),
-    width: sW('20%'),
-    backgroundColor: colors.WHITE,
-  },
   item: {flex: 0.33, width: sW('21%')},
   image_item: {
     height: sW('21%'),

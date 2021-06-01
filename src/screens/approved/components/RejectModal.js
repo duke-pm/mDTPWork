@@ -88,7 +88,6 @@ function RejectModal(props) {
           valueColor={colors.TEXT_BASE}
           keyboard={'default'}
           returnKey={'done'}
-          multiline
           error={error.reasonReject.status}
           errorHelper={error.reasonReject.helper}
           textAlignVertical={'top'}
@@ -103,7 +102,6 @@ function RejectModal(props) {
 }
 
 const styles = StyleSheet.create({
-  input: {height: 150},
   input_focus: {
     borderColor: colors.SECONDARY,
   },

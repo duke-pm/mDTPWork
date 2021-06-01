@@ -9,7 +9,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
-import {View, Text, ScrollView} from 'react-native';
+import {View, Text, ScrollView, TouchableOpacity} from 'react-native';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
@@ -215,14 +215,16 @@ function Account(props) {
               </View>
 
               {/** SIGN OUT */}
-              <View style={[cStyles.itemsCenter, cStyles.pt6]}>
-                <CText
-                  customStyles={[{color: customColors.red}]}
-                  label={'common:sign_out'}
-                  onPress={handleSignOut}
-                />
-              </View>
+              <TouchableOpacity onPress={handleSignOut}>
+                <View style={[cStyles.itemsCenter, cStyles.pt6, cStyles.px16]}>
+                  <CText
+                    customStyles={[{color: customColors.red}]}
+                    label={'common:sign_out'}
+                  />
+                </View>
+              </TouchableOpacity>
             </View>
+
             {/** SOCIALS */}
             <View style={[cStyles.fullWidth, cStyles.itemsStart, cStyles.pt16]}>
               <View style={[cStyles.row, cStyles.itemsCenter]}>

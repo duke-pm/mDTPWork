@@ -21,60 +21,66 @@ import moment from 'moment';
 import CText from '~/components/CText';
 /* COMMON */
 import Routes from '~/navigation/Routes';
-import {cStyles} from '~/utils/style';
 import Commons from '~/utils/common/Commons';
 import Assets from '~/utils/asset/Assets';
+import {cStyles} from '~/utils/style';
 import {IS_IOS} from '~/utils/helper';
 
 const RequestItem = React.memo(function RequestItem(props) {
-  const {customColors} = props;
   const {t} = useTranslation();
   const navigation = useNavigation();
+  const {
+    loading,
+    customColors,
+    data,
+    dataProcess,
+    dataDetail,
+    permissionWrite,
+    onRefresh,
+  } = props;
 
+  /** Use redux */
   const commonState = useSelector(({common}) => common);
 
   /** HANDLE FUNC */
   const handleRequestItem = () => {
     let route = Routes.MAIN.ADD_APPROVED_LOST_DAMAGED.name;
-    if (props.data.requestTypeID === Commons.APPROVED_TYPE.ASSETS.value) {
+    if (data.requestTypeID === Commons.APPROVED_TYPE.ASSETS.value) {
       route = Routes.MAIN.ADD_APPROVED_ASSETS.name;
     }
     navigation.navigate(route, {
-      data: props.data,
-      dataProcess: props.dataProcess,
-      dataDetail: props.dataDetail,
-      permissionWrite: props.permissionWrite || false,
-      onRefresh: () => props.onRefresh(),
+      data: data,
+      dataProcess: dataProcess,
+      dataDetail: dataDetail,
+      permissionWrite: permissionWrite || false,
+      onRefresh: () => onRefresh(),
     });
   };
 
   /** RENDER */
-  let title = t('approved_assets:title_request_item') + props.data.requestID;
+  let title = t('approved_assets:title_request_item') + data.requestID;
   let statusIcon = Assets.iconRequest;
   let colorText = 'colorOrange';
-
-  if (props.data.requestTypeID !== Commons.APPROVED_TYPE.ASSETS.value) {
+  const Touchable = IS_IOS ? TouchableOpacity : TouchableNativeFeedback;
+  if (data.requestTypeID !== Commons.APPROVED_TYPE.ASSETS.value) {
     title =
       t('approved_lost_damaged:title_request_item_1') +
-      props.data.requestTypeName +
+      data.requestTypeName +
       t('approved_lost_damaged:title_request_item_2') +
-      props.data.requestID;
+      data.requestID;
   }
-
   if (
-    props.data.statusID === Commons.STATUS_REQUEST.APPROVED.value ||
-    props.data.statusID === Commons.STATUS_REQUEST.DONE.value
+    data.statusID === Commons.STATUS_REQUEST.APPROVED.value ||
+    data.statusID === Commons.STATUS_REQUEST.DONE.value
   ) {
     statusIcon = Assets.iconApproved;
     colorText = 'colorGreen';
-  } else if (props.data.statusID === Commons.STATUS_REQUEST.REJECT.value) {
+  } else if (data.statusID === Commons.STATUS_REQUEST.REJECT.value) {
     statusIcon = Assets.iconReject;
     colorText = 'colorRed';
   }
-
-  const Touchable = IS_IOS ? TouchableOpacity : TouchableNativeFeedback;
   return (
-    <Touchable disabled={props.loading} onPress={handleRequestItem}>
+    <Touchable disabled={loading} onPress={handleRequestItem}>
       <Animated.View
         style={[
           cStyles.p10,
@@ -83,7 +89,7 @@ const RequestItem = React.memo(function RequestItem(props) {
           cStyles.shadowListItem,
           {backgroundColor: customColors.listItem},
         ]}
-        renderToHardwareTextureAndroid={true}>
+        renderToHardwareTextureAndroid>
         <View
           style={[
             cStyles.flex1,
@@ -115,7 +121,7 @@ const RequestItem = React.memo(function RequestItem(props) {
                 <CText
                   styles={'textMeta fontRegular'}
                   customLabel={moment(
-                    props.data.requestDate,
+                    data.requestDate,
                     'YYYY-MM-DDTHH:mm:ss',
                   ).format(commonState.get('formatDateView'))}
                 />
@@ -128,7 +134,7 @@ const RequestItem = React.memo(function RequestItem(props) {
                 />
                 <CText
                   styles={'textMeta fontBold ' + colorText}
-                  customLabel={props.data.statusName}
+                  customLabel={data.statusName}
                 />
               </View>
             </View>
@@ -143,7 +149,7 @@ const RequestItem = React.memo(function RequestItem(props) {
                 />
                 <CText
                   styles={'textMeta fontRegular'}
-                  customLabel={props.data.regionName}
+                  customLabel={data.regionName}
                 />
               </View>
 
@@ -160,7 +166,7 @@ const RequestItem = React.memo(function RequestItem(props) {
                 />
                 <CText
                   styles={'textMeta fontRegular'}
-                  customLabel={props.data.personRequest}
+                  customLabel={data.personRequest}
                 />
               </View>
             </View>
@@ -175,7 +181,7 @@ const RequestItem = React.memo(function RequestItem(props) {
                 />
                 <CText
                   styles={'textMeta fontRegular'}
-                  customLabel={props.data.deptName}
+                  customLabel={data.deptName}
                 />
               </View>
             </View>
@@ -193,7 +199,6 @@ const styles = StyleSheet.create({
   header_right: {
     flex: 0.5,
   },
-
   icon_status: {
     height: 20,
     width: 20,

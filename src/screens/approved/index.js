@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /**
  ** Name: Approved
  ** Author:
@@ -15,6 +16,7 @@ import Item from './components/Item';
 import {cStyles} from '~/utils/style';
 
 function Approved(props) {
+  const {navigation, route} = props;
   /** Use redux */
   const authState = useSelector(({auth}) => auth);
 
@@ -24,7 +26,7 @@ function Approved(props) {
 
   /** HANDLE FUNC */
   const handleItem = dataRoute => {
-    props.navigation.navigate(dataRoute.mName, {
+    navigation.navigate(dataRoute.mName, {
       permission: {
         write: dataRoute.isWrite,
       },
@@ -34,7 +36,7 @@ function Approved(props) {
   /** FUNC */
   const onPrepareData = () => {
     let tmpListMenu = authState.getIn(['login', 'lstMenu']);
-    let idRouteParent = props.route.params.idRouteParent;
+    let idRouteParent = route.params.idRouteParent;
     if (idRouteParent && tmpListMenu) {
       let findChildren = tmpListMenu.lstPermissionItem.find(
         f => f.menuID === idRouteParent,

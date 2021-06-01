@@ -89,10 +89,10 @@ const TagItem = (customColors, label) => {
 };
 
 function Filter(props) {
-  const {isResolve = false, onFilter = () => {}} = props;
   const {t} = useTranslation();
   const {customColors} = useTheme();
   const isDark = useColorScheme() === THEME_DARK;
+  const {isResolve = false, onFilter = () => {}} = props;
 
   /** Use redux */
   const commonState = useSelector(({common}) => common);
@@ -294,8 +294,8 @@ function Filter(props) {
             <CInput
               containerStyle={[cStyles.justifyEnd, styles.input_date]}
               style={styles.con_input_date}
-              hasRemove={true}
-              dateTimePicker={true}
+              hasRemove
+              dateTimePicker
               value={
                 data.fromDate === ''
                   ? ''
@@ -322,8 +322,8 @@ function Filter(props) {
             <CInput
               containerStyle={[cStyles.justifyEnd, styles.input_date]}
               style={styles.con_input_date}
-              hasRemove={true}
-              dateTimePicker={true}
+              hasRemove
+              dateTimePicker
               value={
                 data.toDate === ''
                   ? ''
@@ -396,9 +396,6 @@ function Filter(props) {
 const styles = StyleSheet.create({
   text_date: {flex: 0.3},
   input_date: {flex: 0.7},
-  con_input_status: {
-    backgroundColor: IS_ANDROID ? 'transparent' : colors.WHITE,
-  },
 });
 
 export default Filter;

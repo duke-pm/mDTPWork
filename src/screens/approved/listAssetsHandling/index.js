@@ -25,7 +25,8 @@ import * as Actions from '~/redux/actions';
 function ListRequestHandling(props) {
   const {t} = useTranslation();
   const {customColors} = useTheme();
-  const isPermissionWrite = props.route.params?.permission?.write || false;
+  const {route, navigation} = props;
+  const isPermissionWrite = route.params?.permission?.write || false;
 
   /** Use redux */
   const dispatch = useDispatch();
@@ -51,13 +52,22 @@ function ListRequestHandling(props) {
     requests: [],
     requestsDetail: [],
     processApproveds: [],
+    search: '',
     page: 1,
   });
 
   /** HANDLE FUNC */
   const handleSearch = value => {
     setLoading({...loading, search: true});
-    onFetchData(data.fromDate, data.toDate, data.status, data.page, value);
+    setData({...data, search: value});
+    onFetchData(
+      data.fromDate,
+      data.toDate,
+      data.status,
+      data.page,
+      value,
+      data.type,
+    );
   };
 
   const handleFilter = (fromDate, toDate, status, type) => {
@@ -70,7 +80,7 @@ function ListRequestHandling(props) {
       fromDate,
       toDate,
     });
-    onFetchData(fromDate, toDate, status, 1, null, type);
+    onFetchData(fromDate, toDate, status, 1, data.search, type);
   };
 
   /** FUNC */
@@ -94,7 +104,7 @@ function ListRequestHandling(props) {
       RefreshToken: authState.getIn(['login', 'refreshToken']),
       Lang: commonState.get('language'),
     });
-    dispatch(Actions.fetchListRequestApproved(params, props.navigation));
+    dispatch(Actions.fetchListRequestApproved(params, navigation));
   };
 
   const onPrepareData = type => {
@@ -139,7 +149,14 @@ function ListRequestHandling(props) {
     if (!loading.refreshing) {
       setLoading({...loading, refreshing: true, isLoadmore: true});
       setData({...data, page: 1});
-      onFetchData(data.fromDate, data.toDate, data.status, 1, null, data.type);
+      onFetchData(
+        data.fromDate,
+        data.toDate,
+        data.status,
+        1,
+        data.search,
+        data.type,
+      );
     }
   };
 
@@ -153,7 +170,7 @@ function ListRequestHandling(props) {
         data.toDate,
         data.status,
         newPage,
-        '',
+        data.search,
         data.type,
       );
     }
@@ -183,13 +200,10 @@ function ListRequestHandling(props) {
       data.toDate,
       data.status,
       data.page,
-      '',
-      '1,2,3',
+      data.search,
+      data.type,
     );
-    setLoading({
-      ...loading,
-      main: true,
-    });
+    setLoading({...loading, main: true});
   }, []);
 
   useEffect(() => {
@@ -230,8 +244,8 @@ function ListRequestHandling(props) {
       loading={loading.main || loading.search}
       title={'list_request_assets_handling:title'}
       header
-      hasSearch
       hasBack
+      hasSearch
       onPressSearch={handleSearch}
       content={
         <CContent>
