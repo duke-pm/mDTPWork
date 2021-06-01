@@ -69,6 +69,8 @@ function CHeader(props) {
     navigation.goBack();
   };
 
+  const handleMenu = () => {};
+
   const handleToogleSearch = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setIsSearch(!isSearch);
@@ -154,12 +156,12 @@ function CHeader(props) {
             )}
 
             {hasMenu && (
-              <TouchableOpacity style={cStyles.itemsStart} onPress={handleBack}>
+              <TouchableOpacity style={cStyles.itemsStart} onPress={handleMenu}>
                 <Icon
                   style={cStyles.p16}
                   name={'menu'}
                   color={colors.WHITE}
-                  size={scalePx(3)}
+                  size={scalePx(4)}
                 />
               </TouchableOpacity>
             )}
