@@ -22,7 +22,6 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import Picker from '@gregfrench/react-native-wheel-picker';
-import * as Animatable from 'react-native-animatable';
 import Icon from 'react-native-vector-icons/Feather';
 import moment from 'moment';
 /* COMPONENTS */
@@ -36,6 +35,7 @@ import RequestProcess from '../components/RequestProcess';
 import CActionSheet from '~/components/CActionSheet';
 import CRowLabel from '~/components/CRowLabel';
 import AssetsTable from '../components/AssetsTable';
+import CheckOption from '../components/CheckOption';
 /* COMMON */
 import {THEME_DARK} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
@@ -178,26 +178,6 @@ function AddRequest(props) {
       } else if (type === 'combobox') {
         inputRef.current.toggle();
       }
-    }
-  };
-
-  const handleChooseTypeAssets = (type, ref) => {
-    if (type !== form.typeAssets) {
-      ref.pulse(300);
-      setForm({
-        ...form,
-        typeAssets: type,
-      });
-    }
-  };
-
-  const handleChooseInPlanning = (inplanning, ref) => {
-    if (inplanning !== form.inPlanning) {
-      ref.pulse(300);
-      setForm({
-        ...form,
-        inPlanning: inplanning,
-      });
     }
   };
 
@@ -409,6 +389,14 @@ function AddRequest(props) {
     }
   };
 
+  const onCallbackTypeAsset = newVal => {
+    setForm({...form, typeAssets: newVal});
+  };
+
+  const onCallbackInplanning = newVal => {
+    setForm({...form, inPlanning: newVal});
+  };
+
   /** LIFE CYCLE */
   useEffect(() => {
     onPrepareData();
@@ -547,22 +535,22 @@ function AddRequest(props) {
         loading.submitApproved ||
         loading.submitReject
       }
-      hasPaddingFooter
+      title={'add_approved_assets:' + (isDetail ? 'detail' : 'title')}
       header
+      hasPaddingFooter
       hasBack
       iconBack={'x'}
-      title={'add_approved_assets:' + (isDetail ? 'detail' : 'title')}
       headerRight={
         isDetail ? (
-          <TouchableOpacity
-            style={cStyles.itemsEnd}
-            onPress={handleShowProcess}>
-            <Icon
-              style={cStyles.p16}
-              name={'info'}
-              color={'white'}
-              size={scalePx(3)}
-            />
+          <TouchableOpacity onPress={handleShowProcess}>
+            <View style={cStyles.itemsEnd}>
+              <Icon
+                style={cStyles.p16}
+                name={'info'}
+                color={'white'}
+                size={scalePx(3)}
+              />
+            </View>
           </TouchableOpacity>
         ) : null
       }
@@ -586,7 +574,6 @@ function AddRequest(props) {
                   isDark && cStyles.borderBottomDark,
                   {backgroundColor: customColors.group},
                 ]}>
-                {/** Date request and Region */}
                 <View
                   style={[
                     cStyles.flex1,
@@ -769,71 +756,25 @@ function AddRequest(props) {
                     styles={'textMeta fontMedium'}
                     label={'add_approved_assets:type_assets'}
                   />
-                  <View
-                    style={[
-                      cStyles.row,
-                      cStyles.itemsCenter,
-                      cStyles.justifyAround,
-                      cStyles.pt10,
-                    ]}>
-                    <TouchableOpacity
-                      disabled={loading.main || loading.submitAdd || isDetail}
-                      onPress={() => handleChooseTypeAssets('N', newRef)}>
-                      <Animatable.View
-                        ref={ref => (newRef = ref)}
-                        style={[
-                          cStyles.row,
-                          cStyles.itemsCenter,
-                          styles.con_left,
-                        ]}
-                        useNativeDriver={true}>
-                        <Icon
-                          name={
-                            form.typeAssets === 'N' ? 'check-circle' : 'circle'
-                          }
-                          size={scalePx(3)}
-                          color={
-                            form.typeAssets === 'N'
-                              ? colors.SECONDARY
-                              : customColors.text
-                          }
-                        />
-                        <CText
-                          styles={'pl10'}
-                          label={'add_approved_assets:buy_new'}
-                        />
-                      </Animatable.View>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                      disabled={loading.main || loading.submitAdd || isDetail}
-                      onPress={() => handleChooseTypeAssets('A', addRef)}>
-                      <Animatable.View
-                        ref={ref => (addRef = ref)}
-                        style={[
-                          cStyles.row,
-                          cStyles.itemsCenter,
-                          styles.con_right,
-                        ]}
-                        useNativeDriver={true}>
-                        <Icon
-                          name={
-                            form.typeAssets === 'A' ? 'check-circle' : 'circle'
-                          }
-                          size={scalePx(3)}
-                          color={
-                            form.typeAssets === 'A'
-                              ? colors.SECONDARY
-                              : customColors.text
-                          }
-                        />
-                        <CText
-                          styles={'pl10'}
-                          label={'add_approved_assets:additional'}
-                        />
-                      </Animatable.View>
-                    </TouchableOpacity>
-                  </View>
+                  <CheckOption
+                    loading={loading.main || loading.submitAdd}
+                    isDetail={isDetail}
+                    customColors={customColors}
+                    value={form.typeAssets}
+                    values={[
+                      {
+                        ref: newRef,
+                        value: 'N',
+                        label: 'add_approved_assets:buy_new',
+                      },
+                      {
+                        ref: addRef,
+                        value: 'A',
+                        label: 'add_approved_assets:additional',
+                      },
+                    ]}
+                    onCallback={onCallbackTypeAsset}
+                  />
                 </View>
 
                 {/** In Planning */}
@@ -842,65 +783,25 @@ function AddRequest(props) {
                     styles={'textMeta fontMedium'}
                     label={'add_approved_assets:in_planning'}
                   />
-                  <View
-                    style={[
-                      cStyles.row,
-                      cStyles.itemsCenter,
-                      cStyles.justifyAround,
-                      cStyles.pt10,
-                    ]}>
-                    <TouchableOpacity
-                      disabled={loading.main || loading.submitAdd || isDetail}
-                      onPress={() => handleChooseInPlanning(true, yesRef)}>
-                      <Animatable.View
-                        ref={ref => (yesRef = ref)}
-                        style={[
-                          cStyles.row,
-                          cStyles.itemsCenter,
-                          styles.con_left,
-                        ]}>
-                        <Icon
-                          name={form.inPlanning ? 'check-circle' : 'circle'}
-                          size={scalePx(3)}
-                          color={
-                            form.inPlanning
-                              ? colors.SECONDARY
-                              : customColors.text
-                          }
-                        />
-                        <CText
-                          styles={'pl10'}
-                          label={'add_approved_assets:yes'}
-                        />
-                      </Animatable.View>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                      disabled={loading.main || loading.submitAdd || isDetail}
-                      onPress={() => handleChooseInPlanning(false, noRef)}>
-                      <Animatable.View
-                        ref={ref => (noRef = ref)}
-                        style={[
-                          cStyles.row,
-                          cStyles.itemsCenter,
-                          styles.con_right,
-                        ]}>
-                        <Icon
-                          name={!form.inPlanning ? 'check-circle' : 'circle'}
-                          size={scalePx(3)}
-                          color={
-                            !form.inPlanning
-                              ? colors.SECONDARY
-                              : customColors.text
-                          }
-                        />
-                        <CText
-                          styles={'pl10'}
-                          label={'add_approved_assets:no'}
-                        />
-                      </Animatable.View>
-                    </TouchableOpacity>
-                  </View>
+                  <CheckOption
+                    loading={loading.main || loading.submitAdd}
+                    isDetail={isDetail}
+                    customColors={customColors}
+                    value={form.inPlanning}
+                    values={[
+                      {
+                        ref: yesRef,
+                        value: true,
+                        label: 'add_approved_assets:yes',
+                      },
+                      {
+                        ref: noRef,
+                        value: false,
+                        label: 'add_approved_assets:no',
+                      },
+                    ]}
+                    onCallback={onCallbackInplanning}
+                  />
                 </View>
               </View>
               <View style={cStyles.flex1} />

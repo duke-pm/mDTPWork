@@ -48,6 +48,7 @@ import {THEME_DARK} from '~/config/constants';
 // import API from '~/services/axios';
 /* REDUX */
 import * as Actions from '~/redux/actions';
+import CheckOption from '../components/CheckOption';
 
 const INPUT_NAME = {
   DATE_REQUEST: 'dateRequest',
@@ -195,13 +196,6 @@ function AddRequest(props) {
   const handleDateInput = () => setShowPickerDate(true);
 
   const handleReject = () => setShowReject(true);
-
-  const handleChooseTypeAssets = (type, ref) => {
-    if (type !== form.typeUpdate) {
-      ref.pulse(300);
-      setForm({...form, typeUpdate: type});
-    }
-  };
 
   const handleChangeText = (value, nameInput) => {
     if (nameInput === INPUT_NAME.REASON) {
@@ -446,6 +440,10 @@ function AddRequest(props) {
 
   const onChangeAssets = index => {
     setAssets(index);
+  };
+
+  const onCallbackType = newVal => {
+    setForm({...form, typeUpdate: newVal});
   };
 
   /** LIFE CYCLE */
@@ -715,67 +713,25 @@ function AddRequest(props) {
                     styles={'textMeta fontMedium'}
                     label={'add_approved_lost_damaged:type_update'}
                   />
-                  <View
-                    style={[
-                      cStyles.row,
-                      cStyles.itemsCenter,
-                      cStyles.justifyAround,
-                      cStyles.pt10,
-                    ]}>
-                    <TouchableOpacity
-                      disabled={loading.main || loading.submitAdd || isDetail}
-                      onPress={() => handleChooseTypeAssets(2, damageRef)}>
-                      <Animatable.View
-                        ref={ref => (damageRef = ref)}
-                        style={[cStyles.row, cStyles.itemsCenter]}>
-                        <Icon
-                          name={
-                            form.typeUpdate ===
-                            Commons.APPROVED_TYPE.DAMAGED.value
-                              ? 'check-circle'
-                              : 'circle'
-                          }
-                          size={scalePx(3)}
-                          color={
-                            form.typeUpdate ===
-                            Commons.APPROVED_TYPE.DAMAGED.value
-                              ? colors.SECONDARY
-                              : customColors.text
-                          }
-                        />
-                        <CText
-                          styles={'pl10'}
-                          label={'add_approved_lost_damaged:damage_assets'}
-                        />
-                      </Animatable.View>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                      disabled={loading.main || loading.submitAdd || isDetail}
-                      onPress={() => handleChooseTypeAssets(3, lostRef)}>
-                      <Animatable.View
-                        ref={ref => (lostRef = ref)}
-                        style={[cStyles.row, cStyles.itemsCenter]}>
-                        <Icon
-                          name={
-                            form.typeUpdate === Commons.APPROVED_TYPE.LOST.value
-                              ? 'check-circle'
-                              : 'circle'
-                          }
-                          size={scalePx(3)}
-                          color={
-                            form.typeUpdate === Commons.APPROVED_TYPE.LOST.value
-                              ? colors.SECONDARY
-                              : customColors.text
-                          }
-                        />
-                        <CText
-                          styles={'pl10'}
-                          label={'add_approved_lost_damaged:lost_assets'}
-                        />
-                      </Animatable.View>
-                    </TouchableOpacity>
-                  </View>
+                  <CheckOption
+                    loading={loading.main || loading.submitAdd}
+                    isDetail={isDetail}
+                    customColors={customColors}
+                    value={form.typeUpdate}
+                    values={[
+                      {
+                        ref: damageRef,
+                        value: Commons.APPROVED_TYPE.DAMAGED.value,
+                        label: 'add_approved_lost_damaged:damage_assets',
+                      },
+                      {
+                        ref: lostRef,
+                        value: Commons.APPROVED_TYPE.LOST.value,
+                        label: 'add_approved_lost_damaged:lost_assets',
+                      },
+                    ]}
+                    onCallback={onCallbackType}
+                  />
                 </View>
               </View>
 
