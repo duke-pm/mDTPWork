@@ -35,6 +35,7 @@
   },
   "status": {
     "title": "Trạng thái",
+    "any": "Bất kỳ",
     "new": "Mới",
     "scheduled": "Đã lên kế hoạch",
     "to_be_scheduled": "Đã lên lịch",
@@ -299,6 +300,7 @@
     "sector": "Khu vực: ",
     "status": "Trạng thái: ",
     "owener": "Phụ trách: ",
+    "owener_title": "Phụ trách",
     "date_created": "Ngày tạo: ",
     "description": "Mô tả: ",
     "status_on_track": "Đang Theo Dõi",

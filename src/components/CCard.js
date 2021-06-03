@@ -42,6 +42,7 @@ const CCard = React.memo(function CCard(props) {
         containerStyle,
         {backgroundColor: customColors.card},
       ]}
+      activeOpacity={0.8}
       onPress={onPress}>
       <View
         style={[

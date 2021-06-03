@@ -167,10 +167,6 @@ const styles = StyleSheet.create({
   con_left: {width: '6%'},
   con_right: {width: '89%'},
   con_line: {width: '86%'},
-  line_bottom: {
-    borderBottomColor: colors.BORDER_COLOR,
-    borderBottomWidth: 0.3,
-  },
   img_flag: {height: 20, width: 20},
 });
 

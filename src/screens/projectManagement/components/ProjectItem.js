@@ -178,7 +178,7 @@ function ProjectItem(props) {
                 {
                   width: sW('90%') - 6 * index,
                   zIndex: -index,
-                  marginLeft: IS_IOS ? 3 : 3.5 * (index + 1),
+                  marginLeft: (IS_IOS ? 3 : 3.5) * (index + 1),
                   bottom: -6 * (index + 1),
                   backgroundColor: customColors.card,
                 },

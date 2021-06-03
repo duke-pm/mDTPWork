@@ -603,7 +603,7 @@ const border = {
 
   borderAll: {
     borderColor: IS_IOS ? Colors.BORDER_COLOR_IOS : Colors.BORDER_COLOR_ANDROID,
-    borderWidth: IS_IOS ? 0.5 : 0.8,
+    borderWidth: 0.8,
   },
   borderAllDark: {
     borderColor: IS_IOS
@@ -616,7 +616,7 @@ const border = {
     borderTopColor: IS_IOS
       ? Colors.BORDER_COLOR_IOS
       : Colors.BORDER_COLOR_ANDROID,
-    borderTopWidth: IS_IOS ? 0.5 : 0.8,
+    borderTopWidth: 0.8,
   },
   borderTopDark: {
     borderTopColor: IS_IOS
@@ -629,7 +629,7 @@ const border = {
     borderBottomColor: IS_IOS
       ? Colors.BORDER_COLOR_IOS
       : Colors.BORDER_COLOR_ANDROID,
-    borderBottomWidth: IS_IOS ? 0.5 : 0.8,
+    borderBottomWidth: 0.8,
   },
   borderBottomDark: {
     borderBottomColor: IS_IOS
@@ -642,7 +642,7 @@ const border = {
     borderRightColor: IS_IOS
       ? Colors.BORDER_COLOR_IOS
       : Colors.BORDER_COLOR_ANDROID,
-    borderRightWidth: IS_IOS ? 0.5 : 0.8,
+    borderRightWidth: 0.8,
   },
   borderRightDark: {
     borderRightColor: IS_IOS
@@ -655,7 +655,7 @@ const border = {
     borderLeftColor: IS_IOS
       ? Colors.BORDER_COLOR_IOS
       : Colors.BORDER_COLOR_ANDROID,
-    borderLeftWidth: IS_IOS ? 0.5 : 0.8,
+    borderLeftWidth: 0.8,
   },
   borderLeftDark: {
     borderLeftColor: IS_IOS
