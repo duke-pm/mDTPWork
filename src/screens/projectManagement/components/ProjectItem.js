@@ -12,7 +12,7 @@ import CText from '~/components/CText';
 import ListProject from '../list/Project';
 /* COMMON */
 import {cStyles} from '~/utils/style';
-import {IS_ANDROID, sW} from '~/utils/helper';
+import {IS_ANDROID, IS_IOS, sW} from '~/utils/helper';
 import Commons from '~/utils/common/Commons';
 
 if (IS_ANDROID) {
@@ -169,12 +169,14 @@ function ProjectItem(props) {
             <View
               style={[
                 cStyles.rounded2,
-                !isDark && cStyles.shadowListItem,
+                !isDark && IS_IOS && cStyles.shadowListItem,
+                !isDark && IS_ANDROID && cStyles.borderAll,
                 isDark && cStyles.borderAllDark,
                 cStyles.abs,
                 cStyles.left0,
                 styles.card_children,
                 {
+                  overflow: 'visible',
                   width: sW('90%') - 6 * index,
                   zIndex: -index,
                   marginLeft: 3 * (index + 1),

@@ -10,6 +10,7 @@ import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import CText from './CText';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
+import {IS_ANDROID, IS_IOS} from '~/utils/helper';
 
 const CCard = React.memo(function CCard(props) {
   const {
@@ -34,7 +35,8 @@ const CCard = React.memo(function CCard(props) {
       style={[
         cStyles.rounded2,
         cStyles.mt32,
-        !isDark && cStyles.shadowListItem,
+        !isDark && IS_IOS && cStyles.shadowListItem,
+        !isDark && IS_ANDROID && cStyles.borderAll,
         isDark && cStyles.borderAllDark,
         styles.container,
         containerStyle,
