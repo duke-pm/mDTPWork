@@ -30,8 +30,8 @@ function ProjectItem(props) {
   /** HANDLE FUNC */
   const handleProjectItem = () => {
     if (data.countChild > 0) {
-      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
       setShowChildren(!showChildren);
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     } else {
       // onPress(data);
     }
@@ -176,10 +176,9 @@ function ProjectItem(props) {
                 cStyles.left0,
                 styles.card_children,
                 {
-                  overflow: 'visible',
                   width: sW('90%') - 6 * index,
                   zIndex: -index,
-                  marginLeft: 3 * (index + 1),
+                  marginLeft: IS_IOS ? 3 : 3.5 * (index + 1),
                   bottom: -6 * (index + 1),
                   backgroundColor: customColors.card,
                 },
