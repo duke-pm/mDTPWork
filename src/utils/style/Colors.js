@@ -15,7 +15,7 @@ export default {
   ICON_BASE: '#242833',
   ICON_META: '#000',
   BORDER_COLOR_IOS: '#c7c7cc',
-  BORDER_COLOR_ANDROID: '#ececec',
+  BORDER_COLOR_ANDROID: '#c7c7cc',
   BORDER_COLOR_IOS_DARK: 'rgba(251,251,251,0.2)',
   BORDER_COLOR_ANDROID_DARK: 'rgba(242,242,242,0.1)',
 
