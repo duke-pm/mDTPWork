@@ -33,7 +33,7 @@ function ProjectItem(props) {
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
       setShowChildren(!showChildren);
     } else {
-      onPress(data);
+      // onPress(data);
     }
   };
 
