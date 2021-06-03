@@ -74,36 +74,50 @@ const Commons = {
 
   STATUS_TASK: {
     NEW: {
-      value: 0,
+      value: 1,
       label: 'New',
     },
     TO_BE_SCHEDULE: {
-      value: 1,
+      value: 2,
       label: 'To Be Schedule',
     },
     SCHEDULE: {
-      value: 2,
+      value: 3,
       label: 'Scheduled',
     },
     IN_PROCESS: {
-      value: 3,
+      value: 4,
       label: 'In Progress',
     },
     CLOSED: {
-      value: 4,
+      value: 5,
       label: 'Closed',
     },
     ON_HOLD: {
-      value: 5,
+      value: 6,
       label: 'On Hold',
     },
     REJECTED: {
-      value: 6,
+      value: 7,
       label: 'Rejected',
     },
-    COMPLETED: {
+  },
+
+  STATUS_PROJECT: {
+    IN_PROCESS: {
+      value: 4,
+      label: 'status:in_progress',
+      color: 'statusInProgress',
+    },
+    CLOSED: {
+      value: 5,
+      label: 'status:closed',
+      color: 'statusClosed',
+    },
+    REJECTED: {
       value: 7,
-      label: 'Completed',
+      label: 'status:rejected',
+      color: 'statusRejected',
     },
   },
 };

@@ -33,6 +33,17 @@
     "change": "Change",
     "holder_warning_option_prepare": "The feature in progress, please come back later!"
   },
+  "status": {
+    "title": "Status",
+    "new": "New",
+    "scheduled": "Scheduled",
+    "to_be_scheduled": "To be scheduled",
+    "in_progress": "In progress",
+    "rejected": "Rejected",
+    "closed": "Closed",
+    "on_hold": "On hold",
+    "completed": "Completed"
+  },
   "success": {
     "title": "Successfully!",
     "send_request": "Request sent successfully!",

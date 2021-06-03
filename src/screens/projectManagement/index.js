@@ -140,20 +140,10 @@ function ProjectManagement(props) {
       hasBack
       hasSearch
       onPressSearch={handleSearch}
-      headerRight={
-        <TouchableOpacity style={cStyles.itemsEnd} onPress={handleShowFilter}>
-          <Icon
-            style={cStyles.p16}
-            name={'filter'}
-            color={'white'}
-            size={scalePx(3)}
-          />
-        </TouchableOpacity>
-      }
       content={
         <CContent>
           {!loading.main && !loading.search && (
-            <ListProject data={data.projects} />
+            <ListProject data={data.projects} showScrollTop />
           )}
           <FilterProject show={showFilter} onFilter={handleFilter} />
         </CContent>

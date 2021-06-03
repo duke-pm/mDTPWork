@@ -14,7 +14,7 @@ export default {
   TEXT_META: '#8D94A6',
   ICON_BASE: '#242833',
   ICON_META: '#000',
-  BORDER_COLOR_IOS: '#ececec',
+  BORDER_COLOR_IOS: '#c7c7cc',
   BORDER_COLOR_ANDROID: '#ececec',
   BORDER_COLOR_IOS_DARK: 'rgba(251,251,251,0.2)',
   BORDER_COLOR_ANDROID_DARK: 'rgba(242,242,242,0.1)',
@@ -22,7 +22,7 @@ export default {
   STATUS_NEW: '#0A84FF',
   STATUS_TO_BE_SCHEDULE: '#FFED4A',
   STATUS_SCHEDULE: '#32D74B',
-  STATUS_IN_PROCESS: '#9561E2',
+  STATUS_IN_PROGRESS: '#9561E2',
   STATUS_CLOSE: '#a0aec0',
   STATUS_ON_HOLD: '#F6993F',
   STATUS_REJECT: '#E3342F',
@@ -30,7 +30,7 @@ export default {
   STATUS_NEW_DARK: '#3490DC',
   STATUS_TO_BE_SCHEDULE_DARK: '#FFD60A',
   STATUS_SCHEDULE_DARK: '#4DC0B5',
-  STATUS_IN_PROCESS_DARK: '#BF5AF2',
+  STATUS_IN_PROGRESS_DARK: '#BF5AF2',
   STATUS_CLOSE_DARK: '#a0aec0',
   STATUS_ON_HOLD_DARK: '#FF9F0A',
   STATUS_REJECT_DARK: '#FF453A',
@@ -38,7 +38,7 @@ export default {
   STATUS_NEW_OPACITY: 'rgba(10,132,255, 0.2)',
   STATUS_TO_BE_SCHEDULE_OPACITY: 'rgba(255,237,74, 0.2)',
   STATUS_SCHEDULE_OPACITY: 'rgba(50,215,75, 0.2)',
-  STATUS_IN_PROCESS_OPACITY: 'rgba(149,97,226, 0.2)',
+  STATUS_IN_PROGRESS_OPACITY: 'rgba(149,97,226, 0.2)',
   STATUS_CLOSE_OPACITY: 'rgba(160,174,192,0.2)',
   STATUS_ON_HOLD_OPACITY: 'rgba(246,153,63,0.2)',
   STATUS_REJECT_OPACITY: 'rgba(227,52,47,0.2)',
@@ -88,5 +88,11 @@ export default {
   GOOGLE: '#dd4b39',
   APPLE: '#fff',
 
-  SHOW_MORE: ['rgba(0,0,0,0)', 'rgba(0,0,0,0.1)', 'rgba(0,0,0,0.2)', 'rgba(0,0,0,0.3)','rgba(0,0,0,3)',]
+  SHOW_MORE: [
+    'rgba(0,0,0,0)',
+    'rgba(0,0,0,0.1)',
+    'rgba(0,0,0,0.2)',
+    'rgba(0,0,0,0.3)',
+    'rgba(0,0,0,3)',
+  ],
 };

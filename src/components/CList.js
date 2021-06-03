@@ -90,7 +90,7 @@ function CList(props) {
         removeClippedSubviews={IS_ANDROID}
         initialNumToRender={10}
         scrollEventThrottle={16}
-        onScroll={onScroll}
+        onScroll={showScrollTop ? onScroll : null}
         refreshing={props.refreshing}
         onRefresh={onRefresh}
         onEndReachedThreshold={0.1}

@@ -52,6 +52,7 @@ function CContainer(props) {
 
   /** Use redux */
   const commonState = useSelector(({common}) => common);
+  const isSearch = commonState.get('isSearch');
 
   /** Use state */
   const [loading, setLoading] = useState(true);
@@ -119,7 +120,7 @@ function CContainer(props) {
           <View
             style={[cStyles.flex1, {backgroundColor: customColors.background}]}>
             {content}
-            {commonState.get('isSearch') && (
+            {isSearch && (
               <View
                 style={[
                   cStyles.abs,
@@ -133,7 +134,7 @@ function CContainer(props) {
         {footer && (
           <View>
             <CFooter content={footer} />
-            {commonState.get('isSearch') && (
+            {isSearch && (
               <View
                 style={[
                   cStyles.abs,

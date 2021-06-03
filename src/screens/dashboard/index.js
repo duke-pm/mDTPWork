@@ -68,6 +68,7 @@ function Dashboard(props) {
               return null;
             }}
             numColumns={3}
+            showScrollTop={false}
           />
         </CContent>
       }

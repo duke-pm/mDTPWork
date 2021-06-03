@@ -18,7 +18,7 @@ function ListProject(props) {
   const navigation = useNavigation();
   const {customColors} = useTheme();
   const isDark = useColorScheme() === THEME_DARK;
-  const {onLoadmore, onRefresh} = props;
+  const {showScrollTop} = props;
 
   /** HANDLE FUNC */
   const handleProjectItem = data => {
@@ -32,21 +32,22 @@ function ListProject(props) {
     <CList
       data={props.data}
       item={({item, index}) => {
+        let isPrevIsParent = false;
+        if (props.data[index - 1] && props.data[index - 1].countChild > 0) {
+          isPrevIsParent = true;
+        }
         return (
           <ProjectItem
             index={index}
             data={item}
             customColors={customColors}
             isDark={isDark}
-            onRefresh={onRefresh}
+            isPrevIsParent={isPrevIsParent}
             onPress={handleProjectItem}
           />
         );
       }}
-      refreshing={props.refreshing}
-      onRefresh={onRefresh}
-      loadingmore={props.loadmore}
-      onLoadmore={onLoadmore}
+      showScrollTop={showScrollTop}
     />
   );
 }
