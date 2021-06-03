@@ -27,6 +27,7 @@ function ApprovedAssets(props) {
   const {t} = useTranslation();
   const {customColors} = useTheme();
 
+  /** Use redux */
   const dispatch = useDispatch();
   const commonState = useSelector(({common}) => common);
   const approvedState = useSelector(({approved}) => approved);
@@ -34,6 +35,7 @@ function ApprovedAssets(props) {
   const perPage = commonState.get('perPage');
   const formatDate = commonState.get('formatDate');
 
+  /** Use state */
   const [loading, setLoading] = useState({
     main: false,
     search: false,
@@ -51,7 +53,6 @@ function ApprovedAssets(props) {
     page: 1,
     search: '',
   });
-
   let prevData = usePrevious(props.dataRoute);
 
   /** FUNC */
@@ -104,16 +105,12 @@ function ApprovedAssets(props) {
         ...approvedState.get('processApproved'),
       ];
     }
-
-    // Update data
     setData({
       ...data,
       requests: tmpRequests,
       requestsDetail: tmpRequestDetail,
       processApproveds: tmpProcessApproveds,
     });
-
-    // Update loading and re-render
     let tmpLoading = {
       main: false,
       search: false,
@@ -259,4 +256,4 @@ function ApprovedAssets(props) {
   );
 }
 
-export default React.memo(ApprovedAssets);
+export default ApprovedAssets;

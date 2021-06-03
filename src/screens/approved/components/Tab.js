@@ -1,8 +1,8 @@
 /**
- ** Name:
+ ** Name: Tab item
  ** Author:
  ** CreateAt: 2021
- ** Description: Description of .js
+ ** Description: Description of Tab.js
  **/
 import React from 'react';
 import {
@@ -13,13 +13,14 @@ import {
 } from 'react-native';
 /* COMPONENTS */
 import CText from '~/components/CText';
-import {IS_ANDROID} from '~/utils/helper';
 /* COMMON */
+import {IS_ANDROID} from '~/utils/helper';
 import {cStyles} from '~/utils/style';
 
 function Tab(props) {
   const {title, onPress} = props;
 
+  /** RENDER */
   const Touchable = IS_ANDROID ? TouchableNativeFeedback : TouchableOpacity;
   return (
     <Touchable onPress={onPress}>

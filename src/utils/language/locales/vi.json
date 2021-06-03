@@ -287,7 +287,7 @@
     "title": "Quản lý Dự án",
     "sector": "Khu vực: ",
     "status": "Trạng thái: ",
-    "public": "Công khai: ",
+    "owener": "PM: ",
     "date_created": "Ngày tạo: ",
     "description": "Mô tả: ",
     "status_on_track": "Đang Theo Dõi",

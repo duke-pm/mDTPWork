@@ -16,37 +16,20 @@ export const listProjectError = error => ({
   payload: error,
 });
 
-export const listProjectSuccess = (
-  countRequest,
-  requests,
-  requestsDetail,
-  processApproved,
-) => ({
+export const listProjectSuccess = projects => ({
   type: types.SUCCESS_FETCH_LIST_PROJECT,
-  payload: {
-    countRequest,
-    requests,
-    requestsDetail,
-    processApproved,
-  },
+  payload: projects,
 });
 
 export const fetchListProject = (params, navigation) => {
   return dispatch => {
     dispatch({type: types.START_FETCH_LIST_PROJECT});
 
-    Services.approved
-      .listRequest(params)
+    Services.projectManagement
+      .listProject(params)
       .then(res => {
         if (!res.isError) {
-          return dispatch(
-            listProjectSuccess(
-              res.data.header.countAllocation,
-              res.data.listRequest,
-              res.data.listRequestDetail,
-              res.data.listProcessApprove,
-            ),
-          );
+          return dispatch(listProjectSuccess(res.data));
         } else {
           return dispatch(listProjectError(res.errorMessage));
         }

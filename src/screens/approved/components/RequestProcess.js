@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
 /**
  ** Name: Preocess of request
@@ -11,10 +12,10 @@ import LottieView from 'lottie-react-native';
 /* COMPONENTS */
 import CText from '~/components/CText';
 import CCard from '~/components/CCard';
-/* COMMON */
-import {colors, cStyles} from '~/utils/style';
-import Animations from '~/utils/asset/Animations';
 import CFooterList from '~/components/CFooterList';
+/* COMMON */
+import Animations from '~/utils/asset/Animations';
+import {colors, cStyles} from '~/utils/style';
 
 function RequestProcess(props) {
   const {data = [], customColors = {}, isDark = false} = props;
@@ -23,9 +24,11 @@ function RequestProcess(props) {
   /** Use state */
   const [anims, setAnims] = useState([]);
 
+  /** LIFE CYCLE */
   useEffect(() => {
-    let tmp = [];
-    for (let i of data) {
+    let tmp = [],
+      item = null;
+    for (item of data) {
       tmp.push(new Animated.Value(0));
     }
     setAnims(tmp);
@@ -49,6 +52,7 @@ function RequestProcess(props) {
     }
   }, [anims]);
 
+  /** RENDER */
   return (
     <CCard
       containerStyle={cStyles.m16}

@@ -259,4 +259,4 @@ function ApprovedAssets(props) {
   );
 }
 
-export default React.memo(ApprovedAssets);
+export default ApprovedAssets;

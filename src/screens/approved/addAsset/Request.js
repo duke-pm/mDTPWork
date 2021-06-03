@@ -537,7 +537,6 @@ function AddRequest(props) {
       }
       title={'add_approved_assets:' + (isDetail ? 'detail' : 'title')}
       header
-      hasPaddingFooter
       hasBack
       iconBack={'x'}
       headerRight={

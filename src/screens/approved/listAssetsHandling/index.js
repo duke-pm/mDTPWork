@@ -233,7 +233,7 @@ function ListRequestHandling(props) {
     loading.search,
     loading.refreshing,
     loading.loadmore,
-    approvedState.get('submitting'),
+    approvedState.get('submittingList'),
     approvedState.get('successListRequest'),
     approvedState.get('errorListRequest'),
   ]);

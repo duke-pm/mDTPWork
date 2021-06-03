@@ -5,75 +5,52 @@
  ** CreateAt: 2021
  ** Description: Description of ProjectManagement.js
  **/
+import {fromJS} from 'immutable';
 import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import {TouchableOpacity, View} from 'react-native';
+import {useTranslation} from 'react-i18next';
+import {TouchableOpacity} from 'react-native';
+import {showMessage} from 'react-native-flash-message';
 import Icon from 'react-native-vector-icons/Feather';
-import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
 import ListProject from './list/Project';
 import FilterProject from './components/FilterProject';
-import { cStyles } from '~/utils/style';
-import { scalePx } from '~/utils/helper';
-
-const projects = [
-  {
-    id: 1,
-    label: 'Project 1 - Web Development',
-    description: 'Project 1 for Web Development',
-    sector: 'HCM',
-    status: 1,
-    public: true,
-    dateCreated: '10/10/2021',
-  },
-  {
-    id: 2,
-    label: 'Project 2 - App Development',
-    description: 'Project 2 for App Development',
-    sector: 'Mekong',
-    status: 1,
-    public: true,
-    dateCreated: '15/10/2021',
-  },
-  {
-    id: 3,
-    label: 'Project 3 - Book Store',
-    description: 'Project 3 for Book Store',
-    sector: 'HN',
-    status: 2,
-    public: false,
-    dateCreated: '09/09/2021',
-  },
-];
+/** COMMON */
+import {LOAD_MORE, REFRESH} from '~/config/constants';
+import {cStyles} from '~/utils/style';
+import {scalePx} from '~/utils/helper';
+/** REDUX */
+import * as Actions from '~/redux/actions';
 
 function ProjectManagement(props) {
+  const {t} = useTranslation();
+  const {navigation} = props;
+
   /** Use redux */
   const dispatch = useDispatch();
+  const projectState = useSelector(({projectManagement}) => projectManagement);
   const commonState = useSelector(({common}) => common);
-  const perPage = commonState.get('perPage');
-  const formatDate = commonState.get('formatDate');
+  const language = commonState.get('language');
 
   /** Use state */
   const [loading, setLoading] = useState({
-    main: true,
+    main: false,
     search: false,
-    refreshing: false,
-    loadmore: false,
-    isLoadmore: true,
   });
   const [showFilter, setShowFilter] = useState(false);
   const [data, setData] = useState({
-    fromDate: moment().clone().startOf('month').format(formatDate),
-    toDate: moment().clone().endOf('month').format(formatDate),
-    status: '1,2',
     projects: [],
-    page: 1,
+    search: '',
   });
 
   /** HANDLE FUNC */
-  const handleSearch = value => {};
+  const handleSearch = value => {
+    setLoading({...loading, search: true});
+    setData({...data, search: value});
+    onFetchData(value);
+  };
 
   const handleShowFilter = () => {
     setShowFilter(!showFilter);
@@ -84,33 +61,75 @@ function ProjectManagement(props) {
   };
 
   /** FUNC */
-  const onFetchData = () => {
-    onPrepareData();
+  const onFetchData = (search = '') => {
+    let params = fromJS({
+      Lang: language,
+      Search: search,
+    });
+    dispatch(Actions.fetchListProject(params, navigation));
   };
 
-  const onPrepareData = () => {
-    let isLoadmore = true;
-    isLoadmore = false;
-
-    setData({...data, projects});
-
+  const onPrepareData = type => {
+    let tmpProjects = [...data.projects];
+    if (type === REFRESH) {
+      tmpProjects = projectState.get('projects');
+    } else if (type === LOAD_MORE) {
+      tmpProjects = [...tmpProjects, ...projectState.get('projects')];
+    }
+    setData({
+      ...data,
+      projects: tmpProjects,
+    });
     setLoading({
       main: false,
       search: false,
-      refreshing: false,
-      loadmore: false,
-      isLoadmore,
     });
   };
 
-  const onRefresh = () => {};
+  const onError = () => {
+    showMessage({
+      message: t('common:app_name'),
+      description: t('error:list_request'),
+      type: 'danger',
+      icon: 'danger',
+    });
 
-  const onLoadmore = () => {};
+    return setLoading({
+      main: false,
+      search: false,
+    });
+  };
 
   /** LIFE CYCLE */
   useEffect(() => {
     onFetchData();
+    setLoading({...loading, main: true});
   }, []);
+
+  useEffect(() => {
+    if (loading.main || loading.search) {
+      if (!projectState.get('submittingListProject')) {
+        let type = REFRESH;
+        if (loading.loadmore) {
+          type = LOAD_MORE;
+        }
+
+        if (projectState.get('successListProject')) {
+          return onPrepareData(type);
+        }
+
+        if (projectState.get('errorListProject')) {
+          return onError();
+        }
+      }
+    }
+  }, [
+    loading.main,
+    loading.search,
+    projectState.get('submittingListProject'),
+    projectState.get('successListProject'),
+    projectState.get('errorListProject'),
+  ]);
 
   /** RENDER */
   return (
@@ -133,14 +152,8 @@ function ProjectManagement(props) {
       }
       content={
         <CContent>
-          {!loading.main && (
-            <ListProject
-              refreshing={loading.refreshing}
-              loadmore={loading.loadmore}
-              data={data.projects}
-              onRefresh={onRefresh}
-              onLoadmore={onLoadmore}
-            />
+          {!loading.main && !loading.search && (
+            <ListProject data={data.projects} />
           )}
           <FilterProject show={showFilter} onFilter={handleFilter} />
         </CContent>

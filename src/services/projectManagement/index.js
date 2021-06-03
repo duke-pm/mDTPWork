@@ -12,9 +12,8 @@ export default {
   listProject: params => {
     return new Promise((resolve, reject) => {
       let tmpConfigs = {params: {}};
-      if (params.get('StatusID')) {
-        tmpConfigs.params.StatusID = params.get('StatusID');
-      }
+      tmpConfigs.params.Lang = params.get('Lang');
+      tmpConfigs.params.Search = params.get('Search');
 
       API.get(
         jwtServiceConfig.baseURL + Routes.PROJECT_MANAGEMENT.LIST_PROJECT,

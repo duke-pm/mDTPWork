@@ -51,10 +51,12 @@ let passwordRef = createRef();
 function SignIn(props) {
   const {t} = useTranslation();
 
+  /** Use redux */
   const dispatch = useDispatch();
   const authState = useSelector(({auth}) => auth);
   const commonState = useSelector(({common}) => common);
 
+  /** Use state */
   const [loading, setLoading] = useState({
     main: true,
     submit: false,
@@ -263,8 +265,12 @@ function SignIn(props) {
                 style={cStyles.flex1}
                 behavior={IS_IOS ? 'padding' : 'height'}>
                 <CContent
-                  style={styles.con}
-                  contentStyle={[styles.con, cStyles.flexCenter, cStyles.px48]}>
+                  style={styles.container}
+                  contentStyle={[
+                    styles.container,
+                    cStyles.flexCenter,
+                    cStyles.px48,
+                  ]}>
                   <View style={[cStyles.justifyEnd, styles.con_icon_app]}>
                     <Image
                       style={styles.img_icon_app}
@@ -353,7 +359,7 @@ function SignIn(props) {
 }
 
 const styles = StyleSheet.create({
-  con: {backgroundColor: colors.TRANSPARENT},
+  container: {backgroundColor: colors.TRANSPARENT},
   content: {backgroundColor: 'rgba(0, 0, 0, 0.4)'},
   con_icon_app: {flex: 0.4},
   con_input: {flex: 0.6},
@@ -364,7 +370,6 @@ const styles = StyleSheet.create({
   input_focus: {
     backgroundColor: colors.BACKGROUND_INPUT_FOCUS,
   },
-
   img_background: {height: '100%', width: '100%'},
   img_icon_app: {height: 250, width: 250},
 });

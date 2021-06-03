@@ -253,4 +253,4 @@ function ApprovedAssetsDamage(props) {
   );
 }
 
-export default React.memo(ApprovedAssetsDamage);
+export default ApprovedAssetsDamage;

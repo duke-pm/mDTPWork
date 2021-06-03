@@ -14,6 +14,7 @@ import Animations from '~/utils/asset/Animations';
 import {cStyles} from '~/utils/style';
 
 function TabbarLoading(props) {
+  /** RENDER */
   if (!props.show) {
     return null;
   }
@@ -29,4 +30,4 @@ const styles = StyleSheet.create({
   icon: {width: 50, height: 50},
 });
 
-export default TabbarLoading;
+export default React.memo(TabbarLoading);

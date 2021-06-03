@@ -5,21 +5,19 @@
  ** Description: Description of Approved.js
  **/
 /* LIBRARY */
-import {fromJS, List} from 'immutable';
+import {fromJS} from 'immutable';
 /** REDUX */
 import * as types from '../actions/types';
 
 export const initialState = fromJS({
   submittingListProject: false,
-  countProjects: 0,
-  projects: List(),
+  projects: [],
   successListProject: false,
   errorListProject: false,
   errorHelperListProject: '',
 
   submittingListTask: false,
-  countTasks: 0,
-  tasks: List(),
+  tasks: [],
   successListTask: false,
   errorListTask: false,
   errorHelperListTask: '',
@@ -42,8 +40,7 @@ export default function (state = initialState, action = {}) {
         .set('successListProject', true)
         .set('errorListProject', false)
         .set('errorHelperListProject', '')
-        .set('countProjects', payload.countProjects)
-        .set('projects', payload.projects);
+        .set('projects', payload);
 
     case types.ERROR_FETCH_LIST_PROJECT:
       return state
@@ -66,8 +63,7 @@ export default function (state = initialState, action = {}) {
         .set('successListTask', true)
         .set('errorListTask', false)
         .set('errorHelperListTask', '')
-        .set('countTasks', payload.countTasks)
-        .set('tasks', payload.tasks);
+        .set('tasks', payload);
 
     case types.ERROR_FETCH_LIST_TASK:
       return state

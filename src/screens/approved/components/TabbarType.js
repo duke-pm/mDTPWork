@@ -19,6 +19,8 @@ function TabbarType(props) {
   const {customColors} = useTheme();
   const {navigationState, position, jumpTo} = props;
   let translateX = null;
+
+  /** RENDER */
   if (IS_IOS) {
     translateX = position.interpolate({
       inputRange: [0, 1, 2],
@@ -79,7 +81,6 @@ function TabbarType(props) {
 
 const styles = StyleSheet.create({
   indicator_tab: {backgroundColor: colors.SECONDARY, height: 3},
-
   tab_bar: {height: 40},
   tab_active: {height: 34, width: cStyles.deviceWidth / 3 - 22},
 });

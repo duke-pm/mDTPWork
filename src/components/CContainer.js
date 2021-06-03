@@ -41,7 +41,6 @@ function CContainer(props) {
     hasMenu = false,
     hasSearch = false,
     hasAddNew = false,
-    hasPaddingFooter = false,
     title,
     customTitle,
     subTitle,
@@ -133,7 +132,7 @@ function CContainer(props) {
         )}
         {footer && (
           <View>
-            <CFooter content={footer} hasPaddingFooter={hasPaddingFooter} />
+            <CFooter content={footer} />
             {commonState.get('isSearch') && (
               <View
                 style={[
