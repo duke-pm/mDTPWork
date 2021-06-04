@@ -19,8 +19,8 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   TouchableNativeFeedback,
-  ActivityIndicator,
 } from 'react-native';
+import Lottie from 'lottie-react-native';
 import Picker from '@gregfrench/react-native-wheel-picker';
 import Icon from 'react-native-vector-icons/Feather';
 import moment from 'moment';
@@ -30,17 +30,18 @@ import CContent from '~/components/CContent';
 import CText from '~/components/CText';
 import CInput from '~/components/CInput';
 import CButton from '~/components/CButton';
-import RejectModal from '../components/RejectModal';
 import CAlert from '~/components/CAlert';
-import RequestProcess from '../components/RequestProcess';
 import CActionSheet from '~/components/CActionSheet';
 import CRowLabel from '~/components/CRowLabel';
+import RejectModal from '../components/RejectModal';
+import RequestProcess from '../components/RequestProcess';
 import AssetsTable from '../components/AssetsTable';
 import CheckOption from '../components/CheckOption';
 /* COMMON */
+import Animations from '~/utils/asset/Animations';
 import {THEME_DARK} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
-import {IS_IOS, alert, scalePx, sH, IS_ANDROID} from '~/utils/helper';
+import {IS_IOS, scalePx, sH, IS_ANDROID} from '~/utils/helper';
 import Commons from '~/utils/common/Commons';
 /* REDUX */
 import * as Actions from '~/redux/actions';
@@ -81,7 +82,12 @@ const RowSelect = (
         {!loading ? (
           find && <CText customLabel={find[keyToShow]} />
         ) : (
-          <ActivityIndicator />
+          <Lottie
+            style={styles.icon_loading}
+            source={Animations.loading}
+            autoPlay
+            loop
+          />
         )}
         {!disabled && (
           <Icon
@@ -865,7 +871,7 @@ function AddRequest(props) {
             show={showConfirm}
             content={'add_approved_assets:message_confirm_approved'}
             onClose={() => setShowConfirm(false)}
-            onOK={() => onApproved()}
+            onOK={onApproved}
           />
         </CContent>
       }
@@ -921,6 +927,7 @@ const styles = StyleSheet.create({
   con_left: {flex: 0.4},
   con_right: {flex: 0.6},
   con_action: {width: '100%', height: sH('30%')},
+  icon_loading: {width: 50, height: 50},
 });
 
 export default AddRequest;

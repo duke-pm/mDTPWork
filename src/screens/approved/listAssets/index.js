@@ -143,11 +143,11 @@ function ListRequestAll(props) {
 
           <TabView
             lazy
-            initialLayout={styles.con_tab}
             navigationState={{index, routes}}
             renderScene={renderScene}
             renderTabBar={renderTabBar}
             onIndexChange={setIndex}
+            initialLayout={styles.con_tab}
           />
         </CContent>
       }
@@ -156,7 +156,7 @@ function ListRequestAll(props) {
 }
 
 const styles = StyleSheet.create({
-  con_tab: {width: cStyles.deviceWidth},
+  con_tab: {width: cStyles.deviceWidth, height: 0},
 });
 
 export default ListRequestAll;
