@@ -56,17 +56,10 @@ const CCard = React.memo(function CCard(props) {
           cStyles.mx16,
           styles.con_label,
           contentLabelStyle,
-          {
-            backgroundColor: isDark
-              ? customColors.header
-              : customColors.primary,
-          },
+          {backgroundColor: isDark ? colors.GRAY_830 : colors.GRAY_300},
         ]}>
         <CText
-          customStyles={[
-            cStyles.fontRegular,
-            {color: isDark ? customColors.text : colors.WHITE},
-          ]}
+          customStyles={[cStyles.fontRegular, {color: customColors.text}]}
           label={label}
           customLabel={customLabel}
         />

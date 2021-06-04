@@ -220,7 +220,8 @@
     "detail": "Chi tiết cấp phát",
     "info_user_request": "Thông tin người yêu cầu",
     "info_assets": "Thông tin tài sản",
-    "info_other": "Thông tin khác"
+    "info_other": "Thông tin khác",
+    "holder_empty_department": "Không có thông tin phòng ban nào"
   },
   "approved_lost_damaged": {
     "title": "Báo Hỏng | Báo Mất",
@@ -293,7 +294,8 @@
     "button_choose_again": "Chọn lại",
     "info_assets": "Thông tin tài sản",
     "info_other": "Thông tin chung",
-    "holder_no_asset": "Chưa chọn tài sản"
+    "holder_no_asset": "Chưa chọn tài sản",
+    "holder_empty_assets": "Không có tài sản nào"
   },
   "project_management": {
     "title": "Quản lý Dự án",

@@ -179,6 +179,10 @@ function AddRequest(props) {
   /** HANDLE FUNC */
   const handleReject = () => setShowReject(true);
 
+  const handleApproved = () => setShowConfirm(true);
+
+  const handleShowProcess = () => actionSheetProcessRef.current?.show();
+
   const handleChangeInput = (inputRef, type) => {
     if (inputRef) {
       if (!type) {
@@ -196,13 +200,6 @@ function AddRequest(props) {
       setForm({...form, supplier: value});
     }
   };
-
-  const handleApproved = () => {
-    // alert(t, 'add_approved_assets:message_confirm_approved', onApproved);
-    setShowConfirm(true);
-  };
-
-  const handleShowProcess = () => actionSheetProcessRef.current?.show();
 
   const handleChangeWhereUse = () => {
     let department = null;
@@ -536,6 +533,8 @@ function AddRequest(props) {
   ]);
 
   /** RENDER */
+  const isShowApprovedReject =
+    isDetail && form.isAllowApproved && props.route.params?.permissionWrite;
   return (
     <CContainer
       loading={
@@ -826,53 +825,68 @@ function AddRequest(props) {
             </CActionSheet>
           )}
 
-          <CActionSheet
-            actionRef={actionSheetDepartmentRef}
-            headerChoose
-            onConfirm={handleChangeWhereUse}>
-            <View style={cStyles.px16}>
-              <CInput
-                containerStyle={cStyles.mb10}
-                styleFocus={styles.input_focus}
-                disabled={loading.main || loading.submitAdd || isDetail}
-                holder={'add_approved_assets:holder_where_use'}
-                value={findWhereUse}
-                keyboard={'default'}
-                returnKey={'done'}
-                onChangeValue={onSearchFilter}
-              />
-              <Picker
-                style={styles.con_action}
-                itemStyle={{color: customColors.text, fontSize: scalePx(3)}}
-                selectedValue={whereUse}
-                onValueChange={onChangeWhereUse}>
-                {dataWhereUse.map((value, i) => (
-                  <Picker.Item
-                    label={value[Commons.SCHEMA_DROPDOWN.DEPARTMENT.label]}
-                    value={i}
-                    key={i}
-                  />
-                ))}
-              </Picker>
-            </View>
-          </CActionSheet>
+          {!isDetail && (
+            <CActionSheet
+              actionRef={actionSheetDepartmentRef}
+              headerChoose
+              onConfirm={handleChangeWhereUse}>
+              <View style={cStyles.px16}>
+                <CInput
+                  containerStyle={cStyles.mb10}
+                  styleFocus={styles.input_focus}
+                  disabled={loading.main || loading.submitAdd || isDetail}
+                  holder={'add_approved_assets:holder_where_use'}
+                  value={findWhereUse}
+                  keyboard={'default'}
+                  returnKey={'done'}
+                  onChangeValue={onSearchFilter}
+                />
+                <Picker
+                  style={styles.con_action}
+                  itemStyle={[styles.txt_picker, {color: customColors.text}]}
+                  selectedValue={whereUse}
+                  onValueChange={onChangeWhereUse}>
+                  {dataWhereUse.length > 0 ? (
+                    dataWhereUse.map((value, i) => (
+                      <Picker.Item
+                        label={value[Commons.SCHEMA_DROPDOWN.DEPARTMENT.label]}
+                        value={i}
+                        key={i}
+                      />
+                    ))
+                  ) : (
+                    <View style={[cStyles.center, styles.content_picker]}>
+                      <CText
+                        styles={'textMeta'}
+                        label={'add_approved_assets:holder_empty_department'}
+                      />
+                    </View>
+                  )}
+                </Picker>
+              </View>
+            </CActionSheet>
+          )}
 
           {/** MODAL */}
-          <RejectModal
-            loading={loading.submitReject}
-            showReject={showReject}
-            description={'add_approved_assets:message_confirm_reject'}
-            onReject={onReject}
-            onCloseReject={onCloseReject}
-          />
+          {isShowApprovedReject && (
+            <RejectModal
+              loading={loading.submitReject}
+              showReject={showReject}
+              description={'add_approved_assets:message_confirm_reject'}
+              onReject={onReject}
+              onCloseReject={onCloseReject}
+            />
+          )}
 
-          <CAlert
-            loading={loading.submitReject}
-            show={showConfirm}
-            content={'add_approved_assets:message_confirm_approved'}
-            onClose={() => setShowConfirm(false)}
-            onOK={onApproved}
-          />
+          {isShowApprovedReject && (
+            <CAlert
+              loading={loading.submitReject}
+              show={showConfirm}
+              content={'add_approved_assets:message_confirm_approved'}
+              onClose={() => setShowConfirm(false)}
+              onOK={onApproved}
+            />
+          )}
         </CContent>
       }
       footer={
@@ -885,7 +899,7 @@ function AddRequest(props) {
               onPress={onSendRequest}
             />
           </View>
-        ) : form.isAllowApproved && props.route.params?.permissionWrite ? (
+        ) : isShowApprovedReject ? (
           <View
             style={[
               cStyles.row,
@@ -928,6 +942,8 @@ const styles = StyleSheet.create({
   con_right: {flex: 0.6},
   con_action: {width: '100%', height: sH('30%')},
   icon_loading: {width: 50, height: 50},
+  content_picker: {height: '40%'},
+  txt_picker: {fontSize: scalePx(3)},
 });
 
 export default AddRequest;

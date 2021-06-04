@@ -21,6 +21,7 @@ import CLoading from './CLoading';
 /* COMMON */
 import {cStyles, colors} from '~/utils/style';
 import {THEME_DARK} from '~/config/constants';
+import {sW} from '~/utils/helper';
 
 function CAlert(props) {
   const isDark = useColorScheme() === THEME_DARK;
@@ -68,7 +69,7 @@ function CAlert(props) {
             </View>
 
             {/** Content of Alert */}
-            <View style={[cStyles.px10, cStyles.py20]}>
+            <View style={[cStyles.px10, cStyles.py20, styles.content]}>
               {content && <CText styles={'textCenter'} label={content} />}
               {customContent && (
                 <View style={cStyles.mt10}>{customContent}</View>
@@ -98,11 +99,14 @@ function CAlert(props) {
                   />
                 )}
                 <View
-                  style={{
-                    backgroundColor: isDark ? colors.GRAY_800 : colors.GRAY_400,
-                    width: 1,
-                    height: '100%',
-                  }}
+                  style={[
+                    styles.button,
+                    {
+                      backgroundColor: isDark
+                        ? colors.GRAY_800
+                        : colors.GRAY_400,
+                    },
+                  ]}
                 />
 
                 {onOK && (
@@ -127,7 +131,9 @@ function CAlert(props) {
 }
 
 const styles = StyleSheet.create({
+  button: {width: 1, height: '100%'},
   button_base: {width: cStyles.deviceWidth / 3, marginHorizontal: 10},
+  content: {width: sW('85%')},
 });
 
 export default CAlert;

@@ -20,27 +20,28 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   Keyboard,
-  ActivityIndicator,
   // Linking,
 } from 'react-native';
+import Lottie from 'lottie-react-native';
 import Picker from '@gregfrench/react-native-wheel-picker';
 import Icon from 'react-native-vector-icons/Feather';
-import * as Animatable from 'react-native-animatable';
 import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
 import CText from '~/components/CText';
 import CInput from '~/components/CInput';
-import CDateTimePicker from '~/components/CDateTimePicker';
 import CCard from '~/components/CCard';
 import CButton from '~/components/CButton';
 import CActionSheet from '~/components/CActionSheet';
+import CRowLabel from '~/components/CRowLabel';
+import CAlert from '~/components/CAlert';
 // import CUploadImage from '~/components/CUploadImage';
 import RejectModal from '../components/RejectModal';
 import RequestProcess from '../components/RequestProcess';
-import CRowLabel from '~/components/CRowLabel';
+import CheckOption from '../components/CheckOption';
 /* COMMON */
+import Animations from '~/utils/asset/Animations';
 import Commons from '~/utils/common/Commons';
 import {colors, cStyles} from '~/utils/style';
 import {IS_IOS, alert, scalePx, IS_ANDROID, sH} from '~/utils/helper';
@@ -48,7 +49,6 @@ import {THEME_DARK} from '~/config/constants';
 // import API from '~/services/axios';
 /* REDUX */
 import * as Actions from '~/redux/actions';
-import CheckOption from '../components/CheckOption';
 
 const INPUT_NAME = {
   DATE_REQUEST: 'dateRequest',
@@ -109,7 +109,12 @@ const RowSelect = (
               }
             />
           ) : (
-            <ActivityIndicator />
+            <Lottie
+              style={styles.icon_loading}
+              source={Animations.loading}
+              autoPlay
+              loop
+            />
           )}
           {!disabled && (
             <Icon
@@ -147,20 +152,22 @@ function AddRequest(props) {
   const {customColors} = useTheme();
   const isDark = useColorScheme() === THEME_DARK;
 
+  /** Use redux */
   const dispatch = useDispatch();
   const masterState = useSelector(({masterData}) => masterData);
   const commonState = useSelector(({common}) => common);
   const approvedState = useSelector(({approved}) => approved);
   const authState = useSelector(({auth}) => auth);
 
+  /** Use state */
   const [loading, setLoading] = useState({
     main: false,
     submitAdd: false,
     submitApproved: false,
     submitReject: false,
   });
-  const [showPickerDate, setShowPickerDate] = useState(false);
   const [showReject, setShowReject] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
   const [isDetail] = useState(props.route.params?.data ? true : false);
   const [process, setProcess] = useState([]);
   const [assets, setAssets] = useState(0);
@@ -193,33 +200,23 @@ function AddRequest(props) {
   });
 
   /** HANDLE FUNC */
-  const handleDateInput = () => setShowPickerDate(true);
+  const handleReject = () => setShowReject(!showReject);
 
-  const handleReject = () => setShowReject(true);
+  const handleApproved = () => setShowConfirm(!showConfirm);
+
+  const handleShowProcess = () => actionSheetProcessRef.current?.show();
 
   const handleChangeText = (value, nameInput) => {
-    if (nameInput === INPUT_NAME.REASON) {
-      setForm({...form, reason: value});
-      if (error.reason.status) {
-        setError({
-          ...error,
-          reason: {
-            status: false,
-            helper: '',
-          },
-        });
-      }
+    setForm({...form, reason: value});
+    if (error.reason.status) {
+      setError({
+        ...error,
+        reason: {
+          status: false,
+          helper: '',
+        },
+      });
     }
-  };
-
-  const handleApproved = () => {
-    alert(
-      t,
-      form.typeUpdate === Commons.APPROVED_TYPE.DAMAGED.value
-        ? 'add_approved_lost_damaged:message_confirm_approved_damage'
-        : 'add_approved_lost_damaged:message_confirm_approved_lost',
-      onApproved,
-    );
   };
 
   const handleChangeAssets = () => {
@@ -243,8 +240,6 @@ function AddRequest(props) {
     actionSheetAssetsRef.current?.hide();
   };
 
-  const handleShowProcess = () => actionSheetProcessRef.current?.show();
-
   // const handlePreview = () => {
   //   Linking.canOpenURL(
   //     API.defaults.baseURL.substring(0, API.defaults.baseURL.length - 3) + form.file
@@ -262,8 +257,6 @@ function AddRequest(props) {
   // };
 
   /** FUNC */
-  const onCloseReject = () => setShowReject(false);
-
   const onPrepareData = () => {
     let type = props.route.params?.type;
     if (type) {
@@ -337,16 +330,6 @@ function AddRequest(props) {
     } else {
       setError(isValid.data);
       setLoading({...loading, submitAdd: false});
-    }
-  };
-
-  const onChangeDateRequest = (newDate, showPicker) => {
-    setShowPickerDate(showPicker);
-    if (newDate) {
-      setForm({
-        ...form,
-        dateRequest: moment(newDate).format(commonState.get('formatDate')),
-      });
     }
   };
 
@@ -584,6 +567,8 @@ function AddRequest(props) {
   ]);
 
   /** RENDER */
+  const isShowApprovedReject =
+    isDetail && form.isAllowApproved && props.route.params?.permissionWrite;
   return (
     <CContainer
       loading={
@@ -644,7 +629,6 @@ function AddRequest(props) {
                       commonState.get('formatDateView'),
                     )}
                     valueColor={colors.BLACK}
-                    onPressIconLast={handleDateInput}
                   />
                 </View>
               </View>
@@ -872,67 +856,79 @@ function AddRequest(props) {
           )}
 
           {/** MODAL */}
-          <CDateTimePicker
-            show={showPickerDate}
-            value={form.dateRequest}
-            onChangeDate={onChangeDateRequest}
-          />
-
-          <CActionSheet
-            actionRef={actionSheetAssetsRef}
-            headerChoose
-            onConfirm={handleChangeAssets}>
-            <View style={cStyles.px16}>
-              {dataAssets.length > 0 && (
-                <CInput
-                  containerStyle={cStyles.mb10}
-                  styleFocus={styles.input_focus}
-                  disabled={loading.main || loading.submitAdd || isDetail}
-                  holder={'add_approved_lost_damaged:search_assets'}
-                  value={findAssets}
-                  keyboard={'default'}
-                  returnKey={'done'}
-                  onChangeValue={onSearchFilter}
-                />
-              )}
-              {dataAssets.length > 0 ? (
-                <Picker
-                  style={styles.con_action}
-                  itemStyle={{color: customColors.text, fontSize: scalePx(3)}}
-                  selectedValue={assets}
-                  onValueChange={onChangeAssets}>
-                  {dataAssets.map((value, i) => (
-                    <Picker.Item
-                      label={
-                        value[Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.label]
-                      }
-                      value={i}
-                      key={i}
-                    />
-                  ))}
-                </Picker>
-              ) : (
-                <View style={[cStyles.center, {height: '40%'}]}>
-                  <CText
-                    styles={'textMeta'}
-                    customLabel={'Không có tài sản nào'}
+          {!isDetail && (
+            <CActionSheet
+              actionRef={actionSheetAssetsRef}
+              headerChoose
+              onConfirm={handleChangeAssets}>
+              <View style={cStyles.px16}>
+                {dataAssets.length > 0 && (
+                  <CInput
+                    containerStyle={cStyles.mb10}
+                    styleFocus={styles.input_focus}
+                    disabled={loading.main || loading.submitAdd || isDetail}
+                    holder={'add_approved_lost_damaged:search_assets'}
+                    value={findAssets}
+                    keyboard={'default'}
+                    returnKey={'done'}
+                    onChangeValue={onSearchFilter}
                   />
-                </View>
-              )}
-            </View>
-          </CActionSheet>
+                )}
+                {dataAssets.length > 0 ? (
+                  <Picker
+                    style={styles.con_action}
+                    itemStyle={[styles.txt_picker, {color: customColors.text}]}
+                    selectedValue={assets}
+                    onValueChange={onChangeAssets}>
+                    {dataAssets.map((value, i) => (
+                      <Picker.Item
+                        label={
+                          value[Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.label]
+                        }
+                        value={i}
+                        key={i}
+                      />
+                    ))}
+                  </Picker>
+                ) : (
+                  <View style={[cStyles.center, styles.content_picker]}>
+                    <CText
+                      styles={'textMeta'}
+                      label={'add_approved_lost_damaged:holder_empty_assets'}
+                    />
+                  </View>
+                )}
+              </View>
+            </CActionSheet>
+          )}
 
-          <RejectModal
-            loading={loading.submitReject}
-            showReject={showReject}
-            description={
-              form.typeUpdate === Commons.APPROVED_TYPE.DAMAGED.value
-                ? 'add_approved_lost_damaged:message_confirm_reject_damage'
-                : 'add_approved_lost_damaged:message_confirm_reject_lost'
-            }
-            onReject={onReject}
-            onCloseReject={onCloseReject}
-          />
+          {isShowApprovedReject && (
+            <RejectModal
+              loading={loading.submitReject}
+              showReject={showReject}
+              description={
+                form.typeUpdate === Commons.APPROVED_TYPE.DAMAGED.value
+                  ? 'add_approved_lost_damaged:message_confirm_reject_damage'
+                  : 'add_approved_lost_damaged:message_confirm_reject_lost'
+              }
+              onReject={onReject}
+              onCloseReject={handleReject}
+            />
+          )}
+
+          {isShowApprovedReject && (
+            <CAlert
+              loading={loading.submitReject}
+              show={showConfirm}
+              content={
+                form.typeUpdate === Commons.APPROVED_TYPE.DAMAGED.value
+                  ? 'add_approved_lost_damaged:message_confirm_approved_damage'
+                  : 'add_approved_lost_damaged:message_confirm_approved_lost'
+              }
+              onClose={handleApproved}
+              onOK={onApproved}
+            />
+          )}
         </CContent>
       }
       footer={
@@ -945,7 +941,7 @@ function AddRequest(props) {
               onPress={onSendRequest}
             />
           </View>
-        ) : form.isAllowApproved && props.route.params?.permissionWrite ? (
+        ) : isShowApprovedReject ? (
           <View
             style={[
               cStyles.row,
@@ -986,6 +982,9 @@ const styles = StyleSheet.create({
   button_reject: {width: cStyles.deviceWidth / 2.5},
   button_preview: {width: 150},
   con_action: {width: '100%', height: sH('30%')},
+  icon_loading: {width: 50, height: 50},
+  content_picker: {height: '40%'},
+  txt_picker: {fontSize: scalePx(3)},
 });
 
 export default AddRequest;

@@ -73,7 +73,7 @@ function CButton(props) {
             style={cStyles.pr10}
             name={icon}
             color={colors.WHITE}
-            size={scalePx(2.3)}
+            size={scalePx(3)}
           />
         )}
 
