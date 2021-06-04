@@ -9,7 +9,7 @@
  **/
 import React from 'react';
 import {useTheme} from '@react-navigation/native';
-import {TextInput} from 'react-native';
+import {Keyboard, TextInput} from 'react-native';
 import CurrencyInput from 'react-native-currency-input';
 /** COMPONENTS */
 import CIconButton from '~/components/CIconButton';
@@ -74,12 +74,13 @@ function AssetItem(props) {
       style={[
         cStyles.flexWrap,
         cStyles.p4,
-        cStyles.fontMedium,
         cStyles.textRight,
+        cStyles.textDefault,
         styleText,
         {color: customColors.text},
       ]}
       keyboardType={cellIndex !== 0 ? 'number-pad' : 'default'}
+      returnKeyType={'done'}
       selectionColor={customColors.text}
       multiline
       editable={!props.disabled}
@@ -88,6 +89,7 @@ function AssetItem(props) {
           ? props.cellData + ''
           : props.cellData
       }
+      onSubmitEditing={Keyboard.dismiss}
       onChangeText={value => onChangeCellItem(value, rowIndex, cellIndex)}
     />
   );

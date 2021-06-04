@@ -127,8 +127,8 @@ function ApprovedAssetsDamage(props) {
   const onRefresh = () => {
     if (!loading.refreshing) {
       setLoading({...loading, refreshing: true, isLoadmore: true});
-      setData({...data, page: 1, search: ''});
-      onFetchData(data.fromDate, data.toDate, data.status, 1, '');
+      setData({...data, page: 1});
+      onFetchData(data.fromDate, data.toDate, data.status, 1, data.search);
     }
   };
 

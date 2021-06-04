@@ -138,7 +138,8 @@ function CInput(props) {
               style={[
                 cStyles.textDefault,
                 {color: customColors.text},
-                IS_IOS && cStyles.mb6,
+                // IS_IOS && cStyles.mb6,
+                cStyles.flex1,
                 styleInput,
               ]}
               editable={!disabled}

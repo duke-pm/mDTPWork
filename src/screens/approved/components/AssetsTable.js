@@ -157,7 +157,10 @@ function AssetsTable(props) {
           styles={'textMeta fontMedium pl16'}
           label={'add_approved_assets:assets'}
         />
-        <ScrollView horizontal contentContainerStyle={cStyles.px16}>
+        <ScrollView
+          horizontal
+          contentContainerStyle={cStyles.px16}
+          keyboardShouldPersistTaps={'handled'}>
           <Table
             borderStyle={{
               borderWidth: 0.5,
@@ -181,42 +184,43 @@ function AssetsTable(props) {
               }
               data={form.assets.header}
             />
-            {form.assets.data.map((rowData, rowIndex) => {
-              return (
-                <TableWrapper
-                  key={rowIndex.toString()}
-                  style={[cStyles.flex1, cStyles.row]}>
-                  {rowData.map((cellData, cellIndex) => {
-                    let disabled = loading || cellIndex === 3 || isDetail;
-                    return (
-                      <Cell
-                        key={cellIndex.toString()}
-                        width={
-                          cellIndex === 0
-                            ? 180
-                            : cellIndex === 1
-                            ? 70
-                            : cellIndex === 4
-                            ? 42
-                            : 100
-                        }
-                        height={40}
-                        data={
-                          <AssetItem
-                            disabled={disabled}
-                            cellData={cellData}
-                            rowIndex={rowIndex}
-                            cellIndex={cellIndex}
-                            onChangeCellItem={onChangeCellItem}
-                            onRemoveRow={onRemoveRow}
-                          />
-                        }
-                      />
-                    );
-                  })}
-                </TableWrapper>
-              );
-            })}
+            {form.assets.data.length > 0 &&
+              form.assets.data.map((rowData, rowIndex) => {
+                return (
+                  <TableWrapper
+                    key={rowIndex.toString()}
+                    style={[cStyles.flex1, cStyles.row, {borderRadius: 5}]}>
+                    {rowData.map((cellData, cellIndex) => {
+                      let disabled = loading || cellIndex === 3 || isDetail;
+                      return (
+                        <Cell
+                          key={cellIndex.toString()}
+                          width={
+                            cellIndex === 0
+                              ? 180
+                              : cellIndex === 1
+                              ? 70
+                              : cellIndex === 4
+                              ? 42
+                              : 100
+                          }
+                          // height={40}
+                          data={
+                            <AssetItem
+                              disabled={disabled}
+                              cellData={cellData}
+                              rowIndex={rowIndex}
+                              cellIndex={cellIndex}
+                              onChangeCellItem={onChangeCellItem}
+                              onRemoveRow={onRemoveRow}
+                            />
+                          }
+                        />
+                      );
+                    })}
+                  </TableWrapper>
+                );
+              })}
           </Table>
         </ScrollView>
 

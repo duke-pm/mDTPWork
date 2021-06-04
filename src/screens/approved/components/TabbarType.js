@@ -15,6 +15,10 @@ import Tab from './Tab';
 import {colors, cStyles} from '~/utils/style';
 import {IS_IOS} from '~/utils/helper';
 
+const posTab1 = 2;
+const posTab2 = cStyles.deviceWidth / 3 - 8;
+const posTab3 = (cStyles.deviceWidth / 3) * 2 - 16;
+
 function TabbarType(props) {
   const {customColors} = useTheme();
   const {navigationState, position, jumpTo} = props;
@@ -24,11 +28,8 @@ function TabbarType(props) {
   if (IS_IOS) {
     translateX = position.interpolate({
       inputRange: [0, 1, 2],
-      outputRange: [
-        2,
-        cStyles.deviceWidth / 3 - 8,
-        (cStyles.deviceWidth / 3) * 2 - 16,
-      ],
+      outputRange: [posTab1, posTab2, posTab3],
+      extrapolate: 'clamp',
     });
     return (
       <View
@@ -85,4 +86,4 @@ const styles = StyleSheet.create({
   tab_active: {height: 34, width: cStyles.deviceWidth / 3 - 22},
 });
 
-export default TabbarType;
+export default React.memo(TabbarType);

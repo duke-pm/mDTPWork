@@ -46,6 +46,8 @@ import Commons from '~/utils/common/Commons';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 
+const Touchable = IS_ANDROID ? TouchableNativeFeedback : TouchableOpacity;
+
 const RowSelect = (
   loading,
   disabled,
@@ -57,7 +59,6 @@ const RowSelect = (
   keyToCompare,
   onPress,
 ) => {
-  const Touchable = IS_ANDROID ? TouchableNativeFeedback : TouchableOpacity;
   let find = null;
   if (data) {
     find = data.find(f => f[keyToCompare] === activeIndex);
@@ -123,6 +124,32 @@ let addRef = createRef();
 let yesRef = createRef();
 let noRef = createRef();
 
+/** All init value use in this screen */
+const dataTypeAssets = [
+  {
+    ref: newRef,
+    value: 'N',
+    label: 'add_approved_assets:buy_new',
+  },
+  {
+    ref: addRef,
+    value: 'A',
+    label: 'add_approved_assets:additional',
+  },
+];
+const dataInPlanning = [
+  {
+    ref: yesRef,
+    value: true,
+    label: 'add_approved_assets:yes',
+  },
+  {
+    ref: noRef,
+    value: false,
+    label: 'add_approved_assets:no',
+  },
+];
+
 function AddRequest(props) {
   const {t} = useTranslation();
   const {customColors} = useTheme();
@@ -134,6 +161,9 @@ function AddRequest(props) {
   const commonState = useSelector(({common}) => common);
   const approvedState = useSelector(({approved}) => approved);
   const authState = useSelector(({auth}) => auth);
+  const language = commonState.get('language');
+  const formatDate = commonState.get('formatDate');
+  const formatDateView = commonState.get('formatDateView');
 
   /** Use state */
   const [loading, setLoading] = useState({
@@ -152,7 +182,7 @@ function AddRequest(props) {
   const [form, setForm] = useState({
     id: '',
     personRequestId: '',
-    dateRequest: moment().format(commonState.get('formatDate')),
+    dateRequest: moment().format(formatDate),
     name: authState.getIn(['login', 'fullName']),
     department: authState.getIn(['login', 'deptCode']),
     region: authState.getIn(['login', 'regionCode']),
@@ -183,22 +213,14 @@ function AddRequest(props) {
 
   const handleShowProcess = () => actionSheetProcessRef.current?.show();
 
-  const handleChangeInput = (inputRef, type) => {
+  const handleChangeInput = inputRef => {
     if (inputRef) {
-      if (!type) {
-        inputRef.focus();
-      } else if (type === 'combobox') {
-        inputRef.current.toggle();
-      }
+      inputRef.focus();
     }
   };
 
   const handleChangeText = (value, nameInput) => {
-    if (nameInput === INPUT_NAME.REASON) {
-      setForm({...form, reason: value});
-    } else {
-      setForm({...form, supplier: value});
-    }
+    setForm({...form, [nameInput]: value});
   };
 
   const handleChangeWhereUse = () => {
@@ -231,7 +253,7 @@ function AddRequest(props) {
     let params = {
       listType: 'Department, Region',
       RefreshToken: authState.getIn(['login', 'refreshToken']),
-      Lang: commonState.get('language'),
+      Lang: language,
     };
     dispatch(Actions.fetchMasterData(params, props.navigation));
     dispatch(Actions.resetAllApproved());
@@ -247,8 +269,8 @@ function AddRequest(props) {
         ? moment(
             props.route.params?.data?.requestDate,
             'YYYY-MM-DDTHH:mm:ss',
-          ).format(commonState.get('formatDate'))
-        : moment().format(commonState.get('formatDate')),
+          ).format(formatDate)
+        : moment().format(formatDate),
       name: isDetail ? props.route.params?.data?.personRequest : '',
       department: isDetail ? props.route.params?.data?.deptCode : '',
       region: isDetail ? props.route.params?.data?.regionCode : '',
@@ -316,7 +338,7 @@ function AddRequest(props) {
       Status: true,
       Reason: '',
       RefreshToken: authState.getIn(['login', 'refreshToken']),
-      Lang: commonState.get('language'),
+      Lang: language,
     };
     dispatch(Actions.fetchApprovedRequest(params, props.navigation));
   };
@@ -330,7 +352,7 @@ function AddRequest(props) {
       Status: false,
       Reason: reason,
       RefreshToken: authState.getIn(['login', 'refreshToken']),
-      Lang: commonState.get('language'),
+      Lang: language,
     };
     dispatch(Actions.fetchRejectRequest(params, props.navigation));
   };
@@ -387,7 +409,7 @@ function AddRequest(props) {
         SupplierName: form.supplier,
         ListAssets: assets,
         RefreshToken: authState.getIn(['login', 'refreshToken']),
-        Lang: commonState.get('language'),
+        Lang: language,
       };
       dispatch(Actions.fetchAddRequestApproved(params, props.navigation));
     } else {
@@ -598,9 +620,7 @@ function AddRequest(props) {
                       name={INPUT_NAME.DATE_REQUEST}
                       disabled={true}
                       dateTimePicker={true}
-                      value={moment(form.dateRequest).format(
-                        commonState.get('formatDateView'),
-                      )}
+                      value={moment(form.dateRequest).format(formatDateView)}
                       valueColor={customColors.text}
                     />
                   </View>
@@ -695,7 +715,6 @@ function AddRequest(props) {
                     value={form.reason}
                     keyboard={'default'}
                     returnKey={'next'}
-                    multiline
                     onChangeInput={() => handleChangeInput(supplierRef)}
                     onChangeValue={handleChangeText}
                   />
@@ -768,18 +787,7 @@ function AddRequest(props) {
                     isDetail={isDetail}
                     customColors={customColors}
                     value={form.typeAssets}
-                    values={[
-                      {
-                        ref: newRef,
-                        value: 'N',
-                        label: 'add_approved_assets:buy_new',
-                      },
-                      {
-                        ref: addRef,
-                        value: 'A',
-                        label: 'add_approved_assets:additional',
-                      },
-                    ]}
+                    values={dataTypeAssets}
                     onCallback={onCallbackTypeAsset}
                   />
                 </View>
@@ -795,18 +803,7 @@ function AddRequest(props) {
                     isDetail={isDetail}
                     customColors={customColors}
                     value={form.inPlanning}
-                    values={[
-                      {
-                        ref: yesRef,
-                        value: true,
-                        label: 'add_approved_assets:yes',
-                      },
-                      {
-                        ref: noRef,
-                        value: false,
-                        label: 'add_approved_assets:no',
-                      },
-                    ]}
+                    values={dataInPlanning}
                     onCallback={onCallbackInplanning}
                   />
                 </View>

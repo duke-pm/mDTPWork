@@ -221,7 +221,8 @@
     "info_user_request": "Thông tin người yêu cầu",
     "info_assets": "Thông tin tài sản",
     "info_other": "Thông tin khác",
-    "holder_empty_department": "Không có thông tin phòng ban nào"
+    "holder_empty_department": "Không có thông tin phòng ban nào",
+    "holder_empty_assets": "Chưa có tài sản nào"
   },
   "approved_lost_damaged": {
     "title": "Báo Hỏng | Báo Mất",

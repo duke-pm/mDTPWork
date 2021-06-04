@@ -63,6 +63,19 @@ const actionSheetAssetsRef = createRef();
 let damageRef = createRef();
 let lostRef = createRef();
 
+const dataType = [
+  {
+    ref: damageRef,
+    value: Commons.APPROVED_TYPE.DAMAGED.value,
+    label: 'add_approved_lost_damaged:damage_assets',
+  },
+  {
+    ref: lostRef,
+    value: Commons.APPROVED_TYPE.LOST.value,
+    label: 'add_approved_lost_damaged:lost_assets',
+  },
+];
+
 const RowSelect = (
   t,
   loading,
@@ -158,6 +171,10 @@ function AddRequest(props) {
   const commonState = useSelector(({common}) => common);
   const approvedState = useSelector(({approved}) => approved);
   const authState = useSelector(({auth}) => auth);
+  const refreshToken = authState.getIn(['login', 'refreshToken']);
+  const formatDate = commonState.get('formatDate');
+  const formatDateView = commonState.get('formatDateView');
+  const language = commonState.get('language');
 
   /** Use state */
   const [loading, setLoading] = useState({
@@ -174,7 +191,7 @@ function AddRequest(props) {
   const [findAssets, setFindAssets] = useState('');
   const [dataAssets, setDataAssets] = useState([]);
   const [form, setForm] = useState({
-    dateRequest: moment().format(commonState.get('formatDate')),
+    dateRequest: moment().format(formatDate),
     reason: '',
     typeUpdate: Commons.APPROVED_TYPE.DAMAGED.value, // 2: Damage or 3: Lost
     assetID: '',
@@ -265,8 +282,8 @@ function AddRequest(props) {
 
     let params = {
       EmpCode: authState.getIn(['login', 'empCode']),
-      RefreshToken: authState.getIn(['login', 'refreshToken']),
-      Lang: commonState.get('language'),
+      RefreshToken: refreshToken,
+      Lang: language,
     };
     dispatch(Actions.fetchAssetByUser(params));
     setLoading({...loading, main: true});
@@ -311,7 +328,7 @@ function AddRequest(props) {
           : 'Lost',
       );
       formData.append('AssetID', form.assetID);
-      formData.append('Lang', commonState.get('language'));
+      formData.append('Lang', language);
       if (form.file) {
         formData.append('FileUpload', {
           uri: form.file.path,
@@ -321,8 +338,8 @@ function AddRequest(props) {
       }
 
       let params = {
-        RefreshToken: authState.getIn(['login', 'refreshToken']),
-        Lang: commonState.get('language'),
+        RefreshToken: refreshToken,
+        Lang: language,
       };
       dispatch(
         Actions.fetchAddRequestLostDamage(params, formData, props.navigation),
@@ -344,8 +361,8 @@ function AddRequest(props) {
         ? moment(
             props.route.params?.data?.requestDate,
             'YYYY-MM-DDTHH:mm:ss',
-          ).format(commonState.get('formatDate'))
-        : moment().format(commonState.get('formatDate')),
+          ).format(formatDate)
+        : moment().format(formatDate),
       department: isDetail ? props.route.params?.data?.deptCode : '',
       region: isDetail ? props.route.params?.data?.regionCode : '',
       assetID: isDetail ? props.route.params?.data?.assetID : '',
@@ -377,8 +394,8 @@ function AddRequest(props) {
       PersonRequestID: form.personRequestId,
       Status: true,
       Reason: '',
-      RefreshToken: authState.getIn(['login', 'refreshToken']),
-      Lang: commonState.get('language'),
+      RefreshToken: refreshToken,
+      Lang: language,
     };
     dispatch(Actions.fetchApprovedRequest(params, props.navigation));
   };
@@ -391,8 +408,8 @@ function AddRequest(props) {
       PersonRequestID: form.personRequestId,
       Status: false,
       Reason: reason,
-      RefreshToken: authState.getIn(['login', 'refreshToken']),
-      Lang: commonState.get('language'),
+      RefreshToken: refreshToken,
+      Lang: language,
     };
     dispatch(Actions.fetchRejectRequest(params, props.navigation));
   };
@@ -623,11 +640,9 @@ function AddRequest(props) {
                   />
                   <CInput
                     name={INPUT_NAME.DATE_REQUEST}
-                    disabled={true}
-                    dateTimePicker={true}
-                    value={moment(form.dateRequest).format(
-                      commonState.get('formatDateView'),
-                    )}
+                    disabled
+                    dateTimePicker
+                    value={moment(form.dateRequest).format(formatDateView)}
                     valueColor={colors.BLACK}
                   />
                 </View>
@@ -682,7 +697,6 @@ function AddRequest(props) {
                     valueColor={colors.BLACK}
                     keyboard={'default'}
                     returnKey={'done'}
-                    multiline
                     textAlignVertical={'top'}
                     error={error.reason.status}
                     errorHelper={error.reason.helper}
@@ -702,18 +716,7 @@ function AddRequest(props) {
                     isDetail={isDetail}
                     customColors={customColors}
                     value={form.typeUpdate}
-                    values={[
-                      {
-                        ref: damageRef,
-                        value: Commons.APPROVED_TYPE.DAMAGED.value,
-                        label: 'add_approved_lost_damaged:damage_assets',
-                      },
-                      {
-                        ref: lostRef,
-                        value: Commons.APPROVED_TYPE.LOST.value,
-                        label: 'add_approved_lost_damaged:lost_assets',
-                      },
-                    ]}
+                    values={dataType}
                     onCallback={onCallbackType}
                   />
                 </View>
@@ -776,7 +779,7 @@ function AddRequest(props) {
                             customLabel={moment(
                               props.route.params?.data?.purchaseDate,
                               'YYYY-MM-DDTHH:mm:ss',
-                            ).format(commonState.get('formatDateView'))}
+                            ).format(formatDateView)}
                           />
                         </View>
                         <View style={[cStyles.row, cStyles.justifyStart]}>

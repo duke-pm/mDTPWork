@@ -216,6 +216,18 @@ function CHeader(props) {
                   color={colors.WHITE}
                   size={scalePx(3)}
                 />
+                {valueSearch !== '' && (
+                  <View
+                    style={[
+                      cStyles.rounded2,
+                      cStyles.abs,
+                      styles.badge,
+                      cStyles.borderAll,
+                      isDark && cStyles.borderAllDark,
+                      {backgroundColor: customColors.red},
+                    ]}
+                  />
+                )}
               </TouchableOpacity>
             )}
 
@@ -244,6 +256,7 @@ const styles = StyleSheet.create({
   con_body: {flex: 0.6},
   con_right: {flex: 0.2},
   input_search: {width: '85%'},
+  badge: {height: 10, width: 10, top: 16, right: 15},
 });
 
 export default CHeader;
