@@ -24,5 +24,5 @@
 > ***npm start -- --reset-cache***
 4. Run on Android device:
 > ***npm run ios***
-  4. Or if you want run on other device, just replace @ to any device you want
-  > ***react-native run-ios --simulator="iPhone @"***
+5. Or if you want run on other device, just replace @ to any device you want
+> ***react-native run-ios --simulator="iPhone @"***
