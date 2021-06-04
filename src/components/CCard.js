@@ -24,6 +24,7 @@ const CCard = React.memo(function CCard(props) {
     cardFooter = null,
     customColors = {},
     isDark = false,
+    onLayout = null,
     onPress = null,
   } = props;
 
@@ -43,6 +44,7 @@ const CCard = React.memo(function CCard(props) {
         {backgroundColor: customColors.card},
       ]}
       activeOpacity={0.8}
+      onLayout={onLayout}
       onPress={onPress}>
       <View
         style={[

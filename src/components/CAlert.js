@@ -41,21 +41,21 @@ function CAlert(props) {
       isVisible={show}
       animationIn={'fadeInDown'}
       animationOut={'fadeOutUp'}
-      backdropOpacity={0.4}
-      onBackButtonPress={loading ? null : onClose}
-      onBackdropPress={loading ? null : onClose}>
-      <View style={cStyles.center}>
+      backdropOpacity={0.8}
+      onBackButtonPress={Keyboard.dismiss}
+      onBackdropPress={Keyboard.dismiss}>
+      <View style={cStyles.flexCenter}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View
             style={[
               cStyles.rounded2,
-              isDark && cStyles.borderAll,
+              isDark && cStyles.borderAllDark,
               {backgroundColor: customColors.background},
             ]}>
             {/** Header of Alert */}
             <View
               style={[
-                cStyles.py10,
+                cStyles.py16,
                 cStyles.roundedTopLeft2,
                 cStyles.roundedTopRight2,
                 {backgroundColor: isDark ? customColors.card : colors.PRIMARY},
@@ -68,9 +68,11 @@ function CAlert(props) {
             </View>
 
             {/** Content of Alert */}
-            <View style={cStyles.p10}>
+            <View style={[cStyles.px10, cStyles.py20]}>
               {content && <CText styles={'textCenter'} label={content} />}
-              {customContent}
+              {customContent && (
+                <View style={cStyles.mt10}>{customContent}</View>
+              )}
             </View>
 
             {/** Footer of Alert */}
@@ -80,25 +82,36 @@ function CAlert(props) {
                   cStyles.row,
                   cStyles.itemsCenter,
                   cStyles.justifyEvenly,
-                  cStyles.px16,
-                  cStyles.py10,
+                  cStyles.borderTop,
+                  cStyles.py6,
+                  isDark && cStyles.borderTopDark,
                 ]}>
                 {onClose && (
                   <CButton
                     style={styles.button_base}
                     disabled={loading}
                     block
-                    variant={'outlined'}
+                    variant={'text'}
+                    color={customColors.text}
                     label={'common:cancel'}
                     onPress={onClose}
                   />
                 )}
+                <View
+                  style={{
+                    backgroundColor: isDark ? colors.GRAY_800 : colors.GRAY_400,
+                    width: 1,
+                    height: '100%',
+                  }}
+                />
 
                 {onOK && (
                   <CButton
                     style={styles.button_base}
                     disabled={loading}
                     block
+                    variant={'text'}
+                    color={customColors.text}
                     label={'common:ok'}
                     onPress={onOK}
                   />

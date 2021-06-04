@@ -31,6 +31,7 @@ import CText from '~/components/CText';
 import CInput from '~/components/CInput';
 import CButton from '~/components/CButton';
 import RejectModal from '../components/RejectModal';
+import CAlert from '~/components/CAlert';
 import RequestProcess from '../components/RequestProcess';
 import CActionSheet from '~/components/CActionSheet';
 import CRowLabel from '~/components/CRowLabel';
@@ -136,6 +137,7 @@ function AddRequest(props) {
     submitReject: false,
   });
   const [showReject, setShowReject] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
   const [isDetail] = useState(props.route.params?.data ? true : false);
   const [process, setProcess] = useState([]);
   const [whereUse, setWhereUse] = useState(0);
@@ -190,7 +192,8 @@ function AddRequest(props) {
   };
 
   const handleApproved = () => {
-    alert(t, 'add_approved_assets:message_confirm_approved', onApproved);
+    // alert(t, 'add_approved_assets:message_confirm_approved', onApproved);
+    setShowConfirm(true);
   };
 
   const handleShowProcess = () => actionSheetProcessRef.current?.show();
@@ -855,6 +858,14 @@ function AddRequest(props) {
             description={'add_approved_assets:message_confirm_reject'}
             onReject={onReject}
             onCloseReject={onCloseReject}
+          />
+
+          <CAlert
+            loading={loading.submitReject}
+            show={showConfirm}
+            content={'add_approved_assets:message_confirm_approved'}
+            onClose={() => setShowConfirm(false)}
+            onOK={() => onApproved()}
           />
         </CContent>
       }

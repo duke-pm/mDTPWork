@@ -26,6 +26,7 @@ function ProjectItem(props) {
 
   /** Use state */
   const [showChildren, setShowChildren] = useState(false);
+  const [widthCard, setWidthCard] = useState(0);
 
   /** HANDLE FUNC */
   const handleProjectItem = () => {
@@ -50,15 +51,18 @@ function ProjectItem(props) {
       status = Commons.STATUS_PROJECT.IN_PROCESS;
       break;
   }
-
   return (
     <View style={isPrevIsParent && !showChildren ? cStyles.mt16 : {}}>
       <CCard
         key={index}
-        containerStyle={[data.prjParentID > 0 && cStyles.ml16, styles.card]}
+        containerStyle={styles.card}
         customLabel={data.prjName}
         customColors={customColors}
         isDark={isDark}
+        onLayout={event => {
+          var {width} = event.nativeEvent.layout;
+          setWidthCard(width);
+        }}
         onPress={handleProjectItem}
         cardContent={
           <View>
@@ -173,13 +177,12 @@ function ProjectItem(props) {
                 !isDark && IS_ANDROID && cStyles.borderAll,
                 isDark && cStyles.borderAllDark,
                 cStyles.abs,
-                cStyles.left0,
+                cStyles.right0,
                 styles.card_children,
                 {
-                  width: sW('90%') - 6 * index,
+                  width: widthCard,
                   zIndex: -index,
-                  marginLeft: (IS_IOS ? 3 : 3.5) * (index + 1),
-                  bottom: -6 * (index + 1),
+                  bottom: -10 * (index + 1),
                   backgroundColor: customColors.card,
                 },
               ]}
@@ -196,7 +199,9 @@ function ProjectItem(props) {
               styles.line_child,
             ]}
           />
-          <ListProject data={data.lstProjectItem} showScrollTop={false} />
+          <View style={[cStyles.flex1, cStyles.ml12]}>
+            <ListProject data={data.lstProjectItem} showScrollTop={false} />
+          </View>
         </View>
       )}
     </View>
@@ -206,9 +211,9 @@ function ProjectItem(props) {
 const styles = StyleSheet.create({
   con_info_left: {flex: 0.5},
   con_info_right: {flex: 0.5},
-  line_child: {height: '95%'},
+  line_child: {height: '100%'},
   card: {zIndex: 100},
-  card_children: {height: 16},
+  card_children: {height: 100},
 });
 
 export default ProjectItem;

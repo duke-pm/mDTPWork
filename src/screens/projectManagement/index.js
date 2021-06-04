@@ -9,15 +9,20 @@ import {fromJS} from 'immutable';
 import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
+import {TouchableOpacity} from 'react-native';
 import {showMessage} from 'react-native-flash-message';
+import Icon from 'react-native-vector-icons/Feather';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
 import ListProject from './list/Project';
 /** COMMON */
 import {LOAD_MORE, REFRESH} from '~/config/constants';
+import {cStyles} from '~/utils/style';
 /** REDUX */
 import * as Actions from '~/redux/actions';
+import { scalePx } from '~/utils/helper';
+import FilterProject from './components/FilterProject';
 
 function ProjectManagement(props) {
   const {t} = useTranslation();
@@ -131,6 +136,16 @@ function ProjectManagement(props) {
       hasBack
       hasSearch
       onPressSearch={handleSearch}
+      // headerRight={
+      //   <TouchableOpacity style={cStyles.itemsEnd} onPress={handleFilter}>
+      //     <Icon
+      //       style={cStyles.p16}
+      //       name={'filter'}
+      //       color={'white'}
+      //       size={scalePx(3)}
+      //     />
+      //   </TouchableOpacity>
+      // }
       content={
         <CContent>
           {!loading.main && !loading.search && (
