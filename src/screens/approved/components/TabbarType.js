@@ -5,9 +5,9 @@
  ** Description: Description of TabbarType.js
  **/
 import React from 'react';
+import {useTheme} from '@react-navigation/native';
 import {Animated, StyleSheet, View} from 'react-native';
 import {TabBar} from 'react-native-tab-view';
-import {useTheme} from '@react-navigation/native';
 /* COMPONENTS */
 import CText from '~/components/CText';
 import Tab from './Tab';
@@ -22,12 +22,13 @@ const posTab3 = (cStyles.deviceWidth / 3) * 2 - 16;
 function TabbarType(props) {
   const {customColors} = useTheme();
   const {navigationState, position, jumpTo} = props;
+  const inputRange = navigationState.routes.map((x, i) => i);
   let translateX = null;
 
   /** RENDER */
   if (IS_IOS) {
     translateX = position.interpolate({
-      inputRange: [0, 1, 2],
+      inputRange,
       outputRange: [posTab1, posTab2, posTab3],
       extrapolate: 'clamp',
     });
@@ -56,9 +57,9 @@ function TabbarType(props) {
             },
           ]}
         />
-        {navigationState.routes.map((route, index) => {
-          return <Tab title={route.title} onPress={() => jumpTo(route.key)} />;
-        })}
+        {navigationState.routes.map((route, index) => (
+          <Tab title={route.title} onPress={() => jumpTo(route.key)} />
+        ))}
       </View>
     );
   }

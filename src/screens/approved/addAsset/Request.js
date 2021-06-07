@@ -840,7 +840,7 @@ function AddRequest(props) {
                 />
                 <Picker
                   style={styles.con_action}
-                  itemStyle={[styles.txt_picker, {color: customColors.text}]}
+                  itemStyle={{color: customColors.text, fontSize: scalePx(3)}}
                   selectedValue={whereUse}
                   onValueChange={onChangeWhereUse}>
                   {dataWhereUse.length > 0 ? (
@@ -940,7 +940,6 @@ const styles = StyleSheet.create({
   con_action: {width: '100%', height: sH('30%')},
   icon_loading: {width: 50, height: 50},
   content_picker: {height: '40%'},
-  txt_picker: {fontSize: scalePx(3)},
 });
 
 export default AddRequest;

@@ -880,7 +880,7 @@ function AddRequest(props) {
                 {dataAssets.length > 0 ? (
                   <Picker
                     style={styles.con_action}
-                    itemStyle={[styles.txt_picker, {color: customColors.text}]}
+                    itemStyle={{color: customColors.text, fontSize: scalePx(3)}}
                     selectedValue={assets}
                     onValueChange={onChangeAssets}>
                     {dataAssets.map((value, i) => (
@@ -987,7 +987,6 @@ const styles = StyleSheet.create({
   con_action: {width: '100%', height: sH('30%')},
   icon_loading: {width: 50, height: 50},
   content_picker: {height: '40%'},
-  txt_picker: {fontSize: scalePx(3)},
 });
 
 export default AddRequest;

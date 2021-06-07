@@ -5,7 +5,7 @@
  ** CreateAt: 2021
  ** Description: Description of Filter.js
  **/
-import React, {useState, useEffect} from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
@@ -94,13 +94,15 @@ function Filter(props) {
   const isDark = useColorScheme() === THEME_DARK;
   const {isResolve = false, onFilter = () => {}} = props;
 
+  /** Use ref */
+  const valueAnim = useRef(new Animated.Value(0)).current;
+
   /** Use redux */
   const commonState = useSelector(({common}) => common);
   const formatDate = commonState.get('formatDate');
 
   /** Use State */
   const [show, setShow] = useState(false);
-  const [valueAnim] = useState(new Animated.Value(0));
   const [showPickerDate, setShowPickerDate] = useState({
     status: false,
     active: null,
@@ -118,12 +120,13 @@ function Filter(props) {
 
   /** HANDLE FUNC */
   const handleToggle = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    Animated.timing(valueAnim, {
-      toValue: show ? 0 : 1,
-      duration: 200,
-      useNativeDriver: true,
-    }).start();
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut, () => {
+      Animated.timing(valueAnim, {
+        toValue: show ? 0 : 1,
+        duration: 200,
+        useNativeDriver: true,
+      }).start();
+    });
     setShow(!show);
   };
 
@@ -201,7 +204,6 @@ function Filter(props) {
   const rotateData = valueAnim.interpolate({
     inputRange: [0, 1],
     outputRange: ['0deg', '180deg'],
-    extrapolate: 'clamp',
   });
   const Touchable = IS_ANDROID ? TouchableNativeFeedback : TouchableOpacity;
   return (
