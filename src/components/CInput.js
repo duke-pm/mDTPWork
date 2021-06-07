@@ -14,7 +14,7 @@ import Icon from 'react-native-vector-icons/Feather';
 import CText from './CText';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
-import {IS_ANDROID, IS_IOS, scalePx} from '~/utils/helper';
+import {IS_ANDROID, scalePx} from '~/utils/helper';
 import {THEME_DARK} from '~/config/constants';
 
 function CInput(props) {

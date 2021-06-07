@@ -184,7 +184,7 @@ function Task(props) {
                 selectedValue={status.active}
                 onValueChange={onChangeStatus}>
                 {status.data.map((value, i) => (
-                  <Picker.Item label={value.label} value={i} key={i} />
+                  <Picker.Item label={value.label} value={i} key={value} />
                 ))}
               </Picker>
             </CActionSheet>

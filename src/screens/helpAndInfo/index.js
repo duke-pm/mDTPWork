@@ -86,6 +86,7 @@ function HelpAndInfo(props) {
         <CContent>
           {HELP_AND_INFO.map((item, index) => (
             <ListItem
+              key={item.id}
               index={index}
               data={item}
               dataLength={HELP_AND_INFO.length}

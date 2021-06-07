@@ -889,7 +889,7 @@ function AddRequest(props) {
                           value[Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.label]
                         }
                         value={i}
-                        key={i}
+                        key={value}
                       />
                     ))}
                   </Picker>

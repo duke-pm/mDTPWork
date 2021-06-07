@@ -49,7 +49,7 @@ const RowUser = (
   };
 
   return (
-    <TouchableOpacity onPress={handleChange}>
+    <TouchableOpacity key={value} onPress={handleChange}>
       <View
         style={[
           cStyles.row,

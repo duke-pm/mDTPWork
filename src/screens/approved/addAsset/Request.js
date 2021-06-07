@@ -72,7 +72,7 @@ const RowSelect = (
           cStyles.itemsCenter,
           cStyles.justifyBetween,
           cStyles.px16,
-          cStyles.mt6,
+          !loading && cStyles.mt6,
           cStyles.borderAll,
           isDark && cStyles.borderAllDark,
           disabled && {
@@ -83,12 +83,7 @@ const RowSelect = (
         {!loading ? (
           find && <CText customLabel={find[keyToShow]} />
         ) : (
-          <Lottie
-            style={styles.icon_loading}
-            source={Animations.loading}
-            autoPlay
-            loop
-          />
+          <Lottie source={Animations.loading} autoPlay loop />
         )}
         {!disabled && (
           <Icon
@@ -848,7 +843,7 @@ function AddRequest(props) {
                       <Picker.Item
                         label={value[Commons.SCHEMA_DROPDOWN.DEPARTMENT.label]}
                         value={i}
-                        key={i}
+                        key={value}
                       />
                     ))
                   ) : (

@@ -188,6 +188,7 @@ function Account(props) {
                 />
                 {ACCOUNT.INFORMATION.childrens.map((item, index) => (
                   <ListItem
+                    key={item.id}
                     index={index}
                     data={item}
                     dataLength={ACCOUNT.INFORMATION.childrens.length}
@@ -205,6 +206,7 @@ function Account(props) {
                 />
                 {ACCOUNT.SETTINGS.childrens.map((item, index) => (
                   <ListItem
+                    key={item.id}
                     index={index}
                     data={item}
                     dataLength={ACCOUNT.SETTINGS.childrens.length}
@@ -230,6 +232,7 @@ function Account(props) {
               <View style={[cStyles.row, cStyles.itemsCenter]}>
                 {ACCOUNT.SOCIALS.map((item, index) => (
                   <SocialItem
+                    key={item.id}
                     index={index}
                     data={item}
                     customColors={customColors}

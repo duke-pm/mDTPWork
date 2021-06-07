@@ -1,19 +1,20 @@
 /**
- ** Name: Item Dashboard
+ ** Name: CItem
  ** Author:
  ** CreateAt: 2021
- ** Description: Description of Item.js
+ ** Description: Description of CItem.js
  **/
 import React from 'react';
-import {StyleSheet, View, TouchableOpacity, Image} from 'react-native';
+import {StyleSheet, View, TouchableOpacity} from 'react-native';
 /* COMPONENTS */
 import CText from '~/components/CText';
+import CImage from '~/components/CImage';
 /** COMMON */
 import Assets from '~/utils/asset/Assets';
 import {cStyles} from '~/utils/style';
 import {sW} from '~/utils/helper';
 
-function Item(props) {
+function CItem(props) {
   const {data = null, onPress = () => {}} = props;
 
   /** HANDLE FUNC */
@@ -23,15 +24,10 @@ function Item(props) {
   if (!data) {
     return null;
   }
-
   return (
     <View style={[cStyles.itemsCenter, styles.item]}>
       <TouchableOpacity onPress={handleItem}>
-        <Image
-          style={styles.image_item}
-          source={Assets[data.mIcon]}
-          resizeMode={'contain'}
-        />
+        <CImage style={styles.image_item} source={Assets[data.mIcon]} />
       </TouchableOpacity>
 
       <CText
@@ -51,4 +47,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Item;
+export default CItem;

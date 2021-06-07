@@ -7,6 +7,7 @@
 import React from 'react';
 import {useTheme} from '@react-navigation/native';
 import {View, StyleSheet, Modal} from 'react-native';
+import * as Animatable from 'react-native-animatable';
 import Lottie from 'lottie-react-native';
 /** COMMON */
 import {colors, cStyles} from '~/utils/style';
@@ -24,20 +25,24 @@ function CLoading(props) {
           cStyles.justifyCenter,
           styles.con_modal,
         ]}>
-        <View
+        <Animatable.View
           style={[
             cStyles.rounded2,
             cStyles.center,
             styles.indicator,
             {backgroundColor: customColors.cardDisable},
-          ]}>
+          ]}
+          animation={'pulse'}
+          duration={1000}
+          easing={'ease-out'}
+          iterationCount={'infinite'}>
           <Lottie
             style={styles.icon}
             source={Animations.loading}
             autoPlay
             loop
           />
-        </View>
+        </Animatable.View>
       </View>
     </Modal>
   );

@@ -58,7 +58,11 @@ function TabbarType(props) {
           ]}
         />
         {navigationState.routes.map((route, index) => (
-          <Tab title={route.title} onPress={() => jumpTo(route.key)} />
+          <Tab
+            key={index.toString()}
+            title={route.title}
+            onPress={() => jumpTo(route.key)}
+          />
         ))}
       </View>
     );

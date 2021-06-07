@@ -11,7 +11,7 @@ import {useSelector} from 'react-redux';
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
 import CList from '~/components/CList';
-import Item from './components/Item';
+import CItem from '~/components/CItem';
 /** COMMON */
 import {cStyles} from '~/utils/style';
 
@@ -66,18 +66,22 @@ function Dashboard(props) {
       title={'dashboard:title'}
       content={
         <CContent>
-          <CList
-            contentStyle={cStyles.pt16}
-            data={routes}
-            item={({item, index}) => {
-              if (item.isAccess) {
-                return <Item index={index} data={item} onPress={handleItem} />;
-              }
-              return null;
-            }}
-            numColumns={3}
-            showScrollTop={false}
-          />
+          {!loading && (
+            <CList
+              contentStyle={cStyles.pt16}
+              data={routes}
+              item={({item, index}) => {
+                if (item.isAccess) {
+                  return (
+                    <CItem index={index} data={item} onPress={handleItem} />
+                  );
+                }
+                return null;
+              }}
+              numColumns={3}
+              showScrollTop={false}
+            />
+          )}
         </CContent>
       }
     />

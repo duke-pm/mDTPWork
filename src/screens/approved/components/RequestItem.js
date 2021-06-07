@@ -26,7 +26,7 @@ import Assets from '~/utils/asset/Assets';
 import {cStyles} from '~/utils/style';
 import {IS_IOS} from '~/utils/helper';
 
-const RequestItem = React.memo(function RequestItem(props) {
+function RequestItem(props) {
   const {t} = useTranslation();
   const navigation = useNavigation();
   const {
@@ -190,7 +190,7 @@ const RequestItem = React.memo(function RequestItem(props) {
       </Animated.View>
     </Touchable>
   );
-});
+}
 
 const styles = StyleSheet.create({
   header_left: {
@@ -205,4 +205,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RequestItem;
+export default React.memo(RequestItem);

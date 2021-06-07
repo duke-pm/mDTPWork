@@ -18,12 +18,12 @@ import {IS_ANDROID} from '~/utils/helper';
 import {cStyles} from '~/utils/style';
 
 function Tab(props) {
-  const {title, onPress} = props;
+  const {key, title, onPress} = props;
 
   /** RENDER */
   const Touchable = IS_ANDROID ? TouchableNativeFeedback : TouchableOpacity;
   return (
-    <Touchable onPress={onPress}>
+    <Touchable key={key} onPress={onPress}>
       <View style={[cStyles.flexCenter, cStyles.mx2, styles.tab]}>
         <CText
           customStyles={[cStyles.textMeta, cStyles.fontMedium]}
@@ -38,4 +38,4 @@ const styles = StyleSheet.create({
   tab: {height: 40, width: cStyles.deviceWidth / 3 - 22},
 });
 
-export default Tab;
+export default React.memo(Tab);

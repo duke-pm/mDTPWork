@@ -159,7 +159,7 @@ function Settings(props) {
               selectedValue={languages.active}
               onValueChange={onChangeLanguage}>
               {languages.data.map((value, i) => (
-                <Picker.Item label={t(value.label)} value={i} key={i} />
+                <Picker.Item label={t(value.label)} value={i} key={value} />
               ))}
             </Picker>
           </CActionSheet>

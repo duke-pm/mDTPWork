@@ -171,6 +171,7 @@ function ProjectItem(props) {
         data.lstProjectItem.map((item, index) => {
           return (
             <View
+              key={index.toString()}
               style={[
                 cStyles.rounded2,
                 !isDark && IS_IOS && cStyles.shadowListItem,

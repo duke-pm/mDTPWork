@@ -50,6 +50,7 @@ function CheckOption(props) {
       {values.map((item, index) => {
         return (
           <TouchableOpacity
+            key={index.toString()}
             disabled={loading || isDetail}
             onPress={() => handleChooseTypeAssets(item.value, item.ref)}>
             <Animatable.View

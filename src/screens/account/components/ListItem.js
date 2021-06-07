@@ -28,6 +28,7 @@ function ListItem(props) {
   const {t} = useTranslation();
   const {
     showLineBottom = true,
+    key,
     index,
     data,
     dataActive,
@@ -79,8 +80,8 @@ function ListItem(props) {
   const showDarkLine = index !== dataLength - 1 && showLineBottom && isDark;
 
   return (
-    <View style={cStyles.itemsEnd}>
-      <Component key={data.id} onPress={handleItem}>
+    <View key={key} style={cStyles.itemsEnd}>
+      <Component onPress={handleItem}>
         <View
           style={[
             cStyles.row,

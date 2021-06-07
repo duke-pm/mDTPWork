@@ -10,7 +10,7 @@ import {StyleSheet, Linking, View, TouchableOpacity, Image} from 'react-native';
 import {cStyles} from '~/utils/style';
 
 function SocialItem(props) {
-  const {index, data} = props;
+  const {key, index, data} = props;
 
   /** HANDLE FUNC */
   const handleSocial = () => {
@@ -19,7 +19,7 @@ function SocialItem(props) {
 
   /** RENDER */
   return (
-    <TouchableOpacity key={data.id} onPress={handleSocial}>
+    <TouchableOpacity key={key} onPress={handleSocial}>
       <View
         style={[
           cStyles.rounded2,
