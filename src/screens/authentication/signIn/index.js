@@ -27,7 +27,7 @@ import CText from '~/components/CText';
 import CButton from '~/components/CButton';
 /* COMMON */
 import Routes from '~/navigation/Routes';
-import Assets from '~/utils/asset/Assets';
+import {Assets} from '~/utils/asset';
 import {LOGIN, LANGUAGE} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
 import {

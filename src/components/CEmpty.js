@@ -10,7 +10,7 @@ import {StyleSheet, View, Image} from 'react-native';
 import CText from './CText';
 /* COMMON */
 import {cStyles} from '~/utils/style';
-import Assets from '~/utils/asset/Assets';
+import {Assets} from '~/utils/asset';
 
 function CEmpty(props) {
   /** RENDER */

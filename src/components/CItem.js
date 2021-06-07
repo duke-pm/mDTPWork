@@ -10,7 +10,7 @@ import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import CText from '~/components/CText';
 import CImage from '~/components/CImage';
 /** COMMON */
-import Assets from '~/utils/asset/Assets';
+import {Assets} from '~/utils/asset';
 import {cStyles} from '~/utils/style';
 import {sW} from '~/utils/helper';
 

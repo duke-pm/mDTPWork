@@ -22,7 +22,7 @@ import CIconButton from '~/components/CIconButton';
 import {colors, cStyles} from '~/utils/style';
 import {STATUS_TASK, THEME_DARK} from '~/config/constants';
 import {scalePx, sH} from '~/utils/helper';
-import Assets from '~/utils/asset/Assets';
+import {Assets} from '~/utils/asset';
 
 /** All refs use in this screen */
 const actionSheetStatusRef = createRef();

@@ -41,10 +41,10 @@ import RejectModal from '../components/RejectModal';
 import RequestProcess from '../components/RequestProcess';
 import CheckOption from '../components/CheckOption';
 /* COMMON */
-import Animations from '~/utils/asset/Animations';
+import {Animations} from '~/utils/asset';
 import Commons from '~/utils/common/Commons';
 import {colors, cStyles} from '~/utils/style';
-import {IS_IOS, alert, scalePx, IS_ANDROID, sH} from '~/utils/helper';
+import {IS_IOS, scalePx, IS_ANDROID, sH} from '~/utils/helper';
 import {THEME_DARK} from '~/config/constants';
 // import API from '~/services/axios';
 /* REDUX */
@@ -808,9 +808,13 @@ function AddRequest(props) {
                           />
                           <CText
                             styles={'textMeta fontBold'}
-                            customLabel={Number(
-                              props.route.params?.data?.originalPrice,
-                            ).format()}
+                            customLabel={
+                              props.route.params?.data?.originalPrice === 0
+                                ? '-'
+                                : Number(
+                                    props.route.params?.data?.originalPrice,
+                                  ).format()
+                            }
                           />
                         </View>
                         <View style={[cStyles.row, cStyles.justifyStart]}>
@@ -921,7 +925,7 @@ function AddRequest(props) {
 
           {isShowApprovedReject && (
             <CAlert
-              loading={loading.submitReject}
+              loading={loading.submitApproved}
               show={showConfirm}
               content={
                 form.typeUpdate === Commons.APPROVED_TYPE.DAMAGED.value

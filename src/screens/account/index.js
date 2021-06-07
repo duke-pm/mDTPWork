@@ -19,7 +19,7 @@ import ListItem from './components/ListItem';
 import SocialItem from './components/SocialItem';
 /* COMMON */
 import {THEME_DARK} from '~/config/constants';
-import Assets from '~/utils/asset/Assets';
+import {Assets} from '~/utils/asset';
 import Routes from '~/navigation/Routes';
 import {alert, clearSecretInfo, resetRoute, sW} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';

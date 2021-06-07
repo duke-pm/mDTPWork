@@ -9,14 +9,17 @@ import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {useColorScheme} from 'react-native-appearance';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+/** COMMON */
+import {THEME_DARK} from '~/config/constants';
 
 function CDateTimePicker(props) {
-  const colorScheme = useColorScheme();
   const {t} = useTranslation();
+  const isDark = useColorScheme() === THEME_DARK;
   const {show, value, onChangeDate} = props;
 
   /** Use redux */
   const commonState = useSelector(({common}) => common);
+  const language = commonState.get('language');
 
   /** HANDLE FUNC */
   const handleChangePicker = date => {
@@ -31,9 +34,9 @@ function CDateTimePicker(props) {
   return (
     <DateTimePickerModal
       isVisible={show}
-      locale={commonState.get('language')}
+      isDarkModeEnabled={isDark}
+      locale={language}
       mode={'date'}
-      isDarkModeEnabled={colorScheme === 'dark'}
       date={new Date(value)}
       cancelTextIOS={t('common:close')}
       confirmTextIOS={t('common:ok')}

@@ -38,7 +38,7 @@ import RequestProcess from '../components/RequestProcess';
 import AssetsTable from '../components/AssetsTable';
 import CheckOption from '../components/CheckOption';
 /* COMMON */
-import Animations from '~/utils/asset/Animations';
+import {Animations} from '~/utils/asset';
 import {THEME_DARK} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
 import {IS_IOS, scalePx, sH, IS_ANDROID} from '~/utils/helper';
@@ -204,7 +204,7 @@ function AddRequest(props) {
   /** HANDLE FUNC */
   const handleReject = () => setShowReject(true);
 
-  const handleApproved = () => setShowConfirm(true);
+  const handleApproved = () => setShowConfirm(!showConfirm);
 
   const handleShowProcess = () => actionSheetProcessRef.current?.show();
 
@@ -872,10 +872,10 @@ function AddRequest(props) {
 
           {isShowApprovedReject && (
             <CAlert
-              loading={loading.submitReject}
+              loading={loading.submitApproved}
               show={showConfirm}
               content={'add_approved_assets:message_confirm_approved'}
-              onClose={() => setShowConfirm(false)}
+              onClose={handleApproved}
               onOK={onApproved}
             />
           )}

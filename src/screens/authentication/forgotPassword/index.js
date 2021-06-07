@@ -20,7 +20,7 @@ import CInput from '~/components/CInput';
 import CText from '~/components/CText';
 import CButton from '~/components/CButton';
 /* COMMON */
-import Assets from '~/utils/asset/Assets';
+import {Assets} from '~/utils/asset';
 import {colors, cStyles} from '~/utils/style';
 import {IS_IOS} from '~/utils/helper';
 

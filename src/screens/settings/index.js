@@ -19,7 +19,7 @@ import CActionSheet from '~/components/CActionSheet';
 import CList from '~/components/CList';
 import ListItem from '~/screens/account/components/ListItem';
 /* COMMON */
-import Assets from '~/utils/asset/Assets';
+import {Assets} from '~/utils/asset';
 import {LANGUAGE, THEME_DARK} from '~/config/constants';
 import {getLocalInfo, saveLocalInfo, scalePx, sH} from '~/utils/helper';
 import {cStyles} from '~/utils/style';

@@ -14,7 +14,7 @@ import CText from '~/components/CText';
 import CCard from '~/components/CCard';
 import CFooterList from '~/components/CFooterList';
 /* COMMON */
-import Animations from '~/utils/asset/Animations';
+import {Animations} from '~/utils/asset';
 import {colors, cStyles} from '~/utils/style';
 
 function RequestProcess(props) {

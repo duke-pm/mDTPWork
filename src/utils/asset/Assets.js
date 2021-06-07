@@ -1,6 +1,6 @@
 /**
  ** Name: Assets
- ** Author: 
+ ** Author:
  ** CreateAt: 2021
  ** Description: Description of Assets.js
  **/

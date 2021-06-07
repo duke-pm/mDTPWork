@@ -9,7 +9,7 @@ import {StyleSheet, View, Animated, ActivityIndicator} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import Icon from 'react-native-vector-icons/Feather';
 /* COMMON */
-import Assets from '~/utils/asset/Assets';
+import {Assets} from '~/utils/asset';
 import {IS_ANDROID, scalePx, sW} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
 

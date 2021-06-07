@@ -10,7 +10,7 @@ import Lottie from 'lottie-react-native';
 /* COMPONENTS */
 import CText from './CText';
 /* COMMON */
-import Animations from '~/utils/asset/Animations';
+import {Animations} from '~/utils/asset';
 import {cStyles} from '~/utils/style';
 
 function CFooterList(props) {

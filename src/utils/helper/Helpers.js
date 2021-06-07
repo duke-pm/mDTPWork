@@ -6,8 +6,8 @@
  **/
 import {PixelRatio, Platform, StatusBar, Dimensions, Alert} from 'react-native';
 import {isIphoneX} from 'react-native-iphone-x-helper';
-import ImagePicker from 'react-native-image-crop-picker';
 import {PERMISSIONS, request} from 'react-native-permissions';
+import ImagePicker from 'react-native-image-crop-picker';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -15,16 +15,13 @@ export const IS_ANDROID = Platform.OS === 'android';
 export const IS_IOS = Platform.OS === 'ios';
 export const SCREEN_HEIGHT = Dimensions.get('window').height;
 export const SCREEN_WIDTH = Dimensions.get('window').width;
-
-export const {height, width} = Dimensions.get('window');
-const STANDARD_LENGTH = width > height ? width : height;
+const STANDARD_LENGTH =
+  SCREEN_WIDTH > SCREEN_HEIGHT ? SCREEN_WIDTH : SCREEN_HEIGHT;
 const OFFSET =
-  width > height ? 0 : Platform.OS === 'ios' ? 150 : StatusBar.currentHeight; // iPhone X style SafeAreaView size in portrait
+  SCREEN_WIDTH > SCREEN_HEIGHT ? 0 : IS_IOS ? 150 : StatusBar.currentHeight; // iPhone X style SafeAreaView size in portrait
 
 const deviceHeight =
-  isIphoneX() || Platform.OS === 'android'
-    ? STANDARD_LENGTH - OFFSET
-    : STANDARD_LENGTH;
+  isIphoneX() || IS_ANDROID ? STANDARD_LENGTH - OFFSET : STANDARD_LENGTH;
 
 export function scalePx(percent) {
   const heightPercent = (percent * deviceHeight) / 100;
@@ -33,21 +30,19 @@ export function scalePx(percent) {
 
 /* PARSE WIDTH WITH SREEN SIZE */
 export function sH(heightPercent) {
-  let screenHeight = Dimensions.get('window').height;
   // Convert string input to decimal number
   let elemHeight = parseFloat(heightPercent);
-  return PixelRatio.roundToNearestPixel((screenHeight * elemHeight) / 100);
+  return PixelRatio.roundToNearestPixel((SCREEN_HEIGHT * elemHeight) / 100);
 }
 
 export function sW(widthPercent) {
-  let screenWidth = Dimensions.get('window').width;
   // Convert string input to decimal number
   let elemWidth = parseFloat(widthPercent);
-  return PixelRatio.roundToNearestPixel((screenWidth * elemWidth) / 100);
+  return PixelRatio.roundToNearestPixel((SCREEN_WIDTH * elemWidth) / 100);
 }
 
 export function borderRadius(number) {
-  if (Platform.OS === 'android') {
+  if (IS_ANDROID) {
     return number;
   } else {
     return number / 2;
@@ -89,10 +84,9 @@ export function resetRoute(navigation, routeName, params) {
 }
 
 export async function askPermissionsCamera() {
-  let perCamera =
-    Platform.OS === 'android'
-      ? PERMISSIONS.ANDROID.CAMERA
-      : PERMISSIONS.IOS.CAMERA;
+  let perCamera = IS_ANDROID
+    ? PERMISSIONS.ANDROID.CAMERA
+    : PERMISSIONS.IOS.CAMERA;
   let result = await request(perCamera);
   if (result !== 'granted') {
     alert(
@@ -100,10 +94,9 @@ export async function askPermissionsCamera() {
     );
     return false;
   } else {
-    let perGallery =
-      Platform.OS === 'android'
-        ? PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE
-        : PERMISSIONS.IOS.PHOTO_LIBRARY;
+    let perGallery = IS_ANDROID
+      ? PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE
+      : PERMISSIONS.IOS.PHOTO_LIBRARY;
     result = await request(perGallery);
     if (result !== 'granted') {
       alert(

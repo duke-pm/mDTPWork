@@ -20,11 +20,11 @@ import moment from 'moment';
 /* COMPONENTS */
 import CText from '~/components/CText';
 /* COMMON */
-import Routes from '~/navigation/Routes';
-import Commons from '~/utils/common/Commons';
-import Assets from '~/utils/asset/Assets';
+import {Assets} from '~/utils/asset';
 import {cStyles} from '~/utils/style';
 import {IS_IOS} from '~/utils/helper';
+import Routes from '~/navigation/Routes';
+import Commons from '~/utils/common/Commons';
 
 function RequestItem(props) {
   const {t} = useTranslation();

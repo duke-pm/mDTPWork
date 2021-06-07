@@ -11,7 +11,7 @@ import LottieView from 'lottie-react-native';
 /* COMPONENTS */
 import CText from '~/components/CText';
 /* COMMON */
-import Animations from '~/utils/asset/Animations';
+import {Animations} from '~/utils/asset';
 import {cStyles} from '~/utils/style';
 
 function Unconnected(props) {

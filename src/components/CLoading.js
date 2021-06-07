@@ -11,7 +11,7 @@ import * as Animatable from 'react-native-animatable';
 import Lottie from 'lottie-react-native';
 /** COMMON */
 import {colors, cStyles} from '~/utils/style';
-import Animations from '~/utils/asset/Animations';
+import {Animations} from '~/utils/asset';
 
 function CLoading(props) {
   const {customColors} = useTheme();

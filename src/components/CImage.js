@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 import {Animated, ActivityIndicator} from 'react-native';
 import FastImage from 'react-native-fast-image';
 /** COMMON */
-import Assets from '~/utils/asset/Assets';
+import {Assets} from '~/utils/asset';
 import {cStyles} from '~/utils/style';
 import {borderRadius} from '~/utils/helper';
 

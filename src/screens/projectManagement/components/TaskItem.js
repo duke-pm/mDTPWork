@@ -25,8 +25,8 @@ import ListTask from '../list/Task';
 import CIconButton from '~/components/CIconButton';
 /* COMMON */
 import Routes from '~/navigation/Routes';
-import Assets from '~/utils/asset/Assets';
 import Commons from '~/utils/common/Commons';
+import {Assets} from '~/utils/asset';
 import {IS_ANDROID, IS_IOS, scalePx} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
 
