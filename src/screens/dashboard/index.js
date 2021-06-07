@@ -34,7 +34,15 @@ function Dashboard(props) {
   const onPrepareData = () => {
     let tmpListMenu = authState.getIn(['login', 'lstMenu']);
     if (tmpListMenu && tmpListMenu.lstPermissionItem.length > 0) {
-      setRoutes(tmpListMenu.lstPermissionItem);
+      /** Check permission user can access */
+      let item = null,
+        tmpRoutes = [];
+      for (item of tmpListMenu.lstPermissionItem) {
+        if (item.isAccess) {
+          tmpRoutes.push(item);
+        }
+      }
+      setRoutes(tmpRoutes);
       onStart();
     } else {
       onStart();

@@ -42,7 +42,15 @@ function Approved(props) {
         f => f.menuID === idRouteParent,
       );
       if (findChildren) {
-        setRoutes(findChildren.lstPermissionItem);
+        /** Check permission user can access */
+        let item = null,
+          tmpRoutes = [];
+        for (item of findChildren.lstPermissionItem) {
+          if (item.isAccess) {
+            tmpRoutes.push(item);
+          }
+        }
+        setRoutes(tmpRoutes);
         onStart();
       } else {
         onStart();
