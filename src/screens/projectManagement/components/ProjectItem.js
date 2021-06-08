@@ -56,7 +56,7 @@ function ProjectItem(props) {
       <CCard
         key={index}
         containerStyle={styles.card}
-        customLabel={data.prjName}
+        customLabel={`#${data.prjID} ${data.prjName}`}
         customColors={customColors}
         isDark={isDark}
         onLayout={event => {
@@ -143,11 +143,11 @@ function ProjectItem(props) {
                   ]}>
                   <CText
                     styles={'textMeta'}
-                    label={'project_management:owener'}
+                    label={'project_management:owner'}
                   />
                   <CText
-                    styles={'textMeta fontRegular'}
-                    customLabel={data.ownerName}
+                    styles={'textMeta fontBold'}
+                    customLabel={data.ownerName !== '' ? data.ownerName : '-'}
                   />
                 </View>
               </View>

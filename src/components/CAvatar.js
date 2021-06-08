@@ -24,13 +24,11 @@ function CAvatar(props) {
   } = props;
 
   /** Use state */
-  const [loading, setLoading] = useState(true);
   const [anim, setAnim] = useState(new Animated.Value(1));
   const [src, setSrc] = useState(source);
 
   /** FUNC */
   const onLoad = () => {
-    setLoading(true);
     let animationParams = {
       toValue: 0,
       duration: 500,
@@ -42,7 +40,6 @@ function CAvatar(props) {
   const onError = () => {
     setAnim(1);
     setSrc(Assets.iconUserDefault);
-    setLoading(false);
   };
 
   /** RENDER */

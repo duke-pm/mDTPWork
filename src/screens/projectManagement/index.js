@@ -16,10 +16,11 @@ import Icon from 'react-native-vector-icons/Feather';
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
 import ListProject from './list/Project';
+import FilterProject from './components/FilterProject';
 /** COMMON */
 import {LOAD_MORE, REFRESH} from '~/config/constants';
-import { cStyles } from '~/utils/style';
-import { scalePx } from '~/utils/helper';
+import {cStyles} from '~/utils/style';
+import {scalePx} from '~/utils/helper';
 /** REDUX */
 import * as Actions from '~/redux/actions';
 
@@ -41,7 +42,12 @@ function ProjectManagement(props) {
   const [showFilter, setShowFilter] = useState(false);
   const [data, setData] = useState({
     projects: [],
+    projectsFilter: [],
     search: '',
+  });
+  const [filters, setFilters] = useState({
+    status: [],
+    owner: [],
   });
 
   /** HANDLE FUNC */
@@ -55,6 +61,18 @@ function ProjectManagement(props) {
     setShowFilter(!showFilter);
   };
 
+  const handleFilter = (activeOwner, activeStatus) => {
+    setShowFilter(!showFilter);
+    setLoading({...loading, search: true});
+    let projects = onFilter([...data.projects], activeOwner, 'owner');
+    if (activeOwner.length === filters.owner.length) {
+      projects = data.projects;
+    }
+    let newProjects = onPrepareProjects(projects, []);
+    setData({...data, projectsFilter: newProjects});
+    setLoading({...loading, search: false});
+  };
+
   /** FUNC */
   const onFetchData = (search = '') => {
     let params = fromJS({
@@ -65,6 +83,7 @@ function ProjectManagement(props) {
   };
 
   const onPrepareData = type => {
+    /** Prepare data projects */
     let tmpProjects = [...data.projects];
     let projects = projectState.get('projects');
     if (type === REFRESH) {
@@ -75,11 +94,68 @@ function ProjectManagement(props) {
     setData({
       ...data,
       projects: tmpProjects,
+      projectsFilter: tmpProjects,
     });
+
+    /** Prepare data filter */
+    if (tmpProjects.length > 0) {
+      let status = onPrepareDataFilter(
+        tmpProjects,
+        filters.status,
+        'status',
+        'statusID',
+        'statusName',
+      );
+      if (status.length > 0) {
+        setFilters({...filters, status});
+      }
+      let owner = onPrepareDataFilter(
+        tmpProjects,
+        filters.owner,
+        'owner',
+        'owner',
+        'ownerName',
+      );
+      if (owner.length > 0) {
+        setFilters({...filters, owner});
+      }
+    }
+
     setLoading({
       main: false,
       search: false,
     });
+  };
+
+  const onPrepareDataFilter = (
+    dataOrigin,
+    dataFirst,
+    slugFilter,
+    valueFilter,
+    labelFilter,
+  ) => {
+    let tmp = dataFirst,
+      project = null;
+    for (project of dataOrigin) {
+      let find = tmp.find(f => f.value === project[valueFilter]);
+      if (!find) {
+        let item = {
+          value: project[valueFilter],
+          label: project[labelFilter],
+        };
+        tmp.push(item);
+      }
+      if (project.lstProjectItem.length > 0) {
+        onPrepareDataFilter(
+          project.lstProjectItem,
+          tmp,
+          slugFilter,
+          valueFilter,
+          labelFilter,
+        );
+      }
+    }
+    return tmp;
   };
 
   const onError = () => {
@@ -94,6 +170,50 @@ function ProjectManagement(props) {
       main: false,
       search: false,
     });
+  };
+
+  const onFilter = (projects, arrFilter, valueFilter) => {
+    let tmp = [],
+      project = null;
+    for (project of projects) {
+      let find = arrFilter.indexOf(project[valueFilter]);
+      if (find !== -1) {
+        tmp.push(project);
+      }
+      if (project.lstProjectItem.length > 0) {
+        let tmp2 = onFilter(project.lstProjectItem, arrFilter, valueFilter);
+        tmp = [...tmp, ...tmp2];
+      }
+    }
+    return tmp;
+  };
+
+  const onPrepareProjects = (projects, endProjects) => {
+    let project = null,
+      curProjects = [],
+      tmpEndProjects = endProjects;
+
+    for (project of projects) {
+      if (project.prjParentID > 0) {
+        if (tmpEndProjects.length > 0) {
+          let find = tmpEndProjects.find(f => f.prjID === project.prjParentID);
+          if (find) {
+            find.lstProjectItem.push(project);
+          } else {
+            curProjects.push(project);
+          }
+        } else {
+          curProjects.push(project);
+        }
+      } else {
+        curProjects.push(project);
+      }
+    }
+    if (tmpEndProjects.length > 0) {
+      onPrepareProjects(tmpEndProjects, curProjects);
+    } else {
+      return curProjects;
+    }
   };
 
   /** LIFE CYCLE */
@@ -149,7 +269,14 @@ function ProjectManagement(props) {
       content={
         <CContent>
           {!loading.main && !loading.search && (
-            <ListProject data={data.projects} showScrollTop />
+            <ListProject data={data.projectsFilter} showScrollTop />
+          )}
+          {!loading.main && !loading.search && (
+            <FilterProject
+              visible={showFilter}
+              data={filters}
+              onFilter={handleFilter}
+            />
           )}
         </CContent>
       }

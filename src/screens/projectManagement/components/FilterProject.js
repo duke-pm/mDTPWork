@@ -5,26 +5,66 @@
  ** Description: Description of FilterProject.js
  **/
 import React, {useState, useEffect} from 'react';
-import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
-import {StyleSheet, TouchableOpacity, View, ScrollView} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import Icon from 'react-native-vector-icons/Feather';
 import {BlurView} from '@react-native-community/blur';
+import {
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  ScrollView,
+  Switch,
+} from 'react-native';
+import Icon from 'react-native-vector-icons/Feather';
 import Modal from 'react-native-modal';
 /* COMPONENTS */
 import CHeader from '~/components/CHeader';
 import CText from '~/components/CText';
+import CRowLabel from '~/components/CRowLabel';
+import CLoading from '~/components/CLoading';
 /* COMMON */
 import {THEME_DARK} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
-import {IS_IOS} from '~/utils/helper';
-import CRowLabel from '~/components/CRowLabel';
-import CLoading from '~/components/CLoading';
+import {IS_IOS, scalePx} from '~/utils/helper';
 
-const RowStatus = (
+// const RowToggle = (
+//   isDark,
+//   customColors,
+//   label,
+//   active,
+//   onToggle,
+//   isLast = true,
+//   isFirst = false,
+// ) => {
+//   return (
+//     <View
+//       style={[
+//         cStyles.row,
+//         cStyles.itemsCenter,
+//         cStyles.justifyBetween,
+//         cStyles.pl16,
+//         styles.row_header,
+//         isLast && isDark && cStyles.borderBottomDark,
+//         isLast && !isDark && cStyles.borderBottom,
+//         isFirst && isDark && cStyles.borderTopDark,
+//         isFirst && !isDark && cStyles.borderTop,
+//         {backgroundColor: customColors.card},
+//       ]}>
+//       <CText label={label} />
+//       <Switch
+//         style={cStyles.mr16}
+//         trackColor={{false: '#767577', true: customColors.green}}
+//         thumbColor={'#f4f3f4'}
+//         onValueChange={onToggle}
+//         value={active}
+//       />
+//     </View>
+//   );
+// };
+
+const RowSelect = (
   isDark,
   customColors,
   value,
@@ -32,11 +72,12 @@ const RowStatus = (
   active,
   onPress,
   isBorder = true,
+  isFirst = false,
 ) => {
   const handleChange = () => onPress(value);
 
   return (
-    <TouchableOpacity key={value} onPress={handleChange}>
+    <TouchableOpacity key={value + label} onPress={handleChange}>
       <View
         style={[
           cStyles.row,
@@ -46,12 +87,18 @@ const RowStatus = (
           styles.row_header,
           isBorder && isDark && cStyles.borderBottomDark,
           isBorder && !isDark && cStyles.borderBottom,
+          isFirst && isDark && cStyles.borderTopDark,
+          isFirst && !isDark && cStyles.borderTop,
           {backgroundColor: customColors.card},
         ]}>
         <CText label={label} />
         <View style={cStyles.pr16}>
           {active && (
-            <Icon name={'check'} color={customColors.icon} size={scalePx(3)} />
+            <Icon
+              name={'check'}
+              color={customColors.primary}
+              size={scalePx(3)}
+            />
           )}
         </View>
       </View>
@@ -61,9 +108,10 @@ const RowStatus = (
 
 function FilterProject(props) {
   const {
-    show = false,
+    visible = false,
     data = {
       status: [],
+      owner: [],
     },
     onFilter = () => {},
   } = props;
@@ -71,43 +119,95 @@ function FilterProject(props) {
   const {customColors} = useTheme();
   const isDark = useColorScheme() === THEME_DARK;
 
+  /** Use state */
   const [loading, setLoading] = useState(false);
+  const [owner, setOwner] = useState({
+    data: [],
+    active: [],
+  });
   const [status, setStatus] = useState({
     data: [],
     active: [],
   });
 
-  const handleReset = () => {};
-
-  const handleFilter = () => {};
-
-  const onChangeStatus = value => {
-    setLoading(true);
-    let newStatus = [...status.active];
-    let find = newStatus.indexOf(value);
-    if (find !== -1) {
-      newStatus.splice(find, 1);
-    } else {
-      newStatus.push(value);
+  /** HANDLE FUNC */
+  const handleReset = () => {
+    let tmpStatus = [],
+      tmpOwner = [],
+      i = null;
+    for (i of props.data.owner) {
+      tmpOwner.push(i.value);
     }
-    setStatus({...status, active: newStatus});
-    setLoading(false);
+    for (i of props.data.status) {
+      tmpStatus.push(i.value);
+    }
+
+    setStatus({...status, active: tmpStatus});
+    setOwner({...owner, active: tmpOwner});
   };
 
-  useEffect(() => {
-    if (data.status.lenght > 0) {
-      if (status.data.length === 0) {
-        setStatus({...status, data: data.status});
-      }
-    }
-  }, [data.status, status.data]);
+  const handleFilter = () => {
+    onFilter(owner.active, status.active);
+  };
 
+  /** FUNC */
+  const onChangeOwner = value => {
+    if (owner.active.length >= 1) {
+      setLoading(true);
+      let newOwner = [...owner.active];
+      let find = newOwner.indexOf(value);
+      if (find !== -1) {
+        if (owner.active.length !== 1) {
+          newOwner.splice(find, 1);
+        }
+      } else {
+        newOwner.push(value);
+      }
+      setOwner({...owner, active: newOwner});
+      setLoading(false);
+    }
+  };
+
+  const onChangeStatus = value => {
+    if (status.active.length >= 1) {
+      setLoading(true);
+      let newStatus = [...status.active];
+      let find = newStatus.indexOf(value);
+      if (find !== -1) {
+        if (status.active.length !== 1) {
+          newStatus.splice(find, 1);
+        }
+      } else {
+        newStatus.push(value);
+      }
+      setStatus({...status, active: newStatus});
+      setLoading(false);
+    }
+  };
+
+  /** LIFE CYCLE */
+  useEffect(() => {
+    let tmp = [];
+    for (let i of props.data.owner) {
+      tmp.push(i.value);
+    }
+    setOwner({data: props.data.owner, active: tmp});
+
+    let tmp2 = [];
+    for (let i of props.data.status) {
+      tmp2.push(i.value);
+    }
+    setStatus({data: props.data.status, active: tmp2});
+  }, []);
+
+  /** RENDER */
   return (
     <Modal
       style={cStyles.m0}
-      isVisible={show}
+      isVisible={visible}
       animationIn={'slideInUp'}
-      animationOut={'slideOutDown'}>
+      animationOut={'slideOutDown'}
+      backdropOpacity={0}>
       <SafeAreaView
         style={[
           cStyles.flex1,
@@ -148,18 +248,36 @@ function FilterProject(props) {
           />
 
           {/** Content of filter */}
-          <ScrollView>
-            <CRowLabel label={'status:title'} />
+          <ScrollView
+            style={cStyles.flex1}
+            keyboardShouldPersistTaps={'handled'}>
+            <CRowLabel label={t('project_management:title_owner')} />
+            {data.owner.map((item, index) => {
+              let isActive = owner.active.indexOf(item.value);
+              return RowSelect(
+                isDark,
+                customColors,
+                item.value,
+                item.label,
+                isActive !== -1,
+                onChangeOwner,
+                true,
+                index === 0,
+              );
+            })}
+
+            <CRowLabel label={t('status:title')} />
             {data.status.map((item, index) => {
               let isActive = status.active.indexOf(item.value);
-              return RowStatus(
+              return RowSelect(
                 isDark,
                 customColors,
                 item.value,
                 item.label,
                 isActive !== -1,
                 onChangeStatus,
-                index !== data.status.length - 1,
+                true,
+                index === 0,
               );
             })}
           </ScrollView>
@@ -178,9 +296,6 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
   },
-  header_left: {flex: 0.2},
-  header_body: {flex: 0.6},
-  header_right: {flex: 0.2},
   row_header: {height: 50},
 });
 

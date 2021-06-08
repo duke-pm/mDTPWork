@@ -301,8 +301,8 @@
     "title": "Project Management",
     "sector": "Sector: ",
     "status": "Status: ",
-    "owener": "Owener: ",
-    "owener_title": "Owener",
+    "owner": "Owner: ",
+    "title_owner": "Owner",
     "date_created": "Date created: ",
     "description": "Description: ",
     "status_on_track": "On Track",
@@ -333,6 +333,8 @@
     "assign_status_closed": "All Closed",
     "assign_status_on_hold": "All On hold",
     "assign_status_reject": "All Reject",
-    "assign_status_completed": "All Completed"
+    "assign_status_completed": "All Completed",
+    "holder_need_litte_one_status": "Need at least 1 status",
+    "holder_need_litte_one_owner": "Need at least 1 owner"
   }
 }

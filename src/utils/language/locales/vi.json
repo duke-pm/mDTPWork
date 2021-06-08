@@ -302,8 +302,8 @@
     "title": "Quản lý Dự án",
     "sector": "Khu vực: ",
     "status": "Trạng thái: ",
-    "owener": "Phụ trách: ",
-    "owener_title": "Phụ trách",
+    "owner": "Phụ trách: ",
+    "title_owner": "Người phụ trách",
     "date_created": "Ngày tạo: ",
     "description": "Mô tả: ",
     "status_on_track": "Đang Theo Dõi",
@@ -334,6 +334,8 @@
     "assign_status_closed": "Đã đóng",
     "assign_status_on_hold": "Tạm dừng",
     "assign_status_reject": "Từ chối",
-    "assign_status_completed": "Hoàn thành"
+    "assign_status_completed": "Hoàn thành",
+    "holder_need_litte_one_status": "Cần ít nhất 1 trạng thái",
+    "holder_need_litte_one_owner": "Cần ít nhất 1 người phụ trách"
   }
 }
