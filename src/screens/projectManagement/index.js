@@ -191,14 +191,14 @@ function ProjectManagement(props) {
   const onFilter = (projects, arrFilter, valueFilter) => {
     let tmp = [],
       project = null;
+    console.log('[LOG] === projects ===> ', projects);
     for (project of projects) {
       let find = arrFilter.indexOf(project[valueFilter]);
       if (find !== -1) {
         tmp.push(project);
       }
       if (project.lstProjectItem.length > 0) {
-        let tmp2 = onFilter(project.lstProjectItem, arrFilter, valueFilter);
-        tmp = [...tmp, ...tmp2];
+        onFilter(project.lstProjectItem, arrFilter, valueFilter);
       }
     }
     return tmp;
