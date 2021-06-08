@@ -91,7 +91,7 @@ const RowSelect = (
           isLast && !isDark && cStyles.borderBottom,
           {backgroundColor: customColors.card},
         ]}>
-        <View style={{width: 16}} />
+        <View style={styles.left_row_select} />
 
         <View
           style={[
@@ -311,6 +311,7 @@ const styles = StyleSheet.create({
     right: 0,
   },
   row_header: {height: 50},
+  left_row_select: {width: 16},
 });
 
 export default FilterProject;

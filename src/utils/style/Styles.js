@@ -440,7 +440,7 @@ const shadow = {
     },
     shadowOpacity: 0.15,
     shadowRadius: 8,
-    elevation: 2,
+    elevation: 4,
   },
 };
 

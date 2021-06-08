@@ -36,8 +36,8 @@ const CCard = React.memo(function CCard(props) {
       style={[
         cStyles.rounded2,
         cStyles.mt32,
-        !isDark && IS_IOS && cStyles.shadowListItem,
-        !isDark && IS_ANDROID && cStyles.borderAll,
+        !isDark && cStyles.shadowListItem,
+        // !isDark && IS_ANDROID && cStyles.borderAll,
         isDark && cStyles.borderAllDark,
         styles.container,
         containerStyle,
