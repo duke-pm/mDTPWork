@@ -24,6 +24,7 @@ export const initialState = fromJS({
   assetGroup: [],
   assetGroupDetail: [],
   assetByUser: [],
+  projectStatus: [],
 });
 
 export default function (state = initialState, action = {}) {
@@ -65,7 +66,11 @@ export default function (state = initialState, action = {}) {
           'assetGroupDetail',
           payload.assetGroupDetail || state.get('assetGroupDetail'),
         )
-        .set('assetByUser', payload.assetByUser || List());
+        .set('assetByUser', payload.assetByUser || [])
+        .set(
+          'projectStatus',
+          payload.projectStatus || state.get('projectStatus'),
+        );
 
     default:
       return state;

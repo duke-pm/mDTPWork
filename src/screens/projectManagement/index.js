@@ -31,6 +31,7 @@ function ProjectManagement(props) {
   /** Use redux */
   const dispatch = useDispatch();
   const projectState = useSelector(({projectManagement}) => projectManagement);
+  const masterState = useSelector(({masterData}) => masterData);
   const commonState = useSelector(({common}) => common);
   const language = commonState.get('language');
 
@@ -68,8 +69,7 @@ function ProjectManagement(props) {
     if (activeOwner.length === filters.owner.length) {
       projects = data.projects;
     }
-    let newProjects = onPrepareProjects(projects, []);
-    setData({...data, projectsFilter: newProjects});
+    setData({...data, projectsFilter: projects});
     setLoading({...loading, search: false});
   };
 
@@ -80,6 +80,10 @@ function ProjectManagement(props) {
       Search: search,
     });
     dispatch(Actions.fetchListProject(params, navigation));
+    let paramsMaster = {
+      ListType: 'PrjStatus',
+    };
+    dispatch(Actions.fetchMasterData(paramsMaster, navigation));
   };
 
   const onPrepareData = type => {
@@ -91,6 +95,18 @@ function ProjectManagement(props) {
     } else if (type === LOAD_MORE) {
       tmpProjects = [...tmpProjects, ...projects];
     }
+
+    /** set color code of status to project */
+    let projectStatus = masterState.get('projectStatus'),
+      project = null,
+      find = null;
+    for (project of projects) {
+      find = projectStatus.find(f => f.statusID === project.statusID);
+      if (find) {
+        project.statusColor = find.colorCode;
+      }
+    }
+
     setData({
       ...data,
       projects: tmpProjects,
@@ -188,34 +204,6 @@ function ProjectManagement(props) {
     return tmp;
   };
 
-  const onPrepareProjects = (projects, endProjects) => {
-    let project = null,
-      curProjects = [],
-      tmpEndProjects = endProjects;
-
-    for (project of projects) {
-      if (project.prjParentID > 0) {
-        if (tmpEndProjects.length > 0) {
-          let find = tmpEndProjects.find(f => f.prjID === project.prjParentID);
-          if (find) {
-            find.lstProjectItem.push(project);
-          } else {
-            curProjects.push(project);
-          }
-        } else {
-          curProjects.push(project);
-        }
-      } else {
-        curProjects.push(project);
-      }
-    }
-    if (tmpEndProjects.length > 0) {
-      onPrepareProjects(tmpEndProjects, curProjects);
-    } else {
-      return curProjects;
-    }
-  };
-
   /** LIFE CYCLE */
   useEffect(() => {
     onFetchData();
@@ -231,7 +219,9 @@ function ProjectManagement(props) {
         }
 
         if (projectState.get('successListProject')) {
-          return onPrepareData(type);
+          if (masterState.get('projectStatus').length > 0) {
+            return onPrepareData(type);
+          }
         }
 
         if (projectState.get('errorListProject')) {
@@ -245,6 +235,7 @@ function ProjectManagement(props) {
     projectState.get('submittingListProject'),
     projectState.get('successListProject'),
     projectState.get('errorListProject'),
+    masterState.get('projectStatus'),
   ]);
 
   /** RENDER */
@@ -269,7 +260,7 @@ function ProjectManagement(props) {
       content={
         <CContent>
           {!loading.main && !loading.search && (
-            <ListProject data={data.projectsFilter} showScrollTop />
+            <ListProject data={data.projectsFilter} showScrollTop={false} />
           )}
           {!loading.main && !loading.search && (
             <FilterProject
