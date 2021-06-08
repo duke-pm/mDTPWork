@@ -73,7 +73,8 @@ const RowSelect = (
   active,
   onPress,
   isBorder = true,
-  isFirst = false,
+  isFirst,
+  isLast,
 ) => {
   const handleChange = () => onPress(value);
 
@@ -83,17 +84,27 @@ const RowSelect = (
         style={[
           cStyles.row,
           cStyles.itemsCenter,
-          cStyles.justifyBetween,
-          cStyles.pl16,
           styles.row_header,
-          isBorder && isDark && cStyles.borderBottomDark,
-          isBorder && !isDark && cStyles.borderBottom,
           isFirst && isDark && cStyles.borderTopDark,
           isFirst && !isDark && cStyles.borderTop,
+          isLast && isDark && cStyles.borderBottomDark,
+          isLast && !isDark && cStyles.borderBottom,
           {backgroundColor: customColors.card},
         ]}>
-        <CText label={label} />
-        <View style={cStyles.pr16}>
+        <View style={{width: 16}} />
+
+        <View
+          style={[
+            cStyles.fullHeight,
+            cStyles.fullWidth,
+            cStyles.row,
+            cStyles.itemsCenter,
+            cStyles.justifyBetween,
+            cStyles.pr32,
+            !isLast && isBorder && isDark && cStyles.borderBottomDark,
+            !isLast && isBorder && !isDark && cStyles.borderBottom,
+          ]}>
+          <CText label={label} />
           {active && (
             <Icon
               name={'check'}
@@ -264,6 +275,7 @@ function FilterProject(props) {
                 onChangeOwner,
                 true,
                 index === 0,
+                index === data.owner.length - 1,
               );
             })}
 
@@ -279,6 +291,7 @@ function FilterProject(props) {
                 onChangeStatus,
                 true,
                 index === 0,
+                index === data.status.length - 1,
               );
             })}
           </ScrollView>

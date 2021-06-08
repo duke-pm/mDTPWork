@@ -8,8 +8,10 @@
 import {fromJS} from 'immutable';
 import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
+import {useTheme} from '@react-navigation/native';
+import {useColorScheme} from 'react-native-appearance';
 import {useTranslation} from 'react-i18next';
-import {TouchableOpacity} from 'react-native';
+import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import {showMessage} from 'react-native-flash-message';
 import Icon from 'react-native-vector-icons/Feather';
 /* COMPONENTS */
@@ -18,7 +20,7 @@ import CContent from '~/components/CContent';
 import ListProject from './list/Project';
 import FilterProject from './components/FilterProject';
 /** COMMON */
-import {LOAD_MORE, REFRESH} from '~/config/constants';
+import {THEME_DARK} from '~/config/constants';
 import {cStyles} from '~/utils/style';
 import {scalePx} from '~/utils/helper';
 /** REDUX */
@@ -27,6 +29,8 @@ import * as Actions from '~/redux/actions';
 function ProjectManagement(props) {
   const {t} = useTranslation();
   const {navigation} = props;
+  const isDark = useColorScheme() === THEME_DARK;
+  const {customColors} = useTheme();
 
   /** Use redux */
   const dispatch = useDispatch();
@@ -40,6 +44,7 @@ function ProjectManagement(props) {
     main: false,
     search: false,
   });
+  const [isFiltering, setIsFiltering] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
   const [data, setData] = useState({
     projects: [],
@@ -67,7 +72,14 @@ function ProjectManagement(props) {
     setLoading({...loading, search: true});
     let projects = onFilter([...data.projects], activeOwner, 'owner');
     if (activeOwner.length === filters.owner.length) {
+      if (isFiltering) {
+        setIsFiltering(false);
+      }
       projects = data.projects;
+    } else {
+      if (!isFiltering) {
+        setIsFiltering(true);
+      }
     }
     setData({...data, projectsFilter: projects});
     setLoading({...loading, search: false});
@@ -86,15 +98,9 @@ function ProjectManagement(props) {
     dispatch(Actions.fetchMasterData(paramsMaster, navigation));
   };
 
-  const onPrepareData = type => {
+  const onPrepareData = () => {
     /** Prepare data projects */
-    let tmpProjects = [...data.projects];
     let projects = projectState.get('projects');
-    if (type === REFRESH) {
-      tmpProjects = projects;
-    } else if (type === LOAD_MORE) {
-      tmpProjects = [...tmpProjects, ...projects];
-    }
 
     /** set color code of status to project */
     let projectStatus = masterState.get('projectStatus'),
@@ -109,14 +115,14 @@ function ProjectManagement(props) {
 
     setData({
       ...data,
-      projects: tmpProjects,
-      projectsFilter: tmpProjects,
+      projects: projects,
+      projectsFilter: projects,
     });
 
     /** Prepare data filter */
-    if (tmpProjects.length > 0) {
+    if (projects.length > 0) {
       let status = onPrepareDataFilter(
-        tmpProjects,
+        projects,
         filters.status,
         'status',
         'statusID',
@@ -126,7 +132,7 @@ function ProjectManagement(props) {
         setFilters({...filters, status});
       }
       let owner = onPrepareDataFilter(
-        tmpProjects,
+        projects,
         filters.owner,
         'owner',
         'owner',
@@ -213,14 +219,9 @@ function ProjectManagement(props) {
   useEffect(() => {
     if (loading.main || loading.search) {
       if (!projectState.get('submittingListProject')) {
-        let type = REFRESH;
-        if (loading.loadmore) {
-          type = LOAD_MORE;
-        }
-
         if (projectState.get('successListProject')) {
           if (masterState.get('projectStatus').length > 0) {
-            return onPrepareData(type);
+            return onPrepareData();
           }
         }
 
@@ -255,6 +256,18 @@ function ProjectManagement(props) {
             color={'white'}
             size={scalePx(3)}
           />
+          {isFiltering && (
+            <View
+              style={[
+                cStyles.rounded2,
+                cStyles.abs,
+                styles.badge,
+                cStyles.borderAll,
+                isDark && cStyles.borderAllDark,
+                {backgroundColor: customColors.red},
+              ]}
+            />
+          )}
         </TouchableOpacity>
       }
       content={
@@ -274,5 +287,9 @@ function ProjectManagement(props) {
     />
   );
 }
+
+const styles = StyleSheet.create({
+  badge: {height: 10, width: 10, top: 16, right: 15},
+});
 
 export default ProjectManagement;

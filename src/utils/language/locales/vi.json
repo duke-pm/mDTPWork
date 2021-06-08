@@ -75,7 +75,8 @@
     "reject_request_assets": "Hủy yêu cầu không thành công. Vui lòng thử lại sau!",
     "add_request_lost_damage": "Thêm yêu cầu không thành công. Vui lòng thử lại sau!",
     "approved_request_lost_damage": "Duyệt yêu cầu không thành công. Vui lòng thử lại sau!",
-    "reject_request_lost_damage": "Hủy yêu cầu không thành công. Vui lòng thử lại sau!"
+    "reject_request_lost_damage": "Hủy yêu cầu không thành công. Vui lòng thử lại sau!",
+    "from_date_larger_than_to_date": "Từ ngày không thể lớn hơn đến ngày!"
   },
   "sign_in": {
     "title": "Đăng Nhập",

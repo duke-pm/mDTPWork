@@ -151,8 +151,17 @@ function Filter(props) {
   };
 
   const handleFilter = () => {
-    if (data.status.length === 0) {
-      showMessage({
+    let tmpFromDate = moment(data.fromDate, formatDate).valueOf();
+    let tmpToDate = moment(data.toDate, formatDate).valueOf();
+    if (tmpFromDate > tmpToDate) {
+      return showMessage({
+        message: t('common:app_name'),
+        description: t('error:from_date_larger_than_to_date'),
+        type: 'danger',
+        icon: 'danger',
+      });
+    } else if (data.status.length === 0) {
+      return showMessage({
         message: t('common:app_name'),
         description: t('error:status_not_found'),
         type: 'danger',
