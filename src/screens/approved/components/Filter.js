@@ -151,9 +151,11 @@ function Filter(props) {
   };
 
   const handleFilter = () => {
-    let tmpFromDate = moment(data.fromDate, formatDate).valueOf();
-    let tmpToDate = moment(data.toDate, formatDate).valueOf();
-    if (tmpFromDate > tmpToDate) {
+    let tmpFromDate =
+      data.fromDate !== '' ? moment(data.fromDate, formatDate).valueOf() : null;
+    let tmpToDate =
+      data.toDate !== '' ? moment(data.toDate, formatDate).valueOf() : null;
+    if (tmpFromDate && tmpToDate && tmpFromDate > tmpToDate) {
       return showMessage({
         message: t('common:app_name'),
         description: t('error:from_date_larger_than_to_date'),
@@ -240,9 +242,15 @@ function Filter(props) {
               <View style={[cStyles.row, cStyles.itemsCenter]}>
                 {TagItem(
                   customColors,
-                  `${moment(data.fromDate).format('DD/MM')} - ${moment(
-                    data.toDate,
-                  ).format('DD/MM')}`,
+                  `${
+                    data.fromDate !== ''
+                      ? moment(data.fromDate).format('DD/MM')
+                      : '#'
+                  } - ${
+                    data.toDate !== ''
+                      ? moment(data.toDate).format('DD/MM')
+                      : '#'
+                  }`,
                 )}
                 {data.status.indexOf(1) !== -1 &&
                   TagItem(customColors, t('approved_assets:status_wait'))}
@@ -258,9 +266,15 @@ function Filter(props) {
               <View style={[cStyles.row, cStyles.itemsCenter]}>
                 {TagItem(
                   customColors,
-                  `${moment(data.fromDate).format('DD/MM')} - ${moment(
-                    data.toDate,
-                  ).format('DD/MM')}`,
+                  `${
+                    data.fromDate !== ''
+                      ? moment(data.fromDate).format('DD/MM')
+                      : '#'
+                  } - ${
+                    data.toDate !== ''
+                      ? moment(data.toDate).format('DD/MM')
+                      : '#'
+                  }`,
                 )}
                 {data.type.indexOf(1) !== -1 &&
                   TagItem(
