@@ -33,7 +33,7 @@ function ProjectItem(props) {
   const handleProjectItem = () => {
     if (data.countChild > 0) {
       setShowChildren(!showChildren);
-      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
     } else {
       // onPress(data);
     }
