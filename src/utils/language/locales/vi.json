@@ -309,19 +309,19 @@
     "description": "Mô tả: ",
     "status_on_track": "Đang Theo Dõi",
     "status_pending": "Tạm Dừng",
-    "grade": "Cấp: ",
+    "grade": "Lớp: ",
     "component": "Thành phần: ",
     "piority": "Ưu tiên: ",
     "start_date": "Bắt đầu: ",
     "end_date": "Kết thúc: ",
-    "assignee": "Giao cho: ",
+    "assignee": "Phụ trách: ",
     "assignee_by": "bởi",
     "holder_change_status": "Vui lòng chọn trạng thái",
     "from_date": "Từ ngày ",
     "to_date": "Đến ngày ",
     "filter": "Bộ lọc",
     "date_filter": "Ngày",
-    "assigned_filter": "Đã giao cho",
+    "assigned_filter": "Người phụ trách",
     "status_filter": "Trạng thái",
     "author_filter": "Tác giả",
     "assign_to_me": "Tôi",
@@ -337,6 +337,8 @@
     "assign_status_reject": "Từ chối",
     "assign_status_completed": "Hoàn thành",
     "holder_need_litte_one_status": "Cần ít nhất 1 trạng thái",
-    "holder_need_litte_one_owner": "Cần ít nhất 1 người phụ trách"
+    "holder_need_litte_one_owner": "Cần ít nhất 1 người phụ trách",
+    "title_activity": "Hoạt động",
+    "holder_input_your_comment": "Điền ý kiến của bạn..."
   }
 }

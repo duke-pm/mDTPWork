@@ -12,8 +12,12 @@ export default {
   listProject: params => {
     return new Promise((resolve, reject) => {
       let tmpConfigs = {params: {}};
-      tmpConfigs.params.Lang = params.get('Lang');
-      tmpConfigs.params.Search = params.get('Search');
+      if (params.get('Lang')) {
+        tmpConfigs.params.Lang = params.get('Lang');
+      }
+      if (params.get('Search')) {
+        tmpConfigs.params.Search = params.get('Search');
+      }
 
       API.get(
         jwtServiceConfig.baseURL + Routes.PROJECT_MANAGEMENT.LIST_PROJECT,
@@ -36,8 +40,14 @@ export default {
   listTask: params => {
     return new Promise((resolve, reject) => {
       let tmpConfigs = {params: {}};
-      if (params.get('StatusID')) {
-        tmpConfigs.params.StatusID = params.get('StatusID');
+      if (params.get('PrjID')) {
+        tmpConfigs.params.PrjID = params.get('PrjID');
+      }
+      if (params.get('Lang')) {
+        tmpConfigs.params.Lang = params.get('Lang');
+      }
+      if (params.get('Search')) {
+        tmpConfigs.params.Search = params.get('Search');
       }
 
       API.get(

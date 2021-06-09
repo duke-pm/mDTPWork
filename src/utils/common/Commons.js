@@ -76,35 +76,42 @@ const Commons = {
     NEW: {
       value: 1,
       label: 'New',
+      color: 'statusNew',
     },
     TO_BE_SCHEDULE: {
       value: 2,
       label: 'To Be Schedule',
+      color: 'stausToBeSchedule',
     },
     SCHEDULE: {
       value: 3,
       label: 'Scheduled',
+      color: 'statusScheduled',
     },
-    IN_PROCESS: {
+    IN_PROGRESS: {
       value: 4,
       label: 'In Progress',
+      color: 'statusInProgress',
     },
     CLOSED: {
       value: 5,
       label: 'Closed',
+      color: 'statusClosed',
     },
     ON_HOLD: {
       value: 6,
       label: 'On Hold',
+      color: 'statusOnHold',
     },
     REJECTED: {
       value: 7,
       label: 'Rejected',
+      color: 'statusRejected',
     },
   },
 
   STATUS_PROJECT: {
-    IN_PROCESS: {
+    IN_PROGRESS: {
       value: 4,
       label: 'status:in_progress',
       color: 'statusInProgress',
@@ -118,6 +125,42 @@ const Commons = {
       value: 7,
       label: 'status:rejected',
       color: 'statusRejected',
+    },
+  },
+
+  TYPE_TASK: {
+    MILESTONE: {
+      value: 3,
+      label: 'type_task:milestone',
+      color: 'typeMilestone',
+    },
+    PHASE: {
+      value: 1,
+      label: 'type_task:phase',
+      color: 'typePhase',
+    },
+    TASK: {
+      value: 2,
+      label: 'type_task:task',
+      color: 'typeTask',
+    },
+  },
+
+  PRIORITY_TASK: {
+    HIGH: {
+      value: 'H',
+      label: 'priority_task:high',
+      color: 'red',
+    },
+    NORMAL: {
+      value: 'N',
+      label: 'priority_task:normal',
+      color: 'teal',
+    },
+    LOW: {
+      value: 'L',
+      label: 'priority_task:low',
+      color: 'indigo',
     },
   },
 };

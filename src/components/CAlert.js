@@ -56,7 +56,7 @@ function CAlert(props) {
             {/** Header of Alert */}
             <View
               style={[
-                cStyles.py16,
+                cStyles.p16,
                 cStyles.roundedTopLeft2,
                 cStyles.roundedTopRight2,
                 {backgroundColor: isDark ? customColors.card : colors.PRIMARY},
@@ -65,11 +65,12 @@ function CAlert(props) {
                 styles={'colorWhite textCenter fontMedium'}
                 label={title}
                 customLabel={title !== 'common:app_name' ? title : null}
+                numberOfLines={1}
               />
             </View>
 
             {/** Content of Alert */}
-            <View style={[cStyles.px10, cStyles.py20, styles.content]}>
+            <View style={[cStyles.px16, cStyles.py20, styles.content]}>
               {content && <CText styles={'textCenter'} label={content} />}
               {customContent && (
                 <View style={cStyles.mt10}>{customContent}</View>
@@ -98,16 +99,18 @@ function CAlert(props) {
                     onPress={onClose}
                   />
                 )}
-                <View
-                  style={[
-                    styles.button,
-                    {
-                      backgroundColor: isDark
-                        ? colors.GRAY_800
-                        : colors.GRAY_400,
-                    },
-                  ]}
-                />
+                {onClose && onOK && (
+                  <View
+                    style={[
+                      styles.button,
+                      {
+                        backgroundColor: isDark
+                          ? colors.GRAY_800
+                          : colors.GRAY_400,
+                      },
+                    ]}
+                  />
+                )}
 
                 {onOK && (
                   <CButton

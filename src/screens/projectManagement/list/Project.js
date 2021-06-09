@@ -14,16 +14,21 @@ import CList from '~/components/CList';
 import Routes from '~/navigation/Routes';
 import {THEME_DARK} from '~/config/constants';
 
+let isPrevIsParent = false;
+
 function ListProject(props) {
   const navigation = useNavigation();
   const {customColors} = useTheme();
   const isDark = useColorScheme() === THEME_DARK;
-  const {showScrollTop} = props;
 
   /** HANDLE FUNC */
   const handleProjectItem = data => {
     navigation.navigate(Routes.MAIN.PROJECT_DETAIL.name, {
-      data,
+      data: {
+        projectID: data.prjID,
+        projectName: data.prjName,
+        projectStatus: data.statusName,
+      },
     });
   };
 
@@ -32,7 +37,7 @@ function ListProject(props) {
     <CList
       data={props.data}
       item={({item, index}) => {
-        let isPrevIsParent = false;
+        isPrevIsParent = false;
         if (props.data[index - 1] && props.data[index - 1].countChild > 0) {
           isPrevIsParent = true;
         }
@@ -47,7 +52,7 @@ function ListProject(props) {
           />
         );
       }}
-      showScrollTop={showScrollTop}
+      showScrollTop={false}
     />
   );
 }

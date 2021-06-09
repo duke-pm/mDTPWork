@@ -17,6 +17,7 @@ function CIconButton(props) {
     iconName = '',
     iconColor = colors.ICON_BASE,
     iconProps = {},
+    disabled = false,
     onPress = () => {},
   } = props;
 
@@ -24,6 +25,7 @@ function CIconButton(props) {
   return (
     <TouchableOpacity
       style={[cStyles.rounded10, cStyles.center, styles.container, style]}
+      disabled={disabled}
       onPress={onPress}>
       <Icon
         style={cStyles.p4}

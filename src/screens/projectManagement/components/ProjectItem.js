@@ -10,10 +10,11 @@ import moment from 'moment';
 /* COMPONENTS */
 import CCard from '~/components/CCard';
 import CText from '~/components/CText';
+import CAvatar from '~/components/CAvatar';
 import ListProject from '../list/Project';
 /* COMMON */
 import {cStyles} from '~/utils/style';
-import {IS_ANDROID, IS_IOS, sW} from '~/utils/helper';
+import {IS_ANDROID, IS_IOS} from '~/utils/helper';
 import Commons from '~/utils/common/Commons';
 
 if (IS_ANDROID) {
@@ -33,14 +34,14 @@ function ProjectItem(props) {
   const handleProjectItem = () => {
     if (data.countChild > 0) {
       setShowChildren(!showChildren);
-      LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     } else {
-      // onPress(data);
+      onPress(data);
     }
   };
 
   /** RENDER */
-  let status = Commons.STATUS_PROJECT.IN_PROCESS; // default is In progress
+  let status = Commons.STATUS_PROJECT.IN_PROGRESS; // default is In progress
   if (!data.statusColor) {
     switch (data.statusID) {
       case Commons.STATUS_PROJECT.REJECTED.value:
@@ -50,7 +51,7 @@ function ProjectItem(props) {
         status = Commons.STATUS_PROJECT.CLOSED;
         break;
       default:
-        status = Commons.STATUS_PROJECT.IN_PROCESS;
+        status = Commons.STATUS_PROJECT.IN_PROGRESS;
         break;
     }
   }
@@ -146,13 +147,19 @@ function ProjectItem(props) {
                     cStyles.row,
                     cStyles.itemsCenter,
                     cStyles.justifyStart,
+                    styles.owner,
                   ]}>
                   <CText
                     styles={'textMeta'}
                     label={'project_management:owner'}
                   />
+                  <CAvatar
+                    customColors={customColors}
+                    size={'vsmall'}
+                    label={data.ownerName}
+                  />
                   <CText
-                    styles={'textMeta fontBold'}
+                    styles={'textMeta fontMedium pl6'}
                     customLabel={data.ownerName !== '' ? data.ownerName : '-'}
                   />
                 </View>
@@ -221,6 +228,7 @@ const styles = StyleSheet.create({
   line_child: {height: '100%'},
   card: {zIndex: 100},
   card_children: {height: 100},
+  owner: {width: '65%'},
 });
 
 export default ProjectItem;

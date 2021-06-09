@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 /**
  ** Name: CAvatar
  ** Author:
@@ -5,7 +6,13 @@
  ** Description: Description of CAvatar.js
  **/
 import React, {useState} from 'react';
-import {StyleSheet, View, Animated, ActivityIndicator} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Animated,
+  ActivityIndicator,
+  Text,
+} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import Icon from 'react-native-vector-icons/Feather';
 /* COMMON */
@@ -21,10 +28,11 @@ function CAvatar(props) {
     source = null,
     isEdit = false,
     customColors = {},
+    label = null,
   } = props;
 
   /** Use state */
-  const [anim, setAnim] = useState(new Animated.Value(1));
+  const [anim, setAnim] = useState(new Animated.Value(source ? 1 : 0));
   const [src, setSrc] = useState(source);
 
   /** FUNC */
@@ -43,6 +51,11 @@ function CAvatar(props) {
   };
 
   /** RENDER */
+  let customLabel = '';
+  if (!source && label) {
+    customLabel = label.split(' ');
+    customLabel = customLabel[customLabel.length - 1].charAt(0);
+  }
   return (
     <View
       style={[
@@ -58,28 +71,60 @@ function CAvatar(props) {
         containerStyle,
         {backgroundColor: customColors.card},
       ]}>
-      <FastImage
-        style={[
-          cStyles.rounded10,
-          size === 'vsmall' && styles.image_vsmall,
-          size === 'small' && styles.image_small,
-          size === 'medium' && styles.image_medium,
-          size === 'large' && styles.image_large,
-          imageStyle,
-        ]}
-        source={
-          typeof src === 'string'
-            ? {
-                uri: src,
-                priority: FastImage.priority.normal,
-              }
-            : src
-        }
-        resizeMode={FastImage.resizeMode.contain}
-        cache={FastImage.cacheControl.immutable}
-        onLoad={onLoad}
-        onError={onError}
-      />
+      {source ? (
+        <FastImage
+          style={[
+            cStyles.rounded10,
+            size === 'vsmall' && styles.image_vsmall,
+            size === 'small' && styles.image_small,
+            size === 'medium' && styles.image_medium,
+            size === 'large' && styles.image_large,
+            imageStyle,
+          ]}
+          source={
+            typeof src === 'string'
+              ? {
+                  uri: src,
+                  priority: FastImage.priority.normal,
+                }
+              : src
+          }
+          resizeMode={FastImage.resizeMode.contain}
+          cache={FastImage.cacheControl.immutable}
+          onLoad={onLoad}
+          onError={onError}
+        />
+      ) : (
+        <View
+          style={[
+            cStyles.rounded10,
+            cStyles.center,
+            size === 'vsmall' && styles.image_vsmall,
+            size === 'small' && styles.image_small,
+            size === 'medium' && styles.image_medium,
+            size === 'large' && styles.image_large,
+            imageStyle,
+            {backgroundColor: customColors.cardDisable},
+          ]}>
+          <Text
+            style={[
+              cStyles.fontMedium,
+              {
+                fontSize:
+                  size === 'vsmall'
+                    ? 10
+                    : size === 'small'
+                    ? 15
+                    : size === 'medium'
+                    ? 30
+                    : 40,
+                color: customColors.text,
+              },
+            ]}>
+            {customLabel}
+          </Text>
+        </View>
+      )}
       <Animated.View
         style={[
           cStyles.flexCenter,
@@ -131,8 +176,8 @@ function CAvatar(props) {
 const styles = StyleSheet.create({
   container: {backgroundColor: colors.WHITE},
   container_vsmall: {
-    height: sW('6%'),
-    width: sW('6%'),
+    height: sW('5%'),
+    width: sW('5%'),
   },
   container_small: {
     height: sW('9%'),
@@ -148,8 +193,8 @@ const styles = StyleSheet.create({
   },
 
   image_vsmall: {
-    height: sW('5%'),
-    width: sW('5%'),
+    height: sW('4.5%'),
+    width: sW('4.5%'),
   },
   image_small: {
     height: sW('8%'),

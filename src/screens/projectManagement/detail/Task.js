@@ -14,15 +14,13 @@ import Picker from '@gregfrench/react-native-wheel-picker';
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
 import CText from '~/components/CText';
-import CButton from '~/components/CButton';
 import CAvatar from '~/components/CAvatar';
 import CActionSheet from '~/components/CActionSheet';
-import CIconButton from '~/components/CIconButton';
+import Activity from '../components/Activity';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
 import {STATUS_TASK, THEME_DARK} from '~/config/constants';
 import {scalePx, sH} from '~/utils/helper';
-import {Assets} from '~/utils/asset';
 
 /** All refs use in this screen */
 const actionSheetStatusRef = createRef();
@@ -34,6 +32,7 @@ function Task(props) {
   let findStatus = STATUS_TASK.findIndex(f => f.label === data.status);
 
   /** Use state */
+  const [showActivity, setShowActivity] = useState(false);
   const [status, setStatus] = useState({
     data: STATUS_TASK,
     active: findStatus,
@@ -49,6 +48,10 @@ function Task(props) {
     actionSheetStatusRef.current?.show();
   };
 
+  const handleShowActivity = () => {
+    setShowActivity(!showActivity);
+  };
+
   /** FUNC */
   const onChangeStatus = index => {
     setStatus({...status, active: index});
@@ -61,6 +64,40 @@ function Task(props) {
       title={''}
       header
       hasBack
+      headerRight={
+        <View style={[cStyles.row, cStyles.itemsCenter]}>
+          <TouchableOpacity
+            style={cStyles.itemsEnd}
+            onPress={handleShowActivity}>
+            <Icon
+              style={cStyles.p16}
+              name={'message-square'}
+              color={'white'}
+              size={scalePx(3)}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={cStyles.itemsEnd}
+            onPress={handleShowActivity}>
+            <Icon
+              style={cStyles.p16}
+              name={'git-pull-request'}
+              color={'white'}
+              size={scalePx(3)}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={cStyles.itemsEnd}
+            onPress={handleShowActivity}>
+            <Icon
+              style={cStyles.p16}
+              name={'users'}
+              color={'white'}
+              size={scalePx(3)}
+            />
+          </TouchableOpacity>
+        </View>
+      }
       content={
         <CContent>
           <ScrollView
@@ -113,16 +150,11 @@ function Task(props) {
                 <View style={[cStyles.row, cStyles.itemsCenter]}>
                   <CAvatar
                     customColors={customColors}
-                    size={'small'}
-                    source={Assets.iconUserDefault}
+                    size={'vsmall'}
+                    label={data.assignee}
                   />
                   <CText
-                    customStyles={[
-                      cStyles.textMeta,
-                      cStyles.pl6,
-                      cStyles.fontRegular,
-                      {color: customColors.text},
-                    ]}
+                    styles={'textMeta pl6 fontMedium'}
                     customLabel={data.assignee}
                   />
                 </View>
@@ -173,22 +205,24 @@ function Task(props) {
                 <CText customLabel={data.description} />
               </View>
             </View>
-
-            <CActionSheet
-              actionRef={actionSheetStatusRef}
-              headerChoose
-              onConfirm={handleChangeStatus}>
-              <Picker
-                style={styles.con_action}
-                itemStyle={{color: customColors.text, fontSize: scalePx(3)}}
-                selectedValue={status.active}
-                onValueChange={onChangeStatus}>
-                {status.data.map((value, i) => (
-                  <Picker.Item label={value.label} value={i} key={value} />
-                ))}
-              </Picker>
-            </CActionSheet>
           </ScrollView>
+
+          <CActionSheet
+            actionRef={actionSheetStatusRef}
+            headerChoose
+            onConfirm={handleChangeStatus}>
+            <Picker
+              style={styles.con_action}
+              itemStyle={{color: customColors.text, fontSize: scalePx(3)}}
+              selectedValue={status.active}
+              onValueChange={onChangeStatus}>
+              {status.data.map((value, i) => (
+                <Picker.Item label={value.label} value={i} key={value} />
+              ))}
+            </Picker>
+          </CActionSheet>
+
+          <Activity visible={showActivity} onClose={handleShowActivity} />
         </CContent>
       }
     />

@@ -160,7 +160,7 @@ function Account(props) {
                   isEdit={true}
                   size={'large'}
                   customColors={customColors}
-                  source={Assets.iconUserDefault}
+                  label={authState.getIn(['login', 'fullName'])}
                 />
 
                 <CText

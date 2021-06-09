@@ -181,9 +181,10 @@ function CHeader(props) {
               centerStyle,
             ]}>
             <CText
-              styles={'H6 colorWhite'}
+              styles={'H6 colorWhite ' + (IS_IOS && ' textCenter')}
               label={t(title)}
               customLabel={customTitle}
+              numberOfLines={1}
             />
             {subTitle && (
               <CText

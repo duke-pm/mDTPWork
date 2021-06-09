@@ -53,12 +53,12 @@ export const STATUS_TASK = [
     },
   },
   {
-    value: Commons.STATUS_TASK.IN_PROCESS.value,
-    label: Commons.STATUS_TASK.IN_PROCESS.label,
+    value: Commons.STATUS_TASK.IN_PROGRESS.value,
+    label: Commons.STATUS_TASK.IN_PROGRESS.label,
     color: {
-      dark: colors.STATUS_IN_PROCESS_DARK,
-      light: colors.STATUS_IN_PROCESS,
-      opacity: colors.STATUS_IN_PROCESS_OPACITY,
+      dark: colors.STATUS_IN_PROGRESS_DARK,
+      light: colors.STATUS_IN_PROGRESS,
+      opacity: colors.STATUS_IN_PROGRESS_OPACITY,
     },
   },
   {

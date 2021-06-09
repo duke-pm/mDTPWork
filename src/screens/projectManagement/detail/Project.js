@@ -5,13 +5,15 @@
  ** CreateAt: 2021
  ** Description: Description of Project.js
  **/
+import {fromJS} from 'immutable';
 import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
+import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
-import {TouchableOpacity, View} from 'react-native';
+import {showMessage} from 'react-native-flash-message';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
-import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
@@ -21,197 +23,43 @@ import FilterTask from '../components/FilterTask';
 import {cStyles} from '~/utils/style';
 import {scalePx} from '~/utils/helper';
 import {THEME_DARK} from '~/config/constants';
-
-const tasks = [
-  {
-    id: 1,
-    label:
-      'Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups.',
-    description:
-      "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).",
-    grade: 'Admin',
-    component: 'Conponnet',
-    piority: 'High',
-    type: 'PHASE',
-    status: 'In Progress',
-    startDate: '15/05/2021',
-    endDate: '27/07/2021',
-    assignee: 'Alison Becker',
-    parent: null,
-    childrens: [
-      {
-        id: 2,
-        label: 'Set date and location of conference',
-        description:
-          "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).",
-        grade: 'Admin',
-        component: 'Conponnet',
-        piority: 'High',
-        type: 'TASK',
-        status: 'On Hold',
-        startDate: '15/05/2021',
-        endDate: '18/05/2021',
-        assignee: 'Wayne Rooney',
-        parent: 1,
-        childrens: [],
-        project: 'Project 2 - App Development',
-      },
-      {
-        id: 3,
-        label: 'Invite attendees to conference',
-        description:
-          "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).",
-        grade: 'Admin',
-        component: 'Conponnet',
-        piority: 'Low',
-        type: 'TASK',
-        status: 'New',
-        startDate: '01/06/2021',
-        endDate: '17/06/2021',
-        assignee: 'Cristiano Ronaldo',
-        parent: 1,
-        childrens: [],
-        project: 'Project 2 - App Development',
-      },
-    ],
-    project: 'Project 2 - App Development',
-  },
-  {
-    id: 4,
-    label: 'Conference',
-    description:
-      "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).",
-
-    grade: 'Admin',
-    component: 'Conponnet',
-    piority: 'Nomal',
-    type: 'MILESTONE',
-    status: 'Scheduled',
-    startDate: '25/07/2021',
-    endDate: '25/07/2021',
-    assignee: 'David de Gea',
-    parent: null,
-    childrens: [],
-    project: 'Project 2 - App Development',
-  },
-  {
-    id: 5,
-    label: 'Follow-up tasks',
-    description:
-      "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).",
-    grade: 'Admin',
-    component: 'Conponnet',
-    piority: 'High',
-    type: 'PHASE',
-    status: 'To Be Schedule',
-    startDate: '26/07/2021',
-    endDate: '11/08/2021',
-    assignee: 'David de Gea',
-    parent: null,
-    childrens: [
-      {
-        id: 6,
-        label: 'Upload presentations to website',
-        description:
-          "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).",
-
-        grade: 'Admin',
-        component: 'Conponnet',
-        piority: 'High',
-        type: 'TASK',
-        status: 'New',
-        startDate: '26/07/2021',
-        endDate: '11/08/2021',
-        assignee: 'Wayne Rooney',
-        parent: 5,
-        childrens: [],
-        project: 'Project 2 - App Development',
-      },
-      {
-        id: 7,
-        label: 'Invite attendees to conference',
-        description:
-          "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).",
-
-        grade: 'Admin',
-        component: 'Conponnet',
-        piority: 'High',
-        type: 'TASK',
-        status: 'New',
-        startDate: '26/07/2021',
-        endDate: '26/07/2021',
-        assignee: 'Wayne Rooney',
-        parent: 5,
-        childrens: [],
-        project: 'Project 2 - App Development',
-      },
-      {
-        id: 8,
-        label: 'Invite attendees',
-        description:
-          "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).",
-        grade: 'User',
-        component: 'Conponnet',
-        piority: 'High',
-        type: 'TASK',
-        status: 'Rejected',
-        startDate: '26/07/2021',
-        endDate: '26/07/2021',
-        assignee: 'Wayne Rooney',
-        parent: 5,
-        childrens: [],
-        project: 'Project 2 - App Development',
-      },
-    ],
-    project: 'Project 2 - App Development',
-  },
-  {
-    id: 8,
-    label: 'End of project',
-    description:
-      "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).",
-    grade: 'Admin',
-    component: 'Conponnet',
-    piority: 'Low',
-    type: 'MILESTONE',
-    status: 'New',
-    startDate: '12/08/2021',
-    endDate: '12/08/2021',
-    assignee: 'David de Gea',
-    parent: null,
-    childrens: [],
-    project: 'Project 2 - App Development',
-  },
-];
+/** REDUX */
+import * as Actions from '~/redux/actions';
 
 function ProjectDetail(props) {
+  const {t} = useTranslation();
   const {customColors} = useTheme();
   const isDark = useColorScheme() === THEME_DARK;
+  const {route, navigation} = props;
+  const projectID = route.params.data.projectID;
 
   /** Use redux */
   const dispatch = useDispatch();
+  const projectState = useSelector(({projectManagement}) => projectManagement);
+  const masterState = useSelector(({masterData}) => masterData);
   const commonState = useSelector(({common}) => common);
-  const perPage = commonState.get('perPage');
-  const formatDate = commonState.get('formatDate');
+  const language = commonState.get('language');
 
   /** Use state */
   const [loading, setLoading] = useState({
-    main: true,
+    main: false,
     search: false,
-    refreshing: false,
-    loadmore: false,
-    isLoadmore: true,
   });
+  const [isFiltering, setIsFiltering] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
   const [data, setData] = useState({
-    fromDate: moment().clone().startOf('month').format(formatDate),
-    toDate: moment().clone().endOf('month').format(formatDate),
-    status: '1,2',
     tasks: [],
-    page: 1,
+    tasksFilter: [],
+    search: '',
   });
 
   /** HANDLE FUNC */
+  const handleSearch = value => {
+    setLoading({...loading, search: true});
+    setData({...data, search: value});
+    onFetchData(value);
+  };
+
   const handleShowFilter = () => {
     setShowFilter(!showFilter);
   };
@@ -221,44 +69,92 @@ function ProjectDetail(props) {
   };
 
   /** FUNC */
-  const onFetchData = () => {
-    onPrepareData();
+  const onFetchData = (search = '') => {
+    let params = fromJS({
+      PrjID: projectID,
+      Search: search,
+      Lang: language,
+    });
+    dispatch(Actions.fetchListTask(params, navigation));
   };
 
   const onPrepareData = () => {
-    let isLoadmore = true;
-    isLoadmore = false;
+    /** Prepare data tasks */
+    let tasks = projectState.get('tasks');
 
-    setData({...data, tasks});
+    /** set color code of status to task */
+    if (tasks.length > 0) {
+      let taskStatus = masterState.get('projectStatus'),
+        task = null,
+        find = null;
+      for (task of tasks) {
+        find = taskStatus.find(f => f.statusID === task.statusID);
+        if (find) {
+          task.statusColor = find.colorCode;
+        } else {
+          task.statusColor = null;
+        }
+      }
+    }
 
-    setLoading({
+    setData({
+      ...data,
+      tasks,
+      tasksFilter: tasks,
+    });
+
+    return setLoading({
       main: false,
       search: false,
-      refreshing: false,
-      loadmore: false,
-      isLoadmore,
     });
   };
 
-  const onRefresh = () => {};
+  const onError = () => {
+    showMessage({
+      message: t('common:app_name'),
+      description: t('error:list_request'),
+      type: 'danger',
+      icon: 'danger',
+    });
 
-  const onLoadmore = () => {};
+    return setLoading({
+      main: false,
+      search: false,
+    });
+  };
 
   /** LIFE CYCLE */
   useEffect(() => {
     onFetchData();
+    setLoading({...loading, main: true});
   }, []);
+
+  useEffect(() => {
+    if (loading.main || loading.search) {
+      if (!projectState.get('submittingListTask')) {
+        if (projectState.get('successListTask')) {
+          return onPrepareData();
+        }
+
+        if (projectState.get('errorListTask')) {
+          return onError();
+        }
+      }
+    }
+  }, [
+    loading.main,
+    loading.search,
+    projectState.get('submittingListTask'),
+    projectState.get('successListTask'),
+    projectState.get('errorListTask'),
+  ]);
 
   /** RENDER */
   return (
     <CContainer
       loading={false}
-      title={props.route.params?.data?.label || ''}
-      subTitle={
-        props.route.params?.data?.status === 1
-          ? 'project_management:status_on_track'
-          : 'project_management:status_pending'
-      }
+      title={props.route.params?.data?.projectName || ''}
+      subTitle={props.route.params?.data?.projectStatus}
       header
       hasBack
       headerRight={
@@ -269,28 +165,36 @@ function ProjectDetail(props) {
             color={'white'}
             size={scalePx(3)}
           />
+          {isFiltering && (
+            <View
+              style={[
+                cStyles.rounded2,
+                cStyles.abs,
+                styles.badge,
+                cStyles.borderAll,
+                isDark && cStyles.borderAllDark,
+                {backgroundColor: customColors.red},
+              ]}
+            />
+          )}
         </TouchableOpacity>
       }
       content={
         <CContent>
-          {!loading.main && (
-            <View style={[cStyles.flex1, cStyles.pt16]}>
-              <ListTask
-                refreshing={loading.refreshing}
-                loadmore={loading.loadmore}
-                data={data.tasks}
-                customColors={customColors}
-                isDark={isDark}
-                onRefresh={onRefresh}
-                onLoadmore={onLoadmore}
-              />
-            </View>
+          {!loading.main && !loading.search && (
+            <ListTask data={data.tasksFilter} />
           )}
-          <FilterTask show={showFilter} onFilter={handleFilter} />
+          {!loading.main && !loading.search && (
+            <FilterTask visible={showFilter} onFilter={handleFilter} />
+          )}
         </CContent>
       }
     />
   );
 }
+
+const styles = StyleSheet.create({
+  badge: {height: 10, width: 10, top: 16, right: 15},
+});
 
 export default ProjectDetail;

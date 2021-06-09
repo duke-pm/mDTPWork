@@ -119,6 +119,9 @@ const RowSelect = (
 };
 
 function FilterProject(props) {
+  const {t} = useTranslation();
+  const {customColors} = useTheme();
+  const isDark = useColorScheme() === THEME_DARK;
   const {
     visible = false,
     data = {
@@ -127,9 +130,6 @@ function FilterProject(props) {
     },
     onFilter = () => {},
   } = props;
-  const {t} = useTranslation();
-  const {customColors} = useTheme();
-  const isDark = useColorScheme() === THEME_DARK;
 
   /** Use state */
   const [loading, setLoading] = useState(false);

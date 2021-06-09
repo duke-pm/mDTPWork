@@ -102,20 +102,24 @@ function ProjectManagement(props) {
     /** Prepare data projects */
     let projects = projectState.get('projects');
 
-    /** set color code of status to project */
-    let projectStatus = masterState.get('projectStatus'),
-      project = null,
-      find = null;
-    for (project of projects) {
-      find = projectStatus.find(f => f.statusID === project.statusID);
-      if (find) {
-        project.statusColor = find.colorCode;
+    if (projects.length > 0) {
+      /** set color code of status to project */
+      let projectStatus = masterState.get('projectStatus'),
+        project = null,
+        find = null;
+      for (project of projects) {
+        find = projectStatus.find(f => f.statusID === project.statusID);
+        if (find) {
+          project.statusColor = find.colorCode;
+        } else {
+          project.statusColor = null;
+        }
       }
     }
 
     setData({
       ...data,
-      projects: projects,
+      projects,
       projectsFilter: projects,
     });
 
@@ -143,7 +147,7 @@ function ProjectManagement(props) {
       }
     }
 
-    setLoading({
+    return setLoading({
       main: false,
       search: false,
     });
@@ -273,7 +277,7 @@ function ProjectManagement(props) {
       content={
         <CContent>
           {!loading.main && !loading.search && (
-            <ListProject data={data.projectsFilter} showScrollTop={false} />
+            <ListProject data={data.projectsFilter} />
           )}
           {!loading.main && !loading.search && (
             <FilterProject

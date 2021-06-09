@@ -336,6 +336,8 @@
     "assign_status_reject": "All Reject",
     "assign_status_completed": "All Completed",
     "holder_need_litte_one_status": "Need at least 1 status",
-    "holder_need_litte_one_owner": "Need at least 1 owner"
+    "holder_need_litte_one_owner": "Need at least 1 owner",
+    "title_activity": "Activity",
+    "holder_input_your_comment": "Input your comment..."
   }
 }

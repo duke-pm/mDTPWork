@@ -53,3 +53,47 @@ export const fetchListProject = (params, navigation) => {
   };
 };
 /*****************************/
+
+/** For get list task of project */
+export const listTaskError = error => ({
+  type: types.ERROR_FETCH_LIST_TASK,
+  payload: error,
+});
+
+export const listTaskSuccess = tasks => ({
+  type: types.SUCCESS_FETCH_LIST_TASK,
+  payload: tasks,
+});
+
+export const fetchListTask = (params, navigation) => {
+  return dispatch => {
+    dispatch({type: types.START_FETCH_LIST_TASK});
+
+    Services.projectManagement
+      .listTask(params)
+      .then(res => {
+        if (!res.isError) {
+          return dispatch(listTaskSuccess(res.data.listTask));
+        } else {
+          return dispatch(listTaskError(res.errorMessage));
+        }
+      })
+      .catch(error => {
+        dispatch(listTaskError(error));
+        if (error.message && error.message.search('Authorization') !== -1) {
+          let tmp = {
+            RefreshToken: params.get('RefreshToken'),
+            Lang: params.get('Lang'),
+          };
+          return dispatch(
+            Actions.fetchRefreshToken(
+              tmp,
+              () => fetchListTask(params),
+              navigation,
+            ),
+          );
+        }
+      });
+  };
+};
+/*****************************/
