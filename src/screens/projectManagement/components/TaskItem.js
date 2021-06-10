@@ -49,7 +49,7 @@ const TaskItem = React.memo(function TaskItem(props) {
 
   /** HANDLE FUNC */
   const handleTaskItem = () => {
-    // onPress(data);
+    onPress(data);
   };
 
   const handleShowChildren = () => {

@@ -159,6 +159,7 @@ function AddRequest(props) {
   const language = commonState.get('language');
   const formatDate = commonState.get('formatDate');
   const formatDateView = commonState.get('formatDateView');
+  const refreshToken = authState.getIn(['login', 'refreshToken']);
 
   /** Use state */
   const [loading, setLoading] = useState({
@@ -247,7 +248,7 @@ function AddRequest(props) {
   const onPrepareData = () => {
     let params = {
       listType: 'Department, Region',
-      RefreshToken: authState.getIn(['login', 'refreshToken']),
+      RefreshToken: refreshToken,
       Lang: language,
     };
     dispatch(Actions.fetchMasterData(params, props.navigation));
@@ -332,7 +333,7 @@ function AddRequest(props) {
       PersonRequestID: form.personRequestId,
       Status: true,
       Reason: '',
-      RefreshToken: authState.getIn(['login', 'refreshToken']),
+      RefreshToken: refreshToken,
       Lang: language,
     };
     dispatch(Actions.fetchApprovedRequest(params, props.navigation));
@@ -346,7 +347,7 @@ function AddRequest(props) {
       PersonRequestID: form.personRequestId,
       Status: false,
       Reason: reason,
-      RefreshToken: authState.getIn(['login', 'refreshToken']),
+      RefreshToken: refreshToken,
       Lang: language,
     };
     dispatch(Actions.fetchRejectRequest(params, props.navigation));
@@ -403,7 +404,7 @@ function AddRequest(props) {
         IsBudget: form.inPlanning,
         SupplierName: form.supplier,
         ListAssets: assets,
-        RefreshToken: authState.getIn(['login', 'refreshToken']),
+        RefreshToken: refreshToken,
         Lang: language,
       };
       dispatch(Actions.fetchAddRequestApproved(params, props.navigation));

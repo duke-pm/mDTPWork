@@ -38,7 +38,9 @@ function ProjectDetail(props) {
   const projectState = useSelector(({projectManagement}) => projectManagement);
   const masterState = useSelector(({masterData}) => masterData);
   const commonState = useSelector(({common}) => common);
+  const authState = useSelector(({auth}) => auth);
   const language = commonState.get('language');
+  const refreshToken = authState.getIn(['login', 'refreshToken']);
 
   /** Use state */
   const [loading, setLoading] = useState({
@@ -73,6 +75,7 @@ function ProjectDetail(props) {
     let params = fromJS({
       PrjID: projectID,
       Search: search,
+      RefreshToken: refreshToken,
       Lang: language,
     });
     dispatch(Actions.fetchListTask(params, navigation));

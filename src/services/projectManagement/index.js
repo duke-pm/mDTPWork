@@ -68,4 +68,32 @@ export default {
         });
     });
   },
+  taskDetail: params => {
+    return new Promise((resolve, reject) => {
+      let tmpConfigs = {params: {}};
+      if (params.get('TaskID')) {
+        tmpConfigs.params.TaskID = params.get('TaskID');
+      }
+      if (params.get('Lang')) {
+        tmpConfigs.params.Lang = params.get('Lang');
+      }
+
+      API.get(
+        jwtServiceConfig.baseURL + Routes.PROJECT_MANAGEMENT.TASK_DETAIL,
+        tmpConfigs,
+      )
+        .then(response => {
+          console.log('FETCH TASK DETAIL => ', response);
+          if (response.status === 200 && response.data) {
+            resolve(response.data);
+          } else {
+            reject(response.statusText);
+          }
+        })
+        .catch(error => {
+          console.log('ERROR TASK DETAIL => ', error);
+          reject(error.response ? error.response.data : error);
+        });
+    });
+  },
 };

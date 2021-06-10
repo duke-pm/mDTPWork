@@ -34,6 +34,7 @@ function ApprovedAssets(props) {
   const authState = useSelector(({auth}) => auth);
   const perPage = commonState.get('perPage');
   const formatDate = commonState.get('formatDate');
+  const refreshToken = authState.getIn(['login', 'refreshToken']);
 
   /** Use state */
   const [loading, setLoading] = useState({
@@ -72,7 +73,7 @@ function ApprovedAssets(props) {
       Search: search,
       RequestTypeID: Commons.APPROVED_TYPE.ASSETS.value + '',
       IsResolveRequest: false,
-      RefreshToken: authState.getIn(['login', 'refreshToken']),
+      RefreshToken: refreshToken,
       Lang: commonState.get('language'),
     });
     dispatch(Actions.fetchListRequestApproved(params, props.navigation));

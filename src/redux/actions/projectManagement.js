@@ -97,3 +97,47 @@ export const fetchListTask = (params, navigation) => {
   };
 };
 /*****************************/
+
+/** For get task detail */
+export const taskDetailError = error => ({
+  type: types.ERROR_FETCH_TASK_DETAIL,
+  payload: error,
+});
+
+export const taskDetailSuccess = data => ({
+  type: types.SUCCESS_FETCH_TASK_DETAIL,
+  payload: data,
+});
+
+export const fetchTaskDetail = (params, navigation) => {
+  return dispatch => {
+    dispatch({type: types.START_FETCH_TASK_DETAIL});
+
+    Services.projectManagement
+      .taskDetail(params)
+      .then(res => {
+        if (!res.isError) {
+          return dispatch(taskDetailSuccess(res.data));
+        } else {
+          return dispatch(taskDetailError(res.errorMessage));
+        }
+      })
+      .catch(error => {
+        dispatch(taskDetailError(error));
+        if (error.message && error.message.search('Authorization') !== -1) {
+          let tmp = {
+            RefreshToken: params.get('RefreshToken'),
+            Lang: params.get('Lang'),
+          };
+          return dispatch(
+            Actions.fetchRefreshToken(
+              tmp,
+              () => fetchTaskDetail(params),
+              navigation,
+            ),
+          );
+        }
+      });
+  };
+};
+/*****************************/

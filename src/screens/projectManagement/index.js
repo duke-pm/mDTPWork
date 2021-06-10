@@ -37,7 +37,9 @@ function ProjectManagement(props) {
   const projectState = useSelector(({projectManagement}) => projectManagement);
   const masterState = useSelector(({masterData}) => masterData);
   const commonState = useSelector(({common}) => common);
+  const authState = useSelector(({auth}) => auth);
   const language = commonState.get('language');
+  const refreshToken = authState.getIn(['login', 'refreshToken']);
 
   /** Use state */
   const [loading, setLoading] = useState({
@@ -88,12 +90,15 @@ function ProjectManagement(props) {
   /** FUNC */
   const onFetchData = (search = '') => {
     let params = fromJS({
-      Lang: language,
       Search: search,
+      RefreshToken: refreshToken,
+      Lang: language,
     });
     dispatch(Actions.fetchListProject(params, navigation));
     let paramsMaster = {
       ListType: 'PrjStatus',
+      RefreshToken: refreshToken,
+      Lang: language,
     };
     dispatch(Actions.fetchMasterData(paramsMaster, navigation));
   };

@@ -10,15 +10,15 @@ import {useColorScheme} from 'react-native-appearance';
 import {StyleSheet, View} from 'react-native';
 import moment from 'moment';
 /* COMPONENTS */
-import TaskItem from '../components/TaskItem';
 import CList from '~/components/CList';
-/** COMMON */
-import Routes from '~/navigation/Routes';
-import {THEME_DARK} from '~/config/constants';
-import {cStyles} from '~/utils/style';
 import CAlert from '~/components/CAlert';
 import CText from '~/components/CText';
+import TaskItem from '../components/TaskItem';
+/** COMMON */
+import Routes from '~/navigation/Routes';
 import Commons from '~/utils/common/Commons';
+import {THEME_DARK} from '~/config/constants';
+import {cStyles} from '~/utils/style';
 
 let isPrevIsParent = false;
 
@@ -27,17 +27,20 @@ function ListTask(props) {
   const {customColors} = useTheme();
   const isDark = useColorScheme() === THEME_DARK;
 
+  /** Use state */
   const [showInfo, setShowInfo] = useState(false);
   const [dataDetail, setDataDetail] = useState(false);
 
   /** HANDLE FUNC */
   const handleTaskItem = data => {
     navigation.navigate(Routes.MAIN.TASK_DETAIL.name, {
-      data,
+      data: {
+        taskID: data.taskID,
+      },
     });
   };
 
-  const handleShowDetail = data => {
+  const handleShowDetail = (data = null) => {
     setDataDetail(data);
     setShowInfo(!showInfo);
   };
@@ -194,7 +197,7 @@ function ListTask(props) {
             </View>
           </View>
         }
-        onClose={() => handleShowDetail(null)}
+        onClose={handleShowDetail}
       />
     </View>
   );

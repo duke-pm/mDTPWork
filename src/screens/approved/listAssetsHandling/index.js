@@ -35,6 +35,8 @@ function ListRequestHandling(props) {
   const authState = useSelector(({auth}) => auth);
   const perPage = commonState.get('perPage');
   const formatDate = commonState.get('formatDate');
+  const language = commonState.get('language');
+  const refreshToken = authState.getIn(['login', 'refreshToken']);
 
   /** Use state */
   const [loading, setLoading] = useState({
@@ -101,8 +103,8 @@ function ListRequestHandling(props) {
       Search: search,
       RequestTypeID: requestTypeID,
       IsResolveRequest: true,
-      RefreshToken: authState.getIn(['login', 'refreshToken']),
-      Lang: commonState.get('language'),
+      RefreshToken: refreshToken,
+      Lang: language,
     });
     dispatch(Actions.fetchListRequestApproved(params, navigation));
   };

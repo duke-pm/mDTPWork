@@ -76,7 +76,8 @@
     "add_request_lost_damage": "Add request failed. Please try again later!",
     "approved_request_lost_damage": "Approve request failed. Please try again later!",
     "reject_request_lost_damage": "Cancel request failed. Please try again later!",
-    "from_date_larger_than_to_date": "From date cannot be larger than to date!"
+    "from_date_larger_than_to_date": "From date cannot be larger than to date!",
+    "detail_request": "Do not get detailed information. Please try again after!"
   },
   "sign_in": {
     "title": "Login",

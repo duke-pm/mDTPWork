@@ -27,13 +27,17 @@ function ApprovedAssets(props) {
   const {t} = useTranslation();
   const {customColors} = useTheme();
 
+  /** Use redux */
   const dispatch = useDispatch();
   const commonState = useSelector(({common}) => common);
   const approvedState = useSelector(({approved}) => approved);
   const authState = useSelector(({auth}) => auth);
   const perPage = commonState.get('perPage');
   const formatDate = commonState.get('formatDate');
+  const language = commonState.get('language');
+  const refreshToken = authState.getIn(['login', 'refreshToken']);
 
+  /** Use state */
   const [loading, setLoading] = useState({
     main: false,
     search: false,
@@ -71,8 +75,8 @@ function ApprovedAssets(props) {
       Search: search,
       RequestTypeID: Commons.APPROVED_TYPE.LOST.value + '',
       IsResolveRequest: false,
-      RefreshToken: authState.getIn(['login', 'refreshToken']),
-      Lang: commonState.get('language'),
+      RefreshToken: refreshToken,
+      Lang: language,
     });
     dispatch(Actions.fetchListRequestLost(params, props.navigation));
   };

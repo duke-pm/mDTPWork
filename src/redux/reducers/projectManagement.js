@@ -21,6 +21,15 @@ export const initialState = fromJS({
   successListTask: false,
   errorListTask: false,
   errorHelperListTask: '',
+
+  submittingTaskDetail: false,
+  taskDetail: null,
+  activities: [],
+  relationships: [],
+  watchers: [],
+  successTaskDetail: false,
+  errorTaskDetail: false,
+  errorHelperTaskDetail: '',
 });
 
 export default function (state = initialState, action = {}) {
@@ -71,6 +80,43 @@ export default function (state = initialState, action = {}) {
         .set('successListTask', false)
         .set('errorListTask', true)
         .set('errorHelperListTask', payload);
+
+    /** For task detail **/
+    case types.RESET_TASK_DETAIL:
+      return state
+        .set('submittingTaskDetail', false)
+        .set('taskDetail', null)
+        .set('activities', [])
+        .set('relationships', [])
+        .set('watchers', [])
+        .set('successTaskDetail', false)
+        .set('errorTaskDetail', false)
+        .set('errorHelperTaskDetail', '');
+
+    case types.START_FETCH_TASK_DETAIL:
+      return state
+        .set('submittingTaskDetail', true)
+        .set('successTaskDetail', false)
+        .set('errorTaskDetail', false)
+        .set('errorHelperTaskDetail', '');
+
+    case types.SUCCESS_FETCH_TASK_DETAIL:
+      return state
+        .set('submittingTaskDetail', false)
+        .set('successTaskDetail', true)
+        .set('errorTaskDetail', false)
+        .set('errorHelperTaskDetail', '')
+        .set('taskDetail', payload.detail)
+        .set('activities', payload.activities)
+        .set('relationships', payload.relationShip)
+        .set('watchers', payload.watcher);
+
+    case types.ERROR_FETCH_TASK_DETAIL:
+      return state
+        .set('submittingTaskDetail', false)
+        .set('successTaskDetail', false)
+        .set('errorTaskDetail', true)
+        .set('errorHelperTaskDetail', payload);
 
     default:
       return state;
