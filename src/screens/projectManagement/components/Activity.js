@@ -33,9 +33,10 @@ import CList from '~/components/CList';
 import CAvatar from '~/components/CAvatar';
 import CContent from '~/components/CContent';
 /* COMMON */
-import {THEME_DARK} from '~/config/constants';
+import {THEME_DARK, LAST_COMMENT_TASK} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
-import {IS_IOS, scalePx} from '~/utils/helper';
+import {IS_IOS, scalePx, saveLocalInfo, getLocalInfo} from '~/utils/helper';
+import {usePrevious} from '~/utils/hook';
 /** REDUX */
 import * as Actions from '~/redux/actions';
 
@@ -82,7 +83,6 @@ function Activity(props) {
     language = 'vi',
     refreshToken = '',
     navigation = null,
-    visible = false,
     onClose = () => {},
   } = props;
 
@@ -98,15 +98,22 @@ function Activity(props) {
   const [valueMessage, setValueMessage] = useState('');
   const [messages, setMessages] = useState([]);
 
+  let prevVisible = usePrevious(props.visible);
+
   /** HANDLE FUNC */
   const handleClose = () => {
     onClose();
   };
 
   /** FUNC */
-  const onPrepareData = () => {
+  const onPrepareData = async () => {
     let activities = projectState.get('activities');
-    console.log('[LOG] === activities ===> ', activities);
+    if (activities.length > 0) {
+      await saveLocalInfo(
+        LAST_COMMENT_TASK,
+        activities[activities.length - 1].rowNum,
+      );
+    }
     setMessages(activities);
     setLoading({main: false, send: false});
   };
@@ -141,6 +148,36 @@ function Activity(props) {
     onPrepareData();
   }, []);
 
+  useEffect(async () => {
+    if (!prevVisible && props.visible) {
+      let activities = projectState.get('activities');
+      if (activities.length > 0) {
+        let tmpLastComment = await getLocalInfo(LAST_COMMENT_TASK);
+        if (!tmpLastComment) {
+          tmpLastComment = [
+            {
+              taskID,
+              value: activities[activities.length - 1].rowNum,
+            },
+          ];
+          await saveLocalInfo({key: LAST_COMMENT_TASK, value: tmpLastComment});
+        } else {
+          let find = tmpLastComment.findIndex(f => f.taskID === taskID);
+          if (find !== -1) {
+            tmpLastComment[find].value =
+              activities[activities.length - 1].rowNum;
+          } else {
+            tmpLastComment.push({
+              taskID,
+              value: activities[activities.length - 1].rowNum,
+            });
+          }
+          await saveLocalInfo({key: LAST_COMMENT_TASK, value: tmpLastComment});
+        }
+      }
+    }
+  }, [props.visible, prevVisible, projectState.get('activities')]);
+
   useEffect(() => {
     if (loading.send) {
       if (!projectState.get('submittingTaskComment')) {
@@ -164,7 +201,7 @@ function Activity(props) {
   return (
     <Modal
       style={cStyles.m0}
-      isVisible={visible}
+      isVisible={props.visible}
       animationIn={'slideInUp'}
       animationOut={'slideOutDown'}
       backdropOpacity={0}>

@@ -34,8 +34,8 @@ import Activity from '../components/Activity';
 /* COMMON */
 import Commons from '~/utils/common/Commons';
 import {colors, cStyles} from '~/utils/style';
-import {THEME_DARK} from '~/config/constants';
-import {scalePx, sH, alert} from '~/utils/helper';
+import {LAST_COMMENT_TASK, THEME_DARK} from '~/config/constants';
+import {scalePx, sH, alert, getLocalInfo} from '~/utils/helper';
 /** REDUX */
 import * as Actions from '~/redux/actions';
 
@@ -65,6 +65,7 @@ function Task(props) {
     main: false,
   });
   const [showActivity, setShowActivity] = useState(false);
+  const [newComment, setNewComment] = useState(false);
   const [data, setData] = useState({
     taskDetail: null,
   });
@@ -83,6 +84,7 @@ function Task(props) {
   };
 
   const handleShowActivities = () => {
+    setNewComment(false);
     setShowActivity(!showActivity);
   };
 
@@ -108,8 +110,26 @@ function Task(props) {
     setStatus({...status, active: index});
   };
 
-  const onPrepareData = () => {
+  const onPrepareData = async () => {
     let taskDetail = projectState.get('taskDetail');
+    let activities = projectState.get('activities');
+    if (activities.length > 0) {
+      let lastComment = await getLocalInfo(LAST_COMMENT_TASK);
+      if (lastComment && lastComment.length > 0) {
+        let find = lastComment.findIndex(f => f.taskID === taskID);
+        if (find !== -1) {
+          if (
+            lastComment[find].value < activities[activities.length - 1].rowNum
+          ) {
+            setNewComment(true);
+          }
+        } else {
+          setNewComment(true);
+        }
+      } else {
+        setNewComment(true);
+      }
+    }
 
     let findStatus = status.data.findIndex(
       f => f.statusID === taskDetail.statusID,
@@ -191,6 +211,18 @@ function Task(props) {
               color={'white'}
               size={scalePx(3)}
             />
+            {newComment && (
+              <View
+                style={[
+                  cStyles.rounded2,
+                  cStyles.abs,
+                  styles.badge,
+                  cStyles.borderAll,
+                  isDark && cStyles.borderAllDark,
+                  {backgroundColor: customColors.red},
+                ]}
+              />
+            )}
           </TouchableOpacity>
           <TouchableOpacity
             style={cStyles.itemsEnd}
@@ -313,7 +345,12 @@ function Task(props) {
                       cStyles.itemsCenter,
                       cStyles.justifyBetween,
                     ]}>
-                    <View style={[cStyles.row, cStyles.itemsCenter]}>
+                    <View
+                      style={[
+                        cStyles.row,
+                        cStyles.itemsCenter,
+                        styles.con_left,
+                      ]}>
                       <CAvatar
                         customColors={customColors}
                         size={'vsmall'}
@@ -325,7 +362,12 @@ function Task(props) {
                       />
                     </View>
 
-                    <View style={[cStyles.row, cStyles.itemsCenter]}>
+                    <View
+                      style={[
+                        cStyles.row,
+                        cStyles.itemsCenter,
+                        styles.con_right,
+                      ]}>
                       <Icon
                         name={'calendar'}
                         color={customColors.icon}
@@ -526,6 +568,7 @@ const styles = StyleSheet.create({
   con_left_1: {flex: 0.3},
   con_middle: {flex: 0.2},
   con_right_1: {flex: 0.5},
+  badge: {height: 10, width: 10, top: 16, right: 15},
 });
 
 export default Task;
