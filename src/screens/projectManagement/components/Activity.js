@@ -108,12 +108,6 @@ function Activity(props) {
   /** FUNC */
   const onPrepareData = async () => {
     let activities = projectState.get('activities');
-    if (activities.length > 0) {
-      await saveLocalInfo(
-        LAST_COMMENT_TASK,
-        activities[activities.length - 1].rowNum,
-      );
-    }
     setMessages(activities);
     setLoading({main: false, send: false});
   };
@@ -143,46 +137,50 @@ function Activity(props) {
     return setLoading({main: false, send: false});
   };
 
+  const onUpdateLastComment = async () => {
+    let activities = projectState.get('activities');
+    if (activities.length > 0) {
+      let tmpLastComment = await getLocalInfo(LAST_COMMENT_TASK);
+      if (!tmpLastComment) {
+        tmpLastComment = [
+          {
+            taskID,
+            value: activities[activities.length - 1].rowNum,
+          },
+        ];
+        await saveLocalInfo({key: LAST_COMMENT_TASK, value: tmpLastComment});
+      } else {
+        let find = tmpLastComment.findIndex(f => f.taskID === taskID);
+        if (find !== -1) {
+          tmpLastComment[find].value = activities[activities.length - 1].rowNum;
+        } else {
+          tmpLastComment.push({
+            taskID,
+            value: activities[activities.length - 1].rowNum,
+          });
+        }
+        await saveLocalInfo({key: LAST_COMMENT_TASK, value: tmpLastComment});
+      }
+    }
+  };
+
   /** LIFE CYCLE */
   useEffect(() => {
     onPrepareData();
   }, []);
 
-  useEffect(async () => {
+  useEffect(() => {
     if (!prevVisible && props.visible) {
-      let activities = projectState.get('activities');
-      if (activities.length > 0) {
-        let tmpLastComment = await getLocalInfo(LAST_COMMENT_TASK);
-        if (!tmpLastComment) {
-          tmpLastComment = [
-            {
-              taskID,
-              value: activities[activities.length - 1].rowNum,
-            },
-          ];
-          await saveLocalInfo({key: LAST_COMMENT_TASK, value: tmpLastComment});
-        } else {
-          let find = tmpLastComment.findIndex(f => f.taskID === taskID);
-          if (find !== -1) {
-            tmpLastComment[find].value =
-              activities[activities.length - 1].rowNum;
-          } else {
-            tmpLastComment.push({
-              taskID,
-              value: activities[activities.length - 1].rowNum,
-            });
-          }
-          await saveLocalInfo({key: LAST_COMMENT_TASK, value: tmpLastComment});
-        }
-      }
+      onUpdateLastComment();
     }
-  }, [props.visible, prevVisible, projectState.get('activities')]);
+  }, [props.visible, prevVisible]);
 
   useEffect(() => {
     if (loading.send) {
       if (!projectState.get('submittingTaskComment')) {
         if (projectState.get('successTaskComment')) {
-          return onPrepareData();
+          onPrepareData();
+          return onUpdateLastComment();
         }
 
         if (projectState.get('errorTaskComment')) {

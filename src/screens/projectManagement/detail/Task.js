@@ -35,7 +35,7 @@ import Activity from '../components/Activity';
 import Commons from '~/utils/common/Commons';
 import {colors, cStyles} from '~/utils/style';
 import {LAST_COMMENT_TASK, THEME_DARK} from '~/config/constants';
-import {scalePx, sH, alert, getLocalInfo} from '~/utils/helper';
+import {scalePx, sH, alert, getLocalInfo, sW} from '~/utils/helper';
 /** REDUX */
 import * as Actions from '~/redux/actions';
 
@@ -515,7 +515,19 @@ function Task(props) {
                   </View>
 
                   {/** Description */}
-                  <View style={cStyles.pb10}>
+                  <View style={cStyles.flexCenter}>
+                    <View
+                      style={[
+                        cStyles.borderDashed,
+                        cStyles.fullWidth,
+                        cStyles.borderAll,
+                        isDark && cStyles.borderAllDark,
+                        {borderRadius: 1}
+                      ]}
+                    />
+                  </View>
+
+                  <View style={cStyles.py10}>
                     <CText customLabel={data.taskDetail.descr} />
                   </View>
                 </View>

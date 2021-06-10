@@ -601,6 +601,8 @@ const border = {
   roundedBottomRight9: {borderBottomRightRadius: 45},
   roundedBottomRight10: {borderBottomRightRadius: 50},
 
+  borderDashed: {borderStyle: 'dashed'},
+
   borderAll: {
     borderColor: IS_IOS ? Colors.BORDER_COLOR_IOS : Colors.BORDER_COLOR_ANDROID,
     borderWidth: 0.8,

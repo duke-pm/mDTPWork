@@ -198,7 +198,6 @@ function ListTask(props) {
           </View>
         }
         onClose={handleShowDetail}
-        onOK={handleShowDetail}
       />
     </View>
   );
