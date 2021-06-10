@@ -141,3 +141,47 @@ export const fetchTaskDetail = (params, navigation) => {
   };
 };
 /*****************************/
+
+/** For add comment of activities */
+export const taskCommentError = error => ({
+  type: types.ERROR_FETCH_TASK_COMMENT,
+  payload: error,
+});
+
+export const taskCommentSuccess = data => ({
+  type: types.SUCCESS_FETCH_TASK_COMMENT,
+  payload: data,
+});
+
+export const fetchTaskComment = (params, navigation) => {
+  return dispatch => {
+    dispatch({type: types.START_FETCH_TASK_COMMENT});
+
+    Services.projectManagement
+      .taskComment(params)
+      .then(res => {
+        if (!res.isError) {
+          return dispatch(taskCommentSuccess(res.data));
+        } else {
+          return dispatch(taskCommentError(res.errorMessage));
+        }
+      })
+      .catch(error => {
+        dispatch(taskCommentError(error));
+        if (error.message && error.message.search('Authorization') !== -1) {
+          let tmp = {
+            RefreshToken: params.get('RefreshToken'),
+            Lang: params.get('Lang'),
+          };
+          return dispatch(
+            Actions.fetchTaskComment(
+              tmp,
+              () => fetchTaskDetail(params),
+              navigation,
+            ),
+          );
+        }
+      });
+  };
+};
+/*****************************/

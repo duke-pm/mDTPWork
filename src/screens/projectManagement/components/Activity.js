@@ -1,15 +1,18 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /**
  ** Name: Activity of Task
  ** Author:
  ** CreateAt: 2021
  ** Description: Description of Activity.js
  **/
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {BlurView} from '@react-native-community/blur';
+import {showMessage} from 'react-native-flash-message';
 import {
   StyleSheet,
   TouchableOpacity,
@@ -19,7 +22,6 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import Modal from 'react-native-modal';
-import moment from 'moment';
 /* COMPONENTS */
 import CHeader from '~/components/CHeader';
 import CFooter from '~/components/CFooter';
@@ -34,6 +36,8 @@ import CContent from '~/components/CContent';
 import {THEME_DARK} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
 import {IS_IOS, scalePx} from '~/utils/helper';
+/** REDUX */
+import * as Actions from '~/redux/actions';
 
 const INPUT_NAME = {
   MESSAGE: 'message',
@@ -73,54 +77,26 @@ function Activity(props) {
   const {t} = useTranslation();
   const {customColors} = useTheme();
   const isDark = useColorScheme() === THEME_DARK;
-  const {visible = false, onClose = () => {}} = props;
+  const {
+    taskID = '',
+    language = 'vi',
+    refreshToken = '',
+    navigation = null,
+    visible = false,
+    onClose = () => {},
+  } = props;
+
+  /** Use redux */
+  const dispatch = useDispatch();
+  const projectState = useSelector(({projectManagement}) => projectManagement);
 
   /** Use state */
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState({
+    main: true,
+    send: false,
+  });
   const [valueMessage, setValueMessage] = useState('');
-  const [messages, setMessages] = useState([
-    {
-      id: 6,
-      user: 'Me',
-      message: 'McClintock wrote to Before & After to explain his discovery.',
-      createAt: '09/06/2021 09:20',
-    },
-    {
-      id: 5,
-      user: 'Cristiano Ronaldo',
-      message:
-        "So how did the classical Latin become so incoherent? According to McClintock, a 15th century typesetter likely scrambled part of Cicero's De Finibus in order to provide placeholder text to mockup various fonts for a type specimen book.",
-      createAt: '09/06/2021 09:12',
-    },
-    {
-      id: 4,
-      user: 'Wayne Rooney',
-      message:
-        "McClintock's eye for detail certainly helped narrow the whereabouts of lorem ipsum's origin, however, the “how and when” still remain something of a mystery, with competing theories and timelines.",
-      createAt: '09/06/2021 09:10',
-    },
-    {
-      id: 3,
-      user: 'Me',
-      message:
-        'The placeholder text, beginning with the line “Lorem ipsum dolor sit amet, consectetur adipiscing elit”, looks like Latin because in its youth, centuries ago, it was Latin.',
-      createAt: '09/06/2021 09:05',
-    },
-    {
-      id: 2,
-      user: 'David de Gea',
-      message:
-        'Until recently, the prevailing view assumed lorem ipsum was born as a nonsense text',
-      createAt: '09/06/2021 09:04',
-    },
-    {
-      id: 1,
-      user: 'Alison Becker',
-      message:
-        "Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum for use in a type specimen book.",
-      createAt: '09/06/2021 09:00',
-    },
-  ]);
+  const [messages, setMessages] = useState([]);
 
   /** HANDLE FUNC */
   const handleClose = () => {
@@ -128,18 +104,61 @@ function Activity(props) {
   };
 
   /** FUNC */
-  const onSendMessage = () => {
-    Keyboard.dismiss();
-    let tmpMessages = [...messages];
-    tmpMessages.unshift({
-      id: tmpMessages.length + 1,
-      user: 'Me',
-      message: valueMessage,
-      createAt: moment().format('DD/MM/YYYY HH:mm'),
-    });
-    setMessages(tmpMessages);
-    setValueMessage('');
+  const onPrepareData = () => {
+    let activities = projectState.get('activities');
+    console.log('[LOG] === activities ===> ', activities);
+    setMessages(activities);
+    setLoading({main: false, send: false});
   };
+
+  const onSendMessage = () => {
+    setLoading({...loading, send: true});
+    Keyboard.dismiss();
+    setValueMessage('');
+    let params = {
+      LineNum: 0,
+      TaskID: taskID,
+      Comments: valueMessage,
+      Lang: language,
+      RefreshToken: refreshToken,
+    };
+    dispatch(Actions.fetchTaskComment(params, navigation));
+  };
+
+  const onError = () => {
+    showMessage({
+      message: t('common:app_name'),
+      description: t('error:send_comment'),
+      type: 'danger',
+      icon: 'danger',
+    });
+
+    return setLoading({main: false, send: false});
+  };
+
+  /** LIFE CYCLE */
+  useEffect(() => {
+    onPrepareData();
+  }, []);
+
+  useEffect(() => {
+    if (loading.send) {
+      if (!projectState.get('submittingTaskComment')) {
+        if (projectState.get('successTaskComment')) {
+          return onPrepareData();
+        }
+
+        if (projectState.get('errorTaskComment')) {
+          return onError();
+        }
+      }
+    }
+  }, [
+    loading.send,
+    projectState.get('submittingTaskComment'),
+    projectState.get('successTaskComment'),
+    projectState.get('errorTaskComment'),
+  ]);
 
   /** RENDER */
   return (
@@ -168,7 +187,7 @@ function Activity(props) {
         )}
         <View
           style={[cStyles.flex1, {backgroundColor: customColors.background}]}>
-          {/** Header of filter */}
+          {/** Header */}
           <CHeader
             centerStyle={cStyles.center}
             left={
@@ -186,57 +205,63 @@ function Activity(props) {
             title={'project_management:title_activity'}
           />
 
+          {/** Content */}
           <CContent>
-            <CList
-              contentStyle={cStyles.pt16}
-              inverted
-              data={messages}
-              item={({item, index}) => {
-                return (
-                  <View style={[cStyles.row, cStyles.itemsStart, cStyles.pb16]}>
-                    <CAvatar
-                      size={'small'}
-                      label={item.user}
-                      customColors={customColors}
-                    />
+            {!loading.main && (
+              <CList
+                contentStyle={cStyles.pt16}
+                scrollToBottom
+                data={messages}
+                item={({item, index}) => {
+                  return (
                     <View
-                      style={[
-                        cStyles.flex1,
-                        cStyles.rounded2,
-                        cStyles.p10,
-                        cStyles.ml16,
-                        {backgroundColor: customColors.card},
-                      ]}>
+                      style={[cStyles.row, cStyles.itemsStart, cStyles.pb16]}>
+                      <CAvatar
+                        size={'small'}
+                        label={item.fullName}
+                        customColors={customColors}
+                      />
                       <View
                         style={[
-                          cStyles.row,
-                          cStyles.itemsCenter,
-                          cStyles.justifyBetween,
+                          cStyles.flex1,
+                          cStyles.rounded2,
+                          cStyles.p10,
+                          cStyles.ml16,
+                          {backgroundColor: customColors.card},
                         ]}>
-                        <CText
-                          customStyles={[
-                            cStyles.textTitle,
-                            {color: customColors.primary},
-                          ]}
-                          customLabel={item.user}
-                        />
-                        <CText
-                          styles={'textMeta'}
-                          customLabel={item.createAt}
-                        />
-                      </View>
+                        <View
+                          style={[
+                            cStyles.row,
+                            cStyles.itemsCenter,
+                            cStyles.justifyBetween,
+                          ]}>
+                          <CText
+                            customStyles={[
+                              cStyles.textTitle,
+                              {color: customColors.primary},
+                            ]}
+                            customLabel={item.fullName}
+                          />
+                          <CText
+                            styles={'textMeta'}
+                            customLabel={item.timeUpdate}
+                          />
+                        </View>
 
-                      <View style={cStyles.mt10}>
-                        <CText customLabel={item.message} />
+                        <View style={cStyles.mt10}>
+                          <CText customLabel={item.comments} />
+                        </View>
                       </View>
                     </View>
-                  </View>
-                );
-              }}
-            />
+                  );
+                }}
+              />
+            )}
           </CContent>
         </View>
-        <KeyboardAvoidingView behavior={'padding'}>
+
+        {/** Footer input message */}
+        <KeyboardAvoidingView behavior={IS_IOS ? 'padding' : 'height'}>
           <CFooter
             content={
               <RenderInputMessage
@@ -247,7 +272,8 @@ function Activity(props) {
             }
           />
         </KeyboardAvoidingView>
-        <CLoading visible={loading} />
+
+        <CLoading visible={loading.main || loading.send} />
       </SafeAreaView>
     </Modal>
   );

@@ -40,16 +40,16 @@ function CAlert(props) {
   return (
     <Modal
       isVisible={show}
-      animationIn={'fadeInDown'}
-      animationOut={'fadeOutUp'}
-      backdropOpacity={0.8}
+      animationIn={'zoomIn'}
+      animationOut={'zoomOut'}
+      backdropOpacity={isDark ? 0.8 : 0.5}
       onBackButtonPress={Keyboard.dismiss}
       onBackdropPress={Keyboard.dismiss}>
       <View style={cStyles.flexCenter}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View
             style={[
-              cStyles.rounded2,
+              cStyles.rounded3,
               isDark && cStyles.borderAllDark,
               {backgroundColor: customColors.background},
             ]}>
@@ -94,7 +94,7 @@ function CAlert(props) {
                     disabled={loading}
                     block
                     variant={'text'}
-                    color={customColors.red}
+                    color={customColors.primary}
                     label={'common:close'}
                     onPress={onClose}
                   />
@@ -135,7 +135,7 @@ function CAlert(props) {
 
 const styles = StyleSheet.create({
   button: {width: 1, height: '100%'},
-  button_base: {width: cStyles.deviceWidth / 3, marginHorizontal: 10},
+  button_base: {width: '100%', marginHorizontal: 10},
   content: {width: sW('85%')},
 });
 

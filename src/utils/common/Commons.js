@@ -152,9 +152,9 @@ const Commons = {
       label: 'priority_task:high',
       color: 'red',
     },
-    NORMAL: {
-      value: 'N',
-      label: 'priority_task:normal',
+    MEDIUM: {
+      value: 'M',
+      label: 'priority_task:medium',
       color: 'teal',
     },
     LOW: {

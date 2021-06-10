@@ -24,6 +24,7 @@ const Routes = {
     LIST_PROJECT: '/Project/GetList',
     LIST_TASK: '/Task/GetList',
     TASK_DETAIL: '/Task/GetByID',
+    TASK_COMMENT: '/TaskActivity/Modify',
   },
 };
 

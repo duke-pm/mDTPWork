@@ -139,11 +139,15 @@ const TaskItem = React.memo(function TaskItem(props) {
                 />
                 <View style={cStyles.pl16}>
                   <CText
-                    styles={'textMeta fontMedium ' + (isReject && ' textThrough')}
+                    styles={
+                      'textMeta fontMedium ' + (isReject && ' textThrough')
+                    }
                     customLabel={data.ownerName}
                   />
                   <View style={[cStyles.row, cStyles.itemsCenter]}>
-                    <View style={[styles.status, {backgroundColor: bgStatus}]} />
+                    <View
+                      style={[styles.status, {backgroundColor: bgStatus}]}
+                    />
                     <CText
                       styles={'textMeta fontBold pl6 colorWhite'}
                       customStyles={[

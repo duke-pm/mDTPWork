@@ -160,28 +160,28 @@ function ProjectDetail(props) {
       subTitle={props.route.params?.data?.projectStatus}
       header
       hasBack
-      headerRight={
-        <TouchableOpacity style={cStyles.itemsEnd} onPress={handleShowFilter}>
-          <Icon
-            style={cStyles.p16}
-            name={'filter'}
-            color={'white'}
-            size={scalePx(3)}
-          />
-          {isFiltering && (
-            <View
-              style={[
-                cStyles.rounded2,
-                cStyles.abs,
-                styles.badge,
-                cStyles.borderAll,
-                isDark && cStyles.borderAllDark,
-                {backgroundColor: customColors.red},
-              ]}
-            />
-          )}
-        </TouchableOpacity>
-      }
+      // headerRight={
+      //   <TouchableOpacity style={cStyles.itemsEnd} onPress={handleShowFilter}>
+      //     <Icon
+      //       style={cStyles.p16}
+      //       name={'filter'}
+      //       color={'white'}
+      //       size={scalePx(3)}
+      //     />
+      //     {isFiltering && (
+      //       <View
+      //         style={[
+      //           cStyles.rounded2,
+      //           cStyles.abs,
+      //           styles.badge,
+      //           cStyles.borderAll,
+      //           isDark && cStyles.borderAllDark,
+      //           {backgroundColor: customColors.red},
+      //         ]}
+      //       />
+      //     )}
+      //   </TouchableOpacity>
+      // }
       content={
         <CContent>
           {!loading.main && !loading.search && (

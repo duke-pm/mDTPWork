@@ -5,7 +5,7 @@
  ** Description: Description of CList.js
  **/
 import React, {createRef, useState, useRef} from 'react';
-import {StyleSheet, View, FlatList, Animated} from 'react-native';
+import {StyleSheet, View, FlatList, Animated, KeyboardAvoidingView} from 'react-native';
 /* COMPONENTS */
 import CEmpty from './CEmpty';
 import CFooterList from './CFooterList';
@@ -21,6 +21,7 @@ function CList(props) {
     style = {},
     contentStyle = {},
     showScrollTop = true,
+    scrollToBottom = false,
     onRefresh = null,
     onLoadmore = null,
   } = props;
@@ -72,6 +73,12 @@ function CList(props) {
     }
   };
 
+  const onContentChange = () => {
+    if (scrollToBottom) {
+      listRef.scrollToEnd({animated: true});
+    }
+  };
+
   /** RENDER */
   return (
     <View style={cStyles.flex1}>
@@ -93,6 +100,7 @@ function CList(props) {
         initialNumToRender={10}
         scrollEventThrottle={16}
         onScroll={showScrollTop ? onScroll : null}
+        onContentSizeChange={onContentChange}
         refreshing={props.refreshing}
         onRefresh={onRefresh}
         onEndReachedThreshold={0.1}

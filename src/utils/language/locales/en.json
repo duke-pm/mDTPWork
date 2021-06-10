@@ -77,7 +77,8 @@
     "approved_request_lost_damage": "Approve request failed. Please try again later!",
     "reject_request_lost_damage": "Cancel request failed. Please try again later!",
     "from_date_larger_than_to_date": "From date cannot be larger than to date!",
-    "detail_request": "Do not get detailed information. Please try again after!"
+    "detail_request": "Do not get detailed information. Please try again after!",
+    "send_comment": "Unable to submit your comments. Please try again after!"
   },
   "sign_in": {
     "title": "Login",
@@ -339,6 +340,8 @@
     "holder_need_litte_one_status": "Need at least 1 status",
     "holder_need_litte_one_owner": "Need at least 1 owner",
     "title_activity": "Activity",
-    "holder_input_your_comment": "Input your comment..."
+    "holder_input_your_comment": "Input your comment...",
+    "origin_publisher": "Publisher: ",
+    "owner_ship_dtp": "Distributor: "
   }
 }

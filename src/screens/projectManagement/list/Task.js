@@ -50,8 +50,8 @@ function ListTask(props) {
     bgPriority = customColors[Commons.PRIORITY_TASK.LOW.color]; // default is Low;
   if (dataDetail) {
     if (!dataDetail.priorityColor) {
-      if (dataDetail.priority === Commons.PRIORITY_TASK.NORMAL.value) {
-        bgPriority = customColors[Commons.PRIORITY_TASK.NORMAL.color];
+      if (dataDetail.priority === Commons.PRIORITY_TASK.MEDIUM.value) {
+        bgPriority = customColors[Commons.PRIORITY_TASK.MEDIUM.color];
       } else if (dataDetail.priority === Commons.PRIORITY_TASK.HIGH.value) {
         bgPriority = customColors[Commons.PRIORITY_TASK.HIGH.color];
       }
@@ -198,6 +198,7 @@ function ListTask(props) {
           </View>
         }
         onClose={handleShowDetail}
+        onOK={handleShowDetail}
       />
     </View>
   );

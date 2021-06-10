@@ -5,7 +5,7 @@
  ** Description: Description of Approved.js
  **/
 /* LIBRARY */
-import {fromJS} from 'immutable';
+import {fromJS, List} from 'immutable';
 /** REDUX */
 import * as types from '../actions/types';
 
@@ -23,13 +23,17 @@ export const initialState = fromJS({
   errorHelperListTask: '',
 
   submittingTaskDetail: false,
+  submittingTaskComment: false,
   taskDetail: null,
-  activities: [],
+  activities: List(),
   relationships: [],
   watchers: [],
   successTaskDetail: false,
   errorTaskDetail: false,
   errorHelperTaskDetail: '',
+  successTaskComment: false,
+  errorTaskComment: false,
+  errorHelperTaskComment: '',
 });
 
 export default function (state = initialState, action = {}) {
@@ -117,6 +121,32 @@ export default function (state = initialState, action = {}) {
         .set('successTaskDetail', false)
         .set('errorTaskDetail', true)
         .set('errorHelperTaskDetail', payload);
+
+    /** For task comment **/
+    case types.START_FETCH_TASK_COMMENT:
+      return state
+        .set('submittingTaskComment', true)
+        .set('successTaskComment', false)
+        .set('errorTaskComment', false)
+        .set('errorHelperTaskComment', '');
+
+    case types.SUCCESS_FETCH_TASK_COMMENT:
+      let tmp = state.get('activities');
+      let tmp2 = payload;
+
+      return state
+        .set('submittingTaskComment', false)
+        .set('successTaskComment', true)
+        .set('errorTaskComment', false)
+        .set('errorHelperTaskComment', '')
+        .set('activities', tmp.concat(tmp2));
+
+    case types.ERROR_FETCH_TASK_COMMENT:
+      return state
+        .set('submittingTaskComment', false)
+        .set('successTaskComment', false)
+        .set('errorTaskComment', true)
+        .set('errorHelperTaskComment', payload);
 
     default:
       return state;
