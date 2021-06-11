@@ -350,6 +350,7 @@
     "list_watchers": "Danh sách người theo dõi",
     "you_watched": "Đã Theo Dõi",
     "you_not_watch": "Theo Dõi",
-    "empty_watchers": "Hiện tại chưa có ai theo dõi công việc này!"
+    "empty_watchers": "Hiện tại chưa có ai theo dõi công việc này!",
+    "empty_tasks": "Hiện tại chưa có công việc cho dự án này!"
   }
 }

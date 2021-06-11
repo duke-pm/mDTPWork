@@ -42,13 +42,20 @@ import {usePrevious} from '~/utils/hook';
 /** REDUX */
 import * as Actions from '~/redux/actions';
 
-moment.locale('vi', {
+const LOCALE_VI = {
   weekdays: 'Chủ nhật_Thứ hai_Thứ ba_Thứ tư_Thứ năm_Thứ sáu_Thứ bảy'.split('_'),
   weekdaysShort: 'CN_Thứ 2_Thứ 3_Thứ 4_Thứ 5_Thứ 6_Thứ 7'.split('_'),
   weekdaysMin: 'CN_T2_T3_T4_T5_T6_T7'.split('_'),
   weekdaysParseExact: true,
-});
-
+};
+const LOCALE_EN = {
+  weekdays: 'Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday'.split(
+    '_',
+  ),
+  weekdaysShort: 'Sun_Mon_Tue_Wed_Thu_Fri_Sat'.split('_'),
+  weekdaysMin: 'Su_Mo_Tu_We_Th_Fr_Sa'.split('_'),
+  weekdaysParseExact: true,
+};
 const INPUT_NAME = {
   MESSAGE: 'message',
 };
@@ -100,6 +107,11 @@ function Activity(props) {
   const projectState = useSelector(({projectManagement}) => projectManagement);
   const authState = useSelector(({auth}) => auth);
   const userName = authState.getIn(['login', 'userName']);
+  if (language === 'vi') {
+    moment.locale('vi', LOCALE_VI);
+  } else {
+    moment.locale('en', LOCALE_EN);
+  }
 
   /** Use state */
   const [loading, setLoading] = useState({
@@ -304,10 +316,10 @@ function Activity(props) {
                             cStyles.rounded2,
                             cStyles.p10,
                             cStyles.ml10,
-                            {backgroundColor: customColors.card},
+                            {backgroundColor: customColors.primary},
                           ]}>
                           <CText
-                            styles={'textMeta textRight'}
+                            styles={'textMeta textRight colorWhite'}
                             customLabel={moment(
                               item.timeUpdate,
                               'DD/MM/YYYY - HH:mm',
@@ -316,7 +328,7 @@ function Activity(props) {
 
                           <View style={cStyles.mt10}>
                             <CText
-                              styles={'textRight'}
+                              styles={'textRight colorWhite'}
                               customLabel={item.comments}
                             />
                           </View>

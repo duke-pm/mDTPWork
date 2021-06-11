@@ -90,10 +90,6 @@ function Task(props) {
     setShowActivities(!showActivities);
   };
 
-  const handleShowRelationShips = () => {
-    alert(t, 'common:holder_warning_option_prepare', () => null);
-  };
-
   const handleShowWatchers = () => {
     setShowWatchers(!showWatchers);
   };
@@ -225,16 +221,6 @@ function Task(props) {
                 ]}
               />
             )}
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={cStyles.itemsEnd}
-            onPress={handleShowRelationShips}>
-            <Icon
-              style={cStyles.p16}
-              name={'git-pull-request'}
-              color={'white'}
-              size={scalePx(3)}
-            />
           </TouchableOpacity>
           <TouchableOpacity
             style={cStyles.itemsEnd}

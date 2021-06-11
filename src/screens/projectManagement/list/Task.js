@@ -72,6 +72,8 @@ function ListTask(props) {
     <View style={cStyles.flex1}>
       <CList
         contentStyle={cStyles.pt16}
+        scrollToTop={false}
+        textEmpty={'project_management:empty_tasks'}
         data={props.data}
         item={({item, index}) => {
           isPrevIsParent = false;
@@ -90,7 +92,6 @@ function ListTask(props) {
             />
           );
         }}
-        scrollToTop={false}
       />
 
       <CAlert
