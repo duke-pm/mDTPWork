@@ -82,7 +82,8 @@ function Task(props) {
   };
 
   const handleShowChangeStatus = () => {
-    actionSheetStatusRef.current?.show();
+    // actionSheetStatusRef.current?.show();
+    alert(t, 'common:holder_warning_option_prepare', () => null);
   };
 
   const handleShowActivities = () => {
