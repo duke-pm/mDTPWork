@@ -120,13 +120,12 @@ function Filter(props) {
 
   /** HANDLE FUNC */
   const handleToggle = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut, () => {
-      Animated.timing(valueAnim, {
-        toValue: show ? 0 : 1,
-        duration: 200,
-        useNativeDriver: true,
-      }).start();
-    });
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    Animated.timing(valueAnim, {
+      toValue: show ? 0 : 1,
+      duration: 200,
+      useNativeDriver: true,
+    }).start();
     setShow(!show);
   };
 

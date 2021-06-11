@@ -136,4 +136,24 @@ export default {
         });
     });
   },
+  taskUpdateStatus: params => {
+    return new Promise((resolve, reject) => {
+      API.post(
+        jwtServiceConfig.baseURL + Routes.PROJECT_MANAGEMENT.TASK_STATUS,
+        params,
+      )
+        .then(response => {
+          console.log('FETCH TASK UPDATE STATUS => ', response);
+          if (response.status === 200 && response.data) {
+            resolve(response.data);
+          } else {
+            reject(response.statusText);
+          }
+        })
+        .catch(error => {
+          console.log('ERROR TASK UPDATE STATUS => ', error);
+          reject(error.response ? error.response.data : error);
+        });
+    });
+  },
 };

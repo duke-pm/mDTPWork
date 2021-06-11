@@ -26,6 +26,7 @@ const Routes = {
     TASK_DETAIL: '/Task/GetByID',
     TASK_COMMENT: '/TaskActivity/Modify',
     TASK_WATCHER: '/TaskWatcher/Modify',
+    TASK_STATUS: '/TaskStatus/Modify',
   },
 };
 

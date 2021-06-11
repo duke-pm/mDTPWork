@@ -229,3 +229,47 @@ export const fetchTaskWatcher = (params, navigation) => {
   };
 };
 /*****************************/
+
+/** For update status task */
+export const updateStatusTaskError = error => ({
+  type: types.ERROR_FETCH_TASK_UPDATE_STATUS,
+  payload: error,
+});
+
+export const updateStatusTaskSuccess = data => ({
+  type: types.SUCCESS_FETCH_TASK_UPDATE_STATUS,
+  payload: data,
+});
+
+export const fetchUpdateStatusTask = (params, navigation) => {
+  return dispatch => {
+    dispatch({type: types.START_FETCH_TASK_UPDATE_STATUS});
+
+    Services.projectManagement
+      .taskUpdateStatus(params)
+      .then(res => {
+        if (!res.isError) {
+          return dispatch(updateStatusTaskSuccess(res.data));
+        } else {
+          return dispatch(updateStatusTaskError(res.errorMessage));
+        }
+      })
+      .catch(error => {
+        dispatch(updateStatusTaskError(error));
+        if (error.message && error.message.search('Authorization') !== -1) {
+          let tmp = {
+            RefreshToken: params.get('RefreshToken'),
+            Lang: params.get('Lang'),
+          };
+          return dispatch(
+            Actions.fetchRefreshToken(
+              tmp,
+              () => fetchUpdateStatusTask(params),
+              navigation,
+            ),
+          );
+        }
+      });
+  };
+};
+/*****************************/
