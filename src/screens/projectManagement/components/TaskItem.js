@@ -14,6 +14,7 @@ import {
   TouchableNativeFeedback,
   LayoutAnimation,
   UIManager,
+  Text,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 /* COMPONENTS */
@@ -23,7 +24,7 @@ import CIconButton from '~/components/CIconButton';
 /* COMMON */
 import Commons from '~/utils/common/Commons';
 import {IS_ANDROID, IS_IOS, scalePx} from '~/utils/helper';
-import {cStyles} from '~/utils/style';
+import {colors, cStyles} from '~/utils/style';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -45,7 +46,7 @@ const TaskItem = React.memo(function TaskItem(props) {
   const valueAnim = useRef(new Animated.Value(0)).current;
 
   /** Use state */
-  const [showChildren, setShowChildren] = useState(true);
+  const [showChildren, setShowChildren] = useState(false);
 
   /** HANDLE FUNC */
   const handleTaskItem = () => {
@@ -168,13 +169,27 @@ const TaskItem = React.memo(function TaskItem(props) {
                   data.countChild > 0 && {marginTop: -8},
                 ]}>
                 {data.countChild > 0 && (
-                  <Animated.View style={{transform: [{rotate: rotateData}]}}>
-                    <CIconButton
-                      iconName={'chevron-down'}
-                      iconColor={customColors.text}
-                      onPress={handleShowChildren}
-                    />
-                  </Animated.View>
+                  <View>
+                    <Animated.View style={{transform: [{rotate: rotateData}]}}>
+                      <CIconButton
+                        iconName={'chevron-down'}
+                        iconColor={customColors.text}
+                        onPress={handleShowChildren}
+                      />
+                    </Animated.View>
+                    <View
+                      style={[
+                        cStyles.center,
+                        cStyles.rounded2,
+                        cStyles.abs,
+                        styles.badge,
+                        cStyles.borderAll,
+                        isDark && cStyles.borderAllDark,
+                        {backgroundColor: customColors.red},
+                      ]}>
+                      <Text style={[cStyles.fontRegular, {fontSize: 10, color: colors.WHITE}]}>{data.countChild}</Text>
+                    </View>
+                  </View>
                 )}
                 <TouchableOpacity onPress={() => onShowDetail(data)}>
                   <Icon
@@ -226,6 +241,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   line_child: {height: '100%'},
+  badge: {height: 13, width: 13, top: 0, right: 0},
 });
 
 export default TaskItem;

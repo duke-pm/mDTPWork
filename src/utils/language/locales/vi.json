@@ -31,6 +31,7 @@
     "reset": "Đặt Lại",
     "save": "Lưu",
     "change": "Thay Đổi",
+    "its_you": "Bạn",
     "holder_warning_option_prepare": "Tính năng này đang phát triển, vui lòng quay lại sau!"
   },
   "status": {
@@ -78,7 +79,8 @@
     "reject_request_lost_damage": "Hủy yêu cầu không thành công. Vui lòng thử lại sau!",
     "from_date_larger_than_to_date": "Từ ngày không thể lớn hơn đến ngày!",
     "detail_request": "Không thê lấy thông tin chi tiết. Vui lòng thử lại sau!",
-    "send_comment": "Không thể gửi ý kiến của bạn. Vui lòng thử lại sau!"
+    "send_comment": "Không thể gửi ý kiến của bạn. Vui lòng thử lại sau!",
+    "send_follow": "Không thể theo dõi. Vui lòng thử lại sau!"
   },
   "sign_in": {
     "title": "Đăng Nhập",
@@ -340,9 +342,14 @@
     "assign_status_completed": "Hoàn thành",
     "holder_need_litte_one_status": "Cần ít nhất 1 trạng thái",
     "holder_need_litte_one_owner": "Cần ít nhất 1 người phụ trách",
-    "title_activity": "Hoạt động",
+    "title_activity": "Hoạt Động",
+    "title_watcher": "Theo Dõi",
     "holder_input_your_comment": "Điền ý kiến của bạn...",
     "origin_publisher": "NXB: ",
-    "owner_ship_dtp": "NPP: "
+    "owner_ship_dtp": "NPP: ",
+    "list_watchers": "Danh sách người theo dõi",
+    "you_watched": "Đã Theo Dõi",
+    "you_not_watch": "Theo Dõi",
+    "empty_watchers": "Hiện tại chưa có ai theo dõi công việc này!"
   }
 }

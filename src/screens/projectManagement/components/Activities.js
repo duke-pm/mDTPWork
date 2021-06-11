@@ -19,9 +19,11 @@ import {
   View,
   KeyboardAvoidingView,
   Keyboard,
+  Text,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import Modal from 'react-native-modal';
+import moment from 'moment';
 /* COMPONENTS */
 import CHeader from '~/components/CHeader';
 import CFooter from '~/components/CFooter';
@@ -39,6 +41,13 @@ import {IS_IOS, scalePx, saveLocalInfo, getLocalInfo} from '~/utils/helper';
 import {usePrevious} from '~/utils/hook';
 /** REDUX */
 import * as Actions from '~/redux/actions';
+
+moment.locale('vi', {
+  weekdays: 'Chủ nhật_Thứ hai_Thứ ba_Thứ tư_Thứ năm_Thứ sáu_Thứ bảy'.split('_'),
+  weekdaysShort: 'CN_Thứ 2_Thứ 3_Thứ 4_Thứ 5_Thứ 6_Thứ 7'.split('_'),
+  weekdaysMin: 'CN_T2_T3_T4_T5_T6_T7'.split('_'),
+  weekdaysParseExact: true,
+});
 
 const INPUT_NAME = {
   MESSAGE: 'message',
@@ -89,6 +98,8 @@ function Activity(props) {
   /** Use redux */
   const dispatch = useDispatch();
   const projectState = useSelector(({projectManagement}) => projectManagement);
+  const authState = useSelector(({auth}) => auth);
+  const userName = authState.getIn(['login', 'userName']);
 
   /** Use state */
   const [loading, setLoading] = useState({
@@ -106,10 +117,44 @@ function Activity(props) {
   };
 
   /** FUNC */
-  const onPrepareData = async () => {
+  const onPrepareData = async isUpdate => {
+    let array = [];
     let activities = projectState.get('activities');
-    setMessages(activities);
-    setLoading({main: false, send: false});
+    if (!isUpdate) {
+      let item = null,
+        date = null,
+        find = null;
+      for (item of activities) {
+        date = moment(item.timeUpdate, 'DD/MM/YYYY - HH:mm').format(
+          'dddd - DD/MM/YYYY',
+        );
+        find = array.findIndex(f => f.title === date);
+        if (find !== -1) {
+          array[find].data.push(item);
+        } else {
+          array.push({
+            title: date,
+            data: [item],
+          });
+        }
+      }
+    } else {
+      array = [...messages];
+      let lastCmt = activities[activities.length - 1];
+      if (array.length > 0) {
+        array[array.length - 1].data.push(lastCmt);
+      } else {
+        let date = moment(lastCmt.timeUpdate, 'DD/MM/YYYY - HH:mm').format(
+          'dddd - DD/MM/YYYY',
+        );
+        array.push({
+          title: date,
+          data: [lastCmt],
+        });
+      }
+    }
+    setMessages(array);
+    return setLoading({main: false, send: false});
   };
 
   const onSendMessage = () => {
@@ -123,7 +168,7 @@ function Activity(props) {
       Lang: language,
       RefreshToken: refreshToken,
     };
-    dispatch(Actions.fetchTaskComment(params, navigation));
+    return dispatch(Actions.fetchTaskComment(params, navigation));
   };
 
   const onError = () => {
@@ -166,7 +211,7 @@ function Activity(props) {
 
   /** LIFE CYCLE */
   useEffect(() => {
-    onPrepareData();
+    onPrepareData(false);
   }, []);
 
   useEffect(() => {
@@ -179,7 +224,7 @@ function Activity(props) {
     if (loading.send) {
       if (!projectState.get('submittingTaskComment')) {
         if (projectState.get('successTaskComment')) {
-          onPrepareData();
+          onPrepareData(true);
           return onUpdateLastComment();
         }
 
@@ -245,9 +290,41 @@ function Activity(props) {
             {!loading.main && (
               <CList
                 contentStyle={cStyles.pt16}
+                customColors={customColors}
+                scrollToTop={false}
                 scrollToBottom
+                sectionList
                 data={messages}
                 item={({item, index}) => {
+                  if (item.userName === userName) {
+                    return (
+                      <View style={[cStyles.itemsEnd, cStyles.pb16]}>
+                        <View
+                          style={[
+                            cStyles.rounded2,
+                            cStyles.p10,
+                            cStyles.ml10,
+                            {backgroundColor: customColors.card},
+                          ]}>
+                          <CText
+                            styles={'textMeta textRight'}
+                            customLabel={moment(
+                              item.timeUpdate,
+                              'DD/MM/YYYY - HH:mm',
+                            ).format('HH:mm')}
+                          />
+
+                          <View style={cStyles.mt10}>
+                            <CText
+                              styles={'textRight'}
+                              customLabel={item.comments}
+                            />
+                          </View>
+                        </View>
+                      </View>
+                    );
+                  }
+
                   return (
                     <View
                       style={[cStyles.row, cStyles.itemsStart, cStyles.pb16]}>
@@ -261,8 +338,8 @@ function Activity(props) {
                           cStyles.flex1,
                           cStyles.rounded2,
                           cStyles.p10,
-                          cStyles.ml16,
-                          {backgroundColor: customColors.card},
+                          cStyles.ml10,
+                          {backgroundColor: customColors.cardDisable},
                         ]}>
                         <View
                           style={[
@@ -270,17 +347,24 @@ function Activity(props) {
                             cStyles.itemsCenter,
                             cStyles.justifyBetween,
                           ]}>
-                          <CText
-                            customStyles={[
-                              cStyles.textTitle,
-                              {color: customColors.primary},
-                            ]}
-                            customLabel={item.fullName}
-                          />
-                          <CText
-                            styles={'textMeta'}
-                            customLabel={item.timeUpdate}
-                          />
+                          <View style={styles.con_left}>
+                            <Text
+                              style={[
+                                cStyles.textTitle,
+                                {color: customColors.primary},
+                              ]}>
+                              {item.fullName}
+                            </Text>
+                          </View>
+                          <View style={[cStyles.itemsEnd, styles.con_right]}>
+                            <CText
+                              styles={'textMeta'}
+                              customLabel={moment(
+                                item.timeUpdate,
+                                'DD/MM/YYYY - HH:mm',
+                              ).format('HH:mm')}
+                            />
+                          </View>
                         </View>
 
                         <View style={cStyles.mt10}>
@@ -327,6 +411,8 @@ const styles = StyleSheet.create({
     borderColor: colors.SECONDARY,
   },
   input: {width: '85%'},
+  con_left: {flex: 0.5},
+  con_right: {flex: 0.5},
 });
 
 export default Activity;

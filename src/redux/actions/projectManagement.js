@@ -174,9 +174,53 @@ export const fetchTaskComment = (params, navigation) => {
             Lang: params.get('Lang'),
           };
           return dispatch(
-            Actions.fetchTaskComment(
+            Actions.fetchRefreshToken(
               tmp,
-              () => fetchTaskDetail(params),
+              () => fetchTaskComment(params),
+              navigation,
+            ),
+          );
+        }
+      });
+  };
+};
+/*****************************/
+
+/** For add watcher */
+export const taskWatcherError = error => ({
+  type: types.ERROR_FETCH_TASK_WATCHERS,
+  payload: error,
+});
+
+export const taskWatcherSuccess = data => ({
+  type: types.SUCCESS_FETCH_TASK_WATCHERS,
+  payload: data,
+});
+
+export const fetchTaskWatcher = (params, navigation) => {
+  return dispatch => {
+    dispatch({type: types.START_FETCH_TASK_WATCHERS});
+
+    Services.projectManagement
+      .taskWatcher(params)
+      .then(res => {
+        if (!res.isError) {
+          return dispatch(taskWatcherSuccess(res.data));
+        } else {
+          return dispatch(taskWatcherError(res.errorMessage));
+        }
+      })
+      .catch(error => {
+        dispatch(taskWatcherError(error));
+        if (error.message && error.message.search('Authorization') !== -1) {
+          let tmp = {
+            RefreshToken: params.get('RefreshToken'),
+            Lang: params.get('Lang'),
+          };
+          return dispatch(
+            Actions.fetchRefreshToken(
+              tmp,
+              () => fetchTaskWatcher(params),
               navigation,
             ),
           );

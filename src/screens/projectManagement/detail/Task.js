@@ -30,7 +30,8 @@ import CAvatar from '~/components/CAvatar';
 import CActionSheet from '~/components/CActionSheet';
 import CEmpty from '~/components/CEmpty';
 import CLoading from '~/components/CLoading';
-import Activity from '../components/Activity';
+import Activities from '../components/Activities';
+import Watchers from '../components/Watchers';
 /* COMMON */
 import Commons from '~/utils/common/Commons';
 import {colors, cStyles} from '~/utils/style';
@@ -64,7 +65,8 @@ function Task(props) {
   const [loading, setLoading] = useState({
     main: false,
   });
-  const [showActivity, setShowActivity] = useState(false);
+  const [showActivities, setShowActivities] = useState(false);
+  const [showWatchers, setShowWatchers] = useState(false);
   const [newComment, setNewComment] = useState(false);
   const [data, setData] = useState({
     taskDetail: null,
@@ -85,7 +87,7 @@ function Task(props) {
 
   const handleShowActivities = () => {
     setNewComment(false);
-    setShowActivity(!showActivity);
+    setShowActivities(!showActivities);
   };
 
   const handleShowRelationShips = () => {
@@ -93,7 +95,7 @@ function Task(props) {
   };
 
   const handleShowWatchers = () => {
-    alert(t, 'common:holder_warning_option_prepare', () => null);
+    setShowWatchers(!showWatchers);
   };
 
   /** FUNC */
@@ -248,47 +250,47 @@ function Task(props) {
       }
       content={
         <CContent>
+          {!loading.main && data.taskDetail && (
+            <TouchableOpacity onPress={handleShowChangeStatus}>
+              <View
+                style={[
+                  cStyles.mt16,
+                  cStyles.mx16,
+                  cStyles.px16,
+                  cStyles.py10,
+                  cStyles.row,
+                  cStyles.itemsCenter,
+                  cStyles.justifyBetween,
+                  cStyles.rounded1,
+                  {backgroundColor: data.taskDetail.colorOpacityCode},
+                ]}>
+                <CText
+                  customStyles={[
+                    cStyles.fontMedium,
+                    {
+                      color: isDark
+                        ? data.taskDetail.colorDarkCode
+                        : data.taskDetail.colorCode,
+                    },
+                  ]}
+                  customLabel={data.taskDetail.statusName.toUpperCase()}
+                />
+                <Icon
+                  name={'chevron-down'}
+                  color={
+                    isDark
+                      ? data.taskDetail.colorDarkCode
+                      : data.taskDetail.colorCode
+                  }
+                  size={scalePx(3)}
+                />
+              </View>
+            </TouchableOpacity>
+          )}
+
           {!loading.main &&
             (data.taskDetail ? (
-              <ScrollView
-                style={cStyles.flex1}
-                contentContainerStyle={cStyles.pt16}>
-                {/** Status */}
-                <TouchableOpacity onPress={handleShowChangeStatus}>
-                  <View
-                    style={[
-                      cStyles.mx16,
-                      cStyles.px16,
-                      cStyles.py10,
-                      cStyles.row,
-                      cStyles.itemsCenter,
-                      cStyles.justifyBetween,
-                      cStyles.rounded1,
-                      {backgroundColor: data.taskDetail.colorOpacityCode},
-                    ]}>
-                    <CText
-                      customStyles={[
-                        cStyles.fontMedium,
-                        {
-                          color: isDark
-                            ? data.taskDetail.colorDarkCode
-                            : data.taskDetail.colorCode,
-                        },
-                      ]}
-                      customLabel={data.taskDetail.statusName.toUpperCase()}
-                    />
-                    <Icon
-                      name={'chevron-down'}
-                      color={
-                        isDark
-                          ? data.taskDetail.colorDarkCode
-                          : data.taskDetail.colorCode
-                      }
-                      size={scalePx(3)}
-                    />
-                  </View>
-                </TouchableOpacity>
-
+              <ScrollView style={[cStyles.flex1, cStyles.mt16]}>
                 <View
                   style={[
                     cStyles.rounded2,
@@ -312,9 +314,10 @@ function Task(props) {
                         {data.taskDetail.typeName}
                       </Text>
                       <Text
-                        style={
-                          cStyles.H6
-                        }>{`  #${data.taskDetail.taskID} - ${data.taskDetail.taskName}`}</Text>
+                        style={[
+                          cStyles.H6,
+                          {color: customColors.text},
+                        ]}>{`  #${data.taskDetail.taskID} - ${data.taskDetail.taskName}`}</Text>
                     </Text>
 
                     <View
@@ -522,7 +525,7 @@ function Task(props) {
                         cStyles.fullWidth,
                         cStyles.borderAll,
                         isDark && cStyles.borderAllDark,
-                        {borderRadius: 1}
+                        {borderRadius: 1},
                       ]}
                     />
                   </View>
@@ -558,13 +561,23 @@ function Task(props) {
           </CActionSheet>
 
           {!loading.main && (
-            <Activity
+            <Activities
               language={language}
               refreshToken={refreshToken}
               navigation={navigation}
               taskID={taskID}
-              visible={showActivity}
+              visible={showActivities}
               onClose={handleShowActivities}
+            />
+          )}
+          {!loading.main && (
+            <Watchers
+              language={language}
+              refreshToken={refreshToken}
+              navigation={navigation}
+              taskID={taskID}
+              visible={showWatchers}
+              onClose={handleShowWatchers}
             />
           )}
         </CContent>

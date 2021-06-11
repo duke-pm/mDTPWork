@@ -214,7 +214,7 @@ function ProjectItem(props) {
             ]}
           />
           <View style={[cStyles.flex1, cStyles.ml12]}>
-            <ListProject data={data.lstProjectItem} showScrollTop={false} />
+            <ListProject data={data.lstProjectItem} scrollToTop={false} />
           </View>
         </View>
       )}

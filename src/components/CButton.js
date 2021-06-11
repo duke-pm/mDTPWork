@@ -8,8 +8,14 @@
 import React from 'react';
 import {useTranslation} from 'react-i18next';
 import {useColorScheme} from 'react-native-appearance';
-import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import {
+  ActivityIndicator,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
+import LottieView from 'lottie-react-native';
 /** COMPONENTS */
 import CText from '~/components/CText';
 /** COMMON */
@@ -22,6 +28,7 @@ function CButton(props) {
   const isDark = useColorScheme() === THEME_DARK;
   const {
     style = {},
+    animationIconStyle = {},
     loading = false,
     fullWidth = false,
     block = false,
@@ -30,6 +37,7 @@ function CButton(props) {
     label = '',
     color = colors.SECONDARY,
     icon = null,
+    animationIcon = null,
     onPress = () => {},
   } = props;
 
@@ -68,13 +76,26 @@ function CButton(props) {
           (disabled || loading) && variant === 'outlined' && cStyles.borderAll,
           style,
         ]}>
-        {icon && (
+        {icon && !animationIcon && (
           <Icon
             style={cStyles.pr10}
             name={icon}
-            color={colors.WHITE}
+            color={variant === 'contained' ? colors.WHITE : color}
             size={scalePx(3)}
           />
+        )}
+        {loading ? (
+          <ActivityIndicator style={cStyles.pr10} />
+        ) : (
+          !icon &&
+          animationIcon && (
+            <LottieView
+              style={[styles.img_icon, animationIconStyle]}
+              source={animationIcon}
+              autoPlay
+              loop={false}
+            />
+          )
         )}
 
         <CText
@@ -97,6 +118,7 @@ const styles = StyleSheet.create({
   disabled_contained: {backgroundColor: colors.GRAY_500},
   disabled_text: {color: colors.BLACK},
   con_variant_text: {backgroundColor: colors.TRANSPARENT},
+  img_icon: {height: 40, width: 40},
 });
 
 export default CButton;

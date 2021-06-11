@@ -24,16 +24,20 @@ export const initialState = fromJS({
 
   submittingTaskDetail: false,
   submittingTaskComment: false,
+  submittingTaskWatcher: false,
   taskDetail: null,
   activities: List(),
   relationships: [],
-  watchers: [],
+  watchers: List(),
   successTaskDetail: false,
   errorTaskDetail: false,
   errorHelperTaskDetail: '',
   successTaskComment: false,
   errorTaskComment: false,
   errorHelperTaskComment: '',
+  successTaskWatcher: false,
+  errorTaskWatcher: false,
+  errorHelperTaskWatcher: '',
 });
 
 export default function (state = initialState, action = {}) {
@@ -131,15 +135,15 @@ export default function (state = initialState, action = {}) {
         .set('errorHelperTaskComment', '');
 
     case types.SUCCESS_FETCH_TASK_COMMENT:
-      let tmp = state.get('activities');
-      let tmp2 = payload;
+      let tmpActivities = state.get('activities');
+      let tmpActivities2 = payload;
 
       return state
         .set('submittingTaskComment', false)
         .set('successTaskComment', true)
         .set('errorTaskComment', false)
         .set('errorHelperTaskComment', '')
-        .set('activities', tmp.concat(tmp2));
+        .set('activities', tmpActivities.concat(tmpActivities2));
 
     case types.ERROR_FETCH_TASK_COMMENT:
       return state
@@ -147,6 +151,32 @@ export default function (state = initialState, action = {}) {
         .set('successTaskComment', false)
         .set('errorTaskComment', true)
         .set('errorHelperTaskComment', payload);
+
+    /** For task watchers **/
+    case types.START_FETCH_TASK_WATCHERS:
+      return state
+        .set('submittingTaskWatcher', true)
+        .set('successTaskWatcher', false)
+        .set('errorTaskWatcher', false)
+        .set('errorHelperTaskWatcher', '');
+
+    case types.SUCCESS_FETCH_TASK_WATCHERS:
+      let tmpWatchers = state.get('watchers');
+      let tmpWatchers2 = payload;
+
+      return state
+        .set('submittingTaskWatcher', false)
+        .set('successTaskWatcher', true)
+        .set('errorTaskWatcher', false)
+        .set('errorHelperTaskWatcher', '')
+        .set('watchers', tmpWatchers.concat(tmpWatchers2));
+
+    case types.ERROR_FETCH_TASK_WATCHERS:
+      return state
+        .set('submittingTaskWatcher', false)
+        .set('successTaskWatcher', false)
+        .set('errorTaskWatcher', true)
+        .set('errorHelperTaskWatcher', payload);
 
     default:
       return state;

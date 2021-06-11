@@ -90,7 +90,7 @@ function ListTask(props) {
             />
           );
         }}
-        showScrollTop={false}
+        scrollToTop={false}
       />
 
       <CAlert

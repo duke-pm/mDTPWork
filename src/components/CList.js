@@ -5,7 +5,7 @@
  ** Description: Description of CList.js
  **/
 import React, {createRef, useState, useRef} from 'react';
-import {StyleSheet, View, FlatList, Animated, KeyboardAvoidingView} from 'react-native';
+import {StyleSheet, View, FlatList, Animated, SectionList} from 'react-native';
 /* COMPONENTS */
 import CEmpty from './CEmpty';
 import CFooterList from './CFooterList';
@@ -13,15 +13,21 @@ import CIconButton from './CIconButton';
 /* COMMON */
 import {IS_ANDROID} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
+import CText from './CText';
+import moment from 'moment';
 
 let listRef = createRef();
+let sectionlistRef = createRef();
 
 function CList(props) {
   const {
     style = {},
+    customColors,
     contentStyle = {},
-    showScrollTop = true,
+    scrollToTop = true,
     scrollToBottom = false,
+    sectionList = false,
+    textEmpty = null,
     onRefresh = null,
     onLoadmore = null,
   } = props;
@@ -38,7 +44,15 @@ function CList(props) {
 
   /** HANDLE FUNC */
   const handleScrollToTop = () => {
-    listRef.scrollToOffset({animated: true, offset: 0});
+    if (!sectionList) {
+      listRef.scrollToOffset({animated: true, offset: 0});
+    } else {
+      sectionlistRef.scrollToLocation({
+        animated: true,
+        itemIndex: 0,
+        sectionIndex: 0,
+      });
+    }
   };
 
   /** FUNC */
@@ -74,7 +88,7 @@ function CList(props) {
   };
 
   const onContentChange = () => {
-    if (scrollToBottom) {
+    if (scrollToBottom && !sectionList) {
       listRef.scrollToEnd({animated: true});
     }
   };
@@ -82,40 +96,95 @@ function CList(props) {
   /** RENDER */
   return (
     <View style={cStyles.flex1}>
-      <FlatList
-        ref={ref => (listRef = ref)}
-        style={[cStyles.flex1, style]}
-        contentContainerStyle={[cStyles.px16, cStyles.pb16, contentStyle]}
-        data={props.data}
-        renderItem={propsItem =>
-          props.item({
-            item: propsItem.item,
-            index: propsItem.index,
-          })
-        }
-        keyExtractor={(item, index) => index.toString()}
-        removeClippedSubviews={IS_ANDROID}
-        keyboardShouldPersistTaps={'handled'}
-        keyboardDismissMode={'interactive'}
-        initialNumToRender={10}
-        scrollEventThrottle={16}
-        onScroll={showScrollTop ? onScroll : null}
-        onContentSizeChange={onContentChange}
-        refreshing={props.refreshing}
-        onRefresh={onRefresh}
-        onEndReachedThreshold={0.1}
-        onEndReached={onLoadmore}
-        ListEmptyComponent={
-          <CEmpty
-            label={'common:empty_data'}
-            description={'common:cannot_find_data_filter'}
-          />
-        }
-        ListFooterComponent={props.loadingmore ? <CFooterList /> : null}
-        {...props}
-      />
+      {!sectionList && (
+        <FlatList
+          ref={ref => (listRef = ref)}
+          style={[cStyles.flex1, style]}
+          contentContainerStyle={[cStyles.px16, cStyles.pb16, contentStyle]}
+          data={props.data}
+          renderItem={propsItem =>
+            props.item({
+              item: propsItem.item,
+              index: propsItem.index,
+            })
+          }
+          keyExtractor={(item, index) => index.toString()}
+          removeClippedSubviews={IS_ANDROID}
+          keyboardShouldPersistTaps={'handled'}
+          keyboardDismissMode={'interactive'}
+          initialNumToRender={10}
+          scrollEventThrottle={16}
+          onScroll={scrollToTop ? onScroll : null}
+          onContentSizeChange={onContentChange}
+          refreshing={props.refreshing}
+          onRefresh={onRefresh}
+          onEndReachedThreshold={0.1}
+          onEndReached={onLoadmore}
+          ListEmptyComponent={
+            <CEmpty
+              label={'common:empty_data'}
+              description={textEmpty || 'common:cannot_find_data_filter'}
+            />
+          }
+          ListFooterComponent={props.loadingmore ? <CFooterList /> : null}
+          {...props}
+        />
+      )}
 
-      {showScrollTop && (
+      {sectionList && (
+        <SectionList
+          ref={ref => (sectionlistRef = ref)}
+          style={[cStyles.flex1, style]}
+          contentContainerStyle={[cStyles.px16, cStyles.pb16, contentStyle]}
+          sections={props.data}
+          renderItem={propsItem =>
+            props.item({
+              item: propsItem.item,
+              index: propsItem.index,
+            })
+          }
+          renderSectionHeader={({section: {title}}) => (
+            <View
+              style={[
+                cStyles.flexCenter,
+                cStyles.py10,
+                {backgroundColor: customColors.background},
+              ]}>
+              <View
+                style={[
+                  cStyles.py4,
+                  cStyles.px16,
+                  cStyles.rounded5,
+                  {backgroundColor: customColors.card},
+                ]}>
+                <CText styles={'textMeta'} customLabel={title} />
+              </View>
+            </View>
+          )}
+          keyExtractor={(item, index) => index.toString()}
+          removeClippedSubviews={IS_ANDROID}
+          keyboardShouldPersistTaps={'handled'}
+          keyboardDismissMode={'interactive'}
+          initialNumToRender={10}
+          scrollEventThrottle={16}
+          onScroll={scrollToTop ? onScroll : null}
+          onContentSizeChange={onContentChange}
+          refreshing={props.refreshing}
+          onRefresh={onRefresh}
+          onEndReachedThreshold={0.1}
+          onEndReached={onLoadmore}
+          ListEmptyComponent={
+            <CEmpty
+              label={'common:empty_data'}
+              description={textEmpty || 'common:cannot_find_data_filter'}
+            />
+          }
+          ListFooterComponent={props.loadingmore ? <CFooterList /> : null}
+          {...props}
+        />
+      )}
+
+      {scrollToTop && (
         <CIconButton
           style={[
             cStyles.abs,

@@ -31,6 +31,7 @@
     "reset": "Reset",
     "save": "Save",
     "change": "Change",
+    "its_you": "You",
     "holder_warning_option_prepare": "The feature in progress, please come back later!"
   },
   "status": {
@@ -78,7 +79,8 @@
     "reject_request_lost_damage": "Cancel request failed. Please try again later!",
     "from_date_larger_than_to_date": "From date cannot be larger than to date!",
     "detail_request": "Do not get detailed information. Please try again after!",
-    "send_comment": "Unable to submit your comments. Please try again after!"
+    "send_comment": "Unable to submit your comments. Please try again after!",
+    "send_follow": "Unable to submit follow. Please try again after!"
   },
   "sign_in": {
     "title": "Login",
@@ -339,9 +341,14 @@
     "assign_status_completed": "All Completed",
     "holder_need_litte_one_status": "Need at least 1 status",
     "holder_need_litte_one_owner": "Need at least 1 owner",
-    "title_activity": "Activity",
+    "title_activity": "Activities",
+    "title_watcher": "Watchers",
     "holder_input_your_comment": "Input your comment...",
     "origin_publisher": "Publisher: ",
-    "owner_ship_dtp": "Distributor: "
+    "owner_ship_dtp": "Distributor: ",
+    "list_watchers": "List of followers",
+    "you_watched": "Followed",
+    "you_not_watch": "Unfollowed",
+    "empty_watchers": "Currently no one is tracking this job!"
   }
 }

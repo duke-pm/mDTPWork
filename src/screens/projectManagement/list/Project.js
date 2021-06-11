@@ -52,7 +52,7 @@ function ListProject(props) {
           />
         );
       }}
-      showScrollTop={false}
+      scrollToTop={false}
     />
   );
 }
