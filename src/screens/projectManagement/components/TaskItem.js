@@ -21,6 +21,7 @@ import Icon from 'react-native-vector-icons/Feather';
 import CText from '~/components/CText';
 import ListTask from '../list/Task';
 import CIconButton from '~/components/CIconButton';
+import CAvatar from '~/components/CAvatar';
 /* COMMON */
 import Commons from '~/utils/common/Commons';
 import {IS_ANDROID, IS_IOS, scalePx} from '~/utils/helper';
@@ -139,12 +140,20 @@ const TaskItem = React.memo(function TaskItem(props) {
                   customLabel={data.typeName}
                 />
                 <View style={cStyles.pl16}>
-                  <CText
-                    styles={
-                      'textMeta fontMedium ' + (isReject && ' textThrough')
-                    }
-                    customLabel={data.ownerName}
-                  />
+                  <View style={[cStyles.row, cStyles.itemsCenter]}>
+                    <CAvatar
+                      customColors={customColors}
+                      size={'vsmall'}
+                      label={data.ownerName}
+                    />
+                    <CText
+                      styles={
+                        'textMeta fontMedium pl6 ' +
+                        (isReject && ' textThrough')
+                      }
+                      customLabel={data.ownerName}
+                    />
+                  </View>
                   <View style={[cStyles.row, cStyles.itemsCenter]}>
                     <View
                       style={[styles.status, {backgroundColor: bgStatus}]}
@@ -187,7 +196,13 @@ const TaskItem = React.memo(function TaskItem(props) {
                         isDark && cStyles.borderAllDark,
                         {backgroundColor: customColors.red},
                       ]}>
-                      <Text style={[cStyles.fontRegular, {fontSize: 10, color: colors.WHITE}]}>{data.countChild}</Text>
+                      <Text
+                        style={[
+                          cStyles.fontRegular,
+                          {fontSize: 8, color: colors.WHITE},
+                        ]}>
+                        {data.countChild}
+                      </Text>
                     </View>
                   </View>
                 )}

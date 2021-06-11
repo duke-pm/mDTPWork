@@ -153,13 +153,8 @@ function ProjectItem(props) {
                     styles={'textMeta'}
                     label={'project_management:owner'}
                   />
-                  <CAvatar
-                    customColors={customColors}
-                    size={'vsmall'}
-                    label={data.ownerName}
-                  />
                   <CText
-                    styles={'textMeta fontMedium pl6'}
+                    styles={'textMeta fontMedium'}
                     customLabel={data.ownerName !== '' ? data.ownerName : '-'}
                   />
                 </View>
@@ -223,8 +218,8 @@ function ProjectItem(props) {
 }
 
 const styles = StyleSheet.create({
-  con_info_left: {flex: 0.5},
-  con_info_right: {flex: 0.5},
+  con_info_left: {flex: 0.45},
+  con_info_right: {flex: 0.55},
   line_child: {height: '100%'},
   card: {zIndex: 100},
   card_children: {height: 100},
