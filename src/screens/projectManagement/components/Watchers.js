@@ -5,7 +5,7 @@
  ** CreateAt: 2021
  ** Description: Description of .js
  **/
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, version} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
@@ -112,7 +112,8 @@ function Watchers(props) {
     if (loading.send) {
       if (!projectState.get('submittingTaskWatcher')) {
         if (projectState.get('successTaskWatcher')) {
-          return onPrepareData(true);
+          setFollow(true);
+          return onPrepareData(false);
         }
 
         if (projectState.get('errorTaskWatcher')) {
@@ -125,6 +126,7 @@ function Watchers(props) {
     projectState.get('submittingTaskWatcher'),
     projectState.get('successTaskWatcher'),
     projectState.get('errorTaskWatcher'),
+    setFollow,
   ]);
 
   /** RENDER */
@@ -185,7 +187,7 @@ function Watchers(props) {
                     ? 'project_management:you_not_watch'
                     : 'project_management:you_watched'
                 }
-                icon={follow ? null : 'eye'}
+                icon={follow ? null : loading.send ? null : 'eye'}
                 animationIcon={follow ? Animations.approved : null}
                 onPress={handleFollow}
               />
