@@ -21,6 +21,7 @@ import {
   Keyboard,
   Text,
 } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/Feather';
 import Modal from 'react-native-modal';
 import moment from 'moment';
@@ -313,7 +314,9 @@ function Activity(props) {
                       <View style={[cStyles.itemsEnd, cStyles.pb16]}>
                         <View
                           style={[
-                            cStyles.rounded2,
+                            cStyles.roundedBottomLeft2,
+                            cStyles.roundedTopLeft2,
+                            cStyles.roundedTopRight2,
                             cStyles.p10,
                             cStyles.ml10,
                             {backgroundColor: customColors.primary},
@@ -348,7 +351,9 @@ function Activity(props) {
                       <View
                         style={[
                           cStyles.flex1,
-                          cStyles.rounded2,
+                          cStyles.roundedBottomLeft2,
+                          cStyles.roundedBottomRight2,
+                          cStyles.roundedTopRight2,
                           cStyles.p10,
                           cStyles.ml10,
                           {backgroundColor: customColors.cardDisable},
