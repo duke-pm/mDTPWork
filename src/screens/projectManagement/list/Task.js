@@ -39,7 +39,7 @@ function ListTask(props) {
         taskID: data.taskID,
         isUpdated: data.isUpdated,
       },
-      onRefresh: () => props.onRefresh(),
+      onRefresh: () => onRefreshTasks(),
     });
   };
 

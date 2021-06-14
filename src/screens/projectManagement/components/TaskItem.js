@@ -242,7 +242,7 @@ const TaskItem = React.memo(function TaskItem(props) {
             ]}
           />
           <View style={[cStyles.flex1, cStyles.ml12]}>
-            <ListTask data={data.lstTaskItem} onRefresh={onRefresh} />
+            <ListTask data={data.lstTaskItem} onRefreshTasks={onRefresh} />
           </View>
         </View>
       )}
