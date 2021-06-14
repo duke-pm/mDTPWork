@@ -461,7 +461,6 @@ function AddRequest(props) {
           } else {
             setDataAssets(masterState.get('assetByUser'));
             let data = masterState.get('assetByUser');
-            console.log('[LOG] === useEffect ===> ', data);
             if (data && data.length > 0) {
               setForm({
                 ...form,

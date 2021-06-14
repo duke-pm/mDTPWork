@@ -56,7 +56,6 @@ function CHeader(props) {
 
     onPressAddNew = () => {},
     onPressSearch = () => {},
-    onRefresh = () => {},
   } = props;
 
   /** Use redux */
@@ -69,7 +68,7 @@ function CHeader(props) {
   /** HANDLE FUNC */
   const handleBack = () => {
     navigation.goBack();
-    onRefresh();
+    props.onRefresh();
   };
 
   const handleMenu = () => {};

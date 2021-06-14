@@ -17,11 +17,11 @@ import {
   TouchableOpacity,
   View,
   Text,
+  Linking,
 } from 'react-native';
 import {showMessage} from 'react-native-flash-message';
 import Icon from 'react-native-vector-icons/Feather';
 import Picker from '@gregfrench/react-native-wheel-picker';
-import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
@@ -35,9 +35,16 @@ import Watchers from '../components/Watchers';
 import Commons from '~/utils/common/Commons';
 import {colors, cStyles} from '~/utils/style';
 import {LAST_COMMENT_TASK, THEME_DARK} from '~/config/constants';
-import {scalePx, sH, getLocalInfo, checkEmpty} from '~/utils/helper';
+import {
+  scalePx,
+  sH,
+  getLocalInfo,
+  checkEmpty,
+  previewFile,
+} from '~/utils/helper';
 /** REDUX */
 import * as Actions from '~/redux/actions';
+import API from '~/services/axios';
 
 /** All refs use in this screen */
 const actionSheetStatusRef = createRef();
@@ -49,7 +56,7 @@ function Task(props) {
   const {route, navigation} = props;
   const taskID = route.params?.data?.taskID;
   const perChangeStatus = route.params?.data?.isUpdated;
-  const onRefresh = props.params?.onRefresh;
+  const onRefresh = route.params?.onRefresh;
 
   /** Use redux */
   const dispatch = useDispatch();
@@ -64,8 +71,9 @@ function Task(props) {
 
   /** Use state */
   const [loading, setLoading] = useState({
-    main: false,
+    main: true,
     change: false,
+    startFetch: false,
   });
   const [showActivities, setShowActivities] = useState(false);
   const [showWatchers, setShowWatchers] = useState(false);
@@ -94,6 +102,17 @@ function Task(props) {
 
   const handleShowWatchers = () => {
     setShowWatchers(!showWatchers);
+  };
+
+  const handlePreviewFile = () => {
+    let url =
+      API.defaults.baseURL.substring(0, API.defaults.baseURL.length - 3) +
+      data.taskDetail.attachFiles;
+    let fileName = data.taskDetail.attachFiles.substring(
+      data.taskDetail.attachFiles.lastIndexOf('/') + 1,
+      data.taskDetail.attachFiles.length,
+    );
+    previewFile(url, fileName);
   };
 
   /** FUNC */
@@ -139,7 +158,7 @@ function Task(props) {
     }
     setData({taskDetail});
 
-    return setLoading({...loading, main: false});
+    return setLoading({...loading, main: false, startFetch: false});
   };
 
   const onPrepareUpdateStatus = () => {
@@ -165,7 +184,7 @@ function Task(props) {
       icon: 'danger',
     });
 
-    return setLoading({...loading, main: false});
+    return setLoading({...loading, main: false, startFetch: false});
   };
 
   const onCloseActionSheet = () => {
@@ -182,11 +201,11 @@ function Task(props) {
   /** LIFE CYCLE */
   useEffect(() => {
     onFetchData();
-    setLoading({...loading, main: true});
+    setLoading({...loading, startFetch: true});
   }, []);
 
   useEffect(() => {
-    if (loading.main) {
+    if (loading.startFetch) {
       if (!projectState.get('submittingTaskDetail')) {
         if (projectState.get('successTaskDetail')) {
           return onPrepareData();
@@ -198,7 +217,7 @@ function Task(props) {
       }
     }
   }, [
-    loading.main,
+    loading.startFetch,
     projectState.get('submittingTaskDetail'),
     projectState.get('successTaskDetail'),
     projectState.get('errorTaskDetail'),
@@ -421,15 +440,19 @@ function Task(props) {
                           {color: customColors.text},
                         ]}
                         customLabel={
-                          moment(
+                          checkEmpty(
                             data.taskDetail.startDate,
-                            'YYYY-MM-DDTHH:mm:ss',
-                          ).format(formatDateView) +
+                            '#',
+                            false,
+                            formatDateView,
+                          ) +
                           ' - ' +
-                          moment(
+                          checkEmpty(
                             data.taskDetail.endDate,
-                            'YYYY-MM-DDTHH:mm:ss',
-                          ).format(formatDateView)
+                            '#',
+                            false,
+                            formatDateView,
+                          )
                         }
                       />
                     </View>
@@ -545,6 +568,46 @@ function Task(props) {
                     </View>
                   </View>
 
+                  {/** Files attach */}
+                  {data.taskDetail.attachFiles !== '' && (
+                    <View style={cStyles.pb10}>
+                      <CText
+                        styles={'textMeta'}
+                        label={'project_management:files_attach'}
+                      />
+                      <TouchableOpacity onPress={handlePreviewFile}>
+                        <View
+                          style={[
+                            cStyles.row,
+                            cStyles.itemsCenter,
+                            cStyles.py2,
+                          ]}>
+                          <View
+                            style={[
+                              cStyles.mx10,
+                              styles.dot_file,
+                              {backgroundColor: customColors.icon},
+                            ]}
+                          />
+                          <CText
+                            styles={'textMeta textUnderline textItalic'}
+                            customStyles={[
+                              cStyles.textMeta,
+                              cStyles.textUnderline,
+                              cStyles.textItalic,
+                              {color: customColors.primary},
+                            ]}
+                            customLabel={data.taskDetail.attachFiles.substring(
+                              data.taskDetail.attachFiles.lastIndexOf('/') + 1,
+                              data.taskDetail.attachFiles.length,
+                            )}
+                            dataDetectorType={'link'}
+                          />
+                        </View>
+                      </TouchableOpacity>
+                    </View>
+                  )}
+
                   {/** Description */}
                   <View style={cStyles.flexCenter}>
                     <View
@@ -622,6 +685,7 @@ const styles = StyleSheet.create({
   con_right_1: {flex: 0.5},
   badge: {height: 10, width: 10, top: 16, right: 15},
   line: {borderRadius: 1},
+  dot_file: {height: 5, width: 5, borderRadius: 5},
 });
 
 export default Task;

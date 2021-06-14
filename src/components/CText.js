@@ -40,7 +40,7 @@ function CText(props) {
           allStyles,
           customStyles,
         ]}
-        allowFontScaling={true}
+        allowFontScaling
         {...props}>
         {customLabel || t(label)}
       </Text>

@@ -296,7 +296,7 @@ function FilterProject(props) {
             })}
           </ScrollView>
         </View>
-        <CLoading visible={loading} />
+        <CLoading customColors={customColors} visible={loading} />
       </SafeAreaView>
     </Modal>
   );

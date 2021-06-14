@@ -354,6 +354,7 @@
     "you_not_watch": "Unfollowed",
     "empty_watchers": "Currently no tracking this job!",
     "empty_tasks": "Currently no job in this project!",
-    "empty_comment": "Currently no comment in this project!"
+    "empty_comment": "Currently no comment in this project!",
+    "files_attach": "Attach files: "
   }
 }

@@ -18,9 +18,9 @@ import CText from '~/components/CText';
 import ListItem from './components/ListItem';
 import SocialItem from './components/SocialItem';
 /* COMMON */
-import {THEME_DARK} from '~/config/constants';
-import {Assets} from '~/utils/asset';
 import Routes from '~/navigation/Routes';
+import {Assets} from '~/utils/asset';
+import {THEME_DARK} from '~/config/constants';
 import {alert, clearSecretInfo, resetRoute, sW} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
 /* REDUX */

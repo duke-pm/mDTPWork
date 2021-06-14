@@ -21,7 +21,6 @@ import {
   Keyboard,
   Text,
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/Feather';
 import Modal from 'react-native-modal';
 import moment from 'moment';
@@ -351,7 +350,6 @@ function Activity(props) {
                       />
                       <View
                         style={[
-                          cStyles.flex1,
                           cStyles.roundedBottomLeft2,
                           cStyles.roundedBottomRight2,
                           cStyles.roundedTopRight2,
@@ -359,30 +357,22 @@ function Activity(props) {
                           cStyles.ml10,
                           {backgroundColor: customColors.cardDisable},
                         ]}>
-                        <View
-                          style={[
-                            cStyles.row,
-                            cStyles.itemsCenter,
-                            cStyles.justifyBetween,
-                          ]}>
-                          <View style={styles.con_left}>
-                            <Text
-                              style={[
-                                cStyles.textTitle,
-                                {color: customColors.primary},
-                              ]}>
-                              {item.fullName}
-                            </Text>
-                          </View>
-                          <View style={[cStyles.itemsEnd, styles.con_right]}>
-                            <CText
-                              styles={'textMeta'}
-                              customLabel={moment(
-                                item.timeUpdate,
-                                'DD/MM/YYYY - HH:mm',
-                              ).format('HH:mm')}
-                            />
-                          </View>
+                        <View style={[cStyles.row, cStyles.itemsEnd]}>
+                          <Text
+                            style={[
+                              cStyles.textTitle,
+                              {color: customColors.primary},
+                            ]}>
+                            {item.fullName + ', '}
+                          </Text>
+
+                          <CText
+                            styles={'textMeta'}
+                            customLabel={moment(
+                              item.timeUpdate,
+                              'DD/MM/YYYY - HH:mm',
+                            ).format('HH:mm')}
+                          />
                         </View>
 
                         <View style={cStyles.mt10}>
@@ -410,7 +400,10 @@ function Activity(props) {
           />
         </KeyboardAvoidingView>
 
-        <CLoading visible={loading.main || loading.send} />
+        <CLoading
+          customColors={customColors}
+          visible={loading.main || loading.send}
+        />
       </SafeAreaView>
     </Modal>
   );

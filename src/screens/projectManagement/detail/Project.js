@@ -34,9 +34,10 @@ function ProjectDetail(props) {
 
   /** Use state */
   const [loading, setLoading] = useState({
-    main: false,
+    main: true,
     search: false,
     refreshing: false,
+    startFetch: false,
   });
   const [data, setData] = useState({
     tasks: [],
@@ -83,7 +84,12 @@ function ProjectDetail(props) {
 
     setData({...data, tasks, tasksFilter: tasks});
 
-    return setLoading({main: false, search: false, refreshing: false});
+    return setLoading({
+      main: false,
+      search: false,
+      refreshing: false,
+      startFetch: false,
+    });
   };
 
   const onError = () => {
@@ -94,12 +100,12 @@ function ProjectDetail(props) {
       icon: 'danger',
     });
 
-    return setLoading({main: false, search: false, refreshing: false});
-  };
-
-  const onRefresh = () => {
-    setLoading({...loading, main: true});
-    onPrepareData();
+    return setLoading({
+      main: false,
+      search: false,
+      refreshing: false,
+      startFetch: false,
+    });
   };
 
   const onRefreshTasks = () => {
@@ -112,13 +118,14 @@ function ProjectDetail(props) {
   /** LIFE CYCLE */
   useEffect(() => {
     onFetchData();
-    setLoading({...loading, main: true});
+    setLoading({...loading, startFetch: true});
   }, []);
 
   useEffect(() => {
-    if (loading.main || loading.search || loading.refreshing) {
+    if (loading.startFetch || loading.search || loading.refreshing) {
       if (!projectState.get('submittingListTask')) {
         if (projectState.get('successListTask')) {
+          console.log('[LOG] === onPrepareData ===> ');
           return onPrepareData();
         }
 
@@ -128,7 +135,7 @@ function ProjectDetail(props) {
       }
     }
   }, [
-    loading.main,
+    loading.startFetch,
     loading.search,
     loading.refreshing,
     projectState.get('submittingListTask'),
@@ -152,7 +159,6 @@ function ProjectDetail(props) {
             <ListTask
               refreshing={loading.refreshing}
               data={data.tasksFilter}
-              onRefresh={onRefresh}
               onRefreshTasks={onRefreshTasks}
             />
           )}

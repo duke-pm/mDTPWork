@@ -10,6 +10,9 @@ import {PERMISSIONS, request} from 'react-native-permissions';
 import ImagePicker from 'react-native-image-crop-picker';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import RNFS from 'react-native-fs';
+import FileViewer from 'react-native-file-viewer';
+import moment from 'moment';
 
 export const IS_ANDROID = Platform.OS === 'android';
 export const IS_IOS = Platform.OS === 'ios';
@@ -217,7 +220,12 @@ export async function clearSecretInfo(key) {
   }
 }
 
-export function checkEmpty(value, replaceValue, isNumber = false) {
+export function checkEmpty(
+  value,
+  replaceValue,
+  isNumber = false,
+  formatDate = null,
+) {
   if (value === 0 || value === '' || !value) {
     if (replaceValue) {
       if (isNumber) {
@@ -231,8 +239,25 @@ export function checkEmpty(value, replaceValue, isNumber = false) {
   } else {
     if (isNumber) {
       return Number(value).format();
+    } else if (formatDate) {
+      return moment(value).format(formatDate);
     } else {
       return value;
     }
+  }
+}
+
+export async function previewFile(url = '', name = null) {
+  const localFile = `${RNFS.DocumentDirectoryPath}/${name}`;
+  const isExistsFile = await RNFS.exists(localFile);
+  if (isExistsFile) {
+    return FileViewer.open(localFile);
+  } else {
+    const options = {
+      fromUrl: url,
+      toFile: localFile,
+    };
+    await RNFS.downloadFile(options).promise;
+    FileViewer.open(localFile);
   }
 }

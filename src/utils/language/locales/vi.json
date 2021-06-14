@@ -347,7 +347,7 @@
     "holder_need_litte_one_owner": "Cần ít nhất 1 người phụ trách",
     "title_activity": "Hoạt Động",
     "title_watcher": "Theo Dõi",
-    "holder_input_your_comment": "Điền ý kiến của bạn...",
+    "holder_input_your_comment": "Điền nhận xét của bạn...",
     "origin_publisher": "NXB: ",
     "owner_ship_dtp": "NPP: ",
     "list_watchers": "Danh sách người theo dõi",
@@ -355,6 +355,7 @@
     "you_not_watch": "Theo Dõi",
     "empty_watchers": "Hiện tại chưa có ai theo dõi công việc này!",
     "empty_tasks": "Hiện tại chưa có công việc cho dự án này!",
-    "empty_comment": "Hiện tại chưa có ý kiến cho dự án này!"
+    "empty_comment": "Hiện tại chưa có nhận xét cho dự án này!",
+    "files_attach": "Tệp tin đính kèm: "
   }
 }

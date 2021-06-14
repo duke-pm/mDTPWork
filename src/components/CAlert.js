@@ -125,7 +125,7 @@ function CAlert(props) {
                 )}
               </View>
             )}
-            <CLoading visible={loading} />
+            <CLoading customColors={customColors} visible={loading} />
           </View>
         </TouchableWithoutFeedback>
       </View>

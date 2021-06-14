@@ -43,9 +43,10 @@ function ProjectManagement(props) {
 
   /** Use state */
   const [loading, setLoading] = useState({
-    main: false,
+    main: true,
     search: false,
     refreshing: false,
+    startFetch: false,
   });
   const [isFiltering, setIsFiltering] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
@@ -158,6 +159,7 @@ function ProjectManagement(props) {
       main: false,
       search: false,
       refreshing: false,
+      startFetch: false,
     });
   };
 
@@ -204,6 +206,7 @@ function ProjectManagement(props) {
       main: false,
       search: false,
       refreshing: false,
+      startFetch: false,
     });
   };
 
@@ -232,11 +235,11 @@ function ProjectManagement(props) {
   /** LIFE CYCLE */
   useEffect(() => {
     onFetchData();
-    setLoading({...loading, main: true});
+    setLoading({...loading, startFetch: true});
   }, []);
 
   useEffect(() => {
-    if (loading.main || loading.search || loading.refreshing) {
+    if (loading.startFetch || loading.search || loading.refreshing) {
       if (!projectState.get('submittingListProject')) {
         if (projectState.get('successListProject')) {
           if (masterState.get('projectStatus').length > 0) {
@@ -250,7 +253,7 @@ function ProjectManagement(props) {
       }
     }
   }, [
-    loading.main,
+    loading.startFetch,
     loading.search,
     loading.refreshing,
     projectState.get('submittingListProject'),

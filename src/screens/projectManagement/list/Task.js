@@ -24,9 +24,9 @@ let isPrevIsParent = false;
 
 function ListTask(props) {
   const navigation = useNavigation();
-  const {customColors} = useTheme();
   const isDark = useColorScheme() === THEME_DARK;
-  const {refreshing, onRefresh, onRefreshTasks} = props;
+  const {customColors} = useTheme();
+  const {refreshing, onRefreshTasks} = props;
 
   /** Use state */
   const [showInfo, setShowInfo] = useState(false);
@@ -39,7 +39,7 @@ function ListTask(props) {
         taskID: data.taskID,
         isUpdated: data.isUpdated,
       },
-      onRefresh: () => onRefresh(),
+      onRefresh: () => props.onRefresh(),
     });
   };
 
@@ -70,7 +70,6 @@ function ListTask(props) {
       isOutOfDate = true;
     }
   }
-
   return (
     <View style={cStyles.flex1}>
       <CList
@@ -92,6 +91,7 @@ function ListTask(props) {
               isPrevIsParent={isPrevIsParent}
               onPress={handleTaskItem}
               onShowDetail={handleShowDetail}
+              onRefresh={onRefreshTasks}
             />
           );
         }}
