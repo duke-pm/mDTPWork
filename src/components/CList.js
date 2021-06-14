@@ -4,7 +4,7 @@
  ** CreateAt: 2021
  ** Description: Description of CList.js
  **/
-import React, {createRef, useState, useRef} from 'react';
+import React, {createRef, useState, useEffect, useRef} from 'react';
 import {StyleSheet, View, FlatList, Animated, SectionList} from 'react-native';
 /* COMPONENTS */
 import CEmpty from './CEmpty';
@@ -12,8 +12,9 @@ import CText from './CText';
 import CFooterList from './CFooterList';
 import CIconButton from './CIconButton';
 /* COMMON */
-import {IS_ANDROID} from '~/utils/helper';
+import {IS_ANDROID, IS_IOS} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
+import CLoading from './CLoading';
 
 let listRef = createRef();
 let sectionlistRef = createRef();
@@ -36,6 +37,9 @@ function CList(props) {
     .current;
 
   /** Use state */
+  const [loading, setLoading] = useState(
+    scrollToBottom && sectionList ? true : false,
+  );
   const [scrollDown, setScrollDown] = useState({
     status: false,
     offsetY: 0,
@@ -93,6 +97,24 @@ function CList(props) {
   };
 
   /** RENDER */
+  useEffect(() => {
+    if (props.data && scrollToBottom && sectionList) {
+      setTimeout(
+        () => {
+          if (props.data.length > 0) {
+            sectionlistRef.scrollToLocation({
+              animated: true,
+              itemIndex: props.data[props.data.length - 1].data.length - 1,
+              sectionIndex: props.data.length - 1,
+            });
+          }
+          setLoading(false);
+        },
+        IS_IOS ? 1000 : 1500,
+      );
+    }
+  }, [props.data, scrollToBottom, sectionList, setLoading]);
+
   return (
     <View style={cStyles.flex1}>
       {!sectionList && (
@@ -136,30 +158,32 @@ function CList(props) {
           style={[cStyles.flex1, style]}
           contentContainerStyle={[cStyles.px16, cStyles.pb16, contentStyle]}
           sections={props.data}
-          renderItem={propsItem =>
-            props.item({
+          renderItem={propsItem => {
+            return props.item({
               item: propsItem.item,
               index: propsItem.index,
-            })
-          }
-          renderSectionHeader={({section: {title}}) => (
-            <View
-              style={[
-                cStyles.flexCenter,
-                cStyles.py10,
-                {backgroundColor: customColors.background},
-              ]}>
+            });
+          }}
+          renderSectionHeader={({section}) => {
+            return (
               <View
                 style={[
-                  cStyles.py4,
-                  cStyles.px16,
-                  cStyles.rounded5,
-                  {backgroundColor: customColors.card},
+                  cStyles.flexCenter,
+                  cStyles.py10,
+                  {backgroundColor: customColors.background},
                 ]}>
-                <CText styles={'textMeta'} customLabel={title} />
+                <View
+                  style={[
+                    cStyles.py4,
+                    cStyles.px16,
+                    cStyles.rounded5,
+                    {backgroundColor: customColors.card},
+                  ]}>
+                  <CText styles={'textMeta'} customLabel={section.title} />
+                </View>
               </View>
-            </View>
-          )}
+            );
+          }}
           keyExtractor={(item, index) => index.toString()}
           removeClippedSubviews={IS_ANDROID}
           keyboardShouldPersistTaps={'handled'}
@@ -168,6 +192,7 @@ function CList(props) {
           scrollEventThrottle={16}
           onScroll={scrollToTop ? onScroll : null}
           onContentSizeChange={onContentChange}
+          stickySectionHeadersEnabled={true}
           refreshing={props.refreshing}
           onRefresh={onRefresh}
           onEndReachedThreshold={0.1}
@@ -194,6 +219,10 @@ function CList(props) {
           iconColor={colors.WHITE}
           onPress={handleScrollToTop}
         />
+      )}
+
+      {props.data && scrollToBottom && sectionList && (
+        <CLoading visible={loading} customColors={customColors} />
       )}
     </View>
   );

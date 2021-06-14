@@ -13,7 +13,7 @@ import * as Animatable from 'react-native-animatable';
 import {Animations} from '~/utils/asset';
 import {colors, cStyles} from '~/utils/style';
 
-const CLoading = props => {
+function CLoading(props) {
   /** RENDER */
   return (
     <Modal
@@ -46,7 +46,7 @@ const CLoading = props => {
       </View>
     </Modal>
   );
-};
+}
 
 const styles = StyleSheet.create({
   con_modal: {backgroundColor: colors.BACKGROUND_MODAL},

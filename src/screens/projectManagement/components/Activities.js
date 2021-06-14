@@ -153,12 +153,13 @@ function Activity(props) {
     } else {
       array = [...messages];
       let lastCmt = activities[activities.length - 1];
-      if (array.length > 0) {
+      let date = moment(lastCmt.timeUpdate, 'DD/MM/YYYY - HH:mm').format(
+        'dddd - DD/MM/YYYY',
+      );
+      let find = array.findIndex(f => f.title === date);
+      if (find !== -1) {
         array[array.length - 1].data.push(lastCmt);
       } else {
-        let date = moment(lastCmt.timeUpdate, 'DD/MM/YYYY - HH:mm').format(
-          'dddd - DD/MM/YYYY',
-        );
         array.push({
           title: date,
           data: [lastCmt],

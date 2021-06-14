@@ -125,7 +125,6 @@ function ProjectDetail(props) {
     if (loading.startFetch || loading.search || loading.refreshing) {
       if (!projectState.get('submittingListTask')) {
         if (projectState.get('successListTask')) {
-          console.log('[LOG] === onPrepareData ===> ');
           return onPrepareData();
         }
 
