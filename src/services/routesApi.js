@@ -24,9 +24,9 @@ const Routes = {
     LIST_PROJECT: '/Project/GetList',
     LIST_TASK: '/Task/GetList',
     TASK_DETAIL: '/Task/GetByID',
+    TASK_STATUS: '/Task/UpdateStatus',
     TASK_COMMENT: '/TaskActivity/Modify',
     TASK_WATCHER: '/TaskWatcher/Modify',
-    TASK_STATUS: '/TaskStatus/Modify',
   },
 };
 

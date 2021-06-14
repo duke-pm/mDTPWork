@@ -18,7 +18,13 @@ import {THEME_DARK} from '~/config/constants';
 function CActionSheet(props) {
   const {customColors} = useTheme();
   const isDark = useColorScheme() === THEME_DARK;
-  const {actionRef, customHeader, headerChoose = false, onConfirm} = props;
+  const {
+    actionRef,
+    customHeader,
+    headerChoose = false,
+    onConfirm,
+    onClose,
+  } = props;
 
   return (
     <ActionSheet
@@ -29,6 +35,7 @@ function CActionSheet(props) {
       indicatorColor={customColors.cardDisable}
       gestureEnabled={true}
       defaultOverlayOpacity={isDark ? 0.8 : 0.5}
+      onClose={onClose}
       CustomHeaderComponent={
         headerChoose ? (
           <View

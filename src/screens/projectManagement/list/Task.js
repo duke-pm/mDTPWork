@@ -26,6 +26,7 @@ function ListTask(props) {
   const navigation = useNavigation();
   const {customColors} = useTheme();
   const isDark = useColorScheme() === THEME_DARK;
+  const {refreshing, onRefresh, onRefreshTasks} = props;
 
   /** Use state */
   const [showInfo, setShowInfo] = useState(false);
@@ -36,7 +37,9 @@ function ListTask(props) {
     navigation.navigate(Routes.MAIN.TASK_DETAIL.name, {
       data: {
         taskID: data.taskID,
+        isUpdated: data.isUpdated,
       },
+      onRefresh: () => onRefresh(),
     });
   };
 
@@ -92,6 +95,8 @@ function ListTask(props) {
             />
           );
         }}
+        refreshing={refreshing}
+        onRefresh={onRefreshTasks}
       />
 
       <CAlert

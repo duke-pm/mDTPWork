@@ -44,7 +44,7 @@ import CheckOption from '../components/CheckOption';
 import {Animations} from '~/utils/asset';
 import Commons from '~/utils/common/Commons';
 import {colors, cStyles} from '~/utils/style';
-import {IS_IOS, scalePx, IS_ANDROID, sH} from '~/utils/helper';
+import {IS_IOS, scalePx, IS_ANDROID, sH, checkEmpty} from '~/utils/helper';
 import {THEME_DARK} from '~/config/constants';
 // import API from '~/services/axios';
 /* REDUX */
@@ -808,13 +808,11 @@ function AddRequest(props) {
                           />
                           <CText
                             styles={'textMeta fontBold'}
-                            customLabel={
-                              props.route.params?.data?.originalPrice === 0
-                                ? '-'
-                                : Number(
-                                    props.route.params?.data?.originalPrice,
-                                  ).format()
-                            }
+                            customLabel={checkEmpty(
+                              props.route.params?.data?.originalPrice,
+                              null,
+                              true,
+                            )}
                           />
                         </View>
                         <View style={[cStyles.row, cStyles.justifyStart]}>
@@ -837,11 +835,10 @@ function AddRequest(props) {
                         />
                         <CText
                           styles={'textMeta fontBold'}
-                          customLabel={
-                            props.route.params?.data?.descr !== ''
-                              ? props.route.params?.data?.descr
-                              : t('common:empty_info')
-                          }
+                          customLabel={checkEmpty(
+                            props.route.params?.data?.descr,
+                            t('common:empty_info'),
+                          )}
                         />
                       </View>
                     </View>

@@ -54,7 +54,7 @@ function CAvatar(props) {
   let customLabel = '';
   if (!source && label) {
     customLabel = label.split(' ');
-    customLabel = customLabel[customLabel.length - 1].charAt(0);
+    customLabel = customLabel[customLabel.length - 1].charAt(0).toUpperCase();
   }
   return (
     <View

@@ -307,6 +307,7 @@ function Activity(props) {
                 scrollToTop={false}
                 scrollToBottom
                 sectionList
+                textEmpty={t('project_management:empty_comment')}
                 data={messages}
                 item={({item, index}) => {
                   if (item.userName === userName) {

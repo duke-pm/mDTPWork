@@ -138,9 +138,20 @@ export default {
   },
   taskUpdateStatus: params => {
     return new Promise((resolve, reject) => {
-      API.post(
+      let tmpConfigs = {params: {}};
+      if (params.get('TaskID')) {
+        tmpConfigs.params.TaskID = params.get('TaskID');
+      }
+      if (params.get('Lang')) {
+        tmpConfigs.params.Lang = params.get('Lang');
+      }
+      if (params.get('StatusID')) {
+        tmpConfigs.params.StatusID = params.get('StatusID');
+      }
+
+      API.get(
         jwtServiceConfig.baseURL + Routes.PROJECT_MANAGEMENT.TASK_STATUS,
-        params,
+        tmpConfigs,
       )
         .then(response => {
           console.log('FETCH TASK UPDATE STATUS => ', response);

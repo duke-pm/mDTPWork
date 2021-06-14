@@ -216,3 +216,23 @@ export async function clearSecretInfo(key) {
     return false;
   }
 }
+
+export function checkEmpty(value, replaceValue, isNumber = false) {
+  if (value === 0 || value === '' || !value) {
+    if (replaceValue) {
+      if (isNumber) {
+        return Number(replaceValue).format();
+      } else {
+        return replaceValue;
+      }
+    } else {
+      return '-';
+    }
+  } else {
+    if (isNumber) {
+      return Number(value).format();
+    } else {
+      return value;
+    }
+  }
+}

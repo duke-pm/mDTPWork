@@ -48,6 +48,7 @@ function CContainer(props) {
     iconBack,
     onPressAddNew = () => {},
     onPressSearch = () => {},
+    onRefresh = () => {},
   } = props;
 
   /** Use redux */
@@ -55,7 +56,6 @@ function CContainer(props) {
   const isSearch = commonState.get('isSearch');
 
   /** Use state */
-  const [loading, setLoading] = useState(true);
   const [bgColor, setbgColor] = useState(customColors.primary);
 
   /** LIFE CYCLE */
@@ -67,15 +67,6 @@ function CContainer(props) {
     }
   }, [isDark, setbgColor]);
 
-  useEffect(() => {
-    if (props.loading) {
-      setLoading(true);
-    }
-    if (!props.loading) {
-      setLoading(false);
-    }
-  }, [props.loading, setLoading]);
-
   /** RENDER */
   // Theme
   let tmpSafeArea = ['right', 'left'];
@@ -85,7 +76,6 @@ function CContainer(props) {
   if (safeArea.bottom) {
     tmpSafeArea.push('bottom');
   }
-
   return (
     <SafeAreaView
       style={[cStyles.flex1, {backgroundColor: bgColor}]}
@@ -112,6 +102,7 @@ function CContainer(props) {
             customSubTitle={customSubTitle}
             left={headerLeft}
             right={headerRight}
+            onRefresh={onRefresh}
             onPressAddNew={onPressAddNew}
             onPressSearch={onPressSearch}
           />
@@ -147,7 +138,7 @@ function CContainer(props) {
         )}
       </View>
 
-      <CLoading visible={loading} />
+      <CLoading customColors={customColors} visible={props.loading} />
     </SafeAreaView>
   );
 }

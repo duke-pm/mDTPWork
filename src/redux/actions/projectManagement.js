@@ -29,7 +29,9 @@ export const fetchListProject = (params, navigation) => {
       .listProject(params)
       .then(res => {
         if (!res.isError) {
-          return dispatch(listProjectSuccess(res.data));
+          return dispatch(
+            listProjectSuccess({data: res.data, count: res.totalRow}),
+          );
         } else {
           return dispatch(listProjectError(res.errorMessage));
         }
@@ -249,7 +251,13 @@ export const fetchUpdateStatusTask = (params, navigation) => {
       .taskUpdateStatus(params)
       .then(res => {
         if (!res.isError) {
-          return dispatch(updateStatusTaskSuccess(res.data));
+          let dataTask = null;
+          if (res.data.length > 0) {
+            dataTask = res.data[0];
+          } else {
+            dataTask = res.data;
+          }
+          return dispatch(updateStatusTaskSuccess(dataTask));
         } else {
           return dispatch(updateStatusTaskError(res.errorMessage));
         }

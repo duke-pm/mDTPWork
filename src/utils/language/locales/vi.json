@@ -50,7 +50,8 @@
     "title": "Thành Công",
     "send_request": "Đã gửi yêu cầu thành công!",
     "approved_request": "Phê duyệt yêu cầu thành công!",
-    "reject_request": "Từ chối yêu cầu thành công!"
+    "reject_request": "Từ chối yêu cầu thành công!",
+    "change_status": "Cập nhật trạng thái thành công!"
   },
   "error": {
     "title": "Lỗi",
@@ -80,7 +81,8 @@
     "from_date_larger_than_to_date": "Từ ngày không thể lớn hơn đến ngày!",
     "detail_request": "Không thê lấy thông tin chi tiết. Vui lòng thử lại sau!",
     "send_comment": "Không thể gửi ý kiến của bạn. Vui lòng thử lại sau!",
-    "send_follow": "Không thể theo dõi. Vui lòng thử lại sau!"
+    "send_follow": "Không thể theo dõi. Vui lòng thử lại sau!",
+    "update_status_request": "Không thê cập nhật trạng thái. Vui lòng thử lại sau!"
   },
   "sign_in": {
     "title": "Đăng Nhập",
@@ -305,6 +307,7 @@
   },
   "project_management": {
     "title": "Quản Lý Dự Án",
+    "project": "dự án",
     "sector": "Khu vực: ",
     "status": "Trạng thái: ",
     "owner": "Phụ trách: ",
@@ -351,6 +354,7 @@
     "you_watched": "Đã Theo Dõi",
     "you_not_watch": "Theo Dõi",
     "empty_watchers": "Hiện tại chưa có ai theo dõi công việc này!",
-    "empty_tasks": "Hiện tại chưa có công việc cho dự án này!"
+    "empty_tasks": "Hiện tại chưa có công việc cho dự án này!",
+    "empty_comment": "Hiện tại chưa có ý kiến cho dự án này!"
   }
 }

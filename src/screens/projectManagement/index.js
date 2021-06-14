@@ -45,6 +45,7 @@ function ProjectManagement(props) {
   const [loading, setLoading] = useState({
     main: false,
     search: false,
+    refreshing: false,
   });
   const [isFiltering, setIsFiltering] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
@@ -73,6 +74,7 @@ function ProjectManagement(props) {
     setShowFilter(!showFilter);
     setLoading({...loading, search: true});
     let projects = onFilter([...data.projects], activeOwner, 'owner');
+    projects = onFilter(projects, activeStatus, 'statusID');
     if (activeOwner.length === filters.owner.length) {
       if (isFiltering) {
         setIsFiltering(false);
@@ -155,6 +157,7 @@ function ProjectManagement(props) {
     return setLoading({
       main: false,
       search: false,
+      refreshing: false,
     });
   };
 
@@ -200,13 +203,13 @@ function ProjectManagement(props) {
     return setLoading({
       main: false,
       search: false,
+      refreshing: false,
     });
   };
 
   const onFilter = (projects, arrFilter, valueFilter) => {
     let tmp = [],
       project = null;
-    console.log('[LOG] === projects ===> ', projects);
     for (project of projects) {
       let find = arrFilter.indexOf(project[valueFilter]);
       if (find !== -1) {
@@ -219,6 +222,13 @@ function ProjectManagement(props) {
     return tmp;
   };
 
+  const onRefresh = () => {
+    if (!loading.refreshing) {
+      setLoading({...loading, refreshing: true});
+      onFetchData();
+    }
+  };
+
   /** LIFE CYCLE */
   useEffect(() => {
     onFetchData();
@@ -226,7 +236,7 @@ function ProjectManagement(props) {
   }, []);
 
   useEffect(() => {
-    if (loading.main || loading.search) {
+    if (loading.main || loading.search || loading.refreshing) {
       if (!projectState.get('submittingListProject')) {
         if (projectState.get('successListProject')) {
           if (masterState.get('projectStatus').length > 0) {
@@ -242,6 +252,7 @@ function ProjectManagement(props) {
   }, [
     loading.main,
     loading.search,
+    loading.refreshing,
     projectState.get('submittingListProject'),
     projectState.get('successListProject'),
     projectState.get('errorListProject'),
@@ -253,6 +264,9 @@ function ProjectManagement(props) {
     <CContainer
       loading={loading.main || loading.search}
       title={'project_management:title'}
+      subTitle={`${projectState.get('countProjects')} ${t(
+        'project_management:project',
+      )}`}
       header
       hasBack
       hasSearch
@@ -282,7 +296,11 @@ function ProjectManagement(props) {
       content={
         <CContent>
           {!loading.main && !loading.search && (
-            <ListProject data={data.projectsFilter} />
+            <ListProject
+              refreshing={loading.refreshing}
+              data={data.projectsFilter}
+              onRefresh={onRefresh}
+            />
           )}
           {!loading.main && !loading.search && (
             <FilterProject

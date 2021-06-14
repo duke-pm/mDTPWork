@@ -8,13 +8,12 @@ import React, {createRef, useState, useRef} from 'react';
 import {StyleSheet, View, FlatList, Animated, SectionList} from 'react-native';
 /* COMPONENTS */
 import CEmpty from './CEmpty';
+import CText from './CText';
 import CFooterList from './CFooterList';
 import CIconButton from './CIconButton';
 /* COMMON */
 import {IS_ANDROID} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
-import CText from './CText';
-import moment from 'moment';
 
 let listRef = createRef();
 let sectionlistRef = createRef();

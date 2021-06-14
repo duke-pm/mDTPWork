@@ -10,11 +10,10 @@ import moment from 'moment';
 /* COMPONENTS */
 import CCard from '~/components/CCard';
 import CText from '~/components/CText';
-import CAvatar from '~/components/CAvatar';
 import ListProject from '../list/Project';
 /* COMMON */
 import {cStyles} from '~/utils/style';
-import {IS_ANDROID, IS_IOS} from '~/utils/helper';
+import {checkEmpty, IS_ANDROID, IS_IOS} from '~/utils/helper';
 import Commons from '~/utils/common/Commons';
 
 if (IS_ANDROID) {
@@ -94,7 +93,7 @@ function ProjectItem(props) {
                   />
                   <CText
                     styles={'textMeta fontRegular'}
-                    customLabel={data.sectorName !== '' ? data.sectorName : '-'}
+                    customLabel={checkEmpty(data.sectorName)}
                   />
                 </View>
 
@@ -138,7 +137,7 @@ function ProjectItem(props) {
                       cStyles.fontBold,
                       {color: data.statusColor || customColors[status.color]},
                     ]}
-                    label={status.label}
+                    label={data.statusName}
                   />
                 </View>
 
@@ -155,7 +154,7 @@ function ProjectItem(props) {
                   />
                   <CText
                     styles={'textMeta fontMedium'}
-                    customLabel={data.ownerName !== '' ? data.ownerName : '-'}
+                    customLabel={checkEmpty(data.ownerName)}
                   />
                 </View>
               </View>
@@ -168,7 +167,7 @@ function ProjectItem(props) {
                 styles={'textMeta'}
                 label={'project_management:description'}
               />
-              <CText styles={'textMeta fontRegular'} customLabel={data.descr} />
+              <CText styles={'textMeta'} customLabel={checkEmpty(data.descr)} />
             </View>
           </View>
         }

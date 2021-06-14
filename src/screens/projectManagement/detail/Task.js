@@ -29,14 +29,13 @@ import CText from '~/components/CText';
 import CAvatar from '~/components/CAvatar';
 import CActionSheet from '~/components/CActionSheet';
 import CEmpty from '~/components/CEmpty';
-import CLoading from '~/components/CLoading';
 import Activities from '../components/Activities';
 import Watchers from '../components/Watchers';
 /* COMMON */
 import Commons from '~/utils/common/Commons';
 import {colors, cStyles} from '~/utils/style';
 import {LAST_COMMENT_TASK, THEME_DARK} from '~/config/constants';
-import {scalePx, sH, alert, getLocalInfo, sW} from '~/utils/helper';
+import {scalePx, sH, getLocalInfo, checkEmpty} from '~/utils/helper';
 /** REDUX */
 import * as Actions from '~/redux/actions';
 
@@ -49,6 +48,8 @@ function Task(props) {
   const isDark = useColorScheme() === THEME_DARK;
   const {route, navigation} = props;
   const taskID = route.params?.data?.taskID;
+  const perChangeStatus = route.params?.data?.isUpdated;
+  const onRefresh = props.params?.onRefresh;
 
   /** Use redux */
   const dispatch = useDispatch();
@@ -64,6 +65,7 @@ function Task(props) {
   /** Use state */
   const [loading, setLoading] = useState({
     main: false,
+    change: false,
   });
   const [showActivities, setShowActivities] = useState(false);
   const [showWatchers, setShowWatchers] = useState(false);
@@ -82,8 +84,7 @@ function Task(props) {
   };
 
   const handleShowChangeStatus = () => {
-    // actionSheetStatusRef.current?.show();
-    alert(t, 'common:holder_warning_option_prepare', () => null);
+    actionSheetStatusRef.current?.show();
   };
 
   const handleShowActivities = () => {
@@ -138,18 +139,44 @@ function Task(props) {
     }
     setData({taskDetail});
 
-    return setLoading({main: false});
+    return setLoading({...loading, main: false});
   };
 
-  const onError = () => {
+  const onPrepareUpdateStatus = () => {
+    let taskDetail = projectState.get('taskDetail');
+    setData({taskDetail});
+    setLoading({...loading, change: false});
+    return showMessage({
+      message: t('common:app_name'),
+      description: t('success:change_status'),
+      type: 'success',
+      icon: 'success',
+    });
+  };
+
+  const onError = isUpdate => {
+    let des = !isUpdate
+      ? t('error:detail_request')
+      : t('error:update_status_request');
     showMessage({
       message: t('common:app_name'),
-      description: t('error:detail_request'),
+      description: des,
       type: 'danger',
       icon: 'danger',
     });
 
-    return setLoading({main: false});
+    return setLoading({...loading, main: false});
+  };
+
+  const onCloseActionSheet = () => {
+    setLoading({...loading, change: true});
+    let params = fromJS({
+      TaskID: taskID,
+      StatusID: status.data[status.active].statusID,
+      Lang: language,
+      RefreshToken: refreshToken,
+    });
+    dispatch(Actions.fetchUpdateStatusTask(params, navigation));
   };
 
   /** LIFE CYCLE */
@@ -166,7 +193,7 @@ function Task(props) {
         }
 
         if (projectState.get('errorTaskDetail')) {
-          return onError();
+          return onError(false);
         }
       }
     }
@@ -175,6 +202,25 @@ function Task(props) {
     projectState.get('submittingTaskDetail'),
     projectState.get('successTaskDetail'),
     projectState.get('errorTaskDetail'),
+  ]);
+
+  useEffect(() => {
+    if (loading.change) {
+      if (!projectState.get('submittingTaskUpdateStatus')) {
+        if (projectState.get('successTaskUpdateStatus')) {
+          return onPrepareUpdateStatus();
+        }
+
+        if (projectState.get('errorTaskUpdateStatus')) {
+          return onError(true);
+        }
+      }
+    }
+  }, [
+    loading.change,
+    projectState.get('submittingTaskUpdateStatus'),
+    projectState.get('successTaskUpdateStatus'),
+    projectState.get('errorTaskUpdateStatus'),
   ]);
 
   /** RENDER */
@@ -192,13 +238,13 @@ function Task(props) {
       bgPriority = data.taskDetail.priorityColor;
     }
   }
-
   return (
     <CContainer
-      loading={false}
+      loading={loading.main || loading.change}
       title={''}
       header
       hasBack
+      onRefresh={onRefresh}
       headerRight={
         <View style={[cStyles.row, cStyles.itemsCenter]}>
           <TouchableOpacity
@@ -238,7 +284,9 @@ function Task(props) {
       content={
         <CContent>
           {!loading.main && data.taskDetail && (
-            <TouchableOpacity onPress={handleShowChangeStatus}>
+            <TouchableOpacity
+              disabled={!perChangeStatus}
+              onPress={handleShowChangeStatus}>
               <View
                 style={[
                   cStyles.mt16,
@@ -262,15 +310,17 @@ function Task(props) {
                   ]}
                   customLabel={data.taskDetail.statusName.toUpperCase()}
                 />
-                <Icon
-                  name={'chevron-down'}
-                  color={
-                    isDark
-                      ? data.taskDetail.colorDarkCode
-                      : data.taskDetail.colorCode
-                  }
-                  size={scalePx(3)}
-                />
+                {perChangeStatus && (
+                  <Icon
+                    name={'chevron-down'}
+                    color={
+                      isDark
+                        ? data.taskDetail.colorDarkCode
+                        : data.taskDetail.colorCode
+                    }
+                    size={scalePx(3)}
+                  />
+                )}
               </View>
             </TouchableOpacity>
           )}
@@ -327,7 +377,7 @@ function Task(props) {
                     </View>
                   </View>
 
-                  {/** Assigned & Time */}
+                  {/** Owner & Time */}
                   <View
                     style={[
                       cStyles.pb10,
@@ -385,6 +435,7 @@ function Task(props) {
                     </View>
                   </View>
 
+                  {/** Piority, Grade & Component */}
                   <View
                     style={[
                       cStyles.pb10,
@@ -406,11 +457,10 @@ function Task(props) {
                       <CText
                         customStyles={[
                           cStyles.textMeta,
-                          cStyles.pl2,
                           cStyles.fontMedium,
                           {color: bgPriority},
                         ]}
-                        customLabel={data.taskDetail.priorityName}
+                        customLabel={checkEmpty(data.taskDetail.priorityName)}
                       />
                     </View>
 
@@ -428,7 +478,7 @@ function Task(props) {
 
                       <CText
                         styles={'textMeta pl2 fontMedium'}
-                        customLabel={data.taskDetail.grade}
+                        customLabel={checkEmpty(data.taskDetail.grade)}
                       />
                     </View>
 
@@ -444,16 +494,13 @@ function Task(props) {
                       />
 
                       <CText
-                        styles={'textMeta pl2 fontMedium'}
-                        customLabel={
-                          data.taskDetail.componentName !== ''
-                            ? data.taskDetail.componentName
-                            : '-'
-                        }
+                        styles={'textMeta fontMedium'}
+                        customLabel={checkEmpty(data.taskDetail.componentName)}
                       />
                     </View>
                   </View>
 
+                  {/** Origin publish & Owner ship */}
                   <View
                     style={[
                       cStyles.pb10,
@@ -473,12 +520,10 @@ function Task(props) {
                       />
 
                       <CText
-                        styles={'textMeta pl2 fontMedium'}
-                        customLabel={
-                          data.taskDetail.originPublisher !== ''
-                            ? data.taskDetail.originPublisher
-                            : '-'
-                        }
+                        styles={'textMeta fontMedium'}
+                        customLabel={checkEmpty(
+                          data.taskDetail.originPublisher,
+                        )}
                       />
                     </View>
 
@@ -494,12 +539,8 @@ function Task(props) {
                       />
 
                       <CText
-                        styles={'textMeta pl2 fontMedium'}
-                        customLabel={
-                          data.taskDetail.ownershipDTP !== ''
-                            ? data.taskDetail.ownershipDTP
-                            : '-'
-                        }
+                        styles={'textMeta fontMedium'}
+                        customLabel={checkEmpty(data.taskDetail.ownershipDTP)}
                       />
                     </View>
                   </View>
@@ -512,13 +553,13 @@ function Task(props) {
                         cStyles.fullWidth,
                         cStyles.borderAll,
                         isDark && cStyles.borderAllDark,
-                        {borderRadius: 1},
+                        styles.line,
                       ]}
                     />
                   </View>
 
                   <View style={cStyles.py10}>
-                    <CText customLabel={data.taskDetail.descr} />
+                    <CText customLabel={checkEmpty(data.taskDetail.descr)} />
                   </View>
                 </View>
               </ScrollView>
@@ -526,12 +567,11 @@ function Task(props) {
               <CEmpty />
             ))}
 
-          <CLoading visible={loading.main} />
-
           <CActionSheet
             actionRef={actionSheetStatusRef}
             headerChoose
-            onConfirm={handleChangeStatus}>
+            onConfirm={handleChangeStatus}
+            onClose={onCloseActionSheet}>
             <Picker
               style={styles.con_action}
               itemStyle={{color: customColors.text, fontSize: scalePx(3)}}
@@ -539,9 +579,9 @@ function Task(props) {
               onValueChange={onChangeStatus}>
               {status.data.map((value, i) => (
                 <Picker.Item
+                  key={value.statusID}
                   label={value.statusName}
                   value={i}
-                  key={value.statusID}
                 />
               ))}
             </Picker>
@@ -581,6 +621,7 @@ const styles = StyleSheet.create({
   con_middle: {flex: 0.2},
   con_right_1: {flex: 0.5},
   badge: {height: 10, width: 10, top: 16, right: 15},
+  line: {borderRadius: 1},
 });
 
 export default Task;
