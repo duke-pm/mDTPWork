@@ -16,7 +16,7 @@ import {
   UIManager,
   Text,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Feather';
+import * as Progress from 'react-native-progress';
 /* COMPONENTS */
 import CText from '~/components/CText';
 import ListTask from '../list/Task';
@@ -24,7 +24,7 @@ import CIconButton from '~/components/CIconButton';
 import CAvatar from '~/components/CAvatar';
 /* COMMON */
 import Commons from '~/utils/common/Commons';
-import {IS_ANDROID, IS_IOS, scalePx} from '~/utils/helper';
+import {IS_ANDROID, IS_IOS} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
 
 if (IS_ANDROID) {
@@ -33,14 +33,13 @@ if (IS_ANDROID) {
   }
 }
 
-const TaskItem = React.memo(function TaskItem(props) {
+function TaskItem(props) {
   const {
     isPrevIsParent,
     data,
     isDark,
     customColors,
     onPress,
-    onShowDetail,
     onRefresh,
   } = props;
 
@@ -179,7 +178,7 @@ const TaskItem = React.memo(function TaskItem(props) {
                   data.countChild > 0 && {marginTop: -8},
                 ]}>
                 {data.countChild > 0 && (
-                  <View>
+                  <View style={cStyles.pr10}>
                     <Animated.View style={{transform: [{rotate: rotateData}]}}>
                       <CIconButton
                         iconName={'chevron-down'}
@@ -195,7 +194,7 @@ const TaskItem = React.memo(function TaskItem(props) {
                         styles.badge,
                         cStyles.borderAll,
                         isDark && cStyles.borderAllDark,
-                        {backgroundColor: customColors.red},
+                        {backgroundColor: customColors.red, right: 10},
                       ]}>
                       <Text
                         style={[
@@ -207,14 +206,20 @@ const TaskItem = React.memo(function TaskItem(props) {
                     </View>
                   </View>
                 )}
-                <TouchableOpacity onPress={() => onShowDetail(data)}>
-                  <Icon
-                    style={[cStyles.p10, cStyles.pl10, cStyles.pr0]}
-                    name={'more-vertical'}
-                    color={customColors.icon}
-                    size={scalePx(3)}
-                  />
-                </TouchableOpacity>
+
+                <Progress.Circle
+                  animated={false}
+                  size={30}
+                  progress={data.percentage / 100}
+                  thickness={2}
+                  color={customColors.primary}
+                  showsText
+                  textStyle={[
+                    cStyles.textCenter,
+                    cStyles.fontRegular,
+                    {fontSize: 8},
+                  ]}
+                />
               </View>
             </View>
 
@@ -248,7 +253,7 @@ const TaskItem = React.memo(function TaskItem(props) {
       )}
     </View>
   );
-});
+}
 
 const styles = StyleSheet.create({
   status: {
