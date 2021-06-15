@@ -5,7 +5,7 @@
  ** CreateAt: 2021
  ** Description: Description of Task.js
  **/
-import {fromJS, set} from 'immutable';
+import {fromJS} from 'immutable';
 import React, {createRef, useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
@@ -46,7 +46,6 @@ import {
 import API from '~/services/axios';
 /** REDUX */
 import * as Actions from '~/redux/actions';
-import CIconButton from '~/components/CIconButton';
 
 /** All refs use in this screen */
 const actionSheetStatusRef = createRef();
@@ -140,7 +139,7 @@ function Task(props) {
         });
         percentRef.focus();
       } else {
-        if (percent.value === data.taskDetail.percentage) {
+        if (Number(percent.value) === data.taskDetail.percentage) {
           setPercent({...percent, visible: !percent.visible});
         } else {
           setPercent({...percent, visible: !percent.visible});
@@ -559,11 +558,7 @@ function Task(props) {
                         />
 
                         <CText
-                          customStyles={[
-                            cStyles.textMeta,
-                            cStyles.fontMedium,
-                            {color: bgPriority},
-                          ]}
+                          customStyles={[cStyles.textMeta, {color: bgPriority}]}
                           customLabel={checkEmpty(data.taskDetail.priorityName)}
                         />
                       </View>
@@ -581,7 +576,7 @@ function Task(props) {
                         />
 
                         <CText
-                          styles={'textMeta pl2 fontMedium'}
+                          styles={'textMeta'}
                           customLabel={checkEmpty(data.taskDetail.grade)}
                         />
                       </View>
@@ -598,7 +593,7 @@ function Task(props) {
                         />
 
                         <CText
-                          styles={'textMeta fontMedium'}
+                          styles={'textMeta'}
                           customLabel={checkEmpty(
                             data.taskDetail.componentName,
                           )}
@@ -708,6 +703,7 @@ function Task(props) {
                                   cStyles.textMeta,
                                   cStyles.textCenter,
                                   cStyles.pl10,
+                                  {color: customColors.text},
                                 ]}>{`${percent.value}%`}</Text>
                             </View>
                           ) : (
@@ -726,7 +722,11 @@ function Task(props) {
                                 ]}>
                                 <TextInput
                                   ref={ref => (percentRef = ref)}
-                                  style={cStyles.textDefault}
+                                  style={[
+                                    cStyles.textDefault,
+                                    cStyles.px4,
+                                    {color: customColors.text},
+                                  ]}
                                   autoFocus
                                   value={percent.value + ''}
                                   keyboardAppearance={

@@ -14,6 +14,7 @@ import {showMessage} from 'react-native-flash-message';
 import {isIphoneX} from 'react-native-iphone-x-helper';
 import {
   StyleSheet,
+  ScrollView,
   View,
   KeyboardAvoidingView,
   Keyboard,
@@ -250,7 +251,7 @@ function Activity(props) {
           <KeyboardAvoidingView
             style={cStyles.flex1}
             behavior={IS_IOS ? 'padding' : undefined}
-            keyboardVerticalOffset={isIphoneX() ? 120 : IS_IOS ? 86 : 0}>
+            keyboardVerticalOffset={isIphoneX() ? 120 : IS_IOS ? 66 : 0}>
             {!loading.main && (
               <CList
                 contentStyle={cStyles.pt16}

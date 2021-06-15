@@ -40,8 +40,8 @@ const CCard = React.memo(function CCard(props) {
         // !isDark && IS_ANDROID && cStyles.borderAll,
         isDark && cStyles.borderAllDark,
         styles.container,
-        containerStyle,
         {backgroundColor: customColors.card},
+        containerStyle,
       ]}
       activeOpacity={0.8}
       onLayout={onLayout}

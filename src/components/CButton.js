@@ -92,6 +92,7 @@ function CButton(props) {
             <LottieView
               style={[styles.img_icon, animationIconStyle]}
               source={animationIcon}
+              duration={900}
               autoPlay
               loop={false}
             />
