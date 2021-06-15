@@ -15,7 +15,7 @@ import CText from './CText';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
 import {IS_ANDROID, scalePx} from '~/utils/helper';
-import {THEME_DARK} from '~/config/constants';
+import {THEME_DARK, THEME_LIGHT} from '~/config/constants';
 
 function CInput(props) {
   const {t} = useTranslation();
@@ -157,7 +157,7 @@ function CInput(props) {
               selectTextOnFocus={true}
               textAlign={textAlign}
               removeClippedSubviews={IS_ANDROID}
-              keyboardAppearance={isDark ? 'dark' : 'light'}
+              keyboardAppearance={isDark ? THEME_DARK : THEME_LIGHT}
               keyboardType={keyboard}
               returnKeyType={returnKey}
               onFocus={handleFocusInput}
