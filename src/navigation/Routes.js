@@ -27,6 +27,8 @@ import AddRequestLostDamage from '~/screens/approved/addLostDamage/Request';
 import ProjectManagement from '~/screens/projectManagement';
 import ProjectDetail from '~/screens/projectManagement/detail/Project';
 import TaskDetail from '~/screens/projectManagement/detail/Task';
+import TaskActivities from '~/screens/projectManagement/components/Activities';
+import TaskWatchers from '~/screens/projectManagement/components/Watchers';
 
 const Routes = {
   AUTHENTICATION: {
@@ -108,6 +110,16 @@ const Routes = {
     TASK_DETAIL: {
       name: 'TaskDetail',
       path: TaskDetail,
+      childrens: {
+        TASK_ACTIVITIES: {
+          name: 'TaskActivities',
+          path: TaskActivities,
+        },
+        TASK_WATCHERS: {
+          name: 'TaskWatchers',
+          path: TaskWatchers,
+        },
+      },
     },
   },
 };

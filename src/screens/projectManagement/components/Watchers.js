@@ -5,19 +5,15 @@
  ** CreateAt: 2021
  ** Description: Description of .js
  **/
-import React, {useState, useEffect, version} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {BlurView} from '@react-native-community/blur';
 import {showMessage} from 'react-native-flash-message';
-import {StyleSheet, TouchableOpacity, View, Text} from 'react-native';
-import Icon from 'react-native-vector-icons/Feather';
-import Modal from 'react-native-modal';
+import {StyleSheet, View, Text} from 'react-native';
 /* COMPONENTS */
-import CHeader from '~/components/CHeader';
+import CContainer from '~/components/CContainer';
 import CText from '~/components/CText';
 import CList from '~/components/CList';
 import CAvatar from '~/components/CAvatar';
@@ -27,7 +23,6 @@ import CButton from '~/components/CButton';
 import {Animations} from '~/utils/asset';
 import {THEME_DARK} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
-import {IS_IOS, scalePx} from '~/utils/helper';
 /** REDUX */
 import * as Actions from '~/redux/actions';
 
@@ -35,19 +30,17 @@ function Watchers(props) {
   const {t} = useTranslation();
   const {customColors} = useTheme();
   const isDark = useColorScheme() === THEME_DARK;
-  const {
-    taskID = '',
-    language = 'vi',
-    refreshToken = '',
-    navigation = null,
-    onClose = () => {},
-  } = props;
+  const {route, navigation} = props;
+  const taskID = route.params.data.taskID;
 
   /** Use redux */
   const dispatch = useDispatch();
   const projectState = useSelector(({projectManagement}) => projectManagement);
+  const commonState = useSelector(({common}) => common);
   const authState = useSelector(({auth}) => auth);
   const userName = authState.getIn(['login', 'userName']);
+  const refreshToken = authState.getIn(['login', 'refreshToken']);
+  const language = commonState.get('language');
 
   /** Use state */
   const [loading, setLoading] = useState({
@@ -58,10 +51,6 @@ function Watchers(props) {
   const [watchers, setWatchers] = useState([]);
 
   /** HANDLE FUNC */
-  const handleClose = () => {
-    onClose();
-  };
-
   const handleFollow = () => {
     if (!follow) {
       setLoading({...loading, send: true});
@@ -131,128 +120,90 @@ function Watchers(props) {
 
   /** RENDER */
   return (
-    <Modal
-      style={cStyles.m0}
-      isVisible={props.visible}
-      animationIn={'slideInUp'}
-      animationOut={'slideOutDown'}
-      backdropOpacity={0}>
-      <SafeAreaView
-        style={[
-          cStyles.flex1,
-          {
-            backgroundColor: isDark
-              ? customColors.header
-              : customColors.primary,
-          },
-        ]}
-        edges={['right', 'left', 'top']}>
-        {isDark && IS_IOS && (
-          <BlurView
-            style={[cStyles.abs, cStyles.inset0]}
-            blurType={'extraDark'}
-            reducedTransparencyFallbackColor={colors.BLACK}
-          />
-        )}
-        <View
-          style={[cStyles.flex1, {backgroundColor: customColors.background}]}>
-          {/** Header */}
-          <CHeader
-            centerStyle={cStyles.center}
-            left={
-              <TouchableOpacity
-                style={cStyles.itemsStart}
-                onPress={handleClose}>
-                <Icon
-                  style={cStyles.p16}
-                  name={'x'}
-                  color={'white'}
-                  size={scalePx(3)}
-                />
-              </TouchableOpacity>
-            }
-            title={'project_management:title_watcher'}
-          />
-          {/** Content */}
-          <CContent>
-            <View style={[cStyles.mt16, cStyles.mx16]}>
-              <CButton
-                block
-                loading={loading.send}
-                disabled={loading.main || loading.send}
-                variant={'outlined'}
-                color={!follow ? colors.SECONDARY : customColors.green}
-                label={
-                  !follow
-                    ? 'project_management:you_not_watch'
-                    : 'project_management:you_watched'
-                }
-                icon={follow ? null : loading.send ? null : 'eye'}
-                animationIcon={follow ? Animations.approved : null}
-                onPress={handleFollow}
-              />
-            </View>
+    <CContainer
+      loading={loading.main || loading.send}
+      title={'project_management:title_watcher'}
+      header
+      hasBack
+      iconBack={'x'}
+      content={
+        <CContent>
+          <View style={[cStyles.mt16, cStyles.mx16]}>
+            <CButton
+              block
+              loading={loading.send}
+              disabled={loading.main || loading.send}
+              variant={'outlined'}
+              color={!follow ? colors.SECONDARY : customColors.green}
+              label={
+                !follow
+                  ? 'project_management:you_not_watch'
+                  : 'project_management:you_watched'
+              }
+              icon={follow ? null : loading.send ? null : 'eye'}
+              animationIcon={follow ? Animations.approved : null}
+              onPress={handleFollow}
+            />
+          </View>
 
-            {!loading.main && (
-              <View style={[cStyles.flex1, cStyles.mt10]}>
-                <CText
-                  styles={'textMeta ml16 mt16'}
-                  label={'project_management:list_watchers'}
-                />
-                <CList
-                  scrollToBottom
-                  textEmpty={'project_management:empty_watchers'}
-                  data={watchers}
-                  item={({item, index}) => {
-                    return (
-                      <View style={[cStyles.row, cStyles.itemsCenter]}>
-                        <CAvatar
-                          size={'small'}
-                          label={item.fullName}
-                          customColors={customColors}
-                        />
-                        <View
-                          style={[
-                            cStyles.flex1,
-                            cStyles.row,
-                            cStyles.itemsCenter,
-                            cStyles.justifyBetween,
-                            cStyles.ml10,
-                            cStyles.py16,
-                            cStyles.borderBottom,
-                            isDark && cStyles.borderBottomDark,
-                          ]}>
-                          <View style={styles.con_left}>
-                            <Text
-                              style={[
-                                cStyles.textTitle,
-                                {color: customColors.primary},
-                              ]}>
-                              {item.fullName}
-                              <Text style={cStyles.textMeta}>
-                                {item.userName === userName
-                                  ? `  (${t('common:its_you')})`
-                                  : ''}
-                              </Text>
+          {!loading.main && (
+            <View style={[cStyles.flex1, cStyles.mt10]}>
+              <CText
+                styles={'textMeta ml16 mt16'}
+                label={'project_management:list_watchers'}
+              />
+              <CList
+                textEmpty={'project_management:empty_watchers'}
+                data={watchers}
+                item={({item, index}) => {
+                  return (
+                    <View style={[cStyles.row, cStyles.itemsCenter]}>
+                      <CAvatar
+                        size={'small'}
+                        label={item.fullName}
+                        customColors={customColors}
+                      />
+                      <View
+                        style={[
+                          cStyles.flex1,
+                          cStyles.row,
+                          cStyles.itemsCenter,
+                          cStyles.justifyBetween,
+                          cStyles.ml10,
+                          cStyles.py16,
+                          cStyles.borderBottom,
+                          isDark && cStyles.borderBottomDark,
+                        ]}>
+                        <View style={styles.con_left}>
+                          <Text
+                            style={[
+                              cStyles.textTitle,
+                              {color: customColors.primary},
+                            ]}>
+                            {item.fullName}
+                            <Text style={cStyles.textMeta}>
+                              {item.userName === userName
+                                ? `  (${t('common:its_you')})`
+                                : ''}
                             </Text>
-                          </View>
-                          <View style={[cStyles.itemsEnd, styles.con_right]}>
-                            <CText
-                              styles={'textMeta'}
-                              customLabel={item.timeUpdate}
-                            />
-                          </View>
+                          </Text>
+                        </View>
+                        <View style={[cStyles.itemsEnd, styles.con_right]}>
+                          <CText
+                            styles={'textMeta'}
+                            customLabel={item.timeUpdate}
+                          />
                         </View>
                       </View>
-                    );
-                  }}
-                />
-              </View>
-            )}
-          </CContent>
-        </View>
-      </SafeAreaView>
-    </Modal>
+                    </View>
+                  );
+                }}
+              />
+            </View>
+          )}
+        </CContent>
+      }
+    />
   );
 }
 

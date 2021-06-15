@@ -17,11 +17,11 @@ import {
   TouchableOpacity,
   View,
   Text,
-  Linking,
 } from 'react-native';
 import {showMessage} from 'react-native-flash-message';
 import Icon from 'react-native-vector-icons/Feather';
 import Picker from '@gregfrench/react-native-wheel-picker';
+import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
@@ -29,9 +29,8 @@ import CText from '~/components/CText';
 import CAvatar from '~/components/CAvatar';
 import CActionSheet from '~/components/CActionSheet';
 import CEmpty from '~/components/CEmpty';
-import Activities from '../components/Activities';
-import Watchers from '../components/Watchers';
 /* COMMON */
+import Routes from '~/navigation/Routes';
 import Commons from '~/utils/common/Commons';
 import {colors, cStyles} from '~/utils/style';
 import {LAST_COMMENT_TASK, THEME_DARK} from '~/config/constants';
@@ -42,9 +41,9 @@ import {
   checkEmpty,
   previewFile,
 } from '~/utils/helper';
+import API from '~/services/axios';
 /** REDUX */
 import * as Actions from '~/redux/actions';
-import API from '~/services/axios';
 
 /** All refs use in this screen */
 const actionSheetStatusRef = createRef();
@@ -75,8 +74,6 @@ function Task(props) {
     change: false,
     startFetch: false,
   });
-  const [showActivities, setShowActivities] = useState(false);
-  const [showWatchers, setShowWatchers] = useState(false);
   const [newComment, setNewComment] = useState(false);
   const [data, setData] = useState({
     taskDetail: null,
@@ -95,13 +92,22 @@ function Task(props) {
     actionSheetStatusRef.current?.show();
   };
 
-  const handleShowActivities = () => {
-    setNewComment(false);
-    setShowActivities(!showActivities);
+  const handleActivities = () => {
+    if (newComment) {
+      setNewComment(false);
+    }
+    navigation.navigate(
+      Routes.MAIN.TASK_DETAIL.childrens.TASK_ACTIVITIES.name,
+      {
+        data: {taskID},
+      },
+    );
   };
 
-  const handleShowWatchers = () => {
-    setShowWatchers(!showWatchers);
+  const handleWatchers = () => {
+    navigation.navigate(Routes.MAIN.TASK_DETAIL.childrens.TASK_WATCHERS.name, {
+      data: {taskID},
+    });
   };
 
   const handlePreviewFile = () => {
@@ -161,13 +167,13 @@ function Task(props) {
     return setLoading({...loading, main: false, startFetch: false});
   };
 
-  const onPrepareUpdateStatus = () => {
+  const onPrepareUpdate = () => {
     let taskDetail = projectState.get('taskDetail');
     setData({taskDetail});
     setLoading({...loading, change: false});
     return showMessage({
       message: t('common:app_name'),
-      description: t('success:change_status'),
+      description: t('success:change_info'),
       type: 'success',
       icon: 'success',
     });
@@ -188,14 +194,16 @@ function Task(props) {
   };
 
   const onCloseActionSheet = () => {
-    setLoading({...loading, change: true});
-    let params = fromJS({
-      TaskID: taskID,
-      StatusID: status.data[status.active].statusID,
-      Lang: language,
-      RefreshToken: refreshToken,
-    });
-    dispatch(Actions.fetchUpdateStatusTask(params, navigation));
+    if (status.data[status.active].statusID !== data.taskDetail.statusID) {
+      setLoading({...loading, change: true});
+      let params = {
+        TaskID: taskID,
+        StatusID: status.data[status.active].statusID,
+        Lang: language,
+        RefreshToken: refreshToken,
+      };
+      dispatch(Actions.fetchUpdateTask(params, navigation));
+    }
   };
 
   /** LIFE CYCLE */
@@ -225,21 +233,21 @@ function Task(props) {
 
   useEffect(() => {
     if (loading.change) {
-      if (!projectState.get('submittingTaskUpdateStatus')) {
-        if (projectState.get('successTaskUpdateStatus')) {
-          return onPrepareUpdateStatus();
+      if (!projectState.get('submittingTaskUpdate')) {
+        if (projectState.get('successTaskUpdate')) {
+          return onPrepareUpdate();
         }
 
-        if (projectState.get('errorTaskUpdateStatus')) {
+        if (projectState.get('errorTaskUpdate')) {
           return onError(true);
         }
       }
     }
   }, [
     loading.change,
-    projectState.get('submittingTaskUpdateStatus'),
-    projectState.get('successTaskUpdateStatus'),
-    projectState.get('errorTaskUpdateStatus'),
+    projectState.get('submittingTaskUpdate'),
+    projectState.get('successTaskUpdate'),
+    projectState.get('errorTaskUpdate'),
   ]);
 
   /** RENDER */
@@ -266,9 +274,7 @@ function Task(props) {
       onRefresh={onRefresh}
       headerRight={
         <View style={[cStyles.row, cStyles.itemsCenter]}>
-          <TouchableOpacity
-            style={cStyles.itemsEnd}
-            onPress={handleShowActivities}>
+          <TouchableOpacity style={cStyles.itemsEnd} onPress={handleActivities}>
             <Icon
               style={cStyles.p16}
               name={'message-square'}
@@ -288,9 +294,7 @@ function Task(props) {
               />
             )}
           </TouchableOpacity>
-          <TouchableOpacity
-            style={cStyles.itemsEnd}
-            onPress={handleShowWatchers}>
+          <TouchableOpacity style={cStyles.itemsEnd} onPress={handleWatchers}>
             <Icon
               style={cStyles.p16}
               name={'users'}
@@ -373,7 +377,34 @@ function Task(props) {
                         style={[
                           cStyles.H6,
                           {color: customColors.text},
-                        ]}>{`  #${data.taskDetail.taskID} - ${data.taskDetail.taskName}`}</Text>
+                        ]}>{`  ${data.taskDetail.taskName}`}</Text>
+                    </Text>
+
+                    <Text style={cStyles.pt4}>
+                      <Text
+                        style={[
+                          cStyles.textMeta,
+                          {color: customColors.text},
+                        ]}>{`#${data.taskDetail.taskID}: ${t(
+                        'project_management:created_by',
+                      )}`}</Text>
+                      <Text
+                        style={[
+                          cStyles.textMeta,
+                          {color: customColors.primary},
+                        ]}>
+                        {` ${data.taskDetail.author}. `}
+                      </Text>
+                      <Text
+                        style={[
+                          cStyles.textMeta,
+                          {color: customColors.text},
+                        ]}>{`${t(
+                        'project_management:last_updated_at',
+                      )} ${moment(
+                        data.taskDetail.lUpdDate,
+                        'YYYY-MM-DDTHH:mm:ss',
+                      ).format(formatDateView)}.`}</Text>
                     </Text>
 
                     <View
@@ -649,27 +680,6 @@ function Task(props) {
               ))}
             </Picker>
           </CActionSheet>
-
-          {!loading.main && (
-            <Activities
-              language={language}
-              refreshToken={refreshToken}
-              navigation={navigation}
-              taskID={taskID}
-              visible={showActivities}
-              onClose={handleShowActivities}
-            />
-          )}
-          {!loading.main && (
-            <Watchers
-              language={language}
-              refreshToken={refreshToken}
-              navigation={navigation}
-              taskID={taskID}
-              visible={showWatchers}
-              onClose={handleShowWatchers}
-            />
-          )}
         </CContent>
       }
     />

@@ -232,23 +232,23 @@ export const fetchTaskWatcher = (params, navigation) => {
 };
 /*****************************/
 
-/** For update status task */
-export const updateStatusTaskError = error => ({
-  type: types.ERROR_FETCH_TASK_UPDATE_STATUS,
+/** For update task */
+export const updateTaskError = error => ({
+  type: types.ERROR_FETCH_TASK_UPDATE,
   payload: error,
 });
 
-export const updateStatusTaskSuccess = data => ({
-  type: types.SUCCESS_FETCH_TASK_UPDATE_STATUS,
+export const updateTaskSuccess = data => ({
+  type: types.SUCCESS_FETCH_TASK_UPDATE,
   payload: data,
 });
 
-export const fetchUpdateStatusTask = (params, navigation) => {
+export const fetchUpdateTask = (params, navigation) => {
   return dispatch => {
-    dispatch({type: types.START_FETCH_TASK_UPDATE_STATUS});
+    dispatch({type: types.START_FETCH_TASK_UPDATE});
 
     Services.projectManagement
-      .taskUpdateStatus(params)
+      .taskUpdate(params)
       .then(res => {
         if (!res.isError) {
           let dataTask = null;
@@ -257,13 +257,13 @@ export const fetchUpdateStatusTask = (params, navigation) => {
           } else {
             dataTask = res.data;
           }
-          return dispatch(updateStatusTaskSuccess(dataTask));
+          return dispatch(updateTaskSuccess(dataTask));
         } else {
-          return dispatch(updateStatusTaskError(res.errorMessage));
+          return dispatch(updateTaskError(res.errorMessage));
         }
       })
       .catch(error => {
-        dispatch(updateStatusTaskError(error));
+        dispatch(updateTaskError(error));
         if (error.message && error.message.search('Authorization') !== -1) {
           let tmp = {
             RefreshToken: params.get('RefreshToken'),
@@ -272,7 +272,7 @@ export const fetchUpdateStatusTask = (params, navigation) => {
           return dispatch(
             Actions.fetchRefreshToken(
               tmp,
-              () => fetchUpdateStatusTask(params),
+              () => fetchUpdateTask(params),
               navigation,
             ),
           );

@@ -9,36 +9,28 @@ import React, {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
-import {useColorScheme} from 'react-native-appearance';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {BlurView} from '@react-native-community/blur';
 import {showMessage} from 'react-native-flash-message';
+import {isIphoneX} from 'react-native-iphone-x-helper';
 import {
   StyleSheet,
-  TouchableOpacity,
   View,
   KeyboardAvoidingView,
   Keyboard,
   Text,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Feather';
-import Modal from 'react-native-modal';
 import moment from 'moment';
 /* COMPONENTS */
-import CHeader from '~/components/CHeader';
-import CFooter from '~/components/CFooter';
+import CContainer from '~/components/CContainer';
 import CText from '~/components/CText';
-import CLoading from '~/components/CLoading';
 import CInput from '~/components/CInput';
 import CIconButton from '~/components/CIconButton';
 import CList from '~/components/CList';
 import CAvatar from '~/components/CAvatar';
-import CContent from '~/components/CContent';
 /* COMMON */
-import {THEME_DARK, LAST_COMMENT_TASK} from '~/config/constants';
+import {LAST_COMMENT_TASK} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
-import {IS_IOS, scalePx, saveLocalInfo, getLocalInfo} from '~/utils/helper';
-import {usePrevious} from '~/utils/hook';
+import {IS_IOS, saveLocalInfo, getLocalInfo} from '~/utils/helper';
 /** REDUX */
 import * as Actions from '~/redux/actions';
 
@@ -66,7 +58,14 @@ const RenderInputMessage = ({
   handleChangeText = () => {},
 }) => {
   return (
-    <View style={[cStyles.px16, cStyles.row, cStyles.itemsCenter]}>
+    <View
+      style={[
+        cStyles.px16,
+        cStyles.mb10,
+        cStyles.row,
+        cStyles.itemsCenter,
+        cStyles.borderTop,
+      ]}>
       <CInput
         name={INPUT_NAME.MESSAGE}
         containerStyle={styles.input}
@@ -93,20 +92,17 @@ const RenderInputMessage = ({
 function Activity(props) {
   const {t} = useTranslation();
   const {customColors} = useTheme();
-  const isDark = useColorScheme() === THEME_DARK;
-  const {
-    taskID = '',
-    language = 'vi',
-    refreshToken = '',
-    navigation = null,
-    onClose = () => {},
-  } = props;
+  const {route, navigation} = props;
+  const taskID = route.params.data.taskID;
 
   /** Use redux */
   const dispatch = useDispatch();
   const projectState = useSelector(({projectManagement}) => projectManagement);
+  const commonState = useSelector(({common}) => common);
   const authState = useSelector(({auth}) => auth);
   const userName = authState.getIn(['login', 'userName']);
+  const refreshToken = authState.getIn(['login', 'refreshToken']);
+  const language = commonState.get('language');
   if (language === 'vi') {
     moment.locale('vi', LOCALE_VI);
   } else {
@@ -120,13 +116,6 @@ function Activity(props) {
   });
   const [valueMessage, setValueMessage] = useState('');
   const [messages, setMessages] = useState([]);
-
-  let prevVisible = usePrevious(props.visible);
-
-  /** HANDLE FUNC */
-  const handleClose = () => {
-    onClose();
-  };
 
   /** FUNC */
   const onPrepareData = async isUpdate => {
@@ -225,13 +214,8 @@ function Activity(props) {
   /** LIFE CYCLE */
   useEffect(() => {
     onPrepareData(false);
+    onUpdateLastComment();
   }, []);
-
-  useEffect(() => {
-    if (!prevVisible && props.visible) {
-      onUpdateLastComment();
-    }
-  }, [props.visible, prevVisible]);
 
   useEffect(() => {
     if (loading.send) {
@@ -255,51 +239,18 @@ function Activity(props) {
 
   /** RENDER */
   return (
-    <Modal
-      style={cStyles.m0}
-      isVisible={props.visible}
-      animationIn={'slideInUp'}
-      animationOut={'slideOutDown'}
-      backdropOpacity={0}>
-      <SafeAreaView
-        style={[
-          cStyles.flex1,
-          {
-            backgroundColor: isDark
-              ? customColors.header
-              : customColors.primary,
-          },
-        ]}
-        edges={['right', 'left', 'top']}>
-        {isDark && IS_IOS && (
-          <BlurView
-            style={[cStyles.abs, cStyles.inset0]}
-            blurType={'extraDark'}
-            reducedTransparencyFallbackColor={colors.BLACK}
-          />
-        )}
-        <View
-          style={[cStyles.flex1, {backgroundColor: customColors.background}]}>
-          {/** Header */}
-          <CHeader
-            centerStyle={cStyles.center}
-            left={
-              <TouchableOpacity
-                style={cStyles.itemsStart}
-                onPress={handleClose}>
-                <Icon
-                  style={cStyles.p16}
-                  name={'x'}
-                  color={'white'}
-                  size={scalePx(3)}
-                />
-              </TouchableOpacity>
-            }
-            title={'project_management:title_activity'}
-          />
-
-          {/** Content */}
-          <CContent>
+    <CContainer
+      loading={loading.main || loading.send}
+      title={'project_management:title_activity'}
+      header
+      hasBack
+      iconBack={'x'}
+      content={
+        <SafeAreaView style={cStyles.flex1} edges={['bottom', 'left', 'right']}>
+          <KeyboardAvoidingView
+            style={cStyles.flex1}
+            behavior={IS_IOS ? 'padding' : undefined}
+            keyboardVerticalOffset={isIphoneX() ? 120 : IS_IOS ? 86 : 0}>
             {!loading.main && (
               <CList
                 contentStyle={cStyles.pt16}
@@ -343,7 +294,12 @@ function Activity(props) {
 
                   return (
                     <View
-                      style={[cStyles.row, cStyles.itemsStart, cStyles.pb16]}>
+                      style={[
+                        cStyles.row,
+                        cStyles.itemsStart,
+                        cStyles.pb16,
+                        cStyles.mr16,
+                      ]}>
                       <CAvatar
                         size={'small'}
                         label={item.fullName}
@@ -385,46 +341,23 @@ function Activity(props) {
                 }}
               />
             )}
-          </CContent>
-        </View>
-
-        {/** Footer input message */}
-        <KeyboardAvoidingView behavior={IS_IOS ? 'padding' : 'height'}>
-          <CFooter
-            content={
-              <RenderInputMessage
-                value={valueMessage}
-                onSend={onSendMessage}
-                handleChangeText={setValueMessage}
-              />
-            }
-          />
-        </KeyboardAvoidingView>
-
-        <CLoading
-          customColors={customColors}
-          visible={loading.main || loading.send}
-        />
-      </SafeAreaView>
-    </Modal>
+            <RenderInputMessage
+              value={valueMessage}
+              onSend={onSendMessage}
+              handleChangeText={setValueMessage}
+            />
+          </KeyboardAvoidingView>
+        </SafeAreaView>
+      }
+    />
   );
 }
 
 const styles = StyleSheet.create({
-  header: {
-    flexDirection: 'row',
-    height: cStyles.toolbarHeight,
-    top: 0,
-    left: 0,
-    right: 0,
-  },
-  row_header: {height: 50},
   input_focus: {
     borderColor: colors.SECONDARY,
   },
   input: {width: '85%'},
-  con_left: {flex: 0.5},
-  con_right: {flex: 0.5},
 });
 
 export default Activity;

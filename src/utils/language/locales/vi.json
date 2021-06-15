@@ -51,7 +51,8 @@
     "send_request": "Đã gửi yêu cầu thành công!",
     "approved_request": "Phê duyệt yêu cầu thành công!",
     "reject_request": "Từ chối yêu cầu thành công!",
-    "change_status": "Cập nhật trạng thái thành công!"
+    "change_status": "Cập nhật trạng thái thành công!",
+    "change_info": "Cập nhật thông tin thành công!"
   },
   "error": {
     "title": "Lỗi",
@@ -356,6 +357,8 @@
     "empty_watchers": "Hiện tại chưa có ai theo dõi công việc này!",
     "empty_tasks": "Hiện tại chưa có công việc cho dự án này!",
     "empty_comment": "Hiện tại chưa có nhận xét cho dự án này!",
-    "files_attach": "Tệp tin đính kèm: "
+    "files_attach": "Tệp tin đính kèm: ",
+    "created_by": "Tạo bởi",
+    "last_updated_at": "Cập nhật lần cuối lúc"
   }
 }

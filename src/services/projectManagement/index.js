@@ -136,25 +136,14 @@ export default {
         });
     });
   },
-  taskUpdateStatus: params => {
+  taskUpdate: params => {
     return new Promise((resolve, reject) => {
-      let tmpConfigs = {params: {}};
-      if (params.get('TaskID')) {
-        tmpConfigs.params.TaskID = params.get('TaskID');
-      }
-      if (params.get('Lang')) {
-        tmpConfigs.params.Lang = params.get('Lang');
-      }
-      if (params.get('StatusID')) {
-        tmpConfigs.params.StatusID = params.get('StatusID');
-      }
-
-      API.get(
-        jwtServiceConfig.baseURL + Routes.PROJECT_MANAGEMENT.TASK_STATUS,
-        tmpConfigs,
+      API.put(
+        jwtServiceConfig.baseURL + Routes.PROJECT_MANAGEMENT.TASK_UPDATE,
+        params,
       )
         .then(response => {
-          console.log('FETCH TASK UPDATE STATUS => ', response);
+          console.log('FETCH TASK UPDATE => ', response);
           if (response.status === 200 && response.data) {
             resolve(response.data);
           } else {
@@ -162,7 +151,7 @@ export default {
           }
         })
         .catch(error => {
-          console.log('ERROR TASK UPDATE STATUS => ', error);
+          console.log('ERROR TASK UPDATE => ', error);
           reject(error.response ? error.response.data : error);
         });
     });

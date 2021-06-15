@@ -5,24 +5,28 @@
  ** Description: Description of CList.js
  **/
 import React, {createRef, useState, useEffect, useRef} from 'react';
+import {useTheme} from '@react-navigation/native';
+import {useColorScheme} from 'react-native-appearance';
 import {StyleSheet, View, FlatList, Animated, SectionList} from 'react-native';
 /* COMPONENTS */
 import CEmpty from './CEmpty';
 import CText from './CText';
 import CFooterList from './CFooterList';
 import CIconButton from './CIconButton';
-/* COMMON */
-import {IS_ANDROID, IS_IOS} from '~/utils/helper';
-import {colors, cStyles} from '~/utils/style';
 import CLoading from './CLoading';
+/* COMMON */
+import {IS_ANDROID} from '~/utils/helper';
+import {colors, cStyles} from '~/utils/style';
+import {THEME_DARK} from '~/config/constants';
 
 let listRef = createRef();
 let sectionlistRef = createRef();
 
 function CList(props) {
+  const {customColors} = useTheme();
+  const isDark = useColorScheme() === THEME_DARK;
   const {
     style = {},
-    customColors,
     contentStyle = {},
     scrollToTop = true,
     scrollToBottom = false,
@@ -96,25 +100,23 @@ function CList(props) {
     }
   };
 
-  /** RENDER */
+  /** LIFE CYCLE */
   useEffect(() => {
     if (props.data && scrollToBottom && sectionList) {
-      setTimeout(
-        () => {
-          if (props.data.length > 0) {
-            sectionlistRef.scrollToLocation({
-              animated: true,
-              itemIndex: props.data[props.data.length - 1].data.length - 1,
-              sectionIndex: props.data.length - 1,
-            });
-          }
-          setLoading(false);
-        },
-        IS_IOS ? 1000 : 1500,
-      );
+      setTimeout(() => {
+        if (props.data.length > 0) {
+          sectionlistRef.scrollToLocation({
+            animated: true,
+            itemIndex: props.data[props.data.length - 1].data.length - 1,
+            sectionIndex: props.data.length - 1,
+          });
+        }
+        setLoading(false);
+      }, 1800);
     }
   }, [props.data, scrollToBottom, sectionList, setLoading]);
 
+  /** RENDER */
   return (
     <View style={cStyles.flex1}>
       {!sectionList && (
@@ -170,6 +172,7 @@ function CList(props) {
                 style={[
                   cStyles.flexCenter,
                   cStyles.py10,
+                  styles.title,
                   {backgroundColor: customColors.background},
                 ]}>
                 <View
@@ -187,16 +190,10 @@ function CList(props) {
           keyExtractor={(item, index) => index.toString()}
           removeClippedSubviews={IS_ANDROID}
           keyboardShouldPersistTaps={'handled'}
-          keyboardDismissMode={'interactive'}
-          initialNumToRender={10}
-          scrollEventThrottle={16}
           onScroll={scrollToTop ? onScroll : null}
-          onContentSizeChange={onContentChange}
           stickySectionHeadersEnabled={true}
           refreshing={props.refreshing}
           onRefresh={onRefresh}
-          onEndReachedThreshold={0.1}
-          onEndReached={onLoadmore}
           ListEmptyComponent={
             <CEmpty
               label={'common:empty_data'}
@@ -234,6 +231,7 @@ const styles = StyleSheet.create({
     bottom: 30,
     backgroundColor: colors.SECONDARY,
   },
+  title: {marginHorizontal: -16},
 });
 
 export default CList;

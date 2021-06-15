@@ -27,7 +27,7 @@ export const initialState = fromJS({
   submittingTaskDetail: false,
   submittingTaskComment: false,
   submittingTaskWatcher: false,
-  submittingTaskUpdateStatus: false,
+  submittingTaskUpdate: false,
   taskDetail: null,
   activities: List(),
   relationships: List(),
@@ -41,9 +41,9 @@ export const initialState = fromJS({
   successTaskWatcher: false,
   errorTaskWatcher: false,
   errorHelperTaskWatcher: '',
-  successTaskUpdateStatus: false,
-  errorTaskUpdateStatus: false,
-  errorHelperTaskUpdateStatus: '',
+  successTaskUpdate: false,
+  errorTaskUpdate: false,
+  errorHelperTaskUpdate: '',
 });
 
 export default function (state = initialState, action = {}) {
@@ -186,14 +186,14 @@ export default function (state = initialState, action = {}) {
         .set('errorHelperTaskWatcher', payload);
 
     /** For task update task **/
-    case types.START_FETCH_TASK_UPDATE_STATUS:
+    case types.START_FETCH_TASK_UPDATE:
       return state
-        .set('submittingTaskUpdateStatus', true)
-        .set('successTaskUpdateStatus', false)
-        .set('errorTaskUpdateStatus', false)
-        .set('errorHelperTaskUpdateStatus', '');
+        .set('submittingTaskUpdate', true)
+        .set('successTaskUpdate', false)
+        .set('errorTaskUpdate', false)
+        .set('errorHelperTaskUpdate', '');
 
-    case types.SUCCESS_FETCH_TASK_UPDATE_STATUS:
+    case types.SUCCESS_FETCH_TASK_UPDATE:
       let tmpTasks = state.get('tasks');
       let find = tmpTasks.findIndex(f => f.taskID === payload.taskID);
       if (find !== -1) {
@@ -201,19 +201,19 @@ export default function (state = initialState, action = {}) {
       }
 
       return state
-        .set('submittingTaskUpdateStatus', false)
-        .set('successTaskUpdateStatus', true)
-        .set('errorTaskUpdateStatus', false)
-        .set('errorHelperTaskUpdateStatus', '')
+        .set('submittingTaskUpdate', false)
+        .set('successTaskUpdate', true)
+        .set('errorTaskUpdate', false)
+        .set('errorHelperTaskUpdate', '')
         .set('tasks', tmpTasks)
         .set('taskDetail', payload);
 
-    case types.ERROR_FETCH_TASK_UPDATE_STATUS:
+    case types.ERROR_FETCH_TASK_UPDATE:
       return state
-        .set('submittingTaskUpdateStatus', false)
-        .set('successTaskUpdateStatus', false)
-        .set('errorTaskUpdateStatus', true)
-        .set('errorHelperTaskUpdateStatus', payload);
+        .set('submittingTaskUpdate', false)
+        .set('successTaskUpdate', false)
+        .set('errorTaskUpdate', true)
+        .set('errorHelperTaskUpdate', payload);
 
     default:
       return state;
