@@ -153,17 +153,42 @@ function AssetsTable(props) {
   return (
     <View style={cStyles.py16}>
       <View style={cStyles.flex1}>
-        <CText
-          styles={'textMeta fontMedium pl16'}
-          label={'add_approved_assets:assets'}
-        />
-        <ScrollView
+        <View
+          style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween]}>
+          <CText
+            styles={'textMeta fontMedium pl16'}
+            label={'add_approved_assets:assets'}
+          />
+          {!isDetail && form.assets.data.length === 0 && (
+            <TouchableOpacity
+              style={[
+                cStyles.itemsEnd,
+                cStyles.pt10,
+                cStyles.pr16,
+                styles.con_left,
+              ]}
+              disabled={loading || isDetail}
+              onPress={handleAddAssets}>
+              <CText
+                customStyles={[
+                  cStyles.textMeta,
+                  cStyles.textUnderline,
+                  cStyles.pl6,
+                  {color: customColors.text},
+                ]}
+                label={'add_approved_assets:add_assets'}
+              />
+            </TouchableOpacity>
+          )}
+        </View>
+        {form.assets.data.length > 0 && (
+          <ScrollView
           horizontal
           contentContainerStyle={cStyles.px16}
           keyboardShouldPersistTaps={'handled'}>
           <Table
             borderStyle={{
-              borderWidth: 0.5,
+              borderWidth: 1,
               borderColor: error.status ? customColors.red : colors.TABLE_LINE,
             }}
             style={cStyles.mt6}>
@@ -184,8 +209,7 @@ function AssetsTable(props) {
               }
               data={form.assets.header}
             />
-            {form.assets.data.length > 0 &&
-              form.assets.data.map((rowData, rowIndex) => {
+            {form.assets.data.map((rowData, rowIndex) => {
                 return (
                   <TableWrapper
                     key={rowIndex.toString()}
@@ -219,10 +243,11 @@ function AssetsTable(props) {
                       );
                     })}
                   </TableWrapper>
-                );
-              })}
+                )
+            })}
           </Table>
         </ScrollView>
+        )}
 
         <View
           style={[
@@ -257,7 +282,7 @@ function AssetsTable(props) {
             )}
           </View>
 
-          {!isDetail && (
+          {!isDetail && form.assets.data.length > 0 && (
             <TouchableOpacity
               style={[
                 cStyles.itemsEnd,
