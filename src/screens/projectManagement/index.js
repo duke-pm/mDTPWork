@@ -74,13 +74,19 @@ function ProjectManagement(props) {
   const handleFilter = (activeOwner, activeStatus) => {
     setShowFilter(!showFilter);
     setLoading({...loading, search: true});
-    let projects = onFilter([...data.projects], activeOwner, 'owner');
+    let projects = onFilter(data.projects, activeOwner, 'owner');
     projects = onFilter(projects, activeStatus, 'statusID');
     if (activeOwner.length === filters.owner.length) {
-      if (isFiltering) {
-        setIsFiltering(false);
+      if (activeStatus.length === filters.status.length) {
+        if (isFiltering) {
+          setIsFiltering(false);
+        }
+        projects = data.projects;
+      } else {
+        if (!isFiltering) {
+          setIsFiltering(true);
+        }
       }
-      projects = data.projects;
     } else {
       if (!isFiltering) {
         setIsFiltering(true);
@@ -154,7 +160,6 @@ function ProjectManagement(props) {
         setFilters({...filters, owner});
       }
     }
-
     return setLoading({
       main: false,
       search: false,
@@ -211,18 +216,28 @@ function ProjectManagement(props) {
   };
 
   const onFilter = (projects, arrFilter, valueFilter) => {
-    let tmp = [],
-      project = null;
-    for (project of projects) {
-      let find = arrFilter.indexOf(project[valueFilter]);
-      if (find !== -1) {
-        tmp.push(project);
-      }
-      if (project.lstProjectItem.length > 0) {
-        onFilter(project.lstProjectItem, arrFilter, valueFilter);
+    let find = false,
+      array = [],
+      item = null;
+    for (item of projects) {
+      find = false;
+      if (!find) {
+        let tmp = arrFilter.findIndex(f => f === item[valueFilter]);
+        if (tmp !== -1) {
+          find = true;
+        }
+        if (!find && item.lstProjectItem.length > 0) {
+          let tmp2 = onFilter(item.lstProjectItem, arrFilter, valueFilter);
+          if (tmp2.length > 0) {
+            find = true;
+          }
+        }
+        if (find) {
+          array.push(item);
+        }
       }
     }
-    return tmp;
+    return array;
   };
 
   const onRefresh = () => {
