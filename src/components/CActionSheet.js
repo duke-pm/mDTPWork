@@ -25,6 +25,34 @@ function CActionSheet(props) {
     onConfirm,
     onClose,
   } = props;
+  let needUpdate = false;
+
+  const handleClose = () => {
+    needUpdate = false;
+    actionRef.current?.hide();
+  };
+
+  const handleConfirm = () => {
+    needUpdate = true;
+    actionRef.current?.hide();
+    if (onConfirm) {
+      onConfirm();
+    }
+  };
+
+  const onOpenAS = () => {
+    needUpdate = false;
+  };
+
+  const onCloseAS = () => {
+    if (onClose) {
+      if (needUpdate) {
+        onClose(true);
+      } else {
+        onClose(false);
+      }
+    }
+  };
 
   return (
     <ActionSheet
@@ -35,7 +63,8 @@ function CActionSheet(props) {
       indicatorColor={customColors.cardDisable}
       gestureEnabled={true}
       defaultOverlayOpacity={isDark ? 0.8 : 0.5}
-      onClose={onClose}
+      onClose={onCloseAS}
+      onOpen={onOpenAS}
       CustomHeaderComponent={
         headerChoose ? (
           <View
@@ -52,12 +81,12 @@ function CActionSheet(props) {
             <CIconButton
               iconName={'x'}
               iconColor={customColors.icon}
-              onPress={() => actionRef.current?.hide()}
+              onPress={handleClose}
             />
             <CIconButton
               iconName={'check'}
               iconColor={customColors.primary}
-              onPress={onConfirm}
+              onPress={handleConfirm}
             />
           </View>
         ) : customHeader ? (

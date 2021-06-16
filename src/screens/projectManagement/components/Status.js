@@ -65,17 +65,24 @@ function Status(props) {
   };
 
   /** FUNC */
-  const onCloseActionSheet = () => {
-    if (status.data[status.active].statusID !== task.statusID) {
-      let params = {
-        TaskID: task.taskID,
-        StatusID: status.data[status.active].statusID,
-        Percentage: task.percentage,
-        Lang: language,
-        RefreshToken: refreshToken,
-      };
-      dispatch(Actions.fetchUpdateTask(params, navigation));
-      setLoading(true);
+  const onCloseActionSheet = (needUpdate) => {
+    if (needUpdate) {
+      if (status.data[status.active].statusID !== task.statusID) {
+        let params = {
+          TaskID: task.taskID,
+          StatusID: status.data[status.active].statusID,
+          Percentage: task.percentage,
+          Lang: language,
+          RefreshToken: refreshToken,
+        };
+        dispatch(Actions.fetchUpdateTask(params, navigation));
+        setLoading(true);
+      }
+    } else {
+      let find = status.data.findIndex(f => f.statusID === task.statusID);
+      if (find !== -1) {
+        setStatus({...status, active: find});
+      }
     }
   };
 
