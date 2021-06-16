@@ -364,6 +364,7 @@
     "last_updated_at": "Cập nhật lúc",
     "task_percentage": "Tiến độ: ",
     "task_version": "Phiên bản: ",
-    "warning_input_percent": "Tiến độ bắt buộc nằm trong khoảng 0 đến 100"
+    "warning_input_percent": "Tiến độ bắt buộc nằm trong khoảng 0 đến 100",
+    "holder_task_percentage": "Tiến độ"
   }
 }

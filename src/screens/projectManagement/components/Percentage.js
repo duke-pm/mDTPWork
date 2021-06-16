@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react-hooks/exhaustive-deps */
 /**
  ** Name: Percentage
@@ -22,7 +23,7 @@ import Icon from 'react-native-vector-icons/Feather';
 import CLabel from '~/components/CLabel';
 /* COMMON */
 import {THEME_DARK, THEME_LIGHT} from '~/config/constants';
-import {cStyles} from '~/utils/style';
+import {colors, cStyles} from '~/utils/style';
 /** REDUX */
 import * as Actions from '~/redux/actions';
 
@@ -114,6 +115,12 @@ function Percentage(props) {
   }, []);
 
   useEffect(() => {
+    if (percent.visible) {
+      percentRef.focus();
+    }
+  }, [percent.visible]);
+
+  useEffect(() => {
     if (loading) {
       if (!projectState.get('submittingTaskUpdate')) {
         if (projectState.get('successTaskUpdate')) {
@@ -154,8 +161,10 @@ function Percentage(props) {
                 <View
                   style={[
                     cStyles.fullWidth,
+                    cStyles.justifyCenter,
                     cStyles.rounded5,
                     cStyles.borderAll,
+                    cStyles.mx1,
                     styles.percent_active,
                   ]}
                 />
@@ -166,22 +175,53 @@ function Percentage(props) {
                     cStyles.roundedBottomLeft5,
                     percent.value === 100 && cStyles.roundedTopRight5,
                     percent.value === 100 && cStyles.roundedBottomRight5,
-                    cStyles.center,
-                    styles.percent_active,
+                    cStyles.itemsEnd,
+                    cStyles.justifyCenter,
+                    cStyles.mt1,
+                    styles.percent_body,
                     {
                       width: `${percent.value}%`,
                       backgroundColor: customColors.primary,
                     },
-                  ]}
-                />
+                  ]}>
+                  {percent.value > 20 && (
+                    <Text
+                      style={[
+                        cStyles.fontMedium,
+                        cStyles.textCenter,
+                        cStyles.mr3,
+                        {color: colors.WHITE, fontSize: 10},
+                      ]}>{`${percent.value}%`}</Text>
+                  )}
+                </View>
+                <View
+                  style={[
+                    cStyles.abs,
+                    cStyles.right0,
+                    cStyles.roundedTopRight5,
+                    cStyles.roundedBottomRight5,
+                    percent.value === 0 && cStyles.roundedTopLeft5,
+                    percent.value === 0 && cStyles.roundedBottomLeft5,
+                    cStyles.itemsStart,
+                    cStyles.justifyCenter,
+                    cStyles.mt1,
+                    styles.percent_body,
+                    {
+                      width: `${100 - percent.value}%`,
+                      backgroundColor: colors.WHITE,
+                    },
+                  ]}>
+                  {percent.value <= 20 && (
+                    <Text
+                      style={[
+                        cStyles.fontMedium,
+                        cStyles.textCenter,
+                        cStyles.ml3,
+                        {color: customColors.primary, fontSize: 10},
+                      ]}>{`${percent.value}%`}</Text>
+                  )}
+                </View>
               </View>
-              <Text
-                style={[
-                  cStyles.textMeta,
-                  cStyles.textCenter,
-                  cStyles.pl10,
-                  {color: customColors.primary},
-                ]}>{`${percent.value}%`}</Text>
             </View>
           ) : (
             <View style={[cStyles.row, cStyles.itemsCenter, cStyles.fullWidth]}>
@@ -201,6 +241,9 @@ function Percentage(props) {
                   ]}
                   editable={!loading}
                   autoFocus
+                  selectTextOnFocus
+                  blurOnSubmit
+                  placeholder={t('project_management:holder_task_percentage')}
                   value={percent.value + ''}
                   keyboardAppearance={isDark ? THEME_DARK : THEME_LIGHT}
                   keyboardType={'number-pad'}
@@ -228,9 +271,10 @@ function Percentage(props) {
 
 const styles = StyleSheet.create({
   con_left: {flex: 0.5},
-  percent_active: {height: 12},
+  percent_active: {height: 16},
+  percent_body: {height: 14},
   percent_input: {width: '40%'},
-  percent: {width: '70%'},
+  percent: {width: '90%'},
 });
 
 export default Percentage;
