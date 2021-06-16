@@ -1,8 +1,8 @@
 /**
- ** Name: CRowLabel
+ ** Name: CGroupLabel
  ** Author:
  ** CreateAt: 2021
- ** Description: Description of CRowLabel.js
+ ** Description: Description of CGroupLabel.js
  **/
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
@@ -11,7 +11,7 @@ import CText from './CText';
 /* COMMON */
 import {cStyles} from '~/utils/style';
 
-function CRowLabel(props) {
+function CGroupLabel(props) {
   const {containerStyle, label} = props;
   return (
     <View
@@ -23,10 +23,7 @@ function CRowLabel(props) {
         styles.row_header,
         containerStyle,
       ]}>
-      <CText
-        styles={'textMeta fontRegular'}
-        customLabel={label.toUpperCase()}
-      />
+      <CText styles={'textMeta'} customLabel={label.toUpperCase()} />
     </View>
   );
 }
@@ -35,4 +32,4 @@ const styles = StyleSheet.create({
   row_header: {height: 50, zIndex: 1},
 });
 
-export default CRowLabel;
+export default CGroupLabel;

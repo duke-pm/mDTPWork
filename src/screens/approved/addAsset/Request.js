@@ -32,7 +32,7 @@ import CInput from '~/components/CInput';
 import CButton from '~/components/CButton';
 import CAlert from '~/components/CAlert';
 import CActionSheet from '~/components/CActionSheet';
-import CRowLabel from '~/components/CRowLabel';
+import CGroupLabel from '~/components/CGroupLabel';
 import RejectModal from '../components/RejectModal';
 import RequestProcess from '../components/RequestProcess';
 import AssetsTable from '../components/AssetsTable';
@@ -589,7 +589,7 @@ function AddRequest(props) {
               style={cStyles.flex1}
               contentContainerStyle={cStyles.justifyEnd}
               keyboardShouldPersistTaps={'handled'}>
-              <CRowLabel label={t('add_approved_assets:info_user_request')} />
+              <CGroupLabel label={t('add_approved_assets:info_user_request')} />
               <View
                 style={[
                   cStyles.p16,
@@ -718,7 +718,7 @@ function AddRequest(props) {
               </View>
 
               {/** Assets */}
-              <CRowLabel label={t('add_approved_assets:info_assets')} />
+              <CGroupLabel label={t('add_approved_assets:info_assets')} />
               <View
                 style={[
                   cStyles.borderTop,
@@ -742,7 +742,7 @@ function AddRequest(props) {
               </View>
 
               {/** Other info */}
-              <CRowLabel label={t('add_approved_assets:info_other')} />
+              <CGroupLabel label={t('add_approved_assets:info_other')} />
               <View
                 style={[
                   cStyles.p16,

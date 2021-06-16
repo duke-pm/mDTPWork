@@ -14,7 +14,6 @@ import {showMessage} from 'react-native-flash-message';
 import {isIphoneX} from 'react-native-iphone-x-helper';
 import {
   StyleSheet,
-  ScrollView,
   View,
   KeyboardAvoidingView,
   Keyboard,
@@ -28,6 +27,7 @@ import CInput from '~/components/CInput';
 import CIconButton from '~/components/CIconButton';
 import CList from '~/components/CList';
 import CAvatar from '~/components/CAvatar';
+import CLabel from '~/components/CLabel';
 /* COMMON */
 import {LAST_COMMENT_TASK} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
@@ -323,9 +323,7 @@ function Activity(props) {
                             ]}>
                             {item.fullName + ', '}
                           </Text>
-
-                          <CText
-                            styles={'textMeta'}
+                          <CLabel
                             customLabel={moment(
                               item.timeUpdate,
                               'DD/MM/YYYY - HH:mm',
@@ -355,9 +353,7 @@ function Activity(props) {
 }
 
 const styles = StyleSheet.create({
-  input_focus: {
-    borderColor: colors.SECONDARY,
-  },
+  input_focus: {borderColor: colors.SECONDARY},
   input: {width: '85%'},
 });
 

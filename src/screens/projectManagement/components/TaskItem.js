@@ -19,9 +19,9 @@ import {
 import * as Progress from 'react-native-progress';
 /* COMPONENTS */
 import CText from '~/components/CText';
-import ListTask from '../list/Task';
 import CIconButton from '~/components/CIconButton';
 import CAvatar from '~/components/CAvatar';
+import ListTask from '../list/Task';
 /* COMMON */
 import Commons from '~/utils/common/Commons';
 import {IS_ANDROID, IS_IOS} from '~/utils/helper';
@@ -104,6 +104,7 @@ function TaskItem(props) {
     outputRange: ['0deg', '180deg'],
   });
   const Touchable = IS_IOS ? TouchableOpacity : TouchableNativeFeedback;
+  const showPercentage = data.taskTypeID === Commons.TYPE_TASK.TASK.value;
   return (
     <View style={isPrevIsParent && !showChildren ? cStyles.mt16 : {}}>
       <Touchable disabled={props.loading} onPress={handleTaskItem}>
@@ -154,7 +155,8 @@ function TaskItem(props) {
                       customLabel={data.ownerName}
                     />
                   </View>
-                  <View style={[cStyles.row, cStyles.itemsCenter]}>
+
+                  <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt6]}>
                     <View
                       style={[styles.status, {backgroundColor: bgStatus}]}
                     />
@@ -178,7 +180,7 @@ function TaskItem(props) {
                   data.countChild > 0 && {marginTop: -8},
                 ]}>
                 {data.countChild > 0 && (
-                  <View style={cStyles.pr10}>
+                  <View style={showPercentage ? cStyles.pr10 : {}}>
                     <Animated.View style={{transform: [{rotate: rotateData}]}}>
                       <CIconButton
                         iconName={'chevron-down'}
@@ -194,7 +196,8 @@ function TaskItem(props) {
                         styles.badge,
                         cStyles.borderAll,
                         isDark && cStyles.borderAllDark,
-                        {backgroundColor: customColors.red, right: 10},
+                        {backgroundColor: customColors.red},
+                        showPercentage && {right: 10},
                       ]}>
                       <Text
                         style={[
@@ -207,7 +210,7 @@ function TaskItem(props) {
                   </View>
                 )}
 
-                {data.taskTypeID === Commons.TYPE_TASK.TASK.value &&
+                {showPercentage && (
                   <Progress.Circle
                     animated={false}
                     size={30}
@@ -221,7 +224,7 @@ function TaskItem(props) {
                       {fontSize: 8},
                     ]}
                   />
-                }
+                )}
               </View>
             </View>
 

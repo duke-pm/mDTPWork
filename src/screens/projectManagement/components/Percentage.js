@@ -19,7 +19,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 /* COMPONENTS */
-import CText from '~/components/CText';
+import CLabel from '~/components/CLabel';
 /* COMMON */
 import {THEME_DARK, THEME_LIGHT} from '~/config/constants';
 import {cStyles} from '~/utils/style';
@@ -146,10 +146,7 @@ function Percentage(props) {
         disabled={!task.isUpdated || loading}
         onPress={handleChangePercent}>
         <View style={[cStyles.row, cStyles.itemsCenter]}>
-          <CText
-            styles={'textMeta'}
-            label={'project_management:task_percentage'}
-          />
+          <CLabel label={'project_management:task_percentage'} />
 
           {!percent.visible ? (
             <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pl10]}>

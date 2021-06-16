@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /**
- ** Name:
+ ** Name: Watchers of Task
  ** Author:
  ** CreateAt: 2021
- ** Description: Description of .js
+ ** Description: Description of Watchers.js
  **/
 import React, {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
@@ -19,6 +19,7 @@ import CList from '~/components/CList';
 import CAvatar from '~/components/CAvatar';
 import CContent from '~/components/CContent';
 import CButton from '~/components/CButton';
+import CLabel from '~/components/CLabel';
 /* COMMON */
 import {Animations} from '~/utils/asset';
 import {THEME_DARK} from '~/config/constants';
@@ -189,10 +190,7 @@ function Watchers(props) {
                           </Text>
                         </View>
                         <View style={[cStyles.itemsEnd, styles.con_right]}>
-                          <CText
-                            styles={'textMeta'}
-                            customLabel={item.timeUpdate}
-                          />
+                          <CLabel customLabel={item.timeUpdate} />
                         </View>
                       </View>
                     </View>

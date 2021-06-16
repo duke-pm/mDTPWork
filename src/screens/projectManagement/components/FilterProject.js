@@ -23,7 +23,7 @@ import Modal from 'react-native-modal';
 /* COMPONENTS */
 import CHeader from '~/components/CHeader';
 import CText from '~/components/CText';
-import CRowLabel from '~/components/CRowLabel';
+import CGroupLabel from '~/components/CGroupLabel';
 import CLoading from '~/components/CLoading';
 /* COMMON */
 import {THEME_DARK} from '~/config/constants';
@@ -263,7 +263,7 @@ function FilterProject(props) {
           <ScrollView
             style={cStyles.flex1}
             keyboardShouldPersistTaps={'handled'}>
-            <CRowLabel label={t('project_management:title_owner')} />
+            <CGroupLabel label={t('project_management:title_owner')} />
             {data.owner.map((item, index) => {
               let isActive = owner.active.indexOf(item.value);
               return RowSelect(
@@ -279,7 +279,7 @@ function FilterProject(props) {
               );
             })}
 
-            <CRowLabel label={t('status:title')} />
+            <CGroupLabel label={t('status:title')} />
             {data.status.map((item, index) => {
               let isActive = status.active.indexOf(item.value);
               return RowSelect(

@@ -34,7 +34,7 @@ import CInput from '~/components/CInput';
 import CCard from '~/components/CCard';
 import CButton from '~/components/CButton';
 import CActionSheet from '~/components/CActionSheet';
-import CRowLabel from '~/components/CRowLabel';
+import CGroupLabel from '~/components/CGroupLabel';
 import CAlert from '~/components/CAlert';
 // import CUploadImage from '~/components/CUploadImage';
 import RejectModal from '../components/RejectModal';
@@ -621,7 +621,7 @@ function AddRequest(props) {
               style={cStyles.flex1}
               contentContainerStyle={cStyles.justifyEnd}
               keyboardShouldPersistTaps={'handled'}>
-              <CRowLabel label={t('add_approved_lost_damaged:info_other')} />
+              <CGroupLabel label={t('add_approved_lost_damaged:info_other')} />
               <View
                 style={[
                   cStyles.p16,
@@ -647,7 +647,7 @@ function AddRequest(props) {
                 </View>
               </View>
 
-              <CRowLabel label={t('add_approved_lost_damaged:info_assets')} />
+              <CGroupLabel label={t('add_approved_lost_damaged:info_assets')} />
               <View
                 style={[
                   cStyles.p16,

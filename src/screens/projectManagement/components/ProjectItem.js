@@ -9,8 +9,8 @@ import {StyleSheet, View, LayoutAnimation, UIManager} from 'react-native';
 import moment from 'moment';
 /* COMPONENTS */
 import CCard from '~/components/CCard';
-import CText from '~/components/CText';
 import ListProject from '../list/Project';
+import CLabel from '~/components/CLabel';
 /* COMMON */
 import {cStyles} from '~/utils/style';
 import {checkEmpty, IS_ANDROID, IS_IOS} from '~/utils/helper';
@@ -87,14 +87,8 @@ function ProjectItem(props) {
                     cStyles.itemsStart,
                     cStyles.justifyStart,
                   ]}>
-                  <CText
-                    styles={'textMeta'}
-                    label={'project_management:sector'}
-                  />
-                  <CText
-                    styles={'textMeta fontRegular'}
-                    customLabel={checkEmpty(data.sectorName)}
-                  />
+                  <CLabel label={'project_management:sector'} />
+                  <CLabel customLabel={checkEmpty(data.sectorName)} />
                 </View>
 
                 <View
@@ -103,18 +97,12 @@ function ProjectItem(props) {
                     cStyles.itemsStart,
                     cStyles.justifyStart,
                   ]}>
-                  <CText
-                    styles={'textMeta'}
-                    label={'project_management:date_created'}
-                  />
-                  <CText
-                    styles={'textMeta fontRegular'}
-                    customLabel={createAt}
-                  />
+                  <CLabel label={'project_management:date_created'} />
+                  <CLabel customLabel={createAt} />
                 </View>
               </View>
 
-              {/** Status, public */}
+              {/** Status */}
               <View
                 style={[
                   cStyles.pr5,
@@ -127,18 +115,24 @@ function ProjectItem(props) {
                     cStyles.itemsStart,
                     cStyles.justifyStart,
                   ]}>
-                  <CText
-                    styles={'textMeta'}
-                    label={'project_management:status'}
-                  />
-                  <CText
-                    customStyles={[
-                      cStyles.textMeta,
-                      cStyles.fontBold,
-                      {color: data.statusColor || customColors[status.color]},
-                    ]}
-                    label={data.statusName}
-                  />
+                  <CLabel label={'project_management:status'} />
+                  <View style={[cStyles.row, cStyles.itemsCenter]}>
+                    <View
+                      style={[
+                        cStyles.mr6,
+                        styles.status,
+                        {
+                          backgroundColor:
+                            data.statusColor || customColors[status.color],
+                        },
+                      ]}
+                    />
+                    <CLabel
+                      bold
+                      color={data.statusColor || customColors[status.color]}
+                      customLabel={data.statusName}
+                    />
+                  </View>
                 </View>
 
                 <View
@@ -148,14 +142,8 @@ function ProjectItem(props) {
                     cStyles.justifyStart,
                     styles.owner,
                   ]}>
-                  <CText
-                    styles={'textMeta'}
-                    label={'project_management:owner'}
-                  />
-                  <CText
-                    styles={'textMeta fontMedium'}
-                    customLabel={checkEmpty(data.ownerName)}
-                  />
+                  <CLabel label={'project_management:owner'} />
+                  <CLabel medium customLabel={checkEmpty(data.ownerName)} />
                 </View>
               </View>
             </View>
@@ -163,11 +151,8 @@ function ProjectItem(props) {
             {/** Description */}
             <View
               style={[cStyles.row, cStyles.itemsStart, cStyles.justifyStart]}>
-              <CText
-                styles={'textMeta'}
-                label={'project_management:description'}
-              />
-              <CText styles={'textMeta'} customLabel={checkEmpty(data.descr)} />
+              <CLabel label={'project_management:description'} />
+              <CLabel customLabel={checkEmpty(data.descr)} />
             </View>
           </View>
         }
@@ -223,6 +208,11 @@ const styles = StyleSheet.create({
   card: {zIndex: 100},
   card_children: {height: 100},
   owner: {width: '65%'},
+  status: {
+    height: 8,
+    width: 8,
+    borderRadius: 8,
+  },
 });
 
 export default ProjectItem;

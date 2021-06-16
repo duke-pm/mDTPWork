@@ -28,6 +28,7 @@ import CContent from '~/components/CContent';
 import CText from '~/components/CText';
 import CAvatar from '~/components/CAvatar';
 import CEmpty from '~/components/CEmpty';
+import CLabel from '~/components/CLabel';
 import Status from '../components/Status';
 import Percentage from '../components/Percentage';
 /* COMMON */
@@ -35,13 +36,7 @@ import Routes from '~/navigation/Routes';
 import Commons from '~/utils/common/Commons';
 import {colors, cStyles} from '~/utils/style';
 import {LAST_COMMENT_TASK, THEME_DARK} from '~/config/constants';
-import {
-  scalePx,
-  sH,
-  getLocalInfo,
-  checkEmpty,
-  previewFile,
-} from '~/utils/helper';
+import {scalePx, getLocalInfo, checkEmpty, previewFile} from '~/utils/helper';
 import API from '~/services/axios';
 /** REDUX */
 import * as Actions from '~/redux/actions';
@@ -425,10 +420,7 @@ function Task(props) {
                           cStyles.itemsCenter,
                           styles.con_left_1,
                         ]}>
-                        <CText
-                          styles={'textMeta'}
-                          label={'project_management:piority'}
-                        />
+                        <CLabel label={'project_management:piority'} />
 
                         <CText
                           customStyles={[cStyles.textMeta, {color: bgPriority}]}
@@ -443,10 +435,7 @@ function Task(props) {
                           cStyles.justifyStart,
                           styles.con_middle,
                         ]}>
-                        <CText
-                          styles={'textMeta'}
-                          label={'project_management:grade'}
-                        />
+                        <CLabel label={'project_management:grade'} />
 
                         <CText
                           styles={'textMeta'}
@@ -460,10 +449,7 @@ function Task(props) {
                           cStyles.itemsCenter,
                           styles.con_right_1,
                         ]}>
-                        <CText
-                          styles={'textMeta'}
-                          label={'project_management:component'}
-                        />
+                        <CLabel label={'project_management:component'} />
 
                         <CText
                           styles={'textMeta'}
@@ -488,10 +474,7 @@ function Task(props) {
                           cStyles.itemsCenter,
                           styles.con_left,
                         ]}>
-                        <CText
-                          styles={'textMeta'}
-                          label={'project_management:origin_publisher'}
-                        />
+                        <CLabel label={'project_management:origin_publisher'} />
 
                         <CText
                           styles={'textMeta'}
@@ -507,10 +490,7 @@ function Task(props) {
                           cStyles.itemsCenter,
                           styles.con_right,
                         ]}>
-                        <CText
-                          styles={'textMeta'}
-                          label={'project_management:owner_ship_dtp'}
-                        />
+                        <CLabel label={'project_management:owner_ship_dtp'} />
 
                         <CText
                           styles={'textMeta'}
@@ -533,10 +513,7 @@ function Task(props) {
                     {/** Files attach */}
                     {data.taskDetail.attachFiles !== '' && (
                       <View style={cStyles.pb10}>
-                        <CText
-                          styles={'textMeta'}
-                          label={'project_management:files_attach'}
-                        />
+                        <CLabel label={'project_management:files_attach'} />
                         <TouchableOpacity onPress={handlePreviewFile}>
                           <View
                             style={[
@@ -600,7 +577,6 @@ function Task(props) {
 }
 
 const styles = StyleSheet.create({
-  con_action: {width: '100%', height: sH('25%')},
   con_left: {flex: 0.5},
   con_right: {flex: 0.5},
   con_left_1: {flex: 0.3},
