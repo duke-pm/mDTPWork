@@ -55,7 +55,7 @@ function RequestProcess(props) {
   /** RENDER */
   return (
     <CCard
-      containerStyle={cStyles.m16}
+      containerStyle={[cStyles.m16, cStyles.mb32]}
       customColors={customColors}
       isDark={isDark}
       label={'add_approved_assets:table_process'}

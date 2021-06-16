@@ -94,7 +94,7 @@ function CAlert(props) {
                     disabled={loading}
                     block
                     variant={'text'}
-                    color={customColors.primary}
+                    color={customColors.red}
                     label={'common:close'}
                     onPress={onClose}
                   />

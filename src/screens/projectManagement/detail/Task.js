@@ -500,15 +500,17 @@ function Task(props) {
                     </View>
 
                     {/** Percentage */}
-                    <Percentage
-                      isDark={isDark}
-                      customColors={customColors}
-                      navigation={navigation}
-                      language={language}
-                      refreshToken={refreshToken}
-                      task={data.taskDetail}
-                      onUpdate={onPrepareUpdate}
-                    />
+                    {data.taskDetail.taskTypeID === Commons.TYPE_TASK.TASK.value && (
+                      <Percentage
+                        isDark={isDark}
+                        customColors={customColors}
+                        navigation={navigation}
+                        language={language}
+                        refreshToken={refreshToken}
+                        task={data.taskDetail}
+                        onUpdate={onPrepareUpdate}
+                      />
+                    )}
 
                     {/** Files attach */}
                     {data.taskDetail.attachFiles !== '' && (
