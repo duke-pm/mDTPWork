@@ -6,7 +6,7 @@
  ** Description: Description of Task.js
  **/
 import {fromJS} from 'immutable';
-import React, {createRef, useState, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
@@ -21,15 +21,14 @@ import {
 } from 'react-native';
 import {showMessage} from 'react-native-flash-message';
 import Icon from 'react-native-vector-icons/Feather';
-import Picker from '@gregfrench/react-native-wheel-picker';
 import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
 import CText from '~/components/CText';
 import CAvatar from '~/components/CAvatar';
-import CActionSheet from '~/components/CActionSheet';
 import CEmpty from '~/components/CEmpty';
+import Status from '../components/Status';
 import Percentage from '../components/Percentage';
 /* COMMON */
 import Routes from '~/navigation/Routes';
@@ -47,9 +46,6 @@ import API from '~/services/axios';
 /** REDUX */
 import * as Actions from '~/redux/actions';
 
-/** All refs use in this screen */
-const actionSheetStatusRef = createRef();
-
 function Task(props) {
   const {t} = useTranslation();
   const {customColors} = useTheme();
@@ -62,38 +58,23 @@ function Task(props) {
   /** Use redux */
   const dispatch = useDispatch();
   const projectState = useSelector(({projectManagement}) => projectManagement);
-  const masterState = useSelector(({masterData}) => masterData);
   const commonState = useSelector(({common}) => common);
   const authState = useSelector(({auth}) => auth);
   const language = commonState.get('language');
   const formatDateView = commonState.get('formatDateView');
   const refreshToken = authState.getIn(['login', 'refreshToken']);
-  const statusMaster = masterState.get('projectStatus');
 
   /** Use state */
   const [loading, setLoading] = useState({
     main: true,
-    change: false,
     startFetch: false,
   });
   const [newComment, setNewComment] = useState(false);
   const [data, setData] = useState({
     taskDetail: null,
   });
-  const [status, setStatus] = useState({
-    data: statusMaster,
-    active: 0,
-  });
 
   /** HANDLE FUNC */
-  const handleChangeStatus = () => {
-    actionSheetStatusRef.current?.hide();
-  };
-
-  const handleShowChangeStatus = () => {
-    actionSheetStatusRef.current?.show();
-  };
-
   const handleActivities = () => {
     if (newComment) {
       setNewComment(false);
@@ -138,10 +119,6 @@ function Task(props) {
     dispatch(Actions.fetchTaskDetail(params, navigation));
   };
 
-  const onChangeStatus = index => {
-    setStatus({...status, active: index});
-  };
-
   const onPrepareData = async () => {
     let taskDetail = projectState.get('taskDetail');
     let activities = projectState.get('activities');
@@ -162,22 +139,14 @@ function Task(props) {
         setNewComment(true);
       }
     }
-
-    let findStatus = status.data.findIndex(
-      f => f.statusID === taskDetail.statusID,
-    );
-    if (findStatus !== -1) {
-      setStatus({...status, active: findStatus});
-    }
     setData({taskDetail});
 
-    return setLoading({...loading, main: false, startFetch: false});
+    return setLoading({main: false, startFetch: false});
   };
 
   const onPrepareUpdate = () => {
     let taskDetail = projectState.get('taskDetail');
     setData({taskDetail});
-    setLoading({...loading, change: false});
     return showMessage({
       message: t('common:app_name'),
       description: t('success:change_info'),
@@ -197,20 +166,7 @@ function Task(props) {
       icon: 'danger',
     });
 
-    return setLoading({...loading, main: false, startFetch: false});
-  };
-
-  const onCloseActionSheet = () => {
-    if (status.data[status.active].statusID !== data.taskDetail.statusID) {
-      setLoading({...loading, change: true});
-      let params = {
-        TaskID: taskID,
-        StatusID: status.data[status.active].statusID,
-        Lang: language,
-        RefreshToken: refreshToken,
-      };
-      dispatch(Actions.fetchUpdateTask(params, navigation));
-    }
+    return setLoading({main: false, startFetch: false});
   };
 
   /** LIFE CYCLE */
@@ -243,25 +199,6 @@ function Task(props) {
     projectState.get('errorTaskDetail'),
   ]);
 
-  useEffect(() => {
-    if (loading.change) {
-      if (!projectState.get('submittingTaskUpdate')) {
-        if (projectState.get('successTaskUpdate')) {
-          return onPrepareUpdate();
-        }
-
-        if (projectState.get('errorTaskUpdate')) {
-          return onError(true);
-        }
-      }
-    }
-  }, [
-    loading.change,
-    projectState.get('submittingTaskUpdate'),
-    projectState.get('successTaskUpdate'),
-    projectState.get('errorTaskUpdate'),
-  ]);
-
   /** RENDER */
   let bgPriority = customColors[Commons.PRIORITY_TASK.LOW.color]; // default is Low;
   if (data.taskDetail) {
@@ -279,7 +216,7 @@ function Task(props) {
   }
   return (
     <CContainer
-      loading={loading.main || loading.change}
+      loading={loading.main}
       title={''}
       header
       hasBack
@@ -322,45 +259,16 @@ function Task(props) {
             <ScrollView
               contentContainerStyle={[cStyles.flex1, cStyles.justifyEnd]}>
               {!loading.main && data.taskDetail && (
-                <TouchableOpacity
-                  disabled={!perChangeStatus}
-                  onPress={handleShowChangeStatus}>
-                  <View
-                    style={[
-                      cStyles.mt16,
-                      cStyles.mx16,
-                      cStyles.px16,
-                      cStyles.py10,
-                      cStyles.row,
-                      cStyles.itemsCenter,
-                      cStyles.justifyBetween,
-                      cStyles.rounded1,
-                      {backgroundColor: data.taskDetail.colorOpacityCode},
-                    ]}>
-                    <CText
-                      customStyles={[
-                        cStyles.fontMedium,
-                        {
-                          color: isDark
-                            ? data.taskDetail.colorDarkCode
-                            : data.taskDetail.colorCode,
-                        },
-                      ]}
-                      customLabel={data.taskDetail.statusName.toUpperCase()}
-                    />
-                    {perChangeStatus && (
-                      <Icon
-                        name={'chevron-down'}
-                        color={
-                          isDark
-                            ? data.taskDetail.colorDarkCode
-                            : data.taskDetail.colorCode
-                        }
-                        size={scalePx(3)}
-                      />
-                    )}
-                  </View>
-                </TouchableOpacity>
+                <Status
+                  isUpdate={perChangeStatus}
+                  isDark={isDark}
+                  customColors={customColors}
+                  language={language}
+                  refreshToken={refreshToken}
+                  navigation={navigation}
+                  task={data.taskDetail}
+                  onUpdate={onPrepareUpdate}
+                />
               )}
 
               {!loading.main &&
@@ -685,26 +593,6 @@ function Task(props) {
               <View style={cStyles.flex1} />
             </ScrollView>
           </KeyboardAvoidingView>
-
-          <CActionSheet
-            actionRef={actionSheetStatusRef}
-            headerChoose
-            onConfirm={handleChangeStatus}
-            onClose={onCloseActionSheet}>
-            <Picker
-              style={styles.con_action}
-              itemStyle={{color: customColors.text, fontSize: scalePx(3)}}
-              selectedValue={status.active}
-              onValueChange={onChangeStatus}>
-              {status.data.map((value, i) => (
-                <Picker.Item
-                  key={value.statusID}
-                  label={value.statusName}
-                  value={i}
-                />
-              ))}
-            </Picker>
-          </CActionSheet>
         </CContent>
       }
     />

@@ -84,7 +84,7 @@
     "detail_request": "Do not get detailed information. Please try again later!",
     "send_comment": "Unable to submit your comments. Please try again later!",
     "send_follow": "Unable to submit follow. Please try again later!",
-    "update_status_request": "Unable to update status. Please try again later!",
+    "change_status": "Unable to update status. Please try again later!",
     "change_percent": "Unable to update percentage. Please try again later!"
   },
   "sign_in": {

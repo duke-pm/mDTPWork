@@ -207,19 +207,21 @@ function TaskItem(props) {
                   </View>
                 )}
 
-                <Progress.Circle
-                  animated={false}
-                  size={30}
-                  progress={data.percentage / 100}
-                  thickness={2}
-                  color={customColors.primary}
-                  showsText
-                  textStyle={[
-                    cStyles.textCenter,
-                    cStyles.fontRegular,
-                    {fontSize: 8},
-                  ]}
-                />
+                {data.taskTypeID === Commons.TYPE_TASK.TASK.value &&
+                  <Progress.Circle
+                    animated={false}
+                    size={30}
+                    progress={data.percentage / 100}
+                    thickness={2}
+                    color={customColors.primary}
+                    showsText
+                    textStyle={[
+                      cStyles.textCenter,
+                      cStyles.fontRegular,
+                      {fontSize: 8},
+                    ]}
+                  />
+                }
               </View>
             </View>
 

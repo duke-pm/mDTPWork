@@ -84,7 +84,7 @@
     "detail_request": "Không thê lấy thông tin chi tiết. Vui lòng thử lại sau!",
     "send_comment": "Không thể gửi ý kiến của bạn. Vui lòng thử lại sau!",
     "send_follow": "Không thể theo dõi. Vui lòng thử lại sau!",
-    "update_status_request": "Không thê cập nhật trạng thái. Vui lòng thử lại sau!",
+    "change_status": "Không thê cập nhật trạng thái. Vui lòng thử lại sau!",
     "change_percent": "Không thê cập nhật tiến độ. Vui lòng thử lại sau!"
   },
   "sign_in": {
