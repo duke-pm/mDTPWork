@@ -17,7 +17,6 @@ import {
   TouchableOpacity,
   View,
   Text,
-  TextInput,
   KeyboardAvoidingView,
 } from 'react-native';
 import {showMessage} from 'react-native-flash-message';
@@ -31,11 +30,12 @@ import CText from '~/components/CText';
 import CAvatar from '~/components/CAvatar';
 import CActionSheet from '~/components/CActionSheet';
 import CEmpty from '~/components/CEmpty';
+import Percentage from '../components/Percentage';
 /* COMMON */
 import Routes from '~/navigation/Routes';
 import Commons from '~/utils/common/Commons';
 import {colors, cStyles} from '~/utils/style';
-import {LAST_COMMENT_TASK, THEME_DARK, THEME_LIGHT} from '~/config/constants';
+import {LAST_COMMENT_TASK, THEME_DARK} from '~/config/constants';
 import {
   scalePx,
   sH,
@@ -49,7 +49,6 @@ import * as Actions from '~/redux/actions';
 
 /** All refs use in this screen */
 const actionSheetStatusRef = createRef();
-let percentRef = createRef();
 
 function Task(props) {
   const {t} = useTranslation();
@@ -84,10 +83,6 @@ function Task(props) {
   const [status, setStatus] = useState({
     data: statusMaster,
     active: 0,
-  });
-  const [percent, setPercent] = useState({
-    visible: false,
-    value: 0,
   });
 
   /** HANDLE FUNC */
@@ -128,42 +123,12 @@ function Task(props) {
     previewFile(url, fileName);
   };
 
-  const handleChangePercent = () => {
-    if (percent.visible) {
-      if (percent.value < 0 || percent.value > 100) {
-        showMessage({
-          message: t('common:app_name'),
-          description: t('project_management:warning_input_percent'),
-          type: 'warning',
-          icon: 'warning',
-        });
-        percentRef.focus();
-      } else {
-        if (Number(percent.value) === data.taskDetail.percentage) {
-          setPercent({...percent, visible: !percent.visible});
-        } else {
-          setPercent({...percent, visible: !percent.visible});
-          let params = {
-            TaskID: taskID,
-            StatusID: data.taskDetail.statusID,
-            Percentage: percent.value,
-            Lang: language,
-            RefreshToken: refreshToken,
-          };
-          dispatch(Actions.fetchUpdateTask(params, navigation));
-          setLoading({...loading, change: true});
-        }
-      }
-    } else {
-      setPercent({...percent, visible: !percent.visible});
-    }
-  };
-
-  const handleClosePercent = () => {
-    setPercent({visible: !percent.visible, value: data.taskDetail.percentage});
-  };
-
   /** FUNC */
+  const onStart = () => {
+    onFetchData();
+    setLoading({...loading, startFetch: true});
+  };
+
   const onFetchData = () => {
     let params = fromJS({
       TaskID: taskID,
@@ -205,7 +170,6 @@ function Task(props) {
       setStatus({...status, active: findStatus});
     }
     setData({taskDetail});
-    setPercent({...percent, value: taskDetail.percentage});
 
     return setLoading({...loading, main: false, startFetch: false});
   };
@@ -249,15 +213,16 @@ function Task(props) {
     }
   };
 
-  const onChangePercent = value => {
-    setPercent({...percent, value: Number(value) + ''});
-  };
-
   /** LIFE CYCLE */
   useEffect(() => {
-    onFetchData();
-    setLoading({...loading, startFetch: true});
-  }, []);
+    if (data.taskDetail) {
+      if (data.taskDetail.taskID !== taskID) {
+        onStart();
+      }
+    } else {
+      onStart();
+    }
+  }, [data.taskDetail, taskID]);
 
   useEffect(() => {
     if (loading.startFetch) {
@@ -429,7 +394,7 @@ function Task(props) {
                           ]}>{`  ${data.taskDetail.taskName}`}</Text>
                       </Text>
 
-                      <Text style={cStyles.pt4}>
+                      <Text style={cStyles.mt10}>
                         <Text
                           style={[
                             cStyles.textMeta,
@@ -647,112 +612,15 @@ function Task(props) {
                     </View>
 
                     {/** Percentage */}
-                    <View
-                      style={[
-                        cStyles.pb10,
-                        cStyles.row,
-                        cStyles.itemsCenter,
-                        cStyles.justifyBetween,
-                      ]}>
-                      <TouchableOpacity
-                        style={styles.con_left}
-                        disabled={!data.taskDetail.isUpdated}
-                        onPress={handleChangePercent}>
-                        <View style={[cStyles.row, cStyles.itemsCenter]}>
-                          <CText
-                            styles={'textMeta'}
-                            label={'project_management:task_percentage'}
-                          />
-
-                          {!percent.visible ? (
-                            <View
-                              style={[
-                                cStyles.row,
-                                cStyles.itemsCenter,
-                                cStyles.pl10,
-                              ]}>
-                              <View style={styles.percent}>
-                                <View
-                                  style={[
-                                    cStyles.fullWidth,
-                                    cStyles.rounded5,
-                                    cStyles.borderAll,
-                                    styles.percent_active,
-                                  ]}
-                                />
-                                <View
-                                  style={[
-                                    cStyles.abs,
-                                    cStyles.roundedTopLeft5,
-                                    cStyles.roundedBottomLeft5,
-                                    percent.value === 100 &&
-                                      cStyles.roundedTopRight5,
-                                    percent.value === 100 &&
-                                      cStyles.roundedBottomRight5,
-                                    cStyles.center,
-                                    styles.percent_active,
-                                    {
-                                      width: `${percent.value}%`,
-                                      backgroundColor: customColors.primary,
-                                    },
-                                  ]}
-                                />
-                              </View>
-                              <Text
-                                style={[
-                                  cStyles.textMeta,
-                                  cStyles.textCenter,
-                                  cStyles.pl10,
-                                  {color: customColors.text},
-                                ]}>{`${percent.value}%`}</Text>
-                            </View>
-                          ) : (
-                            <View
-                              style={[
-                                cStyles.row,
-                                cStyles.itemsCenter,
-                                cStyles.fullWidth,
-                              ]}>
-                              <View
-                                style={[
-                                  cStyles.px4,
-                                  cStyles.borderAll,
-                                  cStyles.rounded1,
-                                  styles.percent_input,
-                                ]}>
-                                <TextInput
-                                  ref={ref => (percentRef = ref)}
-                                  style={[
-                                    cStyles.textDefault,
-                                    cStyles.px4,
-                                    {color: customColors.text},
-                                  ]}
-                                  autoFocus
-                                  value={percent.value + ''}
-                                  keyboardAppearance={
-                                    isDark ? THEME_DARK : THEME_LIGHT
-                                  }
-                                  keyboardType={'number-pad'}
-                                  returnKeyType={'done'}
-                                  onChangeText={onChangePercent}
-                                  onSubmitEditing={handleChangePercent}
-                                  onEndEditing={handleChangePercent}
-                                />
-                              </View>
-                              <TouchableOpacity
-                                style={[cStyles.p3, cStyles.ml16]}
-                                onPress={handleClosePercent}>
-                                <Icon
-                                  name={'x'}
-                                  size={18}
-                                  color={customColors.red}
-                                />
-                              </TouchableOpacity>
-                            </View>
-                          )}
-                        </View>
-                      </TouchableOpacity>
-                    </View>
+                    <Percentage
+                      isDark={isDark}
+                      customColors={customColors}
+                      navigation={navigation}
+                      language={language}
+                      refreshToken={refreshToken}
+                      task={data.taskDetail}
+                      onUpdate={onPrepareUpdate}
+                    />
 
                     {/** Files attach */}
                     {data.taskDetail.attachFiles !== '' && (
@@ -853,9 +721,6 @@ const styles = StyleSheet.create({
   badge: {height: 10, width: 10, top: 16, right: 15},
   line: {borderRadius: 1},
   dot_file: {height: 5, width: 5, borderRadius: 5},
-  percent_active: {height: 12},
-  percent_input: {width: '40%'},
-  percent: {width: '70%'},
 });
 
 export default Task;
