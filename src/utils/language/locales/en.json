@@ -53,7 +53,8 @@
     "reject_request": "Cancel request successful!",
     "change_status": "Update status successfully!",
     "change_info": "Update information successfully!",
-    "change_percent": "Update percentage successfully!"
+    "change_percent": "Update percentage successfully!",
+    "change_follow": "Update follow successfully!"
   },
   "error": {
     "title": "Error!",

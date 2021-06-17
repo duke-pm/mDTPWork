@@ -65,7 +65,7 @@ function Status(props) {
   };
 
   /** FUNC */
-  const onCloseActionSheet = (needUpdate) => {
+  const onCloseActionSheet = needUpdate => {
     if (needUpdate) {
       if (status.data[status.active].statusID !== task.statusID) {
         let params = {
@@ -150,7 +150,7 @@ function Status(props) {
           ]}>
           <CText
             customStyles={[
-              cStyles.fontMedium,
+              cStyles.fontBold,
               {
                 color: isDark ? task.colorDarkCode : task.colorCode,
               },

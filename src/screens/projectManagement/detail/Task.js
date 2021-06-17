@@ -41,6 +41,20 @@ import API from '~/services/axios';
 /** REDUX */
 import * as Actions from '~/redux/actions';
 
+const Separator = isDark => (
+  <View style={[cStyles.flexCenter, cStyles.my5]}>
+    <View
+      style={[
+        cStyles.borderDashed,
+        cStyles.fullWidth,
+        cStyles.borderAll,
+        isDark && cStyles.borderAllDark,
+        styles.line,
+      ]}
+    />
+  </View>
+);
+
 function Task(props) {
   const {t} = useTranslation();
   const {customColors} = useTheme();
@@ -57,19 +71,35 @@ function Task(props) {
   const authState = useSelector(({auth}) => auth);
   const language = commonState.get('language');
   const formatDateView = commonState.get('formatDateView');
+  const userName = authState.getIn(['login', 'userName']);
   const refreshToken = authState.getIn(['login', 'refreshToken']);
 
   /** Use state */
   const [loading, setLoading] = useState({
     main: true,
     startFetch: false,
+    fastWatch: false,
   });
   const [newComment, setNewComment] = useState(false);
+  const [isFastWatch, setIsFastWatch] = useState(true);
   const [data, setData] = useState({
     taskDetail: null,
   });
 
   /** HANDLE FUNC */
+  const handleFastWatch = () => {
+    if (isFastWatch) {
+      setLoading({...loading, fastWatch: true});
+      let params = {
+        LineNum: 0,
+        TaskID: taskID,
+        Lang: language,
+        RefreshToken: refreshToken,
+      };
+      return dispatch(Actions.fetchTaskWatcher(params, navigation));
+    }
+  };
+
   const handleActivities = () => {
     if (newComment) {
       setNewComment(false);
@@ -114,9 +144,10 @@ function Task(props) {
     dispatch(Actions.fetchTaskDetail(params, navigation));
   };
 
-  const onPrepareData = async () => {
+  const onPrepareData = async updateWatcher => {
     let taskDetail = projectState.get('taskDetail');
     let activities = projectState.get('activities');
+    let watchers = projectState.get('watchers');
     if (activities.length > 0) {
       let lastComment = await getLocalInfo(LAST_COMMENT_TASK);
       if (lastComment && lastComment.length > 0) {
@@ -136,7 +167,16 @@ function Task(props) {
     }
     setData({taskDetail});
 
-    return setLoading({main: false, startFetch: false});
+    /** Find watcher */
+    if (updateWatcher) {
+      if (watchers.length > 0) {
+        let fWatcher = watchers.find(f => f.userName === userName);
+        if (fWatcher) {
+          setIsFastWatch(false);
+        }
+      }
+    }
+    return done();
   };
 
   const onPrepareUpdate = () => {
@@ -150,18 +190,19 @@ function Task(props) {
     });
   };
 
-  const onError = isUpdate => {
-    let des = !isUpdate
-      ? t('error:detail_request')
-      : t('error:update_status_request');
+  const onError = desUpdate => {
+    let des = !desUpdate ? t('error:detail_request') : t(desUpdate);
     showMessage({
       message: t('common:app_name'),
       description: des,
       type: 'danger',
       icon: 'danger',
     });
+    return done();
+  };
 
-    return setLoading({main: false, startFetch: false});
+  const done = () => {
+    return setLoading({main: false, startFetch: false, fastWatch: false});
   };
 
   /** LIFE CYCLE */
@@ -179,11 +220,11 @@ function Task(props) {
     if (loading.startFetch) {
       if (!projectState.get('submittingTaskDetail')) {
         if (projectState.get('successTaskDetail')) {
-          return onPrepareData();
+          return onPrepareData(true);
         }
 
         if (projectState.get('errorTaskDetail')) {
-          return onError(false);
+          return onError();
         }
       }
     }
@@ -192,6 +233,33 @@ function Task(props) {
     projectState.get('submittingTaskDetail'),
     projectState.get('successTaskDetail'),
     projectState.get('errorTaskDetail'),
+  ]);
+
+  useEffect(() => {
+    if (loading.fastWatch) {
+      if (!projectState.get('submittingTaskWatcher')) {
+        if (projectState.get('successTaskWatcher')) {
+          showMessage({
+            message: t('common:app_name'),
+            description: t('success:change_follow'),
+            type: 'success',
+            icon: 'success',
+          });
+          setIsFastWatch(false);
+          return onPrepareData(false);
+        }
+
+        if (projectState.get('errorTaskWatcher')) {
+          return onError('error:send_follow');
+        }
+      }
+    }
+  }, [
+    loading.fastWatch,
+    projectState.get('submittingTaskWatcher'),
+    projectState.get('successTaskWatcher'),
+    projectState.get('errorTaskWatcher'),
+    setIsFastWatch,
   ]);
 
   /** RENDER */
@@ -218,11 +286,43 @@ function Task(props) {
       onRefresh={onRefresh}
       headerRight={
         <View style={[cStyles.row, cStyles.itemsCenter]}>
+          <TouchableOpacity
+            style={cStyles.itemsEnd}
+            disabled={!isFastWatch}
+            onPress={handleFastWatch}>
+            <Icon
+              style={cStyles.p16}
+              name={'eye'}
+              color={isFastWatch ? colors.WHITE : colors.GRAY_500}
+              size={scalePx(3)}
+            />
+            {!isFastWatch && (
+              <View
+                style={[
+                  cStyles.abs,
+                  cStyles.center,
+                  cStyles.rounded2,
+                  styles.badge2,
+                  cStyles.borderAll,
+                  isDark && cStyles.borderAllDark,
+                  {backgroundColor: customColors.green},
+                ]}
+              />
+            )}
+            {!isFastWatch && (
+              <Icon
+                style={[cStyles.p16, cStyles.abs, styles.dot_check]}
+                name={'check'}
+                color={colors.WHITE}
+                size={8}
+              />
+            )}
+          </TouchableOpacity>
           <TouchableOpacity style={cStyles.itemsEnd} onPress={handleActivities}>
             <Icon
               style={cStyles.p16}
               name={'message-square'}
-              color={'white'}
+              color={colors.WHITE}
               size={scalePx(3)}
             />
             {newComment && (
@@ -242,7 +342,7 @@ function Task(props) {
             <Icon
               style={cStyles.p16}
               name={'users'}
-              color={'white'}
+              color={colors.WHITE}
               size={scalePx(3)}
             />
           </TouchableOpacity>
@@ -502,66 +602,63 @@ function Task(props) {
                     {/** Percentage */}
                     {data.taskDetail.taskTypeID ===
                       Commons.TYPE_TASK.TASK.value && (
-                      <Percentage
-                        isDark={isDark}
-                        customColors={customColors}
-                        navigation={navigation}
-                        language={language}
-                        refreshToken={refreshToken}
-                        task={data.taskDetail}
-                        onUpdate={onPrepareUpdate}
-                      />
+                      <View>
+                        {Separator(isDark)}
+                        <Percentage
+                          isDark={isDark}
+                          customColors={customColors}
+                          navigation={navigation}
+                          language={language}
+                          refreshToken={refreshToken}
+                          task={data.taskDetail}
+                          onUpdate={onPrepareUpdate}
+                        />
+                      </View>
                     )}
 
                     {/** Files attach */}
                     {data.taskDetail.attachFiles !== '' && (
-                      <View style={cStyles.pb10}>
-                        <CLabel label={'project_management:files_attach'} />
-                        <TouchableOpacity onPress={handlePreviewFile}>
-                          <View
-                            style={[
-                              cStyles.row,
-                              cStyles.itemsCenter,
-                              cStyles.py2,
-                            ]}>
+                      <View>
+                        {data.taskDetail.taskTypeID !==
+                          Commons.TYPE_TASK.TASK.value && Separator(isDark)}
+                        <View style={cStyles.pb10}>
+                          <CLabel label={'project_management:files_attach'} />
+                          <TouchableOpacity onPress={handlePreviewFile}>
                             <View
                               style={[
-                                cStyles.mx10,
-                                styles.dot_file,
-                                {backgroundColor: customColors.icon},
-                              ]}
-                            />
-                            <CText
-                              customStyles={[
-                                cStyles.textMeta,
-                                cStyles.textItalic,
-                                {color: customColors.primary},
-                              ]}
-                              customLabel={data.taskDetail.attachFiles.substring(
-                                data.taskDetail.attachFiles.lastIndexOf('/') +
-                                  1,
-                                data.taskDetail.attachFiles.length,
-                              )}
-                              dataDetectorType={'link'}
-                            />
-                          </View>
-                        </TouchableOpacity>
+                                cStyles.row,
+                                cStyles.itemsCenter,
+                                cStyles.py2,
+                              ]}>
+                              <Icon
+                                style={cStyles.ml16}
+                                name={'paperclip'}
+                                color={customColors.icon}
+                                size={13}
+                              />
+                              <CText
+                                customStyles={[
+                                  cStyles.textMeta,
+                                  cStyles.textItalic,
+                                  cStyles.ml6,
+                                  {color: customColors.primary},
+                                ]}
+                                customLabel={data.taskDetail.attachFiles.substring(
+                                  data.taskDetail.attachFiles.lastIndexOf('/') +
+                                    1,
+                                  data.taskDetail.attachFiles.length,
+                                )}
+                                dataDetectorType={'link'}
+                              />
+                            </View>
+                          </TouchableOpacity>
+                        </View>
                       </View>
                     )}
 
-                    {/** Description */}
-                    <View style={cStyles.flexCenter}>
-                      <View
-                        style={[
-                          cStyles.borderDashed,
-                          cStyles.fullWidth,
-                          cStyles.borderAll,
-                          isDark && cStyles.borderAllDark,
-                          styles.line,
-                        ]}
-                      />
-                    </View>
+                    {Separator(isDark)}
 
+                    {/** Description */}
                     <View style={cStyles.py10}>
                       <CText customLabel={checkEmpty(data.taskDetail.descr)} />
                     </View>
@@ -586,8 +683,10 @@ const styles = StyleSheet.create({
   con_middle: {flex: 0.2},
   con_right_1: {flex: 0.5},
   badge: {height: 10, width: 10, top: 16, right: 15},
+  badge2: {height: 10, width: 10, top: 16, right: 13},
   line: {borderRadius: 1},
   dot_file: {height: 5, width: 5, borderRadius: 5},
+  dot_check: {right: -2, top: 1},
 });
 
 export default Task;

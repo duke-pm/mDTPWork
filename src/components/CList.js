@@ -5,6 +5,7 @@
  ** Description: Description of CList.js
  **/
 import React, {createRef, useState, useEffect} from 'react';
+import {useColorScheme} from 'react-native-appearance';
 import {useTheme} from '@react-navigation/native';
 import {StyleSheet, View, FlatList, SectionList} from 'react-native';
 /* COMPONENTS */
@@ -14,13 +15,15 @@ import CFooterList from './CFooterList';
 import CLoading from './CLoading';
 /* COMMON */
 import {IS_ANDROID} from '~/utils/helper';
-import {cStyles} from '~/utils/style';
+import {colors, cStyles} from '~/utils/style';
+import {THEME_DARK} from '~/config/constants';
 
 /** All refs of CList */
 let listRef = createRef();
 let sectionlistRef = createRef();
 
 function CList(props) {
+  const isDark = useColorScheme() === THEME_DARK;
   const {customColors} = useTheme();
   const {
     style = {},
@@ -36,10 +39,6 @@ function CList(props) {
   const [loading, setLoading] = useState(
     scrollToBottom && sectionList ? true : false,
   );
-  const [scrollDown, setScrollDown] = useState({
-    status: false,
-    offsetY: 0,
-  });
 
   /** FUNC */
   const onContentChange = () => {
@@ -115,19 +114,17 @@ function CList(props) {
           }}
           renderSectionHeader={({section}) => {
             return (
-              <View
-                style={[
-                  cStyles.flexCenter,
-                  cStyles.py10,
-                  styles.title,
-                  {backgroundColor: customColors.background},
-                ]}>
+              <View style={[cStyles.flexCenter, cStyles.py10, styles.title]}>
                 <View
                   style={[
                     cStyles.py4,
                     cStyles.px16,
                     cStyles.rounded5,
-                    {backgroundColor: customColors.card},
+                    {
+                      backgroundColor: isDark
+                        ? colors.GRAY_700
+                        : colors.GRAY_200,
+                    },
                   ]}>
                   <CText styles={'textMeta'} customLabel={section.title} />
                 </View>
@@ -137,7 +134,6 @@ function CList(props) {
           keyExtractor={(item, index) => index.toString()}
           removeClippedSubviews={IS_ANDROID}
           keyboardShouldPersistTaps={'handled'}
-          stickySectionHeadersEnabled={true}
           refreshing={props.refreshing}
           onRefresh={onRefresh}
           ListEmptyComponent={

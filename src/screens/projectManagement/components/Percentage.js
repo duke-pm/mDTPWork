@@ -24,6 +24,7 @@ import CLabel from '~/components/CLabel';
 /* COMMON */
 import {THEME_DARK, THEME_LIGHT} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
+import {IS_IOS} from '~/utils/helper';
 /** REDUX */
 import * as Actions from '~/redux/actions';
 
@@ -143,7 +144,7 @@ function Percentage(props) {
   return (
     <View
       style={[
-        cStyles.pb10,
+        cStyles.py10,
         cStyles.row,
         cStyles.itemsCenter,
         cStyles.justifyBetween,
@@ -164,7 +165,7 @@ function Percentage(props) {
                     cStyles.justifyCenter,
                     cStyles.rounded5,
                     cStyles.borderAll,
-                    cStyles.mx1,
+                    cStyles.m1,
                     styles.percent_active,
                   ]}
                 />
@@ -179,11 +180,14 @@ function Percentage(props) {
                     cStyles.justifyCenter,
                     styles.percent_body,
                     {
+                      top: 2,
                       width: `${percent.value}%`,
-                      backgroundColor: customColors.primary,
+                      backgroundColor: !task.isUpdated
+                        ? customColors.textDisable
+                        : customColors.primary,
                     },
                   ]}>
-                  {percent.value > 20 && (
+                  {percent.value > 25 && (
                     <Text
                       style={[
                         cStyles.fontMedium,
@@ -196,7 +200,6 @@ function Percentage(props) {
                 <View
                   style={[
                     cStyles.abs,
-                    cStyles.center,
                     cStyles.right0,
                     cStyles.roundedTopRight5,
                     cStyles.roundedBottomRight5,
@@ -204,20 +207,24 @@ function Percentage(props) {
                     percent.value === 0 && cStyles.roundedBottomLeft5,
                     cStyles.itemsStart,
                     cStyles.justifyCenter,
-                    cStyles.mt1,
                     {
                       height: 14,
                       width: `${100 - percent.value}%`,
-                      backgroundColor: customColors.card,
                     },
                   ]}>
-                  {percent.value <= 20 && (
+                  {percent.value <= 25 && (
                     <Text
                       style={[
                         cStyles.fontMedium,
                         cStyles.textCenter,
-                        cStyles.ml3,
-                        {color: customColors.primary, fontSize: 10},
+                        cStyles.ml5,
+                        IS_IOS ? cStyles.mt3 : cStyles.mt2,
+                        {
+                          color: !task.isUpdated
+                            ? customColors.textDisable
+                            : customColors.primary,
+                          fontSize: 10,
+                        },
                       ]}>{`${percent.value}%`}</Text>
                   )}
                 </View>
@@ -272,9 +279,9 @@ function Percentage(props) {
 const styles = StyleSheet.create({
   con_left: {flex: 0.5},
   percent_active: {height: 16},
-  percent_body: {height: 16},
+  percent_body: {height: 14.5},
   percent_input: {width: '40%'},
-  percent: {width: '90%'},
+  percent: {width: '85%'},
 });
 
 export default Percentage;

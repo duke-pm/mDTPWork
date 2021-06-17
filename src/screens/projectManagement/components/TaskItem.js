@@ -231,7 +231,7 @@ function TaskItem(props) {
             <View style={[cStyles.flex1, cStyles.pt6]}>
               <CText
                 styles={
-                  ' ' +
+                  'textTitle ' +
                   (isReject && 'textThrough ') +
                   (data.countChild === 0 && ' pt10')
                 }

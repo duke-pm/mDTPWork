@@ -53,7 +53,8 @@
     "reject_request": "Từ chối yêu cầu thành công!",
     "change_status": "Cập nhật trạng thái thành công!",
     "change_info": "Cập nhật thông tin thành công!",
-    "change_percent": "Cập nhật tiến độ thành công!"
+    "change_percent": "Cập nhật tiến độ thành công!",
+    "change_follow": "Theo dõi thành công!"
   },
   "error": {
     "title": "Lỗi",

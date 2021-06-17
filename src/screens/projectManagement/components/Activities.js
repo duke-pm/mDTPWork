@@ -8,6 +8,7 @@
 import React, {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
+import {useColorScheme} from 'react-native-appearance';
 import {useTheme} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {showMessage} from 'react-native-flash-message';
@@ -29,7 +30,7 @@ import CList from '~/components/CList';
 import CAvatar from '~/components/CAvatar';
 import CLabel from '~/components/CLabel';
 /* COMMON */
-import {LAST_COMMENT_TASK} from '~/config/constants';
+import {LAST_COMMENT_TASK, THEME_DARK} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
 import {IS_IOS, saveLocalInfo, getLocalInfo} from '~/utils/helper';
 /** REDUX */
@@ -54,21 +55,17 @@ const INPUT_NAME = {
 };
 
 const RenderInputMessage = ({
+  customColors,
   value = '',
   onSend = () => {},
   handleChangeText = () => {},
 }) => {
   return (
     <View
-      style={[
-        cStyles.px16,
-        cStyles.mb10,
-        cStyles.row,
-        cStyles.itemsCenter,
-        cStyles.borderTop,
-      ]}>
+      style={[cStyles.px16, cStyles.mb10, cStyles.row, cStyles.itemsCenter]}>
       <CInput
         name={INPUT_NAME.MESSAGE}
+        style={{backgroundColor: customColors.textInput}}
         containerStyle={styles.input}
         styleFocus={styles.input_focus}
         holder={'project_management:holder_input_your_comment'}
@@ -92,6 +89,7 @@ const RenderInputMessage = ({
 
 function Activity(props) {
   const {t} = useTranslation();
+  const isDark = useColorScheme() === THEME_DARK;
   const {customColors} = useTheme();
   const {route, navigation} = props;
   const taskID = route.params.data.taskID;
@@ -247,7 +245,12 @@ function Activity(props) {
       hasBack
       iconBack={'x'}
       content={
-        <SafeAreaView style={cStyles.flex1} edges={['bottom', 'left', 'right']}>
+        <SafeAreaView
+          style={[
+            cStyles.flex1,
+            {backgroundColor: customColors.backgroundActivity},
+          ]}
+          edges={['bottom', 'left', 'right']}>
           <KeyboardAvoidingView
             style={cStyles.flex1}
             behavior={IS_IOS ? 'padding' : undefined}
@@ -264,7 +267,7 @@ function Activity(props) {
                 item={({item, index}) => {
                   if (item.userName === userName) {
                     return (
-                      <View style={[cStyles.itemsEnd, cStyles.pb16]}>
+                      <View style={[cStyles.itemsEnd, cStyles.pb6]}>
                         <View
                           style={[
                             cStyles.roundedBottomLeft2,
@@ -272,10 +275,18 @@ function Activity(props) {
                             cStyles.roundedTopRight2,
                             cStyles.p10,
                             cStyles.ml10,
-                            {backgroundColor: customColors.primary},
+                            {
+                              backgroundColor: isDark
+                                ? colors.GRAY_860
+                                : customColors.green2,
+                            },
                           ]}>
                           <CText
-                            styles={'textMeta textRight colorWhite'}
+                            customStyles={[
+                              cStyles.textMeta,
+                              cStyles.textRight,
+                              {color: isDark ? colors.WHITE : colors.BLACK},
+                            ]}
                             customLabel={moment(
                               item.timeUpdate,
                               'DD/MM/YYYY - HH:mm',
@@ -284,7 +295,10 @@ function Activity(props) {
 
                           <View style={cStyles.mt10}>
                             <CText
-                              styles={'textRight colorWhite'}
+                              customStyles={[
+                                cStyles.textRight,
+                                {color: isDark ? colors.WHITE : colors.BLACK},
+                              ]}
                               customLabel={item.comments}
                             />
                           </View>
@@ -341,6 +355,7 @@ function Activity(props) {
               />
             )}
             <RenderInputMessage
+              customColors={customColors}
               value={valueMessage}
               onSend={onSendMessage}
               handleChangeText={setValueMessage}
