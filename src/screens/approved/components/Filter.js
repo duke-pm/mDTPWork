@@ -15,7 +15,6 @@ import {
   StyleSheet,
   View,
   TouchableOpacity,
-  TouchableNativeFeedback,
   LayoutAnimation,
   UIManager,
   Animated,
@@ -28,10 +27,11 @@ import CInput from '~/components/CInput';
 import CDateTimePicker from '~/components/CDateTimePicker';
 import CButton from '~/components/CButton';
 import CGroupFilter from '~/components/CGroupFilter';
+import CLabel from '~/components/CLabel';
 /* COMMON */
 import {THEME_DARK} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
-import {IS_ANDROID, scalePx} from '~/utils/helper';
+import {checkEmpty, IS_ANDROID, scalePx} from '~/utils/helper';
 import {usePrevious} from '~/utils/hook';
 
 if (IS_ANDROID) {
@@ -83,7 +83,7 @@ const TagItem = (customColors, label) => {
         cStyles.mr3,
         {backgroundColor: customColors.cardDisable},
       ]}>
-      <CText styles={'textMeta'} customLabel={label} />
+      <CLabel customLabel={label} />
     </View>
   );
 };
@@ -215,7 +215,6 @@ function Filter(props) {
     inputRange: [0, 1],
     outputRange: ['0deg', '180deg'],
   });
-  const Touchable = IS_ANDROID ? TouchableNativeFeedback : TouchableOpacity;
   return (
     <View
       style={[
@@ -227,7 +226,7 @@ function Filter(props) {
         show && cStyles.pb12,
         {backgroundColor: customColors.card},
       ]}>
-      <Touchable onPress={handleToggle}>
+      <TouchableOpacity disabled={show} onPress={handleToggle}>
         <View
           style={[
             cStyles.row,
@@ -241,15 +240,12 @@ function Filter(props) {
               <View style={[cStyles.row, cStyles.itemsCenter]}>
                 {TagItem(
                   customColors,
-                  `${
-                    data.fromDate !== ''
-                      ? moment(data.fromDate).format('DD/MM')
-                      : '#'
-                  } - ${
-                    data.toDate !== ''
-                      ? moment(data.toDate).format('DD/MM')
-                      : '#'
-                  }`,
+                  `${checkEmpty(
+                    data.fromDate,
+                    '#',
+                    false,
+                    'DD/MM',
+                  )} - ${checkEmpty(data.toDate, '#', false, 'DD/MM')}`,
                 )}
                 {data.status.indexOf(1) !== -1 &&
                   TagItem(customColors, t('approved_assets:status_wait'))}
@@ -265,15 +261,12 @@ function Filter(props) {
               <View style={[cStyles.row, cStyles.itemsCenter]}>
                 {TagItem(
                   customColors,
-                  `${
-                    data.fromDate !== ''
-                      ? moment(data.fromDate).format('DD/MM')
-                      : '#'
-                  } - ${
-                    data.toDate !== ''
-                      ? moment(data.toDate).format('DD/MM')
-                      : '#'
-                  }`,
+                  `${checkEmpty(
+                    data.fromDate,
+                    '#',
+                    false,
+                    'DD/MM',
+                  )} - ${checkEmpty(data.toDate, '#', false, 'DD/MM')}`,
                 )}
                 {data.type.indexOf(1) !== -1 &&
                   TagItem(
@@ -303,8 +296,9 @@ function Filter(props) {
             />
           </Animated.View>
         </View>
-      </Touchable>
+      </TouchableOpacity>
 
+      {/** Show is visible */}
       {show && (
         <View style={cStyles.px16}>
           <View
@@ -389,13 +383,13 @@ function Filter(props) {
               cStyles.mt10,
             ]}>
             <CButton
-              style={{width: cStyles.deviceWidth / 2.5}}
+              style={styles.button}
               variant={'outlined'}
               label={'common:close'}
               onPress={handleToggle}
             />
             <CButton
-              style={{width: cStyles.deviceWidth / 2.5}}
+              style={styles.button}
               label={'common:apply'}
               onPress={handleFilter}
             />
@@ -403,7 +397,7 @@ function Filter(props) {
         </View>
       )}
 
-      {/** PICKER */}
+      {/** Date Picker */}
       <CDateTimePicker
         show={showPickerDate.status}
         value={
@@ -420,6 +414,7 @@ function Filter(props) {
 const styles = StyleSheet.create({
   text_date: {flex: 0.3},
   input_date: {flex: 0.7},
+  button: {width: cStyles.deviceWidth / 2.5},
 });
 
 export default Filter;

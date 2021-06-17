@@ -38,7 +38,8 @@ function ApprovedAssetsDamage(props) {
 
   /** Use state */
   const [loading, setLoading] = useState({
-    main: false,
+    main: true,
+    startFetch: false,
     search: false,
     refreshing: false,
     loadmore: false,
@@ -119,6 +120,7 @@ function ApprovedAssetsDamage(props) {
     // Update loading and re-render
     let tmpLoading = {
       main: false,
+      startFetch: false,
       search: false,
       refreshing: false,
       loadmore: false,
@@ -160,6 +162,7 @@ function ApprovedAssetsDamage(props) {
 
     return setLoading({
       main: false,
+      startFetch: false,
       search: false,
       refreshing: false,
       loadmore: false,
@@ -170,7 +173,7 @@ function ApprovedAssetsDamage(props) {
   /** LIFE CYCLE */
   useEffect(() => {
     onFetchData(data.fromDate, data.toDate, data.status, 1, data.search);
-    setLoading({...loading, main: true});
+    setLoading({...loading, startFetch: true});
   }, []);
 
   useEffect(() => {
@@ -205,7 +208,7 @@ function ApprovedAssetsDamage(props) {
 
   useEffect(() => {
     if (
-      loading.main ||
+      loading.startFetch ||
       loading.search ||
       loading.refreshing ||
       loading.loadmore
@@ -226,7 +229,7 @@ function ApprovedAssetsDamage(props) {
       }
     }
   }, [
-    loading.main,
+    loading.startFetch,
     loading.search,
     loading.refreshing,
     loading.loadmore,

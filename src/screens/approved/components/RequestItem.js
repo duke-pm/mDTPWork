@@ -5,9 +5,8 @@
  ** Description: Description of RequestItem.js
  **/
 import React from 'react';
-import {useTranslation} from 'react-i18next';
-import {useNavigation} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
+import {useTranslation} from 'react-i18next';
 import {
   StyleSheet,
   View,
@@ -19,42 +18,24 @@ import {
 import moment from 'moment';
 /* COMPONENTS */
 import CText from '~/components/CText';
+import CLabel from '~/components/CLabel';
 /* COMMON */
+import Commons from '~/utils/common/Commons';
 import {Assets} from '~/utils/asset';
 import {cStyles} from '~/utils/style';
 import {IS_IOS} from '~/utils/helper';
-import Routes from '~/navigation/Routes';
-import Commons from '~/utils/common/Commons';
 
 function RequestItem(props) {
   const {t} = useTranslation();
-  const navigation = useNavigation();
-  const {
-    loading,
-    customColors,
-    data,
-    dataProcess,
-    dataDetail,
-    permissionWrite,
-    onRefresh,
-  } = props;
+  const {loading, customColors, data, dataProcess, dataDetail, onPress} = props;
 
   /** Use redux */
   const commonState = useSelector(({common}) => common);
+  const formatDateView = commonState.get('formatDateView');
 
   /** HANDLE FUNC */
   const handleRequestItem = () => {
-    let route = Routes.MAIN.ADD_APPROVED_LOST_DAMAGED.name;
-    if (data.requestTypeID === Commons.APPROVED_TYPE.ASSETS.value) {
-      route = Routes.MAIN.ADD_APPROVED_ASSETS.name;
-    }
-    navigation.navigate(route, {
-      data: data,
-      dataProcess: dataProcess,
-      dataDetail: dataDetail,
-      permissionWrite: permissionWrite || false,
-      onRefresh: () => onRefresh(),
-    });
+    onPress(data, dataProcess, dataDetail);
   };
 
   /** RENDER */
@@ -114,24 +95,18 @@ function RequestItem(props) {
               style={[cStyles.row, cStyles.itemsStart, cStyles.justifyBetween]}>
               <View
                 style={[cStyles.row, cStyles.itemsStart, styles.header_left]}>
-                <CText
-                  styles={'textMeta'}
-                  label={'approved_lost_damaged:date_request'}
-                />
-                <CText
-                  styles={'textMeta fontRegular'}
+                <CLabel label={'approved_lost_damaged:date_request'} />
+                <CLabel
                   customLabel={moment(
                     data.requestDate,
                     'YYYY-MM-DDTHH:mm:ss',
-                  ).format(commonState.get('formatDateView'))}
+                  ).format(formatDateView)}
                 />
               </View>
 
-              <View style={[cStyles.row, cStyles.itemsStart]}>
-                <CText
-                  styles={'textMeta'}
-                  label={'approved_lost_damaged:status_request'}
-                />
+              <View
+                style={[cStyles.row, cStyles.itemsStart, styles.header_right]}>
+                <CLabel label={'approved_lost_damaged:status_request'} />
                 <CText
                   styles={'textMeta fontBold ' + colorText}
                   customLabel={data.statusName}
@@ -143,31 +118,19 @@ function RequestItem(props) {
               style={[cStyles.row, cStyles.itemsStart, cStyles.justifyBetween]}>
               <View
                 style={[cStyles.row, cStyles.itemsStart, styles.header_left]}>
-                <CText
-                  styles={'textMeta'}
-                  label={'approved_lost_damaged:region_request'}
-                />
-                <CText
-                  styles={'textMeta fontRegular'}
-                  customLabel={data.regionName}
-                />
+                <CLabel label={'approved_lost_damaged:region_request'} />
+                <CLabel customLabel={data.regionName} />
               </View>
 
               <View
                 style={[
                   cStyles.row,
-                  cStyles.itemsStart,
-                  cStyles.justifyEnd,
+                  cStyles.itemsCenter,
+                  cStyles.justifyStart,
                   styles.header_right,
                 ]}>
-                <CText
-                  styles={'textMeta'}
-                  label={'approved_lost_damaged:user_request'}
-                />
-                <CText
-                  styles={'textMeta fontRegular'}
-                  customLabel={data.personRequest}
-                />
+                <CLabel label={'approved_lost_damaged:user_request'} />
+                <CLabel medium customLabel={data.personRequest} />
               </View>
             </View>
 
@@ -175,14 +138,8 @@ function RequestItem(props) {
               style={[cStyles.row, cStyles.itemsStart, cStyles.justifyBetween]}>
               <View
                 style={[cStyles.row, cStyles.itemsStart, styles.header_left]}>
-                <CText
-                  styles={'textMeta'}
-                  label={'approved_lost_damaged:department_request'}
-                />
-                <CText
-                  styles={'textMeta fontRegular'}
-                  customLabel={data.deptName}
-                />
+                <CLabel label={'approved_lost_damaged:department_request'} />
+                <CLabel customLabel={data.deptName} />
               </View>
             </View>
           </View>

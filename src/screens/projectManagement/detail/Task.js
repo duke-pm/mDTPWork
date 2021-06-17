@@ -46,9 +46,9 @@ function Task(props) {
   const {customColors} = useTheme();
   const isDark = useColorScheme() === THEME_DARK;
   const {route, navigation} = props;
-  const taskID = route.params?.data?.taskID;
-  const perChangeStatus = route.params?.data?.isUpdated;
-  const onRefresh = route.params?.onRefresh;
+  const taskID = route.params?.data?.taskID || 0;
+  const perChangeStatus = route.params?.data?.isUpdated || false;
+  const onRefresh = route.params?.onRefresh || false;
 
   /** Use redux */
   const dispatch = useDispatch();
@@ -500,7 +500,8 @@ function Task(props) {
                     </View>
 
                     {/** Percentage */}
-                    {data.taskDetail.taskTypeID === Commons.TYPE_TASK.TASK.value && (
+                    {data.taskDetail.taskTypeID ===
+                      Commons.TYPE_TASK.TASK.value && (
                       <Percentage
                         isDark={isDark}
                         customColors={customColors}

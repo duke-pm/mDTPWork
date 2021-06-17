@@ -177,7 +177,6 @@ function Percentage(props) {
                     percent.value === 100 && cStyles.roundedBottomRight5,
                     cStyles.itemsEnd,
                     cStyles.justifyCenter,
-                    cStyles.mt1,
                     styles.percent_body,
                     {
                       width: `${percent.value}%`,
@@ -197,6 +196,7 @@ function Percentage(props) {
                 <View
                   style={[
                     cStyles.abs,
+                    cStyles.center,
                     cStyles.right0,
                     cStyles.roundedTopRight5,
                     cStyles.roundedBottomRight5,
@@ -205,10 +205,10 @@ function Percentage(props) {
                     cStyles.itemsStart,
                     cStyles.justifyCenter,
                     cStyles.mt1,
-                    styles.percent_body,
                     {
+                      height: 14,
                       width: `${100 - percent.value}%`,
-                      backgroundColor: colors.WHITE,
+                      backgroundColor: customColors.card,
                     },
                   ]}>
                   {percent.value <= 20 && (
@@ -272,7 +272,7 @@ function Percentage(props) {
 const styles = StyleSheet.create({
   con_left: {flex: 0.5},
   percent_active: {height: 16},
-  percent_body: {height: 14},
+  percent_body: {height: 16},
   percent_input: {width: '40%'},
   percent: {width: '90%'},
 });

@@ -4,41 +4,33 @@
  ** CreateAt: 2021
  ** Description: Description of CList.js
  **/
-import React, {createRef, useState, useEffect, useRef} from 'react';
+import React, {createRef, useState, useEffect} from 'react';
 import {useTheme} from '@react-navigation/native';
-import {useColorScheme} from 'react-native-appearance';
-import {StyleSheet, View, FlatList, Animated, SectionList} from 'react-native';
+import {StyleSheet, View, FlatList, SectionList} from 'react-native';
 /* COMPONENTS */
 import CEmpty from './CEmpty';
 import CText from './CText';
 import CFooterList from './CFooterList';
-import CIconButton from './CIconButton';
 import CLoading from './CLoading';
 /* COMMON */
 import {IS_ANDROID} from '~/utils/helper';
-import {colors, cStyles} from '~/utils/style';
-import {THEME_DARK} from '~/config/constants';
+import {cStyles} from '~/utils/style';
 
+/** All refs of CList */
 let listRef = createRef();
 let sectionlistRef = createRef();
 
 function CList(props) {
   const {customColors} = useTheme();
-  const isDark = useColorScheme() === THEME_DARK;
   const {
     style = {},
     contentStyle = {},
-    scrollToTop = true,
     scrollToBottom = false,
     sectionList = false,
     textEmpty = null,
     onRefresh = null,
     onLoadmore = null,
   } = props;
-
-  /** Use ref */
-  const animButtonToTop = useRef(new Animated.Value(cStyles.deviceHeight))
-    .current;
 
   /** Use state */
   const [loading, setLoading] = useState(
@@ -49,51 +41,7 @@ function CList(props) {
     offsetY: 0,
   });
 
-  /** HANDLE FUNC */
-  const handleScrollToTop = () => {
-    if (!sectionList) {
-      listRef.scrollToOffset({animated: true, offset: 0});
-    } else {
-      sectionlistRef.scrollToLocation({
-        animated: true,
-        itemIndex: 0,
-        sectionIndex: 0,
-      });
-    }
-  };
-
   /** FUNC */
-  const onScroll = event => {
-    if (!scrollDown.status) {
-      if (scrollDown.offsetY < event.nativeEvent.contentOffset.y) {
-        Animated.timing(animButtonToTop, {
-          toValue: 0,
-          duration: 150,
-          useNativeDriver: true,
-        }).start();
-        setScrollDown({
-          status: true,
-          offsetY: event.nativeEvent.contentOffset.y,
-        });
-      }
-    } else {
-      if (
-        scrollDown.offsetY !== 0 &&
-        scrollDown.offsetY > event.nativeEvent.contentOffset.y
-      ) {
-        Animated.timing(animButtonToTop, {
-          toValue: 100,
-          duration: 150,
-          useNativeDriver: true,
-        }).start();
-        setScrollDown({
-          status: false,
-          offsetY: 0,
-        });
-      }
-    }
-  };
-
   const onContentChange = () => {
     if (scrollToBottom && !sectionList) {
       listRef.scrollToEnd({animated: true});
@@ -137,7 +85,6 @@ function CList(props) {
           keyboardDismissMode={'interactive'}
           initialNumToRender={10}
           scrollEventThrottle={16}
-          onScroll={scrollToTop ? onScroll : null}
           onContentSizeChange={onContentChange}
           refreshing={props.refreshing}
           onRefresh={onRefresh}
@@ -190,7 +137,6 @@ function CList(props) {
           keyExtractor={(item, index) => index.toString()}
           removeClippedSubviews={IS_ANDROID}
           keyboardShouldPersistTaps={'handled'}
-          onScroll={scrollToTop ? onScroll : null}
           stickySectionHeadersEnabled={true}
           refreshing={props.refreshing}
           onRefresh={onRefresh}
@@ -205,19 +151,6 @@ function CList(props) {
         />
       )}
 
-      {scrollToTop && (
-        <CIconButton
-          style={[
-            cStyles.abs,
-            styles.button_scroll_to_top,
-            {transform: [{translateX: animButtonToTop}]},
-          ]}
-          iconName={'arrow-up'}
-          iconColor={colors.WHITE}
-          onPress={handleScrollToTop}
-        />
-      )}
-
       {props.data && scrollToBottom && sectionList && (
         <CLoading visible={loading} customColors={customColors} />
       )}
@@ -226,11 +159,6 @@ function CList(props) {
 }
 
 const styles = StyleSheet.create({
-  button_scroll_to_top: {
-    right: 30,
-    bottom: 30,
-    backgroundColor: colors.SECONDARY,
-  },
   title: {marginHorizontal: -16},
 });
 

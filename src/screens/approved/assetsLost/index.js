@@ -39,7 +39,8 @@ function ApprovedAssets(props) {
 
   /** Use state */
   const [loading, setLoading] = useState({
-    main: false,
+    main: true,
+    startFetch: false,
     search: false,
     refreshing: false,
     loadmore: false,
@@ -120,6 +121,7 @@ function ApprovedAssets(props) {
     // Update loading and re-render
     let tmpLoading = {
       main: false,
+      startFetch: false,
       search: false,
       refreshing: false,
       loadmore: false,
@@ -161,6 +163,7 @@ function ApprovedAssets(props) {
 
     return setLoading({
       main: false,
+      startFetch: false,
       search: false,
       refreshing: false,
       loadmore: false,
@@ -177,7 +180,7 @@ function ApprovedAssets(props) {
       data.page,
       data.search,
     );
-    setLoading({...loading, main: true});
+    setLoading({...loading, startFetch: true});
   }, []);
 
   useEffect(() => {
@@ -212,7 +215,7 @@ function ApprovedAssets(props) {
 
   useEffect(() => {
     if (
-      loading.main ||
+      loading.startFetch ||
       loading.search ||
       loading.refreshing ||
       loading.loadmore
@@ -233,7 +236,7 @@ function ApprovedAssets(props) {
       }
     }
   }, [
-    loading.main,
+    loading.startFetch,
     loading.search,
     loading.refreshing,
     loading.loadmore,

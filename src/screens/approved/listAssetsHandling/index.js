@@ -40,7 +40,8 @@ function ListRequestHandling(props) {
 
   /** Use state */
   const [loading, setLoading] = useState({
-    main: false,
+    main: true,
+    startFetch: false,
     search: false,
     refreshing: false,
     loadmore: false,
@@ -140,6 +141,7 @@ function ListRequestHandling(props) {
     });
     setLoading({
       main: false,
+      startFetch: false,
       search: false,
       refreshing: false,
       loadmore: false,
@@ -188,6 +190,7 @@ function ListRequestHandling(props) {
 
     return setLoading({
       main: false,
+      startFetch: false,
       search: false,
       refreshing: false,
       loadmore: false,
@@ -205,12 +208,12 @@ function ListRequestHandling(props) {
       data.search,
       data.type,
     );
-    setLoading({...loading, main: true});
+    setLoading({...loading, startFetch: true});
   }, []);
 
   useEffect(() => {
     if (
-      loading.main ||
+      loading.startFetch ||
       loading.search ||
       loading.refreshing ||
       loading.loadmore
@@ -231,7 +234,7 @@ function ListRequestHandling(props) {
       }
     }
   }, [
-    loading.main,
+    loading.startFetch,
     loading.search,
     loading.refreshing,
     loading.loadmore,

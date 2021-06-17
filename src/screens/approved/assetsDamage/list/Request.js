@@ -5,27 +5,39 @@
  ** Description: Description of ListRequest.js
  **/
 import React from 'react';
+import {useNavigation} from '@react-navigation/native';
 /* COMPONENTS */
 import RequestItem from '../../components/RequestItem';
 import CList from '~/components/CList';
 /* COMMON */
+import Routes from '~/navigation/Routes';
 import {cStyles} from '~/utils/style';
 
 function ListRequest(props) {
-  const {onLoadmore, onRefresh} = props;
+  const navigation = useNavigation();
+  const {permissionWrite, customColors, onLoadmore, onRefresh} = props;
+
+  /** HANDLE FUNC */
+  const handleRequestItem = (data, dataProcess, dataDetail) => {
+    navigation.navigate(Routes.MAIN.ADD_APPROVED_LOST_DAMAGED.name, {
+      data: data,
+      dataProcess: dataProcess,
+      dataDetail: dataDetail,
+      permissionWrite: permissionWrite || false,
+      onRefresh: () => onRefresh(),
+    });
+  };
 
   /** RENDER */
+  let detail = null,
+    process = null;
   return (
     <CList
       style={cStyles.mt16}
       data={props.data}
       item={({item, index}) => {
-        let detail = props.dataDetail.filter(
-          f => f.requestID === item.requestID,
-        );
-        let process = props.dataProcess.filter(
-          f => f.requestID === item.requestID,
-        );
+        detail = props.dataDetail.filter(f => f.requestID === item.requestID);
+        process = props.dataProcess.filter(f => f.requestID === item.requestID);
         process = process.sort((a, b) => a.levelApproval - b.levelApproval);
         return (
           <RequestItem
@@ -34,8 +46,8 @@ function ListRequest(props) {
             data={item}
             dataDetail={detail}
             dataProcess={process}
-            customColors={props.customColors}
-            onRefresh={onRefresh}
+            customColors={customColors}
+            onPress={handleRequestItem}
           />
         );
       }}
