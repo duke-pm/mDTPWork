@@ -36,6 +36,7 @@ import CButton from '~/components/CButton';
 import CActionSheet from '~/components/CActionSheet';
 import CGroupLabel from '~/components/CGroupLabel';
 import CAlert from '~/components/CAlert';
+import CLabel from '~/components/CLabel';
 // import CUploadImage from '~/components/CUploadImage';
 import RejectModal from '../components/RejectModal';
 import RequestProcess from '../components/RequestProcess';
@@ -641,8 +642,8 @@ function AddRequest(props) {
                 ]}>
                 {/** Date request */}
                 <View>
-                  <CText
-                    styles={'textMeta fontMedium'}
+                  <CLabel
+                    medium
                     label={'add_approved_lost_damaged:date_request'}
                   />
                   <CInput
@@ -668,11 +669,7 @@ function AddRequest(props) {
                 {/** Assets */}
                 {!isDetail && (
                   <View>
-                    <CText
-                      styles={'textMeta fontMedium'}
-                      label={'add_approved_lost_damaged:assets'}
-                    />
-
+                    <CLabel medium label={'add_approved_lost_damaged:assets'} />
                     {RowSelect(
                       t,
                       loading.main,
@@ -691,10 +688,7 @@ function AddRequest(props) {
 
                 {/** Reason */}
                 <View style={!isDetail ? cStyles.pt16 : {}}>
-                  <CText
-                    styles={'textMeta fontMedium'}
-                    label={'add_approved_lost_damaged:reason'}
-                  />
+                  <CLabel medium label={'add_approved_lost_damaged:reason'} />
                   <CInput
                     name={INPUT_NAME.REASON}
                     styleFocus={styles.input_focus}
@@ -714,8 +708,8 @@ function AddRequest(props) {
 
                 {/** Type update */}
                 <View style={cStyles.py16}>
-                  <CText
-                    styles={'textMeta fontMedium'}
+                  <CLabel
+                    medium
                     label={'add_approved_lost_damaged:type_update'}
                   />
                   <CheckOption
@@ -775,14 +769,13 @@ function AddRequest(props) {
                           cStyles.justifyBetween,
                         ]}>
                         <View style={[cStyles.row, cStyles.justifyStart]}>
-                          <CText
-                            styles={'textMeta'}
+                          <CLabel
                             label={
                               'add_approved_lost_damaged:purchase_date_asset'
                             }
                           />
-                          <CText
-                            styles={'textMeta fontBold'}
+                          <CLabel
+                            medium
                             customLabel={moment(
                               props.route.params?.data?.purchaseDate,
                               'YYYY-MM-DDTHH:mm:ss',
@@ -790,12 +783,11 @@ function AddRequest(props) {
                           />
                         </View>
                         <View style={[cStyles.row, cStyles.justifyStart]}>
-                          <CText
-                            styles={'textMeta'}
+                          <CLabel
                             label={'add_approved_lost_damaged:type_asset'}
                           />
-                          <CText
-                            styles={'textMeta fontBold'}
+                          <CLabel
+                            medium
                             customLabel={
                               props.route.params?.data?.assetTypeName
                             }
@@ -809,12 +801,11 @@ function AddRequest(props) {
                           cStyles.justifyBetween,
                         ]}>
                         <View style={[cStyles.row, cStyles.justifyStart]}>
-                          <CText
-                            styles={'textMeta'}
+                          <CLabel
                             label={'add_approved_lost_damaged:price_asset'}
                           />
-                          <CText
-                            styles={'textMeta fontBold'}
+                          <CLabel
+                            medium
                             customLabel={checkEmpty(
                               props.route.params?.data?.originalPrice,
                               null,
@@ -823,12 +814,11 @@ function AddRequest(props) {
                           />
                         </View>
                         <View style={[cStyles.row, cStyles.justifyStart]}>
-                          <CText
-                            styles={'textMeta'}
+                          <CLabel
                             label={'add_approved_lost_damaged:status_asset'}
                           />
-                          <CText
-                            styles={'textMeta fontBold'}
+                          <CLabel
+                            medium
                             customLabel={
                               props.route.params?.data?.assetStatusName
                             }
@@ -836,12 +826,11 @@ function AddRequest(props) {
                         </View>
                       </View>
                       <View style={[cStyles.row, cStyles.justifyStart]}>
-                        <CText
-                          styles={'textMeta'}
+                        <CLabel
                           label={'add_approved_lost_damaged:detail_asset'}
                         />
-                        <CText
-                          styles={'textMeta fontBold'}
+                        <CLabel
+                          medium
                           customLabel={checkEmpty(
                             props.route.params?.data?.descr,
                             t('common:empty_info'),
@@ -903,8 +892,7 @@ function AddRequest(props) {
                   </Picker>
                 ) : (
                   <View style={[cStyles.center, styles.content_picker]}>
-                    <CText
-                      styles={'textMeta'}
+                    <CLabel
                       label={'add_approved_lost_damaged:holder_empty_assets'}
                     />
                   </View>

@@ -522,6 +522,11 @@ const text = {
     fontFamily: fRegular,
     lineHeight: 20,
   },
+  textDate: {
+    fontSize: scalePx(1.8),
+    fontFamily: fLight,
+    lineHeight: 20,
+  },
   textButton: {
     fontSize: scalePx(2.3),
     color: 'white',

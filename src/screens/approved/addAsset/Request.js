@@ -33,6 +33,7 @@ import CButton from '~/components/CButton';
 import CAlert from '~/components/CAlert';
 import CActionSheet from '~/components/CActionSheet';
 import CGroupLabel from '~/components/CGroupLabel';
+import CLabel from '~/components/CLabel';
 import RejectModal from '../components/RejectModal';
 import RequestProcess from '../components/RequestProcess';
 import AssetsTable from '../components/AssetsTable';
@@ -616,10 +617,7 @@ function AddRequest(props) {
                   ]}>
                   {/** Date request */}
                   <View style={[cStyles.flex1, cStyles.mr5]}>
-                    <CText
-                      styles={'textMeta fontMedium'}
-                      label={'add_approved_assets:date_request'}
-                    />
+                    <CLabel medium label={'add_approved_assets:date_request'} />
                     <CInput
                       name={INPUT_NAME.DATE_REQUEST}
                       disabled={true}
@@ -631,10 +629,7 @@ function AddRequest(props) {
 
                   {/** Region */}
                   <View style={[cStyles.flex1, cStyles.ml5]}>
-                    <CText
-                      styles={'textMeta fontMedium'}
-                      label={'add_approved_assets:region'}
-                    />
+                    <CLabel medium label={'add_approved_assets:region'} />
                     {RowSelect(
                       loading.main,
                       true,
@@ -651,10 +646,7 @@ function AddRequest(props) {
 
                 {/** Name */}
                 <View style={cStyles.pt16}>
-                  <CText
-                    styles={'textMeta fontMedium'}
-                    label={'add_approved_assets:name'}
-                  />
+                  <CLabel medium label={'add_approved_assets:name'} />
                   <CInput
                     name={INPUT_NAME.NAME}
                     styleFocus={styles.input_focus}
@@ -669,10 +661,7 @@ function AddRequest(props) {
 
                 {/** Department */}
                 <View style={cStyles.pt16}>
-                  <CText
-                    styles={'textMeta fontMedium'}
-                    label={'add_approved_assets:department'}
-                  />
+                  <CLabel medium label={'add_approved_assets:department'} />
                   {RowSelect(
                     loading.main,
                     true,
@@ -688,10 +677,7 @@ function AddRequest(props) {
 
                 {/** Where use */}
                 <View style={cStyles.pt16}>
-                  <CText
-                    styles={'textMeta fontMedium'}
-                    label={'add_approved_assets:where_use'}
-                  />
+                  <CLabel medium label={'add_approved_assets:where_use'} />
                   {RowSelect(
                     loading.main,
                     loading.main || loading.submitAdd || isDetail,
@@ -707,10 +693,15 @@ function AddRequest(props) {
 
                 {/** Reason */}
                 <View style={cStyles.pt16}>
-                  <CText
-                    styles={'textMeta fontMedium'}
-                    label={'add_approved_assets:reason'}
-                  />
+                  <View
+                    style={[
+                      cStyles.row,
+                      cStyles.itemsCenter,
+                      cStyles.justifyBetween,
+                    ]}>
+                    <CLabel medium label={'add_approved_assets:reason'} />
+                    <CText styles={'textDate'} label={'common:optional'} />
+                  </View>
                   <CInput
                     name={INPUT_NAME.REASON}
                     styleFocus={styles.input_focus}
@@ -762,10 +753,15 @@ function AddRequest(props) {
                 ]}>
                 {/** Supplier */}
                 <View style={cStyles.pt16}>
-                  <CText
-                    styles={'textMeta fontMedium'}
-                    label={'add_approved_assets:supplier'}
-                  />
+                  <View
+                    style={[
+                      cStyles.row,
+                      cStyles.itemsCenter,
+                      cStyles.justifyBetween,
+                    ]}>
+                    <CLabel medium label={'add_approved_assets:supplier'} />
+                    <CText styles={'textDate'} label={'common:optional'} />
+                  </View>
                   <CInput
                     name={INPUT_NAME.SUPPLIER}
                     styleFocus={styles.input_focus}
@@ -782,10 +778,7 @@ function AddRequest(props) {
 
                 {/** Type assets */}
                 <View style={cStyles.pt16}>
-                  <CText
-                    styles={'textMeta fontMedium'}
-                    label={'add_approved_assets:type_assets'}
-                  />
+                  <CLabel medium label={'add_approved_assets:type_assets'} />
                   <CheckOption
                     loading={loading.main || loading.submitAdd}
                     isDetail={isDetail}
@@ -798,10 +791,7 @@ function AddRequest(props) {
 
                 {/** In Planning */}
                 <View style={cStyles.py16}>
-                  <CText
-                    styles={'textMeta fontMedium'}
-                    label={'add_approved_assets:in_planning'}
-                  />
+                  <CLabel medium label={'add_approved_assets:in_planning'} />
                   <CheckOption
                     loading={loading.main || loading.submitAdd}
                     isDetail={isDetail}

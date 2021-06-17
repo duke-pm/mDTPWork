@@ -251,7 +251,7 @@ function Activity(props) {
           <KeyboardAvoidingView
             style={cStyles.flex1}
             behavior={IS_IOS ? 'padding' : undefined}
-            keyboardVerticalOffset={isIphoneX() ? 120 : IS_IOS ? 66 : 0}>
+            keyboardVerticalOffset={isIphoneX() ? 120 : IS_IOS ? 70 : 0}>
             {!loading.main && (
               <CList
                 contentStyle={cStyles.pt16}
@@ -280,7 +280,7 @@ function Activity(props) {
                           ]}>
                           <CText
                             customStyles={[
-                              cStyles.textMeta,
+                              cStyles.textDate,
                               cStyles.textRight,
                               {color: isDark ? colors.WHITE : colors.BLACK},
                             ]}
@@ -324,7 +324,11 @@ function Activity(props) {
                           cStyles.roundedTopRight2,
                           cStyles.p10,
                           cStyles.ml10,
-                          {backgroundColor: customColors.cardDisable},
+                          {
+                            backgroundColor: isDark
+                              ? customColors.cardDisable
+                              : colors.GRAY_100,
+                          },
                         ]}>
                         <View style={[cStyles.row, cStyles.itemsEnd]}>
                           <Text
@@ -334,7 +338,8 @@ function Activity(props) {
                             ]}>
                             {item.fullName + ', '}
                           </Text>
-                          <CLabel
+                          <CText
+                            customStyles={[cStyles.textDate, cStyles.textLeft]}
                             customLabel={moment(
                               item.timeUpdate,
                               'DD/MM/YYYY - HH:mm',

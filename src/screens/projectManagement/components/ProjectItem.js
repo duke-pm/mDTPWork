@@ -210,7 +210,7 @@ const styles = StyleSheet.create({
   con_info_right: {flex: 0.55},
   line_child: {height: '100%'},
   card: {zIndex: 100},
-  card_children: {height: 100},
+  card_children: {height: 50},
   owner: {width: '65%'},
   status: {
     height: 8,
