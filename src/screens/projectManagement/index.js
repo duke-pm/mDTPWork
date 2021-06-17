@@ -164,12 +164,7 @@ function ProjectManagement(props) {
         setFilters({...filters, owner});
       }
     }
-    return setLoading({
-      main: false,
-      search: false,
-      refreshing: false,
-      startFetch: false,
-    });
+    return done();
   };
 
   const onPrepareDataFilter = (
@@ -211,6 +206,10 @@ function ProjectManagement(props) {
       icon: 'danger',
     });
 
+    return done();
+  };
+
+  const done = () => {
     return setLoading({
       main: false,
       search: false,

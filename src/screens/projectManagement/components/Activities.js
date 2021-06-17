@@ -144,7 +144,7 @@ function Activity(props) {
       }
     }
     setMessages(array);
-    return setLoading({main: false, send: false});
+    return done();
   };
 
   const onSendMessage = () => {
@@ -169,6 +169,10 @@ function Activity(props) {
       icon: 'danger',
     });
 
+    return done();
+  };
+
+  const done = () => {
     return setLoading({main: false, send: false});
   };
 

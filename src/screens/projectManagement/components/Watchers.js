@@ -83,7 +83,7 @@ function Watchers(props) {
       }
     }
 
-    return setLoading({main: false, send: false});
+    return done();
   };
 
   const onError = () => {
@@ -94,6 +94,10 @@ function Watchers(props) {
       icon: 'danger',
     });
 
+    return done();
+  };
+
+  const done = () => {
     return setLoading({main: false, send: false});
   };
 
