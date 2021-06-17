@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 /**
  ** Name: Contact Us
- ** Author:
+ ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of ContactUs.js
  **/

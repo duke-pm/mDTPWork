@@ -2,7 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /**
  ** Name: Percentage
- ** Author:
+ ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of Percentage.js
  **/

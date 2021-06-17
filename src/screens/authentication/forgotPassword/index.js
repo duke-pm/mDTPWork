@@ -1,6 +1,6 @@
 /**
  ** Name: Forgot Password
- ** Author:
+ ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of ForgotPassword.js
  **/

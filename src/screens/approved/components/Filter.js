@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /**
  ** Name: Filter request
- ** Author:
+ ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of Filter.js
  **/

@@ -1,6 +1,6 @@
 /**
  ** Name: Check of option
- ** Author:
+ ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of CheckOption.js
  **/

@@ -1,6 +1,6 @@
 /**
  ** Name: Config i18n
- ** Author:
+ ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of config-i18n.js
  **/

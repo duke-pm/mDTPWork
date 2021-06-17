@@ -3,7 +3,7 @@
 /* eslint-disable react-native/no-inline-styles */
 /**
  ** Name: DropDown Picker
- ** Author:
+ ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of DropDownPicker.js
  **/

@@ -2,7 +2,7 @@
 /* eslint-disable react-native/no-inline-styles */
 /**
  ** Name: Table of assets
- ** Author:
+ ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of AssetsTable.js
  **/

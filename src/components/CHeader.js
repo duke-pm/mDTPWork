@@ -1,6 +1,6 @@
 /**
  ** Name: CHeader
- ** Author: ZiniSoft Ltd
+ ** Author: DTP-Education ZiniSoft Ltd
  ** CreateAt: 2021
  ** Description: Description of CHeader.js
  **/

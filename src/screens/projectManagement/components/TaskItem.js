@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 /**
  ** Name: Task Item
- ** Author:
+ ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of TaskItem.js
  **/

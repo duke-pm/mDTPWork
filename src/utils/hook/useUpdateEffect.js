@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /**
  ** Name: useUpdateEffect.js
- ** Author:
+ ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of useUpdateEffect.js
  **/

@@ -1,6 +1,6 @@
 /**
  ** Name: Auth.js
- ** Author:
+ ** Author: DTP-Education
  ** CreatedAt: 2021
  ** Description: Description of Auth.js
  **/

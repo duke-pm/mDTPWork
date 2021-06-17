@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /**
  ** Name: Dashboard
- ** Author:
+ ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of Dashboard.js
  **/

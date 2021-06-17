@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /**
  ** Name: Activity of Task
- ** Author:
+ ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of Activity.js
  **/
@@ -33,23 +33,10 @@ import CLabel from '~/components/CLabel';
 import {LAST_COMMENT_TASK, THEME_DARK} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
 import {IS_IOS, saveLocalInfo, getLocalInfo} from '~/utils/helper';
+import {LOCALE_VI, LOCALE_EN} from '~/utils/language/comment';
 /** REDUX */
 import * as Actions from '~/redux/actions';
 
-const LOCALE_VI = {
-  weekdays: 'Chủ nhật_Thứ hai_Thứ ba_Thứ tư_Thứ năm_Thứ sáu_Thứ bảy'.split('_'),
-  weekdaysShort: 'CN_Thứ 2_Thứ 3_Thứ 4_Thứ 5_Thứ 6_Thứ 7'.split('_'),
-  weekdaysMin: 'CN_T2_T3_T4_T5_T6_T7'.split('_'),
-  weekdaysParseExact: true,
-};
-const LOCALE_EN = {
-  weekdays: 'Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday'.split(
-    '_',
-  ),
-  weekdaysShort: 'Sun_Mon_Tue_Wed_Thu_Fri_Sat'.split('_'),
-  weekdaysMin: 'Su_Mo_Tu_We_Th_Fr_Sa'.split('_'),
-  weekdaysParseExact: true,
-};
 const INPUT_NAME = {
   MESSAGE: 'message',
 };

@@ -1,6 +1,6 @@
 /**
  ** Name: CFooterList
- ** Author:
+ ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of CFooterList.js
  **/

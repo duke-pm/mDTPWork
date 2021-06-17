@@ -2,7 +2,7 @@ import { colors } from "../style";
 
 /**
  ** Name: Common
- ** Author:
+ ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of Common.js
  **/

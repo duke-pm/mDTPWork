@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /**
  ** Name: Filter of project
- ** Author:
+ ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of FilterProject.js
  **/
@@ -11,13 +11,7 @@ import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {BlurView} from '@react-native-community/blur';
-import {
-  StyleSheet,
-  TouchableOpacity,
-  View,
-  ScrollView,
-  Switch,
-} from 'react-native';
+import {StyleSheet, TouchableOpacity, View, ScrollView} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import Modal from 'react-native-modal';
 /* COMPONENTS */
@@ -29,41 +23,6 @@ import CLoading from '~/components/CLoading';
 import {THEME_DARK} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
 import {IS_IOS, scalePx} from '~/utils/helper';
-
-// const RowToggle = (
-//   isDark,
-//   customColors,
-//   label,
-//   active,
-//   onToggle,
-//   isLast = true,
-//   isFirst = false,
-// ) => {
-//   return (
-//     <View
-//       style={[
-//         cStyles.row,
-//         cStyles.itemsCenter,
-//         cStyles.justifyBetween,
-//         cStyles.pl16,
-//         styles.row_header,
-//         isLast && isDark && cStyles.borderBottomDark,
-//         isLast && !isDark && cStyles.borderBottom,
-//         isFirst && isDark && cStyles.borderTopDark,
-//         isFirst && !isDark && cStyles.borderTop,
-//         {backgroundColor: customColors.card},
-//       ]}>
-//       <CText label={label} />
-//       <Switch
-//         style={cStyles.mr16}
-//         trackColor={{false: '#767577', true: customColors.green}}
-//         thumbColor={'#f4f3f4'}
-//         onValueChange={onToggle}
-//         value={active}
-//       />
-//     </View>
-//   );
-// };
 
 const RowSelect = (
   isDark,

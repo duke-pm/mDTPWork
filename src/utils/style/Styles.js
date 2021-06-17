@@ -1,6 +1,6 @@
 /**
  ** Name: Styles of App
- ** Author:
+ ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of styles.js
  **/

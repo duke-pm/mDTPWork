@@ -1,6 +1,6 @@
 /**
  ** Name: Tab bar for request type
- ** Author:
+ ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of TabbarType.js
  **/

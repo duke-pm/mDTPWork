@@ -1,6 +1,6 @@
 /**
  ** Name: Reducers for app
- ** Author:
+ ** Author: DTP-Education
  ** CreatedAt: 2021
  ** Description: Description of Reducers.js
  **/

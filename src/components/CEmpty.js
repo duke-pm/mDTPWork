@@ -1,6 +1,6 @@
 /**
  ** Name: CEmpty
- ** Author:
+ ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of CEmpty.js
  **/

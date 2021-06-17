@@ -1,6 +1,6 @@
 /**
  ** Name: Tab item
- ** Author:
+ ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of Tab.js
  **/

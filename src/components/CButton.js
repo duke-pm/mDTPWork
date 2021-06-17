@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 /**
  ** Name: CButton
- ** Author:
+ ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of CButton.js
  **/

@@ -1,6 +1,6 @@
 /**
  ** Name: usePrevious.js
- ** Author:
+ ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of usePrevious.js
  **/

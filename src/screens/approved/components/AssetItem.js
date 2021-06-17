@@ -3,7 +3,7 @@
 /* eslint-disable no-bitwise */
 /**
  ** Name: Asset Item
- ** Author:
+ ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of AssetItem.js
  **/

@@ -1,6 +1,6 @@
 /**
  ** Name: CCheckbox
- ** Author:
+ ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of CCheckbox.js
  **/

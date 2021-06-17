@@ -1,6 +1,6 @@
 /**
  ** Name: CLabel
- ** Author:
+ ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of CLabel.js
  **/

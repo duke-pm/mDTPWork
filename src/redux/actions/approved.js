@@ -1,6 +1,6 @@
 /**
  ** Name: Approved actions
- ** Author:
+ ** Author: DTP-Education
  ** CreatedAt: 2021
  ** Description: Description of Approved.js
  **/

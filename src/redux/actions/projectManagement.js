@@ -1,6 +1,6 @@
 /**
  ** Name: Project management actions
- ** Author:
+ ** Author: DTP-Education
  ** CreatedAt: 2021
  ** Description: Description of ProjectManagement.js
  **/

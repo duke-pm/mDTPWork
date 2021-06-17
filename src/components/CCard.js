@@ -1,6 +1,6 @@
 /**
  ** Name: CCard
- ** Author:
+ ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of CCard.js
  **/

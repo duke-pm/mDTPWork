@@ -1,6 +1,6 @@
 /**
  ** Name: CItem
- ** Author:
+ ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of CItem.js
  **/

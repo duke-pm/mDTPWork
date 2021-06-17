@@ -2,7 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /**
  ** Name: Add new request lost damage
- ** Author:
+ ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of RequestLostDamage.js
  **/

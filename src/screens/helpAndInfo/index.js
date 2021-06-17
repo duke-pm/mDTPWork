@@ -1,6 +1,6 @@
 /**
  ** Name: Help and info page
- ** Author:
+ ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of HelpAndInfo.js
  **/

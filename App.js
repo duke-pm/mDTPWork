@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /**
  ** Name: App Main
- ** Author:
+ ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of App.js
  **/

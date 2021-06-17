@@ -1,6 +1,6 @@
 /**
  ** Name: Types redux
- ** Author:
+ ** Author: DTP-Education
  ** CreatedAt: 2021
  ** Description: Description of Types.js
  **/

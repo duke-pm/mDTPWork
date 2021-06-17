@@ -1,6 +1,6 @@
 /**
  ** Name: Assets
- ** Author:
+ ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of Assets.js
  **/

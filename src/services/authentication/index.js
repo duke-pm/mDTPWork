@@ -1,6 +1,6 @@
 /**
  ** Name: Authentication
- ** Author:
+ ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of Authentication.js
  **/

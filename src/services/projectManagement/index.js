@@ -1,6 +1,6 @@
 /**
  ** Name: Approved
- ** Author:
+ ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of approved.js
  **/

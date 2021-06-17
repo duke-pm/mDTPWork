@@ -1,6 +1,6 @@
 /**
  ** Name: Reject modal approve
- ** Author:
+ ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of RejectModal.js
  **/

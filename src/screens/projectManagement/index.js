@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /**
  ** Name: Project Management screen
- ** Author:
+ ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of ProjectManagement.js
  **/
@@ -14,7 +14,7 @@ import {useTranslation} from 'react-i18next';
 import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import {showMessage} from 'react-native-flash-message';
 import Icon from 'react-native-vector-icons/Feather';
-/* COMPONENTS */
+/** COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
 import ListProject from './list/Project';
@@ -60,7 +60,9 @@ function ProjectManagement(props) {
     owner: [],
   });
 
-  /** HANDLE FUNC */
+  /*****************
+   ** HANDLE FUNC **
+   *****************/
   const handleSearch = value => {
     setLoading({...loading, search: true});
     setData({...data, search: value});

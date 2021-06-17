@@ -1,6 +1,6 @@
 /**
  ** Name: List Task screen
- ** Author:
+ ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of Task.js
  **/
