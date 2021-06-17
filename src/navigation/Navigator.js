@@ -19,12 +19,16 @@ import '~/utils/language/config-i18n';
 function Navigator(props) {
   const commonState = useSelector(({common}) => common);
 
-  /** FUNC */
+  /************
+   ** FUNC **
+   ************/
   const onStartApp = () => {
     SplashScreen.hide();
   };
 
-  /** LIFE CYCLE */
+  /******************
+   ** LIFE CYCLE **
+   ******************/
   useEffect(() => {
     onStartApp();
   }, []);
@@ -39,7 +43,9 @@ function Navigator(props) {
     props.i18n.changeLanguage,
   ]);
 
-  /** RENDER */
+  /**************
+   ** RENDER **
+   **************/
   return (
     <RootMain
       ref={nav => {

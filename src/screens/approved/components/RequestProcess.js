@@ -24,7 +24,9 @@ function RequestProcess(props) {
   /** Use state */
   const [anims, setAnims] = useState([]);
 
-  /** LIFE CYCLE */
+  /******************
+   ** LIFE CYCLE **
+   ******************/
   useEffect(() => {
     let tmp = [],
       item = null;
@@ -52,7 +54,9 @@ function RequestProcess(props) {
     }
   }, [anims]);
 
-  /** RENDER */
+  /**************
+   ** RENDER **
+   **************/
   return (
     <CCard
       containerStyle={[cStyles.m16, cStyles.mb32]}

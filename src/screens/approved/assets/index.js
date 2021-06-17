@@ -57,7 +57,9 @@ function ApprovedAssets(props) {
   });
   let prevData = usePrevious(props.dataRoute);
 
-  /** FUNC */
+  /************
+   ** FUNC **
+   ************/
   const onFetchData = (
     fromDate = null,
     toDate = null,
@@ -165,7 +167,9 @@ function ApprovedAssets(props) {
     });
   };
 
-  /** LIFE CYCLE */
+  /******************
+   ** LIFE CYCLE **
+   ******************/
   useEffect(() => {
     onFetchData(
       data.fromDate,
@@ -239,7 +243,9 @@ function ApprovedAssets(props) {
     approvedState.get('errorListRequest'),
   ]);
 
-  /** RENDER */
+  /**************
+   ** RENDER **
+   **************/
   return (
     <CContent>
       {!loading.main && !loading.search && (

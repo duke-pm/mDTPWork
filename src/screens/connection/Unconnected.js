@@ -17,7 +17,9 @@ import {cStyles} from '~/utils/style';
 function Unconnected(props) {
   const {customColors} = useTheme();
 
-  /** RENDER */
+  /**************
+   ** RENDER **
+   **************/
   if (props.connected) return null;
 
   return (

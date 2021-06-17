@@ -45,14 +45,18 @@ function ProjectDetail(props) {
     search: '',
   });
 
-  /** HANDLE FUNC */
+  /*****************
+   ** HANDLE FUNC **
+   *****************/
   const handleSearch = value => {
     setLoading({...loading, search: true});
     setData({...data, search: value});
     onFetchData(value);
   };
 
-  /** FUNC */
+  /************
+   ** FUNC **
+   ************/
   const onFetchData = (search = '') => {
     let params = fromJS({
       PrjID: projectID,
@@ -115,7 +119,9 @@ function ProjectDetail(props) {
     }
   };
 
-  /** LIFE CYCLE */
+  /******************
+   ** LIFE CYCLE **
+   ******************/
   useEffect(() => {
     onFetchData();
     setLoading({...loading, startFetch: true});
@@ -142,7 +148,9 @@ function ProjectDetail(props) {
     projectState.get('errorListTask'),
   ]);
 
-  /** RENDER */
+  /**************
+   ** RENDER **
+   **************/
   return (
     <CContainer
       loading={loading.main || loading.search}

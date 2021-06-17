@@ -49,7 +49,9 @@ function TaskItem(props) {
   /** Use state */
   const [showChildren, setShowChildren] = useState(false);
 
-  /** HANDLE FUNC */
+  /*****************
+   ** HANDLE FUNC **
+   *****************/
   const handleTaskItem = () => {
     onPress(data);
   };
@@ -64,7 +66,9 @@ function TaskItem(props) {
     setShowChildren(!showChildren);
   };
 
-  /** RENDER */
+  /**************
+   ** RENDER **
+   **************/
   let typeColor = customColors[Commons.TYPE_TASK.PHASE.color], // default is PHASE
     bgStatus = customColors[Commons.STATUS_TASK.NEW.color], // default is New
     isReject = false;

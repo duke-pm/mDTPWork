@@ -115,11 +115,16 @@ function Account(props) {
   const {customColors} = useTheme();
   const isDark = useColorScheme() === THEME_DARK;
 
+  /** Use redux */
   const dispatch = useDispatch();
   const authState = useSelector(({auth}) => auth);
 
+  /** Use state */
   const [loading, setLoading] = useState(false);
 
+  /*****************
+   ** HANDLE FUNC **
+   *****************/
   const handleSignOut = () => {
     alert(t, 'common:warning_sign_out', handleOk);
   };
@@ -132,11 +137,14 @@ function Account(props) {
     resetRoute(props.navigation, Routes.AUTHENTICATION.SIGN_IN.name);
   };
 
+  /*****************
+   ** RENDER **
+   *****************/
   return (
     <CContainer
-      header
       loading={loading}
       title={'account:title'}
+      header
       content={
         <CContent>
           <ScrollView

@@ -29,7 +29,9 @@ function CText(props) {
     allStyles.push(cStyles[i]);
   }
 
-  /** RENDER */
+  /**************
+   ** RENDER **
+   **************/
   let Component = onPress ? TouchableHighlight : View;
   return (
     <Component onPress={onPress}>

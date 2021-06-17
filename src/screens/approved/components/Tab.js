@@ -20,7 +20,9 @@ import {cStyles} from '~/utils/style';
 function Tab(props) {
   const {key, title, onPress} = props;
 
-  /** RENDER */
+  /**************
+   ** RENDER **
+   **************/
   const Touchable = IS_ANDROID ? TouchableNativeFeedback : TouchableOpacity;
   return (
     <Touchable key={key} onPress={onPress}>

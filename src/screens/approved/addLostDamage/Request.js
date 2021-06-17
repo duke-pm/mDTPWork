@@ -216,7 +216,9 @@ function AddRequest(props) {
     },
   });
 
-  /** HANDLE FUNC */
+  /*****************
+   ** HANDLE FUNC **
+   *****************/
   const handleReject = () => setShowReject(!showReject);
 
   const handleApproved = () => setShowConfirm(!showConfirm);
@@ -273,7 +275,9 @@ function AddRequest(props) {
   //   });
   // };
 
-  /** FUNC */
+  /************
+   ** FUNC **
+   ************/
   const onPrepareData = () => {
     let type = props.route.params?.type;
     if (type) {
@@ -446,7 +450,9 @@ function AddRequest(props) {
     setForm({...form, typeUpdate: newVal});
   };
 
-  /** LIFE CYCLE */
+  /******************
+   ** LIFE CYCLE **
+   ******************/
   useEffect(() => {
     dispatch(Actions.resetStatusMasterData());
     onPrepareData();
@@ -582,7 +588,9 @@ function AddRequest(props) {
     approvedState.get('errorRejectRequest'),
   ]);
 
-  /** RENDER */
+  /**************
+   ** RENDER **
+   **************/
   const isShowApprovedReject =
     isDetail && form.isAllowApproved && props.route.params?.permissionWrite;
   return (

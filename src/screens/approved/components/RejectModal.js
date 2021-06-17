@@ -33,7 +33,9 @@ function RejectModal(props) {
     },
   });
 
-  /** HANDLE FUNC */
+  /*****************
+   ** HANDLE FUNC **
+   *****************/
   const handleChangeReasonReject = value => {
     setReasonReject(value);
     if (error.reasonReject.status) {
@@ -72,7 +74,9 @@ function RejectModal(props) {
     onCloseReject();
   };
 
-  /** RENDER */
+  /**************
+   ** RENDER **
+   **************/
   return (
     <CAlert
       loading={loading}

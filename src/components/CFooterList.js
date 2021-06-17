@@ -14,7 +14,9 @@ import {Animations} from '~/utils/asset';
 import {cStyles} from '~/utils/style';
 
 function CFooterList(props) {
-  /** RENDER */
+  /**************
+   ** RENDER **
+   **************/
   return (
     <View style={[cStyles.py16, cStyles.itemsCenter]}>
       <Lottie style={styles.icon} source={Animations.loading} autoPlay loop />

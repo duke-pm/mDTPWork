@@ -14,7 +14,9 @@ import {Animations} from '~/utils/asset';
 import {colors, cStyles} from '~/utils/style';
 
 function CLoading(props) {
-  /** RENDER */
+  /**************
+   ** RENDER **
+   **************/
   return (
     <Modal
       style={cStyles.m0}

@@ -35,7 +35,9 @@ function CAvatar(props) {
   const [anim, setAnim] = useState(new Animated.Value(source ? 1 : 0));
   const [src, setSrc] = useState(source);
 
-  /** FUNC */
+  /************
+   ** FUNC **
+   ************/
   const onLoad = () => {
     let animationParams = {
       toValue: 0,
@@ -50,7 +52,9 @@ function CAvatar(props) {
     setSrc(Assets.iconUserDefault);
   };
 
-  /** RENDER */
+  /**************
+   ** RENDER **
+   **************/
   let customLabel = '';
   if (!source && label) {
     customLabel = label.split(' ');

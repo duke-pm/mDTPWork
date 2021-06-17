@@ -12,12 +12,16 @@ import {cStyles} from '~/utils/style';
 function SocialItem(props) {
   const {key, index, data} = props;
 
-  /** HANDLE FUNC */
+  /*****************
+   ** HANDLE FUNC **
+   *****************/
   const handleSocial = () => {
     Linking.openURL(data.url);
   };
 
-  /** RENDER */
+  /**************
+   ** RENDER **
+   **************/
   return (
     <TouchableOpacity key={key} onPress={handleSocial}>
       <View

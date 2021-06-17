@@ -98,7 +98,9 @@ function ProjectManagement(props) {
     setLoading({...loading, search: false});
   };
 
-  /** FUNC */
+  /************
+   ** FUNC **
+   ************/
   const onFetchData = (search = '') => {
     let params = fromJS({
       Search: search,
@@ -249,7 +251,9 @@ function ProjectManagement(props) {
     }
   };
 
-  /** LIFE CYCLE */
+  /******************
+   ** LIFE CYCLE **
+   ******************/
   useEffect(() => {
     onFetchData();
     setLoading({...loading, startFetch: true});
@@ -279,7 +283,9 @@ function ProjectManagement(props) {
     masterState.get('projectStatus'),
   ]);
 
-  /** RENDER */
+  /**************
+   ** RENDER **
+   **************/
   return (
     <CContainer
       loading={loading.main || loading.search}

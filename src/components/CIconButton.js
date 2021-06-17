@@ -21,7 +21,9 @@ function CIconButton(props) {
     onPress = () => {},
   } = props;
 
-  /** RENDER */
+  /**************
+   ** RENDER **
+   **************/
   return (
     <TouchableOpacity
       style={[cStyles.rounded10, cStyles.center, styles.container, style]}

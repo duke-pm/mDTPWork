@@ -25,7 +25,9 @@ function TabbarType(props) {
   const inputRange = navigationState.routes.map((x, i) => i);
   let translateX = null;
 
-  /** RENDER */
+  /**************
+   ** RENDER **
+   **************/
   if (IS_IOS) {
     translateX = position.interpolate({
       inputRange,

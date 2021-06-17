@@ -29,7 +29,9 @@ function CDropdown(props) {
     onChangeItem = () => {},
   } = props;
 
-  /** RENDER */
+  /**************
+   ** RENDER **
+   **************/
   if (props.loading) {
     return (
       <View

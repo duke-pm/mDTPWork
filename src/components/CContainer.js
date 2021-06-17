@@ -58,7 +58,9 @@ function CContainer(props) {
   /** Use state */
   const [bgColor, setbgColor] = useState(customColors.primary);
 
-  /** LIFE CYCLE */
+  /******************
+   ** LIFE CYCLE **
+   ******************/
   useEffect(() => {
     if (isDark) {
       setbgColor(customColors.header);
@@ -67,7 +69,9 @@ function CContainer(props) {
     }
   }, [isDark, setbgColor]);
 
-  /** RENDER */
+  /**************
+   ** RENDER **
+   **************/
   // Theme
   let tmpSafeArea = ['right', 'left'];
   if (safeArea.top) {

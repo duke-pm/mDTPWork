@@ -103,7 +103,9 @@ function Activity(props) {
   const [valueMessage, setValueMessage] = useState('');
   const [messages, setMessages] = useState([]);
 
-  /** FUNC */
+  /************
+   ** FUNC **
+   ************/
   const onPrepareData = async isUpdate => {
     let array = [];
     let activities = projectState.get('activities');
@@ -197,7 +199,9 @@ function Activity(props) {
     }
   };
 
-  /** LIFE CYCLE */
+  /******************
+   ** LIFE CYCLE **
+   ******************/
   useEffect(() => {
     onPrepareData(false);
     onUpdateLastComment();
@@ -223,7 +227,9 @@ function Activity(props) {
     projectState.get('errorTaskComment'),
   ]);
 
-  /** RENDER */
+  /**************
+   ** RENDER **
+   **************/
   return (
     <CContainer
       loading={loading.main || loading.send}

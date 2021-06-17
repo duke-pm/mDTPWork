@@ -34,10 +34,14 @@ function ForgotPassword(props) {
     email: '',
   });
 
-  /** HANDLE FUNC */
+  /*****************
+   ** HANDLE FUNC **
+   *****************/
   const handleSend = () => {};
 
-  /** RENDER */
+  /**************
+   ** RENDER **
+   **************/
   return (
     <CContainer
       loading={loading}

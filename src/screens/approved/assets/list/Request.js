@@ -17,7 +17,9 @@ function ListRequest(props) {
   const navigation = useNavigation();
   const {permissionWrite, customColors, onLoadmore, onRefresh} = props;
 
-  /** HANDLE FUNC */
+  /*****************
+   ** HANDLE FUNC **
+   *****************/
   const handleRequestItem = (data, dataProcess, dataDetail) => {
     navigation.navigate(Routes.MAIN.ADD_APPROVED_ASSETS.name, {
       data: data,
@@ -28,7 +30,9 @@ function ListRequest(props) {
     });
   };
 
-  /** RENDER */
+  /**************
+   ** RENDER **
+   **************/
   let detail = null,
     process = null;
   return (

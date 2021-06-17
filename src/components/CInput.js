@@ -56,7 +56,9 @@ function CInput(props) {
   const [focus, setFocus] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
 
-  /** HANDLE FUNC */
+  /*****************
+   ** HANDLE FUNC **
+   *****************/
   const handleSubmitEditing = () => {
     if (onChangeInput) {
       onChangeInput();
@@ -89,7 +91,9 @@ function CInput(props) {
     setShowPassword(!showPassword);
   };
 
-  /** RENDER */
+  /**************
+   ** RENDER **
+   **************/
   const Component = disabled ? View : TouchableOpacity;
   return (
     <View style={[cStyles.fullWidth, containerStyle]}>

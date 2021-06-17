@@ -29,7 +29,9 @@ function ProjectItem(props) {
   const [showChildren, setShowChildren] = useState(false);
   const [widthCard, setWidthCard] = useState(0);
 
-  /** HANDLE FUNC */
+  /*****************
+   ** HANDLE FUNC **
+   *****************/
   const handleProjectItem = () => {
     if (data.countChild > 0) {
       setShowChildren(!showChildren);
@@ -39,7 +41,9 @@ function ProjectItem(props) {
     }
   };
 
-  /** RENDER */
+  /**************
+   ** RENDER **
+   **************/
   let status = Commons.STATUS_PROJECT.IN_PROGRESS; // default is In progress
   if (!data.statusColor) {
     switch (data.statusID) {

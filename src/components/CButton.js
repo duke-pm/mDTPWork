@@ -41,7 +41,9 @@ function CButton(props) {
     onPress = () => {},
   } = props;
 
-  /** RENDER */
+  /**************
+   ** RENDER **
+   **************/
   let customStylesButton =
     disabled || loading
       ? {color: colors.GRAY_500}

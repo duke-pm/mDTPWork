@@ -29,7 +29,9 @@ function CCheckbox(props) {
     onChange,
   } = props;
 
-  /** RENDER */
+  /**************
+   ** RENDER **
+   **************/
   return (
     <View
       style={[

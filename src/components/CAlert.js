@@ -36,7 +36,9 @@ function CAlert(props) {
     onOK = null,
   } = props;
 
-  /** RENDER */
+  /**************
+   ** RENDER **
+   **************/
   return (
     <Modal
       isVisible={show}

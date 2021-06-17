@@ -55,7 +55,9 @@ function Status(props) {
     active: 0,
   });
 
-  /** HANDLE FUNC */
+  /*****************
+   ** HANDLE FUNC **
+   *****************/
   const handleShowChangeStatus = () => {
     actionSheetStatusRef.current?.show();
   };
@@ -64,7 +66,9 @@ function Status(props) {
     actionSheetStatusRef.current?.hide();
   };
 
-  /** FUNC */
+  /************
+   ** FUNC **
+   ************/
   const onCloseActionSheet = needUpdate => {
     if (needUpdate) {
       if (status.data[status.active].statusID !== task.statusID) {
@@ -105,7 +109,9 @@ function Status(props) {
     });
   };
 
-  /** LIFE CYCLE */
+  /******************
+   ** LIFE CYCLE **
+   ******************/
   useEffect(() => {
     let fStatus = status.data.findIndex(f => f.statusID === task.statusID);
     if (fStatus !== -1) {
@@ -132,7 +138,9 @@ function Status(props) {
     projectState.get('errorTaskUpdate'),
   ]);
 
-  /** RENDER */
+  /**************
+   ** RENDER **
+   **************/
   return (
     <View>
       <TouchableOpacity disabled={!isUpdate} onPress={handleShowChangeStatus}>

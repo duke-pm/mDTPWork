@@ -14,7 +14,9 @@ import {Animations} from '~/utils/asset';
 import {cStyles} from '~/utils/style';
 
 function TabbarLoading(props) {
-  /** RENDER */
+  /**************
+   ** RENDER **
+   **************/
   if (!props.show) {
     return null;
   }

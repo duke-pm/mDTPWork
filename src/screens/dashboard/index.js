@@ -23,14 +23,18 @@ function Dashboard(props) {
   /** Use redux */
   const authState = useSelector(({auth}) => auth);
 
-  /** HANDLE FUNC */
+  /*****************
+   ** HANDLE FUNC **
+   *****************/
   const handleItem = dataRoute => {
     props.navigation.navigate(dataRoute.mName, {
       idRouteParent: dataRoute.menuID,
     });
   };
 
-  /** FUNC */
+  /************
+   ** FUNC **
+   ************/
   const onPrepareData = () => {
     let tmpListMenu = authState.getIn(['login', 'lstMenu']);
     if (tmpListMenu && tmpListMenu.lstPermissionItem.length > 0) {
@@ -53,12 +57,16 @@ function Dashboard(props) {
     setLoading(false);
   };
 
-  /** LIFE CYCLE */
+  /******************
+   ** LIFE CYCLE **
+   ******************/
   useEffect(() => {
     onPrepareData();
   }, []);
 
-  /** RENDER */
+  /**************
+   ** RENDER **
+   **************/
   return (
     <CContainer
       loading={loading}

@@ -21,7 +21,9 @@ function CDateTimePicker(props) {
   const commonState = useSelector(({common}) => common);
   const language = commonState.get('language');
 
-  /** HANDLE FUNC */
+  /*****************
+   ** HANDLE FUNC **
+   *****************/
   const handleChangePicker = date => {
     onChangeDate(date, false);
   };
@@ -30,7 +32,9 @@ function CDateTimePicker(props) {
     onChangeDate(null, false);
   };
 
-  /** RENDER */
+  /**************
+   ** RENDER **
+   **************/
   return (
     <DateTimePickerModal
       isVisible={show}

@@ -59,7 +59,9 @@ function ListRequestHandling(props) {
     page: 1,
   });
 
-  /** HANDLE FUNC */
+  /*****************
+   ** HANDLE FUNC **
+   *****************/
   const handleSearch = value => {
     setLoading({...loading, search: true});
     setData({...data, search: value});
@@ -86,7 +88,9 @@ function ListRequestHandling(props) {
     onFetchData(fromDate, toDate, status, 1, data.search, type);
   };
 
-  /** FUNC */
+  /************
+   ** FUNC **
+   ************/
   const onFetchData = (
     fromDate = null,
     toDate = null,
@@ -198,7 +202,9 @@ function ListRequestHandling(props) {
     });
   };
 
-  /** LIFE CYCLE */
+  /******************
+   ** LIFE CYCLE **
+   ******************/
   useEffect(() => {
     onFetchData(
       data.fromDate,
@@ -243,7 +249,9 @@ function ListRequestHandling(props) {
     approvedState.get('errorListRequest'),
   ]);
 
-  /** RENDER */
+  /**************
+   ** RENDER **
+   **************/
   return (
     <CContainer
       loading={loading.main || loading.search}

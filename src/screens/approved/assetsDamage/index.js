@@ -58,7 +58,9 @@ function ApprovedAssetsDamage(props) {
 
   let prevData = usePrevious(props.dataRoute);
 
-  /** FUNC */
+  /************
+   ** FUNC **
+   ************/
   const onFetchData = (
     fromDate = null,
     toDate = null,
@@ -170,7 +172,9 @@ function ApprovedAssetsDamage(props) {
     });
   };
 
-  /** LIFE CYCLE */
+  /******************
+   ** LIFE CYCLE **
+   ******************/
   useEffect(() => {
     onFetchData(data.fromDate, data.toDate, data.status, 1, data.search);
     setLoading({...loading, startFetch: true});
@@ -238,7 +242,9 @@ function ApprovedAssetsDamage(props) {
     approvedState.get('errorListRequestDamage'),
   ]);
 
-  /** RENDER */
+  /**************
+   ** RENDER **
+   **************/
   return (
     <CContent>
       {!loading.main && !loading.search && (

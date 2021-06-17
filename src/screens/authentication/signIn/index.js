@@ -73,7 +73,9 @@ function SignIn(props) {
     passwordHelper: '',
   });
 
-  /** HANDLE FUNC */
+  /*****************
+   ** HANDLE FUNC **
+   *****************/
   const handleChangeText = (value, nameInput) => {
     if (nameInput === INPUT_NAME.USER_NAME) {
       setForm({...form, userName: value});
@@ -114,7 +116,9 @@ function SignIn(props) {
     }
   };
 
-  /** FUNC */
+  /************
+   ** FUNC **
+   ************/
   const onPrepareData = async () => {
     if (form.saveAccount) {
       let dataLogin = {
@@ -221,7 +225,9 @@ function SignIn(props) {
     }
   };
 
-  /** LIFE CYCLE */
+  /******************
+   ** LIFE CYCLE **
+   ******************/
   useEffect(() => {
     onCheckDataLogin();
   }, []);
@@ -245,7 +251,9 @@ function SignIn(props) {
     authState.get('errorLogin'),
   ]);
 
-  /** RENDER */
+  /**************
+   ** RENDER **
+   **************/
   return (
     <CContainer
       safeArea={{

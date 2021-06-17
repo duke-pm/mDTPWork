@@ -13,7 +13,9 @@ import {cStyles} from '~/utils/style';
 import {Assets} from '~/utils/asset';
 
 function CEmpty(props) {
-  /** RENDER */
+  /**************
+   ** RENDER **
+   **************/
   return (
     <View style={[cStyles.flex1, cStyles.itemsCenter, cStyles.pt40]}>
       <Image

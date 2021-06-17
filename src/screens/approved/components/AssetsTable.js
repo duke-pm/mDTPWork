@@ -51,7 +51,9 @@ function AssetsTable(props) {
     helper: '',
   });
 
-  /** HANDLE FUNC */
+  /*****************
+   ** HANDLE FUNC **
+   *****************/
   const handleAddAssets = () => {
     let newData = [...form.assets.data];
     newData.push(['', '', '', '', null]);
@@ -64,7 +66,9 @@ function AssetsTable(props) {
     });
   };
 
-  /** FUNC */
+  /************
+   ** FUNC **
+   ************/
   const onChangeCellItem = (value, rowIndex, cellIndex) => {
     let newData = form.assets.data;
     newData[rowIndex][cellIndex] = value;
@@ -136,7 +140,9 @@ function AssetsTable(props) {
     });
   };
 
-  /** LIFE CYCLE */
+  /******************
+   ** LIFE CYCLE **
+   ******************/
   useEffect(() => {
     if (assets) {
       setForm({...form, assets: assets});
@@ -149,7 +155,9 @@ function AssetsTable(props) {
     }
   }, [checking]);
 
-  /** RENDER */
+  /**************
+   ** RENDER **
+   **************/
   return (
     <View style={cStyles.py16}>
       <View style={cStyles.flex1}>

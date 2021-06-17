@@ -118,7 +118,9 @@ function Filter(props) {
   /** Use previous */
   let prevData = usePrevious(props.data);
 
-  /** HANDLE FUNC */
+  /*****************
+   ** HANDLE FUNC **
+   *****************/
   const handleToggle = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     Animated.timing(valueAnim, {
@@ -180,7 +182,9 @@ function Filter(props) {
     }
   };
 
-  /** FUNC */
+  /************
+   ** FUNC **
+   ************/
   const onChangeDateRequest = (newDate, showPicker) => {
     setShowPickerDate({...showPickerDate, status: showPicker});
     if (newDate && showPickerDate.active) {
@@ -194,7 +198,9 @@ function Filter(props) {
     }
   };
 
-  /** LIFE CYCLE */
+  /******************
+   ** LIFE CYCLE **
+   ******************/
   useEffect(() => {
     if (prevData) {
       if (prevData.key !== props.data.key) {
@@ -209,7 +215,9 @@ function Filter(props) {
     }
   }, [props.data, prevData]);
 
-  /** RENDER */
+  /**************
+   ** RENDER **
+   **************/
   /** Animated ronate chevron down/up */
   const rotateData = valueAnim.interpolate({
     inputRange: [0, 1],

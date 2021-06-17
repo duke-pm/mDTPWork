@@ -24,7 +24,9 @@ function Approved(props) {
   const [loading, setLoading] = useState(true);
   const [routes, setRoutes] = useState([]);
 
-  /** HANDLE FUNC */
+  /*****************
+   ** HANDLE FUNC **
+   *****************/
   const handleItem = dataRoute => {
     navigation.navigate(dataRoute.mName, {
       permission: {
@@ -33,7 +35,9 @@ function Approved(props) {
     });
   };
 
-  /** FUNC */
+  /************
+   ** FUNC **
+   ************/
   const onPrepareData = () => {
     let tmpListMenu = authState.getIn(['login', 'lstMenu']);
     let idRouteParent = route.params.idRouteParent;
@@ -64,12 +68,16 @@ function Approved(props) {
     setLoading(false);
   };
 
-  /** LIFE CYCLE */
+  /******************
+   ** LIFE CYCLE **
+   ******************/
   useEffect(() => {
     onPrepareData();
   }, []);
 
-  /** RENDER */
+  /**************
+   ** RENDER **
+   **************/
   return (
     <CContainer
       loading={loading}

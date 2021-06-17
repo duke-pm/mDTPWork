@@ -17,10 +17,14 @@ import {sW} from '~/utils/helper';
 function CItem(props) {
   const {data = null, onPress = () => {}} = props;
 
-  /** HANDLE FUNC */
+  /*****************
+   ** HANDLE FUNC **
+   *****************/
   const handleItem = () => onPress(data);
 
-  /** RENDER */
+  /**************
+   ** RENDER **
+   **************/
   if (!data) {
     return null;
   }

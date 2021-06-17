@@ -202,7 +202,9 @@ function AddRequest(props) {
     refsAssets: [],
   });
 
-  /** HANDLE FUNC */
+  /*****************
+   ** HANDLE FUNC **
+   *****************/
   const handleReject = () => setShowReject(true);
 
   const handleApproved = () => setShowConfirm(!showConfirm);
@@ -238,7 +240,9 @@ function AddRequest(props) {
     actionSheetDepartmentRef.current?.hide();
   };
 
-  /** FUNC */
+  /************
+   ** FUNC **
+   ************/
   const onCloseReject = () => setShowReject(false);
 
   const onSendRequest = () => {
@@ -421,7 +425,9 @@ function AddRequest(props) {
     setForm({...form, inPlanning: newVal});
   };
 
-  /** LIFE CYCLE */
+  /******************
+   ** LIFE CYCLE **
+   ******************/
   useEffect(() => {
     onPrepareData();
   }, []);
@@ -550,7 +556,9 @@ function AddRequest(props) {
     approvedState.get('errorRejectRequest'),
   ]);
 
-  /** RENDER */
+  /**************
+   ** RENDER **
+   **************/
   const isShowApprovedReject =
     isDetail && form.isAllowApproved && props.route.params?.permissionWrite;
   return (

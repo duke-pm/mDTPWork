@@ -28,7 +28,9 @@ const CCard = React.memo(function CCard(props) {
     onPress = null,
   } = props;
 
-  /** RENDER */
+  /**************
+   ** RENDER **
+   **************/
   const Component = onPress ? TouchableOpacity : View;
   return (
     <Component

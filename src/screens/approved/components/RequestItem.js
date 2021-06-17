@@ -33,12 +33,16 @@ function RequestItem(props) {
   const commonState = useSelector(({common}) => common);
   const formatDateView = commonState.get('formatDateView');
 
-  /** HANDLE FUNC */
+  /*****************
+   ** HANDLE FUNC **
+   *****************/
   const handleRequestItem = () => {
     onPress(data, dataProcess, dataDetail);
   };
 
-  /** RENDER */
+  /**************
+   ** RENDER **
+   **************/
   let title = t('approved_assets:title_request_item') + data.requestID;
   let statusIcon = Assets.iconRequest;
   let colorText = 'colorOrange';

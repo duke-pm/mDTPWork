@@ -35,7 +35,9 @@ function CUploadImage(props) {
 
   const [showUpload, setShowUpload] = useState(false);
 
-  /** HANDLE FUNC */
+  /*****************
+   ** HANDLE FUNC **
+   *****************/
   const handleCloseUpload = () => {
     setShowUpload(false);
   };
@@ -67,7 +69,9 @@ function CUploadImage(props) {
     }
   };
 
-  /** FUNC */
+  /************
+   ** FUNC **
+   ************/
   const onChangeByCamera = async () => {
     let agreeP = await askPermissionsCamera();
     if (agreeP) {
@@ -122,7 +126,9 @@ function CUploadImage(props) {
     }
   };
 
-  /** RENDER */
+  /**************
+   ** RENDER **
+   **************/
   return (
     <View style={cStyles.pt16}>
       <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween]}>

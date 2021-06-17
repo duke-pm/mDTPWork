@@ -54,7 +54,9 @@ function Percentage(props) {
     value: 0,
   });
 
-  /** HANDLE FUNC */
+  /*****************
+   ** HANDLE FUNC **
+   *****************/
   const handleChangePercent = () => {
     if (percent.visible) {
       if (percent.value < 0 || percent.value > 100) {
@@ -90,7 +92,9 @@ function Percentage(props) {
     setPercent({visible: !percent.visible, value: task.percentage});
   };
 
-  /** FUNC */
+  /************
+   ** FUNC **
+   ************/
   const onChangePercent = value => {
     setPercent({...percent, value: Number(value) + ''});
   };
@@ -110,7 +114,9 @@ function Percentage(props) {
     });
   };
 
-  /** LIFE CYCLE */
+  /******************
+   ** LIFE CYCLE **
+   ******************/
   useEffect(() => {
     setPercent({...percent, value: task.percentage});
   }, []);
@@ -140,7 +146,9 @@ function Percentage(props) {
     projectState.get('errorTaskUpdate'),
   ]);
 
-  /** RENDER */
+  /**************
+   ** RENDER **
+   **************/
   return (
     <View
       style={[

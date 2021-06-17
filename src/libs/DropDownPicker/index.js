@@ -611,7 +611,9 @@ class DropDownPicker extends React.Component {
     return {accessibilityLabel: testID, accessible};
   };
 
-  /** LIFE CYCLE */
+  /******************
+   ** LIFE CYCLE **
+   ******************/
   componentDidMount() {
     this.props.controller(this);
   }
@@ -636,7 +638,9 @@ class DropDownPicker extends React.Component {
     }
   }
 
-  /** RENDER */
+  /**************
+   ** RENDER **
+   **************/
   render() {
     const {multiple, disabled} = this.state.props;
     const {placeholder, searchTextInputProps} = this.props;

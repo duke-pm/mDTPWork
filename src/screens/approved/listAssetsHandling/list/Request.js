@@ -18,7 +18,9 @@ function ListRequest(props) {
   const navigation = useNavigation();
   const {permissionWrite, customColors, onLoadmore, onRefresh} = props;
 
-  /** HANDLE FUNC */
+  /*****************
+   ** HANDLE FUNC **
+   *****************/
   const handleRequestItem = (data, dataProcess, dataDetail) => {
     let route = Routes.MAIN.ADD_APPROVED_LOST_DAMAGED.name;
     if (data.requestTypeID === Commons.APPROVED_TYPE.ASSETS.value) {
@@ -33,7 +35,9 @@ function ListRequest(props) {
     });
   };
 
-  /** RENDER */
+  /**************
+   ** RENDER **
+   **************/
   let detail = null,
     process = null;
   return (

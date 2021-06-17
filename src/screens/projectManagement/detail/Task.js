@@ -86,7 +86,9 @@ function Task(props) {
     taskDetail: null,
   });
 
-  /** HANDLE FUNC */
+  /*****************
+   ** HANDLE FUNC **
+   *****************/
   const handleFastWatch = () => {
     if (isFastWatch) {
       setLoading({...loading, fastWatch: true});
@@ -129,7 +131,9 @@ function Task(props) {
     previewFile(url, fileName);
   };
 
-  /** FUNC */
+  /************
+   ** FUNC **
+   ************/
   const onStart = () => {
     onFetchData();
     setLoading({...loading, startFetch: true});
@@ -205,7 +209,9 @@ function Task(props) {
     return setLoading({main: false, startFetch: false, fastWatch: false});
   };
 
-  /** LIFE CYCLE */
+  /******************
+   ** LIFE CYCLE **
+   ******************/
   useEffect(() => {
     if (data.taskDetail) {
       if (data.taskDetail.taskID !== taskID) {
@@ -262,7 +268,9 @@ function Task(props) {
     setIsFastWatch,
   ]);
 
-  /** RENDER */
+  /**************
+   ** RENDER **
+   **************/
   let bgPriority = customColors[Commons.PRIORITY_TASK.LOW.color]; // default is Low;
   if (data.taskDetail) {
     if (!data.taskDetail.priorityColor) {

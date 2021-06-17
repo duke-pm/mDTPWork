@@ -37,7 +37,9 @@ function ListItem(props) {
     isDark,
   } = props;
 
-  /** HANDLE FUNC */
+  /*****************
+   ** HANDLE FUNC **
+   *****************/
   const handleItem = () => {
     if (data.isPhone) {
       Linking.openURL(`tel:${data.value}`);
@@ -67,7 +69,9 @@ function ListItem(props) {
     }
   };
 
-  /** RENDER */
+  /**************
+   ** RENDER **
+   **************/
   let isTouch =
     data.nextRoute ||
     data.isSignOut ||

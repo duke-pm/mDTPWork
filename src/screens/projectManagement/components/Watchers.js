@@ -51,7 +51,9 @@ function Watchers(props) {
   const [follow, setFollow] = useState(false);
   const [watchers, setWatchers] = useState([]);
 
-  /** HANDLE FUNC */
+  /*****************
+   ** HANDLE FUNC **
+   *****************/
   const handleFollow = () => {
     if (!follow) {
       setLoading({...loading, send: true});
@@ -65,7 +67,9 @@ function Watchers(props) {
     }
   };
 
-  /** FUNC */
+  /************
+   ** FUNC **
+   ************/
   const onPrepareData = needCheck => {
     /** Set list watchers */
     let tmpWatchers = projectState.get('watchers');
@@ -93,7 +97,9 @@ function Watchers(props) {
     return setLoading({main: false, send: false});
   };
 
-  /** LIFE CYCLE */
+  /******************
+   ** LIFE CYCLE **
+   ******************/
   useEffect(() => {
     onPrepareData(true);
   }, []);
@@ -119,7 +125,9 @@ function Watchers(props) {
     setFollow,
   ]);
 
-  /** RENDER */
+  /**************
+   ** RENDER **
+   **************/
   return (
     <CContainer
       loading={loading.main || loading.send}

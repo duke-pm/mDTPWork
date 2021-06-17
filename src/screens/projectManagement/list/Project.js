@@ -22,7 +22,9 @@ function ListProject(props) {
   const isDark = useColorScheme() === THEME_DARK;
   const {refreshing, onRefresh} = props;
 
-  /** HANDLE FUNC */
+  /*****************
+   ** HANDLE FUNC **
+   *****************/
   const handleProjectItem = data => {
     navigation.navigate(Routes.MAIN.PROJECT_DETAIL.name, {
       data: {
@@ -33,7 +35,9 @@ function ListProject(props) {
     });
   };
 
-  /** RENDER */
+  /**************
+   ** RENDER **
+   **************/
   return (
     <CList
       data={props.data}

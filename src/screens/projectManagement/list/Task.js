@@ -23,7 +23,9 @@ function ListTask(props) {
   const {customColors} = useTheme();
   const {refreshing, onRefreshTasks} = props;
 
-  /** HANDLE FUNC */
+  /*****************
+   ** HANDLE FUNC **
+   *****************/
   const handleTaskItem = data => {
     navigation.navigate(Routes.MAIN.TASK_DETAIL.name, {
       data: {
@@ -34,7 +36,9 @@ function ListTask(props) {
     });
   };
 
-  /** RENDER */
+  /**************
+   ** RENDER **
+   **************/
   return (
     <CList
       contentStyle={cStyles.pt16}

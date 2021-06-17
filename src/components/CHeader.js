@@ -65,7 +65,9 @@ function CHeader(props) {
   const [isSearch, setIsSearch] = useState(false);
   const [valueSearch, setValueSearch] = useState('');
 
-  /** HANDLE FUNC */
+  /*****************
+   ** HANDLE FUNC **
+   *****************/
   const handleBack = () => {
     navigation.goBack();
     props.onRefresh();
@@ -95,7 +97,9 @@ function CHeader(props) {
     setValueSearch(value);
   };
 
-  /** RENDER */
+  /**************
+   ** RENDER **
+   **************/
   return (
     <View
       style={[

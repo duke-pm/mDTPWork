@@ -40,14 +40,18 @@ function CList(props) {
     scrollToBottom && sectionList ? true : false,
   );
 
-  /** FUNC */
+  /************
+   ** FUNC **
+   ************/
   const onContentChange = () => {
     if (scrollToBottom && !sectionList) {
       listRef.scrollToEnd({animated: true});
     }
   };
 
-  /** LIFE CYCLE */
+  /******************
+   ** LIFE CYCLE **
+   ******************/
   useEffect(() => {
     if (props.data && scrollToBottom && sectionList) {
       setTimeout(() => {
@@ -63,7 +67,9 @@ function CList(props) {
     }
   }, [props.data, scrollToBottom, sectionList, setLoading]);
 
-  /** RENDER */
+  /**************
+   ** RENDER **
+   **************/
   return (
     <View style={cStyles.flex1}>
       {!sectionList && (

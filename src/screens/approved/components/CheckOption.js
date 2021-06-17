@@ -20,7 +20,9 @@ function CheckOption(props) {
   /** Use state */
   const [chooseValue, setChooseValue] = useState('N');
 
-  /** HANDLE FUNC */
+  /*****************
+   ** HANDLE FUNC **
+   *****************/
   const handleChooseTypeAssets = (val, ref) => {
     if (val !== chooseValue) {
       ref.pulse(300);
@@ -31,14 +33,18 @@ function CheckOption(props) {
     }
   };
 
-  /** LIFE CYCLE */
+  /******************
+   ** LIFE CYCLE **
+   ******************/
   useEffect(() => {
     if (value !== chooseValue) {
       setChooseValue(value);
     }
   }, [value, chooseValue]);
 
-  /** RENDER */
+  /**************
+   ** RENDER **
+   **************/
   return (
     <View
       style={[

@@ -36,7 +36,9 @@ function CGroupFilter(props) {
   const [valuesChoose, setValuesChoose] = useState(activeAll ? items : []);
   const [valuesRef, setValuesRef] = useState([]);
 
-  /** HANDLE FUNC */
+  /*****************
+   ** HANDLE FUNC **
+   *****************/
   const handleItem = (index, data) => {
     valuesRef[index].pulse(300);
 
@@ -52,7 +54,9 @@ function CGroupFilter(props) {
     onChange(callback);
   };
 
-  /** LIFE CYCLE */
+  /******************
+   ** LIFE CYCLE **
+   ******************/
   useEffect(() => {
     let chooses = [],
       choosesRef = [],
@@ -85,7 +89,9 @@ function CGroupFilter(props) {
     setValuesRef(choosesRef);
   }, []);
 
-  /** RENDER */
+  /**************
+   ** RENDER **
+   **************/
   return (
     <View
       style={[

@@ -101,7 +101,9 @@ function FilterProject(props) {
     active: [],
   });
 
-  /** HANDLE FUNC */
+  /*****************
+   ** HANDLE FUNC **
+   *****************/
   const handleReset = () => {
     let tmpStatus = [],
       tmpOwner = [],
@@ -121,7 +123,9 @@ function FilterProject(props) {
     onFilter(owner.active, status.active);
   };
 
-  /** FUNC */
+  /************
+   ** FUNC **
+   ************/
   const onChangeOwner = value => {
     if (owner.active.length >= 1) {
       setLoading(true);
@@ -156,7 +160,9 @@ function FilterProject(props) {
     }
   };
 
-  /** LIFE CYCLE */
+  /******************
+   ** LIFE CYCLE **
+   ******************/
   useEffect(() => {
     let tmp = [];
     for (let i of props.data.owner) {
@@ -171,7 +177,9 @@ function FilterProject(props) {
     setStatus({data: props.data.status, active: tmp2});
   }, []);
 
-  /** RENDER */
+  /**************
+   ** RENDER **
+   **************/
   return (
     <Modal
       style={cStyles.m0}

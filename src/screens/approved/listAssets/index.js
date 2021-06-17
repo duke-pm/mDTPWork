@@ -68,7 +68,9 @@ function ListRequestAll(props) {
     },
   ]);
 
-  /** HANDLE FUNC */
+  /*****************
+   ** HANDLE FUNC **
+   *****************/
   const handleAddNew = () => {
     if (index === 1) {
       navigation.navigate(Routes.MAIN.ADD_APPROVED_LOST_DAMAGED.name, {
@@ -111,7 +113,9 @@ function ListRequestAll(props) {
     setRoutes(tmpRoutes);
   };
 
-  /** RENDER */
+  /**************
+   ** RENDER **
+   **************/
   const renderScene = ({route}) => {
     switch (route.key) {
       case Commons.APPROVED_TYPE.LOST.value + '':

@@ -64,7 +64,9 @@ function Settings(props) {
     active: 0,
   });
 
-  /** HANDLE FUNC */
+  /*****************
+   ** HANDLE FUNC **
+   *****************/
   const handleChange = index => {
     if (initSettings[index].value) {
       if (
@@ -87,7 +89,9 @@ function Settings(props) {
     actionSheetLangRef.current?.hide();
   };
 
-  /** FUNC */
+  /************
+   ** FUNC **
+   ************/
   const onPrepareData = async () => {
     let languageLocal = await getLocalInfo(LANGUAGE);
     if (languageLocal) {
@@ -122,7 +126,9 @@ function Settings(props) {
     onPrepareData();
   }, []);
 
-  /** RENDER */
+  /**************
+   ** RENDER **
+   **************/
   return (
     <CContainer
       loading={loading}
