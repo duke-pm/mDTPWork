@@ -314,6 +314,7 @@
     "title": "Quản Lý Dự Án",
     "project": "dự án",
     "sector": "Sector: ",
+    "holder_sector": "Sector",
     "status": "Trạng thái: ",
     "owner": "Phụ trách: ",
     "title_owner": "Người phụ trách",

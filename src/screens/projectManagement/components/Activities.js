@@ -252,7 +252,6 @@ function Activity(props) {
             <CList
               contentStyle={cStyles.pt16}
               customColors={customColors}
-              scrollToTop={false}
               scrollToBottom
               sectionList
               textEmpty={t('project_management:empty_comment')}

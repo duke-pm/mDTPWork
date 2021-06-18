@@ -55,7 +55,6 @@ function ProjectManagement(props) {
   const [isFiltering, setIsFiltering] = useState(false);
   const [showFilter, setShowFilter] = useState({
     status: false,
-    needUpdate: false,
     activeOwner: [],
     activeStatus: [],
   });
@@ -68,9 +67,6 @@ function ProjectManagement(props) {
     search: '',
 
     projects: [],
-
-    owners: [],
-    listStatus: [],
   });
 
   let prevShowFilter = usePrevious(showFilter);
@@ -114,8 +110,8 @@ function ProjectManagement(props) {
   ) => {
     let params = fromJS({
       Year: year,
-      OwnerID: ownerID === '' ? null : ownerID,
-      StatusID: statusID === '' ? null : statusID,
+      OwnerID: ownerID,
+      StatusID: statusID,
       PageSize: perPage,
       PageNum: page,
       Search: search,
@@ -123,7 +119,7 @@ function ProjectManagement(props) {
       Lang: language,
     });
     dispatch(Actions.fetchListProject(params, navigation));
-    if ((statusID === '' || ownerID === '') && !isFiltering) {
+    if ((statusID !== null || ownerID !== null) && !isFiltering) {
       setIsFiltering(true);
     } else {
       setIsFiltering(false);
@@ -135,8 +131,6 @@ function ProjectManagement(props) {
     let tmpProjects = [...data.projects];
     /** Prepare data projects */
     let projects = projectState.get('projects');
-    let users = masterState.get('users');
-    let projectStatus = masterState.get('projectStatus');
     // Check if count result < perPage => loadmore is unavailable
     if (projects.length < perPageMaster) {
       isLoadmore = false;
@@ -147,12 +141,7 @@ function ProjectManagement(props) {
     } else if (type === LOAD_MORE) {
       tmpProjects = [...tmpProjects, ...projects];
     }
-    setData({
-      ...data,
-      projects: tmpProjects,
-      owners: users,
-      listStatus: projectStatus,
-    });
+    setData({...data, projects: tmpProjects});
     return done(isLoadmore);
   };
 
@@ -327,7 +316,6 @@ function ProjectManagement(props) {
           {!loading.main && (
             <FilterProject
               visible={showFilter.status}
-              data={data}
               onFilter={handleFilter}
             />
           )}

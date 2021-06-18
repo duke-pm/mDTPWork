@@ -313,6 +313,7 @@
     "title": "Project Management",
     "project": "projects",
     "sector": "Sector: ",
+    "holder_sector": "Sector",
     "status": "Status: ",
     "owner": "Owner: ",
     "title_owner": "Owner",

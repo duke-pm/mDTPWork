@@ -94,7 +94,6 @@ function Approved(props) {
                 return <CItem index={index} data={item} onPress={handleItem} />;
               }}
               numColumns={3}
-              scrollToTop={false}
             />
           )}
         </CContent>

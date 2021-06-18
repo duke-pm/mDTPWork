@@ -1,11 +1,11 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /**
  ** Name: Filter of project
  ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of FilterProject.js
  **/
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
+import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
@@ -81,19 +81,25 @@ function FilterProject(props) {
   const {t} = useTranslation();
   const {customColors} = useTheme();
   const isDark = useColorScheme() === THEME_DARK;
-  const {visible = false, data, onFilter = () => {}} = props;
+  const {sector = false, visible = false, onFilter = () => {}} = props;
+
+  /** Use redux */
+  const masterState = useSelector(({masterData}) => masterData);
 
   /** Use state */
   const [loading, setLoading] = useState({
-    main: true,
     change: false,
   });
   const [owner, setOwner] = useState({
-    data: [],
+    data: masterState.get('users'),
     active: [],
   });
   const [status, setStatus] = useState({
-    data: [],
+    data: masterState.get('projectStatus'),
+    active: [],
+  });
+  const [sectors, setSectors] = useState({
+    data: masterState.get('projectSector'),
     active: [],
   });
 
@@ -101,12 +107,13 @@ function FilterProject(props) {
    ** HANDLE FUNC **
    *****************/
   const handleReset = () => {
-    setStatus({...status, active: []});
     setOwner({...owner, active: []});
+    setStatus({...status, active: []});
+    setSectors({...sectors, active: []});
   };
 
   const handleFilter = () => {
-    onFilter(owner.active, status.active);
+    onFilter(owner.active, status.active, sectors.active);
   };
 
   /************
@@ -146,14 +153,22 @@ function FilterProject(props) {
     setLoading({...loading, change: false});
   };
 
-  /******************
-   ** LIFE CYCLE **
-   ******************/
-  useEffect(() => {
-    setOwner({data: data.owners, active: []});
-    setStatus({data: data.listStatus, active: []});
-    setLoading({...loading, main: false});
-  }, []);
+  const onChangeSector = value => {
+    setLoading({...loading, change: true});
+    let newSector = [...sectors.active];
+    if (newSector.length > 0) {
+      let find = newSector.indexOf(value);
+      if (find !== -1) {
+        newSector.splice(find, 1);
+      } else {
+        newSector.push(value);
+      }
+    } else {
+      newSector.push(value);
+    }
+    setSectors({...sectors, active: newSector});
+    setLoading({...loading, change: false});
+  };
 
   /**************
    ** RENDER **
@@ -204,48 +219,63 @@ function FilterProject(props) {
           />
 
           {/** Content of filter */}
-          {!loading.main && (
-            <ScrollView
-              style={cStyles.flex1}
-              keyboardShouldPersistTaps={'handled'}>
-              <CGroupLabel label={t('project_management:title_owner')} />
-              {owner.data.map((item, index) => {
-                let isActive = owner.active.indexOf(item.empID);
-                return RowSelect(
-                  isDark,
-                  customColors,
-                  item.empID,
-                  item.empName,
-                  isActive !== -1,
-                  onChangeOwner,
-                  true,
-                  index === 0,
-                  index === owner.data.length - 1,
-                );
-              })}
+          <ScrollView
+            style={cStyles.flex1}
+            keyboardShouldPersistTaps={'handled'}>
+            <CGroupLabel label={t('project_management:title_owner')} />
+            {owner.data.map((item, index) => {
+              let isActive = owner.active.indexOf(item.empID);
+              return RowSelect(
+                isDark,
+                customColors,
+                item.empID,
+                item.empName,
+                isActive !== -1,
+                onChangeOwner,
+                true,
+                index === 0,
+                index === owner.data.length - 1,
+              );
+            })}
 
-              <CGroupLabel label={t('status:title')} />
-              {status.data.map((item, index) => {
-                let isActive = status.active.indexOf(item.statusID);
-                return RowSelect(
-                  isDark,
-                  customColors,
-                  item.statusID,
-                  item.statusName,
-                  isActive !== -1,
-                  onChangeStatus,
-                  true,
-                  index === 0,
-                  index === status.data.length - 1,
-                );
-              })}
-            </ScrollView>
-          )}
+            <CGroupLabel label={t('status:title')} />
+            {status.data.map((item, index) => {
+              let isActive = status.active.indexOf(item.statusID);
+              return RowSelect(
+                isDark,
+                customColors,
+                item.statusID,
+                item.statusName,
+                isActive !== -1,
+                onChangeStatus,
+                true,
+                index === 0,
+                index === status.data.length - 1,
+              );
+            })}
+
+            {sector && (
+              <>
+                <CGroupLabel label={t('project_management:holder_sector')} />
+                {sectors.data.map((item, index) => {
+                  let isActive = sectors.active.indexOf(item.sectorID);
+                  return RowSelect(
+                    isDark,
+                    customColors,
+                    item.sectorID,
+                    item.sectorName,
+                    isActive !== -1,
+                    onChangeSector,
+                    true,
+                    index === 0,
+                    index === sectors.data.length - 1,
+                  );
+                })}
+              </>
+            )}
+          </ScrollView>
         </View>
-        <CLoading
-          customColors={customColors}
-          visible={loading.main || loading.change}
-        />
+        <CLoading customColors={customColors} visible={loading.change} />
       </SafeAreaView>
     </Modal>
   );

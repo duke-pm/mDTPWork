@@ -21,7 +21,7 @@ function ListTask(props) {
   const navigation = useNavigation();
   const isDark = useColorScheme() === THEME_DARK;
   const {customColors} = useTheme();
-  const {refreshing, onRefreshTasks} = props;
+  const {onLoadmore, onRefreshTasks} = props;
 
   /*****************
    ** HANDLE FUNC **
@@ -42,7 +42,6 @@ function ListTask(props) {
   return (
     <CList
       contentStyle={cStyles.pt16}
-      scrollToTop={false}
       textEmpty={'project_management:empty_tasks'}
       data={props.data}
       item={({item, index}) => {
@@ -62,8 +61,10 @@ function ListTask(props) {
           />
         );
       }}
-      refreshing={refreshing}
+      refreshing={props.refreshing}
       onRefresh={onRefreshTasks}
+      loadingmore={props.loadmore}
+      onLoadmore={onLoadmore}
     />
   );
 }

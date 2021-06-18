@@ -57,7 +57,6 @@ function ListProject(props) {
           />
         );
       }}
-      scrollToTop={false}
       refreshing={props.refreshing}
       onRefresh={onRefresh}
       loadingmore={props.loadmore}

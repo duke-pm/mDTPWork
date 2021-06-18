@@ -602,6 +602,24 @@ function Task(props) {
                     </View>
                   </View>
 
+                  {/** Sector */}
+                  <View
+                    style={[
+                      cStyles.pb10,
+                      cStyles.row,
+                      cStyles.itemsCenter,
+                      cStyles.justifyBetween,
+                    ]}>
+                    <View style={[cStyles.row, cStyles.itemsCenter]}>
+                      <CLabel label={'project_management:sector'} />
+
+                      <CText
+                        styles={'textMeta'}
+                        customLabel={checkEmpty(data.taskDetail.sectorName)}
+                      />
+                    </View>
+                  </View>
+
                   {/** Percentage */}
                   {data.taskDetail.taskTypeID ===
                     Commons.TYPE_TASK.TASK.value && (
