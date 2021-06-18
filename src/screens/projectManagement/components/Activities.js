@@ -251,7 +251,7 @@ function Activity(props) {
           <KeyboardAvoidingView
             style={cStyles.flex1}
             behavior={IS_IOS ? 'padding' : 'height'}
-            keyboardVerticalOffset={72}>
+            keyboardVerticalOffset={isIphoneX() ? 98 : IS_IOS ? 72 : 0}>
             <View style={cStyles.flex1}>
               {!loading.main && (
                 <CList
