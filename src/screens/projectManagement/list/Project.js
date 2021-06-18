@@ -20,7 +20,7 @@ function ListProject(props) {
   const navigation = useNavigation();
   const {customColors} = useTheme();
   const isDark = useColorScheme() === THEME_DARK;
-  const {refreshing, onRefresh} = props;
+  const {onLoadmore, onRefresh} = props;
 
   /*****************
    ** HANDLE FUNC **
@@ -58,8 +58,10 @@ function ListProject(props) {
         );
       }}
       scrollToTop={false}
-      refreshing={refreshing}
+      refreshing={props.refreshing}
       onRefresh={onRefresh}
+      loadingmore={props.loadmore}
+      onLoadmore={onLoadmore}
     />
   );
 }

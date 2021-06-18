@@ -24,7 +24,11 @@ export const initialState = fromJS({
   assetGroup: [],
   assetGroupDetail: [],
   assetByUser: [],
+  users: [],
   projectStatus: [],
+  projectSector: [],
+  projectComponent: [],
+  projectPriority: [],
 });
 
 export default function (state = initialState, action = {}) {
@@ -62,6 +66,7 @@ export default function (state = initialState, action = {}) {
         .set('company', payload.company || state.get('company'))
         .set('assetType', payload.assetType || state.get('assetType'))
         .set('assetGroup', payload.assetGroup || state.get('assetGroup'))
+        .set('users', payload.users || state.get('users'))
         .set(
           'assetGroupDetail',
           payload.assetGroupDetail || state.get('assetGroupDetail'),
@@ -70,6 +75,18 @@ export default function (state = initialState, action = {}) {
         .set(
           'projectStatus',
           payload.projectStatus || state.get('projectStatus'),
+        )
+        .set(
+          'projectSector',
+          payload.projectSector || state.get('projectSector'),
+        )
+        .set(
+          'projectComponent',
+          payload.projectComponent || state.get('projectComponent'),
+        )
+        .set(
+          'projectPriority',
+          payload.projectPriority || state.get('projectPriority'),
         );
 
     default:

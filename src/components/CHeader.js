@@ -120,10 +120,11 @@ function CHeader(props) {
         />
       )}
       {isSearch && (
-        <View
-          style={[cStyles.row, cStyles.itemsCenter, IS_ANDROID && cStyles.pb6]}>
+        <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pb6]}>
           <CInput
             containerStyle={styles.input_search}
+            style={{height: 40}}
+            iconLastStyle={{height: 40}}
             iconLast={'search'}
             iconLastColor={colors.GRAY_700}
             valueColor={customColors.text}

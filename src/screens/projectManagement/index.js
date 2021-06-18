@@ -14,15 +14,17 @@ import {useTranslation} from 'react-i18next';
 import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import {showMessage} from 'react-native-flash-message';
 import Icon from 'react-native-vector-icons/Feather';
+import moment from 'moment';
 /** COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
 import ListProject from './list/Project';
 import FilterProject from './components/FilterProject';
 /** COMMON */
-import {THEME_DARK} from '~/config/constants';
+import {LOAD_MORE, REFRESH, THEME_DARK} from '~/config/constants';
 import {cStyles} from '~/utils/style';
 import {scalePx} from '~/utils/helper';
+import {usePrevious} from '~/utils/hook';
 /** REDUX */
 import * as Actions from '~/redux/actions';
 
@@ -40,162 +42,118 @@ function ProjectManagement(props) {
   const authState = useSelector(({auth}) => auth);
   const language = commonState.get('language');
   const refreshToken = authState.getIn(['login', 'refreshToken']);
+  const perPageMaster = 25;
 
   /** Use state */
   const [loading, setLoading] = useState({
     main: true,
-    search: false,
     refreshing: false,
     startFetch: false,
+    loadmore: false,
+    isLoadmore: true,
   });
   const [isFiltering, setIsFiltering] = useState(false);
-  const [showFilter, setShowFilter] = useState(false);
+  const [showFilter, setShowFilter] = useState({
+    status: false,
+    needUpdate: false,
+    activeOwner: [],
+    activeStatus: [],
+  });
   const [data, setData] = useState({
-    projects: [],
-    projectsFilter: [],
+    year: Number(moment().format('YYYY')),
+    statusID: null,
+    ownerID: null,
+    perPage: 25,
+    page: 1,
     search: '',
+
+    projects: [],
+
+    owners: [],
+    listStatus: [],
   });
-  const [filters, setFilters] = useState({
-    status: [],
-    owner: [],
-  });
+
+  let prevShowFilter = usePrevious(showFilter);
 
   /*****************
    ** HANDLE FUNC **
    *****************/
   const handleSearch = value => {
-    setLoading({...loading, search: true});
-    setData({...data, search: value});
-    onFetchData(value);
+    setLoading({...loading, startFetch: true});
+    setData({...data, search: value, page: 1});
+    onFetchData(Number(moment().format('YYYY')), null, null, 25, 1, value);
   };
 
   const handleShowFilter = () => {
-    setShowFilter(!showFilter);
+    setShowFilter({...showFilter, status: !showFilter.status});
   };
 
   const handleFilter = (activeOwner, activeStatus) => {
-    setShowFilter(!showFilter);
-    setLoading({...loading, search: true});
-    let projects = onFilter(data.projects, activeOwner, 'owner');
-    projects = onFilter(projects, activeStatus, 'statusID');
-    if (activeOwner.length === filters.owner.length) {
-      if (activeStatus.length === filters.status.length) {
-        if (isFiltering) {
-          setIsFiltering(false);
-        }
-        projects = data.projects;
-      } else {
-        if (!isFiltering) {
-          setIsFiltering(true);
-        }
-      }
-    } else {
-      if (!isFiltering) {
-        setIsFiltering(true);
-      }
-    }
-    setData({...data, projectsFilter: projects});
-    setLoading({...loading, search: false});
+    setShowFilter({status: !showFilter.status, activeOwner, activeStatus});
   };
 
   /************
    ** FUNC **
    ************/
-  const onFetchData = (search = '') => {
-    let params = fromJS({
-      Search: search,
-      RefreshToken: refreshToken,
-      Lang: language,
-    });
-    dispatch(Actions.fetchListProject(params, navigation));
+  const onFetchMasterData = () => {
     let paramsMaster = {
-      ListType: 'PrjStatus',
+      ListType: 'Users, PrjSector, PrjStatus, PrjComponent, PrjPriority',
       RefreshToken: refreshToken,
       Lang: language,
     };
     dispatch(Actions.fetchMasterData(paramsMaster, navigation));
   };
 
-  const onPrepareData = () => {
-    /** Prepare data projects */
-    let projects = projectState.get('projects');
-
-    if (projects.length > 0) {
-      /** set color code of status to project */
-      let projectStatus = masterState.get('projectStatus'),
-        project = null,
-        find = null;
-      for (project of projects) {
-        find = projectStatus.find(f => f.statusID === project.statusID);
-        if (find) {
-          project.statusColor = find.colorCode;
-        } else {
-          project.statusColor = null;
-        }
-      }
-    }
-
-    setData({
-      ...data,
-      projects,
-      projectsFilter: projects,
+  const onFetchData = (
+    year = Number(moment().format('YYYY')),
+    ownerID = null,
+    statusID = null,
+    perPage = 25,
+    page = 1,
+    search = '',
+  ) => {
+    let params = fromJS({
+      Year: year,
+      OwnerID: ownerID === '' ? null : ownerID,
+      StatusID: statusID === '' ? null : statusID,
+      PageSize: perPage,
+      PageNum: page,
+      Search: search,
+      RefreshToken: refreshToken,
+      Lang: language,
     });
-
-    /** Prepare data filter */
-    if (projects.length > 0) {
-      let status = onPrepareDataFilter(
-        projects,
-        filters.status,
-        'status',
-        'statusID',
-        'statusName',
-      );
-      if (status.length > 0) {
-        setFilters({...filters, status});
-      }
-      let owner = onPrepareDataFilter(
-        projects,
-        filters.owner,
-        'owner',
-        'owner',
-        'ownerName',
-      );
-      if (owner.length > 0) {
-        setFilters({...filters, owner});
-      }
+    dispatch(Actions.fetchListProject(params, navigation));
+    if ((statusID === '' || ownerID === '') && !isFiltering) {
+      setIsFiltering(true);
+    } else {
+      setIsFiltering(false);
     }
-    return done();
   };
 
-  const onPrepareDataFilter = (
-    dataOrigin,
-    dataFirst,
-    slugFilter,
-    valueFilter,
-    labelFilter,
-  ) => {
-    let tmp = dataFirst,
-      project = null;
-    for (project of dataOrigin) {
-      let find = tmp.find(f => f.value === project[valueFilter]);
-      if (!find) {
-        let item = {
-          value: project[valueFilter],
-          label: project[labelFilter],
-        };
-        tmp.push(item);
-      }
-      if (project.lstProjectItem.length > 0) {
-        onPrepareDataFilter(
-          project.lstProjectItem,
-          tmp,
-          slugFilter,
-          valueFilter,
-          labelFilter,
-        );
-      }
+  const onPrepareData = (type = REFRESH) => {
+    let isLoadmore = true;
+    let tmpProjects = [...data.projects];
+    /** Prepare data projects */
+    let projects = projectState.get('projects');
+    let users = masterState.get('users');
+    let projectStatus = masterState.get('projectStatus');
+    // Check if count result < perPage => loadmore is unavailable
+    if (projects.length < perPageMaster) {
+      isLoadmore = false;
     }
-    return tmp;
+    // Check type fetch is refresh or loadmore
+    if (type === REFRESH) {
+      tmpProjects = projects;
+    } else if (type === LOAD_MORE) {
+      tmpProjects = [...tmpProjects, ...projects];
+    }
+    setData({
+      ...data,
+      projects: tmpProjects,
+      owners: users,
+      listStatus: projectStatus,
+    });
+    return done(isLoadmore);
   };
 
   const onError = () => {
@@ -206,47 +164,47 @@ function ProjectManagement(props) {
       icon: 'danger',
     });
 
-    return done();
+    return done(false);
   };
 
-  const done = () => {
+  const done = isLoadmore => {
     return setLoading({
       main: false,
-      search: false,
       refreshing: false,
       startFetch: false,
+      loadmore: false,
+      isLoadmore,
     });
-  };
-
-  const onFilter = (projects, arrFilter, valueFilter) => {
-    let find = false,
-      array = [],
-      item = null;
-    for (item of projects) {
-      find = false;
-      if (!find) {
-        let tmp = arrFilter.findIndex(f => f === item[valueFilter]);
-        if (tmp !== -1) {
-          find = true;
-        }
-        if (!find && item.lstProjectItem.length > 0) {
-          let tmp2 = onFilter(item.lstProjectItem, arrFilter, valueFilter);
-          if (tmp2.length > 0) {
-            find = true;
-          }
-        }
-        if (find) {
-          array.push(item);
-        }
-      }
-    }
-    return array;
   };
 
   const onRefresh = () => {
     if (!loading.refreshing) {
+      setData({...data, page: 1});
+      onFetchData(
+        null,
+        data.ownerID,
+        data.statusID,
+        data.perPage,
+        1,
+        data.search,
+      );
       setLoading({...loading, refreshing: true});
-      onFetchData();
+    }
+  };
+
+  const onLoadmore = () => {
+    if (!loading.loadmore && loading.isLoadmore) {
+      let newPage = data.page + 1;
+      setData({...data, page: newPage});
+      onFetchData(
+        null,
+        data.ownerID,
+        data.statusID,
+        data.perPage,
+        newPage,
+        data.search,
+      );
+      setLoading({...loading, loadmore: true});
     }
   };
 
@@ -254,19 +212,57 @@ function ProjectManagement(props) {
    ** LIFE CYCLE **
    ******************/
   useEffect(() => {
-    onFetchData();
+    onFetchMasterData();
+    onFetchData(Number(moment().format('YYYY')), null, null, 25, 1, '');
     setLoading({...loading, startFetch: true});
   }, []);
 
   useEffect(() => {
-    if (loading.startFetch || loading.search || loading.refreshing) {
+    if (prevShowFilter && prevShowFilter.status === true) {
+      if (!showFilter.status && !loading.startFetch) {
+        if (
+          prevShowFilter.activeOwner.join() === showFilter.activeOwner.join() &&
+          prevShowFilter.activeStatus.join() === showFilter.activeStatus.join()
+        ) {
+          return;
+        }
+        let params = {ownerID: null, statusID: null};
+        if (showFilter.activeOwner.length > 0) {
+          params.ownerID = showFilter.activeOwner.join();
+        }
+        if (showFilter.activeStatus.length > 0) {
+          params.statusID = showFilter.activeStatus.join();
+        }
+        onFetchData(null, params.ownerID, params.statusID, 25, 1, data.search);
+        setData({
+          ...data,
+          ownerID: params.ownerID,
+          statusID: params.statusID,
+          page: 1,
+        });
+        setLoading({...loading, startFetch: true});
+      }
+    }
+  }, [
+    prevShowFilter,
+    loading.startFetch,
+    showFilter.status,
+    showFilter.activeOwner,
+    showFilter.activeStatus,
+  ]);
+
+  useEffect(() => {
+    if (loading.startFetch || loading.refreshing) {
       if (!projectState.get('submittingListProject')) {
         if (projectState.get('successListProject')) {
-          if (masterState.get('projectStatus').length > 0) {
-            return onPrepareData();
+          if (masterState.get('users').length > 0) {
+            let type = REFRESH;
+            if (loading.loadmore) {
+              type = LOAD_MORE;
+            }
+            return onPrepareData(type);
           }
         }
-
         if (projectState.get('errorListProject')) {
           return onError();
         }
@@ -274,12 +270,11 @@ function ProjectManagement(props) {
     }
   }, [
     loading.startFetch,
-    loading.search,
     loading.refreshing,
     projectState.get('submittingListProject'),
     projectState.get('successListProject'),
     projectState.get('errorListProject'),
-    masterState.get('projectStatus'),
+    masterState.get('users'),
   ]);
 
   /**************
@@ -287,7 +282,7 @@ function ProjectManagement(props) {
    **************/
   return (
     <CContainer
-      loading={loading.main || loading.search}
+      loading={loading.main || loading.startFetch}
       title={'project_management:title'}
       subTitle={`${projectState.get('countProjects')} ${t(
         'project_management:project',
@@ -320,17 +315,19 @@ function ProjectManagement(props) {
       }
       content={
         <CContent>
-          {!loading.main && !loading.search && (
+          {!loading.main && !loading.startFetch && (
             <ListProject
               refreshing={loading.refreshing}
-              data={data.projectsFilter}
+              loadmore={loading.loadmore}
+              data={data.projects}
               onRefresh={onRefresh}
+              onLoadmore={onLoadmore}
             />
           )}
-          {!loading.main && !loading.search && (
+          {!loading.main && (
             <FilterProject
-              visible={showFilter}
-              data={filters}
+              visible={showFilter.status}
+              data={data}
               onFilter={handleFilter}
             />
           )}

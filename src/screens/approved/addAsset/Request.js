@@ -72,8 +72,8 @@ const RowSelect = (
           cStyles.justifyBetween,
           cStyles.px16,
           !loading && cStyles.mt6,
-          !disabled && cStyles.borderAll,
-          !disabled && isDark && cStyles.borderAllDark,
+          cStyles.borderAll,
+          isDark && cStyles.borderAllDark,
           disabled && {
             backgroundColor: customColors.cardDisable,
           },

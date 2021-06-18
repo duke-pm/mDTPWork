@@ -6,7 +6,6 @@
  **/
 import React, {useState} from 'react';
 import {StyleSheet, View, LayoutAnimation, UIManager} from 'react-native';
-import moment from 'moment';
 /* COMPONENTS */
 import CCard from '~/components/CCard';
 import ListProject from '../list/Project';
@@ -14,7 +13,6 @@ import CLabel from '~/components/CLabel';
 /* COMMON */
 import {cStyles} from '~/utils/style';
 import {checkEmpty, IS_ANDROID, IS_IOS} from '~/utils/helper';
-import Commons from '~/utils/common/Commons';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -44,23 +42,6 @@ function ProjectItem(props) {
   /**************
    ** RENDER **
    **************/
-  let status = Commons.STATUS_PROJECT.IN_PROGRESS; // default is In progress
-  if (!data.statusColor) {
-    switch (data.statusID) {
-      case Commons.STATUS_PROJECT.REJECTED.value:
-        status = Commons.STATUS_PROJECT.REJECTED;
-        break;
-      case Commons.STATUS_PROJECT.CLOSED.value:
-        status = Commons.STATUS_PROJECT.CLOSED;
-        break;
-      default:
-        status = Commons.STATUS_PROJECT.IN_PROGRESS;
-        break;
-    }
-  }
-  let createAt = moment(data.crtdDate, 'YYYY-MM-DDTHH:mm:ss').format(
-    'DD/MM/YYYY',
-  );
   return (
     <View style={isPrevIsParent && !showChildren ? cStyles.mt16 : {}}>
       <CCard
@@ -80,70 +61,33 @@ function ProjectItem(props) {
                 cStyles.itemsCenter,
                 cStyles.justifyBetween,
               ]}>
-              {/** Sector, date created */}
-              <View
-                style={[cStyles.pr5, cStyles.itemsStart, styles.con_info_left]}>
-                <View
-                  style={[
-                    cStyles.row,
-                    cStyles.itemsStart,
-                    cStyles.justifyStart,
-                  ]}>
-                  <CLabel label={'project_management:sector'} />
-                  <CLabel customLabel={checkEmpty(data.sectorName)} />
-                </View>
-
-                <View
-                  style={[
-                    cStyles.row,
-                    cStyles.itemsStart,
-                    cStyles.justifyStart,
-                  ]}>
-                  <CLabel label={'project_management:date_created'} />
-                  <CLabel customLabel={createAt} />
-                </View>
-              </View>
-
               {/** Status */}
-              <View
-                style={[
-                  cStyles.pr5,
-                  cStyles.itemsStart,
-                  styles.con_info_right,
-                ]}>
+              <View style={[cStyles.row, cStyles.itemsCenter]}>
                 <View
-                  style={[
-                    cStyles.row,
-                    cStyles.itemsStart,
-                    cStyles.justifyStart,
-                  ]}>
+                  style={[cStyles.row, cStyles.itemsCenter, styles.row_left]}>
                   <CLabel label={'project_management:status'} />
-                  <View style={[cStyles.row, cStyles.itemsCenter]}>
+                  <View style={[cStyles.row, cStyles.itemsCenter, cStyles.ml2]}>
                     <View
                       style={[
-                        cStyles.mr6,
+                        cStyles.mr2,
                         styles.status,
                         {
-                          backgroundColor:
-                            data.statusColor || customColors[status.color],
+                          backgroundColor: isDark
+                            ? data.colorDarkCode
+                            : data.colorCode,
                         },
                       ]}
                     />
                     <CLabel
                       bold
-                      color={data.statusColor || customColors[status.color]}
+                      color={isDark ? data.colorDarkCode : data.colorCode}
                       customLabel={data.statusName}
                     />
                   </View>
                 </View>
 
                 <View
-                  style={[
-                    cStyles.row,
-                    cStyles.itemsCenter,
-                    cStyles.justifyStart,
-                    styles.owner,
-                  ]}>
+                  style={[cStyles.row, cStyles.itemsCenter, styles.row_right]}>
                   <CLabel label={'project_management:owner'} />
                   <CLabel medium customLabel={checkEmpty(data.ownerName)} />
                 </View>
@@ -204,8 +148,8 @@ function ProjectItem(props) {
 }
 
 const styles = StyleSheet.create({
-  con_info_left: {flex: 0.45},
-  con_info_right: {flex: 0.55},
+  row_left: {flex: 0.5},
+  row_right: {flex: 0.5},
   line_child: {height: '100%'},
   card: {zIndex: 100},
   card_children: {height: 50},

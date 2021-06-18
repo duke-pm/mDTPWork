@@ -81,17 +81,13 @@ function FilterProject(props) {
   const {t} = useTranslation();
   const {customColors} = useTheme();
   const isDark = useColorScheme() === THEME_DARK;
-  const {
-    visible = false,
-    data = {
-      status: [],
-      owner: [],
-    },
-    onFilter = () => {},
-  } = props;
+  const {visible = false, data, onFilter = () => {}} = props;
 
   /** Use state */
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState({
+    main: true,
+    change: false,
+  });
   const [owner, setOwner] = useState({
     data: [],
     active: [],
@@ -105,18 +101,8 @@ function FilterProject(props) {
    ** HANDLE FUNC **
    *****************/
   const handleReset = () => {
-    let tmpStatus = [],
-      tmpOwner = [],
-      i = null;
-    for (i of props.data.owner) {
-      tmpOwner.push(i.value);
-    }
-    for (i of props.data.status) {
-      tmpStatus.push(i.value);
-    }
-
-    setStatus({...status, active: tmpStatus});
-    setOwner({...owner, active: tmpOwner});
+    setStatus({...status, active: []});
+    setOwner({...owner, active: []});
   };
 
   const handleFilter = () => {
@@ -127,54 +113,46 @@ function FilterProject(props) {
    ** FUNC **
    ************/
   const onChangeOwner = value => {
-    if (owner.active.length >= 1) {
-      setLoading(true);
-      let newOwner = [...owner.active];
+    setLoading({...loading, change: true});
+    let newOwner = [...owner.active];
+    if (newOwner.length > 0) {
       let find = newOwner.indexOf(value);
       if (find !== -1) {
-        if (owner.active.length !== 1) {
-          newOwner.splice(find, 1);
-        }
+        newOwner.splice(find, 1);
       } else {
         newOwner.push(value);
       }
-      setOwner({...owner, active: newOwner});
-      setLoading(false);
+    } else {
+      newOwner.push(value);
     }
+    setOwner({...owner, active: newOwner});
+    setLoading({...loading, change: false});
   };
 
   const onChangeStatus = value => {
-    if (status.active.length >= 1) {
-      setLoading(true);
-      let newStatus = [...status.active];
+    setLoading({...loading, change: true});
+    let newStatus = [...status.active];
+    if (newStatus.length > 0) {
       let find = newStatus.indexOf(value);
       if (find !== -1) {
-        if (status.active.length !== 1) {
-          newStatus.splice(find, 1);
-        }
+        newStatus.splice(find, 1);
       } else {
         newStatus.push(value);
       }
-      setStatus({...status, active: newStatus});
-      setLoading(false);
+    } else {
+      newStatus.push(value);
     }
+    setStatus({...status, active: newStatus});
+    setLoading({...loading, change: false});
   };
 
   /******************
    ** LIFE CYCLE **
    ******************/
   useEffect(() => {
-    let tmp = [];
-    for (let i of props.data.owner) {
-      tmp.push(i.value);
-    }
-    setOwner({data: props.data.owner, active: tmp});
-
-    let tmp2 = [];
-    for (let i of props.data.status) {
-      tmp2.push(i.value);
-    }
-    setStatus({data: props.data.status, active: tmp2});
+    setOwner({data: data.owners, active: []});
+    setStatus({data: data.listStatus, active: []});
+    setLoading({...loading, main: false});
   }, []);
 
   /**************
@@ -184,9 +162,8 @@ function FilterProject(props) {
     <Modal
       style={cStyles.m0}
       isVisible={visible}
-      animationIn={'slideInUp'}
-      animationOut={'slideOutDown'}
-      backdropOpacity={0}>
+      animationIn={'fadeIn'}
+      animationOut={'fadeOut'}>
       <SafeAreaView
         style={[
           cStyles.flex1,
@@ -227,43 +204,48 @@ function FilterProject(props) {
           />
 
           {/** Content of filter */}
-          <ScrollView
-            style={cStyles.flex1}
-            keyboardShouldPersistTaps={'handled'}>
-            <CGroupLabel label={t('project_management:title_owner')} />
-            {data.owner.map((item, index) => {
-              let isActive = owner.active.indexOf(item.value);
-              return RowSelect(
-                isDark,
-                customColors,
-                item.value,
-                item.label,
-                isActive !== -1,
-                onChangeOwner,
-                true,
-                index === 0,
-                index === data.owner.length - 1,
-              );
-            })}
+          {!loading.main && (
+            <ScrollView
+              style={cStyles.flex1}
+              keyboardShouldPersistTaps={'handled'}>
+              <CGroupLabel label={t('project_management:title_owner')} />
+              {owner.data.map((item, index) => {
+                let isActive = owner.active.indexOf(item.empID);
+                return RowSelect(
+                  isDark,
+                  customColors,
+                  item.empID,
+                  item.empName,
+                  isActive !== -1,
+                  onChangeOwner,
+                  true,
+                  index === 0,
+                  index === owner.data.length - 1,
+                );
+              })}
 
-            <CGroupLabel label={t('status:title')} />
-            {data.status.map((item, index) => {
-              let isActive = status.active.indexOf(item.value);
-              return RowSelect(
-                isDark,
-                customColors,
-                item.value,
-                item.label,
-                isActive !== -1,
-                onChangeStatus,
-                true,
-                index === 0,
-                index === data.status.length - 1,
-              );
-            })}
-          </ScrollView>
+              <CGroupLabel label={t('status:title')} />
+              {status.data.map((item, index) => {
+                let isActive = status.active.indexOf(item.statusID);
+                return RowSelect(
+                  isDark,
+                  customColors,
+                  item.statusID,
+                  item.statusName,
+                  isActive !== -1,
+                  onChangeStatus,
+                  true,
+                  index === 0,
+                  index === status.data.length - 1,
+                );
+              })}
+            </ScrollView>
+          )}
         </View>
-        <CLoading customColors={customColors} visible={loading} />
+        <CLoading
+          customColors={customColors}
+          visible={loading.main || loading.change}
+        />
       </SafeAreaView>
     </Modal>
   );

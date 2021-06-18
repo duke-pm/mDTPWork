@@ -12,6 +12,25 @@ export default {
   listProject: params => {
     return new Promise((resolve, reject) => {
       let tmpConfigs = {params: {}};
+      if (params.get('StatusID')) {
+        tmpConfigs.params.StatusID = params.get('StatusID');
+      }
+      if (params.get('OwnerID')) {
+        tmpConfigs.params.OwnerID = params.get('OwnerID');
+      }
+      if (params.get('Year')) {
+        tmpConfigs.params.Year = params.get('Year');
+      }
+      if (params.get('PageSize')) {
+        tmpConfigs.params.PageSize = params.get('PageSize');
+      } else {
+        tmpConfigs.params.PageSize = 25;
+      }
+      if (params.get('PageNum')) {
+        tmpConfigs.params.PageNum = params.get('PageNum');
+      } else {
+        tmpConfigs.params.PageSize = 1;
+      }
       if (params.get('Lang')) {
         tmpConfigs.params.Lang = params.get('Lang');
       }
