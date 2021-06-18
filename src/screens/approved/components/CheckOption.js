@@ -5,7 +5,7 @@
  ** Description: Description of CheckOption.js
  **/
 import React, {useState, useEffect} from 'react';
-import {View, TouchableOpacity} from 'react-native';
+import {View, TouchableOpacity, Keyboard} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import * as Animatable from 'react-native-animatable';
 /* COMPONENTS */

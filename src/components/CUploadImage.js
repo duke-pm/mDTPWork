@@ -151,7 +151,7 @@ function CUploadImage(props) {
       {props.file.data && (
         <CCard
           containerStyle={cStyles.mt10}
-          cardContent={
+          content={
             <CImage
               style={[cStyles.rounded1, styles.image_upload]}
               source={{uri: props.file.data64}}

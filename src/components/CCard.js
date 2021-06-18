@@ -5,25 +5,27 @@
  ** Description: Description of CCard.js
  **/
 import React from 'react';
+import {useTheme} from '@react-navigation/native';
+import {useColorScheme} from 'react-native-appearance';
 import {StyleSheet, View, TouchableOpacity} from 'react-native';
 /* COMPONENTS */
 import CText from './CText';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
-import {IS_ANDROID, IS_IOS} from '~/utils/helper';
+import {THEME_DARK} from '~/config/constants';
 
-const CCard = React.memo(function CCard(props) {
+function CCard(props) {
+  const {customColors} = useTheme();
+  const isDark = useColorScheme() === THEME_DARK;
   const {
     key,
     containerStyle = {},
     contentLabelStyle = {},
     label = null,
     customLabel = null,
-    cardHeader = null,
-    cardContent = null,
-    cardFooter = null,
-    customColors = {},
-    isDark = false,
+    header = null,
+    content = null,
+    footer = null,
     onLayout = null,
     onPress = null,
   } = props;
@@ -45,7 +47,6 @@ const CCard = React.memo(function CCard(props) {
         {backgroundColor: customColors.card},
         containerStyle,
       ]}
-      activeOpacity={0.8}
       onLayout={onLayout}
       onPress={onPress}>
       <View
@@ -67,20 +68,18 @@ const CCard = React.memo(function CCard(props) {
         />
       </View>
 
-      {cardHeader && <View style={cStyles.px16}>{cardHeader}</View>}
+      {header && <View style={cStyles.px16}>{header}</View>}
 
-      {cardContent && (
-        <View style={[cStyles.pb10, cStyles.px16, cardHeader && cStyles.pt10]}>
-          {cardContent}
+      {content && (
+        <View style={[cStyles.pb10, cStyles.px16, header && cStyles.pt10]}>
+          {content}
         </View>
       )}
 
-      {cardFooter && (
-        <View style={[cStyles.pb10, cStyles.px16]}>{cardFooter}</View>
-      )}
+      {footer && <View style={[cStyles.pb10, cStyles.px16]}>{footer}</View>}
     </Component>
   );
-});
+}
 
 const styles = StyleSheet.create({
   container: {backgroundColor: colors.BACKGROUND_CARD},

@@ -67,14 +67,12 @@ function ProjectItem(props) {
         key={index}
         containerStyle={styles.card}
         customLabel={`#${data.prjID} ${data.prjName}`}
-        customColors={customColors}
-        isDark={isDark}
         onLayout={event => {
           var {width} = event.nativeEvent.layout;
           setWidthCard(width - 12);
         }}
         onPress={handleProjectItem}
-        cardContent={
+        content={
           <View>
             <View
               style={[

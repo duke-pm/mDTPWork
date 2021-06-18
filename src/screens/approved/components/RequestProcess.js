@@ -60,10 +60,8 @@ function RequestProcess(props) {
   return (
     <CCard
       containerStyle={[cStyles.m16, cStyles.mb32]}
-      customColors={customColors}
-      isDark={isDark}
       label={'add_approved_assets:table_process'}
-      cardContent={
+      content={
         anims.length > 0 ? (
           <View>
             {data.map((item, index) => {

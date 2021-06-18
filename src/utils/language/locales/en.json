@@ -59,7 +59,7 @@
   },
   "error": {
     "title": "Error!",
-    "send_request": "Submit request failed!",
+    "send_request": "Submit request failed. Please try again later!",
     "lost_network": "Connection failed!\nPlease check your connection!",
     "not_choose_department": "Parts not selected yet!",
     "not_choose_region": "No region selected!",
@@ -68,7 +68,7 @@
     "assets_need_larger_than_zero": "The number must be greater than 0!",
     "user_name_empty": "Username cannot be empty!",
     "password_empty": "Password cannot be empty!",
-    "list_request": "Get list of failed requests cầu!",
+    "list_request": "Get list of failed requests. Please try again later!",
     "reason_reject_empty": "The reason for the rejection cannot be empty!",
     "status_not_found": "The state cannot be empty!",
     "type_lost_damaged_not_found": "Failure type cannot be empty!",

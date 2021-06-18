@@ -241,7 +241,7 @@ function CHeader(props) {
               <TouchableOpacity style={cStyles.itemsEnd} onPress={handleAddNew}>
                 <Icon
                   style={cStyles.p16}
-                  name={'file-plus'}
+                  name={'plus'}
                   color={colors.WHITE}
                   size={scalePx(3)}
                 />

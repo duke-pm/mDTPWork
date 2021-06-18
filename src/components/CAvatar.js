@@ -6,6 +6,7 @@
  ** Description: Description of CAvatar.js
  **/
 import React, {useState} from 'react';
+import {useTheme} from '@react-navigation/native';
 import {
   StyleSheet,
   View,
@@ -21,13 +22,13 @@ import {IS_ANDROID, scalePx, sW} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
 
 function CAvatar(props) {
+  const {customColors} = useTheme();
   const {
     containerStyle = {},
     imageStyle = {},
     size = 'small', // very small | small | medium | large
     source = null,
     isEdit = false,
-    customColors = {},
     label = null,
   } = props;
 

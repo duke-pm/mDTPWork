@@ -6,6 +6,8 @@
  **/
 import React from 'react';
 import {View, SafeAreaView, ScrollView} from 'react-native';
+/** COMPONENT */
+import CAvoidKeyboard from './CAvoidKeyboard';
 /** COMMON */
 import {cStyles} from '~/utils/style';
 
@@ -23,9 +25,13 @@ function CContent(props) {
   const ScrollComponent = scroll ? ScrollView : View;
   return (
     <SafeAreaView style={cStyles.flex1}>
-      <ScrollComponent style={[cStyles.flex1, stylePadder, contentStyle]}>
-        {props.children}
-      </ScrollComponent>
+      <CAvoidKeyboard>
+        <ScrollComponent
+          style={[cStyles.flex1, stylePadder, contentStyle]}
+          keyboardShouldPersistTaps={'handled'}>
+          {props.children}
+        </ScrollComponent>
+      </CAvoidKeyboard>
     </SafeAreaView>
   );
 }

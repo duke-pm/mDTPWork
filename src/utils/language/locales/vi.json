@@ -59,7 +59,7 @@
   },
   "error": {
     "title": "Lỗi",
-    "send_request": "Gửi yêu cầu thất bại!",
+    "send_request": "Gửi yêu cầu thất bại. Vui lòng thử lại sau!",
     "lost_network": "Kết nối thất bại!\nVui lòng kiểm tra kết nối của bạn!",
     "not_choose_department": "Chưa chọn bộ phận!",
     "not_choose_region": "Chưa chọn khu vực!",
@@ -68,7 +68,7 @@
     "assets_need_larger_than_zero": "Số lượng phải lớn hơn 0!",
     "user_name_empty": "Tên Đăng Nhập không được rỗng!",
     "password_empty": "Mật Khẩu không được rỗng!",
-    "list_request": "Nhận danh sách yêu cầu thất bại!",
+    "list_request": "Nhận danh sách yêu cầu thất bại. Vui lòng thử lại sau!",
     "reason_reject_empty": "Lý do từ chối không thể trống!",
     "status_not_found": "Trạng thái không thể trống!",
     "type_lost_damaged_not_found": "Loại báo hỏng mất không thể trống!",

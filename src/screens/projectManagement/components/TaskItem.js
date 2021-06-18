@@ -146,11 +146,7 @@ function TaskItem(props) {
                 />
                 <View style={cStyles.pl16}>
                   <View style={[cStyles.row, cStyles.itemsCenter]}>
-                    <CAvatar
-                      customColors={customColors}
-                      size={'vsmall'}
-                      label={data.ownerName}
-                    />
+                    <CAvatar size={'vsmall'} label={data.ownerName} />
                     <CText
                       styles={
                         'textMeta fontMedium pl6 ' +

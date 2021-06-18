@@ -191,33 +191,35 @@ function AssetsTable(props) {
         </View>
         {form.assets.data.length > 0 && (
           <ScrollView
-          horizontal
-          contentContainerStyle={cStyles.px16}
-          keyboardShouldPersistTaps={'handled'}>
-          <Table
-            borderStyle={{
-              borderWidth: 1,
-              borderColor: error.status ? customColors.red : colors.TABLE_LINE,
-            }}
-            style={cStyles.mt6}>
-            <Row
-              style={[
-                styles.table_header,
-                {backgroundColor: customColors.card},
-              ]}
-              textStyle={[
-                cStyles.textMeta,
-                cStyles.m3,
-                cStyles.textCenter,
-                cStyles.fontMedium,
-                {color: customColors.text},
-              ]}
-              widthArr={
-                isDetail ? [180, 70, 100, 100] : [180, 70, 100, 100, 42]
-              }
-              data={form.assets.header}
-            />
-            {form.assets.data.map((rowData, rowIndex) => {
+            horizontal
+            contentContainerStyle={cStyles.px16}
+            keyboardShouldPersistTaps={'handled'}>
+            <Table
+              borderStyle={{
+                borderWidth: 1,
+                borderColor: error.status
+                  ? customColors.red
+                  : customColors.cardDisable,
+              }}
+              style={cStyles.mt6}>
+              <Row
+                style={[
+                  styles.table_header,
+                  {backgroundColor: customColors.cardDisable},
+                ]}
+                textStyle={[
+                  cStyles.textMeta,
+                  cStyles.m3,
+                  cStyles.textCenter,
+                  cStyles.fontMedium,
+                  {color: customColors.text},
+                ]}
+                widthArr={
+                  isDetail ? [180, 70, 100, 100] : [180, 70, 100, 100, 42]
+                }
+                data={form.assets.header}
+              />
+              {form.assets.data.map((rowData, rowIndex) => {
                 return (
                   <TableWrapper
                     key={rowIndex.toString()}
@@ -251,10 +253,10 @@ function AssetsTable(props) {
                       );
                     })}
                   </TableWrapper>
-                )
-            })}
-          </Table>
-        </ScrollView>
+                );
+              })}
+            </Table>
+          </ScrollView>
         )}
 
         <View

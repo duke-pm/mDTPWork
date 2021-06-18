@@ -17,8 +17,6 @@ import {
   View,
   TouchableOpacity,
   TouchableNativeFeedback,
-  ScrollView,
-  KeyboardAvoidingView,
   Keyboard,
   // Linking,
 } from 'react-native';
@@ -621,110 +619,95 @@ function AddRequest(props) {
         ) : null
       }
       content={
-        <CContent>
-          <KeyboardAvoidingView
-            style={cStyles.flex1}
-            behavior={IS_IOS ? 'padding' : 'height'}
-            keyboardVerticalOffset={120}>
-            <ScrollView
-              style={cStyles.flex1}
-              contentContainerStyle={cStyles.justifyEnd}
-              keyboardShouldPersistTaps={'handled'}>
-              <CGroupLabel label={t('add_approved_lost_damaged:info_other')} />
-              <View
-                style={[
-                  cStyles.p16,
-                  cStyles.borderTop,
-                  cStyles.borderBottom,
-                  isDark && cStyles.borderTopDark,
-                  isDark && cStyles.borderBottomDark,
-                  {backgroundColor: customColors.group},
-                ]}>
-                {/** Date request */}
-                <View>
-                  <CLabel
-                    medium
-                    label={'add_approved_lost_damaged:date_request'}
-                  />
-                  <CInput
-                    name={INPUT_NAME.DATE_REQUEST}
-                    disabled
-                    dateTimePicker
-                    value={moment(form.dateRequest).format(formatDateView)}
-                    valueColor={colors.BLACK}
-                  />
-                </View>
-              </View>
+        <CContent scroll>
+          <CGroupLabel label={t('add_approved_lost_damaged:info_other')} />
+          <View
+            style={[
+              cStyles.p16,
+              cStyles.borderTop,
+              cStyles.borderBottom,
+              isDark && cStyles.borderTopDark,
+              isDark && cStyles.borderBottomDark,
+              {backgroundColor: customColors.group},
+            ]}>
+            {/** Date request */}
+            <View>
+              <CLabel medium label={'add_approved_lost_damaged:date_request'} />
+              <CInput
+                name={INPUT_NAME.DATE_REQUEST}
+                disabled
+                dateTimePicker
+                value={moment(form.dateRequest).format(formatDateView)}
+                valueColor={colors.BLACK}
+              />
+            </View>
+          </View>
 
-              <CGroupLabel label={t('add_approved_lost_damaged:info_assets')} />
-              <View
-                style={[
-                  cStyles.p16,
-                  cStyles.borderTop,
-                  cStyles.borderBottom,
-                  isDark && cStyles.borderTopDark,
-                  isDark && cStyles.borderBottomDark,
-                  {backgroundColor: customColors.group},
-                ]}>
-                {/** Assets */}
-                {!isDetail && (
-                  <View>
-                    <CLabel medium label={'add_approved_lost_damaged:assets'} />
-                    {RowSelect(
-                      t,
-                      loading.main,
-                      loading.main || loading.submitAdd || isDetail,
-                      error.assets.status,
-                      isDark,
-                      customColors,
-                      masterState.get('assetByUser'),
-                      form.assetID,
-                      Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.label,
-                      Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.value,
-                      () => actionSheetAssetsRef.current?.show(),
-                    )}
-                  </View>
+          <CGroupLabel label={t('add_approved_lost_damaged:info_assets')} />
+          <View
+            style={[
+              cStyles.p16,
+              cStyles.borderTop,
+              cStyles.borderBottom,
+              isDark && cStyles.borderTopDark,
+              isDark && cStyles.borderBottomDark,
+              {backgroundColor: customColors.group},
+            ]}>
+            {/** Assets */}
+            {!isDetail && (
+              <View>
+                <CLabel medium label={'add_approved_lost_damaged:assets'} />
+                {RowSelect(
+                  t,
+                  loading.main,
+                  loading.main || loading.submitAdd || isDetail,
+                  error.assets.status,
+                  isDark,
+                  customColors,
+                  masterState.get('assetByUser'),
+                  form.assetID,
+                  Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.label,
+                  Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.value,
+                  () => actionSheetAssetsRef.current?.show(),
                 )}
-
-                {/** Reason */}
-                <View style={!isDetail ? cStyles.pt16 : {}}>
-                  <CLabel medium label={'add_approved_lost_damaged:reason'} />
-                  <CInput
-                    name={INPUT_NAME.REASON}
-                    styleFocus={styles.input_focus}
-                    disabled={loading.main || loading.submitAdd || isDetail}
-                    holder={'add_approved_lost_damaged:holder_reason'}
-                    value={form.reason}
-                    valueColor={colors.BLACK}
-                    keyboard={'default'}
-                    returnKey={'done'}
-                    textAlignVertical={'top'}
-                    error={error.reason.status}
-                    errorHelper={error.reason.helper}
-                    onChangeInput={Keyboard.dismiss}
-                    onChangeValue={handleChangeText}
-                  />
-                </View>
-
-                {/** Type update */}
-                <View style={cStyles.py16}>
-                  <CLabel
-                    medium
-                    label={'add_approved_lost_damaged:type_update'}
-                  />
-                  <CheckOption
-                    loading={loading.main || loading.submitAdd}
-                    isDetail={isDetail}
-                    customColors={customColors}
-                    value={form.typeUpdate}
-                    values={dataType}
-                    onCallback={onCallbackType}
-                  />
-                </View>
               </View>
+            )}
 
-              {/** File upload */}
-              {/* {!isDetail &&
+            {/** Reason */}
+            <View style={!isDetail ? cStyles.pt16 : {}}>
+              <CLabel medium label={'add_approved_lost_damaged:reason'} />
+              <CInput
+                name={INPUT_NAME.REASON}
+                styleFocus={styles.input_focus}
+                disabled={loading.main || loading.submitAdd || isDetail}
+                holder={'add_approved_lost_damaged:holder_reason'}
+                value={form.reason}
+                valueColor={colors.BLACK}
+                keyboard={'default'}
+                returnKey={'done'}
+                error={error.reason.status}
+                errorHelper={error.reason.helper}
+                onChangeInput={Keyboard.dismiss}
+                onChangeValue={handleChangeText}
+              />
+            </View>
+
+            {/** Type update */}
+            <View style={cStyles.py16}>
+              <CLabel medium label={'add_approved_lost_damaged:type_update'} />
+              <CheckOption
+                loading={loading.main || loading.submitAdd}
+                isDetail={isDetail}
+                customColors={customColors}
+                value={form.typeUpdate}
+                values={dataType}
+                onCallback={onCallbackType}
+              />
+            </View>
+          </View>
+
+          {/** File upload */}
+          {/* {!isDetail &&
                 <CUploadImage
                   loading={loading.submitAdd}
                   file={{
@@ -735,8 +718,8 @@ function AddRequest(props) {
                 />
               } */}
 
-              {/** File for detail */}
-              {/* {isDetail && form.file &&
+          {/** File for detail */}
+          {/* {isDetail && form.file &&
                 <View style={[
                   cStyles.pt16,
                   cStyles.row,
@@ -753,97 +736,80 @@ function AddRequest(props) {
                 </View>
               } */}
 
-              {/** Assets for detail */}
-              {isDetail && (
-                <CCard
-                  containerStyle={[cStyles.mx16, cStyles.mb32]}
-                  customLabel={props.route.params?.data?.assetName}
-                  customColors={customColors}
-                  isDark={isDark}
-                  cardContent={
-                    <View>
-                      <View
-                        style={[
-                          cStyles.row,
-                          cStyles.itemsCenter,
-                          cStyles.justifyBetween,
-                        ]}>
-                        <View style={[cStyles.row, cStyles.justifyStart]}>
-                          <CLabel
-                            label={
-                              'add_approved_lost_damaged:purchase_date_asset'
-                            }
-                          />
-                          <CLabel
-                            medium
-                            customLabel={moment(
-                              props.route.params?.data?.purchaseDate,
-                              'YYYY-MM-DDTHH:mm:ss',
-                            ).format(formatDateView)}
-                          />
-                        </View>
-                        <View style={[cStyles.row, cStyles.justifyStart]}>
-                          <CLabel
-                            label={'add_approved_lost_damaged:type_asset'}
-                          />
-                          <CLabel
-                            medium
-                            customLabel={
-                              props.route.params?.data?.assetTypeName
-                            }
-                          />
-                        </View>
-                      </View>
-                      <View
-                        style={[
-                          cStyles.row,
-                          cStyles.itemsCenter,
-                          cStyles.justifyBetween,
-                        ]}>
-                        <View style={[cStyles.row, cStyles.justifyStart]}>
-                          <CLabel
-                            label={'add_approved_lost_damaged:price_asset'}
-                          />
-                          <CLabel
-                            medium
-                            customLabel={checkEmpty(
-                              props.route.params?.data?.originalPrice,
-                              null,
-                              true,
-                            )}
-                          />
-                        </View>
-                        <View style={[cStyles.row, cStyles.justifyStart]}>
-                          <CLabel
-                            label={'add_approved_lost_damaged:status_asset'}
-                          />
-                          <CLabel
-                            medium
-                            customLabel={
-                              props.route.params?.data?.assetStatusName
-                            }
-                          />
-                        </View>
-                      </View>
-                      <View style={[cStyles.row, cStyles.justifyStart]}>
-                        <CLabel
-                          label={'add_approved_lost_damaged:detail_asset'}
-                        />
-                        <CLabel
-                          medium
-                          customLabel={checkEmpty(
-                            props.route.params?.data?.descr,
-                            t('common:empty_info'),
-                          )}
-                        />
-                      </View>
+          {/** Assets for detail */}
+          {isDetail && (
+            <CCard
+              containerStyle={[cStyles.mx16, cStyles.mb32]}
+              customLabel={props.route.params?.data?.assetName}
+              content={
+                <View>
+                  <View
+                    style={[
+                      cStyles.row,
+                      cStyles.itemsCenter,
+                      cStyles.justifyBetween,
+                    ]}>
+                    <View style={[cStyles.row, cStyles.justifyStart]}>
+                      <CLabel
+                        label={'add_approved_lost_damaged:purchase_date_asset'}
+                      />
+                      <CLabel
+                        medium
+                        customLabel={moment(
+                          props.route.params?.data?.purchaseDate,
+                          'YYYY-MM-DDTHH:mm:ss',
+                        ).format(formatDateView)}
+                      />
                     </View>
-                  }
-                />
-              )}
-              <View style={cStyles.flex1} />
-            </ScrollView>
-          </KeyboardAvoidingView>
+                    <View style={[cStyles.row, cStyles.justifyStart]}>
+                      <CLabel label={'add_approved_lost_damaged:type_asset'} />
+                      <CLabel
+                        medium
+                        customLabel={props.route.params?.data?.assetTypeName}
+                      />
+                    </View>
+                  </View>
+                  <View
+                    style={[
+                      cStyles.row,
+                      cStyles.itemsCenter,
+                      cStyles.justifyBetween,
+                    ]}>
+                    <View style={[cStyles.row, cStyles.justifyStart]}>
+                      <CLabel label={'add_approved_lost_damaged:price_asset'} />
+                      <CLabel
+                        medium
+                        customLabel={checkEmpty(
+                          props.route.params?.data?.originalPrice,
+                          null,
+                          true,
+                        )}
+                      />
+                    </View>
+                    <View style={[cStyles.row, cStyles.justifyStart]}>
+                      <CLabel
+                        label={'add_approved_lost_damaged:status_asset'}
+                      />
+                      <CLabel
+                        medium
+                        customLabel={props.route.params?.data?.assetStatusName}
+                      />
+                    </View>
+                  </View>
+                  <View style={[cStyles.row, cStyles.justifyStart]}>
+                    <CLabel label={'add_approved_lost_damaged:detail_asset'} />
+                    <CLabel
+                      medium
+                      customLabel={checkEmpty(
+                        props.route.params?.data?.descr,
+                        t('common:empty_info'),
+                      )}
+                    />
+                  </View>
+                </View>
+              }
+            />
+          )}
 
           {isDetail && (
             <CActionSheet actionRef={actionSheetProcessRef}>
@@ -936,6 +902,7 @@ function AddRequest(props) {
             <CButton
               block
               disabled={loading.main || loading.submitAdd}
+              icon={'send'}
               label={'add_approved_lost_damaged:send'}
               onPress={onSendRequest}
             />

@@ -19,7 +19,7 @@ import CList from '~/components/CList';
 import CAvatar from '~/components/CAvatar';
 import CContent from '~/components/CContent';
 import CButton from '~/components/CButton';
-import CLabel from '~/components/CLabel';
+import CCard from '~/components/CCard';
 /* COMMON */
 import {Animations} from '~/utils/asset';
 import {THEME_DARK} from '~/config/constants';
@@ -160,56 +160,50 @@ function Watchers(props) {
           </View>
 
           {!loading.main && (
-            <View style={[cStyles.flex1, cStyles.mt10]}>
-              <CText
-                styles={'textMeta ml16 mt16'}
-                label={'project_management:list_watchers'}
-              />
-              <CList
-                textEmpty={'project_management:empty_watchers'}
-                data={watchers}
-                item={({item, index}) => {
-                  return (
-                    <View style={[cStyles.row, cStyles.itemsCenter]}>
-                      <CAvatar
-                        size={'small'}
-                        label={item.fullName}
-                        customColors={customColors}
-                      />
-                      <View
-                        style={[
-                          cStyles.flex1,
-                          cStyles.row,
-                          cStyles.itemsCenter,
-                          cStyles.justifyBetween,
-                          cStyles.ml10,
-                          cStyles.py16,
-                          cStyles.borderBottom,
-                          isDark && cStyles.borderBottomDark,
-                        ]}>
-                        <View style={styles.con_left}>
-                          <Text
-                            style={[
-                              cStyles.textTitle,
-                              {color: customColors.primary},
-                            ]}>
-                            {item.fullName}
-                            <Text style={cStyles.textMeta}>
-                              {item.userName === userName
-                                ? `  (${t('common:its_you')})`
-                                : ''}
-                            </Text>
+            <CList
+              key={'listWatchers'}
+              textEmpty={'project_management:empty_watchers'}
+              data={watchers}
+              item={({item, index}) => {
+                return (
+                  <View style={[cStyles.row, cStyles.itemsCenter]}>
+                    <CAvatar size={'small'} label={item.fullName} />
+                    <View
+                      style={[
+                        cStyles.flex1,
+                        cStyles.row,
+                        cStyles.itemsCenter,
+                        cStyles.justifyBetween,
+                        cStyles.ml10,
+                        cStyles.py16,
+                        cStyles.borderBottom,
+                        isDark && cStyles.borderBottomDark,
+                      ]}>
+                      <View style={styles.con_left}>
+                        <Text
+                          style={[
+                            cStyles.textTitle,
+                            {color: customColors.primary},
+                          ]}>
+                          {item.fullName}
+                          <Text style={cStyles.textMeta}>
+                            {item.userName === userName
+                              ? `  (${t('common:its_you')})`
+                              : ''}
                           </Text>
-                        </View>
-                        <View style={[cStyles.itemsEnd, styles.con_right]}>
-                          <CLabel customLabel={item.timeUpdate} />
-                        </View>
+                        </Text>
+                      </View>
+                      <View style={[cStyles.itemsEnd, styles.con_right]}>
+                        <CText
+                          styles={'textDate'}
+                          customLabel={item.timeUpdate}
+                        />
                       </View>
                     </View>
-                  );
-                }}
-              />
-            </View>
+                  </View>
+                );
+              }}
+            />
           )}
         </CContent>
       }

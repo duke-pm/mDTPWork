@@ -167,7 +167,6 @@ function Account(props) {
                 <CAvatar
                   isEdit={true}
                   size={'large'}
-                  customColors={customColors}
                   label={authState.getIn(['login', 'fullName'])}
                 />
 
