@@ -248,111 +248,121 @@ function Activity(props) {
             {backgroundColor: customColors.backgroundActivity},
           ]}
           edges={['bottom', 'left', 'right']}>
-          {!loading.main && (
-            <CList
-              contentStyle={cStyles.pt16}
-              customColors={customColors}
-              scrollToBottom
-              sectionList
-              textEmpty={t('project_management:empty_comment')}
-              data={messages}
-              item={({item, index}) => {
-                if (item.userName === userName) {
-                  return (
-                    <View style={[cStyles.itemsEnd, cStyles.pb6]}>
+          <KeyboardAvoidingView
+            style={cStyles.flex1}
+            behavior={IS_IOS ? 'padding' : 'height'}
+            keyboardVerticalOffset={72}>
+            <View style={cStyles.flex1}>
+              {!loading.main && (
+                <CList
+                  contentStyle={cStyles.pt16}
+                  customColors={customColors}
+                  scrollToBottom
+                  sectionList
+                  textEmpty={t('project_management:empty_comment')}
+                  data={messages}
+                  item={({item, index}) => {
+                    if (item.userName === userName) {
+                      return (
+                        <View style={[cStyles.itemsEnd, cStyles.pb6]}>
+                          <View
+                            style={[
+                              cStyles.roundedBottomLeft2,
+                              cStyles.roundedTopLeft2,
+                              cStyles.roundedTopRight2,
+                              cStyles.p10,
+                              cStyles.ml10,
+                              {
+                                backgroundColor: isDark
+                                  ? colors.GRAY_860
+                                  : customColors.green2,
+                              },
+                            ]}>
+                            <CText
+                              customStyles={[
+                                cStyles.textDate,
+                                cStyles.textRight,
+                                {color: isDark ? colors.WHITE : colors.BLACK},
+                              ]}
+                              customLabel={moment(
+                                item.timeUpdate,
+                                'DD/MM/YYYY - HH:mm',
+                              ).format('HH:mm')}
+                            />
+
+                            <View style={cStyles.mt10}>
+                              <CText
+                                customStyles={[
+                                  cStyles.textRight,
+                                  {color: isDark ? colors.WHITE : colors.BLACK},
+                                ]}
+                                customLabel={item.comments}
+                              />
+                            </View>
+                          </View>
+                        </View>
+                      );
+                    }
+
+                    return (
                       <View
                         style={[
-                          cStyles.roundedBottomLeft2,
-                          cStyles.roundedTopLeft2,
-                          cStyles.roundedTopRight2,
-                          cStyles.p10,
-                          cStyles.ml10,
-                          {
-                            backgroundColor: isDark
-                              ? colors.GRAY_860
-                              : customColors.green2,
-                          },
+                          cStyles.row,
+                          cStyles.itemsStart,
+                          cStyles.pb16,
+                          cStyles.mr16,
                         ]}>
-                        <CText
-                          customStyles={[
-                            cStyles.textDate,
-                            cStyles.textRight,
-                            {color: isDark ? colors.WHITE : colors.BLACK},
-                          ]}
-                          customLabel={moment(
-                            item.timeUpdate,
-                            'DD/MM/YYYY - HH:mm',
-                          ).format('HH:mm')}
-                        />
+                        <CAvatar size={'small'} label={item.fullName} />
+                        <View
+                          style={[
+                            cStyles.roundedBottomLeft2,
+                            cStyles.roundedBottomRight2,
+                            cStyles.roundedTopRight2,
+                            cStyles.p10,
+                            cStyles.ml10,
+                            {
+                              backgroundColor: isDark
+                                ? customColors.cardDisable
+                                : colors.GRAY_100,
+                            },
+                          ]}>
+                          <View style={[cStyles.row, cStyles.itemsEnd]}>
+                            <Text
+                              style={[
+                                cStyles.textTitle,
+                                {color: customColors.primary},
+                              ]}>
+                              {item.fullName + ', '}
+                            </Text>
+                            <CText
+                              customStyles={[
+                                cStyles.textDate,
+                                cStyles.textLeft,
+                              ]}
+                              customLabel={moment(
+                                item.timeUpdate,
+                                'DD/MM/YYYY - HH:mm',
+                              ).format('HH:mm')}
+                            />
+                          </View>
 
-                        <View style={cStyles.mt10}>
-                          <CText
-                            customStyles={[
-                              cStyles.textRight,
-                              {color: isDark ? colors.WHITE : colors.BLACK},
-                            ]}
-                            customLabel={item.comments}
-                          />
+                          <View style={cStyles.mt10}>
+                            <CText customLabel={item.comments} />
+                          </View>
                         </View>
                       </View>
-                    </View>
-                  );
-                }
-
-                return (
-                  <View
-                    style={[
-                      cStyles.row,
-                      cStyles.itemsStart,
-                      cStyles.pb16,
-                      cStyles.mr16,
-                    ]}>
-                    <CAvatar size={'small'} label={item.fullName} />
-                    <View
-                      style={[
-                        cStyles.roundedBottomLeft2,
-                        cStyles.roundedBottomRight2,
-                        cStyles.roundedTopRight2,
-                        cStyles.p10,
-                        cStyles.ml10,
-                        {
-                          backgroundColor: isDark
-                            ? customColors.cardDisable
-                            : colors.GRAY_100,
-                        },
-                      ]}>
-                      <View style={[cStyles.row, cStyles.itemsEnd]}>
-                        <Text
-                          style={[
-                            cStyles.textTitle,
-                            {color: customColors.primary},
-                          ]}>
-                          {item.fullName + ', '}
-                        </Text>
-                        <CText
-                          customStyles={[cStyles.textDate, cStyles.textLeft]}
-                          customLabel={moment(
-                            item.timeUpdate,
-                            'DD/MM/YYYY - HH:mm',
-                          ).format('HH:mm')}
-                        />
-                      </View>
-
-                      <View style={cStyles.mt10}>
-                        <CText customLabel={item.comments} />
-                      </View>
-                    </View>
-                  </View>
-                );
-              }}
-            />
-          )}
-          <RenderInputMessage
-            customColors={customColors}
-            value={valueMessage}
-            onSend={onSendMessage}
-            handleChangeText={setValueMessage}
-          />
+                    );
+                  }}
+                />
+              )}
+              <RenderInputMessage
+                customColors={customColors}
+                value={valueMessage}
+                onSend={onSendMessage}
+                handleChangeText={setValueMessage}
+              />
+            </View>
+          </KeyboardAvoidingView>
         </SafeAreaView>
       }
     />

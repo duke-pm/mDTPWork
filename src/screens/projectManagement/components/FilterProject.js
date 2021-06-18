@@ -19,6 +19,7 @@ import CHeader from '~/components/CHeader';
 import CText from '~/components/CText';
 import CGroupLabel from '~/components/CGroupLabel';
 import CLoading from '~/components/CLoading';
+import CList from '~/components/CList';
 /* COMMON */
 import {THEME_DARK} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
@@ -36,7 +37,6 @@ const RowSelect = (
   isLast,
 ) => {
   const handleChange = () => onPress(value);
-
   return (
     <TouchableOpacity key={value + label} onPress={handleChange}>
       <View
@@ -203,7 +203,7 @@ function FilterProject(props) {
             centerStyle={cStyles.center}
             left={
               <TouchableOpacity
-                style={[cStyles.itemsStart, cStyles.pl16]}
+                style={[cStyles.itemsStart, cStyles.pl24]}
                 onPress={handleReset}>
                 <CText styles={'colorWhite'} label={'common:reset'} />
               </TouchableOpacity>
@@ -221,56 +221,69 @@ function FilterProject(props) {
           {/** Content of filter */}
           <ScrollView
             style={cStyles.flex1}
+            contentContainerStyle={cStyles.pb40}
             keyboardShouldPersistTaps={'handled'}>
             <CGroupLabel label={t('project_management:title_owner')} />
-            {owner.data.map((item, index) => {
-              let isActive = owner.active.indexOf(item.empID);
-              return RowSelect(
-                isDark,
-                customColors,
-                item.empID,
-                item.empName,
-                isActive !== -1,
-                onChangeOwner,
-                true,
-                index === 0,
-                index === owner.data.length - 1,
-              );
-            })}
+            <CList
+              contentStyle={[cStyles.px0, cStyles.pb0]}
+              data={owner.data}
+              item={({item, index}) => {
+                let isActive = owner.active.indexOf(item.empID);
+                return RowSelect(
+                  isDark,
+                  customColors,
+                  item.empID,
+                  item.empName,
+                  isActive !== -1,
+                  onChangeOwner,
+                  true,
+                  index === 0,
+                  index === owner.data.length - 1,
+                );
+              }}
+            />
 
             <CGroupLabel label={t('status:title')} />
-            {status.data.map((item, index) => {
-              let isActive = status.active.indexOf(item.statusID);
-              return RowSelect(
-                isDark,
-                customColors,
-                item.statusID,
-                item.statusName,
-                isActive !== -1,
-                onChangeStatus,
-                true,
-                index === 0,
-                index === status.data.length - 1,
-              );
-            })}
+            <CList
+              contentStyle={[cStyles.px0, cStyles.pb0]}
+              data={status.data}
+              item={({item, index}) => {
+                let isActive = status.active.indexOf(item.statusID);
+                return RowSelect(
+                  isDark,
+                  customColors,
+                  item.statusID,
+                  item.statusName,
+                  isActive !== -1,
+                  onChangeStatus,
+                  true,
+                  index === 0,
+                  index === status.data.length - 1,
+                );
+              }}
+            />
 
             {sector && (
               <>
                 <CGroupLabel label={t('project_management:holder_sector')} />
-                {sectors.data.map((item, index) => {
-                  let isActive = sectors.active.indexOf(item.sectorID);
-                  return RowSelect(
-                    isDark,
-                    customColors,
-                    item.sectorID,
-                    item.sectorName,
-                    isActive !== -1,
-                    onChangeSector,
-                    true,
-                    index === 0,
-                    index === sectors.data.length - 1,
-                  );
-                })}
+                <CList
+                  contentStyle={[cStyles.px0, cStyles.pb0]}
+                  data={sectors.data}
+                  item={({item, index}) => {
+                    let isActive = sectors.active.indexOf(item.sectorID);
+                    return RowSelect(
+                      isDark,
+                      customColors,
+                      item.sectorID,
+                      item.sectorName,
+                      isActive !== -1,
+                      onChangeSector,
+                      true,
+                      index === 0,
+                      index === sectors.data.length - 1,
+                    );
+                  }}
+                />
               </>
             )}
           </ScrollView>
