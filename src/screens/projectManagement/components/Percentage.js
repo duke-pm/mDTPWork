@@ -158,146 +158,143 @@ function Percentage(props) {
    ** RENDER **
    **************/
   return (
-    <View
-      style={[
-        cStyles.py10,
-        cStyles.row,
-        cStyles.itemsCenter,
-        cStyles.justifyBetween,
-      ]}>
-      <TouchableOpacity
-        style={styles.con_left}
-        disabled={!task.isUpdated || loading || disabled}
-        onPress={handleChangePercent}>
-        <View style={[cStyles.row, cStyles.itemsCenter]}>
-          <CLabel label={'project_management:task_percentage'} />
+    <TouchableOpacity
+      style={styles.container}
+      disabled={!task.isUpdated || loading || disabled}
+      onPress={handleChangePercent}>
+      <View style={[cStyles.row, cStyles.itemsCenter, cStyles.flex1]}>
+        <CLabel label={'project_management:task_percentage'} />
 
-          {!percent.visible ? (
-            <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pl10]}>
-              <View style={styles.percent}>
-                <View
+        {!percent.visible ? (
+          <View
+            style={[
+              cStyles.row,
+              cStyles.itemsCenter,
+              cStyles.ml3,
+              cStyles.mr10,
+              cStyles.flex1,
+            ]}>
+            <View
+              style={[
+                cStyles.flex1,
+                cStyles.justifyCenter,
+                cStyles.rounded5,
+                cStyles.borderAll,
+                cStyles.m1,
+                styles.percent_active,
+              ]}
+            />
+            <View
+              style={[
+                cStyles.abs,
+                cStyles.roundedTopLeft5,
+                cStyles.roundedBottomLeft5,
+                percent.value === 100 && cStyles.roundedTopRight5,
+                percent.value === 100 && cStyles.roundedBottomRight5,
+                cStyles.itemsEnd,
+                cStyles.justifyCenter,
+                styles.percent_body,
+                {
+                  top: 2,
+                  width: `${percent.value}%`,
+                  backgroundColor: !task.isUpdated
+                    ? customColors.textDisable
+                    : customColors.primary,
+                },
+              ]}>
+              {percent.value > 25 && (
+                <Text
                   style={[
-                    cStyles.fullWidth,
-                    cStyles.justifyCenter,
-                    cStyles.rounded5,
-                    cStyles.borderAll,
-                    cStyles.m1,
-                    styles.percent_active,
-                  ]}
-                />
-                <View
+                    cStyles.fontMedium,
+                    cStyles.textCenter,
+                    cStyles.mr3,
+                    {color: colors.WHITE, fontSize: 10},
+                  ]}>{`${percent.value}%`}</Text>
+              )}
+            </View>
+            <View
+              style={[
+                cStyles.abs,
+                cStyles.right0,
+                cStyles.roundedTopRight5,
+                cStyles.roundedBottomRight5,
+                percent.value === 0 && cStyles.roundedTopLeft5,
+                percent.value === 0 && cStyles.roundedBottomLeft5,
+                cStyles.itemsStart,
+                cStyles.justifyCenter,
+                {
+                  height: 14,
+                  width: `${100 - percent.value}%`,
+                },
+              ]}>
+              {percent.value <= 25 && (
+                <Text
                   style={[
-                    cStyles.abs,
-                    cStyles.roundedTopLeft5,
-                    cStyles.roundedBottomLeft5,
-                    percent.value === 100 && cStyles.roundedTopRight5,
-                    percent.value === 100 && cStyles.roundedBottomRight5,
-                    cStyles.itemsEnd,
-                    cStyles.justifyCenter,
-                    styles.percent_body,
+                    cStyles.fontMedium,
+                    cStyles.textCenter,
+                    cStyles.ml5,
+                    IS_IOS ? cStyles.mt2 : cStyles.mt0,
+                    styles.text_percent,
                     {
-                      top: 2,
-                      width: `${percent.value}%`,
-                      backgroundColor: !task.isUpdated
+                      color: !task.isUpdated
                         ? customColors.textDisable
                         : customColors.primary,
                     },
-                  ]}>
-                  {percent.value > 25 && (
-                    <Text
-                      style={[
-                        cStyles.fontMedium,
-                        cStyles.textCenter,
-                        cStyles.mr3,
-                        {color: colors.WHITE, fontSize: 10},
-                      ]}>{`${percent.value}%`}</Text>
-                  )}
-                </View>
-                <View
-                  style={[
-                    cStyles.abs,
-                    cStyles.right0,
-                    cStyles.roundedTopRight5,
-                    cStyles.roundedBottomRight5,
-                    percent.value === 0 && cStyles.roundedTopLeft5,
-                    percent.value === 0 && cStyles.roundedBottomLeft5,
-                    cStyles.itemsStart,
-                    cStyles.justifyCenter,
-                    {
-                      height: 14,
-                      width: `${100 - percent.value}%`,
-                    },
-                  ]}>
-                  {percent.value <= 25 && (
-                    <Text
-                      style={[
-                        cStyles.fontMedium,
-                        cStyles.textCenter,
-                        cStyles.ml5,
-                        IS_IOS ? cStyles.mt3 : cStyles.mt2,
-                        {
-                          color: !task.isUpdated
-                            ? customColors.textDisable
-                            : customColors.primary,
-                          fontSize: 10,
-                        },
-                      ]}>{`${percent.value}%`}</Text>
-                  )}
-                </View>
-              </View>
+                  ]}>{`${percent.value}%`}</Text>
+              )}
             </View>
-          ) : (
-            <View style={[cStyles.row, cStyles.itemsCenter, cStyles.fullWidth]}>
-              <View
+          </View>
+        ) : (
+          <View style={[cStyles.row, cStyles.itemsCenter]}>
+            <View
+              style={[
+                cStyles.px4,
+                cStyles.borderAll,
+                cStyles.rounded1,
+                styles.percent_input,
+              ]}>
+              <TextInput
+                ref={ref => (percentRef = ref)}
                 style={[
+                  cStyles.textDefault,
                   cStyles.px4,
-                  cStyles.borderAll,
-                  cStyles.rounded1,
-                  styles.percent_input,
-                ]}>
-                <TextInput
-                  ref={ref => (percentRef = ref)}
-                  style={[
-                    cStyles.textDefault,
-                    cStyles.px4,
-                    {color: customColors.text},
-                  ]}
-                  editable={!loading}
-                  autoFocus
-                  selectTextOnFocus
-                  blurOnSubmit
-                  placeholder={t('project_management:holder_task_percentage')}
-                  value={percent.value + ''}
-                  keyboardAppearance={isDark ? THEME_DARK : THEME_LIGHT}
-                  keyboardType={'number-pad'}
-                  returnKeyType={'done'}
-                  onChangeText={onChangePercent}
-                  onSubmitEditing={handleChangePercent}
-                  // onEndEditing={handleChangePercent}
-                />
-              </View>
-              <TouchableOpacity
-                style={[cStyles.p3, cStyles.ml16]}
-                disabled={loading}
-                onPress={handleClosePercent}>
-                <Icon name={'x'} size={18} color={customColors.red} />
-              </TouchableOpacity>
+                  {color: customColors.text},
+                ]}
+                editable={!loading}
+                autoFocus
+                selectTextOnFocus
+                blurOnSubmit
+                placeholder={t('project_management:holder_task_percentage')}
+                value={percent.value + ''}
+                keyboardAppearance={isDark ? THEME_DARK : THEME_LIGHT}
+                keyboardType={'number-pad'}
+                returnKeyType={'done'}
+                onChangeText={onChangePercent}
+                onSubmitEditing={handleChangePercent}
+                // onEndEditing={handleChangePercent}
+              />
             </View>
-          )}
+            <TouchableOpacity
+              style={[cStyles.p3, cStyles.ml16]}
+              disabled={loading}
+              onPress={handleClosePercent}>
+              <Icon name={'x'} size={18} color={customColors.red} />
+            </TouchableOpacity>
+          </View>
+        )}
 
-          {loading && <ActivityIndicator style={cStyles.pl2} />}
-        </View>
-      </TouchableOpacity>
-    </View>
+        {loading && <ActivityIndicator style={cStyles.pl2} />}
+      </View>
+    </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
-  con_left: {flex: 0.6},
+  container: {flex: 0.6},
   percent_active: {height: 16},
   percent_body: {height: 14.5},
   percent_input: {width: '40%'},
-  percent: {width: '100%'},
+  text_percent: {fontSize: 10},
 });
 
 export default Percentage;
