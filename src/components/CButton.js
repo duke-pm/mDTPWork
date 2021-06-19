@@ -28,6 +28,7 @@ function CButton(props) {
   const isDark = useColorScheme() === THEME_DARK;
   const {
     style = {},
+    textStyle = {},
     animationIconStyle = {},
     loading = false,
     fullWidth = false,
@@ -102,10 +103,11 @@ function CButton(props) {
         )}
 
         <CText
-          styles={'textButton'}
           customStyles={[
+            cStyles.textButton,
             {color: colors.WHITE},
             customStylesButton,
+            textStyle,
             (disabled || loading) && styles.disabled_text,
           ]}
           label={t(label)}

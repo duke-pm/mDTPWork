@@ -530,7 +530,7 @@ const text = {
   textButton: {
     fontSize: scalePx(2.3),
     color: 'white',
-    fontFamily: fBold,
+    fontFamily: fMedium,
     lineHeight: platform === PLATFORM.IOS ? 22 : 23,
   },
   fontBold: {fontFamily: fBold},

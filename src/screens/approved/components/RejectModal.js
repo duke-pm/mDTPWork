@@ -92,6 +92,7 @@ function RejectModal(props) {
           valueColor={colors.TEXT_BASE}
           keyboard={'default'}
           returnKey={'done'}
+          autoFocus
           error={error.reasonReject.status}
           errorHelper={error.reasonReject.helper}
           textAlignVertical={'top'}

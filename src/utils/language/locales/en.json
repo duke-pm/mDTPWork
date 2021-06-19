@@ -5,6 +5,7 @@
     "ok": "OK",
     "close": "Close",
     "send": "Send",
+    "done": "Done",
     "choose_date": "Choose date",
     "choose_language": "Choose",
     "choose_theme": "Choose",
@@ -33,7 +34,8 @@
     "change": "Change",
     "its_you": "You",
     "holder_warning_option_prepare": "The feature in progress, please come back later!",
-    "optional": "(Optional)"
+    "optional": "(Optional)",
+    "need_confirm": "Request Need Confirm"
   },
   "status": {
     "title": "Status",

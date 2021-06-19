@@ -7,12 +7,7 @@
 import React from 'react';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
-import {
-  StyleSheet,
-  View,
-  Keyboard,
-  TouchableWithoutFeedback,
-} from 'react-native';
+import {StyleSheet, View, TouchableWithoutFeedback} from 'react-native';
 import Modal from 'react-native-modal';
 /* COMPONENTS */
 import CText from './CText';
@@ -21,7 +16,7 @@ import CLoading from './CLoading';
 /* COMMON */
 import {cStyles, colors} from '~/utils/style';
 import {THEME_DARK} from '~/config/constants';
-import {sW} from '~/utils/helper';
+import {scalePx, sW} from '~/utils/helper';
 
 function CAlert(props) {
   const isDark = useColorScheme() === THEME_DARK;
@@ -29,7 +24,7 @@ function CAlert(props) {
   const {
     loading = false,
     show = false,
-    title = 'common:app_name',
+    title = 'common:need_confirm',
     content = null,
     customContent = null,
     onClose = null,
@@ -42,15 +37,18 @@ function CAlert(props) {
   return (
     <Modal
       isVisible={show}
+      style={cStyles.m0}
       animationIn={'zoomIn'}
-      animationOut={'zoomOut'}
+      animationOut={'fadeOut'}
+      animationInTiming={150}
       backdropOpacity={isDark ? 0.8 : 0.5}
-      onBackButtonPress={Keyboard.dismiss}
-      onBackdropPress={Keyboard.dismiss}>
-      <View style={cStyles.flexCenter}>
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      onBackButtonPress={onClose}
+      onBackdropPress={onClose}>
+      <TouchableWithoutFeedback onPress={onClose}>
+        <View style={cStyles.flexCenter}>
           <View
             style={[
+              cStyles.mx48,
               cStyles.rounded3,
               isDark && cStyles.borderAllDark,
               {backgroundColor: customColors.background},
@@ -58,22 +56,24 @@ function CAlert(props) {
             {/** Header of Alert */}
             <View
               style={[
-                cStyles.p16,
-                cStyles.roundedTopLeft2,
-                cStyles.roundedTopRight2,
-                {backgroundColor: isDark ? customColors.card : colors.PRIMARY},
+                cStyles.roundedTopLeft3,
+                cStyles.roundedTopRight3,
+                cStyles.pt16,
+                cStyles.px16,
               ]}>
               <CText
-                styles={'colorWhite textCenter fontMedium'}
+                styles={'textCenter fontMedium'}
                 label={title}
-                customLabel={title !== 'common:app_name' ? title : null}
+                customLabel={title !== 'common:need_confirm' ? title : null}
                 numberOfLines={1}
               />
             </View>
 
             {/** Content of Alert */}
             <View style={[cStyles.px16, cStyles.py20, styles.content]}>
-              {content && <CText styles={'textCenter'} label={content} />}
+              {content && (
+                <CText styles={'textMeta textCenter'} label={content} />
+              )}
               {customContent && (
                 <View style={cStyles.mt10}>{customContent}</View>
               )}
@@ -87,16 +87,16 @@ function CAlert(props) {
                   cStyles.itemsCenter,
                   cStyles.justifyEvenly,
                   cStyles.borderTop,
-                  cStyles.py6,
                   isDark && cStyles.borderTopDark,
+                  styles.con_button,
                 ]}>
                 {onClose && (
                   <CButton
-                    style={styles.button_base}
+                    textStyle={styles.text_button_close}
                     disabled={loading}
                     block
                     variant={'text'}
-                    color={customColors.red}
+                    color={customColors.primary}
                     label={'common:close'}
                     onPress={onClose}
                   />
@@ -116,7 +116,7 @@ function CAlert(props) {
 
                 {onOK && (
                   <CButton
-                    style={styles.button_base}
+                    textStyle={styles.text_button_ok}
                     disabled={loading}
                     block
                     variant={'text'}
@@ -129,16 +129,24 @@ function CAlert(props) {
             )}
             <CLoading customColors={customColors} visible={loading} />
           </View>
-        </TouchableWithoutFeedback>
-      </View>
+        </View>
+      </TouchableWithoutFeedback>
     </Modal>
   );
 }
 
 const styles = StyleSheet.create({
   button: {width: 1, height: '100%'},
-  button_base: {width: '100%', marginHorizontal: 10},
   content: {width: sW('85%')},
+  text_button_close: {
+    fontSize: scalePx(2.8),
+    fontFamily: cStyles.fontBold.fontFamily,
+  },
+  text_button_ok: {
+    fontSize: scalePx(2.8),
+    fontFamily: cStyles.fontRegular.fontFamily,
+  },
+  con_button: {height: 50},
 });
 
 export default CAlert;
