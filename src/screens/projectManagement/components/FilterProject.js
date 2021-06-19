@@ -31,7 +31,7 @@ import CList from '~/components/CList';
 /* COMMON */
 import {THEME_DARK} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
-import {IS_IOS, scalePx} from '~/utils/helper';
+import {IS_IOS, scalePx, sH} from '~/utils/helper';
 
 /** All refs use in this screen */
 const actionSheetYearRef = createRef();
@@ -271,8 +271,15 @@ function FilterProject(props) {
   useEffect(() => {
     let years = onGetListYear(10);
     setYear({data: years, active: years.length - 1, choose: years.length - 1});
-    setLoading({...loading, main: false});
   }, []);
+
+  useEffect(() => {
+    if (loading.main) {
+      if (year.data.length > 0) {
+        setLoading({...loading, main: false});
+      }
+    }
+  }, [loading.main, year.data]);
 
   /**************
    ** RENDER **
@@ -457,6 +464,7 @@ const styles = StyleSheet.create({
   },
   row_header: {height: 50},
   left_row_select: {width: 16},
+  con_action: {width: '100%', height: sH('30%')},
 });
 
 export default FilterProject;
