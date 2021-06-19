@@ -23,7 +23,7 @@ import FilterProject from '../components/FilterProject';
 /** COMMON */
 import {LOAD_MORE, REFRESH, THEME_DARK} from '~/config/constants';
 import {cStyles} from '~/utils/style';
-import {scalePx} from '~/utils/helper';
+import {IS_IOS, scalePx} from '~/utils/helper';
 import {usePrevious} from '~/utils/hook';
 /** REDUX */
 import * as Actions from '~/redux/actions';
@@ -290,6 +290,7 @@ function ProjectDetail(props) {
   return (
     <CContainer
       loading={loading.main}
+      centerStyle={IS_IOS ? cStyles.mr32 : cStyles.mr24}
       title={props.route.params?.data?.projectName || ''}
       subTitle={props.route.params?.data?.projectStatus}
       header
