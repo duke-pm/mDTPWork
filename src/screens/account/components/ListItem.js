@@ -118,9 +118,7 @@ function ListItem(props) {
 
             <View
               style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyEnd]}>
-              {data.value && data.isPhone && (
-                <CText styles={'colorTextMeta'} label={data.value} />
-              )}
+              {data.value && data.isPhone && <CText label={data.value} />}
               {data.isChooseLang && (
                 <View
                   style={[
@@ -129,7 +127,7 @@ function ListItem(props) {
                     cStyles.justifyEnd,
                   ]}>
                   <CText
-                    styles={'colorTextMeta pr10'}
+                    styles={'pr10'}
                     label={dataActive ? dataActive.label : data.data[0].label}
                   />
                   <Image

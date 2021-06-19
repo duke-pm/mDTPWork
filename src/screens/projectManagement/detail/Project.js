@@ -71,6 +71,7 @@ function ProjectDetail(props) {
   });
 
   let prevShowFilter = usePrevious(showFilter);
+  let prevYear = usePrevious(data.year);
 
   /*****************
    ** HANDLE FUNC **
@@ -78,14 +79,15 @@ function ProjectDetail(props) {
   const handleSearch = value => {
     setLoading({...loading, startFetch: true});
     setData({...data, search: value, page: 1});
-    onFetchData(Number(moment().format('YYYY')), null, null, 25, 1, value);
+    onFetchData(data.year, null, null, 25, 1, value);
   };
 
   const handleShowFilter = () => {
     setShowFilter({...showFilter, status: !showFilter.status});
   };
 
-  const handleFilter = (activeOwner, activeStatus, activeSector) => {
+  const handleFilter = (year, activeOwner, activeStatus, activeSector) => {
+    setData({...data, year});
     setShowFilter({
       status: !showFilter.status,
       activeOwner,
@@ -117,7 +119,12 @@ function ProjectDetail(props) {
       Lang: language,
     });
     dispatch(Actions.fetchListTask(params, navigation));
-    if ((statusID !== null || ownerID !== null) && !isFiltering) {
+    if (
+      (statusID !== null ||
+        ownerID !== null ||
+        year !== Number(moment().format('YYYY'))) &&
+      !isFiltering
+    ) {
       setIsFiltering(true);
     } else {
       setIsFiltering(false);
@@ -168,7 +175,7 @@ function ProjectDetail(props) {
     if (!loading.refreshing) {
       setData({...data, page: 1});
       onFetchData(
-        null,
+        data.year,
         data.ownerID,
         data.statusID,
         data.perPage,
@@ -184,7 +191,7 @@ function ProjectDetail(props) {
       let newPage = data.page + 1;
       setData({...data, page: newPage});
       onFetchData(
-        null,
+        data.year,
         data.ownerID,
         data.statusID,
         data.perPage,
@@ -199,7 +206,7 @@ function ProjectDetail(props) {
    ** LIFE CYCLE **
    ******************/
   useEffect(() => {
-    onFetchData(Number(moment().format('YYYY')), null, null, 25, 1, '');
+    onFetchData(data.year, null, null, 25, 1, '');
     setLoading({...loading, startFetch: true});
   }, []);
 
@@ -208,8 +215,11 @@ function ProjectDetail(props) {
       if (!showFilter.status && !loading.startFetch) {
         if (
           prevShowFilter.activeOwner.join() === showFilter.activeOwner.join() &&
-          prevShowFilter.activeStatus.join() === showFilter.activeStatus.join() &&
-          prevShowFilter.activeSector.join() === showFilter.activeSector.join()
+          prevShowFilter.activeStatus.join() ===
+            showFilter.activeStatus.join() &&
+          prevShowFilter.activeSector.join() ===
+            showFilter.activeSector.join() &&
+          prevYear === data.year
         ) {
           return;
         }
@@ -223,7 +233,14 @@ function ProjectDetail(props) {
         if (showFilter.activeSector.length > 0) {
           params.statusID = showFilter.activeSector.join();
         }
-        onFetchData(null, params.ownerID, params.statusID, 25, 1, data.search);
+        onFetchData(
+          data.year,
+          params.ownerID,
+          params.statusID,
+          25,
+          1,
+          data.search,
+        );
         setData({
           ...data,
           ownerID: params.ownerID,
@@ -234,6 +251,7 @@ function ProjectDetail(props) {
       }
     }
   }, [
+    prevYear,
     prevShowFilter,
     loading.startFetch,
     showFilter.status,
@@ -276,29 +294,31 @@ function ProjectDetail(props) {
       subTitle={props.route.params?.data?.projectStatus}
       header
       hasBack
-      hasSearch
+      hasSearch={data.tasks.length > 0}
       onPressSearch={handleSearch}
       headerRight={
-        <TouchableOpacity style={cStyles.itemsEnd} onPress={handleShowFilter}>
-          <Icon
-            style={cStyles.p16}
-            name={'filter'}
-            color={'white'}
-            size={scalePx(3)}
-          />
-          {isFiltering && (
-            <View
-              style={[
-                cStyles.rounded2,
-                cStyles.abs,
-                styles.badge,
-                cStyles.borderAll,
-                isDark && cStyles.borderAllDark,
-                {backgroundColor: customColors.red},
-              ]}
+        data.tasks.length > 0 && (
+          <TouchableOpacity style={cStyles.itemsEnd} onPress={handleShowFilter}>
+            <Icon
+              style={cStyles.p16}
+              name={'filter'}
+              color={'white'}
+              size={scalePx(3)}
             />
-          )}
-        </TouchableOpacity>
+            {isFiltering && (
+              <View
+                style={[
+                  cStyles.rounded2,
+                  cStyles.abs,
+                  styles.badge,
+                  cStyles.borderAll,
+                  isDark && cStyles.borderAllDark,
+                  {backgroundColor: customColors.red},
+                ]}
+              />
+            )}
+          </TouchableOpacity>
+        )
       }
       content={
         <CContent>

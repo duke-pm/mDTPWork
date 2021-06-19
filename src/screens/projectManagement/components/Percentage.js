@@ -34,6 +34,7 @@ let percentRef = createRef();
 function Percentage(props) {
   const {t} = useTranslation();
   const {
+    disabled,
     isDark,
     customColors,
     navigation,
@@ -166,7 +167,7 @@ function Percentage(props) {
       ]}>
       <TouchableOpacity
         style={styles.con_left}
-        disabled={!task.isUpdated || loading}
+        disabled={!task.isUpdated || loading || disabled}
         onPress={handleChangePercent}>
         <View style={[cStyles.row, cStyles.itemsCenter]}>
           <CLabel label={'project_management:task_percentage'} />
@@ -284,7 +285,7 @@ function Percentage(props) {
             </View>
           )}
 
-          {loading && <ActivityIndicator />}
+          {loading && <ActivityIndicator style={cStyles.pl2} />}
         </View>
       </TouchableOpacity>
     </View>
@@ -292,11 +293,11 @@ function Percentage(props) {
 }
 
 const styles = StyleSheet.create({
-  con_left: {flex: 0.5},
+  con_left: {flex: 0.6},
   percent_active: {height: 16},
   percent_body: {height: 14.5},
   percent_input: {width: '40%'},
-  percent: {width: '85%'},
+  percent: {width: '100%'},
 });
 
 export default Percentage;

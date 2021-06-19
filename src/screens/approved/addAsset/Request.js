@@ -588,7 +588,7 @@ function AddRequest(props) {
       }
       content={
         <CContent scroll>
-          <CGroupLabel label={t('add_approved_assets:info_user_request')} />
+          <CGroupLabel labelLeft={t('add_approved_assets:info_user_request')} />
           <View
             style={[
               cStyles.p16,
@@ -707,7 +707,7 @@ function AddRequest(props) {
           </View>
 
           {/** Assets */}
-          <CGroupLabel label={t('add_approved_assets:info_assets')} />
+          <CGroupLabel labelLeft={t('add_approved_assets:info_assets')} />
           <View
             style={[
               cStyles.borderTop,
@@ -731,7 +731,7 @@ function AddRequest(props) {
           </View>
 
           {/** Other info */}
-          <CGroupLabel label={t('add_approved_assets:info_other')} />
+          <CGroupLabel labelLeft={t('add_approved_assets:info_other')} />
           <View
             style={[
               cStyles.p16,

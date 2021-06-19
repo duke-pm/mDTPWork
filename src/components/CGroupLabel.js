@@ -12,18 +12,24 @@ import CText from './CText';
 import {cStyles} from '~/utils/style';
 
 function CGroupLabel(props) {
-  const {containerStyle, label} = props;
+  const {containerStyle, labelLeft, labelRight} = props;
   return (
     <View
       style={[
         cStyles.px16,
         cStyles.pt24,
         cStyles.pb10,
-        cStyles.justifyEnd,
+        cStyles.mt16,
+        cStyles.row,
+        cStyles.itemsEnd,
+        cStyles.justifyBetween,
         styles.row_header,
         containerStyle,
       ]}>
-      <CText styles={'textMeta'} customLabel={label.toUpperCase()} />
+      {labelLeft && (
+        <CText styles={'textMeta'} customLabel={labelLeft.toUpperCase()} />
+      )}
+      {labelRight && <CText styles={'textMeta'} customLabel={labelRight} />}
     </View>
   );
 }

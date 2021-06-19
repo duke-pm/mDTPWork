@@ -32,6 +32,7 @@ const actionSheetStatusRef = createRef();
 function Status(props) {
   const {t} = useTranslation();
   const {
+    disabled,
     isUpdate,
     isDark,
     customColors,
@@ -143,7 +144,9 @@ function Status(props) {
    **************/
   return (
     <View>
-      <TouchableOpacity disabled={!isUpdate} onPress={handleShowChangeStatus}>
+      <TouchableOpacity
+        disabled={!isUpdate || disabled}
+        onPress={handleShowChangeStatus}>
         <View
           style={[
             cStyles.mt16,

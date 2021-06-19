@@ -371,6 +371,9 @@
     "task_version": "Phiên bản: ",
     "warning_input_percent": "Tiến độ công việc phải từ 0 đến 100",
     "warning_input_percent_smaller": "Tiến độ không thể nhỏ hơn hiện tại",
-    "holder_task_percentage": "Tiến độ"
+    "holder_task_percentage": "Tiến độ",
+    "holder_choose_multi": "Có thể chọn nhiều",
+    "calendar_year": "Năm dương lịch",
+    "year": "Năm"
   }
 }

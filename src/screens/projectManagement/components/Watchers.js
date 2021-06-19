@@ -11,7 +11,7 @@ import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
 import {showMessage} from 'react-native-flash-message';
-import {StyleSheet, View, Text} from 'react-native';
+import {StyleSheet, View, Text, ScrollView} from 'react-native';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CText from '~/components/CText';
@@ -160,49 +160,51 @@ function Watchers(props) {
           </View>
 
           {!loading.main && (
-            <CList
-              key={'listWatchers'}
-              textEmpty={'project_management:empty_watchers'}
-              data={watchers}
-              item={({item, index}) => {
-                return (
-                  <View style={[cStyles.row, cStyles.itemsCenter]}>
-                    <CAvatar size={'small'} label={item.fullName} />
-                    <View
-                      style={[
-                        cStyles.flex1,
-                        cStyles.row,
-                        cStyles.itemsCenter,
-                        cStyles.justifyBetween,
-                        cStyles.ml10,
-                        cStyles.py16,
-                        cStyles.borderBottom,
-                        isDark && cStyles.borderBottomDark,
-                      ]}>
-                      <View style={styles.con_left}>
-                        <Text
+            <CCard
+              containerStyle={cStyles.mx16}
+              label={'project_management:list_watchers'}
+              content={
+                <ScrollView>
+                  {watchers.map((item, index) => {
+                    let isLast = index === watchers.length - 1;
+                    return (
+                      <View
+                        key={index + item.userName}
+                        style={[cStyles.row, cStyles.itemsCenter]}>
+                        <CAvatar size={'small'} label={item.fullName} />
+                        <View
                           style={[
-                            cStyles.textTitle,
-                            {color: customColors.primary},
+                            cStyles.flex1,
+                            cStyles.row,
+                            cStyles.itemsCenter,
+                            cStyles.justifyBetween,
+                            cStyles.ml10,
+                            cStyles.py16,
+                            !isLast && cStyles.borderBottom,
+                            !isLast && isDark && cStyles.borderBottomDark,
                           ]}>
-                          {item.fullName}
-                          <Text style={cStyles.textMeta}>
-                            {item.userName === userName
-                              ? `  (${t('common:its_you')})`
-                              : ''}
-                          </Text>
-                        </Text>
+                          <View style={styles.con_left}>
+                            <Text style={[cStyles.textDefault]}>
+                              {item.fullName}
+                              <Text style={cStyles.textMeta}>
+                                {item.userName === userName
+                                  ? `  (${t('common:its_you')})`
+                                  : ''}
+                              </Text>
+                            </Text>
+                          </View>
+                          <View style={[cStyles.itemsEnd, styles.con_right]}>
+                            <CText
+                              styles={'textDate'}
+                              customLabel={item.timeUpdate}
+                            />
+                          </View>
+                        </View>
                       </View>
-                      <View style={[cStyles.itemsEnd, styles.con_right]}>
-                        <CText
-                          styles={'textDate'}
-                          customLabel={item.timeUpdate}
-                        />
-                      </View>
-                    </View>
-                  </View>
-                );
-              }}
+                    );
+                  })}
+                </ScrollView>
+              }
             />
           )}
         </CContent>

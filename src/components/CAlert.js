@@ -96,7 +96,7 @@ function CAlert(props) {
                     disabled={loading}
                     block
                     variant={'text'}
-                    color={customColors.primary}
+                    color={customColors.blue}
                     label={'common:close'}
                     onPress={onClose}
                   />
@@ -120,7 +120,7 @@ function CAlert(props) {
                     disabled={loading}
                     block
                     variant={'text'}
-                    color={customColors.primary}
+                    color={customColors.blue}
                     label={'common:ok'}
                     onPress={onOK}
                   />

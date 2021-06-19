@@ -4,26 +4,89 @@
  ** CreateAt: 2021
  ** Description: Description of FilterProject.js
  **/
-import React, {useState} from 'react';
+import React, {createRef, useState, useEffect} from 'react';
 import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {BlurView} from '@react-native-community/blur';
-import {StyleSheet, TouchableOpacity, View, ScrollView} from 'react-native';
+import {
+  StyleSheet,
+  ActivityIndicator,
+  TouchableOpacity,
+  View,
+  ScrollView,
+} from 'react-native';
+import Picker from '@gregfrench/react-native-wheel-picker';
 import Icon from 'react-native-vector-icons/Feather';
 import Modal from 'react-native-modal';
 /* COMPONENTS */
 import CHeader from '~/components/CHeader';
 import CText from '~/components/CText';
 import CGroupLabel from '~/components/CGroupLabel';
+import CActionSheet from '~/components/CActionSheet';
 import CLoading from '~/components/CLoading';
 import CList from '~/components/CList';
 /* COMMON */
 import {THEME_DARK} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
 import {IS_IOS, scalePx} from '~/utils/helper';
+
+/** All refs use in this screen */
+const actionSheetYearRef = createRef();
+
+const RowPicker = (
+  loading,
+  isDark,
+  customColors,
+  label,
+  active,
+  onPress,
+  isBorder = true,
+  isFirst,
+  isLast,
+) => {
+  return (
+    <TouchableOpacity key={label} onPress={onPress}>
+      <View
+        style={[
+          cStyles.row,
+          cStyles.itemsCenter,
+          styles.row_header,
+          isFirst && isDark && cStyles.borderTopDark,
+          isFirst && !isDark && cStyles.borderTop,
+          isLast && isDark && cStyles.borderBottomDark,
+          isLast && !isDark && cStyles.borderBottom,
+          {backgroundColor: customColors.card},
+        ]}>
+        <View style={styles.left_row_select} />
+
+        <View
+          style={[
+            cStyles.fullHeight,
+            cStyles.fullWidth,
+            cStyles.row,
+            cStyles.itemsCenter,
+            cStyles.justifyBetween,
+            cStyles.pr32,
+            !isLast && isBorder && isDark && cStyles.borderBottomDark,
+            !isLast && isBorder && !isDark && cStyles.borderBottom,
+          ]}>
+          <CText label={label} />
+          <View style={[cStyles.row, cStyles.itemsCenter]}>
+            {loading ? <ActivityIndicator /> : <CText label={active} />}
+            <Icon
+              name={'chevron-right'}
+              size={scalePx(2.5)}
+              color={colors.GRAY_500}
+            />
+          </View>
+        </View>
+      </View>
+    </TouchableOpacity>
+  );
+};
 
 const RowSelect = (
   isDark,
@@ -65,11 +128,7 @@ const RowSelect = (
           ]}>
           <CText label={label} />
           {active && (
-            <Icon
-              name={'check'}
-              color={customColors.primary}
-              size={scalePx(3)}
-            />
+            <Icon name={'check'} color={customColors.blue} size={scalePx(3)} />
           )}
         </View>
       </View>
@@ -88,7 +147,13 @@ function FilterProject(props) {
 
   /** Use state */
   const [loading, setLoading] = useState({
+    main: true,
     change: false,
+  });
+  const [year, setYear] = useState({
+    data: [],
+    active: 0,
+    choose: 0,
   });
   const [owner, setOwner] = useState({
     data: masterState.get('users'),
@@ -110,15 +175,45 @@ function FilterProject(props) {
     setOwner({...owner, active: []});
     setStatus({...status, active: []});
     setSectors({...sectors, active: []});
+    setYear({
+      ...year,
+      active: year.data.length - 1,
+      choose: year.data.length - 1,
+    });
   };
 
   const handleFilter = () => {
-    onFilter(owner.active, status.active, sectors.active);
+    onFilter(
+      Number(year.data[year.choose]?.value),
+      owner.active,
+      status.active,
+      sectors.active,
+    );
+  };
+
+  const handlePickerYear = () => {
+    actionSheetYearRef.current?.show();
+  };
+
+  const handleChangeYear = () => {
+    setYear({...year, choose: year.active});
   };
 
   /************
    ** FUNC **
    ************/
+  const onGetListYear = back => {
+    let tmp = new Date().getFullYear();
+    tmp = Array.from({length: back}, (v, i) => tmp - back + i + 1);
+    return tmp.map(item => {
+      return {value: item + '', label: item + ''};
+    });
+  };
+
+  const onChangeYear = index => {
+    setYear({...year, active: index});
+  };
+
   const onChangeOwner = value => {
     setLoading({...loading, change: true});
     let newOwner = [...owner.active];
@@ -169,6 +264,15 @@ function FilterProject(props) {
     setSectors({...sectors, active: newSector});
     setLoading({...loading, change: false});
   };
+
+  /****************
+   ** LIFE CYCLE **
+   ****************/
+  useEffect(() => {
+    let years = onGetListYear(10);
+    setYear({data: years, active: years.length - 1, choose: years.length - 1});
+    setLoading({...loading, main: false});
+  }, []);
 
   /**************
    ** RENDER **
@@ -223,7 +327,29 @@ function FilterProject(props) {
             style={cStyles.flex1}
             contentContainerStyle={cStyles.pb40}
             keyboardShouldPersistTaps={'handled'}>
-            <CGroupLabel label={t('project_management:title_owner')} />
+            {/** Year */}
+            <CGroupLabel
+              containerStyle={cStyles.mt0}
+              labelLeft={t('project_management:calendar_year')}
+            />
+            {RowPicker(
+              loading.main,
+              isDark,
+              customColors,
+              t('project_management:year'),
+              year.data[year.choose]?.label,
+              handlePickerYear,
+              true,
+              true,
+              true,
+            )}
+
+            {/** Owners */}
+            <CGroupLabel
+              containerStyle={cStyles.mt0}
+              labelLeft={t('project_management:title_owner')}
+              labelRight={t('project_management:holder_choose_multi')}
+            />
             <CList
               contentStyle={[cStyles.px0, cStyles.pb0]}
               data={owner.data}
@@ -243,7 +369,11 @@ function FilterProject(props) {
               }}
             />
 
-            <CGroupLabel label={t('status:title')} />
+            {/** Status */}
+            <CGroupLabel
+              labelLeft={t('status:title')}
+              labelRight={t('project_management:holder_choose_multi')}
+            />
             <CList
               contentStyle={[cStyles.px0, cStyles.pb0]}
               data={status.data}
@@ -263,9 +393,13 @@ function FilterProject(props) {
               }}
             />
 
+            {/** Sector */}
             {sector && (
               <>
-                <CGroupLabel label={t('project_management:holder_sector')} />
+                <CGroupLabel
+                  labelLeft={t('project_management:holder_sector')}
+                  labelRight={t('project_management:holder_choose_multi')}
+                />
                 <CList
                   contentStyle={[cStyles.px0, cStyles.pb0]}
                   data={sectors.data}
@@ -288,7 +422,26 @@ function FilterProject(props) {
             )}
           </ScrollView>
         </View>
-        <CLoading customColors={customColors} visible={loading.change} />
+        <CLoading
+          customColors={customColors}
+          visible={loading.main || loading.change}
+        />
+        {!loading.main && (
+          <CActionSheet
+            actionRef={actionSheetYearRef}
+            headerChoose
+            onConfirm={handleChangeYear}>
+            <Picker
+              style={styles.con_action}
+              itemStyle={{color: customColors.text, fontSize: scalePx(3)}}
+              selectedValue={year.active}
+              onValueChange={onChangeYear}>
+              {year.data.map((value, i) => (
+                <Picker.Item label={value.label} value={i} key={value.value} />
+              ))}
+            </Picker>
+          </CActionSheet>
+        )}
       </SafeAreaView>
     </Modal>
   );

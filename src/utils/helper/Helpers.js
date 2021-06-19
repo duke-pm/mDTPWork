@@ -251,7 +251,8 @@ export async function previewFile(url = '', name = null) {
   const localFile = `${RNFS.DocumentDirectoryPath}/${name}`;
   const isExistsFile = await RNFS.exists(localFile);
   if (isExistsFile) {
-    return FileViewer.open(localFile);
+    FileViewer.open(localFile);
+    return false;
   } else {
     const options = {
       fromUrl: url,
@@ -259,5 +260,6 @@ export async function previewFile(url = '', name = null) {
     };
     await RNFS.downloadFile(options).promise;
     FileViewer.open(localFile);
+    return false;
   }
 }

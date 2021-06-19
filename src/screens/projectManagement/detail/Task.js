@@ -17,7 +17,8 @@ import {
   TouchableOpacity,
   View,
   Text,
-  KeyboardAvoidingView,
+  Image,
+  ActivityIndicator,
 } from 'react-native';
 import {showMessage} from 'react-native-flash-message';
 import Icon from 'react-native-vector-icons/Feather';
@@ -40,6 +41,7 @@ import {scalePx, getLocalInfo, checkEmpty, previewFile} from '~/utils/helper';
 import API from '~/services/axios';
 /** REDUX */
 import * as Actions from '~/redux/actions';
+import {Extensions} from '~/utils/asset';
 
 const Separator = isDark => (
   <View style={[cStyles.flexCenter, cStyles.my5]}>
@@ -79,6 +81,7 @@ function Task(props) {
     main: true,
     startFetch: false,
     fastWatch: false,
+    preview: false,
   });
   const [newComment, setNewComment] = useState(false);
   const [isFastWatch, setIsFastWatch] = useState(true);
@@ -120,7 +123,8 @@ function Task(props) {
     });
   };
 
-  const handlePreviewFile = () => {
+  const handlePreviewFile = async () => {
+    setLoading({...loading, preview: true});
     let url =
       API.defaults.baseURL.substring(0, API.defaults.baseURL.length - 3) +
       data.taskDetail.attachFiles;
@@ -128,7 +132,8 @@ function Task(props) {
       data.taskDetail.attachFiles.lastIndexOf('/') + 1,
       data.taskDetail.attachFiles.length,
     );
-    previewFile(url, fileName);
+    let cb = await previewFile(url.replace(' ', '%20'), fileName);
+    setLoading({...loading, preview: cb});
   };
 
   /************
@@ -285,6 +290,18 @@ function Task(props) {
       bgPriority = data.taskDetail.priorityColor;
     }
   }
+  let fileName = '';
+  if (data.taskDetail && data.taskDetail.attachFiles !== '') {
+    fileName = data.taskDetail.attachFiles;
+    fileName = fileName.substring(
+      fileName.lastIndexOf('/') + 1,
+      fileName.length,
+    );
+    fileName =
+      fileName.substr(0, 5) +
+      '...' +
+      fileName.substr(fileName.length - 10, fileName.length);
+  }
   return (
     <CContainer
       loading={loading.main}
@@ -361,6 +378,7 @@ function Task(props) {
           <ScrollView style={cStyles.flex1}>
             {!loading.main && data.taskDetail && (
               <Status
+                disabled={loading.preview}
                 isUpdate={perChangeStatus}
                 isDark={isDark}
                 customColors={customColors}
@@ -602,15 +620,32 @@ function Task(props) {
                     </View>
                   </View>
 
-                  {/** Sector */}
-                  <View
-                    style={[
-                      cStyles.pb10,
-                      cStyles.row,
-                      cStyles.itemsCenter,
-                      cStyles.justifyBetween,
-                    ]}>
-                    <View style={[cStyles.row, cStyles.itemsCenter]}>
+                  {data.taskDetail.taskTypeID ===
+                    Commons.TYPE_TASK.TASK.value && Separator(isDark)}
+
+                  <View style={[cStyles.row, cStyles.itemsCenter]}>
+                    {/** Percentage */}
+                    {data.taskDetail.taskTypeID ===
+                      Commons.TYPE_TASK.TASK.value && (
+                      <Percentage
+                        disabled={loading.preview}
+                        isDark={isDark}
+                        customColors={customColors}
+                        navigation={navigation}
+                        language={language}
+                        refreshToken={refreshToken}
+                        task={data.taskDetail}
+                        onUpdate={onPrepareUpdate}
+                      />
+                    )}
+
+                    {/** Sector */}
+                    <View
+                      style={[
+                        cStyles.row,
+                        cStyles.itemsCenter,
+                        styles.con_sector,
+                      ]}>
                       <CLabel label={'project_management:sector'} />
 
                       <CText
@@ -620,23 +655,6 @@ function Task(props) {
                     </View>
                   </View>
 
-                  {/** Percentage */}
-                  {data.taskDetail.taskTypeID ===
-                    Commons.TYPE_TASK.TASK.value && (
-                    <View>
-                      {Separator(isDark)}
-                      <Percentage
-                        isDark={isDark}
-                        customColors={customColors}
-                        navigation={navigation}
-                        language={language}
-                        refreshToken={refreshToken}
-                        task={data.taskDetail}
-                        onUpdate={onPrepareUpdate}
-                      />
-                    </View>
-                  )}
-
                   {/** Files attach */}
                   {data.taskDetail.attachFiles !== '' && (
                     <View>
@@ -644,33 +662,58 @@ function Task(props) {
                         Commons.TYPE_TASK.TASK.value && Separator(isDark)}
                       <View style={cStyles.pb10}>
                         <CLabel label={'project_management:files_attach'} />
-                        <TouchableOpacity onPress={handlePreviewFile}>
+                        <TouchableOpacity
+                          style={styles.con_file}
+                          disabled={loading.preview}
+                          onPress={handlePreviewFile}>
                           <View
                             style={[
-                              cStyles.row,
-                              cStyles.itemsCenter,
-                              cStyles.py2,
+                              cStyles.p10,
+                              cStyles.my10,
+                              cStyles.rounded2,
+                              cStyles.center,
+                              cStyles.borderAll,
+                              isDark && cStyles.borderAllDark,
                             ]}>
-                            <Icon
-                              style={cStyles.ml16}
-                              name={'paperclip'}
-                              color={customColors.icon}
-                              size={13}
+                            <Image
+                              style={styles.file}
+                              source={
+                                Extensions[
+                                  data.taskDetail.attachFiles.substring(
+                                    data.taskDetail.attachFiles.lastIndexOf(
+                                      '.',
+                                    ) + 1,
+                                    data.taskDetail.attachFiles.length,
+                                  )
+                                ]
+                              }
+                              resizeMode={'contain'}
                             />
-                            <CText
-                              customStyles={[
-                                cStyles.textMeta,
-                                cStyles.textItalic,
-                                cStyles.ml6,
-                                {color: customColors.primary},
-                              ]}
-                              customLabel={data.taskDetail.attachFiles.substring(
-                                data.taskDetail.attachFiles.lastIndexOf('/') +
-                                  1,
-                                data.taskDetail.attachFiles.length,
-                              )}
-                              dataDetectorType={'link'}
-                            />
+
+                            <Text style={cStyles.textCenter}>
+                              <Text
+                                dataDetectorType={'link'}
+                                style={[
+                                  cStyles.textMeta,
+                                  cStyles.textItalic,
+                                  cStyles.pr10,
+                                  {color: customColors.primary},
+                                ]}>
+                                {fileName}
+                              </Text>
+                            </Text>
+                            {loading.preview && (
+                              <View
+                                style={[
+                                  cStyles.flexCenter,
+                                  cStyles.rounded2,
+                                  cStyles.abs,
+                                  cStyles.inset0,
+                                  {backgroundColor: colors.BACKGROUND_MODAL},
+                                ]}>
+                                <ActivityIndicator color={'white'} />
+                              </View>
+                            )}
                           </View>
                         </TouchableOpacity>
                       </View>
@@ -702,11 +745,13 @@ const styles = StyleSheet.create({
   con_left_1: {flex: 0.3},
   con_middle: {flex: 0.2},
   con_right_1: {flex: 0.5},
+  con_sector: {flex: 0.4},
   badge: {height: 10, width: 10, top: 16, right: 15},
   badge2: {height: 10, width: 10, top: 16, right: 13},
   line: {borderRadius: 1},
-  dot_file: {height: 5, width: 5, borderRadius: 5},
   dot_check: {right: -2, top: 1},
+  con_file: {width: '40%'},
+  file: {width: 50, height: 50},
 });
 
 export default Task;

@@ -620,7 +620,7 @@ function AddRequest(props) {
       }
       content={
         <CContent scroll>
-          <CGroupLabel label={t('add_approved_lost_damaged:info_other')} />
+          <CGroupLabel labelLeft={t('add_approved_lost_damaged:info_other')} />
           <View
             style={[
               cStyles.p16,
@@ -643,7 +643,7 @@ function AddRequest(props) {
             </View>
           </View>
 
-          <CGroupLabel label={t('add_approved_lost_damaged:info_assets')} />
+          <CGroupLabel labelLeft={t('add_approved_lost_damaged:info_assets')} />
           <View
             style={[
               cStyles.p16,

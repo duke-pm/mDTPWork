@@ -70,6 +70,7 @@ function ProjectManagement(props) {
   });
 
   let prevShowFilter = usePrevious(showFilter);
+  let prevYear = usePrevious(data.year);
 
   /*****************
    ** HANDLE FUNC **
@@ -77,14 +78,15 @@ function ProjectManagement(props) {
   const handleSearch = value => {
     setLoading({...loading, startFetch: true});
     setData({...data, search: value, page: 1});
-    onFetchData(Number(moment().format('YYYY')), null, null, 25, 1, value);
+    onFetchData(data.year, null, null, 25, 1, value);
   };
 
   const handleShowFilter = () => {
     setShowFilter({...showFilter, status: !showFilter.status});
   };
 
-  const handleFilter = (activeOwner, activeStatus) => {
+  const handleFilter = (year, activeOwner, activeStatus) => {
+    setData({...data, year});
     setShowFilter({status: !showFilter.status, activeOwner, activeStatus});
   };
 
@@ -119,7 +121,12 @@ function ProjectManagement(props) {
       Lang: language,
     });
     dispatch(Actions.fetchListProject(params, navigation));
-    if ((statusID !== null || ownerID !== null) && !isFiltering) {
+    if (
+      (statusID !== null ||
+        ownerID !== null ||
+        year !== Number(moment().format('YYYY'))) &&
+      !isFiltering
+    ) {
       setIsFiltering(true);
     } else {
       setIsFiltering(false);
@@ -170,7 +177,7 @@ function ProjectManagement(props) {
     if (!loading.refreshing) {
       setData({...data, page: 1});
       onFetchData(
-        null,
+        data.year,
         data.ownerID,
         data.statusID,
         data.perPage,
@@ -186,7 +193,7 @@ function ProjectManagement(props) {
       let newPage = data.page + 1;
       setData({...data, page: newPage});
       onFetchData(
-        null,
+        data.year,
         data.ownerID,
         data.statusID,
         data.perPage,
@@ -202,7 +209,7 @@ function ProjectManagement(props) {
    ******************/
   useEffect(() => {
     onFetchMasterData();
-    onFetchData(Number(moment().format('YYYY')), null, null, 25, 1, '');
+    onFetchData(data.year, null, null, 25, 1, '');
     setLoading({...loading, startFetch: true});
   }, []);
 
@@ -211,7 +218,9 @@ function ProjectManagement(props) {
       if (!showFilter.status && !loading.startFetch) {
         if (
           prevShowFilter.activeOwner.join() === showFilter.activeOwner.join() &&
-          prevShowFilter.activeStatus.join() === showFilter.activeStatus.join()
+          prevShowFilter.activeStatus.join() ===
+            showFilter.activeStatus.join() &&
+          prevYear === data.year
         ) {
           return;
         }
@@ -222,7 +231,14 @@ function ProjectManagement(props) {
         if (showFilter.activeStatus.length > 0) {
           params.statusID = showFilter.activeStatus.join();
         }
-        onFetchData(null, params.ownerID, params.statusID, 25, 1, data.search);
+        onFetchData(
+          data.year,
+          params.ownerID,
+          params.statusID,
+          25,
+          1,
+          data.search,
+        );
         setData({
           ...data,
           ownerID: params.ownerID,
@@ -233,6 +249,7 @@ function ProjectManagement(props) {
       }
     }
   }, [
+    prevYear,
     prevShowFilter,
     loading.startFetch,
     showFilter.status,
