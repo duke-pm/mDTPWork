@@ -24,6 +24,7 @@ const Extensions = {
   xlsx: require('../../../assets/images/extension/xlsx.png'),
   xml: require('../../../assets/images/extension/xml.png'),
   zip: require('../../../assets/images/extension/zip.png'),
+  file: require('../../../assets/images/extension/file.png'),
 };
 
 export default Extensions;

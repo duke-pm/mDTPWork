@@ -685,7 +685,7 @@ function Task(props) {
                                     ) + 1,
                                     data.taskDetail.attachFiles.length,
                                   )
-                                ]
+                                ] || Extensions.file
                               }
                               resizeMode={'contain'}
                             />
