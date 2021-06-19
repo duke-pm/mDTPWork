@@ -326,12 +326,14 @@ function ProjectManagement(props) {
               refreshing={loading.refreshing}
               loadmore={loading.loadmore}
               data={data.projects}
+              year={data.year}
               onRefresh={onRefresh}
               onLoadmore={onLoadmore}
             />
           )}
           {!loading.main && (
             <FilterProject
+              hasYear
               visible={showFilter.status}
               onFilter={handleFilter}
             />

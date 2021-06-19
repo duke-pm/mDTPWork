@@ -140,14 +140,19 @@ function FilterProject(props) {
   const {t} = useTranslation();
   const {customColors} = useTheme();
   const isDark = useColorScheme() === THEME_DARK;
-  const {sector = false, visible = false, onFilter = () => {}} = props;
+  const {
+    hasYear = false,
+    hasSector = false,
+    visible = false,
+    onFilter = () => {},
+  } = props;
 
   /** Use redux */
   const masterState = useSelector(({masterData}) => masterData);
 
   /** Use state */
   const [loading, setLoading] = useState({
-    main: true,
+    main: hasYear,
     change: false,
   });
   const [year, setYear] = useState({
@@ -174,21 +179,13 @@ function FilterProject(props) {
   const handleReset = () => {
     setOwner({...owner, active: []});
     setStatus({...status, active: []});
-    setSectors({...sectors, active: []});
-    setYear({
-      ...year,
-      active: year.data.length - 1,
-      choose: year.data.length - 1,
-    });
-  };
-
-  const handleFilter = () => {
-    onFilter(
-      Number(year.data[year.choose]?.value),
-      owner.active,
-      status.active,
-      sectors.active,
-    );
+    hasSector && setSectors({...sectors, active: []});
+    hasYear &&
+      setYear({
+        ...year,
+        active: year.data.length - 1,
+        choose: year.data.length - 1,
+      });
   };
 
   const handlePickerYear = () => {
@@ -197,6 +194,15 @@ function FilterProject(props) {
 
   const handleChangeYear = () => {
     setYear({...year, choose: year.active});
+  };
+
+  const handleFilter = () => {
+    onFilter(
+      hasYear ? Number(year.data[year.choose]?.value) : null,
+      owner.active,
+      status.active,
+      hasSector ? sectors.active : null,
+    );
   };
 
   /************
@@ -269,17 +275,23 @@ function FilterProject(props) {
    ** LIFE CYCLE **
    ****************/
   useEffect(() => {
-    let years = onGetListYear(10);
-    setYear({data: years, active: years.length - 1, choose: years.length - 1});
-  }, []);
+    if (hasYear) {
+      let years = onGetListYear(10);
+      setYear({
+        data: years,
+        active: years.length - 1,
+        choose: years.length - 1,
+      });
+    }
+  }, [hasYear]);
 
   useEffect(() => {
-    if (loading.main) {
+    if (hasYear && loading.main) {
       if (year.data.length > 0) {
         setLoading({...loading, main: false});
       }
     }
-  }, [loading.main, year.data]);
+  }, [hasYear, loading.main, year.data]);
 
   /**************
    ** RENDER **
@@ -335,20 +347,24 @@ function FilterProject(props) {
             contentContainerStyle={cStyles.pb40}
             keyboardShouldPersistTaps={'handled'}>
             {/** Year */}
-            <CGroupLabel
-              containerStyle={cStyles.mt0}
-              labelLeft={t('project_management:calendar_year')}
-            />
-            {RowPicker(
-              loading.main,
-              isDark,
-              customColors,
-              t('project_management:year'),
-              year.data[year.choose]?.label,
-              handlePickerYear,
-              true,
-              true,
-              true,
+            {hasYear && (
+              <>
+                <CGroupLabel
+                  containerStyle={cStyles.mt0}
+                  labelLeft={t('project_management:calendar_year')}
+                />
+                {RowPicker(
+                  loading.main,
+                  isDark,
+                  customColors,
+                  t('project_management:year'),
+                  year.data[year.choose]?.label,
+                  handlePickerYear,
+                  true,
+                  true,
+                  true,
+                )}
+              </>
             )}
 
             {/** Owners */}
@@ -401,7 +417,7 @@ function FilterProject(props) {
             />
 
             {/** Sector */}
-            {sector && (
+            {hasSector && (
               <>
                 <CGroupLabel
                   labelLeft={t('project_management:holder_sector')}
@@ -433,7 +449,7 @@ function FilterProject(props) {
           customColors={customColors}
           visible={loading.main || loading.change}
         />
-        {!loading.main && (
+        {!loading.main && hasYear && (
           <CActionSheet
             actionRef={actionSheetYearRef}
             headerChoose

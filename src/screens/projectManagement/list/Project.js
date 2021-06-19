@@ -20,7 +20,7 @@ function ListProject(props) {
   const navigation = useNavigation();
   const {customColors} = useTheme();
   const isDark = useColorScheme() === THEME_DARK;
-  const {onLoadmore, onRefresh} = props;
+  const {year, onLoadmore, onRefresh} = props;
 
   /*****************
    ** HANDLE FUNC **
@@ -28,6 +28,7 @@ function ListProject(props) {
   const handleProjectItem = data => {
     navigation.navigate(Routes.MAIN.PROJECT_DETAIL.name, {
       data: {
+        year,
         projectID: data.prjID,
         projectName: data.prjName,
         projectStatus: data.statusName,

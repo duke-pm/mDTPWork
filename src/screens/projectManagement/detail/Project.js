@@ -34,6 +34,7 @@ function ProjectDetail(props) {
   const {customColors} = useTheme();
   const {route, navigation} = props;
   const projectID = route.params.data.projectID;
+  const yearFilter = route.params.data.year;
 
   /** Use redux */
   const dispatch = useDispatch();
@@ -60,7 +61,7 @@ function ProjectDetail(props) {
     activeSector: [],
   });
   const [data, setData] = useState({
-    year: Number(moment().format('YYYY')),
+    year: yearFilter,
     statusID: null,
     ownerID: null,
     perPage: 25,
@@ -87,7 +88,6 @@ function ProjectDetail(props) {
   };
 
   const handleFilter = (year, activeOwner, activeStatus, activeSector) => {
-    setData({...data, year});
     setShowFilter({
       status: !showFilter.status,
       activeOwner,
@@ -217,9 +217,7 @@ function ProjectDetail(props) {
           prevShowFilter.activeOwner.join() === showFilter.activeOwner.join() &&
           prevShowFilter.activeStatus.join() ===
             showFilter.activeStatus.join() &&
-          prevShowFilter.activeSector.join() ===
-            showFilter.activeSector.join() &&
-          prevYear === data.year
+          prevShowFilter.activeSector.join() === showFilter.activeSector.join()
         ) {
           return;
         }
@@ -334,7 +332,7 @@ function ProjectDetail(props) {
           )}
           {!loading.main && (
             <FilterProject
-              sector
+              hasSector
               visible={showFilter.status}
               onFilter={handleFilter}
             />
