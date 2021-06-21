@@ -31,6 +31,7 @@ import CList from '~/components/CList';
 import {THEME_DARK} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
 import {scalePx, sH} from '~/utils/helper';
+import CAvatar from '~/components/CAvatar';
 
 /** All refs use in this screen */
 const actionSheetYearRef = createRef();
@@ -94,6 +95,7 @@ const RowSelect = (
   label,
   active,
   onPress,
+  isAvatar,
   isBorder = true,
   isFirst,
   isLast,
@@ -103,6 +105,8 @@ const RowSelect = (
     <TouchableOpacity key={value + label} onPress={handleChange}>
       <View
         style={[
+          cStyles.flex1,
+          cStyles.fullWidth,
           cStyles.row,
           cStyles.itemsCenter,
           styles.row_header,
@@ -112,16 +116,22 @@ const RowSelect = (
           isLast && !isDark && cStyles.borderBottom,
           {backgroundColor: customColors.card},
         ]}>
-        <View style={styles.left_row_select} />
+        {isAvatar ? (
+          <View style={cStyles.px16}>
+            <CAvatar size={'small'} label={label} />
+          </View>
+        ) : (
+          <View style={styles.left_row_select} />
+        )}
 
         <View
           style={[
+            cStyles.flex1,
             cStyles.fullHeight,
-            cStyles.fullWidth,
             cStyles.row,
             cStyles.itemsCenter,
             cStyles.justifyBetween,
-            cStyles.pr32,
+            cStyles.pr16,
             !isLast && isBorder && isDark && cStyles.borderBottomDark,
             !isLast && isBorder && !isDark && cStyles.borderBottom,
           ]}>
@@ -313,7 +323,7 @@ function FilterProject(props) {
         <TouchableOpacity
           style={[cStyles.itemsEnd, cStyles.pr16]}
           onPress={handleFilter}>
-          <CText styles={'colorWhite'} label={'common:apply'} />
+          <CText styles={'colorWhite'} customLabel={t('common:apply')} />
         </TouchableOpacity>
       }
       content={
@@ -358,6 +368,7 @@ function FilterProject(props) {
                 isActive !== -1,
                 onChangeOwner,
                 true,
+                true,
                 index === 0,
                 index === owner.data.length - 1,
               );
@@ -382,6 +393,7 @@ function FilterProject(props) {
                 item.statusName,
                 isActive !== -1,
                 onChangeStatus,
+                false,
                 true,
                 index === 0,
                 index === status.data.length - 1,
@@ -408,6 +420,7 @@ function FilterProject(props) {
                     item.sectorName,
                     isActive !== -1,
                     onChangeSector,
+                    false,
                     true,
                     index === 0,
                     index === sectors.data.length - 1,

@@ -26,6 +26,7 @@ import {THEME_DARK} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
 /** REDUX */
 import * as Actions from '~/redux/actions';
+import CLabel from '~/components/CLabel';
 
 function Watchers(props) {
   const {t} = useTranslation();
@@ -164,46 +165,50 @@ function Watchers(props) {
               containerStyle={cStyles.mx16}
               label={'project_management:list_watchers'}
               content={
-                <ScrollView>
-                  {watchers.map((item, index) => {
-                    let isLast = index === watchers.length - 1;
-                    return (
-                      <View
-                        key={index + item.userName}
-                        style={[cStyles.row, cStyles.itemsCenter]}>
-                        <CAvatar size={'small'} label={item.fullName} />
+                watchers.length > 0 ? (
+                  <ScrollView>
+                    {watchers.map((item, index) => {
+                      let isLast = index === watchers.length - 1;
+                      return (
                         <View
-                          style={[
-                            cStyles.flex1,
-                            cStyles.row,
-                            cStyles.itemsCenter,
-                            cStyles.justifyBetween,
-                            cStyles.ml10,
-                            cStyles.py16,
-                            !isLast && cStyles.borderBottom,
-                            !isLast && isDark && cStyles.borderBottomDark,
-                          ]}>
-                          <View style={styles.con_left}>
-                            <Text style={[cStyles.textDefault]}>
-                              {item.fullName}
-                              <Text style={cStyles.textMeta}>
-                                {item.userName === userName
-                                  ? `  (${t('common:its_you')})`
-                                  : ''}
+                          key={index + item.userName}
+                          style={[cStyles.row, cStyles.itemsCenter]}>
+                          <CAvatar size={'small'} label={item.fullName} />
+                          <View
+                            style={[
+                              cStyles.flex1,
+                              cStyles.row,
+                              cStyles.itemsCenter,
+                              cStyles.justifyBetween,
+                              cStyles.ml10,
+                              cStyles.py16,
+                              !isLast && cStyles.borderBottom,
+                              !isLast && isDark && cStyles.borderBottomDark,
+                            ]}>
+                            <View style={styles.con_left}>
+                              <Text style={[cStyles.textDefault]}>
+                                {item.fullName}
+                                <Text style={cStyles.textMeta}>
+                                  {item.userName === userName
+                                    ? `  (${t('common:its_you')})`
+                                    : ''}
+                                </Text>
                               </Text>
-                            </Text>
-                          </View>
-                          <View style={[cStyles.itemsEnd, styles.con_right]}>
-                            <CText
-                              styles={'textDate'}
-                              customLabel={item.timeUpdate}
-                            />
+                            </View>
+                            <View style={[cStyles.itemsEnd, styles.con_right]}>
+                              <CText
+                                styles={'textDate'}
+                                customLabel={item.timeUpdate}
+                              />
+                            </View>
                           </View>
                         </View>
-                      </View>
-                    );
-                  })}
-                </ScrollView>
+                      );
+                    })}
+                  </ScrollView>
+                ) : (
+                  <CLabel label={'project_management:empty_watchers'} />
+                )
               }
             />
           )}

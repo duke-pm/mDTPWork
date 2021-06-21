@@ -71,13 +71,6 @@ function Percentage(props) {
       } else {
         if (Number(percent.value) === task.percentage) {
           setPercent({...percent, visible: !percent.visible});
-        } else if (Number(percent.value) < task.percentage) {
-          showMessage({
-            message: t('common:app_name'),
-            description: t('project_management:warning_input_percent_smaller'),
-            type: 'warning',
-            icon: 'warning',
-          });
         } else {
           setPercent({...percent, visible: !percent.visible});
           let params = {

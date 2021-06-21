@@ -96,7 +96,9 @@ function Status(props) {
   };
 
   const onPrepareUpdate = isSuccess => {
-    let des = isSuccess ? 'success:change_status' : 'error:change_status';
+    let des = isSuccess
+      ? 'success:change_status'
+      : projectState.get('errorHelperTaskUpdate');
     let type = isSuccess ? 'success' : 'danger';
     if (isSuccess) {
       onUpdate();
@@ -104,20 +106,24 @@ function Status(props) {
     setLoading(false);
     return showMessage({
       message: t('common:app_name'),
-      description: t(des),
+      description: isSuccess ? t(des) : des,
       type,
       icon: type,
     });
+  };
+
+  const onPrepareStatus = () => {
+    let fStatus = status.data.findIndex(f => f.statusID === task.statusID);
+    if (fStatus !== -1) {
+      setStatus({...status, active: fStatus});
+    }
   };
 
   /******************
    ** LIFE CYCLE **
    ******************/
   useEffect(() => {
-    let fStatus = status.data.findIndex(f => f.statusID === task.statusID);
-    if (fStatus !== -1) {
-      setStatus({...status, active: fStatus});
-    }
+    onPrepareStatus();
   }, []);
 
   useEffect(() => {
@@ -128,6 +134,7 @@ function Status(props) {
         }
 
         if (projectState.get('errorTaskUpdate')) {
+          onPrepareStatus();
           return onPrepareUpdate(false);
         }
       }

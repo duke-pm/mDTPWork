@@ -284,38 +284,19 @@ function Task(props) {
       onRefresh={onRefresh}
       headerRight={
         <View style={[cStyles.row, cStyles.itemsCenter]}>
-          <TouchableOpacity
-            style={cStyles.itemsEnd}
-            disabled={!isFastWatch}
-            onPress={handleFastWatch}>
-            <Icon
-              style={cStyles.p16}
-              name={'eye'}
-              color={isFastWatch ? colors.WHITE : colors.GRAY_500}
-              size={scalePx(3)}
-            />
-            {!isFastWatch && (
-              <View
-                style={[
-                  cStyles.abs,
-                  cStyles.center,
-                  cStyles.rounded2,
-                  styles.badge2,
-                  cStyles.borderAll,
-                  isDark && cStyles.borderAllDark,
-                  {backgroundColor: customColors.green},
-                ]}
-              />
-            )}
-            {!isFastWatch && (
+          {!loading.main && isFastWatch && (
+            <TouchableOpacity
+              style={cStyles.itemsEnd}
+              disabled={!isFastWatch}
+              onPress={handleFastWatch}>
               <Icon
-                style={[cStyles.p16, cStyles.abs, styles.dot_check]}
-                name={'check'}
-                color={colors.WHITE}
-                size={8}
+                style={cStyles.p16}
+                name={'eye'}
+                color={isFastWatch ? colors.WHITE : colors.GRAY_500}
+                size={scalePx(3)}
               />
-            )}
-          </TouchableOpacity>
+            </TouchableOpacity>
+          )}
           <TouchableOpacity style={cStyles.itemsEnd} onPress={handleActivities}>
             <Icon
               style={cStyles.p16}
@@ -401,16 +382,25 @@ function Task(props) {
                           style={[
                             cStyles.textMeta,
                             {color: customColors.text},
-                          ]}>{`#${data.taskDetail.taskID}: ${t(
-                          'project_management:created_by',
-                        )}`}</Text>
-                        <Text
-                          style={[
-                            cStyles.textMeta,
-                            {color: customColors.primary},
-                          ]}>
-                          {` ${data.taskDetail.author}. `}
-                        </Text>
+                          ]}>{`#${data.taskDetail.taskID} `}</Text>
+                        {data.taskDetail.author !== '' && (
+                          <Text>
+                            <Text
+                              style={[
+                                cStyles.textMeta,
+                                {color: customColors.text},
+                              ]}>{`#${data.taskDetail.taskID}: ${t(
+                              'project_management:created_by',
+                            )}`}</Text>
+                            <Text
+                              style={[
+                                cStyles.textMeta,
+                                {color: customColors.primary},
+                              ]}>
+                              {` ${data.taskDetail.author}. `}
+                            </Text>
+                          </Text>
+                        )}
                         <Text
                           style={[
                             cStyles.textMeta,
@@ -648,7 +638,7 @@ function Task(props) {
                     {Separator(isDark)}
 
                     {/** Description */}
-                    <View style={[cStyles.pt5, cStyles.pb10]}>
+                    <View style={cStyles.pt5}>
                       <CText customLabel={checkEmpty(data.taskDetail.descr)} />
                     </View>
                   </View>
