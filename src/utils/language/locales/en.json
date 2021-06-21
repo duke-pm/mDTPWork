@@ -374,6 +374,8 @@
     "holder_task_percentage": "Percentage",
     "holder_choose_multi": "Can choose multi",
     "calendar_year": "Calendar year",
-    "year": "Year"
+    "year": "Year",
+    "holder_change_from": "changed from",
+    "holder_change_to": "to"
   }
 }

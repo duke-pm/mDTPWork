@@ -590,12 +590,7 @@ function Task(props) {
                     {Separator(isDark)}
 
                     <View
-                      style={[
-                        cStyles.row,
-                        cStyles.itemsCenter,
-                        cStyles.mt6,
-                        cStyles.mb10,
-                      ]}>
+                      style={[cStyles.row, cStyles.itemsCenter, cStyles.my16]}>
                       {/** Percentage */}
                       {data.taskDetail.taskTypeID ===
                         Commons.TYPE_TASK.TASK.value && (

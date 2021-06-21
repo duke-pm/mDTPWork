@@ -284,10 +284,12 @@ function Activity(props) {
                                 cStyles.textRight,
                                 {color: isDark ? colors.WHITE : colors.BLACK},
                               ]}
-                              customLabel={moment(
+                              customLabel={`${t(
+                                'project_management:last_updated_at',
+                              )} ${moment(
                                 item.timeUpdate,
                                 'DD/MM/YYYY - HH:mm',
-                              ).format('HH:mm')}
+                              ).format('HH:mm')}`}
                             />
 
                             <View style={cStyles.mt10}>
@@ -310,7 +312,7 @@ function Activity(props) {
                           cStyles.row,
                           cStyles.itemsStart,
                           cStyles.pb16,
-                          cStyles.mr16,
+                          cStyles.mr32,
                         ]}>
                         <CAvatar size={'small'} label={item.fullName} />
                         <View
@@ -332,17 +334,19 @@ function Activity(props) {
                                 cStyles.textTitle,
                                 {color: customColors.primary},
                               ]}>
-                              {item.fullName + ', '}
+                              {item.fullName}
                             </Text>
                             <CText
                               customStyles={[
                                 cStyles.textDate,
                                 cStyles.textLeft,
                               ]}
-                              customLabel={moment(
+                              customLabel={`, ${t(
+                                'project_management:last_updated_at',
+                              )} ${moment(
                                 item.timeUpdate,
                                 'DD/MM/YYYY - HH:mm',
-                              ).format('HH:mm')}
+                              ).format('HH:mm')}`}
                             />
                           </View>
 

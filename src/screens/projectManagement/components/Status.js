@@ -81,7 +81,21 @@ function Status(props) {
           RefreshToken: refreshToken,
         };
         dispatch(Actions.fetchUpdateTask(params, navigation));
-        setLoading(true);
+        let paramsActivities = {
+          LineNum: 0,
+          TaskID: task.taskID,
+          Comments: `* ${t(
+            'project_management:status_filter',
+          ).toUpperCase()} ${t('project_management:holder_change_from')} ${
+            task.statusName
+          } ${t('project_management:holder_change_to')} ${
+            status.data[status.active].statusName
+          }.`,
+          Lang: language,
+          RefreshToken: refreshToken,
+        };
+        dispatch(Actions.fetchTaskComment(paramsActivities, navigation));
+        return setLoading(true);
       }
     } else {
       let find = status.data.findIndex(f => f.statusID === task.statusID);

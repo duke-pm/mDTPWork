@@ -67,25 +67,36 @@ function Percentage(props) {
           type: 'warning',
           icon: 'warning',
         });
-        percentRef.focus();
+        return percentRef.focus();
       } else {
         if (Number(percent.value) === task.percentage) {
-          setPercent({...percent, visible: !percent.visible});
-        } else {
-          setPercent({...percent, visible: !percent.visible});
-          let params = {
-            TaskID: task.taskID,
-            StatusID: task.statusID,
-            Percentage: percent.value,
-            Lang: language,
-            RefreshToken: refreshToken,
-          };
-          dispatch(Actions.fetchUpdateTask(params, navigation));
-          setLoading(true);
+          return setPercent({...percent, visible: !percent.visible});
         }
+        setPercent({...percent, visible: !percent.visible});
+        let params = {
+          TaskID: task.taskID,
+          StatusID: task.statusID,
+          Percentage: percent.value,
+          Lang: language,
+          RefreshToken: refreshToken,
+        };
+        dispatch(Actions.fetchUpdateTask(params, navigation));
+        let paramsActivities = {
+          LineNum: 0,
+          TaskID: task.taskID,
+          Comments: `* ${t(
+            'project_management:holder_task_percentage',
+          ).toUpperCase()} (%) ${t('project_management:holder_change_from')} ${
+            task.percentage
+          } ${t('project_management:holder_change_to')} ${percent.value}.`,
+          Lang: language,
+          RefreshToken: refreshToken,
+        };
+        dispatch(Actions.fetchTaskComment(paramsActivities, navigation));
+        return setLoading(true);
       }
     } else {
-      setPercent({...percent, visible: !percent.visible});
+      return setPercent({...percent, visible: !percent.visible});
     }
   };
 
@@ -242,15 +253,12 @@ function Percentage(props) {
                 cStyles.px4,
                 cStyles.borderAll,
                 cStyles.rounded1,
+                cStyles.justifyCenter,
                 styles.percent_input,
               ]}>
               <TextInput
                 ref={ref => (percentRef = ref)}
-                style={[
-                  cStyles.textDefault,
-                  cStyles.px4,
-                  {color: customColors.text},
-                ]}
+                style={[cStyles.textDefault, cStyles.px4]}
                 editable={!loading}
                 autoFocus
                 selectTextOnFocus
@@ -262,7 +270,6 @@ function Percentage(props) {
                 returnKeyType={'done'}
                 onChangeText={onChangePercent}
                 onSubmitEditing={handleChangePercent}
-                // onEndEditing={handleChangePercent}
               />
             </View>
             <TouchableOpacity
@@ -284,7 +291,7 @@ const styles = StyleSheet.create({
   container: {flex: 0.6},
   percent_active: {height: 16},
   percent_body: {height: 16},
-  percent_input: {width: '40%'},
+  percent_input: {width: '40%', height: 45},
   text_percent: {fontSize: 10},
 });
 
