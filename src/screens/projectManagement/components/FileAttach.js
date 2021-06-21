@@ -101,10 +101,10 @@ function FileAttach(props) {
         style={[
           cStyles.p10,
           cStyles.my10,
-          cStyles.rounded2,
           cStyles.center,
-          cStyles.borderAll,
-          isDark && cStyles.borderAllDark,
+          isFileExisted && cStyles.borderAll,
+          isFileExisted && isDark && cStyles.borderAllDark,
+          cStyles.rounded2,
         ]}>
         <Image
           style={styles.file}
@@ -140,13 +140,10 @@ function FileAttach(props) {
                 cStyles.center,
                 cStyles.rounded1,
                 cStyles.m5,
+                {backgroundColor: customColors.card},
                 styles.con_icon_download,
               ]}>
-              <BlurView
-                style={[cStyles.abs, cStyles.inset0, cStyles.rounded1]}
-                blurType={isDark ? 'dark' : 'xlight'}
-              />
-              {loading && <ActivityIndicator />}
+              {loading && <ActivityIndicator color={customColors.icon} />}
               {!loading && (
                 <Icon name={'download'} color={customColors.icon} size={16} />
               )}

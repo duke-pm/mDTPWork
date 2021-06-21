@@ -173,12 +173,7 @@ function TaskItem(props) {
                 </View>
               </View>
 
-              <View
-                style={[
-                  cStyles.row,
-                  cStyles.itemsCenter,
-                  data.countChild > 0 && {marginTop: -8},
-                ]}>
+              <View style={[cStyles.row, cStyles.itemsStart]}>
                 {data.countChild > 0 && (
                   <View style={showPercentage ? cStyles.pr10 : {}}>
                     <Animated.View style={{transform: [{rotate: rotateData}]}}>

@@ -30,7 +30,9 @@ function CItem(props) {
   }
   return (
     <View style={[cStyles.itemsCenter, styles.item]}>
-      <TouchableOpacity onPress={handleItem}>
+      <TouchableOpacity
+        style={[cStyles.shadow1, cStyles.rounded10]}
+        onPress={handleItem}>
         <CImage style={styles.image_item} source={Assets[data.mIcon]} />
       </TouchableOpacity>
 
