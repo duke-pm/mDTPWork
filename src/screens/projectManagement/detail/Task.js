@@ -630,6 +630,66 @@ function Task(props) {
                       </View>
                     )}
 
+                    {data.taskDetail.lstUserInvited.length > 0 &&
+                      Separator(isDark)}
+
+                    {data.taskDetail.lstUserInvited.length > 0 && (
+                      <View style={cStyles.my10}>
+                        <CLabel label={'project_management:user_invited'} />
+                        <ScrollView
+                          style={[
+                            cStyles.mt6,
+                            cStyles.p10,
+                            cStyles.rounded2,
+                            styles.list_invited,
+                            {backgroundColor: customColors.cardDisable},
+                          ]}>
+                          {data.taskDetail.lstUserInvited.map((item, index) => {
+                            return (
+                              <View
+                                key={item.userName}
+                                style={[
+                                  cStyles.row,
+                                  cStyles.itemsCenter,
+                                  cStyles.ml3,
+                                  index ===
+                                    data.taskDetail.lstUserInvited.length - 1 &&
+                                    cStyles.pb20,
+                                ]}>
+                                <CAvatar
+                                  containerStyle={cStyles.mr5}
+                                  label={item.fullName}
+                                  size={'vsmall'}
+                                />
+                                <View
+                                  style={[
+                                    cStyles.ml5,
+                                    cStyles.py6,
+                                    cStyles.flex1,
+                                    index !==
+                                      data.taskDetail.lstUserInvited.length -
+                                        1 && cStyles.borderBottom,
+                                    index !==
+                                      data.taskDetail.lstUserInvited.length -
+                                        1 &&
+                                      isDark &&
+                                      cStyles.borderBottomDark,
+                                  ]}>
+                                  <CLabel
+                                    medium
+                                    customLabel={checkEmpty(item.fullName)}
+                                  />
+                                  <CLabel
+                                    customLabel={checkEmpty(item.email)}
+                                  />
+                                </View>
+                              </View>
+                            );
+                          })}
+                        </ScrollView>
+                      </View>
+                    )}
+
                     {Separator(isDark)}
 
                     {/** Description */}
@@ -661,6 +721,7 @@ const styles = StyleSheet.create({
   badge2: {height: 10, width: 10, top: 16, right: 13},
   line: {borderRadius: 1},
   dot_check: {right: -2, top: 1},
+  list_invited: {height: 150},
 });
 
 export default Task;

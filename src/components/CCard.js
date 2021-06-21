@@ -28,12 +28,14 @@ function CCard(props) {
     footer = null,
     onLayout = null,
     onPress = null,
+    onLongPress = null,
   } = props;
 
   /**************
    ** RENDER **
    **************/
   const Component = onPress ? TouchableOpacity : View;
+  const ComponentHeader = onLongPress ? TouchableOpacity : View;
   return (
     <Component
       key={key}
@@ -41,7 +43,6 @@ function CCard(props) {
         cStyles.rounded2,
         cStyles.mt32,
         !isDark && cStyles.shadowListItem,
-        // !isDark && IS_ANDROID && cStyles.borderAll,
         isDark && cStyles.borderAllDark,
         styles.container,
         {backgroundColor: customColors.card},
@@ -49,7 +50,7 @@ function CCard(props) {
       ]}
       onLayout={onLayout}
       onPress={onPress}>
-      <View
+      <ComponentHeader
         style={[
           cStyles.rounded1,
           cStyles.px10,
@@ -60,13 +61,15 @@ function CCard(props) {
           styles.con_label,
           contentLabelStyle,
           {backgroundColor: isDark ? colors.GRAY_830 : colors.GRAY_300},
-        ]}>
+        ]}
+        onLongPress={onLongPress}
+        delayLongPress={500}>
         <CText
           customStyles={[cStyles.fontMedium, {color: customColors.text}]}
           label={label}
           customLabel={customLabel}
         />
-      </View>
+      </ComponentHeader>
 
       {header && <View style={cStyles.px16}>{header}</View>}
 

@@ -23,7 +23,15 @@ if (IS_ANDROID) {
 }
 
 function ProjectItem(props) {
-  const {index, data, customColors, isDark, isPrevIsParent, onPress} = props;
+  const {
+    index,
+    data,
+    customColors,
+    isDark,
+    isPrevIsParent,
+    onPress,
+    onLongPress,
+  } = props;
 
   /** Use state */
   const [showChildren, setShowChildren] = useState(false);
@@ -32,13 +40,17 @@ function ProjectItem(props) {
   /*****************
    ** HANDLE FUNC **
    *****************/
-  const handleProjectItem = () => {
+  const handleItem = () => {
     if (data.countChild > 0) {
       setShowChildren(!showChildren);
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     } else {
       onPress(data);
     }
+  };
+
+  const handleHeaderItem = () => {
+    onLongPress(data);
   };
 
   /**************
@@ -48,13 +60,15 @@ function ProjectItem(props) {
     <View style={isPrevIsParent && !showChildren ? cStyles.mt16 : {}}>
       <CCard
         key={index}
+        index={index}
         containerStyle={styles.card}
         customLabel={`#${data.prjID} ${data.prjName}`}
         onLayout={event => {
           var {width} = event.nativeEvent.layout;
           setWidthCard(width - 12);
         }}
-        onPress={handleProjectItem}
+        onPress={handleItem}
+        onLongPress={handleHeaderItem}
         content={
           <View>
             <View

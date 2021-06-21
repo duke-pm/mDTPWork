@@ -7,7 +7,7 @@
 import React from 'react';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
-import {StyleSheet, View, TouchableWithoutFeedback} from 'react-native';
+import {StyleSheet, View, TouchableWithoutFeedback, ActivityIndicator} from 'react-native';
 import Modal from 'react-native-modal';
 /* COMPONENTS */
 import CText from './CText';
@@ -24,6 +24,7 @@ function CAlert(props) {
   const {
     loading = false,
     show = false,
+    contentStyle = {},
     title = 'common:need_confirm',
     content = null,
     customContent = null,
@@ -41,96 +42,99 @@ function CAlert(props) {
       animationIn={'zoomIn'}
       animationOut={'fadeOut'}
       animationInTiming={150}
-      backdropOpacity={isDark ? 0.8 : 0.5}
+      backdropOpacity={isDark ? 0.8 : 0.3}
       onBackButtonPress={onClose}
-      onBackdropPress={onClose}>
-      <TouchableWithoutFeedback onPress={onClose}>
-        <View style={cStyles.flexCenter}>
+      onBackdropPress={onClose}
+      {...props}>
+      <View style={cStyles.flexCenter}>
+        <View
+          style={[
+            cStyles.mx48,
+            cStyles.rounded3,
+            isDark && cStyles.borderAllDark,
+            {backgroundColor: customColors.background},
+            contentStyle,
+          ]}>
+          {/** Header of Alert */}
           <View
             style={[
-              cStyles.mx48,
-              cStyles.rounded3,
-              isDark && cStyles.borderAllDark,
-              {backgroundColor: customColors.background},
+              cStyles.roundedTopLeft3,
+              cStyles.roundedTopRight3,
+              cStyles.pt16,
+              cStyles.px16,
             ]}>
-            {/** Header of Alert */}
-            <View
-              style={[
-                cStyles.roundedTopLeft3,
-                cStyles.roundedTopRight3,
-                cStyles.pt16,
-                cStyles.px16,
-              ]}>
-              <CText
-                styles={'textCenter fontMedium'}
-                label={title}
-                customLabel={title !== 'common:need_confirm' ? title : null}
-                numberOfLines={1}
-              />
-            </View>
+            <CText
+              styles={'textCenter fontMedium'}
+              label={title}
+              customLabel={title !== 'common:need_confirm' ? title : null}
+            />
+          </View>
 
-            {/** Content of Alert */}
-            <View style={[cStyles.px16, cStyles.py20, styles.content]}>
-              {content && (
-                <CText styles={'textMeta textCenter'} label={content} />
-              )}
-              {customContent && (
-                <View style={cStyles.mt10}>{customContent}</View>
-              )}
-            </View>
-
-            {/** Footer of Alert */}
-            {(onClose || onOK) && (
-              <View
-                style={[
-                  cStyles.row,
-                  cStyles.itemsCenter,
-                  cStyles.justifyEvenly,
-                  cStyles.borderTop,
-                  isDark && cStyles.borderTopDark,
-                  styles.con_button,
-                ]}>
-                {onClose && (
-                  <CButton
-                    textStyle={styles.text_button_close}
-                    disabled={loading}
-                    block
-                    variant={'text'}
-                    color={customColors.blue}
-                    label={'common:close'}
-                    onPress={onClose}
-                  />
-                )}
-                {onClose && onOK && (
-                  <View
-                    style={[
-                      styles.button,
-                      {
-                        backgroundColor: isDark
-                          ? colors.GRAY_800
-                          : colors.GRAY_400,
-                      },
-                    ]}
-                  />
-                )}
-
-                {onOK && (
-                  <CButton
-                    textStyle={styles.text_button_ok}
-                    disabled={loading}
-                    block
-                    variant={'text'}
-                    color={customColors.blue}
-                    label={'common:ok'}
-                    onPress={onOK}
-                  />
-                )}
+          {/** Content of Alert */}
+          <View style={[cStyles.px16, cStyles.pb20, styles.content]}>
+            {!loading && content && (
+              <CText styles={'textMeta textCenter'} label={content} />
+            )}
+            {!loading && customContent && (
+              <View style={cStyles.mt10}>{customContent}</View>
+            )}
+            {loading && (
+              <View style={[cStyles.flexCenter, cStyles.mt20, cStyles.mb10]}>
+                <ActivityIndicator />
               </View>
             )}
-            <CLoading customColors={customColors} visible={loading} />
           </View>
+
+          {/** Footer of Alert */}
+          {(onClose || onOK) && (
+            <View
+              style={[
+                cStyles.row,
+                cStyles.itemsCenter,
+                cStyles.justifyEvenly,
+                cStyles.borderTop,
+                isDark && cStyles.borderTopDark,
+                styles.con_button,
+              ]}>
+              {onClose && (
+                <CButton
+                  textStyle={styles.text_button_close}
+                  disabled={loading}
+                  block
+                  variant={'text'}
+                  color={customColors.blue}
+                  label={'common:close'}
+                  onPress={onClose}
+                />
+              )}
+              {onClose && onOK && (
+                <View
+                  style={[
+                    styles.button,
+                    {
+                      backgroundColor: isDark
+                        ? colors.GRAY_800
+                        : colors.GRAY_400,
+                    },
+                  ]}
+                />
+              )}
+
+              {onOK && (
+                <CButton
+                  textStyle={styles.text_button_ok}
+                  disabled={loading}
+                  block
+                  variant={'text'}
+                  color={customColors.blue}
+                  label={'common:ok'}
+                  onPress={onOK}
+                />
+              )}
+            </View>
+          )}
         </View>
-      </TouchableWithoutFeedback>
+      </View>
     </Modal>
   );
 }
