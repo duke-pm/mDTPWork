@@ -321,6 +321,7 @@
     "owner": "Phụ trách: ",
     "title_owner": "Người phụ trách",
     "date_created": "Ngày tạo: ",
+    "is_public": "Công khai: ",
     "description": "Mô tả: ",
     "status_on_track": "Đang Theo Dõi",
     "status_pending": "Tạm Dừng",

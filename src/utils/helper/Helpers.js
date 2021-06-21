@@ -247,6 +247,16 @@ export function checkEmpty(
   }
 }
 
+export async function checkExistsFile(name = null) {
+  const localFile = `${RNFS.DocumentDirectoryPath}/${name}`;
+  const isExistsFile = await RNFS.exists(localFile);
+  if (isExistsFile) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 export async function previewFile(url = '', name = null) {
   const localFile = `${RNFS.DocumentDirectoryPath}/${name}`;
   const isExistsFile = await RNFS.exists(localFile);
@@ -255,8 +265,19 @@ export async function previewFile(url = '', name = null) {
     return false;
   } else {
     const options = {
+      background: true, // Continue the download in the background after the app terminates (iOS only)**
+      discretionary: true, // Allow the OS to control the timing and speed of the download to improve perceived performance  (iOS only)**
       fromUrl: url,
       toFile: localFile,
+      begin: res => {
+        console.log('[LOG] === begin ===> ');
+      },
+      progress: res => {
+        console.log(
+          '===>',
+          ((res.bytesWritten / res.contentLength) * 100 ).toFixed(0) + '% / 100%',
+        );
+      },
     };
     await RNFS.downloadFile(options).promise;
     FileViewer.open(localFile);

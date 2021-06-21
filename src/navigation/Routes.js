@@ -26,6 +26,7 @@ import AddRequestLostDamage from '~/screens/approved/addLostDamage/Request';
 /** PROJECT MANAGEMENT */
 import ProjectManagement from '~/screens/projectManagement';
 import ProjectDetail from '~/screens/projectManagement/detail/Project';
+import ProjectFilter from '~/screens/projectManagement/components/FilterProject';
 import TaskDetail from '~/screens/projectManagement/detail/Task';
 import TaskActivities from '~/screens/projectManagement/components/Activities';
 import TaskWatchers from '~/screens/projectManagement/components/Watchers';
@@ -106,6 +107,10 @@ const Routes = {
     PROJECT_DETAIL: {
       name: 'ProjectDetail',
       path: ProjectDetail,
+    },
+    PROJECT_FILTER: {
+      name: 'ProjectFilter',
+      path: ProjectFilter,
     },
     TASK_DETAIL: {
       name: 'TaskDetail',

@@ -123,8 +123,8 @@ function CHeader(props) {
         <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pb6]}>
           <CInput
             containerStyle={styles.input_search}
-            style={{height: 40}}
-            iconLastStyle={{height: 40}}
+            style={styles.input}
+            iconLastStyle={styles.input}
             iconLast={'search'}
             iconLastColor={colors.GRAY_700}
             valueColor={customColors.text}
@@ -263,6 +263,7 @@ const styles = StyleSheet.create({
   con_body: {flex: 0.6},
   con_right: {flex: 0.2},
   input_search: {width: '85%'},
+  input: {height: 40},
   badge: {height: 10, width: 10, top: 16, right: 15},
 });
 

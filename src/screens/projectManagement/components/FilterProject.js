@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /**
  ** Name: Filter of project
  ** Author: DTP-Education
@@ -9,20 +10,18 @@ import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {BlurView} from '@react-native-community/blur';
+import {isIphoneX} from 'react-native-iphone-x-helper';
 import {
   StyleSheet,
   ActivityIndicator,
   TouchableOpacity,
   View,
-  ScrollView,
 } from 'react-native';
 import Picker from '@gregfrench/react-native-wheel-picker';
 import Icon from 'react-native-vector-icons/Feather';
-import Modal from 'react-native-modal';
 /* COMPONENTS */
-import CHeader from '~/components/CHeader';
+import CContainer from '~/components/CContainer';
+import CContent from '~/components/CContent';
 import CText from '~/components/CText';
 import CGroupLabel from '~/components/CGroupLabel';
 import CActionSheet from '~/components/CActionSheet';
@@ -31,7 +30,7 @@ import CList from '~/components/CList';
 /* COMMON */
 import {THEME_DARK} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
-import {IS_IOS, scalePx, sH} from '~/utils/helper';
+import {scalePx, sH} from '~/utils/helper';
 
 /** All refs use in this screen */
 const actionSheetYearRef = createRef();
@@ -140,12 +139,13 @@ function FilterProject(props) {
   const {t} = useTranslation();
   const {customColors} = useTheme();
   const isDark = useColorScheme() === THEME_DARK;
-  const {
-    hasYear = false,
-    hasSector = false,
-    visible = false,
-    onFilter = () => {},
-  } = props;
+  const {route, navigation} = props;
+  const hasYear = route.params?.hasYear || false;
+  const hasSector = route.params?.hasSector || false;
+  const onFilter = route.params?.onFilter || null;
+  const activeOwner = route.params?.activeOwner || [];
+  const activeStatus = route.params?.activeStatus || [];
+  const activeSector = route.params?.activeSector || [];
 
   /** Use redux */
   const masterState = useSelector(({masterData}) => masterData);
@@ -162,15 +162,15 @@ function FilterProject(props) {
   });
   const [owner, setOwner] = useState({
     data: masterState.get('users'),
-    active: [],
+    active: activeOwner,
   });
   const [status, setStatus] = useState({
     data: masterState.get('projectStatus'),
-    active: [],
+    active: activeStatus,
   });
   const [sectors, setSectors] = useState({
     data: masterState.get('projectSector'),
-    active: [],
+    active: activeSector,
   });
 
   /*****************
@@ -197,6 +197,7 @@ function FilterProject(props) {
   };
 
   const handleFilter = () => {
+    navigation.goBack();
     onFilter(
       hasYear ? Number(year.data[year.choose]?.value) : null,
       owner.active,
@@ -297,176 +298,151 @@ function FilterProject(props) {
    ** RENDER **
    **************/
   return (
-    <Modal
-      style={cStyles.m0}
-      isVisible={visible}
-      animationIn={'fadeIn'}
-      animationOut={'fadeOut'}>
-      <SafeAreaView
-        style={[
-          cStyles.flex1,
-          {
-            backgroundColor: isDark
-              ? customColors.header
-              : customColors.primary,
-          },
-        ]}
-        edges={['right', 'left', 'top']}>
-        {isDark && IS_IOS && (
-          <BlurView
-            style={[cStyles.abs, cStyles.inset0]}
-            blurType={'extraDark'}
-            reducedTransparencyFallbackColor={colors.BLACK}
+    <CContainer
+      loading={loading.main || loading.change}
+      title={'project_management:filter'}
+      header
+      headerLeft={
+        <TouchableOpacity
+          style={[cStyles.itemsStart, cStyles.pl24]}
+          onPress={handleReset}>
+          <CText styles={'colorWhite'} label={'common:reset'} />
+        </TouchableOpacity>
+      }
+      headerRight={
+        <TouchableOpacity
+          style={[cStyles.itemsEnd, cStyles.pr16]}
+          onPress={handleFilter}>
+          <CText styles={'colorWhite'} label={'common:apply'} />
+        </TouchableOpacity>
+      }
+      content={
+        <CContent scroll contentStyle={isIphoneX() ? cStyles.pb40 : {}}>
+          {/** Year */}
+          {hasYear && (
+            <>
+              <CGroupLabel
+                containerStyle={cStyles.mt0}
+                labelLeft={t('project_management:calendar_year')}
+              />
+              {RowPicker(
+                loading.main,
+                isDark,
+                customColors,
+                t('project_management:year'),
+                year.data[year.choose]?.label,
+                handlePickerYear,
+                true,
+                true,
+                true,
+              )}
+            </>
+          )}
+
+          {/** Owners */}
+          <CGroupLabel
+            containerStyle={cStyles.mt0}
+            labelLeft={t('project_management:title_owner')}
+            labelRight={t('project_management:holder_choose_multi')}
           />
-        )}
-        <View
-          style={[cStyles.flex1, {backgroundColor: customColors.background}]}>
-          {/** Header of filter */}
-          <CHeader
-            centerStyle={cStyles.center}
-            left={
-              <TouchableOpacity
-                style={[cStyles.itemsStart, cStyles.pl24]}
-                onPress={handleReset}>
-                <CText styles={'colorWhite'} label={'common:reset'} />
-              </TouchableOpacity>
-            }
-            right={
-              <TouchableOpacity
-                style={[cStyles.itemsEnd, cStyles.pr16]}
-                onPress={handleFilter}>
-                <CText styles={'colorWhite'} label={'common:apply'} />
-              </TouchableOpacity>
-            }
-            title={'project_management:filter'}
+          <CList
+            contentStyle={[cStyles.px0, cStyles.pb0]}
+            data={owner.data}
+            item={({item, index}) => {
+              let isActive = owner.active.indexOf(item.empID);
+              return RowSelect(
+                isDark,
+                customColors,
+                item.empID,
+                item.empName,
+                isActive !== -1,
+                onChangeOwner,
+                true,
+                index === 0,
+                index === owner.data.length - 1,
+              );
+            }}
           />
 
-          {/** Content of filter */}
-          <ScrollView
-            style={cStyles.flex1}
-            contentContainerStyle={cStyles.pb40}
-            keyboardShouldPersistTaps={'handled'}>
-            {/** Year */}
-            {hasYear && (
-              <>
-                <CGroupLabel
-                  containerStyle={cStyles.mt0}
-                  labelLeft={t('project_management:calendar_year')}
-                />
-                {RowPicker(
-                  loading.main,
-                  isDark,
-                  customColors,
-                  t('project_management:year'),
-                  year.data[year.choose]?.label,
-                  handlePickerYear,
-                  true,
-                  true,
-                  true,
-                )}
-              </>
-            )}
+          {/** Status */}
+          <CGroupLabel
+            containerStyle={cStyles.mt0}
+            labelLeft={t('status:title')}
+            labelRight={t('project_management:holder_choose_multi')}
+          />
+          <CList
+            contentStyle={[cStyles.px0, cStyles.pb0]}
+            data={status.data}
+            item={({item, index}) => {
+              let isActive = status.active.indexOf(item.statusID);
+              return RowSelect(
+                isDark,
+                customColors,
+                item.statusID,
+                item.statusName,
+                isActive !== -1,
+                onChangeStatus,
+                true,
+                index === 0,
+                index === status.data.length - 1,
+              );
+            }}
+          />
 
-            {/** Owners */}
-            <CGroupLabel
-              containerStyle={cStyles.mt0}
-              labelLeft={t('project_management:title_owner')}
-              labelRight={t('project_management:holder_choose_multi')}
-            />
-            <CList
-              contentStyle={[cStyles.px0, cStyles.pb0]}
-              data={owner.data}
-              item={({item, index}) => {
-                let isActive = owner.active.indexOf(item.empID);
-                return RowSelect(
-                  isDark,
-                  customColors,
-                  item.empID,
-                  item.empName,
-                  isActive !== -1,
-                  onChangeOwner,
-                  true,
-                  index === 0,
-                  index === owner.data.length - 1,
-                );
-              }}
-            />
-
-            {/** Status */}
-            <CGroupLabel
-              labelLeft={t('status:title')}
-              labelRight={t('project_management:holder_choose_multi')}
-            />
-            <CList
-              contentStyle={[cStyles.px0, cStyles.pb0]}
-              data={status.data}
-              item={({item, index}) => {
-                let isActive = status.active.indexOf(item.statusID);
-                return RowSelect(
-                  isDark,
-                  customColors,
-                  item.statusID,
-                  item.statusName,
-                  isActive !== -1,
-                  onChangeStatus,
-                  true,
-                  index === 0,
-                  index === status.data.length - 1,
-                );
-              }}
-            />
-
-            {/** Sector */}
-            {hasSector && (
-              <>
-                <CGroupLabel
-                  labelLeft={t('project_management:holder_sector')}
-                  labelRight={t('project_management:holder_choose_multi')}
-                />
-                <CList
-                  contentStyle={[cStyles.px0, cStyles.pb0]}
-                  data={sectors.data}
-                  item={({item, index}) => {
-                    let isActive = sectors.active.indexOf(item.sectorID);
-                    return RowSelect(
-                      isDark,
-                      customColors,
-                      item.sectorID,
-                      item.sectorName,
-                      isActive !== -1,
-                      onChangeSector,
-                      true,
-                      index === 0,
-                      index === sectors.data.length - 1,
-                    );
-                  }}
-                />
-              </>
-            )}
-          </ScrollView>
-        </View>
-        <CLoading
-          customColors={customColors}
-          visible={loading.main || loading.change}
-        />
-        {!loading.main && hasYear && (
-          <CActionSheet
-            actionRef={actionSheetYearRef}
-            headerChoose
-            onConfirm={handleChangeYear}>
-            <Picker
-              style={styles.con_action}
-              itemStyle={{color: customColors.text, fontSize: scalePx(3)}}
-              selectedValue={year.active}
-              onValueChange={onChangeYear}>
-              {year.data.map((value, i) => (
-                <Picker.Item label={value.label} value={i} key={value.value} />
-              ))}
-            </Picker>
-          </CActionSheet>
-        )}
-      </SafeAreaView>
-    </Modal>
+          {/** Sector */}
+          {hasSector && (
+            <>
+              <CGroupLabel
+                labelLeft={t('project_management:holder_sector')}
+                labelRight={t('project_management:holder_choose_multi')}
+              />
+              <CList
+                contentStyle={[cStyles.px0, cStyles.pb0]}
+                data={sectors.data}
+                item={({item, index}) => {
+                  let isActive = sectors.active.indexOf(item.sectorID);
+                  return RowSelect(
+                    isDark,
+                    customColors,
+                    item.sectorID,
+                    item.sectorName,
+                    isActive !== -1,
+                    onChangeSector,
+                    true,
+                    index === 0,
+                    index === sectors.data.length - 1,
+                  );
+                }}
+              />
+            </>
+          )}
+          <CLoading
+            customColors={customColors}
+            visible={loading.main || loading.change}
+          />
+          {!loading.main && hasYear && (
+            <CActionSheet
+              actionRef={actionSheetYearRef}
+              headerChoose
+              onConfirm={handleChangeYear}>
+              <Picker
+                style={styles.con_action}
+                itemStyle={{color: customColors.text, fontSize: scalePx(3)}}
+                selectedValue={year.active}
+                onValueChange={onChangeYear}>
+                {year.data.map((value, i) => (
+                  <Picker.Item
+                    label={value.label}
+                    value={i}
+                    key={value.value}
+                  />
+                ))}
+              </Picker>
+            </CActionSheet>
+          )}
+        </CContent>
+      }
+    />
   );
 }
 

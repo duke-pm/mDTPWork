@@ -154,6 +154,15 @@ export function RootMain(props) {
         component={Routes.MAIN.PROJECT_DETAIL.path}
       />
       <StackMain.Screen
+        name={Routes.MAIN.PROJECT_FILTER.name}
+        component={Routes.MAIN.PROJECT_FILTER.path}
+        options={{
+          ...(IS_ANDROID
+            ? TransitionPresets.FadeFromBottomAndroid
+            : TransitionPresets.ModalTransition),
+        }}
+      />
+      <StackMain.Screen
         name={Routes.MAIN.TASK_DETAIL.name}
         component={Routes.MAIN.TASK_DETAIL.path}
       />

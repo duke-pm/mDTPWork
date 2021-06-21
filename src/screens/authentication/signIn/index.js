@@ -273,12 +273,7 @@ function SignIn(props) {
                 style={cStyles.flex1}
                 behavior={IS_IOS ? 'padding' : 'height'}>
                 <CContent
-                  style={styles.container}
-                  contentStyle={[
-                    styles.container,
-                    cStyles.flexCenter,
-                    cStyles.px48,
-                  ]}>
+                  style={[styles.container, cStyles.flexCenter, cStyles.px48]}>
                   <View style={[cStyles.justifyEnd, styles.con_icon_app]}>
                     <Image
                       style={styles.img_icon_app}

@@ -68,8 +68,8 @@ export default {
       if (params.get('OwnerID')) {
         tmpConfigs.params.OwnerID = params.get('OwnerID');
       }
-      if (params.get('Year')) {
-        tmpConfigs.params.Year = params.get('Year');
+      if (params.get('SectorID')) {
+        tmpConfigs.params.SectorID = params.get('SectorID');
       }
       if (params.get('PageSize')) {
         tmpConfigs.params.PageSize = params.get('PageSize');

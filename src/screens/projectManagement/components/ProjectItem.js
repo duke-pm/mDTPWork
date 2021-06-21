@@ -6,6 +6,8 @@
  **/
 import React, {useState} from 'react';
 import {StyleSheet, View, LayoutAnimation, UIManager} from 'react-native';
+import Icon from 'react-native-vector-icons/Feather';
+import moment from 'moment';
 /* COMPONENTS */
 import CCard from '~/components/CCard';
 import ListProject from '../list/Project';
@@ -61,10 +63,17 @@ function ProjectItem(props) {
                 cStyles.itemsCenter,
                 cStyles.justifyBetween,
               ]}>
-              {/** Status */}
               <View style={[cStyles.row, cStyles.itemsCenter]}>
+                {/** Owner */}
                 <View
                   style={[cStyles.row, cStyles.itemsCenter, styles.row_left]}>
+                  <CLabel label={'project_management:owner'} />
+                  <CLabel medium customLabel={checkEmpty(data.ownerName)} />
+                </View>
+
+                {/** Status */}
+                <View
+                  style={[cStyles.row, cStyles.itemsCenter, styles.row_right]}>
                   <CLabel label={'project_management:status'} />
                   <View style={[cStyles.row, cStyles.itemsCenter, cStyles.ml2]}>
                     <View
@@ -85,20 +94,33 @@ function ProjectItem(props) {
                     />
                   </View>
                 </View>
-
-                <View
-                  style={[cStyles.row, cStyles.itemsCenter, styles.row_right]}>
-                  <CLabel label={'project_management:owner'} />
-                  <CLabel medium customLabel={checkEmpty(data.ownerName)} />
-                </View>
               </View>
             </View>
 
-            {/** Description */}
-            <View
-              style={[cStyles.row, cStyles.itemsStart, cStyles.justifyStart]}>
-              <CLabel label={'project_management:description'} />
-              <CLabel customLabel={checkEmpty(data.descr)} />
+            <View style={[cStyles.row, cStyles.itemsCenter]}>
+              {/** Date start */}
+              <View style={[cStyles.row, cStyles.itemsCenter, styles.row_left]}>
+                <CLabel label={'project_management:date_created'} />
+                <CLabel
+                  customLabel={moment(
+                    data.crtdDate,
+                    'YYYY-MM-DDTHH:mm:ss',
+                  ).format('DD/MM/YYYY')}
+                />
+              </View>
+
+              {/** Public */}
+              <View
+                style={[cStyles.row, cStyles.itemsCenter, styles.row_right]}>
+                <CLabel label={'project_management:is_public'} />
+                <Icon
+                  name={data.isPublic ? 'check-circle' : 'alert-circle'}
+                  color={
+                    data.isPublic ? customColors.green : customColors.orange
+                  }
+                  size={15}
+                />
+              </View>
             </View>
           </View>
         }
@@ -148,8 +170,8 @@ function ProjectItem(props) {
 }
 
 const styles = StyleSheet.create({
-  row_left: {flex: 0.5},
-  row_right: {flex: 0.5},
+  row_left: {flex: 0.55},
+  row_right: {flex: 0.45},
   line_child: {height: '100%'},
   card: {zIndex: 100},
   card_children: {height: 50},

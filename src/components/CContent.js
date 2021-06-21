@@ -12,7 +12,7 @@ import CAvoidKeyboard from './CAvoidKeyboard';
 import {cStyles} from '~/utils/style';
 
 function CContent(props) {
-  const {contentStyle = {}, padder = null, scroll = false} = props;
+  const {style = {}, contentStyle = {}, padder = null, scroll = false} = props;
 
   let stylePadder = {};
   if (padder) {
@@ -27,7 +27,8 @@ function CContent(props) {
     <SafeAreaView style={cStyles.flex1}>
       <CAvoidKeyboard>
         <ScrollComponent
-          style={[cStyles.flex1, stylePadder, contentStyle]}
+          style={[cStyles.flex1, stylePadder, style]}
+          contentContainerStyle={contentStyle}
           keyboardShouldPersistTaps={'handled'}>
           {props.children}
         </ScrollComponent>

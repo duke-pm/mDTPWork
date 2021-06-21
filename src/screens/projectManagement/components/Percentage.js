@@ -195,7 +195,6 @@ function Percentage(props) {
                 cStyles.justifyCenter,
                 styles.percent_body,
                 {
-                  top: 2,
                   width: `${percent.value}%`,
                   backgroundColor: !task.isUpdated
                     ? customColors.textDisable
@@ -233,7 +232,6 @@ function Percentage(props) {
                     cStyles.fontMedium,
                     cStyles.textCenter,
                     cStyles.ml5,
-                    IS_IOS ? cStyles.mt2 : cStyles.mt0,
                     styles.text_percent,
                     {
                       color: !task.isUpdated
@@ -292,7 +290,7 @@ function Percentage(props) {
 const styles = StyleSheet.create({
   container: {flex: 0.6},
   percent_active: {height: 16},
-  percent_body: {height: 14.5},
+  percent_body: {height: 16},
   percent_input: {width: '40%'},
   text_percent: {fontSize: 10},
 });

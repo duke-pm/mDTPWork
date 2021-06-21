@@ -19,8 +19,8 @@ import moment from 'moment';
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
 import ListProject from './list/Project';
-import FilterProject from './components/FilterProject';
 /** COMMON */
+import Routes from '~/navigation/Routes';
 import {LOAD_MORE, REFRESH, THEME_DARK} from '~/config/constants';
 import {cStyles} from '~/utils/style';
 import {scalePx} from '~/utils/helper';
@@ -54,7 +54,6 @@ function ProjectManagement(props) {
   });
   const [isFiltering, setIsFiltering] = useState(false);
   const [showFilter, setShowFilter] = useState({
-    status: false,
     activeOwner: [],
     activeStatus: [],
   });
@@ -78,16 +77,22 @@ function ProjectManagement(props) {
   const handleSearch = value => {
     setLoading({...loading, startFetch: true});
     setData({...data, search: value, page: 1});
-    onFetchData(data.year, null, null, 25, 1, value);
+    onFetchData(data.year, data.ownerID, data.statusID, 25, 1, value);
   };
 
   const handleShowFilter = () => {
-    setShowFilter({...showFilter, status: !showFilter.status});
+    navigation.navigate(Routes.MAIN.PROJECT_FILTER.name, {
+      hasYear: true,
+      hasSector: false,
+      activeOwner: showFilter.activeOwner,
+      activeStatus: showFilter.activeStatus,
+      onFilter: (y, actOwn, actSta) => handleFilter(y, actOwn, actSta),
+    });
   };
 
   const handleFilter = (year, activeOwner, activeStatus) => {
     setData({...data, year});
-    setShowFilter({status: !showFilter.status, activeOwner, activeStatus});
+    setShowFilter({activeOwner, activeStatus});
   };
 
   /************
@@ -214,8 +219,12 @@ function ProjectManagement(props) {
   }, []);
 
   useEffect(() => {
-    if (prevShowFilter && prevShowFilter.status === true) {
-      if (!showFilter.status && !loading.startFetch) {
+    if (
+      prevShowFilter &&
+      prevShowFilter.activeOwner &&
+      prevShowFilter.activeStatus
+    ) {
+      if (!loading.startFetch) {
         if (
           prevShowFilter.activeOwner.join() === showFilter.activeOwner.join() &&
           prevShowFilter.activeStatus.join() ===
@@ -252,7 +261,6 @@ function ProjectManagement(props) {
     prevYear,
     prevShowFilter,
     loading.startFetch,
-    showFilter.status,
     showFilter.activeOwner,
     showFilter.activeStatus,
   ]);
@@ -326,16 +334,8 @@ function ProjectManagement(props) {
               refreshing={loading.refreshing}
               loadmore={loading.loadmore}
               data={data.projects}
-              year={data.year}
               onRefresh={onRefresh}
               onLoadmore={onLoadmore}
-            />
-          )}
-          {!loading.main && (
-            <FilterProject
-              hasYear
-              visible={showFilter.status}
-              onFilter={handleFilter}
             />
           )}
         </CContent>

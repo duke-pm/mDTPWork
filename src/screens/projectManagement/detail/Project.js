@@ -14,13 +14,12 @@ import {useColorScheme} from 'react-native-appearance';
 import {showMessage} from 'react-native-flash-message';
 import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
-import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
 import ListTask from '../list/Task';
-import FilterProject from '../components/FilterProject';
 /** COMMON */
+import Routes from '~/navigation/Routes';
 import {LOAD_MORE, REFRESH, THEME_DARK} from '~/config/constants';
 import {cStyles} from '~/utils/style';
 import {IS_IOS, scalePx} from '~/utils/helper';
@@ -34,7 +33,6 @@ function ProjectDetail(props) {
   const {customColors} = useTheme();
   const {route, navigation} = props;
   const projectID = route.params.data.projectID;
-  const yearFilter = route.params.data.year;
 
   /** Use redux */
   const dispatch = useDispatch();
@@ -55,15 +53,14 @@ function ProjectDetail(props) {
   });
   const [isFiltering, setIsFiltering] = useState(false);
   const [showFilter, setShowFilter] = useState({
-    status: false,
     activeOwner: [],
     activeStatus: [],
     activeSector: [],
   });
   const [data, setData] = useState({
-    year: yearFilter,
-    statusID: null,
     ownerID: null,
+    statusID: null,
+    sectorID: null,
     perPage: 25,
     page: 1,
     search: '',
@@ -72,7 +69,6 @@ function ProjectDetail(props) {
   });
 
   let prevShowFilter = usePrevious(showFilter);
-  let prevYear = usePrevious(data.year);
 
   /*****************
    ** HANDLE FUNC **
@@ -80,16 +76,23 @@ function ProjectDetail(props) {
   const handleSearch = value => {
     setLoading({...loading, startFetch: true});
     setData({...data, search: value, page: 1});
-    onFetchData(data.year, null, null, 25, 1, value);
+    onFetchData(data.ownerID, data.statusID, data.sectorID, 25, 1, value);
   };
 
   const handleShowFilter = () => {
-    setShowFilter({...showFilter, status: !showFilter.status});
+    navigation.navigate(Routes.MAIN.PROJECT_FILTER.name, {
+      hasYear: false,
+      hasSector: true,
+      activeOwner: showFilter.activeOwner,
+      activeStatus: showFilter.activeStatus,
+      activeSector: showFilter.activeSector,
+      onFilter: (y, actOwn, actSta, actSec) =>
+        handleFilter(y, actOwn, actSta, actSec),
+    });
   };
 
   const handleFilter = (year, activeOwner, activeStatus, activeSector) => {
     setShowFilter({
-      status: !showFilter.status,
       activeOwner,
       activeStatus,
       activeSector,
@@ -100,18 +103,18 @@ function ProjectDetail(props) {
    ** FUNC **
    ************/
   const onFetchData = (
-    year = Number(moment().format('YYYY')),
     ownerID = null,
     statusID = null,
+    sectorID = null,
     perPage = 25,
     page = 1,
     search = '',
   ) => {
     let params = fromJS({
       PrjID: projectID,
-      Year: year,
       OwnerID: ownerID,
       StatusID: statusID,
+      SectorID: sectorID,
       PageSize: perPage,
       PageNum: page,
       Search: search,
@@ -120,9 +123,7 @@ function ProjectDetail(props) {
     });
     dispatch(Actions.fetchListTask(params, navigation));
     if (
-      (statusID !== null ||
-        ownerID !== null ||
-        year !== Number(moment().format('YYYY'))) &&
+      (ownerID !== null || statusID !== null || sectorID !== null) &&
       !isFiltering
     ) {
       setIsFiltering(true);
@@ -175,9 +176,9 @@ function ProjectDetail(props) {
     if (!loading.refreshing) {
       setData({...data, page: 1});
       onFetchData(
-        data.year,
         data.ownerID,
         data.statusID,
+        data.sectorID,
         data.perPage,
         1,
         data.search,
@@ -191,9 +192,9 @@ function ProjectDetail(props) {
       let newPage = data.page + 1;
       setData({...data, page: newPage});
       onFetchData(
-        data.year,
         data.ownerID,
         data.statusID,
+        data.sectorID,
         data.perPage,
         newPage,
         data.search,
@@ -206,13 +207,18 @@ function ProjectDetail(props) {
    ** LIFE CYCLE **
    ******************/
   useEffect(() => {
-    onFetchData(data.year, null, null, 25, 1, '');
+    onFetchData(null, null, null, 25, 1, '');
     setLoading({...loading, startFetch: true});
   }, []);
 
   useEffect(() => {
-    if (prevShowFilter && prevShowFilter.status === true) {
-      if (!showFilter.status && !loading.startFetch) {
+    if (
+      prevShowFilter &&
+      prevShowFilter.activeOwner &&
+      prevShowFilter.activeStatus &&
+      prevShowFilter.activeSector
+    ) {
+      if (!loading.startFetch) {
         if (
           prevShowFilter.activeOwner.join() === showFilter.activeOwner.join() &&
           prevShowFilter.activeStatus.join() ===
@@ -221,7 +227,7 @@ function ProjectDetail(props) {
         ) {
           return;
         }
-        let params = {ownerID: null, statusID: null};
+        let params = {ownerID: null, statusID: null, sectorID: null};
         if (showFilter.activeOwner.length > 0) {
           params.ownerID = showFilter.activeOwner.join();
         }
@@ -229,12 +235,12 @@ function ProjectDetail(props) {
           params.statusID = showFilter.activeStatus.join();
         }
         if (showFilter.activeSector.length > 0) {
-          params.statusID = showFilter.activeSector.join();
+          params.sectorID = showFilter.activeSector.join();
         }
         onFetchData(
-          data.year,
           params.ownerID,
           params.statusID,
+          params.sectorID,
           25,
           1,
           data.search,
@@ -243,16 +249,15 @@ function ProjectDetail(props) {
           ...data,
           ownerID: params.ownerID,
           statusID: params.statusID,
+          sectorID: params.sectorID,
           page: 1,
         });
         setLoading({...loading, startFetch: true});
       }
     }
   }, [
-    prevYear,
-    prevShowFilter,
     loading.startFetch,
-    showFilter.status,
+    prevShowFilter,
     showFilter.activeOwner,
     showFilter.activeStatus,
     showFilter.activeSector,
@@ -328,13 +333,6 @@ function ProjectDetail(props) {
               data={data.tasks}
               onRefreshTasks={onRefreshTasks}
               onLoadmore={onLoadmore}
-            />
-          )}
-          {!loading.main && (
-            <FilterProject
-              hasSector
-              visible={showFilter.status}
-              onFilter={handleFilter}
             />
           )}
         </CContent>

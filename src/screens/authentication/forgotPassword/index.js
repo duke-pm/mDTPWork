@@ -59,9 +59,7 @@ function ForgotPassword(props) {
               <KeyboardAvoidingView
                 style={cStyles.flex1}
                 behavior={IS_IOS ? 'padding' : undefined}>
-                <CContent
-                  style={styles.con}
-                  contentStyle={[cStyles.flexCenter, cStyles.px48]}>
+                <CContent style={[cStyles.flexCenter, cStyles.px48]}>
                   <View
                     style={[
                       cStyles.itemsCenter,

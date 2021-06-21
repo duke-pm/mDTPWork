@@ -320,6 +320,7 @@
     "owner": "Owner: ",
     "title_owner": "Owner",
     "date_created": "Date created: ",
+    "is_public": "Public: ",
     "description": "Description: ",
     "status_on_track": "On Track",
     "status_pending": "Pending",
