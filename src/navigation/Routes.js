@@ -30,6 +30,8 @@ import ProjectFilter from '~/screens/projectManagement/components/FilterProject'
 import TaskDetail from '~/screens/projectManagement/detail/Task';
 import TaskActivities from '~/screens/projectManagement/components/Activities';
 import TaskWatchers from '~/screens/projectManagement/components/Watchers';
+/** PROJECT MANAGEMENT */
+import SalesVisit from '~/screens/salesVisit';
 
 const Routes = {
   AUTHENTICATION: {
@@ -46,6 +48,7 @@ const Routes = {
     name: 'RootTab',
   },
   MAIN: {
+    // Common screens
     DASHBOARD: {
       name: 'Dashboard',
       path: Dashboard,
@@ -66,6 +69,8 @@ const Routes = {
       name: 'Settings',
       path: Settings,
     },
+
+    // Approved screens
     APPROVED: {
       name: 'Approved',
       path: Approved,
@@ -100,6 +105,8 @@ const Routes = {
       name: 'AddRequestLostDamage',
       path: AddRequestLostDamage,
     },
+
+    // Project management screens
     PROJECT_MANAGEMENT: {
       name: 'ProjectManagement',
       path: ProjectManagement,
@@ -125,6 +132,12 @@ const Routes = {
           path: TaskWatchers,
         },
       },
+    },
+
+    // Sales visit screens
+    SALES_VISIT: {
+      name: 'SalesVisit',
+      path: SalesVisit,
     },
   },
 };

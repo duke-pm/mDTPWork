@@ -184,6 +184,10 @@ export function RootMain(props) {
             : TransitionPresets.ModalTransition),
         }}
       />
+      <StackMain.Screen
+        name={Routes.MAIN.SALES_VISIT.name}
+        component={Routes.MAIN.SALES_VISIT.path}
+      />
     </StackMain.Navigator>
   );
 }
