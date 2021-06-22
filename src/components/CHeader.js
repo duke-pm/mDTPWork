@@ -26,6 +26,7 @@ import CInput from './CInput';
 import {cStyles, colors} from '~/utils/style';
 import {IS_ANDROID, IS_IOS, scalePx} from '~/utils/helper';
 import {THEME_DARK} from '~/config/constants';
+import {usePrevious} from '~/utils/hook';
 /** REDUX */
 import * as Actions from '~/redux/actions';
 
@@ -65,6 +66,8 @@ function CHeader(props) {
   const [isSearch, setIsSearch] = useState(false);
   const [valueSearch, setValueSearch] = useState('');
 
+  const prevValueSearch = usePrevious(valueSearch);
+
   /*****************
    ** HANDLE FUNC **
    *****************/
@@ -79,8 +82,10 @@ function CHeader(props) {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setIsSearch(!isSearch);
     dispatch(Actions.changeIsSearch(!isSearch));
-    if (valueSearch === '' && isSearch) {
-      onPressSearch(valueSearch);
+    if (prevValueSearch) {
+      if (prevValueSearch !== valueSearch && valueSearch === '' && isSearch) {
+        onPressSearch(valueSearch);
+      }
     }
   };
 
@@ -131,6 +136,7 @@ function CHeader(props) {
             holder={'approved_assets:search_request'}
             returnKey={'search'}
             value={valueSearch}
+            autoFocus
             onChangeValue={handleChangeValue}
             onChangeInput={handleSearch}
             onPressIconLast={handleSearch}

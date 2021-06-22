@@ -35,8 +35,6 @@ if (IS_ANDROID) {
   }
 }
 
-let isPrevIsParent = false;
-
 function ListProject(props) {
   const navigation = useNavigation();
   const {customColors} = useTheme();
@@ -97,10 +95,6 @@ function ListProject(props) {
       <CList
         data={props.data}
         item={({item, index}) => {
-          isPrevIsParent = false;
-          if (props.data[index - 1] && props.data[index - 1].countChild > 0) {
-            isPrevIsParent = true;
-          }
           return (
             <ProjectItem
               index={index}
@@ -108,7 +102,6 @@ function ListProject(props) {
               formatDateView={formatDateView}
               customColors={customColors}
               isDark={isDark}
-              isPrevIsParent={isPrevIsParent}
               onPress={handleItem}
               onLongPress={handleHeaderItem}
             />

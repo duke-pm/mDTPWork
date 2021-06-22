@@ -16,7 +16,6 @@ import {
   StyleSheet,
   View,
   TouchableOpacity,
-  TouchableNativeFeedback,
   Keyboard,
   // Linking,
 } from 'react-native';
@@ -88,14 +87,13 @@ const RowSelect = (
   keyToCompare,
   onPress,
 ) => {
-  const Touchable = IS_ANDROID ? TouchableNativeFeedback : TouchableOpacity;
   let find = null;
   if (data) {
     find = data.find(f => f[keyToCompare] === activeIndex);
   }
   return (
     <View>
-      <Touchable disabled={disabled} onPress={onPress}>
+      <TouchableOpacity disabled={disabled} onPress={onPress}>
         <View
           style={[
             cStyles.rounded1,
@@ -136,7 +134,7 @@ const RowSelect = (
             />
           )}
         </View>
-      </Touchable>
+      </TouchableOpacity>
       {error && (
         <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pt6]}>
           <Icon

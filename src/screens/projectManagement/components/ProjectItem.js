@@ -34,7 +34,6 @@ function ProjectItem(props) {
     formatDateView,
     customColors,
     isDark,
-    isPrevIsParent,
     onPress,
     onLongPress,
   } = props;

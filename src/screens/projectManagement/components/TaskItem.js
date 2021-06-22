@@ -12,7 +12,6 @@ import {
   Text,
   Animated,
   TouchableOpacity,
-  TouchableNativeFeedback,
   LayoutAnimation,
   UIManager,
 } from 'react-native';
@@ -34,14 +33,7 @@ if (IS_ANDROID) {
 }
 
 function TaskItem(props) {
-  const {
-    isPrevIsParent,
-    data,
-    isDark,
-    customColors,
-    onPress,
-    onRefresh,
-  } = props;
+  const {data, isDark, customColors, onPress, onRefresh} = props;
 
   /** Use ref */
   const valueAnim = useRef(new Animated.Value(0)).current;
@@ -107,11 +99,10 @@ function TaskItem(props) {
     inputRange: [0, 1],
     outputRange: ['0deg', '180deg'],
   });
-  const Touchable = IS_IOS ? TouchableOpacity : TouchableNativeFeedback;
   const showPercentage = data.taskTypeID === Commons.TYPE_TASK.TASK.value;
   return (
     <View>
-      <Touchable disabled={props.loading} onPress={handleTaskItem}>
+      <TouchableOpacity disabled={props.loading} onPress={handleTaskItem}>
         <View
           style={[
             cStyles.p10,
@@ -234,7 +225,7 @@ function TaskItem(props) {
             </View>
           </View>
         </View>
-      </Touchable>
+      </TouchableOpacity>
 
       {showChildren && data.countChild > 0 && (
         <View style={[cStyles.row, cStyles.itemsCenter]}>

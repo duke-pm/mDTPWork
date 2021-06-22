@@ -13,7 +13,6 @@ import {
   TouchableOpacity,
   Image,
   Animated,
-  TouchableNativeFeedback,
 } from 'react-native';
 import moment from 'moment';
 /* COMPONENTS */
@@ -24,7 +23,6 @@ import Commons from '~/utils/common/Commons';
 import {DEFAULT_FORMAT_DATE_4} from '~/config/constants';
 import {Assets} from '~/utils/asset';
 import {cStyles} from '~/utils/style';
-import {IS_IOS} from '~/utils/helper';
 
 function RequestItem(props) {
   const {t} = useTranslation();
@@ -47,7 +45,6 @@ function RequestItem(props) {
   let title = t('approved_assets:title_request_item') + data.requestID;
   let statusIcon = Assets.iconRequest;
   let colorText = 'colorOrange';
-  const Touchable = IS_IOS ? TouchableOpacity : TouchableNativeFeedback;
   if (data.requestTypeID !== Commons.APPROVED_TYPE.ASSETS.value) {
     title =
       t('approved_lost_damaged:title_request_item_1') +
@@ -66,13 +63,12 @@ function RequestItem(props) {
     colorText = 'colorRed';
   }
   return (
-    <Touchable disabled={loading} onPress={handleRequestItem}>
+    <TouchableOpacity disabled={loading} onPress={handleRequestItem}>
       <Animated.View
         style={[
           cStyles.p10,
           cStyles.mb16,
           cStyles.rounded2,
-          cStyles.shadowListItem,
           {backgroundColor: customColors.listItem},
         ]}
         renderToHardwareTextureAndroid>
@@ -150,7 +146,7 @@ function RequestItem(props) {
           </View>
         </View>
       </Animated.View>
-    </Touchable>
+    </TouchableOpacity>
   );
 }
 

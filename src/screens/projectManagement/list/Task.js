@@ -15,8 +15,6 @@ import Routes from '~/navigation/Routes';
 import {THEME_DARK} from '~/config/constants';
 import {cStyles} from '~/utils/style';
 
-let isPrevIsParent = false;
-
 function ListTask(props) {
   const navigation = useNavigation();
   const isDark = useColorScheme() === THEME_DARK;
@@ -45,17 +43,12 @@ function ListTask(props) {
       textEmpty={'project_management:empty_tasks'}
       data={props.data}
       item={({item, index}) => {
-        isPrevIsParent = false;
-        if (props.data[index - 1] && props.data[index - 1].countChild > 0) {
-          isPrevIsParent = true;
-        }
         return (
           <TaskItem
             index={index}
             data={item}
             customColors={customColors}
             isDark={isDark}
-            isPrevIsParent={isPrevIsParent}
             onPress={handleTaskItem}
             onRefresh={onRefreshTasks}
           />

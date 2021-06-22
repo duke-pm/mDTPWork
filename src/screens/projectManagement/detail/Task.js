@@ -304,7 +304,7 @@ function Task(props) {
           <TouchableOpacity style={cStyles.itemsEnd} onPress={handleActivities}>
             <Icon
               style={cStyles.p16}
-              name={'message-square'}
+              name={'message-circle'}
               color={colors.WHITE}
               size={scalePx(3)}
             />

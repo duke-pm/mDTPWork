@@ -11,7 +11,8 @@ import React, {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
-import {StyleSheet, View, Platform, StatusBar, Modal} from 'react-native';
+import {StyleSheet, View, Platform, StatusBar} from 'react-native';
+import Modal from 'react-native-modal';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {BlurView} from '@react-native-community/blur';
 /** COMMON */
@@ -117,31 +118,21 @@ function CContainer(props) {
           <View
             style={[cStyles.flex1, {backgroundColor: customColors.background}]}>
             {content}
-            {isSearch && (
-              <View
-                style={[
-                  cStyles.abs,
-                  cStyles.inset0,
-                  {backgroundColor: colors.BACKGROUND_MODAL},
-                ]}
-              />
-            )}
+            <Modal
+              style={cStyles.m0}
+              isVisible={isSearch}
+              coverScreen={false}
+              useNativeDriver={true}
+              useNativeDriverForBackdrop={true}
+              hideModalContentWhileAnimating={true}
+              deviceHeight={cStyles.deviceHeight}
+              deviceWidth={cStyles.deviceWidth}
+              animationIn={'fadeIn'}
+              animationOut={'fadeOut'}
+            />
           </View>
         )}
-        {footer && (
-          <View>
-            <CFooter content={footer} />
-            {isSearch && (
-              <View
-                style={[
-                  cStyles.abs,
-                  cStyles.inset0,
-                  {backgroundColor: colors.BACKGROUND_MODAL},
-                ]}
-              />
-            )}
-          </View>
-        )}
+        {footer && <CFooter content={footer} />}
       </View>
 
       <CLoading customColors={customColors} visible={props.loading} />

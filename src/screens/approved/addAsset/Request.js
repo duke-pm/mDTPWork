@@ -12,12 +12,7 @@ import {useTranslation} from 'react-i18next';
 import {useColorScheme} from 'react-native-appearance';
 import {useTheme} from '@react-navigation/native';
 import {showMessage} from 'react-native-flash-message';
-import {
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  TouchableNativeFeedback,
-} from 'react-native';
+import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import Lottie from 'lottie-react-native';
 import Picker from '@gregfrench/react-native-wheel-picker';
 import Icon from 'react-native-vector-icons/Feather';
@@ -40,12 +35,10 @@ import CheckOption from '../components/CheckOption';
 import {Animations} from '~/utils/asset';
 import {THEME_DARK, DEFAULT_FORMAT_DATE_4} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
-import {scalePx, sH, IS_ANDROID} from '~/utils/helper';
+import {scalePx, sH} from '~/utils/helper';
 import Commons from '~/utils/common/Commons';
 /* REDUX */
 import * as Actions from '~/redux/actions';
-
-const Touchable = IS_ANDROID ? TouchableNativeFeedback : TouchableOpacity;
 
 const RowSelect = (
   loading,
@@ -63,7 +56,7 @@ const RowSelect = (
     find = data.find(f => f[keyToCompare] === activeIndex);
   }
   return (
-    <Touchable disabled={disabled} onPress={onPress}>
+    <TouchableOpacity disabled={disabled} onPress={onPress}>
       <View
         style={[
           cStyles.rounded1,
@@ -92,7 +85,7 @@ const RowSelect = (
           />
         )}
       </View>
-    </Touchable>
+    </TouchableOpacity>
   );
 };
 
