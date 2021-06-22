@@ -181,6 +181,7 @@ function ProjectManagement(props) {
 
   const onRefresh = () => {
     if (!loading.refreshing) {
+      setLoading({...loading, refreshing: true, isLoadmore: true});
       setData({...data, page: 1});
       onFetchData(
         data.year,
@@ -190,7 +191,6 @@ function ProjectManagement(props) {
         1,
         data.search,
       );
-      setLoading({...loading, refreshing: true});
     }
   };
 

@@ -63,7 +63,7 @@ function ProjectItem(props) {
    ** RENDER **
    **************/
   return (
-    <View style={isPrevIsParent && !showChildren ? cStyles.mt32 : cStyles.mt16}>
+    <View style={cStyles.mt16}>
       <CCard
         key={index}
         index={index}
@@ -146,29 +146,21 @@ function ProjectItem(props) {
         }
       />
 
-      {!showChildren &&
-        data.countChild > 0 &&
-        data.lstProjectItem.map((item, index) => {
-          return (
-            <View
-              key={index.toString()}
-              style={[
-                cStyles.borderAll,
-                isDark && cStyles.borderAllDark,
-                cStyles.rounded2,
-                cStyles.abs,
-                styles.card_children,
-                {
-                  right: PADDING_2_CHILDREN * (index + 1),
-                  width: widthCard - index * PADDING_CHILDREN,
-                  zIndex: -index,
-                  bottom: -BOTTOM_CHILDREN * (index + 1),
-                  backgroundColor: customColors.cardDisable,
-                },
-              ]}
-            />
-          );
-        })}
+      {!showChildren && data.countChild > 0 && (
+        <View
+          style={[
+            cStyles.rounded2,
+            cStyles.abs,
+            styles.card_children,
+            {
+              right: PADDING_2_CHILDREN,
+              width: widthCard,
+              bottom: -BOTTOM_CHILDREN,
+              backgroundColor: customColors.cardDisable,
+            },
+          ]}
+        />
+      )}
 
       {/** If project have children -> Show */}
       {showChildren && data.countChild > 0 && (

@@ -110,14 +110,13 @@ function TaskItem(props) {
   const Touchable = IS_IOS ? TouchableOpacity : TouchableNativeFeedback;
   const showPercentage = data.taskTypeID === Commons.TYPE_TASK.TASK.value;
   return (
-    <View style={isPrevIsParent && !showChildren ? cStyles.mt32 : cStyles.mt16}>
+    <View>
       <Touchable disabled={props.loading} onPress={handleTaskItem}>
         <View
           style={[
             cStyles.p10,
             cStyles.mb16,
             cStyles.rounded2,
-            cStyles.shadowListItem,
             {
               backgroundColor: customColors.listItem,
               borderLeftColor: typeColor,

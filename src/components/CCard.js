@@ -41,8 +41,6 @@ function CCard(props) {
       style={[
         cStyles.rounded2,
         cStyles.mt32,
-        cStyles.borderAll,
-        isDark && cStyles.borderAllDark,
         styles.container,
         {backgroundColor: customColors.card},
         containerStyle,
@@ -56,12 +54,10 @@ function CCard(props) {
           cStyles.rounded1,
           cStyles.px10,
           cStyles.py3,
-          cStyles.borderAll,
-          isDark && cStyles.borderAllDark,
           cStyles.mx16,
           styles.con_label,
           contentLabelStyle,
-          {backgroundColor: isDark ? colors.GRAY_830 : colors.GRAY_300},
+          {backgroundColor: isDark ? colors.GRAY_830 : colors.GRAY_200},
         ]}>
         <CText
           customStyles={[cStyles.fontMedium, {color: customColors.text}]}
@@ -87,7 +83,6 @@ const styles = StyleSheet.create({
   container: {backgroundColor: colors.BACKGROUND_CARD},
   con_label: {
     backgroundColor: colors.WHITE,
-    borderWidth: 0.3,
     top: -15,
   },
 });
