@@ -7,12 +7,11 @@
 import React from 'react';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
-import {StyleSheet, View, TouchableWithoutFeedback, ActivityIndicator} from 'react-native';
+import {StyleSheet, View, ActivityIndicator} from 'react-native';
 import Modal from 'react-native-modal';
 /* COMPONENTS */
 import CText from './CText';
 import CButton from './CButton';
-import CLoading from './CLoading';
 /* COMMON */
 import {cStyles, colors} from '~/utils/style';
 import {THEME_DARK} from '~/config/constants';
@@ -37,16 +36,21 @@ function CAlert(props) {
    **************/
   return (
     <Modal
-      isVisible={show}
       style={cStyles.m0}
-      animationIn={'zoomIn'}
+      isVisible={show}
+      animationIn={'zoomInUp'}
       animationOut={'fadeOut'}
-      animationInTiming={150}
-      backdropOpacity={isDark ? 0.8 : 0.3}
+      useNativeDriver={true}
+      useNativeDriverForBackdrop={true}
+      avoidKeyboard={true}
+      hideModalContentWhileAnimating={true}
+      backdropTransitionOutTiming={0}
+      deviceWidth={cStyles.deviceWidth}
+      deviceHeight={cStyles.deviceHeight}
       onBackButtonPress={onClose}
       onBackdropPress={onClose}
       {...props}>
-      <View style={cStyles.flexCenter}>
+      <View style={cStyles.center}>
         <View
           style={[
             cStyles.mx48,
@@ -80,7 +84,7 @@ function CAlert(props) {
             )}
             {loading && (
               <View style={[cStyles.flexCenter, cStyles.mt20, cStyles.mb10]}>
-                <ActivityIndicator />
+                <ActivityIndicator color={customColors.textDisable} />
               </View>
             )}
           </View>

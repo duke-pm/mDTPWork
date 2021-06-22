@@ -36,7 +36,11 @@ import FileAttach from '../components/FileAttach';
 import Routes from '~/navigation/Routes';
 import Commons from '~/utils/common/Commons';
 import {colors, cStyles} from '~/utils/style';
-import {LAST_COMMENT_TASK, THEME_DARK} from '~/config/constants';
+import {
+  DEFAULT_FORMAT_DATE_4,
+  LAST_COMMENT_TASK,
+  THEME_DARK,
+} from '~/config/constants';
 import {scalePx, getLocalInfo, checkEmpty} from '~/utils/helper';
 /** REDUX */
 import * as Actions from '~/redux/actions';
@@ -409,7 +413,7 @@ function Task(props) {
                           'project_management:last_updated_at',
                         )} ${moment(
                           data.taskDetail.lUpdDate,
-                          'YYYY-MM-DDTHH:mm:ss',
+                          DEFAULT_FORMAT_DATE_4,
                         ).format(formatDateView)}.`}</Text>
                       </Text>
 

@@ -43,8 +43,8 @@ import CheckOption from '../components/CheckOption';
 import {Animations} from '~/utils/asset';
 import Commons from '~/utils/common/Commons';
 import {colors, cStyles} from '~/utils/style';
-import {IS_IOS, scalePx, IS_ANDROID, sH, checkEmpty} from '~/utils/helper';
-import {THEME_DARK} from '~/config/constants';
+import {scalePx, IS_ANDROID, sH, checkEmpty} from '~/utils/helper';
+import {THEME_DARK, DEFAULT_FORMAT_DATE_4} from '~/config/constants';
 // import API from '~/services/axios';
 /* REDUX */
 import * as Actions from '~/redux/actions';
@@ -363,7 +363,7 @@ function AddRequest(props) {
       dateRequest: isDetail
         ? moment(
             props.route.params?.data?.requestDate,
-            'YYYY-MM-DDTHH:mm:ss',
+            DEFAULT_FORMAT_DATE_4,
           ).format(formatDate)
         : moment().format(formatDate),
       department: isDetail ? props.route.params?.data?.deptCode : '',
@@ -757,7 +757,7 @@ function AddRequest(props) {
                         medium
                         customLabel={moment(
                           props.route.params?.data?.purchaseDate,
-                          'YYYY-MM-DDTHH:mm:ss',
+                          DEFAULT_FORMAT_DATE_4,
                         ).format(formatDateView)}
                       />
                     </View>

@@ -9,12 +9,12 @@ import React, {useRef, useState} from 'react';
 import {
   StyleSheet,
   View,
+  Text,
   Animated,
   TouchableOpacity,
   TouchableNativeFeedback,
   LayoutAnimation,
   UIManager,
-  Text,
 } from 'react-native';
 import * as Progress from 'react-native-progress';
 /* COMPONENTS */
@@ -110,7 +110,7 @@ function TaskItem(props) {
   const Touchable = IS_IOS ? TouchableOpacity : TouchableNativeFeedback;
   const showPercentage = data.taskTypeID === Commons.TYPE_TASK.TASK.value;
   return (
-    <View style={isPrevIsParent && !showChildren ? cStyles.mt16 : {}}>
+    <View style={isPrevIsParent && !showChildren ? cStyles.mt32 : cStyles.mt16}>
       <Touchable disabled={props.loading} onPress={handleTaskItem}>
         <View
           style={[

@@ -38,7 +38,7 @@ import AssetsTable from '../components/AssetsTable';
 import CheckOption from '../components/CheckOption';
 /* COMMON */
 import {Animations} from '~/utils/asset';
-import {THEME_DARK} from '~/config/constants';
+import {THEME_DARK, DEFAULT_FORMAT_DATE_4} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
 import {scalePx, sH, IS_ANDROID} from '~/utils/helper';
 import Commons from '~/utils/common/Commons';
@@ -267,7 +267,7 @@ function AddRequest(props) {
       dateRequest: isDetail
         ? moment(
             props.route.params?.data?.requestDate,
-            'YYYY-MM-DDTHH:mm:ss',
+            DEFAULT_FORMAT_DATE_4,
           ).format(formatDate)
         : moment().format(formatDate),
       name: isDetail ? props.route.params?.data?.personRequest : '',

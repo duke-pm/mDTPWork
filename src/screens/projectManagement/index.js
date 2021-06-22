@@ -41,6 +41,7 @@ function ProjectManagement(props) {
   const commonState = useSelector(({common}) => common);
   const authState = useSelector(({auth}) => auth);
   const language = commonState.get('language');
+  const formatDateView = commonState.get('formatDateView');
   const refreshToken = authState.getIn(['login', 'refreshToken']);
   const perPageMaster = 25;
 
@@ -333,6 +334,7 @@ function ProjectManagement(props) {
             <ListProject
               refreshing={loading.refreshing}
               loadmore={loading.loadmore}
+              formatDateView={formatDateView}
               data={data.projects}
               onRefresh={onRefresh}
               onLoadmore={onLoadmore}

@@ -16,7 +16,6 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
-import {BlurView} from '@react-native-community/blur';
 import Icon from 'react-native-vector-icons/Feather';
 import RNFS from 'react-native-fs';
 import FileViewer from 'react-native-file-viewer';
@@ -55,7 +54,7 @@ function FileAttach(props) {
         fromUrl: url,
         toFile: localFile,
         begin: res => {
-          console.log('[LOG] === begin download ===> ');
+          console.log('[LOG] === Begin download ===> ');
         },
         progress: res => {
           setProgress(
@@ -140,8 +139,8 @@ function FileAttach(props) {
                 cStyles.center,
                 cStyles.rounded1,
                 cStyles.m5,
-                {backgroundColor: customColors.card},
                 styles.con_icon_download,
+                {backgroundColor: customColors.card},
               ]}>
               {loading && <ActivityIndicator color={customColors.icon} />}
               {!loading && (
@@ -174,7 +173,6 @@ const styles = StyleSheet.create({
   file: {width: 50, height: 50},
   con_icon_download: {width: 25, height: 25},
   con_bg: {zIndex: 5, overflow: 'hidden'},
-  con_loading: {zIndex: 1},
 });
 
 export default FileAttach;

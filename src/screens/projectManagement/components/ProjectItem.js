@@ -14,7 +14,8 @@ import ListProject from '../list/Project';
 import CLabel from '~/components/CLabel';
 /* COMMON */
 import {cStyles} from '~/utils/style';
-import {checkEmpty, IS_ANDROID, IS_IOS} from '~/utils/helper';
+import {checkEmpty, IS_ANDROID} from '~/utils/helper';
+import {DEFAULT_FORMAT_DATE_4} from '~/config/constants';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -22,10 +23,15 @@ if (IS_ANDROID) {
   }
 }
 
+const PADDING_CHILDREN = 12;
+const PADDING_2_CHILDREN = 6;
+const BOTTOM_CHILDREN = 10;
+
 function ProjectItem(props) {
   const {
     index,
     data,
+    formatDateView,
     customColors,
     isDark,
     isPrevIsParent,
@@ -57,7 +63,7 @@ function ProjectItem(props) {
    ** RENDER **
    **************/
   return (
-    <View style={isPrevIsParent && !showChildren ? cStyles.mt16 : {}}>
+    <View style={isPrevIsParent && !showChildren ? cStyles.mt32 : cStyles.mt16}>
       <CCard
         key={index}
         index={index}
@@ -65,7 +71,7 @@ function ProjectItem(props) {
         customLabel={`#${data.prjID} ${data.prjName}`}
         onLayout={event => {
           var {width} = event.nativeEvent.layout;
-          setWidthCard(width - 12);
+          setWidthCard(width - PADDING_CHILDREN);
         }}
         onPress={handleItem}
         onLongPress={handleHeaderItem}
@@ -118,12 +124,12 @@ function ProjectItem(props) {
                 <CLabel
                   customLabel={moment(
                     data.crtdDate,
-                    'YYYY-MM-DDTHH:mm:ss',
-                  ).format('DD/MM/YYYY')}
+                    DEFAULT_FORMAT_DATE_4,
+                  ).format(formatDateView)}
                 />
               </View>
 
-              {/** Public */}
+              {/** Is public */}
               <View
                 style={[cStyles.row, cStyles.itemsCenter, styles.row_right]}>
                 <CLabel label={'project_management:is_public'} />
@@ -147,24 +153,24 @@ function ProjectItem(props) {
             <View
               key={index.toString()}
               style={[
-                cStyles.rounded2,
-                !isDark && IS_IOS && cStyles.shadowListItem,
-                !isDark && IS_ANDROID && cStyles.borderAll,
+                cStyles.borderAll,
                 isDark && cStyles.borderAllDark,
+                cStyles.rounded2,
                 cStyles.abs,
-                cStyles.right0,
                 styles.card_children,
                 {
-                  width: widthCard,
+                  right: PADDING_2_CHILDREN * (index + 1),
+                  width: widthCard - index * PADDING_CHILDREN,
                   zIndex: -index,
-                  bottom: -10 * (index + 1),
-                  backgroundColor: customColors.card,
+                  bottom: -BOTTOM_CHILDREN * (index + 1),
+                  backgroundColor: customColors.cardDisable,
                 },
               ]}
             />
           );
         })}
 
+      {/** If project have children -> Show */}
       {showChildren && data.countChild > 0 && (
         <View style={[cStyles.row, cStyles.itemsCenter]}>
           <View
@@ -175,7 +181,10 @@ function ProjectItem(props) {
             ]}
           />
           <View style={[cStyles.flex1, cStyles.ml12]}>
-            <ListProject data={data.lstProjectItem} />
+            <ListProject
+              formatDateView={formatDateView}
+              data={data.lstProjectItem}
+            />
           </View>
         </View>
       )}

@@ -10,7 +10,6 @@ import {useColorScheme} from 'react-native-appearance';
 import {
   StyleSheet,
   View,
-  ActivityIndicator,
   LayoutAnimation,
   UIManager,
   ScrollView,
@@ -18,17 +17,17 @@ import {
 import Icon from 'react-native-vector-icons/Feather';
 import moment from 'moment';
 /* COMPONENTS */
-import ProjectItem from '../components/ProjectItem';
 import CList from '~/components/CList';
-/** COMMON */
-import Routes from '~/navigation/Routes';
-import {THEME_DARK} from '~/config/constants';
-import {checkEmpty, IS_ANDROID} from '~/utils/helper';
-import {cStyles} from '~/utils/style';
 import CAlert from '~/components/CAlert';
 import CAvatar from '~/components/CAvatar';
 import CLabel from '~/components/CLabel';
 import CText from '~/components/CText';
+import ProjectItem from '../components/ProjectItem';
+/** COMMON */
+import Routes from '~/navigation/Routes';
+import {DEFAULT_FORMAT_DATE_4, THEME_DARK} from '~/config/constants';
+import {checkEmpty, IS_ANDROID} from '~/utils/helper';
+import {cStyles} from '~/utils/style';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -42,7 +41,7 @@ function ListProject(props) {
   const navigation = useNavigation();
   const {customColors} = useTheme();
   const isDark = useColorScheme() === THEME_DARK;
-  const {onLoadmore, onRefresh} = props;
+  const {formatDateView, onLoadmore, onRefresh} = props;
 
   /** Use state */
   const [showModal, setShowModal] = useState(false);
@@ -90,8 +89,11 @@ function ListProject(props) {
   /**************
    ** RENDER **
    **************/
+  const usersInvitedLength =
+    (chooseProject && chooseProject.lstUserInvited.length) || 0;
   return (
     <>
+      {/** List of project */}
       <CList
         data={props.data}
         item={({item, index}) => {
@@ -103,6 +105,7 @@ function ListProject(props) {
             <ProjectItem
               index={index}
               data={item}
+              formatDateView={formatDateView}
               customColors={customColors}
               isDark={isDark}
               isPrevIsParent={isPrevIsParent}
@@ -117,14 +120,13 @@ function ListProject(props) {
         onLoadmore={onLoadmore}
       />
 
+      {/** Alert show info of project */}
       <CAlert
         show={showModal}
         loading={loadingModal}
         title={chooseProject ? chooseProject.prjName : ''}
         customContent={
-          loadingModal ? (
-            <ActivityIndicator />
-          ) : (
+          loadingModal ? null : (
             <View>
               <View
                 style={[
@@ -132,6 +134,7 @@ function ListProject(props) {
                   cStyles.itemsStart,
                   cStyles.justifyBetween,
                 ]}>
+                {/** Date created */}
                 <View
                   style={[cStyles.row, cStyles.itemsCenter, styles.row_left]}>
                   <CLabel label={'project_management:date_created'} />
@@ -139,11 +142,12 @@ function ListProject(props) {
                     styles={'textMeta ml3'}
                     customLabel={moment(
                       chooseProject.crtdDate,
-                      'YYYY-MM-DDTHH:mm:ss',
-                    ).format('DD/MM/YYYY')}
+                      DEFAULT_FORMAT_DATE_4,
+                    ).format(formatDateView)}
                   />
                 </View>
 
+                {/** Is public */}
                 <View
                   style={[cStyles.row, cStyles.itemsCenter, styles.row_right]}>
                   <CLabel label={'project_management:is_public'} />
@@ -169,6 +173,7 @@ function ListProject(props) {
                   cStyles.justifyBetween,
                   cStyles.mt10,
                 ]}>
+                {/** Owner */}
                 <View
                   style={[cStyles.row, cStyles.itemsCenter, styles.row_left]}>
                   <CLabel label={'project_management:owner'} />
@@ -178,6 +183,7 @@ function ListProject(props) {
                   />
                 </View>
 
+                {/** Status */}
                 <View
                   style={[cStyles.row, cStyles.itemsCenter, styles.row_right]}>
                   <CLabel label={'project_management:status'} />
@@ -210,6 +216,7 @@ function ListProject(props) {
                 </View>
               </View>
 
+              {/** Description */}
               <View style={cStyles.mt10}>
                 <View style={[cStyles.row, cStyles.itemsCenter]}>
                   <CLabel label={'project_management:description'} />
@@ -217,8 +224,9 @@ function ListProject(props) {
                 </View>
               </View>
 
-              {chooseProject.lstUserInvited.length > 0 && (
-                <View style={[cStyles.mt10]}>
+              {/** Users invited */}
+              {usersInvitedLength > 0 && (
+                <View style={cStyles.mt10}>
                   <CLabel label={'project_management:user_invited'} />
                   <ScrollView
                     style={[
@@ -236,8 +244,7 @@ function ListProject(props) {
                             cStyles.row,
                             cStyles.itemsCenter,
                             cStyles.ml3,
-                            index === chooseProject.lstUserInvited.length - 1 &&
-                              cStyles.pb20,
+                            index === usersInvitedLength - 1 && cStyles.pb20,
                           ]}>
                           <CAvatar
                             containerStyle={cStyles.mr5}
@@ -249,11 +256,9 @@ function ListProject(props) {
                               cStyles.ml5,
                               cStyles.py6,
                               cStyles.flex1,
-                              index !==
-                                chooseProject.lstUserInvited.length - 1 &&
+                              index !== usersInvitedLength - 1 &&
                                 cStyles.borderBottom,
-                              index !==
-                                chooseProject.lstUserInvited.length - 1 &&
+                              index !== usersInvitedLength - 1 &&
                                 isDark &&
                                 cStyles.borderBottomDark,
                             ]}>

@@ -21,6 +21,7 @@ import CText from '~/components/CText';
 import CLabel from '~/components/CLabel';
 /* COMMON */
 import Commons from '~/utils/common/Commons';
+import {DEFAULT_FORMAT_DATE_4} from '~/config/constants';
 import {Assets} from '~/utils/asset';
 import {cStyles} from '~/utils/style';
 import {IS_IOS} from '~/utils/helper';
@@ -103,7 +104,7 @@ function RequestItem(props) {
                 <CLabel
                   customLabel={moment(
                     data.requestDate,
-                    'YYYY-MM-DDTHH:mm:ss',
+                    DEFAULT_FORMAT_DATE_4,
                   ).format(formatDateView)}
                 />
               </View>

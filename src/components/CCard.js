@@ -35,22 +35,23 @@ function CCard(props) {
    ** RENDER **
    **************/
   const Component = onPress ? TouchableOpacity : View;
-  const ComponentHeader = onLongPress ? TouchableOpacity : View;
   return (
     <Component
       key={key}
       style={[
         cStyles.rounded2,
         cStyles.mt32,
-        !isDark && cStyles.shadowListItem,
+        cStyles.borderAll,
         isDark && cStyles.borderAllDark,
         styles.container,
         {backgroundColor: customColors.card},
         containerStyle,
       ]}
+      delayLongPress={500}
       onLayout={onLayout}
-      onPress={onPress}>
-      <ComponentHeader
+      onPress={onPress}
+      onLongPress={onLongPress}>
+      <View
         style={[
           cStyles.rounded1,
           cStyles.px10,
@@ -61,15 +62,13 @@ function CCard(props) {
           styles.con_label,
           contentLabelStyle,
           {backgroundColor: isDark ? colors.GRAY_830 : colors.GRAY_300},
-        ]}
-        onLongPress={onLongPress}
-        delayLongPress={500}>
+        ]}>
         <CText
           customStyles={[cStyles.fontMedium, {color: customColors.text}]}
           label={label}
           customLabel={customLabel}
         />
-      </ComponentHeader>
+      </View>
 
       {header && <View style={cStyles.px16}>{header}</View>}
 
