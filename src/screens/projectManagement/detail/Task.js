@@ -357,11 +357,11 @@ function Task(props) {
                       cStyles.rounded2,
                       cStyles.m16,
                       cStyles.p16,
-                      !isDark && cStyles.shadowListItem,
                       {backgroundColor: customColors.card},
                     ]}>
                     {/** Title & Project */}
                     <View style={cStyles.pb10}>
+                      {/** Title & Type */}
                       <Text>
                         <Text
                           style={[
@@ -381,12 +381,15 @@ function Task(props) {
                           ]}>{`  ${data.taskDetail.taskName}`}</Text>
                       </Text>
 
+                      {/** Author & Updated at */}
                       <Text style={cStyles.mt10}>
-                        <Text
-                          style={[
-                            cStyles.textMeta,
-                            {color: customColors.text},
-                          ]}>{`#${data.taskDetail.taskID} `}</Text>
+                        {data.taskDetail.author === '' && (
+                          <Text
+                            style={[
+                              cStyles.textMeta,
+                              {color: customColors.text},
+                            ]}>{`#${data.taskDetail.taskID} `}</Text>
+                        )}
                         {data.taskDetail.author !== '' && (
                           <Text>
                             <Text
@@ -417,6 +420,7 @@ function Task(props) {
                         ).format(formatDateView)}.`}</Text>
                       </Text>
 
+                      {/** Project name */}
                       <View
                         style={[
                           cStyles.rounded5,

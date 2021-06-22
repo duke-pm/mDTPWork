@@ -42,6 +42,7 @@ function Status(props) {
     task,
     onUpdate,
   } = props;
+  let curStatus = task.statusName;
 
   /** Use redux */
   const dispatch = useDispatch();
@@ -81,20 +82,6 @@ function Status(props) {
           RefreshToken: refreshToken,
         };
         dispatch(Actions.fetchUpdateTask(params, navigation));
-        let paramsActivities = {
-          LineNum: 0,
-          TaskID: task.taskID,
-          Comments: `* ${t(
-            'project_management:status_filter',
-          ).toUpperCase()} ${t('project_management:holder_change_from')} ${
-            task.statusName
-          } ${t('project_management:holder_change_to')} ${
-            status.data[status.active].statusName
-          }.`,
-          Lang: language,
-          RefreshToken: refreshToken,
-        };
-        dispatch(Actions.fetchTaskComment(paramsActivities, navigation));
         return setLoading(true);
       }
     } else {
@@ -103,6 +90,23 @@ function Status(props) {
         setStatus({...status, active: find});
       }
     }
+  };
+
+  const onUpdateActivities = () => {
+    let paramsActivities = {
+      LineNum: 0,
+      TaskID: task.taskID,
+      Comments: `* ${t('project_management:status_filter').toUpperCase()} ${t(
+        'project_management:holder_change_from',
+      )} ${curStatus} ${t('project_management:holder_change_to')} ${
+        status.data[status.active].statusName
+      }.`,
+      Lang: language,
+      RefreshToken: refreshToken,
+    };
+    dispatch(Actions.fetchTaskComment(paramsActivities, navigation));
+    curStatus = status.active;
+    return;
   };
 
   const onChangeStatus = index => {
@@ -130,6 +134,7 @@ function Status(props) {
     let fStatus = status.data.findIndex(f => f.statusID === task.statusID);
     if (fStatus !== -1) {
       setStatus({...status, active: fStatus});
+      curStatus = status.data[fStatus].statusName;
     }
   };
 
@@ -144,6 +149,7 @@ function Status(props) {
     if (loading) {
       if (!projectState.get('submittingTaskUpdate')) {
         if (projectState.get('successTaskUpdate')) {
+          onUpdateActivities();
           return onPrepareUpdate(true);
         }
 

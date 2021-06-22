@@ -24,7 +24,6 @@ import CLabel from '~/components/CLabel';
 /* COMMON */
 import {THEME_DARK, THEME_LIGHT} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
-import {IS_IOS} from '~/utils/helper';
 /** REDUX */
 import * as Actions from '~/redux/actions';
 
@@ -43,6 +42,7 @@ function Percentage(props) {
     task,
     onUpdate,
   } = props;
+  let curPercent = task.percentage;
 
   /** Use redux */
   const dispatch = useDispatch();
@@ -81,23 +81,30 @@ function Percentage(props) {
           RefreshToken: refreshToken,
         };
         dispatch(Actions.fetchUpdateTask(params, navigation));
-        let paramsActivities = {
-          LineNum: 0,
-          TaskID: task.taskID,
-          Comments: `* ${t(
-            'project_management:holder_task_percentage',
-          ).toUpperCase()} (%) ${t('project_management:holder_change_from')} ${
-            task.percentage
-          } ${t('project_management:holder_change_to')} ${percent.value}.`,
-          Lang: language,
-          RefreshToken: refreshToken,
-        };
-        dispatch(Actions.fetchTaskComment(paramsActivities, navigation));
         return setLoading(true);
       }
     } else {
       return setPercent({...percent, visible: !percent.visible});
     }
+  };
+
+  const onUpdateActivities = () => {
+    let paramsActivities = {
+      LineNum: 0,
+      TaskID: task.taskID,
+      Comments: `* ${t(
+        'project_management:holder_task_percentage',
+      ).toUpperCase()} (%) ${t(
+        'project_management:holder_change_from',
+      )} ${curPercent} ${t('project_management:holder_change_to')} ${
+        percent.value
+      }.`,
+      Lang: language,
+      RefreshToken: refreshToken,
+    };
+    dispatch(Actions.fetchTaskComment(paramsActivities, navigation));
+    curPercent = percent.value;
+    return;
   };
 
   const handleClosePercent = () => {
@@ -112,14 +119,18 @@ function Percentage(props) {
   };
 
   const onPrepareUpdate = isSuccess => {
-    let des = isSuccess ? 'success:change_percent' : 'error:change_percent';
+    let des = isSuccess
+      ? 'success:change_percent'
+      : projectState.get('errorHelperTaskUpdate');
     let type = isSuccess ? 'success' : 'danger';
     if (isSuccess) {
       onUpdate();
+    } else {
+      setPercent({...percent, value: task.percentage});
     }
     setLoading(false);
     return showMessage({
-      message: t('common:app_name'),
+      message: isSuccess ? t('common:app_name') : des,
       description: t(des),
       type,
       icon: type,
@@ -143,6 +154,7 @@ function Percentage(props) {
     if (loading) {
       if (!projectState.get('submittingTaskUpdate')) {
         if (projectState.get('successTaskUpdate')) {
+          onUpdateActivities();
           return onPrepareUpdate(true);
         }
 
