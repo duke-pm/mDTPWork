@@ -7,7 +7,7 @@
 import React, {Component} from 'react';
 import {Animated, Easing, Keyboard} from 'react-native';
 import PropTypes from 'prop-types';
-import { cStyles } from '~/utils/style';
+import {cStyles} from '~/utils/style';
 
 class CAvoidKeyboard extends Component {
   constructor(props) {
@@ -50,7 +50,6 @@ class CAvoidKeyboard extends Component {
     const {viewHeight} = this.state;
     if (viewHeight) {
       requestAnimationFrame(() => {
-        // eslint-disable-line no-undef
         Animated.timing(this.state.animatedViewHeight, {
           toValue: viewHeight - e.endCoordinates.height,
           duration: 200,
@@ -63,7 +62,6 @@ class CAvoidKeyboard extends Component {
 
   keyboardWillHide() {
     requestAnimationFrame(() => {
-      // eslint-disable-line no-undef
       Animated.timing(this.state.animatedViewHeight, {
         toValue: this.state.viewHeight,
         duration: 200,

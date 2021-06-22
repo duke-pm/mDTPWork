@@ -26,6 +26,7 @@ import {THEME_DARK, THEME_LIGHT} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
 /** REDUX */
 import * as Actions from '~/redux/actions';
+import Commons from '~/utils/common/Commons';
 
 /** All refs of page */
 let percentRef = createRef();
@@ -173,10 +174,14 @@ function Percentage(props) {
   /**************
    ** RENDER **
    **************/
+  const isDisable =
+    task.statusID == Commons.STATUS_TASK.ON_HOLD.value ||
+    task.statusID == Commons.STATUS_TASK.REJECTED.value ||
+    task.statusID == Commons.STATUS_TASK.CLOSED.value;
   return (
     <TouchableOpacity
       style={styles.container}
-      disabled={!task.isUpdated || loading || disabled}
+      disabled={!task.isUpdated || loading || disabled || isDisable}
       onPress={handleChangePercent}>
       <View style={[cStyles.row, cStyles.itemsCenter, cStyles.flex1]}>
         <CLabel label={'project_management:task_percentage'} />
@@ -212,9 +217,10 @@ function Percentage(props) {
                 styles.percent_body,
                 {
                   width: `${percent.value}%`,
-                  backgroundColor: !task.isUpdated
-                    ? customColors.textDisable
-                    : customColors.primary,
+                  backgroundColor:
+                    !task.isUpdated || isDisable
+                      ? customColors.textDisable
+                      : customColors.primary,
                 },
               ]}>
               {percent.value > 25 && (
@@ -238,7 +244,7 @@ function Percentage(props) {
                 cStyles.itemsStart,
                 cStyles.justifyCenter,
                 {
-                  height: 14,
+                  height: 16,
                   width: `${100 - percent.value}%`,
                 },
               ]}>
@@ -250,9 +256,10 @@ function Percentage(props) {
                     cStyles.ml5,
                     styles.text_percent,
                     {
-                      color: !task.isUpdated
-                        ? customColors.textDisable
-                        : customColors.primary,
+                      color:
+                        !task.isUpdated || isDisable
+                          ? customColors.textDisable
+                          : customColors.primary,
                     },
                   ]}>{`${percent.value}%`}</Text>
               )}

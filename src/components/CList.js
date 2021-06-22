@@ -140,6 +140,7 @@ function CList(props) {
           keyExtractor={(item, index) => index.toString()}
           removeClippedSubviews={IS_ANDROID}
           keyboardShouldPersistTaps={'handled'}
+          stickySectionHeadersEnabled={true}
           refreshing={props.refreshing}
           onRefresh={onRefresh}
           ListEmptyComponent={

@@ -23,6 +23,7 @@ import axios from 'axios';
 /** COMPOENNTS */
 import Navigator from '~/navigation/Navigator';
 import Unconnected from '~/screens/connection/Unconnected';
+import CAvoidKeyboard from '~/components/CAvoidKeyboard';
 /** COMMON */
 import {colors} from '~/utils/style';
 import jwtServiceConfig from '~/services/jwtServiceConfig';
@@ -168,7 +169,9 @@ const App = () => {
         <Provider store={Store}>
           <SafeAreaProvider>
             <StatusBar barStyle={'light-content'} />
-            <Navigator />
+            <CAvoidKeyboard>
+              <Navigator />
+            </CAvoidKeyboard>
             <FlashMessage position="top" />
             <Unconnected connected={state.connected} />
           </SafeAreaProvider>
