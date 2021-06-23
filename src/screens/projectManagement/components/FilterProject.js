@@ -25,7 +25,6 @@ import CContent from '~/components/CContent';
 import CText from '~/components/CText';
 import CGroupLabel from '~/components/CGroupLabel';
 import CActionSheet from '~/components/CActionSheet';
-import CLoading from '~/components/CLoading';
 import CList from '~/components/CList';
 /* COMMON */
 import {THEME_DARK} from '~/config/constants';
@@ -163,7 +162,6 @@ function FilterProject(props) {
   /** Use state */
   const [loading, setLoading] = useState({
     main: hasYear,
-    change: false,
   });
   const [year, setYear] = useState({
     data: [],
@@ -187,15 +185,17 @@ function FilterProject(props) {
    ** HANDLE FUNC **
    *****************/
   const handleReset = () => {
-    setOwner({...owner, active: []});
-    setStatus({...status, active: []});
-    hasSector && setSectors({...sectors, active: []});
-    hasYear &&
-      setYear({
-        ...year,
-        active: year.data.length - 1,
-        choose: year.data.length - 1,
-      });
+    if (owner.active.length !== 0 || status.active.length !== 0) {
+      setOwner({...owner, active: []});
+      setStatus({...status, active: []});
+      hasSector && setSectors({...sectors, active: []});
+      hasYear &&
+        setYear({
+          ...year,
+          active: year.data.length - 1,
+          choose: year.data.length - 1,
+        });
+    }
   };
 
   const handlePickerYear = () => {
@@ -232,54 +232,36 @@ function FilterProject(props) {
   };
 
   const onChangeOwner = value => {
-    setLoading({...loading, change: true});
     let newOwner = [...owner.active];
-    if (newOwner.length > 0) {
-      let find = newOwner.indexOf(value);
-      if (find !== -1) {
-        newOwner.splice(find, 1);
-      } else {
-        newOwner.push(value);
-      }
+    let find = newOwner.indexOf(value);
+    if (find !== -1) {
+      newOwner.splice(find, 1);
     } else {
       newOwner.push(value);
     }
     setOwner({...owner, active: newOwner});
-    setLoading({...loading, change: false});
   };
 
   const onChangeStatus = value => {
-    setLoading({...loading, change: true});
     let newStatus = [...status.active];
-    if (newStatus.length > 0) {
-      let find = newStatus.indexOf(value);
-      if (find !== -1) {
-        newStatus.splice(find, 1);
-      } else {
-        newStatus.push(value);
-      }
+    let find = newStatus.indexOf(value);
+    if (find !== -1) {
+      newStatus.splice(find, 1);
     } else {
       newStatus.push(value);
     }
     setStatus({...status, active: newStatus});
-    setLoading({...loading, change: false});
   };
 
   const onChangeSector = value => {
-    setLoading({...loading, change: true});
     let newSector = [...sectors.active];
-    if (newSector.length > 0) {
-      let find = newSector.indexOf(value);
-      if (find !== -1) {
-        newSector.splice(find, 1);
-      } else {
-        newSector.push(value);
-      }
+    let find = newSector.indexOf(value);
+    if (find !== -1) {
+      newSector.splice(find, 1);
     } else {
       newSector.push(value);
     }
     setSectors({...sectors, active: newSector});
-    setLoading({...loading, change: false});
   };
 
   /****************
@@ -309,7 +291,7 @@ function FilterProject(props) {
    **************/
   return (
     <CContainer
-      loading={loading.main || loading.change}
+      loading={loading.main}
       title={'project_management:filter'}
       header
       headerLeft={
@@ -429,10 +411,6 @@ function FilterProject(props) {
               />
             </>
           )}
-          <CLoading
-            customColors={customColors}
-            visible={loading.main || loading.change}
-          />
           {!loading.main && hasYear && (
             <CActionSheet
               actionRef={actionSheetYearRef}
@@ -460,13 +438,6 @@ function FilterProject(props) {
 }
 
 const styles = StyleSheet.create({
-  header: {
-    flexDirection: 'row',
-    height: cStyles.toolbarHeight,
-    top: 0,
-    left: 0,
-    right: 0,
-  },
   row_header: {height: 50},
   left_row_select: {width: 16},
   con_action: {width: '100%', height: sH('30%')},

@@ -8,6 +8,7 @@ import React, {Component} from 'react';
 import {Animated, Easing, Keyboard} from 'react-native';
 import PropTypes from 'prop-types';
 import {cStyles} from '~/utils/style';
+import { IS_ANDROID, IS_IOS } from '~/utils/helper';
 
 class CAvoidKeyboard extends Component {
   constructor(props) {
@@ -52,9 +53,8 @@ class CAvoidKeyboard extends Component {
       requestAnimationFrame(() => {
         Animated.timing(this.state.animatedViewHeight, {
           toValue: viewHeight - e.endCoordinates.height,
-          duration: 200,
-          delay: 0,
-          easing: Easing.inOut(Easing.ease),
+          duration: 100,
+          useNativeDriver: IS_ANDROID,
         }).start();
       });
     }
@@ -64,9 +64,8 @@ class CAvoidKeyboard extends Component {
     requestAnimationFrame(() => {
       Animated.timing(this.state.animatedViewHeight, {
         toValue: this.state.viewHeight,
-        duration: 200,
-        delay: 0,
-        easing: Easing.inOut(Easing.ease),
+        duration: 100,
+        useNativeDriver: IS_ANDROID,
       }).start();
     });
   }

@@ -5,6 +5,7 @@
  ** Description: Description of Task.js
  **/
 import React from 'react';
+import {useTranslation} from 'react-i18next';
 import {useTheme, useNavigation} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
 /* COMPONENTS */
@@ -17,6 +18,7 @@ import {cStyles} from '~/utils/style';
 
 function ListTask(props) {
   const navigation = useNavigation();
+  const {t} = useTranslation();
   const isDark = useColorScheme() === THEME_DARK;
   const {customColors} = useTheme();
   const {onLoadmore, onRefreshTasks} = props;
@@ -47,6 +49,7 @@ function ListTask(props) {
           <TaskItem
             index={index}
             data={item}
+            translation={t}
             customColors={customColors}
             isDark={isDark}
             onPress={handleTaskItem}

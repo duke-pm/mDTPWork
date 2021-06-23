@@ -378,7 +378,13 @@
     "year": "Năm",
     "holder_change_from": "được thay đổi từ",
     "holder_change_to": "đến",
-    "user_invited": "Cùng tham gia có"
+    "user_invited": "Cùng tham gia có",
+    "delay_date_1": "De",
+    "delay_date_2": "ng",
+    "info_basic": "Thông tin căn bản",
+    "info_basic_2": "Quản lý tiến độ",
+    "info_basic_3": "Thông tin khác",
+    "info_basic_4": "Miêu tả"
   },
   "sales_visit": {
     "title": "Sales Visit"

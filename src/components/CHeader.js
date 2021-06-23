@@ -73,7 +73,9 @@ function CHeader(props) {
    *****************/
   const handleBack = () => {
     navigation.goBack();
-    props.onRefresh();
+    if (props.onRefresh) {
+      props.onRefresh();
+    }
   };
 
   const handleMenu = () => {};
@@ -187,8 +189,10 @@ function CHeader(props) {
           <View
             style={[
               styles.con_body,
-              IS_ANDROID && (hasBack || hasMenu || left || right)
-                ? cStyles.justifyCenter
+              IS_ANDROID
+                ? left && right
+                  ? cStyles.center
+                  : cStyles.justifyCenter
                 : cStyles.center,
               centerStyle,
             ]}>

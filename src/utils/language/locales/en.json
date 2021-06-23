@@ -377,6 +377,8 @@
     "year": "Year",
     "holder_change_from": "changed from",
     "holder_change_to": "to",
-    "user_invited": "Users joined"
+    "user_invited": "Users joined",
+    "delay_date_1": "De",
+    "delay_date_2": "da"
   }
 }

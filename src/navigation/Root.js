@@ -81,6 +81,9 @@ export function RootMain(props) {
       initialRouteName={Routes.AUTHENTICATION.SIGN_IN.name}
       screenOptions={{
         headerShown: false,
+        ...(IS_ANDROID
+          ? TransitionPresets.SlideFromRightIOS
+          : TransitionPresets.DefaultTransition),
       }}>
       <StackMain.Screen
         name={Routes.AUTHENTICATION.SIGN_IN.name}

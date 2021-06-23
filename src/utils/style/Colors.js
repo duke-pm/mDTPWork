@@ -57,11 +57,12 @@ export default {
   BACKGROUND_DOWNLOAD: 'rgba(0, 0, 0, 0.2)',
   BACKGROUND_INPUT_FOCUS: 'rgba(255,255,255,0.1)',
   BACKGROUND_CARD: '#FFF',
+  BACKGROUND_GRADIENT: ['#16222A', '#3A6073'],
 
   GRAY_100: '#f2f2f7',
   GRAY_200: '#e5e5ea',
   GRAY_300: '#d1d1d6',
-  GRAY_400: '#c7c7cc',  
+  GRAY_400: '#c7c7cc',
   GRAY_500: '#aeaeb2',
   GRAY_600: '#8e8e93',
   GRAY_700: '#636366',

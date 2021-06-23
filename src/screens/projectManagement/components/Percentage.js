@@ -184,8 +184,6 @@ function Percentage(props) {
       disabled={!task.isUpdated || loading || disabled || isDisable}
       onPress={handleChangePercent}>
       <View style={[cStyles.row, cStyles.itemsCenter, cStyles.flex1]}>
-        <CLabel label={'project_management:task_percentage'} />
-
         {!percent.visible ? (
           <View
             style={[
@@ -300,7 +298,9 @@ function Percentage(props) {
           </View>
         )}
 
-        {loading && <ActivityIndicator style={cStyles.pl2} />}
+        {loading && (
+          <ActivityIndicator style={cStyles.pl2} color={colors.GRAY_500} />
+        )}
       </View>
     </TouchableOpacity>
   );

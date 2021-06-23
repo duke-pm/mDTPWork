@@ -99,7 +99,8 @@ function FileAttach(props) {
       <View
         style={[
           cStyles.p10,
-          cStyles.my10,
+          cStyles.mb10,
+          cStyles.mt6,
           cStyles.center,
           isFileExisted && cStyles.borderAll,
           isFileExisted && isDark && cStyles.borderAllDark,

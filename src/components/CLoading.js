@@ -5,12 +5,10 @@
  ** Description: Description of CLoading.js
  **/
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, ActivityIndicator} from 'react-native';
 import Modal from 'react-native-modal';
-import Lottie from 'lottie-react-native';
 import * as Animatable from 'react-native-animatable';
 /** COMMON */
-import {Animations} from '~/utils/asset';
 import {colors, cStyles} from '~/utils/style';
 
 function CLoading(props) {
@@ -23,10 +21,16 @@ function CLoading(props) {
       isVisible={props.visible}
       animationIn={'fadeIn'}
       animationOut={'fadeOut'}
+      useNativeDriver={true}
+      useNativeDriverForBackdrop={true}
+      hideModalContentWhileAnimating={true}
+      backdropTransitionOutTiming={0}
+      deviceWidth={cStyles.deviceWidth}
+      deviceHeight={cStyles.deviceHeight}
+      backdropOpacity={0.3}
       onBackButtonPress={null}
-      onBackdropPress={null}
-      backdropOpacity={0.3}>
-      <View style={[cStyles.flex1, cStyles.itemsCenter, cStyles.justifyCenter]}>
+      onBackdropPress={null}>
+      <View style={cStyles.flexCenter}>
         <Animatable.View
           style={[
             cStyles.rounded2,
@@ -38,12 +42,7 @@ function CLoading(props) {
           duration={1000}
           easing={'ease-out'}
           iterationCount={'infinite'}>
-          <Lottie
-            style={styles.icon}
-            source={Animations.loading}
-            autoPlay
-            loop
-          />
+          <ActivityIndicator size={'small'} color={colors.GRAY_500} />
         </Animatable.View>
       </View>
     </Modal>
@@ -51,9 +50,7 @@ function CLoading(props) {
 }
 
 const styles = StyleSheet.create({
-  con_modal: {backgroundColor: colors.BACKGROUND_MODAL},
   indicator: {height: 50, width: 50},
-  icon: {width: 70, height: 70},
 });
 
 export default CLoading;

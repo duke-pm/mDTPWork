@@ -41,7 +41,7 @@ function ProjectDetail(props) {
   const authState = useSelector(({auth}) => auth);
   const language = commonState.get('language');
   const refreshToken = authState.getIn(['login', 'refreshToken']);
-  const perPageMaster = 25;
+  const perPageMaster = 10;
 
   /** Use state */
   const [loading, setLoading] = useState({
@@ -61,7 +61,6 @@ function ProjectDetail(props) {
     ownerID: null,
     statusID: null,
     sectorID: null,
-    perPage: 25,
     page: 1,
     search: '',
 
@@ -76,7 +75,14 @@ function ProjectDetail(props) {
   const handleSearch = value => {
     setLoading({...loading, startFetch: true});
     setData({...data, search: value, page: 1});
-    onFetchData(data.ownerID, data.statusID, data.sectorID, 25, 1, value);
+    onFetchData(
+      data.ownerID,
+      data.statusID,
+      data.sectorID,
+      perPageMaster,
+      1,
+      value,
+    );
   };
 
   const handleShowFilter = () => {
@@ -106,7 +112,7 @@ function ProjectDetail(props) {
     ownerID = null,
     statusID = null,
     sectorID = null,
-    perPage = 25,
+    perPage = perPageMaster,
     page = 1,
     search = '',
   ) => {
@@ -180,7 +186,7 @@ function ProjectDetail(props) {
         data.ownerID,
         data.statusID,
         data.sectorID,
-        data.perPage,
+        perPageMaster,
         1,
         data.search,
       );
@@ -195,7 +201,7 @@ function ProjectDetail(props) {
         data.ownerID,
         data.statusID,
         data.sectorID,
-        data.perPage,
+        perPageMaster,
         newPage,
         data.search,
       );
@@ -207,7 +213,7 @@ function ProjectDetail(props) {
    ** LIFE CYCLE **
    ******************/
   useEffect(() => {
-    onFetchData(null, null, null, 25, 1, '');
+    onFetchData(null, null, null, perPageMaster, 1, '');
     setLoading({...loading, startFetch: true});
   }, []);
 
@@ -241,7 +247,7 @@ function ProjectDetail(props) {
           params.ownerID,
           params.statusID,
           params.sectorID,
-          25,
+          perPageMaster,
           1,
           data.search,
         );
@@ -264,7 +270,7 @@ function ProjectDetail(props) {
   ]);
 
   useEffect(() => {
-    if (loading.startFetch || loading.refreshing) {
+    if (loading.startFetch || loading.refreshing || loading.loadmore) {
       if (!projectState.get('submittingListTask')) {
         if (projectState.get('successListTask')) {
           let type = REFRESH;

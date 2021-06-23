@@ -16,6 +16,9 @@ import {
   UIManager,
 } from 'react-native';
 import * as Progress from 'react-native-progress';
+import * as Animatable from 'react-native-animatable';
+import Icon from 'react-native-vector-icons/Feather';
+import moment from 'moment';
 /* COMPONENTS */
 import CText from '~/components/CText';
 import CIconButton from '~/components/CIconButton';
@@ -23,7 +26,7 @@ import CAvatar from '~/components/CAvatar';
 import ListTask from '../list/Task';
 /* COMMON */
 import Commons from '~/utils/common/Commons';
-import {IS_ANDROID, IS_IOS} from '~/utils/helper';
+import {IS_ANDROID} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
 
 if (IS_ANDROID) {
@@ -33,7 +36,7 @@ if (IS_ANDROID) {
 }
 
 function TaskItem(props) {
-  const {data, isDark, customColors, onPress, onRefresh} = props;
+  const {data, translation, isDark, customColors, onPress, onRefresh} = props;
 
   /** Use ref */
   const valueAnim = useRef(new Animated.Value(0)).current;
@@ -100,6 +103,10 @@ function TaskItem(props) {
     outputRange: ['0deg', '180deg'],
   });
   const showPercentage = data.taskTypeID === Commons.TYPE_TASK.TASK.value;
+  let delay = 0;
+  if (data && data.endDate && data.endDate !== '') {
+    delay = moment().diff(data.endDate, 'days');
+  }
   return (
     <View>
       <TouchableOpacity disabled={props.loading} onPress={handleTaskItem}>
@@ -125,15 +132,38 @@ function TaskItem(props) {
                 cStyles.fullWidth,
               ]}>
               <View style={[cStyles.row, cStyles.itemsCenter]}>
-                <CText
-                  customStyles={[
-                    cStyles.H6,
-                    cStyles.fontBold,
-                    {color: typeColor},
-                    isReject && cStyles.textThrough,
-                  ]}
-                  customLabel={data.typeName}
-                />
+                <View>
+                  <CText
+                    customStyles={[
+                      cStyles.H6,
+                      cStyles.fontBold,
+                      delay > 0 && cStyles.pb5,
+                      {color: typeColor},
+                      isReject && cStyles.textThrough,
+                    ]}
+                    customLabel={data.typeName}
+                  />
+                  {delay > 0 && (
+                    <Animatable.View
+                      style={[cStyles.row, cStyles.itemsCenter]}
+                      animation={'rubberBand'}
+                      easing={'ease-out'}>
+                      <Icon name={'clock'} color={customColors.red} size={15} />
+                      <CText
+                        customStyles={[
+                          cStyles.textMeta,
+                          cStyles.ml3,
+                          {color: customColors.red},
+                        ]}
+                        customLabel={`${translation(
+                          'project_management:delay_date_1',
+                        )} ${delay}${translation(
+                          'project_management:delay_date_2',
+                        )}`}
+                      />
+                    </Animatable.View>
+                  )}
+                </View>
                 <View style={cStyles.pl16}>
                   <View style={[cStyles.row, cStyles.itemsCenter]}>
                     <CAvatar size={'vsmall'} label={data.ownerName} />

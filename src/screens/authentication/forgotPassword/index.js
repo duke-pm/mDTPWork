@@ -7,7 +7,6 @@
 import React, {useState} from 'react';
 import {
   StyleSheet,
-  ImageBackground,
   View,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
@@ -20,7 +19,6 @@ import CInput from '~/components/CInput';
 import CText from '~/components/CText';
 import CButton from '~/components/CButton';
 /* COMMON */
-import {Assets} from '~/utils/asset';
 import {colors, cStyles} from '~/utils/style';
 import {IS_IOS} from '~/utils/helper';
 
@@ -49,55 +47,51 @@ function ForgotPassword(props) {
       header
       hasBack
       content={
-        <ImageBackground
-          style={styles.img_background}
-          source={Assets.bgAuthentication}
-          resizeMode={'cover'}
-          blurRadius={5}>
-          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <View style={[cStyles.flex1, styles.content]}>
-              <KeyboardAvoidingView
-                style={cStyles.flex1}
-                behavior={IS_IOS ? 'padding' : undefined}>
-                <CContent style={[cStyles.flexCenter, cStyles.px48]}>
-                  <View
-                    style={[
-                      cStyles.itemsCenter,
-                      cStyles.justifyCenter,
-                      styles.con_icon_app,
-                    ]}>
-                    <CText
-                      styles={'textCenter colorWhite'}
-                      label={'forgot_password:sub_title'}
-                    />
-                  </View>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <LinearGradient
+            style={cStyles.flex1}
+            colors={colors.BACKGROUND_GRADIENT}>
+            <KeyboardAvoidingView
+              style={cStyles.flex1}
+              behavior={IS_IOS ? 'padding' : undefined}>
+              <CContent style={[cStyles.flexCenter, cStyles.px48]}>
+                <View
+                  style={[
+                    cStyles.itemsCenter,
+                    cStyles.justifyCenter,
+                    styles.con_icon_app,
+                  ]}>
+                  <CText
+                    styles={'textCenter colorWhite'}
+                    label={'forgot_password:sub_title'}
+                  />
+                </View>
 
-                  <View style={styles.con_input}>
-                    <CInput
-                      id={INPUT_NAME.EMAIL}
-                      style={styles.input}
-                      valueColor={colors.WHITE}
-                      disabled={loading}
-                      icon={'mail'}
-                      iconColor={colors.GRAY_500}
-                      holder={'forgot_password:input_email'}
-                      returnKey={'send'}
-                      onChangeInput={handleSend}
-                    />
+                <View style={styles.con_input}>
+                  <CInput
+                    id={INPUT_NAME.EMAIL}
+                    style={styles.input}
+                    valueColor={colors.WHITE}
+                    disabled={loading}
+                    icon={'mail'}
+                    iconColor={colors.GRAY_500}
+                    holder={'forgot_password:input_email'}
+                    returnKey={'send'}
+                    onChangeInput={handleSend}
+                  />
 
-                    <CButton
-                      style={cStyles.mt16}
-                      block
-                      disabled={loading}
-                      label={'common:send'}
-                      onPress={handleSend}
-                    />
-                  </View>
-                </CContent>
-              </KeyboardAvoidingView>
-            </View>
-          </TouchableWithoutFeedback>
-        </ImageBackground>
+                  <CButton
+                    style={cStyles.mt16}
+                    block
+                    disabled={loading}
+                    label={'common:send'}
+                    onPress={handleSend}
+                  />
+                </View>
+              </CContent>
+            </KeyboardAvoidingView>
+          </LinearGradient>
+        </TouchableWithoutFeedback>
       }
     />
   );

@@ -67,7 +67,6 @@ function CAvatar(props) {
         cStyles.p2,
         cStyles.rounded10,
         cStyles.center,
-        cStyles.shadow1,
         styles.container,
         size === 'vsmall' && styles.container_vsmall,
         size === 'small' && styles.container_small,

@@ -43,7 +43,7 @@ function ProjectManagement(props) {
   const language = commonState.get('language');
   const formatDateView = commonState.get('formatDateView');
   const refreshToken = authState.getIn(['login', 'refreshToken']);
-  const perPageMaster = 25;
+  const perPageMaster = 10;
 
   /** Use state */
   const [loading, setLoading] = useState({
@@ -62,7 +62,6 @@ function ProjectManagement(props) {
     year: Number(moment().format('YYYY')),
     statusID: null,
     ownerID: null,
-    perPage: 25,
     page: 1,
     search: '',
 
@@ -78,7 +77,14 @@ function ProjectManagement(props) {
   const handleSearch = value => {
     setLoading({...loading, startFetch: true});
     setData({...data, search: value, page: 1});
-    onFetchData(data.year, data.ownerID, data.statusID, 25, 1, value);
+    onFetchData(
+      data.year,
+      data.ownerID,
+      data.statusID,
+      perPageMaster,
+      1,
+      value,
+    );
   };
 
   const handleShowFilter = () => {
@@ -87,11 +93,12 @@ function ProjectManagement(props) {
       hasSector: false,
       activeOwner: showFilter.activeOwner,
       activeStatus: showFilter.activeStatus,
-      onFilter: (y, actOwn, actSta) => handleFilter(y, actOwn, actSta),
+      onFilter: (y, actOwn, actSta, actSec) =>
+        handleFilter(y, actOwn, actSta, actSec),
     });
   };
 
-  const handleFilter = (year, activeOwner, activeStatus) => {
+  const handleFilter = (year, activeOwner, activeStatus, activeSector) => {
     setData({...data, year});
     setShowFilter({activeOwner, activeStatus});
   };
@@ -112,7 +119,7 @@ function ProjectManagement(props) {
     year = Number(moment().format('YYYY')),
     ownerID = null,
     statusID = null,
-    perPage = 25,
+    perPage = perPageMaster,
     page = 1,
     search = '',
   ) => {
@@ -187,7 +194,7 @@ function ProjectManagement(props) {
         data.year,
         data.ownerID,
         data.statusID,
-        data.perPage,
+        perPageMaster,
         1,
         data.search,
       );
@@ -202,7 +209,7 @@ function ProjectManagement(props) {
         data.year,
         data.ownerID,
         data.statusID,
-        data.perPage,
+        perPageMaster,
         newPage,
         data.search,
       );
@@ -215,7 +222,7 @@ function ProjectManagement(props) {
    ******************/
   useEffect(() => {
     onFetchMasterData();
-    onFetchData(data.year, null, null, 25, 1, '');
+    onFetchData(data.year, null, null, perPageMaster, 1, '');
     setLoading({...loading, startFetch: true});
   }, []);
 
@@ -245,7 +252,7 @@ function ProjectManagement(props) {
           data.year,
           params.ownerID,
           params.statusID,
-          25,
+          perPageMaster,
           1,
           data.search,
         );
@@ -259,15 +266,15 @@ function ProjectManagement(props) {
       }
     }
   }, [
+    loading.startFetch,
     prevYear,
     prevShowFilter,
-    loading.startFetch,
     showFilter.activeOwner,
     showFilter.activeStatus,
   ]);
 
   useEffect(() => {
-    if (loading.startFetch || loading.refreshing) {
+    if (loading.startFetch || loading.refreshing || loading.loadmore) {
       if (!projectState.get('submittingListProject')) {
         if (projectState.get('successListProject')) {
           if (masterState.get('users').length > 0) {
