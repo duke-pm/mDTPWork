@@ -379,6 +379,10 @@
     "holder_change_to": "to",
     "user_invited": "Users joined",
     "delay_date_1": "De",
-    "delay_date_2": "da"
+    "delay_date_2": "da",
+    "info_basic": "Basic information",
+    "info_basic_2": "Progress Manager",
+    "info_basic_3": "Other information",
+    "info_basic_4": "Description"
   }
 }
