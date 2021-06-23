@@ -549,39 +549,50 @@ function Task(props) {
                           color={customColors.icon}
                           size={scalePx(2.3)}
                         />
-                        <CText
-                          customStyles={[
-                            cStyles.textMeta,
-                            cStyles.pl6,
-                            cStyles.fontRegular,
-                            {color: customColors.text},
-                          ]}
-                          customLabel={checkEmpty(
-                            data.taskDetail.startDate,
-                            '#',
-                            false,
-                            formatDateView,
-                          )}
-                        />
-                        <CLabel customLabel={' -'} />
-                        <CText
-                          customStyles={[
-                            cStyles.textMeta,
-                            cStyles.pl6,
-                            cStyles.fontRegular,
-                            {
-                              color: isDelay
-                                ? customColors.red
-                                : customColors.text,
-                            },
-                          ]}
-                          customLabel={checkEmpty(
-                            data.taskDetail.endDate,
-                            '#',
-                            false,
-                            formatDateView,
-                          )}
-                        />
+                        <View style={cStyles.pl6}>
+                          <View style={[cStyles.row, cStyles.itemsCenter]}>
+                            <CText
+                              styles={'textMeta'}
+                              label={'project_management:from_date'}
+                            />
+                            <CText
+                              customStyles={[
+                                cStyles.textMeta,
+                                cStyles.fontRegular,
+                                {color: customColors.text},
+                              ]}
+                              customLabel={checkEmpty(
+                                data.taskDetail.startDate,
+                                '#',
+                                false,
+                                formatDateView,
+                              )}
+                            />
+                          </View>
+                          <View style={[cStyles.row, cStyles.itemsCenter]}>
+                            <CText
+                              styles={'textMeta'}
+                              label={'project_management:to_date'}
+                            />
+                            <CText
+                              customStyles={[
+                                cStyles.textMeta,
+                                cStyles.fontRegular,
+                                {
+                                  color: isDelay
+                                    ? customColors.red
+                                    : customColors.text,
+                                },
+                              ]}
+                              customLabel={checkEmpty(
+                                data.taskDetail.endDate,
+                                '#',
+                                false,
+                                formatDateView,
+                              )}
+                            />
+                          </View>
+                        </View>
                       </View>
                     </View>
 
@@ -597,7 +608,7 @@ function Task(props) {
                         style={[
                           cStyles.row,
                           cStyles.itemsCenter,
-                          styles.con_left_1,
+                          styles.con_left,
                         ]}>
                         <CLabel label={'project_management:piority'} />
 
@@ -612,7 +623,7 @@ function Task(props) {
                           cStyles.row,
                           cStyles.itemsCenter,
                           cStyles.justifyStart,
-                          styles.con_middle,
+                          styles.con_right,
                         ]}>
                         <CLabel label={'project_management:grade'} />
 
@@ -621,61 +632,51 @@ function Task(props) {
                           customLabel={checkEmpty(data.taskDetail.grade)}
                         />
                       </View>
-
-                      <View
-                        style={[
-                          cStyles.row,
-                          cStyles.itemsCenter,
-                          styles.con_right_1,
-                        ]}>
-                        <CLabel label={'project_management:component'} />
-
-                        <CText
-                          styles={'textMeta'}
-                          customLabel={checkEmpty(
-                            data.taskDetail.componentName,
-                          )}
-                        />
-                      </View>
                     </View>
 
-                    {/** Origin publish & Owner ship */}
+                    {/** Component */}
+                    <View
+                      style={[cStyles.row, cStyles.itemsCenter, cStyles.mb10]}>
+                      <CLabel label={'project_management:component'} />
+
+                      <CText
+                        styles={'textMeta'}
+                        customLabel={checkEmpty(data.taskDetail.componentName)}
+                      />
+                    </View>
+
+                    {/** Origin publish */}
                     <View
                       style={[
-                        cStyles.pb10,
                         cStyles.row,
                         cStyles.itemsCenter,
-                        cStyles.justifyBetween,
+                        cStyles.mb10,
+                        styles.con_left,
                       ]}>
-                      <View
-                        style={[
-                          cStyles.row,
-                          cStyles.itemsCenter,
-                          styles.con_left,
-                        ]}>
-                        <CLabel label={'project_management:origin_publisher'} />
+                      <CLabel label={'project_management:origin_publisher'} />
 
-                        <CText
-                          styles={'textMeta'}
-                          customLabel={checkEmpty(
-                            data.taskDetail.originPublisher,
-                          )}
-                        />
-                      </View>
+                      <CText
+                        styles={'textMeta pr3'}
+                        customLabel={checkEmpty(
+                          data.taskDetail.originPublisher,
+                        )}
+                      />
+                    </View>
 
-                      <View
-                        style={[
-                          cStyles.row,
-                          cStyles.itemsCenter,
-                          styles.con_right,
-                        ]}>
-                        <CLabel label={'project_management:owner_ship_dtp'} />
+                    {/** Owner ship */}
+                    <View
+                      style={[
+                        cStyles.row,
+                        cStyles.itemsCenter,
+                        cStyles.mb10,
+                        styles.con_right,
+                      ]}>
+                      <CLabel label={'project_management:owner_ship_dtp'} />
 
-                        <CText
-                          styles={'textMeta'}
-                          customLabel={checkEmpty(data.taskDetail.ownershipDTP)}
-                        />
-                      </View>
+                      <CText
+                        styles={'textMeta'}
+                        customLabel={checkEmpty(data.taskDetail.ownershipDTP)}
+                      />
                     </View>
 
                     {/** Sector */}

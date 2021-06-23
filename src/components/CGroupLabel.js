@@ -17,9 +17,6 @@ function CGroupLabel(props) {
     <View
       style={[
         cStyles.px16,
-        cStyles.pt24,
-        cStyles.pb10,
-        cStyles.mt16,
         cStyles.row,
         cStyles.itemsEnd,
         cStyles.justifyBetween,

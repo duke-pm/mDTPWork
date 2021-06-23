@@ -137,7 +137,7 @@ function TaskItem(props) {
                     customStyles={[
                       cStyles.H6,
                       cStyles.fontBold,
-                      delay > 0 && cStyles.pb5,
+                      delay > 0 && cStyles.pb3,
                       {color: typeColor},
                       isReject && cStyles.textThrough,
                     ]}

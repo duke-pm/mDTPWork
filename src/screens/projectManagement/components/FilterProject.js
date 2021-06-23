@@ -296,16 +296,16 @@ function FilterProject(props) {
       header
       headerLeft={
         <TouchableOpacity
-          style={[cStyles.itemsStart, cStyles.pl24]}
+          style={[cStyles.itemsStart, cStyles.pl10]}
           onPress={handleReset}>
-          <CText styles={'colorWhite'} label={'common:reset'} />
+          <CText styles={'colorWhite textMeta'} label={'common:reset'} />
         </TouchableOpacity>
       }
       headerRight={
         <TouchableOpacity
-          style={[cStyles.itemsEnd, cStyles.pr16]}
+          style={[cStyles.itemsEnd, cStyles.pr10]}
           onPress={handleFilter}>
-          <CText styles={'colorWhite'} customLabel={t('common:apply')} />
+          <CText styles={'colorWhite textMeta'} label={t('common:apply')} />
         </TouchableOpacity>
       }
       content={
