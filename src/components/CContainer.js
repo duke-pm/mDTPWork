@@ -34,6 +34,7 @@ function CContainer(props) {
     },
     style = {},
     centerStyle = {},
+    headerStyle = {},
     header = null,
     content = null,
     footer = null,
@@ -97,6 +98,7 @@ function CContainer(props) {
       <View style={[cStyles.flex1, styles.container, style]}>
         {header && (
           <CHeader
+            style={headerStyle}
             centerStyle={centerStyle}
             hasBack={hasBack}
             hasMenu={hasMenu}

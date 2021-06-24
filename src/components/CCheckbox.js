@@ -4,63 +4,83 @@
  ** CreateAt: 2021
  ** Description: Description of CCheckbox.js
  **/
-import React from 'react';
+import React, {createRef} from 'react';
 import {useTranslation} from 'react-i18next';
-import {View, StyleSheet} from 'react-native';
-import CheckBox from '@react-native-community/checkbox';
+import {TouchableOpacity} from 'react-native';
+import * as Animatable from 'react-native-animatable';
+import Icon from 'react-native-vector-icons/Feather';
 /** COMPONENTS */
 import CText from '~/components/CText';
 /** COMMON */
 import {colors, cStyles} from '~/utils/style';
 import {scalePx} from '~/utils/helper';
 
+let handleRef = createRef();
+
 function CCheckbox(props) {
   const {t} = useTranslation();
   const {
     containerStyle,
-    style,
-    label,
-    labelStyle,
+    labelLeft,
+    labelRight,
     disabled,
     value,
-    onCheckColor = colors.SECONDARY,
-    onTintColor = colors.SECONDARY,
-    tintColors = {true: colors.SECONDARY, false: colors.PRIMARY},
     onChange,
   } = props;
+
+  /*****************
+   ** HANDLE FUNC **
+   *****************/
+  const handleCheck = () => {
+    handleRef.pulse(300);
+    onChange();
+  };
 
   /**************
    ** RENDER **
    **************/
   return (
-    <View
-      style={[
-        cStyles.row,
-        cStyles.itemsCenter,
-        cStyles.justifyStart,
-        cStyles.py16,
-        containerStyle,
-      ]}>
-      <CheckBox
-        style={[styles.checkbox, style]}
-        disabled={disabled}
-        value={value}
-        boxType={'circle'}
-        tintColors={tintColors}
-        onCheckColor={onCheckColor}
-        onTintColor={onTintColor}
-        onAnimationType={'one-stroke'}
-        offAnimationType={'flat'}
-        onValueChange={onChange}
-      />
+    <TouchableOpacity disabled={disabled} onPress={handleCheck}>
+      <Animatable.View
+        ref={ref => (handleRef = ref)}
+        useNativeDriver={true}
+        style={[
+          cStyles.row,
+          cStyles.itemsCenter,
+          cStyles.justifyStart,
+          cStyles.py16,
+          containerStyle,
+        ]}>
+        {labelLeft && (
+          <CText
+            customStyles={[
+              cStyles.textDefault,
+              cStyles.pl10,
+              cStyles.colorWhite,
+            ]}
+            label={t(labelLeft)}
+          />
+        )}
 
-      {label && <CText styles={labelStyle} label={t(label)} />}
-    </View>
+        <Icon
+          name={value ? 'check-circle' : 'circle'}
+          size={scalePx(3)}
+          color={value ? colors.SECONDARY : colors.GRAY_500}
+        />
+
+        {labelRight && (
+          <CText
+            customStyles={[
+              cStyles.textDefault,
+              cStyles.pl10,
+              cStyles.colorWhite,
+            ]}
+            label={t(labelRight)}
+          />
+        )}
+      </Animatable.View>
+    </TouchableOpacity>
   );
 }
-
-const styles = StyleSheet.create({
-  checkbox: {height: scalePx(3), width: scalePx(3)},
-});
 
 export default CCheckbox;

@@ -18,6 +18,7 @@ export const IS_ANDROID = Platform.OS === 'android';
 export const IS_IOS = Platform.OS === 'ios';
 export const SCREEN_HEIGHT = Dimensions.get('window').height;
 export const SCREEN_WIDTH = Dimensions.get('window').width;
+const regex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 const STANDARD_LENGTH =
   SCREEN_WIDTH > SCREEN_HEIGHT ? SCREEN_WIDTH : SCREEN_HEIGHT;
 const OFFSET =
@@ -50,6 +51,13 @@ export function borderRadius(number) {
   } else {
     return number / 2;
   }
+}
+
+export function validatEemail(data) {
+  if (regex.test(data)) {
+    return true;
+  }
+  return false;
 }
 
 export function alert(t, message, onPressOK) {
@@ -272,12 +280,7 @@ export async function previewFile(url = '', name = null) {
       begin: res => {
         console.log('[LOG] === begin ===> ');
       },
-      progress: res => {
-        console.log(
-          '===>',
-          ((res.bytesWritten / res.contentLength) * 100 ).toFixed(0) + '% / 100%',
-        );
-      },
+      progress: res => {},
     };
     await RNFS.downloadFile(options).promise;
     FileViewer.open(localFile);

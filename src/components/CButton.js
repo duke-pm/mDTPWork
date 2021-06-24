@@ -84,7 +84,7 @@ function CButton(props) {
             style={cStyles.pr10}
             name={icon}
             color={variant === 'contained' ? colors.WHITE : color}
-            size={scalePx(3)}
+            size={scalePx(2.5)}
           />
         )}
         {loading ? (

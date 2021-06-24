@@ -15,6 +15,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
+import {isIphoneX} from 'react-native-iphone-x-helper';
 import LinearGradient from 'react-native-linear-gradient';
 import {showMessage} from 'react-native-flash-message';
 /* COMPONENTS */
@@ -48,6 +49,7 @@ let passwordRef = createRef();
 
 function SignIn(props) {
   const {t} = useTranslation();
+  const {navigation} = props;
 
   /** Use redux */
   const dispatch = useDispatch();
@@ -93,11 +95,11 @@ function SignIn(props) {
   };
 
   const handleForgotPassword = () => {
-    props.navigation.navigate(Routes.AUTHENTICATION.FORGOT_PASSWORD.name);
+    navigation.navigate(Routes.AUTHENTICATION.FORGOT_PASSWORD.name);
   };
 
-  const handleSaveAccount = checked => {
-    setForm({...form, saveAccount: checked});
+  const handleSaveAccount = () => {
+    setForm({...form, saveAccount: !form.saveAccount});
   };
 
   const handleSignIn = () => {
@@ -183,7 +185,7 @@ function SignIn(props) {
       icon: 'success',
     });
     setLoading({main: false, submit: false});
-    resetRoute(props.navigation, Routes.ROOT_TAB.name);
+    resetRoute(navigation, Routes.ROOT_TAB.name);
   };
 
   const onCheckDataLogin = async () => {
@@ -319,11 +321,10 @@ function SignIn(props) {
                     cStyles.row,
                     cStyles.itemsCenter,
                     cStyles.justifyBetween,
-                    cStyles.mt6,
+                    cStyles.my6,
                   ]}>
                   <CCheckbox
-                    labelStyle={'textDefault pl10 colorWhite'}
-                    label={'sign_in:save_account'}
+                    labelRight={'sign_in:save_account'}
                     value={form.saveAccount}
                     onChange={handleSaveAccount}
                   />
@@ -354,8 +355,8 @@ function SignIn(props) {
 const styles = StyleSheet.create({
   container: {backgroundColor: colors.TRANSPARENT},
   content: {backgroundColor: 'rgba(0, 0, 0, 0.4)'},
-  con_icon_app: {flex: 0.4},
-  con_input: {flex: 0.6},
+  con_icon_app: {flex: isIphoneX() ? 0.4 : 0.35},
+  con_input: {flex: isIphoneX() ? 0.6 : 0.65},
   input: {
     backgroundColor: colors.TRANSPARENT,
     color: colors.WHITE,

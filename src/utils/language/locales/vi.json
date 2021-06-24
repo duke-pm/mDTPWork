@@ -103,7 +103,18 @@
   "forgot_password": {
     "title": "Quên Mật Khẩu",
     "input_email": "E-mail",
-    "sub_title": "Vui lòng nhập E-mail để chúng tôi có thể gửi lại mật khẩu mới cho bạn"
+    "sub_title": "Vui lòng nhập E-mail để chúng tôi có thể gửi lại mật khẩu mới cho bạn",
+    "error_email_not_fill": "E-mail không thể trống!",
+    "error_email_format": "E-mail không đúng định dạng!",
+    "error_title": "Phục hồi không thành công!",
+    "error_content_1": "Không thể phục hồi mật khẩu từ e-mail",
+    "error_content_2": "Chắc chắn bạn đã nhập đúng e-mail hoặc e-mail bạn nhập không có trong hệ thống. Hãy liên hệ bộ phận IT để biết thêm chi tiết.",
+    "success_title": "Xác nhận địa chỉ e-mail của bạn!",
+    "success_content_1": "Một email xác nhận đã được gửi đến",
+    "success_content_2": "Kiểm tra hộp thư đến của bạn, nhấp vào",
+    "success_content_3": "Xác nhận email của tôi",
+    "success_content_4": "liên kết để xác nhận địa chỉ email của bạn.",
+    "button_go_back": "Quay lại Đăng nhập"
   },
   "dashboard": {
     "title": "Tổng Quan"
@@ -384,7 +395,7 @@
     "info_basic": "Thông tin cơ bản",
     "info_basic_2": "Quản lý tiến độ",
     "info_basic_3": "Thông tin khác",
-    "info_basic_4": "Miêu tả"
+    "info_basic_4": "Mô tả"
   },
   "sales_visit": {
     "title": "Sales Visit"

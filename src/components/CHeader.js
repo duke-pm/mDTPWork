@@ -42,6 +42,7 @@ function CHeader(props) {
   const isDark = useColorScheme() === THEME_DARK;
   const {customColors} = useTheme();
   const {
+    style = {},
     centerStyle = {},
     hasBack = false,
     hasMenu = false,
@@ -118,6 +119,7 @@ function CHeader(props) {
         styles.container,
         isSearch && cStyles.px16,
         {backgroundColor: isDark ? customColors.header : customColors.primary},
+        style,
       ]}>
       {isDark && IS_IOS && (
         <BlurView
