@@ -17,6 +17,8 @@ import {
   View,
   TouchableOpacity,
   Keyboard,
+  UIManager,
+  LayoutAnimation,
   // Linking,
 } from 'react-native';
 import Lottie from 'lottie-react-native';
@@ -47,6 +49,12 @@ import {THEME_DARK, DEFAULT_FORMAT_DATE_4} from '~/config/constants';
 // import API from '~/services/axios';
 /* REDUX */
 import * as Actions from '~/redux/actions';
+
+if (IS_ANDROID) {
+  if (UIManager.setLayoutAnimationEnabledExperimental) {
+    UIManager.setLayoutAnimationEnabledExperimental(true);
+  }
+}
 
 const INPUT_NAME = {
   DATE_REQUEST: 'dateRequest',
@@ -225,6 +233,7 @@ function AddRequest(props) {
   const handleChangeText = (value, nameInput) => {
     setForm({...form, reason: value});
     if (error.reason.status) {
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
       setError({
         ...error,
         reason: {
@@ -346,6 +355,7 @@ function AddRequest(props) {
         Actions.fetchAddRequestLostDamage(params, formData, props.navigation),
       );
     } else {
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
       setError(isValid.data);
       setLoading({...loading, submitAdd: false});
     }
