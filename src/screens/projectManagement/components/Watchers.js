@@ -27,6 +27,7 @@ import {colors, cStyles} from '~/utils/style';
 /** REDUX */
 import * as Actions from '~/redux/actions';
 import CLabel from '~/components/CLabel';
+import {isIphoneX} from 'react-native-iphone-x-helper';
 
 function Watchers(props) {
   const {t} = useTranslation();
@@ -162,7 +163,11 @@ function Watchers(props) {
 
           {!loading.main && (
             <CCard
-              containerStyle={[cStyles.flex1, cStyles.mx16]}
+              containerStyle={[
+                cStyles.flex1,
+                cStyles.mx16,
+                !isIphoneX() && cStyles.mb16,
+              ]}
               label={'project_management:list_watchers'}
               content={
                 watchers.length > 0 ? (
