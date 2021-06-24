@@ -66,7 +66,8 @@ function TaskItem(props) {
    **************/
   let typeColor = customColors[Commons.TYPE_TASK.PHASE.color], // default is PHASE
     bgStatus = customColors[Commons.STATUS_TASK.NEW.color], // default is New
-    isReject = false;
+    isReject = false,
+    isClose = false;
   if (data.typeColor === '') {
     if (data.taskTypeID === Commons.TYPE_TASK.TASK.value) {
       typeColor = customColors.typeTask;
@@ -85,6 +86,7 @@ function TaskItem(props) {
     } else if (data.statusID === Commons.STATUS_TASK.IN_PROGRESS.value) {
       bgStatus = customColors[Commons.STATUS_TASK.IN_PROGRESS.color];
     } else if (data.statusID === Commons.STATUS_TASK.CLOSED.value) {
+      isClose = true;
       bgStatus = customColors[Commons.STATUS_TASK.CLOSED.color];
     } else if (data.statusID === Commons.STATUS_TASK.ON_HOLD.value) {
       bgStatus = customColors[Commons.STATUS_TASK.ON_HOLD.color];
@@ -96,6 +98,9 @@ function TaskItem(props) {
     if (data.statusID === Commons.STATUS_TASK.REJECTED.value) {
       isReject = true;
     }
+    if (data.statusID === Commons.STATUS_TASK.CLOSED.value) {
+      isClose = true;
+    }
     bgStatus = data.statusColor;
   }
   const rotateData = valueAnim.interpolate({
@@ -104,9 +109,17 @@ function TaskItem(props) {
   });
   const showPercentage = data.taskTypeID === Commons.TYPE_TASK.TASK.value;
   let delay = 0;
-  if (data && data.endDate && data.endDate !== '') {
-    delay = moment().diff(data.endDate, 'days');
+  if (
+    data &&
+    showPercentage &&
+    data.statusID !== Commons.STATUS_TASK.REJECTED.value &&
+    data.statusID !== Commons.STATUS_TASK.CLOSED.value
+  ) {
+    if (data.endDate && data.endDate !== '') {
+      delay = moment().diff(data.endDate, 'days');
+    }
   }
+
   return (
     <View>
       <TouchableOpacity disabled={props.loading} onPress={handleTaskItem}>
@@ -121,6 +134,7 @@ function TaskItem(props) {
               borderLeftWidth: 3,
             },
             isReject && {backgroundColor: customColors.cardDisable},
+            isClose && {backgroundColor: customColors.cardDisable},
           ]}>
           {/** Label */}
           <View style={[cStyles.flex1, cStyles.itemsStart, cStyles.fullWidth]}>
