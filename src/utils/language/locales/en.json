@@ -133,6 +133,18 @@
     "hotline": "Hotline",
     "sign_out": "Logout"
   },
+  "change_password": {
+    "title": "Change Password",
+    "sub_title": "Please fill in the required information below",
+    "current_password": "Current password",
+    "new_password": "New password",
+    "confirm_password": "Confirm password",
+    "error_not_fill": "not empty!",
+    "error_cur_not_like_new": "not like!",
+    "error_new_not_like_confirm": "incorrect!",
+    "success_change": "Change password successfully!",
+    "error_change": "Password change failed. Please try again later!"
+  },
   "help_and_info": {
     "title": "Info & Help",
     "contact_us": "Contact us",
@@ -395,5 +407,8 @@
     "info_basic_2": "Progress Manager",
     "info_basic_3": "Other information",
     "info_basic_4": "Description"
+  },
+  "sales_visit": {
+    "title": "Sales Visit"
   }
 }

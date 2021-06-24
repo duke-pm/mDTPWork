@@ -6,13 +6,7 @@
  **/
 import React from 'react';
 import {useTranslation} from 'react-i18next';
-import {
-  StyleSheet,
-  View,
-  TouchableWithoutFeedback,
-  Linking,
-  Image,
-} from 'react-native';
+import {StyleSheet, View, Linking, Image, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
 import Rate, {AndroidMarket} from 'react-native-rate';
@@ -26,16 +20,8 @@ import {colors, cStyles} from '~/utils/style';
 function ListItem(props) {
   const navigation = useNavigation();
   const {t} = useTranslation();
-  const {
-    showLineBottom = true,
-    key,
-    index,
-    data,
-    dataActive,
-    dataLength,
-    customColors,
-    isDark,
-  } = props;
+  const {key, data, dataActive, customColors, onSignOut} = props;
+  const isSignOut = data.id === 'signout';
 
   /*****************
    ** HANDLE FUNC **
@@ -66,6 +52,9 @@ function ListItem(props) {
       });
     } else if (data.isChooseLang) {
       data.onPress?.current?.show();
+    } else if (isSignOut) {
+      console.log('[LOG] === onSignOut ===> ');
+      onSignOut();
     }
   };
 
@@ -78,10 +67,9 @@ function ListItem(props) {
     data.isPhone ||
     data.isURL ||
     data.isChooseLang ||
-    data.isRate;
-  const Component = isTouch ? TouchableWithoutFeedback : View;
-  const showLine = index !== dataLength - 1 && showLineBottom;
-  const showDarkLine = index !== dataLength - 1 && showLineBottom && isDark;
+    data.isRate ||
+    isSignOut;
+  const Component = isTouch ? TouchableOpacity : View;
 
   return (
     <View key={key} style={cStyles.itemsEnd}>
@@ -114,7 +102,10 @@ function ListItem(props) {
               cStyles.fullHeight,
               styles.con_right,
             ]}>
-            <CText label={data.label} />
+            <CText
+              customStyles={isSignOut ? {color: customColors.red} : {}}
+              label={data.label}
+            />
 
             <View
               style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyEnd]}>
@@ -153,15 +144,6 @@ function ListItem(props) {
           </View>
         </View>
       </Component>
-
-      <View
-        style={[
-          cStyles.itemsEnd,
-          styles.con_line,
-          showLine && cStyles.borderBottom,
-          showDarkLine && cStyles.borderBottomDark,
-        ]}
-      />
     </View>
   );
 }

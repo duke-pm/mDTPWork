@@ -11,6 +11,7 @@ import ForgotPasswordScreen from '~/screens/authentication/forgotPassword';
 import Dashboard from '~/screens/dashboard';
 /** ACCOUNT */
 import Account from '~/screens/account';
+import ChangePassword from '~/screens/changePassword';
 import HelpAndInfo from '~/screens/helpAndInfo';
 import ContactUs from '~/screens/contactUs';
 import Settings from '~/screens/settings';
@@ -56,6 +57,10 @@ const Routes = {
     ACCOUNT: {
       name: 'Account',
       path: Account,
+    },
+    CHANGE_PASSWORD: {
+      name: 'ChangePassword',
+      path: ChangePassword,
     },
     HELP_AND_INFO: {
       name: 'HelpAndInfo',

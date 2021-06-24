@@ -89,9 +89,7 @@ function HelpAndInfo(props) {
               key={item.id}
               index={index}
               data={item}
-              dataLength={HELP_AND_INFO.length}
               customColors={customColors}
-              isDark={isDark}
             />
           ))}
         </CContent>

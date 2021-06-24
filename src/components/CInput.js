@@ -234,6 +234,7 @@ function CInput(props) {
               {color: customColors.red},
             ]}
             label={t(props.errorHelper)}
+            customLabel={props.errorHelperCustom}
           />
         </View>
       )}

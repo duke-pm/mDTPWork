@@ -133,6 +133,21 @@
     "hotline": "Hotline",
     "sign_out": "Đăng xuất"
   },
+  "change_password": {
+    "title": "Đổi mật khẩu",
+    "sub_title": "Vui lòng điền thông tin cần thiết dưới đây",
+    "current_password": "Mật khẩu hiện tại",
+    "new_password": "Mật khẩu mới",
+    "confirm_password": "Xác nhận lại mật khẩu",
+    "error_cur_pass_not_fill": "Mật khẩu hiện tại không đuợc rỗng!",
+    "error_new_pass_not_fill": "Mật khẩu mới không đuợc rỗng!",
+    "error_con_pass_not_fill": "Xác nhận lại mật khẩu không đuợc rỗng!",
+    "error_cur_not_like_new": "Mật khẩu mới không được giống mật khẩu hiện tại!",
+    "error_length_new_lager": "Độ dài mật khẩu mới tối thiểu là",
+    "error_new_not_like_confirm": "Xác nhận mật khẩu không chính xác!",
+    "success_change": "Thay đổi mật khẩu thành công!",
+    "error_change": "Thay đổi mật khẩu thất bại. Vui lòng thử lại sau!"
+  },
   "help_and_info": {
     "title": "Thông Tin & Trợ Giúp",
     "contact_us": "Liên hệ",

@@ -145,10 +145,8 @@ function Settings(props) {
                 <ListItem
                   index={index}
                   data={item}
-                  dataLength={initSettings.length}
                   dataActive={languages.data[languages.active]}
                   customColors={customColors}
-                  isDark={isDark}
                 />
               );
             }}

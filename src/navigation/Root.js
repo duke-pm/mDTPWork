@@ -99,6 +99,10 @@ export function RootMain(props) {
         component={Routes.MAIN.HELP_AND_INFO.path}
       />
       <StackMain.Screen
+        name={Routes.MAIN.CHANGE_PASSWORD.name}
+        component={Routes.MAIN.CHANGE_PASSWORD.path}
+      />
+      <StackMain.Screen
         name={Routes.MAIN.CONTACT_US.name}
         component={Routes.MAIN.CONTACT_US.path}
       />
