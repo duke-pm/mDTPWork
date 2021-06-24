@@ -12,14 +12,14 @@ import * as types from '../actions/types';
 export const initialState = fromJS({
   submittingListProject: false,
   projects: [],
-  countProjects: 0,
+  pagesProjects: 0,
   successListProject: false,
   errorListProject: false,
   errorHelperListProject: '',
 
   submittingListTask: false,
   tasks: [],
-  countTasks: 0,
+  pagesTasks: 0,
   successListTask: false,
   errorListTask: false,
   errorHelperListTask: '',
@@ -64,7 +64,7 @@ export default function (state = initialState, action = {}) {
         .set('errorListProject', false)
         .set('errorHelperListProject', '')
         .set('projects', payload.data)
-        .set('countProjects', payload.count);
+        .set('pagesProjects', payload.pages);
 
     case types.ERROR_FETCH_LIST_PROJECT:
       return state
@@ -87,7 +87,8 @@ export default function (state = initialState, action = {}) {
         .set('successListTask', true)
         .set('errorListTask', false)
         .set('errorHelperListTask', '')
-        .set('tasks', payload);
+        .set('tasks', payload.data)
+        .set('pagesTasks', payload.pages);
 
     case types.ERROR_FETCH_LIST_TASK:
       return state

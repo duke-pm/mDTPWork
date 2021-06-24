@@ -162,11 +162,13 @@ function Watchers(props) {
 
           {!loading.main && (
             <CCard
-              containerStyle={cStyles.mx16}
+              containerStyle={[cStyles.flex1, cStyles.mx16]}
               label={'project_management:list_watchers'}
               content={
                 watchers.length > 0 ? (
-                  <ScrollView>
+                  <ScrollView
+                    style={cStyles.mb32}
+                    showsVerticalScrollIndicator={false}>
                     {watchers.map((item, index) => {
                       let isLast = index === watchers.length - 1;
                       return (
@@ -186,9 +188,17 @@ function Watchers(props) {
                               !isLast && isDark && cStyles.borderBottomDark,
                             ]}>
                             <View style={styles.con_left}>
-                              <Text style={[cStyles.textDefault]}>
+                              <Text
+                                style={
+                                  (cStyles.textDefault,
+                                  {color: customColors.text})
+                                }>
                                 {item.fullName}
-                                <Text style={cStyles.textMeta}>
+                                <Text
+                                  style={
+                                    (cStyles.textMeta,
+                                    {color: customColors.text})
+                                  }>
                                   {item.userName === userName
                                     ? `  (${t('common:its_you')})`
                                     : ''}

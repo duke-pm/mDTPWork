@@ -30,7 +30,10 @@ export const fetchListProject = (params, navigation) => {
       .then(res => {
         if (!res.isError) {
           return dispatch(
-            listProjectSuccess({data: res.data, count: res.totalRow}),
+            listProjectSuccess({
+              data: res.data,
+              pages: res.totalPage || 0,
+            }),
           );
         } else {
           return dispatch(listProjectError(res.errorMessage));
@@ -75,7 +78,12 @@ export const fetchListTask = (params, navigation) => {
       .listTask(params)
       .then(res => {
         if (!res.isError) {
-          return dispatch(listTaskSuccess(res.data.listTask));
+          return dispatch(
+            listTaskSuccess({
+              data: res.data.listTask,
+              pages: res.totalPage || 0,
+            }),
+          );
         } else {
           return dispatch(listTaskError(res.errorMessage));
         }

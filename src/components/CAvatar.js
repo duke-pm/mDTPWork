@@ -67,11 +67,10 @@ function CAvatar(props) {
         cStyles.p2,
         cStyles.rounded10,
         cStyles.center,
-        styles.container,
-        size === 'vsmall' && styles.container_vsmall,
-        size === 'small' && styles.container_small,
-        size === 'medium' && styles.container_medium,
-        size === 'large' && styles.container_large,
+        size === 'vsmall' && styles.image_vsmall,
+        size === 'small' && styles.image_small,
+        size === 'medium' && styles.image_medium,
+        size === 'large' && styles.image_large,
         containerStyle,
         {backgroundColor: customColors.card},
       ]}>
@@ -102,7 +101,7 @@ function CAvatar(props) {
         <View
           style={[
             cStyles.rounded10,
-            cStyles.center,
+            cStyles.flexCenter,
             size === 'vsmall' && styles.image_vsmall,
             size === 'small' && styles.image_small,
             size === 'medium' && styles.image_medium,
@@ -113,10 +112,11 @@ function CAvatar(props) {
           <Text
             style={[
               cStyles.fontMedium,
+              cStyles.textCenter,
               {
                 fontSize:
                   size === 'vsmall'
-                    ? 10
+                    ? 9
                     : size === 'small'
                     ? 15
                     : size === 'medium'
@@ -129,6 +129,7 @@ function CAvatar(props) {
           </Text>
         </View>
       )}
+
       <Animated.View
         style={[
           cStyles.flexCenter,
@@ -155,9 +156,10 @@ function CAvatar(props) {
         <View
           style={[
             cStyles.abs,
+            cStyles.bottom0,
+            cStyles.right0,
             cStyles.center,
             cStyles.rounded10,
-            styles.container_icon_camera,
             size === 'vsmall' && styles.icon_camera_vsmall,
             size === 'small' && styles.icon_camera_small,
             size === 'medium' && styles.icon_camera_medium,
@@ -178,26 +180,8 @@ function CAvatar(props) {
 }
 
 const styles = StyleSheet.create({
-  container: {backgroundColor: colors.WHITE},
-  container_vsmall: {
-    height: sW('5%'),
-    width: sW('5%'),
-  },
-  container_small: {
-    height: sW('9%'),
-    width: sW('9%'),
-  },
-  container_medium: {
-    height: sW('17%'),
-    width: sW('17%'),
-  },
-  container_large: {
-    height: sW('24%'),
-    width: sW('24%'),
-  },
-
   image_vsmall: {
-    height: sW('4.5%'),
+    height: sW('5%'),
     width: sW('4.5%'),
   },
   image_small: {
@@ -211,12 +195,6 @@ const styles = StyleSheet.create({
   image_large: {
     height: sW('22%'),
     width: sW('22%'),
-  },
-
-  container_icon_camera: {
-    bottom: 0,
-    right: 0,
-    backgroundColor: colors.WHITE,
   },
 
   icon_camera_vsmall: {

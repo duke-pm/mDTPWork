@@ -41,7 +41,6 @@ function CCard(props) {
       style={[
         cStyles.rounded2,
         cStyles.mt32,
-        styles.container,
         {backgroundColor: customColors.card},
         containerStyle,
       ]}
@@ -81,10 +80,7 @@ function CCard(props) {
 
 const styles = StyleSheet.create({
   container: {backgroundColor: colors.BACKGROUND_CARD},
-  con_label: {
-    backgroundColor: colors.WHITE,
-    top: -15,
-  },
+  con_label: {top: -15},
 });
 
 export default CCard;

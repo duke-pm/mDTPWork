@@ -151,8 +151,9 @@ function ProjectManagement(props) {
     let tmpProjects = [...data.projects];
     /** Prepare data projects */
     let projects = projectState.get('projects');
+    let pagesProjects = projectState.get('pagesProjects');
     // Check if count result < perPage => loadmore is unavailable
-    if (projects.length < perPageMaster) {
+    if (data.page >= pagesProjects) {
       isLoadmore = false;
     }
     // Check type fetch is refresh or loadmore
