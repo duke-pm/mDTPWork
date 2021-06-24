@@ -307,9 +307,6 @@ function ProjectManagement(props) {
     <CContainer
       loading={loading.main || loading.startFetch}
       title={'project_management:title'}
-      subTitle={`${projectState.get('countProjects')} ${t(
-        'project_management:project',
-      )}`}
       header
       hasBack
       hasSearch
