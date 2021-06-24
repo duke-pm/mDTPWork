@@ -71,6 +71,7 @@ function ForgotPassword(props) {
   const handleChangeText = (value, nameInput) => {
     setForm({...form, email: value});
     if (error.email) {
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
       setError({...error, email: false});
     }
   };
@@ -85,6 +86,7 @@ function ForgotPassword(props) {
   const onCheckValid = () => {
     if (!error.email) {
       if (form.email.trim() === '') {
+        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
         setError({
           email: true,
           emailHelper: 'forgot_password:error_email_not_fill',
@@ -93,6 +95,7 @@ function ForgotPassword(props) {
       }
       let isEmail = validatEemail(form.email);
       if (!isEmail) {
+        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
         setError({
           email: true,
           emailHelper: 'forgot_password:error_email_format',

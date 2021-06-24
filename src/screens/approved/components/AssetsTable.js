@@ -9,7 +9,14 @@
 import React, {useState, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
-import {StyleSheet, ScrollView, View, TouchableOpacity} from 'react-native';
+import {
+  StyleSheet,
+  ScrollView,
+  View,
+  TouchableOpacity,
+  UIManager,
+  LayoutAnimation,
+} from 'react-native';
 import {Table, Row, TableWrapper, Cell} from 'react-native-table-component';
 import Icon from 'react-native-vector-icons/Feather';
 /* COMPONENTS */
@@ -17,7 +24,13 @@ import CText from '~/components/CText';
 import AssetItem from './AssetItem';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
-import {scalePx} from '~/utils/helper';
+import {IS_ANDROID, scalePx} from '~/utils/helper';
+
+if (IS_ANDROID) {
+  if (UIManager.setLayoutAnimationEnabledExperimental) {
+    UIManager.setLayoutAnimationEnabledExperimental(true);
+  }
+}
 
 function AssetsTable(props) {
   const {t} = useTranslation();
@@ -91,6 +104,7 @@ function AssetsTable(props) {
       },
     });
     if (error.status) {
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
       setError({status: false, helper: ''});
     }
   };
@@ -133,6 +147,7 @@ function AssetsTable(props) {
       tmpError.status = true;
       tmpError.helper = 'error:not_enough_assets';
     }
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setError(tmpError);
     onCallbackValidate({
       status: tmpError.status,

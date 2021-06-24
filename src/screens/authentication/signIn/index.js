@@ -14,6 +14,8 @@ import {
   View,
   TouchableWithoutFeedback,
   Keyboard,
+  UIManager,
+  LayoutAnimation,
 } from 'react-native';
 import {isIphoneX} from 'react-native-iphone-x-helper';
 import LinearGradient from 'react-native-linear-gradient';
@@ -33,12 +35,19 @@ import {colors, cStyles} from '~/utils/style';
 import {
   getLocalInfo,
   getSecretInfo,
+  IS_ANDROID,
   removeSecretInfo,
   resetRoute,
   saveSecretInfo,
 } from '~/utils/helper';
 /* REDUX */
 import * as Actions from '~/redux/actions';
+
+if (IS_ANDROID) {
+  if (UIManager.setLayoutAnimationEnabledExperimental) {
+    UIManager.setLayoutAnimationEnabledExperimental(true);
+  }
+}
 
 const INPUT_NAME = {
   USER_NAME: 'userName',
@@ -80,11 +89,13 @@ function SignIn(props) {
     if (nameInput === INPUT_NAME.USER_NAME) {
       setForm({...form, userName: value});
       if (error.userName) {
+        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
         setError({...error, userName: false});
       }
     } else {
       setForm({...form, password: value});
       if (error.password) {
+        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
         setError({...error, password: false});
       }
     }
@@ -159,6 +170,7 @@ function SignIn(props) {
     }
 
     if (isUNEmpty || isPWEmpty) {
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
       setError(error);
       return false;
     } else {
