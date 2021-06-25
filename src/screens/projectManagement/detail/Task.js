@@ -433,31 +433,33 @@ function Task(props) {
 
                       {/** Author & Updated at */}
                       <Text style={cStyles.mt10}>
-                        {data.taskDetail.author === '' && (
+                        {(!data.taskDetail.crtdUser ||
+                          data.taskDetail.crtdUser === '') && (
                           <Text
                             style={[
                               cStyles.textMeta,
                               {color: customColors.text},
                             ]}>{`#${data.taskDetail.taskID} `}</Text>
                         )}
-                        {data.taskDetail.author !== '' && (
-                          <Text>
-                            <Text
-                              style={[
-                                cStyles.textMeta,
-                                {color: customColors.text},
-                              ]}>{`#${data.taskDetail.taskID}: ${t(
-                              'project_management:created_by',
-                            )}`}</Text>
-                            <Text
-                              style={[
-                                cStyles.textMeta,
-                                {color: customColors.primary},
-                              ]}>
-                              {` ${data.taskDetail.author}. `}
+                        {data.taskDetail.crtdUser &&
+                          data.taskDetail.crtdUser !== '' && (
+                            <Text>
+                              <Text
+                                style={[
+                                  cStyles.textMeta,
+                                  {color: customColors.text},
+                                ]}>{`#${data.taskDetail.taskID}: ${t(
+                                'project_management:created_by',
+                              )}`}</Text>
+                              <Text
+                                style={[
+                                  cStyles.textMeta,
+                                  {color: customColors.primary},
+                                ]}>
+                                {` ${data.taskDetail.crtdUser}. `}
+                              </Text>
                             </Text>
-                          </Text>
-                        )}
+                          )}
                         <Text
                           style={[
                             cStyles.textMeta,
@@ -522,20 +524,18 @@ function Task(props) {
                         cStyles.itemsCenter,
                         cStyles.justifyBetween,
                       ]}>
-                      <View
-                        style={[
-                          cStyles.row,
-                          cStyles.itemsCenter,
-                          styles.con_left,
-                        ]}>
-                        <CAvatar
-                          size={'vsmall'}
-                          label={data.taskDetail.ownerName}
-                        />
-                        <CText
-                          styles={'textMeta pl6 fontMedium'}
-                          customLabel={data.taskDetail.ownerName}
-                        />
+                      <View style={styles.con_left}>
+                        <CLabel label={'project_management:assignee'} />
+                        <View style={[cStyles.row, cStyles.itemsCenter]}>
+                          <CAvatar
+                            size={'vsmall'}
+                            label={data.taskDetail.ownerName}
+                          />
+                          <CText
+                            styles={'textMeta pl6 fontMedium'}
+                            customLabel={data.taskDetail.ownerName}
+                          />
+                        </View>
                       </View>
 
                       <View
@@ -551,10 +551,7 @@ function Task(props) {
                         />
                         <View style={cStyles.pl6}>
                           <View style={[cStyles.row, cStyles.itemsCenter]}>
-                            <CText
-                              styles={'textMeta'}
-                              label={'project_management:from_date'}
-                            />
+                            <CLabel label={'project_management:from_date'} />
                             <CText
                               customStyles={[
                                 cStyles.textMeta,
@@ -570,10 +567,7 @@ function Task(props) {
                             />
                           </View>
                           <View style={[cStyles.row, cStyles.itemsCenter]}>
-                            <CText
-                              styles={'textMeta'}
-                              label={'project_management:to_date'}
-                            />
+                            <CLabel label={'project_management:to_date'} />
                             <CText
                               customStyles={[
                                 cStyles.textMeta,
@@ -626,9 +620,7 @@ function Task(props) {
                           styles.con_right,
                         ]}>
                         <CLabel label={'project_management:grade'} />
-
-                        <CText
-                          styles={'textMeta'}
+                        <CLabel
                           customLabel={checkEmpty(data.taskDetail.grade)}
                         />
                       </View>
@@ -638,10 +630,17 @@ function Task(props) {
                     <View
                       style={[cStyles.row, cStyles.itemsCenter, cStyles.mb10]}>
                       <CLabel label={'project_management:component'} />
-
-                      <CText
-                        styles={'textMeta'}
+                      <CLabel
                         customLabel={checkEmpty(data.taskDetail.componentName)}
+                      />
+                    </View>
+
+                    {/** Component */}
+                    <View
+                      style={[cStyles.row, cStyles.itemsCenter, cStyles.mb10]}>
+                      <CLabel label={'project_management:author'} />
+                      <CLabel
+                        customLabel={checkEmpty(data.taskDetail.author)}
                       />
                     </View>
 
@@ -654,9 +653,7 @@ function Task(props) {
                         styles.con_left,
                       ]}>
                       <CLabel label={'project_management:origin_publisher'} />
-
-                      <CText
-                        styles={'textMeta pr3'}
+                      <CLabel
                         customLabel={checkEmpty(
                           data.taskDetail.originPublisher,
                         )}
@@ -672,9 +669,7 @@ function Task(props) {
                         styles.con_right,
                       ]}>
                       <CLabel label={'project_management:owner_ship_dtp'} />
-
-                      <CText
-                        styles={'textMeta'}
+                      <CLabel
                         customLabel={checkEmpty(data.taskDetail.ownershipDTP)}
                       />
                     </View>
@@ -687,9 +682,7 @@ function Task(props) {
                         styles.con_sector,
                       ]}>
                       <CLabel label={'project_management:sector'} />
-
-                      <CText
-                        styles={'textMeta'}
+                      <CLabel
                         customLabel={checkEmpty(data.taskDetail.sectorName)}
                       />
                     </View>

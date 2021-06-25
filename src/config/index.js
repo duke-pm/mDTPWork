@@ -10,7 +10,7 @@ const Configs = {
   appStoreID: '12345678',
   googlePlayPackage: 'com.dtp.education',
   lengthNewPassword: 6,
-  salesVisit: true,
+  salesVisit: false,
 };
 
 export default Configs;

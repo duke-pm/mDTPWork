@@ -350,6 +350,7 @@
     "grade": "Grade: ",
     "component": "Component: ",
     "piority": "Piority: ",
+    "author": "Author: ",
     "start_date": "Start date: ",
     "end_date": "Finish date: ",
     "assignee": "Assignee: ",

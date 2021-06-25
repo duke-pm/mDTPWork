@@ -9,10 +9,10 @@ import {View} from 'react-native';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
+import StepForm from './components/StepForm';
 /* COMMON */
 import {cStyles} from '~/utils/style';
 /* REDUX */
-
 
 function SalesVisit(props) {
 
@@ -24,7 +24,13 @@ function SalesVisit(props) {
       hasBack
       content={
         <CContent>
-
+          <StepForm items={[
+            {
+              id: 'step1',
+              number: true,
+              
+            }
+          ]} />
         </CContent>
       }
     />
