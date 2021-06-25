@@ -13,9 +13,10 @@ import CCard from '~/components/CCard';
 import ListProject from '../list/Project';
 import CLabel from '~/components/CLabel';
 /* COMMON */
-import {cStyles} from '~/utils/style';
+import {colors, cStyles} from '~/utils/style';
 import {checkEmpty, IS_ANDROID} from '~/utils/helper';
 import {DEFAULT_FORMAT_DATE_4} from '~/config/constants';
+import Colors from '~/utils/style/Colors';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -155,7 +156,7 @@ function ProjectItem(props) {
               right: PADDING_2_CHILDREN,
               width: widthCard,
               bottom: -BOTTOM_CHILDREN,
-              backgroundColor: customColors.cardDisable,
+              backgroundColor: isDark ? Colors.GRAY_860 : Colors.GRAY_200,
             },
           ]}
         />
