@@ -24,17 +24,34 @@ function SalesVisit(props) {
       hasBack
       content={
         <CContent>
-          <StepForm items={[
-            {
-              id: 'step1',
-              number: true,
-              
-            }
-          ]} />
+          <StepForm
+            items={[
+              {
+                id: 'step1',
+                number: false,
+                icon: 'user',
+              },
+              {
+                id: 'step2',
+                number: false,
+                icon: 'activity',
+              },
+              {
+                id: 'step3',
+                number: false,
+                icon: 'aperture',
+              },
+              {
+                id: 'step4',
+                number: false,
+                icon: 'check',
+              },
+            ]}
+          />
         </CContent>
       }
     />
   );
-};
+}
 
 export default SalesVisit;

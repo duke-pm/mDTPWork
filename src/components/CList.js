@@ -56,14 +56,18 @@ function CList(props) {
     if (props.data && scrollToBottom && sectionList) {
       setTimeout(() => {
         if (props.data.length > 0) {
-          sectionlistRef.scrollToLocation({
-            animated: true,
-            itemIndex: props.data[props.data.length - 1].data.length - 1,
-            sectionIndex: props.data.length - 1,
-          });
+          try {
+            sectionlistRef.scrollToLocation({
+              animated: true,
+              itemIndex: props.data[props.data.length - 1].data.length - 1,
+              sectionIndex: props.data.length - 1,
+            });
+          } catch (e) {
+            console.log('[LOG] === error scroll to bottom ===> ', e);
+          }
         }
         setLoading(false);
-      }, 1800);
+      }, 2000);
     }
   }, [props.data, scrollToBottom, sectionList, setLoading]);
 
