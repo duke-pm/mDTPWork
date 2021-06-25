@@ -4,11 +4,17 @@
  ** CreateAt: 2021
  ** Description: Description of StepForm.js
  **/
-import React, {useRef, useState} from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
-import {StyleSheet, View, TouchableOpacity, Animated} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  Animated,
+  Easing,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 /* COMPONENTS */
 import CText from '~/components/CText';
@@ -17,6 +23,8 @@ import CLabel from '~/components/CLabel';
 import {colors, cStyles} from '~/utils/style';
 import {THEME_DARK} from '~/config/constants';
 import {scalePx} from '~/utils/helper';
+import CList from '~/components/CList';
+import CCard from '~/components/CCard';
 /* REDUX */
 
 function StepForm(props) {
@@ -25,17 +33,35 @@ function StepForm(props) {
   const isDark = useColorScheme() === THEME_DARK;
   const {items = []} = props;
 
-  const animItem = useRef(new Animated.Value(0)).current;
+  let animItem = useRef(new Animated.Value(0)).current;
 
   const [position, setPosition] = useState(0);
 
   const onChangePosition = newPosition => {
     setPosition(newPosition);
-    // Animated.timing(animItem, {
-    //   toValue: animItem
-    // })
   };
 
+  useEffect(() => {
+    Animated.sequence([
+      Animated.timing(animItem, {
+        toValue: 1,
+        duration: 200,
+        easing: Easing.linear,
+        useNativeDriver: true,
+      }),
+      Animated.timing(animItem, {
+        toValue: 0,
+        duration: 200,
+        easing: Easing.linear,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  }, [position]);
+
+  const animScale = animItem.interpolate({
+    inputRange: [0, 1],
+    outputRange: [1, 1.3],
+  });
   return (
     <View style={[cStyles.flex1, cStyles.p16]}>
       <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mx16]}>
@@ -43,51 +69,53 @@ function StepForm(props) {
           let isActive = position > index;
           let isActive2 = position === index;
           return (
-            <TouchableOpacity
+            <View
               style={[
                 index !== items.length - 1 && cStyles.flex1,
                 cStyles.row,
                 cStyles.itemsCenter,
-              ]}
-              onPress={() => onChangePosition(index)}>
-              <View
-                style={[
-                  cStyles.center,
-                  cStyles.rounded5,
-                  cStyles.borderAll,
-                  isDark && cStyles.borderAllDark,
-                  styles.item,
-                  {
-                    borderColor: customColors.primary,
-                    backgroundColor:
-                      isActive || isActive2
-                        ? customColors.primary
-                        : colors.TRANSPARENT,
-                  },
-                ]}>
-                {item.number && (
-                  <CLabel
-                    customStyles={{
-                      color:
+              ]}>
+              <TouchableOpacity onPress={() => onChangePosition(index)}>
+                <Animated.View
+                  style={[
+                    cStyles.center,
+                    cStyles.rounded5,
+                    cStyles.borderAll,
+                    isDark && cStyles.borderAllDark,
+                    styles.item,
+                    {
+                      borderColor: customColors.primary,
+                      backgroundColor:
+                        isActive || isActive2
+                          ? customColors.primary
+                          : colors.TRANSPARENT,
+                    },
+                    isActive2 && {transform: [{scale: animScale}]},
+                  ]}>
+                  {item.number && (
+                    <CLabel
+                      customStyles={{
+                        color:
+                          isActive || isActive2
+                            ? colors.WHITE
+                            : customColors.primary,
+                      }}
+                      customLabel={index + 1}
+                    />
+                  )}
+                  {item.icon && (
+                    <Icon
+                      name={item.icon}
+                      size={17}
+                      color={
                         isActive || isActive2
                           ? colors.WHITE
-                          : customColors.primary,
-                    }}
-                    customLabel={index + 1}
-                  />
-                )}
-                {item.icon && (
-                  <Icon
-                    name={item.icon}
-                    size={17}
-                    color={
-                      isActive || isActive2
-                        ? colors.WHITE
-                        : customColors.primary
-                    }
-                  />
-                )}
-              </View>
+                          : customColors.primary
+                      }
+                    />
+                  )}
+                </Animated.View>
+              </TouchableOpacity>
 
               {index !== items.length - 1 && (
                 <View
@@ -98,13 +126,30 @@ function StepForm(props) {
                     cStyles.borderAll,
                     isDark && cStyles.borderAllDark,
                     styles.seprator,
-                    isActive && {backgroundColor: customColors.primary},
+                    isActive && {borderColor: customColors.primary},
                   ]}
                 />
               )}
-            </TouchableOpacity>
+            </View>
           );
         })}
+
+        <CList
+          pagingEnabled={true}
+          horizontal={true}
+          data={items}
+          item={({item, index}) => {
+            return (
+              <CCard
+                content={
+                  <View>
+                    
+                  </View>
+                }
+              />
+            )
+          }}
+        />
       </View>
     </View>
   );
