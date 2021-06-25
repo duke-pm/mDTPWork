@@ -30,21 +30,25 @@ function SalesVisit(props) {
                 id: 'step1',
                 number: false,
                 icon: 'user',
+                label: 'Contact Information',
               },
               {
                 id: 'step2',
                 number: false,
                 icon: 'activity',
+                label: 'Interests',
               },
               {
                 id: 'step3',
                 number: false,
                 icon: 'aperture',
+                label: 'Samples/Adoptions',
               },
               {
                 id: 'step4',
                 number: false,
                 icon: 'check',
+                label: 'Other Information',
               },
             ]}
           />

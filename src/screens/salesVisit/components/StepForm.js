@@ -19,6 +19,8 @@ import Icon from 'react-native-vector-icons/Feather';
 /* COMPONENTS */
 import CText from '~/components/CText';
 import CLabel from '~/components/CLabel';
+import CInput from '~/components/CInput';
+import ContactInformation from './ContactInformation';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
 import {THEME_DARK} from '~/config/constants';
@@ -39,6 +41,10 @@ function StepForm(props) {
 
   const onChangePosition = newPosition => {
     setPosition(newPosition);
+  };
+
+  const onCallbackContactInfor = () => {
+
   };
 
   useEffect(() => {
@@ -139,15 +145,14 @@ function StepForm(props) {
           horizontal={true}
           data={items}
           item={({item, index}) => {
-            return (
-              <CCard
-                content={
-                  <View>
-                    
-                  </View>
-                }
-              />
-            )
+            if (index === 0) {
+              return (
+                <ContactInformation
+                  data={item}
+                  onCallback={onCallbackContactInfor}
+                />
+              );
+            }
           }}
         />
       </View>
