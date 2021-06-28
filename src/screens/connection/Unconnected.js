@@ -6,7 +6,7 @@
  **/
 import React from 'react';
 import {useTheme} from '@react-navigation/native';
-import {View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import LottieView from 'lottie-react-native';
 /* COMPONENTS */
 import CText from '~/components/CText';
@@ -33,7 +33,7 @@ function Unconnected(props) {
       ]}>
       <View style={cStyles.pb32}>
         <LottieView
-          style={{height: 200, width: 200}}
+          style={styles.connection}
           source={Animations.connection}
           autoPlay
           loop
@@ -59,5 +59,9 @@ function Unconnected(props) {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  connection: {height: 200, width: 200},
+});
 
 export default Unconnected;

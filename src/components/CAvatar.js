@@ -64,7 +64,6 @@ function CAvatar(props) {
   return (
     <View
       style={[
-        cStyles.p2,
         cStyles.rounded10,
         cStyles.center,
         size === 'vsmall' && styles.image_vsmall,
@@ -107,7 +106,7 @@ function CAvatar(props) {
             size === 'medium' && styles.image_medium,
             size === 'large' && styles.image_large,
             imageStyle,
-            {backgroundColor: customColors.cardDisable},
+            {backgroundColor: colors.GRAY_300},
           ]}>
           <Text
             style={[
@@ -181,7 +180,7 @@ function CAvatar(props) {
 
 const styles = StyleSheet.create({
   image_vsmall: {
-    height: sW('5%'),
+    height: sW('4.5%'),
     width: sW('4.5%'),
   },
   image_small: {

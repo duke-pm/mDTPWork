@@ -105,10 +105,7 @@ function Task(props) {
     preview: false,
   });
   const [newComment, setNewComment] = useState(false);
-  const [isFastWatch, setIsFastWatch] = useState({
-    status: true,
-    count: 0,
-  });
+  const [isFastWatch, setIsFastWatch] = useState(true);
   const [needRefresh, setNeedRefresh] = useState(false);
   const [data, setData] = useState({
     taskDetail: null,
@@ -118,7 +115,7 @@ function Task(props) {
    ** HANDLE FUNC **
    *****************/
   const handleFastWatch = () => {
-    if (isFastWatch.status) {
+    if (isFastWatch) {
       setLoading({...loading, fastWatch: true});
       let params = {
         LineNum: 0,
@@ -145,6 +142,7 @@ function Task(props) {
   const handleWatchers = () => {
     navigation.navigate(Routes.MAIN.TASK_DETAIL.childrens.TASK_WATCHERS.name, {
       data: {taskID},
+      onRefresh: () => onRefreshWatcher(),
     });
   };
 
@@ -193,10 +191,7 @@ function Task(props) {
       if (watchers.length > 0) {
         let fWatcher = watchers.find(f => f.userName === userName);
         if (fWatcher) {
-          setIsFastWatch({
-            status: false,
-            count: watchers.length,
-          });
+          setIsFastWatch(false);
         }
       }
     }
@@ -233,6 +228,10 @@ function Task(props) {
     return setLoading({main: false, startFetch: false, fastWatch: false});
   };
 
+  const onRefreshWatcher = () => {
+    setIsFastWatch(false);
+  };
+
   /******************
    ** LIFE CYCLE **
    ******************/
@@ -260,7 +259,6 @@ function Task(props) {
     }
   }, [
     loading.startFetch,
-    needRefresh,
     projectState.get('submittingTaskDetail'),
     projectState.get('successTaskDetail'),
     projectState.get('errorTaskDetail'),
@@ -276,10 +274,7 @@ function Task(props) {
             type: 'success',
             icon: 'success',
           });
-          setIsFastWatch({
-            status: false,
-            count: projectState.get('watchers').length,
-          });
+          setIsFastWatch(false);
           if (!needRefresh) {
             setNeedRefresh(true);
           }
@@ -340,15 +335,15 @@ function Task(props) {
       onRefresh={needRefresh ? onRefresh : null}
       headerRight={
         <View style={[cStyles.row, cStyles.itemsCenter]}>
-          {!loading.main && isFastWatch.status && (
+          {!loading.main && isFastWatch && (
             <TouchableOpacity
               style={cStyles.itemsEnd}
-              disabled={!isFastWatch.status}
+              disabled={!isFastWatch}
               onPress={handleFastWatch}>
               <Icon
                 style={cStyles.p16}
                 name={'eye'}
-                color={isFastWatch.status ? colors.WHITE : colors.GRAY_500}
+                color={isFastWatch ? colors.WHITE : colors.GRAY_500}
                 size={scalePx(3)}
               />
             </TouchableOpacity>
@@ -380,7 +375,7 @@ function Task(props) {
               color={colors.WHITE}
               size={scalePx(3)}
             />
-            {isFastWatch.count > 0 && (
+            {!isFastWatch && (
               <View
                 style={[
                   cStyles.center,

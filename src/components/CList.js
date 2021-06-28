@@ -7,7 +7,10 @@
 import React, {createRef, useState, useEffect} from 'react';
 import {useColorScheme} from 'react-native-appearance';
 import {useTheme} from '@react-navigation/native';
-import {StyleSheet, View, FlatList, SectionList} from 'react-native';
+import {StyleSheet, View, FlatList, SectionList, Text} from 'react-native';
+import {PanGestureHandler, State} from 'react-native-gesture-handler';
+import {RecyclerListView, DataProvider, LayoutProvider} from 'recyclerlistview';
+import Animated from 'react-native-reanimated';
 /* COMPONENTS */
 import CEmpty from './CEmpty';
 import CText from './CText';
@@ -75,7 +78,7 @@ function CList(props) {
    ** RENDER **
    **************/
   return (
-    <View style={cStyles.flex1}>
+    <>
       {!sectionList && (
         <FlatList
           ref={ref => (listRef = ref)}
@@ -161,7 +164,7 @@ function CList(props) {
       {props.data && scrollToBottom && sectionList && (
         <CLoading visible={loading} customColors={customColors} />
       )}
-    </View>
+    </>
   );
 }
 

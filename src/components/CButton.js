@@ -108,7 +108,6 @@ function CButton(props) {
             {color: colors.WHITE},
             customStylesButton,
             textStyle,
-            (disabled || loading) && styles.disabled_text,
           ]}
           label={t(label)}
         />
@@ -121,7 +120,6 @@ const styles = StyleSheet.create({
   container: {height: 40},
   full_width: {width: cStyles.deviceWidth},
   disabled_contained: {backgroundColor: colors.GRAY_500},
-  disabled_text: {color: colors.BLACK},
   con_variant_text: {backgroundColor: colors.TRANSPARENT},
   img_icon: {height: 40, width: 40},
 });

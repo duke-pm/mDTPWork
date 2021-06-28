@@ -21,6 +21,7 @@ function CCheckbox(props) {
   const {t} = useTranslation();
   const {
     containerStyle,
+    textStyle,
     labelLeft,
     labelRight,
     disabled,
@@ -55,8 +56,9 @@ function CCheckbox(props) {
           <CText
             customStyles={[
               cStyles.textDefault,
-              cStyles.pl10,
+              cStyles.pr10,
               cStyles.colorWhite,
+              textStyle,
             ]}
             label={t(labelLeft)}
           />
@@ -74,6 +76,7 @@ function CCheckbox(props) {
               cStyles.textDefault,
               cStyles.pl10,
               cStyles.colorWhite,
+              textStyle,
             ]}
             label={t(labelRight)}
           />

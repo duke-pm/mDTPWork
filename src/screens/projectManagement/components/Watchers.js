@@ -11,30 +11,45 @@ import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
 import {showMessage} from 'react-native-flash-message';
-import {StyleSheet, View, Text, ScrollView} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  ScrollView,
+  UIManager,
+  LayoutAnimation,
+} from 'react-native';
+import {isIphoneX} from 'react-native-iphone-x-helper';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CText from '~/components/CText';
-import CList from '~/components/CList';
+import CCheckbox from '~/components/CCheckbox';
 import CAvatar from '~/components/CAvatar';
 import CContent from '~/components/CContent';
 import CButton from '~/components/CButton';
 import CCard from '~/components/CCard';
+import CLabel from '~/components/CLabel';
 /* COMMON */
 import {Animations} from '~/utils/asset';
 import {THEME_DARK} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
+import {IS_ANDROID} from '~/utils/helper';
 /** REDUX */
 import * as Actions from '~/redux/actions';
-import CLabel from '~/components/CLabel';
-import {isIphoneX} from 'react-native-iphone-x-helper';
+
+if (IS_ANDROID) {
+  if (UIManager.setLayoutAnimationEnabledExperimental) {
+    UIManager.setLayoutAnimationEnabledExperimental(true);
+  }
+}
 
 function Watchers(props) {
   const {t} = useTranslation();
   const {customColors} = useTheme();
   const isDark = useColorScheme() === THEME_DARK;
   const {route, navigation} = props;
-  const taskID = route.params.data.taskID;
+  const taskID = route.params?.data?.taskID || -1;
+  const onRefresh = route.params?.onRefresh || false;
 
   /** Use redux */
   const dispatch = useDispatch();
@@ -50,7 +65,9 @@ function Watchers(props) {
     main: true,
     send: false,
   });
+  const [needRefresh, setNeedRefresh] = useState(false);
   const [follow, setFollow] = useState(false);
+  const [getEmail, setGetEmail] = useState(true);
   const [watchers, setWatchers] = useState([]);
 
   /*****************
@@ -67,6 +84,10 @@ function Watchers(props) {
       };
       return dispatch(Actions.fetchTaskWatcher(params, navigation));
     }
+  };
+
+  const handleGetEmail = () => {
+    setGetEmail(!getEmail);
   };
 
   /************
@@ -114,7 +135,11 @@ function Watchers(props) {
     if (loading.send) {
       if (!projectState.get('submittingTaskWatcher')) {
         if (projectState.get('successTaskWatcher')) {
+          LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
           setFollow(true);
+          if (!needRefresh) {
+            setNeedRefresh(true);
+          }
           return onPrepareData(false);
         }
 
@@ -125,6 +150,7 @@ function Watchers(props) {
     }
   }, [
     loading.send,
+    needRefresh,
     projectState.get('submittingTaskWatcher'),
     projectState.get('successTaskWatcher'),
     projectState.get('errorTaskWatcher'),
@@ -141,6 +167,7 @@ function Watchers(props) {
       header
       hasBack
       iconBack={'x'}
+      onRefresh={needRefresh ? onRefresh : null}
       content={
         <CContent>
           <View style={[cStyles.mt16, cStyles.mx16]}>
@@ -159,6 +186,16 @@ function Watchers(props) {
               animationIcon={follow ? Animations.approved : null}
               onPress={handleFollow}
             />
+            <View style={cStyles.itemsEnd}>
+              {follow && (
+                <CCheckbox
+                  textStyle={[cStyles.textMeta, {color: customColors.text}]}
+                  labelLeft={'project_management:title_get_watcher'}
+                  value={getEmail}
+                  onChange={handleGetEmail}
+                />
+              )}
+            </View>
           </View>
 
           {!loading.main && (
@@ -166,6 +203,7 @@ function Watchers(props) {
               containerStyle={[
                 cStyles.flex1,
                 cStyles.mx16,
+                follow && cStyles.mt16,
                 !isIphoneX() && cStyles.mb16,
               ]}
               label={'project_management:list_watchers'}
