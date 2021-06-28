@@ -121,7 +121,7 @@ function TaskItem(props) {
   }
 
   return (
-    <View>
+    <>
       <TouchableOpacity disabled={props.loading} onPress={handleTaskItem}>
         <View
           style={[
@@ -285,7 +285,7 @@ function TaskItem(props) {
           </View>
         </View>
       )}
-    </View>
+    </>
   );
 }
 

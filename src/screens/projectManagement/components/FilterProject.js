@@ -16,6 +16,9 @@ import {
   ActivityIndicator,
   TouchableOpacity,
   View,
+  Switch,
+  LayoutAnimation,
+  UIManager,
 } from 'react-native';
 import Picker from '@gregfrench/react-native-wheel-picker';
 import Icon from 'react-native-vector-icons/Feather';
@@ -29,8 +32,14 @@ import CList from '~/components/CList';
 /* COMMON */
 import {THEME_DARK} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
-import {scalePx, sH} from '~/utils/helper';
+import {IS_ANDROID, scalePx, sH} from '~/utils/helper';
 import CAvatar from '~/components/CAvatar';
+
+if (IS_ANDROID) {
+  if (UIManager.setLayoutAnimationEnabledExperimental) {
+    UIManager.setLayoutAnimationEnabledExperimental(true);
+  }
+}
 
 /** All refs use in this screen */
 const actionSheetYearRef = createRef();
@@ -141,6 +150,53 @@ const RowSelect = (
         </View>
       </View>
     </TouchableOpacity>
+  );
+};
+
+const RowToggle = (
+  isDark,
+  customColors,
+  value,
+  label,
+  onPress,
+  isBorder = true,
+  isFirst,
+  isLast,
+) => {
+  return (
+    <View
+      style={[
+        cStyles.flex1,
+        cStyles.fullWidth,
+        cStyles.row,
+        cStyles.itemsCenter,
+        styles.row_header,
+        isFirst && isDark && cStyles.borderTopDark,
+        isFirst && !isDark && cStyles.borderTop,
+        isLast && isDark && cStyles.borderBottomDark,
+        isLast && !isDark && cStyles.borderBottom,
+        {backgroundColor: customColors.card},
+      ]}>
+      <View style={styles.left_row_select} />
+
+      <View
+        style={[
+          cStyles.flex1,
+          cStyles.fullHeight,
+          cStyles.row,
+          cStyles.itemsCenter,
+          cStyles.justifyBetween,
+          cStyles.pr16,
+          !isLast && isBorder && isDark && cStyles.borderBottomDark,
+          !isLast && isBorder && !isDark && cStyles.borderBottom,
+        ]}>
+        <CText label={label} />
+        <Switch
+          value={value}
+          onValueChange={onPress}
+        />
+      </View>
+    </View>
   );
 };
 
@@ -281,6 +337,7 @@ function FilterProject(props) {
   useEffect(() => {
     if (hasYear && loading.main) {
       if (year.data.length > 0) {
+        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
         setLoading({...loading, main: false});
       }
     }

@@ -367,7 +367,7 @@
     "assigned_filter": "Người phụ trách",
     "status_filter": "Trạng thái",
     "author_filter": "Tác giả",
-    "assign_to_me": "Tôi",
+    "assign_to_me": "Công việc của tôi",
     "assign_to": "Đến",
     "assign_to_any": "Bất kì người dùng",
     "assign_status_any": "Bất kì",
@@ -413,6 +413,7 @@
     "info_basic_2": "Quản lý tiến độ",
     "info_basic_3": "Thông tin khác",
     "info_basic_4": "Mô tả"
+
   },
   "sales_visit": {
     "title": "Sales Visit"
