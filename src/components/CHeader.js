@@ -24,7 +24,7 @@ import CText from './CText';
 import CInput from './CInput';
 /** COMMON */
 import {cStyles, colors} from '~/utils/style';
-import {IS_ANDROID, IS_IOS, scalePx} from '~/utils/helper';
+import {IS_ANDROID, IS_IOS, resetRoute, scalePx} from '~/utils/helper';
 import {THEME_DARK} from '~/config/constants';
 import {usePrevious} from '~/utils/hook';
 /** REDUX */
@@ -73,7 +73,11 @@ function CHeader(props) {
    ** HANDLE FUNC **
    *****************/
   const handleBack = () => {
-    navigation.goBack();
+    if (navigation.canGoBack()) {
+      navigation.goBack();
+    } else {
+      resetRoute(navigation, 'RootTab');
+    }
     if (props.onRefresh) {
       props.onRefresh();
     }

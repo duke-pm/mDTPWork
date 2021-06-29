@@ -10,7 +10,7 @@ import '~/utils/language/config-i18n';
 import React, {useState, useEffect} from 'react';
 import {Provider} from 'react-redux';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
-import {StatusBar} from 'react-native';
+import {StatusBar, Text} from 'react-native';
 import {
   NavigationContainer,
   DarkTheme,
@@ -30,6 +30,18 @@ import jwtServiceConfig from '~/services/jwtServiceConfig';
 import {IS_ANDROID} from '~/utils/helper';
 /** REDUX */
 import Store from './src/redux/store';
+
+const config = {
+  screens: {
+    ProjectDetail: 'ProjectDetail/:projectID',
+    TaskDetail: 'TaskDetail/:taskID',
+  },
+};
+
+const linking = {
+  prefixes: ['http://dtpwork.dtp-education.com', 'mdtpwork://'],
+  config,
+};
 
 const App = () => {
   const [state, setState] = useState({
@@ -165,7 +177,10 @@ const App = () => {
   };
   return (
     <AppearanceProvider>
-      <NavigationContainer theme={isDarkMode ? MyDarkTheme : MyDefaultTheme}>
+      <NavigationContainer
+        theme={isDarkMode ? MyDarkTheme : MyDefaultTheme}
+        linking={linking}
+        fallback={<Text>Loading...</Text>}>
         <Provider store={Store}>
           <SafeAreaProvider>
             <StatusBar barStyle={'light-content'} />

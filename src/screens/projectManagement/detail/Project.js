@@ -20,9 +20,9 @@ import CContent from '~/components/CContent';
 import ListTask from '../list/Task';
 /** COMMON */
 import Routes from '~/navigation/Routes';
-import {LOAD_MORE, REFRESH, THEME_DARK} from '~/config/constants';
+import {LOAD_MORE, LOGIN, REFRESH, THEME_DARK} from '~/config/constants';
 import {cStyles} from '~/utils/style';
-import {IS_IOS, scalePx} from '~/utils/helper';
+import {getSecretInfo, IS_IOS, resetRoute, scalePx} from '~/utils/helper';
 import {usePrevious} from '~/utils/hook';
 /** REDUX */
 import * as Actions from '~/redux/actions';
@@ -32,7 +32,10 @@ function ProjectDetail(props) {
   const isDark = useColorScheme() === THEME_DARK;
   const {customColors} = useTheme();
   const {route, navigation} = props;
-  const projectID = route.params.data.projectID;
+  let projectID = route.params?.data?.projectID || -1;
+  if (projectID === -1) {
+    projectID = route.params?.projectID || -1;
+  }
 
   /** Use redux */
   const dispatch = useDispatch();
@@ -48,6 +51,7 @@ function ProjectDetail(props) {
     main: true,
     refreshing: false,
     startFetch: false,
+    startFetchLogin: false,
     loadmore: false,
     isLoadmore: true,
   });
@@ -210,13 +214,75 @@ function ProjectDetail(props) {
     }
   };
 
+  const onCheckLocalLogin = async () => {
+    /** Check Data Login */
+    let dataLogin = await getSecretInfo(LOGIN);
+    if (dataLogin) {
+      console.log('[LOG] === SignIn Local === ', dataLogin);
+      dataLogin = {
+        tokenInfo: {
+          access_token: dataLogin.accessToken,
+          token_type: dataLogin.tokenType,
+          expires_in: dataLogin.expiresIn,
+          refresh_token: dataLogin.refreshToken,
+          userName: dataLogin.userName,
+          userID: dataLogin.userID,
+          empCode: dataLogin.empCode,
+          fullName: dataLogin.fullName,
+          regionCode: dataLogin.regionCode,
+          deptCode: dataLogin.deptCode,
+          jobTitle: dataLogin.jobTitle,
+          '.expires': dataLogin.expired,
+          groupID: dataLogin.groupID,
+        },
+        lstMenu: dataLogin.lstMenu,
+      };
+      dispatch(Actions.loginSuccess(dataLogin));
+    } else {
+      onGoToSignIn();
+    }
+  };
+
+  const onGoToSignIn = () => {
+    resetRoute(navigation, Routes.AUTHENTICATION.SIGN_IN.name);
+  };
+
   /******************
    ** LIFE CYCLE **
    ******************/
   useEffect(() => {
-    onFetchData(null, null, null, perPageMaster, 1, '');
-    setLoading({...loading, startFetch: true});
+    let isLogin = authState.getIn(['login', 'successLogin']);
+    if (isLogin) {
+      onFetchData(null, null, null, perPageMaster, 1, '');
+      setLoading({...loading, startFetch: true});
+    } else {
+      setLoading({...loading, startFetchLogin: true});
+      onCheckLocalLogin();
+    }
   }, []);
+
+  useEffect(() => {
+    if (loading.startFetchLogin) {
+      if (!authState.get('submitting')) {
+        if (authState.get('successLogin')) {
+          onFetchData(null, null, null, perPageMaster, 1, '');
+          return setLoading({
+            ...loading,
+            startFetch: true,
+            startFetchLogin: false,
+          });
+        }
+        if (authState.get('errorLogin')) {
+          return onGoToSignIn();
+        }
+      }
+    }
+  }, [
+    loading.startFetchLogin,
+    authState.get('submitting'),
+    authState.get('successLogin'),
+    authState.get('errorLogin'),
+  ]);
 
   useEffect(() => {
     if (

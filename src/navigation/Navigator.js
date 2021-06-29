@@ -51,7 +51,7 @@ function Navigator(props) {
       ref={nav => {
         NavigationService.setTopLevelNavigator(nav);
       }}
-      uriPrefix={'/src'}
+      uriPrefix={['http://dtpwork.dtp-education.com', 'mdtpwork://']}
       screenProps={props}
       {...props}
     />

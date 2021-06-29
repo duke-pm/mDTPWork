@@ -35,23 +35,26 @@ export const loginSuccess = (data, isRefresh) => {
   return {
     type: types.SUCCESS_LOGIN,
     payload: {
-      accessToken: data.tokenInfo.access_token,
-      tokenType: data.tokenInfo.token_type,
-      expiresIn: data.tokenInfo.expires_in,
-      refreshToken: data.tokenInfo.refresh_token,
-      userName: data.tokenInfo.userName,
-      userID: data.tokenInfo.userID,
-      empCode: data.tokenInfo.empCode,
-      fullName: data.tokenInfo.fullName,
-      regionCode: data.tokenInfo.regionCode,
-      deptCode: data.tokenInfo.deptCode,
-      jobTitle: data.tokenInfo.jobTitle,
-      expired: data.tokenInfo['.expires'],
-      groupID: data.tokenInfo.groupID,
-      lstMenu:
-        data.lstMenu.menuID === 1
+      accessToken: isRefresh ? data.access_token : data.tokenInfo.access_token,
+      tokenType: isRefresh ? data.token_type : data.tokenInfo.token_type,
+      expiresIn: isRefresh ? data.expires_in : data.tokenInfo.expires_in,
+      refreshToken: isRefresh
+        ? data.refresh_token
+        : data.tokenInfo.refresh_token,
+      userName: isRefresh ? data.userName : data.tokenInfo.userName,
+      userID: isRefresh ? data.userID : data.tokenInfo.userID,
+      empCode: isRefresh ? data.empCode : data.tokenInfo.empCode,
+      fullName: isRefresh ? data.fullName : data.tokenInfo.fullName,
+      regionCode: isRefresh ? data.regionCode : data.tokenInfo.regionCode,
+      deptCode: isRefresh ? data.deptCode : data.tokenInfo.deptCode,
+      jobTitle: isRefresh ? data.jobTitle : data.tokenInfo.jobTitle,
+      expired: isRefresh ? data['.expires'] : data.tokenInfo['.expires'],
+      groupID: isRefresh ? data.groupID : data.tokenInfo.groupID,
+      lstMenu: data.lstMenu
+        ? data.lstMenu.menuID === 1
           ? data.lstMenu
-          : data.lstMenu.lstPermissionItem[0],
+          : data.lstMenu.lstPermissionItem[0]
+        : null,
     },
   };
 };
@@ -64,7 +67,7 @@ export const fetchLogin = params => {
       .login(params)
       .then(res => {
         if (!res.isError) {
-          return dispatch(loginSuccess(res.data));
+          return dispatch(loginSuccess(res.data, false));
         } else {
           return dispatch(loginError(res.errorMessage));
         }

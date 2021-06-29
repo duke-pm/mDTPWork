@@ -40,9 +40,10 @@ import {colors, cStyles} from '~/utils/style';
 import {
   DEFAULT_FORMAT_DATE_4,
   LAST_COMMENT_TASK,
+  LOGIN,
   THEME_DARK,
 } from '~/config/constants';
-import {scalePx, getLocalInfo, checkEmpty, IS_ANDROID} from '~/utils/helper';
+import {scalePx, getLocalInfo, checkEmpty, IS_ANDROID, getSecretInfo, resetRoute} from '~/utils/helper';
 /** REDUX */
 import * as Actions from '~/redux/actions';
 
@@ -83,7 +84,10 @@ function Task(props) {
   const {customColors} = useTheme();
   const isDark = useColorScheme() === THEME_DARK;
   const {route, navigation} = props;
-  const taskID = route.params?.data?.taskID || 0;
+  let taskID = route.params?.data?.taskID || -1;
+  if (taskID === -1) {
+    taskID = route.params?.taskID || -1;
+  }
   const perChangeStatus = route.params?.data?.isUpdated || false;
   const onRefresh = route.params?.onRefresh || false;
 
@@ -101,6 +105,7 @@ function Task(props) {
   const [loading, setLoading] = useState({
     main: true,
     startFetch: false,
+    startFetchLogin: false,
     fastWatch: false,
     preview: false,
   });
@@ -232,18 +237,77 @@ function Task(props) {
     setIsFastWatch(false);
   };
 
+  const onCheckLocalLogin = async () => {
+    /** Check Data Login */
+    let dataLogin = await getSecretInfo(LOGIN);
+    if (dataLogin) {
+      console.log('[LOG] === SignIn Local === ', dataLogin);
+      dataLogin = {
+        tokenInfo: {
+          access_token: dataLogin.accessToken,
+          token_type: dataLogin.tokenType,
+          expires_in: dataLogin.expiresIn,
+          refresh_token: dataLogin.refreshToken,
+          userName: dataLogin.userName,
+          userID: dataLogin.userID,
+          empCode: dataLogin.empCode,
+          fullName: dataLogin.fullName,
+          regionCode: dataLogin.regionCode,
+          deptCode: dataLogin.deptCode,
+          jobTitle: dataLogin.jobTitle,
+          '.expires': dataLogin.expired,
+          groupID: dataLogin.groupID,
+        },
+        lstMenu: dataLogin.lstMenu,
+      };
+      dispatch(Actions.loginSuccess(dataLogin));
+    } else {
+      onGoToSignIn();
+    }
+  };
+
+  const onGoToSignIn = () => {
+    resetRoute(navigation, Routes.AUTHENTICATION.SIGN_IN.name);
+  };
+
   /******************
    ** LIFE CYCLE **
    ******************/
   useEffect(() => {
-    if (data.taskDetail) {
-      if (data.taskDetail.taskID !== taskID) {
-        onStart();
-      }
-    } else {
+    let isLogin = authState.getIn(['login', 'successLogin']);
+    if (isLogin) {
       onStart();
+    } else {
+      setLoading({...loading, startFetchLogin: true});
+      onCheckLocalLogin();
     }
-  }, [data.taskDetail, taskID]);
+  }, []);
+
+  useEffect(() => {
+    if (loading.startFetchLogin) {
+      if (!authState.get('submitting')) {
+        if (authState.get('successLogin')) {
+          return onStart();
+        }
+        if (authState.get('errorLogin')) {
+          return onGoToSignIn();
+        }
+      }
+    }
+  }, [
+    loading.startFetchLogin,
+    authState.get('submitting'),
+    authState.get('successLogin'),
+    authState.get('errorLogin'),
+  ]);
+
+  // useEffect(() => {
+  //   if (data.taskDetail) {
+  //     if (data.taskDetail.taskID !== taskID) {
+  //       onStart();
+  //     }
+  //   }
+  // }, [data.taskDetail, taskID]);
 
   useEffect(() => {
     if (loading.startFetch) {
