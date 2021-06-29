@@ -13,7 +13,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import RNFS from 'react-native-fs';
 import FileViewer from 'react-native-file-viewer';
 import moment from 'moment';
-
+export const STANDARD_SIZE = {width: 375};
 export const IS_ANDROID = Platform.OS === 'android';
 export const IS_IOS = Platform.OS === 'ios';
 export const SCREEN_HEIGHT = Dimensions.get('window').height;
@@ -30,6 +30,10 @@ const deviceHeight =
 export function scalePx(percent) {
   const heightPercent = (percent * deviceHeight) / 100;
   return Math.round(heightPercent);
+}
+
+export function fS(number) {
+  return (parseInt(number) * SCREEN_WIDTH) / STANDARD_SIZE.width;
 }
 
 /* PARSE WIDTH WITH SREEN SIZE */

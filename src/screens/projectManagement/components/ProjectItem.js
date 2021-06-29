@@ -13,7 +13,7 @@ import CCard from '~/components/CCard';
 import ListProject from '../list/Project';
 import CLabel from '~/components/CLabel';
 /* COMMON */
-import {colors, cStyles} from '~/utils/style';
+import {cStyles} from '~/utils/style';
 import {checkEmpty, IS_ANDROID} from '~/utils/helper';
 import {DEFAULT_FORMAT_DATE_4} from '~/config/constants';
 import Colors from '~/utils/style/Colors';

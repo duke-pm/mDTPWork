@@ -58,20 +58,6 @@ function CContainer(props) {
   const commonState = useSelector(({common}) => common);
   const isSearch = commonState.get('isSearch');
 
-  /** Use state */
-  const [bgColor, setbgColor] = useState(customColors.primary);
-
-  /******************
-   ** LIFE CYCLE **
-   ******************/
-  useEffect(() => {
-    if (isDark) {
-      setbgColor(customColors.header);
-    } else {
-      setbgColor(customColors.primary);
-    }
-  }, [isDark, setbgColor]);
-
   /**************
    ** RENDER **
    **************/
@@ -85,9 +71,9 @@ function CContainer(props) {
   }
   return (
     <SafeAreaView
-      style={[cStyles.flex1, {backgroundColor: bgColor}]}
+      style={[cStyles.flex1, {backgroundColor: customColors.header}]}
       edges={tmpSafeArea}>
-      <StatusBar backgroundColor={bgColor} />
+      <StatusBar backgroundColor={customColors.header} />
       {isDark && IS_IOS && (
         <BlurView
           style={[cStyles.abs, cStyles.inset0]}

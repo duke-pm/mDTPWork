@@ -15,6 +15,7 @@ import RootMain from './Root';
 import NavigationService from './NavigationService';
 /* COMMON */
 import '~/utils/language/config-i18n';
+import Configs from '~/config';
 
 function Navigator(props) {
   const commonState = useSelector(({common}) => common);
@@ -51,7 +52,7 @@ function Navigator(props) {
       ref={nav => {
         NavigationService.setTopLevelNavigator(nav);
       }}
-      uriPrefix={['http://dtpwork.dtp-education.com', 'mdtpwork://']}
+      uriPrefix={Configs.prefixes}
       screenProps={props}
       {...props}
     />

@@ -25,22 +25,16 @@ import Navigator from '~/navigation/Navigator';
 import Unconnected from '~/screens/connection/Unconnected';
 import CAvoidKeyboard from '~/components/CAvoidKeyboard';
 /** COMMON */
+import Configs from '~/config';
 import {colors} from '~/utils/style';
 import jwtServiceConfig from '~/services/jwtServiceConfig';
 import {IS_ANDROID} from '~/utils/helper';
 /** REDUX */
 import Store from './src/redux/store';
 
-const config = {
-  screens: {
-    ProjectDetail: 'ProjectDetail/:projectID',
-    TaskDetail: 'TaskDetail/:taskID',
-  },
-};
-
 const linking = {
-  prefixes: ['http://dtpwork.dtp-education.com', 'mdtpwork://'],
-  config,
+  prefixes: Configs.prefixes,
+  config: {screens: Configs.routePath},
 };
 
 const App = () => {
@@ -139,6 +133,7 @@ const App = () => {
     customColors: {
       ...DefaultTheme.colors,
       backgroundActivity: colors.WHITE,
+      header: colors.PRIMARY,
       primary: colors.PRIMARY,
       secondary: colors.SECONDARY,
       background: colors.BACKGROUND_MAIN,

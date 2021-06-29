@@ -122,7 +122,7 @@ function CHeader(props) {
         cStyles.insetX0,
         styles.container,
         isSearch && cStyles.px16,
-        {backgroundColor: isDark ? customColors.header : customColors.primary},
+        {backgroundColor: customColors.header},
         style,
       ]}>
       {isDark && IS_IOS && (
