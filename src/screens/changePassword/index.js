@@ -129,7 +129,7 @@ function ChangePassword(props) {
     if (!errNew.status && form.newPassword.trim() === '') {
       status = true;
       errNew.status = true;
-      errNew.helper = 'change_password:error_new_pass_not_fill';
+      errNew.helper = t('change_password:error_new_pass_not_fill');
     }
     if (!errCon.status && form.confirmPassword.trim() === '') {
       status = true;
@@ -140,7 +140,7 @@ function ChangePassword(props) {
     if (!status && form.currentPassword.trim() === form.newPassword.trim()) {
       status = true;
       errNew.status = true;
-      errNew.helper = 'change_password:error_cur_not_like_new';
+      errNew.helper = t('change_password:error_cur_not_like_new');
     }
     /** Check new password not lager than */
     if (!status && form.newPassword.trim().length < Configs.lengthNewPassword) {

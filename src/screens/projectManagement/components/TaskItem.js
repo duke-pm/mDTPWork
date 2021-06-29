@@ -171,7 +171,7 @@ function TaskItem(props) {
                         ]}
                         customLabel={`${translation(
                           'project_management:delay_date_1',
-                        )} ${delay}${translation(
+                        )} ${delay} ${translation(
                           'project_management:delay_date_2',
                         )}`}
                       />
@@ -190,7 +190,13 @@ function TaskItem(props) {
                     />
                   </View>
 
-                  <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt6]}>
+                  <View
+                    style={[
+                      cStyles.row,
+                      cStyles.itemsCenter,
+                      cStyles.mt6,
+                      cStyles.pl5,
+                    ]}>
                     <View
                       style={[styles.status, {backgroundColor: bgStatus}]}
                     />
@@ -231,7 +237,7 @@ function TaskItem(props) {
                       <Text
                         style={[
                           cStyles.fontRegular,
-                          {fontSize: 8, color: colors.WHITE},
+                          {fontSize: 7, color: colors.WHITE},
                         ]}>
                         {data.countChild}
                       </Text>
@@ -296,7 +302,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   line_child: {height: '100%'},
-  badge: {height: 13, width: 13, top: 0, right: 0},
+  badge: {height: 15, width: 15, top: 0, right: 0},
 });
 
 export default TaskItem;

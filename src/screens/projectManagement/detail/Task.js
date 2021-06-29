@@ -43,7 +43,14 @@ import {
   LOGIN,
   THEME_DARK,
 } from '~/config/constants';
-import {scalePx, getLocalInfo, checkEmpty, IS_ANDROID, getSecretInfo, resetRoute} from '~/utils/helper';
+import {
+  scalePx,
+  getLocalInfo,
+  checkEmpty,
+  IS_ANDROID,
+  getSecretInfo,
+  resetRoute,
+} from '~/utils/helper';
 /** REDUX */
 import * as Actions from '~/redux/actions';
 
@@ -60,6 +67,7 @@ const Separator = isDark => (
         cStyles.borderDashed,
         cStyles.fullWidth,
         cStyles.borderAll,
+        cStyles.py5,
         isDark && cStyles.borderAllDark,
         styles.line,
       ]}
@@ -300,14 +308,6 @@ function Task(props) {
     authState.get('successLogin'),
     authState.get('errorLogin'),
   ]);
-
-  // useEffect(() => {
-  //   if (data.taskDetail) {
-  //     if (data.taskDetail.taskID !== taskID) {
-  //       onStart();
-  //     }
-  //   }
-  // }, [data.taskDetail, taskID]);
 
   useEffect(() => {
     if (loading.startFetch) {
@@ -837,7 +837,7 @@ function Task(props) {
                   <>
                     {/** Files attach */}
                     {data.taskDetail.attachFiles !== '' && (
-                      <View style={cStyles.pb5}>
+                      <View style={cStyles.flex1}>
                         <CLabel label={'project_management:files_attach'} />
                         <FileAttach file={data.taskDetail.attachFiles} />
                       </View>

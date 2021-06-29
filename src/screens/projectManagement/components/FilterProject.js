@@ -17,8 +17,6 @@ import {
   TouchableOpacity,
   View,
   Switch,
-  LayoutAnimation,
-  UIManager,
 } from 'react-native';
 import Picker from '@gregfrench/react-native-wheel-picker';
 import Icon from 'react-native-vector-icons/Feather';
@@ -29,17 +27,11 @@ import CText from '~/components/CText';
 import CGroupLabel from '~/components/CGroupLabel';
 import CActionSheet from '~/components/CActionSheet';
 import CList from '~/components/CList';
+import CAvatar from '~/components/CAvatar';
 /* COMMON */
 import {THEME_DARK} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
-import {IS_ANDROID, scalePx, sH} from '~/utils/helper';
-import CAvatar from '~/components/CAvatar';
-
-if (IS_ANDROID) {
-  if (UIManager.setLayoutAnimationEnabledExperimental) {
-    UIManager.setLayoutAnimationEnabledExperimental(true);
-  }
-}
+import {scalePx, sH} from '~/utils/helper';
 
 /** All refs use in this screen */
 const actionSheetYearRef = createRef();
@@ -191,10 +183,7 @@ const RowToggle = (
           !isLast && isBorder && !isDark && cStyles.borderBottom,
         ]}>
         <CText label={label} />
-        <Switch
-          value={value}
-          onValueChange={onPress}
-        />
+        <Switch value={value} onValueChange={onPress} />
       </View>
     </View>
   );
@@ -324,7 +313,7 @@ function FilterProject(props) {
    ** LIFE CYCLE **
    ****************/
   useEffect(() => {
-    if (hasYear) {
+    if (hasYear && year.data.length === 0) {
       let years = onGetListYear(10);
       setYear({
         data: years,
@@ -332,12 +321,11 @@ function FilterProject(props) {
         choose: years.length - 1,
       });
     }
-  }, [hasYear]);
+  }, [hasYear, year.data]);
 
   useEffect(() => {
     if (hasYear && loading.main) {
       if (year.data.length > 0) {
-        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
         setLoading({...loading, main: false});
       }
     }
@@ -352,17 +340,29 @@ function FilterProject(props) {
       title={'project_management:filter'}
       header
       headerLeft={
-        <TouchableOpacity
-          style={[cStyles.itemsStart, cStyles.pl10]}
-          onPress={handleReset}>
-          <CText styles={'colorWhite textMeta'} label={'common:reset'} />
+        <TouchableOpacity onPress={handleReset}>
+          <View
+            style={[
+              cStyles.flex1,
+              cStyles.itemsStart,
+              cStyles.justifyCenter,
+              cStyles.pl10,
+            ]}>
+            <CText styles={'colorWhite textMeta'} label={'common:reset'} />
+          </View>
         </TouchableOpacity>
       }
       headerRight={
-        <TouchableOpacity
-          style={[cStyles.itemsEnd, cStyles.pr10]}
-          onPress={handleFilter}>
-          <CText styles={'colorWhite textMeta'} label={t('common:apply')} />
+        <TouchableOpacity onPress={handleFilter}>
+          <View
+            style={[
+              cStyles.flex1,
+              cStyles.itemsEnd,
+              cStyles.justifyCenter,
+              cStyles.pr10,
+            ]}>
+            <CText styles={'colorWhite textMeta'} label={t('common:apply')} />
+          </View>
         </TouchableOpacity>
       }
       content={

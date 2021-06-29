@@ -190,12 +190,12 @@ function SignIn(props) {
   };
 
   const onStart = () => {
-    showMessage({
-      message: t('common:app_name'),
-      description: t('sign_in:success_login'),
-      type: 'success',
-      icon: 'success',
-    });
+    // showMessage({
+    //   message: t('common:app_name'),
+    //   description: t('sign_in:success_login'),
+    //   type: 'success',
+    //   icon: 'success',
+    // });
     setLoading({main: false, submit: false});
     resetRoute(navigation, Routes.ROOT_TAB.name);
   };

@@ -17,6 +17,7 @@ function CGroupLabel(props) {
     <View
       style={[
         cStyles.px16,
+        cStyles.pb10,
         cStyles.row,
         cStyles.itemsEnd,
         cStyles.justifyBetween,
@@ -32,7 +33,7 @@ function CGroupLabel(props) {
 }
 
 const styles = StyleSheet.create({
-  row_header: {height: 50, zIndex: 1},
+  row_header: {height: 60, zIndex: 1},
 });
 
 export default CGroupLabel;

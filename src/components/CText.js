@@ -7,7 +7,7 @@
 import React from 'react';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
-import {View, Text, TouchableHighlight} from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
 /** COMMON */
 import {cStyles} from '~/utils/style';
 
@@ -32,7 +32,7 @@ function CText(props) {
   /**************
    ** RENDER **
    **************/
-  let Component = onPress ? TouchableHighlight : View;
+  let Component = onPress ? TouchableOpacity : View;
   return (
     <Component onPress={onPress}>
       <Text
@@ -40,6 +40,7 @@ function CText(props) {
           cStyles.textDefault,
           {color: colors.text},
           allStyles,
+          onPress && cStyles.px3,
           customStyles,
         ]}
         allowFontScaling

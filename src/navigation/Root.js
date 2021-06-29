@@ -165,7 +165,7 @@ export function RootMain(props) {
         component={Routes.MAIN.PROJECT_FILTER.path}
         options={{
           ...(IS_ANDROID
-            ? TransitionPresets.FadeFromBottomAndroid
+            ? TransitionPresets.ScaleFromCenterAndroid
             : TransitionPresets.ModalTransition),
         }}
       />

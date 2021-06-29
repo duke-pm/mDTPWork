@@ -85,52 +85,46 @@ function FileAttach(props) {
   }, []);
 
   /** RENDER */
-  let shortFileName = '';
-  shortFileName = file.substring(file.lastIndexOf('/') + 1, file.length);
-  shortFileName =
-    shortFileName.substr(0, 5) +
-    '...' +
-    shortFileName.substr(shortFileName.length - 10, shortFileName.length);
+  let shortFileName = file.substring(file.lastIndexOf('/') + 1, file.length);
   return (
     <TouchableOpacity
-      style={styles.con_file}
+      style={[
+        cStyles.p10,
+        cStyles.mb10,
+        cStyles.mt6,
+        cStyles.center,
+        cStyles.rounded2,
+        isFileExisted && cStyles.borderAll,
+        isFileExisted && isDark && cStyles.borderAllDark,
+        styles.container,
+      ]}
       disabled={loading.preview}
       onPress={handlePreviewFile}>
-      <View
-        style={[
-          cStyles.p10,
-          cStyles.mb10,
-          cStyles.mt6,
-          cStyles.center,
-          isFileExisted && cStyles.borderAll,
-          isFileExisted && isDark && cStyles.borderAllDark,
-          cStyles.rounded2,
-        ]}>
+      <>
         <Image
           style={styles.file}
           source={Extensions[extFile] || Extensions.file}
           resizeMode={'contain'}
         />
 
-        <Text style={cStyles.textCenter}>
-          <Text
-            dataDetectorType={'link'}
-            style={[
-              cStyles.textMeta,
-              cStyles.textItalic,
-              cStyles.pr10,
-              {color: customColors.primary},
-            ]}>
-            {shortFileName}
-          </Text>
+        <Text
+          dataDetectorType={'link'}
+          style={[
+            cStyles.textMeta,
+            cStyles.textItalic,
+            cStyles.textCenter,
+            cStyles.mt10,
+            {color: customColors.primary},
+          ]}>
+          {shortFileName}
         </Text>
+
         {!isFileExisted && (
           <View
             style={[
-              cStyles.flex1,
-              cStyles.rounded2,
               cStyles.abs,
               cStyles.inset0,
+              cStyles.rounded2,
               cStyles.itemsEnd,
               styles.con_bg,
               {backgroundColor: colors.BACKGROUND_DOWNLOAD},
@@ -153,7 +147,7 @@ function FileAttach(props) {
               <View style={[cStyles.abs, cStyles.bottom0]}>
                 <Progress.Bar
                   animated={false}
-                  width={140}
+                  width={150}
                   height={2}
                   borderColor={cStyles.borderAllDark.borderColor}
                   progress={progress / 100}
@@ -164,14 +158,14 @@ function FileAttach(props) {
             )}
           </View>
         )}
-      </View>
+      </>
     </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
-  con_file: {width: 140},
-  file: {width: 50, height: 50},
+  container: {width: 150},
+  file: {width: 60, height: 60},
   con_icon_download: {width: 25, height: 25},
   con_bg: {zIndex: 5, overflow: 'hidden'},
 });

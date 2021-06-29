@@ -189,14 +189,14 @@ function CHeader(props) {
                 />
               </TouchableOpacity>
             )}
-            {left && left}
+            {left}
           </View>
 
           <View
             style={[
               styles.con_body,
               IS_ANDROID
-                ? left && right
+                ? (left && right) || (!left && !right)
                   ? cStyles.center
                   : cStyles.justifyCenter
                 : cStyles.center,
@@ -265,7 +265,7 @@ function CHeader(props) {
               </TouchableOpacity>
             )}
 
-            {right && right}
+            {right}
           </View>
         </>
       )}

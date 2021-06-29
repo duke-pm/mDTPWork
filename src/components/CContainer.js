@@ -127,10 +127,13 @@ function CContainer(props) {
               useNativeDriver={true}
               useNativeDriverForBackdrop={true}
               hideModalContentWhileAnimating={true}
+              backdropColor={'black'}
+              backdropOpacity={0.4}
               deviceHeight={cStyles.deviceHeight}
               deviceWidth={cStyles.deviceWidth}
               animationIn={'fadeIn'}
               animationOut={'fadeOut'}
+              renderToHardwareTextureAndroid
             />
           </View>
         )}
