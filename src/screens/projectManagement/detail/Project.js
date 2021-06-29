@@ -148,18 +148,51 @@ function ProjectDetail(props) {
     /** Prepare data tasks */
     let tasks = projectState.get('tasks');
     let pagesTasks = projectState.get('pagesTasks');
+
     // Check if count result < perPage => loadmore is unavailable
     if (data.page >= pagesTasks) {
       isLoadmore = false;
     }
+
     // Check type fetch is refresh or loadmore
     if (type === REFRESH) {
-      tmpTasks = tasks;
+      tmpTasks = onRecursiveData([], tasks);
     } else if (type === LOAD_MORE) {
-      tmpTasks = [...tmpTasks, ...tasks];
+      tmpTasks = onRecursiveData(tmpTasks, tasks);
     }
     setData({...data, tasks: tmpTasks});
+
     return done(isLoadmore);
+  };
+
+  const onRecursiveData = (currentData, newData) => {
+    let endData = currentData;
+    let endData2 = [];
+    if (currentData.length > 0) {
+      if (newData.length > 0) {
+        let item1 = null,
+          item2 = null,
+          tmpData1 = [];
+        for (item1 of currentData) {
+          for (item2 of newData) {
+            if (item2.parentID !== 0) {
+              if (item1.taskID === item2.parentID) {
+                item1.lstTaskItem.push(item2);
+              } else if (item1.lstTaskItem.length > 0) {
+                onRecursiveData(item1.lstTaskItem, tmpData1);
+              }
+            } else {
+              endData2.push(item2);
+            }
+          }
+        }
+        return [...endData, ...endData2];
+      } else {
+        return endData;
+      }
+    } else {
+      return newData;
+    }
   };
 
   const onError = () => {
@@ -251,7 +284,7 @@ function ProjectDetail(props) {
    ** LIFE CYCLE **
    ******************/
   useEffect(() => {
-    let isLogin = authState.getIn(['login', 'successLogin']);
+    let isLogin = authState.get('successLogin');
     if (isLogin) {
       onFetchData(null, null, null, perPageMaster, 1, '');
       setLoading({...loading, startFetch: true});

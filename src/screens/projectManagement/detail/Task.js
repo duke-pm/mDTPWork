@@ -282,7 +282,7 @@ function Task(props) {
    ** LIFE CYCLE **
    ******************/
   useEffect(() => {
-    let isLogin = authState.getIn(['login', 'successLogin']);
+    let isLogin = authState.get('successLogin');
     if (isLogin) {
       onStart();
     } else {
