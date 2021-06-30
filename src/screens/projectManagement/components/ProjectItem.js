@@ -157,6 +157,7 @@ function ProjectItem(props) {
               width: widthCard,
               bottom: -BOTTOM_CHILDREN,
               backgroundColor: isDark ? Colors.GRAY_860 : Colors.GRAY_200,
+              zIndex: 1,
             },
           ]}
         />

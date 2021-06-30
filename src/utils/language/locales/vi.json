@@ -389,8 +389,8 @@
     "origin_publisher": "Origin Publisher: ",
     "owner_ship_dtp": "Ownership DTP: ",
     "list_watchers": "Danh sách người theo dõi",
-    "you_watched": "Đã Theo Dõi",
-    "you_not_watch": "Theo Dõi",
+    "you_watched": "Đã theo dõi",
+    "you_not_watch": "Theo dõi ngay",
     "empty_watchers": "Hiện tại chưa có ai theo dõi công việc này!",
     "empty_tasks": "Hiện tại chưa có công việc cho dự án này!",
     "empty_comment": "Hiện tại chưa có nhận xét cho dự án này!",
@@ -413,7 +413,8 @@
     "info_basic": "Thông tin cơ bản",
     "info_basic_2": "Quản lý tiến độ",
     "info_basic_3": "Thông tin khác",
-    "info_basic_4": "Mô tả"
+    "info_basic_4": "Mô tả",
+    "list_task": "Dự án số #"
 
   },
   "sales_visit": {

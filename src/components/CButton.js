@@ -62,7 +62,8 @@ function CButton(props) {
           cStyles.px16,
           fullWidth && styles.full_width,
           block && cStyles.fullWidth,
-          {backgroundColor: color, elevation: 3},
+          {backgroundColor: color},
+          variant === 'contained' && {elevation: 3},
           variant === 'text' && styles.con_variant_text,
           variant === 'outlined' && {
             borderColor: color,

@@ -7,22 +7,29 @@
 import {Assets} from '~/utils/asset';
 
 const Configs = {
+  // for Host APIs
   hostDevelopment: 'http://api.dtp-education.com',
   hostProduction: 'http://api.dtp-education.com',
+  // for rating app
   appStoreID: '12345678',
   googlePlayPackage: 'com.mdtpwork',
+  // for change password
   lengthNewPassword: 6,
+  // for filter project
+  numberYearToFilter: 10,
+  // for dev new feature
   salesVisit: false,
+  // for Deep Liking
   prefixes: [
-    'http://dtpwork.dtp-education.com', // deep linking for Android
-    'mdtpwork://', // deep linking for iOS
+    'http://dtpwork.dtp-education.com', // for Android
+    'mdtpwork://', // for iOS
   ],
   routePath: {
     ProjectDetail: 'ProjectDetail/:projectID', // Config params for route Project Detail
     TaskDetail: 'TaskDetail/:taskID', // Config params for route Task Detail
   },
+  // for link to socials
   socialsNetwork: [
-    // link socials network at account screen
     {
       id: 'facebook',
       label: 'Facebook',

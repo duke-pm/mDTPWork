@@ -29,6 +29,7 @@ import CActionSheet from '~/components/CActionSheet';
 import CList from '~/components/CList';
 import CAvatar from '~/components/CAvatar';
 /* COMMON */
+import Configs from '~/config';
 import {THEME_DARK} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
 import {fS, sH} from '~/utils/helper';
@@ -314,7 +315,7 @@ function FilterProject(props) {
    ****************/
   useEffect(() => {
     if (hasYear && year.data.length === 0) {
-      let years = onGetListYear(10);
+      let years = onGetListYear(Configs.numberYearToFilter);
       setYear({
         data: years,
         active: years.length - 1,

@@ -223,7 +223,6 @@ function CHeader(props) {
 
           <View
             style={[
-              cStyles.flex1,
               cStyles.row,
               cStyles.justifyEnd,
               cStyles.itemsCenter,

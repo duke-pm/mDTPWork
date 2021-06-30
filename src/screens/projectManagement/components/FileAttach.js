@@ -96,6 +96,7 @@ function FileAttach(props) {
         cStyles.rounded2,
         isFileExisted && cStyles.borderAll,
         isFileExisted && isDark && cStyles.borderAllDark,
+        cStyles.borderDashed,
         styles.container,
       ]}
       disabled={loading.preview}

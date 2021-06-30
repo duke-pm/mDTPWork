@@ -201,7 +201,7 @@ function Watchers(props) {
           {!loading.main && (
             <CCard
               containerStyle={[
-                cStyles.flex1,
+                cStyles.rounded2,
                 cStyles.mx16,
                 follow && cStyles.mt16,
                 !isIphoneX() && cStyles.mb16,

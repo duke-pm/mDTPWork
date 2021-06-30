@@ -399,9 +399,8 @@ function ProjectDetail(props) {
   return (
     <CContainer
       loading={loading.main}
-      centerStyle={IS_IOS ? cStyles.mr32 : cStyles.mr24}
-      title={props.route.params?.data?.projectName || ''}
-      subTitle={props.route.params?.data?.projectStatus}
+      centerStyle={IS_IOS ? cStyles.center : cStyles.itemsStart}
+      customTitle={`${t('project_management:list_task')}${projectID}`}
       header
       hasBack
       hasSearch={data.tasks.length > 0}

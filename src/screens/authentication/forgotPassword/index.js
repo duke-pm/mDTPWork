@@ -26,7 +26,7 @@ import CText from '~/components/CText';
 import CButton from '~/components/CButton';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
-import {fS, IS_ANDROID, validatEemail} from '~/utils/helper';
+import {fS, IS_ANDROID, sW, validatEemail} from '~/utils/helper';
 import {Animations} from '~/utils/asset';
 
 if (IS_ANDROID) {
@@ -113,7 +113,7 @@ function ForgotPassword(props) {
     setTimeout(() => {
       setLoading(false);
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-      setForm({...form, success: true, error: false});
+      setForm({...form, success: false, error: true});
     }, 2000);
   };
 
@@ -153,7 +153,7 @@ function ForgotPassword(props) {
                   />
                 </View>
 
-                <View style={styles.con_input}>
+                <View style={[styles.con_input, cStyles.fullWidth]}>
                   <CInput
                     id={INPUT_NAME.EMAIL}
                     style={styles.input}
@@ -201,7 +201,7 @@ function ForgotPassword(props) {
                   cStyles.pt40,
                 ]}>
                 <View style={[cStyles.center, cStyles.py20]}>
-                  <Icon name={'mail'} color={colors.GRAY_500} size={fS(12)} />
+                  <Icon name={'mail'} color={colors.GRAY_500} size={fS(80)} />
                   <Lottie
                     style={[cStyles.abs, styles.icon]}
                     source={Animations.approved}
@@ -241,7 +241,6 @@ function ForgotPassword(props) {
                 <View style={cStyles.mt16}>
                   <CButton
                     textStyle={cStyles.textUnderline}
-                    block
                     variant={'text'}
                     label={'forgot_password:button_go_back'}
                     onPress={handleGoBack}
@@ -259,7 +258,7 @@ function ForgotPassword(props) {
                   cStyles.pt40,
                 ]}>
                 <View style={[cStyles.center, cStyles.py20]}>
-                  <Icon name={'mail'} color={colors.GRAY_500} size={fS(12)} />
+                  <Icon name={'mail'} color={colors.GRAY_500} size={fS(80)} />
                   <Lottie
                     style={[cStyles.abs, styles.icon_error]}
                     source={Animations.rejected}
@@ -316,8 +315,8 @@ const styles = StyleSheet.create({
     color: colors.WHITE,
   },
 
-  icon: {width: 50, height: 50, bottom: 10},
-  icon_error: {width: 27, height: 27, bottom: 13},
+  icon: {width: 50, height: 50},
+  icon_error: {width: 27, height: 27},
 });
 
 export default ForgotPassword;

@@ -386,7 +386,7 @@
     "owner_ship_dtp": "Distributor: ",
     "list_watchers": "List of followers",
     "you_watched": "Followed",
-    "you_not_watch": "Unfollowed",
+    "you_not_watch": "Follow now",
     "empty_watchers": "Currently no tracking this job!",
     "empty_tasks": "Currently no job in this project!",
     "empty_comment": "Currently no comment in this project!",
@@ -409,7 +409,8 @@
     "info_basic": "Basic information",
     "info_basic_2": "Progress Manager",
     "info_basic_3": "Other information",
-    "info_basic_4": "Description"
+    "info_basic_4": "Description",
+    "list_task": "Project Number #"
   },
   "sales_visit": {
     "title": "Sales Visit"

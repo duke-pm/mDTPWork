@@ -61,7 +61,7 @@ if (IS_ANDROID) {
 }
 
 const Separator = isDark => (
-  <View style={[cStyles.flexCenter, cStyles.my3]}>
+  <View style={[cStyles.flexCenter, cStyles.my1]}>
     <View
       style={[
         cStyles.borderDashed,
@@ -777,10 +777,6 @@ function Task(props) {
                     </View>
                   )}
 
-                  {data.taskDetail.attachFiles !== '' &&
-                    data.taskDetail.lstUserInvited.length > 0 &&
-                    Separator(isDark)}
-
                   {/** Users invited */}
                   {data.taskDetail.lstUserInvited.length > 0 && (
                     <>
@@ -793,6 +789,7 @@ function Task(props) {
                           {backgroundColor: customColors.textInput},
                         ]}
                         contentStyle={cStyles.p10}
+                        nestedScrollEnabled={true}
                         data={data.taskDetail.lstUserInvited}
                         item={({item, index}) => {
                           return (
@@ -868,7 +865,7 @@ const styles = StyleSheet.create({
   badge2: {height: 10, width: 10, top: 16, right: 13},
   line: {borderRadius: 1},
   dot_check: {right: -2, top: 1},
-  list_invited: {maxHeight: 150},
+  list_invited: {height: 150},
   group_holder: {height: 50},
 });
 
