@@ -22,7 +22,7 @@ import ListTask from '../list/Task';
 import Routes from '~/navigation/Routes';
 import {LOAD_MORE, LOGIN, REFRESH, THEME_DARK} from '~/config/constants';
 import {cStyles} from '~/utils/style';
-import {getSecretInfo, IS_IOS, resetRoute, scalePx} from '~/utils/helper';
+import {fS, getSecretInfo, IS_IOS, resetRoute} from '~/utils/helper';
 import {usePrevious} from '~/utils/hook';
 /** REDUX */
 import * as Actions from '~/redux/actions';
@@ -413,7 +413,7 @@ function ProjectDetail(props) {
               style={cStyles.p16}
               name={'filter'}
               color={'white'}
-              size={scalePx(3)}
+              size={fS(20)}
             />
             {isFiltering && (
               <View

@@ -15,7 +15,7 @@ import CButton from './CButton';
 /* COMMON */
 import {cStyles, colors} from '~/utils/style';
 import {THEME_DARK} from '~/config/constants';
-import {scalePx, sW} from '~/utils/helper';
+import {fS, sW} from '~/utils/helper';
 
 function CAlert(props) {
   const isDark = useColorScheme() === THEME_DARK;
@@ -40,6 +40,7 @@ function CAlert(props) {
       isVisible={show}
       animationIn={'zoomInUp'}
       animationOut={'fadeOut'}
+      backdropOpacity={0.4}
       useNativeDriver={true}
       useNativeDriverForBackdrop={true}
       avoidKeyboard={true}
@@ -75,7 +76,8 @@ function CAlert(props) {
           </View>
 
           {/** Content of Alert */}
-          <View style={[cStyles.px16, cStyles.pb20, styles.content]}>
+          <View
+            style={[cStyles.px16, cStyles.pb20, cStyles.mt10, styles.content]}>
             {!loading && content && (
               <CText styles={'textMeta textCenter'} label={content} />
             )}
@@ -102,11 +104,10 @@ function CAlert(props) {
               ]}>
               {onClose && (
                 <CButton
-                  textStyle={styles.text_button_close}
+                  textStyle={{color: customColors.blue, fontSize: fS(19)}}
                   disabled={loading}
                   block
                   variant={'text'}
-                  color={customColors.blue}
                   label={'common:close'}
                   onPress={onClose}
                 />
@@ -126,11 +127,10 @@ function CAlert(props) {
 
               {onOK && (
                 <CButton
-                  textStyle={styles.text_button_ok}
+                  textStyle={{color: customColors.blue, fontSize: fS(19)}}
                   disabled={loading}
                   block
                   variant={'text'}
-                  color={customColors.blue}
                   label={'common:ok'}
                   onPress={onOK}
                 />
@@ -146,14 +146,6 @@ function CAlert(props) {
 const styles = StyleSheet.create({
   button: {width: 1, height: '100%'},
   content: {width: sW('85%')},
-  text_button_close: {
-    fontSize: scalePx(2.8),
-    fontFamily: cStyles.fontBold.fontFamily,
-  },
-  text_button_ok: {
-    fontSize: scalePx(2.8),
-    fontFamily: cStyles.fontRegular.fontFamily,
-  },
   con_button: {height: 50},
 });
 

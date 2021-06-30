@@ -8,7 +8,7 @@ import React from 'react';
 import {StyleSheet, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 /** COMMON */
-import {scalePx} from '~/utils/helper';
+import {fS} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
 
 function CIconButton(props) {
@@ -33,7 +33,7 @@ function CIconButton(props) {
         style={cStyles.p4}
         name={iconName}
         color={iconColor}
-        size={scalePx(3)}
+        size={fS(22)}
         {...iconProps}
       />
     </TouchableOpacity>

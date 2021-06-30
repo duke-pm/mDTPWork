@@ -44,12 +44,12 @@ import {
   THEME_DARK,
 } from '~/config/constants';
 import {
-  scalePx,
   getLocalInfo,
   checkEmpty,
   IS_ANDROID,
   getSecretInfo,
   resetRoute,
+  fS,
 } from '~/utils/helper';
 /** REDUX */
 import * as Actions from '~/redux/actions';
@@ -408,7 +408,7 @@ function Task(props) {
                 style={cStyles.p16}
                 name={'eye'}
                 color={isFastWatch ? colors.WHITE : colors.GRAY_500}
-                size={scalePx(3)}
+                size={fS(22)}
               />
             </TouchableOpacity>
           )}
@@ -417,7 +417,7 @@ function Task(props) {
               style={cStyles.p16}
               name={'message-circle'}
               color={colors.WHITE}
-              size={scalePx(3)}
+              size={fS(22)}
             />
             {newComment && (
               <View
@@ -437,7 +437,7 @@ function Task(props) {
               style={cStyles.p16}
               name={'users'}
               color={colors.WHITE}
-              size={scalePx(3)}
+              size={fS(22)}
             />
             {!isFastWatch && (
               <View
@@ -628,7 +628,7 @@ function Task(props) {
                         <Icon
                           name={'calendar'}
                           color={customColors.icon}
-                          size={scalePx(2.3)}
+                          size={fS(16)}
                         />
                         <View style={cStyles.pl6}>
                           <View style={[cStyles.row, cStyles.itemsCenter]}>

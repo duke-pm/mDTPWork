@@ -31,7 +31,7 @@ import CLabel from '~/components/CLabel';
 /* COMMON */
 import {THEME_DARK} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
-import {checkEmpty, IS_ANDROID, scalePx} from '~/utils/helper';
+import {checkEmpty, fS, IS_ANDROID} from '~/utils/helper';
 import {usePrevious} from '~/utils/hook';
 
 if (IS_ANDROID) {
@@ -299,7 +299,7 @@ function Filter(props) {
           <Animated.View style={{transform: [{rotate: rotateData}]}}>
             <Icon
               name={'chevron-down'}
-              size={scalePx(3)}
+              size={fS(20)}
               color={customColors.text}
             />
           </Animated.View>

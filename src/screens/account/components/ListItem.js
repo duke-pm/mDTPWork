@@ -14,7 +14,7 @@ import Rate, {AndroidMarket} from 'react-native-rate';
 import CText from '~/components/CText';
 /* COMMON */
 import Configs from '~/config';
-import {alert, scalePx, sW} from '~/utils/helper';
+import {alert, fS} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
 
 function ListItem(props) {
@@ -84,11 +84,7 @@ function ListItem(props) {
           ]}>
           <View style={[cStyles.center, styles.con_left]}>
             {data.icon && (
-              <Icon
-                name={data.icon}
-                size={scalePx(3)}
-                color={customColors.text}
-              />
+              <Icon name={data.icon} size={fS(18)} color={customColors.text} />
             )}
           </View>
 
@@ -135,7 +131,7 @@ function ListItem(props) {
                 <View style={cStyles.pl10}>
                   <Icon
                     name={'chevron-right'}
-                    size={scalePx(2.5)}
+                    size={fS(18)}
                     color={colors.GRAY_500}
                   />
                 </View>

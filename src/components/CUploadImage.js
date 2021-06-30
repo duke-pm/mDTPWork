@@ -23,7 +23,7 @@ import {
   choosePhotoFromCamera,
   choosePhotoFromGallery,
   IS_ANDROID,
-  scalePx,
+  fS,
 } from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
 /* REDUX */
@@ -180,22 +180,14 @@ function CUploadImage(props) {
                 cStyles.py16,
                 cStyles.px16,
               ]}>
-              <Icon
-                name={'camera'}
-                size={scalePx(3)}
-                color={customColors.red}
-              />
+              <Icon name={'camera'} size={fS(20)} color={customColors.red} />
               <CText styles={'textTitle pl16'} label={'common:from_camera'} />
             </View>
           </TouchableOpacity>
 
           <TouchableOpacity activeOpacity={0.5} onPress={onChangeByGallery}>
             <View style={[cStyles.row, cStyles.itemsCenter, cStyles.p16]}>
-              <Icon
-                name={'image'}
-                size={scalePx(3)}
-                color={customColors.green}
-              />
+              <Icon name={'image'} size={fS(20)} color={customColors.green} />
               <CText styles={'textTitle pl16'} label={'common:from_gallery'} />
             </View>
           </TouchableOpacity>

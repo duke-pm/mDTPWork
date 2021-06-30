@@ -59,7 +59,12 @@ function RequestProcess(props) {
    **************/
   return (
     <CCard
-      containerStyle={[cStyles.m16, cStyles.mb32]}
+      containerStyle={[
+        cStyles.m16,
+        cStyles.mb32,
+        cStyles.borderAll,
+        isDark && cStyles.borderAllDark,
+      ]}
       label={'add_approved_assets:table_process'}
       content={
         anims.length > 0 ? (

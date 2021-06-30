@@ -20,7 +20,7 @@ import LottieView from 'lottie-react-native';
 import CText from '~/components/CText';
 /** COMMON */
 import {colors, cStyles} from '~/utils/style';
-import {scalePx} from '~/utils/helper';
+import {fS} from '~/utils/helper';
 import {THEME_DARK} from '~/config/constants';
 
 function CButton(props) {
@@ -84,7 +84,7 @@ function CButton(props) {
             style={cStyles.pr10}
             name={icon}
             color={variant === 'contained' ? colors.WHITE : color}
-            size={scalePx(2.5)}
+            size={fS(16)}
           />
         )}
         {loading ? (
@@ -103,12 +103,7 @@ function CButton(props) {
         )}
 
         <CText
-          customStyles={[
-            cStyles.textButton,
-            {color: colors.WHITE},
-            customStylesButton,
-            textStyle,
-          ]}
+          customStyles={[cStyles.textButton, {color: colors.WHITE}, customStylesButton, textStyle]}
           label={t(label)}
         />
       </View>

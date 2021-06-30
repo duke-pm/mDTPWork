@@ -24,7 +24,7 @@ import Icon from 'react-native-vector-icons/Feather';
 import CText from './CText';
 /* COMMON */
 import {Assets} from '~/utils/asset';
-import {IS_ANDROID, scalePx, sW, askPermissionsCamera} from '~/utils/helper';
+import {IS_ANDROID, askPermissionsCamera, sW, fS} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
 import {THEME_DARK} from '~/config/constants';
 
@@ -202,9 +202,7 @@ function CAvatar(props) {
             <Icon
               name={'camera'}
               color={customColors.text}
-              size={scalePx(
-                size === 'small' ? 1.6 : size === 'medium' ? 2.3 : 2.8,
-              )}
+              size={fS(size === 'small' ? 10 : size === 'medium' ? 14 : 18)}
             />
           </View>
         )}

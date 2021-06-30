@@ -26,7 +26,7 @@ import CText from '~/components/CText';
 import CButton from '~/components/CButton';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
-import {IS_ANDROID, scalePx, validatEemail} from '~/utils/helper';
+import {fS, IS_ANDROID, validatEemail} from '~/utils/helper';
 import {Animations} from '~/utils/asset';
 
 if (IS_ANDROID) {
@@ -204,7 +204,7 @@ function ForgotPassword(props) {
                   <Icon
                     name={'mail'}
                     color={colors.GRAY_500}
-                    size={scalePx(10)}
+                    size={fS(12)}
                   />
                   <Lottie
                     style={[cStyles.abs, styles.icon]}
@@ -266,7 +266,7 @@ function ForgotPassword(props) {
                   <Icon
                     name={'mail'}
                     color={colors.GRAY_500}
-                    size={scalePx(10)}
+                    size={fS(12)}
                   />
                   <Lottie
                     style={[cStyles.abs, styles.icon_error]}

@@ -22,7 +22,7 @@ import CText from '~/components/CText';
 import CActionSheet from '~/components/CActionSheet';
 /* COMMON */
 import {cStyles} from '~/utils/style';
-import {scalePx, sH} from '~/utils/helper';
+import {fS, sH} from '~/utils/helper';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 
@@ -202,7 +202,7 @@ function Status(props) {
               <Icon
                 name={'chevron-down'}
                 color={isDark ? task.colorDarkCode : task.colorCode}
-                size={scalePx(3)}
+                size={fS(20)}
               />
             )
           )}
@@ -216,7 +216,7 @@ function Status(props) {
         onClose={onCloseActionSheet}>
         <Picker
           style={styles.con_action}
-          itemStyle={{color: customColors.text, fontSize: scalePx(3)}}
+          itemStyle={{color: customColors.text, fontSize: fS(20)}}
           selectedValue={status.active}
           onValueChange={onChangeStatus}>
           {status.data.map((value, i) => (

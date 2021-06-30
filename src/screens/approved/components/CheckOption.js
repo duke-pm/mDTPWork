@@ -5,14 +5,14 @@
  ** Description: Description of CheckOption.js
  **/
 import React, {useState, useEffect} from 'react';
-import {View, TouchableOpacity, Keyboard} from 'react-native';
+import {View, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import * as Animatable from 'react-native-animatable';
 /* COMPONENTS */
 import CText from '~/components/CText';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
-import {scalePx} from '~/utils/helper';
+import {fS} from '~/utils/helper';
 
 function CheckOption(props) {
   const {loading, isDetail, customColors, value, values, onCallback} = props;
@@ -70,7 +70,7 @@ function CheckOption(props) {
               useNativeDriver={true}>
               <Icon
                 name={chooseValue === item.value ? 'check-circle' : 'circle'}
-                size={scalePx(3)}
+                size={fS(20)}
                 color={
                   chooseValue === item.value
                     ? colors.SECONDARY

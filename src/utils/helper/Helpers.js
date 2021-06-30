@@ -1,11 +1,12 @@
+/* eslint-disable radix */
+/* eslint-disable no-useless-escape */
 /**
  ** Name: Helpers
  ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of Helpers.js
  **/
-import {PixelRatio, Platform, StatusBar, Dimensions, Alert} from 'react-native';
-import {isIphoneX} from 'react-native-iphone-x-helper';
+import {PixelRatio, Platform, Dimensions, Alert} from 'react-native';
 import {PERMISSIONS, request} from 'react-native-permissions';
 import ImagePicker from 'react-native-image-crop-picker';
 import EncryptedStorage from 'react-native-encrypted-storage';
@@ -19,18 +20,6 @@ export const IS_IOS = Platform.OS === 'ios';
 export const SCREEN_HEIGHT = Dimensions.get('window').height;
 export const SCREEN_WIDTH = Dimensions.get('window').width;
 const regex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-const STANDARD_LENGTH =
-  SCREEN_WIDTH > SCREEN_HEIGHT ? SCREEN_WIDTH : SCREEN_HEIGHT;
-const OFFSET =
-  SCREEN_WIDTH > SCREEN_HEIGHT ? 0 : IS_IOS ? 150 : StatusBar.currentHeight; // iPhone X style SafeAreaView size in portrait
-
-const deviceHeight =
-  isIphoneX() || IS_ANDROID ? STANDARD_LENGTH - OFFSET : STANDARD_LENGTH;
-
-export function scalePx(percent) {
-  const heightPercent = (percent * deviceHeight) / 100;
-  return Math.round(heightPercent);
-}
 
 export function fS(number) {
   return (parseInt(number) * SCREEN_WIDTH) / STANDARD_SIZE.width;

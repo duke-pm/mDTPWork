@@ -23,7 +23,7 @@ import ListProject from './list/Project';
 import Routes from '~/navigation/Routes';
 import {LOAD_MORE, REFRESH, THEME_DARK} from '~/config/constants';
 import {cStyles} from '~/utils/style';
-import {scalePx} from '~/utils/helper';
+import {fS} from '~/utils/helper';
 import {usePrevious} from '~/utils/hook';
 /** REDUX */
 import * as Actions from '~/redux/actions';
@@ -317,7 +317,7 @@ function ProjectManagement(props) {
             style={cStyles.p16}
             name={'filter'}
             color={'white'}
-            size={scalePx(3)}
+            size={fS(20)}
           />
           {isFiltering && (
             <View

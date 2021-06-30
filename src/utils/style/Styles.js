@@ -6,7 +6,7 @@
  **/
 import {isIphoneX} from 'react-native-iphone-x-helper';
 import {Platform, Dimensions} from 'react-native';
-import {IS_IOS, scalePx} from '~/utils/helper';
+import {fS, IS_IOS} from '~/utils/helper';
 import Colors from './Colors';
 
 const fBold = 'Roboto-Bold';
@@ -473,62 +473,62 @@ const text = {
   colorTextMeta: {color: '#8D94A6'},
 
   H1: {
-    fontSize: scalePx(5),
+    fontSize: fS(28),
     fontFamily: fBold,
     lineHeight: 34,
   },
   H2: {
-    fontSize: scalePx(4.5),
+    fontSize: fS(26),
     fontFamily: fBold,
     lineHeight: 32,
   },
   H3: {
-    fontSize: scalePx(3.5),
+    fontSize: fS(24),
     fontFamily: fBold,
     lineHeight: 30,
   },
   H4: {
-    fontSize: scalePx(3.5),
+    fontSize: fS(22),
     fontFamily: fBold,
     lineHeight: 28,
   },
   H5: {
-    fontSize: scalePx(3),
+    fontSize: fS(20),
     fontFamily: fMedium,
     lineHeight: 26,
   },
   H6: {
-    fontSize: scalePx(2.5),
+    fontSize: fS(18),
     fontFamily: fMedium,
     lineHeight: 23,
   },
   textTitle: {
-    fontSize: scalePx(2.3),
+    fontSize: fS(16),
     fontFamily: fMedium,
     lineHeight: platform === PLATFORM.IOS ? 22 : 23,
   },
   textSubTitle: {
-    fontSize: scalePx(2),
+    fontSize: fS(14),
     fontFamily: fMedium,
     lineHeight: platform === PLATFORM.IOS ? 20 : 22,
   },
   textDefault: {
-    fontSize: scalePx(2.3),
+    fontSize: fS(16),
     fontFamily: fRegular,
     lineHeight: platform === PLATFORM.IOS ? 22 : 23,
   },
   textMeta: {
-    fontSize: scalePx(1.8),
+    fontSize: fS(12),
     fontFamily: fRegular,
     lineHeight: 20,
   },
   textDate: {
-    fontSize: scalePx(1.8),
+    fontSize: fS(12),
     fontFamily: fLight,
     lineHeight: 20,
   },
   textButton: {
-    fontSize: scalePx(2.3),
+    fontSize: fS(14),
     color: 'white',
     fontFamily: fMedium,
     lineHeight: platform === PLATFORM.IOS ? 22 : 23,

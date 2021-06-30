@@ -17,7 +17,7 @@ import CItem from '~/components/CItem';
 /** COMMON */
 import Configs from '~/config';
 import {cStyles} from '~/utils/style';
-import {scalePx} from '~/utils/helper';
+import {fS} from '~/utils/helper';
 import Routes from '~/navigation/Routes';
 
 function Dashboard(props) {
@@ -90,7 +90,7 @@ function Dashboard(props) {
               style={cStyles.p16}
               name={'star'}
               color={'white'}
-              size={scalePx(3)}
+              size={fS(20)}
             />
           </TouchableOpacity>
         ) : null

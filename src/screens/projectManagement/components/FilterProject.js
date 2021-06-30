@@ -31,7 +31,7 @@ import CAvatar from '~/components/CAvatar';
 /* COMMON */
 import {THEME_DARK} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
-import {scalePx, sH} from '~/utils/helper';
+import {fS, sH} from '~/utils/helper';
 
 /** All refs use in this screen */
 const actionSheetYearRef = createRef();
@@ -78,7 +78,7 @@ const RowPicker = (
             {loading ? <ActivityIndicator /> : <CText label={active} />}
             <Icon
               name={'chevron-right'}
-              size={scalePx(2.5)}
+              size={fS(18)}
               color={colors.GRAY_500}
             />
           </View>
@@ -137,7 +137,7 @@ const RowSelect = (
           ]}>
           <CText label={label} />
           {active && (
-            <Icon name={'check'} color={customColors.blue} size={scalePx(3)} />
+            <Icon name={'check'} color={customColors.blue} size={fS(20)} />
           )}
         </View>
       </View>
@@ -475,7 +475,7 @@ function FilterProject(props) {
               onConfirm={handleChangeYear}>
               <Picker
                 style={styles.con_action}
-                itemStyle={{color: customColors.text, fontSize: scalePx(3)}}
+                itemStyle={{color: customColors.text, fontSize: fS(20)}}
                 selectedValue={year.active}
                 onValueChange={onChangeYear}>
                 {year.data.map((value, i) => (

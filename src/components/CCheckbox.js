@@ -13,7 +13,7 @@ import Icon from 'react-native-vector-icons/Feather';
 import CText from '~/components/CText';
 /** COMMON */
 import {colors, cStyles} from '~/utils/style';
-import {scalePx} from '~/utils/helper';
+import {fS} from '~/utils/helper';
 
 let handleRef = createRef();
 
@@ -66,7 +66,7 @@ function CCheckbox(props) {
 
         <Icon
           name={value ? 'check-circle' : 'circle'}
-          size={scalePx(3)}
+          size={fS(18)}
           color={value ? colors.SECONDARY : colors.GRAY_500}
         />
 

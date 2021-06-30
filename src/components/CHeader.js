@@ -24,7 +24,7 @@ import CText from './CText';
 import CInput from './CInput';
 /** COMMON */
 import {cStyles, colors} from '~/utils/style';
-import {IS_ANDROID, IS_IOS, resetRoute, scalePx} from '~/utils/helper';
+import {fS, IS_ANDROID, IS_IOS, resetRoute} from '~/utils/helper';
 import {THEME_DARK} from '~/config/constants';
 import {usePrevious} from '~/utils/hook';
 /** REDUX */
@@ -174,7 +174,7 @@ function CHeader(props) {
                     iconBack || (IS_ANDROID ? 'arrow-left' : 'chevron-left')
                   }
                   color={colors.WHITE}
-                  size={scalePx(3)}
+                  size={fS(23)}
                 />
               </TouchableOpacity>
             )}
@@ -185,7 +185,7 @@ function CHeader(props) {
                   style={cStyles.p16}
                   name={'menu'}
                   color={colors.WHITE}
-                  size={scalePx(4)}
+                  size={fS(22)}
                 />
               </TouchableOpacity>
             )}
@@ -237,7 +237,7 @@ function CHeader(props) {
                   style={cStyles.p16}
                   name={'search'}
                   color={colors.WHITE}
-                  size={scalePx(3)}
+                  size={fS(20)}
                 />
                 {valueSearch !== '' && (
                   <View
@@ -260,7 +260,7 @@ function CHeader(props) {
                   style={cStyles.p16}
                   name={'plus'}
                   color={colors.WHITE}
-                  size={scalePx(3)}
+                  size={fS(22)}
                 />
               </TouchableOpacity>
             )}

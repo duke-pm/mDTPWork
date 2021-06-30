@@ -13,7 +13,7 @@ import {useTheme} from '@react-navigation/native';
 import CText from '~/components/CText';
 /** COMMON */
 import Routes from './Routes';
-import {IS_ANDROID, scalePx} from '~/utils/helper';
+import {fS, IS_ANDROID} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
 
 /** INIT NAVIGATOR OF APP */
@@ -37,7 +37,7 @@ export function RootTab(props) {
               iconName = 'user';
               break;
           }
-          return <Icon name={iconName} size={scalePx(2.8)} color={color} />;
+          return <Icon name={iconName} size={fS(20)} color={color} />;
         },
         tabBarLabel: ({focused, color}) => {
           let label = 'dashboard:title';
@@ -51,7 +51,7 @@ export function RootTab(props) {
               customStyles={[
                 cStyles.textMeta,
                 focused && cStyles.fontBold,
-                {color: color, fontSize: scalePx(1.7)},
+                {color: color},
               ]}
               label={label}
             />

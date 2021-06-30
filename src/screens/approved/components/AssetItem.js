@@ -14,7 +14,7 @@ import CurrencyInput from 'react-native-currency-input';
 /** COMPONENTS */
 import CIconButton from '~/components/CIconButton';
 /* COMMON */
-import {scalePx} from '~/utils/helper';
+import {fS} from '~/utils/helper';
 import {cStyles} from '~/utils/style';
 
 Number.prototype.format = function (n, x) {
@@ -35,7 +35,7 @@ function AssetItem(props) {
         iconName={'x-circle'}
         iconColor={customColors.red}
         iconProps={{
-          size: scalePx(3),
+          size: fS(20),
         }}
         onPress={() => onRemoveRow(rowIndex)}
       />

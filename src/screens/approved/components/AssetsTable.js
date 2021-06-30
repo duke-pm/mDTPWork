@@ -24,7 +24,7 @@ import CText from '~/components/CText';
 import AssetItem from './AssetItem';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
-import {IS_ANDROID, scalePx} from '~/utils/helper';
+import {fS, IS_ANDROID} from '~/utils/helper';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -292,7 +292,7 @@ function AssetsTable(props) {
             {error.status && (
               <Icon
                 name={'alert-circle'}
-                size={scalePx(2)}
+                size={fS(14)}
                 color={customColors.red}
               />
             )}

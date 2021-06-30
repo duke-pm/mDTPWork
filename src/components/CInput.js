@@ -14,7 +14,7 @@ import Icon from 'react-native-vector-icons/Feather';
 import CText from './CText';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
-import {IS_ANDROID, scalePx} from '~/utils/helper';
+import {fS, IS_ANDROID} from '~/utils/helper';
 import {THEME_DARK, THEME_LIGHT} from '~/config/constants';
 
 function CInput(props) {
@@ -121,7 +121,7 @@ function CInput(props) {
               cStyles.center,
               styles.con_input_icon,
             ]}>
-            <Icon name={icon} color={iconColor} size={scalePx(3)} />
+            <Icon name={icon} color={iconColor} size={fS(20)} />
           </View>
         )}
 
@@ -177,11 +177,7 @@ function CInput(props) {
           <Component
             style={[cStyles.center, styles.con_input_icon]}
             onPress={handleRemoveValue}>
-            <Icon
-              name={'x-circle'}
-              color={customColors.red}
-              size={scalePx(3)}
-            />
+            <Icon name={'x-circle'} color={customColors.red} size={fS(20)} />
           </Component>
         )}
 
@@ -197,7 +193,7 @@ function CInput(props) {
             ]}
             // disabled={props.value === ''}
             onPress={handleIconLast}>
-            <Icon name={iconLast} color={customColors.icon} size={scalePx(3)} />
+            <Icon name={iconLast} color={customColors.icon} size={fS(20)} />
           </Component>
         )}
 
@@ -214,18 +210,14 @@ function CInput(props) {
             <Icon
               name={showPassword ? 'eye-off' : 'eye'}
               color={colors.GRAY_500}
-              size={scalePx(3)}
+              size={fS(20)}
             />
           </Component>
         )}
       </View>
       {props.error && (
         <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pt6]}>
-          <Icon
-            name={'alert-circle'}
-            color={customColors.red}
-            size={scalePx(2)}
-          />
+          <Icon name={'alert-circle'} color={customColors.red} size={fS(14)} />
           <CText
             customStyles={[
               cStyles.textMeta,

@@ -24,7 +24,6 @@ import ContactInformation from './ContactInformation';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
 import {THEME_DARK} from '~/config/constants';
-import {scalePx} from '~/utils/helper';
 import CList from '~/components/CList';
 import CCard from '~/components/CCard';
 /* REDUX */

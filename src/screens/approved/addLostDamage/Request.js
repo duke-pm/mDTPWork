@@ -44,7 +44,7 @@ import CheckOption from '../components/CheckOption';
 import {Animations} from '~/utils/asset';
 import Commons from '~/utils/common/Commons';
 import {colors, cStyles} from '~/utils/style';
-import {scalePx, IS_ANDROID, sH, checkEmpty} from '~/utils/helper';
+import {IS_ANDROID, sH, checkEmpty, fS} from '~/utils/helper';
 import {THEME_DARK, DEFAULT_FORMAT_DATE_4} from '~/config/constants';
 // import API from '~/services/axios';
 /* REDUX */
@@ -137,7 +137,7 @@ const RowSelect = (
           {!disabled && (
             <Icon
               name={'chevron-down'}
-              size={scalePx(3)}
+              size={fS(20)}
               color={disabled ? customColors.textDisable : customColors.icon}
             />
           )}
@@ -148,7 +148,7 @@ const RowSelect = (
           <Icon
             name={'alert-circle'}
             color={customColors.red}
-            size={scalePx(2)}
+            size={fS(14)}
           />
           <CText
             customStyles={[
@@ -621,7 +621,7 @@ function AddRequest(props) {
               style={cStyles.p16}
               name={'info'}
               color={'white'}
-              size={scalePx(3)}
+              size={fS(20)}
             />
           </TouchableOpacity>
         ) : null
@@ -851,7 +851,7 @@ function AddRequest(props) {
                 {dataAssets.length > 0 ? (
                   <Picker
                     style={styles.con_action}
-                    itemStyle={{color: customColors.text, fontSize: scalePx(3)}}
+                    itemStyle={{color: customColors.text, fontSize: fS(20)}}
                     selectedValue={assets}
                     onValueChange={onChangeAssets}>
                     {dataAssets.map((value, i) => (
