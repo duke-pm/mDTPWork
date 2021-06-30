@@ -201,11 +201,7 @@ function ForgotPassword(props) {
                   cStyles.pt40,
                 ]}>
                 <View style={[cStyles.center, cStyles.py20]}>
-                  <Icon
-                    name={'mail'}
-                    color={colors.GRAY_500}
-                    size={fS(12)}
-                  />
+                  <Icon name={'mail'} color={colors.GRAY_500} size={fS(12)} />
                   <Lottie
                     style={[cStyles.abs, styles.icon]}
                     source={Animations.approved}
@@ -263,11 +259,7 @@ function ForgotPassword(props) {
                   cStyles.pt40,
                 ]}>
                 <View style={[cStyles.center, cStyles.py20]}>
-                  <Icon
-                    name={'mail'}
-                    color={colors.GRAY_500}
-                    size={fS(12)}
-                  />
+                  <Icon name={'mail'} color={colors.GRAY_500} size={fS(12)} />
                   <Lottie
                     style={[cStyles.abs, styles.icon_error]}
                     source={Animations.rejected}

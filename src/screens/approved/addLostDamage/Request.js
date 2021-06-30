@@ -19,7 +19,6 @@ import {
   Keyboard,
   UIManager,
   LayoutAnimation,
-  // Linking,
 } from 'react-native';
 import Lottie from 'lottie-react-native';
 import Picker from '@gregfrench/react-native-wheel-picker';
@@ -33,10 +32,9 @@ import CInput from '~/components/CInput';
 import CCard from '~/components/CCard';
 import CButton from '~/components/CButton';
 import CActionSheet from '~/components/CActionSheet';
-import CGroupLabel from '~/components/CGroupLabel';
 import CAlert from '~/components/CAlert';
 import CLabel from '~/components/CLabel';
-// import CUploadImage from '~/components/CUploadImage';
+import CGroupInfo from '~/components/CGroupInfo';
 import RejectModal from '../components/RejectModal';
 import RequestProcess from '../components/RequestProcess';
 import CheckOption from '../components/CheckOption';
@@ -46,7 +44,6 @@ import Commons from '~/utils/common/Commons';
 import {colors, cStyles} from '~/utils/style';
 import {IS_ANDROID, sH, checkEmpty, fS} from '~/utils/helper';
 import {THEME_DARK, DEFAULT_FORMAT_DATE_4} from '~/config/constants';
-// import API from '~/services/axios';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 
@@ -145,11 +142,7 @@ const RowSelect = (
       </TouchableOpacity>
       {error && (
         <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pt6]}>
-          <Icon
-            name={'alert-circle'}
-            color={customColors.red}
-            size={fS(14)}
-          />
+          <Icon name={'alert-circle'} color={customColors.red} size={fS(14)} />
           <CText
             customStyles={[
               cStyles.textMeta,
@@ -621,128 +614,95 @@ function AddRequest(props) {
               style={cStyles.p16}
               name={'info'}
               color={'white'}
-              size={fS(20)}
+              size={fS(22)}
             />
           </TouchableOpacity>
         ) : null
       }
       content={
         <CContent scroll>
-          <CGroupLabel labelLeft={t('add_approved_lost_damaged:info_other')} />
-          <View
-            style={[
-              cStyles.p16,
-              cStyles.borderTop,
-              cStyles.borderBottom,
-              isDark && cStyles.borderTopDark,
-              isDark && cStyles.borderBottomDark,
-              {backgroundColor: customColors.group},
-            ]}>
-            {/** Date request */}
-            <View>
-              <CLabel medium label={'add_approved_lost_damaged:date_request'} />
-              <CInput
-                name={INPUT_NAME.DATE_REQUEST}
-                disabled
-                dateTimePicker
-                value={moment(form.dateRequest).format(formatDateView)}
-                valueColor={colors.BLACK}
-              />
-            </View>
-          </View>
-
-          <CGroupLabel labelLeft={t('add_approved_lost_damaged:info_assets')} />
-          <View
-            style={[
-              cStyles.p16,
-              cStyles.borderTop,
-              cStyles.borderBottom,
-              isDark && cStyles.borderTopDark,
-              isDark && cStyles.borderBottomDark,
-              {backgroundColor: customColors.group},
-            ]}>
-            {/** Assets */}
-            {!isDetail && (
+          {/** Date request */}
+          <CGroupInfo
+            style={cStyles.pt16}
+            label={'add_approved_lost_damaged:info_other'}
+            content={
               <View>
-                <CLabel medium label={'add_approved_lost_damaged:assets'} />
-                {RowSelect(
-                  t,
-                  loading.main,
-                  loading.main || loading.submitAdd || isDetail,
-                  error.assets.status,
-                  isDark,
-                  customColors,
-                  masterState.get('assetByUser'),
-                  form.assetID,
-                  Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.label,
-                  Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.value,
-                  () => actionSheetAssetsRef.current?.show(),
-                )}
-              </View>
-            )}
-
-            {/** Reason */}
-            <View style={!isDetail ? cStyles.pt16 : {}}>
-              <CLabel medium label={'add_approved_lost_damaged:reason'} />
-              <CInput
-                name={INPUT_NAME.REASON}
-                styleFocus={styles.input_focus}
-                disabled={loading.main || loading.submitAdd || isDetail}
-                holder={'add_approved_lost_damaged:holder_reason'}
-                value={form.reason}
-                valueColor={colors.BLACK}
-                keyboard={'default'}
-                returnKey={'done'}
-                error={error.reason.status}
-                errorHelper={error.reason.helper}
-                onChangeInput={Keyboard.dismiss}
-                onChangeValue={handleChangeText}
-              />
-            </View>
-
-            {/** Type update */}
-            <View style={cStyles.py16}>
-              <CLabel medium label={'add_approved_lost_damaged:type_update'} />
-              <CheckOption
-                loading={loading.main || loading.submitAdd}
-                isDetail={isDetail}
-                customColors={customColors}
-                value={form.typeUpdate}
-                values={dataType}
-                onCallback={onCallbackType}
-              />
-            </View>
-          </View>
-
-          {/** File upload */}
-          {/* {!isDetail &&
-                <CUploadImage
-                  loading={loading.submitAdd}
-                  file={{
-                    data: form.file,
-                    data64: form.fileBase64
-                  }}
-                  onChange={(data) => setForm({ ...form, ...data })}
+                <CLabel
+                  medium
+                  label={'add_approved_lost_damaged:date_request'}
                 />
-              } */}
+                <CInput
+                  name={INPUT_NAME.DATE_REQUEST}
+                  disabled
+                  dateTimePicker
+                  value={moment(form.dateRequest).format(formatDateView)}
+                  valueColor={colors.BLACK}
+                />
+              </View>
+            }
+          />
 
-          {/** File for detail */}
-          {/* {isDetail && form.file &&
-                <View style={[
-                  cStyles.pt16,
-                  cStyles.row,
-                  cStyles.itemsCenter,
-                  cStyles.justifyBetween
-                ]}>
-                  <CText styles={'textTitle'} label={'add_approved_lost_damaged:file_upload'} />
-                  <CButton
-                    style={styles.button_preview}
-                    label={'common:preview'}
-                    icon={'eye'}
-                    onPress={handlePreview}
+          <CGroupInfo
+            label={'add_approved_lost_damaged:info_assets'}
+            content={
+              <>
+                {/** Assets */}
+                {!isDetail && (
+                  <View>
+                    <CLabel medium label={'add_approved_lost_damaged:assets'} />
+                    {RowSelect(
+                      t,
+                      loading.main,
+                      loading.main || loading.submitAdd || isDetail,
+                      error.assets.status,
+                      isDark,
+                      customColors,
+                      masterState.get('assetByUser'),
+                      form.assetID,
+                      Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.label,
+                      Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.value,
+                      () => actionSheetAssetsRef.current?.show(),
+                    )}
+                  </View>
+                )}
+
+                {/** Reason */}
+                <View style={!isDetail ? cStyles.pt16 : {}}>
+                  <CLabel medium label={'add_approved_lost_damaged:reason'} />
+                  <CInput
+                    name={INPUT_NAME.REASON}
+                    styleFocus={styles.input_focus}
+                    disabled={loading.main || loading.submitAdd || isDetail}
+                    holder={'add_approved_lost_damaged:holder_reason'}
+                    value={form.reason}
+                    valueColor={colors.BLACK}
+                    keyboard={'default'}
+                    returnKey={'done'}
+                    error={error.reason.status}
+                    errorHelper={error.reason.helper}
+                    onChangeInput={Keyboard.dismiss}
+                    onChangeValue={handleChangeText}
                   />
                 </View>
-              } */}
+
+                {/** Type update */}
+                <View style={cStyles.py16}>
+                  <CLabel
+                    medium
+                    label={'add_approved_lost_damaged:type_update'}
+                  />
+                  <CheckOption
+                    loading={loading.main || loading.submitAdd}
+                    isDetail={isDetail}
+                    customColors={customColors}
+                    value={form.typeUpdate}
+                    values={dataType}
+                    onCallback={onCallbackType}
+                  />
+                </View>
+              </>
+            }
+          />
 
           {/** Assets for detail */}
           {isDetail && (
@@ -906,7 +866,7 @@ function AddRequest(props) {
       }
       footer={
         !isDetail ? (
-          <View style={cStyles.px16}>
+          <View style={[cStyles.px16, cStyles.pb8]}>
             <CButton
               block
               disabled={loading.main || loading.submitAdd}
@@ -922,10 +882,10 @@ function AddRequest(props) {
               cStyles.itemsCenter,
               cStyles.justifyEvenly,
               cStyles.px16,
+              cStyles.pb8,
             ]}>
             <CButton
               style={styles.button_approved}
-              block
               color={customColors.red}
               disabled={loading.main}
               icon={'x-circle'}
@@ -934,7 +894,6 @@ function AddRequest(props) {
             />
             <CButton
               style={styles.button_reject}
-              block
               color={customColors.green}
               disabled={loading.main}
               icon={'check-circle'}

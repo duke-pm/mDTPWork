@@ -12,7 +12,9 @@ import {
   ActivityIndicator,
   StyleSheet,
   TouchableOpacity,
+  TouchableNativeFeedback,
   View,
+  Platform,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import LottieView from 'lottie-react-native';
@@ -20,7 +22,7 @@ import LottieView from 'lottie-react-native';
 import CText from '~/components/CText';
 /** COMMON */
 import {colors, cStyles} from '~/utils/style';
-import {fS} from '~/utils/helper';
+import {fS, IS_ANDROID} from '~/utils/helper';
 import {THEME_DARK} from '~/config/constants';
 
 function CButton(props) {
@@ -45,17 +47,12 @@ function CButton(props) {
   /**************
    ** RENDER **
    **************/
-  let customStylesButton =
-    disabled || loading
-      ? {color: colors.GRAY_500}
-      : variant === 'contained'
-      ? {color: colors.WHITE}
-      : variant === 'outlined' || variant === 'text'
-      ? {color}
-      : {};
-
+  const Touchable = IS_ANDROID ? TouchableNativeFeedback : TouchableOpacity;
   return (
-    <TouchableOpacity disabled={disabled || loading} onPress={onPress}>
+    <Touchable
+      accessibilityRole={'button'}
+      disabled={disabled || loading}
+      onPress={onPress}>
       <View
         style={[
           cStyles.row,
@@ -63,27 +60,28 @@ function CButton(props) {
           cStyles.rounded1,
           cStyles.py6,
           cStyles.px16,
-          styles.container,
-          {backgroundColor: color},
           fullWidth && styles.full_width,
           block && cStyles.fullWidth,
+          {backgroundColor: color, elevation: 3},
+          variant === 'text' && styles.con_variant_text,
           variant === 'outlined' && {
             borderColor: color,
             borderWidth: 0.5,
             backgroundColor: isDark ? colors.TRANSPARENT : colors.WHITE,
           },
-          variant === 'text' && styles.con_variant_text,
-          (disabled || loading) &&
-            variant === 'contained' &&
-            styles.disabled_contained,
-          (disabled || loading) && variant === 'outlined' && cStyles.borderAll,
+          (disabled || loading) && styles.disabled_contained,
           style,
         ]}>
         {icon && !animationIcon && (
           <Icon
-            style={label !== '' ? cStyles.pr10 : {}}
             name={icon}
-            color={variant === 'contained' ? colors.WHITE : color}
+            color={
+              disabled || loading
+                ? styles.textDisabled.color
+                : variant === 'contained'
+                ? colors.WHITE
+                : color
+            }
             size={fS(16)}
           />
         )}
@@ -103,18 +101,37 @@ function CButton(props) {
         )}
 
         <CText
-          customStyles={[cStyles.textButton, {color: colors.WHITE}, customStylesButton, textStyle]}
+          customStyles={[
+            cStyles.textButton,
+            cStyles.textCenter,
+            cStyles.m6,
+            {color: variant === 'contained' ? colors.WHITE : color},
+            (disabled || loading) && styles.textDisabled,
+            IS_ANDROID && {fontWeight: '500'},
+            textStyle,
+          ]}
           label={t(label)}
         />
       </View>
-    </TouchableOpacity>
+    </Touchable>
   );
 }
 
 const styles = StyleSheet.create({
   container: {height: 40},
   full_width: {width: cStyles.deviceWidth},
-  disabled_contained: {backgroundColor: colors.GRAY_500},
+  disabled_contained: {
+    elevation: 0,
+    backgroundColor: '#dfdfdf',
+  },
+  textDisabled: Platform.select({
+    ios: {
+      color: '#cdcdcd',
+    },
+    android: {
+      color: '#a1a1a1',
+    },
+  }),
   con_variant_text: {backgroundColor: colors.TRANSPARENT},
   img_icon: {height: 40, width: 40},
 });

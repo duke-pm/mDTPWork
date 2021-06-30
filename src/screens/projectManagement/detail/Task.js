@@ -16,7 +16,6 @@ import {
   TouchableOpacity,
   View,
   Text,
-  ActivityIndicator,
   LayoutAnimation,
   UIManager,
 } from 'react-native';
@@ -30,6 +29,7 @@ import CText from '~/components/CText';
 import CAvatar from '~/components/CAvatar';
 import CLabel from '~/components/CLabel';
 import CList from '~/components/CList';
+import CGroupInfo from '~/components/CGroupInfo';
 import Status from '../components/Status';
 import Percentage from '../components/Percentage';
 import FileAttach from '../components/FileAttach';
@@ -74,18 +74,6 @@ const Separator = isDark => (
     />
   </View>
 );
-
-function GroupInfo({loading, customColors, label, content, empty}) {
-  if (empty) {
-    return null;
-  }
-  return (
-    <View style={cStyles.mb16}>
-      {label && <CText styles={'H6 px16'} label={label} />}
-      {content}
-    </View>
-  );
-}
 
 function Task(props) {
   const {t} = useTranslation();
@@ -473,348 +461,305 @@ function Task(props) {
           )}
 
           {/** Title & Project */}
-          <GroupInfo
-            loading={loading.main}
-            customColors={customColors}
+          <CGroupInfo
+            loading={loading.main || !data.taskDetail}
             label={null}
             content={
-              <View
-                style={[
-                  cStyles.rounded2,
-                  cStyles.m16,
-                  cStyles.mt10,
-                  cStyles.p16,
-                  (loading.main || !data.taskDetail) && styles.group_holder,
-                  {backgroundColor: customColors.card},
-                ]}>
-                {loading.main || !data.taskDetail ? (
-                  <ActivityIndicator size={'small'} color={colors.GRAY_500} />
-                ) : (
-                  <>
-                    <View style={cStyles.pb10}>
-                      {/** Title & Type */}
-                      <Text>
-                        <Text
-                          style={[
-                            cStyles.H6,
-                            {
-                              color: isDark
-                                ? data.taskDetail.typeColorDark
-                                : data.taskDetail.typeColor,
-                            },
-                          ]}>
-                          {data.taskDetail.typeName}
-                        </Text>
-                        <Text
-                          style={[
-                            cStyles.H6,
-                            {color: customColors.text},
-                          ]}>{`  ${data.taskDetail.taskName}`}</Text>
+              data.taskDetail ? (
+                <>
+                  <View style={cStyles.pb10}>
+                    {/** Title & Type */}
+                    <Text>
+                      <Text
+                        style={[
+                          cStyles.H6,
+                          {
+                            color: isDark
+                              ? data.taskDetail.typeColorDark
+                              : data.taskDetail.typeColor,
+                          },
+                        ]}>
+                        {data.taskDetail.typeName}
                       </Text>
+                      <Text
+                        style={[
+                          cStyles.H6,
+                          {color: customColors.text},
+                        ]}>{`  ${data.taskDetail.taskName}`}</Text>
+                    </Text>
 
-                      {/** Author & Updated at */}
-                      <Text style={cStyles.mt10}>
-                        {(!data.taskDetail.crtdUser ||
-                          data.taskDetail.crtdUser === '') && (
-                          <Text
-                            style={[
-                              cStyles.textMeta,
-                              {color: customColors.text},
-                            ]}>{`#${data.taskDetail.taskID} `}</Text>
-                        )}
-                        {data.taskDetail.crtdUser &&
-                          data.taskDetail.crtdUser !== '' && (
-                            <Text>
-                              <Text
-                                style={[
-                                  cStyles.textMeta,
-                                  {color: customColors.text},
-                                ]}>{`#${data.taskDetail.taskID}: ${t(
-                                'project_management:created_by',
-                              )}`}</Text>
-                              <Text
-                                style={[
-                                  cStyles.textMeta,
-                                  {color: customColors.primary},
-                                ]}>
-                                {` ${data.taskDetail.crtdUser}. `}
-                              </Text>
-                            </Text>
-                          )}
+                    {/** Author & Updated at */}
+                    <Text style={cStyles.mt10}>
+                      {(!data.taskDetail.crtdUser ||
+                        data.taskDetail.crtdUser === '') && (
                         <Text
                           style={[
                             cStyles.textMeta,
                             {color: customColors.text},
-                          ]}>{`${t(
-                          'project_management:last_updated_at',
-                        )} ${moment(
-                          data.taskDetail.lUpdDate,
-                          DEFAULT_FORMAT_DATE_4,
-                        ).format(formatDateView)}.`}</Text>
-                      </Text>
-
-                      {/** Project name */}
-                      <View
+                          ]}>{`#${data.taskDetail.taskID} `}</Text>
+                      )}
+                      {data.taskDetail.crtdUser &&
+                        data.taskDetail.crtdUser !== '' && (
+                          <Text>
+                            <Text
+                              style={[
+                                cStyles.textMeta,
+                                {color: customColors.text},
+                              ]}>{`#${data.taskDetail.taskID}: ${t(
+                              'project_management:created_by',
+                            )}`}</Text>
+                            <Text
+                              style={[
+                                cStyles.textMeta,
+                                {color: customColors.primary},
+                              ]}>
+                              {` ${data.taskDetail.crtdUser}. `}
+                            </Text>
+                          </Text>
+                        )}
+                      <Text
                         style={[
-                          cStyles.rounded5,
-                          cStyles.center,
-                          cStyles.mt12,
-                          cStyles.py10,
-                          {
-                            flex: undefined,
-                            backgroundColor: isDark
-                              ? customColors.cardDisable
-                              : colors.GRAY_300,
-                          },
-                        ]}>
-                        <CText
-                          styles={'textMeta fontMedium'}
-                          customLabel={data.taskDetail.prjName}
-                        />
-                      </View>
+                          cStyles.textMeta,
+                          {color: customColors.text},
+                        ]}>{`${t(
+                        'project_management:last_updated_at',
+                      )} ${moment(
+                        data.taskDetail.lUpdDate,
+                        DEFAULT_FORMAT_DATE_4,
+                      ).format(formatDateView)}.`}</Text>
+                    </Text>
+
+                    {/** Project name */}
+                    <View
+                      style={[
+                        cStyles.rounded5,
+                        cStyles.center,
+                        cStyles.mt12,
+                        cStyles.py10,
+                        {
+                          flex: undefined,
+                          backgroundColor: isDark
+                            ? customColors.cardDisable
+                            : colors.GRAY_300,
+                        },
+                      ]}>
+                      <CText
+                        styles={'textMeta fontMedium'}
+                        customLabel={data.taskDetail.prjName}
+                      />
                     </View>
-                  </>
-                )}
-              </View>
+                  </View>
+                </>
+              ) : null
             }
           />
 
-          <GroupInfo
-            loading={loading.main}
-            customColors={customColors}
+          {/** Info basic */}
+          <CGroupInfo
+            loading={loading.main || !data.taskDetail}
             label={'project_management:info_basic'}
             content={
-              <View
-                style={[
-                  cStyles.rounded2,
-                  cStyles.m16,
-                  cStyles.mt10,
-                  cStyles.p16,
-                  (loading.main || !data.taskDetail) && styles.group_holder,
-                  {backgroundColor: customColors.card},
-                ]}>
-                {loading.main || !data.taskDetail ? (
-                  <ActivityIndicator size={'small'} color={colors.GRAY_500} />
-                ) : (
-                  <>
-                    {/** Owner & Time */}
-                    <View
-                      style={[
-                        cStyles.py10,
-                        cStyles.row,
-                        cStyles.itemsCenter,
-                        cStyles.justifyBetween,
-                      ]}>
-                      <View style={styles.con_left}>
-                        <CLabel label={'project_management:assignee'} />
-                        <View style={[cStyles.row, cStyles.itemsCenter]}>
-                          <CAvatar
-                            size={'vsmall'}
-                            label={data.taskDetail.ownerName}
-                          />
-                          <CText
-                            styles={'textMeta pl6 fontMedium'}
-                            customLabel={data.taskDetail.ownerName}
-                          />
-                        </View>
-                      </View>
-
-                      <View
-                        style={[
-                          cStyles.row,
-                          cStyles.itemsCenter,
-                          styles.con_right,
-                        ]}>
-                        <Icon
-                          name={'calendar'}
-                          color={customColors.icon}
-                          size={fS(16)}
+              data.taskDetail ? (
+                <>
+                  {/** Owner & Time */}
+                  <View
+                    style={[
+                      cStyles.py10,
+                      cStyles.row,
+                      cStyles.itemsCenter,
+                      cStyles.justifyBetween,
+                    ]}>
+                    <View style={styles.con_left}>
+                      <CLabel label={'project_management:assignee'} />
+                      <View style={[cStyles.row, cStyles.itemsCenter]}>
+                        <CAvatar
+                          size={'vsmall'}
+                          label={data.taskDetail.ownerName}
                         />
-                        <View style={cStyles.pl6}>
-                          <View style={[cStyles.row, cStyles.itemsCenter]}>
-                            <CLabel label={'project_management:from_date'} />
-                            <CText
-                              customStyles={[
-                                cStyles.textMeta,
-                                cStyles.fontRegular,
-                                {color: customColors.text},
-                              ]}
-                              customLabel={checkEmpty(
-                                data.taskDetail.startDate,
-                                '#',
-                                false,
-                                formatDateView,
-                              )}
-                            />
-                          </View>
-                          <View style={[cStyles.row, cStyles.itemsCenter]}>
-                            <CLabel label={'project_management:to_date'} />
-                            <CText
-                              customStyles={[
-                                cStyles.textMeta,
-                                cStyles.fontRegular,
-                                {
-                                  color: isDelay
-                                    ? customColors.red
-                                    : customColors.text,
-                                },
-                              ]}
-                              customLabel={checkEmpty(
-                                data.taskDetail.endDate,
-                                '#',
-                                false,
-                                formatDateView,
-                              )}
-                            />
-                          </View>
-                        </View>
-                      </View>
-                    </View>
-
-                    {/** Piority, Grade & Component */}
-                    <View
-                      style={[
-                        cStyles.pb10,
-                        cStyles.row,
-                        cStyles.itemsCenter,
-                        cStyles.justifyBetween,
-                      ]}>
-                      <View
-                        style={[
-                          cStyles.row,
-                          cStyles.itemsCenter,
-                          styles.con_left,
-                        ]}>
-                        <CLabel label={'project_management:piority'} />
-
                         <CText
-                          customStyles={[cStyles.textMeta, {color: bgPriority}]}
-                          customLabel={checkEmpty(data.taskDetail.priorityName)}
-                        />
-                      </View>
-
-                      <View
-                        style={[
-                          cStyles.row,
-                          cStyles.itemsCenter,
-                          cStyles.justifyStart,
-                          styles.con_right,
-                        ]}>
-                        <CLabel label={'project_management:grade'} />
-                        <CLabel
-                          customLabel={checkEmpty(data.taskDetail.grade)}
+                          styles={'textMeta pl6 fontMedium'}
+                          customLabel={data.taskDetail.ownerName}
                         />
                       </View>
                     </View>
 
-                    {/** Component */}
-                    <View
-                      style={[cStyles.row, cStyles.itemsCenter, cStyles.mb10]}>
-                      <CLabel label={'project_management:component'} />
-                      <CLabel
-                        customLabel={checkEmpty(data.taskDetail.componentName)}
-                      />
-                    </View>
-
-                    {/** Component */}
-                    <View
-                      style={[cStyles.row, cStyles.itemsCenter, cStyles.mb10]}>
-                      <CLabel label={'project_management:author'} />
-                      <CLabel
-                        customLabel={checkEmpty(data.taskDetail.author)}
-                      />
-                    </View>
-
-                    {/** Origin publish */}
                     <View
                       style={[
                         cStyles.row,
                         cStyles.itemsCenter,
-                        cStyles.mb10,
-                        styles.con_left,
-                      ]}>
-                      <CLabel label={'project_management:origin_publisher'} />
-                      <CLabel
-                        customLabel={checkEmpty(
-                          data.taskDetail.originPublisher,
-                        )}
-                      />
-                    </View>
-
-                    {/** Owner ship */}
-                    <View
-                      style={[
-                        cStyles.row,
-                        cStyles.itemsCenter,
-                        cStyles.mb10,
                         styles.con_right,
                       ]}>
-                      <CLabel label={'project_management:owner_ship_dtp'} />
-                      <CLabel
-                        customLabel={checkEmpty(data.taskDetail.ownershipDTP)}
+                      <Icon
+                        name={'calendar'}
+                        color={customColors.icon}
+                        size={fS(16)}
                       />
+                      <View style={cStyles.pl6}>
+                        <View style={[cStyles.row, cStyles.itemsCenter]}>
+                          <CLabel label={'project_management:from_date'} />
+                          <CText
+                            customStyles={[
+                              cStyles.textMeta,
+                              cStyles.fontRegular,
+                              {color: customColors.text},
+                            ]}
+                            customLabel={checkEmpty(
+                              data.taskDetail.startDate,
+                              '#',
+                              false,
+                              formatDateView,
+                            )}
+                          />
+                        </View>
+                        <View style={[cStyles.row, cStyles.itemsCenter]}>
+                          <CLabel label={'project_management:to_date'} />
+                          <CText
+                            customStyles={[
+                              cStyles.textMeta,
+                              cStyles.fontRegular,
+                              {
+                                color: isDelay
+                                  ? customColors.red
+                                  : customColors.text,
+                              },
+                            ]}
+                            customLabel={checkEmpty(
+                              data.taskDetail.endDate,
+                              '#',
+                              false,
+                              formatDateView,
+                            )}
+                          />
+                        </View>
+                      </View>
                     </View>
+                  </View>
 
-                    {/** Sector */}
+                  {/** Piority, Grade & Component */}
+                  <View
+                    style={[
+                      cStyles.pb10,
+                      cStyles.row,
+                      cStyles.itemsCenter,
+                      cStyles.justifyBetween,
+                    ]}>
                     <View
                       style={[
                         cStyles.row,
                         cStyles.itemsCenter,
-                        styles.con_sector,
+                        styles.con_left,
                       ]}>
-                      <CLabel label={'project_management:sector'} />
-                      <CLabel
-                        customLabel={checkEmpty(data.taskDetail.sectorName)}
+                      <CLabel label={'project_management:piority'} />
+
+                      <CText
+                        customStyles={[cStyles.textMeta, {color: bgPriority}]}
+                        customLabel={checkEmpty(data.taskDetail.priorityName)}
                       />
                     </View>
-                  </>
-                )}
-              </View>
+
+                    <View
+                      style={[
+                        cStyles.row,
+                        cStyles.itemsCenter,
+                        cStyles.justifyStart,
+                        styles.con_right,
+                      ]}>
+                      <CLabel label={'project_management:grade'} />
+                      <CLabel customLabel={checkEmpty(data.taskDetail.grade)} />
+                    </View>
+                  </View>
+
+                  {/** Component */}
+                  <View
+                    style={[cStyles.row, cStyles.itemsCenter, cStyles.mb10]}>
+                    <CLabel label={'project_management:component'} />
+                    <CLabel
+                      customLabel={checkEmpty(data.taskDetail.componentName)}
+                    />
+                  </View>
+
+                  {/** Component */}
+                  <View
+                    style={[cStyles.row, cStyles.itemsCenter, cStyles.mb10]}>
+                    <CLabel label={'project_management:author'} />
+                    <CLabel customLabel={checkEmpty(data.taskDetail.author)} />
+                  </View>
+
+                  {/** Origin publish */}
+                  <View
+                    style={[
+                      cStyles.row,
+                      cStyles.itemsCenter,
+                      cStyles.mb10,
+                      styles.con_left,
+                    ]}>
+                    <CLabel label={'project_management:origin_publisher'} />
+                    <CLabel
+                      customLabel={checkEmpty(data.taskDetail.originPublisher)}
+                    />
+                  </View>
+
+                  {/** Owner ship */}
+                  <View
+                    style={[
+                      cStyles.row,
+                      cStyles.itemsCenter,
+                      cStyles.mb10,
+                      styles.con_right,
+                    ]}>
+                    <CLabel label={'project_management:owner_ship_dtp'} />
+                    <CLabel
+                      customLabel={checkEmpty(data.taskDetail.ownershipDTP)}
+                    />
+                  </View>
+
+                  {/** Sector */}
+                  <View
+                    style={[
+                      cStyles.row,
+                      cStyles.itemsCenter,
+                      styles.con_sector,
+                    ]}>
+                    <CLabel label={'project_management:sector'} />
+                    <CLabel
+                      customLabel={checkEmpty(data.taskDetail.sectorName)}
+                    />
+                  </View>
+                </>
+              ) : null
             }
           />
 
-          <GroupInfo
-            loading={loading.main}
-            customColors={customColors}
+          {/** Progress task */}
+          <CGroupInfo
+            loading={loading.main || !data.taskDetail}
             label={'project_management:info_basic_2'}
             empty={
               data.taskDetail &&
               data.taskDetail.taskTypeID !== Commons.TYPE_TASK.TASK.value
             }
             content={
-              <View
-                style={[
-                  cStyles.rounded2,
-                  cStyles.m16,
-                  cStyles.mt10,
-                  cStyles.p16,
-                  (loading.main || !data.taskDetail) && styles.group_holder,
-                  {backgroundColor: customColors.card},
-                ]}>
-                {loading.main || !data.taskDetail ? (
-                  <ActivityIndicator size={'small'} color={colors.GRAY_500} />
-                ) : (
-                  <View style={cStyles.my5}>
-                    {/** Percentage */}
-                    <Percentage
-                      disabled={loading.preview}
-                      isDark={isDark}
-                      customColors={customColors}
-                      navigation={navigation}
-                      language={language}
-                      refreshToken={refreshToken}
-                      task={data.taskDetail}
-                      onUpdate={onPrepareUpdate}
-                    />
-                  </View>
-                )}
-              </View>
+              data.taskDetail ? (
+                <View style={cStyles.my5}>
+                  {/** Percentage */}
+                  <Percentage
+                    disabled={loading.preview}
+                    isDark={isDark}
+                    customColors={customColors}
+                    navigation={navigation}
+                    language={language}
+                    refreshToken={refreshToken}
+                    task={data.taskDetail}
+                    onUpdate={onPrepareUpdate}
+                  />
+                </View>
+              ) : null
             }
           />
 
-          <GroupInfo
-            loading={loading.main}
-            customColors={customColors}
+          {/** Other info */}
+          <CGroupInfo
+            loading={loading.main || !data.taskDetail}
             label={'project_management:info_basic_3'}
             empty={
               data.taskDetail &&
@@ -822,115 +767,88 @@ function Task(props) {
               data.taskDetail.lstUserInvited.length === 0
             }
             content={
-              <View
-                style={[
-                  cStyles.rounded2,
-                  cStyles.m16,
-                  cStyles.mt10,
-                  cStyles.p16,
-                  (loading.main || !data.taskDetail) && styles.group_holder,
-                  {backgroundColor: customColors.card},
-                ]}>
-                {loading.main || !data.taskDetail ? (
-                  <ActivityIndicator size={'small'} color={colors.GRAY_500} />
-                ) : (
-                  <>
-                    {/** Files attach */}
-                    {data.taskDetail.attachFiles !== '' && (
-                      <View style={cStyles.flex1}>
-                        <CLabel label={'project_management:files_attach'} />
-                        <FileAttach file={data.taskDetail.attachFiles} />
-                      </View>
-                    )}
+              data.taskDetail ? (
+                <>
+                  {/** Files attach */}
+                  {data.taskDetail.attachFiles !== '' && (
+                    <View style={cStyles.flex1}>
+                      <CLabel label={'project_management:files_attach'} />
+                      <FileAttach file={data.taskDetail.attachFiles} />
+                    </View>
+                  )}
 
-                    {data.taskDetail.attachFiles !== '' &&
-                      data.taskDetail.lstUserInvited.length > 0 &&
-                      Separator(isDark)}
+                  {data.taskDetail.attachFiles !== '' &&
+                    data.taskDetail.lstUserInvited.length > 0 &&
+                    Separator(isDark)}
 
-                    {/** Users invited */}
-                    {data.taskDetail.lstUserInvited.length > 0 && (
-                      <>
-                        <CLabel label={'project_management:user_invited'} />
-                        <CList
-                          style={[
-                            cStyles.mt6,
-                            cStyles.rounded2,
-                            styles.list_invited,
-                            {backgroundColor: customColors.textInput},
-                          ]}
-                          contentStyle={cStyles.p10}
-                          data={data.taskDetail.lstUserInvited}
-                          item={({item, index}) => {
-                            return (
+                  {/** Users invited */}
+                  {data.taskDetail.lstUserInvited.length > 0 && (
+                    <>
+                      <CLabel label={'project_management:user_invited'} />
+                      <CList
+                        style={[
+                          cStyles.mt6,
+                          cStyles.rounded2,
+                          styles.list_invited,
+                          {backgroundColor: customColors.textInput},
+                        ]}
+                        contentStyle={cStyles.p10}
+                        data={data.taskDetail.lstUserInvited}
+                        item={({item, index}) => {
+                          return (
+                            <View
+                              key={item.userName}
+                              style={[
+                                cStyles.row,
+                                cStyles.itemsCenter,
+                                cStyles.ml3,
+                              ]}>
+                              <CAvatar
+                                containerStyle={cStyles.mr5}
+                                label={item.fullName}
+                                size={'vsmall'}
+                              />
                               <View
-                                key={item.userName}
                                 style={[
-                                  cStyles.row,
-                                  cStyles.itemsCenter,
-                                  cStyles.ml3,
+                                  cStyles.ml5,
+                                  cStyles.py6,
+                                  cStyles.flex1,
+                                  index !==
+                                    data.taskDetail.lstUserInvited.length - 1 &&
+                                    cStyles.borderBottom,
+                                  index !==
+                                    data.taskDetail.lstUserInvited.length - 1 &&
+                                    isDark &&
+                                    cStyles.borderBottomDark,
                                 ]}>
-                                <CAvatar
-                                  containerStyle={cStyles.mr5}
-                                  label={item.fullName}
-                                  size={'vsmall'}
+                                <CLabel
+                                  medium
+                                  customLabel={checkEmpty(item.fullName)}
                                 />
-                                <View
-                                  style={[
-                                    cStyles.ml5,
-                                    cStyles.py6,
-                                    cStyles.flex1,
-                                    index !==
-                                      data.taskDetail.lstUserInvited.length -
-                                        1 && cStyles.borderBottom,
-                                    index !==
-                                      data.taskDetail.lstUserInvited.length -
-                                        1 &&
-                                      isDark &&
-                                      cStyles.borderBottomDark,
-                                  ]}>
-                                  <CLabel
-                                    medium
-                                    customLabel={checkEmpty(item.fullName)}
-                                  />
-                                  <CLabel
-                                    customLabel={checkEmpty(item.email)}
-                                  />
-                                </View>
+                                <CLabel customLabel={checkEmpty(item.email)} />
                               </View>
-                            );
-                          }}
-                        />
-                      </>
-                    )}
-                  </>
-                )}
-              </View>
+                            </View>
+                          );
+                        }}
+                      />
+                    </>
+                  )}
+                </>
+              ) : null
             }
           />
 
           {/** Description */}
-          <GroupInfo
-            loading={loading.main}
-            customColors={customColors}
+          <CGroupInfo
+            loading={loading.main || !data.taskDetail}
             label={'project_management:info_basic_4'}
+            empty={data.taskDetail && data.taskDetail.descr.trim() === ''}
             content={
-              <View
-                style={[
-                  cStyles.rounded2,
-                  cStyles.m16,
-                  cStyles.mt10,
-                  cStyles.p16,
-                  (loading.main || !data.taskDetail) && styles.group_holder,
-                  {backgroundColor: customColors.card},
-                ]}>
-                {loading.main || !data.taskDetail ? (
-                  <ActivityIndicator size={'small'} color={colors.GRAY_500} />
-                ) : (
-                  <View style={cStyles.pt5}>
-                    <CText customLabel={checkEmpty(data.taskDetail.descr)} />
-                  </View>
-                )}
-              </View>
+              data.taskDetail ? (
+                <View style={cStyles.pt5}>
+                  <CText customLabel={checkEmpty(data.taskDetail.descr)} />
+                </View>
+              ) : null
             }
           />
         </CContent>

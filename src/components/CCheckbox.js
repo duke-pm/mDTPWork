@@ -74,7 +74,7 @@ function CCheckbox(props) {
           <CText
             customStyles={[
               cStyles.textDefault,
-              cStyles.pl10,
+              cStyles.pl6,
               cStyles.colorWhite,
               textStyle,
             ]}

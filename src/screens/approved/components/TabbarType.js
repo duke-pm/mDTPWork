@@ -42,15 +42,14 @@ function TabbarType(props) {
           cStyles.justifyBetween,
           cStyles.mx16,
           cStyles.mt16,
-          cStyles.rounded2,
+          cStyles.rounded1,
           styles.tab_bar,
           {backgroundColor: customColors.tab},
         ]}>
         <Animated.View
           style={[
-            cStyles.rounded2,
+            cStyles.rounded1,
             cStyles.abs,
-            cStyles.mx2,
             cStyles.shadow1,
             styles.tab_active,
             {
@@ -89,8 +88,8 @@ function TabbarType(props) {
 
 const styles = StyleSheet.create({
   indicator_tab: {backgroundColor: colors.SECONDARY, height: 3},
-  tab_bar: {height: 40},
-  tab_active: {height: 34, width: cStyles.deviceWidth / 3 - 22},
+  tab_bar: {height: 30},
+  tab_active: {height: 26, width: cStyles.deviceWidth / 3 - 18},
 });
 
 export default React.memo(TabbarType);

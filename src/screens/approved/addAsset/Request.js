@@ -25,8 +25,8 @@ import CInput from '~/components/CInput';
 import CButton from '~/components/CButton';
 import CAlert from '~/components/CAlert';
 import CActionSheet from '~/components/CActionSheet';
-import CGroupLabel from '~/components/CGroupLabel';
 import CLabel from '~/components/CLabel';
+import CGroupInfo from '~/components/CGroupInfo';
 import RejectModal from '../components/RejectModal';
 import RequestProcess from '../components/RequestProcess';
 import AssetsTable from '../components/AssetsTable';
@@ -581,210 +581,200 @@ function AddRequest(props) {
       }
       content={
         <CContent scroll>
-          <CGroupLabel labelLeft={t('add_approved_assets:info_user_request')} />
-          <View
-            style={[
-              cStyles.p16,
-              cStyles.borderTop,
-              cStyles.borderBottom,
-              isDark && cStyles.borderTopDark,
-              isDark && cStyles.borderBottomDark,
-              {backgroundColor: customColors.group},
-            ]}>
-            <View
-              style={[
-                cStyles.flex1,
-                cStyles.row,
-                cStyles.itemsCenter,
-                cStyles.justifyBetween,
-              ]}>
-              {/** Date request */}
-              <View style={[cStyles.flex1, cStyles.mr5]}>
-                <CLabel medium label={'add_approved_assets:date_request'} />
-                <CInput
-                  name={INPUT_NAME.DATE_REQUEST}
-                  disabled={true}
-                  dateTimePicker={true}
-                  value={moment(form.dateRequest).format(formatDateView)}
-                  valueColor={customColors.text}
-                />
-              </View>
+          {/** User request */}
+          <CGroupInfo
+            style={cStyles.pt16}
+            label={'add_approved_assets:info_user_request'}
+            content={
+              <>
+                <View
+                  style={[
+                    cStyles.flex1,
+                    cStyles.row,
+                    cStyles.itemsCenter,
+                    cStyles.justifyBetween,
+                  ]}>
+                  {/** Date request */}
+                  <View style={[cStyles.mr5, {flex: 0.4}]}>
+                    <CLabel medium label={'add_approved_assets:date_request'} />
+                    <CInput
+                      name={INPUT_NAME.DATE_REQUEST}
+                      disabled={true}
+                      dateTimePicker={true}
+                      value={moment(form.dateRequest).format(formatDateView)}
+                      valueColor={customColors.text}
+                    />
+                  </View>
 
-              {/** Region */}
-              <View style={[cStyles.flex1, cStyles.ml5]}>
-                <CLabel medium label={'add_approved_assets:region'} />
-                {RowSelect(
-                  loading.main,
-                  true,
-                  isDark,
-                  customColors,
-                  masterState.get('region'),
-                  form.region,
-                  Commons.SCHEMA_DROPDOWN.REGION.label,
-                  Commons.SCHEMA_DROPDOWN.REGION.value,
-                  null,
-                )}
-              </View>
-            </View>
+                  {/** Region */}
+                  <View style={[cStyles.ml5, {flex: 0.6}]}>
+                    <CLabel medium label={'add_approved_assets:region'} />
+                    {RowSelect(
+                      loading.main,
+                      true,
+                      isDark,
+                      customColors,
+                      masterState.get('region'),
+                      form.region,
+                      Commons.SCHEMA_DROPDOWN.REGION.label,
+                      Commons.SCHEMA_DROPDOWN.REGION.value,
+                      null,
+                    )}
+                  </View>
+                </View>
 
-            {/** Name */}
-            <View style={cStyles.pt16}>
-              <CLabel medium label={'add_approved_assets:name'} />
-              <CInput
-                name={INPUT_NAME.NAME}
-                styleFocus={styles.input_focus}
-                disabled={true}
-                holder={'add_approved_assets:name'}
-                value={form.name}
-                valueColor={customColors.text}
-                keyboard={'default'}
-                returnKey={'next'}
-              />
-            </View>
+                {/** Name */}
+                <View style={cStyles.pt16}>
+                  <CLabel medium label={'add_approved_assets:name'} />
+                  <CInput
+                    name={INPUT_NAME.NAME}
+                    styleFocus={styles.input_focus}
+                    disabled={true}
+                    holder={'add_approved_assets:name'}
+                    value={form.name}
+                    valueColor={customColors.text}
+                    keyboard={'default'}
+                    returnKey={'next'}
+                  />
+                </View>
 
-            {/** Department */}
-            <View style={cStyles.pt16}>
-              <CLabel medium label={'add_approved_assets:department'} />
-              {RowSelect(
-                loading.main,
-                true,
-                isDark,
-                customColors,
-                masterState.get('department'),
-                form.department,
-                Commons.SCHEMA_DROPDOWN.DEPARTMENT.label,
-                Commons.SCHEMA_DROPDOWN.DEPARTMENT.value,
-                null,
-              )}
-            </View>
+                {/** Department */}
+                <View style={cStyles.pt16}>
+                  <CLabel medium label={'add_approved_assets:department'} />
+                  {RowSelect(
+                    loading.main,
+                    true,
+                    isDark,
+                    customColors,
+                    masterState.get('department'),
+                    form.department,
+                    Commons.SCHEMA_DROPDOWN.DEPARTMENT.label,
+                    Commons.SCHEMA_DROPDOWN.DEPARTMENT.value,
+                    null,
+                  )}
+                </View>
 
-            {/** Where use */}
-            <View style={cStyles.pt16}>
-              <CLabel medium label={'add_approved_assets:where_use'} />
-              {RowSelect(
-                loading.main,
-                loading.main || loading.submitAdd || isDetail,
-                isDark,
-                customColors,
-                masterState.get('department'),
-                form.whereUse,
-                Commons.SCHEMA_DROPDOWN.DEPARTMENT.label,
-                Commons.SCHEMA_DROPDOWN.DEPARTMENT.value,
-                () => actionSheetDepartmentRef.current?.show(),
-              )}
-            </View>
+                {/** Where use */}
+                <View style={cStyles.pt16}>
+                  <CLabel medium label={'add_approved_assets:where_use'} />
+                  {RowSelect(
+                    loading.main,
+                    loading.main || loading.submitAdd || isDetail,
+                    isDark,
+                    customColors,
+                    masterState.get('department'),
+                    form.whereUse,
+                    Commons.SCHEMA_DROPDOWN.DEPARTMENT.label,
+                    Commons.SCHEMA_DROPDOWN.DEPARTMENT.value,
+                    () => actionSheetDepartmentRef.current?.show(),
+                  )}
+                </View>
 
-            {/** Reason */}
-            <View style={cStyles.pt16}>
-              <View
-                style={[
-                  cStyles.row,
-                  cStyles.itemsCenter,
-                  cStyles.justifyBetween,
-                ]}>
-                <CLabel medium label={'add_approved_assets:reason'} />
-                <CText styles={'textDate'} label={'common:optional'} />
-              </View>
-              <CInput
-                name={INPUT_NAME.REASON}
-                styleFocus={styles.input_focus}
-                disabled={loading.main || loading.submitAdd || isDetail}
-                holder={'add_approved_assets:holder_reason'}
-                value={form.reason}
-                keyboard={'default'}
-                returnKey={'next'}
-                onChangeInput={() => handleChangeInput(supplierRef)}
-                onChangeValue={handleChangeText}
-              />
-            </View>
-          </View>
+                {/** Reason */}
+                <View style={cStyles.pt16}>
+                  <View
+                    style={[
+                      cStyles.row,
+                      cStyles.itemsCenter,
+                      cStyles.justifyBetween,
+                    ]}>
+                    <CLabel medium label={'add_approved_assets:reason'} />
+                    <CText styles={'textDate'} label={'common:optional'} />
+                  </View>
+                  <CInput
+                    name={INPUT_NAME.REASON}
+                    styleFocus={styles.input_focus}
+                    disabled={loading.main || loading.submitAdd || isDetail}
+                    holder={'add_approved_assets:holder_reason'}
+                    value={form.reason}
+                    keyboard={'default'}
+                    returnKey={'next'}
+                    onChangeInput={() => handleChangeInput(supplierRef)}
+                    onChangeValue={handleChangeText}
+                  />
+                </View>
+              </>
+            }
+          />
 
           {/** Assets */}
-          <CGroupLabel labelLeft={t('add_approved_assets:info_assets')} />
-          <View
-            style={[
-              cStyles.borderTop,
-              cStyles.borderBottom,
-              isDark && cStyles.borderTopDark,
-              isDark && cStyles.borderBottomDark,
-              {backgroundColor: customColors.group},
-            ]}>
-            <AssetsTable
-              loading={
-                loading.main ||
-                loading.submitAdd ||
-                loading.submitApproved ||
-                loading.submitReject
-              }
-              checking={loading.submitAdd}
-              isDetail={isDetail}
-              assets={form.assets}
-              onCallbackValidate={onCallbackValidate}
-            />
-          </View>
+          <CGroupInfo
+            contentStyle={cStyles.p0}
+            label={'add_approved_assets:info_assets'}
+            content={
+              <AssetsTable
+                loading={
+                  loading.main ||
+                  loading.submitAdd ||
+                  loading.submitApproved ||
+                  loading.submitReject
+                }
+                checking={loading.submitAdd}
+                isDetail={isDetail}
+                assets={form.assets}
+                onCallbackValidate={onCallbackValidate}
+              />
+            }
+          />
 
           {/** Other info */}
-          <CGroupLabel labelLeft={t('add_approved_assets:info_other')} />
-          <View
-            style={[
-              cStyles.p16,
-              cStyles.borderTop,
-              cStyles.borderBottom,
-              isDark && cStyles.borderTopDark,
-              isDark && cStyles.borderBottomDark,
-              {backgroundColor: customColors.group},
-            ]}>
-            {/** Supplier */}
-            <View style={cStyles.pt16}>
-              <View
-                style={[
-                  cStyles.row,
-                  cStyles.itemsCenter,
-                  cStyles.justifyBetween,
-                ]}>
-                <CLabel medium label={'add_approved_assets:supplier'} />
-                <CText styles={'textDate'} label={'common:optional'} />
-              </View>
-              <CInput
-                name={INPUT_NAME.SUPPLIER}
-                styleFocus={styles.input_focus}
-                inputRef={ref => (supplierRef = ref)}
-                disabled={loading.main || loading.submitAdd || isDetail}
-                holder={'add_approved_assets:holder_supplier'}
-                value={form.supplier}
-                keyboard={'default'}
-                returnKey={'done'}
-                onChangeInput={onSendRequest}
-                onChangeValue={handleChangeText}
-              />
-            </View>
+          <CGroupInfo
+            label={'add_approved_assets:info_assets'}
+            content={
+              <>
+                {/** Supplier */}
+                <View style={cStyles.pt16}>
+                  <View
+                    style={[
+                      cStyles.row,
+                      cStyles.itemsCenter,
+                      cStyles.justifyBetween,
+                    ]}>
+                    <CLabel medium label={'add_approved_assets:supplier'} />
+                    <CText styles={'textDate'} label={'common:optional'} />
+                  </View>
+                  <CInput
+                    name={INPUT_NAME.SUPPLIER}
+                    styleFocus={styles.input_focus}
+                    inputRef={ref => (supplierRef = ref)}
+                    disabled={loading.main || loading.submitAdd || isDetail}
+                    holder={'add_approved_assets:holder_supplier'}
+                    value={form.supplier}
+                    keyboard={'default'}
+                    returnKey={'done'}
+                    onChangeInput={onSendRequest}
+                    onChangeValue={handleChangeText}
+                  />
+                </View>
 
-            {/** Type assets */}
-            <View style={cStyles.pt16}>
-              <CLabel medium label={'add_approved_assets:type_assets'} />
-              <CheckOption
-                loading={loading.main || loading.submitAdd}
-                isDetail={isDetail}
-                customColors={customColors}
-                value={form.typeAssets}
-                values={dataTypeAssets}
-                onCallback={onCallbackTypeAsset}
-              />
-            </View>
+                {/** Type assets */}
+                <View style={cStyles.pt16}>
+                  <CLabel medium label={'add_approved_assets:type_assets'} />
+                  <CheckOption
+                    loading={loading.main || loading.submitAdd}
+                    isDetail={isDetail}
+                    customColors={customColors}
+                    value={form.typeAssets}
+                    values={dataTypeAssets}
+                    onCallback={onCallbackTypeAsset}
+                  />
+                </View>
 
-            {/** In Planning */}
-            <View style={cStyles.py16}>
-              <CLabel medium label={'add_approved_assets:in_planning'} />
-              <CheckOption
-                loading={loading.main || loading.submitAdd}
-                isDetail={isDetail}
-                customColors={customColors}
-                value={form.inPlanning}
-                values={dataInPlanning}
-                onCallback={onCallbackInplanning}
-              />
-            </View>
-          </View>
+                {/** In Planning */}
+                <View style={cStyles.py16}>
+                  <CLabel medium label={'add_approved_assets:in_planning'} />
+                  <CheckOption
+                    loading={loading.main || loading.submitAdd}
+                    isDetail={isDetail}
+                    customColors={customColors}
+                    value={form.inPlanning}
+                    values={dataInPlanning}
+                    onCallback={onCallbackInplanning}
+                  />
+                </View>
+              </>
+            }
+          />
 
           {isDetail && (
             <CActionSheet actionRef={actionSheetProcessRef}>
@@ -862,7 +852,7 @@ function AddRequest(props) {
       }
       footer={
         !isDetail ? (
-          <View style={cStyles.px16}>
+          <View style={[cStyles.px16, cStyles.pb8]}>
             <CButton
               block
               disabled={loading.main || loading.submitAdd}
@@ -878,6 +868,7 @@ function AddRequest(props) {
               cStyles.itemsCenter,
               cStyles.justifyEvenly,
               cStyles.px16,
+              cStyles.pb8,
             ]}>
             <CButton
               style={styles.button_approved}

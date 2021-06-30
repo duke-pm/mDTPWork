@@ -14,7 +14,7 @@ import Icon from 'react-native-vector-icons/Feather';
 import CText from './CText';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
-import {fS, IS_ANDROID} from '~/utils/helper';
+import {fS, IS_ANDROID, IS_IOS} from '~/utils/helper';
 import {THEME_DARK, THEME_LIGHT} from '~/config/constants';
 
 function CInput(props) {
@@ -142,7 +142,7 @@ function CInput(props) {
               style={[
                 cStyles.textDefault,
                 {color: customColors.text},
-                // IS_IOS && cStyles.mb6,
+                IS_IOS && cStyles.mb8,
                 cStyles.flex1,
                 styleInput,
               ]}

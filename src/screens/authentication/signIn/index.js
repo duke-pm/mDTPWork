@@ -288,7 +288,7 @@ function SignIn(props) {
                 />
               </View>
 
-              <View style={styles.con_input}>
+              <View style={[styles.con_input, cStyles.fullWidth]}>
                 <CInput
                   name={INPUT_NAME.USER_NAME}
                   style={styles.input}
@@ -336,13 +336,14 @@ function SignIn(props) {
                     cStyles.my6,
                   ]}>
                   <CCheckbox
+                    textStyle={cStyles.textSubTitle}
                     labelRight={'sign_in:save_account'}
                     value={form.saveAccount}
                     onChange={handleSaveAccount}
                   />
 
                   <CText
-                    styles={'textDefault textUnderline colorWhite'}
+                    styles={'textSubTitle textUnderline colorWhite'}
                     label={'sign_in:forgot_password'}
                     onPress={handleForgotPassword}
                   />
