@@ -1,4 +1,3 @@
-/* eslint-disable radix */
 /* eslint-disable no-useless-escape */
 /**
  ** Name: Helpers
@@ -20,9 +19,12 @@ export const IS_IOS = Platform.OS === 'ios';
 export const SCREEN_HEIGHT = Dimensions.get('window').height;
 export const SCREEN_WIDTH = Dimensions.get('window').width;
 const regex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+const scale = SCREEN_WIDTH / STANDARD_SIZE.width;
 
 export function fS(number) {
-  return (parseInt(number) * SCREEN_WIDTH) / STANDARD_SIZE.width;
+  // return (parseInt(number) * SCREEN_WIDTH) / STANDARD_SIZE.width;
+  const newSize = number * scale;
+  return Math.round(PixelRatio.roundToNearestPixel(newSize));
 }
 
 /* PARSE WIDTH WITH SREEN SIZE */

@@ -81,7 +81,7 @@ function CButton(props) {
         ]}>
         {icon && !animationIcon && (
           <Icon
-            style={cStyles.pr10}
+            style={label !== '' ? cStyles.pr10 : {}}
             name={icon}
             color={variant === 'contained' ? colors.WHITE : color}
             size={fS(16)}

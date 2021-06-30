@@ -40,7 +40,7 @@ function CCard(props) {
       key={key}
       style={[
         cStyles.rounded2,
-        cStyles.mt32,
+        cStyles.mt24,
         {backgroundColor: customColors.card},
         containerStyle,
       ]}
@@ -59,7 +59,7 @@ function CCard(props) {
           {backgroundColor: isDark ? colors.GRAY_830 : colors.GRAY_200},
         ]}>
         <CText
-          customStyles={[cStyles.fontMedium, {color: customColors.text}]}
+          customStyles={cStyles.fontMedium}
           label={label}
           customLabel={customLabel}
         />

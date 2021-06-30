@@ -37,7 +37,7 @@ export function RootTab(props) {
               iconName = 'user';
               break;
           }
-          return <Icon name={iconName} size={fS(20)} color={color} />;
+          return <Icon name={iconName} size={fS(18)} color={color} />;
         },
         tabBarLabel: ({focused, color}) => {
           let label = 'dashboard:title';

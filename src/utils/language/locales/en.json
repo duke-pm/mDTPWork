@@ -35,7 +35,8 @@
     "its_you": "You",
     "holder_warning_option_prepare": "The feature in progress, please come back later!",
     "optional": "(Optional)",
-    "need_confirm": "Request Need Confirm"
+    "need_confirm": "Request Need Confirm",
+    "update_app": "Update now!"
   },
   "status": {
     "title": "Status",

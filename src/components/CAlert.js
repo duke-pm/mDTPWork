@@ -38,8 +38,10 @@ function CAlert(props) {
     <Modal
       style={cStyles.m0}
       isVisible={show}
-      animationIn={'zoomInUp'}
-      animationOut={'fadeOut'}
+      animationIn={'bounceIn'}
+      animationOut={'zoomOut'}
+      animationInTiming={200}
+      animationOutTiming={200}
       backdropOpacity={0.4}
       useNativeDriver={true}
       useNativeDriverForBackdrop={true}

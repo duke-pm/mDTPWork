@@ -43,7 +43,7 @@ function CText(props) {
           onPress && cStyles.px3,
           customStyles,
         ]}
-        // allowFontScaling
+        allowFontScaling={false}
         {...props}>
         {customLabel || t(label)}
       </Text>

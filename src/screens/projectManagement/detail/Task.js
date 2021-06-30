@@ -408,7 +408,7 @@ function Task(props) {
                 style={cStyles.p16}
                 name={'eye'}
                 color={isFastWatch ? colors.WHITE : colors.GRAY_500}
-                size={fS(22)}
+                size={fS(20)}
               />
             </TouchableOpacity>
           )}
@@ -417,7 +417,7 @@ function Task(props) {
               style={cStyles.p16}
               name={'message-circle'}
               color={colors.WHITE}
-              size={fS(22)}
+              size={fS(20)}
             />
             {newComment && (
               <View
@@ -437,7 +437,7 @@ function Task(props) {
               style={cStyles.p16}
               name={'users'}
               color={colors.WHITE}
-              size={fS(22)}
+              size={fS(20)}
             />
             {!isFastWatch && (
               <View

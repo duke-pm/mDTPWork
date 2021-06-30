@@ -4,6 +4,8 @@
  ** CreateAt: 2021
  ** Description: Description of configs.js
  **/
+import {Assets} from '~/utils/asset';
+
 const Configs = {
   hostDevelopment: 'http://api.dtp-education.com',
   hostProduction: 'http://api.dtp-education.com',
@@ -19,6 +21,21 @@ const Configs = {
     ProjectDetail: 'ProjectDetail/:projectID', // Config params for route Project Detail
     TaskDetail: 'TaskDetail/:taskID', // Config params for route Task Detail
   },
+  socialsNetwork: [
+    // link socials network at account screen
+    {
+      id: 'facebook',
+      label: 'Facebook',
+      icon: Assets.imgFacebook,
+      url: 'https://www.facebook.com/daitruongphat.education',
+    },
+    {
+      id: 'youtube',
+      label: 'Youtube',
+      icon: Assets.imgYoutube,
+      url: 'https://www.youtube.com/channel/UCPirvav1R6BC2WQoEyBy0PQ',
+    },
+  ],
 };
 
 export default Configs;

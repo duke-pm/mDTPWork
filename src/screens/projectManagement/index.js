@@ -317,7 +317,7 @@ function ProjectManagement(props) {
             style={cStyles.p16}
             name={'filter'}
             color={'white'}
-            size={fS(20)}
+            size={fS(18)}
           />
           {isFiltering && (
             <View

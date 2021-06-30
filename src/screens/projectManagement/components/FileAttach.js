@@ -24,7 +24,7 @@ import * as Progress from 'react-native-progress';
 import {Extensions} from '~/utils/asset';
 import {THEME_DARK} from '~/config/constants';
 import {cStyles, colors} from '~/utils/style';
-import {checkExistsFile} from '~/utils/helper';
+import {checkExistsFile, fS, IS_IOS} from '~/utils/helper';
 import API from '~/services/axios';
 
 function FileAttach(props) {
@@ -113,7 +113,7 @@ function FileAttach(props) {
             cStyles.textMeta,
             cStyles.textItalic,
             cStyles.textCenter,
-            cStyles.mt10,
+            cStyles.pt10,
             {color: customColors.primary},
           ]}>
           {shortFileName}
@@ -137,9 +137,18 @@ function FileAttach(props) {
                 styles.con_icon_download,
                 {backgroundColor: customColors.card},
               ]}>
-              {loading && <ActivityIndicator color={customColors.icon} />}
+              {loading && (
+                <ActivityIndicator
+                  color={customColors.icon}
+                  size={IS_IOS ? 'small' : 12}
+                />
+              )}
               {!loading && (
-                <Icon name={'download'} color={customColors.icon} size={16} />
+                <Icon
+                  name={'download'}
+                  color={customColors.icon}
+                  size={fS(14)}
+                />
               )}
             </View>
 
