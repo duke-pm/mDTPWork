@@ -338,6 +338,7 @@ function FilterProject(props) {
   return (
     <CContainer
       loading={loading.main}
+      centerStyle={cStyles.center}
       title={'project_management:filter'}
       header
       headerLeft={

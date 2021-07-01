@@ -14,6 +14,7 @@ import {
   TouchableOpacity,
   LayoutAnimation,
   UIManager,
+  TouchableNativeFeedback,
 } from 'react-native';
 import * as Progress from 'react-native-progress';
 import * as Animatable from 'react-native-animatable';
@@ -119,10 +120,10 @@ function TaskItem(props) {
       delay = moment().diff(data.endDate, 'days');
     }
   }
-
+  const Touchable = IS_ANDROID ? TouchableNativeFeedback : TouchableOpacity;
   return (
     <>
-      <TouchableOpacity disabled={props.loading} onPress={handleTaskItem}>
+      <Touchable disabled={props.loading} onPress={handleTaskItem}>
         <View
           style={[
             cStyles.p10,
@@ -275,7 +276,7 @@ function TaskItem(props) {
             </View>
           </View>
         </View>
-      </TouchableOpacity>
+      </Touchable>
 
       {showChildren && data.countChild > 0 && (
         <View style={[cStyles.row, cStyles.itemsCenter]}>

@@ -41,7 +41,6 @@ function CContainer(props) {
     headerLeft = null,
     headerRight = null,
     hasBack = false,
-    hasMenu = false,
     hasSearch = false,
     hasAddNew = false,
     title,
@@ -87,7 +86,6 @@ function CContainer(props) {
             style={headerStyle}
             centerStyle={centerStyle}
             hasBack={hasBack}
-            hasMenu={hasMenu}
             hasSearch={hasSearch}
             hasAddNew={hasAddNew}
             iconBack={iconBack}

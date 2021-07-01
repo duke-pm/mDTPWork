@@ -16,6 +16,7 @@ import {
   TouchableOpacity,
   LayoutAnimation,
   UIManager,
+  TouchableNativeFeedback,
 } from 'react-native';
 import {BlurView} from '@react-native-community/blur';
 import Icon from 'react-native-vector-icons/Feather';
@@ -45,7 +46,6 @@ function CHeader(props) {
     style = {},
     centerStyle = {},
     hasBack = false,
-    hasMenu = false,
     hasSearch = false,
     hasAddNew = false,
     title = '',
@@ -83,8 +83,6 @@ function CHeader(props) {
     }
   };
 
-  const handleMenu = () => {};
-
   const handleToogleSearch = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setIsSearch(!isSearch);
@@ -115,7 +113,6 @@ function CHeader(props) {
   return (
     <View
       style={[
-        cStyles.shadowHeader,
         cStyles.row,
         cStyles.center,
         cStyles.top0,
@@ -178,28 +175,13 @@ function CHeader(props) {
                 />
               </TouchableOpacity>
             )}
-
-            {hasMenu && (
-              <TouchableOpacity style={cStyles.itemsStart} onPress={handleMenu}>
-                <Icon
-                  style={cStyles.p16}
-                  name={'menu'}
-                  color={colors.WHITE}
-                  size={fS(22)}
-                />
-              </TouchableOpacity>
-            )}
             {left}
           </View>
 
           <View
             style={[
               styles.con_body,
-              IS_ANDROID
-                ? (left && right) || (!left && !right)
-                  ? cStyles.center
-                  : cStyles.justifyCenter
-                : cStyles.center,
+              IS_ANDROID ? cStyles.justifyCenter : cStyles.center,
               centerStyle,
             ]}>
             <CText

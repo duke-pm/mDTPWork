@@ -81,6 +81,7 @@ function Dashboard(props) {
   return (
     <CContainer
       loading={loading}
+      centerStyle={cStyles.center}
       header
       title={'dashboard:title'}
       headerRight={
