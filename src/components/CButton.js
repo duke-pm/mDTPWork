@@ -58,7 +58,7 @@ function CButton(props) {
           cStyles.row,
           cStyles.center,
           cStyles.rounded1,
-          cStyles.py6,
+          cStyles.py3,
           cStyles.px16,
           fullWidth && styles.full_width,
           block && cStyles.fullWidth,
@@ -119,7 +119,6 @@ function CButton(props) {
 }
 
 const styles = StyleSheet.create({
-  container: {height: 40},
   full_width: {width: cStyles.deviceWidth},
   disabled_contained: {
     elevation: 0,
@@ -134,7 +133,7 @@ const styles = StyleSheet.create({
     },
   }),
   con_variant_text: {backgroundColor: colors.TRANSPARENT},
-  img_icon: {height: 40, width: 40},
+  img_icon: {height: 35, width: 35},
 });
 
 export default CButton;

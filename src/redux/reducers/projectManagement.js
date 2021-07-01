@@ -28,6 +28,7 @@ export const initialState = fromJS({
   submittingTaskComment: false,
   submittingTaskWatcher: false,
   submittingTaskUpdate: false,
+  isWatched: false,
   taskDetail: null,
   activities: List(),
   relationships: List(),
@@ -125,7 +126,8 @@ export default function (state = initialState, action = {}) {
         .set('taskDetail', payload.detail)
         .set('activities', payload.activities)
         .set('relationships', payload.relationShip)
-        .set('watchers', payload.watcher);
+        .set('watchers', payload.watcher)
+        .set('isWatched', payload.isWatched);
 
     case types.ERROR_FETCH_TASK_DETAIL:
       return state
@@ -170,14 +172,40 @@ export default function (state = initialState, action = {}) {
 
     case types.SUCCESS_FETCH_TASK_WATCHERS:
       let tmpWatchers = state.get('watchers');
-      let tmpWatchers2 = payload;
-
+      let tmpIsWatched = state.get('isWatched');
+      let tmpWatchers2 = null;
+      if (payload.data.watcher) {
+        tmpIsWatched = true;
+        if (payload.userName) {
+          //for follow
+          tmpWatchers2 = payload.data.watcher;
+        } else {
+          //for get email
+          let find = tmpWatchers.findIndex(
+            item => item.userName === payload.data.watcher.userName,
+          );
+          if (find !== -1) {
+            tmpWatchers[find].isReceiveEmail =
+              payload.data.watcher.isReceiveEmail;
+          }
+        }
+      } else {
+        //for unfollow
+        tmpWatchers = tmpWatchers.filter(
+          item => item.userName !== payload.userName,
+        );
+        tmpIsWatched = payload.data.isWatched;
+      }
       return state
         .set('submittingTaskWatcher', false)
         .set('successTaskWatcher', true)
         .set('errorTaskWatcher', false)
         .set('errorHelperTaskWatcher', '')
-        .set('watchers', tmpWatchers.concat(tmpWatchers2));
+        .set(
+          'watchers',
+          tmpWatchers2 ? tmpWatchers.concat(tmpWatchers2) : tmpWatchers,
+        )
+        .set('isWatched', tmpIsWatched);
 
     case types.ERROR_FETCH_TASK_WATCHERS:
       return state

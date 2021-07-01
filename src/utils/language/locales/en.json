@@ -58,7 +58,8 @@
     "change_status": "Update status successfully!",
     "change_info": "Update information successfully!",
     "change_percent": "Update percentage successfully!",
-    "change_follow": "Update follow successfully!"
+    "change_follow": "Update follow successfully!",
+    "change_unfollow": "Update unfollow successfully!"
   },
   "error": {
     "title": "Error!",
@@ -88,7 +89,7 @@
     "from_date_larger_than_to_date": "From date cannot be larger than to date!",
     "detail_request": "Do not get detailed information. Please try again later!",
     "send_comment": "Unable to submit your comments. Please try again later!",
-    "send_follow": "Unable to submit follow. Please try again later!",
+    "send_follow": "Unable to submit. Please try again later!",
     "change_status": "Unable to update status. Please try again later!",
     "change_percent": "Unable to update percentage. Please try again later!"
   },
@@ -357,8 +358,8 @@
     "assignee": "Assignee: ",
     "assignee_by": "by",
     "holder_change_status": "Please select the status",
-    "from_date": "From date ",
-    "to_date": "To date ",
+    "from_date": "From ",
+    "to_date": "To ",
     "filter": "Filters",
     "date_filter": "Date",
     "assigned_filter": "Assigned",
@@ -385,7 +386,7 @@
     "origin_publisher": "Publisher: ",
     "owner_ship_dtp": "Distributor: ",
     "list_watchers": "List of followers",
-    "you_watched": "Followed",
+    "you_watched": "Unfollow now",
     "you_not_watch": "Follow now",
     "empty_watchers": "Currently no tracking this job!",
     "empty_tasks": "Currently no job in this project!",
@@ -410,7 +411,8 @@
     "info_basic_2": "Progress Manager",
     "info_basic_3": "Other information",
     "info_basic_4": "Description",
-    "list_task": "Project Number #"
+    "list_task": "Project Number #",
+    "estimated_time": "Estimated"
   },
   "sales_visit": {
     "title": "Sales Visit"

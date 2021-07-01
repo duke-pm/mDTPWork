@@ -529,10 +529,10 @@ const text = {
     lineHeight: 20,
   },
   textButton: {
-    fontSize: fS(14),
+    fontSize: fS(16),
     color: 'white',
     fontFamily: fMedium,
-    lineHeight: IS_IOS ? 22 : 23,
+    lineHeight: IS_IOS ? 25 : 27,
   },
   fontBold: {fontFamily: fBold},
   fontMedium: {fontFamily: fMedium},

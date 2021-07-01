@@ -30,9 +30,8 @@ import CButton from '~/components/CButton';
 import CCard from '~/components/CCard';
 import CLabel from '~/components/CLabel';
 /* COMMON */
-import {Animations} from '~/utils/asset';
 import {THEME_DARK} from '~/config/constants';
-import {colors, cStyles} from '~/utils/style';
+import {cStyles} from '~/utils/style';
 import {IS_ANDROID} from '~/utils/helper';
 /** REDUX */
 import * as Actions from '~/redux/actions';
@@ -66,7 +65,6 @@ function Watchers(props) {
     send: false,
   });
   const [needRefresh, setNeedRefresh] = useState(false);
-  const [follow, setFollow] = useState(false);
   const [getEmail, setGetEmail] = useState(true);
   const [watchers, setWatchers] = useState([]);
 
@@ -74,35 +72,50 @@ function Watchers(props) {
    ** HANDLE FUNC **
    *****************/
   const handleFollow = () => {
-    if (!follow) {
-      setLoading({...loading, send: true});
-      let params = {
-        LineNum: 0,
-        TaskID: taskID,
-        Lang: language,
-        RefreshToken: refreshToken,
-      };
-      return dispatch(Actions.fetchTaskWatcher(params, navigation));
+    let varWatch = projectState.get('isWatched') ? 0 : 1;
+    let params = {
+      TaskID: taskID,
+      IsWatched: varWatch,
+      IsReceiveEmail: 1,
+      Lang: language,
+      RefreshToken: refreshToken,
+      UserName: userName,
+    };
+    dispatch(Actions.fetchTaskWatcher(params, navigation));
+    if (!needRefresh) {
+      setNeedRefresh(true);
     }
+    return setLoading({...loading, send: true});
   };
 
   const handleGetEmail = () => {
-    setGetEmail(!getEmail);
+    let isWatched = projectState.get('isWatched');
+    let params = {
+      TaskID: taskID,
+      IsWatched: isWatched ? 1 : 0,
+      IsReceiveEmail: getEmail ? 0 : 1,
+      Lang: language,
+      RefreshToken: refreshToken,
+    };
+    dispatch(Actions.fetchTaskWatcher(params, navigation));
+    return setLoading({...loading, send: true});
   };
 
   /************
    ** FUNC **
    ************/
-  const onPrepareData = needCheck => {
+  const onPrepareData = () => {
     /** Set list watchers */
     let tmpWatchers = projectState.get('watchers');
     setWatchers(tmpWatchers);
 
-    /** Check is following */
-    if (needCheck && userName) {
+    /** Check get email */
+    if (tmpWatchers.length > 0) {
       let find = tmpWatchers.find(f => f.userName === userName);
       if (find) {
-        setFollow(true);
+        setGetEmail(find.isReceiveEmail);
+      } else {
+        setGetEmail(true);
       }
     }
 
@@ -128,7 +141,7 @@ function Watchers(props) {
    ** LIFE CYCLE **
    ******************/
   useEffect(() => {
-    onPrepareData(true);
+    onPrepareData();
   }, []);
 
   useEffect(() => {
@@ -136,11 +149,7 @@ function Watchers(props) {
       if (!projectState.get('submittingTaskWatcher')) {
         if (projectState.get('successTaskWatcher')) {
           LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-          setFollow(true);
-          if (!needRefresh) {
-            setNeedRefresh(true);
-          }
-          return onPrepareData(false);
+          return onPrepareData();
         }
 
         if (projectState.get('errorTaskWatcher')) {
@@ -154,12 +163,12 @@ function Watchers(props) {
     projectState.get('submittingTaskWatcher'),
     projectState.get('successTaskWatcher'),
     projectState.get('errorTaskWatcher'),
-    setFollow,
   ]);
 
   /**************
    ** RENDER **
    **************/
+  let isWatched = projectState.get('isWatched');
   return (
     <CContainer
       loading={loading.main || loading.send}
@@ -169,28 +178,25 @@ function Watchers(props) {
       iconBack={'x'}
       onRefresh={needRefresh ? onRefresh : null}
       content={
-        <CContent>
+        <CContent scroll>
           <View style={[cStyles.mt16, cStyles.mx16]}>
             <CButton
               block
-              loading={loading.send}
-              disabled={loading.main || loading.send}
               variant={'outlined'}
-              color={!follow ? colors.SECONDARY : customColors.green}
+              color={!isWatched ? customColors.green : customColors.red}
               label={
-                !follow
+                !isWatched
                   ? 'project_management:you_not_watch'
                   : 'project_management:you_watched'
               }
-              icon={follow ? null : loading.send ? null : 'eye'}
-              animationIcon={follow ? Animations.approved : null}
+              icon={isWatched ? 'eye-off' : loading.send ? null : 'eye'}
               onPress={handleFollow}
             />
-            <View style={cStyles.itemsEnd}>
-              {follow && (
+            <View style={cStyles.itemsStart}>
+              {isWatched && (
                 <CCheckbox
                   textStyle={[cStyles.textMeta, {color: customColors.text}]}
-                  labelLeft={'project_management:title_get_watcher'}
+                  labelRight={'project_management:title_get_watcher'}
                   value={getEmail}
                   onChange={handleGetEmail}
                 />
@@ -200,18 +206,19 @@ function Watchers(props) {
 
           {!loading.main && (
             <CCard
-              containerStyle={[
-                cStyles.rounded2,
+              style={[
                 cStyles.mx16,
-                follow && cStyles.mt16,
+                !isWatched && cStyles.mt16,
                 !isIphoneX() && cStyles.mb16,
               ]}
+              containerStyle={[cStyles.rounded2, cStyles.fullHeight]}
               label={'project_management:list_watchers'}
               content={
                 watchers.length > 0 ? (
                   <ScrollView
-                    style={cStyles.mb32}
-                    showsVerticalScrollIndicator={false}>
+                    scrollEnabled={false}
+                    showsVerticalScrollIndicator={false}
+                    nestedScrollEnabled={true}>
                     {watchers.map((item, index) => {
                       let isLast = index === watchers.length - 1;
                       return (
@@ -243,7 +250,7 @@ function Watchers(props) {
                                     {color: customColors.text})
                                   }>
                                   {item.userName === userName
-                                    ? `  (${t('common:its_you')})`
+                                    ? ` (${t('common:its_you')})`
                                     : ''}
                                 </Text>
                               </Text>

@@ -202,9 +202,9 @@ export const taskWatcherError = error => ({
   payload: error,
 });
 
-export const taskWatcherSuccess = data => ({
+export const taskWatcherSuccess = (data, userName) => ({
   type: types.SUCCESS_FETCH_TASK_WATCHERS,
-  payload: data,
+  payload: {data, userName},
 });
 
 export const fetchTaskWatcher = (params, navigation) => {
@@ -215,7 +215,7 @@ export const fetchTaskWatcher = (params, navigation) => {
       .taskWatcher(params)
       .then(res => {
         if (!res.isError) {
-          return dispatch(taskWatcherSuccess(res.data));
+          return dispatch(taskWatcherSuccess(res.data, params.UserName));
         } else {
           return dispatch(taskWatcherError(res.errorMessage));
         }

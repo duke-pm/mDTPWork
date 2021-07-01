@@ -25,7 +25,8 @@ function CCard(props) {
   const {customColors} = useTheme();
   const isDark = useColorScheme() === THEME_DARK;
   const {
-    key,
+    key = 'dtp-work',
+    style = {},
     containerStyle = {},
     contentLabelStyle = {},
     label = null,
@@ -47,9 +48,9 @@ function CCard(props) {
       : TouchableNativeFeedback
     : View;
   return (
-    <View style={[cStyles.rounded2, styles.con]}>
+    <View key={key} style={[cStyles.rounded2, styles.con, style]}>
       <Component
-        style={cStyles.rounded2}
+        style={[cStyles.flex1, cStyles.rounded2]}
         delayLongPress={500}
         onLayout={onLayout}
         onPress={onPress}
@@ -80,7 +81,7 @@ function CCard(props) {
           {header && <View style={cStyles.px16}>{header}</View>}
 
           {content && (
-            <View style={[cStyles.pb10, cStyles.px16, header && cStyles.pt10]}>
+            <View style={[cStyles.px16, cStyles.pb10, header && cStyles.pt10]}>
               {content}
             </View>
           )}

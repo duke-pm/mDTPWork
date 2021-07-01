@@ -19,7 +19,7 @@ const Configs = {
   numberYearToFilter: 10,
   // for dev new feature
   salesVisit: false,
-  // for Deep Liking
+  // for deep liking
   prefixes: [
     'http://dtpwork.dtp-education.com', // for Android
     'mdtpwork://', // for iOS
