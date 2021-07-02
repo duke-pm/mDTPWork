@@ -344,6 +344,10 @@ export function RootMain(props) {
         name={Routes.AUTHENTICATION.FORGOT_PASSWORD.name}
         component={Routes.AUTHENTICATION.FORGOT_PASSWORD.path}
       />
+      <StackMain.Screen
+        name={Routes.AUTHENTICATION.CHANGE_PASSWORD.name}
+        component={Routes.AUTHENTICATION.CHANGE_PASSWORD.path}
+      />
       <StackMain.Screen name={Routes.ROOT_TAB.name} component={RootTab} />
     </StackMain.Navigator>
   );

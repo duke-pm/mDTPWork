@@ -118,7 +118,11 @@
     "success_content_2": "Check your inbox, click",
     "success_content_3": "Confirm my email",
     "success_content_4": "link to confirm your email address.",
-    "button_go_back": "Go back to Login"
+    "button_go_back": "Go back to Login",
+    "error_password_not_fill": "New password cannot empty!",
+
+    "success_change_password": "Update new password successfully!",
+    "error_change_password": "Update new password failed. Please try again later!"
   },
   "dashboard": {
     "title": "Dashboard"

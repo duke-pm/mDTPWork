@@ -28,13 +28,11 @@ import CInput from '~/components/CInput';
 import CButton from '~/components/CButton';
 import CGroupInfo from '~/components/CGroupInfo';
 /* COMMON */
-import Configs from '~/config';
 import {cStyles, colors} from '~/utils/style';
 import {IS_ANDROID, IS_IOS} from '~/utils/helper';
 import {THEME_DARK} from '~/config/constants';
 /* REDUX */
 import * as Actions from '~/redux/actions';
-import CAvoidKeyboard from '~/components/CAvoidKeyboard';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {

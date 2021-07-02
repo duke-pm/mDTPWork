@@ -12,6 +12,8 @@ import * as types from '../actions/types';
 export const initialState = fromJS({
   submitting: false,
   submittingChangePass: false,
+  submittingForgotPass: false,
+  submittingUpdatePass: false,
 
   successRefreshToken: false,
   errorRefreshToken: false,
@@ -23,6 +25,14 @@ export const initialState = fromJS({
   successChangePass: false,
   errorChangePass: false,
   errorHelperChangePass: '',
+
+  successForgotPass: false,
+  errorForgotPass: false,
+  errorHelperForgotPass: '',
+
+  successUpdatePass: false,
+  errorUpdatePass: false,
+  errorHelperUpdatePass: '',
 
   login: {
     accessToken: null,
@@ -144,6 +154,69 @@ export default function (state = initialState, action = {}) {
         .set('successChangePass', false)
         .set('errorChangePass', true)
         .set('errorHelperChangePass', payload);
+    /*****************************/
+
+    /** For change password **/
+    case types.START_FORGOT_PASSWORD:
+      return state
+        .set('submittingForgotPass', true)
+        .set('successForgotPass', false)
+        .set('errorForgotPass', false)
+        .set('errorHelperForgotPass', '');
+    case types.SUCCESS_FORGOT_PASSWORD:
+      return state
+        .set('submittingForgotPass', false)
+        .set('successForgotPass', true)
+        .set('errorForgotPass', false)
+        .set('errorHelperForgotPass', '');
+    case types.ERROR_FORGOT_PASSWORD:
+      return state
+        .set('submittingForgotPass', false)
+        .set('successForgotPass', false)
+        .set('errorForgotPass', true)
+        .set('errorHelperForgotPass', payload);
+    /*****************************/
+
+    /** For change password **/
+    case types.START_FORGOT_PASSWORD:
+      return state
+        .set('submittingForgotPass', true)
+        .set('successForgotPass', false)
+        .set('errorForgotPass', false)
+        .set('errorHelperForgotPass', '');
+    case types.SUCCESS_FORGOT_PASSWORD:
+      return state
+        .set('submittingForgotPass', false)
+        .set('successForgotPass', true)
+        .set('errorForgotPass', false)
+        .set('errorHelperForgotPass', '');
+    case types.ERROR_FORGOT_PASSWORD:
+      return state
+        .set('submittingForgotPass', false)
+        .set('successForgotPass', false)
+        .set('errorForgotPass', true)
+        .set('errorHelperForgotPass', payload);
+    /*****************************/
+
+    /** For update password **/
+    case types.START_UPDATE_PASSWORD:
+      return state
+        .set('submittingUpdatePass', true)
+        .set('successUpdatePass', false)
+        .set('errorUpdatePass', false)
+        .set('errorHelperUpdatePass', '');
+    case types.SUCCESS_UPDATE_PASSWORD:
+      return state
+        .set('submittingUpdatePass', false)
+        .set('successUpdatePass', true)
+        .set('errorUpdatePass', false)
+        .set('errorHelperUpdatePass', '');
+    case types.ERROR_UPDATE_PASSWORD:
+      return state
+        .set('submittingUpdatePass', false)
+        .set('successUpdatePass', false)
+        .set('errorUpdatePass', true)
+        .set('errorHelperUpdatePass', payload);
     /*****************************/
     default:
       return state;

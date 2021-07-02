@@ -7,6 +7,7 @@
 /** AUTH */
 import SignInScreen from '~/screens/authentication/signIn';
 import ForgotPasswordScreen from '~/screens/authentication/forgotPassword';
+import ChangePasswordScreen from '~/screens/authentication/changePassword';
 /** DASHBOARD */
 import Dashboard from '~/screens/dashboard';
 /** ACCOUNT */
@@ -43,6 +44,10 @@ const Routes = {
     FORGOT_PASSWORD: {
       name: 'ForgotPassword',
       path: ForgotPasswordScreen,
+    },
+    CHANGE_PASSWORD: {
+      name: 'ChangePassword',
+      path: ChangePasswordScreen,
     },
   },
   ROOT_TAB: {

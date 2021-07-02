@@ -160,3 +160,69 @@ export const fetchChangePassword = (params, navigation) => {
   };
 };
 /*****************************/
+
+/** For forgot password */
+export const forgotPasswordError = error => ({
+  type: types.ERROR_FORGOT_PASSWORD,
+  payload: error,
+});
+
+export const forgotPasswordSuccess = () => {
+  return {
+    type: types.SUCCESS_FORGOT_PASSWORD,
+  };
+};
+export const fetchForgotPassword = params => {
+  return dispatch => {
+    dispatch({type: types.START_FORGOT_PASSWORD});
+
+    Services.authentication
+      .forgotPassword(params)
+      .then(res => {
+        if (!res.isError) {
+          return dispatch(forgotPasswordSuccess());
+        } else {
+          return dispatch(
+            forgotPasswordError(res.systemErrorMessage || res.errorMessage),
+          );
+        }
+      })
+      .catch(error => {
+        dispatch(forgotPasswordError(error));
+      });
+  };
+};
+/*****************************/
+
+/** For update password */
+export const updatePasswordError = error => ({
+  type: types.ERROR_UPDATE_PASSWORD,
+  payload: error,
+});
+
+export const updatePasswordSuccess = () => {
+  return {
+    type: types.SUCCESS_UPDATE_PASSWORD,
+  };
+};
+export const fetchUpdatePassword = params => {
+  return dispatch => {
+    dispatch({type: types.START_UPDATE_PASSWORD});
+
+    Services.authentication
+      .updateNewPassword(params)
+      .then(res => {
+        if (!res.isError) {
+          return dispatch(updatePasswordSuccess());
+        } else {
+          return dispatch(
+            updatePasswordError(res.systemErrorMessage || res.errorMessage),
+          );
+        }
+      })
+      .catch(error => {
+        dispatch(updatePasswordError(error));
+      });
+  };
+};
+/*****************************/
