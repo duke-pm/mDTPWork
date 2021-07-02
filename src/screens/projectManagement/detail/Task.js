@@ -107,6 +107,7 @@ function Task(props) {
   const language = commonState.get('language');
   const formatDateView = commonState.get('formatDateView');
   const refreshToken = authState.getIn(['login', 'refreshToken']);
+  const userName = authState.getIn(['login', 'userName']);
 
   /** Use state */
   const [loading, setLoading] = useState({
@@ -202,6 +203,7 @@ function Task(props) {
       IsReceiveEmail: 1,
       Lang: language,
       RefreshToken: refreshToken,
+      UserName: userName,
     };
     return dispatch(Actions.fetchTaskWatcher(params, navigation));
   };
@@ -402,23 +404,16 @@ function Task(props) {
             icon: 'success',
           });
           setIsFastWatch(false);
-          if (!needRefresh) {
-            setNeedRefresh(true);
-          }
           return onPrepareData(false);
         }
 
         if (projectState.get('errorTaskWatcher')) {
-          if (!needRefresh) {
-            setNeedRefresh(true);
-          }
           return onError('error:send_follow');
         }
       }
     }
   }, [
     loading.fastWatch,
-    needRefresh,
     projectState.get('submittingTaskWatcher'),
     projectState.get('successTaskWatcher'),
     projectState.get('errorTaskWatcher'),

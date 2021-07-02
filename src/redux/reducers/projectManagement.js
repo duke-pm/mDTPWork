@@ -175,6 +175,7 @@ export default function (state = initialState, action = {}) {
       let tmpIsWatched = state.get('isWatched');
       let tmpWatchers2 = null;
       if (payload.data.watcher) {
+        console.log('[LOG] === HERE ===> ', payload.userName);
         tmpIsWatched = true;
         if (payload.userName) {
           //for follow
