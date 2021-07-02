@@ -23,7 +23,7 @@ import SocialItem from './components/SocialItem';
 import Configs from '~/config';
 import Routes from '~/navigation/Routes';
 import {THEME_DARK} from '~/config/constants';
-import {alert, clearSecretInfo, resetRoute, sW} from '~/utils/helper';
+import {alert, clearSecretInfo, IS_ANDROID, resetRoute} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
 /* REDUX */
 import * as Actions from '~/redux/actions';
@@ -158,16 +158,16 @@ function Account(props) {
     });
   }, []);
 
-  /*****************
+  /************
    ** RENDER **
-   *****************/
+   ************/
   return (
     <CContainer
       loading={loading}
-      title={'account:title'}
-      header
       content={
-        <CContent scroll contentStyle={cStyles.p16}>
+        <CContent
+          contentStyle={[cStyles.px16, IS_ANDROID && cStyles.pt16]}
+          showsVerticalScrollIndicator={false}>
           <View style={cStyles.flex1}>
             <View
               style={[
@@ -219,7 +219,10 @@ function Account(props) {
 
               {/** SETTINGS */}
               <View style={[cStyles.fullWidth, cStyles.pt16]}>
-                <CText styles={'textMeta pl16'} label={ACCOUNT.SETTINGS.label} />
+                <CText
+                  styles={'textMeta pl16'}
+                  label={ACCOUNT.SETTINGS.label}
+                />
                 {ACCOUNT.SETTINGS.childrens.map((item, index) => (
                   <ListItem
                     key={item.id}

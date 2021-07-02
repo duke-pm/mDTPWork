@@ -229,8 +229,6 @@ function Filter(props) {
         cStyles.rounded2,
         cStyles.mx16,
         cStyles.mt10,
-        cStyles.borderAll,
-        isDark && cStyles.borderAllDark,
         show && cStyles.pb12,
         {backgroundColor: customColors.card},
       ]}>

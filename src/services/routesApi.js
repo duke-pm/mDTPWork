@@ -8,6 +8,9 @@ const Routes = {
   AUTHENTICATION: {
     LOGIN: '/User/Login',
     REFRESH_TOKEN: '/User/RefreshToken',
+    CHANGE_PASSWORD: '/User/ChangePassword',
+    FORGOT_PASSWORD: '/User/ForgotPassword',
+    UPDATE_PASSWORD: '/User/UpdateNewPassword',
   },
   MASTER_DATA: {
     GET_ALL: '/MasterData/GetDataForForm',

@@ -5,12 +5,14 @@
  ** Description: Description of CContent.js
  **/
 import React from 'react';
-import {View, SafeAreaView, ScrollView} from 'react-native';
+import {useTheme} from '@react-navigation/native';
+import {ScrollView} from 'react-native';
 /** COMMON */
 import {cStyles} from '~/utils/style';
 
 function CContent(props) {
-  const {style = {}, contentStyle = {}, padder = null, scroll = false} = props;
+  const {customColors} = useTheme();
+  const {contentStyle = {}, padder = null} = props;
 
   let stylePadder = {};
   if (padder) {
@@ -20,16 +22,16 @@ function CContent(props) {
   /**************
    ** RENDER **
    **************/
-  const ScrollComponent = scroll ? ScrollView : View;
   return (
-    <SafeAreaView style={cStyles.flex1}>
-      <ScrollComponent
-        style={[cStyles.flex1, stylePadder, style]}
-        contentContainerStyle={contentStyle}
-        keyboardShouldPersistTaps={'handled'}>
-        {props.children}
-      </ScrollComponent>
-    </SafeAreaView>
+    <ScrollView
+      style={[stylePadder, {backgroundColor: customColors.background}]}
+      contentContainerStyle={contentStyle}
+      contentInsetAdjustmentBehavior="automatic"
+      scrollToOverflowEnabled
+      keyboardShouldPersistTaps={'handled'}
+      {...props}>
+      {props.children}
+    </ScrollView>
   );
 }
 

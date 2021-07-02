@@ -53,7 +53,6 @@ const SETTINGS = [
 function Settings(props) {
   const {t} = useTranslation();
   const {customColors} = useTheme();
-  const isDark = useColorScheme() === THEME_DARK;
 
   const dispatch = useDispatch();
 
@@ -89,9 +88,9 @@ function Settings(props) {
     actionSheetLangRef.current?.hide();
   };
 
-  /************
+  /**********
    ** FUNC **
-   ************/
+   **********/
   const onPrepareData = async () => {
     let languageLocal = await getLocalInfo(LANGUAGE);
     if (languageLocal) {
@@ -126,17 +125,14 @@ function Settings(props) {
     onPrepareData();
   }, []);
 
-  /**************
+  /************
    ** RENDER **
-   **************/
+   ************/
   return (
     <CContainer
       loading={loading}
-      title={'settings:title'}
-      header
-      hasBack
       content={
-        <CContent scroll>
+        <CContent>
           <CList
             contentStyle={cStyles.px0}
             data={initSettings}

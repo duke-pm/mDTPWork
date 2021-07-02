@@ -5,12 +5,10 @@
  ** Description: Description of CFooterList.js
  **/
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
-import Lottie from 'lottie-react-native';
+import {View, ActivityIndicator} from 'react-native';
 /* COMPONENTS */
 import CText from './CText';
 /* COMMON */
-import {Animations} from '~/utils/asset';
 import {cStyles} from '~/utils/style';
 
 function CFooterList(props) {
@@ -19,14 +17,10 @@ function CFooterList(props) {
    **************/
   return (
     <View style={[cStyles.py16, cStyles.itemsCenter]}>
-      <Lottie style={styles.icon} source={Animations.loading} autoPlay loop />
+      <ActivityIndicator size={'small'} />
       <CText styles={'textMeta pt10 textCenter'} label={'common:loading'} />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  icon: {width: 50, height: 50},
-});
 
 export default CFooterList;

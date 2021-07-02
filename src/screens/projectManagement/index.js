@@ -18,12 +18,13 @@ import moment from 'moment';
 /** COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
+import CSearchBar from '~/components/CSearchBar';
 import ListProject from './list/Project';
 /** COMMON */
 import Routes from '~/navigation/Routes';
 import {LOAD_MORE, REFRESH, THEME_DARK} from '~/config/constants';
-import {cStyles} from '~/utils/style';
-import {fS} from '~/utils/helper';
+import {colors, cStyles} from '~/utils/style';
+import {fS, IS_ANDROID} from '~/utils/helper';
 import {usePrevious} from '~/utils/hook';
 /** REDUX */
 import * as Actions from '~/redux/actions';
@@ -54,6 +55,7 @@ function ProjectManagement(props) {
     isLoadmore: true,
   });
   const [isFiltering, setIsFiltering] = useState(false);
+  const [showSearchBar, setShowSearch] = useState(false);
   const [showFilter, setShowFilter] = useState({
     activeOwner: [],
     activeStatus: [],
@@ -64,19 +66,72 @@ function ProjectManagement(props) {
     ownerID: null,
     page: 1,
     search: '',
-
     projects: [],
   });
 
   let prevShowFilter = usePrevious(showFilter);
   let prevYear = usePrevious(data.year);
 
+  navigation.setOptions({
+    headerRight: () => (
+      <View style={[cStyles.row, cStyles.itemsCenter]}>
+        <TouchableOpacity onPress={handleOpenSearch}>
+          <View style={cStyles.pr32}>
+            <Icon
+              name={'search'}
+              color={
+                isDark ? colors.WHITE : IS_ANDROID ? colors.WHITE : colors.BLACK
+              }
+              size={fS(20)}
+            />
+            {data.search !== '' && (
+              <View
+                style={[
+                  cStyles.abs,
+                  cStyles.inset0,
+                  cStyles.rounded2,
+                  styles.badge,
+                  cStyles.borderAll,
+                  isDark && cStyles.borderAllDark,
+                  {backgroundColor: customColors.red},
+                ]}
+              />
+            )}
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={handleShowFilter}>
+          <View>
+            <Icon
+              name={'filter'}
+              color={
+                isDark ? colors.WHITE : IS_ANDROID ? colors.WHITE : colors.BLACK
+              }
+              size={fS(20)}
+            />
+            {isFiltering && (
+              <View
+                style={[
+                  cStyles.abs,
+                  cStyles.inset0,
+                  cStyles.rounded2,
+                  styles.badge,
+                  cStyles.borderAll,
+                  isDark && cStyles.borderAllDark,
+                  {backgroundColor: customColors.red},
+                ]}
+              />
+            )}
+          </View>
+        </TouchableOpacity>
+      </View>
+    ),
+  });
+
   /*****************
    ** HANDLE FUNC **
    *****************/
   const handleSearch = value => {
-    setLoading({...loading, startFetch: true});
-    setData({...data, search: value, page: 1});
+    setData({...data, page: 1, search: value});
     onFetchData(
       data.year,
       data.ownerID,
@@ -85,6 +140,7 @@ function ProjectManagement(props) {
       1,
       value,
     );
+    setLoading({...loading, startFetch: true});
   };
 
   const handleShowFilter = () => {
@@ -101,6 +157,14 @@ function ProjectManagement(props) {
   const handleFilter = (year, activeOwner, activeStatus, activeSector) => {
     setData({...data, year});
     setShowFilter({activeOwner, activeStatus});
+  };
+
+  const handleOpenSearch = () => {
+    setShowSearch(true);
+  };
+
+  const handleCloseSearch = () => {
+    setShowSearch(false);
   };
 
   /************
@@ -228,11 +292,7 @@ function ProjectManagement(props) {
   }, []);
 
   useEffect(() => {
-    if (
-      prevShowFilter &&
-      prevShowFilter.activeOwner &&
-      prevShowFilter.activeStatus
-    ) {
+    if (prevShowFilter && prevYear) {
       if (!loading.startFetch) {
         if (
           prevShowFilter.activeOwner.join() === showFilter.activeOwner.join() &&
@@ -268,6 +328,7 @@ function ProjectManagement(props) {
     }
   }, [
     loading.startFetch,
+    data.year,
     prevYear,
     prevShowFilter,
     showFilter.activeOwner,
@@ -300,41 +361,25 @@ function ProjectManagement(props) {
     masterState.get('users'),
   ]);
 
+  useEffect(() => {
+    navigation.setOptions({
+      headerShown: !showSearchBar,
+    });
+  }, [navigation, showSearchBar]);
+
   /**************
    ** RENDER **
    **************/
   return (
     <CContainer
       loading={loading.main || loading.startFetch}
-      title={'project_management:title'}
-      header
-      hasBack
-      hasSearch
-      onPressSearch={handleSearch}
-      headerRight={
-        <TouchableOpacity style={cStyles.itemsEnd} onPress={handleShowFilter}>
-          <Icon
-            style={cStyles.p16}
-            name={'filter'}
-            color={'white'}
-            size={fS(18)}
-          />
-          {isFiltering && (
-            <View
-              style={[
-                cStyles.rounded2,
-                cStyles.abs,
-                styles.badge,
-                cStyles.borderAll,
-                isDark && cStyles.borderAllDark,
-                {backgroundColor: customColors.red},
-              ]}
-            />
-          )}
-        </TouchableOpacity>
-      }
       content={
         <CContent>
+          <CSearchBar
+            isVisible={showSearchBar}
+            onSearch={handleSearch}
+            onClose={handleCloseSearch}
+          />
           {!loading.main && !loading.startFetch && (
             <ListProject
               refreshing={loading.refreshing}

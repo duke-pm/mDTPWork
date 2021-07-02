@@ -6,7 +6,7 @@
  ** CreateAt: 2021
  ** Description: Description of RequestLostDamage.js
  **/
-import React, {createRef, useEffect, useState} from 'react';
+import React, {createRef, useEffect, useState, useLayoutEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
@@ -16,11 +16,12 @@ import {
   StyleSheet,
   View,
   TouchableOpacity,
+  ActivityIndicator,
   Keyboard,
   UIManager,
   LayoutAnimation,
+  StatusBar,
 } from 'react-native';
-import Lottie from 'lottie-react-native';
 import Picker from '@gregfrench/react-native-wheel-picker';
 import Icon from 'react-native-vector-icons/Feather';
 import moment from 'moment';
@@ -39,10 +40,9 @@ import RejectModal from '../components/RejectModal';
 import RequestProcess from '../components/RequestProcess';
 import CheckOption from '../components/CheckOption';
 /* COMMON */
-import {Animations} from '~/utils/asset';
 import Commons from '~/utils/common/Commons';
 import {colors, cStyles} from '~/utils/style';
-import {IS_ANDROID, sH, checkEmpty, fS} from '~/utils/helper';
+import {IS_ANDROID, sH, checkEmpty, fS, IS_IOS} from '~/utils/helper';
 import {THEME_DARK, DEFAULT_FORMAT_DATE_4} from '~/config/constants';
 /* REDUX */
 import * as Actions from '~/redux/actions';
@@ -124,12 +124,7 @@ const RowSelect = (
               }
             />
           ) : (
-            <Lottie
-              style={styles.icon_loading}
-              source={Animations.loading}
-              autoPlay
-              loop
-            />
+            <ActivityIndicator size={'small'} />
           )}
           {!disabled && (
             <Icon
@@ -162,6 +157,7 @@ function AddRequest(props) {
   const {t} = useTranslation();
   const {customColors} = useTheme();
   const isDark = useColorScheme() === THEME_DARK;
+  const {navigation, route} = props;
 
   /** Use redux */
   const dispatch = useDispatch();
@@ -183,7 +179,7 @@ function AddRequest(props) {
   });
   const [showReject, setShowReject] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
-  const [isDetail] = useState(props.route.params?.data ? true : false);
+  const [isDetail] = useState(route.params?.data ? true : false);
   const [process, setProcess] = useState([]);
   const [assets, setAssets] = useState(0);
   const [findAssets, setFindAssets] = useState('');
@@ -211,6 +207,24 @@ function AddRequest(props) {
     reason: {
       status: false,
       helper: '',
+    },
+  });
+
+  navigation.setOptions({
+    title: `${t(
+      'add_approved_lost_damaged:' + (isDetail ? 'detail' : 'title'),
+    )}`,
+    headerRight: () => {
+      if (isDetail) {
+        return (
+          <TouchableOpacity onPress={handleShowProcess}>
+            <View>
+              <Icon name={'info'} color={'white'} size={fS(20)} />
+            </View>
+          </TouchableOpacity>
+        );
+      }
+      return null;
     },
   });
 
@@ -258,6 +272,10 @@ function AddRequest(props) {
     actionSheetAssetsRef.current?.hide();
   };
 
+  const handleBack = () => {
+    navigation.goBack();
+  };
+
   // const handlePreview = () => {
   //   Linking.canOpenURL(
   //     API.defaults.baseURL.substring(0, API.defaults.baseURL.length - 3) + form.file
@@ -278,7 +296,7 @@ function AddRequest(props) {
    ** FUNC **
    ************/
   const onPrepareData = () => {
-    let type = props.route.params?.type;
+    let type = route.params?.type;
     if (type) {
       setForm({...form, typeUpdate: type});
     }
@@ -344,9 +362,7 @@ function AddRequest(props) {
         RefreshToken: refreshToken,
         Lang: language,
       };
-      dispatch(
-        Actions.fetchAddRequestLostDamage(params, formData, props.navigation),
-      );
+      dispatch(Actions.fetchAddRequestLostDamage(params, formData, navigation));
     } else {
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
       setError(isValid.data);
@@ -356,32 +372,27 @@ function AddRequest(props) {
 
   const onPrepareDetail = () => {
     let tmp = {
-      id: isDetail ? props.route.params?.data?.requestID : '',
-      personRequestId: isDetail
-        ? props.route.params?.data?.personRequestID
-        : '',
-      name: isDetail ? props.route.params?.data?.personRequest : '',
+      id: isDetail ? route.params?.data?.requestID : '',
+      personRequestId: isDetail ? route.params?.data?.personRequestID : '',
+      name: isDetail ? route.params?.data?.personRequest : '',
       dateRequest: isDetail
-        ? moment(
-            props.route.params?.data?.requestDate,
-            DEFAULT_FORMAT_DATE_4,
-          ).format(formatDate)
+        ? moment(route.params?.data?.requestDate, DEFAULT_FORMAT_DATE_4).format(
+            formatDate,
+          )
         : moment().format(formatDate),
-      department: isDetail ? props.route.params?.data?.deptCode : '',
-      region: isDetail ? props.route.params?.data?.regionCode : '',
-      assetID: isDetail ? props.route.params?.data?.assetID : '',
-      reason: isDetail ? props.route.params?.data?.reason : '',
+      department: isDetail ? route.params?.data?.deptCode : '',
+      region: isDetail ? route.params?.data?.regionCode : '',
+      assetID: isDetail ? route.params?.data?.assetID : '',
+      reason: isDetail ? route.params?.data?.reason : '',
       typeUpdate: isDetail
-        ? props.route.params?.data?.requestTypeID
+        ? route.params?.data?.requestTypeID
         : Commons.APPROVED_TYPE.DAMAGED.value,
-      status: isDetail ? props.route.params?.data?.statusID : 1,
-      isAllowApproved: isDetail
-        ? props.route.params?.data?.isAllowApproved
-        : false,
-      file: isDetail ? props.route.params?.data?.attachFiles : null,
+      status: isDetail ? route.params?.data?.statusID : 1,
+      isAllowApproved: isDetail ? route.params?.data?.isAllowApproved : false,
+      file: isDetail ? route.params?.data?.attachFiles : null,
     };
-    if (props.route.params?.dataProcess) {
-      let arrayProcess = props.route.params?.dataProcess;
+    if (route.params?.dataProcess) {
+      let arrayProcess = route.params?.dataProcess;
       if (arrayProcess.length > 0) {
         setProcess(arrayProcess);
       }
@@ -401,7 +412,7 @@ function AddRequest(props) {
       RefreshToken: refreshToken,
       Lang: language,
     };
-    dispatch(Actions.fetchApprovedRequest(params, props.navigation));
+    dispatch(Actions.fetchApprovedRequest(params, navigation));
   };
 
   const onReject = reason => {
@@ -415,7 +426,7 @@ function AddRequest(props) {
       RefreshToken: refreshToken,
       Lang: language,
     };
-    dispatch(Actions.fetchRejectRequest(params, props.navigation));
+    dispatch(Actions.fetchRejectRequest(params, navigation));
   };
 
   const onSearchFilter = text => {
@@ -454,6 +465,9 @@ function AddRequest(props) {
    ** LIFE CYCLE **
    ******************/
   useEffect(() => {
+    if (IS_IOS) {
+      StatusBar.setBarStyle('light-content', true);
+    }
     dispatch(Actions.resetStatusMasterData());
     onPrepareData();
   }, []);
@@ -494,9 +508,9 @@ function AddRequest(props) {
             type: 'success',
             icon: 'success',
           });
-          props.navigation.goBack();
-          if (props.route.params.onRefresh) {
-            props.route.params.onRefresh();
+          navigation.goBack();
+          if (route.params.onRefresh) {
+            route.params.onRefresh();
           }
         }
 
@@ -528,9 +542,9 @@ function AddRequest(props) {
             type: 'success',
             icon: 'success',
           });
-          props.navigation.goBack();
-          if (props.route.params.onRefresh) {
-            props.route.params.onRefresh();
+          navigation.goBack();
+          if (route.params.onRefresh) {
+            route.params.onRefresh();
           }
         }
 
@@ -564,9 +578,9 @@ function AddRequest(props) {
             type: 'success',
             icon: 'success',
           });
-          props.navigation.goBack();
-          if (props.route.params.onRefresh) {
-            props.route.params.onRefresh();
+          navigation.goBack();
+          if (route.params.onRefresh) {
+            route.params.onRefresh();
           }
         }
 
@@ -588,11 +602,19 @@ function AddRequest(props) {
     approvedState.get('errorRejectRequest'),
   ]);
 
+  useLayoutEffect(() => {
+    return () => {
+      if (IS_IOS) {
+        StatusBar.setBarStyle('dark-content', true);
+      }
+    };
+  }, []);
+
   /**************
    ** RENDER **
    **************/
   const isShowApprovedReject =
-    isDetail && form.isAllowApproved && props.route.params?.permissionWrite;
+    isDetail && form.isAllowApproved && route.params?.permissionWrite;
   return (
     <CContainer
       loading={
@@ -601,268 +623,313 @@ function AddRequest(props) {
         loading.submitApproved ||
         loading.submitReject
       }
-      header
-      hasBack
-      iconBack={'x'}
-      title={'add_approved_lost_damaged:' + (isDetail ? 'detail' : 'title')}
-      headerRight={
-        isDetail ? (
-          <TouchableOpacity
-            style={cStyles.itemsEnd}
-            onPress={handleShowProcess}>
-            <Icon
-              style={cStyles.p16}
-              name={'info'}
-              color={'white'}
-              size={fS(22)}
-            />
-          </TouchableOpacity>
-        ) : null
-      }
       content={
-        <CContent scroll>
-          {/** Date request */}
-          <CGroupInfo
-            style={cStyles.pt16}
-            label={'add_approved_lost_damaged:info_other'}
-            content={
+        <View
+          style={[cStyles.flex1, {backgroundColor: customColors.background}]}>
+          {IS_IOS && (
+            <View
+              style={[
+                cStyles.py12,
+                cStyles.row,
+                cStyles.itemsCenter,
+                cStyles.justifyBetween,
+                cStyles.borderBottom,
+                isDark && cStyles.borderBottomDark,
+              ]}>
+              <TouchableOpacity onPress={handleBack}>
+                <View style={[cStyles.pl16]}>
+                  <Icon name={'x'} color={customColors.icon} size={fS(20)} />
+                </View>
+              </TouchableOpacity>
               <View>
-                <CLabel
-                  medium
-                  label={'add_approved_lost_damaged:date_request'}
-                />
-                <CInput
-                  name={INPUT_NAME.DATE_REQUEST}
-                  disabled
-                  dateTimePicker
-                  value={moment(form.dateRequest).format(formatDateView)}
-                  valueColor={colors.BLACK}
+                <CText
+                  customStyles={[
+                    cStyles.textTitle,
+                    {
+                      color: isDark
+                        ? colors.WHITE
+                        : IS_ANDROID
+                        ? colors.WHITE
+                        : colors.BLACK,
+                    },
+                  ]}
+                  label={
+                    'add_approved_lost_damaged:' +
+                    (isDetail ? 'detail' : 'title')
+                  }
                 />
               </View>
-            }
-          />
-
-          <CGroupInfo
-            label={'add_approved_lost_damaged:info_assets'}
-            content={
-              <>
-                {/** Assets */}
-                {!isDetail && (
-                  <View>
-                    <CLabel medium label={'add_approved_lost_damaged:assets'} />
-                    {RowSelect(
-                      t,
-                      loading.main,
-                      loading.main || loading.submitAdd || isDetail,
-                      error.assets.status,
-                      isDark,
-                      customColors,
-                      masterState.get('assetByUser'),
-                      form.assetID,
-                      Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.label,
-                      Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.value,
-                      () => actionSheetAssetsRef.current?.show(),
-                    )}
-                  </View>
-                )}
-
-                {/** Reason */}
-                <View style={!isDetail ? cStyles.pt16 : {}}>
-                  <CLabel medium label={'add_approved_lost_damaged:reason'} />
-                  <CInput
-                    name={INPUT_NAME.REASON}
-                    styleFocus={styles.input_focus}
-                    disabled={loading.main || loading.submitAdd || isDetail}
-                    holder={'add_approved_lost_damaged:holder_reason'}
-                    value={form.reason}
-                    valueColor={colors.BLACK}
-                    keyboard={'default'}
-                    returnKey={'done'}
-                    error={error.reason.status}
-                    errorHelper={error.reason.helper}
-                    onChangeInput={Keyboard.dismiss}
-                    onChangeValue={handleChangeText}
+              <TouchableOpacity
+                disabled={!isDetail}
+                onPress={handleShowProcess}>
+                <View style={[cStyles.pr16]}>
+                  <Icon
+                    name={'info'}
+                    color={
+                      isDetail ? customColors.icon : customColors.background
+                    }
+                    size={fS(20)}
                   />
                 </View>
+              </TouchableOpacity>
+            </View>
+          )}
 
-                {/** Type update */}
-                <View style={cStyles.py16}>
-                  <CLabel
-                    medium
-                    label={'add_approved_lost_damaged:type_update'}
-                  />
-                  <CheckOption
-                    loading={loading.main || loading.submitAdd}
-                    isDetail={isDetail}
-                    customColors={customColors}
-                    value={form.typeUpdate}
-                    values={dataType}
-                    onCallback={onCallbackType}
-                  />
-                </View>
-              </>
-            }
-          />
-
-          {/** Assets for detail */}
-          {isDetail && (
-            <CCard
-              containerStyle={[cStyles.mx16, cStyles.mb32]}
-              customLabel={props.route.params?.data?.assetName}
+          <CContent>
+            {/** Date request */}
+            <CGroupInfo
+              style={cStyles.pt16}
+              label={'add_approved_lost_damaged:info_other'}
               content={
                 <View>
-                  <View
-                    style={[
-                      cStyles.row,
-                      cStyles.itemsCenter,
-                      cStyles.justifyBetween,
-                    ]}>
-                    <View style={[cStyles.row, cStyles.justifyStart]}>
-                      <CLabel
-                        label={'add_approved_lost_damaged:purchase_date_asset'}
-                      />
+                  <CLabel
+                    medium
+                    label={'add_approved_lost_damaged:date_request'}
+                  />
+                  <CInput
+                    name={INPUT_NAME.DATE_REQUEST}
+                    disabled
+                    dateTimePicker
+                    value={moment(form.dateRequest).format(formatDateView)}
+                    valueColor={colors.BLACK}
+                  />
+                </View>
+              }
+            />
+
+            <CGroupInfo
+              label={'add_approved_lost_damaged:info_assets'}
+              content={
+                <>
+                  {/** Assets */}
+                  {!isDetail && (
+                    <View>
                       <CLabel
                         medium
-                        customLabel={moment(
-                          props.route.params?.data?.purchaseDate,
-                          DEFAULT_FORMAT_DATE_4,
-                        ).format(formatDateView)}
+                        label={'add_approved_lost_damaged:assets'}
                       />
+                      {RowSelect(
+                        t,
+                        loading.main,
+                        loading.main || loading.submitAdd || isDetail,
+                        error.assets.status,
+                        isDark,
+                        customColors,
+                        masterState.get('assetByUser'),
+                        form.assetID,
+                        Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.label,
+                        Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.value,
+                        () => actionSheetAssetsRef.current?.show(),
+                      )}
                     </View>
-                    <View style={[cStyles.row, cStyles.justifyStart]}>
-                      <CLabel label={'add_approved_lost_damaged:type_asset'} />
-                      <CLabel
-                        medium
-                        customLabel={props.route.params?.data?.assetTypeName}
-                      />
-                    </View>
+                  )}
+
+                  {/** Reason */}
+                  <View style={!isDetail ? cStyles.pt16 : {}}>
+                    <CLabel medium label={'add_approved_lost_damaged:reason'} />
+                    <CInput
+                      name={INPUT_NAME.REASON}
+                      styleFocus={styles.input_focus}
+                      disabled={loading.main || loading.submitAdd || isDetail}
+                      holder={'add_approved_lost_damaged:holder_reason'}
+                      value={form.reason}
+                      valueColor={colors.BLACK}
+                      keyboard={'default'}
+                      returnKey={'done'}
+                      error={error.reason.status}
+                      errorHelper={error.reason.helper}
+                      onChangeInput={Keyboard.dismiss}
+                      onChangeValue={handleChangeText}
+                    />
                   </View>
-                  <View
-                    style={[
-                      cStyles.row,
-                      cStyles.itemsCenter,
-                      cStyles.justifyBetween,
-                    ]}>
+
+                  {/** Type update */}
+                  <View style={cStyles.py16}>
+                    <CLabel
+                      medium
+                      label={'add_approved_lost_damaged:type_update'}
+                    />
+                    <CheckOption
+                      loading={loading.main || loading.submitAdd}
+                      isDetail={isDetail}
+                      customColors={customColors}
+                      value={form.typeUpdate}
+                      values={dataType}
+                      onCallback={onCallbackType}
+                    />
+                  </View>
+                </>
+              }
+            />
+
+            {/** Assets for detail */}
+            {isDetail && (
+              <CCard
+                containerStyle={[cStyles.mx16, cStyles.mb32]}
+                customLabel={route.params?.data?.assetName}
+                content={
+                  <View>
+                    <View
+                      style={[
+                        cStyles.row,
+                        cStyles.itemsCenter,
+                        cStyles.justifyBetween,
+                      ]}>
+                      <View style={[cStyles.row, cStyles.justifyStart]}>
+                        <CLabel
+                          label={
+                            'add_approved_lost_damaged:purchase_date_asset'
+                          }
+                        />
+                        <CLabel
+                          medium
+                          customLabel={moment(
+                            route.params?.data?.purchaseDate,
+                            DEFAULT_FORMAT_DATE_4,
+                          ).format(formatDateView)}
+                        />
+                      </View>
+                      <View style={[cStyles.row, cStyles.justifyStart]}>
+                        <CLabel
+                          label={'add_approved_lost_damaged:type_asset'}
+                        />
+                        <CLabel
+                          medium
+                          customLabel={route.params?.data?.assetTypeName}
+                        />
+                      </View>
+                    </View>
+                    <View
+                      style={[
+                        cStyles.row,
+                        cStyles.itemsCenter,
+                        cStyles.justifyBetween,
+                      ]}>
+                      <View style={[cStyles.row, cStyles.justifyStart]}>
+                        <CLabel
+                          label={'add_approved_lost_damaged:price_asset'}
+                        />
+                        <CLabel
+                          medium
+                          customLabel={checkEmpty(
+                            route.params?.data?.originalPrice,
+                            null,
+                            true,
+                          )}
+                        />
+                      </View>
+                      <View style={[cStyles.row, cStyles.justifyStart]}>
+                        <CLabel
+                          label={'add_approved_lost_damaged:status_asset'}
+                        />
+                        <CLabel
+                          medium
+                          customLabel={route.params?.data?.assetStatusName}
+                        />
+                      </View>
+                    </View>
                     <View style={[cStyles.row, cStyles.justifyStart]}>
-                      <CLabel label={'add_approved_lost_damaged:price_asset'} />
+                      <CLabel
+                        label={'add_approved_lost_damaged:detail_asset'}
+                      />
                       <CLabel
                         medium
                         customLabel={checkEmpty(
-                          props.route.params?.data?.originalPrice,
-                          null,
-                          true,
+                          route.params?.data?.descr,
+                          t('common:empty_info'),
                         )}
                       />
                     </View>
-                    <View style={[cStyles.row, cStyles.justifyStart]}>
+                  </View>
+                }
+              />
+            )}
+
+            {isDetail && (
+              <CActionSheet actionRef={actionSheetProcessRef}>
+                <RequestProcess
+                  data={process}
+                  customColors={customColors}
+                  isDark={isDark}
+                />
+              </CActionSheet>
+            )}
+
+            {/** MODAL */}
+            {!isDetail && (
+              <CActionSheet
+                actionRef={actionSheetAssetsRef}
+                headerChoose
+                onConfirm={handleChangeAssets}>
+                <View style={cStyles.px16}>
+                  {dataAssets.length > 0 && (
+                    <CInput
+                      containerStyle={cStyles.mb10}
+                      styleFocus={styles.input_focus}
+                      disabled={loading.main || loading.submitAdd || isDetail}
+                      holder={'add_approved_lost_damaged:search_assets'}
+                      value={findAssets}
+                      keyboard={'default'}
+                      returnKey={'done'}
+                      onChangeValue={onSearchFilter}
+                    />
+                  )}
+                  {dataAssets.length > 0 ? (
+                    <Picker
+                      style={styles.con_action}
+                      itemStyle={{color: customColors.text, fontSize: fS(20)}}
+                      selectedValue={assets}
+                      onValueChange={onChangeAssets}>
+                      {dataAssets.map((value, i) => (
+                        <Picker.Item
+                          label={
+                            value[Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.label]
+                          }
+                          value={i}
+                          key={value}
+                        />
+                      ))}
+                    </Picker>
+                  ) : (
+                    <View style={[cStyles.center, styles.content_picker]}>
                       <CLabel
-                        label={'add_approved_lost_damaged:status_asset'}
-                      />
-                      <CLabel
-                        medium
-                        customLabel={props.route.params?.data?.assetStatusName}
+                        label={'add_approved_lost_damaged:holder_empty_assets'}
                       />
                     </View>
-                  </View>
-                  <View style={[cStyles.row, cStyles.justifyStart]}>
-                    <CLabel label={'add_approved_lost_damaged:detail_asset'} />
-                    <CLabel
-                      medium
-                      customLabel={checkEmpty(
-                        props.route.params?.data?.descr,
-                        t('common:empty_info'),
-                      )}
-                    />
-                  </View>
+                  )}
                 </View>
-              }
-            />
-          )}
+              </CActionSheet>
+            )}
 
-          {isDetail && (
-            <CActionSheet actionRef={actionSheetProcessRef}>
-              <RequestProcess
-                data={process}
-                customColors={customColors}
-                isDark={isDark}
+            {isShowApprovedReject && (
+              <RejectModal
+                loading={loading.submitReject}
+                showReject={showReject}
+                description={
+                  form.typeUpdate === Commons.APPROVED_TYPE.DAMAGED.value
+                    ? 'add_approved_lost_damaged:message_confirm_reject_damage'
+                    : 'add_approved_lost_damaged:message_confirm_reject_lost'
+                }
+                onReject={onReject}
+                onCloseReject={handleReject}
               />
-            </CActionSheet>
-          )}
+            )}
 
-          {/** MODAL */}
-          {!isDetail && (
-            <CActionSheet
-              actionRef={actionSheetAssetsRef}
-              headerChoose
-              onConfirm={handleChangeAssets}>
-              <View style={cStyles.px16}>
-                {dataAssets.length > 0 && (
-                  <CInput
-                    containerStyle={cStyles.mb10}
-                    styleFocus={styles.input_focus}
-                    disabled={loading.main || loading.submitAdd || isDetail}
-                    holder={'add_approved_lost_damaged:search_assets'}
-                    value={findAssets}
-                    keyboard={'default'}
-                    returnKey={'done'}
-                    onChangeValue={onSearchFilter}
-                  />
-                )}
-                {dataAssets.length > 0 ? (
-                  <Picker
-                    style={styles.con_action}
-                    itemStyle={{color: customColors.text, fontSize: fS(20)}}
-                    selectedValue={assets}
-                    onValueChange={onChangeAssets}>
-                    {dataAssets.map((value, i) => (
-                      <Picker.Item
-                        label={
-                          value[Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.label]
-                        }
-                        value={i}
-                        key={value}
-                      />
-                    ))}
-                  </Picker>
-                ) : (
-                  <View style={[cStyles.center, styles.content_picker]}>
-                    <CLabel
-                      label={'add_approved_lost_damaged:holder_empty_assets'}
-                    />
-                  </View>
-                )}
-              </View>
-            </CActionSheet>
-          )}
-
-          {isShowApprovedReject && (
-            <RejectModal
-              loading={loading.submitReject}
-              showReject={showReject}
-              description={
-                form.typeUpdate === Commons.APPROVED_TYPE.DAMAGED.value
-                  ? 'add_approved_lost_damaged:message_confirm_reject_damage'
-                  : 'add_approved_lost_damaged:message_confirm_reject_lost'
-              }
-              onReject={onReject}
-              onCloseReject={handleReject}
-            />
-          )}
-
-          {isShowApprovedReject && (
-            <CAlert
-              loading={loading.submitApproved}
-              show={showConfirm}
-              content={
-                form.typeUpdate === Commons.APPROVED_TYPE.DAMAGED.value
-                  ? 'add_approved_lost_damaged:message_confirm_approved_damage'
-                  : 'add_approved_lost_damaged:message_confirm_approved_lost'
-              }
-              onClose={handleApproved}
-              onOK={onApproved}
-            />
-          )}
-        </CContent>
+            {isShowApprovedReject && (
+              <CAlert
+                loading={loading.submitApproved}
+                show={showConfirm}
+                content={
+                  form.typeUpdate === Commons.APPROVED_TYPE.DAMAGED.value
+                    ? 'add_approved_lost_damaged:message_confirm_approved_damage'
+                    : 'add_approved_lost_damaged:message_confirm_approved_lost'
+                }
+                onClose={handleApproved}
+                onOK={onApproved}
+              />
+            )}
+          </CContent>
+        </View>
       }
       footer={
         !isDetail ? (

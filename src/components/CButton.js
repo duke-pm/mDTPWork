@@ -9,7 +9,6 @@ import React from 'react';
 import {useTranslation} from 'react-i18next';
 import {useColorScheme} from 'react-native-appearance';
 import {
-  ActivityIndicator,
   StyleSheet,
   TouchableOpacity,
   TouchableNativeFeedback,
@@ -17,7 +16,6 @@ import {
   Platform,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
-import LottieView from 'lottie-react-native';
 /** COMPONENTS */
 import CText from '~/components/CText';
 /** COMMON */
@@ -31,7 +29,6 @@ function CButton(props) {
   const {
     style = {},
     textStyle = {},
-    animationIconStyle = {},
     loading = false,
     fullWidth = false,
     block = false,
@@ -40,7 +37,6 @@ function CButton(props) {
     label = '',
     color = colors.SECONDARY,
     icon = null,
-    animationIcon = null,
     onPress = () => {},
   } = props;
 
@@ -73,7 +69,7 @@ function CButton(props) {
           (disabled || loading) && styles.disabled_contained,
           style,
         ]}>
-        {icon && !animationIcon && (
+        {icon && (
           <Icon
             name={icon}
             color={
@@ -85,20 +81,6 @@ function CButton(props) {
             }
             size={fS(16)}
           />
-        )}
-        {loading ? (
-          <ActivityIndicator style={cStyles.pr10} />
-        ) : (
-          !icon &&
-          animationIcon && (
-            <LottieView
-              style={[styles.img_icon, animationIconStyle]}
-              source={animationIcon}
-              duration={900}
-              autoPlay
-              loop={false}
-            />
-          )
         )}
 
         <CText

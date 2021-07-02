@@ -7,11 +7,10 @@
 import React from 'react';
 import {useTheme} from '@react-navigation/native';
 import {StyleSheet, View} from 'react-native';
-import LottieView from 'lottie-react-native';
+import Icon from 'react-native-vector-icons/Feather';
 /* COMPONENTS */
 import CText from '~/components/CText';
 /* COMMON */
-import {Animations} from '~/utils/asset';
 import {cStyles} from '~/utils/style';
 
 function Unconnected(props) {
@@ -32,12 +31,7 @@ function Unconnected(props) {
         {backgroundColor: customColors.background},
       ]}>
       <View style={cStyles.pb32}>
-        <LottieView
-          style={styles.connection}
-          source={Animations.connection}
-          autoPlay
-          loop
-        />
+        <Icon name={'alert-triangle'} color={customColors.orange} size={50} />
       </View>
       <CText
         customStyles={[

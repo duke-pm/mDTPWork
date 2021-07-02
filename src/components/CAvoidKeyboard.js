@@ -5,10 +5,11 @@
  ** Description: Description of CAvoidKeyboard.js
  **/
 import React, {Component} from 'react';
-import {Animated, Easing, Keyboard} from 'react-native';
+import {Animated, Keyboard} from 'react-native';
 import PropTypes from 'prop-types';
+/** COMMON */
 import {cStyles} from '~/utils/style';
-import { IS_ANDROID, IS_IOS } from '~/utils/helper';
+import {IS_ANDROID} from '~/utils/helper';
 
 class CAvoidKeyboard extends Component {
   constructor(props) {

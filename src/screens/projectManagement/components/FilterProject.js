@@ -32,7 +32,7 @@ import CAvatar from '~/components/CAvatar';
 import Configs from '~/config';
 import {THEME_DARK} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
-import {fS, sH} from '~/utils/helper';
+import {fS, IS_IOS, sH} from '~/utils/helper';
 
 /** All refs use in this screen */
 const actionSheetYearRef = createRef();
@@ -227,21 +227,27 @@ function FilterProject(props) {
     active: activeSector,
   });
 
+  navigation.setOptions({
+    headerRight: () => (
+      <TouchableOpacity onPress={handleFilter}>
+        <View
+          style={[
+            cStyles.flex1,
+            cStyles.itemsEnd,
+            cStyles.justifyCenter,
+            cStyles.pr10,
+          ]}>
+          <CText styles={'colorWhite textMeta'} label={t('common:apply')} />
+        </View>
+      </TouchableOpacity>
+    ),
+  });
+
   /*****************
    ** HANDLE FUNC **
    *****************/
   const handleReset = () => {
-    if (owner.active.length !== 0 || status.active.length !== 0) {
-      setOwner({...owner, active: []});
-      setStatus({...status, active: []});
-      hasSector && setSectors({...sectors, active: []});
-      hasYear &&
-        setYear({
-          ...year,
-          active: year.data.length - 1,
-          choose: year.data.length - 1,
-        });
-    }
+    navigation.goBack();
   };
 
   const handlePickerYear = () => {
@@ -338,37 +344,47 @@ function FilterProject(props) {
   return (
     <CContainer
       loading={loading.main}
-      centerStyle={cStyles.center}
-      title={'project_management:filter'}
-      header
-      headerLeft={
-        <TouchableOpacity onPress={handleReset}>
-          <View
-            style={[
-              cStyles.flex1,
-              cStyles.itemsStart,
-              cStyles.justifyCenter,
-              cStyles.pl10,
-            ]}>
-            <CText styles={'colorWhite textMeta'} label={'common:reset'} />
-          </View>
-        </TouchableOpacity>
-      }
-      headerRight={
-        <TouchableOpacity onPress={handleFilter}>
-          <View
-            style={[
-              cStyles.flex1,
-              cStyles.itemsEnd,
-              cStyles.justifyCenter,
-              cStyles.pr10,
-            ]}>
-            <CText styles={'colorWhite textMeta'} label={t('common:apply')} />
-          </View>
-        </TouchableOpacity>
-      }
       content={
         <CContent scroll contentStyle={isIphoneX() ? cStyles.pb40 : {}}>
+          {IS_IOS && (
+            <View
+              style={[
+                cStyles.row,
+                cStyles.itemsCenter,
+                cStyles.justifyBetween,
+                cStyles.p16,
+              ]}>
+              <TouchableOpacity onPress={handleReset}>
+                <View
+                  style={[
+                    cStyles.flex1,
+                    cStyles.itemsStart,
+                    cStyles.justifyCenter,
+                    cStyles.pl10,
+                  ]}>
+                  <CText
+                    styles={'colorBlack textMeta'}
+                    label={'common:close'}
+                  />
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={handleFilter}>
+                <View
+                  style={[
+                    cStyles.flex1,
+                    cStyles.itemsEnd,
+                    cStyles.justifyCenter,
+                    cStyles.pr10,
+                  ]}>
+                  <CText
+                    styles={'colorBlack textMeta'}
+                    label={t('common:apply')}
+                  />
+                </View>
+              </TouchableOpacity>
+            </View>
+          )}
+
           {/** Year */}
           {hasYear && (
             <>

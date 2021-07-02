@@ -6,13 +6,10 @@
  **/
 import React from 'react';
 import {useTheme} from '@react-navigation/native';
-import {useColorScheme} from 'react-native-appearance';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
 import ListItem from '../account/components/ListItem';
-/** COMMON */
-import {THEME_DARK} from '~/config/constants';
 
 const HELP_AND_INFO = [
   {
@@ -74,14 +71,13 @@ const HELP_AND_INFO = [
 
 function HelpAndInfo(props) {
   const {customColors} = useTheme();
-  const isDark = useColorScheme() === THEME_DARK;
 
+  /************
+   ** RENDER **
+   ************/
   return (
     <CContainer
-      header
       loading={false}
-      title={'help_and_info:title'}
-      hasBack
       content={
         <CContent>
           {HELP_AND_INFO.map((item, index) => (

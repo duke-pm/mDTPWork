@@ -36,7 +36,9 @@
     "holder_warning_option_prepare": "The feature in progress, please come back later!",
     "optional": "(Optional)",
     "need_confirm": "Request Need Confirm",
-    "update_app": "Update now!"
+    "update_app": "Update now!",
+    "back": "Back",
+    "holder_search": "Search..."
   },
   "status": {
     "title": "Status",

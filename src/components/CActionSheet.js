@@ -80,7 +80,7 @@ function CActionSheet(props) {
             ]}>
             <CIconButton
               iconName={'x'}
-              iconColor={customColors.red}
+              iconColor={customColors.icon}
               onPress={handleClose}
             />
             <CIconButton

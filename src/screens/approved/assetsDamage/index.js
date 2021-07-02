@@ -13,7 +13,6 @@ import {useTranslation} from 'react-i18next';
 import {showMessage} from 'react-native-flash-message';
 import moment from 'moment';
 /* COMPONENTS */
-import CContent from '~/components/CContent';
 import ListRequest from './list/Request';
 import TabbarLoading from '../components/TabbarLoading';
 /* COMMON */
@@ -245,24 +244,22 @@ function ApprovedAssetsDamage(props) {
   /**************
    ** RENDER **
    **************/
-  return (
-    <CContent>
-      {!loading.main && !loading.search && (
-        <ListRequest
-          refreshing={loading.refreshing}
-          loadmore={loading.loadmore}
-          data={data.requests}
-          dataDetail={data.requestsDetail}
-          dataProcess={data.processApproveds}
-          customColors={customColors}
-          onRefresh={onRefresh}
-          onLoadmore={onLoadmore}
-        />
-      )}
-
-      <TabbarLoading show={loading.main || loading.search} />
-    </CContent>
-  );
+  if (!loading.main && !loading.search) {
+    return (
+      <ListRequest
+        refreshing={loading.refreshing}
+        loadmore={loading.loadmore}
+        data={data.requests}
+        dataDetail={data.requestsDetail}
+        dataProcess={data.processApproveds}
+        customColors={customColors}
+        onRefresh={onRefresh}
+        onLoadmore={onLoadmore}
+      />
+    );
+  } else {
+    return <TabbarLoading show={loading.main || loading.search} />;
+  }
 }
 
 export default ApprovedAssetsDamage;

@@ -11,6 +11,7 @@ import * as types from '../actions/types';
 
 export const initialState = fromJS({
   submitting: false,
+  submittingChangePass: false,
 
   successRefreshToken: false,
   errorRefreshToken: false,
@@ -18,6 +19,10 @@ export const initialState = fromJS({
   successLogin: false,
   errorLogin: false,
   errorHelperLogin: '',
+
+  successChangePass: false,
+  errorChangePass: false,
+  errorHelperChangePass: '',
 
   login: {
     accessToken: null,
@@ -70,13 +75,11 @@ export default function (state = initialState, action = {}) {
         .set('submitting', true)
         .set('successRefreshToken', false)
         .set('errorRefreshToken', false);
-
     case types.SUCCESS_REFRESH_TOKEN:
       return state
         .set('submitting', true)
         .set('successRefreshToken', true)
         .set('errorRefreshToken', false);
-
     case types.ERROR_REFRESH_TOKEN:
       return state
         .set('submitting', true)
@@ -91,7 +94,6 @@ export default function (state = initialState, action = {}) {
         .set('successLogin', false)
         .set('errorLogin', false)
         .set('errorHelperLogin', '');
-
     case types.SUCCESS_LOGIN:
       return state
         .set('submitting', false)
@@ -115,7 +117,6 @@ export default function (state = initialState, action = {}) {
         .setIn(['login', 'expired'], payload.expired)
         .setIn(['login', 'groupID'], payload.groupID)
         .setIn(['login', 'lstMenu'], payload.lstMenu);
-
     case types.ERROR_LOGIN:
       return state
         .set('submitting', false)
@@ -124,6 +125,26 @@ export default function (state = initialState, action = {}) {
         .set('errorHelperLogin', payload);
     /*****************************/
 
+    /** For change password **/
+    case types.START_CHANGE_PASSWORD:
+      return state
+        .set('submittingChangePass', true)
+        .set('successChangePass', false)
+        .set('errorChangePass', false)
+        .set('errorHelperChangePass', '');
+    case types.SUCCESS_CHANGE_PASSWORD:
+      return state
+        .set('submittingChangePass', false)
+        .set('successChangePass', true)
+        .set('errorChangePass', false)
+        .set('errorHelperChangePass', '');
+    case types.ERROR_CHANGE_PASSWORD:
+      return state
+        .set('submittingChangePass', false)
+        .set('successChangePass', false)
+        .set('errorChangePass', true)
+        .set('errorHelperChangePass', payload);
+    /*****************************/
     default:
       return state;
   }

@@ -9,7 +9,10 @@ import 'react-native-gesture-handler';
 import '~/utils/language/config-i18n';
 import React, {useState, useEffect} from 'react';
 import {Provider} from 'react-redux';
-import {SafeAreaProvider} from 'react-native-safe-area-context';
+import {
+  SafeAreaProvider,
+  initialWindowMetrics,
+} from 'react-native-safe-area-context';
 import {StatusBar, Text} from 'react-native';
 import {
   NavigationContainer,
@@ -23,12 +26,11 @@ import axios from 'axios';
 /** COMPOENNTS */
 import Navigator from '~/navigation/Navigator';
 import Unconnected from '~/screens/connection/Unconnected';
-import CAvoidKeyboard from '~/components/CAvoidKeyboard';
 /** COMMON */
 import Configs from '~/config';
 import {colors} from '~/utils/style';
 import jwtServiceConfig from '~/services/jwtServiceConfig';
-import {IS_ANDROID} from '~/utils/helper';
+import {IS_ANDROID, IS_IOS} from '~/utils/helper';
 /** REDUX */
 import Store from './src/redux/store';
 
@@ -145,7 +147,7 @@ const App = () => {
       textDisable: colors.GRAY_700,
       card: colors.BACKGROUND_CARD,
       cardDisable: colors.GRAY_200,
-      tab: colors.GRAY_200,
+      tab: colors.GRAY_600,
       tabActive: colors.WHITE,
       listItem: colors.WHITE,
       statusNew: colors.STATUS_NEW,
@@ -173,15 +175,16 @@ const App = () => {
   return (
     <AppearanceProvider>
       <NavigationContainer
+        independent={true}
         theme={isDarkMode ? MyDarkTheme : MyDefaultTheme}
         linking={linking}
         fallback={<Text>Loading...</Text>}>
         <Provider store={Store}>
-          <SafeAreaProvider>
-            <StatusBar barStyle={'light-content'} />
-            <CAvoidKeyboard>
-              <Navigator />
-            </CAvoidKeyboard>
+          <SafeAreaProvider initialMetrics={initialWindowMetrics}>
+            <StatusBar barStyle={IS_IOS ? 'dark-content' : 'light-content'} />
+            {/* <CAvoidKeyboard> */}
+            <Navigator />
+            {/* </CAvoidKeyboard> */}
             <FlashMessage position="top" />
             <Unconnected connected={state.connected} />
           </SafeAreaProvider>

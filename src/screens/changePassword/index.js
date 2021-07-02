@@ -1,13 +1,15 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /**
  ** Name: Change password screen
  ** Author:
  ** CreateAt: 2021
  ** Description: Description of ChangePassword.js
  **/
-import React, {createRef, useState} from 'react';
-import {useDispatch} from 'react-redux';
+import React, {createRef, useState, useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {useColorScheme} from 'react-native-appearance';
+import {useTheme} from '@react-navigation/native';
 import {
   UIManager,
   LayoutAnimation,
@@ -15,22 +17,24 @@ import {
   View,
   Keyboard,
   StyleSheet,
+  KeyboardAvoidingView,
 } from 'react-native';
 import {showMessage} from 'react-native-flash-message';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
-import CText from '~/components/CText';
 import CLabel from '~/components/CLabel';
 import CInput from '~/components/CInput';
 import CButton from '~/components/CButton';
+import CGroupInfo from '~/components/CGroupInfo';
 /* COMMON */
+import Configs from '~/config';
 import {cStyles, colors} from '~/utils/style';
-import {IS_ANDROID} from '~/utils/helper';
+import {IS_ANDROID, IS_IOS} from '~/utils/helper';
 import {THEME_DARK} from '~/config/constants';
 /* REDUX */
 import * as Actions from '~/redux/actions';
-import Configs from '~/config';
+import CAvoidKeyboard from '~/components/CAvoidKeyboard';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -50,9 +54,15 @@ let confirmPasswordRef = createRef();
 function ChangePassword(props) {
   const {t} = useTranslation();
   const isDark = useColorScheme() === THEME_DARK;
+  const {customColors} = useTheme();
+  const {navigation} = props;
 
   /** Use redux */
   const dispatch = useDispatch();
+  const authState = useSelector(({auth}) => auth);
+  const commonState = useSelector(({common}) => common);
+  const language = commonState.get('language');
+  const refreshToken = authState.getIn(['login', 'refreshToken']);
 
   /** Use state */
   const [loading, setLoading] = useState(false);
@@ -70,7 +80,9 @@ function ChangePassword(props) {
     confirmPasswordHelper: '',
   });
 
-  /** HANDLE FUNC */
+  /*****************
+   ** HANDLE FUNC **
+   *****************/
   const handleChangeText = (value, nameInput) => {
     setForm({...form, [nameInput]: value});
     if (nameInput === INPUT_NAME.CUR_PASSWORD) {
@@ -114,7 +126,9 @@ function ChangePassword(props) {
     }
   };
 
-  /** FUNC */
+  /**********
+   ** FUNC **
+   **********/
   const onValidate = () => {
     let status = false,
       errCur = {status: false, helper: ''},
@@ -142,14 +156,6 @@ function ChangePassword(props) {
       errNew.status = true;
       errNew.helper = t('change_password:error_cur_not_like_new');
     }
-    /** Check new password not lager than */
-    if (!status && form.newPassword.trim().length < Configs.lengthNewPassword) {
-      status = true;
-      errNew.status = true;
-      errNew.helper = `${t('change_password:error_length_new_lager')} ${
-        Configs.lengthNewPassword
-      }.`;
-    }
     /** Check con password not like new password */
     if (!status && form.newPassword.trim() !== form.confirmPassword.trim()) {
       status = true;
@@ -161,18 +167,26 @@ function ChangePassword(props) {
 
   const onSubmit = () => {
     Keyboard.dismiss();
+    let params = {
+      Lang: language,
+      RefreshToken: refreshToken,
+      CurrentPassword: form.currentPassword,
+      NewPassword: form.newPassword,
+    };
+    dispatch(Actions.fetchChangePassword(params, navigation));
     setLoading(true);
-    setTimeout(() => {
-      setForm({
-        currentPassword: '',
-        newPassword: '',
-        confirmPassword: '',
-      });
-      done(true);
-    }, 2000);
   };
 
-  const done = isSuccess => {
+  const onCompleteChange = (status, message) => {
+    setForm({
+      currentPassword: '',
+      newPassword: '',
+      confirmPassword: '',
+    });
+    done(status, message);
+  };
+
+  const done = (isSuccess, message) => {
     setLoading(false);
     isSuccess &&
       showMessage({
@@ -184,94 +198,138 @@ function ChangePassword(props) {
     !isSuccess &&
       showMessage({
         message: t('common:app_name'),
-        description: t('change_password:error_change'),
+        description: message || t('change_password:error_change'),
         type: 'danger',
         icon: 'danger',
       });
   };
 
-  /** RENDER */
+  /****************
+   ** LIFE CYCLE **
+   ****************/
+  useEffect(() => {
+    if (loading) {
+      if (!authState.get('submittingChangePass')) {
+        if (authState.get('successChangePass')) {
+          return onCompleteChange(true);
+        }
+
+        if (authState.get('errorChangePass')) {
+          return onCompleteChange(
+            false,
+            typeof authState.get('errorHelperChangePass') === 'string'
+              ? authState.get('errorHelperChangePass')
+              : null,
+          );
+        }
+      }
+    }
+  }, [
+    loading,
+    authState.get('submittingChangePass'),
+    authState.get('successChangePass'),
+    authState.get('errorChangePass'),
+  ]);
+
+  /************
+   ** RENDER **
+   ************/
   return (
     <CContainer
       loading={loading}
-      title={'change_password:title'}
-      header
-      hasBack
       content={
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <CContent scroll padder>
-            <CText label={'change_password:sub_title'} />
+          <KeyboardAvoidingView
+            style={[cStyles.flex1, {backgroundColor: customColors.background}]}
+            behavior={IS_IOS ? 'position' : undefined}>
+            <CContent contentStyle={cStyles.justifyEnd}>
+              <CGroupInfo
+                style={cStyles.pt16}
+                label={'change_password:sub_title'}
+                content={
+                  <>
+                    {/** Current password */}
+                    <View>
+                      <CLabel
+                        medium
+                        label={'change_password:current_password'}
+                      />
+                      <CInput
+                        name={INPUT_NAME.CUR_PASSWORD}
+                        styleFocus={styles.input_focus}
+                        inputRef={curPasswordRef}
+                        disabled={loading}
+                        holder={'change_password:current_password'}
+                        value={form.currentPassword}
+                        keyboard={'default'}
+                        returnKey={'next'}
+                        password
+                        error={error.currentPassword}
+                        errorHelper={error.currentPasswordHelper}
+                        onChangeInput={() => handleChangeInput(newPasswordRef)}
+                        onChangeValue={handleChangeText}
+                      />
+                    </View>
 
-            {/** Current password */}
-            <View style={cStyles.pt16}>
-              <CLabel medium label={'change_password:current_password'} />
-              <CInput
-                name={INPUT_NAME.CUR_PASSWORD}
-                styleFocus={styles.input_focus}
-                inputRef={curPasswordRef}
-                disabled={loading}
-                holder={'change_password:current_password'}
-                value={form.currentPassword}
-                keyboard={'default'}
-                returnKey={'next'}
-                password
-                error={error.currentPassword}
-                errorHelper={error.currentPasswordHelper}
-                onChangeInput={() => handleChangeInput(newPasswordRef)}
-                onChangeValue={handleChangeText}
+                    {/** New password */}
+                    <View style={cStyles.pt16}>
+                      <CLabel medium label={'change_password:new_password'} />
+                      <CInput
+                        name={INPUT_NAME.NEW_PASSWORD}
+                        styleFocus={styles.input_focus}
+                        inputRef={newPasswordRef}
+                        disabled={loading}
+                        holder={'change_password:new_password'}
+                        value={form.newPassword}
+                        keyboard={'default'}
+                        returnKey={'next'}
+                        password
+                        error={error.newPassword}
+                        errorHelperCustom={error.newPasswordHelper}
+                        onChangeInput={() =>
+                          handleChangeInput(confirmPasswordRef)
+                        }
+                        onChangeValue={handleChangeText}
+                      />
+                    </View>
+
+                    {/** Confirm password */}
+                    <View style={cStyles.pt16}>
+                      <CLabel
+                        medium
+                        label={'change_password:confirm_password'}
+                      />
+                      <CInput
+                        name={INPUT_NAME.CON_PASSWORD}
+                        styleFocus={styles.input_focus}
+                        inputRef={confirmPasswordRef}
+                        disabled={loading}
+                        holder={'change_password:confirm_password'}
+                        value={form.confirmPassword}
+                        keyboard={'default'}
+                        returnKey={'send'}
+                        password
+                        error={error.confirmPassword}
+                        errorHelper={error.confirmPasswordHelper}
+                        onChangeInput={handleChangePassword}
+                        onChangeValue={handleChangeText}
+                      />
+                    </View>
+
+                    <CButton
+                      style={cStyles.mt24}
+                      block
+                      disabled={loading}
+                      variant={isDark ? 'outlined' : 'contained'}
+                      icon={'save'}
+                      label={'common:save'}
+                      onPress={handleChangePassword}
+                    />
+                  </>
+                }
               />
-            </View>
-
-            {/** New password */}
-            <View style={cStyles.pt16}>
-              <CLabel medium label={'change_password:new_password'} />
-              <CInput
-                name={INPUT_NAME.NEW_PASSWORD}
-                styleFocus={styles.input_focus}
-                inputRef={newPasswordRef}
-                disabled={loading}
-                holder={'change_password:new_password'}
-                value={form.newPassword}
-                keyboard={'default'}
-                returnKey={'next'}
-                password
-                error={error.newPassword}
-                errorHelperCustom={error.newPasswordHelper}
-                onChangeInput={() => handleChangeInput(confirmPasswordRef)}
-                onChangeValue={handleChangeText}
-              />
-            </View>
-
-            {/** Confirm password */}
-            <View style={cStyles.pt16}>
-              <CLabel medium label={'change_password:confirm_password'} />
-              <CInput
-                name={INPUT_NAME.CON_PASSWORD}
-                styleFocus={styles.input_focus}
-                inputRef={confirmPasswordRef}
-                disabled={loading}
-                holder={'change_password:confirm_password'}
-                value={form.confirmPassword}
-                keyboard={'default'}
-                returnKey={'done'}
-                password
-                error={error.confirmPassword}
-                errorHelper={error.confirmPasswordHelper}
-                onChangeInput={handleChangePassword}
-                onChangeValue={handleChangeText}
-              />
-            </View>
-
-            <CButton
-              style={cStyles.mt24}
-              block
-              disabled={loading}
-              variant={isDark ? 'outlined' : 'contained'}
-              icon={'save'}
-              label={'common:save'}
-              onPress={handleChangePassword}
-            />
-          </CContent>
+            </CContent>
+          </KeyboardAvoidingView>
         </TouchableWithoutFeedback>
       }
     />

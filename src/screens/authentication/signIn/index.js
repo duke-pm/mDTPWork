@@ -22,11 +22,11 @@ import LinearGradient from 'react-native-linear-gradient';
 import {showMessage} from 'react-native-flash-message';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
-import CContent from '~/components/CContent';
 import CInput from '~/components/CInput';
 import CCheckbox from '~/components/CCheckbox';
 import CText from '~/components/CText';
 import CButton from '~/components/CButton';
+import CAvoidKeyboard from '~/components/CAvoidKeyboard';
 /* COMMON */
 import Routes from '~/navigation/Routes';
 import {Assets} from '~/utils/asset';
@@ -278,86 +278,87 @@ function SignIn(props) {
           <LinearGradient
             style={cStyles.flex1}
             colors={colors.BACKGROUND_GRADIENT}>
-            <CContent
-              style={[styles.container, cStyles.flexCenter, cStyles.px48]}>
-              <View style={[cStyles.justifyEnd, styles.con_icon_app]}>
-                <Image
-                  style={styles.img_icon_app}
-                  source={Assets.imgLogo}
-                  resizeMode={'contain'}
-                />
-              </View>
-
-              <View style={[styles.con_input, cStyles.fullWidth]}>
-                <CInput
-                  name={INPUT_NAME.USER_NAME}
-                  style={styles.input}
-                  styleFocus={styles.input_focus}
-                  selectionColor={colors.WHITE}
-                  holderColor={colors.GRAY_500}
-                  inputRef={userNameRef}
-                  disabled={loading.submit}
-                  value={form.userName}
-                  icon={'user'}
-                  iconColor={colors.GRAY_500}
-                  holder={'sign_in:input_username'}
-                  returnKey={'next'}
-                  error={error.userName}
-                  errorHelper={error.userNameHelper}
-                  onChangeInput={handleChangeInput}
-                  onChangeValue={handleChangeText}
-                />
-
-                <CInput
-                  name={INPUT_NAME.PASSWORD}
-                  style={styles.input}
-                  styleFocus={styles.input_focus}
-                  selectionColor={colors.WHITE}
-                  holderColor={colors.GRAY_500}
-                  inputRef={passwordRef}
-                  disabled={loading.submit}
-                  value={form.password}
-                  icon={'lock'}
-                  iconColor={colors.GRAY_500}
-                  holder={'sign_in:input_password'}
-                  returnKey={'done'}
-                  password
-                  error={error.password}
-                  errorHelper={error.passwordHelper}
-                  onChangeInput={handleSignIn}
-                  onChangeValue={handleChangeText}
-                />
-
-                <View
-                  style={[
-                    cStyles.row,
-                    cStyles.itemsCenter,
-                    cStyles.justifyBetween,
-                    cStyles.my6,
-                  ]}>
-                  <CCheckbox
-                    textStyle={cStyles.textSubTitle}
-                    labelRight={'sign_in:save_account'}
-                    value={form.saveAccount}
-                    onChange={handleSaveAccount}
-                  />
-
-                  <CText
-                    styles={'textSubTitle textUnderline colorWhite'}
-                    label={'sign_in:forgot_password'}
-                    onPress={handleForgotPassword}
+            <CAvoidKeyboard>
+              <View style={[cStyles.flex1, cStyles.px48]}>
+                <View style={[cStyles.justifyEnd, styles.con_icon_app]}>
+                  <Image
+                    style={styles.img_icon_app}
+                    source={Assets.imgLogo}
+                    resizeMode={'contain'}
                   />
                 </View>
 
-                <CButton
-                  block
-                  disabled={loading.submit}
-                  icon={'unlock'}
-                  label={'sign_in:title'}
-                  onPress={handleSignIn}
-                />
+                <View style={[styles.con_input, cStyles.fullWidth]}>
+                  <CInput
+                    name={INPUT_NAME.USER_NAME}
+                    style={styles.input}
+                    styleFocus={styles.input_focus}
+                    selectionColor={colors.WHITE}
+                    holderColor={colors.GRAY_500}
+                    inputRef={userNameRef}
+                    disabled={loading.submit}
+                    value={form.userName}
+                    icon={'user'}
+                    iconColor={colors.GRAY_500}
+                    holder={'sign_in:input_username'}
+                    returnKey={'next'}
+                    error={error.userName}
+                    errorHelper={error.userNameHelper}
+                    onChangeInput={handleChangeInput}
+                    onChangeValue={handleChangeText}
+                  />
+
+                  <CInput
+                    name={INPUT_NAME.PASSWORD}
+                    style={styles.input}
+                    styleFocus={styles.input_focus}
+                    selectionColor={colors.WHITE}
+                    holderColor={colors.GRAY_500}
+                    inputRef={passwordRef}
+                    disabled={loading.submit}
+                    value={form.password}
+                    icon={'lock'}
+                    iconColor={colors.GRAY_500}
+                    holder={'sign_in:input_password'}
+                    returnKey={'done'}
+                    password
+                    error={error.password}
+                    errorHelper={error.passwordHelper}
+                    onChangeInput={handleSignIn}
+                    onChangeValue={handleChangeText}
+                  />
+
+                  <View
+                    style={[
+                      cStyles.row,
+                      cStyles.itemsCenter,
+                      cStyles.justifyBetween,
+                      cStyles.my6,
+                    ]}>
+                    <CCheckbox
+                      textStyle={cStyles.textSubTitle}
+                      labelRight={'sign_in:save_account'}
+                      value={form.saveAccount}
+                      onChange={handleSaveAccount}
+                    />
+
+                    <CText
+                      styles={'textSubTitle textUnderline colorWhite'}
+                      label={'sign_in:forgot_password'}
+                      onPress={handleForgotPassword}
+                    />
+                  </View>
+
+                  <CButton
+                    block
+                    disabled={loading.submit}
+                    icon={'unlock'}
+                    label={'sign_in:title'}
+                    onPress={handleSignIn}
+                  />
+                </View>
               </View>
-            </CContent>
+            </CAvoidKeyboard>
           </LinearGradient>
         </TouchableWithoutFeedback>
       }

@@ -5,7 +5,7 @@
  ** CreateAt: 2021
  ** Description: Description of Watchers.js
  **/
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useFocusEffect, useCallback} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
@@ -18,8 +18,11 @@ import {
   ScrollView,
   UIManager,
   LayoutAnimation,
+  TouchableOpacity,
+  BackHandler,
 } from 'react-native';
 import {isIphoneX} from 'react-native-iphone-x-helper';
+import Icon from 'react-native-vector-icons/Feather';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CText from '~/components/CText';
@@ -31,8 +34,8 @@ import CCard from '~/components/CCard';
 import CLabel from '~/components/CLabel';
 /* COMMON */
 import {THEME_DARK} from '~/config/constants';
-import {cStyles} from '~/utils/style';
-import {IS_ANDROID} from '~/utils/helper';
+import {colors, cStyles} from '~/utils/style';
+import {fS, IS_ANDROID, IS_IOS} from '~/utils/helper';
 /** REDUX */
 import * as Actions from '~/redux/actions';
 
@@ -101,6 +104,13 @@ function Watchers(props) {
     return setLoading({...loading, send: true});
   };
 
+  const handleBack = () => {
+    navigation.goBack();
+    if (needRefresh) {
+      onRefresh();
+    }
+  };
+
   /************
    ** FUNC **
    ************/
@@ -165,6 +175,15 @@ function Watchers(props) {
     projectState.get('errorTaskWatcher'),
   ]);
 
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('dismiss', e => {
+      if (needRefresh && onRefresh) {
+        onRefresh();
+      }
+    });
+    return unsubscribe;
+  }, [navigation, needRefresh]);
+
   /**************
    ** RENDER **
    **************/
@@ -172,13 +191,15 @@ function Watchers(props) {
   return (
     <CContainer
       loading={loading.main || loading.send}
-      title={'project_management:title_watcher'}
-      header
-      hasBack
-      iconBack={'x'}
-      onRefresh={needRefresh ? onRefresh : null}
       content={
         <CContent scroll>
+          {IS_IOS && (
+            <TouchableOpacity onPress={handleBack}>
+              <View style={cStyles.p16}>
+                <Icon name={'x'} color={colors.BLACK} size={fS(20)} />
+              </View>
+            </TouchableOpacity>
+          )}
           <View style={[cStyles.mt16, cStyles.mx16]}>
             <CButton
               block

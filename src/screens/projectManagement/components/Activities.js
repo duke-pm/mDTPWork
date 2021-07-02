@@ -13,7 +13,8 @@ import {useTheme} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {showMessage} from 'react-native-flash-message';
 import {isIphoneX} from 'react-native-iphone-x-helper';
-import {StyleSheet, View, Keyboard, Text} from 'react-native';
+import {StyleSheet, View, Keyboard, Text, TouchableOpacity} from 'react-native';
+import Icon from 'react-native-vector-icons/Feather';
 import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
@@ -25,7 +26,7 @@ import CAvatar from '~/components/CAvatar';
 /* COMMON */
 import {LAST_COMMENT_TASK, THEME_DARK} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
-import {saveLocalInfo, getLocalInfo} from '~/utils/helper';
+import {saveLocalInfo, getLocalInfo, fS, IS_IOS} from '~/utils/helper';
 import {LOCALE_VI, LOCALE_EN} from '~/utils/language/comment';
 /** REDUX */
 import * as Actions from '~/redux/actions';
@@ -100,6 +101,13 @@ function Activity(props) {
   });
   const [valueMessage, setValueMessage] = useState('');
   const [messages, setMessages] = useState([]);
+
+  /*****************
+   ** HANDLE FUNC **
+   *****************/
+  const handleBack = () => {
+    navigation.goBack();
+  };
 
   /************
    ** FUNC **
@@ -235,10 +243,6 @@ function Activity(props) {
   return (
     <CContainer
       loading={loading.main || loading.send}
-      title={'project_management:title_activity'}
-      header
-      hasBack
-      iconBack={'x'}
       content={
         <SafeAreaView
           style={[
@@ -246,6 +250,13 @@ function Activity(props) {
             {backgroundColor: customColors.backgroundActivity},
           ]}
           edges={['bottom', 'left', 'right']}>
+          {IS_IOS && (
+            <TouchableOpacity onPress={handleBack}>
+              <View style={cStyles.p16}>
+                <Icon name={'x'} color={colors.BLACK} size={fS(20)} />
+              </View>
+            </TouchableOpacity>
+          )}
           <View style={cStyles.flex1}>
             {!loading.main && (
               <CList

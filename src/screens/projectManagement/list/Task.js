@@ -14,6 +14,7 @@ import TaskItem from '../components/TaskItem';
 /** COMMON */
 import Routes from '~/navigation/Routes';
 import {THEME_DARK} from '~/config/constants';
+import {IS_ANDROID} from '~/utils/helper';
 import {cStyles} from '~/utils/style';
 
 function ListTask(props) {
@@ -41,7 +42,7 @@ function ListTask(props) {
    **************/
   return (
     <CList
-      contentStyle={cStyles.pt16}
+      contentStyle={IS_ANDROID ? cStyles.pt16 : {}}
       textEmpty={'project_management:empty_tasks'}
       data={props.data}
       item={({item, index}) => {

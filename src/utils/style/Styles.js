@@ -552,7 +552,7 @@ const text = {
 };
 
 const border = {
-  rounded1: {borderRadius: 5},
+  rounded1: {borderRadius: 7},
   rounded2: {borderRadius: 10},
   rounded3: {borderRadius: 15},
   rounded4: {borderRadius: 20},

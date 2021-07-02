@@ -27,8 +27,7 @@ export default {
         });
     });
   },
-
-  refreshToken: (params, callback) => {
+  refreshToken: params => {
     return new Promise((resolve, reject) => {
       API.post(
         jwtServiceConfig.baseURL + Routes.AUTHENTICATION.REFRESH_TOKEN,
@@ -44,6 +43,73 @@ export default {
         })
         .catch(error => {
           console.log('ERROR REFRESH TOKEN => ', error);
+          reject(error.response ? error.response.data : error);
+        });
+    });
+  },
+  changePassword: params => {
+    return new Promise((resolve, reject) => {
+      API.put(
+        jwtServiceConfig.baseURL + Routes.AUTHENTICATION.CHANGE_PASSWORD,
+        params,
+      )
+        .then(response => {
+          console.log('FETCH CHANGE PASSWORD => ', response);
+          if (response.status === 200 && response.data) {
+            resolve(response.data);
+          } else {
+            reject(response.statusText);
+          }
+        })
+        .catch(error => {
+          console.log('ERROR CHANGE PASSWORD => ', error);
+          reject(error.response ? error.response.data : error);
+        });
+    });
+  },
+  updateNewPassword: params => {
+    return new Promise((resolve, reject) => {
+      API.put(
+        jwtServiceConfig.baseURL + Routes.AUTHENTICATION.UPDATE_PASSWORD,
+        params,
+      )
+        .then(response => {
+          console.log('FETCH UDPATE PASSWORD => ', response);
+          if (response.status === 200 && response.data) {
+            resolve(response.data);
+          } else {
+            reject(response.statusText);
+          }
+        })
+        .catch(error => {
+          console.log('ERROR UDPATE PASSWORD => ', error);
+          reject(error.response ? error.response.data : error);
+        });
+    });
+  },
+  forgotPassword: params => {
+    return new Promise((resolve, reject) => {
+      let tmpConfigs = {params: {}};
+      if (params.get('Email')) {
+        tmpConfigs.params.Email = params.get('Email');
+      }
+      if (params.get('Lang')) {
+        tmpConfigs.params.Lang = params.get('Lang');
+      }
+      API.get(
+        jwtServiceConfig.baseURL + Routes.AUTHENTICATION.FORGOT_PASSWORD,
+        tmpConfigs,
+      )
+        .then(response => {
+          console.log('FETCH FORGOT PASSWORD => ', response);
+          if (response.status === 200 && response.data) {
+            resolve(response.data);
+          } else {
+            reject(response.statusText);
+          }
+        })
+        .catch(error => {
+          console.log('ERROR FORGOT PASSWORD => ', error);
           reject(error.response ? error.response.data : error);
         });
     });

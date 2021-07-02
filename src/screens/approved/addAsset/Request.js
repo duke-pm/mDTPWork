@@ -6,14 +6,19 @@
  ** CreateAt: 2021
  ** Description: Description of Request.js
  **/
-import React, {createRef, useEffect, useState} from 'react';
+import React, {createRef, useEffect, useState, useLayoutEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {useColorScheme} from 'react-native-appearance';
 import {useTheme} from '@react-navigation/native';
 import {showMessage} from 'react-native-flash-message';
-import {StyleSheet, View, TouchableOpacity} from 'react-native';
-import Lottie from 'lottie-react-native';
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  ActivityIndicator,
+  StatusBar,
+} from 'react-native';
 import Picker from '@gregfrench/react-native-wheel-picker';
 import Icon from 'react-native-vector-icons/Feather';
 import moment from 'moment';
@@ -32,13 +37,13 @@ import RequestProcess from '../components/RequestProcess';
 import AssetsTable from '../components/AssetsTable';
 import CheckOption from '../components/CheckOption';
 /* COMMON */
-import {Animations} from '~/utils/asset';
 import {THEME_DARK, DEFAULT_FORMAT_DATE_4} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
-import {fS, sH} from '~/utils/helper';
+import {fS, IS_ANDROID, IS_IOS, sH} from '~/utils/helper';
 import Commons from '~/utils/common/Commons';
 /* REDUX */
 import * as Actions from '~/redux/actions';
+import {isIphoneX} from 'react-native-iphone-x-helper';
 
 const RowSelect = (
   loading,
@@ -75,7 +80,7 @@ const RowSelect = (
         {!loading ? (
           find && <CText customLabel={find[keyToShow]} />
         ) : (
-          <Lottie source={Animations.loading} autoPlay loop />
+          <ActivityIndicator size={'small'} />
         )}
         {!disabled && (
           <Icon
@@ -141,6 +146,7 @@ function AddRequest(props) {
   const {t} = useTranslation();
   const {customColors} = useTheme();
   const isDark = useColorScheme() === THEME_DARK;
+  const {navigation, route} = props;
 
   /** Use redux */
   const dispatch = useDispatch();
@@ -162,7 +168,7 @@ function AddRequest(props) {
   });
   const [showReject, setShowReject] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
-  const [isDetail] = useState(props.route.params?.data ? true : false);
+  const [isDetail] = useState(route.params?.data ? true : false);
   const [process, setProcess] = useState([]);
   const [whereUse, setWhereUse] = useState(0);
   const [findWhereUse, setFindWhereUse] = useState('');
@@ -192,6 +198,22 @@ function AddRequest(props) {
     status: 1,
     isAllowApproved: false,
     refsAssets: [],
+  });
+
+  navigation.setOptions({
+    title: `${t('add_approved_assets:' + (isDetail ? 'detail' : 'title'))}`,
+    headerRight: () => {
+      if (isDetail) {
+        return (
+          <TouchableOpacity onPress={handleShowProcess}>
+            <View>
+              <Icon name={'info'} color={'white'} size={fS(20)} />
+            </View>
+          </TouchableOpacity>
+        );
+      }
+      return null;
+    },
   });
 
   /*****************
@@ -232,6 +254,10 @@ function AddRequest(props) {
     actionSheetDepartmentRef.current?.hide();
   };
 
+  const handleBack = () => {
+    navigation.goBack();
+  };
+
   /************
    ** FUNC **
    ************/
@@ -247,25 +273,22 @@ function AddRequest(props) {
       RefreshToken: refreshToken,
       Lang: language,
     };
-    dispatch(Actions.fetchMasterData(params, props.navigation));
+    dispatch(Actions.fetchMasterData(params, navigation));
     dispatch(Actions.resetAllApproved());
   };
 
   const onPrepareDetail = () => {
     let tmp = {
-      id: isDetail ? props.route.params?.data?.requestID : '',
-      personRequestId: isDetail
-        ? props.route.params?.data?.personRequestID
-        : '',
+      id: isDetail ? route.params?.data?.requestID : '',
+      personRequestId: isDetail ? route.params?.data?.personRequestID : '',
       dateRequest: isDetail
-        ? moment(
-            props.route.params?.data?.requestDate,
-            DEFAULT_FORMAT_DATE_4,
-          ).format(formatDate)
+        ? moment(route.params?.data?.requestDate, DEFAULT_FORMAT_DATE_4).format(
+            formatDate,
+          )
         : moment().format(formatDate),
-      name: isDetail ? props.route.params?.data?.personRequest : '',
-      department: isDetail ? props.route.params?.data?.deptCode : '',
-      region: isDetail ? props.route.params?.data?.regionCode : '',
+      name: isDetail ? route.params?.data?.personRequest : '',
+      department: isDetail ? route.params?.data?.deptCode : '',
+      region: isDetail ? route.params?.data?.regionCode : '',
       assets: {
         header: [
           t('add_approved_assets:description'),
@@ -275,18 +298,16 @@ function AddRequest(props) {
         ],
         data: [['', '', '', '']],
       },
-      whereUse: isDetail ? props.route.params?.data?.locationCode : '',
-      reason: isDetail ? props.route.params?.data?.reason : '',
-      typeAssets: isDetail ? props.route.params?.data?.docType : 'N',
-      inPlanning: isDetail ? props.route.params?.data?.isBudget : false,
-      supplier: isDetail ? props.route.params?.data?.supplierName : '',
-      status: isDetail ? props.route.params?.data?.statusID : 1,
-      isAllowApproved: isDetail
-        ? props.route.params?.data?.isAllowApproved
-        : false,
+      whereUse: isDetail ? route.params?.data?.locationCode : '',
+      reason: isDetail ? route.params?.data?.reason : '',
+      typeAssets: isDetail ? route.params?.data?.docType : 'N',
+      inPlanning: isDetail ? route.params?.data?.isBudget : false,
+      supplier: isDetail ? route.params?.data?.supplierName : '',
+      status: isDetail ? route.params?.data?.statusID : 1,
+      isAllowApproved: isDetail ? route.params?.data?.isAllowApproved : false,
     };
-    if (props.route.params?.dataDetail) {
-      let arrayDetail = props.route.params?.dataDetail;
+    if (route.params?.dataDetail) {
+      let arrayDetail = route.params?.dataDetail;
       if (arrayDetail.length > 0) {
         tmp.assets.data = [];
         let item = null,
@@ -304,15 +325,15 @@ function AddRequest(props) {
         tmp.refsAssets = choosesRef;
       }
     }
-    if (props.route.params?.dataProcess) {
-      let arrayProcess = props.route.params?.dataProcess;
+    if (route.params?.dataProcess) {
+      let arrayProcess = route.params?.dataProcess;
       if (arrayProcess.length > 0) {
         setProcess(arrayProcess);
       }
     }
     let data = masterState.get('department');
     let find = data.findIndex(
-      f => f.deptCode === props.route.params?.data?.locationCode,
+      f => f.deptCode === route.params?.data?.locationCode,
     );
     if (find !== -1) {
       setWhereUse(find);
@@ -332,7 +353,7 @@ function AddRequest(props) {
       RefreshToken: refreshToken,
       Lang: language,
     };
-    dispatch(Actions.fetchApprovedRequest(params, props.navigation));
+    dispatch(Actions.fetchApprovedRequest(params, navigation));
   };
 
   const onReject = reason => {
@@ -346,7 +367,7 @@ function AddRequest(props) {
       RefreshToken: refreshToken,
       Lang: language,
     };
-    dispatch(Actions.fetchRejectRequest(params, props.navigation));
+    dispatch(Actions.fetchRejectRequest(params, navigation));
   };
 
   const onChangeWhereUse = index => {
@@ -403,7 +424,7 @@ function AddRequest(props) {
         RefreshToken: refreshToken,
         Lang: language,
       };
-      dispatch(Actions.fetchAddRequestApproved(params, props.navigation));
+      dispatch(Actions.fetchAddRequestApproved(params, navigation));
     } else {
       setLoading({...loading, submitAdd: false});
     }
@@ -421,6 +442,9 @@ function AddRequest(props) {
    ** LIFE CYCLE **
    ******************/
   useEffect(() => {
+    if (IS_IOS) {
+      StatusBar.setBarStyle('light-content', true);
+    }
     onPrepareData();
   }, []);
 
@@ -453,9 +477,9 @@ function AddRequest(props) {
             type: 'success',
             icon: 'success',
           });
-          props.navigation.goBack();
-          if (props.route.params.onRefresh) {
-            props.route.params.onRefresh();
+          navigation.goBack();
+          if (route.params.onRefresh) {
+            route.params.onRefresh();
           }
         }
 
@@ -488,9 +512,9 @@ function AddRequest(props) {
             type: 'success',
             icon: 'success',
           });
-          props.navigation.goBack();
-          if (props.route.params.onRefresh) {
-            props.route.params.onRefresh();
+          navigation.goBack();
+          if (route.params.onRefresh) {
+            route.params.onRefresh();
           }
         }
 
@@ -524,9 +548,9 @@ function AddRequest(props) {
             type: 'success',
             icon: 'success',
           });
-          props.navigation.goBack();
-          if (props.route.params.onRefresh) {
-            props.route.params.onRefresh();
+          navigation.goBack();
+          if (route.params.onRefresh) {
+            route.params.onRefresh();
           }
         }
 
@@ -548,11 +572,19 @@ function AddRequest(props) {
     approvedState.get('errorRejectRequest'),
   ]);
 
+  useLayoutEffect(() => {
+    return () => {
+      if (IS_IOS) {
+        StatusBar.setBarStyle('dark-content', true);
+      }
+    };
+  }, []);
+
   /**************
    ** RENDER **
    **************/
   const isShowApprovedReject =
-    isDetail && form.isAllowApproved && props.route.params?.permissionWrite;
+    isDetail && form.isAllowApproved && route.params?.permissionWrite;
   return (
     <CContainer
       loading={
@@ -561,298 +593,336 @@ function AddRequest(props) {
         loading.submitApproved ||
         loading.submitReject
       }
-      title={'add_approved_assets:' + (isDetail ? 'detail' : 'title')}
-      header
-      hasBack
-      iconBack={'x'}
-      headerRight={
-        isDetail ? (
-          <TouchableOpacity onPress={handleShowProcess}>
-            <View style={cStyles.itemsEnd}>
-              <Icon
-                style={cStyles.p16}
-                name={'info'}
-                color={'white'}
-                size={fS(20)}
-              />
-            </View>
-          </TouchableOpacity>
-        ) : null
-      }
       content={
-        <CContent scroll>
-          {/** User request */}
-          <CGroupInfo
-            style={cStyles.pt16}
-            label={'add_approved_assets:info_user_request'}
-            content={
-              <>
-                <View
-                  style={[
-                    cStyles.flex1,
-                    cStyles.row,
-                    cStyles.itemsCenter,
-                    cStyles.justifyBetween,
-                  ]}>
-                  {/** Date request */}
-                  <View style={[cStyles.mr5, {flex: 0.4}]}>
-                    <CLabel medium label={'add_approved_assets:date_request'} />
+        <View
+          style={[cStyles.flex1, {backgroundColor: customColors.background}]}>
+          {IS_IOS && (
+            <View
+              style={[
+                cStyles.py12,
+                cStyles.row,
+                cStyles.itemsCenter,
+                cStyles.justifyBetween,
+                cStyles.borderBottom,
+                isDark && cStyles.borderBottomDark,
+              ]}>
+              <TouchableOpacity onPress={handleBack}>
+                <View style={[cStyles.pl16]}>
+                  <Icon name={'x'} color={customColors.icon} size={fS(20)} />
+                </View>
+              </TouchableOpacity>
+              <View>
+                <CText
+                  customStyles={[
+                    cStyles.textTitle,
+                    {
+                      color: isDark
+                        ? colors.WHITE
+                        : IS_ANDROID
+                        ? colors.WHITE
+                        : colors.BLACK,
+                    },
+                  ]}
+                  label={
+                    'add_approved_assets:' + (isDetail ? 'detail' : 'title')
+                  }
+                />
+              </View>
+              <TouchableOpacity
+                disabled={!isDetail}
+                onPress={handleShowProcess}>
+                <View style={[cStyles.pr16]}>
+                  <Icon
+                    name={'info'}
+                    color={
+                      isDetail ? customColors.icon : customColors.background
+                    }
+                    size={fS(20)}
+                  />
+                </View>
+              </TouchableOpacity>
+            </View>
+          )}
+
+          <CContent>
+            {/** User request */}
+            <CGroupInfo
+              style={cStyles.pt16}
+              label={'add_approved_assets:info_user_request'}
+              content={
+                <>
+                  <View
+                    style={[
+                      cStyles.flex1,
+                      cStyles.row,
+                      cStyles.itemsCenter,
+                      cStyles.justifyBetween,
+                    ]}>
+                    {/** Date request */}
+                    <View style={[cStyles.mr5, {flex: 0.4}]}>
+                      <CLabel
+                        medium
+                        label={'add_approved_assets:date_request'}
+                      />
+                      <CInput
+                        name={INPUT_NAME.DATE_REQUEST}
+                        disabled={true}
+                        dateTimePicker={true}
+                        value={moment(form.dateRequest).format(formatDateView)}
+                        valueColor={customColors.text}
+                      />
+                    </View>
+
+                    {/** Region */}
+                    <View style={[cStyles.ml5, {flex: 0.6}]}>
+                      <CLabel medium label={'add_approved_assets:region'} />
+                      {RowSelect(
+                        loading.main,
+                        true,
+                        isDark,
+                        customColors,
+                        masterState.get('region'),
+                        form.region,
+                        Commons.SCHEMA_DROPDOWN.REGION.label,
+                        Commons.SCHEMA_DROPDOWN.REGION.value,
+                        null,
+                      )}
+                    </View>
+                  </View>
+
+                  {/** Name */}
+                  <View style={cStyles.pt16}>
+                    <CLabel medium label={'add_approved_assets:name'} />
                     <CInput
-                      name={INPUT_NAME.DATE_REQUEST}
+                      name={INPUT_NAME.NAME}
+                      styleFocus={styles.input_focus}
                       disabled={true}
-                      dateTimePicker={true}
-                      value={moment(form.dateRequest).format(formatDateView)}
+                      holder={'add_approved_assets:name'}
+                      value={form.name}
                       valueColor={customColors.text}
+                      keyboard={'default'}
+                      returnKey={'next'}
                     />
                   </View>
 
-                  {/** Region */}
-                  <View style={[cStyles.ml5, {flex: 0.6}]}>
-                    <CLabel medium label={'add_approved_assets:region'} />
+                  {/** Department */}
+                  <View style={cStyles.pt16}>
+                    <CLabel medium label={'add_approved_assets:department'} />
                     {RowSelect(
                       loading.main,
                       true,
                       isDark,
                       customColors,
-                      masterState.get('region'),
-                      form.region,
-                      Commons.SCHEMA_DROPDOWN.REGION.label,
-                      Commons.SCHEMA_DROPDOWN.REGION.value,
+                      masterState.get('department'),
+                      form.department,
+                      Commons.SCHEMA_DROPDOWN.DEPARTMENT.label,
+                      Commons.SCHEMA_DROPDOWN.DEPARTMENT.value,
                       null,
                     )}
                   </View>
-                </View>
 
-                {/** Name */}
-                <View style={cStyles.pt16}>
-                  <CLabel medium label={'add_approved_assets:name'} />
-                  <CInput
-                    name={INPUT_NAME.NAME}
-                    styleFocus={styles.input_focus}
-                    disabled={true}
-                    holder={'add_approved_assets:name'}
-                    value={form.name}
-                    valueColor={customColors.text}
-                    keyboard={'default'}
-                    returnKey={'next'}
-                  />
-                </View>
-
-                {/** Department */}
-                <View style={cStyles.pt16}>
-                  <CLabel medium label={'add_approved_assets:department'} />
-                  {RowSelect(
-                    loading.main,
-                    true,
-                    isDark,
-                    customColors,
-                    masterState.get('department'),
-                    form.department,
-                    Commons.SCHEMA_DROPDOWN.DEPARTMENT.label,
-                    Commons.SCHEMA_DROPDOWN.DEPARTMENT.value,
-                    null,
-                  )}
-                </View>
-
-                {/** Where use */}
-                <View style={cStyles.pt16}>
-                  <CLabel medium label={'add_approved_assets:where_use'} />
-                  {RowSelect(
-                    loading.main,
-                    loading.main || loading.submitAdd || isDetail,
-                    isDark,
-                    customColors,
-                    masterState.get('department'),
-                    form.whereUse,
-                    Commons.SCHEMA_DROPDOWN.DEPARTMENT.label,
-                    Commons.SCHEMA_DROPDOWN.DEPARTMENT.value,
-                    () => actionSheetDepartmentRef.current?.show(),
-                  )}
-                </View>
-
-                {/** Reason */}
-                <View style={cStyles.pt16}>
-                  <View
-                    style={[
-                      cStyles.row,
-                      cStyles.itemsCenter,
-                      cStyles.justifyBetween,
-                    ]}>
-                    <CLabel medium label={'add_approved_assets:reason'} />
-                    <CText styles={'textDate'} label={'common:optional'} />
+                  {/** Where use */}
+                  <View style={cStyles.pt16}>
+                    <CLabel medium label={'add_approved_assets:where_use'} />
+                    {RowSelect(
+                      loading.main,
+                      loading.main || loading.submitAdd || isDetail,
+                      isDark,
+                      customColors,
+                      masterState.get('department'),
+                      form.whereUse,
+                      Commons.SCHEMA_DROPDOWN.DEPARTMENT.label,
+                      Commons.SCHEMA_DROPDOWN.DEPARTMENT.value,
+                      () => actionSheetDepartmentRef.current?.show(),
+                    )}
                   </View>
+
+                  {/** Reason */}
+                  <View style={cStyles.pt16}>
+                    <View
+                      style={[
+                        cStyles.row,
+                        cStyles.itemsCenter,
+                        cStyles.justifyBetween,
+                      ]}>
+                      <CLabel medium label={'add_approved_assets:reason'} />
+                      <CText styles={'textDate'} label={'common:optional'} />
+                    </View>
+                    <CInput
+                      name={INPUT_NAME.REASON}
+                      styleFocus={styles.input_focus}
+                      disabled={loading.main || loading.submitAdd || isDetail}
+                      holder={'add_approved_assets:holder_reason'}
+                      value={form.reason}
+                      keyboard={'default'}
+                      returnKey={'next'}
+                      onChangeInput={() => handleChangeInput(supplierRef)}
+                      onChangeValue={handleChangeText}
+                    />
+                  </View>
+                </>
+              }
+            />
+
+            {/** Assets */}
+            <CGroupInfo
+              contentStyle={cStyles.p0}
+              label={'add_approved_assets:info_assets'}
+              content={
+                <AssetsTable
+                  loading={
+                    loading.main ||
+                    loading.submitAdd ||
+                    loading.submitApproved ||
+                    loading.submitReject
+                  }
+                  checking={loading.submitAdd}
+                  isDetail={isDetail}
+                  assets={form.assets}
+                  onCallbackValidate={onCallbackValidate}
+                />
+              }
+            />
+
+            {/** Other info */}
+            <CGroupInfo
+              label={'add_approved_assets:info_assets'}
+              content={
+                <>
+                  {/** Supplier */}
+                  <View style={cStyles.pt16}>
+                    <View
+                      style={[
+                        cStyles.row,
+                        cStyles.itemsCenter,
+                        cStyles.justifyBetween,
+                      ]}>
+                      <CLabel medium label={'add_approved_assets:supplier'} />
+                      <CText styles={'textDate'} label={'common:optional'} />
+                    </View>
+                    <CInput
+                      name={INPUT_NAME.SUPPLIER}
+                      styleFocus={styles.input_focus}
+                      inputRef={ref => (supplierRef = ref)}
+                      disabled={loading.main || loading.submitAdd || isDetail}
+                      holder={'add_approved_assets:holder_supplier'}
+                      value={form.supplier}
+                      keyboard={'default'}
+                      returnKey={'done'}
+                      onChangeInput={onSendRequest}
+                      onChangeValue={handleChangeText}
+                    />
+                  </View>
+
+                  {/** Type assets */}
+                  <View style={cStyles.pt16}>
+                    <CLabel medium label={'add_approved_assets:type_assets'} />
+                    <CheckOption
+                      loading={loading.main || loading.submitAdd}
+                      isDetail={isDetail}
+                      customColors={customColors}
+                      value={form.typeAssets}
+                      values={dataTypeAssets}
+                      onCallback={onCallbackTypeAsset}
+                    />
+                  </View>
+
+                  {/** In Planning */}
+                  <View style={cStyles.py16}>
+                    <CLabel medium label={'add_approved_assets:in_planning'} />
+                    <CheckOption
+                      loading={loading.main || loading.submitAdd}
+                      isDetail={isDetail}
+                      customColors={customColors}
+                      value={form.inPlanning}
+                      values={dataInPlanning}
+                      onCallback={onCallbackInplanning}
+                    />
+                  </View>
+                </>
+              }
+            />
+
+            {isDetail && (
+              <CActionSheet actionRef={actionSheetProcessRef}>
+                <RequestProcess
+                  data={process}
+                  customColors={customColors}
+                  isDark={isDark}
+                />
+              </CActionSheet>
+            )}
+
+            {!isDetail && (
+              <CActionSheet
+                actionRef={actionSheetDepartmentRef}
+                headerChoose
+                onConfirm={handleChangeWhereUse}>
+                <View style={cStyles.px16}>
                   <CInput
-                    name={INPUT_NAME.REASON}
+                    containerStyle={cStyles.mb10}
                     styleFocus={styles.input_focus}
                     disabled={loading.main || loading.submitAdd || isDetail}
-                    holder={'add_approved_assets:holder_reason'}
-                    value={form.reason}
-                    keyboard={'default'}
-                    returnKey={'next'}
-                    onChangeInput={() => handleChangeInput(supplierRef)}
-                    onChangeValue={handleChangeText}
-                  />
-                </View>
-              </>
-            }
-          />
-
-          {/** Assets */}
-          <CGroupInfo
-            contentStyle={cStyles.p0}
-            label={'add_approved_assets:info_assets'}
-            content={
-              <AssetsTable
-                loading={
-                  loading.main ||
-                  loading.submitAdd ||
-                  loading.submitApproved ||
-                  loading.submitReject
-                }
-                checking={loading.submitAdd}
-                isDetail={isDetail}
-                assets={form.assets}
-                onCallbackValidate={onCallbackValidate}
-              />
-            }
-          />
-
-          {/** Other info */}
-          <CGroupInfo
-            label={'add_approved_assets:info_assets'}
-            content={
-              <>
-                {/** Supplier */}
-                <View style={cStyles.pt16}>
-                  <View
-                    style={[
-                      cStyles.row,
-                      cStyles.itemsCenter,
-                      cStyles.justifyBetween,
-                    ]}>
-                    <CLabel medium label={'add_approved_assets:supplier'} />
-                    <CText styles={'textDate'} label={'common:optional'} />
-                  </View>
-                  <CInput
-                    name={INPUT_NAME.SUPPLIER}
-                    styleFocus={styles.input_focus}
-                    inputRef={ref => (supplierRef = ref)}
-                    disabled={loading.main || loading.submitAdd || isDetail}
-                    holder={'add_approved_assets:holder_supplier'}
-                    value={form.supplier}
+                    holder={'add_approved_assets:holder_where_use'}
+                    value={findWhereUse}
                     keyboard={'default'}
                     returnKey={'done'}
-                    onChangeInput={onSendRequest}
-                    onChangeValue={handleChangeText}
+                    onChangeValue={onSearchFilter}
                   />
+                  <Picker
+                    style={styles.con_action}
+                    itemStyle={{color: customColors.text, fontSize: fS(20)}}
+                    selectedValue={whereUse}
+                    onValueChange={onChangeWhereUse}>
+                    {dataWhereUse.length > 0 ? (
+                      dataWhereUse.map((value, i) => (
+                        <Picker.Item
+                          label={
+                            value[Commons.SCHEMA_DROPDOWN.DEPARTMENT.label]
+                          }
+                          value={i}
+                          key={value}
+                        />
+                      ))
+                    ) : (
+                      <View style={[cStyles.center, styles.content_picker]}>
+                        <CText
+                          styles={'textMeta'}
+                          label={'add_approved_assets:holder_empty_department'}
+                        />
+                      </View>
+                    )}
+                  </Picker>
                 </View>
+              </CActionSheet>
+            )}
 
-                {/** Type assets */}
-                <View style={cStyles.pt16}>
-                  <CLabel medium label={'add_approved_assets:type_assets'} />
-                  <CheckOption
-                    loading={loading.main || loading.submitAdd}
-                    isDetail={isDetail}
-                    customColors={customColors}
-                    value={form.typeAssets}
-                    values={dataTypeAssets}
-                    onCallback={onCallbackTypeAsset}
-                  />
-                </View>
-
-                {/** In Planning */}
-                <View style={cStyles.py16}>
-                  <CLabel medium label={'add_approved_assets:in_planning'} />
-                  <CheckOption
-                    loading={loading.main || loading.submitAdd}
-                    isDetail={isDetail}
-                    customColors={customColors}
-                    value={form.inPlanning}
-                    values={dataInPlanning}
-                    onCallback={onCallbackInplanning}
-                  />
-                </View>
-              </>
-            }
-          />
-
-          {isDetail && (
-            <CActionSheet actionRef={actionSheetProcessRef}>
-              <RequestProcess
-                data={process}
-                customColors={customColors}
-                isDark={isDark}
+            {/** MODAL */}
+            {isShowApprovedReject && (
+              <RejectModal
+                loading={loading.submitReject}
+                showReject={showReject}
+                description={'add_approved_assets:message_confirm_reject'}
+                onReject={onReject}
+                onCloseReject={onCloseReject}
               />
-            </CActionSheet>
-          )}
+            )}
 
-          {!isDetail && (
-            <CActionSheet
-              actionRef={actionSheetDepartmentRef}
-              headerChoose
-              onConfirm={handleChangeWhereUse}>
-              <View style={cStyles.px16}>
-                <CInput
-                  containerStyle={cStyles.mb10}
-                  styleFocus={styles.input_focus}
-                  disabled={loading.main || loading.submitAdd || isDetail}
-                  holder={'add_approved_assets:holder_where_use'}
-                  value={findWhereUse}
-                  keyboard={'default'}
-                  returnKey={'done'}
-                  onChangeValue={onSearchFilter}
-                />
-                <Picker
-                  style={styles.con_action}
-                  itemStyle={{color: customColors.text, fontSize: fS(20)}}
-                  selectedValue={whereUse}
-                  onValueChange={onChangeWhereUse}>
-                  {dataWhereUse.length > 0 ? (
-                    dataWhereUse.map((value, i) => (
-                      <Picker.Item
-                        label={value[Commons.SCHEMA_DROPDOWN.DEPARTMENT.label]}
-                        value={i}
-                        key={value}
-                      />
-                    ))
-                  ) : (
-                    <View style={[cStyles.center, styles.content_picker]}>
-                      <CText
-                        styles={'textMeta'}
-                        label={'add_approved_assets:holder_empty_department'}
-                      />
-                    </View>
-                  )}
-                </Picker>
-              </View>
-            </CActionSheet>
-          )}
-
-          {/** MODAL */}
-          {isShowApprovedReject && (
-            <RejectModal
-              loading={loading.submitReject}
-              showReject={showReject}
-              description={'add_approved_assets:message_confirm_reject'}
-              onReject={onReject}
-              onCloseReject={onCloseReject}
-            />
-          )}
-
-          {isShowApprovedReject && (
-            <CAlert
-              loading={loading.submitApproved}
-              show={showConfirm}
-              content={'add_approved_assets:message_confirm_approved'}
-              onClose={handleApproved}
-              onOK={onApproved}
-            />
-          )}
-        </CContent>
+            {isShowApprovedReject && (
+              <CAlert
+                loading={loading.submitApproved}
+                show={showConfirm}
+                content={'add_approved_assets:message_confirm_approved'}
+                onClose={handleApproved}
+                onOK={onApproved}
+              />
+            )}
+          </CContent>
+        </View>
       }
       footer={
         !isDetail ? (
-          <View style={[cStyles.px16, cStyles.pb8]}>
+          <View style={[cStyles.px16, cStyles.pb5]}>
             <CButton
               block
               disabled={loading.main || loading.submitAdd}
@@ -903,7 +973,7 @@ const styles = StyleSheet.create({
   button_reject: {width: cStyles.deviceWidth / 2.5},
   con_left: {flex: 0.4},
   con_right: {flex: 0.6},
-  con_action: {width: '100%', height: sH('30%')},
+  con_action: {width: '100%', height: isIphoneX() ? sH('30%') : sH('35%')},
   icon_loading: {width: 50, height: 50},
   content_picker: {height: '40%'},
 });

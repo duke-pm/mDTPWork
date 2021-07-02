@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 /**
  ** Name: Project Item
  ** Author: DTP-Education
@@ -63,7 +64,7 @@ function ProjectItem(props) {
    ** RENDER **
    **************/
   return (
-    <View style={cStyles.mt16}>
+    <View style={cStyles.mb16}>
       <CCard
         key={index}
         index={index}

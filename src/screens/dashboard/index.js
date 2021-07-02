@@ -81,21 +81,21 @@ function Dashboard(props) {
   return (
     <CContainer
       loading={loading}
-      centerStyle={cStyles.center}
-      header
-      title={'dashboard:title'}
-      headerRight={
-        Configs.salesVisit ? (
-          <TouchableOpacity style={cStyles.itemsEnd} onPress={handleNewFeature}>
-            <Icon
-              style={cStyles.p16}
-              name={'star'}
-              color={'white'}
-              size={fS(20)}
-            />
-          </TouchableOpacity>
-        ) : null
-      }
+      // centerStyle={cStyles.center}
+      // header
+      // title={'dashboard:title'}
+      // headerRight={
+      //   Configs.salesVisit ? (
+      //     <TouchableOpacity style={cStyles.itemsEnd} onPress={handleNewFeature}>
+      //       <Icon
+      //         style={cStyles.p16}
+      //         name={'star'}
+      //         color={'white'}
+      //         size={fS(20)}
+      //       />
+      //     </TouchableOpacity>
+      //   ) : null
+      // }
       content={
         <CContent>
           {!loading && (

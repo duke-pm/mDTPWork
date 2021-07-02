@@ -36,7 +36,9 @@
     "holder_warning_option_prepare": "Tính năng này đang phát triển, vui lòng quay lại sau!",
     "optional": "(Nếu có)",
     "need_confirm": "Yêu cầu cần Xác nhận",
-    "update_app": "Cập nhật ngay!"
+    "update_app": "Cập nhật ngay!",
+    "back": "Trở về",
+    "holder_search": "Tìm kiếm..."
   },
   "status": {
     "title": "Trạng thái",
@@ -119,7 +121,7 @@
     "button_go_back": "Quay lại Đăng nhập"
   },
   "dashboard": {
-    "title": "Tổng Quan"
+    "title": "Trang chủ"
   },
   "account": {
     "title": "Tài Khoản",

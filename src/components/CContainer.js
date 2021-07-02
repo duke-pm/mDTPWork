@@ -11,10 +11,11 @@ import React, {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
-import {StyleSheet, View, Platform, StatusBar} from 'react-native';
+import {StyleSheet, View, Platform, StatusBar, ScrollView, UIManager, LayoutAnimation} from 'react-native';
 import Modal from 'react-native-modal';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {BlurView} from '@react-native-community/blur';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 /** COMMON */
 import CHeader from './CHeader';
 import CFooter from './CFooter';
@@ -29,7 +30,7 @@ function CContainer(props) {
   const isDark = useColorScheme() === THEME_DARK;
   const {
     safeArea = {
-      top: true,
+      top: false,
       bottom: false,
     },
     style = {},
@@ -72,71 +73,26 @@ function CContainer(props) {
     <SafeAreaView
       style={[cStyles.flex1, {backgroundColor: customColors.header}]}
       edges={tmpSafeArea}>
-      <StatusBar backgroundColor={customColors.header} />
-      {isDark && IS_IOS && (
-        <BlurView
-          style={[cStyles.abs, cStyles.inset0]}
-          blurType={'extraDark'}
-          reducedTransparencyFallbackColor={colors.BLACK}
-        />
-      )}
-      <View style={[cStyles.flex1, styles.container, style]}>
-        {header && (
-          <CHeader
-            style={headerStyle}
-            centerStyle={centerStyle}
-            hasBack={hasBack}
-            hasSearch={hasSearch}
-            hasAddNew={hasAddNew}
-            iconBack={iconBack}
-            title={title}
-            customTitle={customTitle}
-            subTitle={subTitle}
-            customSubTitle={customSubTitle}
-            left={headerLeft}
-            right={headerRight}
-            onRefresh={onRefresh}
-            onPressAddNew={onPressAddNew}
-            onPressSearch={onPressSearch}
-          />
-        )}
-        {content && (
-          <View
-            style={[cStyles.flex1, {backgroundColor: customColors.background}]}>
-            {content}
-            <Modal
-              style={cStyles.m0}
-              isVisible={isSearch}
-              coverScreen={false}
-              useNativeDriver={true}
-              useNativeDriverForBackdrop={true}
-              hideModalContentWhileAnimating={true}
-              backdropColor={'black'}
-              backdropOpacity={0.4}
-              deviceHeight={cStyles.deviceHeight}
-              deviceWidth={cStyles.deviceWidth}
-              animationIn={'fadeIn'}
-              animationOut={'fadeOut'}
-              renderToHardwareTextureAndroid
-            />
-          </View>
-        )}
-        {footer && <CFooter content={footer} />}
-      </View>
-
+      {content}
+      {footer && <CFooter content={footer} />}
+      <Modal
+        style={cStyles.m0}
+        isVisible={isSearch}
+        coverScreen={false}
+        useNativeDriver={true}
+        useNativeDriverForBackdrop={true}
+        hideModalContentWhileAnimating={true}
+        backdropColor={'black'}
+        backdropOpacity={0.4}
+        deviceHeight={cStyles.deviceHeight}
+        deviceWidth={cStyles.deviceWidth}
+        animationIn={'fadeIn'}
+        animationOut={'fadeOut'}
+        renderToHardwareTextureAndroid
+      />
       <CLoading customColors={customColors} visible={props.loading} />
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    height:
-      Platform.OS === cStyles.platform
-        ? cStyles.deviceHeight
-        : cStyles.deviceHeight - 20,
-    backgroundColor: colors.WHITE,
-  },
-});
 
 export default CContainer;

@@ -44,7 +44,7 @@ function TabbarType(props) {
           cStyles.mt16,
           cStyles.rounded1,
           styles.tab_bar,
-          {backgroundColor: customColors.tab},
+          {backgroundColor: customColors.cardDisable},
         ]}>
         <Animated.View
           style={[

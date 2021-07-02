@@ -15,19 +15,17 @@ import {
   UIManager,
   LayoutAnimation,
 } from 'react-native';
-import Lottie from 'lottie-react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/Feather';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
-import CContent from '~/components/CContent';
 import CInput from '~/components/CInput';
 import CText from '~/components/CText';
 import CButton from '~/components/CButton';
+import CAvoidKeyboard from '~/components/CAvoidKeyboard';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
-import {fS, IS_ANDROID, sW, validatEemail} from '~/utils/helper';
-import {Animations} from '~/utils/asset';
+import {fS, IS_ANDROID, validatEemail} from '~/utils/helper';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -134,80 +132,64 @@ function ForgotPassword(props) {
             style={cStyles.flex1}
             colors={colors.BACKGROUND_GRADIENT}>
             {!form.success && !form.error && (
-              <CContent
-                style={[
-                  styles.container,
-                  cStyles.flexCenter,
-                  cStyles.px48,
-                  cStyles.pt32,
-                ]}>
-                <View
-                  style={[
-                    cStyles.itemsCenter,
-                    cStyles.justifyCenter,
-                    styles.con_icon_app,
-                  ]}>
-                  <CText
-                    styles={'textCenter colorWhite'}
-                    label={'forgot_password:sub_title'}
-                  />
+              <CAvoidKeyboard>
+                <View style={[cStyles.flex1, cStyles.px48, cStyles.pt32]}>
+                  <View
+                    style={[
+                      cStyles.itemsCenter,
+                      cStyles.justifyCenter,
+                      styles.con_icon_app,
+                    ]}>
+                    <CText
+                      styles={'textCenter colorWhite'}
+                      label={'forgot_password:sub_title'}
+                    />
+                  </View>
+
+                  <View style={[styles.con_input, cStyles.fullWidth]}>
+                    <CInput
+                      id={INPUT_NAME.EMAIL}
+                      style={styles.input}
+                      selectionColor={colors.WHITE}
+                      holderColor={colors.GRAY_500}
+                      inputRef={emailRef}
+                      disabled={loading}
+                      icon={'mail'}
+                      iconColor={colors.GRAY_500}
+                      holder={'forgot_password:input_email'}
+                      returnKey={'send'}
+                      error={error.email}
+                      errorHelper={error.emailHelper}
+                      onChangeValue={handleChangeText}
+                      onChangeInput={handleSend}
+                    />
+
+                    <CButton
+                      style={cStyles.mt16}
+                      block
+                      disabled={loading}
+                      icon={'send'}
+                      label={'common:send'}
+                      onPress={handleSend}
+                    />
+
+                    <CButton
+                      style={cStyles.mt16}
+                      textStyle={[cStyles.textSubTitle, cStyles.textUnderline]}
+                      block
+                      variant={'text'}
+                      label={'forgot_password:button_go_back'}
+                      onPress={handleGoBack}
+                    />
+                  </View>
                 </View>
-
-                <View style={[styles.con_input, cStyles.fullWidth]}>
-                  <CInput
-                    id={INPUT_NAME.EMAIL}
-                    style={styles.input}
-                    selectionColor={colors.WHITE}
-                    holderColor={colors.GRAY_500}
-                    inputRef={emailRef}
-                    disabled={loading}
-                    icon={'mail'}
-                    iconColor={colors.GRAY_500}
-                    holder={'forgot_password:input_email'}
-                    returnKey={'send'}
-                    error={error.email}
-                    errorHelper={error.emailHelper}
-                    onChangeValue={handleChangeText}
-                    onChangeInput={handleSend}
-                  />
-
-                  <CButton
-                    style={cStyles.mt16}
-                    block
-                    disabled={loading}
-                    icon={'send'}
-                    label={'common:send'}
-                    onPress={handleSend}
-                  />
-
-                  <CButton
-                    style={cStyles.mt16}
-                    textStyle={cStyles.textUnderline}
-                    block
-                    variant={'text'}
-                    label={'forgot_password:button_go_back'}
-                    onPress={handleGoBack}
-                  />
-                </View>
-              </CContent>
+              </CAvoidKeyboard>
             )}
 
             {form.success && !form.error && (
-              <CContent
-                style={[
-                  styles.container,
-                  cStyles.itemsCenter,
-                  cStyles.px48,
-                  cStyles.pt40,
-                ]}>
+              <View style={[cStyles.flex1, cStyles.px48, cStyles.pt32]}>
                 <View style={[cStyles.center, cStyles.py20]}>
                   <Icon name={'mail'} color={colors.GRAY_500} size={fS(80)} />
-                  <Lottie
-                    style={[cStyles.abs, styles.icon]}
-                    source={Animations.approved}
-                    autoPlay
-                    loop={false}
-                  />
                 </View>
 
                 <View style={cStyles.py16}>
@@ -240,31 +222,19 @@ function ForgotPassword(props) {
 
                 <View style={cStyles.mt16}>
                   <CButton
-                    textStyle={cStyles.textUnderline}
+                    textStyle={[cStyles.textSubTitle, cStyles.textUnderline]}
                     variant={'text'}
                     label={'forgot_password:button_go_back'}
                     onPress={handleGoBack}
                   />
                 </View>
-              </CContent>
+              </View>
             )}
 
             {!form.success && form.error && (
-              <CContent
-                style={[
-                  styles.container,
-                  cStyles.itemsCenter,
-                  cStyles.px48,
-                  cStyles.pt40,
-                ]}>
+              <View style={[cStyles.flex1, cStyles.px48, cStyles.pt32]}>
                 <View style={[cStyles.center, cStyles.py20]}>
                   <Icon name={'mail'} color={colors.GRAY_500} size={fS(80)} />
-                  <Lottie
-                    style={[cStyles.abs, styles.icon_error]}
-                    source={Animations.rejected}
-                    autoPlay
-                    loop={false}
-                  />
                 </View>
 
                 <View style={cStyles.py16}>
@@ -290,14 +260,14 @@ function ForgotPassword(props) {
 
                 <View style={cStyles.mt16}>
                   <CButton
-                    textStyle={cStyles.textUnderline}
+                    textStyle={[cStyles.textSubTitle, cStyles.textUnderline]}
                     block
                     variant={'text'}
                     label={'forgot_password:button_go_back'}
                     onPress={handleGoBack}
                   />
                 </View>
-              </CContent>
+              </View>
             )}
           </LinearGradient>
         </TouchableWithoutFeedback>

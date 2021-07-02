@@ -9,21 +9,40 @@ import {fromJS} from 'immutable';
 import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
+import {useColorScheme} from 'react-native-appearance';
 import {useTheme} from '@react-navigation/native';
+import {
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  LayoutAnimation,
+  UIManager,
+} from 'react-native';
 import {showMessage} from 'react-native-flash-message';
+import Icon from 'react-native-vector-icons/Feather';
 import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
+import CSearchBar from '~/components/CSearchBar';
 import Filter from '../components/Filter';
 import ListRequest from './list/Request';
 /* COMMON */
-import {LOAD_MORE, REFRESH} from '~/config/constants';
+import {LOAD_MORE, REFRESH, THEME_DARK} from '~/config/constants';
+import {fS, IS_ANDROID} from '~/utils/helper';
+import {colors, cStyles} from '~/utils/style';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 
+if (IS_ANDROID) {
+  if (UIManager.setLayoutAnimationEnabledExperimental) {
+    UIManager.setLayoutAnimationEnabledExperimental(true);
+  }
+}
+
 function ListRequestHandling(props) {
   const {t} = useTranslation();
+  const isDark = useColorScheme() === THEME_DARK;
   const {customColors} = useTheme();
   const {route, navigation} = props;
   const isPermissionWrite = route.params?.permission?.write || false;
@@ -47,6 +66,7 @@ function ListRequestHandling(props) {
     loadmore: false,
     isLoadmore: true,
   });
+  const [showSearchBar, setShowSearch] = useState(false);
   const [data, setData] = useState({
     fromDate: moment().clone().startOf('month').format(formatDate),
     toDate: moment().clone().endOf('month').format(formatDate),
@@ -59,20 +79,42 @@ function ListRequestHandling(props) {
     page: 1,
   });
 
+  navigation.setOptions({
+    headerRight: () => (
+      <TouchableOpacity onPress={handleOpenSearch}>
+        <View>
+          <Icon
+            name={'search'}
+            color={
+              isDark ? colors.WHITE : IS_ANDROID ? colors.WHITE : colors.BLACK
+            }
+            size={fS(20)}
+          />
+          {data.search !== '' && (
+            <View
+              style={[
+                cStyles.abs,
+                cStyles.inset0,
+                cStyles.rounded2,
+                styles.badge,
+                cStyles.borderAll,
+                isDark && cStyles.borderAllDark,
+                {backgroundColor: customColors.red},
+              ]}
+            />
+          )}
+        </View>
+      </TouchableOpacity>
+    ),
+  });
+
   /*****************
    ** HANDLE FUNC **
    *****************/
   const handleSearch = value => {
+    setData({...data, search: value, page: 1});
+    onFetchData(data.fromDate, data.toDate, data.status, 1, value, data.type);
     setLoading({...loading, search: true});
-    setData({...data, search: value});
-    onFetchData(
-      data.fromDate,
-      data.toDate,
-      data.status,
-      data.page,
-      value,
-      data.type,
-    );
   };
 
   const handleFilter = (fromDate, toDate, status, type) => {
@@ -86,6 +128,16 @@ function ListRequestHandling(props) {
       toDate,
     });
     onFetchData(fromDate, toDate, status, 1, data.search, type);
+  };
+
+  const handleOpenSearch = () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    setShowSearch(true);
+  };
+
+  const handleCloseSearch = () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    setShowSearch(false);
   };
 
   /************
@@ -249,20 +301,27 @@ function ListRequestHandling(props) {
     approvedState.get('errorListRequest'),
   ]);
 
+  useEffect(() => {
+    navigation.setOptions({
+      headerShown: !showSearchBar,
+    });
+  }, [navigation, showSearchBar]);
+
   /**************
    ** RENDER **
    **************/
   return (
     <CContainer
       loading={loading.main || loading.search}
-      title={'list_request_assets_handling:title'}
-      header
-      hasBack
-      hasSearch
-      onPressSearch={handleSearch}
       content={
         <CContent>
-          <Filter isResolve onFilter={handleFilter} />
+          {!showSearchBar && <Filter isResolve onFilter={handleFilter} />}
+
+          <CSearchBar
+            isVisible={showSearchBar}
+            onSearch={handleSearch}
+            onClose={handleCloseSearch}
+          />
 
           {!loading.main && (
             <ListRequest
@@ -282,5 +341,9 @@ function ListRequestHandling(props) {
     />
   );
 }
+
+const styles = StyleSheet.create({
+  badge: {height: 10, width: 10, top: 16, right: 15},
+});
 
 export default ListRequestHandling;

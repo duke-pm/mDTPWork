@@ -81,9 +81,6 @@ function Approved(props) {
   return (
     <CContainer
       loading={loading}
-      title={'approved:assets'}
-      header
-      hasBack
       content={
         <CContent>
           {!loading && (

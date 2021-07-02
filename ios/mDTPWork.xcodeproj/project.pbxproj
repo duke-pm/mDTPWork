@@ -12,7 +12,6 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		680DD1679D918DB822FD63AA /* libPods-mDTPWork-mDTPWorkTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BC34EBB6880876CE05ED2569 /* libPods-mDTPWork-mDTPWorkTests.a */; };
 		6AD12FEE70B4423C874E9314 /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 60D6519F7C8443D8A8938A1B /* Montserrat-Regular.ttf */; };
 		6DAE6E85EC364A81A433BD03 /* Montserrat-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7562D1AAB154A19AAE07523 /* Montserrat-Medium.ttf */; };
 		768F4569749D478F80C583D6 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A3AB38FBA7CF447184C66779 /* Roboto-Regular.ttf */; };
@@ -49,8 +48,6 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = mDTPWork/main.m; sourceTree = "<group>"; };
 		158D0D04B34D48FB893C8ACF /* Montserrat-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Light.ttf"; path = "../assets/fonts/Montserrat-Light.ttf"; sourceTree = "<group>"; };
 		197D19FA9C34934B35B230F7 /* Pods-mDTPWork.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mDTPWork.debug.xcconfig"; path = "Target Support Files/Pods-mDTPWork/Pods-mDTPWork.debug.xcconfig"; sourceTree = "<group>"; };
-		3CED7972540AC30A995C1958 /* Pods-mDTPWork-mDTPWorkTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mDTPWork-mDTPWorkTests.debug.xcconfig"; path = "Target Support Files/Pods-mDTPWork-mDTPWorkTests/Pods-mDTPWork-mDTPWorkTests.debug.xcconfig"; sourceTree = "<group>"; };
-		4789258A84BA3B0C0799B3CA /* Pods-mDTPWork-mDTPWorkTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mDTPWork-mDTPWorkTests.release.xcconfig"; path = "Target Support Files/Pods-mDTPWork-mDTPWorkTests/Pods-mDTPWork-mDTPWorkTests.release.xcconfig"; sourceTree = "<group>"; };
 		547E54D1841548B28CDBBB4D /* Roboto-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Bold.ttf"; path = "../assets/fonts/Roboto-Bold.ttf"; sourceTree = "<group>"; };
 		60D6519F7C8443D8A8938A1B /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Regular.ttf"; path = "../assets/fonts/Montserrat-Regular.ttf"; sourceTree = "<group>"; };
 		69BC8FED07054EA88413A3AA /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
@@ -63,7 +60,6 @@
 		9DA4DD2463AC4D4EAB4039EC /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		A3AB38FBA7CF447184C66779 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Regular.ttf"; path = "../assets/fonts/Roboto-Regular.ttf"; sourceTree = "<group>"; };
 		B70DE0C9D9B4492E96D7C32A /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
-		BC34EBB6880876CE05ED2569 /* libPods-mDTPWork-mDTPWorkTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-mDTPWork-mDTPWorkTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2B0101BEFA74CFE94B0C120 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Medium.ttf"; path = "../assets/fonts/Roboto-Medium.ttf"; sourceTree = "<group>"; };
 		D0C1A42B0A5319FF324C0B49 /* Pods-mDTPWork.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mDTPWork.release.xcconfig"; path = "Target Support Files/Pods-mDTPWork/Pods-mDTPWork.release.xcconfig"; sourceTree = "<group>"; };
 		D3B1624D265DFC7E0034559A /* mDTPWork-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "mDTPWork-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -86,7 +82,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				680DD1679D918DB822FD63AA /* libPods-mDTPWork-mDTPWorkTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -136,7 +131,6 @@
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				8C6B794865F71EB2CE1FD9C7 /* libPods-mDTPWork.a */,
-				BC34EBB6880876CE05ED2569 /* libPods-mDTPWork-mDTPWorkTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -146,8 +140,6 @@
 			children = (
 				197D19FA9C34934B35B230F7 /* Pods-mDTPWork.debug.xcconfig */,
 				D0C1A42B0A5319FF324C0B49 /* Pods-mDTPWork.release.xcconfig */,
-				3CED7972540AC30A995C1958 /* Pods-mDTPWork-mDTPWorkTests.debug.xcconfig */,
-				4789258A84BA3B0C0799B3CA /* Pods-mDTPWork-mDTPWorkTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -224,11 +216,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "mDTPWorkTests" */;
 			buildPhases = (
-				90B9880DB9A5C888C7C13814 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				963A7A32289F4836E002BCD5 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -251,6 +241,7 @@
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				71FC82C7C71B78346FFB0392 /* [CP] Copy Pods Resources */,
+				BDA0C635A1B8D38FB1A15B9C /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -356,45 +347,6 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-mDTPWork/Pods-mDTPWork-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		90B9880DB9A5C888C7C13814 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-mDTPWork-mDTPWorkTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		963A7A32289F4836E002BCD5 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-mDTPWork-mDTPWorkTests/Pods-mDTPWork-mDTPWorkTests-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-mDTPWork-mDTPWorkTests/Pods-mDTPWork-mDTPWorkTests-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-mDTPWork-mDTPWorkTests/Pods-mDTPWork-mDTPWorkTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		B152242FB92D290D47244943 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -415,6 +367,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BDA0C635A1B8D38FB1A15B9C /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-mDTPWork/Pods-mDTPWork-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-mDTPWork/Pods-mDTPWork-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-mDTPWork/Pods-mDTPWork-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -470,7 +439,6 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3CED7972540AC30A995C1958 /* Pods-mDTPWork-mDTPWorkTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -498,7 +466,6 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4789258A84BA3B0C0799B3CA /* Pods-mDTPWork-mDTPWorkTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -581,8 +548,6 @@
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/Yoga\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/glog\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/libwebp\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/lottie-ios\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/lottie-react-native\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/react-native-appearance\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/react-native-blur\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/react-native-encrypted-storage\"",
@@ -667,8 +632,6 @@
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/Yoga\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/glog\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/libwebp\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/lottie-ios\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/lottie-react-native\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/react-native-appearance\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/react-native-blur\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/react-native-encrypted-storage\"",

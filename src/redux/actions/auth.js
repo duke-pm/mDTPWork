@@ -15,10 +15,13 @@ import {LOGIN} from '~/config/constants';
 import * as types from './types';
 import * as Actions from '~/redux/actions';
 
+/** For logout */
 export const logout = () => ({
   type: types.LOGOUT,
 });
+/*****************************/
 
+/** For login */
 export const loginError = error => ({
   type: types.ERROR_LOGIN,
   payload: error,
@@ -77,7 +80,9 @@ export const fetchLogin = params => {
       });
   };
 };
+/*****************************/
 
+/** For refresh login */
 export const fetchRefreshToken = (params, callback, navigation) => {
   return dispatch => {
     dispatch({
@@ -108,3 +113,50 @@ export const fetchRefreshToken = (params, callback, navigation) => {
       });
   };
 };
+/*****************************/
+
+/** For change password */
+export const changePasswordError = error => ({
+  type: types.ERROR_CHANGE_PASSWORD,
+  payload: error,
+});
+
+export const changePasswordSuccess = () => {
+  return {
+    type: types.SUCCESS_CHANGE_PASSWORD,
+  };
+};
+export const fetchChangePassword = (params, navigation) => {
+  return dispatch => {
+    dispatch({type: types.START_CHANGE_PASSWORD});
+
+    Services.authentication
+      .changePassword(params)
+      .then(res => {
+        if (!res.isError) {
+          return dispatch(changePasswordSuccess());
+        } else {
+          return dispatch(
+            changePasswordError(res.systemErrorMessage || res.errorMessage),
+          );
+        }
+      })
+      .catch(error => {
+        dispatch(changePasswordError(error));
+        if (error.message && error.message.search('Authorization') !== -1) {
+          let tmp = {
+            RefreshToken: params.RefreshToken,
+            Lang: params.Lang,
+          };
+          return dispatch(
+            Actions.fetchRefreshToken(
+              tmp,
+              () => fetchChangePassword(params, navigation),
+              navigation,
+            ),
+          );
+        }
+      });
+  };
+};
+/*****************************/

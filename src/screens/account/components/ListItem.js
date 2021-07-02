@@ -79,7 +79,7 @@ function ListItem(props) {
             cStyles.row,
             cStyles.itemsCenter,
             cStyles.justifyBetween,
-            cStyles.py16,
+            cStyles.py12,
             cStyles.pl16,
           ]}>
           <View style={[cStyles.center, styles.con_left]}>

@@ -4,6 +4,7 @@
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 #import <React/RCTLinkingManager.h>
+#import <RNScreens/UIViewController+RNScreens.h>
 
 #import "RNSplashScreen.h"
 

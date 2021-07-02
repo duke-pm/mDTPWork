@@ -123,6 +123,72 @@ function Task(props) {
     taskDetail: null,
   });
 
+  navigation.setOptions({
+    headerRight: () => (
+      <View style={[cStyles.row, cStyles.itemsCenter]}>
+        <TouchableOpacity onPress={handleFastWatch}>
+          <View style={cStyles.pr32}>
+            <Icon
+              name={isFastWatch ? 'eye' : 'eye-off'}
+              color={
+                isDark ? colors.WHITE : IS_ANDROID ? colors.WHITE : colors.BLACK
+              }
+              size={fS(20)}
+            />
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={handleActivities}>
+          <View style={cStyles.pr32}>
+            <Icon
+              name={'message-circle'}
+              color={
+                isDark ? colors.WHITE : IS_ANDROID ? colors.WHITE : colors.BLACK
+              }
+              size={fS(20)}
+            />
+            {newComment && (
+              <View
+                style={[
+                  cStyles.abs,
+                  cStyles.inset0,
+                  cStyles.rounded2,
+                  styles.badge,
+                  cStyles.borderAll,
+                  isDark && cStyles.borderAllDark,
+                  {backgroundColor: customColors.red},
+                ]}
+              />
+            )}
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={handleWatchers}>
+          <View>
+            <Icon
+              name={'users'}
+              color={
+                isDark ? colors.WHITE : IS_ANDROID ? colors.WHITE : colors.BLACK
+              }
+              size={fS(20)}
+            />
+            {!isFastWatch && (
+              <View
+                style={[
+                  cStyles.abs,
+                  cStyles.inset0,
+                  cStyles.rounded2,
+                  styles.badge,
+                  cStyles.borderAll,
+                  isDark && cStyles.borderAllDark,
+                  {backgroundColor: customColors.red},
+                ]}
+              />
+            )}
+          </View>
+        </TouchableOpacity>
+      </View>
+    ),
+  });
+
   /*****************
    ** HANDLE FUNC **
    *****************/
@@ -359,6 +425,15 @@ function Task(props) {
     setIsFastWatch,
   ]);
 
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('dismiss', e => {
+      if (needRefresh && onRefresh) {
+        onRefresh();
+      }
+    });
+    return unsubscribe;
+  }, [navigation, needRefresh]);
+
   /**************
    ** RENDER **
    **************/
@@ -390,66 +465,6 @@ function Task(props) {
   return (
     <CContainer
       loading={false}
-      title={''}
-      header
-      hasBack
-      onRefresh={needRefresh ? onRefresh : null}
-      headerRight={
-        <View style={[cStyles.row, cStyles.itemsCenter]}>
-          <TouchableOpacity
-            style={cStyles.itemsEnd}
-            disabled={loading.fastWatch}
-            onPress={handleFastWatch}>
-            <Icon
-              style={cStyles.p16}
-              name={isFastWatch ? 'eye' : 'eye-off'}
-              color={colors.WHITE}
-              size={fS(20)}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity style={cStyles.itemsEnd} onPress={handleActivities}>
-            <Icon
-              style={cStyles.p16}
-              name={'message-circle'}
-              color={colors.WHITE}
-              size={fS(20)}
-            />
-            {newComment && (
-              <View
-                style={[
-                  cStyles.rounded2,
-                  cStyles.abs,
-                  styles.badge,
-                  cStyles.borderAll,
-                  isDark && cStyles.borderAllDark,
-                  {backgroundColor: customColors.red},
-                ]}
-              />
-            )}
-          </TouchableOpacity>
-          <TouchableOpacity style={cStyles.itemsEnd} onPress={handleWatchers}>
-            <Icon
-              style={cStyles.p16}
-              name={'users'}
-              color={colors.WHITE}
-              size={fS(20)}
-            />
-            {!isFastWatch && (
-              <View
-                style={[
-                  cStyles.center,
-                  cStyles.rounded2,
-                  cStyles.abs,
-                  styles.badge,
-                  cStyles.borderAll,
-                  isDark && cStyles.borderAllDark,
-                  {backgroundColor: customColors.red},
-                ]}
-              />
-            )}
-          </TouchableOpacity>
-        </View>
-      }
       content={
         <CContent scroll>
           {!loading.main && data.taskDetail && (
