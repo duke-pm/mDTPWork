@@ -32,7 +32,7 @@ function AssetItem(props) {
   if (cellIndex === 4) {
     return (
       <CIconButton
-        iconName={'x-circle'}
+        iconName={'close-circle'}
         iconColor={customColors.red}
         iconProps={{
           size: fS(20),

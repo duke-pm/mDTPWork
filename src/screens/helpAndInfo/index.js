@@ -14,7 +14,7 @@ import ListItem from '../account/components/ListItem';
 const HELP_AND_INFO = [
   {
     id: 'contactUs',
-    icon: 'user',
+    icon: 'people-outline',
     label: 'help_and_info:contact_us',
     value: null,
     nextRoute: 'ContactUs',
@@ -25,7 +25,7 @@ const HELP_AND_INFO = [
   },
   {
     id: 'privacyPolicies',
-    icon: 'file-text',
+    icon: 'shield-checkmark-outline',
     label: 'help_and_info:privacy_policies',
     value: 'https://www.dtp-education.com/gioi-thieu/',
     nextRoute: null,
@@ -36,7 +36,7 @@ const HELP_AND_INFO = [
   },
   {
     id: 'termAndConditions',
-    icon: 'package',
+    icon: 'clipboard-outline',
     label: 'help_and_info:term_conditions',
     value: 'https://www.dtp-education.com/gioi-thieu/tam-nhin-su-menh/',
     nextRoute: null,
@@ -47,7 +47,7 @@ const HELP_AND_INFO = [
   },
   {
     id: 'aboutUs',
-    icon: 'users',
+    icon: 'people-circle-outline',
     label: 'help_and_info:about_us',
     value: 'https://www.dtp-education.com/?v=1',
     nextRoute: null,
@@ -58,7 +58,7 @@ const HELP_AND_INFO = [
   },
   {
     id: 'rateApp',
-    icon: 'smile',
+    icon: 'star-outline',
     label: 'help_and_info:rate_app',
     value: null,
     nextRoute: null,

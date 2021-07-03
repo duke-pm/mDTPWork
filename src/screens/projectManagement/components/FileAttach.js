@@ -16,7 +16,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Feather';
+import Icon from 'react-native-vector-icons/Ionicons';
 import RNFS from 'react-native-fs';
 import FileViewer from 'react-native-file-viewer';
 import * as Progress from 'react-native-progress';
@@ -146,7 +146,7 @@ function FileAttach(props) {
               )}
               {!loading && (
                 <Icon
-                  name={'download'}
+                  name={'cloud-download'}
                   color={customColors.icon}
                   size={fS(14)}
                 />

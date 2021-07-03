@@ -8,13 +8,13 @@ import React from 'react';
 import {useTranslation} from 'react-i18next';
 import {StyleSheet, View, Linking, Image, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/Feather';
+import Icon from 'react-native-vector-icons/Ionicons';
 import Rate, {AndroidMarket} from 'react-native-rate';
 /* COMPONENTS */
 import CText from '~/components/CText';
 /* COMMON */
 import Configs from '~/config';
-import {alert, fS} from '~/utils/helper';
+import {alert, fS, IS_ANDROID} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
 
 function ListItem(props) {
@@ -72,82 +72,70 @@ function ListItem(props) {
   const Component = isTouch ? TouchableOpacity : View;
 
   return (
-    <View key={key} style={cStyles.itemsEnd}>
-      <Component onPress={handleItem}>
+    <Component key={key} onPress={handleItem}>
+      <View
+        style={[
+          cStyles.flex1,
+          cStyles.row,
+          cStyles.itemsCenter,
+          cStyles.justifyBetween,
+          cStyles.py12,
+        ]}>
+        <View style={[cStyles.center, styles.con_left]}>
+          {data.icon && (
+            <Icon name={data.icon} size={fS(23)} color={customColors.text} />
+          )}
+        </View>
+
         <View
           style={[
             cStyles.row,
-            cStyles.itemsCenter,
             cStyles.justifyBetween,
-            cStyles.py12,
-            cStyles.pl16,
+            cStyles.itemsCenter,
+            cStyles.pr16,
+            styles.con_right,
           ]}>
-          <View style={[cStyles.center, styles.con_left]}>
-            {data.icon && (
-              <Icon name={data.icon} size={fS(18)} color={customColors.text} />
+          <CText
+            customStyles={isSignOut ? {color: customColors.red} : {}}
+            label={data.label}
+          />
+
+          <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyEnd]}>
+            {data.value && data.isPhone && <CText label={data.value} />}
+            {data.isChooseLang && (
+              <View
+                style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyEnd]}>
+                <CText
+                  styles={'pr6'}
+                  label={dataActive ? dataActive.label : data.data[0].label}
+                />
+                <Image
+                  style={styles.img_flag}
+                  source={dataActive ? dataActive.icon : data.data[0].icon}
+                  resizeMode={'contain'}
+                />
+              </View>
+            )}
+            {(data.nextRoute ||
+              data.isURL ||
+              data.isChooseLang ||
+              data.isRate) && (
+              <Icon
+                name={'chevron-forward-outline'}
+                size={fS(18)}
+                color={colors.GRAY_500}
+              />
             )}
           </View>
-
-          <View
-            style={[
-              cStyles.row,
-              cStyles.justifyBetween,
-              cStyles.itemsCenter,
-              cStyles.ml16,
-              cStyles.pr16,
-              cStyles.fullHeight,
-              styles.con_right,
-            ]}>
-            <CText
-              customStyles={isSignOut ? {color: customColors.red} : {}}
-              label={data.label}
-            />
-
-            <View
-              style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyEnd]}>
-              {data.value && data.isPhone && <CText label={data.value} />}
-              {data.isChooseLang && (
-                <View
-                  style={[
-                    cStyles.row,
-                    cStyles.itemsCenter,
-                    cStyles.justifyEnd,
-                  ]}>
-                  <CText
-                    styles={'pr10'}
-                    label={dataActive ? dataActive.label : data.data[0].label}
-                  />
-                  <Image
-                    style={styles.img_flag}
-                    source={dataActive ? dataActive.icon : data.data[0].icon}
-                    resizeMode={'contain'}
-                  />
-                </View>
-              )}
-              {(data.nextRoute ||
-                data.isURL ||
-                data.isChooseLang ||
-                data.isRate) && (
-                <View style={cStyles.pl10}>
-                  <Icon
-                    name={'chevron-right'}
-                    size={fS(18)}
-                    color={colors.GRAY_500}
-                  />
-                </View>
-              )}
-            </View>
-          </View>
         </View>
-      </Component>
-    </View>
+      </View>
+    </Component>
   );
 }
 
 const styles = StyleSheet.create({
-  con_left: {width: '6%'},
-  con_right: {width: '89%'},
-  con_line: {width: '86%'},
+  con_left: {flex: 0.2},
+  con_right: {flex: 0.8},
   img_flag: {height: 20, width: 20},
 });
 

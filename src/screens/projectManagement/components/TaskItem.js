@@ -18,7 +18,7 @@ import {
 } from 'react-native';
 import * as Progress from 'react-native-progress';
 import * as Animatable from 'react-native-animatable';
-import Icon from 'react-native-vector-icons/Feather';
+import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 /* COMPONENTS */
 import CText from '~/components/CText';
@@ -37,7 +37,15 @@ if (IS_ANDROID) {
 }
 
 function TaskItem(props) {
-  const {data, translation, isDark, customColors, onPress, onRefresh} = props;
+  const {
+    index,
+    data,
+    translation,
+    isDark,
+    customColors,
+    onPress,
+    onRefresh,
+  } = props;
 
   /** Use ref */
   const valueAnim = useRef(new Animated.Value(0)).current;
@@ -127,7 +135,8 @@ function TaskItem(props) {
         <View
           style={[
             cStyles.p10,
-            cStyles.mb16,
+            index === 0 && cStyles.mt16,
+            cStyles.mb20,
             cStyles.rounded2,
             {
               backgroundColor: customColors.listItem,
@@ -163,7 +172,7 @@ function TaskItem(props) {
                       style={[cStyles.row, cStyles.itemsCenter]}
                       animation={'rubberBand'}
                       easing={'ease-out'}>
-                      <Icon name={'clock'} color={customColors.red} size={15} />
+                      <Icon name={'time'} color={customColors.red} size={15} />
                       <CText
                         customStyles={[
                           cStyles.textMeta,

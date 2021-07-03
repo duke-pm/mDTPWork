@@ -20,7 +20,7 @@ import {
 } from 'react-native';
 import {showMessage} from 'react-native-flash-message';
 import LinearGradient from 'react-native-linear-gradient';
-import Icon from 'react-native-vector-icons/Feather';
+import Icon from 'react-native-vector-icons/Ionicons';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CInput from '~/components/CInput';

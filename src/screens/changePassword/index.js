@@ -33,6 +33,7 @@ import {IS_ANDROID, IS_IOS} from '~/utils/helper';
 import {THEME_DARK} from '~/config/constants';
 /* REDUX */
 import * as Actions from '~/redux/actions';
+import CAvoidKeyboard from '~/components/CAvoidKeyboard';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -237,10 +238,8 @@ function ChangePassword(props) {
       loading={loading}
       content={
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <KeyboardAvoidingView
-            style={[cStyles.flex1, {backgroundColor: customColors.background}]}
-            behavior={IS_IOS ? 'position' : undefined}>
-            <CContent contentStyle={cStyles.justifyEnd}>
+          <CAvoidKeyboard>
+            <CContent>
               <CGroupInfo
                 style={cStyles.pt16}
                 label={'change_password:sub_title'}
@@ -248,10 +247,7 @@ function ChangePassword(props) {
                   <>
                     {/** Current password */}
                     <View>
-                      <CLabel
-                        medium
-                        label={'change_password:current_password'}
-                      />
+                      <CLabel medium label={'change_password:current_password'} />
                       <CInput
                         name={INPUT_NAME.CUR_PASSWORD}
                         styleFocus={styles.input_focus}
@@ -293,10 +289,7 @@ function ChangePassword(props) {
 
                     {/** Confirm password */}
                     <View style={cStyles.pt16}>
-                      <CLabel
-                        medium
-                        label={'change_password:confirm_password'}
-                      />
+                      <CLabel medium label={'change_password:confirm_password'} />
                       <CInput
                         name={INPUT_NAME.CON_PASSWORD}
                         styleFocus={styles.input_focus}
@@ -318,7 +311,6 @@ function ChangePassword(props) {
                       style={cStyles.mt24}
                       block
                       disabled={loading}
-                      variant={isDark ? 'outlined' : 'contained'}
                       icon={'save'}
                       label={'common:save'}
                       onPress={handleChangePassword}
@@ -327,7 +319,7 @@ function ChangePassword(props) {
                 }
               />
             </CContent>
-          </KeyboardAvoidingView>
+          </CAvoidKeyboard>
         </TouchableWithoutFeedback>
       }
     />

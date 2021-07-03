@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react-hooks/exhaustive-deps */
 /**
  ** Name: Project Management screen
@@ -13,7 +14,7 @@ import {useColorScheme} from 'react-native-appearance';
 import {useTranslation} from 'react-i18next';
 import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import {showMessage} from 'react-native-flash-message';
-import Icon from 'react-native-vector-icons/Feather';
+import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 /** COMPONENTS */
 import CContainer from '~/components/CContainer';
@@ -88,12 +89,11 @@ function ProjectManagement(props) {
               <View
                 style={[
                   cStyles.abs,
-                  cStyles.inset0,
                   cStyles.rounded2,
                   styles.badge,
                   cStyles.borderAll,
                   isDark && cStyles.borderAllDark,
-                  {backgroundColor: customColors.red},
+                  {backgroundColor: customColors.red, top: -5, left: 10},
                 ]}
               />
             )}
@@ -102,7 +102,7 @@ function ProjectManagement(props) {
         <TouchableOpacity onPress={handleShowFilter}>
           <View>
             <Icon
-              name={'filter'}
+              name={'options'}
               color={
                 isDark ? colors.WHITE : IS_ANDROID ? colors.WHITE : colors.BLACK
               }
@@ -112,12 +112,11 @@ function ProjectManagement(props) {
               <View
                 style={[
                   cStyles.abs,
-                  cStyles.inset0,
                   cStyles.rounded2,
                   styles.badge,
                   cStyles.borderAll,
                   isDark && cStyles.borderAllDark,
-                  {backgroundColor: customColors.red},
+                  {backgroundColor: customColors.red, top: -5, left: 10},
                 ]}
               />
             )}
@@ -374,7 +373,7 @@ function ProjectManagement(props) {
     <CContainer
       loading={loading.main || loading.startFetch}
       content={
-        <CContent>
+        <CContent refreshing={loading.refreshing} onRefresh={onRefresh}>
           <CSearchBar
             isVisible={showSearchBar}
             onSearch={handleSearch}
@@ -382,11 +381,9 @@ function ProjectManagement(props) {
           />
           {!loading.main && !loading.startFetch && (
             <ListProject
-              refreshing={loading.refreshing}
               loadmore={loading.loadmore}
               formatDateView={formatDateView}
               data={data.projects}
-              onRefresh={onRefresh}
               onLoadmore={onLoadmore}
             />
           )}

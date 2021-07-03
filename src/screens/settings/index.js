@@ -8,7 +8,6 @@
 import React, {createRef, useState, useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-import {useColorScheme} from 'react-native-appearance';
 import {useTheme} from '@react-navigation/native';
 import {StyleSheet} from 'react-native';
 import Picker from '@gregfrench/react-native-wheel-picker';
@@ -20,7 +19,7 @@ import CList from '~/components/CList';
 import ListItem from '~/screens/account/components/ListItem';
 /* COMMON */
 import {Assets} from '~/utils/asset';
-import {LANGUAGE, THEME_DARK} from '~/config/constants';
+import {LANGUAGE} from '~/config/constants';
 import {fS, getLocalInfo, saveLocalInfo, sH} from '~/utils/helper';
 import {cStyles} from '~/utils/style';
 /* REDUX */

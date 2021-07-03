@@ -18,15 +18,14 @@ import {
   TextInput,
   ActivityIndicator,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Feather';
-/* COMPONENTS */
-import CLabel from '~/components/CLabel';
+import Icon from 'react-native-vector-icons/Ionicons';
 /* COMMON */
 import {THEME_DARK, THEME_LIGHT} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
+import Commons from '~/utils/common/Commons';
 /** REDUX */
 import * as Actions from '~/redux/actions';
-import Commons from '~/utils/common/Commons';
+import {fS} from '~/utils/helper';
 
 /** All refs of page */
 let percentRef = createRef();
@@ -180,7 +179,7 @@ function Percentage(props) {
     task.statusID == Commons.STATUS_TASK.CLOSED.value;
   return (
     <TouchableOpacity
-      style={styles.container}
+      style={cStyles.flex1}
       disabled={!task.isUpdated || loading || disabled || isDisable}
       onPress={handleChangePercent}>
       <View style={[cStyles.row, cStyles.itemsCenter, cStyles.flex1]}>
@@ -275,7 +274,11 @@ function Percentage(props) {
               ]}>
               <TextInput
                 ref={ref => (percentRef = ref)}
-                style={[cStyles.textDefault, cStyles.px4]}
+                style={[
+                  cStyles.textDefault,
+                  cStyles.px4,
+                  {color: customColors.text},
+                ]}
                 editable={!loading}
                 autoFocus
                 selectTextOnFocus
@@ -293,7 +296,11 @@ function Percentage(props) {
               style={[cStyles.p3, cStyles.ml16]}
               disabled={loading}
               onPress={handleClosePercent}>
-              <Icon name={'x'} size={18} color={customColors.red} />
+              <Icon
+                name={'close-circle'}
+                size={fS(18)}
+                color={customColors.red}
+              />
             </TouchableOpacity>
           </View>
         )}
@@ -307,7 +314,6 @@ function Percentage(props) {
 }
 
 const styles = StyleSheet.create({
-  container: {flex: 0.6},
   percent_active: {height: 16},
   percent_body: {height: 16},
   percent_input: {width: '40%', height: 45},

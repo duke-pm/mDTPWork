@@ -5,11 +5,10 @@
  ** CreateAt: 2021
  ** Description: Description of Filter.js
  **/
-import React, {useRef, useState, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
-import {useColorScheme} from 'react-native-appearance';
 import {showMessage} from 'react-native-flash-message';
 import {
   StyleSheet,
@@ -17,9 +16,9 @@ import {
   TouchableOpacity,
   LayoutAnimation,
   UIManager,
-  Animated,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Feather';
+import Modal from 'react-native-modal';
+import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 /* COMPONENTS */
 import CText from '~/components/CText';
@@ -29,7 +28,6 @@ import CButton from '~/components/CButton';
 import CGroupFilter from '~/components/CGroupFilter';
 import CLabel from '~/components/CLabel';
 /* COMMON */
-import {THEME_DARK} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
 import {checkEmpty, fS, IS_ANDROID} from '~/utils/helper';
 import {usePrevious} from '~/utils/hook';
@@ -91,11 +89,7 @@ const TagItem = (customColors, label) => {
 function Filter(props) {
   const {t} = useTranslation();
   const {customColors} = useTheme();
-  const isDark = useColorScheme() === THEME_DARK;
   const {isResolve = false, onFilter = () => {}} = props;
-
-  /** Use ref */
-  const valueAnim = useRef(new Animated.Value(0)).current;
 
   /** Use redux */
   const commonState = useSelector(({common}) => common);
@@ -123,11 +117,6 @@ function Filter(props) {
    *****************/
   const handleToggle = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    Animated.timing(valueAnim, {
-      toValue: show ? 0 : 1,
-      duration: 200,
-      useNativeDriver: true,
-    }).start();
     setShow(!show);
   };
 
@@ -218,11 +207,6 @@ function Filter(props) {
   /**************
    ** RENDER **
    **************/
-  /** Animated ronate chevron down/up */
-  const rotateData = valueAnim.interpolate({
-    inputRange: [0, 1],
-    outputRange: ['0deg', '180deg'],
-  });
   return (
     <View
       style={[
@@ -294,13 +278,7 @@ function Filter(props) {
           ) : (
             <View style={cStyles.flex1} />
           )}
-          <Animated.View style={{transform: [{rotate: rotateData}]}}>
-            <Icon
-              name={'chevron-down'}
-              size={fS(20)}
-              color={customColors.text}
-            />
-          </Animated.View>
+          <Icon name={'options'} size={fS(23)} color={customColors.text} />
         </View>
       </TouchableOpacity>
 
@@ -391,12 +369,14 @@ function Filter(props) {
             <CButton
               style={styles.button}
               variant={'outlined'}
+              icon={'close'}
               label={'common:close'}
               onPress={handleToggle}
             />
             <CButton
               style={styles.button}
               label={'common:apply'}
+              icon={'filter'}
               onPress={handleFilter}
             />
           </View>

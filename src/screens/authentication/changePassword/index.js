@@ -11,15 +11,13 @@ import {useTranslation} from 'react-i18next';
 import {
   StyleSheet,
   View,
-  Text,
   TouchableWithoutFeedback,
   Keyboard,
   UIManager,
   LayoutAnimation,
 } from 'react-native';
-import {showMessage} from 'react-native-flash-message';
 import LinearGradient from 'react-native-linear-gradient';
-import Icon from 'react-native-vector-icons/Feather';
+import Icon from 'react-native-vector-icons/Ionicons';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CInput from '~/components/CInput';
@@ -197,7 +195,7 @@ function ChangePassword(props) {
                       value={form.newPassword}
                       keyboard={'default'}
                       returnKey={'send'}
-                      icon={'lock'}
+                      icon={'lock-closed'}
                       iconColor={colors.GRAY_500}
                       password
                       error={error.newPassword}

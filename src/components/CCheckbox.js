@@ -8,7 +8,7 @@ import React, {createRef} from 'react';
 import {useTranslation} from 'react-i18next';
 import {TouchableOpacity} from 'react-native';
 import * as Animatable from 'react-native-animatable';
-import Icon from 'react-native-vector-icons/Feather';
+import Icon from 'react-native-vector-icons/Ionicons';
 /** COMPONENTS */
 import CText from '~/components/CText';
 /** COMMON */
@@ -65,8 +65,8 @@ function CCheckbox(props) {
         )}
 
         <Icon
-          name={value ? 'check-circle' : 'circle'}
-          size={fS(18)}
+          name={value ? 'checkmark-circle' : 'ellipse-outline'}
+          size={fS(23)}
           color={value ? colors.SECONDARY : colors.GRAY_500}
         />
 

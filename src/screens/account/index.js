@@ -23,7 +23,7 @@ import SocialItem from './components/SocialItem';
 import Configs from '~/config';
 import Routes from '~/navigation/Routes';
 import {THEME_DARK} from '~/config/constants';
-import {alert, clearSecretInfo, IS_ANDROID, resetRoute} from '~/utils/helper';
+import {alert, clearSecretInfo, IS_IOS, resetRoute} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
 /* REDUX */
 import * as Actions from '~/redux/actions';
@@ -35,7 +35,7 @@ const ACCOUNT = {
     childrens: [
       {
         id: 'myAccount',
-        icon: 'user',
+        icon: 'person-outline',
         label: 'account:my_account',
         value: null,
         nextRoute: 'NotReady',
@@ -46,7 +46,7 @@ const ACCOUNT = {
       },
       {
         id: 'changePassword',
-        icon: 'edit',
+        icon: 'lock-open-outline',
         label: 'account:change_password',
         value: null,
         nextRoute: 'ChangePassword',
@@ -63,7 +63,7 @@ const ACCOUNT = {
     childrens: [
       {
         id: 'settingsApp',
-        icon: 'settings',
+        icon: IS_IOS ? 'cog-outline' : 'settings-outline',
         label: 'account:app_settings',
         value: null,
         nextRoute: 'Settings',
@@ -74,7 +74,7 @@ const ACCOUNT = {
       },
       {
         id: 'helpAndInfo',
-        icon: 'help-circle',
+        icon: 'information-circle-outline',
         label: 'account:help_and_info',
         value: null,
         nextRoute: 'HelpAndInfo',
@@ -85,7 +85,7 @@ const ACCOUNT = {
       },
       {
         id: 'hotline',
-        icon: 'phone-call',
+        icon: 'call-outline',
         label: 'account:hotline',
         value: '1800 6242',
         nextRoute: null,
@@ -96,7 +96,7 @@ const ACCOUNT = {
       },
       {
         id: 'signout',
-        icon: 'log-out',
+        icon: 'log-out-outline',
         label: 'common:sign_out',
         value: null,
         nextRoute: null,
@@ -166,7 +166,7 @@ function Account(props) {
       loading={loading}
       content={
         <CContent
-          contentStyle={[cStyles.px16, IS_ANDROID && cStyles.pt16]}
+          contentStyle={[cStyles.px16, cStyles.pt10]}
           showsVerticalScrollIndicator={false}>
           <View style={cStyles.flex1}>
             <View
@@ -195,14 +195,8 @@ function Account(props) {
               </View>
 
               {/** INFORMATION */}
-              <View style={[cStyles.fullWidth, cStyles.mt16]}>
-                <View
-                  style={[
-                    cStyles.borderTop,
-                    isDark && cStyles.borderTopDark,
-                    cStyles.fullWidth,
-                  ]}
-                />
+              <View style={[cStyles.fullWidth, cStyles.mt10]}>
+                <View style={cStyles.fullWidth} />
                 <CText
                   styles={'textMeta pt16 pl16'}
                   label={ACCOUNT.INFORMATION.label}

@@ -7,7 +7,7 @@
  **/
 import React, {useState} from 'react';
 import {StyleSheet, View, LayoutAnimation, UIManager} from 'react-native';
-import Icon from 'react-native-vector-icons/Feather';
+import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 /* COMPONENTS */
 import CCard from '~/components/CCard';
@@ -15,7 +15,7 @@ import ListProject from '../list/Project';
 import CLabel from '~/components/CLabel';
 /* COMMON */
 import {cStyles} from '~/utils/style';
-import {checkEmpty, IS_ANDROID} from '~/utils/helper';
+import {checkEmpty, fS, IS_ANDROID} from '~/utils/helper';
 import {DEFAULT_FORMAT_DATE_4} from '~/config/constants';
 import Colors from '~/utils/style/Colors';
 
@@ -64,7 +64,7 @@ function ProjectItem(props) {
    ** RENDER **
    **************/
   return (
-    <View style={cStyles.mb16}>
+    <View style={cStyles.mb20}>
       <CCard
         key={index}
         index={index}
@@ -135,11 +135,11 @@ function ProjectItem(props) {
                 style={[cStyles.row, cStyles.itemsCenter, styles.row_right]}>
                 <CLabel label={'project_management:is_public'} />
                 <Icon
-                  name={data.isPublic ? 'check-circle' : 'alert-circle'}
+                  name={data.isPublic ? 'checkmark-circle' : 'alert-circle'}
                   color={
                     data.isPublic ? customColors.green : customColors.orange
                   }
-                  size={15}
+                  size={fS(14)}
                 />
               </View>
             </View>

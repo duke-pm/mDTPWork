@@ -26,8 +26,16 @@ const Configs = {
   ],
   routePath: {
     ChangePassword: 'ChangePassword/:tokenData', // Config params for route update new password
-    ProjectDetail: 'ProjectDetail/:projectID', // Config params for route Project Detail
-    TaskDetail: 'TaskDetail/:taskID', // Config params for route Task Detail
+    RootTab: {
+      screens: {
+        Dashboard: {
+          screens: {
+            ProjectDetail: 'ProjectDetail/:projectID', // Config params for route Project Detail
+            TaskDetail: 'TaskDetail/:taskID', // Config params for route Task Detail
+          },
+        },
+      },
+    },
   },
   // for link to socials
   socialsNetwork: [

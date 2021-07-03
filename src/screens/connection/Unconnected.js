@@ -7,7 +7,7 @@
 import React from 'react';
 import {useTheme} from '@react-navigation/native';
 import {StyleSheet, View} from 'react-native';
-import Icon from 'react-native-vector-icons/Feather';
+import Icon from 'react-native-vector-icons/Ionicons';
 /* COMPONENTS */
 import CText from '~/components/CText';
 /* COMMON */
@@ -31,7 +31,7 @@ function Unconnected(props) {
         {backgroundColor: customColors.background},
       ]}>
       <View style={cStyles.pb32}>
-        <Icon name={'alert-triangle'} color={customColors.orange} size={50} />
+        <Icon name={'sad'} color={customColors.orange} size={50} />
       </View>
       <CText
         customStyles={[

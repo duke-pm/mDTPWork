@@ -10,7 +10,7 @@ import React, {createRef, useState, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
 import {StyleSheet, FlatList, TouchableOpacity, View} from 'react-native';
 import {useTheme} from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/Feather';
+import Icon from 'react-native-vector-icons/Ionicons';
 import * as Animatable from 'react-native-animatable';
 /* COMPONENTS */
 import CText from './CText';
@@ -137,7 +137,7 @@ function CGroupFilter(props) {
                       {backgroundColor: customColors.card},
                     ]}>
                     <Icon
-                      name={'check'}
+                      name={'checkmark'}
                       size={fS(14)}
                       color={isCheck ? colors.SECONDARY : customColors.icon}
                     />

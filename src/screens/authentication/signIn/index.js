@@ -298,7 +298,7 @@ function SignIn(props) {
                     inputRef={userNameRef}
                     disabled={loading.submit}
                     value={form.userName}
-                    icon={'user'}
+                    icon={'person-circle'}
                     iconColor={colors.GRAY_500}
                     holder={'sign_in:input_username'}
                     returnKey={'next'}
@@ -317,7 +317,7 @@ function SignIn(props) {
                     inputRef={passwordRef}
                     disabled={loading.submit}
                     value={form.password}
-                    icon={'lock'}
+                    icon={'lock-closed'}
                     iconColor={colors.GRAY_500}
                     holder={'sign_in:input_password'}
                     returnKey={'done'}
@@ -352,7 +352,7 @@ function SignIn(props) {
                   <CButton
                     block
                     disabled={loading.submit}
-                    icon={'unlock'}
+                    icon={'log-in'}
                     label={'sign_in:title'}
                     onPress={handleSignIn}
                   />

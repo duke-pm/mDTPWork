@@ -18,7 +18,7 @@ import {
   LayoutAnimation,
 } from 'react-native';
 import {Table, Row, TableWrapper, Cell} from 'react-native-table-component';
-import Icon from 'react-native-vector-icons/Feather';
+import Icon from 'react-native-vector-icons/Ionicons';
 /* COMPONENTS */
 import CText from '~/components/CText';
 import AssetItem from './AssetItem';

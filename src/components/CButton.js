@@ -15,7 +15,7 @@ import {
   View,
   Platform,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Feather';
+import Icon from 'react-native-vector-icons/Ionicons';
 /** COMPONENTS */
 import CText from '~/components/CText';
 /** COMMON */
@@ -55,7 +55,6 @@ function CButton(props) {
           cStyles.center,
           cStyles.rounded1,
           cStyles.py3,
-          cStyles.px16,
           fullWidth && styles.full_width,
           block && cStyles.fullWidth,
           {backgroundColor: color},
@@ -104,7 +103,7 @@ const styles = StyleSheet.create({
   full_width: {width: cStyles.deviceWidth},
   disabled_contained: {
     elevation: 0,
-    backgroundColor: '#dfdfdf',
+    // backgroundColor: '#dfdfdf',
   },
   textDisabled: Platform.select({
     ios: {

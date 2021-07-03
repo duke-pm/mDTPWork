@@ -7,11 +7,12 @@
 import React from 'react';
 import {createNativeStackNavigator} from 'react-native-screens/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import Icon from 'react-native-vector-icons/Feather';
+import Icon from 'react-native-vector-icons/Ionicons';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
 import {enableScreens} from 'react-native-screens';
+import {BlurView} from '@react-native-community/blur';
 /** COMMON */
 import Routes from './Routes';
 import {fS, IS_ANDROID, IS_IOS} from '~/utils/helper';
@@ -27,6 +28,7 @@ const TabMain = createBottomTabNavigator();
 
 export function RootDashboard(props) {
   const {t} = useTranslation();
+  const {customColors} = useTheme();
   const isDark = useColorScheme() === THEME_DARK;
 
   return (
@@ -41,6 +43,16 @@ export function RootDashboard(props) {
             ? colors.PRIMARY
             : undefined,
         },
+        headerBackground: () => (
+          <BlurView
+            style={cStyles.abs}
+            blurType={isDark ? 'extraDark' : 'xlight'}
+            blurAmount={10}
+            reducedTransparencyFallbackColor={
+              isDark ? colors.BLACK : colors.WHITE
+            }
+          />
+        ),
         headerTintColor: IS_IOS ? undefined : colors.WHITE,
         headerBackTitleStyle: {
           fontSize: fS(16),
@@ -57,7 +69,7 @@ export function RootDashboard(props) {
         },
         headerLargeTitle: true,
         headerLargeTitleHideShadow: true,
-        headerLargeStyle: {backgroundColor: colors.BACKGROUND_MAIN},
+        headerLargeStyle: {backgroundColor: customColors.background},
         headerLargeTitleStyle: {
           color: isDark
             ? colors.WHITE
@@ -116,6 +128,7 @@ export function RootDashboard(props) {
           title: t('project_management:filter'),
           stackPresentation: 'modal',
           headerLargeTitle: false,
+          headerTranslucent: false,
         }}
       />
       <StackMain.Screen
@@ -202,6 +215,7 @@ export function RootDashboard(props) {
 
 export function RootAccount(props) {
   const {t} = useTranslation();
+  const {customColors} = useTheme();
   const isDark = useColorScheme() === THEME_DARK;
 
   return (
@@ -232,19 +246,20 @@ export function RootAccount(props) {
         },
         headerLargeTitle: true,
         headerLargeTitleHideShadow: true,
-        headerLargeStyle: {backgroundColor: colors.BACKGROUND_MAIN},
+        headerLargeStyle: {backgroundColor: customColors.background},
         headerLargeTitleStyle: {
           color: isDark
             ? colors.WHITE
             : IS_ANDROID
             ? colors.WHITE
             : colors.BLACK,
-          fontSize: fS(30),
+          fontSize: fS(28),
           fontFamily: cStyles.fontBold.fontFamily,
         },
         headerTopInsetEnabled: false,
-        screenOrientation: 'portrait',
         disableBackButtonMenu: true,
+        headerTranslucent: IS_ANDROID ? false : true,
+        screenOrientation: 'portrait',
       }}>
       <StackAccount.Screen
         name={Routes.MAIN.ACCOUNT.name}
@@ -265,6 +280,8 @@ export function RootAccount(props) {
         component={Routes.MAIN.CHANGE_PASSWORD.path}
         options={{
           title: t('change_password:title'),
+          headerLargeTitle: false,
+          headerTranslucent: false,
         }}
       />
       <StackMain.Screen
@@ -300,15 +317,15 @@ export function RootTab(props) {
           let iconName = 'home';
           switch (route.name) {
             case Routes.MAIN.ACCOUNT.name:
-              iconName = 'user';
+              iconName = 'person';
               break;
           }
           return <Icon name={iconName} size={size} color={color} />;
         },
       })}
       tabBarOptions={{
-        activeTintColor: colors.PRIMARY,
-        inactiveTintColor: customColors.tab,
+        activeTintColor: IS_IOS ? customColors.blue : customColors.primary,
+        inactiveTintColor: customColors.text,
         keyboardHidesTabBar: true,
       }}>
       <TabMain.Screen

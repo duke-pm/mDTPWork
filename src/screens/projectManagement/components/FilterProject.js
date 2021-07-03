@@ -5,21 +5,21 @@
  ** CreateAt: 2021
  ** Description: Description of FilterProject.js
  **/
-import React, {createRef, useState, useEffect} from 'react';
+import React, {createRef, useState, useEffect, useLayoutEffect} from 'react';
 import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
-import {isIphoneX} from 'react-native-iphone-x-helper';
 import {
   StyleSheet,
   ActivityIndicator,
   TouchableOpacity,
   View,
   Switch,
+  StatusBar,
 } from 'react-native';
 import Picker from '@gregfrench/react-native-wheel-picker';
-import Icon from 'react-native-vector-icons/Feather';
+import Icon from 'react-native-vector-icons/Ionicons';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
@@ -32,7 +32,7 @@ import CAvatar from '~/components/CAvatar';
 import Configs from '~/config';
 import {THEME_DARK} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
-import {fS, IS_IOS, sH} from '~/utils/helper';
+import {fS, IS_ANDROID, IS_IOS, sH} from '~/utils/helper';
 
 /** All refs use in this screen */
 const actionSheetYearRef = createRef();
@@ -78,7 +78,7 @@ const RowPicker = (
           <View style={[cStyles.row, cStyles.itemsCenter]}>
             {loading ? <ActivityIndicator /> : <CText label={active} />}
             <Icon
-              name={'chevron-right'}
+              name={'chevron-forward'}
               size={fS(18)}
               color={colors.GRAY_500}
             />
@@ -138,7 +138,7 @@ const RowSelect = (
           ]}>
           <CText label={label} />
           {active && (
-            <Icon name={'check'} color={customColors.blue} size={fS(20)} />
+            <Icon name={'checkmark'} color={customColors.blue} size={fS(23)} />
           )}
         </View>
       </View>
@@ -228,6 +228,22 @@ function FilterProject(props) {
   });
 
   navigation.setOptions({
+    headerLeft: () => (
+      <TouchableOpacity onPress={handleReset}>
+        <View
+          style={[
+            cStyles.flex1,
+            cStyles.itemsEnd,
+            cStyles.justifyCenter,
+            cStyles.pr10,
+          ]}>
+          <CText
+            customStyles={[cStyles.textMeta, IS_ANDROID && cStyles.colorWhite]}
+            label={t('common:close')}
+          />
+        </View>
+      </TouchableOpacity>
+    ),
     headerRight: () => (
       <TouchableOpacity onPress={handleFilter}>
         <View
@@ -237,7 +253,10 @@ function FilterProject(props) {
             cStyles.justifyCenter,
             cStyles.pr10,
           ]}>
-          <CText styles={'colorWhite textMeta'} label={t('common:apply')} />
+          <CText
+            customStyles={[cStyles.textMeta, IS_ANDROID && cStyles.colorWhite]}
+            label={t('common:apply')}
+          />
         </View>
       </TouchableOpacity>
     ),
@@ -320,6 +339,16 @@ function FilterProject(props) {
    ** LIFE CYCLE **
    ****************/
   useEffect(() => {
+    if (IS_IOS) {
+      if (isDark) {
+        // Do nothing
+      } else {
+        StatusBar.setBarStyle('light-content', true);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
     if (hasYear && year.data.length === 0) {
       let years = onGetListYear(Configs.numberYearToFilter);
       setYear({
@@ -338,6 +367,18 @@ function FilterProject(props) {
     }
   }, [hasYear, loading.main, year.data]);
 
+  useLayoutEffect(() => {
+    return () => {
+      if (IS_IOS) {
+        if (isDark) {
+          // Do nothing
+        } else {
+          StatusBar.setBarStyle('dark-content', true);
+        }
+      }
+    };
+  }, []);
+
   /**************
    ** RENDER **
    **************/
@@ -345,46 +386,7 @@ function FilterProject(props) {
     <CContainer
       loading={loading.main}
       content={
-        <CContent scroll contentStyle={isIphoneX() ? cStyles.pb40 : {}}>
-          {IS_IOS && (
-            <View
-              style={[
-                cStyles.row,
-                cStyles.itemsCenter,
-                cStyles.justifyBetween,
-                cStyles.p16,
-              ]}>
-              <TouchableOpacity onPress={handleReset}>
-                <View
-                  style={[
-                    cStyles.flex1,
-                    cStyles.itemsStart,
-                    cStyles.justifyCenter,
-                    cStyles.pl10,
-                  ]}>
-                  <CText
-                    styles={'colorBlack textMeta'}
-                    label={'common:close'}
-                  />
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={handleFilter}>
-                <View
-                  style={[
-                    cStyles.flex1,
-                    cStyles.itemsEnd,
-                    cStyles.justifyCenter,
-                    cStyles.pr10,
-                  ]}>
-                  <CText
-                    styles={'colorBlack textMeta'}
-                    label={t('common:apply')}
-                  />
-                </View>
-              </TouchableOpacity>
-            </View>
-          )}
-
+        <CContent contentStyle={cStyles.pb24}>
           {/** Year */}
           {hasYear && (
             <>

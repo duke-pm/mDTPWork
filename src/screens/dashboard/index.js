@@ -7,17 +7,13 @@
  **/
 import React, {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
-import {TouchableOpacity} from 'react-native';
-import Icon from 'react-native-vector-icons/Feather';
 /** COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
 import CList from '~/components/CList';
 import CItem from '~/components/CItem';
 /** COMMON */
-import Configs from '~/config';
 import {cStyles} from '~/utils/style';
-import {fS} from '~/utils/helper';
 import Routes from '~/navigation/Routes';
 
 function Dashboard(props) {
@@ -81,21 +77,6 @@ function Dashboard(props) {
   return (
     <CContainer
       loading={loading}
-      // centerStyle={cStyles.center}
-      // header
-      // title={'dashboard:title'}
-      // headerRight={
-      //   Configs.salesVisit ? (
-      //     <TouchableOpacity style={cStyles.itemsEnd} onPress={handleNewFeature}>
-      //       <Icon
-      //         style={cStyles.p16}
-      //         name={'star'}
-      //         color={'white'}
-      //         size={fS(20)}
-      //       />
-      //     </TouchableOpacity>
-      //   ) : null
-      // }
       content={
         <CContent>
           {!loading && (

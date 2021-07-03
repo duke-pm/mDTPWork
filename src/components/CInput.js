@@ -9,7 +9,7 @@ import {useTranslation} from 'react-i18next';
 import {useColorScheme} from 'react-native-appearance';
 import {useTheme} from '@react-navigation/native';
 import {StyleSheet, TextInput, View, TouchableOpacity} from 'react-native';
-import Icon from 'react-native-vector-icons/Feather';
+import Icon from 'react-native-vector-icons/Ionicons';
 /* COMPONENTS */
 import CText from './CText';
 /* COMMON */
@@ -177,7 +177,7 @@ function CInput(props) {
           <Component
             style={[cStyles.center, styles.con_input_icon]}
             onPress={handleRemoveValue}>
-            <Icon name={'x-circle'} color={customColors.red} size={fS(20)} />
+            <Icon name={'close-circle'} color={customColors.red} size={fS(20)} />
           </Component>
         )}
 

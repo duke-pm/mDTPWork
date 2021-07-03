@@ -38,11 +38,9 @@ function CAlert(props) {
     <Modal
       style={cStyles.m0}
       isVisible={show}
-      animationIn={'bounceIn'}
-      animationOut={'zoomOut'}
-      animationInTiming={200}
-      animationOutTiming={200}
-      backdropOpacity={0.4}
+      animationIn={'fadeInDown'}
+      animationOut={'fadeOutUp'}
+      backdropOpacity={0.5}
       useNativeDriver={true}
       useNativeDriverForBackdrop={true}
       avoidKeyboard={true}
@@ -58,8 +56,11 @@ function CAlert(props) {
           style={[
             cStyles.mx48,
             cStyles.rounded3,
-            isDark && cStyles.borderAllDark,
-            {backgroundColor: customColors.background},
+            {
+              backgroundColor: isDark
+                ? colors.GRAY_860
+                : customColors.background,
+            },
             contentStyle,
           ]}>
           {/** Header of Alert */}
@@ -71,7 +72,7 @@ function CAlert(props) {
               cStyles.px16,
             ]}>
             <CText
-              styles={'textCenter fontMedium'}
+              styles={'textCenter H6'}
               label={title}
               customLabel={title !== 'common:need_confirm' ? title : null}
             />

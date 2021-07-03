@@ -15,17 +15,16 @@ import {
   Animated,
   Easing,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Feather';
+import Icon from 'react-native-vector-icons/Ionicons';
 /* COMPONENTS */
-import CText from '~/components/CText';
 import CLabel from '~/components/CLabel';
-import CInput from '~/components/CInput';
 import ContactInformation from './ContactInformation';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
 import {THEME_DARK} from '~/config/constants';
 import CList from '~/components/CList';
 import CCard from '~/components/CCard';
+import { fS } from '~/utils/helper';
 /* REDUX */
 
 function StepForm(props) {
@@ -111,7 +110,7 @@ function StepForm(props) {
                   {item.icon && (
                     <Icon
                       name={item.icon}
-                      size={17}
+                      size={fS(20)}
                       color={
                         isActive || isActive2
                           ? colors.WHITE

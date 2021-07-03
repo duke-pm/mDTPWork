@@ -6,7 +6,7 @@
  **/
 import React from 'react';
 import {useTheme} from '@react-navigation/native';
-import {ScrollView} from 'react-native';
+import {ScrollView, RefreshControl} from 'react-native';
 /** COMMON */
 import {cStyles} from '~/utils/style';
 
@@ -26,9 +26,15 @@ function CContent(props) {
     <ScrollView
       style={[stylePadder, {backgroundColor: customColors.background}]}
       contentContainerStyle={contentStyle}
-      contentInsetAdjustmentBehavior="automatic"
+      contentInsetAdjustmentBehavior={'automatic'}
       scrollToOverflowEnabled
       keyboardShouldPersistTaps={'handled'}
+      refreshControl={
+        <RefreshControl
+          refreshing={props.refreshing}
+          onRefresh={props.onRefresh}
+        />
+      }
       {...props}>
       {props.children}
     </ScrollView>

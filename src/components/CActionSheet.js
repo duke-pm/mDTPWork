@@ -79,12 +79,12 @@ function CActionSheet(props) {
               {backgroundColor: customColors.card},
             ]}>
             <CIconButton
-              iconName={'x'}
+              iconName={'close'}
               iconColor={customColors.icon}
               onPress={handleClose}
             />
             <CIconButton
-              iconName={'check'}
+              iconName={'checkmark'}
               iconColor={customColors.primary}
               onPress={handleConfirm}
             />

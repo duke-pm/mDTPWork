@@ -51,6 +51,7 @@ function CCard(props) {
     <View key={key} style={[cStyles.rounded2, styles.con, style]}>
       <Component
         style={[cStyles.flex1, cStyles.rounded2]}
+        activeOpacity={0.5}
         delayLongPress={500}
         onLayout={onLayout}
         onPress={onPress}

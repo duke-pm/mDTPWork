@@ -6,7 +6,7 @@
  **/
 import React from 'react';
 import {StyleSheet, TouchableOpacity} from 'react-native';
-import Icon from 'react-native-vector-icons/Feather';
+import Icon from 'react-native-vector-icons/Ionicons';
 /** COMMON */
 import {fS} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';

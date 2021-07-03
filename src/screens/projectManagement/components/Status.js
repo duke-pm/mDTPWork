@@ -16,7 +16,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import Picker from '@gregfrench/react-native-wheel-picker';
-import Icon from 'react-native-vector-icons/Feather';
+import Icon from 'react-native-vector-icons/Ionicons';
 /* COMPONENTS */
 import CText from '~/components/CText';
 import CActionSheet from '~/components/CActionSheet';
@@ -202,7 +202,7 @@ function Status(props) {
               <Icon
                 name={'chevron-down'}
                 color={isDark ? task.colorDarkCode : task.colorCode}
-                size={fS(20)}
+                size={fS(23)}
               />
             )
           )}
@@ -233,7 +233,7 @@ function Status(props) {
 }
 
 const styles = StyleSheet.create({
-  con_action: {width: '100%', height: sH('25%')},
+  con_action: {width: '100%', height: sH('35%')},
 });
 
 export default Status;

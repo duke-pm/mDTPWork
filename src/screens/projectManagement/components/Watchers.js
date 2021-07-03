@@ -5,7 +5,7 @@
  ** CreateAt: 2021
  ** Description: Description of Watchers.js
  **/
-import React, {useState, useEffect, useFocusEffect, useCallback} from 'react';
+import React, {useState, useEffect, useLayoutEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
@@ -19,10 +19,10 @@ import {
   UIManager,
   LayoutAnimation,
   TouchableOpacity,
-  BackHandler,
+  StatusBar,
 } from 'react-native';
 import {isIphoneX} from 'react-native-iphone-x-helper';
-import Icon from 'react-native-vector-icons/Feather';
+import Icon from 'react-native-vector-icons/Ionicons';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CText from '~/components/CText';
@@ -70,6 +70,20 @@ function Watchers(props) {
   const [needRefresh, setNeedRefresh] = useState(false);
   const [getEmail, setGetEmail] = useState(true);
   const [watchers, setWatchers] = useState([]);
+
+  navigation.setOptions({
+    headerLeft: () => (
+      <TouchableOpacity onPress={handleBack}>
+        <View>
+          <Icon
+            name={'close'}
+            color={IS_ANDROID ? colors.WHITE : customColors.icon}
+            size={fS(23)}
+          />
+        </View>
+      </TouchableOpacity>
+    ),
+  });
 
   /*****************
    ** HANDLE FUNC **
@@ -151,6 +165,13 @@ function Watchers(props) {
    ** LIFE CYCLE **
    ******************/
   useEffect(() => {
+    if (IS_IOS) {
+      if (isDark) {
+        // Do nothing
+      } else {
+        StatusBar.setBarStyle('light-content', true);
+      }
+    }
     onPrepareData();
   }, []);
 
@@ -184,6 +205,18 @@ function Watchers(props) {
     return unsubscribe;
   }, [navigation, needRefresh]);
 
+  useLayoutEffect(() => {
+    return () => {
+      if (IS_IOS) {
+        if (isDark) {
+          // Do nothing
+        } else {
+          StatusBar.setBarStyle('dark-content', true);
+        }
+      }
+    };
+  }, []);
+
   /**************
    ** RENDER **
    **************/
@@ -192,14 +225,7 @@ function Watchers(props) {
     <CContainer
       loading={loading.main || loading.send}
       content={
-        <CContent scroll>
-          {IS_IOS && (
-            <TouchableOpacity onPress={handleBack}>
-              <View style={cStyles.p16}>
-                <Icon name={'x'} color={colors.BLACK} size={fS(20)} />
-              </View>
-            </TouchableOpacity>
-          )}
+        <CContent>
           <View style={[cStyles.mt16, cStyles.mx16]}>
             <CButton
               block
@@ -210,7 +236,7 @@ function Watchers(props) {
                   ? 'project_management:you_not_watch'
                   : 'project_management:you_watched'
               }
-              icon={isWatched ? 'eye-off' : loading.send ? null : 'eye'}
+              icon={isWatched ? 'eye' : loading.send ? null : 'eye-outline'}
               onPress={handleFollow}
             />
             <View style={cStyles.itemsStart}>

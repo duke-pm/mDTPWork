@@ -6,7 +6,7 @@
  **/
 import React, {useState, useEffect} from 'react';
 import {View, TouchableOpacity} from 'react-native';
-import Icon from 'react-native-vector-icons/Feather';
+import Icon from 'react-native-vector-icons/Ionicons';
 import * as Animatable from 'react-native-animatable';
 /* COMPONENTS */
 import CText from '~/components/CText';
@@ -69,15 +69,19 @@ function CheckOption(props) {
               ]}
               useNativeDriver={true}>
               <Icon
-                name={chooseValue === item.value ? 'check-circle' : 'circle'}
-                size={fS(20)}
+                name={
+                  chooseValue === item.value
+                    ? 'checkmark-circle'
+                    : 'ellipse-outline'
+                }
+                size={fS(23)}
                 color={
                   chooseValue === item.value
                     ? colors.SECONDARY
                     : customColors.text
                 }
               />
-              <CText styles={'pl10'} label={item.label} />
+              <CText styles={'pl6'} label={item.label} />
             </Animatable.View>
           </TouchableOpacity>
         );

@@ -38,11 +38,6 @@ function CList(props) {
     onLoadmore = null,
   } = props;
 
-  /** Use state */
-  const [loading, setLoading] = useState(
-    scrollToBottom && sectionList ? true : false,
-  );
-
   /************
    ** FUNC **
    ************/
@@ -55,24 +50,6 @@ function CList(props) {
   /******************
    ** LIFE CYCLE **
    ******************/
-  useEffect(() => {
-    if (props.data && scrollToBottom && sectionList) {
-      setTimeout(() => {
-        if (props.data.length > 0) {
-          try {
-            sectionlistRef.scrollToLocation({
-              animated: true,
-              itemIndex: props.data[props.data.length - 1].data.length - 1,
-              sectionIndex: props.data.length - 1,
-            });
-          } catch (e) {
-            console.log('[LOG] === error scroll to bottom ===> ', e);
-          }
-        }
-        setLoading(false);
-      }, 2000);
-    }
-  }, [props.data, scrollToBottom, sectionList, setLoading]);
 
   /**************
    ** RENDER **
@@ -125,9 +102,15 @@ function CList(props) {
               index: propsItem.index,
             });
           }}
-          renderSectionHeader={({section}) => {
+          renderSectionFooter={({section}) => {
             return (
-              <View style={[cStyles.flexCenter, cStyles.py10, styles.title]}>
+              <View
+                style={[
+                  cStyles.flexCenter,
+                  cStyles.py10,
+                  cStyles.mt16,
+                  styles.title,
+                ]}>
                 <View
                   style={[
                     cStyles.py4,
@@ -148,6 +131,7 @@ function CList(props) {
           removeClippedSubviews={IS_ANDROID}
           keyboardShouldPersistTaps={'handled'}
           stickySectionHeadersEnabled={true}
+          stickyHeaderIndices={[0]}
           refreshing={props.refreshing}
           onRefresh={onRefresh}
           ListEmptyComponent={
@@ -159,10 +143,6 @@ function CList(props) {
           ListFooterComponent={props.loadingmore ? <CFooterList /> : null}
           {...props}
         />
-      )}
-
-      {props.data && scrollToBottom && sectionList && (
-        <CLoading visible={loading} customColors={customColors} />
       )}
     </>
   );

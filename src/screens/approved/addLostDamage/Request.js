@@ -23,7 +23,7 @@ import {
   StatusBar,
 } from 'react-native';
 import Picker from '@gregfrench/react-native-wheel-picker';
-import Icon from 'react-native-vector-icons/Feather';
+import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
@@ -35,6 +35,7 @@ import CButton from '~/components/CButton';
 import CActionSheet from '~/components/CActionSheet';
 import CAlert from '~/components/CAlert';
 import CLabel from '~/components/CLabel';
+import CAvoidKeyboard from '~/components/CAvoidKeyboard';
 import CGroupInfo from '~/components/CGroupInfo';
 import RejectModal from '../components/RejectModal';
 import RequestProcess from '../components/RequestProcess';
@@ -129,7 +130,7 @@ const RowSelect = (
           {!disabled && (
             <Icon
               name={'chevron-down'}
-              size={fS(20)}
+              size={fS(23)}
               color={disabled ? customColors.textDisable : customColors.icon}
             />
           )}
@@ -214,12 +215,23 @@ function AddRequest(props) {
     title: `${t(
       'add_approved_lost_damaged:' + (isDetail ? 'detail' : 'title'),
     )}`,
+    headerLeft: () => (
+      <TouchableOpacity onPress={handleBack}>
+        <View>
+          <Icon name={'close'} color={customColors.icon} size={fS(23)} />
+        </View>
+      </TouchableOpacity>
+    ),
     headerRight: () => {
       if (isDetail) {
         return (
           <TouchableOpacity onPress={handleShowProcess}>
             <View>
-              <Icon name={'info'} color={'white'} size={fS(20)} />
+              <Icon
+                name={'information-circle'}
+                color={IS_ANDROID ? colors.WHITE : customColors.icon}
+                size={fS(23)}
+              />
             </View>
           </TouchableOpacity>
         );
@@ -465,7 +477,9 @@ function AddRequest(props) {
    ** LIFE CYCLE **
    ******************/
   useEffect(() => {
-    if (IS_IOS) {
+    if (isDark) {
+      // Do nothing
+    } else {
       StatusBar.setBarStyle('light-content', true);
     }
     dispatch(Actions.resetStatusMasterData());
@@ -605,7 +619,11 @@ function AddRequest(props) {
   useLayoutEffect(() => {
     return () => {
       if (IS_IOS) {
-        StatusBar.setBarStyle('dark-content', true);
+        if (isDark) {
+          // Do nothing
+        } else {
+          StatusBar.setBarStyle('dark-content', true);
+        }
       }
     };
   }, []);
@@ -624,57 +642,7 @@ function AddRequest(props) {
         loading.submitReject
       }
       content={
-        <View
-          style={[cStyles.flex1, {backgroundColor: customColors.background}]}>
-          {IS_IOS && (
-            <View
-              style={[
-                cStyles.py12,
-                cStyles.row,
-                cStyles.itemsCenter,
-                cStyles.justifyBetween,
-                cStyles.borderBottom,
-                isDark && cStyles.borderBottomDark,
-              ]}>
-              <TouchableOpacity onPress={handleBack}>
-                <View style={[cStyles.pl16]}>
-                  <Icon name={'x'} color={customColors.icon} size={fS(20)} />
-                </View>
-              </TouchableOpacity>
-              <View>
-                <CText
-                  customStyles={[
-                    cStyles.textTitle,
-                    {
-                      color: isDark
-                        ? colors.WHITE
-                        : IS_ANDROID
-                        ? colors.WHITE
-                        : colors.BLACK,
-                    },
-                  ]}
-                  label={
-                    'add_approved_lost_damaged:' +
-                    (isDetail ? 'detail' : 'title')
-                  }
-                />
-              </View>
-              <TouchableOpacity
-                disabled={!isDetail}
-                onPress={handleShowProcess}>
-                <View style={[cStyles.pr16]}>
-                  <Icon
-                    name={'info'}
-                    color={
-                      isDetail ? customColors.icon : customColors.background
-                    }
-                    size={fS(20)}
-                  />
-                </View>
-              </TouchableOpacity>
-            </View>
-          )}
-
+        <CAvoidKeyboard>
           <CContent>
             {/** Date request */}
             <CGroupInfo
@@ -765,7 +733,7 @@ function AddRequest(props) {
             {/** Assets for detail */}
             {isDetail && (
               <CCard
-                containerStyle={[cStyles.mx16, cStyles.mb32]}
+                containerStyle={[cStyles.mx16, cStyles.mb32, cStyles.rounded1]}
                 customLabel={route.params?.data?.assetName}
                 content={
                   <View>
@@ -929,7 +897,7 @@ function AddRequest(props) {
               />
             )}
           </CContent>
-        </View>
+        </CAvoidKeyboard>
       }
       footer={
         !isDetail ? (
@@ -975,14 +943,10 @@ function AddRequest(props) {
 }
 
 const styles = StyleSheet.create({
-  input_focus: {
-    borderColor: colors.SECONDARY,
-  },
+  input_focus: {borderColor: colors.SECONDARY},
   button_approved: {width: cStyles.deviceWidth / 2.5},
   button_reject: {width: cStyles.deviceWidth / 2.5},
-  button_preview: {width: 150},
   con_action: {width: '100%', height: sH('30%')},
-  icon_loading: {width: 50, height: 50},
   content_picker: {height: '40%'},
 });
 

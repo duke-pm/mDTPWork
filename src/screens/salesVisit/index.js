@@ -29,13 +29,13 @@ function SalesVisit(props) {
               {
                 id: 'step1',
                 number: false,
-                icon: 'user',
+                icon: 'person',
                 label: 'Contact Information',
               },
               {
                 id: 'step2',
                 number: false,
-                icon: 'activity',
+                icon: 'beer',
                 label: 'Interests',
               },
               {
@@ -47,7 +47,7 @@ function SalesVisit(props) {
               {
                 id: 'step4',
                 number: false,
-                icon: 'check',
+                icon: 'checkmark',
                 label: 'Other Information',
               },
             ]}

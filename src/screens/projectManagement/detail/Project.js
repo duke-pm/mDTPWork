@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react-hooks/exhaustive-deps */
 /**
  ** Name: Project Detail screen
@@ -13,7 +14,7 @@ import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
 import {showMessage} from 'react-native-flash-message';
 import {StyleSheet, View, TouchableOpacity} from 'react-native';
-import Icon from 'react-native-vector-icons/Feather';
+import Icon from 'react-native-vector-icons/Ionicons';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
@@ -92,12 +93,11 @@ function ProjectDetail(props) {
               <View
                 style={[
                   cStyles.abs,
-                  cStyles.inset0,
                   cStyles.rounded2,
                   styles.badge,
                   cStyles.borderAll,
                   isDark && cStyles.borderAllDark,
-                  {backgroundColor: customColors.red},
+                  {backgroundColor: customColors.red, top: -5, left: 10},
                 ]}
               />
             )}
@@ -106,7 +106,7 @@ function ProjectDetail(props) {
         <TouchableOpacity onPress={handleShowFilter}>
           <View>
             <Icon
-              name={'filter'}
+              name={'options'}
               color={
                 isDark ? colors.WHITE : IS_ANDROID ? colors.WHITE : colors.BLACK
               }
@@ -116,12 +116,11 @@ function ProjectDetail(props) {
               <View
                 style={[
                   cStyles.abs,
-                  cStyles.inset0,
                   cStyles.rounded2,
                   styles.badge,
                   cStyles.borderAll,
                   isDark && cStyles.borderAllDark,
-                  {backgroundColor: customColors.red},
+                  {backgroundColor: customColors.red, top: -5, left: 10},
                 ]}
               />
             )}
@@ -467,7 +466,7 @@ function ProjectDetail(props) {
     <CContainer
       loading={loading.main}
       content={
-        <CContent>
+        <CContent refreshing={loading.refreshing} onRefresh={onRefreshTasks}>
           <CSearchBar
             isVisible={showSearchBar}
             onSearch={handleSearch}

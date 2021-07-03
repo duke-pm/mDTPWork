@@ -12,6 +12,7 @@ import {useTranslation} from 'react-i18next';
 import {useColorScheme} from 'react-native-appearance';
 import {useTheme} from '@react-navigation/native';
 import {showMessage} from 'react-native-flash-message';
+import {isIphoneX} from 'react-native-iphone-x-helper';
 import {
   StyleSheet,
   View,
@@ -20,7 +21,7 @@ import {
   StatusBar,
 } from 'react-native';
 import Picker from '@gregfrench/react-native-wheel-picker';
-import Icon from 'react-native-vector-icons/Feather';
+import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
@@ -32,6 +33,7 @@ import CAlert from '~/components/CAlert';
 import CActionSheet from '~/components/CActionSheet';
 import CLabel from '~/components/CLabel';
 import CGroupInfo from '~/components/CGroupInfo';
+import CAvoidKeyboard from '~/components/CAvoidKeyboard';
 import RejectModal from '../components/RejectModal';
 import RequestProcess from '../components/RequestProcess';
 import AssetsTable from '../components/AssetsTable';
@@ -43,7 +45,6 @@ import {fS, IS_ANDROID, IS_IOS, sH} from '~/utils/helper';
 import Commons from '~/utils/common/Commons';
 /* REDUX */
 import * as Actions from '~/redux/actions';
-import {isIphoneX} from 'react-native-iphone-x-helper';
 
 const RowSelect = (
   loading,
@@ -85,7 +86,7 @@ const RowSelect = (
         {!disabled && (
           <Icon
             name={'chevron-down'}
-            size={fS(20)}
+            size={fS(23)}
             color={disabled ? customColors.textDisable : customColors.icon}
           />
         )}
@@ -202,12 +203,23 @@ function AddRequest(props) {
 
   navigation.setOptions({
     title: `${t('add_approved_assets:' + (isDetail ? 'detail' : 'title'))}`,
+    headerLeft: () => (
+      <TouchableOpacity onPress={handleBack}>
+        <View>
+          <Icon name={'close'} color={customColors.icon} size={fS(23)} />
+        </View>
+      </TouchableOpacity>
+    ),
     headerRight: () => {
       if (isDetail) {
         return (
           <TouchableOpacity onPress={handleShowProcess}>
             <View>
-              <Icon name={'info'} color={'white'} size={fS(20)} />
+              <Icon
+                name={'information-circle'}
+                color={IS_ANDROID ? colors.WHITE : customColors.icon}
+                size={fS(23)}
+              />
             </View>
           </TouchableOpacity>
         );
@@ -443,7 +455,11 @@ function AddRequest(props) {
    ******************/
   useEffect(() => {
     if (IS_IOS) {
-      StatusBar.setBarStyle('light-content', true);
+      if (isDark) {
+        // Do nothing
+      } else {
+        StatusBar.setBarStyle('light-content', true);
+      }
     }
     onPrepareData();
   }, []);
@@ -575,7 +591,11 @@ function AddRequest(props) {
   useLayoutEffect(() => {
     return () => {
       if (IS_IOS) {
-        StatusBar.setBarStyle('dark-content', true);
+        if (isDark) {
+          // Do nothing
+        } else {
+          StatusBar.setBarStyle('dark-content', true);
+        }
       }
     };
   }, []);
@@ -594,56 +614,7 @@ function AddRequest(props) {
         loading.submitReject
       }
       content={
-        <View
-          style={[cStyles.flex1, {backgroundColor: customColors.background}]}>
-          {IS_IOS && (
-            <View
-              style={[
-                cStyles.py12,
-                cStyles.row,
-                cStyles.itemsCenter,
-                cStyles.justifyBetween,
-                cStyles.borderBottom,
-                isDark && cStyles.borderBottomDark,
-              ]}>
-              <TouchableOpacity onPress={handleBack}>
-                <View style={[cStyles.pl16]}>
-                  <Icon name={'x'} color={customColors.icon} size={fS(20)} />
-                </View>
-              </TouchableOpacity>
-              <View>
-                <CText
-                  customStyles={[
-                    cStyles.textTitle,
-                    {
-                      color: isDark
-                        ? colors.WHITE
-                        : IS_ANDROID
-                        ? colors.WHITE
-                        : colors.BLACK,
-                    },
-                  ]}
-                  label={
-                    'add_approved_assets:' + (isDetail ? 'detail' : 'title')
-                  }
-                />
-              </View>
-              <TouchableOpacity
-                disabled={!isDetail}
-                onPress={handleShowProcess}>
-                <View style={[cStyles.pr16]}>
-                  <Icon
-                    name={'info'}
-                    color={
-                      isDetail ? customColors.icon : customColors.background
-                    }
-                    size={fS(20)}
-                  />
-                </View>
-              </TouchableOpacity>
-            </View>
-          )}
-
+        <CAvoidKeyboard>
           <CContent>
             {/** User request */}
             <CGroupInfo
@@ -659,7 +630,7 @@ function AddRequest(props) {
                       cStyles.justifyBetween,
                     ]}>
                     {/** Date request */}
-                    <View style={[cStyles.mr5, {flex: 0.4}]}>
+                    <View style={[cStyles.mr5, styles.con_left]}>
                       <CLabel
                         medium
                         label={'add_approved_assets:date_request'}
@@ -674,7 +645,7 @@ function AddRequest(props) {
                     </View>
 
                     {/** Region */}
-                    <View style={[cStyles.ml5, {flex: 0.6}]}>
+                    <View style={[cStyles.ml5, styles.con_right]}>
                       <CLabel medium label={'add_approved_assets:region'} />
                       {RowSelect(
                         loading.main,
@@ -918,7 +889,7 @@ function AddRequest(props) {
               />
             )}
           </CContent>
-        </View>
+        </CAvoidKeyboard>
       }
       footer={
         !isDetail ? (
@@ -966,15 +937,12 @@ function AddRequest(props) {
 }
 
 const styles = StyleSheet.create({
-  input_focus: {
-    borderColor: colors.SECONDARY,
-  },
+  input_focus: {borderColor: colors.SECONDARY},
   button_approved: {width: cStyles.deviceWidth / 2.5},
   button_reject: {width: cStyles.deviceWidth / 2.5},
   con_left: {flex: 0.4},
   con_right: {flex: 0.6},
   con_action: {width: '100%', height: isIphoneX() ? sH('30%') : sH('35%')},
-  icon_loading: {width: 50, height: 50},
   content_picker: {height: '40%'},
 });
 

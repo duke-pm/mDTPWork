@@ -7,8 +7,8 @@
 import React, {createRef, useState, useEffect} from 'react';
 import {useTheme} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
-import {LayoutAnimation, UIManager} from 'react-native';
-import Icon from 'react-native-vector-icons/Feather';
+import {LayoutAnimation, UIManager, View} from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 import SearchBar from 'react-native-searchbar';
 /* COMMON */
 import {fS, IS_ANDROID, IS_IOS} from '~/utils/helper';
@@ -71,20 +71,29 @@ function CSearchBar(props) {
       backgroundColor={customColors.background}
       textColor={customColors.text}
       selectionColor={customColors.text}
-      iOSPadding={false}
+      iOSPadding={true}
       iOSHideShadow={true}
       clearOnHide={false}
       autoCorrect={false}
       autoCapitalize={'none'}
       fontFamily={cStyles.textDefault.fontFamily}
       fontSize={cStyles.textDefault.fontSize}
+      heightAdjust={IS_IOS ? -20 : 0}
       backButton={
         <Icon
-          style={IS_IOS ? cStyles.pt2 : {}}
-          name={IS_ANDROID ? 'arrow-left' : 'chevron-left'}
-          size={IS_IOS ? fS(30) : fS(23)}
-          color={customColors.icon}
+          name={IS_IOS ? 'chevron-back-outline' : 'arrow-back-outline'}
+          size={fS(22)}
+          color={customColors.text}
         />
+      }
+      closeButton={
+        IS_IOS && value !== '' ? (
+          <Icon
+            name={IS_IOS ? 'close-circle' : 'close'}
+            size={20}
+            color={customColors.textDisable}
+          />
+        ) : undefined
       }
       handleChangeText={onChangeSearch}
       onSubmitEditing={handleSearch}

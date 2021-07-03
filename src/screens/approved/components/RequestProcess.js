@@ -8,10 +8,9 @@
  **/
 import React, {useState, useEffect} from 'react';
 import {StyleSheet, View, Animated} from 'react-native';
-import Icon from 'react-native-vector-icons/Feather';
+import Icon from 'react-native-vector-icons/Ionicons';
 /* COMPONENTS */
 import CText from '~/components/CText';
-import CCard from '~/components/CCard';
 import CFooterList from '~/components/CFooterList';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
@@ -78,7 +77,7 @@ function RequestProcess(props) {
                 style={[
                   cStyles.rounded1,
                   cStyles.px10,
-                  cStyles.py6,
+                  cStyles.py3,
                   cStyles.itemsCenter,
                   styles.con_time_process,
                 ]}>
@@ -115,8 +114,8 @@ function RequestProcess(props) {
                   !item.approveDate
                     ? 'alert-circle'
                     : item.statusID === 0
-                    ? 'x-circle'
-                    : 'check-circle'
+                    ? 'close-circle'
+                    : 'checkmark-circle'
                 }
                 color={
                   !item.approveDate

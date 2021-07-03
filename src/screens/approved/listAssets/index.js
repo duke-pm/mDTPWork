@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable no-shadow */
 /**
  ** Name: List request page
@@ -10,15 +11,19 @@ import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {useColorScheme} from 'react-native-appearance';
 import {useTheme} from '@react-navigation/native';
-import {StyleSheet, TouchableOpacity, View, LayoutAnimation,
-  UIManager} from 'react-native';
+import {
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  LayoutAnimation,
+  UIManager,
+} from 'react-native';
 import {TabView} from 'react-native-tab-view';
 import Modal from 'react-native-modal';
-import Icon from 'react-native-vector-icons/Feather';
+import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
-import CContent from '~/components/CContent';
 import CSearchBar from '~/components/CSearchBar';
 import Filter from '../components/Filter';
 import Assets from '../assets';
@@ -30,7 +35,7 @@ import Routes from '~/navigation/Routes';
 import Commons from '~/utils/common/Commons';
 import {fS, IS_ANDROID} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
-import { THEME_DARK } from '~/config/constants';
+import {THEME_DARK} from '~/config/constants';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -89,40 +94,45 @@ function ListRequestAll(props) {
     headerRight: () => (
       <View style={[cStyles.row, cStyles.itemsCenter]}>
         <TouchableOpacity onPress={handleOpenSearch}>
-          <View style={cStyles.pr32}>
+          <View style={isPermissionWrite ? cStyles.pr24 : {}}>
             <Icon
               name={'search'}
               color={
                 isDark ? colors.WHITE : IS_ANDROID ? colors.WHITE : colors.BLACK
               }
-              size={fS(20)}
+              size={fS(23)}
             />
             {routes[index].search !== '' && (
               <View
                 style={[
                   cStyles.abs,
-                  cStyles.inset0,
                   cStyles.rounded2,
                   styles.badge,
                   cStyles.borderAll,
                   isDark && cStyles.borderAllDark,
-                  {backgroundColor: customColors.red},
+                  {backgroundColor: customColors.red, top: -5, left: 10},
                 ]}
               />
             )}
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={handleAddNew}>
-          <View>
-            <Icon
-              name={'plus'}
-              color={
-                isDark ? colors.WHITE : IS_ANDROID ? colors.WHITE : colors.BLACK
-              }
-              size={fS(23)}
-            />
-          </View>
-        </TouchableOpacity>
+        {isPermissionWrite && (
+          <TouchableOpacity onPress={handleAddNew}>
+            <View>
+              <Icon
+                name={'add-circle'}
+                color={
+                  isDark
+                    ? colors.WHITE
+                    : IS_ANDROID
+                    ? colors.WHITE
+                    : colors.BLACK
+                }
+                size={fS(23)}
+              />
+            </View>
+          </TouchableOpacity>
+        )}
       </View>
     ),
   });
@@ -219,21 +229,6 @@ function ListRequestAll(props) {
               onFilter={handleFilter}
             />
           )}
-
-          <Modal
-            isVisible={showSearchBar}
-            style={cStyles.m0}
-            useNativeDriver={true}
-            useNativeDriverForBackdrop={true}
-            animationIn={'fadeIn'}
-            animationOut={'fadeOut'}
-            backdropOpacity={0.4}
-            coverScreen={false}
-            hideModalContentWhileAnimating={true}
-            backdropTransitionOutTiming={0}
-            deviceWidth={cStyles.deviceWidth}
-            deviceHeight={cStyles.deviceHeight}
-          />
 
           <CSearchBar
             isVisible={showSearchBar}

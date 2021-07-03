@@ -14,7 +14,7 @@ import {
   UIManager,
   ScrollView,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Feather';
+import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 /* COMPONENTS */
 import CList from '~/components/CList';
@@ -147,7 +147,9 @@ function ListProject(props) {
                   <Icon
                     style={cStyles.ml3}
                     name={
-                      chooseProject.isPublic ? 'check-circle' : 'alert-circle'
+                      chooseProject.isPublic
+                        ? 'checkmark-circle'
+                        : 'alert-circle'
                     }
                     color={
                       chooseProject.isPublic

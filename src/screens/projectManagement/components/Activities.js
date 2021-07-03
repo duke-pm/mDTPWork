@@ -5,16 +5,23 @@
  ** CreateAt: 2021
  ** Description: Description of Activity.js
  **/
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useLayoutEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {useColorScheme} from 'react-native-appearance';
 import {useTheme} from '@react-navigation/native';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import {showMessage} from 'react-native-flash-message';
 import {isIphoneX} from 'react-native-iphone-x-helper';
-import {StyleSheet, View, Keyboard, Text, TouchableOpacity} from 'react-native';
-import Icon from 'react-native-vector-icons/Feather';
+import {
+  StyleSheet,
+  View,
+  Keyboard,
+  Text,
+  TouchableOpacity,
+  StatusBar,
+  KeyboardAvoidingView,
+} from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
@@ -26,7 +33,13 @@ import CAvatar from '~/components/CAvatar';
 /* COMMON */
 import {LAST_COMMENT_TASK, THEME_DARK} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
-import {saveLocalInfo, getLocalInfo, fS, IS_IOS} from '~/utils/helper';
+import {
+  saveLocalInfo,
+  getLocalInfo,
+  fS,
+  IS_IOS,
+  IS_ANDROID,
+} from '~/utils/helper';
 import {LOCALE_VI, LOCALE_EN} from '~/utils/language/comment';
 /** REDUX */
 import * as Actions from '~/redux/actions';
@@ -44,30 +57,39 @@ const RenderInputMessage = ({
   return (
     <View
       style={[
-        cStyles.px16,
-        cStyles.row,
-        cStyles.itemsCenter,
-        !isIphoneX() && cStyles.mb16,
+        cStyles.pb6,
+        cStyles.bottom0,
+        cStyles.isIphoneX() && cStyles.pb24,
+        cStyles.fullWidth,
+        {
+          backgroundColor: customColors.background,
+        },
       ]}>
-      <CInput
-        name={INPUT_NAME.MESSAGE}
-        style={{backgroundColor: customColors.textInput}}
-        containerStyle={styles.input}
-        styleFocus={styles.input_focus}
-        holder={'project_management:holder_input_your_comment'}
-        value={value}
-        keyboard={'default'}
-        returnKey={'send'}
-        onChangeInput={onSend}
-        onChangeValue={handleChangeText}
-      />
-      <View style={[cStyles.flexCenter, cStyles.pt10]}>
-        <CIconButton
-          disabled={value === ''}
-          iconName={'send'}
-          iconColor={value === '' ? colors.GRAY_500 : colors.SECONDARY}
-          onPress={onSend}
+      <View style={[cStyles.px16, cStyles.row, cStyles.itemsCenter]}>
+        <CInput
+          name={INPUT_NAME.MESSAGE}
+          style={{
+            backgroundColor: customColors.listItem,
+            color: customColors.text,
+          }}
+          containerStyle={styles.input}
+          styleFocus={styles.input_focus}
+          holder={'project_management:holder_input_your_comment'}
+          value={value}
+          onBlur={() => Keyboard.dismiss()}
+          keyboard={'default'}
+          returnKey={'send'}
+          onChangeInput={onSend}
+          onChangeValue={handleChangeText}
         />
+        <View style={[cStyles.flexCenter, cStyles.pt10]}>
+          <CIconButton
+            disabled={value === ''}
+            iconName={'send'}
+            iconColor={value === '' ? colors.GRAY_500 : colors.SECONDARY}
+            onPress={onSend}
+          />
+        </View>
       </View>
     </View>
   );
@@ -102,6 +124,20 @@ function Activity(props) {
   const [valueMessage, setValueMessage] = useState('');
   const [messages, setMessages] = useState([]);
 
+  navigation.setOptions({
+    headerLeft: () => (
+      <TouchableOpacity onPress={handleBack}>
+        <View>
+          <Icon
+            name={'close'}
+            color={IS_ANDROID ? colors.WHITE : customColors.icon}
+            size={fS(23)}
+          />
+        </View>
+      </TouchableOpacity>
+    ),
+  });
+
   /*****************
    ** HANDLE FUNC **
    *****************/
@@ -125,9 +161,9 @@ function Activity(props) {
         );
         find = array.findIndex(f => f.title === date);
         if (find !== -1) {
-          array[find].data.push(item);
+          array[find].data.unshift(item);
         } else {
-          array.push({
+          array.unshift({
             title: date,
             data: [item],
           });
@@ -141,9 +177,9 @@ function Activity(props) {
       );
       let find = array.findIndex(f => f.title === date);
       if (find !== -1) {
-        array[array.length - 1].data.push(lastCmt);
+        array[0].data.unshift(lastCmt);
       } else {
-        array.push({
+        array.unshift({
           title: date,
           data: [lastCmt],
         });
@@ -213,6 +249,13 @@ function Activity(props) {
    ** LIFE CYCLE **
    ******************/
   useEffect(() => {
+    if (IS_IOS) {
+      if (isDark) {
+        // Do nothing
+      } else {
+        StatusBar.setBarStyle('light-content', true);
+      }
+    }
     onPrepareData(false);
     onUpdateLastComment();
   }, []);
@@ -237,6 +280,18 @@ function Activity(props) {
     projectState.get('errorTaskComment'),
   ]);
 
+  useLayoutEffect(() => {
+    return () => {
+      if (IS_IOS) {
+        if (isDark) {
+          // Do nothing
+        } else {
+          StatusBar.setBarStyle('dark-content', true);
+        }
+      }
+    };
+  }, []);
+
   /**************
    ** RENDER **
    **************/
@@ -244,26 +299,20 @@ function Activity(props) {
     <CContainer
       loading={loading.main || loading.send}
       content={
-        <SafeAreaView
+        <KeyboardAvoidingView
           style={[
             cStyles.flex1,
             {backgroundColor: customColors.backgroundActivity},
           ]}
-          edges={['bottom', 'left', 'right']}>
-          {IS_IOS && (
-            <TouchableOpacity onPress={handleBack}>
-              <View style={cStyles.p16}>
-                <Icon name={'x'} color={colors.BLACK} size={fS(20)} />
-              </View>
-            </TouchableOpacity>
-          )}
+          behavior={IS_IOS ? 'height' : undefined}
+          keyboardVerticalOffset={isIphoneX() ? 14 : 30}>
           <View style={cStyles.flex1}>
             {!loading.main && (
               <CList
                 contentStyle={cStyles.pt16}
                 customColors={customColors}
-                scrollToBottom
                 sectionList
+                inverted
                 textEmpty={t('project_management:empty_comment')}
                 data={messages}
                 item={({item, index}) => {
@@ -272,9 +321,9 @@ function Activity(props) {
                       <View style={[cStyles.itemsEnd, cStyles.pb6]}>
                         <View
                           style={[
-                            cStyles.roundedBottomLeft2,
                             cStyles.roundedTopLeft2,
                             cStyles.roundedTopRight2,
+                            cStyles.roundedBottomLeft2,
                             cStyles.p10,
                             cStyles.ml10,
                             {
@@ -315,16 +364,16 @@ function Activity(props) {
                     <View
                       style={[
                         cStyles.row,
-                        cStyles.itemsStart,
-                        cStyles.pb16,
+                        cStyles.itemsEnd,
+                        cStyles.pb6,
                         cStyles.mr32,
                       ]}>
                       <CAvatar size={'small'} label={item.fullName} />
                       <View
                         style={[
-                          cStyles.roundedBottomLeft2,
-                          cStyles.roundedBottomRight2,
                           cStyles.roundedTopRight2,
+                          cStyles.roundedBottomRight2,
+                          cStyles.roundedBottomLeft2,
                           cStyles.p10,
                           cStyles.ml10,
                           {
@@ -333,7 +382,7 @@ function Activity(props) {
                               : colors.GRAY_100,
                           },
                         ]}>
-                        <View style={[cStyles.row, cStyles.itemsEnd]}>
+                        <Text>
                           <Text
                             style={[
                               cStyles.textTitle,
@@ -341,16 +390,15 @@ function Activity(props) {
                             ]}>
                             {item.fullName}
                           </Text>
-                          <CText
-                            customStyles={[cStyles.textDate, cStyles.textLeft]}
-                            customLabel={`, ${t(
+                          <Text style={[cStyles.textDate, cStyles.textLeft]}>
+                            {` ${t(
                               'project_management:last_updated_at',
                             )} ${moment(
                               item.timeUpdate,
                               'DD/MM/YYYY - HH:mm',
                             ).format('HH:mm')}`}
-                          />
-                        </View>
+                          </Text>
+                        </Text>
 
                         <View style={cStyles.mt10}>
                           <CText customLabel={item.comments} />
@@ -361,6 +409,7 @@ function Activity(props) {
                 }}
               />
             )}
+
             <RenderInputMessage
               customColors={customColors}
               value={valueMessage}
@@ -368,14 +417,14 @@ function Activity(props) {
               handleChangeText={setValueMessage}
             />
           </View>
-        </SafeAreaView>
+        </KeyboardAvoidingView>
       }
     />
   );
 }
 
 const styles = StyleSheet.create({
-  input_focus: {borderColor: colors.SECONDARY},
+  input_focus: {borderColor: colors.WHITE},
   input: {width: '85%'},
 });
 
