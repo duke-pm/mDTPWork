@@ -12,7 +12,7 @@ import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
 import {enableScreens} from 'react-native-screens';
-import {BlurView} from '@react-native-community/blur';
+import {View} from 'react-native';
 /** COMMON */
 import Routes from './Routes';
 import {fS, IS_ANDROID, IS_IOS} from '~/utils/helper';
@@ -43,16 +43,6 @@ export function RootDashboard(props) {
             ? colors.PRIMARY
             : undefined,
         },
-        headerBackground: () => (
-          <BlurView
-            style={cStyles.abs}
-            blurType={isDark ? 'extraDark' : 'xlight'}
-            blurAmount={10}
-            reducedTransparencyFallbackColor={
-              isDark ? colors.BLACK : colors.WHITE
-            }
-          />
-        ),
         headerTintColor: IS_IOS ? undefined : colors.WHITE,
         headerBackTitleStyle: {
           fontSize: fS(16),
@@ -98,30 +88,27 @@ export function RootDashboard(props) {
           title: t('sales_visit:title'),
         }}
       />
-      <StackMain.Screen
+      <StackDashboard.Screen
         name={Routes.MAIN.PROJECT_MANAGEMENT.name}
         component={Routes.MAIN.PROJECT_MANAGEMENT.path}
         options={{
           title: t('project_management:title'),
         }}
       />
-      <StackMain.Screen
+      <StackDashboard.Screen
         name={Routes.MAIN.PROJECT_DETAIL.name}
         component={Routes.MAIN.PROJECT_DETAIL.path}
-        options={{
-          headerBackTitle: t('common:back'),
-        }}
       />
-      <StackMain.Screen
+      <StackDashboard.Screen
         name={Routes.MAIN.TASK_DETAIL.name}
         component={Routes.MAIN.TASK_DETAIL.path}
         options={{
-          headerBackTitle: t('common:back'),
           title: '',
           headerLargeTitle: false,
+          headerTranslucent: false,
         }}
       />
-      <StackMain.Screen
+      <StackDashboard.Screen
         name={Routes.MAIN.PROJECT_FILTER.name}
         component={Routes.MAIN.PROJECT_FILTER.path}
         options={{
@@ -131,67 +118,69 @@ export function RootDashboard(props) {
           headerTranslucent: false,
         }}
       />
-      <StackMain.Screen
+      <StackDashboard.Screen
         name={Routes.MAIN.TASK_DETAIL.childrens.TASK_ACTIVITIES.name}
         component={Routes.MAIN.TASK_DETAIL.childrens.TASK_ACTIVITIES.path}
         options={{
           title: t('project_management:title_activity'),
           stackPresentation: 'modal',
           headerLargeTitle: false,
+          headerTranslucent: false,
         }}
       />
-      <StackMain.Screen
+      <StackDashboard.Screen
         name={Routes.MAIN.TASK_DETAIL.childrens.TASK_WATCHERS.name}
         component={Routes.MAIN.TASK_DETAIL.childrens.TASK_WATCHERS.path}
         options={{
           title: t('project_management:title_watcher'),
           stackPresentation: 'modal',
           headerLargeTitle: false,
+          headerTranslucent: false,
         }}
       />
-      <StackMain.Screen
+      <StackDashboard.Screen
         name={Routes.MAIN.APPROVED.name}
         component={Routes.MAIN.APPROVED.path}
         options={{
           title: t('approved:assets'),
         }}
       />
-      <StackMain.Screen
+      <StackDashboard.Screen
         name={Routes.MAIN.APPROVED.childrens.LIST_REQUEST_ASSETS.name}
         component={Routes.MAIN.APPROVED.childrens.LIST_REQUEST_ASSETS.path}
         options={{
           title: t('list_request_assets:title'),
         }}
       />
-      <StackMain.Screen
+      <StackDashboard.Screen
         name={Routes.MAIN.APPROVED.childrens.LIST_REQUEST_HANDLING.name}
         component={Routes.MAIN.APPROVED.childrens.LIST_REQUEST_HANDLING.path}
         options={{
           title: t('list_request_assets_handling:title'),
         }}
       />
-      <StackMain.Screen
+      <StackDashboard.Screen
         name={Routes.MAIN.APPROVED_ASSETS.name}
         component={Routes.MAIN.APPROVED_ASSETS.path}
         options={{
           title: t('list_request_assets:title'),
         }}
       />
-      <StackMain.Screen
+      <StackDashboard.Screen
         name={Routes.MAIN.APPROVED_ASSETS_DAMAGE.name}
         component={Routes.MAIN.APPROVED_ASSETS_DAMAGE.path}
         options={{
           title: t('list_request_assets:title'),
         }}
       />
-      <StackMain.Screen
+      <StackDashboard.Screen
         name={Routes.MAIN.APPROVED_ASSETS_LOST.name}
         component={Routes.MAIN.APPROVED_ASSETS_LOST.path}
         options={{
           title: t('list_request_assets:title'),
         }}
       />
-      <StackMain.Screen
+      <StackDashboard.Screen
         name={Routes.MAIN.ADD_APPROVED_ASSETS.name}
         component={Routes.MAIN.ADD_APPROVED_ASSETS.path}
         options={{
@@ -200,7 +189,7 @@ export function RootDashboard(props) {
           headerTranslucent: false,
         }}
       />
-      <StackMain.Screen
+      <StackDashboard.Screen
         name={Routes.MAIN.ADD_APPROVED_LOST_DAMAGED.name}
         component={Routes.MAIN.ADD_APPROVED_LOST_DAMAGED.path}
         options={{
@@ -220,7 +209,7 @@ export function RootAccount(props) {
 
   return (
     <StackAccount.Navigator
-      initialRouteName={Routes.MAIN.DASHBOARD.name}
+      initialRouteName={Routes.MAIN.ACCOUNT.name}
       screenOptions={{
         headerShown: true,
         headerStyle: {
@@ -275,7 +264,7 @@ export function RootAccount(props) {
           title: t('help_and_info:title'),
         }}
       />
-      <StackMain.Screen
+      <StackAccount.Screen
         name={Routes.MAIN.CHANGE_PASSWORD.name}
         component={Routes.MAIN.CHANGE_PASSWORD.path}
         options={{
@@ -284,7 +273,7 @@ export function RootAccount(props) {
           headerTranslucent: false,
         }}
       />
-      <StackMain.Screen
+      <StackAccount.Screen
         name={Routes.MAIN.CONTACT_US.name}
         component={Routes.MAIN.CONTACT_US.path}
         options={{
@@ -292,7 +281,7 @@ export function RootAccount(props) {
           title: t('contact_us:title'),
         }}
       />
-      <StackMain.Screen
+      <StackAccount.Screen
         name={Routes.MAIN.SETTINGS.name}
         component={Routes.MAIN.SETTINGS.path}
         options={{

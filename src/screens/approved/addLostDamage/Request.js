@@ -218,7 +218,11 @@ function AddRequest(props) {
     headerLeft: () => (
       <TouchableOpacity onPress={handleBack}>
         <View>
-          <Icon name={'close'} color={customColors.icon} size={fS(23)} />
+          <Icon
+            name={'close'}
+            color={IS_ANDROID ? colors.WHITE : customColors.icon}
+            size={fS(23)}
+          />
         </View>
       </TouchableOpacity>
     ),

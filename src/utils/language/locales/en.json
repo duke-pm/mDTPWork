@@ -418,7 +418,8 @@
     "info_basic_3": "Other information",
     "info_basic_4": "Description",
     "list_task": "Project Number #",
-    "estimated_time": "Estimated"
+    "estimated_time": "Estimated",
+    "detail_task": "Detail"
   },
   "sales_visit": {
     "title": "Sales Visit"

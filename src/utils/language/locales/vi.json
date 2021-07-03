@@ -424,7 +424,8 @@
     "info_basic_3": "Thông tin khác",
     "info_basic_4": "Mô tả",
     "list_task": "Dự án số #",
-    "estimated_time": "Estimated"
+    "estimated_time": "Estimated",
+    "detail_task": "Chi tiết"
 
   },
   "sales_visit": {

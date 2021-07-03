@@ -30,10 +30,12 @@ function CContent(props) {
       scrollToOverflowEnabled
       keyboardShouldPersistTaps={'handled'}
       refreshControl={
-        <RefreshControl
-          refreshing={props.refreshing}
-          onRefresh={props.onRefresh}
-        />
+        props.onRefresh ? (
+          <RefreshControl
+            refreshing={props.refreshing}
+            onRefresh={props.onRefresh}
+          />
+        ) : undefined
       }
       {...props}>
       {props.children}

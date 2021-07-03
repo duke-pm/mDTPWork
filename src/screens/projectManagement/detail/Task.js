@@ -128,48 +128,43 @@ function Task(props) {
   });
 
   navigation.setOptions({
-    headerLeft: () => {
-      if (route.params?.taskID) {
-        return (
-          <TouchableOpacity onPress={handleBack}>
-            <View style={cStyles.pr32}>
-              <Icon
-                name={IS_IOS ? 'chevron-back' : 'arrow-back'}
-                color={
-                  isDark
-                    ? colors.WHITE
-                    : IS_ANDROID
-                    ? colors.WHITE
-                    : colors.BLACK
-                }
-                size={fS(23)}
-              />
-            </View>
-          </TouchableOpacity>
-        );
-      }
-      return undefined;
-    },
+    backButtonInCustomView: true,
+    headerLeft: () =>
+      (route.params?.taskID !== null || route.params?.taskID !== undefined) &&
+      !navigation.canGoBack() ? (
+        <TouchableOpacity onPress={handleBack}>
+          <View
+            style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyStart]}>
+            <Icon
+              name={'arrow-back'}
+              color={IS_ANDROID ? colors.WHITE : customColors.blue}
+              size={fS(30)}
+            />
+            <CText
+              customStyles={[
+                {color: IS_ANDROID ? colors.WHITE : customColors.blue},
+              ]}
+              label={'dashboard:title'}
+            />
+          </View>
+        </TouchableOpacity>
+      ) : undefined,
     headerRight: () => (
       <View style={[cStyles.row, cStyles.itemsCenter]}>
         <TouchableOpacity onPress={handleFastWatch}>
-          <View style={cStyles.pr32}>
+          <View style={cStyles.pr28}>
             <Icon
               name={isFastWatch ? 'eye-outline' : 'eye'}
-              color={
-                isDark ? colors.WHITE : IS_ANDROID ? colors.WHITE : colors.BLACK
-              }
+              color={IS_ANDROID ? colors.WHITE : customColors.icon}
               size={fS(23)}
             />
           </View>
         </TouchableOpacity>
         <TouchableOpacity onPress={handleActivities}>
-          <View style={cStyles.pr32}>
+          <View style={cStyles.pr24}>
             <Icon
               name={'chatbubbles'}
-              color={
-                isDark ? colors.WHITE : IS_ANDROID ? colors.WHITE : colors.BLACK
-              }
+              color={IS_ANDROID ? colors.WHITE : customColors.icon}
               size={fS(23)}
             />
             {newComment && (
@@ -190,9 +185,7 @@ function Task(props) {
           <View>
             <Icon
               name={'people'}
-              color={
-                isDark ? colors.WHITE : IS_ANDROID ? colors.WHITE : colors.BLACK
-              }
+              color={IS_ANDROID ? colors.WHITE : customColors.icon}
               size={fS(23)}
             />
             {!isFastWatch && (

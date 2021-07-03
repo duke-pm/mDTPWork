@@ -77,13 +77,11 @@ function ProjectManagement(props) {
     headerRight: () => (
       <View style={[cStyles.row, cStyles.itemsCenter]}>
         <TouchableOpacity onPress={handleOpenSearch}>
-          <View style={cStyles.pr32}>
+          <View style={cStyles.pr24}>
             <Icon
               name={'search'}
-              color={
-                isDark ? colors.WHITE : IS_ANDROID ? colors.WHITE : colors.BLACK
-              }
-              size={fS(20)}
+              color={IS_ANDROID ? colors.WHITE : customColors.icon}
+              size={fS(23)}
             />
             {data.search !== '' && (
               <View
@@ -103,10 +101,8 @@ function ProjectManagement(props) {
           <View>
             <Icon
               name={'options'}
-              color={
-                isDark ? colors.WHITE : IS_ANDROID ? colors.WHITE : colors.BLACK
-              }
-              size={fS(20)}
+              color={IS_ANDROID ? colors.WHITE : customColors.icon}
+              size={fS(23)}
             />
             {isFiltering && (
               <View
