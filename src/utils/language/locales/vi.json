@@ -38,7 +38,8 @@
     "need_confirm": "Yêu cầu cần Xác nhận",
     "update_app": "Cập nhật ngay!",
     "back": "Trở về",
-    "holder_search": "Tìm kiếm..."
+    "holder_search": "Tìm kiếm...",
+    "find": "Tìm"
   },
   "status": {
     "title": "Trạng thái",

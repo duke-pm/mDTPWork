@@ -17,7 +17,6 @@ import Routes from './Routes';
 import {fS, IS_ANDROID, IS_IOS} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
 import {THEME_DARK} from '~/config/constants';
-import CText from '~/components/CText';
 
 /** INIT NAVIGATOR OF APP */
 enableScreens(true);
@@ -98,6 +97,9 @@ export function RootDashboard(props) {
       <StackDashboard.Screen
         name={Routes.MAIN.PROJECT_DETAIL.name}
         component={Routes.MAIN.PROJECT_DETAIL.path}
+        options={{
+          headerBackTitle: t('common:back'),
+        }}
       />
       <StackDashboard.Screen
         name={Routes.MAIN.TASK_DETAIL.name}

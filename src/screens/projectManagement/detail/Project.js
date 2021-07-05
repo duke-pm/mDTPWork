@@ -165,7 +165,7 @@ function ProjectDetail(props) {
         ? {
             headerCenter: () => (
               <CText
-                styles={'colorWhite'}
+                styles={'colorWhite fontMedium'}
                 customLabel={`${t('project_management:list_task')}${projectID}`}
               />
             ),
@@ -516,6 +516,7 @@ function ProjectDetail(props) {
       content={
         <CContent refreshing={loading.refreshing} onRefresh={onRefreshTasks}>
           <CSearchBar
+            loading={loading.startFetch}
             isVisible={showSearchBar}
             onSearch={handleSearch}
             onClose={handleCloseSearch}

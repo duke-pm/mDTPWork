@@ -71,19 +71,33 @@ function Watchers(props) {
   const [getEmail, setGetEmail] = useState(true);
   const [watchers, setWatchers] = useState([]);
 
-  navigation.setOptions({
-    headerLeft: () => (
-      <TouchableOpacity onPress={handleBack}>
-        <View>
-          <Icon
-            name={'close'}
-            color={IS_ANDROID ? colors.WHITE : customColors.icon}
-            size={fS(23)}
-          />
-        </View>
-      </TouchableOpacity>
+  navigation.setOptions(
+    Object.assign(
+      {
+        headerLeft: () => (
+          <TouchableOpacity onPress={handleBack}>
+            <View>
+              <Icon
+                name={'close'}
+                color={IS_ANDROID ? colors.WHITE : customColors.icon}
+                size={fS(23)}
+              />
+            </View>
+          </TouchableOpacity>
+        ),
+      },
+      IS_ANDROID
+        ? {
+            headerCenter: () => (
+              <CText
+                styles={'colorWhite fontMedium'}
+                label={'project_management:title_watcher'}
+              />
+            ),
+          }
+        : {},
     ),
-  });
+  );
 
   /*****************
    ** HANDLE FUNC **

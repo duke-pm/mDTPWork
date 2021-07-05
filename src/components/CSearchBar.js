@@ -4,15 +4,23 @@
  ** CreateAt: 2021
  ** Description: Description of CSearchBar.js
  **/
-import React, {createRef, useState, useEffect} from 'react';
-import {useTheme} from '@react-navigation/native';
+import React, {useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {LayoutAnimation, UIManager} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
-import SearchBar from 'react-native-searchbar';
+import {useColorScheme} from 'react-native-appearance';
+import {useTheme} from '@react-navigation/native';
+import {
+  LayoutAnimation,
+  UIManager,
+  ActivityIndicator,
+  Platform,
+  View,
+} from 'react-native';
+import SearchBar from 'react-native-platform-searchbar';
+/** COMPONENTS */
+import CIconButton from './CIconButton';
 /* COMMON */
-import {fS, IS_ANDROID, IS_IOS} from '~/utils/helper';
-import {cStyles} from '~/utils/style';
+import {IS_ANDROID} from '~/utils/helper';
+import {colors, cStyles} from '~/utils/style';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -20,12 +28,17 @@ if (IS_ANDROID) {
   }
 }
 
-let searchBarRef = createRef();
-
 function CSearchBar(props) {
   const {t} = useTranslation();
+  const theme = useColorScheme();
   const {customColors} = useTheme();
-  const {isVisible, onSearch, onClose} = props;
+  const {
+    style = {},
+    loading = false,
+    isVisible = false,
+    onSearch = () => null,
+    onClose = () => null,
+  } = props;
 
   /** Use state */
   const [value, setValue] = useState('');
@@ -35,10 +48,13 @@ function CSearchBar(props) {
    *****************/
   const handleSearch = () => {
     onSearch(value);
-    handleCloseSearch();
   };
 
-  const handleCloseSearch = () => {
+  const handleClearInput = () => {
+    setValue('');
+  };
+
+  const handleCancelInput = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     onClose();
   };
@@ -46,58 +62,54 @@ function CSearchBar(props) {
   /************
    ** FUNC **
    ************/
-  const onChangeSearch = valueInput => {
+  const onChangeText = valueInput => {
     setValue(valueInput);
   };
-
-  /******************
-   ** LIFE CYCLE **
-   ******************/
-  useEffect(() => {
-    if (isVisible) {
-      searchBarRef.show();
-    } else {
-      searchBarRef.hide();
-    }
-  }, [isVisible]);
 
   /**************
    ** RENDER **
    **************/
+  if (!isVisible) {
+    return null;
+  }
   return (
-    <SearchBar
-      ref={ref => (searchBarRef = ref)}
-      placeholder={t('common:holder_search')}
-      backgroundColor={customColors.background}
-      textColor={customColors.text}
-      selectionColor={customColors.text}
-      iOSPadding={true}
-      iOSHideShadow={true}
-      clearOnHide={false}
-      autoCorrect={false}
-      autoCapitalize={'none'}
-      fontSize={cStyles.textDefault.fontSize}
-      heightAdjust={IS_IOS ? -20 : 0}
-      backButton={
-        <Icon
-          name={IS_IOS ? 'chevron-back-outline' : 'arrow-back-outline'}
-          size={fS(22)}
-          color={customColors.text}
+    <View
+      style={[
+        cStyles.row,
+        cStyles.itemsCenter,
+        cStyles.justifyBetween,
+        cStyles.mt10,
+        IS_ANDROID && cStyles.mr40,
+      ]}>
+      {IS_ANDROID && (
+        <CIconButton
+          style={cStyles.pl12}
+          disabled={loading}
+          iconName={'arrow-back'}
+          iconColor={customColors.icon}
+          onPress={handleCancelInput}
         />
-      }
-      closeButton={
-        IS_IOS && value !== '' ? (
-          <Icon
-            name={IS_IOS ? 'close-circle' : 'close'}
-            size={20}
-            color={customColors.textDisable}
-          />
-        ) : undefined
-      }
-      handleChangeText={onChangeSearch}
-      onSubmitEditing={handleSearch}
-      onBack={handleCloseSearch}
-    />
+      )}
+      <SearchBar
+        style={[cStyles.mx16, style]}
+        platform={Platform.OS}
+        theme={theme}
+        iconColor={theme === 'dark' ? colors.GRAY_300 : colors.GRAY_700}
+        leftIcon={IS_ANDROID ? () => <View /> : undefined}
+        cancelText={t('common:cancel')}
+        placeholder={t('common:holder_search')}
+        value={value}
+        autoFocus={true}
+        keyboardType={'default'}
+        returnKeyType={'search'}
+        returnKeyLabel={t('common:find')}
+        onSubmitEditing={handleSearch}
+        onChangeText={onChangeText}
+        onCancel={handleCancelInput}
+        onClear={handleClearInput}>
+        {loading ? <ActivityIndicator style={cStyles.mr10} /> : undefined}
+      </SearchBar>
+    </View>
   );
 }
 

@@ -62,7 +62,6 @@ function ListRequestHandling(props) {
   const [loading, setLoading] = useState({
     main: true,
     startFetch: false,
-    search: false,
     refreshing: false,
     loadmore: false,
     isLoadmore: true,
@@ -114,11 +113,11 @@ function ListRequestHandling(props) {
   const handleSearch = value => {
     setData({...data, search: value, page: 1});
     onFetchData(data.fromDate, data.toDate, data.status, 1, value, data.type);
-    setLoading({...loading, search: true});
+    setLoading({...loading, startFetch: true});
   };
 
   const handleFilter = (fromDate, toDate, status, type) => {
-    setLoading({...loading, search: true});
+    setLoading({...loading, startFetch: true});
     setData({
       ...data,
       page: 1,
@@ -198,7 +197,6 @@ function ListRequestHandling(props) {
     setLoading({
       main: false,
       startFetch: false,
-      search: false,
       refreshing: false,
       loadmore: false,
       isLoadmore,
@@ -247,7 +245,6 @@ function ListRequestHandling(props) {
     return setLoading({
       main: false,
       startFetch: false,
-      search: false,
       refreshing: false,
       loadmore: false,
       isLoadmore: false,
@@ -270,12 +267,7 @@ function ListRequestHandling(props) {
   }, []);
 
   useEffect(() => {
-    if (
-      loading.startFetch ||
-      loading.search ||
-      loading.refreshing ||
-      loading.loadmore
-    ) {
+    if (loading.startFetch || loading.refreshing || loading.loadmore) {
       if (!approvedState.get('submittingList')) {
         let type = REFRESH;
         if (loading.loadmore) {
@@ -293,7 +285,6 @@ function ListRequestHandling(props) {
     }
   }, [
     loading.startFetch,
-    loading.search,
     loading.refreshing,
     loading.loadmore,
     approvedState.get('submittingList'),
@@ -318,6 +309,7 @@ function ListRequestHandling(props) {
           {!showSearchBar && <Filter isResolve onFilter={handleFilter} />}
 
           <CSearchBar
+            loading={loading.startFetch}
             isVisible={showSearchBar}
             onSearch={handleSearch}
             onClose={handleCloseSearch}

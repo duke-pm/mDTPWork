@@ -371,6 +371,7 @@ function ProjectManagement(props) {
       content={
         <CContent refreshing={loading.refreshing} onRefresh={onRefresh}>
           <CSearchBar
+            loading={loading.startFetch}
             isVisible={showSearchBar}
             onSearch={handleSearch}
             onClose={handleCloseSearch}
