@@ -526,7 +526,7 @@ const text = {
   textButton: {
     fontSize: fS(16),
     color: 'white',
-    fontWeight: '700',
+    fontWeight: '600',
     lineHeight: IS_IOS ? 25 : 27,
   },
   fontBold: {fontWeight: 'bold'},

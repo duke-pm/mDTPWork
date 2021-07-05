@@ -83,82 +83,96 @@ function ProjectDetail(props) {
 
   let prevShowFilter = usePrevious(showFilter);
 
-  navigation.setOptions({
-    backButtonInCustomView: true,
-    title: `${t('project_management:list_task')}${projectID}`,
-    headerLeft: () =>
-      (route.params?.projectID !== null ||
-        route.params?.projectID !== undefined) &&
-      !navigation.canGoBack() ? (
-        <TouchableOpacity onPress={handleBack}>
-          <View
-            style={[
-              cStyles.row,
-              cStyles.itemsCenter,
-              cStyles.justifyStart,
-              styles.left,
-            ]}>
-            <Icon
-              name={IS_IOS ? 'chevron-back' : 'arrow-back'}
-              color={IS_ANDROID ? colors.WHITE : customColors.blue}
-              size={IS_IOS ? fS(30) : fS(25)}
-            />
-            <CText
-              customStyles={[
-                {color: IS_ANDROID ? colors.WHITE : customColors.blue},
-              ]}
-              label={'dashboard:title'}
-            />
-          </View>
-        </TouchableOpacity>
-      ) : undefined,
-    headerRight: () => (
-      <View style={[cStyles.row, cStyles.itemsCenter]}>
-        <TouchableOpacity onPress={handleOpenSearch}>
-          <View style={cStyles.pr24}>
-            <Icon
-              name={'search'}
-              color={IS_ANDROID ? colors.WHITE : customColors.icon}
-              size={fS(23)}
-            />
-            {data.search !== '' && (
+  navigation.setOptions(
+    Object.assign(
+      {
+        title: `${t('project_management:list_task')}${projectID}`,
+        backButtonInCustomView: true,
+        headerLeft: () =>
+          (route.params?.projectID !== null ||
+            route.params?.projectID !== undefined) &&
+          !navigation.canGoBack() ? (
+            <TouchableOpacity onPress={handleBack}>
               <View
                 style={[
-                  cStyles.abs,
-                  cStyles.rounded2,
-                  styles.badge,
-                  cStyles.borderAll,
-                  isDark && cStyles.borderAllDark,
-                  {backgroundColor: customColors.red, top: -5, left: 10},
-                ]}
-              />
-            )}
+                  cStyles.row,
+                  cStyles.itemsCenter,
+                  cStyles.justifyStart,
+                  styles.left,
+                ]}>
+                <Icon
+                  name={IS_IOS ? 'chevron-back' : 'arrow-back'}
+                  color={IS_ANDROID ? colors.WHITE : customColors.blue}
+                  size={IS_IOS ? fS(30) : fS(25)}
+                />
+                <CText
+                  customStyles={[
+                    {color: IS_ANDROID ? colors.WHITE : customColors.blue},
+                  ]}
+                  label={'dashboard:title'}
+                />
+              </View>
+            </TouchableOpacity>
+          ) : undefined,
+        headerRight: () => (
+          <View style={[cStyles.row, cStyles.itemsCenter]}>
+            <TouchableOpacity onPress={handleOpenSearch}>
+              <View style={cStyles.pr24}>
+                <Icon
+                  name={'search'}
+                  color={IS_ANDROID ? colors.WHITE : customColors.icon}
+                  size={fS(23)}
+                />
+                {data.search !== '' && (
+                  <View
+                    style={[
+                      cStyles.abs,
+                      cStyles.rounded2,
+                      styles.badge,
+                      cStyles.borderAll,
+                      isDark && cStyles.borderAllDark,
+                      {backgroundColor: customColors.red, top: -5, left: 10},
+                    ]}
+                  />
+                )}
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={handleShowFilter}>
+              <View>
+                <Icon
+                  name={'options'}
+                  color={IS_ANDROID ? colors.WHITE : customColors.icon}
+                  size={fS(23)}
+                />
+                {isFiltering && (
+                  <View
+                    style={[
+                      cStyles.abs,
+                      cStyles.rounded2,
+                      styles.badge,
+                      cStyles.borderAll,
+                      isDark && cStyles.borderAllDark,
+                      {backgroundColor: customColors.red, top: -5, left: 10},
+                    ]}
+                  />
+                )}
+              </View>
+            </TouchableOpacity>
           </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={handleShowFilter}>
-          <View>
-            <Icon
-              name={'options'}
-              color={IS_ANDROID ? colors.WHITE : customColors.icon}
-              size={fS(23)}
-            />
-            {isFiltering && (
-              <View
-                style={[
-                  cStyles.abs,
-                  cStyles.rounded2,
-                  styles.badge,
-                  cStyles.borderAll,
-                  isDark && cStyles.borderAllDark,
-                  {backgroundColor: customColors.red, top: -5, left: 10},
-                ]}
+        ),
+      },
+      IS_ANDROID
+        ? {
+            headerCenter: () => (
+              <CText
+                styles={'colorWhite'}
+                customLabel={`${t('project_management:list_task')}${projectID}`}
               />
-            )}
-          </View>
-        </TouchableOpacity>
-      </View>
+            ),
+          }
+        : {},
     ),
-  });
+  );
 
   /*****************
    ** HANDLE FUNC **

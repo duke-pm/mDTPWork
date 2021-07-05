@@ -1,8 +1,8 @@
 /**
- ** Name:
- ** Author:
+ ** Name: CGroupInfo
+ ** Author: DTP-Education
  ** CreateAt: 2021
- ** Description: Description of .js
+ ** Description: Description of CGroupInfo.js
  **/
 import React from 'react';
 import {useTheme} from '@react-navigation/native';

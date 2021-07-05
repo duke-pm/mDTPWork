@@ -12,12 +12,12 @@ import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
 import {enableScreens} from 'react-native-screens';
-import {View} from 'react-native';
 /** COMMON */
 import Routes from './Routes';
 import {fS, IS_ANDROID, IS_IOS} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
 import {THEME_DARK} from '~/config/constants';
+import CText from '~/components/CText';
 
 /** INIT NAVIGATOR OF APP */
 enableScreens(true);
@@ -46,7 +46,7 @@ export function RootDashboard(props) {
         headerTintColor: IS_IOS ? undefined : colors.WHITE,
         headerBackTitleStyle: {
           fontSize: fS(16),
-          fontFamily: cStyles.fontRegular.fontFamily,
+          fontWeight: cStyles.fontRegular.fontWeight,
         },
         headerTitleStyle: {
           color: isDark
@@ -55,7 +55,7 @@ export function RootDashboard(props) {
             ? colors.WHITE
             : colors.BLACK,
           fontSize: fS(16),
-          fontFamily: cStyles.fontMedium.fontFamily,
+          fontWeight: cStyles.fontMedium.fontWeight,
         },
         headerLargeTitle: true,
         headerLargeTitleHideShadow: true,
@@ -67,7 +67,7 @@ export function RootDashboard(props) {
             ? colors.WHITE
             : colors.BLACK,
           fontSize: fS(28),
-          fontFamily: cStyles.fontBold.fontFamily,
+          fontWeight: cStyles.fontBold.fontWeight,
         },
         headerTopInsetEnabled: false,
         disableBackButtonMenu: true,
@@ -222,7 +222,7 @@ export function RootAccount(props) {
         headerTintColor: IS_IOS ? undefined : colors.WHITE,
         headerBackTitleStyle: {
           fontSize: fS(16),
-          fontFamily: cStyles.fontRegular.fontFamily,
+          fontWeight: cStyles.fontRegular.fontWeight,
         },
         headerTitleStyle: {
           color: isDark
@@ -231,7 +231,7 @@ export function RootAccount(props) {
             ? colors.WHITE
             : colors.BLACK,
           fontSize: fS(16),
-          fontFamily: cStyles.fontMedium.fontFamily,
+          fontWeight: cStyles.fontMedium.fontWeight,
         },
         headerLargeTitle: true,
         headerLargeTitleHideShadow: true,
@@ -243,7 +243,7 @@ export function RootAccount(props) {
             ? colors.WHITE
             : colors.BLACK,
           fontSize: fS(28),
-          fontFamily: cStyles.fontBold.fontFamily,
+          fontWeight: cStyles.fontBold.fontWeight,
         },
         headerTopInsetEnabled: false,
         disableBackButtonMenu: true,

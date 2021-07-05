@@ -1,13 +1,13 @@
 /**
  ** Name:CSearchBar
- ** Author:
+ ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of CSearchBar.js
  **/
 import React, {createRef, useState, useEffect} from 'react';
 import {useTheme} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
-import {LayoutAnimation, UIManager, View} from 'react-native';
+import {LayoutAnimation, UIManager} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import SearchBar from 'react-native-searchbar';
 /* COMMON */
@@ -76,7 +76,6 @@ function CSearchBar(props) {
       clearOnHide={false}
       autoCorrect={false}
       autoCapitalize={'none'}
-      fontFamily={cStyles.textDefault.fontFamily}
       fontSize={cStyles.textDefault.fontSize}
       heightAdjust={IS_IOS ? -20 : 0}
       backButton={

@@ -1,6 +1,6 @@
 /**
  ** Name: Form step by step
- ** Author:
+ ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of StepForm.js
  **/
