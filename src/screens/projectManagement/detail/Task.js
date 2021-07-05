@@ -134,11 +134,16 @@ function Task(props) {
       !navigation.canGoBack() ? (
         <TouchableOpacity onPress={handleBack}>
           <View
-            style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyStart]}>
+            style={[
+              cStyles.row,
+              cStyles.itemsCenter,
+              cStyles.justifyStart,
+              styles.left,
+            ]}>
             <Icon
-              name={'arrow-back'}
+              name={IS_IOS ? 'chevron-back' : 'arrow-back'}
               color={IS_ANDROID ? colors.WHITE : customColors.blue}
-              size={fS(30)}
+              size={IS_IOS ? fS(30) : fS(25)}
             />
             <CText
               customStyles={[
@@ -882,6 +887,7 @@ function Task(props) {
 }
 
 const styles = StyleSheet.create({
+  left: {left: -10},
   con_left: {flex: 0.5},
   con_right: {flex: 0.5},
   con_left_1: {flex: 0.3},

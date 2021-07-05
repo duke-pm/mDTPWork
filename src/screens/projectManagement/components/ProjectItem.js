@@ -171,6 +171,7 @@ function ProjectItem(props) {
             style={[
               cStyles.borderAll,
               isDark && cStyles.borderAllDark,
+              cStyles.borderDashed,
               styles.line_child,
             ]}
           />
@@ -189,7 +190,7 @@ function ProjectItem(props) {
 const styles = StyleSheet.create({
   row_left: {flex: 0.55},
   row_right: {flex: 0.45},
-  line_child: {height: '100%'},
+  line_child: {height: '100%', borderRadius: 1},
   card: {zIndex: 100},
   card_children: {height: 50},
   owner: {width: '65%'},

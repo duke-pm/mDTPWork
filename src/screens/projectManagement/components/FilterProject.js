@@ -15,7 +15,6 @@ import {
   ActivityIndicator,
   TouchableOpacity,
   View,
-  Switch,
   StatusBar,
 } from 'react-native';
 import Picker from '@gregfrench/react-native-wheel-picker';
@@ -146,69 +145,25 @@ const RowSelect = (
   );
 };
 
-const RowToggle = (
-  isDark,
-  customColors,
-  value,
-  label,
-  onPress,
-  isBorder = true,
-  isFirst,
-  isLast,
-) => {
-  return (
-    <View
-      style={[
-        cStyles.flex1,
-        cStyles.fullWidth,
-        cStyles.row,
-        cStyles.itemsCenter,
-        styles.row_header,
-        isFirst && isDark && cStyles.borderTopDark,
-        isFirst && !isDark && cStyles.borderTop,
-        isLast && isDark && cStyles.borderBottomDark,
-        isLast && !isDark && cStyles.borderBottom,
-        {backgroundColor: customColors.card},
-      ]}>
-      <View style={styles.left_row_select} />
-
-      <View
-        style={[
-          cStyles.flex1,
-          cStyles.fullHeight,
-          cStyles.row,
-          cStyles.itemsCenter,
-          cStyles.justifyBetween,
-          cStyles.pr16,
-          !isLast && isBorder && isDark && cStyles.borderBottomDark,
-          !isLast && isBorder && !isDark && cStyles.borderBottom,
-        ]}>
-        <CText label={label} />
-        <Switch value={value} onValueChange={onPress} />
-      </View>
-    </View>
-  );
-};
-
 function FilterProject(props) {
   const {t} = useTranslation();
   const {customColors} = useTheme();
   const isDark = useColorScheme() === THEME_DARK;
   const {route, navigation} = props;
-  const hasYear = route.params?.hasYear || false;
-  const hasSector = route.params?.hasSector || false;
-  const onFilter = route.params?.onFilter || null;
-  const activeOwner = route.params?.activeOwner || [];
-  const activeStatus = route.params?.activeStatus || [];
-  const activeSector = route.params?.activeSector || [];
+  const aParams = {
+    hasYear: route.params?.hasYear || false,
+    hasSector: route.params?.hasSector || false,
+    onFilter: route.params?.onFilter || null,
+    activeOwner: route.params?.activeOwner || [],
+    activeStatus: route.params?.activeStatus || [],
+    activeSector: route.params?.activeSector || [],
+  };
 
   /** Use redux */
   const masterState = useSelector(({masterData}) => masterData);
 
   /** Use state */
-  const [loading, setLoading] = useState({
-    main: hasYear,
-  });
+  const [loading, setLoading] = useState(aParams.hasYear);
   const [year, setYear] = useState({
     data: [],
     active: 0,
@@ -216,15 +171,15 @@ function FilterProject(props) {
   });
   const [owner, setOwner] = useState({
     data: masterState.get('users'),
-    active: activeOwner,
+    active: aParams.activeOwner,
   });
   const [status, setStatus] = useState({
     data: masterState.get('projectStatus'),
-    active: activeStatus,
+    active: aParams.activeStatus,
   });
   const [sectors, setSectors] = useState({
     data: masterState.get('projectSector'),
-    active: activeSector,
+    active: aParams.activeSector,
   });
 
   navigation.setOptions({
@@ -279,11 +234,11 @@ function FilterProject(props) {
 
   const handleFilter = () => {
     navigation.goBack();
-    onFilter(
-      hasYear ? Number(year.data[year.choose]?.value) : null,
+    aParams.onFilter(
+      aParams.hasYear ? Number(year.data[year.choose]?.value) : null,
       owner.active,
       status.active,
-      hasSector ? sectors.active : null,
+      aParams.hasSector ? sectors.active : null,
     );
   };
 
@@ -349,7 +304,7 @@ function FilterProject(props) {
   }, []);
 
   useEffect(() => {
-    if (hasYear && year.data.length === 0) {
+    if (aParams.hasYear && year.data.length === 0) {
       let years = onGetListYear(Configs.numberYearToFilter);
       setYear({
         data: years,
@@ -357,15 +312,15 @@ function FilterProject(props) {
         choose: years.length - 1,
       });
     }
-  }, [hasYear, year.data]);
+  }, [aParams.hasYear, year.data]);
 
   useEffect(() => {
-    if (hasYear && loading.main) {
+    if (aParams.hasYear && loading) {
       if (year.data.length > 0) {
-        setLoading({...loading, main: false});
+        setLoading(false);
       }
     }
-  }, [hasYear, loading.main, year.data]);
+  }, [aParams.hasYear, loading, year.data]);
 
   useLayoutEffect(() => {
     return () => {
@@ -384,18 +339,18 @@ function FilterProject(props) {
    **************/
   return (
     <CContainer
-      loading={loading.main}
+      loading={loading}
       content={
         <CContent contentStyle={cStyles.pb24}>
           {/** Year */}
-          {hasYear && (
+          {aParams.hasYear && (
             <>
               <CGroupLabel
                 containerStyle={cStyles.mt0}
                 labelLeft={t('project_management:calendar_year')}
               />
               {RowPicker(
-                loading.main,
+                loading,
                 isDark,
                 customColors,
                 t('project_management:year'),
@@ -461,7 +416,7 @@ function FilterProject(props) {
           />
 
           {/** Sector */}
-          {hasSector && (
+          {aParams.hasSector && (
             <>
               <CGroupLabel
                 labelLeft={t('project_management:holder_sector')}
@@ -488,7 +443,7 @@ function FilterProject(props) {
               />
             </>
           )}
-          {!loading.main && hasYear && (
+          {!loading && aParams.hasYear && (
             <CActionSheet
               actionRef={actionSheetYearRef}
               headerChoose

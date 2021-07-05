@@ -19,12 +19,19 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
 import CSearchBar from '~/components/CSearchBar';
+import CText from '~/components/CText';
 import ListTask from '../list/Task';
 /** COMMON */
 import Routes from '~/navigation/Routes';
 import {LOAD_MORE, LOGIN, REFRESH, THEME_DARK} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
-import {fS, getSecretInfo, IS_ANDROID, resetRoute} from '~/utils/helper';
+import {
+  fS,
+  getSecretInfo,
+  IS_ANDROID,
+  IS_IOS,
+  resetRoute,
+} from '~/utils/helper';
 import {usePrevious} from '~/utils/hook';
 /** REDUX */
 import * as Actions from '~/redux/actions';
@@ -77,7 +84,34 @@ function ProjectDetail(props) {
   let prevShowFilter = usePrevious(showFilter);
 
   navigation.setOptions({
+    backButtonInCustomView: true,
     title: `${t('project_management:list_task')}${projectID}`,
+    headerLeft: () =>
+      (route.params?.projectID !== null ||
+        route.params?.projectID !== undefined) &&
+      !navigation.canGoBack() ? (
+        <TouchableOpacity onPress={handleBack}>
+          <View
+            style={[
+              cStyles.row,
+              cStyles.itemsCenter,
+              cStyles.justifyStart,
+              styles.left,
+            ]}>
+            <Icon
+              name={IS_IOS ? 'chevron-back' : 'arrow-back'}
+              color={IS_ANDROID ? colors.WHITE : customColors.blue}
+              size={IS_IOS ? fS(30) : fS(25)}
+            />
+            <CText
+              customStyles={[
+                {color: IS_ANDROID ? colors.WHITE : customColors.blue},
+              ]}
+              label={'dashboard:title'}
+            />
+          </View>
+        </TouchableOpacity>
+      ) : undefined,
     headerRight: () => (
       <View style={[cStyles.row, cStyles.itemsCenter]}>
         <TouchableOpacity onPress={handleOpenSearch}>
@@ -129,6 +163,10 @@ function ProjectDetail(props) {
   /*****************
    ** HANDLE FUNC **
    *****************/
+  const handleBack = () => {
+    resetRoute(navigation, Routes.ROOT_TAB.name);
+  };
+
   const handleSearch = value => {
     setData({...data, page: 1, search: value});
     onFetchData(
@@ -484,6 +522,7 @@ function ProjectDetail(props) {
 }
 
 const styles = StyleSheet.create({
+  left: {left: -10},
   badge: {height: 10, width: 10, top: 16, right: 15},
 });
 
