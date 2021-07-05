@@ -313,7 +313,7 @@ export function RootTab(props) {
         },
       })}
       tabBarOptions={{
-        activeTintColor: customColors.primary,
+        activeTintColor: IS_IOS ? customColors.blue : customColors.primary,
         inactiveTintColor: customColors.text,
         keyboardHidesTabBar: true,
       }}>

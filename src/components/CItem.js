@@ -37,7 +37,7 @@ function CItem(props) {
       </TouchableOpacity>
 
       <CText
-        styles={'pt10 textCenter'}
+        customStyles={[cStyles.textCenter, cStyles.pt10, cStyles.fontMedium]}
         label={data.menuName}
         numberOfLines={3}
       />

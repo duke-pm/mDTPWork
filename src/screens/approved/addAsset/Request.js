@@ -761,7 +761,7 @@ function AddRequest(props) {
 
             {/** Other info */}
             <CGroupInfo
-              label={'add_approved_assets:info_assets'}
+              label={'add_approved_assets:info_other'}
               content={
                 <>
                   {/** Supplier */}
