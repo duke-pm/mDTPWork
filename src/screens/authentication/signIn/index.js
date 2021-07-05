@@ -8,6 +8,7 @@
 import React, {createRef, useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
+import {useTheme} from '@react-navigation/native';
 import {
   StyleSheet,
   Image,
@@ -16,10 +17,13 @@ import {
   Keyboard,
   UIManager,
   LayoutAnimation,
+  Alert,
 } from 'react-native';
 import {isIphoneX} from 'react-native-iphone-x-helper';
+import {Assets} from '~/utils/asset';
 import LinearGradient from 'react-native-linear-gradient';
 import {showMessage} from 'react-native-flash-message';
+import TouchID from 'react-native-touch-id';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CInput from '~/components/CInput';
@@ -29,8 +33,7 @@ import CButton from '~/components/CButton';
 import CAvoidKeyboard from '~/components/CAvoidKeyboard';
 /* COMMON */
 import Routes from '~/navigation/Routes';
-import {Assets} from '~/utils/asset';
-import {LOGIN, LANGUAGE} from '~/config/constants';
+import {LOGIN, LANGUAGE, BIOMETRICS, FAST_LOGIN} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
 import {
   getLocalInfo,
@@ -58,6 +61,7 @@ let passwordRef = createRef();
 
 function SignIn(props) {
   const {t} = useTranslation();
+  const {customColors} = useTheme();
   const {navigation} = props;
 
   /** Use redux */
@@ -81,10 +85,37 @@ function SignIn(props) {
     userNameHelper: '',
     passwordHelper: '',
   });
+  const [fastLogin, setFastLogin] = useState({
+    status: false,
+    icon: 'finger-print-outline',
+    iconFaceID: Assets.iconFaceID2,
+  });
 
   /*****************
    ** HANDLE FUNC **
    *****************/
+  const handleAuth = () => {
+    TouchID.isSupported()
+      .then(biometryType => {
+        if (biometryType === 'FaceID') {
+          onCheckBiometrics(biometryType);
+        } else if (biometryType === 'TouchID') {
+          onCheckBiometrics(biometryType);
+        } else if (biometryType === true) {
+          onCheckBiometrics(t('sign_in:touch_sensor'));
+        }
+      })
+      .catch(e => {
+        console.log('[LOG] === Error ===> ', e);
+        Alert.alert(
+          t('error:title'),
+          t('error:cannot_auth_with_biometrics'),
+          [{style: 'cancel', onPress: () => null}],
+          {cancelable: true},
+        );
+      });
+  };
+
   const handleChangeText = (value, nameInput) => {
     if (nameInput === INPUT_NAME.USER_NAME) {
       setForm({...form, userName: value});
@@ -130,6 +161,36 @@ function SignIn(props) {
   /************
    ** FUNC **
    ************/
+  const onCheckBiometrics = type => {
+    TouchID.authenticate(`${t('sign_in:login_with_biometrics')} ${type}`, {
+      title: `${t('sign_in:login_with_biometrics')} ${type}`, // Android
+      imageColor: colors.SECONDARY, // Android
+      imageErrorColor: customColors.red, // Android
+      sensorDescription: t('sign_in:touch_sensor'), // Android
+      sensorErrorDescription: t('sign_in:error_login'), // Android
+      cancelText: t('common:cancel'), // Android
+      unifiedErrors: false, // use unified error messages (default false)
+      fallbackLabel: t('sign_in:login_by_password'),
+      passcodeFallback: false,
+    })
+      .then(async success => {
+        setLoading({...loading, submit: true});
+        let dataFastLogin = await getSecretInfo(FAST_LOGIN);
+        if (dataFastLogin) {
+          let params = {
+            Username: dataFastLogin.userName.toLowerCase(),
+            Password: dataFastLogin.password,
+            TypeLogin: 2,
+            Lang: commonState.get('language'),
+          };
+          dispatch(Actions.fetchLogin(params));
+        }
+      })
+      .catch(error => {
+        alert(t('sign_in:error_login'));
+      });
+  };
+
   const onPrepareData = async () => {
     if (form.saveAccount) {
       let dataLogin = {
@@ -148,7 +209,17 @@ function SignIn(props) {
         groupID: authState.getIn(['login', 'groupID']),
         lstMenu: authState.getIn(['login', 'lstMenu']),
       };
-      saveSecretInfo({key: LOGIN, value: dataLogin});
+      await saveSecretInfo({key: LOGIN, value: dataLogin});
+      let dataFastLogin = await getSecretInfo(FAST_LOGIN);
+      if (!dataFastLogin) {
+        await saveSecretInfo({
+          key: FAST_LOGIN,
+          value: {
+            userName: form.userName.trim(),
+            password: form.password.trim(),
+          },
+        });
+      }
     } else {
       await removeSecretInfo(LOGIN);
     }
@@ -232,6 +303,21 @@ function SignIn(props) {
       };
       dispatch(Actions.loginSuccess(dataLogin));
     } else {
+      /** Check biometrics */
+      let dataFastLogin = await getSecretInfo(FAST_LOGIN);
+      let isBio = await getLocalInfo(BIOMETRICS);
+      if (
+        isBio === '1' &&
+        dataFastLogin &&
+        dataFastLogin.userName &&
+        dataFastLogin.password
+      ) {
+        setFastLogin({
+          ...fastLogin,
+          status: true,
+        });
+      }
+
       console.log('[LOG] === SignIn Server === ');
       setLoading({main: false, submit: false});
     }
@@ -317,7 +403,13 @@ function SignIn(props) {
                     inputRef={passwordRef}
                     disabled={loading.submit}
                     value={form.password}
-                    icon={'lock-closed'}
+                    icon={
+                      fastLogin.status
+                        ? isIphoneX()
+                          ? fastLogin.iconFaceID
+                          : fastLogin.icon
+                        : 'lock-closed'
+                    }
                     iconColor={colors.GRAY_500}
                     holder={'sign_in:input_password'}
                     returnKey={'done'}
@@ -326,6 +418,7 @@ function SignIn(props) {
                     errorHelper={error.passwordHelper}
                     onChangeInput={handleSignIn}
                     onChangeValue={handleChangeText}
+                    onPressIconFirst={fastLogin.status ? handleAuth : null}
                   />
 
                   <View

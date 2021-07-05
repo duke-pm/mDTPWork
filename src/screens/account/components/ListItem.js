@@ -6,7 +6,14 @@
  **/
 import React from 'react';
 import {useTranslation} from 'react-i18next';
-import {StyleSheet, View, Linking, Image, TouchableOpacity} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Linking,
+  Image,
+  TouchableOpacity,
+  Switch,
+} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Rate, {AndroidMarket} from 'react-native-rate';
@@ -14,13 +21,22 @@ import Rate, {AndroidMarket} from 'react-native-rate';
 import CText from '~/components/CText';
 /* COMMON */
 import Configs from '~/config';
-import {alert, fS, IS_ANDROID} from '~/utils/helper';
+import {alert, fS} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
+import {Assets} from '~/utils/asset';
 
 function ListItem(props) {
   const navigation = useNavigation();
   const {t} = useTranslation();
-  const {key, data, dataActive, customColors, onSignOut} = props;
+  const {
+    key,
+    data,
+    dataActive,
+    dataToggle,
+    customColors,
+    onSignOut,
+    onToggle,
+  } = props;
   const isSignOut = data.id === 'signout';
 
   /*****************
@@ -70,6 +86,9 @@ function ListItem(props) {
     data.isRate ||
     isSignOut;
   const Component = isTouch ? TouchableOpacity : View;
+  if (dataToggle && !dataToggle.active) {
+    return null;
+  }
 
   return (
     <Component key={key} onPress={handleItem}>
@@ -82,8 +101,15 @@ function ListItem(props) {
           cStyles.py12,
         ]}>
         <View style={[cStyles.center, styles.con_left]}>
-          {data.icon && (
+          {data.icon && !data.iconFaceID && (
             <Icon name={data.icon} size={fS(23)} color={customColors.text} />
+          )}
+          {dataToggle && dataToggle.active && data.iconFaceID && (
+            <Image
+              style={{height: fS(23), width: fS(23)}}
+              source={Assets.iconFaceID}
+              resizeMode={'contain'}
+            />
           )}
         </View>
 
@@ -125,6 +151,9 @@ function ListItem(props) {
                 size={fS(18)}
                 color={colors.GRAY_500}
               />
+            )}
+            {data.isToggle && dataToggle && (
+              <Switch value={dataToggle.value} onValueChange={onToggle} />
             )}
           </View>
         </View>

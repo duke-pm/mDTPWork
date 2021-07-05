@@ -62,6 +62,8 @@
 	<string>$(PRODUCT_NAME) needs permission to upload/save file!</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>$(PRODUCT_NAME) needs permission to upload/save file!</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>$(PRODUCT_NAME) requires FaceID access to login to application.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Montserrat-Light.ttf</string>

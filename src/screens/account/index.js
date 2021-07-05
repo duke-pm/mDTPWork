@@ -22,8 +22,8 @@ import SocialItem from './components/SocialItem';
 /* COMMON */
 import Configs from '~/config';
 import Routes from '~/navigation/Routes';
-import {THEME_DARK} from '~/config/constants';
-import {alert, clearSecretInfo, IS_IOS, resetRoute} from '~/utils/helper';
+import {LOGIN, THEME_DARK} from '~/config/constants';
+import {alert, IS_IOS, removeSecretInfo, resetRoute} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
 /* REDUX */
 import * as Actions from '~/redux/actions';
@@ -134,7 +134,7 @@ function Account(props) {
 
   const handleOk = async () => {
     setLoading(true);
-    await clearSecretInfo();
+    await removeSecretInfo(LOGIN);
     dispatch(Actions.logout());
     setLoading(false);
     resetRoute(props.navigation, Routes.AUTHENTICATION.SIGN_IN.name);

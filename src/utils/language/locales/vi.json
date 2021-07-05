@@ -94,7 +94,8 @@
     "send_comment": "Không thể gửi ý kiến của bạn. Vui lòng thử lại sau!",
     "send_follow": "Không thể thực thi. Vui lòng thử lại sau!",
     "change_status": "Không thê cập nhật trạng thái. Vui lòng thử lại sau!",
-    "change_percent": "Không thê cập nhật tiến độ. Vui lòng thử lại sau!"
+    "change_percent": "Không thê cập nhật tiến độ. Vui lòng thử lại sau!",
+    "cannot_auth_with_biometrics": "Không thể xác nhận sinh trắc học! Vui lòng cài đặt TouchID hoặc FaceID (nếu có)."
   },
   "sign_in": {
     "title": "Đăng Nhập",
@@ -103,7 +104,10 @@
     "save_account": "Lưu tài khoản",
     "forgot_password": "Quên mật khẩu?",
     "success_login": "Đăng nhập thành công!",
-    "error_login": "Đăng nhập không thành công. Vui lòng thử lại sau!"
+    "error_login": "Đăng nhập không thành công. Vui lòng thử lại sau!",
+    "login_with_biometrics": "Đăng nhập bằng",
+    "touch_sensor": "Quét vân tay",
+    "login_by_password": "Nhập mật khẩu"
   },
   "forgot_password": {
     "title": "Quên Mật Khẩu",
@@ -180,7 +184,9 @@
     "holder_change_language": "Vui lòng chọn ngôn ngữ dưới đây",
     "vi": "Tiếng việt",
     "en": "Tiếng anh",
-    "theme": "Chế độ Tối"
+    "theme": "Chế độ Tối",
+    "biometrics": "Đăng nhập nhanh",
+    "holder_biometrics": "Bạn có thể đăng nhập nhanh bằng TouchID hoặc FaceID (nếu có)"
   },
   "approved": {
     "title": "Tài Sản",

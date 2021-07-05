@@ -93,7 +93,8 @@
     "send_comment": "Unable to submit your comments. Please try again later!",
     "send_follow": "Unable to submit. Please try again later!",
     "change_status": "Unable to update status. Please try again later!",
-    "change_percent": "Unable to update percentage. Please try again later!"
+    "change_percent": "Unable to update percentage. Please try again later!",
+    "cannot_auth_with_biometrics": "Cannot confirm biometrics! Please install TouchID or FaceID (if any)."
   },
   "sign_in": {
     "title": "Login",
@@ -102,7 +103,10 @@
     "save_account": "Save account",
     "forgot_password": "Forgot password?",
     "success_login": "Login successfully!",
-    "error_login": "Login unsuccessful. Please try again later!"
+    "error_login": "Login unsuccessful. Please try again later!",
+    "login_with_biometrics": "Login by",
+    "touch_sensor": "Touch Sensor",
+    "login_by_password": "Input my password"
   },
   "forgot_password": {
     "title": "Forgot password",

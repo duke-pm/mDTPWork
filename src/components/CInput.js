@@ -8,7 +8,13 @@ import React, {useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useColorScheme} from 'react-native-appearance';
 import {useTheme} from '@react-navigation/native';
-import {StyleSheet, TextInput, View, TouchableOpacity} from 'react-native';
+import {
+  StyleSheet,
+  TextInput,
+  View,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 /* COMPONENTS */
 import CText from './CText';
@@ -49,6 +55,7 @@ function CInput(props) {
     onChangeInput = null,
     onChangeValue = null,
     onPressIconLast = null,
+    onPressIconFirst = null,
     onPressRemoveValue = null,
   } = props;
 
@@ -114,15 +121,21 @@ function CInput(props) {
           focus === props.name && [styles.input_focus, styleFocus],
         ]}>
         {icon && (
-          <View
-            style={[
-              cStyles.borderRight,
-              isDark && cStyles.borderRightDark,
-              cStyles.center,
-              styles.con_input_icon,
-            ]}>
-            <Icon name={icon} color={iconColor} size={fS(20)} />
-          </View>
+          <TouchableOpacity onPress={onPressIconFirst}>
+            <View
+              style={[
+                cStyles.borderRight,
+                isDark && cStyles.borderRightDark,
+                cStyles.center,
+                styles.con_input_icon,
+              ]}>
+              {typeof icon === 'string' ? (
+                <Icon name={icon} color={iconColor} size={fS(20)} />
+              ) : (
+                <Image style={{height: fS(23), width: fS(23)}} source={icon} />
+              )}
+            </View>
+          </TouchableOpacity>
         )}
 
         <View style={[cStyles.flex1, cStyles.px12]}>
@@ -177,7 +190,11 @@ function CInput(props) {
           <Component
             style={[cStyles.center, styles.con_input_icon]}
             onPress={handleRemoveValue}>
-            <Icon name={'close-circle'} color={customColors.red} size={fS(20)} />
+            <Icon
+              name={'close-circle'}
+              color={customColors.red}
+              size={fS(20)}
+            />
           </Component>
         )}
 

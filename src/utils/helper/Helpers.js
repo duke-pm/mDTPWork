@@ -169,7 +169,7 @@ export async function getLocalInfo(key) {
   }
 }
 
-export async function removeSLocalInfo(key) {
+export async function removeLocalInfo(key) {
   try {
     await AsyncStorage.removeItem(key);
   } catch (error) {

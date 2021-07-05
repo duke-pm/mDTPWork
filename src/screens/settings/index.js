@@ -9,8 +9,10 @@ import React, {createRef, useState, useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
-import {StyleSheet} from 'react-native';
+import {isIphoneX} from 'react-native-iphone-x-helper';
+import {Alert, StyleSheet} from 'react-native';
 import Picker from '@gregfrench/react-native-wheel-picker';
+import TouchID from 'react-native-touch-id';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
@@ -19,8 +21,8 @@ import CList from '~/components/CList';
 import ListItem from '~/screens/account/components/ListItem';
 /* COMMON */
 import {Assets} from '~/utils/asset';
-import {LANGUAGE} from '~/config/constants';
-import {fS, getLocalInfo, saveLocalInfo, sH} from '~/utils/helper';
+import {LANGUAGE, BIOMETRICS} from '~/config/constants';
+import {fS, getLocalInfo, removeLocalInfo, saveLocalInfo, sH} from '~/utils/helper';
 import {cStyles} from '~/utils/style';
 /* REDUX */
 import * as Actions from '~/redux/actions';
@@ -31,7 +33,7 @@ const SETTINGS = [
   {
     id: 'language',
     label: 'settings:language',
-    icon: 'globe',
+    icon: 'globe-outline',
     isChooseLang: true,
     data: [
       {
@@ -47,19 +49,33 @@ const SETTINGS = [
     ],
     onPress: actionSheetLangRef,
   },
+  {
+    id: 'biometrics',
+    label: 'settings:biometrics',
+    icon: 'finger-print',
+    iconFaceID: isIphoneX(),
+    isToggle: true,
+    onPress: null,
+  },
 ];
 
 function Settings(props) {
   const {t} = useTranslation();
   const {customColors} = useTheme();
 
+  /** Use redux */
   const dispatch = useDispatch();
 
+  /** Use state */
   const [loading, setLoading] = useState(true);
   const [initSettings, setInitSettings] = useState(SETTINGS);
   const [languages, setLanguages] = useState({
     data: SETTINGS[0].data,
     active: 0,
+  });
+  const [biometric, setBiometric] = useState({
+    active: false,
+    value: false,
   });
 
   /*****************
@@ -91,6 +107,31 @@ function Settings(props) {
    ** FUNC **
    **********/
   const onPrepareData = async () => {
+    TouchID.isSupported()
+      .then(async biometryType => {
+        let isBio = await getLocalInfo(BIOMETRICS);
+        console.log('[LOG] === biometryType ===> ', biometryType);
+        if (biometryType === 'FaceID') {
+          setBiometric({
+            active: true,
+            value: isBio === '1',
+          });
+        } else if (biometryType === 'TouchID') {
+          setBiometric({
+            active: true,
+            value: isBio === '1',
+          });
+        } else if (biometryType === true) {
+          setBiometric({
+            active: true,
+            value: isBio === '1',
+          });
+        }
+      })
+      .catch(e => {
+        console.log('[LOG] === Error ===> ', e);
+      });
+
     let languageLocal = await getLocalInfo(LANGUAGE);
     if (languageLocal) {
       let tmp = [...initSettings];
@@ -120,6 +161,17 @@ function Settings(props) {
     }
   };
 
+  const onCheckBiometrics = async () => {
+    let newValue = !biometric.value;
+    setBiometric({...biometric, value: newValue});
+    setLoading(true);
+    await saveLocalInfo({key: BIOMETRICS, value: newValue ? '1' : '0'});
+    setLoading(false);
+  };
+
+  /****************
+   ** LIFE CYCLE **
+   ****************/
   useEffect(() => {
     onPrepareData();
   }, []);
@@ -138,10 +190,12 @@ function Settings(props) {
             item={({item, index}) => {
               return (
                 <ListItem
+                  customColors={customColors}
                   index={index}
                   data={item}
                   dataActive={languages.data[languages.active]}
-                  customColors={customColors}
+                  dataToggle={index === 1 ? biometric : null}
+                  onToggle={onCheckBiometrics}
                 />
               );
             }}
