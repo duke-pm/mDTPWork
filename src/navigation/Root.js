@@ -12,6 +12,8 @@ import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
 import {enableScreens} from 'react-native-screens';
+/** COMPONENTS */
+import CText from '~/components/CText';
 /** COMMON */
 import Routes from './Routes';
 import {fS, IS_ANDROID, IS_IOS} from '~/utils/helper';
@@ -76,9 +78,22 @@ export function RootDashboard(props) {
       <StackDashboard.Screen
         name={Routes.MAIN.DASHBOARD.name}
         component={Routes.MAIN.DASHBOARD.path}
-        options={{
-          title: t('dashboard:title'),
-        }}
+        options={Object.assign(
+          {
+            title: t('dashboard:title'),
+          },
+          IS_ANDROID
+            ? {
+                headerLeft: () => null,
+                headerCenter: () => (
+                  <CText
+                    styles={'colorWhite fontMedium'}
+                    label={'dashboard:title'}
+                  />
+                ),
+              }
+            : {},
+        )}
       />
       <StackMain.Screen
         name={Routes.MAIN.SALES_VISIT.name}
@@ -255,9 +270,22 @@ export function RootAccount(props) {
       <StackAccount.Screen
         name={Routes.MAIN.ACCOUNT.name}
         component={Routes.MAIN.ACCOUNT.path}
-        options={{
-          title: t('account:title'),
-        }}
+        options={Object.assign(
+          {
+            title: t('account:title'),
+          },
+          IS_ANDROID
+            ? {
+                headerLeft: () => null,
+                headerCenter: () => (
+                  <CText
+                    styles={'colorWhite fontMedium'}
+                    label={'account:title'}
+                  />
+                ),
+              }
+            : {},
+        )}
       />
       <StackMain.Screen
         name={Routes.MAIN.HELP_AND_INFO.name}
