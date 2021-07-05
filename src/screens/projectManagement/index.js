@@ -142,6 +142,7 @@ function ProjectManagement(props) {
     navigation.navigate(Routes.MAIN.PROJECT_FILTER.name, {
       hasYear: true,
       hasSector: false,
+      activeYear: data.year,
       activeOwner: showFilter.activeOwner,
       activeStatus: showFilter.activeStatus,
       onFilter: (y, actOwn, actSta, actSec) =>

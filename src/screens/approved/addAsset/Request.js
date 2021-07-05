@@ -201,36 +201,52 @@ function AddRequest(props) {
     refsAssets: [],
   });
 
-  navigation.setOptions({
-    title: `${t('add_approved_assets:' + (isDetail ? 'detail' : 'title'))}`,
-    headerLeft: () => (
-      <TouchableOpacity onPress={handleBack}>
-        <View>
-          <Icon
-            name={'close'}
-            color={IS_ANDROID ? colors.WHITE : customColors.icon}
-            size={fS(23)}
-          />
-        </View>
-      </TouchableOpacity>
-    ),
-    headerRight: () => {
-      if (isDetail) {
-        return (
-          <TouchableOpacity onPress={handleShowProcess}>
+  navigation.setOptions(
+    Object.assign(
+      {
+        title: `${t('add_approved_assets:' + (isDetail ? 'detail' : 'title'))}`,
+        headerLeft: () => (
+          <TouchableOpacity onPress={handleBack}>
             <View>
               <Icon
-                name={'information-circle'}
+                name={'close'}
                 color={IS_ANDROID ? colors.WHITE : customColors.icon}
                 size={fS(23)}
               />
             </View>
           </TouchableOpacity>
-        );
-      }
-      return null;
-    },
-  });
+        ),
+        headerRight: () => {
+          if (isDetail) {
+            return (
+              <TouchableOpacity onPress={handleShowProcess}>
+                <View>
+                  <Icon
+                    name={'information-circle'}
+                    color={IS_ANDROID ? colors.WHITE : customColors.icon}
+                    size={fS(23)}
+                  />
+                </View>
+              </TouchableOpacity>
+            );
+          }
+          return null;
+        },
+      },
+      IS_ANDROID
+        ? {
+            headerCenter: () => (
+              <CText
+                styles={'colorWhite fontMedium'}
+                customLabel={`${t(
+                  'add_approved_assets:' + (isDetail ? 'detail' : 'title'),
+                )}`}
+              />
+            ),
+          }
+        : {},
+    ),
+  );
 
   /*****************
    ** HANDLE FUNC **

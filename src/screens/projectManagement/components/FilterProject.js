@@ -154,6 +154,7 @@ function FilterProject(props) {
     hasYear: route.params?.hasYear || false,
     hasSector: route.params?.hasSector || false,
     onFilter: route.params?.onFilter || null,
+    activeYear: route.params?.activeYear || null,
     activeOwner: route.params?.activeOwner || [],
     activeStatus: route.params?.activeStatus || [],
     activeSector: route.params?.activeSector || [],
@@ -182,40 +183,50 @@ function FilterProject(props) {
     active: aParams.activeSector,
   });
 
-  navigation.setOptions({
-    headerLeft: () => (
-      <TouchableOpacity onPress={handleReset}>
-        <View
-          style={[
-            cStyles.flex1,
-            cStyles.itemsEnd,
-            cStyles.justifyCenter,
-            cStyles.pr10,
-          ]}>
-          <CText
-            customStyles={[cStyles.textMeta, IS_ANDROID && cStyles.colorWhite]}
-            label={t('common:close')}
-          />
-        </View>
-      </TouchableOpacity>
+  navigation.setOptions(
+    Object.assign(
+      {
+        headerLeft: () => (
+          <TouchableOpacity onPress={handleReset}>
+            <View
+              style={[cStyles.flex1, cStyles.itemsEnd, cStyles.justifyCenter]}>
+              <CText
+                customStyles={[
+                  {color: customColors.red},
+                  IS_ANDROID && cStyles.colorWhite,
+                ]}
+                label={t('common:close')}
+              />
+            </View>
+          </TouchableOpacity>
+        ),
+        headerRight: () => (
+          <TouchableOpacity onPress={handleFilter}>
+            <View
+              style={[cStyles.flex1, cStyles.itemsEnd, cStyles.justifyCenter]}>
+              <CText
+                customStyles={[
+                  {color: customColors.blue},
+                  IS_ANDROID && cStyles.colorWhite,
+                ]}
+                label={t('common:apply')}
+              />
+            </View>
+          </TouchableOpacity>
+        ),
+      },
+      IS_ANDROID
+        ? {
+            headerCenter: () => (
+              <CText
+                styles={'colorWhite fontMedium'}
+                label={'project_management:filter'}
+              />
+            ),
+          }
+        : {},
     ),
-    headerRight: () => (
-      <TouchableOpacity onPress={handleFilter}>
-        <View
-          style={[
-            cStyles.flex1,
-            cStyles.itemsEnd,
-            cStyles.justifyCenter,
-            cStyles.pr10,
-          ]}>
-          <CText
-            customStyles={[cStyles.textMeta, IS_ANDROID && cStyles.colorWhite]}
-            label={t('common:apply')}
-          />
-        </View>
-      </TouchableOpacity>
-    ),
-  });
+  );
 
   /*****************
    ** HANDLE FUNC **
@@ -306,10 +317,13 @@ function FilterProject(props) {
   useEffect(() => {
     if (aParams.hasYear && year.data.length === 0) {
       let years = onGetListYear(Configs.numberYearToFilter);
+      let find = years.findIndex(
+        f => f.value === JSON.stringify(aParams.activeYear),
+      );
       setYear({
         data: years,
-        active: years.length - 1,
-        choose: years.length - 1,
+        active: find,
+        choose: find,
       });
     }
   }, [aParams.hasYear, year.data]);
