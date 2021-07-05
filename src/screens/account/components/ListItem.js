@@ -121,10 +121,15 @@ function ListItem(props) {
             cStyles.pr16,
             styles.con_right,
           ]}>
-          <CText
-            customStyles={isSignOut ? {color: customColors.red} : {}}
-            label={data.label}
-          />
+          <View style={{flex: 0.9}}>
+            <CText
+              customStyles={isSignOut ? {color: customColors.red} : {}}
+              label={data.label}
+            />
+            {data.description && (
+              <CText customStyles={cStyles.textMeta} label={data.description} />
+            )}
+          </View>
 
           <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyEnd]}>
             {data.value && data.isPhone && <CText label={data.value} />}
@@ -163,8 +168,8 @@ function ListItem(props) {
 }
 
 const styles = StyleSheet.create({
-  con_left: {flex: 0.2},
-  con_right: {flex: 0.8},
+  con_left: {flex: 0.18},
+  con_right: {flex: 0.82},
   img_flag: {height: 20, width: 20},
 });
 

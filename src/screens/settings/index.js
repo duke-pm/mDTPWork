@@ -26,6 +26,7 @@ import {fS, getLocalInfo, removeLocalInfo, saveLocalInfo, sH} from '~/utils/help
 import {cStyles} from '~/utils/style';
 /* REDUX */
 import * as Actions from '~/redux/actions';
+import CGroupInfo from '~/components/CGroupInfo';
 
 /** All refs use in this screen */
 const actionSheetLangRef = createRef();
@@ -52,6 +53,7 @@ const SETTINGS = [
   {
     id: 'biometrics',
     label: 'settings:biometrics',
+    description: 'settings:holder_biometrics',
     icon: 'finger-print',
     iconFaceID: isIphoneX(),
     isToggle: true,
@@ -184,22 +186,27 @@ function Settings(props) {
       loading={loading}
       content={
         <CContent>
-          <CList
-            contentStyle={cStyles.px0}
-            data={initSettings}
-            item={({item, index}) => {
-              return (
-                <ListItem
-                  customColors={customColors}
-                  index={index}
-                  data={item}
-                  dataActive={languages.data[languages.active]}
-                  dataToggle={index === 1 ? biometric : null}
-                  onToggle={onCheckBiometrics}
-                />
-              );
-            }}
-            scrollEnabled={false}
+          <CGroupInfo
+            contentStyle={cStyles.p0}
+            content={
+              <CList
+                contentStyle={cStyles.px0}
+                data={initSettings}
+                item={({item, index}) => {
+                  return (
+                    <ListItem
+                      customColors={customColors}
+                      index={index}
+                      data={item}
+                      dataActive={languages.data[languages.active]}
+                      dataToggle={index === 1 ? biometric : null}
+                      onToggle={onCheckBiometrics}
+                    />
+                  );
+                }}
+                scrollEnabled={false}
+              />
+            }
           />
 
           <CActionSheet

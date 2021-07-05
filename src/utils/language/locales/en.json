@@ -178,7 +178,9 @@
     "holder_change_language": "Please select the language below",
     "vi": "Vietnamese",
     "en": "English",
-    "theme": "Dark mode"
+    "theme": "Dark mode",
+    "biometrics": "Fast login",
+    "holder_biometrics": "You can log in quickly with TouchID or FaceID (if any)"
   },
   "approved": {
     "title": "Assets",
