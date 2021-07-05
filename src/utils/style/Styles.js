@@ -9,11 +9,6 @@ import {Platform, Dimensions} from 'react-native';
 import {fS, IS_IOS} from '~/utils/helper';
 import Colors from './Colors';
 
-const fBold = 'Roboto-Bold';
-const fMedium = 'Roboto-Medium';
-const fRegular = 'Roboto-Regular';
-const fLight = 'Roboto-Light';
-
 const PLATFORM = {
   ANDROID: 'android',
   IOS: 'ios',
@@ -475,69 +470,69 @@ const text = {
 
   H1: {
     fontSize: fS(28),
-    fontFamily: fBold,
+    fontWeight: 'bold',
     lineHeight: IS_IOS ? 35 : 37,
   },
   H2: {
     fontSize: fS(26),
-    fontFamily: fBold,
+    fontWeight: 'bold',
     lineHeight: IS_IOS ? 33 : 35,
   },
   H3: {
     fontSize: fS(24),
-    fontFamily: fBold,
+    fontWeight: 'bold',
     lineHeight: IS_IOS ? 31 : 33,
   },
   H4: {
     fontSize: fS(22),
-    fontFamily: fBold,
+    fontWeight: 'bold',
     lineHeight: IS_IOS ? 29 : 31,
   },
   H5: {
     fontSize: fS(20),
-    fontFamily: fMedium,
+    fontWeight: 'bold',
     lineHeight: IS_IOS ? 27 : 29,
   },
   H6: {
     fontSize: fS(18),
-    fontFamily: fMedium,
+    fontWeight: 'bold',
     lineHeight: IS_IOS ? 25 : 27,
   },
   textTitle: {
     fontSize: fS(16),
-    fontFamily: fMedium,
+    fontWeight: 'bold',
     lineHeight: IS_IOS ? 25 : 27,
   },
   textSubTitle: {
     fontSize: fS(14),
-    fontFamily: fMedium,
+    fontWeight: '700',
     lineHeight: IS_IOS ? 20 : 22,
   },
   textDefault: {
     fontSize: fS(16),
-    fontFamily: fRegular,
+    fontWeight: 'normal',
     lineHeight: IS_IOS ? 25 : 27,
   },
   textMeta: {
     fontSize: fS(12),
-    fontFamily: fRegular,
+    fontWeight: 'normal',
     lineHeight: 20,
   },
   textDate: {
     fontSize: fS(12),
-    fontFamily: fLight,
+    fontWeight: '300',
     lineHeight: 20,
   },
   textButton: {
     fontSize: fS(16),
     color: 'white',
-    fontFamily: fMedium,
+    fontWeight: '700',
     lineHeight: IS_IOS ? 25 : 27,
   },
-  fontBold: {fontFamily: fBold},
-  fontMedium: {fontFamily: fMedium},
-  fontRegular: {fontFamily: fRegular},
-  fontLight: {fontFamily: fLight},
+  fontBold: {fontWeight: 'bold'},
+  fontMedium: {fontWeight: '700'},
+  fontRegular: {fontWeight: 'normal'},
+  fontLight: {fontWeight: '300'},
   textLeft: {textAlign: 'left'},
   textRight: {textAlign: 'right'},
   textCenter: {textAlign: 'center', textAlignVertical: 'center'},

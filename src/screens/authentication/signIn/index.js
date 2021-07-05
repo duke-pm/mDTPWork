@@ -279,7 +279,7 @@ function SignIn(props) {
             style={cStyles.flex1}
             colors={colors.BACKGROUND_GRADIENT}>
             <CAvoidKeyboard>
-              <View style={[cStyles.flex1, cStyles.px48]}>
+              <View style={[cStyles.flexCenter, cStyles.px48]}>
                 <View style={[cStyles.justifyEnd, styles.con_icon_app]}>
                   <Image
                     style={styles.img_icon_app}
