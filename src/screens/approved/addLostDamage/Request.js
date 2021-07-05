@@ -944,7 +944,7 @@ function AddRequest(props) {
               style={styles.button_approved}
               color={customColors.red}
               disabled={loading.main}
-              icon={'x-circle'}
+              icon={'close'}
               label={'add_approved_lost_damaged:reject'}
               onPress={handleReject}
             />
@@ -952,7 +952,7 @@ function AddRequest(props) {
               style={styles.button_reject}
               color={customColors.green}
               disabled={loading.main}
-              icon={'check-circle'}
+              icon={'checkmark'}
               label={'add_approved_lost_damaged:approved'}
               onPress={handleApproved}
             />

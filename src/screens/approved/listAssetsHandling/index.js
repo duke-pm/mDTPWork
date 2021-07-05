@@ -319,10 +319,12 @@ function ListRequestHandling(props) {
             <ListRequest
               permissionWrite={isPermissionWrite}
               loadmore={loading.loadmore}
+              refreshing={loading.refreshing}
               data={data.requests}
               dataDetail={data.requestsDetail}
               dataProcess={data.processApproveds}
               customColors={customColors}
+              onRefresh={onRefresh}
               onLoadmore={onLoadmore}
             />
           )}

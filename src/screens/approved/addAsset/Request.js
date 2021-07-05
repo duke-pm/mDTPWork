@@ -936,7 +936,7 @@ function AddRequest(props) {
               block
               color={customColors.red}
               disabled={loading.main}
-              icon={'x-circle'}
+              icon={'close'}
               label={'add_approved_assets:reject'}
               onPress={handleReject}
             />
@@ -945,7 +945,7 @@ function AddRequest(props) {
               block
               color={customColors.green}
               disabled={loading.main}
-              icon={'check-circle'}
+              icon={'checkmark'}
               label={'add_approved_assets:approved'}
               onPress={handleApproved}
             />
