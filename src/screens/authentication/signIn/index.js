@@ -210,16 +210,13 @@ function SignIn(props) {
         lstMenu: authState.getIn(['login', 'lstMenu']),
       };
       await saveSecretInfo({key: LOGIN, value: dataLogin});
-      let dataFastLogin = await getSecretInfo(FAST_LOGIN);
-      if (!dataFastLogin) {
-        await saveSecretInfo({
-          key: FAST_LOGIN,
-          value: {
-            userName: form.userName.trim(),
-            password: form.password.trim(),
-          },
-        });
-      }
+      await saveSecretInfo({
+        key: FAST_LOGIN,
+        value: {
+          userName: form.userName.trim(),
+          password: form.password.trim(),
+        },
+      });
     } else {
       await removeSecretInfo(LOGIN);
     }
