@@ -231,7 +231,12 @@ function Account(props) {
 
             {/** SOCIALS */}
             <View
-              style={[cStyles.row, cStyles.itemsStart, cStyles.justifyBetween]}>
+              style={[
+                cStyles.row,
+                cStyles.itemsStart,
+                cStyles.justifyBetween,
+                cStyles.pb32,
+              ]}>
               <View>
                 <View style={[cStyles.itemsStart, cStyles.pt16]}>
                   <Text style={[cStyles.textMeta, {color: customColors.text}]}>
