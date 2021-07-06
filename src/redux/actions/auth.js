@@ -226,3 +226,36 @@ export const fetchUpdatePassword = params => {
   };
 };
 /*****************************/
+
+/** For check token password */
+export const checkTokenPasswordError = error => ({
+  type: types.ERROR_CHECK_TOKEN_PASSWORD,
+  payload: error,
+});
+
+export const checkTokenPasswordSuccess = () => {
+  return {
+    type: types.SUCCESS_CHECK_TOKEN_PASSWORD,
+  };
+};
+export const fetchCheckTokenPassword = params => {
+  return dispatch => {
+    dispatch({type: types.START_CHECK_TOKEN_PASSWORD});
+
+    Services.authentication
+      .checkTokenPassword(params)
+      .then(res => {
+        if (!res.isError) {
+          return dispatch(checkTokenPasswordSuccess());
+        } else {
+          return dispatch(
+            checkTokenPasswordError(res.systemErrorMessage || res.errorMessage),
+          );
+        }
+      })
+      .catch(error => {
+        dispatch(checkTokenPasswordError(error));
+      });
+  };
+};
+/*****************************/

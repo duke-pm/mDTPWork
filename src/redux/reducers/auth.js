@@ -14,6 +14,7 @@ export const initialState = fromJS({
   submittingChangePass: false,
   submittingForgotPass: false,
   submittingUpdatePass: false,
+  submittingCheckTokenPass: false,
 
   successRefreshToken: false,
   errorRefreshToken: false,
@@ -33,6 +34,10 @@ export const initialState = fromJS({
   successUpdatePass: false,
   errorUpdatePass: false,
   errorHelperUpdatePass: '',
+
+  successCheckTokenPass: false,
+  errorCheckTokenPass: false,
+  errorHelperCheckTokenPass: '',
 
   login: {
     accessToken: null,
@@ -217,6 +222,27 @@ export default function (state = initialState, action = {}) {
         .set('successUpdatePass', false)
         .set('errorUpdatePass', true)
         .set('errorHelperUpdatePass', payload);
+    /*****************************/
+
+    /** For check token password **/
+    case types.START_CHECK_TOKEN_PASSWORD:
+      return state
+        .set('submittingCheckTokenPass', true)
+        .set('successCheckTokenPass', false)
+        .set('errorCheckTokenPass', false)
+        .set('errorHelperCheckTokenPass', '');
+    case types.SUCCESS_CHECK_TOKEN_PASSWORD:
+      return state
+        .set('submittingCheckTokenPass', false)
+        .set('successCheckTokenPass', true)
+        .set('errorCheckTokenPass', false)
+        .set('errorHelperCheckTokenPass', '');
+    case types.ERROR_CHECK_TOKEN_PASSWORD:
+      return state
+        .set('submittingCheckTokenPass', false)
+        .set('successCheckTokenPass', false)
+        .set('errorCheckTokenPass', true)
+        .set('errorHelperCheckTokenPass', payload);
     /*****************************/
     default:
       return state;

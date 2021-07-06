@@ -11,6 +11,7 @@ const Routes = {
     CHANGE_PASSWORD: '/User/ChangePassword',
     FORGOT_PASSWORD: '/User/ForgotPassword',
     UPDATE_PASSWORD: '/User/UpdateNewPassword',
+    CHECK_TOKEN_PASSWORD: '/User/CheckToken',
   },
   MASTER_DATA: {
     GET_ALL: '/MasterData/GetDataForForm',

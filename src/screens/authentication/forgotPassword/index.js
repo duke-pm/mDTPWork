@@ -119,7 +119,7 @@ function ForgotPassword(props) {
       Lang: language,
       Email: form.email.toLowerCase(),
     });
-    dispatch(Actions.fetchForgotPassword(params, navigation));
+    dispatch(Actions.fetchForgotPassword(params));
     setLoading(true);
   };
 
@@ -240,7 +240,11 @@ function ForgotPassword(props) {
             {form.success && (
               <View style={[cStyles.flex1, cStyles.px48, cStyles.pt32]}>
                 <View style={[cStyles.center, cStyles.py20, cStyles.pt32]}>
-                  <Icon name={'smile'} color={colors.GRAY_500} size={fS(80)} />
+                  <Icon
+                    name={'mail-unread'}
+                    color={colors.GRAY_500}
+                    size={fS(80)}
+                  />
                 </View>
 
                 <View style={cStyles.py16}>

@@ -114,4 +114,31 @@ export default {
         });
     });
   },
+  checkTokenPassword: params => {
+    return new Promise((resolve, reject) => {
+      let tmpConfigs = {params: {}};
+      if (params.get('Token')) {
+        tmpConfigs.params.Token = params.get('Token');
+      }
+      if (params.get('Lang')) {
+        tmpConfigs.params.Lang = params.get('Lang');
+      }
+      API.get(
+        jwtServiceConfig.baseURL + Routes.AUTHENTICATION.CHECK_TOKEN_PASSWORD,
+        tmpConfigs,
+      )
+        .then(response => {
+          console.log('FETCH CHECK TOKEN PASSWORD => ', response);
+          if (response.status === 200 && response.data) {
+            resolve(response.data);
+          } else {
+            reject(response.statusText);
+          }
+        })
+        .catch(error => {
+          console.log('ERROR CHECK TOKEN PASSWORD => ', error);
+          reject(error.response ? error.response.data : error);
+        });
+    });
+  },
 };

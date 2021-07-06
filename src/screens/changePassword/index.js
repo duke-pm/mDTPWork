@@ -8,8 +8,6 @@
 import React, {createRef, useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-import {useColorScheme} from 'react-native-appearance';
-import {useTheme} from '@react-navigation/native';
 import {
   UIManager,
   LayoutAnimation,
@@ -29,11 +27,16 @@ import CGroupInfo from '~/components/CGroupInfo';
 import CAvoidKeyboard from '~/components/CAvoidKeyboard';
 /* COMMON */
 import {cStyles, colors} from '~/utils/style';
-import {IS_ANDROID, removeSecretInfo, resetRoute, saveLocalInfo} from '~/utils/helper';
-import {BIOMETRICS, LOGIN, THEME_DARK} from '~/config/constants';
+import {
+  IS_ANDROID,
+  removeSecretInfo,
+  resetRoute,
+  saveLocalInfo,
+} from '~/utils/helper';
+import {BIOMETRICS, LOGIN} from '~/config/constants';
+import Routes from '~/navigation/Routes';
 /* REDUX */
 import * as Actions from '~/redux/actions';
-import Routes from '~/navigation/Routes';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
