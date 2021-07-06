@@ -6,12 +6,15 @@
  **/
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
+import {isIphoneX} from 'react-native-iphone-x-helper';
+import {StyleSheet} from 'react-native';
 /* COMPONENTS */
 import RequestItem from '../../components/RequestItem';
 import CList from '~/components/CList';
 /* COMMON */
 import Routes from '~/navigation/Routes';
 import {cStyles} from '~/utils/style';
+import {IS_IOS} from '~/utils/helper';
 
 function ListRequest(props) {
   const navigation = useNavigation();
@@ -38,6 +41,7 @@ function ListRequest(props) {
   return (
     <CList
       style={cStyles.mt16}
+      contentStyle={IS_IOS ? styles.content : {}}
       data={props.data}
       item={({item, index}) => {
         detail = props.dataDetail.filter(f => f.requestID === item.requestID);
@@ -62,5 +66,11 @@ function ListRequest(props) {
     />
   );
 }
+
+const styles = StyleSheet.create({
+  content: {
+    paddingBottom: isIphoneX() ? 100 : 60,
+  },
+});
 
 export default ListRequest;

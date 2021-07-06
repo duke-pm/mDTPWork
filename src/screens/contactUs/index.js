@@ -15,7 +15,7 @@ import CText from '~/components/CText';
 /* COMMON */
 import {cStyles} from '~/utils/style';
 import {DATA_CONTACT_US} from '~/config/constants';
-import {IS_ANDROID} from '~/utils/helper';
+import {IS_ANDROID, IS_IOS} from '~/utils/helper';
 
 const ContactUs = React.memo(function ContactUs(props) {
   /*****************
@@ -40,7 +40,7 @@ const ContactUs = React.memo(function ContactUs(props) {
     <CContainer
       loading={false}
       content={
-        <CContent contentStyle={[cStyles.px16, IS_ANDROID && cStyles.pt20]}>
+        <CContent contentStyle={[cStyles.p16, IS_IOS && cStyles.pb60]}>
           {DATA_CONTACT_US.map((item, index) => {
             return (
               <CCard

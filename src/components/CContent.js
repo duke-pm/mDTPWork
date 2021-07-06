@@ -9,6 +9,7 @@ import {useTheme} from '@react-navigation/native';
 import {ScrollView, RefreshControl} from 'react-native';
 /** COMMON */
 import {cStyles} from '~/utils/style';
+import {IS_IOS} from '~/utils/helper';
 
 function CContent(props) {
   const {customColors} = useTheme();
@@ -25,7 +26,7 @@ function CContent(props) {
   return (
     <ScrollView
       style={[stylePadder, {backgroundColor: customColors.background}]}
-      contentContainerStyle={contentStyle}
+      contentContainerStyle={[IS_IOS && cStyles.pb32, contentStyle]}
       contentInsetAdjustmentBehavior={'automatic'}
       scrollToOverflowEnabled
       keyboardShouldPersistTaps={'handled'}

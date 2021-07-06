@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 /**
  ** Name: Root
  ** Author: DTP-Education
@@ -6,12 +7,16 @@
  **/
 import React from 'react';
 import {createNativeStackNavigator} from 'react-native-screens/native-stack';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {
+  createBottomTabNavigator,
+  BottomTabBar,
+} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
 import {enableScreens} from 'react-native-screens';
+import {BlurView} from '@react-native-community/blur';
 /** COMPONENTS */
 import CText from '~/components/CText';
 /** COMMON */
@@ -322,15 +327,17 @@ export function RootAccount(props) {
   );
 }
 
-export function RootTab(props) {
+export function RootTab() {
   const {customColors} = useTheme();
   const {t} = useTranslation();
+  const isDark = useColorScheme() === THEME_DARK;
 
   return (
     <TabMain.Navigator
       initialRouteName={Routes.MAIN.DASHBOARD.name}
       backBehavior={'history'}
       headerMode={'none'}
+      lazy
       screenOptions={({route}) => ({
         tabBarIcon: ({focused, color, size}) => {
           let iconName = 'home';
@@ -346,7 +353,22 @@ export function RootTab(props) {
         activeTintColor: IS_IOS ? customColors.blue : customColors.primary,
         inactiveTintColor: customColors.text,
         keyboardHidesTabBar: true,
-      }}>
+      }}
+      tabBar={
+        IS_IOS
+          ? props => (
+              <BlurView
+                style={[cStyles.abs, cStyles.insetX0, cStyles.bottom0]}
+                blurType={isDark ? 'dark' : 'xlight'}
+                blurAmount={10}>
+                <BottomTabBar
+                  {...props}
+                  style={{backgroundColor: colors.TRANSPARENT}}
+                />
+              </BlurView>
+            )
+          : undefined
+      }>
       <TabMain.Screen
         name={Routes.MAIN.DASHBOARD.name}
         component={RootDashboard}
