@@ -41,7 +41,7 @@ function TabbarType(props) {
           cStyles.itemsCenter,
           cStyles.justifyBetween,
           cStyles.mx16,
-          cStyles.mt16,
+          cStyles.mt10,
           cStyles.rounded1,
           styles.tab_bar,
           {backgroundColor: customColors.cardDisable},

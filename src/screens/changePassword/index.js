@@ -29,10 +29,11 @@ import CGroupInfo from '~/components/CGroupInfo';
 import CAvoidKeyboard from '~/components/CAvoidKeyboard';
 /* COMMON */
 import {cStyles, colors} from '~/utils/style';
-import {IS_ANDROID} from '~/utils/helper';
-import {THEME_DARK} from '~/config/constants';
+import {IS_ANDROID, removeSecretInfo, resetRoute} from '~/utils/helper';
+import {LOGIN, THEME_DARK} from '~/config/constants';
 /* REDUX */
 import * as Actions from '~/redux/actions';
+import Routes from '~/navigation/Routes';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -184,15 +185,8 @@ function ChangePassword(props) {
     done(status, message);
   };
 
-  const done = (isSuccess, message) => {
+  const done = async (isSuccess, message) => {
     setLoading(false);
-    isSuccess &&
-      showMessage({
-        message: t('common:app_name'),
-        description: t('change_password:success_change'),
-        type: 'success',
-        icon: 'success',
-      });
     !isSuccess &&
       showMessage({
         message: t('common:app_name'),
@@ -200,6 +194,17 @@ function ChangePassword(props) {
         type: 'danger',
         icon: 'danger',
       });
+    if (isSuccess) {
+      showMessage({
+        message: t('common:app_name'),
+        description: t('change_password:success_change'),
+        type: 'success',
+        icon: 'success',
+      });
+      dispatch(Actions.logout());
+      await removeSecretInfo(LOGIN);
+      resetRoute(navigation, Routes.AUTHENTICATION.SIGN_IN.name);
+    }
   };
 
   /****************

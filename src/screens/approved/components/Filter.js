@@ -222,7 +222,7 @@ function Filter(props) {
             cStyles.row,
             cStyles.itemsCenter,
             cStyles.justifyBetween,
-            cStyles.px16,
+            cStyles.px10,
             cStyles.py10,
           ]}>
           {!show ? (

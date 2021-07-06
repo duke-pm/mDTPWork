@@ -126,7 +126,7 @@
     "button_go_back": "Quay lại Đăng nhập",
     "error_password_not_fill": "Mật khẩu mới không thể trống!",
 
-    "sub_title_update_password": "Nhập mật khẩu mới để cập nhật lại thông tin của bạn",
+    "sub_title_update_password": "Nhập mật khẩu mới để cập nhật lại thông tin của bạn.",
     "success_change_password": "Đổi mật khẩu mới thành công!",
     "sub_title_success_update_password": "Vui lòng đăng nhập với mật khẩu mới đã lưu.",
     "error_change_password": "Đổi mật khẩu mới thất bại!"
@@ -160,7 +160,7 @@
     "error_cur_not_like_new": "Mật khẩu mới không được trùng mật khẩu hiện tại!",
     "error_length_new_lager": "Độ dài mật khẩu mới tối thiểu là",
     "error_new_not_like_confirm": "Xác nhận mật khẩu không chính xác!",
-    "success_change": "Thay đổi mật khẩu thành công!",
+    "success_change": "Thay đổi mật khẩu thành công! Vui lòng đăng nhập lại với mật khẩu mới để tiếp tục sử dụng ứng dụng.",
     "error_change": "Thay đổi mật khẩu thất bại. Vui lòng thử lại sau!"
   },
   "help_and_info": {

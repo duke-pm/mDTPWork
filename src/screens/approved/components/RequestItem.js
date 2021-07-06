@@ -67,7 +67,7 @@ function RequestItem(props) {
       <Animated.View
         style={[
           cStyles.p10,
-          cStyles.mb16,
+          cStyles.mb10,
           cStyles.rounded2,
           {backgroundColor: customColors.listItem},
         ]}

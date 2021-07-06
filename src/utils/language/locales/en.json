@@ -125,7 +125,9 @@
     "button_go_back": "Go back to Login",
     "error_password_not_fill": "New password cannot empty!",
 
+    "sub_title_update_password": "Enter a new password to update your information.",
     "success_change_password": "Update new password successfully!",
+    "sub_title_success_update_password": "Please login with the saved new password.",
     "error_change_password": "Update new password failed. Please try again later!"
   },
   "dashboard": {
@@ -154,7 +156,7 @@
     "error_not_fill": "not empty!",
     "error_cur_not_like_new": "not like!",
     "error_new_not_like_confirm": "incorrect!",
-    "success_change": "Change password successfully!",
+    "success_change": "Change password successfully! Please login with a new password to continue using application.",
     "error_change": "Password change failed. Please try again later!"
   },
   "help_and_info": {

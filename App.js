@@ -42,7 +42,7 @@ const MyDarkTheme = {
   customColors: {
     ...DarkTheme.colors,
     backgroundActivity: colors.BLACK,
-    primary: colors.SECONDARY,
+    primary: IS_IOS ? colors.BLUE_DARK : colors.SECONDARY,
     secondary: colors.SECONDARY,
     group: colors.GRAY_900,
     header: colors.BACKGROUND_HEADER_DARK,
@@ -87,7 +87,7 @@ const MyDefaultTheme = {
     ...DefaultTheme.colors,
     backgroundActivity: colors.WHITE,
     header: colors.PRIMARY,
-    primary: colors.PRIMARY,
+    primary: IS_IOS ? colors.BLUE : colors.PRIMARY,
     secondary: colors.SECONDARY,
     background: colors.BACKGROUND_MAIN,
     group: colors.BACKGROUND_CARD,
