@@ -29,8 +29,8 @@ import CGroupInfo from '~/components/CGroupInfo';
 import CAvoidKeyboard from '~/components/CAvoidKeyboard';
 /* COMMON */
 import {cStyles, colors} from '~/utils/style';
-import {IS_ANDROID, removeSecretInfo, resetRoute} from '~/utils/helper';
-import {LOGIN, THEME_DARK} from '~/config/constants';
+import {IS_ANDROID, removeSecretInfo, resetRoute, saveLocalInfo} from '~/utils/helper';
+import {BIOMETRICS, LOGIN, THEME_DARK} from '~/config/constants';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 import Routes from '~/navigation/Routes';
@@ -202,6 +202,7 @@ function ChangePassword(props) {
         icon: 'success',
       });
       dispatch(Actions.logout());
+      await saveLocalInfo({key: BIOMETRICS, value: '0'});
       await removeSecretInfo(LOGIN);
       resetRoute(navigation, Routes.AUTHENTICATION.SIGN_IN.name);
     }
