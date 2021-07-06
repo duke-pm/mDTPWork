@@ -8,7 +8,6 @@
 import {fromJS} from 'immutable';
 import React, {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {useTheme} from '@react-navigation/native';
 import {
   StyleSheet,
   View,
@@ -25,7 +24,6 @@ import CInput from '~/components/CInput';
 import CText from '~/components/CText';
 import CButton from '~/components/CButton';
 import CAvoidKeyboard from '~/components/CAvoidKeyboard';
-import CLoading from '~/components/CLoading';
 /* COMMON */
 import Routes from '~/navigation/Routes';
 import {colors, cStyles} from '~/utils/style';
@@ -45,7 +43,6 @@ const INPUT_NAME = {
 };
 
 function ChangePassword(props) {
-  const {customColors} = useTheme();
   const {navigation, route} = props;
   const tokenData = route.params?.tokenData || 'not_token';
 
