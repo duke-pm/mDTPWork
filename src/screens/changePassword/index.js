@@ -17,7 +17,6 @@ import {
   View,
   Keyboard,
   StyleSheet,
-  KeyboardAvoidingView,
 } from 'react-native';
 import {showMessage} from 'react-native-flash-message';
 /* COMPONENTS */
@@ -27,13 +26,13 @@ import CLabel from '~/components/CLabel';
 import CInput from '~/components/CInput';
 import CButton from '~/components/CButton';
 import CGroupInfo from '~/components/CGroupInfo';
+import CAvoidKeyboard from '~/components/CAvoidKeyboard';
 /* COMMON */
 import {cStyles, colors} from '~/utils/style';
-import {IS_ANDROID, IS_IOS} from '~/utils/helper';
+import {IS_ANDROID} from '~/utils/helper';
 import {THEME_DARK} from '~/config/constants';
 /* REDUX */
 import * as Actions from '~/redux/actions';
-import CAvoidKeyboard from '~/components/CAvoidKeyboard';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -52,8 +51,6 @@ let confirmPasswordRef = createRef();
 
 function ChangePassword(props) {
   const {t} = useTranslation();
-  const isDark = useColorScheme() === THEME_DARK;
-  const {customColors} = useTheme();
   const {navigation} = props;
 
   /** Use redux */
@@ -176,12 +173,14 @@ function ChangePassword(props) {
     setLoading(true);
   };
 
-  const onCompleteChange = (status, message) => {
-    setForm({
-      currentPassword: '',
-      newPassword: '',
-      confirmPassword: '',
-    });
+  const onCompleteChange = (status, message, isRemoveValue) => {
+    if (isRemoveValue) {
+      setForm({
+        currentPassword: '',
+        newPassword: '',
+        confirmPassword: '',
+      });
+    }
     done(status, message);
   };
 
@@ -210,7 +209,7 @@ function ChangePassword(props) {
     if (loading) {
       if (!authState.get('submittingChangePass')) {
         if (authState.get('successChangePass')) {
-          return onCompleteChange(true);
+          return onCompleteChange(true, null, true);
         }
 
         if (authState.get('errorChangePass')) {
@@ -219,6 +218,7 @@ function ChangePassword(props) {
             typeof authState.get('errorHelperChangePass') === 'string'
               ? authState.get('errorHelperChangePass')
               : null,
+            false,
           );
         }
       }
@@ -247,7 +247,10 @@ function ChangePassword(props) {
                   <>
                     {/** Current password */}
                     <View>
-                      <CLabel medium label={'change_password:current_password'} />
+                      <CLabel
+                        medium
+                        label={'change_password:current_password'}
+                      />
                       <CInput
                         name={INPUT_NAME.CUR_PASSWORD}
                         styleFocus={styles.input_focus}
@@ -289,7 +292,10 @@ function ChangePassword(props) {
 
                     {/** Confirm password */}
                     <View style={cStyles.pt16}>
-                      <CLabel medium label={'change_password:confirm_password'} />
+                      <CLabel
+                        medium
+                        label={'change_password:confirm_password'}
+                      />
                       <CInput
                         name={INPUT_NAME.CON_PASSWORD}
                         styleFocus={styles.input_focus}
