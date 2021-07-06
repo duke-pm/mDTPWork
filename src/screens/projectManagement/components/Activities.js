@@ -327,7 +327,7 @@ function Activity(props) {
               contentStyle={cStyles.pt16}
               customColors={customColors}
               sectionList
-              inverted
+              inverted={messages.length > 0}
               textEmpty={t('project_management:empty_comment')}
               data={messages}
               item={({item, index}) => {

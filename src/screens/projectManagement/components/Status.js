@@ -21,7 +21,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import CText from '~/components/CText';
 import CActionSheet from '~/components/CActionSheet';
 /* COMMON */
-import {cStyles} from '~/utils/style';
+import {colors, cStyles} from '~/utils/style';
 import {fS, sH} from '~/utils/helper';
 /* REDUX */
 import * as Actions from '~/redux/actions';
@@ -82,7 +82,7 @@ function Status(props) {
           RefreshToken: refreshToken,
         };
         dispatch(Actions.fetchUpdateTask(params, navigation));
-        return setLoading(true);
+        setLoading(true);
       }
     } else {
       let find = status.data.findIndex(f => f.statusID === task.statusID);
@@ -196,7 +196,9 @@ function Status(props) {
             customLabel={task.statusName.toUpperCase()}
           />
           {loading ? (
-            <ActivityIndicator />
+            <ActivityIndicator
+              color={isDark ? colors.GRAY_200 : colors.GRAY_900}
+            />
           ) : (
             isUpdate && (
               <Icon

@@ -306,7 +306,10 @@ function Percentage(props) {
         )}
 
         {loading && (
-          <ActivityIndicator style={cStyles.pl2} color={colors.GRAY_500} />
+          <ActivityIndicator
+            style={cStyles.pl2}
+            color={isDark ? colors.GRAY_200 : colors.GRAY_900}
+          />
         )}
       </View>
     </TouchableOpacity>
