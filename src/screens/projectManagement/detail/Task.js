@@ -484,7 +484,7 @@ function Task(props) {
   }
   return (
     <CContainer
-      loading={loading.main}
+      loading={false}
       content={
         <CAvoidKeyboard>
           <CContent>

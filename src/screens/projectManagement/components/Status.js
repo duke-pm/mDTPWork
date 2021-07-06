@@ -184,26 +184,27 @@ function Status(props) {
             cStyles.itemsCenter,
             cStyles.justifyBetween,
             cStyles.rounded1,
-            {backgroundColor: task.colorOpacityCode},
+            {backgroundColor: task.colorCode},
+            isDark && {backgroundColor: task.colorOpacityCode},
           ]}>
           <CText
             customStyles={[
               cStyles.fontBold,
               {
-                color: isDark ? task.colorDarkCode : task.colorCode,
+                color: isDark ? task.colorDarkCode : colors.WHITE,
               },
             ]}
             customLabel={task.statusName.toUpperCase()}
           />
           {loading ? (
             <ActivityIndicator
-              color={isDark ? colors.GRAY_200 : colors.GRAY_900}
+              color={isDark ? colors.GRAY_200 : colors.WHITE}
             />
           ) : (
             isUpdate && (
               <Icon
                 name={'chevron-down'}
-                color={isDark ? task.colorDarkCode : task.colorCode}
+                color={isDark ? task.colorDarkCode : colors.WHITE}
                 size={fS(23)}
               />
             )
