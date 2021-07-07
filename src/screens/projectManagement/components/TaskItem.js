@@ -130,7 +130,7 @@ function TaskItem(props) {
   }
   const Touchable = IS_ANDROID ? TouchableNativeFeedback : TouchableOpacity;
   return (
-    <>
+    <View style={[cStyles.rounded2, {overflow: 'hidden'}]}>
       <Touchable disabled={props.loading} onPress={handleTaskItem}>
         <View
           style={[
@@ -301,7 +301,7 @@ function TaskItem(props) {
           </View>
         </View>
       )}
-    </>
+    </View>
   );
 }
 

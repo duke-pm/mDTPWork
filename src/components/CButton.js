@@ -45,57 +45,59 @@ function CButton(props) {
    **************/
   const Touchable = IS_ANDROID ? TouchableNativeFeedback : TouchableOpacity;
   return (
-    <Touchable
-      accessibilityRole={'button'}
-      disabled={disabled || loading}
-      onPress={onPress}>
-      <View
-        style={[
-          cStyles.row,
-          cStyles.center,
-          cStyles.rounded1,
-          cStyles.py3,
-          fullWidth && styles.full_width,
-          block && cStyles.fullWidth,
-          {backgroundColor: color},
-          variant === 'contained' && {elevation: 3},
-          variant === 'text' && styles.con_variant_text,
-          variant === 'outlined' && {
-            borderColor: color,
-            borderWidth: 0.5,
-            backgroundColor: isDark ? colors.TRANSPARENT : colors.WHITE,
-          },
-          (disabled || loading) && styles.disabled_contained,
-          style,
-        ]}>
-        {icon && (
-          <Icon
-            name={icon}
-            color={
-              disabled || loading
-                ? styles.textDisabled.color
-                : variant === 'contained'
-                ? colors.WHITE
-                : color
-            }
-            size={fS(16)}
-          />
-        )}
+    <View style={[cStyles.rounded1, {overflow: 'hidden'}]}>
+      <Touchable
+        accessibilityRole={'button'}
+        disabled={disabled || loading}
+        onPress={onPress}>
+        <View
+          style={[
+            cStyles.row,
+            cStyles.center,
+            cStyles.rounded1,
+            cStyles.py3,
+            fullWidth && styles.full_width,
+            block && cStyles.fullWidth,
+            {backgroundColor: color},
+            variant === 'contained' && {elevation: 3},
+            variant === 'text' && styles.con_variant_text,
+            variant === 'outlined' && {
+              borderColor: color,
+              borderWidth: 0.5,
+              backgroundColor: isDark ? colors.TRANSPARENT : colors.WHITE,
+            },
+            (disabled || loading) && styles.disabled_contained,
+            style,
+          ]}>
+          {icon && (
+            <Icon
+              name={icon}
+              color={
+                disabled || loading
+                  ? styles.textDisabled.color
+                  : variant === 'contained'
+                  ? colors.WHITE
+                  : color
+              }
+              size={fS(16)}
+            />
+          )}
 
-        <CText
-          customStyles={[
-            cStyles.textButton,
-            cStyles.textCenter,
-            cStyles.m6,
-            {color: variant === 'contained' ? colors.WHITE : color},
-            (disabled || loading) && styles.textDisabled,
-            IS_ANDROID && {fontWeight: '500'},
-            textStyle,
-          ]}
-          label={t(label)}
-        />
-      </View>
-    </Touchable>
+          <CText
+            customStyles={[
+              cStyles.textButton,
+              cStyles.textCenter,
+              cStyles.m6,
+              {color: variant === 'contained' ? colors.WHITE : color},
+              (disabled || loading) && styles.textDisabled,
+              IS_ANDROID && {fontWeight: '500'},
+              textStyle,
+            ]}
+            label={t(label)}
+          />
+        </View>
+      </Touchable>
+    </View>
   );
 }
 

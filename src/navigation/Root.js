@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 /**
  ** Name: Root
  ** Author: DTP-Education
@@ -338,7 +337,7 @@ export function RootAccount(props) {
   );
 }
 
-export function RootTab() {
+export function RootTab(props) {
   const {customColors} = useTheme();
   const {t} = useTranslation();
   const isDark = useColorScheme() === THEME_DARK;

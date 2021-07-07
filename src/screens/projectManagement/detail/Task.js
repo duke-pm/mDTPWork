@@ -609,7 +609,10 @@ function Task(props) {
                       style={cStyles.pb12}
                       isDark={isDark}
                       left={
-                        <CText label={'project_management:estimated_time'} />
+                        <CText
+                          styles={'textRight'}
+                          label={'project_management:estimated_time'}
+                        />
                       }
                       right={
                         <>
@@ -660,7 +663,7 @@ function Task(props) {
                             label={data.taskDetail.ownerName}
                           />
                           <CText
-                            styles={'pl6'}
+                            styles={'pl6 textRight'}
                             customLabel={data.taskDetail.ownerName}
                           />
                         </View>
@@ -673,8 +676,23 @@ function Task(props) {
                       left={<CText label={'project_management:piority'} />}
                       right={
                         <CText
-                          customStyles={{color: bgPriority}}
+                          customStyles={[
+                            cStyles.textRight,
+                            {color: bgPriority},
+                          ]}
                           customLabel={checkEmpty(data.taskDetail.priorityName)}
+                        />
+                      }
+                    />
+
+                    {/** Sector */}
+                    <RowInfoBasic
+                      isDark={isDark}
+                      left={<CText label={'project_management:sector'} />}
+                      right={
+                        <CText
+                          styles={'textRight'}
+                          customLabel={checkEmpty(data.taskDetail.sectorName)}
                         />
                       }
                     />
@@ -685,6 +703,7 @@ function Task(props) {
                       left={<CText label={'project_management:grade'} />}
                       right={
                         <CText
+                          styles={'textRight'}
                           customLabel={checkEmpty(data.taskDetail.grade)}
                         />
                       }
@@ -696,6 +715,7 @@ function Task(props) {
                       left={<CText label={'project_management:component'} />}
                       right={
                         <CText
+                          styles={'textRight'}
                           customLabel={checkEmpty(
                             data.taskDetail.componentName,
                           )}
@@ -708,9 +728,18 @@ function Task(props) {
                       isDark={isDark}
                       left={<CText label={'project_management:author'} />}
                       right={
-                        <CText
-                          customLabel={checkEmpty(data.taskDetail.author)}
-                        />
+                        <View style={[cStyles.row, cStyles.itemsCenter]}>
+                          {data.taskDetail.author !== '' && (
+                            <CAvatar
+                              size={'vsmall'}
+                              label={data.taskDetail.author}
+                            />
+                          )}
+                          <CText
+                            styles={'pl6 textRight'}
+                            customLabel={checkEmpty(data.taskDetail.author)}
+                          />
+                        </View>
                       }
                     />
 
@@ -722,6 +751,7 @@ function Task(props) {
                       }
                       right={
                         <CText
+                          styles={'textRight'}
                           customLabel={checkEmpty(
                             data.taskDetail.originPublisher,
                           )}
@@ -731,25 +761,15 @@ function Task(props) {
 
                     {/** Owner ship */}
                     <RowInfoBasic
+                      style={styles.last_row_info_basic}
                       isDark={isDark}
                       left={
                         <CText label={'project_management:owner_ship_dtp'} />
                       }
                       right={
                         <CText
+                          styles={'textRight'}
                           customLabel={checkEmpty(data.taskDetail.ownershipDTP)}
-                        />
-                      }
-                    />
-
-                    {/** Sector */}
-                    <RowInfoBasic
-                      style={styles.last_row_info_basic}
-                      isDark={isDark}
-                      left={<CText label={'project_management:sector'} />}
-                      right={
-                        <CText
-                          customLabel={checkEmpty(data.taskDetail.sectorName)}
                         />
                       }
                     />

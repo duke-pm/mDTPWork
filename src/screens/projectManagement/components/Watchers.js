@@ -23,6 +23,7 @@ import {
 } from 'react-native';
 import {isIphoneX} from 'react-native-iphone-x-helper';
 import Icon from 'react-native-vector-icons/Ionicons';
+import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CText from '~/components/CText';
@@ -282,11 +283,42 @@ function Watchers(props) {
                     nestedScrollEnabled={true}>
                     {watchers.map((item, index) => {
                       let isLast = index === watchers.length - 1;
+                      let time = moment(
+                        item.timeUpdate,
+                        'DD/MM/YYYY - HH:mm',
+                      ).format('HH:mm');
+                      let date = moment(
+                        item.timeUpdate,
+                        'DD/MM/YYYY - HH:mm',
+                      ).format('DD/MM/YYYY');
                       return (
                         <View
                           key={index + item.userName}
                           style={[cStyles.row, cStyles.itemsCenter]}>
-                          <CAvatar size={'small'} label={item.fullName} />
+                          <View>
+                            <CAvatar size={'small'} label={item.fullName} />
+                            {item.isReceiveEmail && (
+                              <View
+                                style={[
+                                  cStyles.center,
+                                  cStyles.rounded5,
+                                  cStyles.abs,
+                                  {
+                                    height: fS(14),
+                                    width: fS(14),
+                                    backgroundColor: colors.WHITE,
+                                    right: -4,
+                                    bottom: -4,
+                                  },
+                                ]}>
+                                <Icon
+                                  name={'mail'}
+                                  color={customColors.primary}
+                                  size={fS(10)}
+                                />
+                              </View>
+                            )}
+                          </View>
                           <View
                             style={[
                               cStyles.flex1,
@@ -294,7 +326,7 @@ function Watchers(props) {
                               cStyles.itemsCenter,
                               cStyles.justifyBetween,
                               cStyles.ml10,
-                              cStyles.py16,
+                              cStyles.py10,
                               !isLast && cStyles.borderBottom,
                               !isLast && isDark && cStyles.borderBottomDark,
                             ]}>
@@ -317,10 +349,8 @@ function Watchers(props) {
                               </Text>
                             </View>
                             <View style={[cStyles.itemsEnd, styles.con_right]}>
-                              <CText
-                                styles={'textDate'}
-                                customLabel={item.timeUpdate}
-                              />
+                              <CText styles={'textDate'} customLabel={date} />
+                              <CText styles={'textDate'} customLabel={time} />
                             </View>
                           </View>
                         </View>
