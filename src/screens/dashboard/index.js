@@ -7,7 +7,7 @@
  **/
 import React, {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
-import { useTheme } from '@react-navigation/native';
+import {useTheme} from '@react-navigation/native';
 import {TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 /** COMPONENTS */
@@ -16,15 +16,25 @@ import CContent from '~/components/CContent';
 import CList from '~/components/CList';
 import CItem from '~/components/CItem';
 /** COMMON */
-import {colors, cStyles} from '~/utils/style';
-import Routes from '~/navigation/Routes';
 import Configs from '~/config';
-import { fS, IS_ANDROID } from '~/utils/helper';
-
+import Routes from '~/navigation/Routes';
+import {colors, cStyles} from '~/utils/style';
+import {fS, IS_ANDROID} from '~/utils/helper';
 
 function Dashboard(props) {
   const {navigation} = props;
   const {customColors} = useTheme();
+
+  const DATA_COLOR = {
+    Approved: {
+      value: 'Approved',
+      color: customColors.orange,
+    },
+    ProjectManagement: {
+      value: 'ProjectManagement',
+      color: customColors.blue,
+    },
+  };
 
   /** Use State */
   const [loading, setLoading] = useState(true);
@@ -101,15 +111,21 @@ function Dashboard(props) {
     <CContainer
       loading={loading}
       content={
-        <CContent>
+        <CContent contentStyle={cStyles.itemsStart}>
           {!loading && (
             <CList
               contentStyle={cStyles.pt16}
               data={routes}
               item={({item, index}) => {
                 if (item.isAccess) {
+                  let color = DATA_COLOR[item.mName].color;
                   return (
-                    <CItem index={index} data={item} onPress={handleItem} />
+                    <CItem
+                      index={index}
+                      data={item}
+                      color={color}
+                      onPress={handleItem}
+                    />
                   );
                 }
                 return null;

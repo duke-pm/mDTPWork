@@ -7,6 +7,7 @@
  **/
 import React, {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
+import {useTheme} from '@react-navigation/native';
 /** COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
@@ -16,7 +17,20 @@ import CItem from '~/components/CItem';
 import {cStyles} from '~/utils/style';
 
 function Approved(props) {
+  const {customColors} = useTheme();
   const {navigation, route} = props;
+
+  const DATA_COLOR = {
+    ListApprovedAssets: {
+      value: 'ListApprovedAssets',
+      color: customColors.yellow,
+    },
+    ListApprovedAssetsHandling: {
+      value: 'ListApprovedAssetsHandling',
+      color: customColors.teal,
+    },
+  };
+
   /** Use redux */
   const authState = useSelector(({auth}) => auth);
 
@@ -82,13 +96,24 @@ function Approved(props) {
     <CContainer
       loading={loading}
       content={
-        <CContent>
+        <CContent contentStyle={cStyles.itemsStart}>
           {!loading && (
             <CList
               contentStyle={cStyles.pt16}
               data={routes}
               item={({item, index}) => {
-                return <CItem index={index} data={item} onPress={handleItem} />;
+                if (item.isAccess) {
+                  let color = DATA_COLOR[item.mName].color;
+                  return (
+                    <CItem
+                      index={index}
+                      data={item}
+                      color={color}
+                      onPress={handleItem}
+                    />
+                  );
+                }
+                return null;
               }}
               numColumns={3}
             />
