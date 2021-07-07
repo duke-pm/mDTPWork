@@ -19,40 +19,37 @@ function SalesVisit(props) {
   return (
     <CContainer
       loading={false}
-      title={'sales_visit:title'}
-      header
-      hasBack
       content={
-        <CContent>
+        <View style={cStyles.flex1}>
           <StepForm
             items={[
               {
-                id: 'step1',
+                key: 'step1',
                 number: false,
                 icon: 'person',
-                label: 'Contact Information',
+                title: 'Contact Information',
               },
               {
-                id: 'step2',
+                key: 'step2',
                 number: false,
                 icon: 'beer',
-                label: 'Interests',
+                title: 'Interests',
               },
               {
-                id: 'step3',
+                key: 'step3',
                 number: false,
                 icon: 'aperture',
-                label: 'Samples/Adoptions',
+                title: 'Samples/Adoptions',
               },
               {
-                id: 'step4',
+                key: 'step4',
                 number: false,
                 icon: 'checkmark',
-                label: 'Other Information',
+                title: 'Other Information',
               },
             ]}
           />
-        </CContent>
+        </View>
       }
     />
   );

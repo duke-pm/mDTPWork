@@ -19,7 +19,6 @@ import {
   UIManager,
 } from 'react-native';
 import {TabView} from 'react-native-tab-view';
-import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 /* COMPONENTS */

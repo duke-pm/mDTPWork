@@ -7,17 +7,24 @@
  **/
 import React, {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
+import { useTheme } from '@react-navigation/native';
+import {TouchableOpacity, View} from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 /** COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
 import CList from '~/components/CList';
 import CItem from '~/components/CItem';
 /** COMMON */
-import {cStyles} from '~/utils/style';
+import {colors, cStyles} from '~/utils/style';
 import Routes from '~/navigation/Routes';
+import Configs from '~/config';
+import { fS, IS_ANDROID } from '~/utils/helper';
+
 
 function Dashboard(props) {
   const {navigation} = props;
+  const {customColors} = useTheme();
 
   /** Use State */
   const [loading, setLoading] = useState(true);
@@ -25,6 +32,22 @@ function Dashboard(props) {
 
   /** Use redux */
   const authState = useSelector(({auth}) => auth);
+
+  if (Configs.salesVisit) {
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity onPress={handleNewFeature}>
+          <View>
+            <Icon
+              name={'logo-react'}
+              color={IS_ANDROID ? colors.WHITE : customColors.icon}
+              size={fS(23)}
+            />
+          </View>
+        </TouchableOpacity>
+      ),
+    });
+  }
 
   /*****************
    ** HANDLE FUNC **

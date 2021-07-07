@@ -15,6 +15,8 @@ import {colors, cStyles} from '~/utils/style';
 function CGroupInfo({
   style = {},
   contentStyle = {},
+  containerLabelStyle = {},
+  labelStyle = {},
   loading = false,
   label = null,
   content = null,
@@ -27,7 +29,14 @@ function CGroupInfo({
   }
   return (
     <View style={[cStyles.mb16, style]}>
-      {label && <CText styles={'H6 px16'} label={label} />}
+      {label && (
+        <View style={[containerLabelStyle]}>
+          <CText
+            customStyles={[cStyles.H6, cStyles.px16, labelStyle]}
+            label={label}
+          />
+        </View>
+      )}
       <View
         style={[
           cStyles.rounded2,

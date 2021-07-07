@@ -4,18 +4,13 @@
  ** CreateAt: 2021
  ** Description: Description of CList.js
  **/
-import React, {createRef, useState, useEffect} from 'react';
+import React, {createRef} from 'react';
 import {useColorScheme} from 'react-native-appearance';
-import {useTheme} from '@react-navigation/native';
-import {StyleSheet, View, FlatList, SectionList, Text} from 'react-native';
-import {PanGestureHandler, State} from 'react-native-gesture-handler';
-import {RecyclerListView, DataProvider, LayoutProvider} from 'recyclerlistview';
-import Animated from 'react-native-reanimated';
+import {StyleSheet, View, FlatList, SectionList} from 'react-native';
 /* COMPONENTS */
 import CEmpty from './CEmpty';
 import CText from './CText';
 import CFooterList from './CFooterList';
-import CLoading from './CLoading';
 /* COMMON */
 import {IS_ANDROID} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
@@ -23,11 +18,9 @@ import {THEME_DARK} from '~/config/constants';
 
 /** All refs of CList */
 let listRef = createRef();
-let sectionlistRef = createRef();
 
 function CList(props) {
   const isDark = useColorScheme() === THEME_DARK;
-  const {customColors} = useTheme();
   const {
     style = {},
     contentStyle = {},
@@ -92,7 +85,6 @@ function CList(props) {
 
       {sectionList && (
         <SectionList
-          ref={ref => (sectionlistRef = ref)}
           style={[cStyles.flex1, style]}
           contentContainerStyle={[cStyles.px16, cStyles.pb16, contentStyle]}
           sections={props.data}

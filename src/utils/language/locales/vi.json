@@ -438,7 +438,10 @@
 
   },
   "sales_visit": {
-    "title": "Sales Visit"
+    "title": "Sales Visit",
+    "title_contact_information": "Thông tin căn bản",
+    "first_name": "Tên",
+    "last_name": "Họ và Chữ lót"
   },
   "": {
     "contact_information": "Thông tin liên lạc",

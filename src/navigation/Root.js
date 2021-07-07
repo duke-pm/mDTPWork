@@ -105,6 +105,8 @@ export function RootDashboard(props) {
         component={Routes.MAIN.SALES_VISIT.path}
         options={{
           title: t('sales_visit:title'),
+          headerLargeTitle: false,
+          headerTranslucent: false,
         }}
       />
       <StackDashboard.Screen

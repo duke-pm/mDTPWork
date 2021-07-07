@@ -4,27 +4,31 @@
  ** CreateAt: 2021
  ** Description: Description of ContactInformation.js
  **/
-import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import React, {createRef, useState} from 'react';
+import {StyleSheet, View, ScrollView} from 'react-native';
 /* COMPONENTS */
-import CCard from '~/components/CCard';
 import CLabel from '~/components/CLabel';
 import CInput from '~/components/CInput';
-/* COMMON */
+import CGroupInfo from '~/components/CGroupInfo';
+/** COMMON */
+import {colors, cStyles} from '~/utils/style';
 
 /* REDUX */
 
 const INPUT_NAME = {
-  NAME: 'name',
-
+  FIRST_NAME: 'firstName',
+  LAST_NAME: 'lastName',
 };
 
+let firstNameRef = createRef();
+let lastNameRef = createRef();
 
 function ContactInformation(props) {
-  const {index, data, disabled, } = props;
+  const {loading, index, data, disabled} = props;
 
-  const [] = useState({
-    name: '',
+  const [form, setForm] = useState({
+    firstName: '',
+    lastName: '',
     title: '',
     schoolName: '',
     dept: '',
@@ -42,40 +46,74 @@ function ContactInformation(props) {
     visited: true,
     supplier: '',
   });
+  const [error, setError] = useState({
+    firstName: false,
+    firstNameHelper: '',
+    lastName: false,
+    lastNameHelper: '',
+  });
 
   const handleChangeText = (value, inputName) => {
+    setForm({...form, [inputName]: value});
+  };
 
+  const handleChangeInput = inputRef => {
+    if (inputRef) {
+      inputRef.current.focus();
+    }
   };
 
   return (
-    <CCard
-      label={data.label}
+    <CGroupInfo
+      containerLabelStyle={cStyles.center}
+      label={'sales_visit:title_contact_information'}
       content={
-        <View>
+        <ScrollView>
           <View>
-            <CLabel medium label={'Salutation/Name'} />
-            {/* <CInput
-              name={INPUT_NAME.NAME}
+            <CLabel medium label={'sales_visit:first_name'} />
+            <CInput
+              name={INPUT_NAME.FIRST_NAME}
               styleFocus={styles.input_focus}
-              disabled={disabled}
-              holder={'Name'}
-              value={form.reason}
+              inputRef={firstNameRef}
+              disabled={loading}
+              holder={'sales_visit:first_name'}
+              value={form.firstName}
               keyboard={'default'}
               returnKey={'next'}
-              onChangeInput={() => handleChangeInput(supplierRef)}
+              password
+              error={error.firstName}
+              errorHelperCustom={error.firstNameHelper}
+              onChangeInput={() => handleChangeInput(lastNameRef)}
               onChangeValue={handleChangeText}
-            /> */}
+            />
           </View>
-        </View>
+
+          <View style={cStyles.pt16}>
+            <CLabel medium label={'sales_visit:last_name'} />
+            <CInput
+              name={INPUT_NAME.LAST_NAME}
+              styleFocus={styles.input_focus}
+              inputRef={lastNameRef}
+              disabled={loading}
+              holder={'sales_visit:last_name'}
+              value={form.lastName}
+              keyboard={'default'}
+              returnKey={'next'}
+              password
+              error={error.lastName}
+              errorHelperCustom={error.lastNameHelper}
+              // onChangeInput={() => handleChangeInput(confirmPasswordRef)}
+              onChangeValue={handleChangeText}
+            />
+          </View>
+        </ScrollView>
       }
     />
   );
 }
 
-// const styles = StyleSheet.create({
-//   input_focus: {
-//     borderColor: colors.SECONDARY,
-//   },
-// });
+const styles = StyleSheet.create({
+  input_focus: {borderColor: colors.SECONDARY},
+});
 
 export default ContactInformation;
