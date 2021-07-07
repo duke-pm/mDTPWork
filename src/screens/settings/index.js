@@ -10,7 +10,7 @@ import {useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
 import {isIphoneX} from 'react-native-iphone-x-helper';
-import {Alert, StyleSheet} from 'react-native';
+import {StyleSheet} from 'react-native';
 import Picker from '@gregfrench/react-native-wheel-picker';
 import TouchID from 'react-native-touch-id';
 /* COMPONENTS */
@@ -18,18 +18,19 @@ import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
 import CActionSheet from '~/components/CActionSheet';
 import CList from '~/components/CList';
+import CGroupInfo from '~/components/CGroupInfo';
 import ListItem from '~/screens/account/components/ListItem';
 /* COMMON */
 import {Assets} from '~/utils/asset';
 import {LANGUAGE, BIOMETRICS} from '~/config/constants';
-import {fS, getLocalInfo, removeLocalInfo, saveLocalInfo, sH} from '~/utils/helper';
+import {fS, getLocalInfo, saveLocalInfo, sH} from '~/utils/helper';
 import {cStyles} from '~/utils/style';
 /* REDUX */
 import * as Actions from '~/redux/actions';
-import CGroupInfo from '~/components/CGroupInfo';
 
 /** All refs use in this screen */
-const actionSheetLangRef = createRef();
+const asLangRef = createRef();
+const asDarkModeRef = createRef();
 const SETTINGS = [
   {
     id: 'language',
@@ -48,17 +49,39 @@ const SETTINGS = [
         icon: Assets.iconEnglandFlag,
       },
     ],
-    onPress: actionSheetLangRef,
+    onPress: asLangRef,
   },
   {
     id: 'biometrics',
     label: 'settings:biometrics',
     description: 'settings:holder_biometrics',
-    icon: 'finger-print',
+    icon: 'finger-print-outline',
     iconFaceID: isIphoneX(),
     isToggle: true,
     onPress: null,
   },
+  // {
+  //   id: 'dardMode',
+  //   label: 'settings:dard_mode',
+  //   icon: 'contrast-outline',
+  //   nextRoute: 'SingleChoose',
+  //   isChooseDarkMode: true,
+  //   data: [
+  //     {
+  //       value: 'dark_mode_system',
+  //       label: 'settings:dard_mode_system',
+  //     },
+  //     {
+  //       value: 'dark_mode_on',
+  //       label: 'settings:dard_mode_on',
+  //     },
+  //     {
+  //       value: 'dark_mode_off',
+  //       label: 'settings:dard_mode_off',
+  //     },
+  //   ],
+  //   onPress: asDarkModeRef,
+  // },
 ];
 
 function Settings(props) {
@@ -71,40 +94,38 @@ function Settings(props) {
   /** Use state */
   const [loading, setLoading] = useState(true);
   const [initSettings, setInitSettings] = useState(SETTINGS);
-  const [languages, setLanguages] = useState({
-    data: SETTINGS[0].data,
-    active: 0,
-  });
-  const [biometric, setBiometric] = useState({
-    active: false,
-    value: false,
+  const [valueSettings, setValueSettings] = useState({
+    activeLanguage: 0,
+    activeBiometric: false,
+    valueBiometric: false,
   });
 
   /*****************
    ** HANDLE FUNC **
    *****************/
-  const handleChange = index => {
+  const handleChangeLanguage = index => {
     if (initSettings[index].value) {
       if (
-        initSettings[index].data[languages.active].value !==
+        initSettings[index].data[valueSettings.activeLanguage].value !==
         initSettings[index].value
       ) {
         let tmp = [...initSettings];
-        tmp[index].value = initSettings[index].data[languages.active];
+        tmp[index].value =
+          initSettings[index].data[valueSettings.activeLanguage];
         setInitSettings(tmp);
 
         onChangeGlobal(index, tmp[index].value);
       }
     } else {
       let tmp = [...initSettings];
-      tmp[index].value = initSettings[index].data[languages.active];
+      tmp[index].value = initSettings[index].data[valueSettings.activeLanguage];
       setInitSettings(tmp);
 
       onChangeGlobal(index, tmp[index].value);
     }
-    actionSheetLangRef.current?.hide();
+    asLangRef.current?.hide();
   };
-
+ 
   /**********
    ** FUNC **
    **********/
@@ -112,26 +133,21 @@ function Settings(props) {
     TouchID.isSupported()
       .then(async biometryType => {
         let isBio = await getLocalInfo(BIOMETRICS);
-        console.log('[LOG] === biometryType ===> ', biometryType);
+        let tmp = {
+          ...valueSettings,
+          activeBiometric: true,
+          valueBiometric: isBio === '1',
+        };
         if (biometryType === 'FaceID') {
-          setBiometric({
-            active: true,
-            value: isBio === '1',
-          });
+          setValueSettings(tmp);
         } else if (biometryType === 'TouchID') {
-          setBiometric({
-            active: true,
-            value: isBio === '1',
-          });
+          setValueSettings(tmp);
         } else if (biometryType === true) {
-          setBiometric({
-            active: true,
-            value: isBio === '1',
-          });
+          setValueSettings(tmp);
         }
       })
       .catch(e => {
-        console.log('[LOG] === Error ===> ', e);
+        console.log('[LOG] === Error Biometrics ===> ', e);
       });
 
     let languageLocal = await getLocalInfo(LANGUAGE);
@@ -143,7 +159,7 @@ function Settings(props) {
       let find = initSettings[0].data.findIndex(
         f => f.value === languageLocal.value,
       );
-      setLanguages({...languages, active: find});
+      setValueSettings({...valueSettings, activeLanguage: find});
       setLoading(false);
     } else {
       setLoading(false);
@@ -151,7 +167,7 @@ function Settings(props) {
   };
 
   const onChangeLanguage = index => {
-    setLanguages({...languages, active: index});
+    setValueSettings({...valueSettings, activeLanguage: index});
   };
 
   const onChangeGlobal = async (index, data) => {
@@ -164,8 +180,8 @@ function Settings(props) {
   };
 
   const onCheckBiometrics = async () => {
-    let newValue = !biometric.value;
-    setBiometric({...biometric, value: newValue});
+    let newValue = !valueSettings.valueBiometric;
+    setValueSettings({...valueSettings, valueBiometric: newValue});
     setLoading(true);
     await saveLocalInfo({key: BIOMETRICS, value: newValue ? '1' : '0'});
     setLoading(false);
@@ -198,8 +214,10 @@ function Settings(props) {
                       customColors={customColors}
                       index={index}
                       data={item}
-                      dataActive={languages.data[languages.active]}
-                      dataToggle={index === 1 ? biometric : null}
+                      dataActiveLang={
+                        initSettings[0].data[valueSettings.activeLanguage]
+                      }
+                      dataToggle={index === 1 ? valueSettings : null}
                       onToggle={onCheckBiometrics}
                     />
                   );
@@ -210,15 +228,15 @@ function Settings(props) {
           />
 
           <CActionSheet
-            actionRef={actionSheetLangRef}
+            actionRef={asLangRef}
             headerChoose
-            onConfirm={() => handleChange(0)}>
+            onConfirm={() => handleChangeLanguage(0)}>
             <Picker
               style={styles.con_action}
               itemStyle={{color: customColors.text, fontSize: fS(20)}}
-              selectedValue={languages.active}
+              selectedValue={valueSettings.activeLanguage}
               onValueChange={onChangeLanguage}>
-              {languages.data.map((value, i) => (
+              {initSettings[0].data.map((value, i) => (
                 <Picker.Item
                   label={t(value.label)}
                   value={i}

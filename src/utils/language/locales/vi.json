@@ -186,7 +186,10 @@
     "holder_change_language": "Vui lòng chọn ngôn ngữ dưới đây",
     "vi": "Tiếng việt",
     "en": "Tiếng anh",
-    "theme": "Chế độ Tối",
+    "dard_mode": "Chế độ Tối",
+    "dard_mode_on": "Mở",
+    "dard_mode_off": "Tắt",
+    "dard_mode_system": "Hệ thống",
     "biometrics": "Đăng nhập nhanh",
     "holder_biometrics": "Bạn có thể đăng nhập nhanh bằng TouchID hoặc FaceID (nếu có)"
   },
@@ -434,18 +437,13 @@
     "info_basic_4": "Mô tả",
     "list_task": "Dự án số #",
     "estimated_time": "Estimated",
-    "detail_task": "Chi tiết"
-
+    "detail_task": "Chi tiết",
+    "find": "Tìm"
   },
   "sales_visit": {
     "title": "Sales Visit",
     "title_contact_information": "Thông tin căn bản",
     "first_name": "Tên",
     "last_name": "Họ và Chữ lót"
-  },
-  "": {
-    "contact_information": "Thông tin liên lạc",
-    "salutation_name": "Salutation/Name",
-    "title": ""
   }
 }

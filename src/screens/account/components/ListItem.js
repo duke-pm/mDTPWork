@@ -31,7 +31,7 @@ function ListItem(props) {
   const {
     key,
     data,
-    dataActive,
+    dataActiveLang,
     dataToggle,
     customColors,
     onSignOut,
@@ -47,7 +47,10 @@ function ListItem(props) {
       Linking.openURL(`tel:${data.value}`);
     } else if (data.nextRoute) {
       if (data.nextRoute !== 'NotReady') {
-        navigation.navigate(data.nextRoute);
+        navigation.navigate(data.nextRoute, {
+          data: data.data || null,
+          isChooseDarkMode: data.isChooseDarkMode || false,
+        });
       } else {
         alert(t, 'common:holder_warning_option_prepare', () => null);
       }
@@ -86,7 +89,7 @@ function ListItem(props) {
     data.isRate ||
     isSignOut;
   const Component = isTouch ? TouchableOpacity : View;
-  if (dataToggle && !dataToggle.active) {
+  if (dataToggle && !dataToggle.activeBiometric) {
     return null;
   }
 
@@ -104,7 +107,7 @@ function ListItem(props) {
           {data.icon && !data.iconFaceID && (
             <Icon name={data.icon} size={fS(23)} color={customColors.text} />
           )}
-          {dataToggle && dataToggle.active && data.iconFaceID && (
+          {dataToggle && dataToggle.activeBiometric && data.iconFaceID && (
             <Image
               style={{height: fS(23), width: fS(23)}}
               source={Assets.iconFaceID}
@@ -138,11 +141,15 @@ function ListItem(props) {
                 style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyEnd]}>
                 <CText
                   styles={'pr6'}
-                  label={dataActive ? dataActive.label : data.data[0].label}
+                  label={
+                    dataActiveLang ? dataActiveLang.label : data.data[0].label
+                  }
                 />
                 <Image
                   style={styles.img_flag}
-                  source={dataActive ? dataActive.icon : data.data[0].icon}
+                  source={
+                    dataActiveLang ? dataActiveLang.icon : data.data[0].icon
+                  }
                   resizeMode={'contain'}
                 />
               </View>
@@ -158,7 +165,10 @@ function ListItem(props) {
               />
             )}
             {data.isToggle && dataToggle && (
-              <Switch value={dataToggle.value} onValueChange={onToggle} />
+              <Switch
+                value={dataToggle.valueBiometric}
+                onValueChange={onToggle}
+              />
             )}
           </View>
         </View>

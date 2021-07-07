@@ -16,6 +16,7 @@ import ChangePassword from '~/screens/changePassword';
 import HelpAndInfo from '~/screens/helpAndInfo';
 import ContactUs from '~/screens/contactUs';
 import Settings from '~/screens/settings';
+import SingleChoose from '~/screens/settings/components/SingleChoose';
 /** APPROVED */
 import Approved from '~/screens/approved';
 import ListRequest from '~/screens/approved/listAssets';
@@ -78,6 +79,12 @@ const Routes = {
     SETTINGS: {
       name: 'Settings',
       path: Settings,
+      childrens: {
+        SINGLE_CHOOSE: {
+          name: 'SingleChoose',
+          path: SingleChoose,
+        },
+      },
     },
 
     // Approved screens

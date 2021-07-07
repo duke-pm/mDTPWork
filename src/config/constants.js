@@ -11,6 +11,7 @@ export const LANGUAGE = 'LANGUAGE';
 export const LAST_COMMENT_TASK = 'LAST_COMMENT_TASK';
 export const BIOMETRICS = 'BIOMETRICS';
 export const FAST_LOGIN = 'FAST_LOGIN';
+export const DARK_MODE = 'DARK_MODE';
 export const THEME_DARK = 'dark';
 export const THEME_LIGHT = 'light';
 export const DEFAULT_LANGUAGE_CODE = 'vi';

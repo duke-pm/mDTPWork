@@ -433,6 +433,9 @@
     "find": "Find"
   },
   "sales_visit": {
-    "title": "Sales Visit"
+    "title": "Sales Visit",
+    "title_contact_information": "Contact information",
+    "first_name": "First Name",
+    "last_name": "Last Name"
   }
 }

@@ -325,6 +325,15 @@ export function RootAccount(props) {
           title: t('settings:title'),
         }}
       />
+      <StackAccount.Screen
+        name={Routes.MAIN.SETTINGS.childrens.SINGLE_CHOOSE.name}
+        component={Routes.MAIN.SETTINGS.childrens.SINGLE_CHOOSE.path}
+        options={{
+          stackPresentation: 'modal',
+          headerLargeTitle: false,
+          headerTranslucent: false,
+        }}
+      />
     </StackAccount.Navigator>
   );
 }
