@@ -10,6 +10,7 @@ import {StyleSheet, View} from 'react-native';
 import CText from './CText';
 /* COMMON */
 import {cStyles} from '~/utils/style';
+import {moderateScale} from '~/utils/helper';
 
 function CGroupLabel(props) {
   const {containerStyle, labelLeft, labelRight} = props;
@@ -33,7 +34,7 @@ function CGroupLabel(props) {
 }
 
 const styles = StyleSheet.create({
-  row_header: {height: 60, zIndex: 1},
+  row_header: {height: moderateScale(60), zIndex: 1},
 });
 
 export default CGroupLabel;

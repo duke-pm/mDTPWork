@@ -9,14 +9,16 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
-import {StyleSheet, View, Text, Linking} from 'react-native';
+import {View, Text, Linking} from 'react-native';
 import VersionCheck from 'react-native-version-check';
+import DeviceInfo from 'react-native-device-info';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
 import CAvatar from '~/components/CAvatar';
 import CText from '~/components/CText';
 import CButton from '~/components/CButton';
+import CGroupInfo from '~/components/CGroupInfo';
 import ListItem from './components/ListItem';
 import SocialItem from './components/SocialItem';
 /* COMMON */
@@ -109,6 +111,107 @@ const ACCOUNT = {
   },
 };
 
+const Information = ({isTablet, authState}) => {
+  return (
+    <CGroupInfo
+      contentStyle={[
+        isTablet ? cStyles.mx10 : cStyles.mx16,
+        cStyles.mb10,
+        cStyles.px10,
+      ]}
+      content={
+        <View
+          style={
+            isTablet
+              ? [cStyles.itemsCenter]
+              : [cStyles.row, cStyles.itemsCenter]
+          }>
+          <CAvatar
+            isEdit={true}
+            size={'large'}
+            label={authState.getIn(['login', 'fullName'])}
+          />
+
+          <View
+            style={[
+              cStyles.mx16,
+              isTablet && [cStyles.itemsCenter, cStyles.mt16],
+            ]}>
+            <CText
+              styles={'H6'}
+              customLabel={authState.getIn(['login', 'fullName'])}
+            />
+            <CText
+              customStyles={[
+                cStyles.textMeta,
+                cStyles.mt6,
+                isTablet && cStyles.textCenter,
+              ]}
+              customLabel={authState.getIn(['login', 'jobTitle'])}
+            />
+          </View>
+        </View>
+      }
+    />
+  );
+};
+
+const Socials = ({customColors, isDark, isTablet, needUpdate, onUpdate}) => {
+  return (
+    <CGroupInfo
+      contentStyle={[
+        isTablet ? cStyles.mx10 : cStyles.mx16,
+        cStyles.mb10,
+        cStyles.px10,
+      ]}
+      content={
+        <>
+          <View style={[cStyles.itemsStart, cStyles.mt10]}>
+            <Text style={[cStyles.textMeta, {color: customColors.text}]}>
+              &#169; {Configs.nameOfApp}
+            </Text>
+          </View>
+
+          <View style={[cStyles.mt6, cStyles.row, cStyles.itemsCenter]}>
+            <Text
+              style={[
+                cStyles.textMeta,
+                cStyles.mt5,
+                {color: customColors.text},
+              ]}>
+              {`v${VersionCheck.getCurrentVersion()}`}
+            </Text>
+            {needUpdate.status && (
+              <CButton
+                style={[cStyles.ml10, cStyles.px6]}
+                textStyle={cStyles.textMeta}
+                variant={'outlined'}
+                icon={'download'}
+                label={'common:download'}
+                onPress={onUpdate}
+              />
+            )}
+          </View>
+
+          <View style={[cStyles.itemsStart, cStyles.mt10]}>
+            <View style={[cStyles.row, cStyles.itemsCenter]}>
+              {Configs.socialsNetwork.map((item, index) => (
+                <SocialItem
+                  key={item.id}
+                  index={index}
+                  data={item}
+                  customColors={customColors}
+                  isDark={isDark}
+                />
+              ))}
+            </View>
+          </View>
+        </>
+      }
+    />
+  );
+};
+
 function Account(props) {
   const {t} = useTranslation();
   const {customColors} = useTheme();
@@ -120,6 +223,7 @@ function Account(props) {
 
   /** Use state */
   const [loading, setLoading] = useState(false);
+  const [isTablet, setIsTablet] = useState(false);
   const [needUpdate, setNeedUpdate] = useState({
     status: false,
     linkUpdate: '',
@@ -148,6 +252,11 @@ function Account(props) {
    ** LIFE CYCLE **
    ****************/
   useEffect(() => {
+    let checkTablet = DeviceInfo.isTablet();
+    setIsTablet(checkTablet);
+  }, []);
+
+  useEffect(() => {
     VersionCheck.needUpdate().then(async res => {
       if (res && res.isNeeded) {
         setNeedUpdate({
@@ -166,42 +275,43 @@ function Account(props) {
       loading={loading}
       content={
         <CContent
-          contentStyle={[cStyles.px16, cStyles.pt10]}
+          contentStyle={cStyles.pt10}
           showsVerticalScrollIndicator={false}>
-          <View style={cStyles.flex1}>
-            <View
-              style={[
-                cStyles.rounded2,
-                cStyles.py16,
-                {backgroundColor: isDark ? customColors.card : colors.WHITE},
-              ]}>
-              <View style={[cStyles.row, cStyles.itemsCenter, cStyles.px16]}>
-                <CAvatar
-                  isEdit={true}
-                  size={'large'}
-                  label={authState.getIn(['login', 'fullName'])}
+          <View
+            style={
+              isTablet
+                ? [cStyles.row, cStyles.itemsStart, cStyles.justifyCenter]
+                : []
+            }>
+            <View style={isTablet ? {flex: 0.4} : {}}>
+              {isTablet && (
+                <Information isTablet={isTablet} authState={authState} />
+              )}
+              {isTablet && (
+                <Socials
+                  isDark={isDark}
+                  isTablet={isTablet}
+                  customColors={customColors}
+                  needUpdate={needUpdate}
+                  onUpdate={handleUpdate}
                 />
+              )}
+            </View>
 
-                <View style={cStyles.mx16}>
-                  <CText
-                    styles={'H6'}
-                    customLabel={authState.getIn(['login', 'fullName'])}
-                  />
-                  <CText
-                    styles={'textMeta pt5'}
-                    customLabel={authState.getIn(['login', 'jobTitle'])}
-                  />
-                </View>
-              </View>
+            <View style={isTablet ? {flex: 0.6} : cStyles.flex1}>
+              {!isTablet && (
+                <Information isTablet={isTablet} authState={authState} />
+              )}
 
               {/** INFORMATION */}
-              <View style={[cStyles.fullWidth, cStyles.mt10]}>
-                <View style={cStyles.fullWidth} />
-                <CText
-                  styles={'textMeta pt16 pl16'}
-                  label={ACCOUNT.INFORMATION.label}
-                />
-                {ACCOUNT.INFORMATION.childrens.map((item, index) => (
+              <CGroupInfo
+                contentStyle={[
+                  isTablet ? cStyles.mx10 : cStyles.mx16,
+                  cStyles.mb10,
+                  cStyles.px10,
+                ]}
+                label={ACCOUNT.INFORMATION.label}
+                content={ACCOUNT.INFORMATION.childrens.map((item, index) => (
                   <ListItem
                     key={item.id}
                     index={index}
@@ -209,15 +319,17 @@ function Account(props) {
                     customColors={customColors}
                   />
                 ))}
-              </View>
+              />
 
               {/** SETTINGS */}
-              <View style={[cStyles.fullWidth, cStyles.pt16]}>
-                <CText
-                  styles={'textMeta pl16'}
-                  label={ACCOUNT.SETTINGS.label}
-                />
-                {ACCOUNT.SETTINGS.childrens.map((item, index) => (
+              <CGroupInfo
+                contentStyle={[
+                  isTablet ? cStyles.mx10 : cStyles.mx16,
+                  cStyles.mb10,
+                  cStyles.px10,
+                ]}
+                label={ACCOUNT.SETTINGS.label}
+                content={ACCOUNT.SETTINGS.childrens.map((item, index) => (
                   <ListItem
                     key={item.id}
                     index={index}
@@ -226,57 +338,18 @@ function Account(props) {
                     onSignOut={handleSignOut}
                   />
                 ))}
-              </View>
-            </View>
+              />
 
-            {/** SOCIALS */}
-            <View
-              style={[
-                cStyles.row,
-                cStyles.itemsStart,
-                cStyles.justifyBetween,
-                cStyles.pb32,
-              ]}>
-              <View>
-                <View style={[cStyles.itemsStart, cStyles.pt16]}>
-                  <Text style={[cStyles.textMeta, {color: customColors.text}]}>
-                    &#169; 2021 DTP-Education
-                  </Text>
-                </View>
-
-                <View style={[cStyles.itemsStart, cStyles.mt10]}>
-                  <View style={[cStyles.row, cStyles.itemsCenter]}>
-                    {Configs.socialsNetwork.map((item, index) => (
-                      <SocialItem
-                        key={item.id}
-                        index={index}
-                        data={item}
-                        customColors={customColors}
-                        isDark={isDark}
-                      />
-                    ))}
-                  </View>
-                </View>
-              </View>
-
-              <View style={[cStyles.pt16, cStyles.itemsEnd]}>
-                <Text
-                  style={[
-                    cStyles.textMeta,
-                    cStyles.mt5,
-                    {color: customColors.text},
-                  ]}>
-                  {`v${VersionCheck.getCurrentVersion()}`}
-                </Text>
-                {needUpdate.status && (
-                  <CButton
-                    style={[cStyles.mt10, styles.btn_update]}
-                    variant={'outlined'}
-                    icon={'download'}
-                    onPress={handleUpdate}
-                  />
-                )}
-              </View>
+              {/** SOCIALS */}
+              {!isTablet && (
+                <Socials
+                  isDark={isDark}
+                  isTablet={isTablet}
+                  customColors={customColors}
+                  needUpdate={needUpdate}
+                  onUpdate={handleUpdate}
+                />
+              )}
             </View>
           </View>
         </CContent>
@@ -284,9 +357,5 @@ function Account(props) {
     />
   );
 }
-
-const styles = StyleSheet.create({
-  btn_update: {height: 35},
-});
 
 export default Account;

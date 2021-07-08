@@ -20,7 +20,7 @@ import {BlurView} from '@react-native-community/blur';
 import CText from '~/components/CText';
 /** COMMON */
 import Routes from './Routes';
-import {fS, IS_ANDROID, IS_IOS} from '~/utils/helper';
+import {IS_ANDROID, IS_IOS, moderateScale} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
 import {THEME_DARK} from '~/config/constants';
 
@@ -50,8 +50,8 @@ export function RootDashboard(props) {
         },
         headerTintColor: IS_IOS ? undefined : colors.WHITE,
         headerBackTitleStyle: {
-          fontSize: fS(16),
-          fontWeight: cStyles.fontRegular.fontWeight,
+          fontSize: moderateScale(13),
+          fontWeight: cStyles.fontLight.fontWeight,
         },
         headerTitleStyle: {
           color: isDark
@@ -59,7 +59,7 @@ export function RootDashboard(props) {
             : IS_ANDROID
             ? colors.WHITE
             : colors.BLACK,
-          fontSize: fS(16),
+          fontSize: moderateScale(14),
           fontWeight: cStyles.fontMedium.fontWeight,
         },
         headerLargeTitle: true,
@@ -71,7 +71,7 @@ export function RootDashboard(props) {
             : IS_ANDROID
             ? colors.WHITE
             : colors.BLACK,
-          fontSize: fS(28),
+          fontSize: moderateScale(28),
           fontWeight: cStyles.fontBold.fontWeight,
         },
         headerTopInsetEnabled: false,
@@ -244,8 +244,8 @@ export function RootAccount(props) {
         },
         headerTintColor: IS_IOS ? undefined : colors.WHITE,
         headerBackTitleStyle: {
-          fontSize: fS(16),
-          fontWeight: cStyles.fontRegular.fontWeight,
+          fontSize: moderateScale(14),
+          fontWeight: cStyles.fontLight.fontWeight,
         },
         headerTitleStyle: {
           color: isDark
@@ -253,7 +253,7 @@ export function RootAccount(props) {
             : IS_ANDROID
             ? colors.WHITE
             : colors.BLACK,
-          fontSize: fS(16),
+          fontSize: moderateScale(14),
           fontWeight: cStyles.fontMedium.fontWeight,
         },
         headerLargeTitle: true,
@@ -265,7 +265,7 @@ export function RootAccount(props) {
             : IS_ANDROID
             ? colors.WHITE
             : colors.BLACK,
-          fontSize: fS(28),
+          fontSize: moderateScale(28),
           fontWeight: cStyles.fontBold.fontWeight,
         },
         headerTopInsetEnabled: false,

@@ -15,7 +15,7 @@ import CContent from '~/components/CContent';
 import CGroupLabel from '~/components/CGroupLabel';
 import CList from '~/components/CList';
 import {DARK_MODE, THEME_DARK} from '~/config/constants';
-import {fS, saveLocalInfo, getLocalInfo, sH} from '~/utils/helper';
+import {moderateScale, saveLocalInfo, getLocalInfo, sH} from '~/utils/helper';
 import {cStyles} from '~/utils/style';
 import CText from '~/components/CText';
 import {useTranslation} from 'react-i18next';
@@ -64,7 +64,7 @@ const RowSelect = (
           ]}>
           <CText label={data.label} />
           {active && (
-            <Icon name={'checkmark'} color={customColors.blue} size={fS(23)} />
+            <Icon name={'checkmark'} color={customColors.blue} size={moderateScale(23)} />
           )}
         </View>
       </View>

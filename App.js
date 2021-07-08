@@ -28,9 +28,9 @@ import Navigator from '~/navigation/Navigator';
 import Unconnected from '~/screens/connection/Unconnected';
 /** COMMON */
 import Configs from '~/config';
-import {colors} from '~/utils/style';
+import {colors, cStyles} from '~/utils/style';
 import jwtServiceConfig from '~/services/jwtServiceConfig';
-import {IS_ANDROID, IS_IOS} from '~/utils/helper';
+import {IS_ANDROID, IS_IOS, moderateScale} from '~/utils/helper';
 /** REDUX */
 import Store from './src/redux/store';
 
@@ -195,7 +195,12 @@ const App = () => {
         <Provider store={Store}>
           <SafeAreaProvider initialMetrics={initialWindowMetrics}>
             <Navigator />
-            <FlashMessage position="top" />
+            <FlashMessage
+              floating={true}
+              position={'top'}
+              hideStatusBar={true}
+              animationDuration={150}
+            />
             <Unconnected connected={state.connected} />
           </SafeAreaProvider>
         </Provider>

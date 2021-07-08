@@ -24,7 +24,13 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import CText from './CText';
 /* COMMON */
 import {Assets} from '~/utils/asset';
-import {IS_ANDROID, askPermissionsCamera, sW, fS} from '~/utils/helper';
+import {
+  IS_ANDROID,
+  askPermissionsCamera,
+  sW,
+  fS,
+  moderateScale,
+} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
 import {THEME_DARK} from '~/config/constants';
 
@@ -144,17 +150,16 @@ function CAvatar(props) {
             ]}>
             <Text
               style={[
-                cStyles.fontMedium,
                 cStyles.textCenter,
                 {
                   fontSize:
                     size === 'vsmall'
-                      ? 9
+                      ? moderateScale(9)
                       : size === 'small'
-                      ? 15
+                      ? moderateScale(14)
                       : size === 'medium'
-                      ? 30
-                      : 40,
+                      ? moderateScale(18)
+                      : moderateScale(30),
                   color: customColors.text,
                 },
               ]}>
@@ -176,10 +181,10 @@ function CAvatar(props) {
             size={
               IS_ANDROID
                 ? size === 'small'
-                  ? 10
+                  ? moderateScale(10)
                   : size === 'medium'
-                  ? 15
-                  : 20
+                  ? moderateScale(15)
+                  : moderateScale(20)
                 : 'small'
             }
           />
@@ -202,7 +207,9 @@ function CAvatar(props) {
             <Icon
               name={'camera'}
               color={customColors.text}
-              size={fS(size === 'small' ? 10 : size === 'medium' ? 14 : 18)}
+              size={moderateScale(
+                size === 'small' ? 10 : size === 'medium' ? 14 : 18,
+              )}
             />
           </View>
         )}
@@ -233,7 +240,10 @@ function CAvatar(props) {
                   cStyles.roundedTopRight2,
                   cStyles.fullWidth,
                   cStyles.center,
-                  {height: 55, backgroundColor: customColors.card},
+                  {
+                    height: moderateScale(50),
+                    backgroundColor: customColors.card,
+                  },
                 ]}>
                 <CText
                   customStyles={cStyles.textMeta}
@@ -242,7 +252,7 @@ function CAvatar(props) {
               </View>
               <View
                 style={{
-                  height: 0.5,
+                  height: moderateScale(0.5),
                   backgroundColor: colors.GRAY_500,
                   width: '100%',
                 }}
@@ -251,7 +261,10 @@ function CAvatar(props) {
                 style={[
                   cStyles.fullWidth,
                   cStyles.center,
-                  {height: 55, backgroundColor: customColors.card},
+                  {
+                    height: moderateScale(50),
+                    backgroundColor: customColors.card,
+                  },
                 ]}
                 onPress={onCloseChooseType}>
                 <CText
@@ -265,7 +278,7 @@ function CAvatar(props) {
               </TouchableOpacity>
               <View
                 style={{
-                  height: 0.5,
+                  height: moderateScale(0.5),
                   backgroundColor: colors.GRAY_500,
                   width: '100%',
                 }}
@@ -276,7 +289,10 @@ function CAvatar(props) {
                   cStyles.roundedBottomRight2,
                   cStyles.fullWidth,
                   cStyles.center,
-                  {height: 55, backgroundColor: customColors.card},
+                  {
+                    height: moderateScale(50),
+                    backgroundColor: customColors.card,
+                  },
                 ]}
                 onPress={onCloseChooseType}>
                 <CText
@@ -297,7 +313,10 @@ function CAvatar(props) {
                   cStyles.rounded2,
                   cStyles.fullWidth,
                   cStyles.center,
-                  {height: 55, backgroundColor: customColors.card},
+                  {
+                    height: moderateScale(50),
+                    backgroundColor: customColors.card,
+                  },
                 ]}
                 onPress={onCloseChooseType}>
                 <CText
@@ -315,37 +334,37 @@ function CAvatar(props) {
 
 const styles = StyleSheet.create({
   image_vsmall: {
-    height: sW('4.5%'),
-    width: sW('4.5%'),
+    height: moderateScale(20),
+    width: moderateScale(20),
   },
   image_small: {
-    height: sW('8%'),
-    width: sW('8%'),
+    height: moderateScale(26),
+    width: moderateScale(26),
   },
   image_medium: {
-    height: sW('15.5%'),
-    width: sW('15.5%'),
+    height: moderateScale(36),
+    width: moderateScale(36),
   },
   image_large: {
-    height: sW('22%'),
-    width: sW('22%'),
+    height: moderateScale(60),
+    width: moderateScale(60),
   },
 
   icon_camera_vsmall: {
-    height: sW('2%'),
-    width: sW('2%'),
+    height: moderateScale(10),
+    width: moderateScale(10),
   },
   icon_camera_small: {
-    height: sW('2.8%'),
-    width: sW('2.8%'),
+    height: moderateScale(15),
+    width: moderateScale(15),
   },
   icon_camera_medium: {
-    height: sW('6%'),
-    width: sW('6%'),
+    height: moderateScale(20),
+    width: moderateScale(20),
   },
   icon_camera_large: {
-    height: sW('7.5%'),
-    width: sW('7.5%'),
+    height: moderateScale(25),
+    width: moderateScale(25),
   },
   con_loading: {backgroundColor: 'transparent'},
 });

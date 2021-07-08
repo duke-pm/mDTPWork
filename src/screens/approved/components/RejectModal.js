@@ -10,7 +10,7 @@ import {StyleSheet} from 'react-native';
 import CInput from '~/components/CInput';
 import CAlert from '~/components/CAlert';
 /* COMMON */
-import {colors} from '~/utils/style';
+import {colors, cStyles} from '~/utils/style';
 
 const INPUT_NAME = {
   REASON_REJECT: 'reasonReject',
@@ -85,6 +85,7 @@ function RejectModal(props) {
       customContent={
         <CInput
           name={INPUT_NAME.REASON_REJECT}
+          style={cStyles.fullWidth}
           styleFocus={styles.input_focus}
           disabled={loading}
           holder={'add_approved_assets:reason'}
@@ -107,9 +108,7 @@ function RejectModal(props) {
 }
 
 const styles = StyleSheet.create({
-  input_focus: {
-    borderColor: colors.SECONDARY,
-  },
+  input_focus: {borderColor: colors.SECONDARY},
 });
 
 export default RejectModal;

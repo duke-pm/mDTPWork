@@ -19,7 +19,7 @@ import SearchBar from 'react-native-platform-searchbar';
 /** COMPONENTS */
 import CIconButton from './CIconButton';
 /* COMMON */
-import {IS_ANDROID} from '~/utils/helper';
+import {IS_ANDROID, moderateScale} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
 
 if (IS_ANDROID) {

@@ -50,7 +50,7 @@ import {
   IS_ANDROID,
   getSecretInfo,
   resetRoute,
-  fS,
+  moderateScale,
   IS_IOS,
 } from '~/utils/helper';
 /** REDUX */
@@ -143,7 +143,7 @@ function Task(props) {
             <Icon
               name={IS_IOS ? 'chevron-back' : 'arrow-back'}
               color={IS_ANDROID ? colors.WHITE : customColors.blue}
-              size={IS_IOS ? fS(30) : fS(25)}
+              size={IS_IOS ? moderateScale(26) : moderateScale(21)}
             />
             <CText
               customStyles={[
@@ -161,7 +161,7 @@ function Task(props) {
             <Icon
               name={isFastWatch ? 'eye-outline' : 'eye'}
               color={IS_ANDROID ? colors.WHITE : customColors.icon}
-              size={fS(23)}
+              size={moderateScale(21)}
             />
           </View>
         </TouchableOpacity>
@@ -170,17 +170,21 @@ function Task(props) {
             <Icon
               name={'chatbubbles'}
               color={IS_ANDROID ? colors.WHITE : customColors.icon}
-              size={fS(23)}
+              size={moderateScale(21)}
             />
             {newComment && (
               <View
                 style={[
                   cStyles.abs,
                   cStyles.rounded2,
-                  styles.badge,
                   cStyles.borderAll,
+                  styles.badge,
                   isDark && cStyles.borderAllDark,
-                  {backgroundColor: customColors.red, top: -5, left: 10},
+                  {
+                    backgroundColor: customColors.red,
+                    top: 0,
+                    left: moderateScale(10),
+                  },
                 ]}
               />
             )}
@@ -191,17 +195,21 @@ function Task(props) {
             <Icon
               name={'people'}
               color={IS_ANDROID ? colors.WHITE : customColors.icon}
-              size={fS(23)}
+              size={moderateScale(21)}
             />
             {!isFastWatch && (
               <View
                 style={[
                   cStyles.abs,
                   cStyles.rounded2,
-                  styles.badge,
                   cStyles.borderAll,
+                  styles.badge,
                   isDark && cStyles.borderAllDark,
-                  {backgroundColor: customColors.red, top: -5, left: 10},
+                  {
+                    backgroundColor: customColors.red,
+                    top: 0,
+                    left: moderateScale(10),
+                  },
                 ]}
               />
             )}
@@ -632,6 +640,7 @@ function Task(props) {
                           />
                           <CText
                             style={[
+                              cStyles.mt5,
                               cStyles.textDefault,
                               {
                                 color: isDelay
@@ -856,7 +865,7 @@ function Task(props) {
                                 <View
                                   style={[
                                     cStyles.ml5,
-                                    cStyles.py6,
+                                    cStyles.py10,
                                     cStyles.flex1,
                                     index !==
                                       data.taskDetail.lstUserInvited.length -
@@ -871,7 +880,8 @@ function Task(props) {
                                     medium
                                     customLabel={checkEmpty(item.fullName)}
                                   />
-                                  <CLabel
+                                  <CText
+                                    styles={'mt5 textMeta'}
                                     customLabel={checkEmpty(item.email)}
                                   />
                                 </View>
@@ -907,19 +917,29 @@ function Task(props) {
 }
 
 const styles = StyleSheet.create({
-  left: {left: -10},
+  left: {left: -moderateScale(10)},
   con_left: {flex: 0.5},
   con_right: {flex: 0.5},
   con_left_1: {flex: 0.3},
   con_middle: {flex: 0.2},
   con_right_1: {flex: 0.5},
   con_sector: {flex: 0.4},
-  badge: {height: 10, width: 10, top: 16, right: 15},
-  badge2: {height: 10, width: 10, top: 16, right: 13},
+  badge: {
+    height: moderateScale(10),
+    width: moderateScale(10),
+    top: 16,
+    right: 15,
+  },
+  badge2: {
+    height: moderateScale(10),
+    width: moderateScale(10),
+    top: 16,
+    right: 13,
+  },
   line: {borderRadius: 1},
-  dot_check: {right: -2, top: 1},
-  list_invited: {height: 150},
-  group_holder: {height: 50},
+  dot_check: {right: -moderateScale(2), top: moderateScale(1)},
+  list_invited: {height: moderateScale(150)},
+  group_holder: {height: moderateScale(50)},
   row_info_basic_left: {flex: 0.4},
   row_info_basic_right: {flex: 0.6},
   last_row_info_basic: {borderBottomWidth: 0},

@@ -62,7 +62,9 @@ function CActionSheet(props) {
       headerAlwaysVisible={true}
       indicatorColor={customColors.cardDisable}
       gestureEnabled={true}
-      defaultOverlayOpacity={isDark ? 0.8 : 0.5}
+      defaultOverlayOpacity={isDark ? 0.8 : 0.4}
+      openAnimationSpeed={20}
+      closeAnimationDuration={200}
       onClose={onCloseAS}
       onOpen={onOpenAS}
       CustomHeaderComponent={
@@ -74,8 +76,8 @@ function CActionSheet(props) {
               cStyles.row,
               cStyles.itemsCenter,
               cStyles.justifyBetween,
-              cStyles.roundedTopLeft2,
-              cStyles.roundedTopRight2,
+              cStyles.roundedTopLeft5,
+              cStyles.roundedTopRight5,
               {backgroundColor: customColors.card},
             ]}>
             <CIconButton
@@ -92,7 +94,8 @@ function CActionSheet(props) {
         ) : customHeader ? (
           customHeader
         ) : undefined
-      }>
+      }
+      {...props}>
       {props.children}
     </ActionSheet>
   );

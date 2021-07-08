@@ -25,7 +25,7 @@ import ContactInformation from './ContactInformation';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
 import {THEME_DARK} from '~/config/constants';
-import {fS} from '~/utils/helper';
+import {moderateScale} from '~/utils/helper';
 /* REDUX */
 
 function StepForm(props) {
@@ -153,7 +153,7 @@ function StepForm(props) {
                   {item.icon && (
                     <Icon
                       name={item.icon}
-                      size={fS(20)}
+                      size={moderateScale(20)}
                       color={
                         isActive || isActive2
                           ? colors.WHITE

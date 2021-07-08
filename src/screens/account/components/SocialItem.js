@@ -6,6 +6,7 @@
  **/
 import React from 'react';
 import {StyleSheet, Linking, View, TouchableOpacity, Image} from 'react-native';
+import { moderateScale } from '~/utils/helper';
 /* COMMON */
 import {cStyles} from '~/utils/style';
 
@@ -29,7 +30,7 @@ function SocialItem(props) {
           cStyles.rounded2,
           cStyles.center,
           styles.con_social,
-          {backgroundColor: props.customColors.card},
+          {backgroundColor: props.customColors.cardDisable},
           index !== 0 && cStyles.ml16,
         ]}>
         <Image
@@ -43,8 +44,8 @@ function SocialItem(props) {
 }
 
 const styles = StyleSheet.create({
-  con_social: {height: 40, width: 40},
-  social: {height: 20, width: 20},
+  con_social: {height: moderateScale(40), width: moderateScale(40)},
+  social: {height: moderateScale(20), width: moderateScale(20)},
 });
 
 export default SocialItem;

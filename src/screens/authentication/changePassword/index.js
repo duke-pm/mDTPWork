@@ -27,10 +27,17 @@ import CAvoidKeyboard from '~/components/CAvoidKeyboard';
 /* COMMON */
 import Routes from '~/navigation/Routes';
 import {colors, cStyles} from '~/utils/style';
-import {fS, IS_ANDROID, resetRoute, saveLocalInfo} from '~/utils/helper';
+import {
+  moderateScale,
+  IS_ANDROID,
+  resetRoute,
+  saveLocalInfo,
+  verticalScale,
+} from '~/utils/helper';
 import {BIOMETRICS} from '~/config/constants';
 /** REDUX */
 import * as Actions from '~/redux/actions';
+import {isIphoneX} from 'react-native-iphone-x-helper';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -39,7 +46,7 @@ if (IS_ANDROID) {
 }
 
 const INPUT_NAME = {
-  PASSWORD: 'password',
+  NEW_PASSWORD: 'password',
 };
 
 function ChangePassword(props) {
@@ -221,60 +228,70 @@ function ChangePassword(props) {
               !form.error &&
               !form.errorExpired && (
                 <CAvoidKeyboard>
-                  <View style={[cStyles.flex1, cStyles.px48, cStyles.pt32]}>
-                    <View
-                      style={[
-                        cStyles.itemsCenter,
-                        cStyles.justifyCenter,
-                        styles.con_icon_app,
-                      ]}>
-                      <CText
-                        styles={'textCenter colorWhite'}
-                        label={'forgot_password:sub_title_update_password'}
-                      />
-                    </View>
+                  <View style={cStyles.flexCenter}>
+                    <View style={styles.box}>
+                      <View
+                        style={[
+                          cStyles.itemsCenter,
+                          cStyles.justifyEnd,
+                          styles.container_title,
+                        ]}>
+                        <CText
+                          customStyles={[
+                            cStyles.textCenter,
+                            cStyles.colorWhite,
+                            styles.text_title,
+                          ]}
+                          label={'forgot_password:sub_title_update_password'}
+                        />
+                      </View>
 
-                    <View style={[styles.con_input, cStyles.fullWidth]}>
-                      <CInput
-                        name={INPUT_NAME.NEW_PASSWORD}
-                        style={styles.input}
-                        disabled={loading.update}
-                        holder={'change_password:new_password'}
-                        selectionColor={colors.WHITE}
-                        holderColor={colors.GRAY_500}
-                        value={form.newPassword}
-                        keyboard={'default'}
-                        returnKey={'send'}
-                        icon={'lock-closed'}
-                        iconColor={colors.GRAY_500}
-                        password
-                        error={error.newPassword}
-                        errorHelperCustom={error.newPasswordHelper}
-                        onChangeInput={handleSend}
-                        onChangeValue={handleChangeText}
-                      />
+                      <View style={[styles.container_input, cStyles.fullWidth]}>
+                        <CInput
+                          name={INPUT_NAME.NEW_PASSWORD}
+                          style={styles.input}
+                          styleInput={styles.input}
+                          styleFocus={styles.input_focus}
+                          selectionColor={colors.WHITE}
+                          disabled={loading.update}
+                          holder={'change_password:new_password'}
+                          holderColor={colors.GRAY_500}
+                          value={form.password}
+                          keyboard={'default'}
+                          returnKey={'send'}
+                          icon={'lock-closed'}
+                          iconColor={colors.GRAY_500}
+                          password
+                          error={error.password}
+                          errorHelperCustom={error.passwordHelper}
+                          onChangeInput={handleSend}
+                          onChangeValue={handleChangeText}
+                        />
 
-                      <CButton
-                        style={cStyles.mt16}
-                        block
-                        disabled={loading.update}
-                        icon={'send'}
-                        label={'common:send'}
-                        onPress={handleSend}
-                      />
+                        <View style={styles.separator} />
 
-                      <CButton
-                        style={cStyles.mt16}
-                        textStyle={[
-                          cStyles.textSubTitle,
-                          cStyles.textUnderline,
-                        ]}
-                        block
-                        color={colors.WHITE}
-                        variant={'text'}
-                        label={'forgot_password:button_go_back'}
-                        onPress={handleGoBack}
-                      />
+                        <CButton
+                          block
+                          disabled={loading.update}
+                          icon={'send'}
+                          label={'common:send'}
+                          onPress={handleSend}
+                        />
+
+                        <View style={styles.separator} />
+
+                        <CButton
+                          textStyle={[
+                            cStyles.textSubTitle,
+                            cStyles.textUnderline,
+                          ]}
+                          block
+                          color={colors.WHITE}
+                          variant={'text'}
+                          label={'forgot_password:button_go_back'}
+                          onPress={handleGoBack}
+                        />
+                      </View>
                     </View>
                   </View>
                 </CAvoidKeyboard>
@@ -283,10 +300,12 @@ function ChangePassword(props) {
             {!loading.update && form.success && !form.error && (
               <View style={[cStyles.flex1, cStyles.px48, cStyles.pt32]}>
                 <View style={[cStyles.center, cStyles.py20, cStyles.pt32]}>
-                  <Icon name={'happy'} color={colors.GRAY_500} size={fS(80)} />
+                  <Icon name={'happy'} color={colors.GRAY_500} size={moderateScale(80)} />
                 </View>
 
-                <View style={cStyles.py16}>
+                <View style={styles.separator} />
+
+                <>
                   <CText
                     styles={'H3 textCenter colorWhite'}
                     label={'forgot_password:success_change_password'}
@@ -296,29 +315,30 @@ function ChangePassword(props) {
                     styles={'textCenter colorWhite pt32'}
                     label={'forgot_password:sub_title_success_update_password'}
                   />
-                </View>
+                </>
 
-                <View style={cStyles.mt16}>
-                  <CButton
-                    style={cStyles.mt16}
-                    textStyle={[cStyles.textSubTitle, cStyles.textUnderline]}
-                    block
-                    color={colors.WHITE}
-                    variant={'text'}
-                    label={'forgot_password:button_go_back'}
-                    onPress={handleGoBack}
-                  />
-                </View>
+                <View style={styles.separator} />
+
+                <CButton
+                  textStyle={[cStyles.textSubTitle, cStyles.textUnderline]}
+                  block
+                  color={colors.WHITE}
+                  variant={'text'}
+                  label={'forgot_password:button_go_back'}
+                  onPress={handleGoBack}
+                />
               </View>
             )}
 
             {!loading.update && !form.success && form.error && (
               <View style={[cStyles.flex1, cStyles.px48, cStyles.pt32]}>
                 <View style={[cStyles.center, cStyles.py20, cStyles.pt32]}>
-                  <Icon name={'sad'} color={colors.GRAY_500} size={fS(80)} />
+                  <Icon name={'sad'} color={colors.GRAY_500} size={moderateScale(80)} />
                 </View>
 
-                <View style={cStyles.py16}>
+                <View style={styles.separator} />
+
+                <>
                   <CText
                     styles={'H3 textCenter colorWhite'}
                     label={'forgot_password:error_change_password'}
@@ -329,19 +349,18 @@ function ChangePassword(props) {
                       customLabel={form.error}
                     />
                   )}
-                </View>
+                </>
 
-                <View style={cStyles.mt16}>
-                  <CButton
-                    style={cStyles.mt16}
-                    textStyle={[cStyles.textSubTitle, cStyles.textUnderline]}
-                    block
-                    color={colors.WHITE}
-                    variant={'text'}
-                    label={'forgot_password:button_go_back'}
-                    onPress={handleGoBack}
-                  />
-                </View>
+                <View style={styles.separator} />
+
+                <CButton
+                  textStyle={[cStyles.textSubTitle, cStyles.textUnderline]}
+                  block
+                  color={colors.WHITE}
+                  variant={'text'}
+                  label={'forgot_password:button_go_back'}
+                  onPress={handleGoBack}
+                />
               </View>
             )}
 
@@ -351,10 +370,12 @@ function ChangePassword(props) {
               form.errorExpired && (
                 <View style={[cStyles.flex1, cStyles.px48, cStyles.pt32]}>
                   <View style={[cStyles.center, cStyles.py20, cStyles.pt32]}>
-                    <Icon name={'sad'} color={colors.GRAY_500} size={fS(80)} />
+                    <Icon name={'sad'} color={colors.GRAY_500} size={moderateScale(80)} />
                   </View>
 
-                  <View style={cStyles.py16}>
+                  <View style={styles.separator} />
+
+                  <>
                     <CText
                       styles={'H3 textCenter colorWhite'}
                       label={'forgot_password:error_cannot_change_password'}
@@ -363,19 +384,18 @@ function ChangePassword(props) {
                       styles={'textCenter colorWhite pt32'}
                       label={form.errorExpired}
                     />
-                  </View>
+                  </>
 
-                  <View style={cStyles.mt16}>
-                    <CButton
-                      style={cStyles.mt16}
-                      textStyle={[cStyles.textSubTitle, cStyles.textUnderline]}
-                      block
-                      color={colors.WHITE}
-                      variant={'text'}
-                      label={'forgot_password:button_go_back'}
-                      onPress={handleGoBack}
-                    />
-                  </View>
+                  <View style={styles.separator} />
+
+                  <CButton
+                    textStyle={[cStyles.textSubTitle, cStyles.textUnderline]}
+                    block
+                    color={colors.WHITE}
+                    variant={'text'}
+                    label={'forgot_password:button_go_back'}
+                    onPress={handleGoBack}
+                  />
                 </View>
               )}
           </LinearGradient>
@@ -386,12 +406,17 @@ function ChangePassword(props) {
 }
 
 const styles = StyleSheet.create({
-  con_icon_app: {flex: 0.2},
-  con_input: {flex: 0.8},
-  input: {
-    backgroundColor: colors.TRANSPARENT,
-    color: colors.WHITE,
+  container_title: {flex: isIphoneX() ? 0.4 : 0.35},
+  container_input: {flex: isIphoneX() ? 0.6 : 0.65},
+  input: {backgroundColor: colors.TRANSPARENT, color: colors.WHITE},
+  input_focus: {backgroundColor: colors.BACKGROUND_INPUT_FOCUS},
+  box: {
+    width: moderateScale(300),
+    height: verticalScale(550),
+    paddingHorizontal: moderateScale(14),
   },
+  text_title: {marginBottom: moderateScale(30)},
+  separator: {paddingVertical: verticalScale(6)},
 });
 
 export default ChangePassword;

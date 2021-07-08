@@ -26,7 +26,7 @@ import ProjectItem from '../components/ProjectItem';
 /** COMMON */
 import Routes from '~/navigation/Routes';
 import {DEFAULT_FORMAT_DATE_4, THEME_DARK} from '~/config/constants';
-import {checkEmpty, IS_ANDROID} from '~/utils/helper';
+import {checkEmpty, IS_ANDROID, moderateScale} from '~/utils/helper';
 import {cStyles} from '~/utils/style';
 
 if (IS_ANDROID) {
@@ -121,15 +121,9 @@ function ListProject(props) {
         customContent={
           loadingModal ? null : (
             <View>
-              <View
-                style={[
-                  cStyles.row,
-                  cStyles.itemsStart,
-                  cStyles.justifyBetween,
-                ]}>
+              <View style={cStyles.itemsStart}>
                 {/** Date created */}
-                <View
-                  style={[cStyles.row, cStyles.itemsCenter, styles.row_left]}>
+                <View style={[cStyles.row, cStyles.itemsCenter]}>
                   <CLabel label={'project_management:date_created'} />
                   <CText
                     styles={'textMeta ml3'}
@@ -141,8 +135,7 @@ function ListProject(props) {
                 </View>
 
                 {/** Is public */}
-                <View
-                  style={[cStyles.row, cStyles.itemsCenter, styles.row_right]}>
+                <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt10]}>
                   <CLabel label={'project_management:is_public'} />
                   <Icon
                     style={cStyles.ml3}
@@ -156,21 +149,12 @@ function ListProject(props) {
                         ? customColors.green
                         : customColors.orange
                     }
-                    size={15}
+                    size={moderateScale(14)}
                   />
                 </View>
-              </View>
 
-              <View
-                style={[
-                  cStyles.row,
-                  cStyles.itemsStart,
-                  cStyles.justifyBetween,
-                  cStyles.mt10,
-                ]}>
                 {/** Owner */}
-                <View
-                  style={[cStyles.row, cStyles.itemsCenter, styles.row_left]}>
+                <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt10]}>
                   <CLabel label={'project_management:owner'} />
                   <CLabel
                     medium
@@ -179,13 +163,12 @@ function ListProject(props) {
                 </View>
 
                 {/** Status */}
-                <View
-                  style={[cStyles.row, cStyles.itemsCenter, styles.row_right]}>
+                <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt10]}>
                   <CLabel label={'project_management:status'} />
                   <View style={[cStyles.row, cStyles.itemsCenter, cStyles.ml2]}>
                     <View
                       style={[
-                        cStyles.mr2,
+                        cStyles.mr3,
                         styles.status,
                         {
                           backgroundColor: isDark
@@ -249,7 +232,7 @@ function ListProject(props) {
                           <View
                             style={[
                               cStyles.ml5,
-                              cStyles.py6,
+                              cStyles.py10,
                               cStyles.flex1,
                               index !== usersInvitedLength - 1 &&
                                 cStyles.borderBottom,
@@ -261,7 +244,10 @@ function ListProject(props) {
                               medium
                               customLabel={checkEmpty(item.fullName)}
                             />
-                            <CLabel customLabel={checkEmpty(item.email)} />
+                            <CText
+                              styles={'textMeta mt3'}
+                              customLabel={checkEmpty(item.email)}
+                            />
                           </View>
                         </View>
                       );
@@ -283,11 +269,11 @@ const styles = StyleSheet.create({
   row_left: {flex: 0.55},
   row_right: {flex: 0.45},
   status: {
-    height: 8,
-    width: 8,
-    borderRadius: 8,
+    height: moderateScale(8),
+    width: moderateScale(8),
+    borderRadius: moderateScale(8),
   },
-  list_invited: {height: 150},
+  list_invited: {height: moderateScale(150)},
 });
 
 export default ListProject;

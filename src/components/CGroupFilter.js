@@ -15,7 +15,7 @@ import * as Animatable from 'react-native-animatable';
 /* COMPONENTS */
 import CText from './CText';
 /* COMMON */
-import {fS, IS_ANDROID} from '~/utils/helper';
+import {IS_ANDROID, moderateScale} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
 
 function CGroupFilter(props) {
@@ -138,7 +138,7 @@ function CGroupFilter(props) {
                     ]}>
                     <Icon
                       name={'checkmark'}
-                      size={fS(14)}
+                      size={moderateScale(14)}
                       color={isCheck ? colors.SECONDARY : customColors.icon}
                     />
                     <CText

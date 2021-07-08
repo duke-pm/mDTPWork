@@ -13,17 +13,26 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import RNFS from 'react-native-fs';
 import FileViewer from 'react-native-file-viewer';
 import moment from 'moment';
+export const SCREEN_HEIGHT = Dimensions.get('window').height;
+export const SCREEN_WIDTH = Dimensions.get('window').width;
+
+const guidelineBaseWidth = 360;
+const guidelineBaseHeight = 592;
+export const scale = size => (SCREEN_WIDTH / guidelineBaseWidth) * size;
+export const verticalScale = size =>
+  (SCREEN_HEIGHT / guidelineBaseHeight) * size;
+export const moderateScale = (size, factor = 0.5) =>
+  size + (scale(size) - size) * factor;
+
 export const STANDARD_SIZE = {width: 375};
 export const IS_ANDROID = Platform.OS === 'android';
 export const IS_IOS = Platform.OS === 'ios';
-export const SCREEN_HEIGHT = Dimensions.get('window').height;
-export const SCREEN_WIDTH = Dimensions.get('window').width;
 const regex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-const scale = SCREEN_WIDTH / STANDARD_SIZE.width;
+const scale1 = SCREEN_WIDTH / STANDARD_SIZE.width;
 
 export function fS(number) {
   // return (parseInt(number) * SCREEN_WIDTH) / STANDARD_SIZE.width;
-  const newSize = number * scale;
+  const newSize = number * scale1;
   return Math.round(PixelRatio.roundToNearestPixel(newSize));
 }
 

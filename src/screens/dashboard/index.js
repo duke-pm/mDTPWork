@@ -19,7 +19,7 @@ import CItem from '~/components/CItem';
 import Configs from '~/config';
 import Routes from '~/navigation/Routes';
 import {colors, cStyles} from '~/utils/style';
-import {fS, IS_ANDROID} from '~/utils/helper';
+import {moderateScale, IS_ANDROID} from '~/utils/helper';
 
 function Dashboard(props) {
   const {navigation} = props;
@@ -51,7 +51,7 @@ function Dashboard(props) {
             <Icon
               name={'logo-react'}
               color={IS_ANDROID ? colors.WHITE : customColors.icon}
-              size={fS(23)}
+              size={moderateScale(23)}
             />
           </View>
         </TouchableOpacity>

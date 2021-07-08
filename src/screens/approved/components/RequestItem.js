@@ -14,6 +14,7 @@ import {
   Image,
   Animated,
 } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 /* COMPONENTS */
 import CText from '~/components/CText';
@@ -23,6 +24,7 @@ import Commons from '~/utils/common/Commons';
 import {DEFAULT_FORMAT_DATE_4} from '~/config/constants';
 import {Assets} from '~/utils/asset';
 import {cStyles} from '~/utils/style';
+import {moderateScale} from '~/utils/helper';
 
 function RequestItem(props) {
   const {t} = useTranslation();
@@ -43,7 +45,8 @@ function RequestItem(props) {
    ** RENDER **
    **************/
   let title = t('approved_assets:title_request_item') + data.requestID;
-  let statusIcon = Assets.iconRequest;
+  let statusIcon = 'clipboard';
+  let statusColor = 'orange';
   let colorText = 'colorOrange';
   if (data.requestTypeID !== Commons.APPROVED_TYPE.ASSETS.value) {
     title =
@@ -52,15 +55,18 @@ function RequestItem(props) {
       t('approved_lost_damaged:title_request_item_2') +
       data.requestID;
   }
-  if (
-    data.statusID === Commons.STATUS_REQUEST.APPROVED.value ||
-    data.statusID === Commons.STATUS_REQUEST.DONE.value
-  ) {
-    statusIcon = Assets.iconApproved;
-    colorText = 'colorGreen';
+  if (data.statusID === Commons.STATUS_REQUEST.APPROVED.value) {
+    statusIcon = 'checkmark';
+    colorText = 'colorBlue';
+    statusColor = 'blue';
   } else if (data.statusID === Commons.STATUS_REQUEST.REJECT.value) {
-    statusIcon = Assets.iconReject;
+    statusIcon = 'close';
     colorText = 'colorRed';
+    statusColor = 'red';
+  } else if (data.statusID === Commons.STATUS_REQUEST.DONE.value) {
+    statusIcon = 'checkmark-done';
+    colorText = 'colorGreen';
+    statusColor = 'green';
   }
   return (
     <TouchableOpacity disabled={loading} onPress={handleRequestItem}>
@@ -80,18 +86,19 @@ function RequestItem(props) {
             cStyles.justifyBetween,
           ]}>
           <View style={[cStyles.row, cStyles.itemsStart]}>
-            <Image
-              style={styles.icon_status}
-              source={statusIcon}
-              resizeMode={'contain'}
+            <Icon
+              name={statusIcon}
+              size={moderateScale(20)}
+              color={customColors[statusColor]}
             />
-            <CText styles={'textTitle pl10'} customLabel={title} />
+            <CText styles={'textTitle pl6'} customLabel={title} />
           </View>
         </View>
 
         <View
           style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween]}>
           <View style={[cStyles.flex1, cStyles.pt10]}>
+            {/** Date send & Status */}
             <View
               style={[cStyles.row, cStyles.itemsStart, cStyles.justifyBetween]}>
               <View
@@ -115,8 +122,14 @@ function RequestItem(props) {
               </View>
             </View>
 
+            {/** Region & User send */}
             <View
-              style={[cStyles.row, cStyles.itemsStart, cStyles.justifyBetween]}>
+              style={[
+                cStyles.row,
+                cStyles.itemsStart,
+                cStyles.justifyBetween,
+                cStyles.mt6,
+              ]}>
               <View
                 style={[cStyles.row, cStyles.itemsStart, styles.header_left]}>
                 <CLabel label={'approved_lost_damaged:region_request'} />
@@ -135,8 +148,14 @@ function RequestItem(props) {
               </View>
             </View>
 
+            {/** Description */}
             <View
-              style={[cStyles.row, cStyles.itemsStart, cStyles.justifyBetween]}>
+              style={[
+                cStyles.row,
+                cStyles.itemsStart,
+                cStyles.justifyBetween,
+                cStyles.mt6,
+              ]}>
               <View
                 style={[cStyles.row, cStyles.itemsStart, styles.header_left]}>
                 <CLabel label={'approved_lost_damaged:department_request'} />
@@ -151,16 +170,8 @@ function RequestItem(props) {
 }
 
 const styles = StyleSheet.create({
-  header_left: {
-    flex: 0.5,
-  },
-  header_right: {
-    flex: 0.5,
-  },
-  icon_status: {
-    height: 20,
-    width: 20,
-  },
+  header_left: {flex: 0.5},
+  header_right: {flex: 0.5},
 });
 
 export default React.memo(RequestItem);

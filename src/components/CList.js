@@ -87,7 +87,6 @@ function CList(props) {
         <SectionList
           style={[cStyles.flex1, style]}
           contentContainerStyle={[cStyles.px16, cStyles.pb16, contentStyle]}
-          sections={props.data}
           renderItem={propsItem => {
             return props.item({
               item: propsItem.item,
@@ -96,13 +95,7 @@ function CList(props) {
           }}
           renderSectionFooter={({section}) => {
             return (
-              <View
-                style={[
-                  cStyles.flexCenter,
-                  cStyles.py10,
-                  cStyles.mt16,
-                  styles.title,
-                ]}>
+              <View style={[cStyles.flexCenter, cStyles.py10, styles.title]}>
                 <View
                   style={[
                     cStyles.py4,
@@ -120,10 +113,11 @@ function CList(props) {
             );
           }}
           keyExtractor={(item, index) => index.toString()}
+          sections={props.data}
           removeClippedSubviews={IS_ANDROID}
           keyboardShouldPersistTaps={'handled'}
-          stickySectionHeadersEnabled={true}
-          stickyHeaderIndices={[0]}
+          maxToRenderPerBatch={10}
+          initialNumToRender={10}
           refreshing={props.refreshing}
           onRefresh={onRefresh}
           ListEmptyComponent={

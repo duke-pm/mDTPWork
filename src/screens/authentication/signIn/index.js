@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 /* eslint-disable react-hooks/exhaustive-deps */
 /**
  ** Name: SignIn
@@ -20,9 +21,8 @@ import {
   Alert,
 } from 'react-native';
 import {isIphoneX} from 'react-native-iphone-x-helper';
-import {Assets} from '~/utils/asset';
-import LinearGradient from 'react-native-linear-gradient';
 import {showMessage} from 'react-native-flash-message';
+import LinearGradient from 'react-native-linear-gradient';
 import TouchID from 'react-native-touch-id';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
@@ -33,15 +33,19 @@ import CButton from '~/components/CButton';
 import CAvoidKeyboard from '~/components/CAvoidKeyboard';
 /* COMMON */
 import Routes from '~/navigation/Routes';
+import {Assets} from '~/utils/asset';
 import {LOGIN, LANGUAGE, BIOMETRICS, FAST_LOGIN} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
 import {
   getLocalInfo,
   getSecretInfo,
   IS_ANDROID,
+  moderateScale,
   removeSecretInfo,
   resetRoute,
   saveSecretInfo,
+  sW,
+  verticalScale,
 } from '~/utils/helper';
 /* REDUX */
 import * as Actions from '~/redux/actions';
@@ -258,12 +262,6 @@ function SignIn(props) {
   };
 
   const onStart = () => {
-    // showMessage({
-    //   message: t('common:app_name'),
-    //   description: t('sign_in:success_login'),
-    //   type: 'success',
-    //   icon: 'success',
-    // });
     setLoading({main: false, submit: false});
     resetRoute(navigation, Routes.ROOT_TAB.name);
   };
@@ -362,90 +360,101 @@ function SignIn(props) {
             style={cStyles.flex1}
             colors={colors.BACKGROUND_GRADIENT}>
             <CAvoidKeyboard>
-              <View style={[cStyles.flexCenter, cStyles.px48]}>
-                <View style={[cStyles.justifyEnd, styles.con_icon_app]}>
-                  <Image
-                    style={styles.img_icon_app}
-                    source={Assets.imgLogo}
-                    resizeMode={'contain'}
-                  />
-                </View>
-
-                <View style={[styles.con_input, cStyles.fullWidth]}>
-                  <CInput
-                    name={INPUT_NAME.USER_NAME}
-                    style={styles.input}
-                    styleFocus={styles.input_focus}
-                    selectionColor={colors.WHITE}
-                    holderColor={colors.GRAY_500}
-                    inputRef={userNameRef}
-                    disabled={loading.submit}
-                    value={form.userName}
-                    icon={'person-circle'}
-                    iconColor={colors.GRAY_500}
-                    holder={'sign_in:input_username'}
-                    returnKey={'next'}
-                    error={error.userName}
-                    errorHelper={error.userNameHelper}
-                    onChangeInput={handleChangeInput}
-                    onChangeValue={handleChangeText}
-                  />
-
-                  <CInput
-                    name={INPUT_NAME.PASSWORD}
-                    style={styles.input}
-                    styleFocus={styles.input_focus}
-                    selectionColor={colors.WHITE}
-                    holderColor={colors.GRAY_500}
-                    inputRef={passwordRef}
-                    disabled={loading.submit}
-                    value={form.password}
-                    icon={
-                      fastLogin.status
-                        ? isIphoneX()
-                          ? fastLogin.iconFaceID
-                          : fastLogin.icon
-                        : 'lock-closed'
-                    }
-                    iconColor={colors.GRAY_500}
-                    holder={'sign_in:input_password'}
-                    returnKey={'done'}
-                    password
-                    error={error.password}
-                    errorHelper={error.passwordHelper}
-                    onChangeInput={handleSignIn}
-                    onChangeValue={handleChangeText}
-                    onPressIconFirst={fastLogin.status ? handleAuth : null}
-                  />
-
+              <View style={cStyles.flexCenter}>
+                <View style={styles.box}>
                   <View
                     style={[
-                      cStyles.row,
+                      cStyles.justifyEnd,
                       cStyles.itemsCenter,
-                      cStyles.justifyBetween,
-                      cStyles.my6,
+                      styles.container_logo,
                     ]}>
-                    <CCheckbox
-                      textStyle={cStyles.textSubTitle}
-                      labelRight={'sign_in:save_account'}
-                      value={form.saveAccount}
-                      onChange={handleSaveAccount}
-                    />
-
-                    <CText
-                      styles={'textSubTitle textUnderline colorWhite'}
-                      label={'sign_in:forgot_password'}
-                      onPress={handleForgotPassword}
+                    <Image
+                      style={styles.logo}
+                      source={Assets.imgLogo}
+                      resizeMode={'contain'}
                     />
                   </View>
 
-                  <CButton
-                    block
-                    disabled={loading.submit}
-                    icon={'log-in'}
-                    label={'sign_in:title'}
-                    onPress={handleSignIn}
-                  />
+                  <View style={[styles.container_input, cStyles.fullWidth]}>
+                    <CInput
+                      name={INPUT_NAME.USER_NAME}
+                      style={styles.input}
+                      styleInput={styles.input}
+                      styleFocus={styles.input_focus}
+                      selectionColor={colors.WHITE}
+                      holderColor={colors.GRAY_500}
+                      inputRef={userNameRef}
+                      disabled={loading.submit}
+                      value={form.userName}
+                      icon={'person-circle'}
+                      iconColor={colors.GRAY_500}
+                      holder={'sign_in:input_username'}
+                      returnKey={'next'}
+                      error={error.userName}
+                      errorHelper={error.userNameHelper}
+                      onChangeInput={handleChangeInput}
+                      onChangeValue={handleChangeText}
+                    />
+
+                    <View style={{paddingVertical: verticalScale(3)}} />
+
+                    <CInput
+                      name={INPUT_NAME.PASSWORD}
+                      style={styles.input}
+                      styleInput={styles.input}
+                      styleFocus={styles.input_focus}
+                      selectionColor={colors.WHITE}
+                      holderColor={colors.GRAY_500}
+                      inputRef={passwordRef}
+                      disabled={loading.submit}
+                      value={form.password}
+                      icon={
+                        fastLogin.status
+                          ? isIphoneX()
+                            ? fastLogin.iconFaceID
+                            : fastLogin.icon
+                          : 'lock-closed'
+                      }
+                      iconColor={colors.GRAY_500}
+                      holder={'sign_in:input_password'}
+                      returnKey={'done'}
+                      password
+                      error={error.password}
+                      errorHelper={error.passwordHelper}
+                      onChangeInput={handleSignIn}
+                      onChangeValue={handleChangeText}
+                      onPressIconFirst={fastLogin.status ? handleAuth : null}
+                    />
+
+                    <View
+                      style={[
+                        cStyles.row,
+                        cStyles.itemsCenter,
+                        cStyles.justifyBetween,
+                        {paddingVertical: verticalScale(4)},
+                      ]}>
+                      <CCheckbox
+                        textStyle={cStyles.textSubTitle}
+                        labelRight={'sign_in:save_account'}
+                        value={form.saveAccount}
+                        onChange={handleSaveAccount}
+                      />
+
+                      <CText
+                        styles={'textSubTitle textUnderline colorWhite'}
+                        label={'sign_in:forgot_password'}
+                        onPress={handleForgotPassword}
+                      />
+                    </View>
+
+                    <CButton
+                      block
+                      disabled={loading.submit}
+                      icon={'log-in'}
+                      label={'sign_in:title'}
+                      onPress={handleSignIn}
+                    />
+                  </View>
                 </View>
               </View>
             </CAvoidKeyboard>
@@ -457,19 +466,16 @@ function SignIn(props) {
 }
 
 const styles = StyleSheet.create({
-  container: {backgroundColor: colors.TRANSPARENT},
-  content: {backgroundColor: 'rgba(0, 0, 0, 0.4)'},
-  con_icon_app: {flex: isIphoneX() ? 0.4 : 0.35},
-  con_input: {flex: isIphoneX() ? 0.6 : 0.65},
-  input: {
-    backgroundColor: colors.TRANSPARENT,
-    color: colors.WHITE,
+  container_logo: {flex: isIphoneX() ? 0.4 : 0.35},
+  container_input: {flex: isIphoneX() ? 0.6 : 0.65},
+  input: {backgroundColor: colors.TRANSPARENT, color: colors.WHITE},
+  input_focus: {backgroundColor: colors.BACKGROUND_INPUT_FOCUS},
+  box: {
+    width: moderateScale(300),
+    height: verticalScale(550),
+    paddingHorizontal: moderateScale(14),
   },
-  input_focus: {
-    backgroundColor: colors.BACKGROUND_INPUT_FOCUS,
-  },
-  img_background: {height: '100%', width: '100%'},
-  img_icon_app: {height: 250, width: 250},
+  logo: {height: sW('50%'), width: sW('50%')},
 });
 
 export default SignIn;

@@ -32,7 +32,7 @@ import TabbarType from '../components/TabbarType';
 /* COMMON */
 import Routes from '~/navigation/Routes';
 import Commons from '~/utils/common/Commons';
-import {fS, IS_ANDROID} from '~/utils/helper';
+import {IS_ANDROID, moderateScale} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
 import {THEME_DARK} from '~/config/constants';
 
@@ -99,17 +99,21 @@ function ListRequestAll(props) {
               color={
                 isDark ? colors.WHITE : IS_ANDROID ? colors.WHITE : colors.BLACK
               }
-              size={fS(23)}
+              size={moderateScale(21)}
             />
             {routes[index].search !== '' && (
               <View
                 style={[
                   cStyles.abs,
                   cStyles.rounded2,
-                  styles.badge,
                   cStyles.borderAll,
+                  styles.badge,
                   isDark && cStyles.borderAllDark,
-                  {backgroundColor: customColors.red, top: -5, left: 10},
+                  {
+                    backgroundColor: customColors.red,
+                    top: 0,
+                    left: moderateScale(10),
+                  },
                 ]}
               />
             )}
@@ -127,7 +131,7 @@ function ListRequestAll(props) {
                     ? colors.WHITE
                     : colors.BLACK
                 }
-                size={fS(23)}
+                size={moderateScale(21)}
               />
             </View>
           </TouchableOpacity>
@@ -221,13 +225,15 @@ function ListRequestAll(props) {
       content={
         <View
           style={[cStyles.flex1, {backgroundColor: customColors.background}]}>
-          {!showSearchBar && (
-            <Filter
-              data={routes[index]}
-              isResolve={false}
-              onFilter={handleFilter}
-            />
-          )}
+          <View style={cStyles.itemsCenter}>
+            {!showSearchBar && (
+              <Filter
+                data={routes[index]}
+                isResolve={false}
+                onFilter={handleFilter}
+              />
+            )}
+          </View>
 
           <CSearchBar
             isVisible={showSearchBar}
@@ -236,6 +242,7 @@ function ListRequestAll(props) {
           />
 
           <TabView
+            style={cStyles.flex1}
             lazy
             navigationState={{index, routes}}
             renderScene={renderScene}
@@ -251,6 +258,12 @@ function ListRequestAll(props) {
 
 const styles = StyleSheet.create({
   con_tab: {width: cStyles.deviceWidth},
+  badge: {
+    height: moderateScale(10),
+    width: moderateScale(10),
+    top: 16,
+    right: 15,
+  },
 });
 
 export default ListRequestAll;

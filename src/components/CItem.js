@@ -16,7 +16,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import CText from '~/components/CText';
 /** COMMON */
 import {colors, cStyles} from '~/utils/style';
-import {IS_ANDROID, sW} from '~/utils/helper';
+import {IS_ANDROID, moderateScale, sW, verticalScale} from '~/utils/helper';
 
 function CItem(props) {
   const {data = null, color = 'blue', onPress = () => {}} = props;
@@ -48,7 +48,7 @@ function CItem(props) {
             styles.item,
             {backgroundColor: colors.WHITE},
           ]}>
-          <Icon name={data.mIcon} color={color} size={sW('16%')} />
+          <Icon name={data.mIcon} color={color} size={moderateScale(60)} />
           <CText
             customStyles={[
               cStyles.textCenter,
@@ -67,7 +67,7 @@ function CItem(props) {
 
 const styles = StyleSheet.create({
   container: {overflow: 'hidden'},
-  item: {width: sW('28%'), height: sW('35%')},
+  item: {width: sW('28%'), height: moderateScale(125)},
 });
 
 export default CItem;

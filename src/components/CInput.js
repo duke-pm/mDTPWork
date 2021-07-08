@@ -20,7 +20,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import CText from './CText';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
-import {fS, IS_ANDROID, IS_IOS} from '~/utils/helper';
+import {IS_ANDROID, moderateScale, verticalScale} from '~/utils/helper';
 import {THEME_DARK, THEME_LIGHT} from '~/config/constants';
 
 function CInput(props) {
@@ -43,6 +43,7 @@ function CInput(props) {
 
     holder = '',
     holderColor = colors.TEXT_META,
+    selectionColor = null,
     textAlign = 'left',
     keyboard = 'default',
     returnKey = 'next',
@@ -130,9 +131,12 @@ function CInput(props) {
                 styles.con_input_icon,
               ]}>
               {typeof icon === 'string' ? (
-                <Icon name={icon} color={iconColor} size={fS(20)} />
+                <Icon name={icon} color={iconColor} size={moderateScale(20)} />
               ) : (
-                <Image style={{height: fS(23), width: fS(23)}} source={icon} />
+                <Image
+                  style={{height: moderateScale(23), width: moderateScale(23)}}
+                  source={icon}
+                />
               )}
             </View>
           </TouchableOpacity>
@@ -155,14 +159,13 @@ function CInput(props) {
               style={[
                 cStyles.textDefault,
                 {color: customColors.text},
-                IS_IOS && cStyles.mb8,
                 cStyles.flex1,
                 styleInput,
               ]}
               editable={!disabled}
               placeholder={t(holder)}
               placeholderTextColor={holderColor}
-              selectionColor={customColors.text}
+              selectionColor={selectionColor || customColors.text}
               value={props.value}
               autoCompleteType={'off'}
               autoFocus={autoFocus}
@@ -173,6 +176,7 @@ function CInput(props) {
               blurOnSubmit={true}
               selectTextOnFocus={true}
               textAlign={textAlign}
+              allowFontScaling={false}
               removeClippedSubviews={IS_ANDROID}
               keyboardAppearance={isDark ? THEME_DARK : THEME_LIGHT}
               keyboardType={keyboard}
@@ -181,7 +185,6 @@ function CInput(props) {
               onBlur={() => setFocus(null)}
               onChangeText={handleChangeValue}
               onSubmitEditing={handleSubmitEditing}
-              {...props}
             />
           )}
         </View>
@@ -193,7 +196,7 @@ function CInput(props) {
             <Icon
               name={'close-circle'}
               color={customColors.red}
-              size={fS(20)}
+              size={moderateScale(20)}
             />
           </Component>
         )}
@@ -210,7 +213,11 @@ function CInput(props) {
             ]}
             // disabled={props.value === ''}
             onPress={handleIconLast}>
-            <Icon name={iconLast} color={customColors.icon} size={fS(20)} />
+            <Icon
+              name={iconLast}
+              color={customColors.icon}
+              size={moderateScale(20)}
+            />
           </Component>
         )}
 
@@ -227,14 +234,18 @@ function CInput(props) {
             <Icon
               name={showPassword ? 'eye-off' : 'eye'}
               color={colors.GRAY_500}
-              size={fS(20)}
+              size={moderateScale(20)}
             />
           </Component>
         )}
       </View>
       {props.error && (
         <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pt6]}>
-          <Icon name={'alert-circle'} color={customColors.red} size={fS(14)} />
+          <Icon
+            name={'alert-circle'}
+            color={customColors.red}
+            size={moderateScale(14)}
+          />
           <CText
             customStyles={[
               cStyles.textMeta,
@@ -253,13 +264,13 @@ function CInput(props) {
 
 const styles = StyleSheet.create({
   con_input: {
-    height: 50,
+    height: verticalScale(38),
     width: '100%',
     backgroundColor: colors.WHITE,
   },
   con_input_icon: {
-    width: 50,
-    height: 48.5,
+    width: verticalScale(38),
+    height: verticalScale(38),
   },
   input: {
     width: '100%',
@@ -270,8 +281,8 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
   },
   input_icon: {
-    width: 50,
-    height: 50,
+    width: verticalScale(38),
+    height: verticalScale(38),
   },
 });
 

@@ -14,10 +14,9 @@ import CCard from '~/components/CCard';
 import ListProject from '../list/Project';
 import CLabel from '~/components/CLabel';
 /* COMMON */
-import {cStyles} from '~/utils/style';
-import {checkEmpty, fS, IS_ANDROID} from '~/utils/helper';
+import {colors, cStyles} from '~/utils/style';
+import {checkEmpty, moderateScale, IS_ANDROID} from '~/utils/helper';
 import {DEFAULT_FORMAT_DATE_4} from '~/config/constants';
-import Colors from '~/utils/style/Colors';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -25,9 +24,9 @@ if (IS_ANDROID) {
   }
 }
 
-const PADDING_CHILDREN = 12;
-const PADDING_2_CHILDREN = 6;
-const BOTTOM_CHILDREN = 10;
+const PADDING_CHILDREN = moderateScale(14);
+const PADDING_2_CHILDREN = moderateScale(6);
+const BOTTOM_CHILDREN = moderateScale(10);
 
 function ProjectItem(props) {
   const {
@@ -99,7 +98,7 @@ function ProjectItem(props) {
                   <View style={[cStyles.row, cStyles.itemsCenter, cStyles.ml2]}>
                     <View
                       style={[
-                        cStyles.mr2,
+                        cStyles.mr3,
                         styles.status,
                         {
                           backgroundColor: isDark
@@ -118,7 +117,7 @@ function ProjectItem(props) {
               </View>
             </View>
 
-            <View style={[cStyles.row, cStyles.itemsCenter]}>
+            <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt5]}>
               {/** Date start */}
               <View style={[cStyles.row, cStyles.itemsCenter, styles.row_left]}>
                 <CLabel label={'project_management:date_created'} />
@@ -139,7 +138,7 @@ function ProjectItem(props) {
                   color={
                     data.isPublic ? customColors.green : customColors.orange
                   }
-                  size={fS(14)}
+                  size={moderateScale(14)}
                 />
               </View>
             </View>
@@ -157,7 +156,7 @@ function ProjectItem(props) {
               right: PADDING_2_CHILDREN,
               width: widthCard,
               bottom: -BOTTOM_CHILDREN,
-              backgroundColor: isDark ? Colors.GRAY_860 : Colors.GRAY_200,
+              backgroundColor: isDark ? colors.GRAY_860 : colors.GRAY_200,
               zIndex: 1,
             },
           ]}
@@ -192,12 +191,12 @@ const styles = StyleSheet.create({
   row_right: {flex: 0.45},
   line_child: {height: '100%', borderRadius: 1},
   card: {zIndex: 100},
-  card_children: {height: 50},
+  card_children: {height: moderateScale(50)},
   owner: {width: '65%'},
   status: {
-    height: 8,
-    width: 8,
-    borderRadius: 8,
+    height: moderateScale(8),
+    width: moderateScale(8),
+    borderRadius: moderateScale(8),
   },
 });
 

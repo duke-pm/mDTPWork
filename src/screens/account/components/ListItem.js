@@ -21,7 +21,7 @@ import Rate, {AndroidMarket} from 'react-native-rate';
 import CText from '~/components/CText';
 /* COMMON */
 import Configs from '~/config';
-import {alert, fS} from '~/utils/helper';
+import {alert, moderateScale} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
 import {Assets} from '~/utils/asset';
 
@@ -105,11 +105,15 @@ function ListItem(props) {
         ]}>
         <View style={[cStyles.center, styles.con_left]}>
           {data.icon && !data.iconFaceID && (
-            <Icon name={data.icon} size={fS(23)} color={customColors.text} />
+            <Icon
+              name={data.icon}
+              size={moderateScale(21)}
+              color={customColors.text}
+            />
           )}
           {dataToggle && dataToggle.activeBiometric && data.iconFaceID && (
             <Image
-              style={{height: fS(23), width: fS(23)}}
+              style={styles.img_biometric}
               source={Assets.iconFaceID}
               resizeMode={'contain'}
             />
@@ -121,10 +125,9 @@ function ListItem(props) {
             cStyles.row,
             cStyles.justifyBetween,
             cStyles.itemsCenter,
-            cStyles.pr16,
             styles.con_right,
           ]}>
-          <View style={{flex: 0.9}}>
+          <View style={[cStyles.ml6, {flex: 0.8}]}>
             <CText
               customStyles={isSignOut ? {color: customColors.red} : {}}
               label={data.label}
@@ -134,8 +137,15 @@ function ListItem(props) {
             )}
           </View>
 
-          <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyEnd]}>
+          <View
+            style={[
+              cStyles.row,
+              cStyles.itemsCenter,
+              cStyles.justifyEnd,
+              cStyles.pr8,
+            ]}>
             {data.value && data.isPhone && <CText label={data.value} />}
+
             {data.isChooseLang && (
               <View
                 style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyEnd]}>
@@ -160,15 +170,17 @@ function ListItem(props) {
               data.isRate) && (
               <Icon
                 name={'chevron-forward-outline'}
-                size={fS(18)}
+                size={moderateScale(18)}
                 color={colors.GRAY_500}
               />
             )}
             {data.isToggle && dataToggle && (
-              <Switch
-                value={dataToggle.valueBiometric}
-                onValueChange={onToggle}
-              />
+              <View style={cStyles.mr6}>
+                <Switch
+                  value={dataToggle.valueBiometric}
+                  onValueChange={onToggle}
+                />
+              </View>
             )}
           </View>
         </View>
@@ -178,9 +190,10 @@ function ListItem(props) {
 }
 
 const styles = StyleSheet.create({
-  con_left: {flex: 0.18},
-  con_right: {flex: 0.82},
-  img_flag: {height: 20, width: 20},
+  con_left: {flex: 0.15},
+  con_right: {flex: 0.85},
+  img_flag: {height: moderateScale(20), width: moderateScale(20)},
+  img_biometric: {height: moderateScale(23), width: moderateScale(23)},
 });
 
 export default ListItem;

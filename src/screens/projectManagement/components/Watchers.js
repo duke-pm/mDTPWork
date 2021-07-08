@@ -36,7 +36,7 @@ import CLabel from '~/components/CLabel';
 /* COMMON */
 import {THEME_DARK} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
-import {fS, IS_ANDROID, IS_IOS} from '~/utils/helper';
+import {moderateScale, IS_ANDROID, IS_IOS} from '~/utils/helper';
 /** REDUX */
 import * as Actions from '~/redux/actions';
 
@@ -81,7 +81,7 @@ function Watchers(props) {
               <Icon
                 name={'close'}
                 color={IS_ANDROID ? colors.WHITE : customColors.icon}
-                size={fS(23)}
+                size={moderateScale(21)}
               />
             </View>
           </TouchableOpacity>
@@ -304,17 +304,17 @@ function Watchers(props) {
                                   cStyles.rounded5,
                                   cStyles.abs,
                                   {
-                                    height: fS(14),
-                                    width: fS(14),
+                                    height: moderateScale(14),
+                                    width: moderateScale(14),
                                     backgroundColor: colors.WHITE,
-                                    right: -4,
-                                    bottom: -4,
+                                    right: -moderateScale(4),
+                                    bottom: -moderateScale(4),
                                   },
                                 ]}>
                                 <Icon
                                   name={'mail'}
                                   color={customColors.primary}
-                                  size={fS(10)}
+                                  size={moderateScale(10)}
                                 />
                               </View>
                             )}
@@ -332,16 +332,16 @@ function Watchers(props) {
                             ]}>
                             <View style={styles.con_left}>
                               <Text
-                                style={
-                                  (cStyles.textDefault,
-                                  {color: customColors.text})
-                                }>
+                                style={[
+                                  cStyles.textDefault,
+                                  {color: customColors.text},
+                                ]}>
                                 {item.fullName}
                                 <Text
-                                  style={
-                                    (cStyles.textMeta,
-                                    {color: customColors.text})
-                                  }>
+                                  style={[
+                                    cStyles.textDefault,
+                                    {color: customColors.text},
+                                  ]}>
                                   {item.userName === userName
                                     ? ` (${t('common:its_you')})`
                                     : ''}
@@ -349,8 +349,8 @@ function Watchers(props) {
                               </Text>
                             </View>
                             <View style={[cStyles.itemsEnd, styles.con_right]}>
-                              <CText styles={'textDate'} customLabel={date} />
-                              <CText styles={'textDate'} customLabel={time} />
+                              <CText styles={'textMeta'} customLabel={date} />
+                              <CText styles={'textMeta mt5'} customLabel={time} />
                             </View>
                           </View>
                         </View>

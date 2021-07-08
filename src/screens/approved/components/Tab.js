@@ -9,6 +9,7 @@ import {StyleSheet, View, TouchableOpacity} from 'react-native';
 /* COMPONENTS */
 import CText from '~/components/CText';
 /* COMMON */
+import {moderateScale} from '~/utils/helper';
 import {cStyles} from '~/utils/style';
 
 function Tab(props) {
@@ -19,7 +20,7 @@ function Tab(props) {
    **************/
   return (
     <TouchableOpacity key={key} onPress={onPress}>
-      <View style={[cStyles.flexCenter, cStyles.mx2, styles.tab]}>
+      <View style={[cStyles.flexCenter, styles.tab]}>
         <CText
           customStyles={[cStyles.textMeta, cStyles.fontMedium]}
           customLabel={title}
@@ -30,7 +31,10 @@ function Tab(props) {
 }
 
 const styles = StyleSheet.create({
-  tab: {height: 40, width: cStyles.deviceWidth / 3 - 22},
+  tab: {
+    height: moderateScale(30),
+    width: moderateScale(350) / 3,
+  },
 });
 
 export default React.memo(Tab);

@@ -14,10 +14,10 @@ import CText from '~/components/CText';
 import CFooterList from '~/components/CFooterList';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
-import {fS} from '~/utils/helper';
+import {moderateScale} from '~/utils/helper';
 
 function RequestProcess(props) {
-  const {data = [], customColors = {}, isDark = false} = props;
+  const {data = [], customColors = {}} = props;
   let isReject = false;
 
   /** Use state */
@@ -75,9 +75,9 @@ function RequestProcess(props) {
             {item.approveDate ? (
               <View
                 style={[
-                  cStyles.rounded1,
+                  cStyles.rounded5,
                   cStyles.px10,
-                  cStyles.py3,
+                  cStyles.py5,
                   cStyles.itemsCenter,
                   styles.con_time_process,
                 ]}>
@@ -86,7 +86,7 @@ function RequestProcess(props) {
                   customLabel={item.approveDate}
                 />
                 <CText
-                  styles={'textMeta fontBold colorWhite'}
+                  styles={'textMeta fontBold colorWhite mt4'}
                   customLabel={item.approveTime}
                 />
               </View>
@@ -124,7 +124,7 @@ function RequestProcess(props) {
                     ? customColors.red
                     : customColors.green
                 }
-                size={fS(20)}
+                size={moderateScale(21)}
               />
               {index !== data.length - 1 && (
                 <View
@@ -162,7 +162,12 @@ function RequestProcess(props) {
               </View>
 
               <View
-                style={[cStyles.row, cStyles.itemsStart, cStyles.justifyStart]}>
+                style={[
+                  cStyles.row,
+                  cStyles.itemsStart,
+                  cStyles.justifyStart,
+                  cStyles.mt4,
+                ]}>
                 <CText
                   customStyles={[
                     cStyles.textMeta,
@@ -198,6 +203,7 @@ function RequestProcess(props) {
                     cStyles.row,
                     cStyles.itemsStart,
                     cStyles.justifyStart,
+                    cStyles.mt4,
                     {width: '80%'},
                   ]}>
                   <CText
@@ -231,7 +237,7 @@ function RequestProcess(props) {
 
 const styles = StyleSheet.create({
   con_time_process: {backgroundColor: colors.SECONDARY, flex: 0.3},
-  line_2: {width: 2, height: 20},
+  line_2: {width: moderateScale(2), height: moderateScale(20)},
 });
 
 export default RequestProcess;

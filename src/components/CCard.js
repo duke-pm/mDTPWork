@@ -12,14 +12,13 @@ import {
   View,
   TouchableOpacity,
   TouchableNativeFeedback,
-  Platform,
 } from 'react-native';
 /* COMPONENTS */
 import CText from './CText';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
 import {THEME_DARK} from '~/config/constants';
-import {IS_IOS} from '~/utils/helper';
+import {IS_IOS, moderateScale} from '~/utils/helper';
 
 function CCard(props) {
   const {customColors} = useTheme();
@@ -52,7 +51,7 @@ function CCard(props) {
       <Component
         style={[cStyles.flex1, cStyles.rounded2]}
         activeOpacity={0.5}
-        delayLongPress={500}
+        delayLongPress={400}
         onLayout={onLayout}
         onPress={onPress}
         onLongPress={onLongPress}>
@@ -66,8 +65,8 @@ function CCard(props) {
             style={[
               cStyles.rounded1,
               cStyles.px10,
-              cStyles.py3,
-              cStyles.mx16,
+              cStyles.py8,
+              cStyles.mx10,
               styles.con_label,
               contentLabelStyle,
               {backgroundColor: isDark ? colors.GRAY_830 : colors.GRAY_200},
@@ -82,7 +81,7 @@ function CCard(props) {
           {header && <View style={cStyles.px16}>{header}</View>}
 
           {content && (
-            <View style={[cStyles.px16, cStyles.pb10, header && cStyles.pt10]}>
+            <View style={[cStyles.px10, cStyles.pb10, header && cStyles.pt10]}>
               {content}
             </View>
           )}
@@ -97,7 +96,7 @@ function CCard(props) {
 const styles = StyleSheet.create({
   con: {overflow: 'hidden', zIndex: 2},
   container: {backgroundColor: colors.BACKGROUND_CARD},
-  con_label: {top: -15},
+  con_label: {top: -moderateScale(15)},
 });
 
 export default CCard;

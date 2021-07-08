@@ -10,6 +10,8 @@ import {useTheme} from '@react-navigation/native';
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
 import ListItem from '../account/components/ListItem';
+import CGroupInfo from '~/components/CGroupInfo';
+import { cStyles } from '~/utils/style';
 
 const HELP_AND_INFO = [
   {
@@ -80,14 +82,17 @@ function HelpAndInfo(props) {
       loading={false}
       content={
         <CContent>
-          {HELP_AND_INFO.map((item, index) => (
-            <ListItem
-              key={item.id}
-              index={index}
-              data={item}
-              customColors={customColors}
-            />
-          ))}
+          <CGroupInfo
+            contentStyle={[cStyles.px10]}
+            content={HELP_AND_INFO.map((item, index) => (
+              <ListItem
+                key={item.id}
+                index={index}
+                data={item}
+                customColors={customColors}
+              />
+            ))}
+          />
         </CContent>
       }
     />

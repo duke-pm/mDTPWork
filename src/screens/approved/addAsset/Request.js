@@ -41,7 +41,13 @@ import CheckOption from '../components/CheckOption';
 /* COMMON */
 import {THEME_DARK, DEFAULT_FORMAT_DATE_4} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
-import {fS, IS_ANDROID, IS_IOS, sH} from '~/utils/helper';
+import {
+  moderateScale,
+  IS_ANDROID,
+  IS_IOS,
+  sH,
+  verticalScale,
+} from '~/utils/helper';
 import Commons from '~/utils/common/Commons';
 /* REDUX */
 import * as Actions from '~/redux/actions';
@@ -73,10 +79,8 @@ const RowSelect = (
           !loading && cStyles.mt6,
           cStyles.borderAll,
           isDark && cStyles.borderAllDark,
-          disabled && {
-            backgroundColor: customColors.cardDisable,
-          },
-          {height: 50},
+          disabled && {backgroundColor: customColors.cardDisable},
+          styles.row_select,
         ]}>
         {!loading ? (
           find && <CText customLabel={find[keyToShow]} />
@@ -86,7 +90,7 @@ const RowSelect = (
         {!disabled && (
           <Icon
             name={'chevron-down'}
-            size={fS(23)}
+            size={moderateScale(21)}
             color={disabled ? customColors.textDisable : customColors.icon}
           />
         )}
@@ -211,7 +215,7 @@ function AddRequest(props) {
               <Icon
                 name={'close'}
                 color={IS_ANDROID ? colors.WHITE : customColors.icon}
-                size={fS(23)}
+                size={moderateScale(21)}
               />
             </View>
           </TouchableOpacity>
@@ -224,7 +228,7 @@ function AddRequest(props) {
                   <Icon
                     name={'information-circle'}
                     color={IS_ANDROID ? colors.WHITE : customColors.icon}
-                    size={fS(23)}
+                    size={moderateScale(21)}
                   />
                 </View>
               </TouchableOpacity>
@@ -835,7 +839,9 @@ function AddRequest(props) {
             />
 
             {isDetail && (
-              <CActionSheet actionRef={actionSheetProcessRef}>
+              <CActionSheet
+                indicatorColor={customColors.textDisable}
+                actionRef={actionSheetProcessRef}>
                 <RequestProcess
                   data={process}
                   customColors={customColors}
@@ -855,14 +861,18 @@ function AddRequest(props) {
                     styleFocus={styles.input_focus}
                     disabled={loading.main || loading.submitAdd || isDetail}
                     holder={'add_approved_assets:holder_where_use'}
+                    icon={'search'}
                     value={findWhereUse}
                     keyboard={'default'}
                     returnKey={'done'}
                     onChangeValue={onSearchFilter}
                   />
                   <Picker
-                    style={styles.con_action}
-                    itemStyle={{color: customColors.text, fontSize: fS(20)}}
+                    style={[styles.con_action, cStyles.justifyCenter]}
+                    itemStyle={{
+                      fontSize: moderateScale(20),
+                      color: customColors.textDisable,
+                    }}
                     selectedValue={whereUse}
                     onValueChange={onChangeWhereUse}>
                     {dataWhereUse.length > 0 ? (
@@ -962,8 +972,9 @@ const styles = StyleSheet.create({
   button_reject: {width: cStyles.deviceWidth / 2.5},
   con_left: {flex: 0.4},
   con_right: {flex: 0.6},
-  con_action: {width: '100%', height: isIphoneX() ? sH('30%') : sH('35%')},
+  con_action: {width: '100%', height: verticalScale(180)},
   content_picker: {height: '40%'},
+  row_select: {height: verticalScale(38)},
 });
 
 export default AddRequest;

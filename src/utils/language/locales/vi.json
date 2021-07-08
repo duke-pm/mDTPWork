@@ -118,7 +118,7 @@
     "error_title": "Phục hồi không thành công!",
     "error_content_1": "Không thể phục hồi mật khẩu từ e-mail",
     "error_content_2": "Chắc chắn rằng bạn đã nhập đúng e-mail hoặc e-mail bạn nhập không có trong hệ thống. Hãy liên hệ bộ phận IT để biết thêm chi tiết.",
-    "success_title": "Xác nhận địa chỉ e-mail của bạn!",
+    "success_title": "Xác nhận địa chỉ e-mail",
     "success_content_1": "Một e-mail xác nhận đã được gửi đến",
     "success_content_2": "Vui lòng kiểm tra hộp thư đến của bạn và chọn",
     "success_content_3": "Liên kết Ứng dụng",
@@ -129,9 +129,9 @@
     "sub_title_update_password": "Nhập mật khẩu mới để cập nhật lại thông tin của bạn.",
     "success_change_password": "Đổi mật khẩu thành công!",
     "sub_title_success_update_password": "Vui lòng đăng nhập với mật khẩu đã lưu.",
-    "error_cannot_change_password": "Không thể đổi mật khẩu mới!",
+    "error_cannot_change_password": "Không thể đổi mật khẩu!",
     "error_holder_cannot_change_password_1": "Đường dẫn truy cập này đã quá thời hạn 60 phút kể từ khi gửi E-mail xác nhận quên mật khẩu.",
-    "error_change_password": "Đổi mật khẩu mới thất bại!"
+    "error_change_password": "Đổi mật khẩu thất bại!"
   },
   "dashboard": {
     "title": "Trang chủ"
@@ -152,7 +152,7 @@
   },
   "change_password": {
     "title": "Đổi mật khẩu",
-    "sub_title": "Vui lòng điền thông tin cần thiết dưới đây",
+    "sub_title": "Điền thông tin cần thiết dưới đây",
     "current_password": "Mật khẩu hiện tại",
     "new_password": "Mật khẩu mới",
     "confirm_password": "Xác nhận lại mật khẩu",
@@ -191,7 +191,7 @@
     "dard_mode_off": "Tắt",
     "dard_mode_system": "Hệ thống",
     "biometrics": "Đăng nhập nhanh",
-    "holder_biometrics": "Bạn có thể đăng nhập nhanh bằng TouchID hoặc FaceID (nếu có)"
+    "holder_biometrics": "Hỗ trợ TouchID hoặc FaceID (nếu có)"
   },
   "approved": {
     "title": "Tài Sản",
@@ -255,7 +255,7 @@
     "price": "Đơn giá",
     "total": "Thành tiền",
     "where_use": "Nơi sử dụng",
-    "holder_where_use": "Chọn nơi sử dụng",
+    "holder_where_use": "Tìm nơi sử dụng...",
     "reason": "Lý do",
     "holder_reason": "Lý do cấp tài sản...",
     "type_assets": "Loại tài sản",

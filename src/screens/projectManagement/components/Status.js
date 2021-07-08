@@ -22,7 +22,7 @@ import CText from '~/components/CText';
 import CActionSheet from '~/components/CActionSheet';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
-import {fS, sH} from '~/utils/helper';
+import {moderateScale, sH} from '~/utils/helper';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 
@@ -131,10 +131,12 @@ function Status(props) {
   };
 
   const onPrepareStatus = () => {
-    let fStatus = status.data.findIndex(f => f.statusID === task.statusID);
-    if (fStatus !== -1) {
-      setStatus({...status, active: fStatus});
-      curStatus = status.data[fStatus].statusName;
+    let moderateScaletatus = status.data.findIndex(
+      f => f.statusID === task.statusID,
+    );
+    if (moderateScaletatus !== -1) {
+      setStatus({...status, active: moderateScaletatus});
+      curStatus = status.data[moderateScaletatus].statusName;
     }
   };
 
@@ -205,7 +207,7 @@ function Status(props) {
               <Icon
                 name={'chevron-down'}
                 color={isDark ? task.colorDarkCode : colors.WHITE}
-                size={fS(23)}
+                size={moderateScale(21)}
               />
             )
           )}
@@ -218,8 +220,8 @@ function Status(props) {
         onConfirm={handleChangeStatus}
         onClose={onCloseActionSheet}>
         <Picker
-          style={styles.con_action}
-          itemStyle={{color: customColors.text, fontSize: fS(20)}}
+          style={[cStyles.justifyCenter, styles.con_action]}
+          itemStyle={{color: customColors.text, fontSize: moderateScale(20)}}
           selectedValue={status.active}
           onValueChange={onChangeStatus}>
           {status.data.map((value, i) => (
@@ -236,7 +238,7 @@ function Status(props) {
 }
 
 const styles = StyleSheet.create({
-  con_action: {width: '100%', height: sH('35%')},
+  con_action: {width: '100%', height: moderateScale(200)},
 });
 
 export default Status;

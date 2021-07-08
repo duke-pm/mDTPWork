@@ -25,7 +25,7 @@ import {colors, cStyles} from '~/utils/style';
 import Commons from '~/utils/common/Commons';
 /** REDUX */
 import * as Actions from '~/redux/actions';
-import {fS} from '~/utils/helper';
+import {moderateScale} from '~/utils/helper';
 
 /** All refs of page */
 let percentRef = createRef();
@@ -226,7 +226,7 @@ function Percentage(props) {
                     cStyles.fontMedium,
                     cStyles.textCenter,
                     cStyles.mr3,
-                    {color: colors.WHITE, fontSize: 10},
+                    {color: colors.WHITE, fontSize: moderateScale(10)},
                   ]}>{`${percent.value}%`}</Text>
               )}
             </View>
@@ -241,7 +241,7 @@ function Percentage(props) {
                 cStyles.itemsStart,
                 cStyles.justifyCenter,
                 {
-                  height: 16,
+                  height: moderateScale(16),
                   width: `${100 - percent.value}%`,
                 },
               ]}>
@@ -251,8 +251,8 @@ function Percentage(props) {
                     cStyles.fontMedium,
                     cStyles.textCenter,
                     cStyles.ml5,
-                    styles.text_percent,
                     {
+                      fontSize: moderateScale(10),
                       color:
                         !task.isUpdated || isDisable
                           ? customColors.textDisable
@@ -298,7 +298,7 @@ function Percentage(props) {
               onPress={handleClosePercent}>
               <Icon
                 name={'close-circle'}
-                size={fS(18)}
+                size={moderateScale(21)}
                 color={customColors.red}
               />
             </TouchableOpacity>
@@ -317,10 +317,9 @@ function Percentage(props) {
 }
 
 const styles = StyleSheet.create({
-  percent_active: {height: 16},
-  percent_body: {height: 16},
-  percent_input: {width: '40%', height: 45},
-  text_percent: {fontSize: 10},
+  percent_active: {height: moderateScale(16)},
+  percent_body: {height: moderateScale(16)},
+  percent_input: {width: '40%', height: moderateScale(45)},
 });
 
 export default Percentage;

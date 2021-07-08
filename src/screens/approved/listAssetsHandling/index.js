@@ -30,7 +30,7 @@ import Filter from '../components/Filter';
 import ListRequest from './list/Request';
 /* COMMON */
 import {LOAD_MORE, REFRESH, THEME_DARK} from '~/config/constants';
-import {fS, IS_ANDROID} from '~/utils/helper';
+import {moderateScale, IS_ANDROID} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
 /* REDUX */
 import * as Actions from '~/redux/actions';
@@ -88,17 +88,21 @@ function ListRequestHandling(props) {
             color={
               isDark ? colors.WHITE : IS_ANDROID ? colors.WHITE : colors.BLACK
             }
-            size={fS(23)}
+            size={moderateScale(21)}
           />
           {data.search !== '' && (
             <View
               style={[
                 cStyles.abs,
                 cStyles.rounded2,
-                styles.badge,
                 cStyles.borderAll,
+                styles.badge,
                 isDark && cStyles.borderAllDark,
-                {backgroundColor: customColors.red, top: -5, left: 10},
+                {
+                  backgroundColor: customColors.red,
+                  top: 0,
+                  left: moderateScale(10),
+                },
               ]}
             />
           )}
@@ -306,7 +310,9 @@ function ListRequestHandling(props) {
       loading={loading.main || loading.search}
       content={
         <CContent refreshing={loading.refreshing} onRefresh={onRefresh}>
-          {!showSearchBar && <Filter isResolve onFilter={handleFilter} />}
+          <View style={cStyles.itemsCenter}>
+            {!showSearchBar && <Filter isResolve onFilter={handleFilter} />}
+          </View>
 
           <CSearchBar
             loading={loading.startFetch}
@@ -335,7 +341,12 @@ function ListRequestHandling(props) {
 }
 
 const styles = StyleSheet.create({
-  badge: {height: 10, width: 10, top: 16, right: 15},
+  badge: {
+    height: moderateScale(10),
+    width: moderateScale(10),
+    top: 16,
+    right: 15,
+  },
 });
 
 export default ListRequestHandling;

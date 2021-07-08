@@ -13,11 +13,11 @@ import CText from '~/components/CText';
 import Tab from './Tab';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
-import {IS_IOS} from '~/utils/helper';
+import {IS_IOS, moderateScale} from '~/utils/helper';
 
-const posTab1 = 2;
-const posTab2 = cStyles.deviceWidth / 3 - 8;
-const posTab3 = (cStyles.deviceWidth / 3) * 2 - 16;
+const posTab1 = 1;
+const posTab2 = moderateScale(350) / 3 - 1;
+const posTab3 = (moderateScale(350) / 3) * 2 - 2;
 
 function TabbarType(props) {
   const {customColors} = useTheme();
@@ -35,36 +35,38 @@ function TabbarType(props) {
       extrapolate: 'clamp',
     });
     return (
-      <View
-        style={[
-          cStyles.row,
-          cStyles.itemsCenter,
-          cStyles.justifyBetween,
-          cStyles.mx16,
-          cStyles.mt10,
-          cStyles.rounded1,
-          styles.tab_bar,
-          {backgroundColor: customColors.cardDisable},
-        ]}>
-        <Animated.View
+      <View style={[cStyles.itemsCenter]}>
+        <View
           style={[
+            cStyles.row,
+            cStyles.itemsCenter,
+            cStyles.justifyBetween,
+            cStyles.mx16,
+            cStyles.mt10,
             cStyles.rounded1,
-            cStyles.abs,
-            cStyles.shadow1,
-            styles.tab_active,
-            {
-              backgroundColor: customColors.tabActive,
-              transform: [{translateX}],
-            },
-          ]}
-        />
-        {navigationState.routes.map((route, index) => (
-          <Tab
-            key={route.key.toString()}
-            title={route.title}
-            onPress={() => jumpTo(route.key)}
+            styles.tab_bar,
+            {backgroundColor: customColors.cardDisable},
+          ]}>
+          <Animated.View
+            style={[
+              cStyles.rounded1,
+              cStyles.abs,
+              cStyles.shadow1,
+              styles.tab_active,
+              {
+                backgroundColor: customColors.tabActive,
+                transform: [{translateX}],
+              },
+            ]}
           />
-        ))}
+          {navigationState.routes.map((route, index) => (
+            <Tab
+              key={route.key.toString()}
+              title={route.title}
+              onPress={() => jumpTo(route.key)}
+            />
+          ))}
+        </View>
       </View>
     );
   }
@@ -87,9 +89,9 @@ function TabbarType(props) {
 }
 
 const styles = StyleSheet.create({
-  indicator_tab: {backgroundColor: colors.SECONDARY, height: 3},
-  tab_bar: {height: 30},
-  tab_active: {height: 26, width: cStyles.deviceWidth / 3 - 18},
+  indicator_tab: {backgroundColor: colors.SECONDARY, height: moderateScale(3)},
+  tab_bar: {height: moderateScale(32)},
+  tab_active: {height: moderateScale(30), width: moderateScale(350) / 3},
 });
 
 export default React.memo(TabbarType);

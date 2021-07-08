@@ -20,7 +20,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import CText from '~/components/CText';
 /** COMMON */
 import {colors, cStyles} from '~/utils/style';
-import {fS, IS_ANDROID} from '~/utils/helper';
+import {IS_ANDROID, moderateScale, verticalScale} from '~/utils/helper';
 import {THEME_DARK} from '~/config/constants';
 
 function CButton(props) {
@@ -55,11 +55,10 @@ function CButton(props) {
             cStyles.row,
             cStyles.center,
             cStyles.rounded1,
-            cStyles.py3,
+            styles.container,
             fullWidth && styles.full_width,
             block && cStyles.fullWidth,
             {backgroundColor: color},
-            variant === 'contained' && {elevation: 3},
             variant === 'text' && styles.con_variant_text,
             variant === 'outlined' && {
               borderColor: color,
@@ -79,7 +78,7 @@ function CButton(props) {
                   ? colors.WHITE
                   : color
               }
-              size={fS(16)}
+              size={moderateScale(16)}
             />
           )}
 
@@ -102,11 +101,9 @@ function CButton(props) {
 }
 
 const styles = StyleSheet.create({
+  container: {paddingVertical: verticalScale(3)},
   full_width: {width: cStyles.deviceWidth},
-  disabled_contained: {
-    elevation: 0,
-    // backgroundColor: '#dfdfdf',
-  },
+  disabled_contained: {elevation: 0},
   textDisabled: Platform.select({
     ios: {
       color: '#cdcdcd',

@@ -24,7 +24,7 @@ import CText from '~/components/CText';
 import AssetItem from './AssetItem';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
-import {fS, IS_ANDROID} from '~/utils/helper';
+import {moderateScale, IS_ANDROID} from '~/utils/helper';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -223,22 +223,24 @@ function AssetsTable(props) {
                   {backgroundColor: customColors.cardDisable},
                 ]}
                 textStyle={[
-                  cStyles.textMeta,
                   cStyles.m3,
                   cStyles.textCenter,
-                  cStyles.fontMedium,
-                  {color: customColors.text},
+                  {color: customColors.text, fontSize: moderateScale(10)},
                 ]}
-                widthArr={
-                  isDetail ? [180, 70, 100, 100] : [180, 70, 100, 100, 42]
-                }
+                widthArr={[
+                  moderateScale(180),
+                  moderateScale(100),
+                  moderateScale(100),
+                  moderateScale(100),
+                  isDetail ? moderateScale(42) : undefined,
+                ]}
                 data={form.assets.header}
               />
               {form.assets.data.map((rowData, rowIndex) => {
                 return (
                   <TableWrapper
                     key={rowIndex.toString()}
-                    style={[cStyles.flex1, cStyles.row, {borderRadius: 5}]}>
+                    style={[cStyles.flex1, cStyles.row]}>
                     {rowData.map((cellData, cellIndex) => {
                       let disabled = loading || cellIndex === 3 || isDetail;
                       return (
@@ -246,14 +248,12 @@ function AssetsTable(props) {
                           key={cellIndex.toString()}
                           width={
                             cellIndex === 0
-                              ? 180
-                              : cellIndex === 1
-                              ? 70
+                              ? moderateScale(180)
                               : cellIndex === 4
-                              ? 42
-                              : 100
+                              ? moderateScale(42)
+                              : moderateScale(100)
                           }
-                          // height={40}
+                          height={moderateScale(35)}
                           data={
                             <AssetItem
                               disabled={disabled}
@@ -292,7 +292,7 @@ function AssetsTable(props) {
             {error.status && (
               <Icon
                 name={'alert-circle'}
-                size={fS(14)}
+                size={moderateScale(14)}
                 color={customColors.red}
               />
             )}
@@ -336,7 +336,10 @@ function AssetsTable(props) {
 
 const styles = StyleSheet.create({
   table: {borderWidth: 1, borderColor: colors.TABLE_LINE},
-  table_header: {height: 30, backgroundColor: colors.TABLE_HEADER},
+  table_header: {
+    height: moderateScale(30),
+    backgroundColor: colors.TABLE_HEADER,
+  },
   con_left: {flex: 0.4},
   con_right: {flex: 0.6},
 });

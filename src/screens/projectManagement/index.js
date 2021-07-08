@@ -25,7 +25,7 @@ import ListProject from './list/Project';
 import Routes from '~/navigation/Routes';
 import {LOAD_MORE, REFRESH, THEME_DARK} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
-import {fS, IS_ANDROID} from '~/utils/helper';
+import {moderateScale, IS_ANDROID} from '~/utils/helper';
 import {usePrevious} from '~/utils/hook';
 /** REDUX */
 import * as Actions from '~/redux/actions';
@@ -81,17 +81,21 @@ function ProjectManagement(props) {
             <Icon
               name={'search'}
               color={IS_ANDROID ? colors.WHITE : customColors.icon}
-              size={fS(23)}
+              size={moderateScale(21)}
             />
             {data.search !== '' && (
               <View
                 style={[
                   cStyles.abs,
                   cStyles.rounded2,
-                  styles.badge,
                   cStyles.borderAll,
+                  styles.badge,
                   isDark && cStyles.borderAllDark,
-                  {backgroundColor: customColors.red, top: -5, left: 10},
+                  {
+                    backgroundColor: customColors.red,
+                    top: 0,
+                    left: moderateScale(10),
+                  },
                 ]}
               />
             )}
@@ -102,17 +106,21 @@ function ProjectManagement(props) {
             <Icon
               name={'options'}
               color={IS_ANDROID ? colors.WHITE : customColors.icon}
-              size={fS(23)}
+              size={moderateScale(21)}
             />
             {isFiltering && (
               <View
                 style={[
                   cStyles.abs,
                   cStyles.rounded2,
-                  styles.badge,
                   cStyles.borderAll,
+                  styles.badge,
                   isDark && cStyles.borderAllDark,
-                  {backgroundColor: customColors.red, top: -5, left: 10},
+                  {
+                    backgroundColor: customColors.red,
+                    top: 0,
+                    left: moderateScale(10),
+                  },
                 ]}
               />
             )}
@@ -377,6 +385,7 @@ function ProjectManagement(props) {
             onSearch={handleSearch}
             onClose={handleCloseSearch}
           />
+
           {!loading.main && !loading.startFetch && (
             <ListProject
               loadmore={loading.loadmore}
@@ -392,7 +401,12 @@ function ProjectManagement(props) {
 }
 
 const styles = StyleSheet.create({
-  badge: {height: 10, width: 10, top: 16, right: 15},
+  badge: {
+    height: moderateScale(10),
+    width: moderateScale(10),
+    top: 16,
+    right: 15,
+  },
 });
 
 export default ProjectManagement;

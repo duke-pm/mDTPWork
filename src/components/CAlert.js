@@ -15,7 +15,7 @@ import CButton from './CButton';
 /* COMMON */
 import {cStyles, colors} from '~/utils/style';
 import {THEME_DARK} from '~/config/constants';
-import {fS, sW} from '~/utils/helper';
+import {moderateScale} from '~/utils/helper';
 
 function CAlert(props) {
   const isDark = useColorScheme() === THEME_DARK;
@@ -40,7 +40,7 @@ function CAlert(props) {
       isVisible={show}
       animationIn={'fadeInDown'}
       animationOut={'fadeOutUp'}
-      backdropOpacity={0.5}
+      backdropOpacity={isDark ? 0.8 : 0.4}
       useNativeDriver={true}
       useNativeDriverForBackdrop={true}
       avoidKeyboard={true}
@@ -54,9 +54,10 @@ function CAlert(props) {
       <View style={cStyles.center}>
         <View
           style={[
-            cStyles.mx48,
+            cStyles.center,
             cStyles.rounded3,
             {
+              width: moderateScale(300),
               backgroundColor: isDark
                 ? colors.GRAY_860
                 : customColors.background,
@@ -69,10 +70,11 @@ function CAlert(props) {
               cStyles.roundedTopLeft3,
               cStyles.roundedTopRight3,
               cStyles.pt16,
-              cStyles.px16,
+              cStyles.px8,
+              cStyles.center,
             ]}>
             <CText
-              styles={'textCenter H6'}
+              styles={'textCenter textTitle'}
               label={title}
               customLabel={title !== 'common:need_confirm' ? title : null}
             />
@@ -80,7 +82,12 @@ function CAlert(props) {
 
           {/** Content of Alert */}
           <View
-            style={[cStyles.px16, cStyles.pb20, cStyles.mt10, styles.content]}>
+            style={[
+              cStyles.px16,
+              cStyles.pb20,
+              cStyles.mt10,
+              cStyles.fullWidth,
+            ]}>
             {!loading && content && (
               <CText styles={'textMeta textCenter'} label={content} />
             )}
@@ -100,14 +107,19 @@ function CAlert(props) {
               style={[
                 cStyles.row,
                 cStyles.itemsCenter,
-                cStyles.justifyEvenly,
                 cStyles.borderTop,
                 isDark && cStyles.borderTopDark,
-                styles.con_button,
               ]}>
               {onClose && (
                 <CButton
-                  textStyle={{color: customColors.blue, fontSize: fS(19)}}
+                  style={[
+                    styles.con_button,
+                    onClose && !onOK && styles.btn_alone,
+                  ]}
+                  textStyle={{
+                    color: customColors.blue,
+                    fontSize: moderateScale(18),
+                  }}
                   disabled={loading}
                   block
                   variant={'text'}
@@ -118,6 +130,7 @@ function CAlert(props) {
               {onClose && onOK && (
                 <View
                   style={[
+                    cStyles.fullHeight,
                     styles.button,
                     {
                       backgroundColor: isDark
@@ -130,7 +143,14 @@ function CAlert(props) {
 
               {onOK && (
                 <CButton
-                  textStyle={{color: customColors.blue, fontSize: fS(19)}}
+                  style={[
+                    styles.con_button,
+                    !onClose && onOK && styles.btn_alone,
+                  ]}
+                  textStyle={{
+                    color: customColors.blue,
+                    fontSize: moderateScale(18),
+                  }}
                   disabled={loading}
                   block
                   variant={'text'}
@@ -147,9 +167,9 @@ function CAlert(props) {
 }
 
 const styles = StyleSheet.create({
-  button: {width: 1, height: '100%'},
-  content: {width: sW('85%')},
-  con_button: {height: 50},
+  button: {width: moderateScale(1)},
+  con_button: {height: moderateScale(45), width: moderateScale(150)},
+  btn_alone: {width: moderateScale(300)},
 });
 
 export default CAlert;

@@ -23,7 +23,7 @@ import ListItem from '~/screens/account/components/ListItem';
 /* COMMON */
 import {Assets} from '~/utils/asset';
 import {LANGUAGE, BIOMETRICS} from '~/config/constants';
-import {fS, getLocalInfo, saveLocalInfo, sH} from '~/utils/helper';
+import {moderateScale, getLocalInfo, saveLocalInfo, sH} from '~/utils/helper';
 import {cStyles} from '~/utils/style';
 /* REDUX */
 import * as Actions from '~/redux/actions';
@@ -233,7 +233,7 @@ function Settings(props) {
             onConfirm={() => handleChangeLanguage(0)}>
             <Picker
               style={styles.con_action}
-              itemStyle={{color: customColors.text, fontSize: fS(20)}}
+              itemStyle={{color: customColors.text, fontSize: moderateScale(20)}}
               selectedValue={valueSettings.activeLanguage}
               onValueChange={onChangeLanguage}>
               {initSettings[0].data.map((value, i) => (

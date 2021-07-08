@@ -27,7 +27,7 @@ import CAvatar from '~/components/CAvatar';
 import ListTask from '../list/Task';
 /* COMMON */
 import Commons from '~/utils/common/Commons';
-import {IS_ANDROID} from '~/utils/helper';
+import {IS_ANDROID, moderateScale} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
 
 if (IS_ANDROID) {
@@ -141,7 +141,7 @@ function TaskItem(props) {
             {
               backgroundColor: customColors.listItem,
               borderLeftColor: typeColor,
-              borderLeftWidth: 3,
+              borderLeftWidth: moderateScale(3),
             },
             isReject && {backgroundColor: customColors.cardDisable},
             isClose && {backgroundColor: customColors.cardDisable},
@@ -242,12 +242,12 @@ function TaskItem(props) {
                         cStyles.borderAll,
                         isDark && cStyles.borderAllDark,
                         {backgroundColor: customColors.red},
-                        showPercentage && {right: 10},
+                        showPercentage && {right: moderateScale(10)},
                       ]}>
                       <Text
                         style={[
                           cStyles.fontRegular,
-                          {fontSize: 7, color: colors.WHITE},
+                          {color: colors.WHITE, fontSize: moderateScale(8)},
                         ]}>
                         {data.countChild}
                       </Text>
@@ -258,25 +258,25 @@ function TaskItem(props) {
                 {showPercentage && (
                   <Progress.Circle
                     animated={false}
-                    size={30}
+                    size={moderateScale(30)}
                     progress={data.percentage / 100}
-                    thickness={2}
+                    thickness={moderateScale(1)}
                     color={customColors.primary}
                     showsText
                     textStyle={[
                       cStyles.textCenter,
                       cStyles.fontRegular,
-                      {fontSize: 8},
+                      {fontSize: moderateScale(8)},
                     ]}
                   />
                 )}
               </View>
             </View>
 
-            <View style={[cStyles.flex1, cStyles.pt6]}>
+            <View style={[cStyles.flex1, cStyles.mt10]}>
               <CText
                 styles={
-                  'textTitle ' +
+                  'textSubTitle ' +
                   (isReject && 'textThrough ') +
                   (data.countChild === 0 && ' pt10')
                 }
@@ -293,6 +293,7 @@ function TaskItem(props) {
             style={[
               cStyles.borderAll,
               isDark && cStyles.borderAllDark,
+              cStyles.borderDashed,
               styles.line_child,
             ]}
           />
@@ -307,12 +308,17 @@ function TaskItem(props) {
 
 const styles = StyleSheet.create({
   status: {
-    height: 8,
-    width: 8,
-    borderRadius: 8,
+    height: moderateScale(8),
+    width: moderateScale(8),
+    borderRadius: moderateScale(8),
   },
-  line_child: {height: '100%'},
-  badge: {height: 15, width: 15, top: 0, right: 0},
+  line_child: {height: '100%', borderRadius: 1},
+  badge: {
+    height: moderateScale(15),
+    width: moderateScale(15),
+    top: 0,
+    right: 0,
+  },
 });
 
 export default TaskItem;

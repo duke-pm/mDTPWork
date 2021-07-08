@@ -12,7 +12,7 @@ import * as Animatable from 'react-native-animatable';
 import CText from '~/components/CText';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
-import {fS} from '~/utils/helper';
+import {moderateScale} from '~/utils/helper';
 
 function CheckOption(props) {
   const {loading, isDetail, customColors, value, values, onCallback} = props;
@@ -74,7 +74,7 @@ function CheckOption(props) {
                     ? 'checkmark-circle'
                     : 'ellipse-outline'
                 }
-                size={fS(23)}
+                size={moderateScale(21)}
                 color={
                   chooseValue === item.value
                     ? colors.SECONDARY

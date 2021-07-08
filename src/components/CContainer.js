@@ -5,9 +5,7 @@
  ** Description: Description of CContainer.js
  **/
 import React from 'react';
-import {useSelector} from 'react-redux';
 import {useTheme} from '@react-navigation/native';
-import Modal from 'react-native-modal';
 import {SafeAreaView} from 'react-native-safe-area-context';
 /** COMMON */
 import CFooter from './CFooter';
@@ -26,10 +24,6 @@ function CContainer(props) {
     footer = null,
   } = props;
 
-  /** Use redux */
-  const commonState = useSelector(({common}) => common);
-  const isSearch = commonState.get('isSearch');
-
   /**************
    ** RENDER **
    **************/
@@ -47,21 +41,6 @@ function CContainer(props) {
       edges={tmpSafeArea}>
       {content}
       {footer && <CFooter content={footer} />}
-      <Modal
-        style={cStyles.m0}
-        isVisible={isSearch}
-        coverScreen={false}
-        useNativeDriver={true}
-        useNativeDriverForBackdrop={true}
-        hideModalContentWhileAnimating={true}
-        backdropColor={'black'}
-        backdropOpacity={0.4}
-        deviceHeight={cStyles.deviceHeight}
-        deviceWidth={cStyles.deviceWidth}
-        animationIn={'fadeIn'}
-        animationOut={'fadeOut'}
-        renderToHardwareTextureAndroid={true}
-      />
       <CLoading customColors={customColors} visible={props.loading} />
     </SafeAreaView>
   );

@@ -24,7 +24,7 @@ import * as Progress from 'react-native-progress';
 import {Extensions} from '~/utils/asset';
 import {THEME_DARK} from '~/config/constants';
 import {cStyles, colors} from '~/utils/style';
-import {checkExistsFile, fS, IS_IOS} from '~/utils/helper';
+import {checkExistsFile, moderateScale, IS_IOS} from '~/utils/helper';
 import API from '~/services/axios';
 
 function FileAttach(props) {
@@ -141,14 +141,14 @@ function FileAttach(props) {
               {loading && (
                 <ActivityIndicator
                   color={customColors.icon}
-                  size={IS_IOS ? 'small' : 12}
+                  size={IS_IOS ? 'small' : moderateScale(12)}
                 />
               )}
               {!loading && (
                 <Icon
                   name={'cloud-download'}
                   color={customColors.icon}
-                  size={fS(14)}
+                  size={moderateScale(14)}
                 />
               )}
             </View>
@@ -157,8 +157,8 @@ function FileAttach(props) {
               <View style={[cStyles.abs, cStyles.bottom0]}>
                 <Progress.Bar
                   animated={false}
-                  width={150}
-                  height={2}
+                  width={moderateScale(150)}
+                  height={moderateScale(2)}
                   borderColor={cStyles.borderAllDark.borderColor}
                   progress={progress / 100}
                   useNativeDriver={true}
@@ -174,9 +174,9 @@ function FileAttach(props) {
 }
 
 const styles = StyleSheet.create({
-  container: {width: 150},
-  file: {width: 60, height: 60},
-  con_icon_download: {width: 25, height: 25},
+  container: {width: moderateScale(150)},
+  file: {width: moderateScale(60), height: moderateScale(60)},
+  con_icon_download: {width: moderateScale(25), height: moderateScale(25)},
   con_bg: {zIndex: 5, overflow: 'hidden'},
 });
 

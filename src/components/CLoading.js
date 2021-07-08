@@ -5,13 +5,17 @@
  ** Description: Description of CLoading.js
  **/
 import React from 'react';
+import {useColorScheme} from 'react-native-appearance';
 import {View, StyleSheet, ActivityIndicator} from 'react-native';
 import Modal from 'react-native-modal';
 import * as Animatable from 'react-native-animatable';
 /** COMMON */
 import {colors, cStyles} from '~/utils/style';
+import {moderateScale} from '~/utils/helper';
+import {THEME_DARK} from '~/config/constants';
 
 function CLoading(props) {
+  const isDark = useColorScheme() === THEME_DARK;
   /**************
    ** RENDER **
    **************/
@@ -21,13 +25,13 @@ function CLoading(props) {
       isVisible={props.visible}
       animationIn={'fadeIn'}
       animationOut={'fadeOut'}
+      backdropOpacity={isDark ? 0.8 : 0.4}
       useNativeDriver={true}
       useNativeDriverForBackdrop={true}
       hideModalContentWhileAnimating={true}
       backdropTransitionOutTiming={0}
       deviceWidth={cStyles.deviceWidth}
       deviceHeight={cStyles.deviceHeight}
-      backdropOpacity={0.3}
       onBackButtonPress={null}
       onBackdropPress={null}>
       <View style={cStyles.flexCenter}>
@@ -50,7 +54,7 @@ function CLoading(props) {
 }
 
 const styles = StyleSheet.create({
-  indicator: {height: 50, width: 50},
+  indicator: {height: moderateScale(40), width: moderateScale(40)},
 });
 
 export default CLoading;

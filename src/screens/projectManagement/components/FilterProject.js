@@ -31,7 +31,7 @@ import CAvatar from '~/components/CAvatar';
 import Configs from '~/config';
 import {THEME_DARK} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
-import {fS, IS_ANDROID, IS_IOS, sH} from '~/utils/helper';
+import {moderateScale, IS_ANDROID, IS_IOS, sH} from '~/utils/helper';
 
 /** All refs use in this screen */
 const actionSheetYearRef = createRef();
@@ -69,7 +69,7 @@ const RowPicker = (
             cStyles.row,
             cStyles.itemsCenter,
             cStyles.justifyBetween,
-            cStyles.pr32,
+            cStyles.pr24,
             !isLast && isBorder && isDark && cStyles.borderBottomDark,
             !isLast && isBorder && !isDark && cStyles.borderBottom,
           ]}>
@@ -78,7 +78,7 @@ const RowPicker = (
             {loading ? <ActivityIndicator /> : <CText label={active} />}
             <Icon
               name={'chevron-forward'}
-              size={fS(18)}
+              size={moderateScale(21)}
               color={colors.GRAY_500}
             />
           </View>
@@ -137,7 +137,11 @@ const RowSelect = (
           ]}>
           <CText label={label} />
           {active && (
-            <Icon name={'checkmark'} color={customColors.blue} size={fS(23)} />
+            <Icon
+              name={'checkmark'}
+              color={customColors.blue}
+              size={moderateScale(21)}
+            />
           )}
         </View>
       </View>
@@ -192,6 +196,7 @@ function FilterProject(props) {
               style={[cStyles.flex1, cStyles.itemsEnd, cStyles.justifyCenter]}>
               <CText
                 customStyles={[
+                  cStyles.textSubTitle,
                   {color: customColors.red},
                   IS_ANDROID && cStyles.colorWhite,
                 ]}
@@ -206,6 +211,7 @@ function FilterProject(props) {
               style={[cStyles.flex1, cStyles.itemsEnd, cStyles.justifyCenter]}>
               <CText
                 customStyles={[
+                  cStyles.textSubTitle,
                   {color: customColors.blue},
                   IS_ANDROID && cStyles.colorWhite,
                 ]}
@@ -464,7 +470,10 @@ function FilterProject(props) {
               onConfirm={handleChangeYear}>
               <Picker
                 style={styles.con_action}
-                itemStyle={{color: customColors.text, fontSize: fS(20)}}
+                itemStyle={{
+                  color: customColors.text,
+                  fontSize: moderateScale(20),
+                }}
                 selectedValue={year.active}
                 onValueChange={onChangeYear}>
                 {year.data.map((value, i) => (
@@ -484,8 +493,8 @@ function FilterProject(props) {
 }
 
 const styles = StyleSheet.create({
-  row_header: {height: 50},
-  left_row_select: {width: 16},
+  row_header: {height: moderateScale(50)},
+  left_row_select: {width: moderateScale(16)},
   con_action: {width: '100%', height: sH('30%')},
 });
 

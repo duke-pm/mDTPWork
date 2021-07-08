@@ -117,7 +117,7 @@
     "error_title": "Recovery failed!",
     "error_content_1": "Unable to recover password from e-mail",
     "error_content_2": "Make sure you have entered the correct e-mail or the e-mail you entered is not in the system. Please contact IT department for more details.",
-    "success_title": "Confirm your e-mail address!",
+    "success_title": "Verify email address",
     "success_content_1": "A confirmation e-mail has been sent to",
     "success_content_2": "Please check your inbox and choose",
     "success_content_3": "Link to App",
@@ -128,9 +128,9 @@
     "sub_title_update_password": "Enter a new password to update your information.",
     "success_change_password": "Update password successfully!",
     "sub_title_success_update_password": "Please login with the saved password.",
-    "error_cannot_change_password": "Cannot exchange new passwords!",
+    "error_cannot_change_password": "Cannot exchange passwords!",
     "error_holder_cannot_change_password_1": "This access path has exceeded 60 minutes from when sending e-mail confirmation forgot password.",
-    "error_change_password": "Update new password failed. Please try again later!"
+    "error_change_password": "Update password failed. Please try again later!"
   },
   "dashboard": {
     "title": "Dashboard"
@@ -184,7 +184,7 @@
     "en": "English",
     "theme": "Dark mode",
     "biometrics": "Fast login",
-    "holder_biometrics": "You can log in quickly with TouchID or FaceID (if any)"
+    "holder_biometrics": "Support TouchID or FaceID (if any)"
   },
   "approved": {
     "title": "Assets",
@@ -248,7 +248,7 @@
     "price": "Price",
     "total": "Total",
     "where_use": "Place of use",
-    "holder_where_use": "Select place of use",
+    "holder_where_use": "Search place of use...",
     "reason": "Reason",
     "holder_reason": "Reason request assets...",
     "type_assets": "Type asset",

@@ -17,7 +17,6 @@ import {
   LayoutAnimation,
   UIManager,
 } from 'react-native';
-import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 /* COMPONENTS */
@@ -29,7 +28,7 @@ import CGroupFilter from '~/components/CGroupFilter';
 import CLabel from '~/components/CLabel';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
-import {checkEmpty, fS, IS_ANDROID} from '~/utils/helper';
+import {checkEmpty, IS_ANDROID, moderateScale} from '~/utils/helper';
 import {usePrevious} from '~/utils/hook';
 
 if (IS_ANDROID) {
@@ -76,7 +75,7 @@ const TagItem = (customColors, label) => {
     <View
       style={[
         cStyles.rounded5,
-        cStyles.py3,
+        cStyles.py8,
         cStyles.px6,
         cStyles.mr3,
         {backgroundColor: customColors.cardDisable},
@@ -211,10 +210,11 @@ function Filter(props) {
     <View
       style={[
         cStyles.rounded2,
-        cStyles.mx16,
+        cStyles.mx32,
         cStyles.mt10,
         show && cStyles.pb12,
         {backgroundColor: customColors.card},
+        styles.box,
       ]}>
       <TouchableOpacity disabled={show} onPress={handleToggle}>
         <View
@@ -223,7 +223,7 @@ function Filter(props) {
             cStyles.itemsCenter,
             cStyles.justifyBetween,
             cStyles.px10,
-            cStyles.py10,
+            cStyles.py8,
           ]}>
           {!show ? (
             !isResolve ? (
@@ -278,7 +278,11 @@ function Filter(props) {
           ) : (
             <View style={cStyles.flex1} />
           )}
-          <Icon name={'options'} size={fS(23)} color={customColors.text} />
+          <Icon
+            name={'options'}
+            size={moderateScale(23)}
+            color={customColors.text}
+          />
         </View>
       </TouchableOpacity>
 
@@ -363,7 +367,7 @@ function Filter(props) {
             style={[
               cStyles.row,
               cStyles.itemsCenter,
-              cStyles.justifyBetween,
+              cStyles.justifyCenter,
               cStyles.mt10,
             ]}>
             <CButton
@@ -400,7 +404,8 @@ function Filter(props) {
 const styles = StyleSheet.create({
   text_date: {flex: 0.3},
   input_date: {flex: 0.7},
-  button: {width: cStyles.deviceWidth / 2.5},
+  button: {width: moderateScale(140), marginHorizontal: moderateScale(10)},
+  box: {width: moderateScale(350)},
 });
 
 export default Filter;

@@ -18,6 +18,7 @@ import {
   UIManager,
   LayoutAnimation,
 } from 'react-native';
+import {isIphoneX} from 'react-native-iphone-x-helper';
 import {showMessage} from 'react-native-flash-message';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -29,7 +30,12 @@ import CButton from '~/components/CButton';
 import CAvoidKeyboard from '~/components/CAvoidKeyboard';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
-import {fS, IS_ANDROID, validatEemail} from '~/utils/helper';
+import {
+  IS_ANDROID,
+  moderateScale,
+  validatEemail,
+  verticalScale,
+} from '~/utils/helper';
 /** REDUX */
 import * as Actions from '~/redux/actions';
 
@@ -183,106 +189,122 @@ function ForgotPassword(props) {
             colors={colors.BACKGROUND_GRADIENT}>
             {!form.success && (
               <CAvoidKeyboard>
-                <View style={[cStyles.flex1, cStyles.px48, cStyles.pt32]}>
-                  <View
-                    style={[
-                      cStyles.itemsCenter,
-                      cStyles.justifyCenter,
-                      styles.con_icon_app,
-                    ]}>
-                    <CText
-                      styles={'textCenter colorWhite'}
-                      label={'forgot_password:sub_title'}
-                    />
-                  </View>
+                <View style={cStyles.flexCenter}>
+                  <View style={styles.box}>
+                    <View
+                      style={[
+                        cStyles.itemsCenter,
+                        cStyles.justifyEnd,
+                        styles.container_title,
+                      ]}>
+                      <CText
+                        customStyles={[
+                          cStyles.textCenter,
+                          cStyles.colorWhite,
+                          styles.text_title,
+                        ]}
+                        label={'forgot_password:sub_title'}
+                      />
+                    </View>
 
-                  <View style={[styles.con_input, cStyles.fullWidth]}>
-                    <CInput
-                      id={INPUT_NAME.EMAIL}
-                      style={styles.input}
-                      selectionColor={colors.WHITE}
-                      holderColor={colors.GRAY_500}
-                      disabled={loading}
-                      keyboard={'email-address'}
-                      icon={'mail'}
-                      iconColor={colors.GRAY_500}
-                      holder={'forgot_password:input_email'}
-                      returnKey={'send'}
-                      error={error.email}
-                      errorHelper={error.emailHelper}
-                      onChangeValue={handleChangeText}
-                      onChangeInput={handleSend}
-                    />
+                    <View style={[styles.container_input, cStyles.fullWidth]}>
+                      <CInput
+                        id={INPUT_NAME.EMAIL}
+                        style={styles.input}
+                        styleInput={styles.input}
+                        styleFocus={styles.input_focus}
+                        selectionColor={colors.WHITE}
+                        holderColor={colors.GRAY_500}
+                        disabled={loading}
+                        keyboard={'email-address'}
+                        icon={'mail'}
+                        iconColor={colors.GRAY_500}
+                        holder={'forgot_password:input_email'}
+                        returnKey={'send'}
+                        error={error.email}
+                        errorHelper={error.emailHelper}
+                        onChangeValue={handleChangeText}
+                        onChangeInput={handleSend}
+                      />
 
-                    <CButton
-                      style={cStyles.mt16}
-                      block
-                      disabled={loading}
-                      icon={'send'}
-                      label={'common:send'}
-                      onPress={handleSend}
-                    />
+                      <View style={styles.separator} />
 
-                    <CButton
-                      style={cStyles.mt16}
-                      textStyle={[cStyles.textSubTitle, cStyles.textUnderline]}
-                      block
-                      color={colors.WHITE}
-                      variant={'text'}
-                      label={'forgot_password:button_go_back'}
-                      onPress={handleGoBack}
-                    />
+                      <CButton
+                        block
+                        disabled={loading}
+                        icon={'send'}
+                        label={'common:send'}
+                        onPress={handleSend}
+                      />
+
+                      <View style={styles.separator} />
+
+                      <CButton
+                        textStyle={[
+                          cStyles.textSubTitle,
+                          cStyles.textUnderline,
+                        ]}
+                        block
+                        color={colors.WHITE}
+                        variant={'text'}
+                        label={'forgot_password:button_go_back'}
+                        onPress={handleGoBack}
+                      />
+                    </View>
                   </View>
                 </View>
               </CAvoidKeyboard>
             )}
 
             {form.success && (
-              <View style={[cStyles.flex1, cStyles.px48, cStyles.pt32]}>
-                <View style={[cStyles.center, cStyles.py20, cStyles.pt32]}>
-                  <Icon
-                    name={'mail-unread'}
-                    color={colors.GRAY_500}
-                    size={fS(80)}
-                  />
-                </View>
+              <View style={cStyles.flexCenter}>
+                <View style={styles.box2}>
+                  <View style={[cStyles.center, cStyles.py20, cStyles.pt32]}>
+                    <Icon
+                      name={'mail-unread'}
+                      color={colors.GRAY_500}
+                      size={moderateScale(80)}
+                    />
+                  </View>
 
-                <View style={cStyles.py16}>
-                  <CText
-                    styles={'H3 textCenter colorWhite'}
-                    label={'forgot_password:success_title'}
-                  />
+                  <View style={cStyles.py16}>
+                    <CText
+                      styles={'H3 textCenter colorWhite'}
+                      label={'forgot_password:success_title'}
+                    />
 
-                  <Text style={[cStyles.textCenter, cStyles.mt16]}>
-                    <Text style={[cStyles.textDefault, cStyles.colorWhite]}>
-                      {`${t('forgot_password:success_content_1')} `}
-                    </Text>
-                    <Text
-                      style={[
-                        cStyles.textTitle,
-                        cStyles.colorSecondary,
-                        cStyles.pt10,
-                      ]}>
-                      {form.email}
-                    </Text>
-                  </Text>
+                    <View style={styles.separator} />
 
-                  <Text style={[cStyles.textCenter, cStyles.mt16]}>
-                    <Text style={[cStyles.textDefault, cStyles.colorWhite]}>
-                      {`${t('forgot_password:success_content_2')} `}
+                    <Text style={cStyles.textCenter}>
+                      <Text style={[cStyles.textDefault, cStyles.colorWhite]}>
+                        {`${t('forgot_password:success_content_1')} `}
+                      </Text>
+                      <Text style={[cStyles.textTitle, cStyles.colorSecondary]}>
+                        {form.email}
+                      </Text>
+                      <Text style={[cStyles.textDefault, cStyles.colorWhite]}>
+                        {'.'}
+                      </Text>
                     </Text>
-                    <Text style={[cStyles.textTitle, cStyles.colorWhite]}>
-                      {`"${t('forgot_password:success_content_3')}" `}
-                    </Text>
-                    <Text style={[cStyles.textDefault, cStyles.colorWhite]}>
-                      {`${t('forgot_password:success_content_4')}`}
-                    </Text>
-                  </Text>
-                </View>
 
-                <View style={cStyles.mt16}>
+                    <View style={styles.separator} />
+
+                    <Text style={cStyles.textCenter}>
+                      <Text style={[cStyles.textDefault, cStyles.colorWhite]}>
+                        {`${t('forgot_password:success_content_2')} `}
+                      </Text>
+                      <Text style={[cStyles.textTitle, cStyles.colorWhite]}>
+                        {`"${t('forgot_password:success_content_3')}" `}
+                      </Text>
+                      <Text style={[cStyles.textDefault, cStyles.colorWhite]}>
+                        {`${t('forgot_password:success_content_4')}`}
+                      </Text>
+                    </Text>
+                  </View>
+
+                  <View style={styles.separator} />
+
                   <CButton
-                    style={cStyles.mt16}
                     textStyle={[cStyles.textSubTitle, cStyles.textUnderline]}
                     block
                     color={colors.WHITE}
@@ -301,16 +323,22 @@ function ForgotPassword(props) {
 }
 
 const styles = StyleSheet.create({
-  container: {backgroundColor: colors.TRANSPARENT},
-  con_icon_app: {flex: 0.2},
-  con_input: {flex: 0.8},
-  input: {
-    backgroundColor: colors.TRANSPARENT,
-    color: colors.WHITE,
+  container_title: {flex: isIphoneX() ? 0.4 : 0.35},
+  container_input: {flex: isIphoneX() ? 0.6 : 0.65},
+  input: {backgroundColor: colors.TRANSPARENT, color: colors.WHITE},
+  input_focus: {backgroundColor: colors.BACKGROUND_INPUT_FOCUS},
+  box: {
+    width: moderateScale(300),
+    height: verticalScale(550),
+    paddingHorizontal: moderateScale(14),
   },
-
-  icon: {width: 50, height: 50},
-  icon_error: {width: 27, height: 27},
+  box2: {
+    width: moderateScale(350),
+    height: verticalScale(550),
+    paddingHorizontal: moderateScale(10),
+  },
+  text_title: {marginBottom: moderateScale(30)},
+  separator: {paddingVertical: verticalScale(6)},
 });
 
 export default ForgotPassword;

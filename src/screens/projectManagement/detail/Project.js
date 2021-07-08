@@ -26,7 +26,7 @@ import Routes from '~/navigation/Routes';
 import {LOAD_MORE, LOGIN, REFRESH, THEME_DARK} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
 import {
-  fS,
+  moderateScale,
   getSecretInfo,
   IS_ANDROID,
   IS_IOS,
@@ -103,7 +103,7 @@ function ProjectDetail(props) {
                 <Icon
                   name={IS_IOS ? 'chevron-back' : 'arrow-back'}
                   color={IS_ANDROID ? colors.WHITE : customColors.blue}
-                  size={IS_IOS ? fS(30) : fS(25)}
+                  size={IS_IOS ? moderateScale(26) : moderateScale(21)}
                 />
                 <CText
                   customStyles={[
@@ -121,17 +121,17 @@ function ProjectDetail(props) {
                 <Icon
                   name={'search'}
                   color={IS_ANDROID ? colors.WHITE : customColors.icon}
-                  size={fS(23)}
+                  size={moderateScale(21)}
                 />
                 {data.search !== '' && (
                   <View
                     style={[
                       cStyles.abs,
                       cStyles.rounded2,
-                      styles.badge,
                       cStyles.borderAll,
+                      styles.badge,
                       isDark && cStyles.borderAllDark,
-                      {backgroundColor: customColors.red, top: -5, left: 10},
+                      {backgroundColor: customColors.red, top: 0, left: moderateScale(10)},
                     ]}
                   />
                 )}
@@ -142,17 +142,17 @@ function ProjectDetail(props) {
                 <Icon
                   name={'options'}
                   color={IS_ANDROID ? colors.WHITE : customColors.icon}
-                  size={fS(23)}
+                  size={moderateScale(21)}
                 />
                 {isFiltering && (
                   <View
                     style={[
                       cStyles.abs,
                       cStyles.rounded2,
-                      styles.badge,
                       cStyles.borderAll,
+                      styles.badge,
                       isDark && cStyles.borderAllDark,
-                      {backgroundColor: customColors.red, top: -5, left: 10},
+                      {backgroundColor: customColors.red, top: 0, left: moderateScale(10)},
                     ]}
                   />
                 )}
@@ -537,8 +537,8 @@ function ProjectDetail(props) {
 }
 
 const styles = StyleSheet.create({
-  left: {left: -10},
-  badge: {height: 10, width: 10, top: 16, right: 15},
+  left: {left: -moderateScale(10)},
+  badge: {height: moderateScale(10), width: moderateScale(10), top: 16, right: 15},
 });
 
 export default ProjectDetail;

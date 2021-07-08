@@ -36,7 +36,7 @@ import {colors, cStyles} from '~/utils/style';
 import {
   saveLocalInfo,
   getLocalInfo,
-  fS,
+  moderateScale,
   IS_IOS,
   IS_ANDROID,
 } from '~/utils/helper';
@@ -135,7 +135,7 @@ function Activity(props) {
               <Icon
                 name={'close'}
                 color={IS_ANDROID ? colors.WHITE : customColors.icon}
-                size={fS(23)}
+                size={moderateScale(21)}
               />
             </View>
           </TouchableOpacity>

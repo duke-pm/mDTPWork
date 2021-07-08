@@ -43,7 +43,13 @@ import CheckOption from '../components/CheckOption';
 /* COMMON */
 import Commons from '~/utils/common/Commons';
 import {colors, cStyles} from '~/utils/style';
-import {IS_ANDROID, sH, checkEmpty, fS, IS_IOS} from '~/utils/helper';
+import {
+  IS_ANDROID,
+  sH,
+  checkEmpty,
+  moderateScale,
+  IS_IOS,
+} from '~/utils/helper';
 import {THEME_DARK, DEFAULT_FORMAT_DATE_4} from '~/config/constants';
 /* REDUX */
 import * as Actions from '~/redux/actions';
@@ -130,7 +136,7 @@ const RowSelect = (
           {!disabled && (
             <Icon
               name={'chevron-down'}
-              size={fS(23)}
+              size={moderateScale(21)}
               color={disabled ? customColors.textDisable : customColors.icon}
             />
           )}
@@ -138,7 +144,11 @@ const RowSelect = (
       </TouchableOpacity>
       {error && (
         <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pt6]}>
-          <Icon name={'alert-circle'} color={customColors.red} size={fS(14)} />
+          <Icon
+            name={'alert-circle'}
+            color={customColors.red}
+            size={moderateScale(14)}
+          />
           <CText
             customStyles={[
               cStyles.textMeta,
@@ -223,7 +233,7 @@ function AddRequest(props) {
               <Icon
                 name={'close'}
                 color={IS_ANDROID ? colors.WHITE : customColors.icon}
-                size={fS(23)}
+                size={moderateScale(21)}
               />
             </View>
           </TouchableOpacity>
@@ -236,7 +246,7 @@ function AddRequest(props) {
                   <Icon
                     name={'information-circle'}
                     color={IS_ANDROID ? colors.WHITE : customColors.icon}
-                    size={fS(23)}
+                    size={moderateScale(21)}
                   />
                 </View>
               </TouchableOpacity>
@@ -733,7 +743,7 @@ function AddRequest(props) {
                   </View>
 
                   {/** Type update */}
-                  <View style={cStyles.py16}>
+                  <View style={cStyles.pt16}>
                     <CLabel
                       medium
                       label={'add_approved_lost_damaged:type_update'}
@@ -753,85 +763,109 @@ function AddRequest(props) {
 
             {/** Assets for detail */}
             {isDetail && (
-              <CCard
-                containerStyle={[cStyles.mx16, cStyles.mb32, cStyles.rounded1]}
-                customLabel={route.params?.data?.assetName}
-                content={
-                  <View>
-                    <View
-                      style={[
-                        cStyles.row,
-                        cStyles.itemsCenter,
-                        cStyles.justifyBetween,
-                      ]}>
-                      <View style={[cStyles.row, cStyles.justifyStart]}>
-                        <CLabel
-                          label={
-                            'add_approved_lost_damaged:purchase_date_asset'
-                          }
-                        />
-                        <CLabel
-                          medium
-                          customLabel={moment(
-                            route.params?.data?.purchaseDate,
-                            DEFAULT_FORMAT_DATE_4,
-                          ).format(formatDateView)}
-                        />
+              <View style={cStyles.itemsCenter}>
+                <CCard
+                  containerStyle={[cStyles.rounded2, styles.box]}
+                  customLabel={route.params?.data?.assetName}
+                  content={
+                    <View>
+                      <View
+                        style={[
+                          cStyles.row,
+                          cStyles.itemsCenter,
+                          cStyles.justifyBetween,
+                        ]}>
+                        <View
+                          style={[
+                            cStyles.row,
+                            cStyles.justifyStart,
+                            styles.left,
+                          ]}>
+                          <CLabel
+                            label={
+                              'add_approved_lost_damaged:purchase_date_asset'
+                            }
+                          />
+                          <CLabel
+                            customLabel={moment(
+                              route.params?.data?.purchaseDate,
+                              DEFAULT_FORMAT_DATE_4,
+                            ).format(formatDateView)}
+                          />
+                        </View>
+                        <View
+                          style={[
+                            cStyles.row,
+                            cStyles.justifyStart,
+                            styles.right,
+                          ]}>
+                          <CLabel
+                            label={'add_approved_lost_damaged:type_asset'}
+                          />
+                          <CLabel
+                            customLabel={route.params?.data?.assetTypeName}
+                          />
+                        </View>
                       </View>
-                      <View style={[cStyles.row, cStyles.justifyStart]}>
-                        <CLabel
-                          label={'add_approved_lost_damaged:type_asset'}
-                        />
-                        <CLabel
-                          medium
-                          customLabel={route.params?.data?.assetTypeName}
-                        />
+
+                      <View
+                        style={[
+                          cStyles.row,
+                          cStyles.itemsCenter,
+                          cStyles.justifyBetween,
+                          cStyles.mt5,
+                        ]}>
+                        <View
+                          style={[
+                            cStyles.row,
+                            cStyles.justifyStart,
+                            styles.left,
+                          ]}>
+                          <CLabel
+                            label={'add_approved_lost_damaged:price_asset'}
+                          />
+                          <CLabel
+                            customLabel={checkEmpty(
+                              route.params?.data?.originalPrice,
+                              null,
+                              true,
+                            )}
+                          />
+                        </View>
+                        <View
+                          style={[
+                            cStyles.row,
+                            cStyles.justifyStart,
+                            styles.right,
+                          ]}>
+                          <CLabel
+                            label={'add_approved_lost_damaged:status_asset'}
+                          />
+                          <CLabel
+                            customLabel={route.params?.data?.assetStatusName}
+                          />
+                        </View>
                       </View>
-                    </View>
-                    <View
-                      style={[
-                        cStyles.row,
-                        cStyles.itemsCenter,
-                        cStyles.justifyBetween,
-                      ]}>
-                      <View style={[cStyles.row, cStyles.justifyStart]}>
+                      <View
+                        style={[
+                          cStyles.row,
+                          cStyles.justifyStart,
+                          cStyles.mt5,
+                        ]}>
                         <CLabel
-                          label={'add_approved_lost_damaged:price_asset'}
+                          label={'add_approved_lost_damaged:detail_asset'}
                         />
                         <CLabel
-                          medium
                           customLabel={checkEmpty(
-                            route.params?.data?.originalPrice,
-                            null,
-                            true,
+                            route.params?.data?.descr,
+                            t('common:empty_info'),
                           )}
                         />
                       </View>
-                      <View style={[cStyles.row, cStyles.justifyStart]}>
-                        <CLabel
-                          label={'add_approved_lost_damaged:status_asset'}
-                        />
-                        <CLabel
-                          medium
-                          customLabel={route.params?.data?.assetStatusName}
-                        />
-                      </View>
                     </View>
-                    <View style={[cStyles.row, cStyles.justifyStart]}>
-                      <CLabel
-                        label={'add_approved_lost_damaged:detail_asset'}
-                      />
-                      <CLabel
-                        medium
-                        customLabel={checkEmpty(
-                          route.params?.data?.descr,
-                          t('common:empty_info'),
-                        )}
-                      />
-                    </View>
-                  </View>
-                }
-              />
+                  }
+                />
+              </View>
             )}
 
             {isDetail && (
@@ -866,7 +900,10 @@ function AddRequest(props) {
                   {dataAssets.length > 0 ? (
                     <Picker
                       style={styles.con_action}
-                      itemStyle={{color: customColors.text, fontSize: fS(20)}}
+                      itemStyle={{
+                        color: customColors.text,
+                        fontSize: moderateScale(20),
+                      }}
                       selectedValue={assets}
                       onValueChange={onChangeAssets}>
                       {dataAssets.map((value, i) => (
@@ -969,6 +1006,9 @@ const styles = StyleSheet.create({
   button_reject: {width: cStyles.deviceWidth / 2.5},
   con_action: {width: '100%', height: sH('30%')},
   content_picker: {height: '40%'},
+  box: {width: moderateScale(350)},
+  left: {flex: 0.5},
+  right: {flex: 0.5},
 });
 
 export default AddRequest;

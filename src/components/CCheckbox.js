@@ -13,7 +13,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import CText from '~/components/CText';
 /** COMMON */
 import {colors, cStyles} from '~/utils/style';
-import {fS} from '~/utils/helper';
+import {fS, moderateScale} from '~/utils/helper';
 
 let handleRef = createRef();
 
@@ -66,7 +66,7 @@ function CCheckbox(props) {
 
         <Icon
           name={value ? 'checkmark-circle' : 'ellipse-outline'}
-          size={fS(23)}
+          size={moderateScale(20)}
           color={value ? colors.SECONDARY : colors.GRAY_500}
         />
 
