@@ -41,13 +41,6 @@ export function RootDashboard(props) {
       initialRouteName={Routes.MAIN.DASHBOARD.name}
       screenOptions={{
         headerShown: true,
-        headerStyle: {
-          backgroundColor: isDark
-            ? undefined
-            : IS_ANDROID
-            ? colors.PRIMARY
-            : undefined,
-        },
         headerTintColor: IS_IOS ? undefined : colors.WHITE,
         headerBackTitleStyle: {
           fontSize: moderateScale(13),
@@ -85,6 +78,14 @@ export function RootDashboard(props) {
         options={Object.assign(
           {
             title: t('dashboard:title'),
+            headerStyle: {
+              backgroundColor: IS_ANDROID
+                ? isDark
+                  ? undefined
+                  : colors.PRIMARY
+                : colors.TRANSPARENT,
+              blurEffect: isDark ? 'dark' : 'light',
+            },
           },
           IS_ANDROID
             ? {
@@ -104,6 +105,14 @@ export function RootDashboard(props) {
         component={Routes.MAIN.SALES_VISIT.path}
         options={{
           title: t('sales_visit:title'),
+          headerStyle: {
+            backgroundColor: IS_ANDROID
+              ? isDark
+                ? undefined
+                : colors.PRIMARY
+              : colors.TRANSPARENT,
+            blurEffect: isDark ? 'dark' : 'light',
+          },
           headerLargeTitle: false,
           headerTranslucent: false,
         }}
@@ -113,6 +122,14 @@ export function RootDashboard(props) {
         component={Routes.MAIN.PROJECT_MANAGEMENT.path}
         options={{
           title: t('project_management:title'),
+          headerStyle: {
+            backgroundColor: IS_ANDROID
+              ? isDark
+                ? undefined
+                : colors.PRIMARY
+              : colors.TRANSPARENT,
+            blurEffect: isDark ? 'dark' : 'light',
+          },
         }}
       />
       <StackDashboard.Screen
@@ -120,15 +137,28 @@ export function RootDashboard(props) {
         component={Routes.MAIN.PROJECT_DETAIL.path}
         options={{
           headerBackTitle: t('common:back'),
+          headerStyle: {
+            backgroundColor: IS_ANDROID
+              ? isDark
+                ? undefined
+                : colors.PRIMARY
+              : colors.TRANSPARENT,
+            blurEffect: isDark ? 'dark' : 'light',
+          },
         }}
       />
       <StackDashboard.Screen
         name={Routes.MAIN.TASK_DETAIL.name}
         component={Routes.MAIN.TASK_DETAIL.path}
         options={{
-          title: '',
-          headerLargeTitle: false,
-          headerTranslucent: false,
+          headerStyle: {
+            backgroundColor: IS_ANDROID
+              ? isDark
+                ? undefined
+                : colors.PRIMARY
+              : colors.TRANSPARENT,
+            blurEffect: isDark ? 'dark' : 'light',
+          },
         }}
       />
       <StackDashboard.Screen
@@ -137,6 +167,13 @@ export function RootDashboard(props) {
         options={{
           title: t('project_management:filter'),
           stackPresentation: 'modal',
+          headerStyle: {
+            backgroundColor: isDark
+              ? undefined
+              : IS_ANDROID
+              ? colors.PRIMARY
+              : colors.WHITE,
+          },
           headerLargeTitle: false,
           headerTranslucent: false,
         }}
@@ -147,6 +184,13 @@ export function RootDashboard(props) {
         options={{
           title: t('project_management:title_activity'),
           stackPresentation: 'modal',
+          headerStyle: {
+            backgroundColor: isDark
+              ? undefined
+              : IS_ANDROID
+              ? colors.PRIMARY
+              : colors.WHITE,
+          },
           headerLargeTitle: false,
           headerTranslucent: false,
         }}
@@ -157,6 +201,13 @@ export function RootDashboard(props) {
         options={{
           title: t('project_management:title_watcher'),
           stackPresentation: 'modal',
+          headerStyle: {
+            backgroundColor: isDark
+              ? undefined
+              : IS_ANDROID
+              ? colors.PRIMARY
+              : colors.WHITE,
+          },
           headerLargeTitle: false,
           headerTranslucent: false,
         }}
@@ -166,6 +217,14 @@ export function RootDashboard(props) {
         component={Routes.MAIN.APPROVED.path}
         options={{
           title: t('approved:assets'),
+          headerStyle: {
+            backgroundColor: IS_ANDROID
+              ? isDark
+                ? undefined
+                : colors.PRIMARY
+              : colors.TRANSPARENT,
+            blurEffect: isDark ? 'dark' : 'light',
+          },
         }}
       />
       <StackDashboard.Screen
@@ -173,6 +232,16 @@ export function RootDashboard(props) {
         component={Routes.MAIN.APPROVED.childrens.LIST_REQUEST_ASSETS.path}
         options={{
           title: t('list_request_assets:title'),
+          headerStyle: {
+            backgroundColor: IS_ANDROID
+              ? isDark
+                ? undefined
+                : colors.PRIMARY
+              : colors.TRANSPARENT,
+            blurEffect: isDark ? 'dark' : 'light',
+          },
+          headerLargeTitle: false,
+          headerTranslucent: false,
         }}
       />
       <StackDashboard.Screen
@@ -180,6 +249,14 @@ export function RootDashboard(props) {
         component={Routes.MAIN.APPROVED.childrens.LIST_REQUEST_HANDLING.path}
         options={{
           title: t('list_request_assets_handling:title'),
+          headerStyle: {
+            backgroundColor: IS_ANDROID
+              ? isDark
+                ? undefined
+                : colors.PRIMARY
+              : colors.TRANSPARENT,
+            blurEffect: isDark ? 'dark' : 'light',
+          },
         }}
       />
       <StackDashboard.Screen
@@ -187,6 +264,14 @@ export function RootDashboard(props) {
         component={Routes.MAIN.APPROVED_ASSETS.path}
         options={{
           title: t('list_request_assets:title'),
+          headerStyle: {
+            backgroundColor: IS_ANDROID
+              ? isDark
+                ? undefined
+                : colors.PRIMARY
+              : colors.TRANSPARENT,
+            blurEffect: isDark ? 'dark' : 'light',
+          },
         }}
       />
       <StackDashboard.Screen
@@ -194,6 +279,14 @@ export function RootDashboard(props) {
         component={Routes.MAIN.APPROVED_ASSETS_DAMAGE.path}
         options={{
           title: t('list_request_assets:title'),
+          headerStyle: {
+            backgroundColor: IS_ANDROID
+              ? isDark
+                ? undefined
+                : colors.PRIMARY
+              : colors.TRANSPARENT,
+            blurEffect: isDark ? 'dark' : 'light',
+          },
         }}
       />
       <StackDashboard.Screen
@@ -201,6 +294,14 @@ export function RootDashboard(props) {
         component={Routes.MAIN.APPROVED_ASSETS_LOST.path}
         options={{
           title: t('list_request_assets:title'),
+          headerStyle: {
+            backgroundColor: IS_ANDROID
+              ? isDark
+                ? undefined
+                : colors.PRIMARY
+              : colors.TRANSPARENT,
+            blurEffect: isDark ? 'dark' : 'light',
+          },
         }}
       />
       <StackDashboard.Screen
@@ -208,6 +309,13 @@ export function RootDashboard(props) {
         component={Routes.MAIN.ADD_APPROVED_ASSETS.path}
         options={{
           stackPresentation: 'modal',
+          headerStyle: {
+            backgroundColor: isDark
+              ? undefined
+              : IS_ANDROID
+              ? colors.PRIMARY
+              : colors.WHITE,
+          },
           headerLargeTitle: false,
           headerTranslucent: false,
         }}
@@ -217,6 +325,13 @@ export function RootDashboard(props) {
         component={Routes.MAIN.ADD_APPROVED_LOST_DAMAGED.path}
         options={{
           stackPresentation: 'modal',
+          headerStyle: {
+            backgroundColor: isDark
+              ? undefined
+              : IS_ANDROID
+              ? colors.PRIMARY
+              : colors.WHITE,
+          },
           headerLargeTitle: false,
           headerTranslucent: false,
         }}
@@ -235,13 +350,6 @@ export function RootAccount(props) {
       initialRouteName={Routes.MAIN.ACCOUNT.name}
       screenOptions={{
         headerShown: true,
-        headerStyle: {
-          backgroundColor: isDark
-            ? undefined
-            : IS_ANDROID
-            ? colors.PRIMARY
-            : undefined,
-        },
         headerTintColor: IS_IOS ? undefined : colors.WHITE,
         headerBackTitleStyle: {
           fontSize: moderateScale(14),
@@ -279,6 +387,14 @@ export function RootAccount(props) {
         options={Object.assign(
           {
             title: t('account:title'),
+            headerStyle: {
+              backgroundColor: IS_ANDROID
+                ? isDark
+                  ? undefined
+                  : colors.PRIMARY
+                : colors.TRANSPARENT,
+              blurEffect: isDark ? 'dark' : 'light',
+            },
           },
           IS_ANDROID
             ? {
@@ -298,6 +414,14 @@ export function RootAccount(props) {
         component={Routes.MAIN.HELP_AND_INFO.path}
         options={{
           title: t('help_and_info:title'),
+          headerStyle: {
+            backgroundColor: IS_ANDROID
+              ? isDark
+                ? undefined
+                : colors.PRIMARY
+              : colors.TRANSPARENT,
+            blurEffect: isDark ? 'dark' : 'light',
+          },
         }}
       />
       <StackAccount.Screen
@@ -305,8 +429,14 @@ export function RootAccount(props) {
         component={Routes.MAIN.CHANGE_PASSWORD.path}
         options={{
           title: t('change_password:title'),
-          headerLargeTitle: false,
-          headerTranslucent: false,
+          headerStyle: {
+            backgroundColor: IS_ANDROID
+              ? isDark
+                ? undefined
+                : colors.PRIMARY
+              : colors.TRANSPARENT,
+            blurEffect: isDark ? 'dark' : 'light',
+          },
         }}
       />
       <StackAccount.Screen
@@ -315,6 +445,14 @@ export function RootAccount(props) {
         options={{
           headerBackTitle: t('common:back'),
           title: t('contact_us:title'),
+          headerStyle: {
+            backgroundColor: IS_ANDROID
+              ? isDark
+                ? undefined
+                : colors.PRIMARY
+              : colors.TRANSPARENT,
+            blurEffect: isDark ? 'dark' : 'light',
+          },
         }}
       />
       <StackAccount.Screen
@@ -322,12 +460,27 @@ export function RootAccount(props) {
         component={Routes.MAIN.SETTINGS.path}
         options={{
           title: t('settings:title'),
+          headerStyle: {
+            backgroundColor: IS_ANDROID
+              ? isDark
+                ? undefined
+                : colors.PRIMARY
+              : colors.TRANSPARENT,
+            blurEffect: isDark ? 'dark' : 'light',
+          },
         }}
       />
       <StackAccount.Screen
         name={Routes.MAIN.SETTINGS.childrens.SINGLE_CHOOSE.name}
         component={Routes.MAIN.SETTINGS.childrens.SINGLE_CHOOSE.path}
         options={{
+          headerStyle: {
+            backgroundColor: isDark
+              ? undefined
+              : IS_ANDROID
+              ? colors.PRIMARY
+              : colors.WHITE,
+          },
           stackPresentation: 'modal',
           headerLargeTitle: false,
           headerTranslucent: false,

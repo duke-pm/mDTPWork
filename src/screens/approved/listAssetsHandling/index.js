@@ -32,6 +32,7 @@ import ListRequest from './list/Request';
 import {LOAD_MORE, REFRESH, THEME_DARK} from '~/config/constants';
 import {moderateScale, IS_ANDROID} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
+import {usePrevious} from '~/utils/hook';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 
@@ -79,36 +80,54 @@ function ListRequestHandling(props) {
     page: 1,
   });
 
+  let prevSearch = usePrevious(data.search);
+
   navigation.setOptions({
-    headerRight: () => (
-      <TouchableOpacity onPress={handleOpenSearch}>
-        <View>
-          <Icon
-            name={'search'}
-            color={
-              isDark ? colors.WHITE : IS_ANDROID ? colors.WHITE : colors.BLACK
-            }
-            size={moderateScale(21)}
-          />
-          {data.search !== '' && (
-            <View
-              style={[
-                cStyles.abs,
-                cStyles.rounded2,
-                cStyles.borderAll,
-                styles.badge,
-                isDark && cStyles.borderAllDark,
-                {
-                  backgroundColor: customColors.red,
-                  top: 0,
-                  left: moderateScale(10),
-                },
-              ]}
-            />
-          )}
-        </View>
-      </TouchableOpacity>
-    ),
+    searchBar: {
+      onChangeText: event => onChangeSearch(event.nativeEvent.text),
+      onSearchButtonPress: () => handleSearch(data.search),
+      onBlur: () => {
+        if (prevSearch && prevSearch !== data.search) {
+          handleSearch(data.search);
+        }
+      },
+      onFocus: () => onChangeSearch(''),
+    },
+    headerRight: IS_ANDROID
+      ? () => (
+          <TouchableOpacity onPress={handleOpenSearch}>
+            <View>
+              <Icon
+                name={'search'}
+                color={
+                  isDark
+                    ? colors.WHITE
+                    : IS_ANDROID
+                    ? colors.WHITE
+                    : colors.BLACK
+                }
+                size={moderateScale(21)}
+              />
+              {data.search !== '' && (
+                <View
+                  style={[
+                    cStyles.abs,
+                    cStyles.rounded2,
+                    cStyles.borderAll,
+                    styles.badge,
+                    isDark && cStyles.borderAllDark,
+                    {
+                      backgroundColor: customColors.red,
+                      top: 0,
+                      left: moderateScale(10),
+                    },
+                  ]}
+                />
+              )}
+            </View>
+          </TouchableOpacity>
+        )
+      : undefined,
   });
 
   /*****************
@@ -146,6 +165,10 @@ function ListRequestHandling(props) {
   /************
    ** FUNC **
    ************/
+  const onChangeSearch = value => {
+    setData({...data, search: value});
+  };
+
   const onFetchData = (
     fromDate = null,
     toDate = null,

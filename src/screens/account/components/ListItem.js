@@ -33,6 +33,7 @@ function ListItem(props) {
     data,
     dataActiveLang,
     dataToggle,
+    isDark,
     customColors,
     onSignOut,
     onToggle,
@@ -104,20 +105,27 @@ function ListItem(props) {
           cStyles.py12,
         ]}>
         <View style={[cStyles.center, styles.con_left]}>
-          {data.icon && !data.iconFaceID && (
-            <Icon
-              name={data.icon}
-              size={moderateScale(21)}
-              color={customColors.text}
-            />
-          )}
-          {dataToggle && dataToggle.activeBiometric && data.iconFaceID && (
-            <Image
-              style={styles.img_biometric}
-              source={Assets.iconFaceID}
-              resizeMode={'contain'}
-            />
-          )}
+          <View
+            style={[
+              cStyles.rounded1,
+              cStyles.p5,
+              {backgroundColor: data.iconColor || colors.TRANSPARENT},
+            ]}>
+            {data.icon && !data.iconFaceID && (
+              <Icon
+                name={data.icon}
+                size={moderateScale(21)}
+                color={data.iconColor ? colors.WHITE : customColors.text}
+              />
+            )}
+            {dataToggle && dataToggle.activeBiometric && data.iconFaceID && (
+              <Image
+                style={styles.img_biometric}
+                source={Assets.iconFaceIDDark}
+                resizeMode={'contain'}
+              />
+            )}
+          </View>
         </View>
 
         <View

@@ -17,6 +17,7 @@ import {
   Text,
   SafeAreaView,
 } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import FastImage from 'react-native-fast-image';
 import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -24,13 +25,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import CText from './CText';
 /* COMMON */
 import {Assets} from '~/utils/asset';
-import {
-  IS_ANDROID,
-  askPermissionsCamera,
-  sW,
-  fS,
-  moderateScale,
-} from '~/utils/helper';
+import {IS_ANDROID, askPermissionsCamera, moderateScale} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
 import {THEME_DARK} from '~/config/constants';
 
@@ -137,35 +132,40 @@ function CAvatar(props) {
             onError={onError}
           />
         ) : (
-          <View
-            style={[
-              cStyles.rounded10,
-              cStyles.flexCenter,
-              size === 'vsmall' && styles.image_vsmall,
-              size === 'small' && styles.image_small,
-              size === 'medium' && styles.image_medium,
-              size === 'large' && styles.image_large,
-              imageStyle,
-              {backgroundColor: isDark ? colors.GRAY_800 : colors.GRAY_300},
-            ]}>
-            <Text
+          <LinearGradient
+            style={cStyles.rounded10}
+            start={{x: 0.0, y: 0.25}}
+            end={{x: 0.5, y: 1.0}}
+            colors={['#bdc3c7', '#2c3e50']}>
+            <View
               style={[
-                cStyles.textCenter,
-                {
-                  fontSize:
-                    size === 'vsmall'
-                      ? moderateScale(9)
-                      : size === 'small'
-                      ? moderateScale(14)
-                      : size === 'medium'
-                      ? moderateScale(18)
-                      : moderateScale(30),
-                  color: customColors.text,
-                },
+                cStyles.rounded10,
+                cStyles.flexCenter,
+                size === 'vsmall' && styles.image_vsmall,
+                size === 'small' && styles.image_small,
+                size === 'medium' && styles.image_medium,
+                size === 'large' && styles.image_large,
+                imageStyle,
               ]}>
-              {customLabel}
-            </Text>
-          </View>
+              <Text
+                style={[
+                  cStyles.textCenter,
+                  cStyles.colorWhite,
+                  {
+                    fontSize:
+                      size === 'vsmall'
+                        ? moderateScale(9)
+                        : size === 'small'
+                        ? moderateScale(14)
+                        : size === 'medium'
+                        ? moderateScale(18)
+                        : moderateScale(30),
+                  },
+                ]}>
+                {customLabel}
+              </Text>
+            </View>
+          </LinearGradient>
         )}
 
         <Animated.View
@@ -359,12 +359,12 @@ const styles = StyleSheet.create({
     width: moderateScale(15),
   },
   icon_camera_medium: {
-    height: moderateScale(20),
-    width: moderateScale(20),
+    height: moderateScale(19),
+    width: moderateScale(19),
   },
   icon_camera_large: {
-    height: moderateScale(25),
-    width: moderateScale(25),
+    height: moderateScale(22),
+    width: moderateScale(22),
   },
   con_loading: {backgroundColor: 'transparent'},
 });

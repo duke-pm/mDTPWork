@@ -313,7 +313,7 @@ function Watchers(props) {
                                 ]}>
                                 <Icon
                                   name={'mail'}
-                                  color={customColors.primary}
+                                  color={customColors.green}
                                   size={moderateScale(10)}
                                 />
                               </View>
@@ -350,7 +350,10 @@ function Watchers(props) {
                             </View>
                             <View style={[cStyles.itemsEnd, styles.con_right]}>
                               <CText styles={'textMeta'} customLabel={date} />
-                              <CText styles={'textMeta mt5'} customLabel={time} />
+                              <CText
+                                styles={'textMeta mt5'}
+                                customLabel={time}
+                              />
                             </View>
                           </View>
                         </View>

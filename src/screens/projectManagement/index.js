@@ -72,35 +72,48 @@ function ProjectManagement(props) {
 
   let prevShowFilter = usePrevious(showFilter);
   let prevYear = usePrevious(data.year);
+  let prevSearch = usePrevious(data.search);
 
   navigation.setOptions({
+    searchBar: {
+      onChangeText: event => onChangeSearch(event.nativeEvent.text),
+      onSearchButtonPress: () => handleSearch(data.search),
+      onBlur: () => {
+        if (prevSearch && prevSearch !== data.search) {
+          handleSearch(data.search);
+        }
+      },
+      onFocus: () => onChangeSearch(''),
+    },
     headerRight: () => (
       <View style={[cStyles.row, cStyles.itemsCenter]}>
-        <TouchableOpacity onPress={handleOpenSearch}>
-          <View style={cStyles.pr24}>
-            <Icon
-              name={'search'}
-              color={IS_ANDROID ? colors.WHITE : customColors.icon}
-              size={moderateScale(21)}
-            />
-            {data.search !== '' && (
-              <View
-                style={[
-                  cStyles.abs,
-                  cStyles.rounded2,
-                  cStyles.borderAll,
-                  styles.badge,
-                  isDark && cStyles.borderAllDark,
-                  {
-                    backgroundColor: customColors.red,
-                    top: 0,
-                    left: moderateScale(10),
-                  },
-                ]}
+        {IS_ANDROID && (
+          <TouchableOpacity onPress={handleOpenSearch}>
+            <View style={cStyles.pr24}>
+              <Icon
+                name={'search'}
+                color={IS_ANDROID ? colors.WHITE : customColors.icon}
+                size={moderateScale(21)}
               />
-            )}
-          </View>
-        </TouchableOpacity>
+              {data.search !== '' && (
+                <View
+                  style={[
+                    cStyles.abs,
+                    cStyles.rounded2,
+                    cStyles.borderAll,
+                    styles.badge,
+                    isDark && cStyles.borderAllDark,
+                    {
+                      backgroundColor: customColors.red,
+                      top: 0,
+                      left: moderateScale(10),
+                    },
+                  ]}
+                />
+              )}
+            </View>
+          </TouchableOpacity>
+        )}
         <TouchableOpacity onPress={handleShowFilter}>
           <View>
             <Icon
@@ -174,6 +187,10 @@ function ProjectManagement(props) {
   /************
    ** FUNC **
    ************/
+  const onChangeSearch = value => {
+    setData({...data, search: value});
+  };
+
   const onFetchMasterData = () => {
     let paramsMaster = {
       ListType: 'Users, PrjSector, PrjStatus, PrjComponent, PrjPriority',

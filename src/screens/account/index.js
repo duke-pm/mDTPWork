@@ -38,6 +38,7 @@ const ACCOUNT = {
       {
         id: 'myAccount',
         icon: 'person-outline',
+        iconColor: colors.BLUE,
         label: 'account:my_account',
         value: null,
         nextRoute: 'NotReady',
@@ -49,6 +50,7 @@ const ACCOUNT = {
       {
         id: 'changePassword',
         icon: 'lock-open-outline',
+        iconColor: colors.PURPLE,
         label: 'account:change_password',
         value: null,
         nextRoute: 'ChangePassword',
@@ -66,6 +68,7 @@ const ACCOUNT = {
       {
         id: 'settingsApp',
         icon: IS_IOS ? 'cog-outline' : 'settings-outline',
+        iconColor: colors.GRAY_500,
         label: 'account:app_settings',
         value: null,
         nextRoute: 'Settings',
@@ -77,6 +80,7 @@ const ACCOUNT = {
       {
         id: 'helpAndInfo',
         icon: 'information-circle-outline',
+        iconColor: colors.ORANGE,
         label: 'account:help_and_info',
         value: null,
         nextRoute: 'HelpAndInfo',
@@ -88,6 +92,7 @@ const ACCOUNT = {
       {
         id: 'hotline',
         icon: 'call-outline',
+        iconColor: colors.TEAL,
         label: 'account:hotline',
         value: '1800 6242',
         nextRoute: null,
@@ -99,6 +104,7 @@ const ACCOUNT = {
       {
         id: 'signout',
         icon: 'log-out-outline',
+        iconColor: colors.RED,
         label: 'common:sign_out',
         value: null,
         nextRoute: null,
@@ -132,13 +138,9 @@ const Information = ({isTablet, authState}) => {
             label={authState.getIn(['login', 'fullName'])}
           />
 
-          <View
-            style={[
-              cStyles.mx16,
-              isTablet && [cStyles.itemsCenter, cStyles.mt16],
-            ]}>
+          <View style={isTablet ? [cStyles.itemsCenter, cStyles.mt16] : cStyles.mx16}>
             <CText
-              styles={'H6'}
+              customStyles={[cStyles.H6, isTablet && cStyles.textCenter]}
               customLabel={authState.getIn(['login', 'fullName'])}
             />
             <CText

@@ -92,7 +92,7 @@ function SignIn(props) {
   const [fastLogin, setFastLogin] = useState({
     status: false,
     icon: 'finger-print-outline',
-    iconFaceID: Assets.iconFaceID2,
+    iconFaceID: Assets.iconFaceIDDark,
   });
 
   /*****************

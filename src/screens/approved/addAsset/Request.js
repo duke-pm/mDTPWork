@@ -968,8 +968,8 @@ function AddRequest(props) {
 
 const styles = StyleSheet.create({
   input_focus: {borderColor: colors.SECONDARY},
-  button_approved: {width: cStyles.deviceWidth / 2.5},
-  button_reject: {width: cStyles.deviceWidth / 2.5},
+  button_approved: {width: moderateScale(150)},
+  button_reject: {width: moderateScale(150)},
   con_left: {flex: 0.4},
   con_right: {flex: 0.6},
   con_action: {width: '100%', height: verticalScale(180)},

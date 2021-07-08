@@ -5,6 +5,7 @@
  ** Description: Description of CItem.js
  **/
 import React from 'react';
+import {useTheme} from '@react-navigation/native';
 import {
   StyleSheet,
   View,
@@ -15,10 +16,11 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 /* COMPONENTS */
 import CText from '~/components/CText';
 /** COMMON */
-import {colors, cStyles} from '~/utils/style';
-import {IS_ANDROID, moderateScale, sW, verticalScale} from '~/utils/helper';
+import {cStyles} from '~/utils/style';
+import {IS_ANDROID, moderateScale, sW} from '~/utils/helper';
 
 function CItem(props) {
+  const {customColors} = useTheme();
   const {data = null, color = 'blue', onPress = () => {}} = props;
 
   /*****************
@@ -46,7 +48,7 @@ function CItem(props) {
             cStyles.itemsCenter,
             cStyles.rounded3,
             styles.item,
-            {backgroundColor: colors.WHITE},
+            {backgroundColor: customColors.card},
           ]}>
           <Icon name={data.mIcon} color={color} size={moderateScale(60)} />
           <CText

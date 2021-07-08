@@ -351,7 +351,7 @@ function Activity(props) {
                           customStyles={[
                             cStyles.textDate,
                             cStyles.textRight,
-                            {color: isDark ? colors.WHITE : colors.BLACK},
+                            {color: customColors.text},
                           ]}
                           customLabel={`${t(
                             'project_management:last_updated_at',
@@ -365,7 +365,7 @@ function Activity(props) {
                           <CText
                             customStyles={[
                               cStyles.textRight,
-                              {color: isDark ? colors.WHITE : colors.BLACK},
+                              {color: customColors.text},
                             ]}
                             customLabel={item.comments}
                           />
@@ -405,8 +405,13 @@ function Activity(props) {
                           ]}>
                           {item.fullName}
                         </Text>
-                        <Text style={[cStyles.textDate, cStyles.textLeft]}>
-                          {` ${t(
+                        <Text
+                          style={[
+                            cStyles.textDate,
+                            cStyles.textLeft,
+                            {color: customColors.text},
+                          ]}>
+                          {`, ${t(
                             'project_management:last_updated_at',
                           )} ${moment(
                             item.timeUpdate,

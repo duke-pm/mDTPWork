@@ -43,7 +43,6 @@ function CAlert(props) {
       backdropOpacity={isDark ? 0.8 : 0.4}
       useNativeDriver={true}
       useNativeDriverForBackdrop={true}
-      avoidKeyboard={true}
       hideModalContentWhileAnimating={true}
       backdropTransitionOutTiming={0}
       deviceWidth={cStyles.deviceWidth}

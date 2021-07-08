@@ -129,6 +129,7 @@ function Task(props) {
 
   navigation.setOptions({
     backButtonInCustomView: true,
+    title: `${t('project_management:detail_task')} #${taskID}`,
     headerLeft: () =>
       (route.params?.taskID !== null || route.params?.taskID !== undefined) &&
       !navigation.canGoBack() ? (

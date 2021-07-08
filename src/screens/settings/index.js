@@ -9,6 +9,7 @@ import React, {createRef, useState, useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
+import {useColorScheme} from 'react-native-appearance';
 import {isIphoneX} from 'react-native-iphone-x-helper';
 import {StyleSheet} from 'react-native';
 import Picker from '@gregfrench/react-native-wheel-picker';
@@ -22,20 +23,20 @@ import CGroupInfo from '~/components/CGroupInfo';
 import ListItem from '~/screens/account/components/ListItem';
 /* COMMON */
 import {Assets} from '~/utils/asset';
-import {LANGUAGE, BIOMETRICS} from '~/config/constants';
+import {LANGUAGE, BIOMETRICS, THEME_DARK} from '~/config/constants';
 import {moderateScale, getLocalInfo, saveLocalInfo, sH} from '~/utils/helper';
-import {cStyles} from '~/utils/style';
+import {colors, cStyles} from '~/utils/style';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 
 /** All refs use in this screen */
 const asLangRef = createRef();
-const asDarkModeRef = createRef();
 const SETTINGS = [
   {
     id: 'language',
     label: 'settings:language',
     icon: 'globe-outline',
+    iconColor: colors.PINK,
     isChooseLang: true,
     data: [
       {
@@ -56,6 +57,7 @@ const SETTINGS = [
     label: 'settings:biometrics',
     description: 'settings:holder_biometrics',
     icon: 'finger-print-outline',
+    iconColor: colors.GRAY_800,
     iconFaceID: isIphoneX(),
     isToggle: true,
     onPress: null,
@@ -87,6 +89,7 @@ const SETTINGS = [
 function Settings(props) {
   const {t} = useTranslation();
   const {customColors} = useTheme();
+  const isDark = useColorScheme() === THEME_DARK;
 
   /** Use redux */
   const dispatch = useDispatch();
@@ -211,6 +214,7 @@ function Settings(props) {
                 item={({item, index}) => {
                   return (
                     <ListItem
+                    isDark={isDark}
                       customColors={customColors}
                       index={index}
                       data={item}

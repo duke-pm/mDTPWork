@@ -72,7 +72,7 @@ function CCard(props) {
               {backgroundColor: isDark ? colors.GRAY_830 : colors.GRAY_200},
             ]}>
             <CText
-              customStyles={cStyles.fontMedium}
+              customStyles={cStyles.textSubTitle}
               label={label}
               customLabel={customLabel}
             />

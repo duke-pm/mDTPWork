@@ -82,12 +82,23 @@ function ProjectDetail(props) {
   });
 
   let prevShowFilter = usePrevious(showFilter);
+  let prevSearch = usePrevious(data.search);
 
   navigation.setOptions(
     Object.assign(
       {
         title: `${t('project_management:list_task')}${projectID}`,
         backButtonInCustomView: true,
+        searchBar: {
+          onChangeText: event => onChangeSearch(event.nativeEvent.text),
+          onSearchButtonPress: () => handleSearch(data.search),
+          onBlur: () => {
+            if (prevSearch && prevSearch !== data.search) {
+              handleSearch(data.search);
+            }
+          },
+          onFocus: () => onChangeSearch(''),
+        },
         headerLeft: () =>
           (route.params?.projectID !== null ||
             route.params?.projectID !== undefined) &&
@@ -131,7 +142,11 @@ function ProjectDetail(props) {
                       cStyles.borderAll,
                       styles.badge,
                       isDark && cStyles.borderAllDark,
-                      {backgroundColor: customColors.red, top: 0, left: moderateScale(10)},
+                      {
+                        backgroundColor: customColors.red,
+                        top: 0,
+                        left: moderateScale(10),
+                      },
                     ]}
                   />
                 )}
@@ -152,7 +167,11 @@ function ProjectDetail(props) {
                       cStyles.borderAll,
                       styles.badge,
                       isDark && cStyles.borderAllDark,
-                      {backgroundColor: customColors.red, top: 0, left: moderateScale(10)},
+                      {
+                        backgroundColor: customColors.red,
+                        top: 0,
+                        left: moderateScale(10),
+                      },
                     ]}
                   />
                 )}
@@ -225,6 +244,10 @@ function ProjectDetail(props) {
   /************
    ** FUNC **
    ************/
+  const onChangeSearch = value => {
+    setData({...data, search: value});
+  };
+
   const onFetchData = (
     ownerID = null,
     statusID = null,
@@ -538,7 +561,12 @@ function ProjectDetail(props) {
 
 const styles = StyleSheet.create({
   left: {left: -moderateScale(10)},
-  badge: {height: moderateScale(10), width: moderateScale(10), top: 16, right: 15},
+  badge: {
+    height: moderateScale(10),
+    width: moderateScale(10),
+    top: 16,
+    right: 15,
+  },
 });
 
 export default ProjectDetail;

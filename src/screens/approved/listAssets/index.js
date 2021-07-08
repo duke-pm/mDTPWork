@@ -195,16 +195,6 @@ function ListRequestAll(props) {
     setShowSearch(false);
   };
 
-  /******************
-   ** LIFE CYCLE **
-   ******************/
-  useEffect(() => {
-    navigation.setOptions({
-      headerLargeTitle: false,
-      headerTranslucent: false,
-    });
-  }, [navigation, showSearchBar]);
-
   /**************
    ** RENDER **
    **************/
