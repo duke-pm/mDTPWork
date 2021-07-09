@@ -14,9 +14,9 @@ import {THEME_DARK} from '~/config/constants';
 function CActivityIndicator(props) {
   const isDark = useColorScheme() === THEME_DARK;
 
-  /**********
-   * RENDER
-   **********/
+  /************
+   ** RENDER **
+   ************/
   return (
     <ActivityIndicator
       size={'small'}

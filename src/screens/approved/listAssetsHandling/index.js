@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react-hooks/exhaustive-deps */
 /**
  ** Name: List request handling page
@@ -7,32 +6,24 @@
  ** Description: Description of ListHandling.js
  **/
 import {fromJS} from 'immutable';
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useLayoutEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-import {useColorScheme} from 'react-native-appearance';
 import {useTheme} from '@react-navigation/native';
-import {
-  StyleSheet,
-  TouchableOpacity,
-  View,
-  LayoutAnimation,
-  UIManager,
-} from 'react-native';
+import {View, LayoutAnimation, UIManager} from 'react-native';
 import {showMessage} from 'react-native-flash-message';
-import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
 import CSearchBar from '~/components/CSearchBar';
+import CIconHeader from '~/components/CIconHeader';
 import Filter from '../components/Filter';
 import ListRequest from '../components/ListRequest';
 /* COMMON */
-import {LOAD_MORE, REFRESH, THEME_DARK} from '~/config/constants';
-import {moderateScale, IS_ANDROID} from '~/utils/helper';
-import {colors, cStyles} from '~/utils/style';
-import {usePrevious} from '~/utils/hook';
+import {LOAD_MORE, REFRESH} from '~/config/constants';
+import {IS_ANDROID} from '~/utils/helper';
+import {cStyles} from '~/utils/style';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 
@@ -44,7 +35,6 @@ if (IS_ANDROID) {
 
 function ListRequestHandling(props) {
   const {t} = useTranslation();
-  const isDark = useColorScheme() === THEME_DARK;
   const {customColors} = useTheme();
   const {route, navigation} = props;
   const isPermissionWrite = route.params?.permission?.write || false;
@@ -71,7 +61,6 @@ function ListRequestHandling(props) {
   const [data, setData] = useState({
     fromDate: moment().clone().startOf('month').format(formatDate),
     toDate: moment().clone().endOf('month').format(formatDate),
-    status: '1,2,3,4',
     type: '1,2,3',
     requests: [],
     requestsDetail: [],
@@ -80,63 +69,14 @@ function ListRequestHandling(props) {
     page: 1,
   });
 
-  let prevSearch = usePrevious(data.search);
-
-  navigation.setOptions({
-    searchBar: {
-      onChangeText: event => onChangeSearch(event.nativeEvent.text),
-      onSearchButtonPress: () => handleSearch(data.search),
-      onBlur: () => {
-        if (prevSearch && prevSearch !== data.search) {
-          handleSearch(data.search);
-        }
-      },
-      onFocus: () => onChangeSearch(''),
-    },
-    headerRight: IS_ANDROID
-      ? () => (
-          <TouchableOpacity onPress={handleOpenSearch}>
-            <View>
-              <Icon
-                name={'search'}
-                color={
-                  isDark
-                    ? colors.WHITE
-                    : IS_ANDROID
-                    ? colors.WHITE
-                    : colors.BLACK
-                }
-                size={moderateScale(21)}
-              />
-              {data.search !== '' && (
-                <View
-                  style={[
-                    cStyles.abs,
-                    cStyles.rounded2,
-                    cStyles.borderAll,
-                    styles.badge,
-                    isDark && cStyles.borderAllDark,
-                    {
-                      backgroundColor: customColors.red,
-                      top: 0,
-                      left: moderateScale(10),
-                    },
-                  ]}
-                />
-              )}
-            </View>
-          </TouchableOpacity>
-        )
-      : undefined,
-  });
-
   /*****************
    ** HANDLE FUNC **
    *****************/
   const handleSearch = value => {
     setData({...data, search: value, page: 1});
-    onFetchData(data.fromDate, data.toDate, data.status, 1, value, data.type);
+    onFetchData(data.fromDate, data.toDate, 1, value, data.type);
     setLoading({...loading, startFetch: true});
+    setShowSearch(false);
   };
 
   const handleFilter = (fromDate, toDate, status, type) => {
@@ -144,35 +84,28 @@ function ListRequestHandling(props) {
     setData({
       ...data,
       page: 1,
-      status,
       type,
       fromDate,
       toDate,
     });
-    onFetchData(fromDate, toDate, status, 1, data.search, type);
+    onFetchData(fromDate, toDate, 1, data.search, type);
   };
 
   const handleOpenSearch = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
     setShowSearch(true);
   };
 
   const handleCloseSearch = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setShowSearch(false);
   };
 
   /************
    ** FUNC **
    ************/
-  const onChangeSearch = value => {
-    setData({...data, search: value});
-  };
-
   const onFetchData = (
     fromDate = null,
     toDate = null,
-    statusId = '1,2,3,4',
     pageNum = 1,
     search = '',
     requestTypeID = '1,2,3',
@@ -180,7 +113,6 @@ function ListRequestHandling(props) {
     let params = fromJS({
       FromDate: fromDate,
       ToDate: toDate,
-      StatusID: statusId,
       PageSize: perPage,
       PageNum: pageNum,
       Search: search,
@@ -234,14 +166,7 @@ function ListRequestHandling(props) {
     if (!loading.refreshing) {
       setLoading({...loading, refreshing: true, isLoadmore: true});
       setData({...data, page: 1});
-      onFetchData(
-        data.fromDate,
-        data.toDate,
-        data.status,
-        1,
-        data.search,
-        data.type,
-      );
+      onFetchData(data.fromDate, data.toDate, 1, data.search, data.type);
     }
   };
 
@@ -250,14 +175,7 @@ function ListRequestHandling(props) {
       let newPage = data.page + 1;
       setLoading({...loading, loadmore: true});
       setData({...data, page: newPage});
-      onFetchData(
-        data.fromDate,
-        data.toDate,
-        data.status,
-        newPage,
-        data.search,
-        data.type,
-      );
+      onFetchData(data.fromDate, data.toDate, newPage, data.search, data.type);
     }
   };
 
@@ -282,14 +200,7 @@ function ListRequestHandling(props) {
    ** LIFE CYCLE **
    ******************/
   useEffect(() => {
-    onFetchData(
-      data.fromDate,
-      data.toDate,
-      data.status,
-      data.page,
-      data.search,
-      data.type,
-    );
+    onFetchData(data.fromDate, data.toDate, data.page, data.search, data.type);
     setLoading({...loading, startFetch: true});
   }, []);
 
@@ -325,6 +236,23 @@ function ListRequestHandling(props) {
     });
   }, [navigation, showSearchBar]);
 
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <CIconHeader
+          icons={[
+            {
+              show: true,
+              showRedDot: data.search !== '',
+              icon: 'search',
+              onPress: handleOpenSearch,
+            },
+          ]}
+        />
+      ),
+    });
+  }, [navigation, data.search]);
+
   /**************
    ** RENDER **
    **************/
@@ -334,7 +262,7 @@ function ListRequestHandling(props) {
       content={
         <CContent refreshing={loading.refreshing} onRefresh={onRefresh}>
           <View style={cStyles.itemsCenter}>
-            {!showSearchBar && <Filter isResolve onFilter={handleFilter} />}
+            <Filter isResolve data={data} onFilter={handleFilter} />
           </View>
 
           <CSearchBar
@@ -363,14 +291,5 @@ function ListRequestHandling(props) {
     />
   );
 }
-
-const styles = StyleSheet.create({
-  badge: {
-    height: moderateScale(10),
-    width: moderateScale(10),
-    top: 16,
-    right: 15,
-  },
-});
 
 export default ListRequestHandling;

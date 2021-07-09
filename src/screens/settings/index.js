@@ -35,7 +35,7 @@ const SETTINGS = [
   {
     id: 'language',
     label: 'settings:language',
-    icon: 'globe-outline',
+    icon: 'globe',
     iconColor: colors.PINK,
     isChooseLang: true,
     data: [
@@ -56,34 +56,12 @@ const SETTINGS = [
     id: 'biometrics',
     label: 'settings:biometrics',
     description: 'settings:holder_biometrics',
-    icon: 'finger-print-outline',
-    iconColor: colors.GRAY_800,
+    icon: 'finger-print',
+    iconColor: colors.GREEN,
     iconFaceID: isIphoneX(),
     isToggle: true,
     onPress: null,
   },
-  // {
-  //   id: 'dardMode',
-  //   label: 'settings:dard_mode',
-  //   icon: 'contrast-outline',
-  //   nextRoute: 'SingleChoose',
-  //   isChooseDarkMode: true,
-  //   data: [
-  //     {
-  //       value: 'dark_mode_system',
-  //       label: 'settings:dard_mode_system',
-  //     },
-  //     {
-  //       value: 'dark_mode_on',
-  //       label: 'settings:dard_mode_on',
-  //     },
-  //     {
-  //       value: 'dark_mode_off',
-  //       label: 'settings:dard_mode_off',
-  //     },
-  //   ],
-  //   onPress: asDarkModeRef,
-  // },
 ];
 
 function Settings(props) {
@@ -128,7 +106,7 @@ function Settings(props) {
     }
     asLangRef.current?.hide();
   };
- 
+
   /**********
    ** FUNC **
    **********/
@@ -206,7 +184,7 @@ function Settings(props) {
       content={
         <CContent>
           <CGroupInfo
-            contentStyle={cStyles.p0}
+            contentStyle={cStyles.px10}
             content={
               <CList
                 contentStyle={cStyles.px0}
@@ -214,9 +192,10 @@ function Settings(props) {
                 item={({item, index}) => {
                   return (
                     <ListItem
-                    isDark={isDark}
+                      isDark={isDark}
                       customColors={customColors}
                       index={index}
+                      lastIndex={initSettings.length - 1}
                       data={item}
                       dataActiveLang={
                         initSettings[0].data[valueSettings.activeLanguage]
@@ -237,7 +216,10 @@ function Settings(props) {
             onConfirm={() => handleChangeLanguage(0)}>
             <Picker
               style={styles.con_action}
-              itemStyle={{color: customColors.text, fontSize: moderateScale(20)}}
+              itemStyle={{
+                color: customColors.text,
+                fontSize: moderateScale(20),
+              }}
               selectedValue={valueSettings.activeLanguage}
               onValueChange={onChangeLanguage}>
               {initSettings[0].data.map((value, i) => (

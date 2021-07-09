@@ -126,12 +126,11 @@ function ListRequestAll(props) {
   };
 
   const handleOpenSearch = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
     setShowSearch(true);
   };
 
   const handleCloseSearch = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setShowSearch(false);
   };
 
@@ -182,13 +181,11 @@ function ListRequestAll(props) {
         <View
           style={[cStyles.flex1, {backgroundColor: customColors.background}]}>
           <View style={cStyles.itemsCenter}>
-            {!showSearchBar && (
-              <Filter
-                data={routes[index]}
-                isResolve={false}
-                onFilter={handleFilter}
-              />
-            )}
+            <Filter
+              data={routes[index]}
+              isResolve={false}
+              onFilter={handleFilter}
+            />
           </View>
 
           <CSearchBar

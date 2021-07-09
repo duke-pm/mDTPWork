@@ -14,6 +14,10 @@ import {moderateScale} from '~/utils/helper';
 
 function CGroupLabel(props) {
   const {containerStyle, labelLeft, labelRight} = props;
+
+  /************
+   ** RENDER **
+   ************/
   return (
     <View
       style={[

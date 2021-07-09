@@ -101,8 +101,8 @@ function Filter(props) {
     active: null,
   });
   const [data, setData] = useState({
-    fromDate: moment().clone().startOf('month').format(formatDate),
-    toDate: moment().clone().endOf('month').format(formatDate),
+    fromDate: props.data.fromDate,
+    toDate: props.data.toDate,
     status: [1, 2, 3, 4],
     type: [1, 2, 3],
     resolveRequest: isResolve,
@@ -192,13 +192,16 @@ function Filter(props) {
   useEffect(() => {
     if (prevData) {
       if (prevData.key !== props.data.key) {
-        setData({
+        let tmp = {
           ...data,
           fromDate: props.data.fromDate,
           toDate: props.data.toDate,
-          status: JSON.parse('[' + props.data.status + ']'),
           type: JSON.parse('[' + props.data.type + ']'),
-        });
+        };
+        if (props.data.status) {
+          tmp.status = JSON.parse('[' + props.data.status + ']');
+        }
+        setData(tmp);
       }
     }
   }, [props.data, prevData]);

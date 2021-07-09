@@ -16,6 +16,7 @@ import {
   TouchableOpacity,
   View,
   StatusBar,
+  InteractionManager,
 } from 'react-native';
 import Picker from '@gregfrench/react-native-wheel-picker';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -27,6 +28,7 @@ import CGroupLabel from '~/components/CGroupLabel';
 import CActionSheet from '~/components/CActionSheet';
 import CList from '~/components/CList';
 import CAvatar from '~/components/CAvatar';
+import CIconHeader from '~/components/CIconHeader';
 /* COMMON */
 import Configs from '~/config';
 import {THEME_DARK} from '~/config/constants';
@@ -187,53 +189,6 @@ function FilterProject(props) {
     active: aParams.activeSector,
   });
 
-  navigation.setOptions(
-    Object.assign(
-      {
-        headerLeft: () => (
-          <TouchableOpacity onPress={handleReset}>
-            <View
-              style={[cStyles.flex1, cStyles.itemsEnd, cStyles.justifyCenter]}>
-              <CText
-                customStyles={[
-                  cStyles.textSubTitle,
-                  {color: customColors.red},
-                  IS_ANDROID && cStyles.colorWhite,
-                ]}
-                label={t('common:close')}
-              />
-            </View>
-          </TouchableOpacity>
-        ),
-        headerRight: () => (
-          <TouchableOpacity onPress={handleFilter}>
-            <View
-              style={[cStyles.flex1, cStyles.itemsEnd, cStyles.justifyCenter]}>
-              <CText
-                customStyles={[
-                  cStyles.textSubTitle,
-                  {color: customColors.blue},
-                  IS_ANDROID && cStyles.colorWhite,
-                ]}
-                label={t('common:apply')}
-              />
-            </View>
-          </TouchableOpacity>
-        ),
-      },
-      IS_ANDROID
-        ? {
-            headerCenter: () => (
-              <CText
-                styles={'colorWhite fontMedium'}
-                label={'project_management:filter'}
-              />
-            ),
-          }
-        : {},
-    ),
-  );
-
   /*****************
    ** HANDLE FUNC **
    *****************/
@@ -250,13 +205,13 @@ function FilterProject(props) {
   };
 
   const handleFilter = () => {
-    navigation.goBack();
     aParams.onFilter(
       aParams.hasYear ? Number(year.data[year.choose]?.value) : null,
       owner.active,
       status.active,
       aParams.hasSector ? sectors.active : null,
     );
+    navigation.goBack();
   };
 
   /************
@@ -311,28 +266,27 @@ function FilterProject(props) {
    ** LIFE CYCLE **
    ****************/
   useEffect(() => {
-    if (IS_IOS) {
-      if (isDark) {
-        // Do nothing
-      } else {
-        StatusBar.setBarStyle('light-content', true);
+    InteractionManager.runAfterInteractions(() => {
+      if (IS_IOS) {
+        if (isDark) {
+          // Do nothing
+        } else {
+          StatusBar.setBarStyle('light-content', true);
+        }
       }
-    }
+      if (aParams.hasYear && year.data.length === 0) {
+        let years = onGetListYear(Configs.numberYearToFilter);
+        let find = years.findIndex(
+          f => f.value === JSON.stringify(aParams.activeYear),
+        );
+        setYear({
+          data: years,
+          active: find,
+          choose: find,
+        });
+      }
+    });
   }, []);
-
-  useEffect(() => {
-    if (aParams.hasYear && year.data.length === 0) {
-      let years = onGetListYear(Configs.numberYearToFilter);
-      let find = years.findIndex(
-        f => f.value === JSON.stringify(aParams.activeYear),
-      );
-      setYear({
-        data: years,
-        active: find,
-        choose: find,
-      });
-    }
-  }, [aParams.hasYear, year.data]);
 
   useEffect(() => {
     if (aParams.hasYear && loading) {
@@ -353,6 +307,49 @@ function FilterProject(props) {
       }
     };
   }, []);
+
+  useLayoutEffect(() => {
+    navigation.setOptions(
+      Object.assign(
+        {
+          headerLeft: () => (
+            <CIconHeader
+              icons={[
+                {
+                  show: true,
+                  showRedDot: false,
+                  icon: 'close',
+                  onPress: handleReset,
+                },
+              ]}
+            />
+          ),
+          headerRight: () => (
+            <CIconHeader
+              icons={[
+                {
+                  show: true,
+                  showRedDot: false,
+                  icon: 'checkmark-done',
+                  onPress: handleFilter,
+                },
+              ]}
+            />
+          ),
+        },
+        IS_ANDROID
+          ? {
+              headerCenter: () => (
+                <CText
+                  styles={'colorWhite fontMedium'}
+                  label={'project_management:filter'}
+                />
+              ),
+            }
+          : {},
+      ),
+    );
+  }, [navigation, year, owner, status, sectors]);
 
   /**************
    ** RENDER **

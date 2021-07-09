@@ -38,16 +38,18 @@ function CCard(props) {
     onLongPress = null,
   } = props;
 
-  /**************
+  /************
    ** RENDER **
-   **************/
+   ************/
   const Component = onPress
     ? IS_IOS
       ? TouchableOpacity
       : TouchableNativeFeedback
     : View;
   return (
-    <View key={key} style={[cStyles.rounded2, styles.con, style]}>
+    <View
+      key={key}
+      style={[cStyles.rounded2, cStyles.ofHidden, styles.con, style]}>
       <Component
         style={[cStyles.flex1, cStyles.rounded2]}
         activeOpacity={0.5}
@@ -94,7 +96,7 @@ function CCard(props) {
 }
 
 const styles = StyleSheet.create({
-  con: {overflow: 'hidden', zIndex: 2},
+  con: {zIndex: 2},
   container: {backgroundColor: colors.BACKGROUND_CARD},
   con_label: {top: -moderateScale(15)},
 });

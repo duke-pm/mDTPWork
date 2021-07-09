@@ -32,9 +32,9 @@ function CDateTimePicker(props) {
     onChangeDate(null, false);
   };
 
-  /**************
+  /************
    ** RENDER **
-   **************/
+   ************/
   return (
     <DateTimePickerModal
       isVisible={show}

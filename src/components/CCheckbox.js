@@ -13,7 +13,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import CText from '~/components/CText';
 /** COMMON */
 import {colors, cStyles} from '~/utils/style';
-import {fS, moderateScale} from '~/utils/helper';
+import {moderateScale} from '~/utils/helper';
 
 let handleRef = createRef();
 
@@ -37,9 +37,9 @@ function CCheckbox(props) {
     onChange();
   };
 
-  /**************
+  /************
    ** RENDER **
-   **************/
+   ************/
   return (
     <TouchableOpacity disabled={disabled} onPress={handleCheck}>
       <Animatable.View
@@ -66,7 +66,7 @@ function CCheckbox(props) {
 
         <Icon
           name={value ? 'checkmark-circle' : 'ellipse-outline'}
-          size={moderateScale(20)}
+          size={moderateScale(21)}
           color={value ? colors.SECONDARY : colors.GRAY_500}
         />
 

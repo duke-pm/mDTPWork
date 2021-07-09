@@ -18,9 +18,9 @@ function CFooter(props) {
   const {customColors} = useTheme();
   const isDark = useColorScheme() === THEME_DARK;
 
-  /**************
+  /************
    ** RENDER **
-   **************/
+   ************/
   return (
     <View
       style={[

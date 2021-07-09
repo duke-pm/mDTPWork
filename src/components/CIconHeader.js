@@ -31,7 +31,10 @@ function CIconHeader(props) {
             <View style={index !== icons.length - 1 ? cStyles.pr24 : {}}>
               <Icon
                 name={item.icon}
-                color={IS_ANDROID ? colors.WHITE : customColors.icon}
+                color={
+                  item.iconColor ||
+                  (IS_ANDROID ? colors.WHITE : customColors.icon)
+                }
                 size={moderateScale(21)}
               />
               {item.showRedDot && (

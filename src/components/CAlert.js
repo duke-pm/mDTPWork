@@ -55,8 +55,8 @@ function CAlert(props) {
           style={[
             cStyles.center,
             cStyles.rounded3,
+            styles.container,
             {
-              width: moderateScale(300),
               backgroundColor: isDark
                 ? colors.GRAY_860
                 : customColors.background,
@@ -166,6 +166,7 @@ function CAlert(props) {
 }
 
 const styles = StyleSheet.create({
+  container: {width: moderateScale(300)},
   button: {width: moderateScale(1)},
   con_button: {height: moderateScale(45), width: moderateScale(150)},
   btn_alone: {width: moderateScale(300)},

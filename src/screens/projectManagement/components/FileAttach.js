@@ -127,6 +127,7 @@ function FileAttach(props) {
               cStyles.inset0,
               cStyles.rounded2,
               cStyles.itemsEnd,
+              cStyles.ofHidden,
               styles.con_bg,
               {backgroundColor: colors.BACKGROUND_DOWNLOAD},
             ]}>
@@ -177,7 +178,7 @@ const styles = StyleSheet.create({
   container: {width: moderateScale(150)},
   file: {width: moderateScale(60), height: moderateScale(60)},
   con_icon_download: {width: moderateScale(25), height: moderateScale(25)},
-  con_bg: {zIndex: 5, overflow: 'hidden'},
+  con_bg: {zIndex: 5},
 });
 
 export default FileAttach;

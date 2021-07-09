@@ -18,7 +18,6 @@ import {
   ScrollView,
   UIManager,
   LayoutAnimation,
-  TouchableOpacity,
   StatusBar,
 } from 'react-native';
 import {isIphoneX} from 'react-native-iphone-x-helper';
@@ -33,6 +32,7 @@ import CContent from '~/components/CContent';
 import CButton from '~/components/CButton';
 import CCard from '~/components/CCard';
 import CLabel from '~/components/CLabel';
+import CIconHeader from '~/components/CIconHeader';
 /* COMMON */
 import {THEME_DARK} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
@@ -71,34 +71,6 @@ function Watchers(props) {
   const [needRefresh, setNeedRefresh] = useState(false);
   const [getEmail, setGetEmail] = useState(true);
   const [watchers, setWatchers] = useState([]);
-
-  navigation.setOptions(
-    Object.assign(
-      {
-        headerLeft: () => (
-          <TouchableOpacity onPress={handleBack}>
-            <View>
-              <Icon
-                name={'close'}
-                color={IS_ANDROID ? colors.WHITE : customColors.icon}
-                size={moderateScale(21)}
-              />
-            </View>
-          </TouchableOpacity>
-        ),
-      },
-      IS_ANDROID
-        ? {
-            headerCenter: () => (
-              <CText
-                styles={'colorWhite fontMedium'}
-                label={'project_management:title_watcher'}
-              />
-            ),
-          }
-        : {},
-    ),
-  );
 
   /*****************
    ** HANDLE FUNC **
@@ -231,6 +203,37 @@ function Watchers(props) {
       }
     };
   }, []);
+
+  useLayoutEffect(() => {
+    navigation.setOptions(
+      Object.assign(
+        {
+          headerLeft: () => (
+            <CIconHeader
+              icons={[
+                {
+                  show: true,
+                  showRedDot: false,
+                  icon: 'close',
+                  onPress: handleBack,
+                },
+              ]}
+            />
+          ),
+        },
+        IS_ANDROID
+          ? {
+              headerCenter: () => (
+                <CText
+                  styles={'colorWhite fontMedium'}
+                  label={'project_management:title_watcher'}
+                />
+              ),
+            }
+          : {},
+      ),
+    );
+  }, [navigation]);
 
   /**************
    ** RENDER **

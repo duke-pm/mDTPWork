@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react-hooks/exhaustive-deps */
 /**
  ** Name: Project Management screen
@@ -7,34 +6,35 @@
  ** Description: Description of ProjectManagement.js
  **/
 import {fromJS} from 'immutable';
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useLayoutEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import {useTheme} from '@react-navigation/native';
-import {useColorScheme} from 'react-native-appearance';
 import {useTranslation} from 'react-i18next';
-import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import {showMessage} from 'react-native-flash-message';
-import Icon from 'react-native-vector-icons/Ionicons';
+import {LayoutAnimation, UIManager} from 'react-native';
 import moment from 'moment';
 /** COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
 import CSearchBar from '~/components/CSearchBar';
+import CIconHeader from '~/components/CIconHeader';
 import ListProject from './list/Project';
 /** COMMON */
 import Routes from '~/navigation/Routes';
-import {LOAD_MORE, REFRESH, THEME_DARK} from '~/config/constants';
-import {colors, cStyles} from '~/utils/style';
-import {moderateScale, IS_ANDROID} from '~/utils/helper';
+import {LOAD_MORE, REFRESH} from '~/config/constants';
+import {IS_ANDROID} from '~/utils/helper';
 import {usePrevious} from '~/utils/hook';
 /** REDUX */
 import * as Actions from '~/redux/actions';
 
+if (IS_ANDROID) {
+  if (UIManager.setLayoutAnimationEnabledExperimental) {
+    UIManager.setLayoutAnimationEnabledExperimental(true);
+  }
+}
+
 function ProjectManagement(props) {
   const {t} = useTranslation();
   const {navigation} = props;
-  const isDark = useColorScheme() === THEME_DARK;
-  const {customColors} = useTheme();
 
   /** Use redux */
   const dispatch = useDispatch();
@@ -72,76 +72,6 @@ function ProjectManagement(props) {
 
   let prevShowFilter = usePrevious(showFilter);
   let prevYear = usePrevious(data.year);
-  let prevSearch = usePrevious(data.search);
-
-  navigation.setOptions({
-    searchBar: {
-      onChangeText: event => onChangeSearch(event.nativeEvent.text),
-      onSearchButtonPress: () => handleSearch(data.search),
-      onBlur: () => {
-        if (prevSearch && prevSearch !== data.search) {
-          handleSearch(data.search);
-        }
-      },
-      onFocus: () => onChangeSearch(''),
-    },
-    headerRight: () => (
-      <View style={[cStyles.row, cStyles.itemsCenter]}>
-        {IS_ANDROID && (
-          <TouchableOpacity onPress={handleOpenSearch}>
-            <View style={cStyles.pr24}>
-              <Icon
-                name={'search'}
-                color={IS_ANDROID ? colors.WHITE : customColors.icon}
-                size={moderateScale(21)}
-              />
-              {data.search !== '' && (
-                <View
-                  style={[
-                    cStyles.abs,
-                    cStyles.rounded2,
-                    cStyles.borderAll,
-                    styles.badge,
-                    isDark && cStyles.borderAllDark,
-                    {
-                      backgroundColor: customColors.red,
-                      top: 0,
-                      left: moderateScale(10),
-                    },
-                  ]}
-                />
-              )}
-            </View>
-          </TouchableOpacity>
-        )}
-        <TouchableOpacity onPress={handleShowFilter}>
-          <View>
-            <Icon
-              name={'options'}
-              color={IS_ANDROID ? colors.WHITE : customColors.icon}
-              size={moderateScale(21)}
-            />
-            {isFiltering && (
-              <View
-                style={[
-                  cStyles.abs,
-                  cStyles.rounded2,
-                  cStyles.borderAll,
-                  styles.badge,
-                  isDark && cStyles.borderAllDark,
-                  {
-                    backgroundColor: customColors.red,
-                    top: 0,
-                    left: moderateScale(10),
-                  },
-                ]}
-              />
-            )}
-          </View>
-        </TouchableOpacity>
-      </View>
-    ),
-  });
 
   /*****************
    ** HANDLE FUNC **
@@ -157,6 +87,7 @@ function ProjectManagement(props) {
       value,
     );
     setLoading({...loading, startFetch: true});
+    setShowSearch(false);
   };
 
   const handleShowFilter = () => {
@@ -172,11 +103,14 @@ function ProjectManagement(props) {
   };
 
   const handleFilter = (year, activeOwner, activeStatus, activeSector) => {
-    setData({...data, year});
+    if (year !== data.year) {
+      setData({...data, year});
+    }
     setShowFilter({activeOwner, activeStatus});
   };
 
   const handleOpenSearch = () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
     setShowSearch(true);
   };
 
@@ -187,10 +121,6 @@ function ProjectManagement(props) {
   /************
    ** FUNC **
    ************/
-  const onChangeSearch = value => {
-    setData({...data, search: value});
-  };
-
   const onFetchMasterData = () => {
     let paramsMaster = {
       ListType: 'Users, PrjSector, PrjStatus, PrjComponent, PrjPriority',
@@ -219,6 +149,10 @@ function ProjectManagement(props) {
       Lang: language,
     });
     dispatch(Actions.fetchListProject(params, navigation));
+    console.log('[LOG] === statusID ===> ', statusID);
+    console.log('[LOG] === ownerID ===> ', ownerID);
+    console.log('[LOG] === year ===> ', year);
+    console.log('[LOG] === isFiltering ===> ', isFiltering);
     if (
       (statusID !== null ||
         ownerID !== null ||
@@ -226,7 +160,12 @@ function ProjectManagement(props) {
       !isFiltering
     ) {
       setIsFiltering(true);
-    } else {
+    } else if (
+      statusID === null &&
+      ownerID === null &&
+      year === Number(moment().format('YYYY')) &&
+      isFiltering
+    ) {
       setIsFiltering(false);
     }
   };
@@ -382,11 +321,35 @@ function ProjectManagement(props) {
     masterState.get('users'),
   ]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     navigation.setOptions({
-      headerShown: !showSearchBar,
+      headerRight: () => (
+        <CIconHeader
+          icons={[
+            {
+              show: true,
+              showRedDot: data.search !== '',
+              icon: 'search',
+              onPress: handleOpenSearch,
+            },
+            {
+              show: true,
+              showRedDot: isFiltering,
+              icon: 'options',
+              onPress: handleShowFilter,
+            },
+          ]}
+        />
+      ),
     });
-  }, [navigation, showSearchBar]);
+  }, [
+    navigation,
+    data.search,
+    data.year,
+    showFilter.activeOwner,
+    showFilter.activeStatus,
+    isFiltering,
+  ]);
 
   /**************
    ** RENDER **
@@ -399,6 +362,7 @@ function ProjectManagement(props) {
           <CSearchBar
             loading={loading.startFetch}
             isVisible={showSearchBar}
+            valueSearch={data.search}
             onSearch={handleSearch}
             onClose={handleCloseSearch}
           />
@@ -416,14 +380,5 @@ function ProjectManagement(props) {
     />
   );
 }
-
-const styles = StyleSheet.create({
-  badge: {
-    height: moderateScale(10),
-    width: moderateScale(10),
-    top: 16,
-    right: 15,
-  },
-});
 
 export default ProjectManagement;

@@ -37,7 +37,7 @@ function CItem(props) {
   const Touchable = IS_ANDROID ? TouchableNativeFeedback : TouchableOpacity;
   return (
     <View
-      style={[cStyles.rounded3, cStyles.mb16, cStyles.mr16, styles.container]}>
+      style={[cStyles.rounded3, cStyles.mb16, cStyles.mr16, cStyles.ofHidden]}>
       <Touchable
         style={cStyles.rounded3}
         activeOpacity={0.5}
@@ -68,7 +68,6 @@ function CItem(props) {
 }
 
 const styles = StyleSheet.create({
-  container: {overflow: 'hidden'},
   item: {width: sW('28%'), height: moderateScale(125)},
 });
 

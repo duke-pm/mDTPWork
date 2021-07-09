@@ -31,7 +31,7 @@ const styles = {
     height: 150,
     borderRadius: borderRadius(150),
   },
-  image: {overflow: 'hidden'},
+  image: cStyles.ofHidden,
 };
 
 class CImage extends React.Component {

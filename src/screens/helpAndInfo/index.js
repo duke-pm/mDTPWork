@@ -6,17 +6,20 @@
  **/
 import React from 'react';
 import {useTheme} from '@react-navigation/native';
+import DeviceInfo from 'react-native-device-info';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
 import ListItem from '../account/components/ListItem';
 import CGroupInfo from '~/components/CGroupInfo';
-import { cStyles } from '~/utils/style';
+/** COMMON */
+import {colors, cStyles} from '~/utils/style';
 
 const HELP_AND_INFO = [
   {
     id: 'contactUs',
-    icon: 'people-outline',
+    icon: 'people',
+    iconColor: colors.BLUE,
     label: 'help_and_info:contact_us',
     value: null,
     nextRoute: 'ContactUs',
@@ -25,9 +28,13 @@ const HELP_AND_INFO = [
     isRate: false,
     isURL: false,
   },
+];
+
+const HELP_AND_INFO_1 = [
   {
     id: 'privacyPolicies',
-    icon: 'shield-checkmark-outline',
+    icon: 'shield-checkmark',
+    iconColor: colors.GREEN,
     label: 'help_and_info:privacy_policies',
     value: 'https://www.dtp-education.com/gioi-thieu/',
     nextRoute: null,
@@ -38,7 +45,8 @@ const HELP_AND_INFO = [
   },
   {
     id: 'termAndConditions',
-    icon: 'clipboard-outline',
+    icon: 'clipboard',
+    iconColor: colors.ORANGE,
     label: 'help_and_info:term_conditions',
     value: 'https://www.dtp-education.com/gioi-thieu/tam-nhin-su-menh/',
     nextRoute: null,
@@ -49,7 +57,8 @@ const HELP_AND_INFO = [
   },
   {
     id: 'aboutUs',
-    icon: 'people-circle-outline',
+    icon: 'people-circle',
+    iconColor: colors.TEAL,
     label: 'help_and_info:about_us',
     value: 'https://www.dtp-education.com/?v=1',
     nextRoute: null,
@@ -58,9 +67,13 @@ const HELP_AND_INFO = [
     isRate: false,
     isURL: true,
   },
+];
+
+const HELP_AND_INFO_2 = [
   {
     id: 'rateApp',
-    icon: 'star-outline',
+    icon: 'star',
+    iconColor: colors.YELLOW,
     label: 'help_and_info:rate_app',
     value: null,
     nextRoute: null,
@@ -83,11 +96,47 @@ function HelpAndInfo(props) {
       content={
         <CContent>
           <CGroupInfo
-            contentStyle={[cStyles.px10]}
+            contentStyle={[
+              cStyles.px10,
+              DeviceInfo.isTablet() ? cStyles.mb10 : cStyles.mb0,
+            ]}
             content={HELP_AND_INFO.map((item, index) => (
               <ListItem
                 key={item.id}
                 index={index}
+                lastIndex={HELP_AND_INFO.length - 1}
+                data={item}
+                customColors={customColors}
+              />
+            ))}
+          />
+
+          <CGroupInfo
+            contentStyle={[
+              cStyles.px10,
+              DeviceInfo.isTablet() ? cStyles.mb10 : cStyles.mb0,
+            ]}
+            content={HELP_AND_INFO_1.map((item, index) => (
+              <ListItem
+                key={item.id}
+                index={index}
+                lastIndex={HELP_AND_INFO_1.length - 1}
+                data={item}
+                customColors={customColors}
+              />
+            ))}
+          />
+
+          <CGroupInfo
+            contentStyle={[
+              cStyles.px10,
+              DeviceInfo.isTablet() ? cStyles.mb10 : cStyles.mb0,
+            ]}
+            content={HELP_AND_INFO_2.map((item, index) => (
+              <ListItem
+                key={item.id}
+                index={index}
+                lastIndex={HELP_AND_INFO_2.length - 1}
                 data={item}
                 customColors={customColors}
               />

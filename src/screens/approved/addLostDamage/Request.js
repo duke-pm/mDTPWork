@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react-hooks/exhaustive-deps */
 /**
  ** Name: Add new request lost damage
@@ -37,6 +36,7 @@ import CAlert from '~/components/CAlert';
 import CLabel from '~/components/CLabel';
 import CAvoidKeyboard from '~/components/CAvoidKeyboard';
 import CGroupInfo from '~/components/CGroupInfo';
+import CIconHeader from '~/components/CIconHeader';
 import RejectModal from '../components/RejectModal';
 import RequestProcess from '../components/RequestProcess';
 import CheckOption from '../components/CheckOption';
@@ -44,11 +44,11 @@ import CheckOption from '../components/CheckOption';
 import Commons from '~/utils/common/Commons';
 import {colors, cStyles} from '~/utils/style';
 import {
+  IS_IOS,
   IS_ANDROID,
-  sH,
   checkEmpty,
   moderateScale,
-  IS_IOS,
+  verticalScale,
 } from '~/utils/helper';
 import {THEME_DARK, DEFAULT_FORMAT_DATE_4} from '~/config/constants';
 /* REDUX */
@@ -120,7 +120,7 @@ const RowSelect = (
             disabled && {
               backgroundColor: customColors.cardDisable,
             },
-            {height: 50},
+            styles.row_select,
           ]}>
           {!loading ? (
             <CText
@@ -221,56 +221,6 @@ function AddRequest(props) {
     },
   });
 
-  navigation.setOptions(
-    Object.assign(
-      {
-        title: `${t(
-          'add_approved_lost_damaged:' + (isDetail ? 'detail' : 'title'),
-        )}`,
-        headerLeft: () => (
-          <TouchableOpacity onPress={handleBack}>
-            <View>
-              <Icon
-                name={'close'}
-                color={IS_ANDROID ? colors.WHITE : customColors.icon}
-                size={moderateScale(21)}
-              />
-            </View>
-          </TouchableOpacity>
-        ),
-        headerRight: () => {
-          if (isDetail) {
-            return (
-              <TouchableOpacity onPress={handleShowProcess}>
-                <View>
-                  <Icon
-                    name={'information-circle'}
-                    color={IS_ANDROID ? colors.WHITE : customColors.icon}
-                    size={moderateScale(21)}
-                  />
-                </View>
-              </TouchableOpacity>
-            );
-          }
-          return null;
-        },
-      },
-      IS_ANDROID
-        ? {
-            headerCenter: () => (
-              <CText
-                styles={'colorWhite fontMedium'}
-                customLabel={`${t(
-                  'add_approved_lost_damaged:' +
-                    (isDetail ? 'detail' : 'title'),
-                )}`}
-              />
-            ),
-          }
-        : {},
-    ),
-  );
-
   /*****************
    ** HANDLE FUNC **
    *****************/
@@ -318,22 +268,6 @@ function AddRequest(props) {
   const handleBack = () => {
     navigation.goBack();
   };
-
-  // const handlePreview = () => {
-  //   Linking.canOpenURL(
-  //     API.defaults.baseURL.substring(0, API.defaults.baseURL.length - 3) + form.file
-  //   ).then(supported => {
-  //     if (supported) {
-  //       Linking.openURL(API.defaults.baseURL.substring(0, API.defaults.baseURL.length - 3) + form.file);
-  //     } else {
-  //       showMessage({
-  //         message: t('error:cannot_open_file_upload'),
-  //         type: 'danger',
-  //         icon: 'danger',
-  //       });
-  //     }
-  //   });
-  // };
 
   /************
    ** FUNC **
@@ -659,6 +593,55 @@ function AddRequest(props) {
     };
   }, []);
 
+  useLayoutEffect(() => {
+    navigation.setOptions(
+      Object.assign(
+        {
+          title: `${t(
+            'add_approved_lost_damaged:' + (isDetail ? 'detail' : 'title'),
+          )}`,
+          headerLeft: () => (
+            <CIconHeader
+              icons={[
+                {
+                  show: true,
+                  showRedDot: false,
+                  icon: 'close',
+                  onPress: handleBack,
+                },
+              ]}
+            />
+          ),
+          headerRight: () => (
+            <CIconHeader
+              icons={[
+                {
+                  show: isDetail,
+                  showRedDot: false,
+                  icon: 'information-circle',
+                  onPress: handleShowProcess,
+                },
+              ]}
+            />
+          ),
+        },
+        IS_ANDROID
+          ? {
+              headerCenter: () => (
+                <CText
+                  styles={'colorWhite fontMedium'}
+                  customLabel={`${t(
+                    'add_approved_lost_damaged:' +
+                      (isDetail ? 'detail' : 'title'),
+                  )}`}
+                />
+              ),
+            }
+          : {},
+      ),
+    );
+  }, [navigation]);
+
   /**************
    ** RENDER **
    **************/
@@ -979,6 +962,7 @@ function AddRequest(props) {
             ]}>
             <CButton
               style={styles.button_approved}
+              block
               color={customColors.red}
               disabled={loading.main}
               icon={'close'}
@@ -987,6 +971,7 @@ function AddRequest(props) {
             />
             <CButton
               style={styles.button_reject}
+              block
               color={customColors.green}
               disabled={loading.main}
               icon={'checkmark'}
@@ -1002,13 +987,14 @@ function AddRequest(props) {
 
 const styles = StyleSheet.create({
   input_focus: {borderColor: colors.SECONDARY},
-  button_approved: {width: cStyles.deviceWidth / 2.5},
-  button_reject: {width: cStyles.deviceWidth / 2.5},
-  con_action: {width: '100%', height: sH('30%')},
-  content_picker: {height: '40%'},
-  box: {width: moderateScale(350)},
+  button_approved: {width: moderateScale(150)},
+  button_reject: {width: moderateScale(150)},
   left: {flex: 0.5},
   right: {flex: 0.5},
+  con_action: {width: '100%', height: verticalScale(180)},
+  content_picker: {height: '40%'},
+  box: {width: moderateScale(350)},
+  row_select: {height: verticalScale(38)},
 });
 
 export default AddRequest;

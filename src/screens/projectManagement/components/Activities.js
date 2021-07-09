@@ -17,11 +17,9 @@ import {
   View,
   Keyboard,
   Text,
-  TouchableOpacity,
   StatusBar,
   KeyboardAvoidingView,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
@@ -29,17 +27,12 @@ import CText from '~/components/CText';
 import CInput from '~/components/CInput';
 import CIconButton from '~/components/CIconButton';
 import CList from '~/components/CList';
+import CIconHeader from '~/components/CIconHeader';
 import CAvatar from '~/components/CAvatar';
 /* COMMON */
 import {LAST_COMMENT_TASK, THEME_DARK} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
-import {
-  saveLocalInfo,
-  getLocalInfo,
-  moderateScale,
-  IS_IOS,
-  IS_ANDROID,
-} from '~/utils/helper';
+import {saveLocalInfo, getLocalInfo, IS_IOS, IS_ANDROID} from '~/utils/helper';
 import {LOCALE_VI, LOCALE_EN} from '~/utils/language/comment';
 /** REDUX */
 import * as Actions from '~/redux/actions';
@@ -125,34 +118,6 @@ function Activity(props) {
   });
   const [valueMessage, setValueMessage] = useState('');
   const [messages, setMessages] = useState([]);
-
-  navigation.setOptions(
-    Object.assign(
-      {
-        headerLeft: () => (
-          <TouchableOpacity onPress={handleBack}>
-            <View>
-              <Icon
-                name={'close'}
-                color={IS_ANDROID ? colors.WHITE : customColors.icon}
-                size={moderateScale(21)}
-              />
-            </View>
-          </TouchableOpacity>
-        ),
-      },
-      IS_ANDROID
-        ? {
-            headerCenter: () => (
-              <CText
-                styles={'colorWhite fontMedium'}
-                label={'project_management:title_activity'}
-              />
-            ),
-          }
-        : {},
-    ),
-  );
 
   /*****************
    ** HANDLE FUNC **
@@ -307,6 +272,37 @@ function Activity(props) {
       }
     };
   }, []);
+
+  useLayoutEffect(() => {
+    navigation.setOptions(
+      Object.assign(
+        {
+          headerLeft: () => (
+            <CIconHeader
+              icons={[
+                {
+                  show: true,
+                  showRedDot: false,
+                  icon: 'close',
+                  onPress: handleBack,
+                },
+              ]}
+            />
+          ),
+        },
+        IS_ANDROID
+          ? {
+              headerCenter: () => (
+                <CText
+                  styles={'colorWhite fontMedium'}
+                  label={'project_management:title_activity'}
+                />
+              ),
+            }
+          : {},
+      ),
+    );
+  }, [navigation]);
 
   /**************
    ** RENDER **

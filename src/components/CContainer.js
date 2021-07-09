@@ -24,9 +24,9 @@ function CContainer(props) {
     footer = null,
   } = props;
 
-  /**************
+  /************
    ** RENDER **
-   **************/
+   ************/
   // Theme
   let tmpSafeArea = ['right', 'left'];
   if (safeArea.top) {

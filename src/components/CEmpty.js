@@ -11,11 +11,12 @@ import CText from './CText';
 /* COMMON */
 import {cStyles} from '~/utils/style';
 import {Assets} from '~/utils/asset';
+import {moderateScale} from '~/utils/helper';
 
 function CEmpty(props) {
-  /**************
+  /************
    ** RENDER **
-   **************/
+   ************/
   return (
     <View style={[cStyles.flex1, cStyles.itemsCenter, cStyles.pt40]}>
       <Image
@@ -31,7 +32,7 @@ function CEmpty(props) {
 }
 
 const styles = StyleSheet.create({
-  img_empty: {height: 100, width: 100},
+  img_empty: {height: moderateScale(100), width: moderateScale(100)},
 });
 
 export default CEmpty;

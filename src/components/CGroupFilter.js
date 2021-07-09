@@ -54,9 +54,9 @@ function CGroupFilter(props) {
     onChange(callback);
   };
 
-  /******************
+  /****************
    ** LIFE CYCLE **
-   ******************/
+   ****************/
   useEffect(() => {
     let chooses = [],
       choosesRef = [],
@@ -89,9 +89,9 @@ function CGroupFilter(props) {
     setValuesRef(choosesRef);
   }, []);
 
-  /**************
+  /************
    ** RENDER **
-   **************/
+   ************/
   return (
     <View
       style={[
@@ -120,8 +120,8 @@ function CGroupFilter(props) {
                 <Animatable.View
                   ref={ref => (valuesRef[index] = ref)}
                   style={[
-                    index !== 0 && cStyles.ml6,
                     cStyles.mt6,
+                    index !== 0 && cStyles.ml6,
                     !isCheck && {backgroundColor: customColors.card},
                   ]}
                   useNativeDriver={true}>
@@ -167,9 +167,7 @@ function CGroupFilter(props) {
 
 const styles = StyleSheet.create({
   con_active: {backgroundColor: colors.SECONDARY},
-  active: {
-    borderColor: colors.SECONDARY,
-  },
+  active: {borderColor: colors.SECONDARY},
   con_left: {flex: 0.28},
   con_right: {flex: 0.72},
 });

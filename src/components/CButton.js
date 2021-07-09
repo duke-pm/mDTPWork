@@ -40,12 +40,12 @@ function CButton(props) {
     onPress = () => {},
   } = props;
 
-  /**************
+  /************
    ** RENDER **
-   **************/
+   ************/
   const Touchable = IS_ANDROID ? TouchableNativeFeedback : TouchableOpacity;
   return (
-    <View style={[cStyles.rounded1, {overflow: 'hidden'}]}>
+    <View style={[cStyles.rounded1, cStyles.ofHidden]}>
       <Touchable
         accessibilityRole={'button'}
         disabled={disabled || loading}

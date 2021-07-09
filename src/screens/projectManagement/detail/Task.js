@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react-hooks/exhaustive-deps */
 /*
  ** Name: Task
@@ -7,21 +6,13 @@
  ** Description: Description of Task.js
  **/
 import {fromJS} from 'immutable';
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useLayoutEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
-import {
-  StyleSheet,
-  TouchableOpacity,
-  View,
-  Text,
-  LayoutAnimation,
-  UIManager,
-} from 'react-native';
+import {StyleSheet, View, Text, LayoutAnimation, UIManager} from 'react-native';
 import {showMessage} from 'react-native-flash-message';
-import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
@@ -31,6 +22,8 @@ import CAvatar from '~/components/CAvatar';
 import CLabel from '~/components/CLabel';
 import CList from '~/components/CList';
 import CGroupInfo from '~/components/CGroupInfo';
+import CAvoidKeyboard from '~/components/CAvoidKeyboard';
+import CIconHeader from '~/components/CIconHeader';
 import Status from '../components/Status';
 import Percentage from '../components/Percentage';
 import FileAttach from '../components/FileAttach';
@@ -55,7 +48,6 @@ import {
 } from '~/utils/helper';
 /** REDUX */
 import * as Actions from '~/redux/actions';
-import CAvoidKeyboard from '~/components/CAvoidKeyboard';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -125,99 +117,6 @@ function Task(props) {
   const [needRefresh, setNeedRefresh] = useState(false);
   const [data, setData] = useState({
     taskDetail: null,
-  });
-
-  navigation.setOptions({
-    backButtonInCustomView: true,
-    title: `${t('project_management:detail_task')} #${taskID}`,
-    headerLeft: () =>
-      (route.params?.taskID !== null || route.params?.taskID !== undefined) &&
-      !navigation.canGoBack() ? (
-        <TouchableOpacity onPress={handleBack}>
-          <View
-            style={[
-              cStyles.row,
-              cStyles.itemsCenter,
-              cStyles.justifyStart,
-              styles.left,
-            ]}>
-            <Icon
-              name={IS_IOS ? 'chevron-back' : 'arrow-back'}
-              color={IS_ANDROID ? colors.WHITE : customColors.blue}
-              size={IS_IOS ? moderateScale(26) : moderateScale(21)}
-            />
-            <CText
-              customStyles={[
-                {color: IS_ANDROID ? colors.WHITE : customColors.blue},
-              ]}
-              label={'dashboard:title'}
-            />
-          </View>
-        </TouchableOpacity>
-      ) : undefined,
-    headerRight: () => (
-      <View style={[cStyles.row, cStyles.itemsCenter]}>
-        <TouchableOpacity onPress={handleFastWatch}>
-          <View style={cStyles.pr28}>
-            <Icon
-              name={isFastWatch ? 'eye-outline' : 'eye'}
-              color={IS_ANDROID ? colors.WHITE : customColors.icon}
-              size={moderateScale(21)}
-            />
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={handleActivities}>
-          <View style={cStyles.pr24}>
-            <Icon
-              name={'chatbubbles'}
-              color={IS_ANDROID ? colors.WHITE : customColors.icon}
-              size={moderateScale(21)}
-            />
-            {newComment && (
-              <View
-                style={[
-                  cStyles.abs,
-                  cStyles.rounded2,
-                  cStyles.borderAll,
-                  styles.badge,
-                  isDark && cStyles.borderAllDark,
-                  {
-                    backgroundColor: customColors.red,
-                    top: 0,
-                    left: moderateScale(10),
-                  },
-                ]}
-              />
-            )}
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={handleWatchers}>
-          <View>
-            <Icon
-              name={'people'}
-              color={IS_ANDROID ? colors.WHITE : customColors.icon}
-              size={moderateScale(21)}
-            />
-            {!isFastWatch && (
-              <View
-                style={[
-                  cStyles.abs,
-                  cStyles.rounded2,
-                  cStyles.borderAll,
-                  styles.badge,
-                  isDark && cStyles.borderAllDark,
-                  {
-                    backgroundColor: customColors.red,
-                    top: 0,
-                    left: moderateScale(10),
-                  },
-                ]}
-              />
-            )}
-          </View>
-        </TouchableOpacity>
-      </View>
-    ),
   });
 
   /*****************
@@ -462,6 +361,60 @@ function Task(props) {
     });
     return unsubscribe;
   }, [navigation, needRefresh]);
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      backButtonInCustomView: true,
+      title: `${t('project_management:detail_task')} #${taskID}`,
+      headerLeft: () =>
+        (route.params?.taskID !== null ||
+          route.params?.taskID !== undefined) && (
+          <CIconHeader
+            icons={[
+              {
+                show: !navigation.canGoBack(),
+                showRedDot: false,
+                icon: IS_IOS ? 'chevron-back' : 'arrow-back',
+                iconColor: IS_ANDROID ? colors.WHITE : customColors.blue,
+                onPress: handleBack,
+              },
+            ]}
+          />
+        ),
+      headerRight: () => (
+        <CIconHeader
+          icons={[
+            {
+              show: true,
+              showRedDot: false,
+              icon: isFastWatch ? 'eye-outline' : 'eye',
+              onPress: handleFastWatch,
+            },
+            {
+              show: true,
+              showRedDot: newComment,
+              icon: 'chatbubbles',
+              onPress: handleActivities,
+            },
+            {
+              show: true,
+              showRedDot: !isFastWatch,
+              icon: 'people',
+              onPress: handleWatchers,
+            },
+          ]}
+        />
+      ),
+    });
+  }, [
+    navigation,
+    isFastWatch,
+    newComment,
+    isFastWatch,
+    taskID,
+    navigation.canGoBack,
+    route.params?.taskID,
+  ]);
 
   /**************
    ** RENDER **

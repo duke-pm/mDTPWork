@@ -27,6 +27,9 @@ function CActionSheet(props) {
   } = props;
   let needUpdate = false;
 
+  /*****************
+   ** HANDLE FUNC **
+   *****************/
   const handleClose = () => {
     needUpdate = false;
     actionRef.current?.hide();
@@ -40,6 +43,9 @@ function CActionSheet(props) {
     }
   };
 
+  /**********
+   ** FUNC **
+   **********/
   const onOpenAS = () => {
     needUpdate = false;
   };
@@ -54,6 +60,9 @@ function CActionSheet(props) {
     }
   };
 
+  /************
+   ** RENDER **
+   ************/
   return (
     <ActionSheet
       ref={actionRef}

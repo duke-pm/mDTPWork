@@ -36,12 +36,13 @@ function CSearchBar(props) {
     style = {},
     loading = false,
     isVisible = false,
+    valueSearch = '',
     onSearch = () => null,
     onClose = () => null,
   } = props;
 
   /** Use state */
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState(valueSearch);
 
   /*****************
    ** HANDLE FUNC **

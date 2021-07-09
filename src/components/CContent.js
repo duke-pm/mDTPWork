@@ -15,14 +15,13 @@ function CContent(props) {
   const {customColors} = useTheme();
   const {contentStyle = {}, padder = null} = props;
 
+  /************
+   ** RENDER **
+   ************/
   let stylePadder = {};
   if (padder) {
     stylePadder = cStyles.p16;
   }
-
-  /**************
-   ** RENDER **
-   **************/
   return (
     <ScrollView
       style={[stylePadder, {backgroundColor: customColors.background}]}

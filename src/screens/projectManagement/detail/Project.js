@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react-hooks/exhaustive-deps */
 /**
  ** Name: Project Detail screen
@@ -7,38 +6,36 @@
  ** Description: Description of Project.js
  **/
 import {fromJS} from 'immutable';
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useLayoutEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
-import {useColorScheme} from 'react-native-appearance';
 import {showMessage} from 'react-native-flash-message';
-import {StyleSheet, View, TouchableOpacity} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import {LayoutAnimation, UIManager} from 'react-native';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
 import CSearchBar from '~/components/CSearchBar';
 import CText from '~/components/CText';
+import CIconHeader from '~/components/CIconHeader';
 import ListTask from '../list/Task';
 /** COMMON */
 import Routes from '~/navigation/Routes';
-import {LOAD_MORE, LOGIN, REFRESH, THEME_DARK} from '~/config/constants';
-import {colors, cStyles} from '~/utils/style';
-import {
-  moderateScale,
-  getSecretInfo,
-  IS_ANDROID,
-  IS_IOS,
-  resetRoute,
-} from '~/utils/helper';
+import {LOAD_MORE, LOGIN, REFRESH} from '~/config/constants';
+import {getSecretInfo, IS_ANDROID, IS_IOS, resetRoute} from '~/utils/helper';
+import {colors} from '~/utils/style';
 import {usePrevious} from '~/utils/hook';
 /** REDUX */
 import * as Actions from '~/redux/actions';
 
+if (IS_ANDROID) {
+  if (UIManager.setLayoutAnimationEnabledExperimental) {
+    UIManager.setLayoutAnimationEnabledExperimental(true);
+  }
+}
+
 function ProjectDetail(props) {
   const {t} = useTranslation();
-  const isDark = useColorScheme() === THEME_DARK;
   const {customColors} = useTheme();
   const {route, navigation} = props;
   let projectID = route.params?.data?.projectID || -1;
@@ -77,121 +74,10 @@ function ProjectDetail(props) {
     sectorID: null,
     page: 1,
     search: '',
-
     tasks: [],
   });
 
   let prevShowFilter = usePrevious(showFilter);
-  let prevSearch = usePrevious(data.search);
-
-  navigation.setOptions(
-    Object.assign(
-      {
-        title: `${t('project_management:list_task')}${projectID}`,
-        backButtonInCustomView: true,
-        searchBar: {
-          onChangeText: event => onChangeSearch(event.nativeEvent.text),
-          onSearchButtonPress: () => handleSearch(data.search),
-          onBlur: () => {
-            if (prevSearch && prevSearch !== data.search) {
-              handleSearch(data.search);
-            }
-          },
-          onFocus: () => onChangeSearch(''),
-        },
-        headerLeft: () =>
-          (route.params?.projectID !== null ||
-            route.params?.projectID !== undefined) &&
-          !navigation.canGoBack() ? (
-            <TouchableOpacity onPress={handleBack}>
-              <View
-                style={[
-                  cStyles.row,
-                  cStyles.itemsCenter,
-                  cStyles.justifyStart,
-                  styles.left,
-                ]}>
-                <Icon
-                  name={IS_IOS ? 'chevron-back' : 'arrow-back'}
-                  color={IS_ANDROID ? colors.WHITE : customColors.blue}
-                  size={IS_IOS ? moderateScale(26) : moderateScale(21)}
-                />
-                <CText
-                  customStyles={[
-                    {color: IS_ANDROID ? colors.WHITE : customColors.blue},
-                  ]}
-                  label={'dashboard:title'}
-                />
-              </View>
-            </TouchableOpacity>
-          ) : undefined,
-        headerRight: () => (
-          <View style={[cStyles.row, cStyles.itemsCenter]}>
-            <TouchableOpacity onPress={handleOpenSearch}>
-              <View style={cStyles.pr24}>
-                <Icon
-                  name={'search'}
-                  color={IS_ANDROID ? colors.WHITE : customColors.icon}
-                  size={moderateScale(21)}
-                />
-                {data.search !== '' && (
-                  <View
-                    style={[
-                      cStyles.abs,
-                      cStyles.rounded2,
-                      cStyles.borderAll,
-                      styles.badge,
-                      isDark && cStyles.borderAllDark,
-                      {
-                        backgroundColor: customColors.red,
-                        top: 0,
-                        left: moderateScale(10),
-                      },
-                    ]}
-                  />
-                )}
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={handleShowFilter}>
-              <View>
-                <Icon
-                  name={'options'}
-                  color={IS_ANDROID ? colors.WHITE : customColors.icon}
-                  size={moderateScale(21)}
-                />
-                {isFiltering && (
-                  <View
-                    style={[
-                      cStyles.abs,
-                      cStyles.rounded2,
-                      cStyles.borderAll,
-                      styles.badge,
-                      isDark && cStyles.borderAllDark,
-                      {
-                        backgroundColor: customColors.red,
-                        top: 0,
-                        left: moderateScale(10),
-                      },
-                    ]}
-                  />
-                )}
-              </View>
-            </TouchableOpacity>
-          </View>
-        ),
-      },
-      IS_ANDROID
-        ? {
-            headerCenter: () => (
-              <CText
-                styles={'colorWhite fontMedium'}
-                customLabel={`${t('project_management:list_task')}${projectID}`}
-              />
-            ),
-          }
-        : {},
-    ),
-  );
 
   /*****************
    ** HANDLE FUNC **
@@ -211,9 +97,11 @@ function ProjectDetail(props) {
       value,
     );
     setLoading({...loading, startFetch: true});
+    setShowSearch(false);
   };
 
   const handleShowFilter = () => {
+    setShowSearch(false);
     navigation.navigate(Routes.MAIN.PROJECT_FILTER.name, {
       hasYear: false,
       hasSector: true,
@@ -234,6 +122,7 @@ function ProjectDetail(props) {
   };
 
   const handleOpenSearch = () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
     setShowSearch(true);
   };
 
@@ -244,10 +133,6 @@ function ProjectDetail(props) {
   /************
    ** FUNC **
    ************/
-  const onChangeSearch = value => {
-    setData({...data, search: value});
-  };
-
   const onFetchData = (
     ownerID = null,
     statusID = null,
@@ -273,7 +158,12 @@ function ProjectDetail(props) {
       !isFiltering
     ) {
       setIsFiltering(true);
-    } else {
+    } else if (
+      statusID === null &&
+      ownerID === null &&
+      sectorID === null &&
+      isFiltering
+    ) {
       setIsFiltering(false);
     }
   };
@@ -524,11 +414,71 @@ function ProjectDetail(props) {
     projectState.get('errorListTask'),
   ]);
 
-  useEffect(() => {
-    navigation.setOptions({
-      headerShown: !showSearchBar,
-    });
-  }, [navigation, showSearchBar]);
+  useLayoutEffect(() => {
+    navigation.setOptions(
+      Object.assign(
+        {
+          title: `${t('project_management:list_task')}${projectID}`,
+          backButtonInCustomView: true,
+          headerLeft: () =>
+            (route.params?.projectID !== null ||
+              route.params?.projectID !== undefined) && (
+              <CIconHeader
+                icons={[
+                  {
+                    show: !navigation.canGoBack(),
+                    showRedDot: false,
+                    icon: IS_IOS ? 'chevron-back' : 'arrow-back',
+                    iconColor: IS_ANDROID ? colors.WHITE : customColors.blue,
+                    onPress: handleBack,
+                  },
+                ]}
+              />
+            ),
+          headerRight: () => (
+            <CIconHeader
+              icons={[
+                {
+                  show: true,
+                  showRedDot: data.search !== '',
+                  icon: 'search',
+                  onPress: handleOpenSearch,
+                },
+                {
+                  show: true,
+                  showRedDot: isFiltering,
+                  icon: 'options',
+                  onPress: handleShowFilter,
+                },
+              ]}
+            />
+          ),
+        },
+        IS_ANDROID
+          ? {
+              headerCenter: () => (
+                <CText
+                  styles={'colorWhite fontMedium'}
+                  customLabel={`${t(
+                    'project_management:list_task',
+                  )}${projectID}`}
+                />
+              ),
+            }
+          : {},
+      ),
+    );
+  }, [
+    navigation,
+    data.search,
+    showFilter.activeOwner,
+    showFilter.activeStatus,
+    showFilter.activeSector,
+    isFiltering,
+    navigation.canGoBack,
+    route.params?.projectID,
+    projectID,
+  ]);
 
   /**************
    ** RENDER **
@@ -558,15 +508,5 @@ function ProjectDetail(props) {
     />
   );
 }
-
-const styles = StyleSheet.create({
-  left: {left: -moderateScale(10)},
-  badge: {
-    height: moderateScale(10),
-    width: moderateScale(10),
-    top: 16,
-    right: 15,
-  },
-});
 
 export default ProjectDetail;

@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 /**
  ** Name: Task Item
  ** Author: DTP-Education
@@ -22,7 +21,6 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 /* COMPONENTS */
 import CText from '~/components/CText';
-import CIconButton from '~/components/CIconButton';
 import CAvatar from '~/components/CAvatar';
 import ListTask from '../list/Task';
 /* COMMON */
@@ -130,12 +128,11 @@ function TaskItem(props) {
   }
   const Touchable = IS_ANDROID ? TouchableNativeFeedback : TouchableOpacity;
   return (
-    <View style={[cStyles.rounded2, {overflow: 'hidden'}]}>
+    <View style={[cStyles.rounded2, cStyles.ofHidden]}>
       <Touchable disabled={props.loading} onPress={handleTaskItem}>
         <View
           style={[
             cStyles.p10,
-            index === 0 && cStyles.mt16,
             cStyles.mb20,
             cStyles.rounded2,
             {
@@ -188,6 +185,7 @@ function TaskItem(props) {
                     </Animatable.View>
                   )}
                 </View>
+
                 <View style={cStyles.pl16}>
                   <View style={[cStyles.row, cStyles.itemsCenter]}>
                     <CAvatar size={'vsmall'} label={data.ownerName} />
@@ -223,54 +221,42 @@ function TaskItem(props) {
                 </View>
               </View>
 
-              <View style={[cStyles.row, cStyles.itemsStart]}>
-                {data.countChild > 0 && (
-                  <View style={showPercentage ? cStyles.pr10 : {}}>
-                    <Animated.View style={{transform: [{rotate: rotateData}]}}>
-                      <CIconButton
-                        iconName={'chevron-down'}
-                        iconColor={customColors.text}
-                        onPress={handleShowChildren}
+              {showPercentage ? (
+                <View style={[cStyles.ofHidden, cStyles.rounded10]}>
+                  <Touchable onPress={handleShowChildren}>
+                    <Progress.Circle
+                      animated={false}
+                      size={moderateScale(30)}
+                      progress={data.percentage / 100}
+                      thickness={moderateScale(1)}
+                      color={customColors.primary}
+                      showsText
+                      textStyle={[
+                        cStyles.textCenter,
+                        cStyles.fontRegular,
+                        {fontSize: moderateScale(8)},
+                      ]}
+                    />
+                  </Touchable>
+                </View>
+              ) : data.countChild > 0 ? (
+                <View style={[cStyles.ofHidden, cStyles.rounded10]}>
+                  <Touchable onPress={handleShowChildren}>
+                    <Animated.View
+                      style={{
+                        width: moderateScale(28),
+                        height: moderateScale(28),
+                        transform: [{rotate: rotateData}],
+                      }}>
+                      <Icon
+                        name={'chevron-down-outline'}
+                        size={moderateScale(28)}
+                        color={customColors.icon}
                       />
                     </Animated.View>
-                    <View
-                      style={[
-                        cStyles.center,
-                        cStyles.rounded2,
-                        cStyles.abs,
-                        styles.badge,
-                        cStyles.borderAll,
-                        isDark && cStyles.borderAllDark,
-                        {backgroundColor: customColors.red},
-                        showPercentage && {right: moderateScale(10)},
-                      ]}>
-                      <Text
-                        style={[
-                          cStyles.fontRegular,
-                          {color: colors.WHITE, fontSize: moderateScale(8)},
-                        ]}>
-                        {data.countChild}
-                      </Text>
-                    </View>
-                  </View>
-                )}
-
-                {showPercentage && (
-                  <Progress.Circle
-                    animated={false}
-                    size={moderateScale(30)}
-                    progress={data.percentage / 100}
-                    thickness={moderateScale(1)}
-                    color={customColors.primary}
-                    showsText
-                    textStyle={[
-                      cStyles.textCenter,
-                      cStyles.fontRegular,
-                      {fontSize: moderateScale(8)},
-                    ]}
-                  />
-                )}
-              </View>
+                  </Touchable>
+                </View>
+              ) : null}
             </View>
 
             <View style={[cStyles.flex1, cStyles.mt10]}>
@@ -284,6 +270,28 @@ function TaskItem(props) {
               />
             </View>
           </View>
+
+          {data.countChild > 0 && (
+            <View
+              style={[
+                cStyles.center,
+                cStyles.rounded2,
+                cStyles.abs,
+                styles.badge,
+                cStyles.borderAll,
+                isDark && cStyles.borderAllDark,
+                {backgroundColor: customColors.red},
+                showPercentage && {right: moderateScale(10)},
+              ]}>
+              <Text
+                style={[
+                  cStyles.fontRegular,
+                  {color: colors.WHITE, fontSize: moderateScale(8)},
+                ]}>
+                {data.countChild}
+              </Text>
+            </View>
+          )}
         </View>
       </Touchable>
 
@@ -316,8 +324,8 @@ const styles = StyleSheet.create({
   badge: {
     height: moderateScale(15),
     width: moderateScale(15),
-    top: 0,
-    right: 0,
+    top: moderateScale(8),
+    right: moderateScale(5),
   },
 });
 

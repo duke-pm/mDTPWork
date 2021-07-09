@@ -37,7 +37,7 @@ const ACCOUNT = {
     childrens: [
       {
         id: 'myAccount',
-        icon: 'person-outline',
+        icon: 'person',
         iconColor: colors.BLUE,
         label: 'account:my_account',
         value: null,
@@ -49,7 +49,7 @@ const ACCOUNT = {
       },
       {
         id: 'changePassword',
-        icon: 'lock-open-outline',
+        icon: 'lock-open',
         iconColor: colors.PURPLE,
         label: 'account:change_password',
         value: null,
@@ -67,7 +67,7 @@ const ACCOUNT = {
     childrens: [
       {
         id: 'settingsApp',
-        icon: IS_IOS ? 'cog-outline' : 'settings-outline',
+        icon: IS_IOS ? 'cog' : 'settings',
         iconColor: colors.GRAY_500,
         label: 'account:app_settings',
         value: null,
@@ -79,7 +79,7 @@ const ACCOUNT = {
       },
       {
         id: 'helpAndInfo',
-        icon: 'information-circle-outline',
+        icon: 'information-circle',
         iconColor: colors.ORANGE,
         label: 'account:help_and_info',
         value: null,
@@ -91,7 +91,7 @@ const ACCOUNT = {
       },
       {
         id: 'hotline',
-        icon: 'call-outline',
+        icon: 'call',
         iconColor: colors.TEAL,
         label: 'account:hotline',
         value: '1800 6242',
@@ -103,7 +103,7 @@ const ACCOUNT = {
       },
       {
         id: 'signout',
-        icon: 'log-out-outline',
+        icon: 'log-out',
         iconColor: colors.RED,
         label: 'common:sign_out',
         value: null,
@@ -310,14 +310,15 @@ function Account(props) {
               <CGroupInfo
                 contentStyle={[
                   isTablet ? cStyles.mx10 : cStyles.mx16,
-                  cStyles.mb10,
+                  isTablet ? cStyles.mb10 : cStyles.mb0,
                   cStyles.px10,
                 ]}
-                label={ACCOUNT.INFORMATION.label}
+                // label={ACCOUNT.INFORMATION.label}
                 content={ACCOUNT.INFORMATION.childrens.map((item, index) => (
                   <ListItem
                     key={item.id}
                     index={index}
+                    lastIndex={ACCOUNT.INFORMATION.childrens.length - 1}
                     data={item}
                     customColors={customColors}
                   />
@@ -328,14 +329,15 @@ function Account(props) {
               <CGroupInfo
                 contentStyle={[
                   isTablet ? cStyles.mx10 : cStyles.mx16,
-                  cStyles.mb10,
+                  isTablet ? cStyles.mb10 : cStyles.mb0,
                   cStyles.px10,
                 ]}
-                label={ACCOUNT.SETTINGS.label}
+                // label={ACCOUNT.SETTINGS.label}
                 content={ACCOUNT.SETTINGS.childrens.map((item, index) => (
                   <ListItem
                     key={item.id}
                     index={index}
+                    lastIndex={ACCOUNT.SETTINGS.childrens.length - 1}
                     data={item}
                     customColors={customColors}
                     onSignOut={handleSignOut}

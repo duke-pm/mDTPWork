@@ -206,53 +206,6 @@ function AddRequest(props) {
     refsAssets: [],
   });
 
-  navigation.setOptions(
-    Object.assign(
-      {
-        title: `${t('add_approved_assets:' + (isDetail ? 'detail' : 'title'))}`,
-        headerLeft: () => (
-          <TouchableOpacity onPress={handleBack}>
-            <View>
-              <Icon
-                name={'close'}
-                color={IS_ANDROID ? colors.WHITE : customColors.icon}
-                size={moderateScale(21)}
-              />
-            </View>
-          </TouchableOpacity>
-        ),
-        headerRight: () => {
-          if (isDetail) {
-            return (
-              <TouchableOpacity onPress={handleShowProcess}>
-                <View>
-                  <Icon
-                    name={'information-circle'}
-                    color={IS_ANDROID ? colors.WHITE : customColors.icon}
-                    size={moderateScale(21)}
-                  />
-                </View>
-              </TouchableOpacity>
-            );
-          }
-          return null;
-        },
-      },
-      IS_ANDROID
-        ? {
-            headerCenter: () => (
-              <CText
-                styles={'colorWhite fontMedium'}
-                customLabel={`${t(
-                  'add_approved_assets:' + (isDetail ? 'detail' : 'title'),
-                )}`}
-              />
-            ),
-          }
-        : {},
-    ),
-  );
-
   /*****************
    ** HANDLE FUNC **
    *****************/
@@ -624,6 +577,54 @@ function AddRequest(props) {
       }
     };
   }, []);
+
+  useLayoutEffect(() => {
+    navigation.setOptions(
+      Object.assign(
+        {
+          title: `${t(
+            'add_approved_assets:' + (isDetail ? 'detail' : 'title'),
+          )}`,
+          headerLeft: () => (
+            <CIconHeader
+              icons={[
+                {
+                  show: true,
+                  showRedDot: false,
+                  icon: 'close',
+                  onPress: handleBack,
+                },
+              ]}
+            />
+          ),
+          headerRight: () => (
+            <CIconHeader
+              icons={[
+                {
+                  show: isDetail,
+                  showRedDot: false,
+                  icon: 'information-circle',
+                  onPress: handleShowProcess,
+                },
+              ]}
+            />
+          ),
+        },
+        IS_ANDROID
+          ? {
+              headerCenter: () => (
+                <CText
+                  styles={'colorWhite fontMedium'}
+                  customLabel={`${t(
+                    'add_approved_assets:' + (isDetail ? 'detail' : 'title'),
+                  )}`}
+                />
+              ),
+            }
+          : {},
+      ),
+    );
+  }, [navigation]);
 
   /**************
    ** RENDER **

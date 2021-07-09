@@ -6,11 +6,13 @@
  **/
 import React from 'react';
 import {useTheme} from '@react-navigation/native';
-import {StyleSheet, ActivityIndicator, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 /* COMPONENTS */
 import CText from './CText';
 /* COMMON */
-import {colors, cStyles} from '~/utils/style';
+import {cStyles} from '~/utils/style';
+import CActivityIndicator from './CActivityIndicator';
+import {moderateScale} from '~/utils/helper';
 
 function CGroupInfo({
   style = {},
@@ -24,6 +26,9 @@ function CGroupInfo({
 }) {
   const {customColors} = useTheme();
 
+  /************
+   ** RENDER **
+   ************/
   if (empty) {
     return null;
   }
@@ -47,18 +52,14 @@ function CGroupInfo({
           loading && styles.group_holder,
           contentStyle,
         ]}>
-        {loading ? (
-          <ActivityIndicator size={'small'} color={colors.GRAY_500} />
-        ) : (
-          content
-        )}
+        {loading ? <CActivityIndicator /> : content}
       </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  group_holder: {height: 50},
+  group_holder: {height: moderateScale(50)},
 });
 
 export default CGroupInfo;

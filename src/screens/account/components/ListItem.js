@@ -30,6 +30,8 @@ function ListItem(props) {
   const {t} = useTranslation();
   const {
     key,
+    index,
+    lastIndex,
     data,
     dataActiveLang,
     dataToggle,
@@ -101,7 +103,8 @@ function ListItem(props) {
           cStyles.row,
           cStyles.itemsCenter,
           cStyles.justifyBetween,
-          cStyles.py12,
+          cStyles.pb12,
+          lastIndex === index && cStyles.pb0,
         ]}>
         <View style={[cStyles.center, styles.con_left]}>
           <View
@@ -144,13 +147,7 @@ function ListItem(props) {
             )}
           </View>
 
-          <View
-            style={[
-              cStyles.row,
-              cStyles.itemsCenter,
-              cStyles.justifyEnd,
-              cStyles.pr8,
-            ]}>
+          <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyEnd]}>
             {data.value && data.isPhone && <CText label={data.value} />}
 
             {data.isChooseLang && (
@@ -182,12 +179,10 @@ function ListItem(props) {
               />
             )}
             {data.isToggle && dataToggle && (
-              <View style={cStyles.mr6}>
-                <Switch
-                  value={dataToggle.valueBiometric}
-                  onValueChange={onToggle}
-                />
-              </View>
+              <Switch
+                value={dataToggle.valueBiometric}
+                onValueChange={onToggle}
+              />
             )}
           </View>
         </View>
