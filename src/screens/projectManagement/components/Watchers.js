@@ -5,7 +5,7 @@
  ** CreateAt: 2021
  ** Description: Description of Watchers.js
  **/
-import React, {useState, useEffect, useLayoutEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
@@ -18,7 +18,6 @@ import {
   ScrollView,
   UIManager,
   LayoutAnimation,
-  StatusBar,
 } from 'react-native';
 import {isIphoneX} from 'react-native-iphone-x-helper';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -32,11 +31,10 @@ import CContent from '~/components/CContent';
 import CButton from '~/components/CButton';
 import CCard from '~/components/CCard';
 import CLabel from '~/components/CLabel';
-import CIconHeader from '~/components/CIconHeader';
 /* COMMON */
 import {THEME_DARK} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
-import {moderateScale, IS_ANDROID, IS_IOS} from '~/utils/helper';
+import {moderateScale, IS_ANDROID} from '~/utils/helper';
 /** REDUX */
 import * as Actions from '~/redux/actions';
 
@@ -152,13 +150,6 @@ function Watchers(props) {
    ** LIFE CYCLE **
    ******************/
   useEffect(() => {
-    if (IS_IOS) {
-      if (isDark) {
-        // Do nothing
-      } else {
-        StatusBar.setBarStyle('light-content', true);
-      }
-    }
     onPrepareData();
   }, []);
 
@@ -191,49 +182,6 @@ function Watchers(props) {
     });
     return unsubscribe;
   }, [navigation, needRefresh]);
-
-  useLayoutEffect(() => {
-    return () => {
-      if (IS_IOS) {
-        if (isDark) {
-          // Do nothing
-        } else {
-          StatusBar.setBarStyle('dark-content', true);
-        }
-      }
-    };
-  }, []);
-
-  useLayoutEffect(() => {
-    navigation.setOptions(
-      Object.assign(
-        {
-          headerLeft: () => (
-            <CIconHeader
-              icons={[
-                {
-                  show: true,
-                  showRedDot: false,
-                  icon: 'close',
-                  onPress: handleBack,
-                },
-              ]}
-            />
-          ),
-        },
-        IS_ANDROID
-          ? {
-              headerCenter: () => (
-                <CText
-                  styles={'colorWhite fontMedium'}
-                  label={'project_management:title_watcher'}
-                />
-              ),
-            }
-          : {},
-      ),
-    );
-  }, [navigation]);
 
   /**************
    ** RENDER **

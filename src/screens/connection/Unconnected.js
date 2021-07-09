@@ -6,7 +6,7 @@
  **/
 import React from 'react';
 import {useTheme} from '@react-navigation/native';
-import {StyleSheet, View} from 'react-native';
+import {View} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 /* COMPONENTS */
 import CText from '~/components/CText';
@@ -16,11 +16,12 @@ import {cStyles} from '~/utils/style';
 function Unconnected(props) {
   const {customColors} = useTheme();
 
-  /**************
+  /************
    ** RENDER **
-   **************/
-  if (props.connected) return null;
-
+   ************/
+  if (props.connected) {
+    return null;
+  }
   return (
     <View
       style={[
@@ -53,9 +54,5 @@ function Unconnected(props) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  connection: {height: 200, width: 200},
-});
 
 export default Unconnected;

@@ -237,7 +237,7 @@ export const fetchAddRequestApproved = (params, navigation) => {
           return dispatch(
             Actions.fetchRefreshToken(
               tmp,
-              () => fetchAddRequestApproved(params, navigation),
+              () => fetchAddRequestApproved(params),
               navigation,
             ),
           );
@@ -282,7 +282,7 @@ export const fetchApprovedRequest = (params, navigation) => {
           return dispatch(
             Actions.fetchRefreshToken(
               tmp,
-              () => fetchApprovedRequest(params, navigation),
+              () => fetchApprovedRequest(params),
               navigation,
             ),
           );
@@ -327,7 +327,7 @@ export const fetchRejectRequest = (params, navigation) => {
           return dispatch(
             Actions.fetchRefreshToken(
               tmp,
-              () => fetchRejectRequest(params, navigation),
+              () => fetchRejectRequest(params),
               navigation,
             ),
           );
@@ -376,7 +376,7 @@ export const fetchAddRequestLostDamage = (params, formData, navigation) => {
           return dispatch(
             Actions.fetchRefreshToken(
               tmp,
-              () => fetchAddRequestLostDamage(params, formData, navigation),
+              () => fetchAddRequestLostDamage(params, formData),
               navigation,
             ),
           );

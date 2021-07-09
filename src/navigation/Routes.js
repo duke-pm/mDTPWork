@@ -47,7 +47,7 @@ const Routes = {
       path: ForgotPasswordScreen,
     },
     CHANGE_PASSWORD: {
-      name: 'ChangePassword',
+      name: 'UpdatePassword',
       path: ChangePasswordScreen,
     },
   },

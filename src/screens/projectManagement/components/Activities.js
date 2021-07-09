@@ -5,10 +5,9 @@
  ** CreateAt: 2021
  ** Description: Description of Activity.js
  **/
-import React, {useState, useEffect, useLayoutEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-import {useColorScheme} from 'react-native-appearance';
 import {useTheme} from '@react-navigation/native';
 import {showMessage} from 'react-native-flash-message';
 import {ifIphoneX} from 'react-native-iphone-x-helper';
@@ -17,7 +16,6 @@ import {
   View,
   Keyboard,
   Text,
-  StatusBar,
   KeyboardAvoidingView,
 } from 'react-native';
 import moment from 'moment';
@@ -27,12 +25,17 @@ import CText from '~/components/CText';
 import CInput from '~/components/CInput';
 import CIconButton from '~/components/CIconButton';
 import CList from '~/components/CList';
-import CIconHeader from '~/components/CIconHeader';
 import CAvatar from '~/components/CAvatar';
 /* COMMON */
-import {LAST_COMMENT_TASK, THEME_DARK} from '~/config/constants';
+import {LAST_COMMENT_TASK} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
-import {saveLocalInfo, getLocalInfo, IS_IOS, IS_ANDROID} from '~/utils/helper';
+import {
+  saveLocalInfo,
+  getLocalInfo,
+  IS_IOS,
+  IS_ANDROID,
+  moderateScale,
+} from '~/utils/helper';
 import {LOCALE_VI, LOCALE_EN} from '~/utils/language/comment';
 /** REDUX */
 import * as Actions from '~/redux/actions';
@@ -40,9 +43,6 @@ import * as Actions from '~/redux/actions';
 const INPUT_NAME = {
   MESSAGE: 'message',
 };
-const statusBarHeight = ifIphoneX(44, 36);
-const navBarHeight = ifIphoneX(44, 56);
-const headerHeight = statusBarHeight + navBarHeight; // Use this for the keyboardVerticalOffset
 
 const RenderInputMessage = ({
   customColors,
@@ -53,8 +53,7 @@ const RenderInputMessage = ({
   return (
     <View
       style={[
-        cStyles.pb10,
-        cStyles.isIphoneX() && cStyles.pb36,
+        ifIphoneX(cStyles.pb24, cStyles.pb6),
         cStyles.fullWidth,
         {
           backgroundColor: customColors.background,
@@ -92,7 +91,6 @@ const RenderInputMessage = ({
 
 function Activity(props) {
   const {t} = useTranslation();
-  const isDark = useColorScheme() === THEME_DARK;
   const {customColors} = useTheme();
   const {route, navigation} = props;
   const taskID = route.params.data.taskID;
@@ -119,13 +117,6 @@ function Activity(props) {
   const [valueMessage, setValueMessage] = useState('');
   const [messages, setMessages] = useState([]);
 
-  /*****************
-   ** HANDLE FUNC **
-   *****************/
-  const handleBack = () => {
-    navigation.goBack();
-  };
-
   /************
    ** FUNC **
    ************/
@@ -135,21 +126,30 @@ function Activity(props) {
     if (!isUpdate) {
       let item = null,
         date = null,
-        find = null;
+        find = null,
+        tmp = null;
       for (item of activities) {
         date = moment(item.timeUpdate, 'DD/MM/YYYY - HH:mm').format(
           'dddd - DD/MM/YYYY',
         );
         find = array.findIndex(f => f.title === date);
         if (find !== -1) {
+          if (tmp && tmp.userName === item.userName) {
+            item.showAvatar = false;
+          } else {
+            item.showAvatar = true;
+          }
           array[find].data.unshift(item);
         } else {
+          item.showAvatar = true;
           array.unshift({
             title: date,
             data: [item],
           });
         }
+        tmp = item;
       }
+      console.log('[LOG] === array ===> ', array);
     } else {
       array = [...messages];
       let lastCmt = activities[activities.length - 1];
@@ -230,13 +230,6 @@ function Activity(props) {
    ** LIFE CYCLE **
    ******************/
   useEffect(() => {
-    if (IS_IOS) {
-      if (isDark) {
-        // Do nothing
-      } else {
-        StatusBar.setBarStyle('light-content', true);
-      }
-    }
     onPrepareData(false);
     onUpdateLastComment();
   }, []);
@@ -261,49 +254,6 @@ function Activity(props) {
     projectState.get('errorTaskComment'),
   ]);
 
-  useLayoutEffect(() => {
-    return () => {
-      if (IS_IOS) {
-        if (isDark) {
-          // Do nothing
-        } else {
-          StatusBar.setBarStyle('dark-content', true);
-        }
-      }
-    };
-  }, []);
-
-  useLayoutEffect(() => {
-    navigation.setOptions(
-      Object.assign(
-        {
-          headerLeft: () => (
-            <CIconHeader
-              icons={[
-                {
-                  show: true,
-                  showRedDot: false,
-                  icon: 'close',
-                  onPress: handleBack,
-                },
-              ]}
-            />
-          ),
-        },
-        IS_ANDROID
-          ? {
-              headerCenter: () => (
-                <CText
-                  styles={'colorWhite fontMedium'}
-                  label={'project_management:title_activity'}
-                />
-              ),
-            }
-          : {},
-      ),
-    );
-  }, [navigation]);
-
   /**************
    ** RENDER **
    **************/
@@ -316,11 +266,13 @@ function Activity(props) {
             cStyles.flex1,
             {backgroundColor: customColors.backgroundActivity},
           ]}
-          behavior={IS_IOS ? 'padding' : undefined}
-          keyboardVerticalOffset={headerHeight}>
+          behavior={IS_IOS ? 'padding' : undefined}>
           {!loading.main && (
             <CList
-              contentStyle={cStyles.pt16}
+              contentStyle={[
+                cStyles.pb60,
+                messages.length === 0 && cStyles.mt60,
+              ]}
               customColors={customColors}
               sectionList
               inverted={messages.length > 0}
@@ -338,9 +290,9 @@ function Activity(props) {
                           cStyles.p10,
                           cStyles.ml10,
                           {
-                            backgroundColor: isDark
-                              ? colors.GRAY_860
-                              : customColors.green2,
+                            backgroundColor: IS_ANDROID
+                              ? colors.STATUS_TO_BE_SCHEDULE_OPACITY
+                              : colors.STATUS_NEW_OPACITY,
                           },
                         ]}>
                         <CText
@@ -349,9 +301,7 @@ function Activity(props) {
                             cStyles.textRight,
                             {color: customColors.text},
                           ]}
-                          customLabel={`${t(
-                            'project_management:last_updated_at',
-                          )} ${moment(
+                          customLabel={`${moment(
                             item.timeUpdate,
                             'DD/MM/YYYY - HH:mm',
                           ).format('HH:mm')}`}
@@ -370,54 +320,74 @@ function Activity(props) {
                     </View>
                   );
                 }
-
                 return (
                   <View
                     style={[
                       cStyles.row,
-                      cStyles.itemsEnd,
+                      cStyles.itemsStart,
                       cStyles.pb6,
                       cStyles.mr32,
+                      item.showAvatar && cStyles.mt10,
                     ]}>
-                    <CAvatar size={'small'} label={item.fullName} />
-                    <View
-                      style={[
-                        cStyles.roundedTopRight2,
-                        cStyles.roundedBottomRight2,
-                        cStyles.roundedBottomLeft2,
-                        cStyles.p10,
-                        cStyles.ml10,
-                        {
-                          backgroundColor: isDark
-                            ? customColors.cardDisable
-                            : colors.GRAY_100,
-                        },
-                      ]}>
-                      <Text>
-                        <Text
-                          style={[
-                            cStyles.textTitle,
-                            {color: customColors.primary},
-                          ]}>
-                          {item.fullName}
-                        </Text>
+                    {item.showAvatar ? (
+                      <View style={styles.container_chat}>
+                        <CAvatar size={'small'} label={item.fullName} />
                         <Text
                           style={[
                             cStyles.textDate,
                             cStyles.textLeft,
-                            {color: customColors.text},
+                            cStyles.mt10,
+                            {
+                              color: customColors.text,
+                            },
                           ]}>
-                          {`, ${t(
-                            'project_management:last_updated_at',
-                          )} ${moment(
+                          {`${moment(
                             item.timeUpdate,
                             'DD/MM/YYYY - HH:mm',
                           ).format('HH:mm')}`}
                         </Text>
-                      </Text>
-
-                      <View style={cStyles.mt10}>
-                        <CText customLabel={item.comments} />
+                      </View>
+                    ) : (
+                      <View style={styles.container_chat}>
+                        <Text
+                          style={[
+                            cStyles.textDate,
+                            cStyles.textLeft,
+                            cStyles.mt10,
+                            {color: customColors.text},
+                          ]}>
+                          {`${moment(
+                            item.timeUpdate,
+                            'DD/MM/YYYY - HH:mm',
+                          ).format('HH:mm')}`}
+                        </Text>
+                      </View>
+                    )}
+                    <View>
+                      {item.showAvatar && (
+                        <View style={[cStyles.ml10, cStyles.mb6]}>
+                          <Text
+                            style={[
+                              cStyles.textSubTitle,
+                              {color: customColors.primary},
+                            ]}>
+                            {item.fullName}
+                          </Text>
+                        </View>
+                      )}
+                      <View
+                        style={[
+                          cStyles.roundedTopRight2,
+                          cStyles.roundedBottomRight2,
+                          cStyles.roundedBottomLeft2,
+                          cStyles.p10,
+                          cStyles.ml10,
+                          {backgroundColor: colors.STATUS_CLOSE_OPACITY},
+                        ]}>
+                        <CText
+                          customStyles={[cStyles.textDefault, {lineHeight: 24}]}
+                          customLabel={item.comments}
+                        />
                       </View>
                     </View>
                   </View>
@@ -440,6 +410,10 @@ function Activity(props) {
 const styles = StyleSheet.create({
   input_focus: {borderColor: colors.WHITE},
   input: {width: '85%'},
+  container_chat: {
+    height: moderateScale(32),
+    width: moderateScale(32),
+  },
 });
 
 export default Activity;

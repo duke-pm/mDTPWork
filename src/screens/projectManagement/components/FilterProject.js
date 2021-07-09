@@ -12,7 +12,6 @@ import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
 import {
   StyleSheet,
-  ActivityIndicator,
   TouchableOpacity,
   View,
   StatusBar,
@@ -29,6 +28,7 @@ import CActionSheet from '~/components/CActionSheet';
 import CList from '~/components/CList';
 import CAvatar from '~/components/CAvatar';
 import CIconHeader from '~/components/CIconHeader';
+import CActivityIndicator from '~/components/CActivityIndicator';
 /* COMMON */
 import Configs from '~/config';
 import {THEME_DARK} from '~/config/constants';
@@ -77,7 +77,7 @@ const RowPicker = (
           ]}>
           <CText label={label} />
           <View style={[cStyles.row, cStyles.itemsCenter]}>
-            {loading ? <ActivityIndicator /> : <CText label={active} />}
+            {loading ? <CActivityIndicator /> : <CText label={active} />}
             <Icon
               name={'chevron-forward'}
               size={moderateScale(21)}

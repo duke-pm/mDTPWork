@@ -9,20 +9,16 @@ import React, {createRef, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {showMessage} from 'react-native-flash-message';
-import {
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  ActivityIndicator,
-} from 'react-native';
+import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import Picker from '@gregfrench/react-native-wheel-picker';
 import Icon from 'react-native-vector-icons/Ionicons';
 /* COMPONENTS */
 import CText from '~/components/CText';
 import CActionSheet from '~/components/CActionSheet';
+import CActivityIndicator from '~/components/CActivityIndicator';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
-import {moderateScale, sH} from '~/utils/helper';
+import {moderateScale} from '~/utils/helper';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 
@@ -199,9 +195,7 @@ function Status(props) {
             customLabel={task.statusName.toUpperCase()}
           />
           {loading ? (
-            <ActivityIndicator
-              color={isDark ? colors.GRAY_200 : colors.WHITE}
-            />
+            <CActivityIndicator />
           ) : (
             isUpdate && (
               <Icon

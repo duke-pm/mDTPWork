@@ -74,7 +74,6 @@ function ListItem(props) {
     } else if (data.isChooseLang) {
       data.onPress?.current?.show();
     } else if (isSignOut) {
-      console.log('[LOG] === onSignOut ===> ');
       onSignOut();
     }
   };

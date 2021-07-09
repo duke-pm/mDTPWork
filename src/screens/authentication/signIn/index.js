@@ -214,13 +214,15 @@ function SignIn(props) {
         lstMenu: authState.getIn(['login', 'lstMenu']),
       };
       await saveSecretInfo({key: LOGIN, value: dataLogin});
-      await saveSecretInfo({
-        key: FAST_LOGIN,
-        value: {
-          userName: form.userName.trim(),
-          password: form.password.trim(),
-        },
-      });
+      if (!fastLogin.status) {
+        await saveSecretInfo({
+          key: FAST_LOGIN,
+          value: {
+            userName: form.userName.trim(),
+            password: form.password.trim(),
+          },
+        });
+      }
     } else {
       await removeSecretInfo(LOGIN);
     }
@@ -301,6 +303,8 @@ function SignIn(props) {
       /** Check biometrics */
       let dataFastLogin = await getSecretInfo(FAST_LOGIN);
       let isBio = await getLocalInfo(BIOMETRICS);
+      console.log('[LOG] ===  ===> ', dataFastLogin);
+      console.log('[LOG] ===  ===> ', isBio);
       if (
         isBio === '1' &&
         dataFastLogin &&

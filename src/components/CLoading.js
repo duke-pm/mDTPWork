@@ -6,11 +6,13 @@
  **/
 import React from 'react';
 import {useColorScheme} from 'react-native-appearance';
-import {View, StyleSheet, ActivityIndicator} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import Modal from 'react-native-modal';
 import * as Animatable from 'react-native-animatable';
+/** COMPONENTS */
+import CActivityIndicator from './CActivityIndicator';
 /** COMMON */
-import {colors, cStyles} from '~/utils/style';
+import {cStyles} from '~/utils/style';
 import {moderateScale} from '~/utils/helper';
 import {THEME_DARK} from '~/config/constants';
 
@@ -46,7 +48,7 @@ function CLoading(props) {
           duration={1000}
           easing={'ease-out'}
           iterationCount={'infinite'}>
-          <ActivityIndicator size={'small'} color={colors.GRAY_500} />
+          <CActivityIndicator />
         </Animatable.View>
       </View>
     </Modal>

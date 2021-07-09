@@ -5,9 +5,10 @@
  ** Description: Description of .js
  **/
 import React from 'react';
-import {View, ActivityIndicator} from 'react-native';
+import {View} from 'react-native';
 /* COMPONENTS */
 import CText from '~/components/CText';
+import CActivityIndicator from '~/components/CActivityIndicator';
 /* COMMON */
 import {cStyles} from '~/utils/style';
 
@@ -20,7 +21,7 @@ function TabbarLoading(props) {
   }
   return (
     <View style={[cStyles.flexCenter]}>
-      <ActivityIndicator size={'small'} />
+      <CActivityIndicator />
       <CText styles={'textMeta pt10 textCenter'} label={'loading'} />
     </View>
   );

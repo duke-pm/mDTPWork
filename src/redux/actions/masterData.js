@@ -49,7 +49,7 @@ export const fetchMasterData = (params, navigation) => {
           return dispatch(
             Actions.fetchRefreshToken(
               tmp,
-              () => fetchMasterData(params, navigation),
+              () => fetchMasterData(params),
               navigation,
             ),
           );
@@ -84,7 +84,7 @@ export const fetchAssetByUser = (params, navigation) => {
           return dispatch(
             Actions.fetchRefreshToken(
               tmp,
-              () => fetchMasterData(params, navigation),
+              () => fetchMasterData(params),
               navigation,
             ),
           );

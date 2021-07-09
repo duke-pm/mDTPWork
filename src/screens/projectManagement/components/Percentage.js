@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react-hooks/exhaustive-deps */
 /**
  ** Name: Percentage
@@ -16,16 +15,17 @@ import {
   TouchableOpacity,
   Text,
   TextInput,
-  ActivityIndicator,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+/** COMPONENTS */
+import CActivityIndicator from '~/components/CActivityIndicator';
 /* COMMON */
 import {THEME_DARK, THEME_LIGHT} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
 import Commons from '~/utils/common/Commons';
+import {moderateScale} from '~/utils/helper';
 /** REDUX */
 import * as Actions from '~/redux/actions';
-import {moderateScale} from '~/utils/helper';
 
 /** All refs of page */
 let percentRef = createRef();
@@ -306,10 +306,7 @@ function Percentage(props) {
         )}
 
         {loading && (
-          <ActivityIndicator
-            style={cStyles.pl2}
-            color={isDark ? colors.GRAY_200 : colors.GRAY_900}
-          />
+          <CActivityIndicator style={cStyles.pl2} />
         )}
       </View>
     </TouchableOpacity>

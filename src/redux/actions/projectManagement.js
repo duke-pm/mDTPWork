@@ -98,7 +98,7 @@ export const fetchListTask = (params, navigation) => {
           return dispatch(
             Actions.fetchRefreshToken(
               tmp,
-              () => fetchListTask(params, navigation),
+              () => fetchListTask(params),
               navigation,
             ),
           );
@@ -142,7 +142,7 @@ export const fetchTaskDetail = (params, navigation) => {
           return dispatch(
             Actions.fetchRefreshToken(
               tmp,
-              () => fetchTaskDetail(params, navigation),
+              () => fetchTaskDetail(params),
               navigation,
             ),
           );

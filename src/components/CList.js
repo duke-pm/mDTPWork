@@ -5,7 +5,6 @@
  ** Description: Description of CList.js
  **/
 import React, {createRef} from 'react';
-import {useColorScheme} from 'react-native-appearance';
 import {StyleSheet, View, FlatList, SectionList} from 'react-native';
 /* COMPONENTS */
 import CEmpty from './CEmpty';
@@ -14,13 +13,11 @@ import CFooterList from './CFooterList';
 /* COMMON */
 import {IS_ANDROID} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
-import {THEME_DARK} from '~/config/constants';
 
 /** All refs of CList */
 let listRef = createRef();
 
 function CList(props) {
-  const isDark = useColorScheme() === THEME_DARK;
   const {
     style = {},
     contentStyle = {},
@@ -95,17 +92,19 @@ function CList(props) {
           }}
           renderSectionFooter={({section}) => {
             return (
-              <View style={[cStyles.flexCenter, cStyles.py10, styles.title]}>
+              <View
+                style={[
+                  cStyles.flexCenter,
+                  cStyles.py10,
+                  cStyles.pt24,
+                  styles.title,
+                ]}>
                 <View
                   style={[
                     cStyles.py4,
                     cStyles.px16,
                     cStyles.rounded5,
-                    {
-                      backgroundColor: isDark
-                        ? colors.GRAY_700
-                        : colors.GRAY_200,
-                    },
+                    {backgroundColor: colors.STATUS_ON_HOLD_OPACITY},
                   ]}>
                   <CText styles={'textMeta'} customLabel={section.title} />
                 </View>

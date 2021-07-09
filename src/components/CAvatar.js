@@ -7,12 +7,10 @@
  **/
 import React, {useState} from 'react';
 import {useTheme} from '@react-navigation/native';
-import {useColorScheme} from 'react-native-appearance';
 import {
   StyleSheet,
   View,
   Animated,
-  ActivityIndicator,
   TouchableOpacity,
   Text,
   SafeAreaView,
@@ -23,15 +21,14 @@ import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/Ionicons';
 /** COMPONENTS */
 import CText from './CText';
+import CActivityIndicator from './CActivityIndicator';
 /* COMMON */
 import {Assets} from '~/utils/asset';
-import {IS_ANDROID, askPermissionsCamera, moderateScale} from '~/utils/helper';
+import {askPermissionsCamera, moderateScale} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
-import {THEME_DARK} from '~/config/constants';
 
 function CAvatar(props) {
   const {customColors} = useTheme();
-  const isDark = useColorScheme() === THEME_DARK;
   const {
     containerStyle = {},
     imageStyle = {},
@@ -176,18 +173,7 @@ function CAvatar(props) {
             styles.con_loading,
             {opacity: anim},
           ]}>
-          <ActivityIndicator
-            color={colors.GRAY_500}
-            size={
-              IS_ANDROID
-                ? size === 'small'
-                  ? moderateScale(10)
-                  : size === 'medium'
-                  ? moderateScale(15)
-                  : moderateScale(20)
-                : 'small'
-            }
-          />
+          <CActivityIndicator />
         </Animated.View>
 
         {isEdit && (

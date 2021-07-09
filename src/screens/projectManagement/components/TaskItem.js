@@ -135,6 +135,7 @@ function TaskItem(props) {
             cStyles.p10,
             cStyles.mb20,
             cStyles.rounded2,
+            index === 0 && cStyles.mt12,
             {
               backgroundColor: customColors.listItem,
               borderLeftColor: typeColor,

@@ -8,23 +8,18 @@
 import React, {useState, useEffect} from 'react';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
-import {
-  StyleSheet,
-  View,
-  Image,
-  Text,
-  TouchableOpacity,
-  ActivityIndicator,
-} from 'react-native';
+import {StyleSheet, View, Image, Text, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import RNFS from 'react-native-fs';
 import FileViewer from 'react-native-file-viewer';
 import * as Progress from 'react-native-progress';
+/** COMPONENTS */
+import CActivityIndicator from '~/components/CActivityIndicator';
 /* COMMON */
 import {Extensions} from '~/utils/asset';
 import {THEME_DARK} from '~/config/constants';
 import {cStyles, colors} from '~/utils/style';
-import {checkExistsFile, moderateScale, IS_IOS} from '~/utils/helper';
+import {checkExistsFile, moderateScale} from '~/utils/helper';
 import API from '~/services/axios';
 
 function FileAttach(props) {
@@ -139,12 +134,7 @@ function FileAttach(props) {
                 styles.con_icon_download,
                 {backgroundColor: customColors.card},
               ]}>
-              {loading && (
-                <ActivityIndicator
-                  color={customColors.icon}
-                  size={IS_IOS ? 'small' : moderateScale(12)}
-                />
-              )}
+              {loading && <CActivityIndicator />}
               {!loading && (
                 <Icon
                   name={'cloud-download'}

@@ -15,7 +15,6 @@ import {
   StyleSheet,
   View,
   TouchableOpacity,
-  ActivityIndicator,
   Keyboard,
   UIManager,
   LayoutAnimation,
@@ -37,6 +36,7 @@ import CLabel from '~/components/CLabel';
 import CAvoidKeyboard from '~/components/CAvoidKeyboard';
 import CGroupInfo from '~/components/CGroupInfo';
 import CIconHeader from '~/components/CIconHeader';
+import CActivityIndicator from '~/components/CActivityIndicator';
 import RejectModal from '../components/RejectModal';
 import RequestProcess from '../components/RequestProcess';
 import CheckOption from '../components/CheckOption';
@@ -131,7 +131,7 @@ const RowSelect = (
               }
             />
           ) : (
-            <ActivityIndicator size={'small'} />
+            <CActivityIndicator />
           )}
           {!disabled && (
             <Icon

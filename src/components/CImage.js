@@ -6,8 +6,10 @@
  **/
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Animated, ActivityIndicator} from 'react-native';
+import {Animated} from 'react-native';
 import FastImage from 'react-native-fast-image';
+/** COMPONENTS */
+import CActivityIndicator from './CActivityIndicator';
 /** COMMON */
 import {Assets} from '~/utils/asset';
 import {cStyles} from '~/utils/style';
@@ -129,7 +131,7 @@ class CImage extends React.Component {
             styles.con_loading,
             {opacity: this.state._animOpacity},
           ]}>
-          <ActivityIndicator />
+          <CActivityIndicator />
         </Animated.View>
         {children}
       </FastImage>

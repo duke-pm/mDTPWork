@@ -8,18 +8,13 @@ import React, {useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useColorScheme} from 'react-native-appearance';
 import {useTheme} from '@react-navigation/native';
-import {
-  LayoutAnimation,
-  UIManager,
-  ActivityIndicator,
-  Platform,
-  View,
-} from 'react-native';
+import {LayoutAnimation, UIManager, Platform, View} from 'react-native';
 import SearchBar from 'react-native-platform-searchbar';
 /** COMPONENTS */
 import CIconButton from './CIconButton';
+import CActivityIndicator from './CActivityIndicator';
 /* COMMON */
-import {IS_ANDROID, moderateScale} from '~/utils/helper';
+import {IS_ANDROID} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
 
 if (IS_ANDROID) {
@@ -108,7 +103,7 @@ function CSearchBar(props) {
         onChangeText={onChangeText}
         onCancel={handleCancelInput}
         onClear={handleClearInput}>
-        {loading ? <ActivityIndicator style={cStyles.mr10} /> : undefined}
+        {loading ? <CActivityIndicator style={cStyles.mr10} /> : undefined}
       </SearchBar>
     </View>
   );
