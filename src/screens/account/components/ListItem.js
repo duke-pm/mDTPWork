@@ -1,5 +1,5 @@
 /**
- ** Name: ListItem
+ ** Name: List Item
  ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of ListItem.js
@@ -33,7 +33,6 @@ function ListItem(props) {
     data,
     dataActiveLang,
     dataToggle,
-    isDark,
     customColors,
     onSignOut,
     onToggle,
@@ -135,7 +134,7 @@ function ListItem(props) {
             cStyles.itemsCenter,
             styles.con_right,
           ]}>
-          <View style={[cStyles.ml6, {flex: 0.8}]}>
+          <View style={[cStyles.ml6, styles.container_label]}>
             <CText
               customStyles={isSignOut ? {color: customColors.red} : {}}
               label={data.label}
@@ -200,6 +199,7 @@ function ListItem(props) {
 const styles = StyleSheet.create({
   con_left: {flex: 0.15},
   con_right: {flex: 0.85},
+  container_label: {flex: 0.8},
   img_flag: {height: moderateScale(20), width: moderateScale(20)},
   img_biometric: {height: moderateScale(23), width: moderateScale(23)},
 });

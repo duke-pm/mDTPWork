@@ -52,6 +52,7 @@ const main = {
   toolbarDefaultBorder,
   deviceHeight,
   deviceWidth,
+  ofHidden: {overflow: 'hidden'},
 };
 
 const padding = {

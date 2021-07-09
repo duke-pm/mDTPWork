@@ -9,22 +9,36 @@ import {useNavigation} from '@react-navigation/native';
 import {isIphoneX} from 'react-native-iphone-x-helper';
 import {StyleSheet} from 'react-native';
 /* COMPONENTS */
-import RequestItem from '../../components/RequestItem';
+import RequestItem from './RequestItem';
 import CList from '~/components/CList';
 /* COMMON */
 import Routes from '~/navigation/Routes';
 import {cStyles} from '~/utils/style';
-import {IS_IOS} from '~/utils/helper';
+import {IS_IOS, moderateScale} from '~/utils/helper';
+import Commons from '~/utils/common/Commons';
 
 function ListRequest(props) {
   const navigation = useNavigation();
-  const {permissionWrite, customColors, onLoadmore, onRefresh} = props;
+  const {
+    permissionWrite = false,
+    customColors = {},
+    onLoadmore = () => {},
+    onRefresh = () => {},
+    routeDetail = Routes.MAIN.ADD_APPROVED_ASSETS.name,
+  } = props;
 
   /*****************
    ** HANDLE FUNC **
    *****************/
   const handleRequestItem = (data, dataProcess, dataDetail) => {
-    navigation.navigate(Routes.MAIN.ADD_APPROVED_ASSETS.name, {
+    let route = routeDetail;
+    if (routeDetail === 'auto') {
+      route = Routes.MAIN.ADD_APPROVED_LOST_DAMAGED.name;
+      if (data.requestTypeID === Commons.APPROVED_TYPE.ASSETS.value) {
+        route = Routes.MAIN.ADD_APPROVED_ASSETS.name;
+      }
+    }
+    navigation.navigate(route, {
       data: data,
       dataProcess: dataProcess,
       dataDetail: dataDetail,
@@ -69,7 +83,7 @@ function ListRequest(props) {
 
 const styles = StyleSheet.create({
   content: {
-    paddingBottom: isIphoneX() ? 100 : 60,
+    paddingBottom: isIphoneX() ? moderateScale(100) : moderateScale(60),
   },
 });
 

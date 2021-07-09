@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react-hooks/exhaustive-deps */
 /**
  ** Name: Add new request
@@ -12,13 +11,12 @@ import {useTranslation} from 'react-i18next';
 import {useColorScheme} from 'react-native-appearance';
 import {useTheme} from '@react-navigation/native';
 import {showMessage} from 'react-native-flash-message';
-import {isIphoneX} from 'react-native-iphone-x-helper';
 import {
   StyleSheet,
   View,
   TouchableOpacity,
-  ActivityIndicator,
   StatusBar,
+  TouchableNativeFeedback,
 } from 'react-native';
 import Picker from '@gregfrench/react-native-wheel-picker';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -34,6 +32,8 @@ import CActionSheet from '~/components/CActionSheet';
 import CLabel from '~/components/CLabel';
 import CGroupInfo from '~/components/CGroupInfo';
 import CAvoidKeyboard from '~/components/CAvoidKeyboard';
+import CActivityIndicator from '~/components/CActivityIndicator';
+import CIconHeader from '~/components/CIconHeader';
 import RejectModal from '../components/RejectModal';
 import RequestProcess from '../components/RequestProcess';
 import AssetsTable from '../components/AssetsTable';
@@ -41,16 +41,11 @@ import CheckOption from '../components/CheckOption';
 /* COMMON */
 import {THEME_DARK, DEFAULT_FORMAT_DATE_4} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
-import {
-  moderateScale,
-  IS_ANDROID,
-  IS_IOS,
-  sH,
-  verticalScale,
-} from '~/utils/helper';
+import {moderateScale, IS_ANDROID, IS_IOS, verticalScale} from '~/utils/helper';
 import Commons from '~/utils/common/Commons';
 /* REDUX */
 import * as Actions from '~/redux/actions';
+const Touchable = IS_ANDROID ? TouchableNativeFeedback : TouchableOpacity;
 
 const RowSelect = (
   loading,
@@ -68,34 +63,40 @@ const RowSelect = (
     find = data.find(f => f[keyToCompare] === activeIndex);
   }
   return (
-    <TouchableOpacity disabled={disabled} onPress={onPress}>
-      <View
-        style={[
-          cStyles.rounded1,
-          cStyles.row,
-          cStyles.itemsCenter,
-          cStyles.justifyBetween,
-          cStyles.px16,
-          !loading && cStyles.mt6,
-          cStyles.borderAll,
-          isDark && cStyles.borderAllDark,
-          disabled && {backgroundColor: customColors.cardDisable},
-          styles.row_select,
-        ]}>
-        {!loading ? (
-          find && <CText customLabel={find[keyToShow]} />
-        ) : (
-          <ActivityIndicator size={'small'} />
-        )}
-        {!disabled && (
-          <Icon
-            name={'chevron-down'}
-            size={moderateScale(21)}
-            color={disabled ? customColors.textDisable : customColors.icon}
-          />
-        )}
-      </View>
-    </TouchableOpacity>
+    <View style={[cStyles.round1, cStyles.ofHidden]}>
+      <Touchable
+        style={[cStyles.flex1, cStyles.round1]}
+        disabled={disabled}
+        onPress={onPress}>
+        <View
+          style={[
+            cStyles.row,
+            cStyles.itemsCenter,
+            cStyles.justifyBetween,
+            cStyles.rounded1,
+            cStyles.px16,
+            cStyles.mt6,
+            cStyles.borderAll,
+            styles.row_select,
+
+            isDark && cStyles.borderAllDark,
+            disabled && {backgroundColor: customColors.cardDisable},
+          ]}>
+          {!loading ? (
+            find && <CText customLabel={find[keyToShow]} />
+          ) : (
+            <CActivityIndicator />
+          )}
+          {!disabled && (
+            <Icon
+              name={'chevron-down'}
+              size={moderateScale(21)}
+              color={disabled ? customColors.textDisable : customColors.icon}
+            />
+          )}
+        </View>
+      </Touchable>
+    </View>
   );
 };
 

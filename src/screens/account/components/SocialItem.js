@@ -6,9 +6,9 @@
  **/
 import React from 'react';
 import {StyleSheet, Linking, View, TouchableOpacity, Image} from 'react-native';
-import { moderateScale } from '~/utils/helper';
 /* COMMON */
 import {cStyles} from '~/utils/style';
+import {moderateScale} from '~/utils/helper';
 
 function SocialItem(props) {
   const {key, index, data} = props;

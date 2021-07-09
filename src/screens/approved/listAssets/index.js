@@ -1,4 +1,4 @@
-/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-shadow */
 /**
  ** Name: List request page
@@ -6,24 +6,17 @@
  ** CreateAt: 2021
  ** Description: Description of List.js
  **/
-import React, {useState, useEffect} from 'react';
+import React, {useState, useLayoutEffect} from 'react';
 import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-import {useColorScheme} from 'react-native-appearance';
 import {useTheme} from '@react-navigation/native';
-import {
-  StyleSheet,
-  TouchableOpacity,
-  View,
-  LayoutAnimation,
-  UIManager,
-} from 'react-native';
+import {StyleSheet, View, LayoutAnimation, UIManager} from 'react-native';
 import {TabView} from 'react-native-tab-view';
-import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CSearchBar from '~/components/CSearchBar';
+import CIconHeader from '~/components/CIconHeader';
 import Filter from '../components/Filter';
 import Assets from '../assets';
 import AssetsDamage from '../assetsDamage';
@@ -32,9 +25,8 @@ import TabbarType from '../components/TabbarType';
 /* COMMON */
 import Routes from '~/navigation/Routes';
 import Commons from '~/utils/common/Commons';
-import {IS_ANDROID, moderateScale} from '~/utils/helper';
-import {colors, cStyles} from '~/utils/style';
-import {THEME_DARK} from '~/config/constants';
+import {IS_ANDROID} from '~/utils/helper';
+import {cStyles} from '~/utils/style';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -44,7 +36,6 @@ if (IS_ANDROID) {
 
 function ListRequestAll(props) {
   const {t} = useTranslation();
-  const isDark = useColorScheme() === THEME_DARK;
   const {customColors} = useTheme();
   const {route, navigation} = props;
   const isPermissionWrite = route.params?.permission?.write || false;
@@ -88,57 +79,6 @@ function ListRequestAll(props) {
       isRefresh: true,
     },
   ]);
-
-  navigation.setOptions({
-    headerRight: () => (
-      <View style={[cStyles.row, cStyles.itemsCenter]}>
-        <TouchableOpacity onPress={handleOpenSearch}>
-          <View style={isPermissionWrite ? cStyles.pr24 : {}}>
-            <Icon
-              name={'search'}
-              color={
-                isDark ? colors.WHITE : IS_ANDROID ? colors.WHITE : colors.BLACK
-              }
-              size={moderateScale(21)}
-            />
-            {routes[index].search !== '' && (
-              <View
-                style={[
-                  cStyles.abs,
-                  cStyles.rounded2,
-                  cStyles.borderAll,
-                  styles.badge,
-                  isDark && cStyles.borderAllDark,
-                  {
-                    backgroundColor: customColors.red,
-                    top: 0,
-                    left: moderateScale(10),
-                  },
-                ]}
-              />
-            )}
-          </View>
-        </TouchableOpacity>
-        {isPermissionWrite && (
-          <TouchableOpacity onPress={handleAddNew}>
-            <View>
-              <Icon
-                name={'add-circle'}
-                color={
-                  isDark
-                    ? colors.WHITE
-                    : IS_ANDROID
-                    ? colors.WHITE
-                    : colors.BLACK
-                }
-                size={moderateScale(21)}
-              />
-            </View>
-          </TouchableOpacity>
-        )}
-      </View>
-    ),
-  });
 
   /*****************
    ** HANDLE FUNC **
@@ -195,6 +135,32 @@ function ListRequestAll(props) {
     setShowSearch(false);
   };
 
+  /****************
+   ** LIFE CYCLE **
+   ****************/
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <CIconHeader
+          icons={[
+            {
+              show: true,
+              showRedDot: routes[index].search !== '',
+              icon: 'search',
+              onPress: handleOpenSearch,
+            },
+            {
+              show: isPermissionWrite,
+              showRedDot: false,
+              icon: 'add-circle',
+              onPress: handleAddNew,
+            },
+          ]}
+        />
+      ),
+    });
+  }, [navigation, routes[index].search, isPermissionWrite]);
+
   /**************
    ** RENDER **
    **************/
@@ -248,12 +214,6 @@ function ListRequestAll(props) {
 
 const styles = StyleSheet.create({
   con_tab: {width: cStyles.deviceWidth},
-  badge: {
-    height: moderateScale(10),
-    width: moderateScale(10),
-    top: 16,
-    right: 15,
-  },
 });
 
 export default ListRequestAll;

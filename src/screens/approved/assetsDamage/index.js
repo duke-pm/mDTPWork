@@ -13,9 +13,10 @@ import {useTranslation} from 'react-i18next';
 import {showMessage} from 'react-native-flash-message';
 import moment from 'moment';
 /* COMPONENTS */
-import ListRequest from './list/Request';
+import ListRequest from '../components/ListRequest';
 import TabbarLoading from '../components/TabbarLoading';
 /* COMMON */
+import Routes from '~/navigation/Routes';
 import {LOAD_MORE, REFRESH} from '~/config/constants';
 import {usePrevious} from '~/utils/hook';
 import Commons from '~/utils/common/Commons';
@@ -253,6 +254,7 @@ function ApprovedAssetsDamage(props) {
         dataDetail={data.requestsDetail}
         dataProcess={data.processApproveds}
         customColors={customColors}
+        routeDetail={Routes.MAIN.ADD_APPROVED_LOST_DAMAGED.name}
         onRefresh={onRefresh}
         onLoadmore={onLoadmore}
       />

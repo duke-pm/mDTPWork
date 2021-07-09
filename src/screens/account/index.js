@@ -9,7 +9,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
-import {View, Text, Linking} from 'react-native';
+import {StyleSheet, View, Text, Linking} from 'react-native';
 import VersionCheck from 'react-native-version-check';
 import DeviceInfo from 'react-native-device-info';
 /* COMPONENTS */
@@ -138,7 +138,10 @@ const Information = ({isTablet, authState}) => {
             label={authState.getIn(['login', 'fullName'])}
           />
 
-          <View style={isTablet ? [cStyles.itemsCenter, cStyles.mt16] : cStyles.mx16}>
+          <View
+            style={
+              isTablet ? [cStyles.itemsCenter, cStyles.mt16] : cStyles.mx16
+            }>
             <CText
               customStyles={[cStyles.H6, isTablet && cStyles.textCenter]}
               customLabel={authState.getIn(['login', 'fullName'])}
@@ -276,16 +279,14 @@ function Account(props) {
     <CContainer
       loading={loading}
       content={
-        <CContent
-          contentStyle={cStyles.pt10}
-          showsVerticalScrollIndicator={false}>
+        <CContent showsVerticalScrollIndicator={false}>
           <View
             style={
               isTablet
                 ? [cStyles.row, cStyles.itemsStart, cStyles.justifyCenter]
                 : []
             }>
-            <View style={isTablet ? {flex: 0.4} : {}}>
+            <View style={isTablet ? styles.container_left : {}}>
               {isTablet && (
                 <Information isTablet={isTablet} authState={authState} />
               )}
@@ -300,7 +301,7 @@ function Account(props) {
               )}
             </View>
 
-            <View style={isTablet ? {flex: 0.6} : cStyles.flex1}>
+            <View style={isTablet ? styles.container_right : cStyles.flex1}>
               {!isTablet && (
                 <Information isTablet={isTablet} authState={authState} />
               )}
@@ -359,5 +360,10 @@ function Account(props) {
     />
   );
 }
+
+const styles = StyleSheet.create({
+  container_left: {flex: 0.4},
+  container_right: {flex: 0.6},
+});
 
 export default Account;

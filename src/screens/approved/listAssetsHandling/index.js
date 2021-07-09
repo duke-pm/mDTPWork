@@ -27,7 +27,7 @@ import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
 import CSearchBar from '~/components/CSearchBar';
 import Filter from '../components/Filter';
-import ListRequest from './list/Request';
+import ListRequest from '../components/ListRequest';
 /* COMMON */
 import {LOAD_MORE, REFRESH, THEME_DARK} from '~/config/constants';
 import {moderateScale, IS_ANDROID} from '~/utils/helper';
@@ -353,6 +353,7 @@ function ListRequestHandling(props) {
               dataDetail={data.requestsDetail}
               dataProcess={data.processApproveds}
               customColors={customColors}
+              routeDetail={'auto'}
               onRefresh={onRefresh}
               onLoadmore={onLoadmore}
             />

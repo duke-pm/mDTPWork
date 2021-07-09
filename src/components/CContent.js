@@ -30,6 +30,7 @@ function CContent(props) {
       contentInsetAdjustmentBehavior={'automatic'}
       scrollToOverflowEnabled
       keyboardShouldPersistTaps={'handled'}
+      scrollEventThrottle={16}
       refreshControl={
         props.onRefresh ? (
           <RefreshControl
