@@ -174,7 +174,7 @@ function Status(props) {
         onPress={handleShowChangeStatus}>
         <View
           style={[
-            cStyles.mt16,
+            cStyles.mt10,
             cStyles.mx16,
             cStyles.px16,
             cStyles.py10,

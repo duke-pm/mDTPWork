@@ -27,7 +27,7 @@ function CLoading(props) {
       isVisible={props.visible}
       animationIn={'fadeIn'}
       animationOut={'fadeOut'}
-      backdropOpacity={isDark ? 0.8 : 0.4}
+      backdropOpacity={isDark ? 0.8 : 0.3}
       useNativeDriver={true}
       useNativeDriverForBackdrop={true}
       hideModalContentWhileAnimating={true}
@@ -35,7 +35,8 @@ function CLoading(props) {
       deviceWidth={cStyles.deviceWidth}
       deviceHeight={cStyles.deviceHeight}
       onBackButtonPress={null}
-      onBackdropPress={null}>
+      onBackdropPress={null}
+      {...props}>
       <View style={cStyles.flexCenter}>
         <Animatable.View
           style={[

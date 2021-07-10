@@ -156,7 +156,7 @@ function Task(props) {
   const handleWatchers = () => {
     navigation.navigate(Routes.MAIN.TASK_DETAIL.childrens.TASK_WATCHERS.name, {
       data: {taskID},
-      onRefresh: () => onRefreshWatcher(),
+      onRefresh: onRefreshWatcher,
     });
   };
 
@@ -236,8 +236,8 @@ function Task(props) {
     return setLoading({main: false, startFetch: false, fastWatch: false});
   };
 
-  const onRefreshWatcher = () => {
-    setIsFastWatch(projectState.get('isWatched'));
+  const onRefreshWatcher = isWatch => {
+    setIsFastWatch(!isWatch);
   };
 
   const onCheckLocalLogin = async () => {

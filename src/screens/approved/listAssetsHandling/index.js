@@ -252,9 +252,9 @@ function ListRequestHandling(props) {
    **************/
   return (
     <CContainer
-      loading={loading.main || loading.search}
+      loading={loading.main || loading.startFetch}
       content={
-        <CContent refreshing={loading.refreshing} onRefresh={onRefresh}>
+        <CContent>
           <View style={cStyles.itemsCenter}>
             <Filter isResolve data={data} onFilter={handleFilter} />
           </View>

@@ -15,7 +15,6 @@ import {
   StyleSheet,
   View,
   TouchableOpacity,
-  StatusBar,
   TouchableNativeFeedback,
 } from 'react-native';
 import Picker from '@gregfrench/react-native-wheel-picker';
@@ -41,7 +40,7 @@ import CheckOption from '../components/CheckOption';
 /* COMMON */
 import {THEME_DARK, DEFAULT_FORMAT_DATE_4} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
-import {moderateScale, IS_ANDROID, IS_IOS, verticalScale} from '~/utils/helper';
+import {moderateScale, IS_ANDROID, verticalScale} from '~/utils/helper';
 import Commons from '~/utils/common/Commons';
 /* REDUX */
 import * as Actions from '~/redux/actions';
@@ -432,13 +431,6 @@ function AddRequest(props) {
    ** LIFE CYCLE **
    ******************/
   useEffect(() => {
-    if (IS_IOS) {
-      if (isDark) {
-        // Do nothing
-      } else {
-        StatusBar.setBarStyle('light-content', true);
-      }
-    }
     onPrepareData();
   }, []);
 
@@ -567,64 +559,34 @@ function AddRequest(props) {
   ]);
 
   useLayoutEffect(() => {
-    return () => {
-      if (IS_IOS) {
-        if (isDark) {
-          // Do nothing
-        } else {
-          StatusBar.setBarStyle('dark-content', true);
-        }
-      }
-    };
-  }, []);
-
-  useLayoutEffect(() => {
-    navigation.setOptions(
-      Object.assign(
-        {
-          title: `${t(
-            'add_approved_assets:' + (isDetail ? 'detail' : 'title'),
-          )}`,
-          headerLeft: () => (
-            <CIconHeader
-              icons={[
-                {
-                  show: true,
-                  showRedDot: false,
-                  icon: 'close',
-                  onPress: handleBack,
-                },
-              ]}
-            />
-          ),
-          headerRight: () => (
-            <CIconHeader
-              icons={[
-                {
-                  show: isDetail,
-                  showRedDot: false,
-                  icon: 'information-circle',
-                  onPress: handleShowProcess,
-                },
-              ]}
-            />
-          ),
-        },
-        IS_ANDROID
-          ? {
-              headerCenter: () => (
-                <CText
-                  styles={'colorWhite fontMedium'}
-                  customLabel={`${t(
-                    'add_approved_assets:' + (isDetail ? 'detail' : 'title'),
-                  )}`}
-                />
-              ),
-            }
-          : {},
+    navigation.setOptions({
+      title: `${t('add_approved_assets:' + (isDetail ? 'detail' : 'title'))}`,
+      headerLeft: () => (
+        <CIconHeader
+          icons={[
+            {
+              show: true,
+              showRedDot: false,
+              icon: 'close',
+              onPress: handleBack,
+            },
+          ]}
+        />
       ),
-    );
-  }, [navigation]);
+      headerRight: () => (
+        <CIconHeader
+          icons={[
+            {
+              show: isDetail,
+              showRedDot: false,
+              icon: 'information-circle',
+              onPress: handleShowProcess,
+            },
+          ]}
+        />
+      ),
+    });
+  }, [navigation, isDetail]);
 
   /**************
    ** RENDER **
@@ -941,7 +903,6 @@ function AddRequest(props) {
               cStyles.itemsCenter,
               cStyles.justifyEvenly,
               cStyles.px16,
-              cStyles.pb8,
             ]}>
             <CButton
               style={styles.button_approved}

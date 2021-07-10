@@ -31,6 +31,7 @@ import CContent from '~/components/CContent';
 import CButton from '~/components/CButton';
 import CCard from '~/components/CCard';
 import CLabel from '~/components/CLabel';
+import CActivityIndicator from '~/components/CActivityIndicator';
 /* COMMON */
 import {THEME_DARK} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
@@ -67,66 +68,60 @@ function Watchers(props) {
     send: false,
   });
   const [needRefresh, setNeedRefresh] = useState(false);
-  const [getEmail, setGetEmail] = useState(true);
+  const [watched, setWatched] = useState({
+    status: projectState.get('isWatched'),
+    email: projectState.get('isReceivedEmail'),
+  });
   const [watchers, setWatchers] = useState([]);
 
   /*****************
    ** HANDLE FUNC **
    *****************/
   const handleFollow = () => {
-    let varWatch = projectState.get('isWatched') ? 0 : 1;
     let params = {
       TaskID: taskID,
-      IsWatched: varWatch,
-      IsReceiveEmail: 1,
+      IsWatched: !watched.status,
+      IsReceiveEmail: true,
       Lang: language,
       RefreshToken: refreshToken,
       UserName: userName,
     };
     dispatch(Actions.fetchTaskWatcher(params, navigation));
+    setLoading({...loading, send: true});
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+    setWatched({
+      status: !watched.status,
+      email: true,
+    });
     if (!needRefresh) {
       setNeedRefresh(true);
     }
-    return setLoading({...loading, send: true});
   };
 
   const handleGetEmail = () => {
-    let isWatched = projectState.get('isWatched');
     let params = {
       TaskID: taskID,
-      IsWatched: isWatched ? 1 : 0,
-      IsReceiveEmail: getEmail ? 0 : 1,
+      IsWatched: watched.status,
+      IsReceiveEmail: !watched.email,
       Lang: language,
       RefreshToken: refreshToken,
     };
     dispatch(Actions.fetchTaskWatcher(params, navigation));
-    return setLoading({...loading, send: true});
-  };
-
-  const handleBack = () => {
-    navigation.goBack();
-    if (needRefresh) {
-      onRefresh();
-    }
+    setLoading({...loading, send: true});
+    setWatched({
+      status: watched.status,
+      email: !watched.email,
+    });
   };
 
   /************
    ** FUNC **
    ************/
   const onPrepareData = () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
     /** Set list watchers */
     let tmpWatchers = projectState.get('watchers');
     setWatchers(tmpWatchers);
-
-    /** Check get email */
-    if (tmpWatchers.length > 0) {
-      let find = tmpWatchers.find(f => f.userName === userName);
-      if (find) {
-        setGetEmail(find.isReceiveEmail);
-      } else {
-        setGetEmail(true);
-      }
-    }
 
     return done();
   };
@@ -157,7 +152,6 @@ function Watchers(props) {
     if (loading.send) {
       if (!projectState.get('submittingTaskWatcher')) {
         if (projectState.get('successTaskWatcher')) {
-          LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
           return onPrepareData();
         }
 
@@ -168,7 +162,6 @@ function Watchers(props) {
     }
   }, [
     loading.send,
-    needRefresh,
     projectState.get('submittingTaskWatcher'),
     projectState.get('successTaskWatcher'),
     projectState.get('errorTaskWatcher'),
@@ -177,7 +170,7 @@ function Watchers(props) {
   useEffect(() => {
     const unsubscribe = navigation.addListener('dismiss', e => {
       if (needRefresh && onRefresh) {
-        onRefresh();
+        onRefresh(watched.status);
       }
     });
     return unsubscribe;
@@ -186,31 +179,32 @@ function Watchers(props) {
   /**************
    ** RENDER **
    **************/
-  let isWatched = projectState.get('isWatched');
   return (
     <CContainer
-      loading={loading.main || loading.send}
+      loading={loading.main}
       content={
         <CContent>
           <View style={[cStyles.mt16, cStyles.mx16]}>
             <CButton
               block
               variant={'outlined'}
-              color={!isWatched ? customColors.green : customColors.red}
+              color={!watched.status ? customColors.green : customColors.red}
               label={
-                !isWatched
+                !watched.status
                   ? 'project_management:you_not_watch'
                   : 'project_management:you_watched'
               }
-              icon={isWatched ? 'eye' : loading.send ? null : 'eye-outline'}
+              icon={
+                watched.status ? 'eye' : loading.send ? null : 'eye-outline'
+              }
               onPress={handleFollow}
             />
             <View style={cStyles.itemsStart}>
-              {isWatched && (
+              {watched.status && (
                 <CCheckbox
                   textStyle={[cStyles.textMeta, {color: customColors.text}]}
                   labelRight={'project_management:title_get_watcher'}
-                  value={getEmail}
+                  value={watched.email}
                   onChange={handleGetEmail}
                 />
               )}
@@ -221,99 +215,105 @@ function Watchers(props) {
             <CCard
               style={[
                 cStyles.mx16,
-                !isWatched && cStyles.mt16,
+                !watched.status && cStyles.mt16,
                 !isIphoneX() && cStyles.mb16,
               ]}
               containerStyle={[cStyles.rounded2, cStyles.fullHeight]}
               label={'project_management:list_watchers'}
               content={
-                watchers.length > 0 ? (
-                  <ScrollView
-                    scrollEnabled={false}
-                    showsVerticalScrollIndicator={false}
-                    nestedScrollEnabled={true}>
-                    {watchers.map((item, index) => {
-                      let isLast = index === watchers.length - 1;
-                      let time = moment(
-                        item.timeUpdate,
-                        'DD/MM/YYYY - HH:mm',
-                      ).format('HH:mm');
-                      let date = moment(
-                        item.timeUpdate,
-                        'DD/MM/YYYY - HH:mm',
-                      ).format('DD/MM/YYYY');
-                      return (
-                        <View
-                          key={index + item.userName}
-                          style={[cStyles.row, cStyles.itemsCenter]}>
-                          <View>
-                            <CAvatar size={'small'} label={item.fullName} />
-                            {item.isReceiveEmail && (
-                              <View
-                                style={[
-                                  cStyles.center,
-                                  cStyles.rounded5,
-                                  cStyles.abs,
-                                  {
-                                    height: moderateScale(14),
-                                    width: moderateScale(14),
-                                    backgroundColor: colors.WHITE,
-                                    right: -moderateScale(4),
-                                    bottom: -moderateScale(4),
-                                  },
-                                ]}>
-                                <Icon
-                                  name={'mail'}
-                                  color={customColors.green}
-                                  size={moderateScale(10)}
-                                />
-                              </View>
-                            )}
-                          </View>
+                <View>
+                  {watchers.length > 0 ? (
+                    <ScrollView
+                      scrollEnabled={false}
+                      showsVerticalScrollIndicator={false}
+                      nestedScrollEnabled={true}>
+                      {watchers.map((item, index) => {
+                        let isLast = index === watchers.length - 1;
+                        let time = moment(
+                          item.timeUpdate,
+                          'DD/MM/YYYY - HH:mm',
+                        ).format('HH:mm');
+                        let date = moment(
+                          item.timeUpdate,
+                          'DD/MM/YYYY - HH:mm',
+                        ).format('DD/MM/YYYY');
+                        return (
                           <View
-                            style={[
-                              cStyles.flex1,
-                              cStyles.row,
-                              cStyles.itemsCenter,
-                              cStyles.justifyBetween,
-                              cStyles.ml10,
-                              cStyles.py10,
-                              !isLast && cStyles.borderBottom,
-                              !isLast && isDark && cStyles.borderBottomDark,
-                            ]}>
-                            <View style={styles.con_left}>
-                              <Text
-                                style={[
-                                  cStyles.textDefault,
-                                  {color: customColors.text},
-                                ]}>
-                                {item.fullName}
+                            key={index + item.userName}
+                            style={[cStyles.row, cStyles.itemsCenter]}>
+                            <View>
+                              <CAvatar size={'small'} label={item.fullName} />
+                              {watched.email && (
+                                <View
+                                  style={[
+                                    cStyles.center,
+                                    cStyles.rounded5,
+                                    cStyles.abs,
+                                    {
+                                      height: moderateScale(14),
+                                      width: moderateScale(14),
+                                      backgroundColor: colors.WHITE,
+                                      right: -moderateScale(4),
+                                      bottom: -moderateScale(4),
+                                    },
+                                  ]}>
+                                  <Icon
+                                    name={'mail'}
+                                    color={customColors.green}
+                                    size={moderateScale(10)}
+                                  />
+                                </View>
+                              )}
+                            </View>
+                            <View
+                              style={[
+                                cStyles.flex1,
+                                cStyles.row,
+                                cStyles.itemsCenter,
+                                cStyles.justifyBetween,
+                                cStyles.ml10,
+                                cStyles.py10,
+                                !isLast && cStyles.borderBottom,
+                                !isLast && isDark && cStyles.borderBottomDark,
+                              ]}>
+                              <View style={styles.con_left}>
                                 <Text
                                   style={[
                                     cStyles.textDefault,
                                     {color: customColors.text},
                                   ]}>
-                                  {item.userName === userName
-                                    ? ` (${t('common:its_you')})`
-                                    : ''}
+                                  {item.fullName}
+                                  <Text
+                                    style={[
+                                      cStyles.textDefault,
+                                      {color: customColors.text},
+                                    ]}>
+                                    {item.userName === userName
+                                      ? ` (${t('common:its_you')})`
+                                      : ''}
+                                  </Text>
                                 </Text>
-                              </Text>
-                            </View>
-                            <View style={[cStyles.itemsEnd, styles.con_right]}>
-                              <CText styles={'textMeta'} customLabel={date} />
-                              <CText
-                                styles={'textMeta mt5'}
-                                customLabel={time}
-                              />
+                              </View>
+                              <View
+                                style={[cStyles.itemsEnd, styles.con_right]}>
+                                <CText styles={'textMeta'} customLabel={date} />
+                                <CText
+                                  styles={'textMeta mt5'}
+                                  customLabel={time}
+                                />
+                              </View>
                             </View>
                           </View>
-                        </View>
-                      );
-                    })}
-                  </ScrollView>
-                ) : (
-                  <CLabel label={'project_management:empty_watchers'} />
-                )
+                        );
+                      })}
+                    </ScrollView>
+                  ) : (
+                    <CLabel label={'project_management:empty_watchers'} />
+                  )}
+                  {loading.send && (
+                    <CActivityIndicator style={[cStyles.abs, cStyles.inset0]} />
+                  )}
+                </View>
               }
             />
           )}

@@ -1,5 +1,5 @@
 /**
- ** Name: Account
+ ** Name: Account page
  ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of Account.js
@@ -121,9 +121,9 @@ const Information = ({isTablet, authState}) => {
   return (
     <CGroupInfo
       contentStyle={[
-        isTablet ? cStyles.mx10 : cStyles.mx16,
         cStyles.mb10,
         cStyles.px10,
+        isTablet ? cStyles.mx10 : cStyles.mx16,
       ]}
       content={
         <View
@@ -165,13 +165,13 @@ const Socials = ({customColors, isDark, isTablet, needUpdate, onUpdate}) => {
   return (
     <CGroupInfo
       contentStyle={[
-        isTablet ? cStyles.mx10 : cStyles.mx16,
         cStyles.mb10,
         cStyles.px10,
+        isTablet ? cStyles.mx10 : cStyles.mx16,
       ]}
       content={
         <>
-          <View style={[cStyles.itemsStart, cStyles.mt10]}>
+          <View style={cStyles.itemsStart}>
             <Text style={[cStyles.textMeta, {color: customColors.text}]}>
               &#169; {Configs.nameOfApp}
             </Text>

@@ -18,7 +18,6 @@ import {
   Keyboard,
   UIManager,
   LayoutAnimation,
-  StatusBar,
 } from 'react-native';
 import Picker from '@gregfrench/react-native-wheel-picker';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -44,7 +43,6 @@ import CheckOption from '../components/CheckOption';
 import Commons from '~/utils/common/Commons';
 import {colors, cStyles} from '~/utils/style';
 import {
-  IS_IOS,
   IS_ANDROID,
   checkEmpty,
   moderateScale,
@@ -442,11 +440,6 @@ function AddRequest(props) {
    ** LIFE CYCLE **
    ******************/
   useEffect(() => {
-    if (isDark) {
-      // Do nothing
-    } else {
-      StatusBar.setBarStyle('light-content', true);
-    }
     dispatch(Actions.resetStatusMasterData());
     onPrepareData();
   }, []);
@@ -582,64 +575,35 @@ function AddRequest(props) {
   ]);
 
   useLayoutEffect(() => {
-    return () => {
-      if (IS_IOS) {
-        if (isDark) {
-          // Do nothing
-        } else {
-          StatusBar.setBarStyle('dark-content', true);
-        }
-      }
-    };
-  }, []);
-
-  useLayoutEffect(() => {
-    navigation.setOptions(
-      Object.assign(
-        {
-          title: `${t(
-            'add_approved_lost_damaged:' + (isDetail ? 'detail' : 'title'),
-          )}`,
-          headerLeft: () => (
-            <CIconHeader
-              icons={[
-                {
-                  show: true,
-                  showRedDot: false,
-                  icon: 'close',
-                  onPress: handleBack,
-                },
-              ]}
-            />
-          ),
-          headerRight: () => (
-            <CIconHeader
-              icons={[
-                {
-                  show: isDetail,
-                  showRedDot: false,
-                  icon: 'information-circle',
-                  onPress: handleShowProcess,
-                },
-              ]}
-            />
-          ),
-        },
-        IS_ANDROID
-          ? {
-              headerCenter: () => (
-                <CText
-                  styles={'colorWhite fontMedium'}
-                  customLabel={`${t(
-                    'add_approved_lost_damaged:' +
-                      (isDetail ? 'detail' : 'title'),
-                  )}`}
-                />
-              ),
-            }
-          : {},
+    navigation.setOptions({
+      title: `${t(
+        'add_approved_lost_damaged:' + (isDetail ? 'detail' : 'title'),
+      )}`,
+      headerLeft: () => (
+        <CIconHeader
+          icons={[
+            {
+              show: true,
+              showRedDot: false,
+              icon: 'close',
+              onPress: handleBack,
+            },
+          ]}
+        />
       ),
-    );
+      headerRight: () => (
+        <CIconHeader
+          icons={[
+            {
+              show: isDetail,
+              showRedDot: false,
+              icon: 'information-circle',
+              onPress: handleShowProcess,
+            },
+          ]}
+        />
+      ),
+    });
   }, [navigation]);
 
   /**************
@@ -958,7 +922,6 @@ function AddRequest(props) {
               cStyles.itemsCenter,
               cStyles.justifyEvenly,
               cStyles.px16,
-              cStyles.pb8,
             ]}>
             <CButton
               style={styles.button_approved}

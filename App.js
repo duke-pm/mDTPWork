@@ -28,9 +28,9 @@ import Navigator from '~/navigation/Navigator';
 import Unconnected from '~/screens/connection/Unconnected';
 /** COMMON */
 import Configs from '~/config';
-import {colors, cStyles} from '~/utils/style';
+import {colors} from '~/utils/style';
 import jwtServiceConfig from '~/services/jwtServiceConfig';
-import {IS_ANDROID, IS_IOS, moderateScale} from '~/utils/helper';
+import {IS_ANDROID, IS_IOS} from '~/utils/helper';
 /** REDUX */
 import Store from './src/redux/store';
 

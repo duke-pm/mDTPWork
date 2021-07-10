@@ -7,13 +7,7 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-import {
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  Image,
-  Animated,
-} from 'react-native';
+import {StyleSheet, View, TouchableOpacity, Animated} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 /* COMPONENTS */
@@ -22,7 +16,6 @@ import CLabel from '~/components/CLabel';
 /* COMMON */
 import Commons from '~/utils/common/Commons';
 import {DEFAULT_FORMAT_DATE_4} from '~/config/constants';
-import {Assets} from '~/utils/asset';
 import {cStyles} from '~/utils/style';
 import {moderateScale} from '~/utils/helper';
 
@@ -73,7 +66,7 @@ function RequestItem(props) {
       <Animated.View
         style={[
           cStyles.p10,
-          cStyles.mb10,
+          cStyles.mb16,
           cStyles.rounded2,
           {backgroundColor: customColors.listItem},
         ]}

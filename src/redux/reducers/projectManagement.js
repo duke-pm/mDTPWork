@@ -29,6 +29,7 @@ export const initialState = fromJS({
   submittingTaskWatcher: false,
   submittingTaskUpdate: false,
   isWatched: false,
+  isReceivedEmail: false,
   taskDetail: null,
   activities: List(),
   relationships: List(),
@@ -173,22 +174,17 @@ export default function (state = initialState, action = {}) {
     case types.SUCCESS_FETCH_TASK_WATCHERS:
       let tmpWatchers = state.get('watchers');
       let tmpIsWatched = state.get('isWatched');
+      let tmpIsReceivedEmail = state.get('isReceivedEmail');
       let tmpWatchers2 = null;
       if (payload.data.watcher) {
-        console.log('[LOG] === HERE ===> ', payload.userName);
         tmpIsWatched = true;
         if (payload.userName) {
           //for follow
           tmpWatchers2 = payload.data.watcher;
+          tmpIsReceivedEmail = true;
         } else {
           //for get email
-          let find = tmpWatchers.findIndex(
-            item => item.userName === payload.data.watcher.userName,
-          );
-          if (find !== -1) {
-            tmpWatchers[find].isReceiveEmail =
-              payload.data.watcher.isReceiveEmail;
-          }
+          tmpIsReceivedEmail = payload.data.isReceivedEmail;
         }
       } else {
         //for unfollow
@@ -196,6 +192,7 @@ export default function (state = initialState, action = {}) {
           item => item.userName !== payload.userName,
         );
         tmpIsWatched = payload.data.isWatched;
+        tmpIsReceivedEmail = false;
       }
       return state
         .set('submittingTaskWatcher', false)
@@ -206,7 +203,8 @@ export default function (state = initialState, action = {}) {
           'watchers',
           tmpWatchers2 ? tmpWatchers.concat(tmpWatchers2) : tmpWatchers,
         )
-        .set('isWatched', tmpIsWatched);
+        .set('isWatched', tmpIsWatched)
+        .set('isReceivedEmail', tmpIsReceivedEmail);
 
     case types.ERROR_FETCH_TASK_WATCHERS:
       return state

@@ -208,11 +208,12 @@ function ListProject(props) {
                   <CLabel label={'project_management:user_invited'} />
                   <ScrollView
                     style={[
-                      cStyles.mt6,
+                      cStyles.mt10,
                       cStyles.p10,
                       cStyles.rounded2,
+                      cStyles.shadow1,
                       styles.list_invited,
-                      {backgroundColor: customColors.cardDisable},
+                      {backgroundColor: customColors.textInput},
                     ]}>
                     {chooseProject.lstUserInvited.map((item, index) => {
                       return (
@@ -273,7 +274,7 @@ const styles = StyleSheet.create({
     width: moderateScale(8),
     borderRadius: moderateScale(8),
   },
-  list_invited: {height: moderateScale(150)},
+  list_invited: {height: moderateScale(180)},
 });
 
 export default ListProject;
