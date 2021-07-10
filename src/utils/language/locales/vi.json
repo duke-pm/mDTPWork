@@ -362,6 +362,7 @@
   },
   "project_management": {
     "title": "Quản Lý Dự Án",
+    "back_title": "QL Dự Án",
     "project": "dự án",
     "sector": "Sector",
     "holder_sector": "Sector",
@@ -435,7 +436,7 @@
     "info_basic_2": "Quản lý tiến độ",
     "info_basic_3": "Thông tin khác",
     "info_basic_4": "Mô tả",
-    "list_task": "Dự án số #",
+    "list_task": "Dự án #",
     "estimated_time": "Estimated",
     "detail_task": "Chi tiết",
     "find": "Tìm"

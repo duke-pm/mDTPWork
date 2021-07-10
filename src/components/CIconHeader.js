@@ -28,7 +28,7 @@ function CIconHeader(props) {
         }
         return (
           <TouchableOpacity key={index.toString()} onPress={item.onPress}>
-            <View style={index !== icons.length - 1 ? cStyles.pr24 : {}}>
+            <View style={index !== icons.length - 1 ? cStyles.pr20 : {}}>
               <Icon
                 name={item.icon}
                 color={

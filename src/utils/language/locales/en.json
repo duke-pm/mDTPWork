@@ -353,7 +353,8 @@
     "holder_empty_assets": "Empty assets"
   },
   "project_management": {
-    "title": "Project Management",
+    "title": "Projects",
+    "back_title": "Projects",
     "project": "projects",
     "sector": "Sector",
     "holder_sector": "Sector",
@@ -427,7 +428,7 @@
     "info_basic_2": "Progress Manager",
     "info_basic_3": "Other information",
     "info_basic_4": "Description",
-    "list_task": "Project Number #",
+    "list_task": "Project #",
     "estimated_time": "Estimated",
     "detail_task": "Detail",
     "find": "Find"

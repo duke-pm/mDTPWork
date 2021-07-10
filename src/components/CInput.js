@@ -131,7 +131,7 @@ function CInput(props) {
                 styles.con_input_icon,
               ]}>
               {typeof icon === 'string' ? (
-                <Icon name={icon} color={iconColor} size={moderateScale(20)} />
+                <Icon name={icon} color={iconColor} size={moderateScale(23)} />
               ) : (
                 <Image
                   style={{height: moderateScale(23), width: moderateScale(23)}}

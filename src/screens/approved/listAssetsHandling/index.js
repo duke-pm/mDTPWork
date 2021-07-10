@@ -230,12 +230,6 @@ function ListRequestHandling(props) {
     approvedState.get('errorListRequest'),
   ]);
 
-  useEffect(() => {
-    navigation.setOptions({
-      headerShown: !showSearchBar,
-    });
-  }, [navigation, showSearchBar]);
-
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (

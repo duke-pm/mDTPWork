@@ -133,7 +133,7 @@ function CAvatar(props) {
             style={cStyles.rounded10}
             start={{x: 0.0, y: 0.25}}
             end={{x: 0.5, y: 1.0}}
-            colors={['#bdc3c7', '#2c3e50']}>
+            colors={['#8e9eab', '#eef2f3']}>
             <View
               style={[
                 cStyles.rounded10,
@@ -147,7 +147,7 @@ function CAvatar(props) {
               <Text
                 style={[
                   cStyles.textCenter,
-                  cStyles.colorWhite,
+                  cStyles.colorGray800,
                   {
                     fontSize:
                       size === 'vsmall'

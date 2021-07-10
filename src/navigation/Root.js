@@ -1,26 +1,26 @@
 /**
- ** Name: Root
+ ** Name: Root main of App
  ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of Root.js
  **/
 import React from 'react';
-import {createNativeStackNavigator} from 'react-native-screens/native-stack';
 import {
   createBottomTabNavigator,
   BottomTabBar,
 } from '@react-navigation/bottom-tabs';
-import Icon from 'react-native-vector-icons/Ionicons';
+import {createNativeStackNavigator} from 'react-native-screens/native-stack';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
 import {enableScreens} from 'react-native-screens';
 import {BlurView} from '@react-native-community/blur';
+import Icon from 'react-native-vector-icons/Ionicons';
 /** COMPONENTS */
 import CText from '~/components/CText';
 /** COMMON */
 import Routes from './Routes';
-import {IS_ANDROID, IS_IOS, moderateScale} from '~/utils/helper';
+import {IS_ANDROID, IS_IOS} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
 import {THEME_DARK} from '~/config/constants';
 
@@ -33,40 +33,14 @@ const TabMain = createBottomTabNavigator();
 
 export function RootDashboard(props) {
   const {t} = useTranslation();
-  const {customColors} = useTheme();
   const isDark = useColorScheme() === THEME_DARK;
 
   return (
     <StackDashboard.Navigator
       initialRouteName={Routes.MAIN.DASHBOARD.name}
       screenOptions={{
-        headerShown: true,
         headerTintColor: IS_IOS ? undefined : colors.WHITE,
-        headerBackTitleStyle: {
-          fontSize: moderateScale(13),
-          fontWeight: cStyles.fontLight.fontWeight,
-        },
-        headerTitleStyle: {
-          color: isDark
-            ? colors.WHITE
-            : IS_ANDROID
-            ? colors.WHITE
-            : colors.BLACK,
-          fontSize: moderateScale(14),
-          fontWeight: cStyles.fontMedium.fontWeight,
-        },
         headerLargeTitle: true,
-        headerLargeTitleHideShadow: true,
-        headerLargeStyle: {backgroundColor: customColors.background},
-        headerLargeTitleStyle: {
-          color: isDark
-            ? colors.WHITE
-            : IS_ANDROID
-            ? colors.WHITE
-            : colors.BLACK,
-          fontSize: moderateScale(28),
-          fontWeight: cStyles.fontBold.fontWeight,
-        },
         headerTopInsetEnabled: false,
         disableBackButtonMenu: true,
         headerTranslucent: IS_ANDROID ? false : true,
@@ -106,40 +80,14 @@ export function RootDashboard(props) {
 
 export function RootAccount(props) {
   const {t} = useTranslation();
-  const {customColors} = useTheme();
   const isDark = useColorScheme() === THEME_DARK;
 
   return (
     <StackAccount.Navigator
       initialRouteName={Routes.MAIN.ACCOUNT.name}
       screenOptions={{
-        headerShown: true,
         headerTintColor: IS_IOS ? undefined : colors.WHITE,
-        headerBackTitleStyle: {
-          fontSize: moderateScale(14),
-          fontWeight: cStyles.fontLight.fontWeight,
-        },
-        headerTitleStyle: {
-          color: isDark
-            ? colors.WHITE
-            : IS_ANDROID
-            ? colors.WHITE
-            : colors.BLACK,
-          fontSize: moderateScale(14),
-          fontWeight: cStyles.fontMedium.fontWeight,
-        },
         headerLargeTitle: true,
-        headerLargeTitleHideShadow: true,
-        headerLargeStyle: {backgroundColor: customColors.background},
-        headerLargeTitleStyle: {
-          color: isDark
-            ? colors.WHITE
-            : IS_ANDROID
-            ? colors.WHITE
-            : colors.BLACK,
-          fontSize: moderateScale(28),
-          fontWeight: cStyles.fontBold.fontWeight,
-        },
         headerTopInsetEnabled: false,
         disableBackButtonMenu: true,
         headerTranslucent: IS_ANDROID ? false : true,
@@ -178,8 +126,8 @@ export function RootAccount(props) {
 }
 
 export function RootTab(props) {
-  const {customColors} = useTheme();
   const {t} = useTranslation();
+  const {customColors} = useTheme();
   const isDark = useColorScheme() === THEME_DARK;
 
   return (
@@ -239,40 +187,14 @@ export function RootTab(props) {
 
 export function RootMain(props) {
   const {t} = useTranslation();
-  const {customColors} = useTheme();
   const isDark = useColorScheme() === THEME_DARK;
 
   return (
     <StackMain.Navigator
       initialRouteName={Routes.AUTHENTICATION.SIGN_IN.name}
       screenOptions={{
-        headerShown: true,
         headerTintColor: IS_IOS ? undefined : colors.WHITE,
-        headerBackTitleStyle: {
-          fontSize: moderateScale(13),
-          fontWeight: cStyles.fontLight.fontWeight,
-        },
-        headerTitleStyle: {
-          color: isDark
-            ? colors.WHITE
-            : IS_ANDROID
-            ? colors.WHITE
-            : colors.BLACK,
-          fontSize: moderateScale(14),
-          fontWeight: cStyles.fontMedium.fontWeight,
-        },
         headerLargeTitle: true,
-        headerLargeTitleHideShadow: true,
-        headerLargeStyle: {backgroundColor: customColors.background},
-        headerLargeTitleStyle: {
-          color: isDark
-            ? colors.WHITE
-            : IS_ANDROID
-            ? colors.WHITE
-            : colors.BLACK,
-          fontSize: moderateScale(28),
-          fontWeight: cStyles.fontBold.fontWeight,
-        },
         headerTopInsetEnabled: false,
         disableBackButtonMenu: true,
         headerTranslucent: IS_ANDROID ? false : true,
@@ -361,6 +283,7 @@ export function RootMain(props) {
         component={Routes.MAIN.PROJECT_MANAGEMENT.path}
         options={{
           title: t('project_management:title'),
+          headerBackTitle: t('common:back'),
           headerStyle: {
             backgroundColor: IS_ANDROID
               ? isDark
@@ -375,7 +298,7 @@ export function RootMain(props) {
         name={Routes.MAIN.PROJECT_DETAIL.name}
         component={Routes.MAIN.PROJECT_DETAIL.path}
         options={{
-          headerBackTitle: t('common:back'),
+          headerBackTitle: t('project_management:back_title'),
           headerStyle: {
             backgroundColor: IS_ANDROID
               ? isDark
@@ -454,6 +377,7 @@ export function RootMain(props) {
         component={Routes.MAIN.APPROVED.path}
         options={{
           title: t('approved:assets'),
+          headerBackTitle: t('common:back'),
           headerStyle: {
             backgroundColor: IS_ANDROID
               ? isDark
