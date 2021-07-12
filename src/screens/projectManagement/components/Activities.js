@@ -149,7 +149,6 @@ function Activity(props) {
         }
         tmp = item;
       }
-      console.log('[LOG] === array ===> ', array);
     } else {
       array = [...messages];
       let lastCmt = activities[activities.length - 1];
@@ -293,7 +292,7 @@ function Activity(props) {
                           cStyles.ml10,
                           {
                             backgroundColor: IS_ANDROID
-                              ? colors.STATUS_TO_BE_SCHEDULE_OPACITY
+                              ? colors.STATUS_SCHEDULE_OPACITY
                               : colors.STATUS_NEW_OPACITY,
                           },
                         ]}>

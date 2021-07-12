@@ -128,7 +128,8 @@ export default function (state = initialState, action = {}) {
         .set('activities', payload.activities)
         .set('relationships', payload.relationShip)
         .set('watchers', payload.watcher)
-        .set('isWatched', payload.isWatched);
+        .set('isWatched', payload.isWatched)
+        .set('isReceivedEmail', payload.isReceivedEmail);
 
     case types.ERROR_FETCH_TASK_DETAIL:
       return state
