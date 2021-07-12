@@ -291,6 +291,7 @@ export function RootMain(props) {
         options={{
           title: t('project_management:title_activity'),
           headerLargeTitle: false,
+          headerTranslucent: false,
           headerStyle: headerStyles,
         }}
       />
@@ -300,6 +301,7 @@ export function RootMain(props) {
         options={{
           title: t('project_management:title_watcher'),
           headerLargeTitle: false,
+          headerTranslucent: false,
           headerStyle: headerStyles,
         }}
       />

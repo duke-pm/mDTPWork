@@ -5,6 +5,7 @@
  ** Description: Description of CList.js
  **/
 import React, {createRef} from 'react';
+import { useColorScheme } from 'react-native-appearance';
 import {StyleSheet, View, FlatList, SectionList} from 'react-native';
 /* COMPONENTS */
 import CEmpty from './CEmpty';
@@ -13,11 +14,13 @@ import CFooterList from './CFooterList';
 /* COMMON */
 import {IS_ANDROID, moderateScale} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
+import { THEME_DARK } from '~/config/constants';
 
 /** All refs of CList */
 let listRef = createRef();
 
 function CList(props) {
+  const isDark = useColorScheme() === THEME_DARK;
   const {
     style = {},
     contentStyle = {},
@@ -31,7 +34,7 @@ function CList(props) {
    ** RENDER **
    ************/
   return (
-    <>
+    <View style={cStyles.flex1}>
       {!sectionList && (
         <FlatList
           ref={ref => (listRef = ref)}
@@ -81,27 +84,46 @@ function CList(props) {
                 style={[
                   cStyles.flexCenter,
                   cStyles.py10,
-                  cStyles.pt24,
+                  cStyles.row,
+                  cStyles.itemsCenter,
                   styles.title,
                 ]}>
                 <View
                   style={[
-                    cStyles.py4,
+                    cStyles.borderDashed,
+                    cStyles.borderAll,
+                    cStyles.mr10,
+                    isDark && cStyles.borderAllDark,
+                    {borderRadius: 1, width: '15%'},
+                  ]}
+                />
+                <View
+                  style={[
+                    cStyles.py5,
                     cStyles.px16,
                     cStyles.rounded5,
                     {backgroundColor: colors.STATUS_ON_HOLD_OPACITY},
                   ]}>
                   <CText styles={'textMeta'} customLabel={section.title} />
                 </View>
+                <View
+                  style={[
+                    cStyles.borderDashed,
+                    cStyles.borderAll,
+                    cStyles.ml10,
+                    isDark && cStyles.borderAllDark,
+                    {borderRadius: 1, width: '15%'},
+                  ]}
+                />
               </View>
             );
           }}
-          keyExtractor={(item, index) => index.toString()}
           sections={props.data}
+          keyExtractor={(item, index) => item.lineNum.toString()}
           removeClippedSubviews={IS_ANDROID}
           keyboardShouldPersistTaps={'handled'}
-          maxToRenderPerBatch={10}
-          initialNumToRender={10}
+          initialNumToRender={1000}
+          maxToRenderPerBatch={undefined}
           refreshing={props.refreshing}
           onRefresh={onRefresh}
           ListEmptyComponent={
@@ -114,7 +136,7 @@ function CList(props) {
           {...props}
         />
       )}
-    </>
+    </View>
   );
 }
 

@@ -128,18 +128,17 @@ function Task(props) {
   };
 
   const handleFastWatch = () => {
-    let varWatch = isFastWatch ? 1 : 0;
-    setIsFastWatch(false);
-    setLoading({...loading, fastWatch: true});
+    setIsFastWatch(!isFastWatch);
     let params = {
       TaskID: taskID,
-      IsWatched: varWatch,
-      IsReceiveEmail: 1,
+      IsWatched: isFastWatch,
+      IsReceiveEmail: true,
       Lang: language,
       RefreshToken: refreshToken,
       UserName: userName,
     };
-    return dispatch(Actions.fetchTaskWatcher(params, navigation));
+    dispatch(Actions.fetchTaskWatcher(params, navigation));
+    return setLoading({...loading, fastWatch: true});
   };
 
   const handleActivities = () => {
@@ -166,7 +165,6 @@ function Task(props) {
    ************/
   const onStart = () => {
     onFetchData();
-    setLoading({...loading, startFetch: true});
   };
 
   const onFetchData = () => {
@@ -176,6 +174,7 @@ function Task(props) {
       RefreshToken: refreshToken,
     });
     dispatch(Actions.fetchTaskDetail(params, navigation));
+    setLoading({...loading, startFetch: true});
   };
 
   const onPrepareData = async () => {
@@ -309,7 +308,7 @@ function Task(props) {
     if (loading.startFetch) {
       if (!projectState.get('submittingTaskDetail')) {
         if (projectState.get('successTaskDetail')) {
-          return onPrepareData(true);
+          return onPrepareData();
         }
 
         if (projectState.get('errorTaskDetail')) {
@@ -338,7 +337,7 @@ function Task(props) {
             icon: 'success',
           });
           setIsFastWatch(false);
-          return onPrepareData(false);
+          return onPrepareData();
         }
 
         if (projectState.get('errorTaskWatcher')) {

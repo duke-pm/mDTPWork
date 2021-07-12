@@ -231,16 +231,16 @@ function Activity(props) {
    ** LIFE CYCLE **
    ******************/
   useEffect(() => {
-    onPrepareData(false);
     onUpdateLastComment();
+    onPrepareData(false);
   }, []);
 
   useEffect(() => {
     if (loading.send) {
       if (!projectState.get('submittingTaskComment')) {
         if (projectState.get('successTaskComment')) {
-          onPrepareData(true);
-          return onUpdateLastComment();
+          onUpdateLastComment();
+          return onPrepareData(true);
         }
 
         if (projectState.get('errorTaskComment')) {
@@ -262,18 +262,16 @@ function Activity(props) {
     <CContainer
       loading={loading.main || loading.send}
       content={
-        <KeyboardAvoidingView
+        <View
           style={[
             cStyles.flex1,
             {backgroundColor: customColors.backgroundActivity},
-          ]}
-          behavior={IS_IOS ? 'padding' : undefined}>
-          {!loading.main && (
+          ]}>
+          <KeyboardAvoidingView
+            style={cStyles.flex1}
+            behavior={IS_IOS ? 'padding' : undefined}>
             <CList
-              contentStyle={[
-                cStyles.pb60,
-                messages.length === 0 && cStyles.mt60,
-              ]}
+              contentStyle={[messages.length === 0 && cStyles.mt60]}
               customColors={customColors}
               sectionList
               inverted={messages.length > 0}
@@ -395,14 +393,14 @@ function Activity(props) {
                 );
               }}
             />
-          )}
-          <RenderInputMessage
-            customColors={customColors}
-            value={valueMessage}
-            onSend={onSendMessage}
-            handleChangeText={setValueMessage}
-          />
-        </KeyboardAvoidingView>
+            <RenderInputMessage
+              customColors={customColors}
+              value={valueMessage}
+              onSend={onSendMessage}
+              handleChangeText={setValueMessage}
+            />
+          </KeyboardAvoidingView>
+        </View>
       }
     />
   );

@@ -93,27 +93,23 @@ function ProjectItem(props) {
                 </View>
 
                 {/** Status */}
-                <View
-                  style={[cStyles.row, cStyles.itemsCenter, styles.row_right]}>
-                  <CLabel label={'project_management:status'} />
-                  <View style={[cStyles.row, cStyles.itemsCenter, cStyles.ml2]}>
-                    <View
-                      style={[
-                        cStyles.mr3,
-                        styles.status,
-                        {
-                          backgroundColor: isDark
-                            ? data.colorDarkCode
-                            : data.colorCode,
-                        },
-                      ]}
-                    />
-                    <CLabel
-                      bold
-                      color={isDark ? data.colorDarkCode : data.colorCode}
-                      customLabel={data.statusName}
-                    />
-                  </View>
+                <View style={[cStyles.row, cStyles.itemsCenter, styles.row_right]}>
+                  <View
+                    style={[
+                      cStyles.mr3,
+                      styles.status,
+                      {
+                        backgroundColor: isDark
+                          ? data.colorDarkCode
+                          : data.colorCode,
+                      },
+                    ]}
+                  />
+                  <CLabel
+                    bold
+                    color={isDark ? data.colorDarkCode : data.colorCode}
+                    customLabel={data.statusName}
+                  />
                 </View>
               </View>
             </View>

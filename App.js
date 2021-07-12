@@ -195,12 +195,7 @@ const App = () => {
         <Provider store={Store}>
           <SafeAreaProvider initialMetrics={initialWindowMetrics}>
             <Navigator />
-            <FlashMessage
-              floating={true}
-              position={'top'}
-              hideStatusBar={true}
-              animationDuration={150}
-            />
+            <FlashMessage position={'top'} />
             <Unconnected connected={state.connected} />
           </SafeAreaProvider>
         </Provider>

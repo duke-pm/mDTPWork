@@ -144,14 +144,13 @@ function TaskItem(props) {
                 cStyles.justifyBetween,
                 cStyles.fullWidth,
               ]}>
-              <View style={[cStyles.row, cStyles.itemsCenter]}>
+              <View style={[cStyles.row, cStyles.itemsStart]}>
                 <View>
                   <CText
                     customStyles={[
                       cStyles.H6,
-                      cStyles.fontBold,
-                      delay > 0 && cStyles.pb3,
                       {color: typeColor},
+                      delay > 0 && cStyles.pb3,
                     ]}
                     customLabel={data.typeName}
                   />
@@ -191,14 +190,11 @@ function TaskItem(props) {
                     style={[
                       cStyles.row,
                       cStyles.itemsCenter,
-                      cStyles.mt6,
+                      cStyles.pt6,
                       cStyles.pl5,
                     ]}>
-                    <View
-                      style={[styles.status, {backgroundColor: bgStatus}]}
-                    />
                     <CText
-                      styles={'textMeta fontBold pl6 colorWhite'}
+                      styles={'textMeta fontBold colorWhite'}
                       customStyles={[
                         cStyles.textMeta,
                         cStyles.fontBold,
@@ -250,7 +246,7 @@ function TaskItem(props) {
 
             <View style={[cStyles.flex1, cStyles.mt10]}>
               <CText
-                styles={'textSubTitle ' + (data.countChild === 0 && ' pt10')}
+                styles={'textSubTitle'}
                 customLabel={`#${data?.taskID} ${data?.taskName}`}
               />
             </View>
@@ -300,11 +296,6 @@ function TaskItem(props) {
 }
 
 const styles = StyleSheet.create({
-  status: {
-    height: moderateScale(8),
-    width: moderateScale(8),
-    borderRadius: moderateScale(8),
-  },
   line_child: {height: '100%', borderRadius: 1},
   badge: {
     height: moderateScale(15),
