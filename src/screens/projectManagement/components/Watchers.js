@@ -89,7 +89,6 @@ function Watchers(props) {
     };
     dispatch(Actions.fetchTaskWatcher(params, navigation));
     setLoading({...loading, send: true});
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
     setWatched({
       status: !watched.status,
       email: true,
@@ -119,11 +118,10 @@ function Watchers(props) {
    ** FUNC **
    ************/
   const onPrepareData = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     /** Set list watchers */
     let tmpWatchers = projectState.get('watchers');
     setWatchers(tmpWatchers);
-
     return done();
   };
 
@@ -196,7 +194,7 @@ function Watchers(props) {
                   : 'project_management:you_watched'
               }
               icon={
-                watched.status ? Icons.eye : loading.send ? null : Icons.eyeOff
+                watched.status ? Icons.eyeOff : loading.send ? null : Icons.eye
               }
               onPress={handleFollow}
             />
@@ -244,7 +242,7 @@ function Watchers(props) {
                             style={[cStyles.row, cStyles.itemsCenter]}>
                             <View>
                               <CAvatar size={'small'} label={item.fullName} />
-                              {watched.email && (
+                              {item.isReceiveEmail && (
                                 <View
                                   style={[
                                     cStyles.center,

@@ -185,6 +185,12 @@ export default function (state = initialState, action = {}) {
         } else {
           //for get email
           tmpIsReceivedEmail = payload.data.isReceivedEmail;
+          let find = tmpWatchers.findIndex(
+            f => f.lineNum === payload.data.watcher.lineNum,
+          );
+          if (find !== -1) {
+            tmpWatchers[find] = payload.data.watcher;
+          }
         }
       } else {
         //for unfollow

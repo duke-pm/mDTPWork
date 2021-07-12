@@ -155,8 +155,8 @@ function ProjectItem(props) {
             styles.card_children,
             {
               right: PADDING_2_CHILDREN,
-              width: widthCard,
               bottom: -BOTTOM_CHILDREN,
+              width: widthCard,
               backgroundColor: isDark ? colors.GRAY_860 : colors.GRAY_200,
               zIndex: 1,
             },
