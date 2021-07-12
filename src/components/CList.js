@@ -94,7 +94,7 @@ function CList(props) {
                     cStyles.borderAll,
                     cStyles.mr10,
                     isDark && cStyles.borderAllDark,
-                    {borderRadius: 1, width: '15%'},
+                    styles.title_section,
                   ]}
                 />
                 <View
@@ -102,7 +102,7 @@ function CList(props) {
                     cStyles.py5,
                     cStyles.px16,
                     cStyles.rounded5,
-                    {backgroundColor: colors.STATUS_ON_HOLD_OPACITY},
+                    {backgroundColor: colors.STATUS_IN_PROGRESS_OPACITY},
                   ]}>
                   <CText styles={'textMeta'} customLabel={section.title} />
                 </View>
@@ -112,7 +112,7 @@ function CList(props) {
                     cStyles.borderAll,
                     cStyles.ml10,
                     isDark && cStyles.borderAllDark,
-                    {borderRadius: 1, width: '15%'},
+                    styles.title_section,
                   ]}
                 />
               </View>
@@ -142,6 +142,7 @@ function CList(props) {
 
 const styles = StyleSheet.create({
   title: {marginHorizontal: -moderateScale(16)},
+  title_section: {borderRadius: 1, width: '15%'},
 });
 
 export default CList;

@@ -10,7 +10,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
 import {showMessage} from 'react-native-flash-message';
-import {ifIphoneX} from 'react-native-iphone-x-helper';
+import {ifIphoneX, isIphoneX} from 'react-native-iphone-x-helper';
 import {
   StyleSheet,
   View,
@@ -18,6 +18,7 @@ import {
   Text,
   KeyboardAvoidingView,
 } from 'react-native';
+import DeviceInfo from 'react-native-device-info';
 import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
@@ -269,7 +270,14 @@ function Activity(props) {
           ]}>
           <KeyboardAvoidingView
             style={cStyles.flex1}
-            behavior={IS_IOS ? 'padding' : undefined}>
+            behavior={IS_IOS ? 'padding' : undefined}
+            keyboardVerticalOffset={
+              isIphoneX()
+                ? moderateScale(68)
+                : DeviceInfo.isTablet()
+                ? moderateScale(46)
+                : moderateScale(58)
+            }>
             <CList
               contentStyle={[messages.length === 0 && cStyles.mt60]}
               customColors={customColors}
@@ -291,7 +299,7 @@ function Activity(props) {
                           {
                             backgroundColor: IS_ANDROID
                               ? colors.STATUS_SCHEDULE_OPACITY
-                              : colors.STATUS_NEW_OPACITY,
+                              : colors.STATUS_ON_HOLD_OPACITY,
                           },
                         ]}>
                         <CText
@@ -384,7 +392,7 @@ function Activity(props) {
                           {backgroundColor: colors.STATUS_CLOSE_OPACITY},
                         ]}>
                         <CText
-                          customStyles={[cStyles.textDefault, {lineHeight: 24}]}
+                          customStyles={[cStyles.textDefault]}
                           customLabel={item.comments}
                         />
                       </View>
