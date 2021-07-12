@@ -129,8 +129,11 @@ function TaskItem(props) {
   }
   const Touchable = IS_ANDROID ? TouchableNativeFeedback : TouchableOpacity;
   return (
-    <View style={[cStyles.rounded2, cStyles.ofHidden]}>
-      <Touchable disabled={props.loading} onPress={handleTaskItem}>
+    <View style={[cStyles.flex1, cStyles.rounded2, cStyles.ofHidden]}>
+      <Touchable
+        style={cStyles.rounded2}
+        disabled={props.loading}
+        onPress={handleTaskItem}>
         <View
           style={[
             cStyles.p10,
@@ -146,7 +149,7 @@ function TaskItem(props) {
             isClose && {backgroundColor: customColors.cardDisable},
           ]}>
           {/** Label */}
-          <View style={[cStyles.flex1, cStyles.itemsStart, cStyles.fullWidth]}>
+          <View style={[cStyles.itemsStart, cStyles.fullWidth]}>
             <View
               style={[
                 cStyles.row,

@@ -175,7 +175,7 @@ function ProjectItem(props) {
               styles.line_child,
             ]}
           />
-          <View style={[cStyles.flex1, cStyles.ml12]}>
+          <View style={[cStyles.flex1, cStyles.ml12, cStyles.mt10]}>
             <ListProject
               formatDateView={formatDateView}
               data={data.lstProjectItem}
