@@ -1,5 +1,3 @@
-import { colors } from "../style";
-
 /**
  ** Name: Common
  ** Author: DTP-Education
@@ -110,24 +108,6 @@ const Commons = {
     },
   },
 
-  STATUS_PROJECT: {
-    IN_PROGRESS: {
-      value: 4,
-      label: 'status:in_progress',
-      color: 'statusInProgress',
-    },
-    CLOSED: {
-      value: 5,
-      label: 'status:closed',
-      color: 'statusClosed',
-    },
-    REJECTED: {
-      value: 7,
-      label: 'status:rejected',
-      color: 'statusRejected',
-    },
-  },
-
   TYPE_TASK: {
     MILESTONE: {
       value: 3,
@@ -147,19 +127,24 @@ const Commons = {
   },
 
   PRIORITY_TASK: {
+    IMMEDIATE: {
+      value: 'I',
+      label: 'Immediate',
+      color: 'pink',
+    },
     HIGH: {
       value: 'H',
-      label: 'priority_task:high',
+      label: 'High',
       color: 'red',
     },
     MEDIUM: {
-      value: 'M',
-      label: 'priority_task:medium',
+      value: 'N',
+      label: 'Normal',
       color: 'teal',
     },
     LOW: {
       value: 'L',
-      label: 'priority_task:low',
+      label: 'Low',
       color: 'indigo',
     },
   },

@@ -429,6 +429,10 @@ function Task(props) {
         data.taskDetail.priority === Commons.PRIORITY_TASK.HIGH.value
       ) {
         bgPriority = customColors[Commons.PRIORITY_TASK.HIGH.color];
+      } else if (
+        data.taskDetail.priority === Commons.PRIORITY_TASK.IMMEDIATE.value
+      ) {
+        bgPriority = customColors[Commons.PRIORITY_TASK.IMMEDIATE.color];
       }
     } else {
       bgPriority = data.taskDetail.priorityColor;
