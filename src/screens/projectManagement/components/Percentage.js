@@ -26,6 +26,7 @@ import Commons from '~/utils/common/Commons';
 import {moderateScale} from '~/utils/helper';
 /** REDUX */
 import * as Actions from '~/redux/actions';
+import Icons from '~/config/Icons';
 
 /** All refs of page */
 let percentRef = createRef();
@@ -297,8 +298,8 @@ function Percentage(props) {
               disabled={loading}
               onPress={handleClosePercent}>
               <Icon
-                name={'close-circle'}
-                size={moderateScale(21)}
+                name={Icons.remove}
+                size={moderateScale(23)}
                 color={customColors.red}
               />
             </TouchableOpacity>

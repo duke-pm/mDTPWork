@@ -30,6 +30,7 @@ import CLabel from '~/components/CLabel';
 import {colors, cStyles} from '~/utils/style';
 import {checkEmpty, IS_ANDROID, moderateScale} from '~/utils/helper';
 import {usePrevious} from '~/utils/hook';
+import Icons from '~/config/Icons';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -281,11 +282,13 @@ function Filter(props) {
           ) : (
             <View style={cStyles.flex1} />
           )}
-          <Icon
-            name={'options'}
-            size={moderateScale(23)}
-            color={customColors.text}
-          />
+          {!show && (
+            <Icon
+              name={Icons.filter}
+              size={moderateScale(23)}
+              color={customColors.text}
+            />
+          )}
         </View>
       </TouchableOpacity>
 
@@ -313,7 +316,7 @@ function Filter(props) {
                     )
               }
               valueColor={colors.TEXT_BASE}
-              iconLast={'calendar'}
+              iconLast={Icons.calendar}
               iconLastColor={colors.ICON_BASE}
               onPressIconLast={() => handleDateInput(INPUT_NAME.FROM_DATE)}
               onPressRemoveValue={() => setData({...data, fromDate: ''})}
@@ -341,7 +344,7 @@ function Filter(props) {
                     )
               }
               valueColor={colors.TEXT_BASE}
-              iconLast={'calendar'}
+              iconLast={Icons.calendar}
               iconLastColor={colors.ICON_BASE}
               onPressIconLast={() => handleDateInput(INPUT_NAME.TO_DATE)}
               onPressRemoveValue={() => setData({...data, toDate: ''})}
@@ -376,14 +379,14 @@ function Filter(props) {
             <CButton
               style={styles.button}
               variant={'outlined'}
-              icon={'close'}
+              icon={Icons.close}
               label={'common:close'}
               onPress={handleToggle}
             />
             <CButton
               style={styles.button}
               label={'common:apply'}
-              icon={'filter'}
+              icon={Icons.filter}
               onPress={handleFilter}
             />
           </View>

@@ -51,6 +51,7 @@ import {
 import {THEME_DARK, DEFAULT_FORMAT_DATE_4} from '~/config/constants';
 /* REDUX */
 import * as Actions from '~/redux/actions';
+import Icons from '~/config/Icons';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -133,8 +134,8 @@ const RowSelect = (
           )}
           {!disabled && (
             <Icon
-              name={'chevron-down'}
-              size={moderateScale(21)}
+              name={Icons.down}
+              size={moderateScale(23)}
               color={disabled ? customColors.textDisable : customColors.icon}
             />
           )}
@@ -143,7 +144,7 @@ const RowSelect = (
       {error && (
         <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pt6]}>
           <Icon
-            name={'alert-circle'}
+            name={Icons.alert}
             color={customColors.red}
             size={moderateScale(14)}
           />
@@ -579,25 +580,13 @@ function AddRequest(props) {
       title: `${t(
         'add_approved_lost_damaged:' + (isDetail ? 'detail' : 'title'),
       )}`,
-      headerLeft: () => (
-        <CIconHeader
-          icons={[
-            {
-              show: true,
-              showRedDot: false,
-              icon: 'close',
-              onPress: handleBack,
-            },
-          ]}
-        />
-      ),
       headerRight: () => (
         <CIconHeader
           icons={[
             {
               show: isDetail,
               showRedDot: false,
-              icon: 'information-circle',
+              icon: Icons.informations,
               onPress: handleShowProcess,
             },
           ]}
@@ -910,7 +899,7 @@ function AddRequest(props) {
             <CButton
               block
               disabled={loading.main || loading.submitAdd}
-              icon={'send'}
+              icon={Icons.send}
               label={'add_approved_lost_damaged:send'}
               onPress={onSendRequest}
             />
@@ -928,7 +917,7 @@ function AddRequest(props) {
               block
               color={customColors.red}
               disabled={loading.main}
-              icon={'close'}
+              icon={Icons.close}
               label={'add_approved_lost_damaged:reject'}
               onPress={handleReject}
             />
@@ -937,7 +926,7 @@ function AddRequest(props) {
               block
               color={customColors.green}
               disabled={loading.main}
-              icon={'checkmark'}
+              icon={Icons.check}
               label={'add_approved_lost_damaged:approved'}
               onPress={handleApproved}
             />

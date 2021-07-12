@@ -14,6 +14,7 @@ import moment from 'moment';
 import CText from '~/components/CText';
 import CLabel from '~/components/CLabel';
 /* COMMON */
+import Icons from '~/config/Icons';
 import Commons from '~/utils/common/Commons';
 import {DEFAULT_FORMAT_DATE_4} from '~/config/constants';
 import {cStyles} from '~/utils/style';
@@ -38,7 +39,7 @@ function RequestItem(props) {
    ** RENDER **
    **************/
   let title = t('approved_assets:title_request_item') + data.requestID;
-  let statusIcon = 'clipboard';
+  let statusIcon = Icons.request;
   let statusColor = 'orange';
   let colorText = 'colorOrange';
   if (data.requestTypeID !== Commons.APPROVED_TYPE.ASSETS.value) {
@@ -49,15 +50,15 @@ function RequestItem(props) {
       data.requestID;
   }
   if (data.statusID === Commons.STATUS_REQUEST.APPROVED.value) {
-    statusIcon = 'checkmark';
+    statusIcon = Icons.requestApproved_1;
     colorText = 'colorBlue';
     statusColor = 'blue';
   } else if (data.statusID === Commons.STATUS_REQUEST.REJECT.value) {
-    statusIcon = 'close';
+    statusIcon = Icons.requestRejected;
     colorText = 'colorRed';
     statusColor = 'red';
   } else if (data.statusID === Commons.STATUS_REQUEST.DONE.value) {
-    statusIcon = 'checkmark-done';
+    statusIcon = Icons.requestApproved_2;
     colorText = 'colorGreen';
     statusColor = 'green';
   }

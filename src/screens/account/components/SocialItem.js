@@ -27,9 +27,9 @@ function SocialItem(props) {
     <TouchableOpacity key={key} onPress={handleSocial}>
       <View
         style={[
-          cStyles.rounded2,
+          cStyles.rounded1,
           cStyles.center,
-          styles.con_social,
+          cStyles.p8,
           {backgroundColor: props.customColors.cardDisable},
           index !== 0 && cStyles.ml16,
         ]}>
@@ -44,7 +44,6 @@ function SocialItem(props) {
 }
 
 const styles = StyleSheet.create({
-  con_social: {height: moderateScale(40), width: moderateScale(40)},
   social: {height: moderateScale(20), width: moderateScale(20)},
 });
 

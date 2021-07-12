@@ -20,6 +20,8 @@ import CIconHeader from '~/components/CIconHeader';
 import ListProject from './list/Project';
 /** COMMON */
 import Routes from '~/navigation/Routes';
+import Configs from '~/config';
+import Icons from '~/config/Icons';
 import {LOAD_MORE, REFRESH} from '~/config/constants';
 import {IS_ANDROID} from '~/utils/helper';
 import {usePrevious} from '~/utils/hook';
@@ -45,7 +47,7 @@ function ProjectManagement(props) {
   const language = commonState.get('language');
   const formatDateView = commonState.get('formatDateView');
   const refreshToken = authState.getIn(['login', 'refreshToken']);
-  const perPageMaster = 25;
+  const perPageMaster = Configs.perPageProjects;
 
   /** Use state */
   const [loading, setLoading] = useState({
@@ -149,10 +151,6 @@ function ProjectManagement(props) {
       Lang: language,
     });
     dispatch(Actions.fetchListProject(params, navigation));
-    console.log('[LOG] === statusID ===> ', statusID);
-    console.log('[LOG] === ownerID ===> ', ownerID);
-    console.log('[LOG] === year ===> ', year);
-    console.log('[LOG] === isFiltering ===> ', isFiltering);
     if (
       (statusID !== null ||
         ownerID !== null ||
@@ -242,9 +240,9 @@ function ProjectManagement(props) {
     }
   };
 
-  /******************
+  /****************
    ** LIFE CYCLE **
-   ******************/
+   ****************/
   useEffect(() => {
     onFetchMasterData();
     onFetchData(data.year, null, null, perPageMaster, 1, '');
@@ -329,13 +327,13 @@ function ProjectManagement(props) {
             {
               show: true,
               showRedDot: data.search !== '',
-              icon: 'search',
+              icon: Icons.search,
               onPress: handleOpenSearch,
             },
             {
               show: true,
               showRedDot: isFiltering,
-              icon: 'options',
+              icon: Icons.filter,
               onPress: handleShowFilter,
             },
           ]}

@@ -13,6 +13,7 @@ import CText from '~/components/CText';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
 import {moderateScale} from '~/utils/helper';
+import Icons from '~/config/Icons';
 
 function CheckOption(props) {
   const {loading, isDetail, customColors, value, values, onCallback} = props;
@@ -70,11 +71,9 @@ function CheckOption(props) {
               useNativeDriver={true}>
               <Icon
                 name={
-                  chooseValue === item.value
-                    ? 'checkmark-circle'
-                    : 'ellipse-outline'
+                  chooseValue === item.value ? Icons.checkCircle : Icons.circle
                 }
-                size={moderateScale(21)}
+                size={moderateScale(23)}
                 color={
                   chooseValue === item.value
                     ? colors.SECONDARY

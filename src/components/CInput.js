@@ -22,6 +22,7 @@ import CText from './CText';
 import {colors, cStyles} from '~/utils/style';
 import {IS_ANDROID, moderateScale, verticalScale} from '~/utils/helper';
 import {THEME_DARK, THEME_LIGHT} from '~/config/constants';
+import Icons from '~/config/Icons';
 
 function CInput(props) {
   const {t} = useTranslation();
@@ -194,7 +195,7 @@ function CInput(props) {
             style={[cStyles.center, styles.con_input_icon]}
             onPress={handleRemoveValue}>
             <Icon
-              name={'close-circle'}
+              name={Icons.remove}
               color={customColors.red}
               size={moderateScale(20)}
             />
@@ -232,7 +233,7 @@ function CInput(props) {
             ]}
             onPress={handleShowPassword}>
             <Icon
-              name={showPassword ? 'eye-off' : 'eye'}
+              name={showPassword ? Icons.eyeOff : Icons.eye}
               color={colors.GRAY_500}
               size={moderateScale(20)}
             />
@@ -242,7 +243,7 @@ function CInput(props) {
       {props.error && (
         <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pt6]}>
           <Icon
-            name={'alert-circle'}
+            name={Icons.alert}
             color={customColors.red}
             size={moderateScale(14)}
           />

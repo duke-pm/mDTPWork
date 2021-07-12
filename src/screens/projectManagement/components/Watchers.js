@@ -36,6 +36,7 @@ import CActivityIndicator from '~/components/CActivityIndicator';
 import {THEME_DARK} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
 import {moderateScale, IS_ANDROID} from '~/utils/helper';
+import Icons from '~/config/Icons';
 /** REDUX */
 import * as Actions from '~/redux/actions';
 
@@ -195,7 +196,7 @@ function Watchers(props) {
                   : 'project_management:you_watched'
               }
               icon={
-                watched.status ? 'eye' : loading.send ? null : 'eye-outline'
+                watched.status ? Icons.eye : loading.send ? null : Icons.eyeOff
               }
               onPress={handleFollow}
             />
@@ -258,7 +259,7 @@ function Watchers(props) {
                                     },
                                   ]}>
                                   <Icon
-                                    name={'mail'}
+                                    name={Icons.mail}
                                     color={customColors.green}
                                     size={moderateScale(10)}
                                   />

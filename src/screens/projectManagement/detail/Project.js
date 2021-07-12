@@ -21,6 +21,8 @@ import CIconHeader from '~/components/CIconHeader';
 import ListTask from '../list/Task';
 /** COMMON */
 import Routes from '~/navigation/Routes';
+import Configs from '~/config';
+import Icons from '~/config/Icons';
 import {LOAD_MORE, LOGIN, REFRESH} from '~/config/constants';
 import {getSecretInfo, IS_ANDROID, IS_IOS, resetRoute} from '~/utils/helper';
 import {colors} from '~/utils/style';
@@ -50,7 +52,7 @@ function ProjectDetail(props) {
   const authState = useSelector(({auth}) => auth);
   const language = commonState.get('language');
   const refreshToken = authState.getIn(['login', 'refreshToken']);
-  const perPageMaster = 25;
+  const perPageMaster = Configs.perPageProjects;
 
   /** Use state */
   const [loading, setLoading] = useState({
@@ -428,7 +430,7 @@ function ProjectDetail(props) {
                   {
                     show: !navigation.canGoBack(),
                     showRedDot: false,
-                    icon: IS_IOS ? 'chevron-back' : 'arrow-back',
+                    icon: IS_IOS ? Icons.backiOS : Icons.backAndroid,
                     iconColor: IS_ANDROID ? colors.WHITE : customColors.blue,
                     onPress: handleBack,
                   },
@@ -441,13 +443,13 @@ function ProjectDetail(props) {
                 {
                   show: true,
                   showRedDot: data.search !== '',
-                  icon: 'search',
+                  icon: Icons.search,
                   onPress: handleOpenSearch,
                 },
                 {
                   show: true,
                   showRedDot: isFiltering,
-                  icon: 'options',
+                  icon: Icons.filter,
                   onPress: handleShowFilter,
                 },
               ]}

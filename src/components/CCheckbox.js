@@ -14,6 +14,7 @@ import CText from '~/components/CText';
 /** COMMON */
 import {colors, cStyles} from '~/utils/style';
 import {moderateScale} from '~/utils/helper';
+import Icons from '~/config/Icons';
 
 let handleRef = createRef();
 
@@ -65,7 +66,7 @@ function CCheckbox(props) {
         )}
 
         <Icon
-          name={value ? 'checkmark-circle' : 'ellipse-outline'}
+          name={value ? Icons.checkCircle : Icons.circle}
           size={moderateScale(21)}
           color={value ? colors.SECONDARY : colors.GRAY_500}
         />

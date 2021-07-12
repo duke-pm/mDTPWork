@@ -24,6 +24,7 @@ import ListRequest from '../components/ListRequest';
 import {LOAD_MORE, REFRESH} from '~/config/constants';
 import {IS_ANDROID} from '~/utils/helper';
 import {cStyles} from '~/utils/style';
+import Icons from '~/config/Icons';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 
@@ -238,7 +239,7 @@ function ListRequestHandling(props) {
             {
               show: true,
               showRedDot: data.search !== '',
-              icon: 'search',
+              icon: Icons.search,
               onPress: handleOpenSearch,
             },
           ]}

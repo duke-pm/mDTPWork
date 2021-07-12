@@ -17,6 +17,7 @@ import CLabel from '~/components/CLabel';
 import {colors, cStyles} from '~/utils/style';
 import {checkEmpty, moderateScale, IS_ANDROID} from '~/utils/helper';
 import {DEFAULT_FORMAT_DATE_4} from '~/config/constants';
+import Icons from '~/config/Icons';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -134,7 +135,7 @@ function ProjectItem(props) {
                 style={[cStyles.row, cStyles.itemsCenter, styles.row_right]}>
                 <CLabel label={'project_management:is_public'} />
                 <Icon
-                  name={data.isPublic ? 'checkmark-circle' : 'alert-circle'}
+                  name={data.isPublic ? Icons.checkCircle : Icons.alert}
                   color={
                     data.isPublic ? customColors.green : customColors.orange
                   }

@@ -19,6 +19,7 @@ const Configs = {
   lengthNewPassword: 6,
   // for filter project
   numberYearToFilter: 10,
+  perPageProjects: 25,
   // for dev new feature
   salesVisit: false,
   // for deep liking

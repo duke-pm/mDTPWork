@@ -171,17 +171,19 @@ function Activity(props) {
   };
 
   const onSendMessage = () => {
-    setLoading({...loading, send: true});
-    Keyboard.dismiss();
-    setValueMessage('');
-    let params = {
-      LineNum: 0,
-      TaskID: taskID,
-      Comments: valueMessage,
-      Lang: language,
-      RefreshToken: refreshToken,
-    };
-    return dispatch(Actions.fetchTaskComment(params, navigation));
+    if (valueMessage.trim() !== '') {
+      setLoading({...loading, send: true});
+      Keyboard.dismiss();
+      setValueMessage('');
+      let params = {
+        LineNum: 0,
+        TaskID: taskID,
+        Comments: valueMessage.trim(),
+        Lang: language,
+        RefreshToken: refreshToken,
+      };
+      return dispatch(Actions.fetchTaskComment(params, navigation));
+    }
   };
 
   const onError = () => {

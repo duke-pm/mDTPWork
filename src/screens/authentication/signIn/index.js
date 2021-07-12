@@ -49,6 +49,7 @@ import {
 } from '~/utils/helper';
 /* REDUX */
 import * as Actions from '~/redux/actions';
+import Icons from '~/config/Icons';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -390,7 +391,7 @@ function SignIn(props) {
                       inputRef={userNameRef}
                       disabled={loading.submit}
                       value={form.userName}
-                      icon={'person-circle'}
+                      icon={Icons.userCircle}
                       iconColor={colors.GRAY_500}
                       holder={'sign_in:input_username'}
                       returnKey={'next'}
@@ -417,7 +418,7 @@ function SignIn(props) {
                           ? isIphoneX()
                             ? fastLogin.iconFaceID
                             : fastLogin.icon
-                          : 'lock-closed'
+                          : Icons.lock
                       }
                       iconColor={colors.GRAY_500}
                       holder={'sign_in:input_password'}
@@ -454,7 +455,7 @@ function SignIn(props) {
                     <CButton
                       block
                       disabled={loading.submit}
-                      icon={'log-in'}
+                      icon={Icons.login}
                       label={'sign_in:title'}
                       onPress={handleSignIn}
                     />

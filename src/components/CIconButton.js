@@ -27,7 +27,7 @@ function CIconButton(props) {
    ** RENDER **
    ************/
   return (
-    <View style={[cStyles.ofHidden, cStyles.rounded10]}>
+    <View style={[cStyles.ofHidden, cStyles.rounded10, style]}>
       <Touchable
         style={[cStyles.rounded10, cStyles.center, styles.container, style]}
         disabled={disabled}

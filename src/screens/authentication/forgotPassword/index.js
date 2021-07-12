@@ -38,6 +38,7 @@ import {
 } from '~/utils/helper';
 /** REDUX */
 import * as Actions from '~/redux/actions';
+import Icons from '~/config/Icons';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -217,7 +218,7 @@ function ForgotPassword(props) {
                         holderColor={colors.GRAY_500}
                         disabled={loading}
                         keyboard={'email-address'}
-                        icon={'mail'}
+                        icon={Icons.mail}
                         iconColor={colors.GRAY_500}
                         holder={'forgot_password:input_email'}
                         returnKey={'send'}
@@ -232,7 +233,7 @@ function ForgotPassword(props) {
                       <CButton
                         block
                         disabled={loading}
-                        icon={'send'}
+                        icon={Icons.send}
                         label={'common:send'}
                         onPress={handleSend}
                       />
@@ -261,7 +262,7 @@ function ForgotPassword(props) {
                 <View style={styles.box2}>
                   <View style={[cStyles.center, cStyles.py20, cStyles.pt32]}>
                     <Icon
-                      name={'mail-unread'}
+                      name={Icons.mailUnread}
                       color={colors.GRAY_500}
                       size={moderateScale(80)}
                     />

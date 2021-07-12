@@ -14,6 +14,7 @@ import CIconButton from './CIconButton';
 /** COMMON */
 import {cStyles} from '~/utils/style';
 import {THEME_DARK} from '~/config/constants';
+import Icons from '~/config/Icons';
 
 function CActionSheet(props) {
   const {customColors} = useTheme();
@@ -90,12 +91,12 @@ function CActionSheet(props) {
               {backgroundColor: customColors.card},
             ]}>
             <CIconButton
-              iconName={'close'}
+              iconName={Icons.close}
               iconColor={customColors.icon}
               onPress={handleClose}
             />
             <CIconButton
-              iconName={'checkmark'}
+              iconName={Icons.check}
               iconColor={customColors.primary}
               onPress={handleConfirm}
             />

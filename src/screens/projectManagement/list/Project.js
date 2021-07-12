@@ -28,6 +28,7 @@ import Routes from '~/navigation/Routes';
 import {DEFAULT_FORMAT_DATE_4, THEME_DARK} from '~/config/constants';
 import {checkEmpty, IS_ANDROID, moderateScale} from '~/utils/helper';
 import {cStyles} from '~/utils/style';
+import Icons from '~/config/Icons';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -37,8 +38,8 @@ if (IS_ANDROID) {
 
 function ListProject(props) {
   const navigation = useNavigation();
-  const {customColors} = useTheme();
   const isDark = useColorScheme() === THEME_DARK;
+  const {customColors} = useTheme();
   const {formatDateView, onLoadmore, onRefresh} = props;
 
   /** Use state */
@@ -77,9 +78,9 @@ function ListProject(props) {
     if (loadingModal && showModal) {
       if (chooseProject) {
         setTimeout(() => {
-          LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+          LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
           setLoadingModal(false);
-        }, 500);
+        }, 300);
       }
     }
   }, [loadingModal, showModal, chooseProject]);
@@ -140,9 +141,7 @@ function ListProject(props) {
                   <Icon
                     style={cStyles.ml3}
                     name={
-                      chooseProject.isPublic
-                        ? 'checkmark-circle'
-                        : 'alert-circle'
+                      chooseProject.isPublic ? Icons.checkCircle : Icons.alert
                     }
                     color={
                       chooseProject.isPublic

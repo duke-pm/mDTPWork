@@ -11,7 +11,7 @@ import CEmpty from './CEmpty';
 import CText from './CText';
 import CFooterList from './CFooterList';
 /* COMMON */
-import {IS_ANDROID} from '~/utils/helper';
+import {IS_ANDROID, moderateScale} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
 
 /** All refs of CList */
@@ -21,7 +21,6 @@ function CList(props) {
   const {
     style = {},
     contentStyle = {},
-    scrollToBottom = false,
     sectionList = false,
     textEmpty = null,
     onRefresh = null,
@@ -29,21 +28,8 @@ function CList(props) {
   } = props;
 
   /************
-   ** FUNC **
-   ************/
-  const onContentChange = () => {
-    if (scrollToBottom && !sectionList) {
-      listRef.scrollToEnd({animated: true});
-    }
-  };
-
-  /******************
-   ** LIFE CYCLE **
-   ******************/
-
-  /**************
    ** RENDER **
-   **************/
+   ************/
   return (
     <>
       {!sectionList && (
@@ -64,7 +50,6 @@ function CList(props) {
           keyboardDismissMode={'interactive'}
           initialNumToRender={10}
           scrollEventThrottle={16}
-          onContentSizeChange={onContentChange}
           refreshing={props.refreshing}
           onRefresh={onRefresh}
           onEndReachedThreshold={0.1}
@@ -134,7 +119,7 @@ function CList(props) {
 }
 
 const styles = StyleSheet.create({
-  title: {marginHorizontal: -16},
+  title: {marginHorizontal: -moderateScale(16)},
 });
 
 export default CList;

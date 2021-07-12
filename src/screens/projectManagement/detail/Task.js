@@ -48,6 +48,7 @@ import {
 } from '~/utils/helper';
 /** REDUX */
 import * as Actions from '~/redux/actions';
+import Icons from '~/config/Icons';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -374,7 +375,7 @@ function Task(props) {
               {
                 show: !navigation.canGoBack(),
                 showRedDot: false,
-                icon: IS_IOS ? 'chevron-back' : 'arrow-back',
+                icon: IS_IOS ? Icons.backiOS : Icons.backAndroid,
                 iconColor: IS_ANDROID ? colors.WHITE : customColors.blue,
                 onPress: handleBack,
               },
@@ -387,19 +388,19 @@ function Task(props) {
             {
               show: true,
               showRedDot: false,
-              icon: isFastWatch ? 'eye-outline' : 'eye',
+              icon: isFastWatch ? Icons.eye : Icons.eyeOff,
               onPress: handleFastWatch,
             },
             {
               show: true,
               showRedDot: newComment,
-              icon: 'chatbubbles',
+              icon: Icons.comments,
               onPress: handleActivities,
             },
             {
               show: true,
               showRedDot: !isFastWatch,
-              icon: 'people',
+              icon: Icons.watchers,
               onPress: handleWatchers,
             },
           ]}

@@ -27,6 +27,7 @@ import Routes from '~/navigation/Routes';
 import {LOGIN, THEME_DARK} from '~/config/constants';
 import {alert, IS_IOS, removeSecretInfo, resetRoute} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
+import Icons from '~/config/Icons';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 
@@ -191,7 +192,7 @@ const Socials = ({customColors, isDark, isTablet, needUpdate, onUpdate}) => {
                 style={[cStyles.ml10, cStyles.px6]}
                 textStyle={cStyles.textMeta}
                 variant={'outlined'}
-                icon={'download'}
+                icon={Icons.download}
                 label={'common:download'}
                 onPress={onUpdate}
               />

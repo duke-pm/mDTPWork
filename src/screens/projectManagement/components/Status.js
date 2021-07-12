@@ -21,6 +21,7 @@ import {colors, cStyles} from '~/utils/style';
 import {moderateScale} from '~/utils/helper';
 /* REDUX */
 import * as Actions from '~/redux/actions';
+import Icons from '~/config/Icons';
 
 /** All refs use in this screen */
 const actionSheetStatusRef = createRef();
@@ -199,9 +200,9 @@ function Status(props) {
           ) : (
             isUpdate && (
               <Icon
-                name={'chevron-down'}
+                name={Icons.down}
                 color={isDark ? task.colorDarkCode : colors.WHITE}
-                size={moderateScale(21)}
+                size={moderateScale(23)}
               />
             )
           )}

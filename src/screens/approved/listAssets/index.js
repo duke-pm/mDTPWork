@@ -27,6 +27,7 @@ import Routes from '~/navigation/Routes';
 import Commons from '~/utils/common/Commons';
 import {IS_ANDROID} from '~/utils/helper';
 import {cStyles} from '~/utils/style';
+import Icons from '~/config/Icons';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -145,13 +146,13 @@ function ListRequestAll(props) {
             {
               show: true,
               showRedDot: routes[index].search !== '',
-              icon: 'search',
+              icon: Icons.search,
               onPress: handleOpenSearch,
             },
             {
               show: isPermissionWrite,
               showRedDot: false,
-              icon: 'add-circle',
+              icon: Icons.addNew,
               onPress: handleAddNew,
             },
           ]}

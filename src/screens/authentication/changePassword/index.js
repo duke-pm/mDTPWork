@@ -38,6 +38,7 @@ import {BIOMETRICS} from '~/config/constants';
 /** REDUX */
 import * as Actions from '~/redux/actions';
 import {isIphoneX} from 'react-native-iphone-x-helper';
+import Icons from '~/config/Icons';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -259,7 +260,7 @@ function ChangePassword(props) {
                           value={form.password}
                           keyboard={'default'}
                           returnKey={'send'}
-                          icon={'lock-closed'}
+                          icon={Icons.lock}
                           iconColor={colors.GRAY_500}
                           password
                           error={error.password}
@@ -273,7 +274,7 @@ function ChangePassword(props) {
                         <CButton
                           block
                           disabled={loading.update}
-                          icon={'send'}
+                          icon={Icons.send}
                           label={'common:send'}
                           onPress={handleSend}
                         />
@@ -300,7 +301,11 @@ function ChangePassword(props) {
             {!loading.update && form.success && !form.error && (
               <View style={[cStyles.flex1, cStyles.px48, cStyles.pt32]}>
                 <View style={[cStyles.center, cStyles.py20, cStyles.pt32]}>
-                  <Icon name={'happy'} color={colors.GRAY_500} size={moderateScale(80)} />
+                  <Icon
+                    name={Icons.successHappy}
+                    color={colors.GRAY_500}
+                    size={moderateScale(80)}
+                  />
                 </View>
 
                 <View style={styles.separator} />
@@ -333,7 +338,11 @@ function ChangePassword(props) {
             {!loading.update && !form.success && form.error && (
               <View style={[cStyles.flex1, cStyles.px48, cStyles.pt32]}>
                 <View style={[cStyles.center, cStyles.py20, cStyles.pt32]}>
-                  <Icon name={'sad'} color={colors.GRAY_500} size={moderateScale(80)} />
+                  <Icon
+                    name={Icons.failedSad}
+                    color={colors.GRAY_500}
+                    size={moderateScale(80)}
+                  />
                 </View>
 
                 <View style={styles.separator} />
@@ -370,7 +379,11 @@ function ChangePassword(props) {
               form.errorExpired && (
                 <View style={[cStyles.flex1, cStyles.px48, cStyles.pt32]}>
                   <View style={[cStyles.center, cStyles.py20, cStyles.pt32]}>
-                    <Icon name={'sad'} color={colors.GRAY_500} size={moderateScale(80)} />
+                    <Icon
+                      name={Icons.failedSad}
+                      color={colors.GRAY_500}
+                      size={moderateScale(80)}
+                    />
                   </View>
 
                   <View style={styles.separator} />

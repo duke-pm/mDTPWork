@@ -31,7 +31,8 @@ const StackDashboard = createNativeStackNavigator();
 const StackAccount = createNativeStackNavigator();
 const TabMain = createBottomTabNavigator();
 
-const commonBottomTabStyles = {backgroundColor: 'rgba(255,255,255,0.1)'};
+const headerAuthOptions = {headerShown: false};
+const commonBottomTabStyles = {backgroundColor: colors.BACKGROUND_HEADER_IOS};
 
 export function RootDashboard(props) {
   const {t} = useTranslation();
@@ -42,7 +43,7 @@ export function RootDashboard(props) {
       ? isDark
         ? undefined
         : colors.PRIMARY
-      : 'rgba(255,255,255,0.1)',
+      : colors.BACKGROUND_HEADER_IOS,
     blurEffect: isDark ? 'dark' : 'light',
   };
 
@@ -90,7 +91,7 @@ export function RootAccount(props) {
       ? isDark
         ? undefined
         : colors.PRIMARY
-      : 'rgba(255,255,255,0.1)',
+      : colors.BACKGROUND_HEADER_IOS,
     blurEffect: isDark ? 'dark' : 'light',
   };
 
@@ -190,13 +191,12 @@ export function RootMain(props) {
   const {t} = useTranslation();
   const {customColors} = useTheme();
   const isDark = useColorScheme() === THEME_DARK;
-  const headerAuthOptions = {headerShown: false};
   const headerStyles = {
     backgroundColor: IS_ANDROID
       ? isDark
         ? undefined
         : colors.PRIMARY
-      : 'rgba(255,255,255,0.1)',
+      : colors.BACKGROUND_HEADER_IOS,
     blurEffect: isDark ? 'dark' : 'light',
   };
   const headerModalStyles = {
@@ -361,6 +361,7 @@ export function RootMain(props) {
         component={Routes.MAIN.ADD_APPROVED_ASSETS.path}
         options={{
           headerStyle: headerStyles,
+          headerBackTitle: t('common:back'),
         }}
       />
       <StackMain.Screen
@@ -368,6 +369,7 @@ export function RootMain(props) {
         component={Routes.MAIN.ADD_APPROVED_LOST_DAMAGED.path}
         options={{
           headerStyle: headerStyles,
+          headerBackTitle: t('common:back'),
         }}
       />
       <StackMain.Screen
@@ -375,6 +377,7 @@ export function RootMain(props) {
         component={Routes.MAIN.HELP_AND_INFO.path}
         options={{
           title: t('help_and_info:title'),
+          headerBackTitle: t('common:back'),
           headerStyle: headerStyles,
         }}
       />
@@ -383,6 +386,7 @@ export function RootMain(props) {
         component={Routes.MAIN.CHANGE_PASSWORD.path}
         options={{
           title: t('change_password:title'),
+          headerBackTitle: t('common:back'),
           headerStyle: headerStyles,
         }}
       />
@@ -390,7 +394,6 @@ export function RootMain(props) {
         name={Routes.MAIN.CONTACT_US.name}
         component={Routes.MAIN.CONTACT_US.path}
         options={{
-          headerBackTitle: t('common:back'),
           title: t('contact_us:title'),
           headerStyle: headerStyles,
         }}
@@ -400,13 +403,7 @@ export function RootMain(props) {
         component={Routes.MAIN.SETTINGS.path}
         options={{
           title: t('settings:title'),
-          headerStyle: headerStyles,
-        }}
-      />
-      <StackMain.Screen
-        name={Routes.MAIN.SETTINGS.childrens.SINGLE_CHOOSE.name}
-        component={Routes.MAIN.SETTINGS.childrens.SINGLE_CHOOSE.path}
-        options={{
+          headerBackTitle: t('common:back'),
           headerStyle: headerStyles,
         }}
       />

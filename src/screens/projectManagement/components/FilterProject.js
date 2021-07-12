@@ -15,7 +15,7 @@ import {
   TouchableOpacity,
   View,
   StatusBar,
-  InteractionManager,
+  Text,
 } from 'react-native';
 import Picker from '@gregfrench/react-native-wheel-picker';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -34,6 +34,7 @@ import Configs from '~/config';
 import {THEME_DARK} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
 import {moderateScale, IS_ANDROID, IS_IOS, sH} from '~/utils/helper';
+import Icons from '~/config/Icons';
 
 /** All refs use in this screen */
 const actionSheetYearRef = createRef();
@@ -79,8 +80,8 @@ const RowPicker = (
           <View style={[cStyles.row, cStyles.itemsCenter]}>
             {loading ? <CActivityIndicator /> : <CText label={active} />}
             <Icon
-              name={'chevron-forward'}
-              size={moderateScale(21)}
+              name={Icons.next}
+              size={moderateScale(23)}
               color={colors.GRAY_500}
             />
           </View>
@@ -97,8 +98,7 @@ const RowSelect = (
   label,
   active,
   onPress,
-  isAvatar,
-  isBorder = true,
+  isUser,
   isFirst,
   isLast,
 ) => {
@@ -118,7 +118,7 @@ const RowSelect = (
           isLast && !isDark && cStyles.borderBottom,
           {backgroundColor: customColors.card},
         ]}>
-        {isAvatar ? (
+        {isUser ? (
           <View style={cStyles.px16}>
             <CAvatar size={'small'} label={label} />
           </View>
@@ -134,15 +134,15 @@ const RowSelect = (
             cStyles.itemsCenter,
             cStyles.justifyBetween,
             cStyles.pr16,
-            !isLast && isBorder && isDark && cStyles.borderBottomDark,
-            !isLast && isBorder && !isDark && cStyles.borderBottom,
+            !isLast && isDark && cStyles.borderBottomDark,
+            !isLast && !isDark && cStyles.borderBottom,
           ]}>
           <CText label={label} />
           {active && (
             <Icon
-              name={'checkmark'}
+              name={Icons.check}
               color={customColors.blue}
-              size={moderateScale(21)}
+              size={moderateScale(23)}
             />
           )}
         </View>
@@ -266,26 +266,24 @@ function FilterProject(props) {
    ** LIFE CYCLE **
    ****************/
   useEffect(() => {
-    InteractionManager.runAfterInteractions(() => {
-      if (IS_IOS) {
-        if (isDark) {
-          // Do nothing
-        } else {
-          StatusBar.setBarStyle('light-content', true);
-        }
+    if (IS_IOS) {
+      if (isDark) {
+        // Do nothing
+      } else {
+        StatusBar.setBarStyle('light-content', true);
       }
-      if (aParams.hasYear && year.data.length === 0) {
-        let years = onGetListYear(Configs.numberYearToFilter);
-        let find = years.findIndex(
-          f => f.value === JSON.stringify(aParams.activeYear),
-        );
-        setYear({
-          data: years,
-          active: find,
-          choose: find,
-        });
-      }
-    });
+    }
+    if (aParams.hasYear && year.data.length === 0) {
+      let years = onGetListYear(Configs.numberYearToFilter);
+      let find = years.findIndex(
+        f => f.value === JSON.stringify(aParams.activeYear),
+      );
+      setYear({
+        data: years,
+        active: find,
+        choose: find,
+      });
+    }
   }, []);
 
   useEffect(() => {
@@ -318,7 +316,7 @@ function FilterProject(props) {
                 {
                   show: true,
                   showRedDot: false,
-                  icon: 'close',
+                  icon: Icons.close,
                   onPress: handleReset,
                 },
               ]}
@@ -330,7 +328,7 @@ function FilterProject(props) {
                 {
                   show: true,
                   showRedDot: false,
-                  icon: 'checkmark-done',
+                  icon: Icons.doubleCheck,
                   onPress: handleFilter,
                 },
               ]}
@@ -390,15 +388,14 @@ function FilterProject(props) {
             contentStyle={[cStyles.px0, cStyles.pb0]}
             data={owner.data}
             item={({item, index}) => {
-              let isActive = owner.active.indexOf(item.empID);
+              let isActive = owner.active.indexOf(item.userName);
               return RowSelect(
                 isDark,
                 customColors,
-                item.empID,
+                item.userName,
                 item.empName,
                 isActive !== -1,
                 onChangeOwner,
-                true,
                 true,
                 index === 0,
                 index === owner.data.length - 1,
@@ -425,7 +422,6 @@ function FilterProject(props) {
                 isActive !== -1,
                 onChangeStatus,
                 false,
-                true,
                 index === 0,
                 index === status.data.length - 1,
               );
@@ -452,7 +448,6 @@ function FilterProject(props) {
                     isActive !== -1,
                     onChangeSector,
                     false,
-                    true,
                     index === 0,
                     index === sectors.data.length - 1,
                   );

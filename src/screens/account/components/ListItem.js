@@ -24,6 +24,7 @@ import Configs from '~/config';
 import {alert, moderateScale} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
 import {Assets} from '~/utils/asset';
+import Icons from '~/config/Icons';
 
 function ListItem(props) {
   const navigation = useNavigation();
@@ -109,7 +110,7 @@ function ListItem(props) {
           <View
             style={[
               cStyles.rounded1,
-              cStyles.p5,
+              cStyles.p6,
               {backgroundColor: data.iconColor || colors.TRANSPARENT},
             ]}>
             {data.icon && !data.iconFaceID && (
@@ -172,7 +173,7 @@ function ListItem(props) {
               data.isChooseLang ||
               data.isRate) && (
               <Icon
-                name={'chevron-forward-outline'}
+                name={Icons.next}
                 size={moderateScale(18)}
                 color={colors.GRAY_500}
               />

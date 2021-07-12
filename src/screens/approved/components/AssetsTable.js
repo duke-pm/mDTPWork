@@ -25,6 +25,7 @@ import AssetItem from './AssetItem';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
 import {moderateScale, IS_ANDROID} from '~/utils/helper';
+import Icons from '~/config/Icons';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -291,7 +292,7 @@ function AssetsTable(props) {
             ]}>
             {error.status && (
               <Icon
-                name={'alert-circle'}
+                name={Icons.alert}
                 size={moderateScale(14)}
                 color={customColors.red}
               />

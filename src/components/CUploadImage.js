@@ -23,10 +23,10 @@ import {
   choosePhotoFromCamera,
   choosePhotoFromGallery,
   IS_ANDROID,
-  fS,
+  moderateScale,
 } from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
-/* REDUX */
+import Icons from '~/config/Icons';
 
 function CUploadImage(props) {
   const {onChange} = props;
@@ -144,7 +144,7 @@ function CUploadImage(props) {
               ? 'add_approved_lost_damaged:button_choose_again'
               : 'common:upload'
           }
-          icon={'upload'}
+          icon={Icons.upload}
           onPress={handleUpload}
         />
       </View>
@@ -180,14 +180,22 @@ function CUploadImage(props) {
                 cStyles.py16,
                 cStyles.px16,
               ]}>
-              <Icon name={'camera'} size={fS(23)} color={customColors.red} />
+              <Icon
+                name={Icons.camera}
+                size={moderateScale(23)}
+                color={customColors.red}
+              />
               <CText styles={'textTitle pl16'} label={'common:from_camera'} />
             </View>
           </TouchableOpacity>
 
           <TouchableOpacity activeOpacity={0.5} onPress={onChangeByGallery}>
             <View style={[cStyles.row, cStyles.itemsCenter, cStyles.p16]}>
-              <Icon name={'image'} size={fS(23)} color={customColors.green} />
+              <Icon
+                name={Icons.image}
+                size={moderateScale(23)}
+                color={customColors.green}
+              />
               <CText styles={'textTitle pl16'} label={'common:from_gallery'} />
             </View>
           </TouchableOpacity>

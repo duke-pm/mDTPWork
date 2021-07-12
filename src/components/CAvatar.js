@@ -26,6 +26,7 @@ import CActivityIndicator from './CActivityIndicator';
 import {Assets} from '~/utils/asset';
 import {askPermissionsCamera, moderateScale} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
+import Icons from '~/config/Icons';
 
 function CAvatar(props) {
   const {customColors} = useTheme();
@@ -191,7 +192,7 @@ function CAvatar(props) {
               {backgroundColor: customColors.card},
             ]}>
             <Icon
-              name={'camera'}
+              name={Icons.camera}
               color={customColors.text}
               size={moderateScale(
                 size === 'small' ? 10 : size === 'medium' ? 14 : 18,

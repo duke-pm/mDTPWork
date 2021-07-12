@@ -27,6 +27,7 @@ import ListTask from '../list/Task';
 import Commons from '~/utils/common/Commons';
 import {IS_ANDROID, moderateScale} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
+import Icons from '~/config/Icons';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -170,7 +171,11 @@ function TaskItem(props) {
                       style={[cStyles.row, cStyles.itemsCenter]}
                       animation={'rubberBand'}
                       easing={'ease-out'}>
-                      <Icon name={'time'} color={customColors.red} size={15} />
+                      <Icon
+                        name={Icons.time}
+                        color={customColors.red}
+                        size={moderateScale(14)}
+                      />
                       <CText
                         customStyles={[
                           cStyles.textMeta,
@@ -250,7 +255,7 @@ function TaskItem(props) {
                         transform: [{rotate: rotateData}],
                       }}>
                       <Icon
-                        name={'chevron-down-outline'}
+                        name={Icons.down}
                         size={moderateScale(28)}
                         color={customColors.icon}
                       />

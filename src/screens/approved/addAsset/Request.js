@@ -41,6 +41,7 @@ import CheckOption from '../components/CheckOption';
 import {THEME_DARK, DEFAULT_FORMAT_DATE_4} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
 import {moderateScale, IS_ANDROID, verticalScale} from '~/utils/helper';
+import Icons from '~/config/Icons';
 import Commons from '~/utils/common/Commons';
 /* REDUX */
 import * as Actions from '~/redux/actions';
@@ -88,8 +89,8 @@ const RowSelect = (
           )}
           {!disabled && (
             <Icon
-              name={'chevron-down'}
-              size={moderateScale(21)}
+              name={Icons.down}
+              size={moderateScale(23)}
               color={disabled ? customColors.textDisable : customColors.icon}
             />
           )}
@@ -561,25 +562,13 @@ function AddRequest(props) {
   useLayoutEffect(() => {
     navigation.setOptions({
       title: `${t('add_approved_assets:' + (isDetail ? 'detail' : 'title'))}`,
-      headerLeft: () => (
-        <CIconHeader
-          icons={[
-            {
-              show: true,
-              showRedDot: false,
-              icon: 'close',
-              onPress: handleBack,
-            },
-          ]}
-        />
-      ),
       headerRight: () => (
         <CIconHeader
           icons={[
             {
               show: isDetail,
               showRedDot: false,
-              icon: 'information-circle',
+              icon: Icons.informations,
               onPress: handleShowProcess,
             },
           ]}
@@ -825,7 +814,7 @@ function AddRequest(props) {
                     styleFocus={styles.input_focus}
                     disabled={loading.main || loading.submitAdd || isDetail}
                     holder={'add_approved_assets:holder_where_use'}
-                    icon={'search'}
+                    icon={Icons.search}
                     value={findWhereUse}
                     keyboard={'default'}
                     returnKey={'done'}
@@ -891,7 +880,7 @@ function AddRequest(props) {
             <CButton
               block
               disabled={loading.main || loading.submitAdd}
-              icon={'send'}
+              icon={Icons.send}
               label={'add_approved_assets:send'}
               onPress={onSendRequest}
             />
@@ -909,7 +898,7 @@ function AddRequest(props) {
               block
               color={customColors.red}
               disabled={loading.main}
-              icon={'close'}
+              icon={Icons.close}
               label={'add_approved_assets:reject'}
               onPress={handleReject}
             />
@@ -918,7 +907,7 @@ function AddRequest(props) {
               block
               color={customColors.green}
               disabled={loading.main}
-              icon={'checkmark'}
+              icon={Icons.check}
               label={'add_approved_assets:approved'}
               onPress={handleApproved}
             />

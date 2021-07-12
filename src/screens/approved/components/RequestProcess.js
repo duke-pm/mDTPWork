@@ -15,6 +15,7 @@ import CFooterList from '~/components/CFooterList';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
 import {moderateScale} from '~/utils/helper';
+import Icons from '~/config/Icons';
 
 function RequestProcess(props) {
   const {data = [], customColors = {}} = props;
@@ -112,10 +113,10 @@ function RequestProcess(props) {
               <Icon
                 name={
                   !item.approveDate
-                    ? 'alert-circle'
+                    ? Icons.alert
                     : item.statusID === 0
-                    ? 'close-circle'
-                    : 'checkmark-circle'
+                    ? Icons.remove
+                    : Icons.checkCircle
                 }
                 color={
                   !item.approveDate

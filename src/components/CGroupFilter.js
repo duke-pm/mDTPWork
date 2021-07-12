@@ -17,6 +17,7 @@ import CText from './CText';
 /* COMMON */
 import {IS_ANDROID, moderateScale} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
+import Icons from '~/config/Icons';
 
 function CGroupFilter(props) {
   const {t} = useTranslation();
@@ -137,7 +138,7 @@ function CGroupFilter(props) {
                       {backgroundColor: customColors.card},
                     ]}>
                     <Icon
-                      name={'checkmark'}
+                      name={Icons.check}
                       size={moderateScale(14)}
                       color={isCheck ? colors.SECONDARY : customColors.icon}
                     />

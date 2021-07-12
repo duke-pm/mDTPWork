@@ -37,6 +37,7 @@ import {BIOMETRICS, LOGIN} from '~/config/constants';
 import Routes from '~/navigation/Routes';
 /* REDUX */
 import * as Actions from '~/redux/actions';
+import Icons from '~/config/Icons';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -326,7 +327,7 @@ function ChangePassword(props) {
                       style={cStyles.mt24}
                       block
                       disabled={loading}
-                      icon={'save'}
+                      icon={Icons.save}
                       label={'common:save'}
                       onPress={handleChangePassword}
                     />

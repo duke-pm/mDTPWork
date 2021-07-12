@@ -12,6 +12,8 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import CText from '~/components/CText';
 /* COMMON */
 import {cStyles} from '~/utils/style';
+import Icons from '~/config/Icons';
+import {moderateScale} from '~/utils/helper';
 
 function Unconnected(props) {
   const {customColors} = useTheme();
@@ -32,7 +34,11 @@ function Unconnected(props) {
         {backgroundColor: customColors.background},
       ]}>
       <View style={cStyles.pb32}>
-        <Icon name={'sad'} color={customColors.orange} size={50} />
+        <Icon
+          name={Icons.failedSad}
+          color={customColors.orange}
+          size={moderateScale(80)}
+        />
       </View>
       <CText
         customStyles={[
