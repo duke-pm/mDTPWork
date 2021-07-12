@@ -16,7 +16,6 @@ import {
   TouchableNativeFeedback,
 } from 'react-native';
 import * as Progress from 'react-native-progress';
-import * as Animatable from 'react-native-animatable';
 import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 /* COMPONENTS */
@@ -72,10 +71,10 @@ function TaskItem(props) {
   /**************
    ** RENDER **
    **************/
+  let showPercentage = data.taskTypeID === Commons.TYPE_TASK.TASK.value;
+  let delay = 0;
   let typeColor = customColors[Commons.TYPE_TASK.PHASE.color], // default is PHASE
-    bgStatus = customColors[Commons.STATUS_TASK.NEW.color], // default is New
-    isReject = false,
-    isClose = false;
+    bgStatus = customColors[Commons.STATUS_TASK.NEW.color]; // default is New
   if (data.typeColor === '') {
     if (data.taskTypeID === Commons.TYPE_TASK.TASK.value) {
       typeColor = customColors.typeTask;
@@ -94,29 +93,15 @@ function TaskItem(props) {
     } else if (data.statusID === Commons.STATUS_TASK.IN_PROGRESS.value) {
       bgStatus = customColors[Commons.STATUS_TASK.IN_PROGRESS.color];
     } else if (data.statusID === Commons.STATUS_TASK.CLOSED.value) {
-      isClose = true;
       bgStatus = customColors[Commons.STATUS_TASK.CLOSED.color];
     } else if (data.statusID === Commons.STATUS_TASK.ON_HOLD.value) {
       bgStatus = customColors[Commons.STATUS_TASK.ON_HOLD.color];
     } else if (data.statusID === Commons.STATUS_TASK.REJECTED.value) {
-      isReject = true;
       bgStatus = customColors[Commons.STATUS_TASK.REJECTED.color];
     }
   } else {
-    if (data.statusID === Commons.STATUS_TASK.REJECTED.value) {
-      isReject = true;
-    }
-    if (data.statusID === Commons.STATUS_TASK.CLOSED.value) {
-      isClose = true;
-    }
     bgStatus = data.statusColor;
   }
-  const rotateData = valueAnim.interpolate({
-    inputRange: [0, 1],
-    outputRange: ['0deg', '180deg'],
-  });
-  const showPercentage = data.taskTypeID === Commons.TYPE_TASK.TASK.value;
-  let delay = 0;
   if (
     data &&
     showPercentage &&
@@ -127,6 +112,10 @@ function TaskItem(props) {
       delay = moment().diff(data.endDate, 'days');
     }
   }
+  const rotateData = valueAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0deg', '180deg'],
+  });
   const Touchable = IS_ANDROID ? TouchableNativeFeedback : TouchableOpacity;
   return (
     <View style={[cStyles.flex1, cStyles.rounded2, cStyles.ofHidden]}>
@@ -145,8 +134,6 @@ function TaskItem(props) {
               borderLeftColor: typeColor,
               borderLeftWidth: moderateScale(3),
             },
-            isReject && {backgroundColor: customColors.cardDisable},
-            isClose && {backgroundColor: customColors.cardDisable},
           ]}>
           {/** Label */}
           <View style={[cStyles.itemsStart, cStyles.fullWidth]}>
@@ -165,15 +152,11 @@ function TaskItem(props) {
                       cStyles.fontBold,
                       delay > 0 && cStyles.pb3,
                       {color: typeColor},
-                      isReject && cStyles.textThrough,
                     ]}
                     customLabel={data.typeName}
                   />
                   {delay > 0 && (
-                    <Animatable.View
-                      style={[cStyles.row, cStyles.itemsCenter]}
-                      animation={'rubberBand'}
-                      easing={'ease-out'}>
+                    <View style={[cStyles.row, cStyles.itemsCenter]}>
                       <Icon
                         name={Icons.time}
                         color={customColors.red}
@@ -191,7 +174,7 @@ function TaskItem(props) {
                           'project_management:delay_date_2',
                         )}`}
                       />
-                    </Animatable.View>
+                    </View>
                   )}
                 </View>
 
@@ -199,10 +182,7 @@ function TaskItem(props) {
                   <View style={[cStyles.row, cStyles.itemsCenter]}>
                     <CAvatar size={'vsmall'} label={data.ownerName} />
                     <CText
-                      styles={
-                        'textMeta fontMedium pl6 ' +
-                        (isReject && ' textThrough')
-                      }
+                      styles={'textMeta fontMedium pl6'}
                       customLabel={data.ownerName}
                     />
                   </View>
@@ -270,11 +250,7 @@ function TaskItem(props) {
 
             <View style={[cStyles.flex1, cStyles.mt10]}>
               <CText
-                styles={
-                  'textSubTitle ' +
-                  (isReject && 'textThrough ') +
-                  (data.countChild === 0 && ' pt10')
-                }
+                styles={'textSubTitle ' + (data.countChild === 0 && ' pt10')}
                 customLabel={`#${data?.taskID} ${data?.taskName}`}
               />
             </View>
@@ -309,8 +285,8 @@ function TaskItem(props) {
           <View
             style={[
               cStyles.borderAll,
-              isDark && cStyles.borderAllDark,
               cStyles.borderDashed,
+              isDark && cStyles.borderAllDark,
               styles.line_child,
             ]}
           />
