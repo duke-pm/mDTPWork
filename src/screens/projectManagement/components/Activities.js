@@ -544,12 +544,14 @@ function Activity(props) {
                 );
               }}
             />
-            <RenderInputMessage
-              customColors={customColors}
-              value={valueMessage}
-              onSend={onSendMessage}
-              handleChangeText={setValueMessage}
-            />
+            {!showSearch && (
+              <RenderInputMessage
+                customColors={customColors}
+                value={valueMessage}
+                onSend={onSendMessage}
+                handleChangeText={setValueMessage}
+              />
+            )}
           </KeyboardAvoidingView>
         </View>
       }
