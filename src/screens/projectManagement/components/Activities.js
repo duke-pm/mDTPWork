@@ -34,8 +34,8 @@ import {
   saveLocalInfo,
   getLocalInfo,
   IS_IOS,
-  IS_ANDROID,
   moderateScale,
+  IS_ANDROID,
 } from '~/utils/helper';
 import {LOCALE_VI, LOCALE_EN} from '~/utils/language/comment';
 /** REDUX */
@@ -281,7 +281,7 @@ function Activity(props) {
             <CList
               contentStyle={[messages.length === 0 && cStyles.mt60]}
               customColors={customColors}
-              sectionList
+              sectionList={true}
               inverted={messages.length > 0}
               textEmpty={t('project_management:empty_comment')}
               data={messages}
@@ -291,38 +291,32 @@ function Activity(props) {
                     <View style={[cStyles.itemsEnd, cStyles.pb6]}>
                       <View
                         style={[
-                          cStyles.roundedTopLeft2,
-                          cStyles.roundedTopRight2,
-                          cStyles.roundedBottomLeft2,
+                          cStyles.roundedTopLeft3,
+                          cStyles.roundedTopRight3,
+                          cStyles.roundedBottomLeft3,
                           cStyles.p10,
                           cStyles.ml10,
                           {
                             backgroundColor: IS_ANDROID
                               ? colors.STATUS_SCHEDULE_OPACITY
-                              : colors.STATUS_ON_HOLD_OPACITY,
+                              : colors.STATUS_NEW_OPACITY,
                           },
                         ]}>
+                        <CText
+                          customStyles={cStyles.textRight}
+                          customLabel={item.comments}
+                        />
                         <CText
                           customStyles={[
                             cStyles.textDate,
                             cStyles.textRight,
-                            {color: customColors.text},
+                            cStyles.mt6,
                           ]}
                           customLabel={`${moment(
                             item.timeUpdate,
                             'DD/MM/YYYY - HH:mm',
                           ).format('HH:mm')}`}
                         />
-
-                        <View style={cStyles.mt10}>
-                          <CText
-                            customStyles={[
-                              cStyles.textRight,
-                              {color: customColors.text},
-                            ]}
-                            customLabel={item.comments}
-                          />
-                        </View>
                       </View>
                     </View>
                   );
@@ -384,9 +378,9 @@ function Activity(props) {
                       )}
                       <View
                         style={[
-                          cStyles.roundedTopRight2,
-                          cStyles.roundedBottomRight2,
-                          cStyles.roundedBottomLeft2,
+                          cStyles.roundedTopRight3,
+                          cStyles.roundedBottomRight3,
+                          cStyles.roundedBottomLeft3,
                           cStyles.p10,
                           cStyles.ml10,
                           {backgroundColor: colors.STATUS_CLOSE_OPACITY},

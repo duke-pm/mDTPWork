@@ -178,11 +178,11 @@ function Status(props) {
             cStyles.mt10,
             cStyles.mx16,
             cStyles.px16,
-            cStyles.py10,
+            cStyles.py16,
             cStyles.row,
             cStyles.itemsCenter,
             cStyles.justifyBetween,
-            cStyles.rounded1,
+            cStyles.rounded2,
             {backgroundColor: task.colorCode},
             isDark && {backgroundColor: task.colorOpacityCode},
           ]}>

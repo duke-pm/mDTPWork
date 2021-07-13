@@ -123,20 +123,8 @@ function ListProject(props) {
           loadingModal ? null : (
             <View>
               <View style={cStyles.itemsStart}>
-                {/** Date created */}
-                <View style={[cStyles.row, cStyles.itemsCenter]}>
-                  <CLabel label={'project_management:date_created'} />
-                  <CText
-                    styles={'textMeta ml3'}
-                    customLabel={moment(
-                      chooseProject.crtdDate,
-                      DEFAULT_FORMAT_DATE_4,
-                    ).format(formatDateView)}
-                  />
-                </View>
-
                 {/** Is public */}
-                <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt10]}>
+                <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mb10]}>
                   <CLabel label={'project_management:is_public'} />
                   <Icon
                     style={cStyles.ml3}
@@ -152,11 +140,24 @@ function ListProject(props) {
                   />
                 </View>
 
+                {/** Date created */}
+                <View style={[cStyles.row, cStyles.itemsCenter]}>
+                  <CLabel label={'project_management:date_created'} />
+                  <CText
+                    styles={'textMeta ml3'}
+                    customLabel={moment(
+                      chooseProject.crtdDate,
+                      DEFAULT_FORMAT_DATE_4,
+                    ).format(formatDateView)}
+                  />
+                </View>
+
                 {/** Owner */}
                 <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt10]}>
                   <CLabel label={'project_management:owner'} />
-                  <CLabel
-                    medium
+                  <CAvatar size={'vsmall'} label={chooseProject.ownerName} />
+                  <CText
+                    styles={'ml6 textMeta fontMedium'}
                     customLabel={checkEmpty(chooseProject.ownerName)}
                   />
                 </View>
@@ -164,32 +165,18 @@ function ListProject(props) {
                 {/** Status */}
                 <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt10]}>
                   <CLabel label={'project_management:status'} />
-                  <View style={[cStyles.row, cStyles.itemsCenter, cStyles.ml2]}>
-                    <View
-                      style={[
-                        cStyles.mr3,
-                        styles.status,
-                        {
-                          backgroundColor: isDark
-                            ? chooseProject.colorDarkCode
-                            : chooseProject.colorCode,
-                        },
-                      ]}
-                    />
-                    <CText
-                      customStyles={[
-                        cStyles.textMeta,
-                        cStyles.fontBold,
-                        cStyles.mr3,
-                        {
-                          color: isDark
-                            ? chooseProject.colorDarkCode
-                            : chooseProject.colorCode,
-                        },
-                      ]}
-                      customLabel={chooseProject.statusName}
-                    />
-                  </View>
+                  <CText
+                    customStyles={[
+                      cStyles.textMeta,
+                      cStyles.fontMedium,
+                      {
+                        color: isDark
+                          ? chooseProject.colorDarkCode
+                          : chooseProject.colorCode,
+                      },
+                    ]}
+                    customLabel={chooseProject.statusName}
+                  />
                 </View>
               </View>
 
@@ -210,7 +197,6 @@ function ListProject(props) {
                       cStyles.mt10,
                       cStyles.p10,
                       cStyles.rounded2,
-                      cStyles.shadow1,
                       styles.list_invited,
                       {backgroundColor: customColors.textInput},
                     ]}>

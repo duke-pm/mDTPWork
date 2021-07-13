@@ -177,6 +177,7 @@ export default function (state = initialState, action = {}) {
       let tmpIsWatched = state.get('isWatched');
       let tmpIsReceivedEmail = state.get('isReceivedEmail');
       let tmpWatchers2 = null;
+
       if (payload.data.watcher) {
         tmpIsWatched = true;
         if (payload.userName) {
@@ -196,10 +197,10 @@ export default function (state = initialState, action = {}) {
       } else {
         //for unfollow
         tmpWatchers = tmpWatchers.filter(
-          item => item.userName !== payload.userName,
+          item => item.lineNum !== payload.data.lineNum,
         );
         tmpIsWatched = payload.data.isWatched;
-        tmpIsReceivedEmail = false;
+        tmpIsReceivedEmail = payload.data.isReceivedEmail;
       }
       return state
         .set('submittingTaskWatcher', false)

@@ -186,13 +186,7 @@ function TaskItem(props) {
                     />
                   </View>
 
-                  <View
-                    style={[
-                      cStyles.row,
-                      cStyles.itemsCenter,
-                      cStyles.pt6,
-                      cStyles.pl5,
-                    ]}>
+                  <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pt6]}>
                     <CText
                       styles={'textMeta fontBold colorWhite'}
                       customStyles={[
@@ -228,14 +222,17 @@ function TaskItem(props) {
                 <View style={[cStyles.ofHidden, cStyles.rounded10]}>
                   <Touchable onPress={handleShowChildren}>
                     <Animated.View
-                      style={{
-                        width: moderateScale(28),
-                        height: moderateScale(28),
-                        transform: [{rotate: rotateData}],
-                      }}>
+                      style={[
+                        cStyles.mr10,
+                        {
+                          width: moderateScale(23),
+                          height: moderateScale(23),
+                          transform: [{rotate: rotateData}],
+                        },
+                      ]}>
                       <Icon
                         name={Icons.down}
-                        size={moderateScale(28)}
+                        size={moderateScale(23)}
                         color={customColors.icon}
                       />
                     </Animated.View>

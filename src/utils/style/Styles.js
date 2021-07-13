@@ -7,7 +7,7 @@
 import {isIphoneX} from 'react-native-iphone-x-helper';
 import {Platform, Dimensions} from 'react-native';
 /** COMMON */
-import {IS_IOS, moderateScale} from '~/utils/helper';
+import {IS_IOS, lH, moderateScale} from '~/utils/helper';
 import Colors from './Colors';
 
 const PLATFORM = {
@@ -473,51 +473,63 @@ const text = {
   H1: {
     fontSize: moderateScale(28),
     fontWeight: 'bold',
+    lineHeight: moderateScale(34),
   },
   H2: {
     fontSize: moderateScale(26),
     fontWeight: 'bold',
+    lineHeight: moderateScale(32),
   },
   H3: {
     fontSize: moderateScale(24),
     fontWeight: 'bold',
+    lineHeight: moderateScale(30),
   },
   H4: {
     fontSize: moderateScale(22),
     fontWeight: 'bold',
+    lineHeight: moderateScale(28),
   },
   H5: {
     fontSize: moderateScale(20),
     fontWeight: 'bold',
+    lineHeight: moderateScale(26),
   },
   H6: {
     fontSize: moderateScale(18),
     fontWeight: 'bold',
+    lineHeight: moderateScale(24),
   },
   textTitle: {
     fontSize: moderateScale(16),
     fontWeight: 'bold',
+    lineHeight: moderateScale(22),
   },
   textSubTitle: {
     fontSize: moderateScale(14),
     fontWeight: '700',
+    lineHeight: moderateScale(20),
   },
   textDefault: {
-    fontSize: moderateScale(16),
+    fontSize: moderateScale(15),
     fontWeight: 'normal',
+    lineHeight: moderateScale(20),
   },
   textMeta: {
     fontSize: moderateScale(12),
     fontWeight: 'normal',
+    lineHeight: moderateScale(18),
   },
   textDate: {
     fontSize: moderateScale(12),
     fontWeight: '300',
+    lineHeight: moderateScale(18),
   },
   textButton: {
     fontSize: moderateScale(16),
     color: 'white',
     fontWeight: '600',
+    lineHeight: moderateScale(20),
   },
   fontBold: {fontWeight: 'bold'},
   fontMedium: {fontWeight: '700'},

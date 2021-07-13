@@ -82,7 +82,7 @@ function CActionSheet(props) {
           <View
             style={[
               cStyles.pt16,
-              cStyles.px16,
+              cStyles.px10,
               cStyles.row,
               cStyles.itemsCenter,
               cStyles.justifyBetween,

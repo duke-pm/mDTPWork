@@ -93,18 +93,7 @@ function ProjectItem(props) {
                 </View>
 
                 {/** Status */}
-                <View style={[cStyles.row, cStyles.itemsCenter, styles.row_right]}>
-                  <View
-                    style={[
-                      cStyles.mr3,
-                      styles.status,
-                      {
-                        backgroundColor: isDark
-                          ? data.colorDarkCode
-                          : data.colorCode,
-                      },
-                    ]}
-                  />
+                <View style={styles.row_right}>
                   <CLabel
                     bold
                     color={isDark ? data.colorDarkCode : data.colorCode}
@@ -184,8 +173,8 @@ function ProjectItem(props) {
 }
 
 const styles = StyleSheet.create({
-  row_left: {flex: 0.55},
-  row_right: {flex: 0.45},
+  row_left: {flex: 0.6},
+  row_right: {flex: 0.4},
   line_child: {height: '100%', borderRadius: 1},
   card: {zIndex: 100},
   card_children: {height: moderateScale(50)},

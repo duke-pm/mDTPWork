@@ -85,6 +85,7 @@ function ListRequestAll(props) {
    ** HANDLE FUNC **
    *****************/
   const handleAddNew = () => {
+    console.log('[LOG] ===  ===> ', index);
     if (index === 1) {
       navigation.navigate(Routes.MAIN.ADD_APPROVED_LOST_DAMAGED.name, {
         type: Commons.APPROVED_TYPE.DAMAGED.value,
@@ -159,7 +160,7 @@ function ListRequestAll(props) {
         />
       ),
     });
-  }, [navigation, routes[index].search, isPermissionWrite]);
+  }, [navigation, index, routes[index].search, isPermissionWrite]);
 
   /**************
    ** RENDER **

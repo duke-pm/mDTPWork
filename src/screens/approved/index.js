@@ -23,11 +23,11 @@ function Approved(props) {
   const DATA_COLOR = {
     ListApprovedAssets: {
       value: 'ListApprovedAssets',
-      color: customColors.yellow,
+      color: customColors.green,
     },
     ListApprovedAssetsHandling: {
       value: 'ListApprovedAssetsHandling',
-      color: customColors.teal,
+      color: customColors.orange,
     },
   };
 

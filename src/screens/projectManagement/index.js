@@ -125,7 +125,7 @@ function ProjectManagement(props) {
    ************/
   const onFetchMasterData = () => {
     let paramsMaster = {
-      ListType: 'Users, PrjSector, PrjStatus, PrjComponent, PrjPriority',
+      ListType: 'Users, PrjSector, PrjStatus',
       RefreshToken: refreshToken,
       Lang: language,
     };

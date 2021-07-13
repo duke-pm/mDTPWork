@@ -46,9 +46,9 @@ import {
   moderateScale,
   IS_IOS,
 } from '~/utils/helper';
+import Icons from '~/config/Icons';
 /** REDUX */
 import * as Actions from '~/redux/actions';
-import Icons from '~/config/Icons';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -138,7 +138,12 @@ function Task(props) {
       UserName: userName,
     };
     dispatch(Actions.fetchTaskWatcher(params, navigation));
-    return setLoading({...loading, fastWatch: true});
+    return setLoading({
+      ...loading,
+      main: false,
+      startFetch: false,
+      fastWatch: true,
+    });
   };
 
   const handleActivities = () => {
@@ -206,6 +211,18 @@ function Task(props) {
     return done();
   };
 
+  const onPrepareWatch = () => {
+    showMessage({
+      message: t('common:app_name'),
+      description: t(
+        !isFastWatch ? 'success:change_follow' : 'success:change_unfollow',
+      ),
+      type: 'success',
+      icon: 'success',
+    });
+    return setLoading({...loading, fastWatch: false});
+  };
+
   const onPrepareUpdate = () => {
     if (!needRefresh) {
       setNeedRefresh(true);
@@ -233,7 +250,7 @@ function Task(props) {
 
   const done = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    return setLoading({main: false, startFetch: false, fastWatch: false});
+    return setLoading({...loading, main: false, startFetch: false});
   };
 
   const onRefreshWatcher = isWatch => {
@@ -327,17 +344,7 @@ function Task(props) {
     if (loading.fastWatch) {
       if (!projectState.get('submittingTaskWatcher')) {
         if (projectState.get('successTaskWatcher')) {
-          let isWatched = projectState.get('isWatched');
-          showMessage({
-            message: t('common:app_name'),
-            description: t(
-              isWatched ? 'success:change_follow' : 'success:change_unfollow',
-            ),
-            type: 'success',
-            icon: 'success',
-          });
-          setIsFastWatch(false);
-          return onPrepareData();
+          return onPrepareWatch();
         }
 
         if (projectState.get('errorTaskWatcher')) {
@@ -350,7 +357,6 @@ function Task(props) {
     projectState.get('submittingTaskWatcher'),
     projectState.get('successTaskWatcher'),
     projectState.get('errorTaskWatcher'),
-    setIsFastWatch,
   ]);
 
   useEffect(() => {
@@ -475,90 +481,88 @@ function Task(props) {
               label={null}
               content={
                 data.taskDetail ? (
-                  <>
-                    <View style={cStyles.pb10}>
-                      {/** Title & Type */}
-                      <Text>
-                        <Text
-                          style={[
-                            cStyles.H6,
-                            {
-                              color: isDark
-                                ? data.taskDetail.typeColorDark
-                                : data.taskDetail.typeColor,
-                            },
-                          ]}>
-                          {data.taskDetail.typeName}
-                        </Text>
-                        <Text
-                          style={[
-                            cStyles.H6,
-                            {color: customColors.text},
-                          ]}>{`  ${data.taskDetail.taskName}`}</Text>
+                  <View style={cStyles.pb10}>
+                    {/** Title & Type */}
+                    <Text>
+                      <Text
+                        style={[
+                          cStyles.H6,
+                          {
+                            color: isDark
+                              ? data.taskDetail.typeColorDark
+                              : data.taskDetail.typeColor,
+                          },
+                        ]}>
+                        {data.taskDetail.typeName}
                       </Text>
+                      <Text
+                        style={[
+                          cStyles.H6,
+                          {color: customColors.text},
+                        ]}>{`  ${data.taskDetail.taskName}`}</Text>
+                    </Text>
 
-                      {/** Author & Updated at */}
-                      <Text style={cStyles.mt10}>
-                        {(!data.taskDetail.crtdUser ||
-                          data.taskDetail.crtdUser === '') && (
-                          <Text
-                            style={[
-                              cStyles.textMeta,
-                              {color: customColors.text},
-                            ]}>{`#${data.taskDetail.taskID} `}</Text>
-                        )}
-                        {data.taskDetail.crtdUser &&
-                          data.taskDetail.crtdUser !== '' && (
-                            <Text>
-                              <Text
-                                style={[
-                                  cStyles.textMeta,
-                                  {color: customColors.text},
-                                ]}>{`#${data.taskDetail.taskID}: ${t(
-                                'project_management:created_by',
-                              )}`}</Text>
-                              <Text
-                                style={[
-                                  cStyles.textMeta,
-                                  {color: customColors.primary},
-                                ]}>
-                                {` ${data.taskDetail.crtdUser}. `}
-                              </Text>
-                            </Text>
-                          )}
+                    {/** Author & Updated at */}
+                    <Text style={cStyles.mt10}>
+                      {(!data.taskDetail.crtdUser ||
+                        data.taskDetail.crtdUser === '') && (
                         <Text
                           style={[
                             cStyles.textMeta,
                             {color: customColors.text},
-                          ]}>{`${t(
-                          'project_management:last_updated_at',
-                        )} ${moment(
-                          data.taskDetail.lUpdDate,
-                          DEFAULT_FORMAT_DATE_4,
-                        ).format(formatDateView)}.`}</Text>
-                      </Text>
-
-                      {/** Project name */}
-                      <View
+                          ]}>{`#${data.taskDetail.taskID} `}</Text>
+                      )}
+                      {data.taskDetail.crtdUser &&
+                        data.taskDetail.crtdUser !== '' && (
+                          <Text>
+                            <Text
+                              style={[
+                                cStyles.textMeta,
+                                {color: customColors.text},
+                              ]}>{`#${data.taskDetail.taskID}: ${t(
+                              'project_management:created_by',
+                            )}`}</Text>
+                            <Text
+                              style={[
+                                cStyles.textMeta,
+                                {color: customColors.primary},
+                              ]}>
+                              {` ${data.taskDetail.crtdUser}. `}
+                            </Text>
+                          </Text>
+                        )}
+                      <Text
                         style={[
-                          cStyles.rounded5,
-                          cStyles.center,
-                          cStyles.mt12,
-                          cStyles.py10,
-                          {
-                            flex: undefined,
-                            backgroundColor: isDark
-                              ? customColors.cardDisable
-                              : colors.GRAY_300,
-                          },
-                        ]}>
-                        <CText
-                          styles={'textMeta fontMedium'}
-                          customLabel={data.taskDetail.prjName}
-                        />
-                      </View>
+                          cStyles.textMeta,
+                          {color: customColors.text},
+                        ]}>{`${t(
+                        'project_management:last_updated_at',
+                      )} ${moment(
+                        data.taskDetail.lUpdDate,
+                        DEFAULT_FORMAT_DATE_4,
+                      ).format(formatDateView)}.`}</Text>
+                    </Text>
+
+                    {/** Project name */}
+                    <View
+                      style={[
+                        cStyles.rounded5,
+                        cStyles.center,
+                        cStyles.mt12,
+                        cStyles.py10,
+                        {
+                          flex: undefined,
+                          backgroundColor: isDark
+                            ? customColors.cardDisable
+                            : colors.GRAY_300,
+                        },
+                      ]}>
+                      <CText
+                        styles={'textMeta fontMedium'}
+                        customLabel={data.taskDetail.prjName}
+                      />
                     </View>
-                  </>
+                  </View>
                 ) : null
               }
             />
@@ -671,7 +675,7 @@ function Task(props) {
                       right={
                         <CText
                           styles={'textRight'}
-                          customLabel={checkEmpty(data.taskDetail.grade)}
+                          customLabel={checkEmpty(data.taskDetail.gradeName)}
                         />
                       }
                     />
