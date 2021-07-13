@@ -29,6 +29,7 @@ function CSearchBar(props) {
   const theme = useColorScheme();
   const {customColors} = useTheme();
   const {
+    containerStyle = {},
     style = {},
     loading = false,
     isVisible = false,
@@ -77,6 +78,7 @@ function CSearchBar(props) {
         cStyles.justifyBetween,
         cStyles.mt10,
         IS_ANDROID && cStyles.mr40,
+        containerStyle,
       ]}>
       {IS_ANDROID && (
         <CIconButton

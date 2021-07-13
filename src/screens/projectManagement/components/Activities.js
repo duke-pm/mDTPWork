@@ -5,7 +5,7 @@
  ** CreateAt: 2021
  ** Description: Description of Activity.js
  **/
-import React, {useState, useEffect} from 'react';
+import React, {createRef, useState, useEffect, useLayoutEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
@@ -17,8 +17,12 @@ import {
   Keyboard,
   Text,
   KeyboardAvoidingView,
+  LayoutAnimation,
+  UIManager,
+  TouchableOpacity,
 } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
+import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
@@ -27,6 +31,8 @@ import CInput from '~/components/CInput';
 import CIconButton from '~/components/CIconButton';
 import CList from '~/components/CList';
 import CAvatar from '~/components/CAvatar';
+import CIconHeader from '~/components/CIconHeader';
+import CSearchBar from '~/components/CSearchBar';
 /* COMMON */
 import {LAST_COMMENT_TASK} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
@@ -41,6 +47,12 @@ import {LOCALE_VI, LOCALE_EN} from '~/utils/language/comment';
 /** REDUX */
 import * as Actions from '~/redux/actions';
 
+if (IS_ANDROID) {
+  if (UIManager.setLayoutAnimationEnabledExperimental) {
+    UIManager.setLayoutAnimationEnabledExperimental(true);
+  }
+}
+let listRef = createRef();
 const INPUT_NAME = {
   MESSAGE: 'message',
 };
@@ -115,8 +127,72 @@ function Activity(props) {
     main: true,
     send: false,
   });
+  const [showSearch, setShowSearch] = useState(false);
+  const [dataSearch, setDataSearch] = useState({
+    data: [],
+    active: 0,
+  });
   const [valueMessage, setValueMessage] = useState('');
   const [messages, setMessages] = useState([]);
+
+  /*****************
+   ** HANDLE FUNC **
+   *****************/
+  const handleOpenSearch = () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+    setShowSearch(true);
+  };
+
+  const handleCloseSearch = () => {
+    setDataSearch({data: [], active: 0});
+    setShowSearch(false);
+  };
+
+  const handleSearch = value => {
+    let dataPos = [],
+      i,
+      j;
+    for (i = 0; i < messages.length; i++) {
+      for (j = 0; j < messages[i].data.length; j++) {
+        if (
+          messages[i].data[j].comments
+            .toLowerCase()
+            .indexOf(value.toLowerCase()) > -1
+        ) {
+          dataPos.push({section: i, item: j + 1});
+        }
+      }
+    }
+    if (dataPos.length > 0) {
+      setDataSearch({data: dataPos, active: 0});
+      listRef.scrollToLocation({
+        animated: true,
+        viewPosition: 0,
+        itemIndex: dataPos[0].item,
+        sectionIndex: dataPos[0].section,
+      });
+    }
+  };
+
+  const handleDownSearch = () => {
+    listRef.scrollToLocation({
+      animated: true,
+      viewPosition: 0,
+      itemIndex: dataSearch.data[dataSearch.active - 1].item,
+      sectionIndex: dataSearch.data[dataSearch.active - 1].section,
+    });
+    setDataSearch({...dataSearch, active: dataSearch.active - 1});
+  };
+
+  const handleUpSearch = () => {
+    listRef.scrollToLocation({
+      animated: true,
+      viewPosition: 0,
+      itemIndex: dataSearch.data[dataSearch.active + 1].item,
+      sectionIndex: dataSearch.data[dataSearch.active + 1].section,
+    });
+    setDataSearch({...dataSearch, active: dataSearch.active + 1});
+  };
 
   /************
    ** FUNC **
@@ -256,6 +332,23 @@ function Activity(props) {
     projectState.get('errorTaskComment'),
   ]);
 
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <CIconHeader
+          icons={[
+            {
+              show: true,
+              showRedDot: false,
+              icon: 'search',
+              onPress: handleOpenSearch,
+            },
+          ]}
+        />
+      ),
+    });
+  }, [navigation]);
+
   /**************
    ** RENDER **
    **************/
@@ -268,6 +361,61 @@ function Activity(props) {
             cStyles.flex1,
             {backgroundColor: customColors.backgroundActivity},
           ]}>
+          {showSearch && (
+            <View
+              style={[
+                cStyles.itemsCenter,
+                cStyles.borderBottom,
+                dataSearch.data.length === 0 && cStyles.pb10,
+                dataSearch.data.length > 0 && {height: moderateScale(110)},
+              ]}>
+              <CSearchBar
+                containerStyle={IS_ANDROID ? cStyles.mx20 : {}}
+                isVisible={showSearch}
+                onSearch={handleSearch}
+                onClose={handleCloseSearch}
+              />
+
+              {dataSearch.data.length > 0 ? (
+                <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt6]}>
+                  <TouchableOpacity
+                    disabled={
+                      dataSearch.data.length < 2 || dataSearch.active === 0
+                    }
+                    onPress={handleDownSearch}>
+                    <Icon
+                      style={cStyles.p10}
+                      name={'chevron-down-circle-outline'}
+                      size={moderateScale(20)}
+                      color={customColors.icon}
+                    />
+                  </TouchableOpacity>
+
+                  <Text style={[cStyles.textMeta, {color: customColors.text}]}>
+                    {dataSearch.active + 1}/{dataSearch.data.length}
+                  </Text>
+
+                  <TouchableOpacity
+                    disabled={
+                      dataSearch.data.length < 2 ||
+                      dataSearch.active === dataSearch.data.length - 1
+                    }
+                    onPress={handleUpSearch}>
+                    <Icon
+                      style={cStyles.p10}
+                      name={'chevron-up-circle-outline'}
+                      size={moderateScale(20)}
+                      color={customColors.icon}
+                    />
+                  </TouchableOpacity>
+                </View>
+              ) : (
+                <View style={[cStyles.center, cStyles.my10]}>
+                  <CText styles={'textMeta'} label={'common:empty_info'} />
+                </View>
+              )}
+            </View>
+          )}
           <KeyboardAvoidingView
             style={cStyles.flex1}
             behavior={IS_IOS ? 'padding' : undefined}
@@ -279,6 +427,7 @@ function Activity(props) {
                 : moderateScale(58)
             }>
             <CList
+              viewRef={ref => (listRef = ref)}
               contentStyle={[messages.length === 0 && cStyles.mt60]}
               customColors={customColors}
               sectionList={true}

@@ -31,10 +31,11 @@ import {THEME_DARK} from '~/config/constants';
 let listRef = createRef();
 
 function CList(props) {
-  const {customColors} = useTheme();
+  // const {customColors} = useTheme();
   const isDark = useColorScheme() === THEME_DARK;
   const {
     style = {},
+    viewRef = null,
     contentStyle = {},
     sectionList = false,
     textEmpty = null,
@@ -42,50 +43,50 @@ function CList(props) {
     onLoadmore = null,
   } = props;
 
-  let animTranslateY = useRef(new Animated.Value(0)).current;
+  // let animTranslateY = useRef(new Animated.Value(0)).current;
 
-  const [showSTT, setShowSTT] = useState({
-    status: false,
-    offsetY: 0,
-  });
+  // const [showSTT, setShowSTT] = useState({
+  //   status: false,
+  //   offsetY: 0,
+  // });
 
   /*****************
    ** HANDLE FUNC **
    *****************/
-  const handleScrollToTop = () => {
-    setShowSTT({status: false, offsetY: 0});
-    listRef.scrollToLocation({
-      animated: true,
-      viewPosition: 0,
-      itemIndex: 0,
-      sectionIndex: 0,
-      viewOffset: 0,
-    });
-    Animated.timing(animTranslateY, {
-      toValue: 0,
-      duration: 100,
-    }).start();
-  };
+  // const handleScrollToTop = () => {
+  //   setShowSTT({status: false, offsetY: 0});
+  //   listRef.scrollToLocation({
+  //     animated: true,
+  //     viewPosition: 0,
+  //     itemIndex: 0,
+  //     sectionIndex: 0,
+  //     viewOffset: 0,
+  //   });
+  //   Animated.timing(animTranslateY, {
+  //     toValue: 0,
+  //     duration: 100,
+  //   }).start();
+  // };
 
   /**********
    ** FUNC **
    **********/
-  const onSectionScrollEndDrag = ({nativeEvent}) => {
-    if (showSTT.offsetY < nativeEvent.contentOffset.y) {
-      setShowSTT({status: false, offsetY: nativeEvent.contentOffset.y});
-    }
+  // const onSectionScrollEndDrag = ({nativeEvent}) => {
+  //   if (showSTT.offsetY < nativeEvent.contentOffset.y) {
+  //     setShowSTT({status: false, offsetY: nativeEvent.contentOffset.y});
+  //   }
 
-    if (showSTT.offsetY > nativeEvent.contentOffset.y) {
-      setShowSTT({status: true, offsetY: nativeEvent.contentOffset.y});
-    }
-  };
+  //   if (showSTT.offsetY > nativeEvent.contentOffset.y) {
+  //     setShowSTT({status: true, offsetY: nativeEvent.contentOffset.y});
+  //   }
+  // };
 
-  useEffect(() => {
-    Animated.timing(animTranslateY, {
-      toValue: showSTT.status ? 1 : 0,
-      duration: 100,
-    }).start();
-  }, [showSTT.status, showSTT.offsetY]);
+  // useEffect(() => {
+  //   Animated.timing(animTranslateY, {
+  //     toValue: showSTT.status ? 1 : 0,
+  //     duration: 100,
+  //   }).start();
+  // }, [showSTT.status, showSTT.offsetY]);
   /************
    ** RENDER **
    ************/
@@ -124,11 +125,11 @@ function CList(props) {
     );
   }
   if (sectionList) {
-    const Touchable = IS_IOS ? TouchableOpacity : TouchableNativeFeedback;
+    // const Touchable = IS_IOS ? TouchableOpacity : TouchableNativeFeedback;
     return (
       <View style={cStyles.flex1}>
         <SectionList
-          ref={ref => (listRef = ref)}
+          ref={viewRef || (ref => (listRef = ref))}
           style={[cStyles.flex1, style]}
           contentContainerStyle={[cStyles.px16, cStyles.pb16, contentStyle]}
           sections={props.data}
@@ -137,7 +138,6 @@ function CList(props) {
               <View
                 style={[
                   cStyles.flexCenter,
-                  cStyles.py10,
                   cStyles.row,
                   cStyles.itemsCenter,
                   styles.title,
@@ -186,7 +186,7 @@ function CList(props) {
           maxToRenderPerBatch={undefined}
           refreshing={props.refreshing}
           onRefresh={onRefresh}
-          onScrollEndDrag={onSectionScrollEndDrag}
+          // onScrollEndDrag={onSectionScrollEndDrag}
           ListEmptyComponent={
             <CEmpty
               label={'common:empty_data'}
@@ -197,7 +197,7 @@ function CList(props) {
           {...props}
         />
 
-        <Animated.View
+        {/* <Animated.View
           style={[
             cStyles.abs,
             cStyles.rounded10,
@@ -229,7 +229,7 @@ function CList(props) {
               />
             </View>
           </Touchable>
-        </Animated.View>
+        </Animated.View> */}
       </View>
     );
   }
@@ -238,7 +238,7 @@ function CList(props) {
 }
 
 const styles = StyleSheet.create({
-  title: {marginHorizontal: -moderateScale(16)},
+  title: {marginHorizontal: -moderateScale(16), height: moderateScale(50)},
   title_section: {borderRadius: 1, width: '15%'},
 });
 
