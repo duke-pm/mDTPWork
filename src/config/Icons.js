@@ -9,7 +9,7 @@ const Icons = {
   assets: 'cellphone-link', //config on admin site, pls don't edit here
   requestsOffer: 'clipboard-text-multiple', //config on admin site, pls don't edit here
   requestsHandling: 'clipboard-check-multiple', //config on admin site, pls don't edit here
-  request: 'clipboard',
+  request: 'clipboard-outline',
   requestApproved_1: 'checkmark',
   requestApproved_2: 'checkmark-done',
   requestRejected: 'close',
@@ -52,6 +52,7 @@ const Icons = {
   userCircle: 'person-circle',
   login: 'log-in',
   save: 'save',
+  nextStep: 'arrow-forward-outline',
 };
 
 export default Icons;

@@ -15,7 +15,6 @@ import {showMessage} from 'react-native-flash-message';
 import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
-import CContent from '~/components/CContent';
 import CSearchBar from '~/components/CSearchBar';
 import CIconHeader from '~/components/CIconHeader';
 import Filter from '../components/Filter';
@@ -255,18 +254,16 @@ function ListRequestHandling(props) {
     <CContainer
       loading={loading.main || loading.startFetch}
       content={
-        <CContent>
-          <View style={cStyles.itemsCenter}>
+        <View style={cStyles.flex1}>
+          <View style={[cStyles.itemsCenter, cStyles.pb10]}>
             <Filter isResolve data={data} onFilter={handleFilter} />
           </View>
-
           <CSearchBar
             loading={loading.startFetch}
             isVisible={showSearchBar}
             onSearch={handleSearch}
             onClose={handleCloseSearch}
           />
-
           {!loading.main && (
             <ListRequest
               permissionWrite={isPermissionWrite}
@@ -281,7 +278,7 @@ function ListRequestHandling(props) {
               onLoadmore={onLoadmore}
             />
           )}
-        </CContent>
+        </View>
       }
     />
   );

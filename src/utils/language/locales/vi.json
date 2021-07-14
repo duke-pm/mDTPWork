@@ -39,7 +39,8 @@
     "update_app": "Cập nhật ngay!",
     "back": "Trở về",
     "holder_search": "Tìm kiếm...",
-    "find": "Tìm"
+    "find": "Tìm",
+    "edit": "SỬA"
   },
   "status": {
     "title": "Trạng thái",
@@ -319,6 +320,11 @@
   },
   "add_approved_lost_damaged": {
     "title": "Thêm Mới Báo Hỏng/Mất",
+    "title_lost": "Thêm Mới Báo Mất",
+    "title_damage": "Thêm Mới Báo Hỏng",
+    "detail": "Chi tiết báo hỏng/mất",
+    "detail_lost": "Chi tiết báo mất",
+    "detail_damage": "Chi tiết báo hỏng",
     "date_request": "Ngày yêu cầu",
     "assets": "Tài sản",
     "holder_assets": "Chọn tài sản...",
@@ -343,7 +349,6 @@
     "table_process": "Quy trình xét duyệt",
     "status_wait": "Chờ phê duyệt",
     "search_department": "Tìm bộ phận...",
-    "detail": "Chi tiết báo hỏng/mất",
     "process_assets": "Tài sản: ",
     "detail_asset": "Chi tiết: ",
     "status_asset": "Tình trạng: ",

@@ -879,29 +879,7 @@ function Task(props) {
 }
 
 const styles = StyleSheet.create({
-  left: {left: -moderateScale(10)},
-  con_left: {flex: 0.5},
-  con_right: {flex: 0.5},
-  con_left_1: {flex: 0.3},
-  con_middle: {flex: 0.2},
-  con_right_1: {flex: 0.5},
-  con_sector: {flex: 0.4},
-  badge: {
-    height: moderateScale(10),
-    width: moderateScale(10),
-    top: 16,
-    right: 15,
-  },
-  badge2: {
-    height: moderateScale(10),
-    width: moderateScale(10),
-    top: 16,
-    right: 13,
-  },
-  line: {borderRadius: 1},
-  dot_check: {right: -moderateScale(2), top: moderateScale(1)},
   list_invited: {height: moderateScale(150)},
-  group_holder: {height: moderateScale(50)},
   row_info_basic_left: {flex: 0.4},
   row_info_basic_right: {flex: 0.6},
   last_row_info_basic: {borderBottomWidth: 0},

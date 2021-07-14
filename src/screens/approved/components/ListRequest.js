@@ -6,16 +6,13 @@
  **/
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
-import {isIphoneX} from 'react-native-iphone-x-helper';
-import {StyleSheet} from 'react-native';
 /* COMPONENTS */
-import RequestItem from './RequestItem';
 import CList from '~/components/CList';
+import RequestItem from './RequestItem';
 /* COMMON */
 import Routes from '~/navigation/Routes';
-import {cStyles} from '~/utils/style';
-import {IS_IOS, moderateScale} from '~/utils/helper';
 import Commons from '~/utils/common/Commons';
+import {cStyles} from '~/utils/style';
 
 function ListRequest(props) {
   const navigation = useNavigation();
@@ -30,7 +27,7 @@ function ListRequest(props) {
   /*****************
    ** HANDLE FUNC **
    *****************/
-  const handleRequestItem = (data, dataProcess, dataDetail) => {
+  const handleRequestItem = (data, dataProcess, dataDetail, currentProcess) => {
     let route = routeDetail;
     if (routeDetail === 'auto') {
       route = Routes.MAIN.ADD_APPROVED_LOST_DAMAGED.name;
@@ -39,23 +36,23 @@ function ListRequest(props) {
       }
     }
     navigation.navigate(route, {
-      data: data,
-      dataProcess: dataProcess,
-      dataDetail: dataDetail,
+      data,
+      dataProcess,
+      dataDetail,
+      currentProcess,
       permissionWrite: permissionWrite || false,
       onRefresh: () => onRefresh(),
     });
   };
 
-  /**************
+  /************
    ** RENDER **
-   **************/
+   ************/
   let detail = null,
     process = null;
   return (
     <CList
       style={cStyles.pt16}
-      contentStyle={IS_IOS ? styles.content : {}}
       data={props.data}
       item={({item, index}) => {
         detail = props.dataDetail.filter(f => f.requestID === item.requestID);
@@ -80,11 +77,5 @@ function ListRequest(props) {
     />
   );
 }
-
-const styles = StyleSheet.create({
-  content: {
-    paddingBottom: isIphoneX() ? moderateScale(100) : moderateScale(60),
-  },
-});
 
 export default ListRequest;

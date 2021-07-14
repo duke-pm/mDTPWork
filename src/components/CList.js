@@ -142,33 +142,16 @@ function CList(props) {
                   cStyles.itemsCenter,
                   styles.title,
                 ]}>
-                <View
-                  style={[
-                    cStyles.borderDashed,
-                    cStyles.borderAll,
-                    cStyles.mr10,
-                    isDark && cStyles.borderAllDark,
-                    styles.title_section,
-                  ]}
-                />
-                <View
-                  style={[
-                    cStyles.py5,
-                    cStyles.px16,
-                    cStyles.rounded5,
-                    {backgroundColor: colors.STATUS_IN_PROGRESS_OPACITY},
-                  ]}>
-                  <CText styles={'textMeta'} customLabel={section.title} />
+                <View style={[cStyles.py5, cStyles.px16, cStyles.rounded5]}>
+                  <CText
+                    customStyles={[
+                      cStyles.textMeta,
+                      cStyles.fontMedium,
+                      {color: isDark ? colors.GRAY_700 : colors.GRAY_600},
+                    ]}
+                    customLabel={section.title}
+                  />
                 </View>
-                <View
-                  style={[
-                    cStyles.borderDashed,
-                    cStyles.borderAll,
-                    cStyles.ml10,
-                    isDark && cStyles.borderAllDark,
-                    styles.title_section,
-                  ]}
-                />
               </View>
             );
           }}

@@ -76,7 +76,7 @@ function CSearchBar(props) {
         cStyles.row,
         cStyles.itemsCenter,
         cStyles.justifyBetween,
-        cStyles.mt10,
+        cStyles.my10,
         IS_ANDROID && cStyles.mr40,
         containerStyle,
       ]}>

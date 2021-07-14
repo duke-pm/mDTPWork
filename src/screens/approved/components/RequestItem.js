@@ -32,7 +32,11 @@ function RequestItem(props) {
    ** HANDLE FUNC **
    *****************/
   const handleRequestItem = () => {
-    onPress(data, dataProcess, dataDetail);
+    onPress(data, dataProcess, dataDetail, {
+      statusIcon,
+      colorText,
+      statusColor,
+    });
   };
 
   /**************
@@ -40,8 +44,8 @@ function RequestItem(props) {
    **************/
   let title = t('approved_assets:title_request_item') + data.requestID;
   let statusIcon = Icons.request;
-  let statusColor = 'orange';
   let colorText = 'colorOrange';
+  let statusColor = 'orange';
   if (data.requestTypeID !== Commons.APPROVED_TYPE.ASSETS.value) {
     title =
       t('approved_lost_damaged:title_request_item_1') +

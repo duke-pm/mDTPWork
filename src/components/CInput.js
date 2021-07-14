@@ -160,7 +160,6 @@ function CInput(props) {
               style={[
                 cStyles.textDefault,
                 {color: customColors.text},
-                cStyles.flex1,
                 styleInput,
               ]}
               editable={!disabled}

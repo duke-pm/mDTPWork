@@ -18,6 +18,7 @@ import {
   Keyboard,
   UIManager,
   LayoutAnimation,
+  TouchableNativeFeedback,
 } from 'react-native';
 import Picker from '@gregfrench/react-native-wheel-picker';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -34,7 +35,6 @@ import CAlert from '~/components/CAlert';
 import CLabel from '~/components/CLabel';
 import CAvoidKeyboard from '~/components/CAvoidKeyboard';
 import CGroupInfo from '~/components/CGroupInfo';
-import CIconHeader from '~/components/CIconHeader';
 import CActivityIndicator from '~/components/CActivityIndicator';
 import RejectModal from '../components/RejectModal';
 import RequestProcess from '../components/RequestProcess';
@@ -48,10 +48,11 @@ import {
   moderateScale,
   verticalScale,
 } from '~/utils/helper';
+import Icons from '~/config/Icons';
 import {THEME_DARK, DEFAULT_FORMAT_DATE_4} from '~/config/constants';
 /* REDUX */
 import * as Actions from '~/redux/actions';
-import Icons from '~/config/Icons';
+const Touchable = IS_ANDROID ? TouchableNativeFeedback : TouchableOpacity;
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -116,9 +117,7 @@ const RowSelect = (
             cStyles.borderAll,
             isDark && cStyles.borderAllDark,
             error && {borderColor: customColors.red},
-            disabled && {
-              backgroundColor: customColors.cardDisable,
-            },
+            disabled && {backgroundColor: customColors.cardDisable},
             styles.row_select,
           ]}>
           {!loading ? (
@@ -168,6 +167,7 @@ function AddRequest(props) {
   const {customColors} = useTheme();
   const isDark = useColorScheme() === THEME_DARK;
   const {navigation, route} = props;
+  const typeRequest = route.params.type || Commons.APPROVED_TYPE.DAMAGED.value;
 
   /** Use redux */
   const dispatch = useDispatch();
@@ -264,13 +264,9 @@ function AddRequest(props) {
     actionSheetAssetsRef.current?.hide();
   };
 
-  const handleBack = () => {
-    navigation.goBack();
-  };
-
-  /************
+  /**********
    ** FUNC **
-   ************/
+   **********/
   const onPrepareData = () => {
     let type = route.params?.type;
     if (type) {
@@ -578,22 +574,32 @@ function AddRequest(props) {
   useLayoutEffect(() => {
     navigation.setOptions({
       title: `${t(
-        'add_approved_lost_damaged:' + (isDetail ? 'detail' : 'title'),
+        'add_approved_lost_damaged:' +
+          (isDetail
+            ? typeRequest === Commons.APPROVED_TYPE.DAMAGED.value
+              ? 'detail_damage'
+              : 'detail_lost'
+            : typeRequest === Commons.APPROVED_TYPE.DAMAGED.value
+            ? 'title_damage'
+            : 'title_lost'),
       )}`,
-      headerRight: () => (
-        <CIconHeader
-          icons={[
-            {
-              show: isDetail,
-              showRedDot: false,
-              icon: Icons.informations,
-              onPress: handleShowProcess,
-            },
-          ]}
-        />
-      ),
     });
-  }, [navigation]);
+  }, [navigation, isDetail, typeRequest]);
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: `${t(
+        'add_approved_lost_damaged:' +
+          (isDetail
+            ? form.typeUpdate === Commons.APPROVED_TYPE.DAMAGED.value
+              ? 'detail_damage'
+              : 'detail_lost'
+            : form.typeUpdate === Commons.APPROVED_TYPE.DAMAGED.value
+            ? 'title_damage'
+            : 'title_lost'),
+      )}`,
+    });
+  }, [navigation, isDetail, form.typeUpdate]);
 
   /**************
    ** RENDER **
@@ -611,6 +617,76 @@ function AddRequest(props) {
       content={
         <CAvoidKeyboard>
           <CContent>
+            {isDetail && (
+              <Touchable onPress={handleShowProcess}>
+                <View
+                  style={[
+                    cStyles.mx32,
+                    cStyles.mt10,
+                    cStyles.px10,
+                    cStyles.row,
+                    cStyles.center,
+                    cStyles.rounded2,
+                    cStyles.borderDashed,
+                    cStyles.borderAll,
+                    route.params.data.statusID <
+                      Commons.STATUS_REQUEST.DONE.value &&
+                      cStyles.justifyBetween,
+                    isDark && cStyles.borderAllDark,
+                    {backgroundColor: customColors.card},
+                  ]}>
+                  <View style={[cStyles.center, cStyles.p10]}>
+                    <Icon
+                      name={route.params.currentProcess.statusIcon}
+                      size={moderateScale(30)}
+                      color={
+                        customColors[route.params.currentProcess.statusColor]
+                      }
+                    />
+                    <CText
+                      customStyles={[
+                        cStyles.textTitle,
+                        {
+                          color:
+                            customColors[
+                              route.params.currentProcess.statusColor
+                            ],
+                        },
+                      ]}
+                      customLabel={route.params.data.statusName}
+                    />
+                  </View>
+
+                  {route.params.data.statusID <
+                    Commons.STATUS_REQUEST.DONE.value && (
+                    <Icon
+                      name={Icons.nextStep}
+                      size={moderateScale(25)}
+                      color={customColors.icon}
+                    />
+                  )}
+
+                  {route.params.data.statusID <
+                    Commons.STATUS_REQUEST.DONE.value && (
+                    <View style={[cStyles.center, cStyles.p10]}>
+                      <Icon
+                        name={Icons.alert}
+                        size={moderateScale(30)}
+                        color={customColors.orange}
+                      />
+                      <CText
+                        customStyles={[
+                          cStyles.textTitle,
+                          {color: customColors.orange},
+                        ]}
+                        label={'add_approved_lost_damaged:wait'}
+                      />
+                    </View>
+                  )}
+                </View>
+              </Touchable>
+            )}
+
             {/** Date request */}
             <CGroupInfo
               style={cStyles.pt16}
@@ -679,9 +755,18 @@ function AddRequest(props) {
                   </View>
 
                   {/** Type update */}
-                  <View style={cStyles.pt16}>
-                    <CLabel
-                      medium
+                  <View
+                    style={
+                      isDetail
+                        ? [cStyles.row, cStyles.itemsCenter, cStyles.mt16]
+                        : cStyles.mt16
+                    }>
+                    <CText
+                      customStyles={[
+                        cStyles.textMeta,
+                        cStyles.fontMedium,
+                        cStyles.pr16,
+                      ]}
                       label={'add_approved_lost_damaged:type_update'}
                     />
                     <CheckOption
@@ -701,10 +786,10 @@ function AddRequest(props) {
             {isDetail && (
               <View style={cStyles.itemsCenter}>
                 <CCard
-                  containerStyle={[cStyles.rounded2, styles.box]}
+                  containerStyle={[cStyles.rounded2, cStyles.mt16, styles.box]}
                   customLabel={route.params?.data?.assetName}
                   content={
-                    <View>
+                    <>
                       <View
                         style={[
                           cStyles.row,
@@ -782,6 +867,7 @@ function AddRequest(props) {
                           />
                         </View>
                       </View>
+
                       <View
                         style={[
                           cStyles.row,
@@ -798,7 +884,7 @@ function AddRequest(props) {
                           )}
                         />
                       </View>
-                    </View>
+                    </>
                   }
                 />
               </View>

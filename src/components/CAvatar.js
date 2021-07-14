@@ -7,6 +7,8 @@
  **/
 import React, {useState} from 'react';
 import {useTheme} from '@react-navigation/native';
+import {useColorScheme} from 'react-native-appearance';
+import Icon from 'react-native-vector-icons/Ionicons';
 import {
   StyleSheet,
   View,
@@ -18,17 +20,17 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import FastImage from 'react-native-fast-image';
 import Modal from 'react-native-modal';
-import Icon from 'react-native-vector-icons/Ionicons';
 /** COMPONENTS */
 import CText from './CText';
-import CActivityIndicator from './CActivityIndicator';
 /* COMMON */
 import {Assets} from '~/utils/asset';
-import {askPermissionsCamera, moderateScale} from '~/utils/helper';
+import {askPermissionsCamera, IS_ANDROID, IS_IOS, moderateScale} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
+import {THEME_DARK} from '~/config/constants';
 import Icons from '~/config/Icons';
 
 function CAvatar(props) {
+  const isDark = useColorScheme() === THEME_DARK;
   const {customColors} = useTheme();
   const {
     containerStyle = {},
@@ -163,21 +165,30 @@ function CAvatar(props) {
                 {customLabel}
               </Text>
             </View>
+            {IS_IOS && isEdit && (
+              <View
+                style={[
+                  cStyles.abs,
+                  cStyles.center,
+                  cStyles.fullWidth,
+                  cStyles.ofHidden,
+                  styles.con_edit,
+                  {backgroundColor: isDark ? colors.GRAY_800 : colors.BLACK},
+                ]}>
+                <CText
+                  customStyles={[
+                    cStyles.pb1,
+                    cStyles.colorWhite,
+                    styles.text_edit,
+                  ]}
+                  label={'common:edit'}
+                />
+              </View>
+            )}
           </LinearGradient>
         )}
 
-        <Animated.View
-          style={[
-            cStyles.flexCenter,
-            cStyles.abs,
-            cStyles.inset0,
-            styles.con_loading,
-            {opacity: anim},
-          ]}>
-          <CActivityIndicator />
-        </Animated.View>
-
-        {isEdit && (
+        {IS_ANDROID && isEdit && (
           <View
             style={[
               cStyles.abs,
@@ -354,6 +365,8 @@ const styles = StyleSheet.create({
     width: moderateScale(22),
   },
   con_loading: {backgroundColor: 'transparent'},
+  con_edit: {bottom: -moderateScale(1)},
+  text_edit: {fontSize: moderateScale(9)},
 });
 
 export default CAvatar;

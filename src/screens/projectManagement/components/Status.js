@@ -188,10 +188,8 @@ function Status(props) {
           ]}>
           <CText
             customStyles={[
-              cStyles.fontBold,
-              {
-                color: isDark ? task.colorDarkCode : colors.WHITE,
-              },
+              cStyles.textTitle,
+              {color: isDark ? task.colorDarkCode : colors.WHITE},
             ]}
             customLabel={task.statusName.toUpperCase()}
           />
@@ -202,7 +200,7 @@ function Status(props) {
               <Icon
                 name={Icons.down}
                 color={isDark ? task.colorDarkCode : colors.WHITE}
-                size={moderateScale(23)}
+                size={moderateScale(25)}
               />
             )
           )}

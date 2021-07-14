@@ -34,27 +34,30 @@ function CheckOption(props) {
     }
   };
 
-  /******************
+  /****************
    ** LIFE CYCLE **
-   ******************/
+   ****************/
   useEffect(() => {
     if (value !== chooseValue) {
       setChooseValue(value);
     }
   }, [value, chooseValue]);
 
-  /**************
+  /************
    ** RENDER **
-   **************/
+   ************/
   return (
     <View
       style={[
         cStyles.row,
         cStyles.itemsCenter,
         cStyles.justifyStart,
-        cStyles.pt10,
+        !isDetail && cStyles.pt10,
       ]}>
       {values.map((item, index) => {
+        if (isDetail && chooseValue !== item.value) {
+          return null;
+        }
         return (
           <TouchableOpacity
             key={index.toString()}
@@ -66,7 +69,7 @@ function CheckOption(props) {
                 cStyles.row,
                 cStyles.itemsCenter,
                 cStyles.py6,
-                index !== 0 && cStyles.pl32,
+                cStyles.pr24,
               ]}
               useNativeDriver={true}>
               <Icon

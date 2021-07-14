@@ -32,7 +32,6 @@ import CLabel from '~/components/CLabel';
 import CGroupInfo from '~/components/CGroupInfo';
 import CAvoidKeyboard from '~/components/CAvoidKeyboard';
 import CActivityIndicator from '~/components/CActivityIndicator';
-import CIconHeader from '~/components/CIconHeader';
 import RejectModal from '../components/RejectModal';
 import RequestProcess from '../components/RequestProcess';
 import AssetsTable from '../components/AssetsTable';
@@ -78,7 +77,6 @@ const RowSelect = (
             cStyles.mt6,
             cStyles.borderAll,
             styles.row_select,
-
             isDark && cStyles.borderAllDark,
             disabled && {backgroundColor: customColors.cardDisable},
           ]}>
@@ -242,10 +240,6 @@ function AddRequest(props) {
       });
     }
     actionSheetDepartmentRef.current?.hide();
-  };
-
-  const handleBack = () => {
-    navigation.goBack();
   };
 
   /************
@@ -562,18 +556,6 @@ function AddRequest(props) {
   useLayoutEffect(() => {
     navigation.setOptions({
       title: `${t('add_approved_assets:' + (isDetail ? 'detail' : 'title'))}`,
-      headerRight: () => (
-        <CIconHeader
-          icons={[
-            {
-              show: isDetail,
-              showRedDot: false,
-              icon: Icons.informations,
-              onPress: handleShowProcess,
-            },
-          ]}
-        />
-      ),
     });
   }, [navigation, isDetail]);
 
@@ -593,6 +575,76 @@ function AddRequest(props) {
       content={
         <CAvoidKeyboard>
           <CContent>
+            {isDetail && (
+              <Touchable onPress={handleShowProcess}>
+                <View
+                  style={[
+                    cStyles.mx32,
+                    cStyles.mt10,
+                    cStyles.px10,
+                    cStyles.row,
+                    cStyles.center,
+                    cStyles.rounded2,
+                    cStyles.borderDashed,
+                    cStyles.borderAll,
+                    route.params.data.statusID <
+                      Commons.STATUS_REQUEST.DONE.value &&
+                      cStyles.justifyBetween,
+                    isDark && cStyles.borderAllDark,
+                    {backgroundColor: customColors.card},
+                  ]}>
+                  <View style={[cStyles.center, cStyles.p10]}>
+                    <Icon
+                      name={route.params.currentProcess.statusIcon}
+                      size={moderateScale(30)}
+                      color={
+                        customColors[route.params.currentProcess.statusColor]
+                      }
+                    />
+                    <CText
+                      customStyles={[
+                        cStyles.textTitle,
+                        {
+                          color:
+                            customColors[
+                              route.params.currentProcess.statusColor
+                            ],
+                        },
+                      ]}
+                      customLabel={route.params.data.statusName}
+                    />
+                  </View>
+
+                  {route.params.data.statusID <
+                    Commons.STATUS_REQUEST.DONE.value && (
+                    <Icon
+                      name={Icons.nextStep}
+                      size={moderateScale(25)}
+                      color={customColors.icon}
+                    />
+                  )}
+
+                  {route.params.data.statusID <
+                    Commons.STATUS_REQUEST.DONE.value && (
+                    <View style={[cStyles.center, cStyles.p10]}>
+                      <Icon
+                        name={Icons.alert}
+                        size={moderateScale(30)}
+                        color={customColors.orange}
+                      />
+                      <CText
+                        customStyles={[
+                          cStyles.textTitle,
+                          {color: customColors.orange},
+                        ]}
+                        label={'add_approved_lost_damaged:wait'}
+                      />
+                    </View>
+                  )}
+                </View>
+              </Touchable>
+            )}
+
             {/** User request */}
             <CGroupInfo
               style={cStyles.pt16}
@@ -763,8 +815,20 @@ function AddRequest(props) {
                   </View>
 
                   {/** Type assets */}
-                  <View style={cStyles.pt16}>
-                    <CLabel medium label={'add_approved_assets:type_assets'} />
+                  <View
+                    style={
+                      isDetail
+                        ? [cStyles.row, cStyles.itemsCenter, cStyles.mt16]
+                        : cStyles.mt16
+                    }>
+                    <CText
+                      customStyles={[
+                        cStyles.textMeta,
+                        cStyles.fontMedium,
+                        cStyles.pr16,
+                      ]}
+                      label={'add_approved_assets:type_assets'}
+                    />
                     <CheckOption
                       loading={loading.main || loading.submitAdd}
                       isDetail={isDetail}
@@ -776,8 +840,16 @@ function AddRequest(props) {
                   </View>
 
                   {/** In Planning */}
-                  <View style={cStyles.py16}>
-                    <CLabel medium label={'add_approved_assets:in_planning'} />
+                  <View
+                    style={
+                      isDetail
+                        ? [cStyles.justifyCenter, cStyles.mt16]
+                        : cStyles.mt16
+                    }>
+                    <CText
+                      customStyles={[cStyles.textMeta, cStyles.fontMedium]}
+                      label={'add_approved_assets:in_planning'}
+                    />
                     <CheckOption
                       loading={loading.main || loading.submitAdd}
                       isDetail={isDetail}

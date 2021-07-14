@@ -34,8 +34,6 @@ import CAvatar from '~/components/CAvatar';
 import CIconHeader from '~/components/CIconHeader';
 import CSearchBar from '~/components/CSearchBar';
 /* COMMON */
-import {LAST_COMMENT_TASK} from '~/config/constants';
-import {colors, cStyles} from '~/utils/style';
 import {
   saveLocalInfo,
   getLocalInfo,
@@ -43,6 +41,8 @@ import {
   moderateScale,
   IS_ANDROID,
 } from '~/utils/helper';
+import {LAST_COMMENT_TASK} from '~/config/constants';
+import {colors, cStyles} from '~/utils/style';
 import {LOCALE_VI, LOCALE_EN} from '~/utils/language/comment';
 /** REDUX */
 import * as Actions from '~/redux/actions';
@@ -53,12 +53,10 @@ if (IS_ANDROID) {
   }
 }
 let listRef = createRef();
-const INPUT_NAME = {
-  MESSAGE: 'message',
-};
+const INPUT_NAME = {MESSAGE: 'message'};
 
 const RenderInputMessage = ({
-  customColors,
+  customColors = {},
   value = '',
   onSend = () => {},
   handleChangeText = () => {},
@@ -68,17 +66,12 @@ const RenderInputMessage = ({
       style={[
         ifIphoneX(cStyles.pb24, cStyles.pb6),
         cStyles.fullWidth,
-        {
-          backgroundColor: customColors.background,
-        },
+        {backgroundColor: customColors.cardDisable},
       ]}>
       <View style={[cStyles.px16, cStyles.row, cStyles.itemsCenter]}>
         <CInput
           name={INPUT_NAME.MESSAGE}
-          style={{
-            backgroundColor: customColors.listItem,
-            color: customColors.text,
-          }}
+          style={{color: customColors.text}}
           containerStyle={styles.input}
           styleFocus={styles.input_focus}
           holder={'project_management:holder_input_your_comment'}
@@ -89,7 +82,7 @@ const RenderInputMessage = ({
           onChangeInput={onSend}
           onChangeValue={handleChangeText}
         />
-        <View style={[cStyles.flexCenter, cStyles.pt10]}>
+        <View style={[cStyles.flexCenter, cStyles.pt10, cStyles.ml12]}>
           <CIconButton
             disabled={value === ''}
             iconName={'send'}
@@ -477,7 +470,6 @@ function Activity(props) {
                       cStyles.itemsStart,
                       cStyles.pb6,
                       cStyles.mr32,
-                      item.showAvatar && cStyles.mt10,
                     ]}>
                     {item.showAvatar ? (
                       <View style={styles.container_chat}>
@@ -560,7 +552,7 @@ function Activity(props) {
 }
 
 const styles = StyleSheet.create({
-  input_focus: {borderColor: colors.WHITE},
+  input_focus: {borderColor: colors.PRIMARY},
   input: {width: '85%'},
   container_chat: {
     height: moderateScale(32),

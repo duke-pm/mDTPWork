@@ -85,7 +85,6 @@ function ListRequestAll(props) {
    ** HANDLE FUNC **
    *****************/
   const handleAddNew = () => {
-    console.log('[LOG] ===  ===> ', index);
     if (index === 1) {
       navigation.navigate(Routes.MAIN.ADD_APPROVED_LOST_DAMAGED.name, {
         type: Commons.APPROVED_TYPE.DAMAGED.value,
@@ -162,9 +161,9 @@ function ListRequestAll(props) {
     });
   }, [navigation, index, routes[index].search, isPermissionWrite]);
 
-  /**************
+  /************
    ** RENDER **
-   **************/
+   ************/
   const renderScene = ({route}) => {
     switch (route.key) {
       case Commons.APPROVED_TYPE.LOST.value + '':
@@ -197,7 +196,6 @@ function ListRequestAll(props) {
           />
 
           <TabView
-            style={cStyles.flex1}
             lazy
             navigationState={{index, routes}}
             renderScene={renderScene}
@@ -212,7 +210,7 @@ function ListRequestAll(props) {
 }
 
 const styles = StyleSheet.create({
-  con_tab: {width: cStyles.deviceWidth},
+  con_tab: {width: cStyles.deviceWidth, height: undefined},
 });
 
 export default ListRequestAll;
