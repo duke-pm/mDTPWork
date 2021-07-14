@@ -210,6 +210,7 @@
     "title": "Asset Allocation",
     "title_assets": "Asset",
     "filter": "Filters:",
+    "holder_filter": "Filters",
     "status": "Status",
     "user_request": "Sender: ",
     "department_request": "Department ",
