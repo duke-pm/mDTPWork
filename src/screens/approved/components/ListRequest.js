@@ -52,7 +52,7 @@ function ListRequest(props) {
     process = null;
   return (
     <CList
-      style={cStyles.pt16}
+      contentStyle={cStyles.pt16}
       data={props.data}
       item={({item, index}) => {
         detail = props.dataDetail.filter(f => f.requestID === item.requestID);
@@ -60,7 +60,6 @@ function ListRequest(props) {
         process = process.sort((a, b) => a.levelApproval - b.levelApproval);
         return (
           <RequestItem
-            isLostDamage={false}
             index={index}
             data={item}
             dataDetail={detail}

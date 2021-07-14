@@ -132,7 +132,7 @@ function Activity(props) {
    ** HANDLE FUNC **
    *****************/
   const handleOpenSearch = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setShowSearch(true);
   };
 

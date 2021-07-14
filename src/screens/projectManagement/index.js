@@ -112,7 +112,7 @@ function ProjectManagement(props) {
   };
 
   const handleOpenSearch = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setShowSearch(true);
   };
 

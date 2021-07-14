@@ -4,7 +4,7 @@
  ** CreateAt: 2021
  ** Description: Description of CSearchBar.js
  **/
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useColorScheme} from 'react-native-appearance';
 import {useTheme} from '@react-navigation/native';
@@ -63,6 +63,10 @@ function CSearchBar(props) {
   const onChangeText = valueInput => {
     setValue(valueInput);
   };
+
+  useEffect(() => {
+    setValue(valueSearch);
+  }, [valueSearch]);
 
   /**************
    ** RENDER **

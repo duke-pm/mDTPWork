@@ -801,7 +801,7 @@ function Task(props) {
                       <>
                         <CLabel label={'project_management:user_invited'} />
                         <CList
-                          style={[
+                          listStyle={[
                             cStyles.mt6,
                             cStyles.rounded2,
                             styles.list_invited,

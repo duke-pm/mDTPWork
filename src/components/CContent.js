@@ -24,10 +24,13 @@ function CContent(props) {
   }
   return (
     <ScrollView
-      style={[stylePadder, {backgroundColor: customColors.background}]}
+      style={[
+        cStyles.flex1,
+        stylePadder,
+        {backgroundColor: customColors.background},
+      ]}
       contentContainerStyle={[IS_IOS && cStyles.pb32, contentStyle]}
       contentInsetAdjustmentBehavior={'automatic'}
-      scrollToOverflowEnabled
       keyboardShouldPersistTaps={'handled'}
       scrollEventThrottle={16}
       refreshControl={

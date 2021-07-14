@@ -9,14 +9,20 @@
 import React, {useState, useLayoutEffect} from 'react';
 import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-import {useTheme} from '@react-navigation/native';
-import {StyleSheet, View, LayoutAnimation, UIManager} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  LayoutAnimation,
+  UIManager,
+  useWindowDimensions,
+} from 'react-native';
 import {TabView} from 'react-native-tab-view';
 import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CSearchBar from '~/components/CSearchBar';
 import CIconHeader from '~/components/CIconHeader';
+import CAlert from '~/components/CAlert';
 import Filter from '../components/Filter';
 import Assets from '../assets';
 import AssetsDamage from '../assetsDamage';
@@ -25,7 +31,7 @@ import TabbarType from '../components/TabbarType';
 /* COMMON */
 import Routes from '~/navigation/Routes';
 import Commons from '~/utils/common/Commons';
-import {IS_ANDROID} from '~/utils/helper';
+import {IS_ANDROID, moderateScale} from '~/utils/helper';
 import {cStyles} from '~/utils/style';
 import Icons from '~/config/Icons';
 
@@ -35,11 +41,25 @@ if (IS_ANDROID) {
   }
 }
 
+const RenderScene = ({route}) => {
+  switch (route.key) {
+    case Commons.APPROVED_TYPE.LOST.value + '':
+      return <AssetsLost dataRoute={route} />;
+    case Commons.APPROVED_TYPE.DAMAGED.value + '':
+      return <AssetsDamage dataRoute={route} />;
+    case Commons.APPROVED_TYPE.ASSETS.value + '':
+      return <Assets dataRoute={route} />;
+    default:
+      return null;
+  }
+};
+const RenderTabbar = props => <TabbarType {...props} />;
+
 function ListRequestAll(props) {
   const {t} = useTranslation();
-  const {customColors} = useTheme();
   const {route, navigation} = props;
   const isPermissionWrite = route.params?.permission?.write || false;
+  const layout = useWindowDimensions();
 
   /** Use redux */
   const commonState = useSelector(({common}) => common);
@@ -47,6 +67,7 @@ function ListRequestAll(props) {
 
   /** use state */
   const [showSearchBar, setShowSearch] = useState(false);
+  const [showFilter, setShowFilter] = useState(false);
   const [index, setIndex] = useState(0);
   const [routes, setRoutes] = useState([
     {
@@ -124,15 +145,25 @@ function ListRequestAll(props) {
     let tmpRoutes = [...routes];
     tmpRoutes[index] = {...tmpRoutes[index], ...route};
     setRoutes(tmpRoutes);
+    setShowFilter(false);
   };
 
   const handleOpenSearch = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setShowSearch(true);
   };
 
   const handleCloseSearch = () => {
+    handleSearch('');
     setShowSearch(false);
+  };
+
+  const handleOpenFilter = () => {
+    setShowFilter(true);
+  };
+
+  const handleCloseFilter = () => {
+    setShowFilter(false);
   };
 
   /****************
@@ -150,6 +181,12 @@ function ListRequestAll(props) {
               onPress: handleOpenSearch,
             },
             {
+              show: true,
+              showRedDot: false,
+              icon: Icons.filter,
+              onPress: handleOpenFilter,
+            },
+            {
               show: isPermissionWrite,
               showRedDot: false,
               icon: Icons.addNew,
@@ -159,49 +196,43 @@ function ListRequestAll(props) {
         />
       ),
     });
-  }, [navigation, index, routes[index].search, isPermissionWrite]);
+  }, [navigation, index, routes[index], isPermissionWrite]);
 
   /************
    ** RENDER **
    ************/
-  const renderScene = ({route}) => {
-    switch (route.key) {
-      case Commons.APPROVED_TYPE.LOST.value + '':
-        return <AssetsLost dataRoute={route} navigation={navigation} />;
-      case Commons.APPROVED_TYPE.DAMAGED.value + '':
-        return <AssetsDamage dataRoute={route} navigation={navigation} />;
-      default:
-        return <Assets dataRoute={route} navigation={navigation} />;
-    }
-  };
-  const renderTabBar = props => <TabbarType {...props} />;
   return (
     <CContainer
       loading={false}
       content={
-        <View
-          style={[cStyles.flex1, {backgroundColor: customColors.background}]}>
-          <View style={cStyles.itemsCenter}>
-            <Filter
-              data={routes[index]}
-              isResolve={false}
-              onFilter={handleFilter}
-            />
-          </View>
-
+        <View style={cStyles.flex1}>
           <CSearchBar
             isVisible={showSearchBar}
+            valueSearch={routes[index].search}
             onSearch={handleSearch}
             onClose={handleCloseSearch}
           />
 
           <TabView
             lazy
+            initialLayout={{width: layout.width, height: layout.height}}
             navigationState={{index, routes}}
-            renderScene={renderScene}
-            renderTabBar={renderTabBar}
             onIndexChange={setIndex}
-            initialLayout={styles.con_tab}
+            renderScene={RenderScene}
+            renderTabBar={RenderTabbar}
+          />
+
+          <CAlert
+            show={showFilter}
+            title={t('approved_assets:holder_filter')}
+            customContent={
+              <Filter
+                isResolve={false}
+                data={routes[index]}
+                onFilter={handleFilter}
+                onClose={handleCloseFilter}
+              />
+            }
           />
         </View>
       }
@@ -210,7 +241,7 @@ function ListRequestAll(props) {
 }
 
 const styles = StyleSheet.create({
-  con_tab: {width: cStyles.deviceWidth, height: undefined},
+  container_modal: {width: moderateScale(330)},
 });
 
 export default ListRequestAll;

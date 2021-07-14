@@ -8,9 +8,10 @@
 import {fromJS} from 'immutable';
 import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import {useTheme} from '@react-navigation/native';
+import {useTheme, useNavigation} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
 import {showMessage} from 'react-native-flash-message';
+import {View} from 'react-native';
 import moment from 'moment';
 /* COMPONENTS */
 import ListRequest from '../components/ListRequest';
@@ -19,6 +20,7 @@ import TabbarLoading from '../components/TabbarLoading';
 import Routes from '~/navigation/Routes';
 import {LOAD_MORE, REFRESH} from '~/config/constants';
 import {usePrevious} from '~/utils/hook';
+import {cStyles} from '~/utils/style';
 import Commons from '~/utils/common/Commons';
 /* REDUX */
 import * as Actions from '~/redux/actions';
@@ -26,6 +28,7 @@ import * as Actions from '~/redux/actions';
 function ApprovedAssets(props) {
   const {t} = useTranslation();
   const {customColors} = useTheme();
+  const navigation = useNavigation();
 
   /** Use redux */
   const dispatch = useDispatch();
@@ -41,7 +44,6 @@ function ApprovedAssets(props) {
   const [loading, setLoading] = useState({
     main: true,
     startFetch: false,
-    search: false,
     refreshing: false,
     loadmore: false,
     isLoadmore: true,
@@ -81,7 +83,7 @@ function ApprovedAssets(props) {
       RefreshToken: refreshToken,
       Lang: language,
     });
-    dispatch(Actions.fetchListRequestLost(params, props.navigation));
+    return dispatch(Actions.fetchListRequestLost(params, navigation));
   };
 
   const onPrepareData = (type = REFRESH) => {
@@ -121,29 +123,26 @@ function ApprovedAssets(props) {
     });
 
     // Update loading and re-render
-    let tmpLoading = {
+    return setLoading({
       main: false,
       startFetch: false,
-      search: false,
       refreshing: false,
       loadmore: false,
       isLoadmore,
-    };
-    setLoading(tmpLoading);
+    });
   };
 
   const onRefresh = () => {
     if (!loading.refreshing) {
-      setLoading({...loading, refreshing: true, isLoadmore: true});
       setData({...data, page: 1});
       onFetchData(data.fromDate, data.toDate, data.status, 1, data.search);
+      return setLoading({...loading, refreshing: true, isLoadmore: true});
     }
   };
 
   const onLoadmore = () => {
     if (!loading.loadmore && loading.isLoadmore) {
       let newPage = data.page + 1;
-      setLoading({...loading, loadmore: true});
       setData({...data, page: newPage});
       onFetchData(
         data.fromDate,
@@ -152,6 +151,7 @@ function ApprovedAssets(props) {
         newPage,
         data.search,
       );
+      return setLoading({...loading, loadmore: true});
     }
   };
 
@@ -166,7 +166,6 @@ function ApprovedAssets(props) {
     return setLoading({
       main: false,
       startFetch: false,
-      search: false,
       refreshing: false,
       loadmore: false,
       isLoadmore: false,
@@ -184,7 +183,7 @@ function ApprovedAssets(props) {
       data.page,
       data.search,
     );
-    setLoading({...loading, startFetch: true});
+    return setLoading({...loading, startFetch: true});
   }, []);
 
   useEffect(() => {
@@ -197,7 +196,6 @@ function ApprovedAssets(props) {
         prevData.search !== curData.search ||
         prevData.isRefresh !== curData.isRefresh
       ) {
-        setLoading({...loading, search: true});
         setData({
           ...data,
           fromDate: curData.fromDate,
@@ -206,24 +204,20 @@ function ApprovedAssets(props) {
           page: 1,
           search: curData.search,
         });
-        return onFetchData(
+        onFetchData(
           curData.fromDate,
           curData.toDate,
           curData.status,
           curData.page,
           curData.search,
         );
+        return setLoading({...loading, startFetch: true});
       }
     }
   }, [setLoading, prevData, props.dataRoute]);
 
   useEffect(() => {
-    if (
-      loading.startFetch ||
-      loading.search ||
-      loading.refreshing ||
-      loading.loadmore
-    ) {
+    if (loading.startFetch || loading.refreshing || loading.loadmore) {
       if (!approvedState.get('submittingListLost')) {
         let type = REFRESH;
         if (loading.loadmore) {
@@ -241,7 +235,6 @@ function ApprovedAssets(props) {
     }
   }, [
     loading.startFetch,
-    loading.search,
     loading.refreshing,
     loading.loadmore,
     approvedState.get('submittingListLost'),
@@ -252,23 +245,24 @@ function ApprovedAssets(props) {
   /**************
    ** RENDER **
    **************/
-  if (!loading.main && !loading.search) {
-    return (
-      <ListRequest
-        refreshing={loading.refreshing}
-        loadmore={loading.loadmore}
-        data={data.requests}
-        dataDetail={data.requestsDetail}
-        dataProcess={data.processApproveds}
-        customColors={customColors}
-        routeDetail={Routes.MAIN.ADD_APPROVED_LOST_DAMAGED.name}
-        onRefresh={onRefresh}
-        onLoadmore={onLoadmore}
-      />
-    );
-  } else {
-    return <TabbarLoading show={loading.main || loading.search} />;
-  }
+  return (
+    <View style={cStyles.flex1}>
+      {!loading.main && !loading.startFetch && (
+        <ListRequest
+          refreshing={loading.refreshing}
+          loadmore={loading.loadmore}
+          data={data.requests}
+          dataDetail={data.requestsDetail}
+          dataProcess={data.processApproveds}
+          customColors={customColors}
+          routeDetail={Routes.MAIN.ADD_APPROVED_LOST_DAMAGED.name}
+          onRefresh={onRefresh}
+          onLoadmore={onLoadmore}
+        />
+      )}
+      <TabbarLoading show={loading.main || loading.startFetch} />
+    </View>
+  );
 }
 
-export default ApprovedAssets;
+export default React.memo(ApprovedAssets);

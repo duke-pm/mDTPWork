@@ -1,29 +1,18 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /**
  ** Name: CList
  ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of CList.js
  **/
-import React, {createRef, useRef, useState, useEffect} from 'react';
-import {useTheme} from '@react-navigation/native';
+import React, {createRef} from 'react';
 import {useColorScheme} from 'react-native-appearance';
-import {
-  StyleSheet,
-  View,
-  FlatList,
-  SectionList,
-  Animated,
-  TouchableNativeFeedback,
-  TouchableOpacity,
-} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import {StyleSheet, View, FlatList, SectionList} from 'react-native';
 /* COMPONENTS */
 import CEmpty from './CEmpty';
 import CText from './CText';
 import CFooterList from './CFooterList';
 /* COMMON */
-import {IS_ANDROID, IS_IOS, moderateScale, verticalScale} from '~/utils/helper';
+import {IS_ANDROID, moderateScale} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
 import {THEME_DARK} from '~/config/constants';
 
@@ -31,10 +20,9 @@ import {THEME_DARK} from '~/config/constants';
 let listRef = createRef();
 
 function CList(props) {
-  // const {customColors} = useTheme();
   const isDark = useColorScheme() === THEME_DARK;
   const {
-    style = {},
+    listStyle = {},
     viewRef = null,
     contentStyle = {},
     sectionList = false,
@@ -43,58 +31,11 @@ function CList(props) {
     onLoadmore = null,
   } = props;
 
-  // let animTranslateY = useRef(new Animated.Value(0)).current;
-
-  // const [showSTT, setShowSTT] = useState({
-  //   status: false,
-  //   offsetY: 0,
-  // });
-
-  /*****************
-   ** HANDLE FUNC **
-   *****************/
-  // const handleScrollToTop = () => {
-  //   setShowSTT({status: false, offsetY: 0});
-  //   listRef.scrollToLocation({
-  //     animated: true,
-  //     viewPosition: 0,
-  //     itemIndex: 0,
-  //     sectionIndex: 0,
-  //     viewOffset: 0,
-  //   });
-  //   Animated.timing(animTranslateY, {
-  //     toValue: 0,
-  //     duration: 100,
-  //   }).start();
-  // };
-
-  /**********
-   ** FUNC **
-   **********/
-  // const onSectionScrollEndDrag = ({nativeEvent}) => {
-  //   if (showSTT.offsetY < nativeEvent.contentOffset.y) {
-  //     setShowSTT({status: false, offsetY: nativeEvent.contentOffset.y});
-  //   }
-
-  //   if (showSTT.offsetY > nativeEvent.contentOffset.y) {
-  //     setShowSTT({status: true, offsetY: nativeEvent.contentOffset.y});
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   Animated.timing(animTranslateY, {
-  //     toValue: showSTT.status ? 1 : 0,
-  //     duration: 100,
-  //   }).start();
-  // }, [showSTT.status, showSTT.offsetY]);
-  /************
-   ** RENDER **
-   ************/
   if (!sectionList) {
     return (
       <FlatList
         ref={ref => (listRef = ref)}
-        style={[cStyles.flex1, style]}
+        style={[cStyles.flex1, listStyle]}
         contentContainerStyle={[cStyles.px16, cStyles.pb16, contentStyle]}
         data={props.data}
         renderItem={propsItem =>
@@ -125,104 +66,65 @@ function CList(props) {
     );
   }
   if (sectionList) {
-    // const Touchable = IS_IOS ? TouchableOpacity : TouchableNativeFeedback;
     return (
-      <View style={cStyles.flex1}>
-        <SectionList
-          ref={viewRef || (ref => (listRef = ref))}
-          style={[cStyles.flex1, style]}
-          contentContainerStyle={[cStyles.px16, cStyles.pb16, contentStyle]}
-          sections={props.data}
-          renderSectionFooter={({section}) => {
-            return (
-              <View
-                style={[
-                  cStyles.flexCenter,
-                  cStyles.row,
-                  cStyles.itemsCenter,
-                  styles.title,
-                ]}>
-                <View style={[cStyles.py5, cStyles.px16, cStyles.rounded5]}>
-                  <CText
-                    customStyles={[
-                      cStyles.textMeta,
-                      cStyles.fontMedium,
-                      {color: isDark ? colors.GRAY_700 : colors.GRAY_600},
-                    ]}
-                    customLabel={section.title}
-                  />
-                </View>
-              </View>
-            );
-          }}
-          renderItem={propsItem => {
-            return props.item({
-              item: propsItem.item,
-              index: propsItem.index,
-            });
-          }}
-          keyExtractor={(item, index) => item.lineNum.toString()}
-          removeClippedSubviews={IS_ANDROID}
-          keyboardShouldPersistTaps={'handled'}
-          initialNumToRender={1000}
-          scrollEventThrottle={16}
-          maxToRenderPerBatch={undefined}
-          refreshing={props.refreshing}
-          onRefresh={onRefresh}
-          // onScrollEndDrag={onSectionScrollEndDrag}
-          ListEmptyComponent={
-            <CEmpty
-              label={'common:empty_data'}
-              description={textEmpty || 'common:cannot_find_data_filter'}
-            />
-          }
-          ListFooterComponent={props.loadingmore ? <CFooterList /> : null}
-          {...props}
-        />
-
-        {/* <Animated.View
-          style={[
-            cStyles.abs,
-            cStyles.rounded10,
-            cStyles.ofHidden,
-            {
-              bottom: verticalScale(10),
-              left: cStyles.deviceWidth / 2 - moderateScale(20),
-              opacity: animTranslateY,
-            },
-          ]}>
-          <Touchable
-            style={cStyles.rounded10}
-            disabled={!showSTT.status}
-            onPress={handleScrollToTop}>
+      <SectionList
+        ref={viewRef || (ref => (listRef = ref))}
+        style={[cStyles.flex1, listStyle]}
+        contentContainerStyle={[cStyles.px16, cStyles.pb16, contentStyle]}
+        sections={props.data}
+        renderSectionFooter={({section}) => {
+          return (
             <View
               style={[
-                cStyles.center,
-                cStyles.rounded10,
-                {
-                  height: moderateScale(40),
-                  width: moderateScale(40),
-                  backgroundColor: customColors.card,
-                },
+                cStyles.flexCenter,
+                cStyles.row,
+                cStyles.itemsCenter,
+                styles.title,
               ]}>
-              <Icon
-                name={'arrow-down-outline'}
-                size={moderateScale(25)}
-                color={customColors.primary}
-              />
+              <View style={[cStyles.py5, cStyles.px16, cStyles.rounded5]}>
+                <CText
+                  customStyles={[
+                    cStyles.textMeta,
+                    cStyles.fontMedium,
+                    {color: isDark ? colors.GRAY_700 : colors.GRAY_600},
+                  ]}
+                  customLabel={section.title}
+                />
+              </View>
             </View>
-          </Touchable>
-        </Animated.View> */}
-      </View>
+          );
+        }}
+        renderItem={propsItem => {
+          return props.item({
+            item: propsItem.item,
+            index: propsItem.index,
+          });
+        }}
+        keyExtractor={(item, index) => item.lineNum.toString()}
+        removeClippedSubviews={IS_ANDROID}
+        keyboardShouldPersistTaps={'handled'}
+        initialNumToRender={1000}
+        scrollEventThrottle={16}
+        maxToRenderPerBatch={undefined}
+        refreshing={props.refreshing}
+        onRefresh={onRefresh}
+        ListEmptyComponent={
+          <CEmpty
+            label={'common:empty_data'}
+            description={textEmpty || 'common:cannot_find_data_filter'}
+          />
+        }
+        ListFooterComponent={props.loadingmore ? <CFooterList /> : null}
+        {...props}
+      />
     );
   }
 
-  return <View />;
+  return null;
 }
 
 const styles = StyleSheet.create({
   title: {marginHorizontal: -moderateScale(16), height: moderateScale(50)},
-  title_section: {borderRadius: 1, width: '15%'},
 });
 
 export default CList;

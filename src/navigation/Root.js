@@ -319,7 +319,7 @@ export function RootMain(props) {
         component={Routes.MAIN.APPROVED.childrens.LIST_REQUEST_ASSETS.path}
         options={{
           title: t('list_request_assets:title'),
-          headerStyle: headerStyles,
+          headerStyle: headerModalStyles,
           headerLargeTitle: false,
           headerTranslucent: false,
         }}

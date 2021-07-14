@@ -74,10 +74,11 @@ function TabbarType(props) {
   return (
     <TabBar
       {...props}
-      indicatorStyle={styles.indicator_tab}
       style={{backgroundColor: customColors.background}}
+      indicatorStyle={styles.indicator_tab}
       activeColor={colors.SECONDARY}
       inactiveColor={customColors.text}
+      bounces={false}
       renderLabel={({route, focused, color}) => (
         <CText
           customStyles={[cStyles.py5, focused && cStyles.colorSecondary]}

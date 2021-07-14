@@ -41,20 +41,16 @@ function CAlert(props) {
       <View
         style={[
           cStyles.center,
-          cStyles.rounded3,
+          cStyles.rounded2,
           styles.container,
-          {
-            backgroundColor: IS_ANDROID
-              ? customColors.card
-              : colors.TRANSPARENT,
-          },
+          {backgroundColor: customColors.card},
           contentStyle,
         ]}>
         {/** Header of Alert */}
         <View
           style={[
-            cStyles.roundedTopLeft3,
-            cStyles.roundedTopRight3,
+            cStyles.roundedTopLeft2,
+            cStyles.roundedTopRight2,
             cStyles.pt16,
             cStyles.px8,
             cStyles.center,
@@ -177,7 +173,7 @@ function CAlert(props) {
 }
 
 const styles = StyleSheet.create({
-  container: {width: moderateScale(300)},
+  container: {width: moderateScale(350)},
   button: {width: moderateScale(1)},
   con_button: {height: moderateScale(45), width: moderateScale(150)},
   btn_alone: {width: moderateScale(300)},

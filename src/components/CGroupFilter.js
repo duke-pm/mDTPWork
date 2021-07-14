@@ -86,9 +86,9 @@ function CGroupFilter(props) {
         }
       }
     }
-    setValuesChoose(chooses);
     setValuesRef(choosesRef);
-  }, []);
+    setValuesChoose(chooses);
+  }, [itemsChoose]);
 
   /************
    ** RENDER **

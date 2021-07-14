@@ -10,14 +10,7 @@ import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
 import {showMessage} from 'react-native-flash-message';
-import {
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  LayoutAnimation,
-  UIManager,
-} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import {StyleSheet, View, UIManager} from 'react-native';
 import moment from 'moment';
 /* COMPONENTS */
 import CText from '~/components/CText';
@@ -25,11 +18,9 @@ import CInput from '~/components/CInput';
 import CDateTimePicker from '~/components/CDateTimePicker';
 import CButton from '~/components/CButton';
 import CGroupFilter from '~/components/CGroupFilter';
-import CLabel from '~/components/CLabel';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
-import {checkEmpty, IS_ANDROID, moderateScale} from '~/utils/helper';
-import {usePrevious} from '~/utils/hook';
+import {IS_ANDROID, moderateScale} from '~/utils/helper';
 import Icons from '~/config/Icons';
 
 if (IS_ANDROID) {
@@ -71,32 +62,16 @@ const STATUS_REQUEST = [
   },
 ];
 
-const TagItem = (customColors, label) => {
-  return (
-    <View
-      style={[
-        cStyles.rounded5,
-        cStyles.py8,
-        cStyles.px6,
-        cStyles.mr3,
-        {backgroundColor: customColors.cardDisable},
-      ]}>
-      <CLabel customLabel={label} />
-    </View>
-  );
-};
-
 function Filter(props) {
   const {t} = useTranslation();
   const {customColors} = useTheme();
-  const {isResolve = false, onFilter = () => {}} = props;
+  const {isResolve = false, onFilter = () => {}, onClose = () => {}} = props;
 
   /** Use redux */
   const commonState = useSelector(({common}) => common);
   const formatDate = commonState.get('formatDate');
 
   /** Use State */
-  const [show, setShow] = useState(false);
   const [showPickerDate, setShowPickerDate] = useState({
     status: false,
     active: null,
@@ -109,17 +84,9 @@ function Filter(props) {
     resolveRequest: isResolve,
   });
 
-  /** Use previous */
-  let prevData = usePrevious(props.data);
-
   /*****************
    ** HANDLE FUNC **
    *****************/
-  const handleToggle = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    setShow(!show);
-  };
-
   const handleDateInput = inputName => {
     setShowPickerDate({
       active: inputName,
@@ -167,7 +134,6 @@ function Filter(props) {
         data.type.join(),
         data.resolveRequest,
       );
-      handleToggle();
     }
   };
 
@@ -191,21 +157,19 @@ function Filter(props) {
    ** LIFE CYCLE **
    ******************/
   useEffect(() => {
-    if (prevData) {
-      if (prevData.key !== props.data.key) {
-        let tmp = {
-          ...data,
-          fromDate: props.data.fromDate,
-          toDate: props.data.toDate,
-          type: JSON.parse('[' + props.data.type + ']'),
-        };
-        if (props.data.status) {
-          tmp.status = JSON.parse('[' + props.data.status + ']');
-        }
-        setData(tmp);
+    if (props.data) {
+      let tmp = {
+        ...data,
+        fromDate: props.data.fromDate,
+        toDate: props.data.toDate,
+        type: JSON.parse('[' + props.data.type + ']'),
+      };
+      if (props.data.status) {
+        tmp.status = JSON.parse('[' + props.data.status + ']');
       }
+      setData(tmp);
     }
-  }, [props.data, prevData]);
+  }, [props.data]);
 
   /**************
    ** RENDER **
@@ -214,184 +178,102 @@ function Filter(props) {
     <View
       style={[
         cStyles.rounded2,
-        cStyles.mx32,
         cStyles.mt10,
-        show && cStyles.pb12,
         {backgroundColor: customColors.card},
-        styles.box,
       ]}>
-      <TouchableOpacity disabled={show} onPress={handleToggle}>
+      {/** Show is visible */}
+      <View>
+        <View
+          style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween]}>
+          <View style={styles.text_date}>
+            <CText
+              styles={'pt6 textLeft'}
+              label={'approved_assets:from_date'}
+            />
+          </View>
+          <CInput
+            containerStyle={[cStyles.justifyEnd, styles.input_date]}
+            style={styles.con_input_date}
+            hasRemove
+            dateTimePicker
+            value={
+              data.fromDate === ''
+                ? ''
+                : moment(data.fromDate).format(
+                    commonState.get('formatDateView'),
+                  )
+            }
+            valueColor={colors.TEXT_BASE}
+            iconLast={Icons.calendar}
+            iconLastColor={colors.ICON_BASE}
+            onPressIconLast={() => handleDateInput(INPUT_NAME.FROM_DATE)}
+            onPressRemoveValue={() => setData({...data, fromDate: ''})}
+          />
+        </View>
+
+        <View
+          style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween]}>
+          <View style={styles.text_date}>
+            <CText styles={'pt6 textLeft'} label={'approved_assets:to_date'} />
+          </View>
+          <CInput
+            containerStyle={[cStyles.justifyEnd, styles.input_date]}
+            style={styles.con_input_date}
+            hasRemove
+            dateTimePicker
+            value={
+              data.toDate === ''
+                ? ''
+                : moment(data.toDate).format(commonState.get('formatDateView'))
+            }
+            valueColor={colors.TEXT_BASE}
+            iconLast={Icons.calendar}
+            iconLastColor={colors.ICON_BASE}
+            onPressIconLast={() => handleDateInput(INPUT_NAME.TO_DATE)}
+            onPressRemoveValue={() => setData({...data, toDate: ''})}
+          />
+        </View>
+
+        {isResolve && (
+          <CGroupFilter
+            label={'common:type'}
+            items={TYPES_ASSETS}
+            itemsChoose={data.type}
+            onChange={handleChangeType}
+          />
+        )}
+
+        {!isResolve && (
+          <CGroupFilter
+            label={'common:status'}
+            items={STATUS_REQUEST}
+            itemsChoose={data.status}
+            onChange={handleChangeStatus}
+          />
+        )}
+
         <View
           style={[
             cStyles.row,
             cStyles.itemsCenter,
-            cStyles.justifyBetween,
-            cStyles.px10,
-            cStyles.py8,
+            cStyles.justifyCenter,
+            cStyles.mt10,
           ]}>
-          {!show ? (
-            !isResolve ? (
-              <View style={[cStyles.row, cStyles.itemsCenter]}>
-                {TagItem(
-                  customColors,
-                  `${checkEmpty(
-                    data.fromDate,
-                    '#',
-                    false,
-                    'DD/MM',
-                  )} - ${checkEmpty(data.toDate, '#', false, 'DD/MM')}`,
-                )}
-                {data.status.indexOf(1) !== -1 &&
-                  TagItem(customColors, t('approved_assets:status_wait'))}
-                {data.status.indexOf(2) !== -1 &&
-                  TagItem(
-                    customColors,
-                    t('approved_assets:status_approved_done'),
-                  )}
-                {data.status.indexOf(4) !== -1 &&
-                  TagItem(customColors, t('approved_assets:status_reject'))}
-              </View>
-            ) : (
-              <View style={[cStyles.row, cStyles.itemsCenter]}>
-                {TagItem(
-                  customColors,
-                  `${checkEmpty(
-                    data.fromDate,
-                    '#',
-                    false,
-                    'DD/MM',
-                  )} - ${checkEmpty(data.toDate, '#', false, 'DD/MM')}`,
-                )}
-                {data.type.indexOf(1) !== -1 &&
-                  TagItem(
-                    customColors,
-                    t('list_request_assets_handling:title_add'),
-                  )}
-                {data.type.indexOf(2) !== -1 &&
-                  TagItem(
-                    customColors,
-                    t('list_request_assets_handling:title_damaged'),
-                  )}
-                {data.type.indexOf(3) !== -1 &&
-                  TagItem(
-                    customColors,
-                    t('list_request_assets_handling:title_lost'),
-                  )}
-              </View>
-            )
-          ) : (
-            <View style={cStyles.flex1} />
-          )}
-          {!show && (
-            <Icon
-              name={Icons.filter}
-              size={moderateScale(23)}
-              color={customColors.text}
-            />
-          )}
+          <CButton
+            style={styles.button}
+            variant={'outlined'}
+            icon={Icons.close}
+            label={'common:close'}
+            onPress={onClose}
+          />
+          <CButton
+            style={styles.button}
+            label={'common:apply'}
+            icon={Icons.filter}
+            onPress={handleFilter}
+          />
         </View>
-      </TouchableOpacity>
-
-      {/** Show is visible */}
-      {show && (
-        <View style={cStyles.px16}>
-          <View
-            style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween]}>
-            <View style={styles.text_date}>
-              <CText
-                styles={'pt6 textLeft'}
-                label={'approved_assets:from_date'}
-              />
-            </View>
-            <CInput
-              containerStyle={[cStyles.justifyEnd, styles.input_date]}
-              style={styles.con_input_date}
-              hasRemove
-              dateTimePicker
-              value={
-                data.fromDate === ''
-                  ? ''
-                  : moment(data.fromDate).format(
-                      commonState.get('formatDateView'),
-                    )
-              }
-              valueColor={colors.TEXT_BASE}
-              iconLast={Icons.calendar}
-              iconLastColor={colors.ICON_BASE}
-              onPressIconLast={() => handleDateInput(INPUT_NAME.FROM_DATE)}
-              onPressRemoveValue={() => setData({...data, fromDate: ''})}
-            />
-          </View>
-
-          <View
-            style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween]}>
-            <View style={styles.text_date}>
-              <CText
-                styles={'pt6 textLeft'}
-                label={'approved_assets:to_date'}
-              />
-            </View>
-            <CInput
-              containerStyle={[cStyles.justifyEnd, styles.input_date]}
-              style={styles.con_input_date}
-              hasRemove
-              dateTimePicker
-              value={
-                data.toDate === ''
-                  ? ''
-                  : moment(data.toDate).format(
-                      commonState.get('formatDateView'),
-                    )
-              }
-              valueColor={colors.TEXT_BASE}
-              iconLast={Icons.calendar}
-              iconLastColor={colors.ICON_BASE}
-              onPressIconLast={() => handleDateInput(INPUT_NAME.TO_DATE)}
-              onPressRemoveValue={() => setData({...data, toDate: ''})}
-            />
-          </View>
-
-          {isResolve && (
-            <CGroupFilter
-              label={'common:type'}
-              items={TYPES_ASSETS}
-              itemsChoose={data.type}
-              onChange={handleChangeType}
-            />
-          )}
-
-          {!isResolve && (
-            <CGroupFilter
-              label={'common:status'}
-              items={STATUS_REQUEST}
-              itemsChoose={data.status}
-              onChange={handleChangeStatus}
-            />
-          )}
-
-          <View
-            style={[
-              cStyles.row,
-              cStyles.itemsCenter,
-              cStyles.justifyCenter,
-              cStyles.mt10,
-            ]}>
-            <CButton
-              style={styles.button}
-              variant={'outlined'}
-              icon={Icons.close}
-              label={'common:close'}
-              onPress={handleToggle}
-            />
-            <CButton
-              style={styles.button}
-              label={'common:apply'}
-              icon={Icons.filter}
-              onPress={handleFilter}
-            />
-          </View>
-        </View>
-      )}
+      </View>
 
       {/** Date Picker */}
       <CDateTimePicker
@@ -410,7 +292,7 @@ function Filter(props) {
 const styles = StyleSheet.create({
   text_date: {flex: 0.3},
   input_date: {flex: 0.7},
-  button: {width: moderateScale(140), marginHorizontal: moderateScale(10)},
+  button: {width: moderateScale(110), marginHorizontal: moderateScale(10)},
   box: {width: moderateScale(350)},
 });
 

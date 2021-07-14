@@ -10,18 +10,19 @@ import React, {useState, useEffect, useLayoutEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
-import {View, LayoutAnimation, UIManager} from 'react-native';
+import {StyleSheet, View, LayoutAnimation, UIManager} from 'react-native';
 import {showMessage} from 'react-native-flash-message';
 import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CSearchBar from '~/components/CSearchBar';
+import CAlert from '~/components/CAlert';
 import CIconHeader from '~/components/CIconHeader';
 import Filter from '../components/Filter';
 import ListRequest from '../components/ListRequest';
 /* COMMON */
 import {LOAD_MORE, REFRESH} from '~/config/constants';
-import {IS_ANDROID} from '~/utils/helper';
+import {IS_ANDROID, moderateScale} from '~/utils/helper';
 import {cStyles} from '~/utils/style';
 import Icons from '~/config/Icons';
 /* REDUX */
@@ -57,6 +58,7 @@ function ListRequestHandling(props) {
     loadmore: false,
     isLoadmore: true,
   });
+  const [showFilter, setShowFilter] = useState(false);
   const [showSearchBar, setShowSearch] = useState(false);
   const [data, setData] = useState({
     fromDate: moment().clone().startOf('month').format(formatDate),
@@ -75,12 +77,11 @@ function ListRequestHandling(props) {
   const handleSearch = value => {
     setData({...data, search: value, page: 1});
     onFetchData(data.fromDate, data.toDate, 1, value, data.type);
-    setLoading({...loading, startFetch: true});
-    setShowSearch(false);
+    return setLoading({...loading, startFetch: true});
   };
 
   const handleFilter = (fromDate, toDate, status, type) => {
-    setLoading({...loading, startFetch: true});
+    setShowFilter(false);
     setData({
       ...data,
       page: 1,
@@ -89,15 +90,25 @@ function ListRequestHandling(props) {
       toDate,
     });
     onFetchData(fromDate, toDate, 1, data.search, type);
+    return setLoading({...loading, startFetch: true});
   };
 
   const handleOpenSearch = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setShowSearch(true);
   };
 
   const handleCloseSearch = () => {
+    handleSearch('');
     setShowSearch(false);
+  };
+
+  const handleOpenFilter = () => {
+    setShowFilter(true);
+  };
+
+  const handleCloseFilter = () => {
+    setShowFilter(false);
   };
 
   /************
@@ -241,6 +252,12 @@ function ListRequestHandling(props) {
               icon: Icons.search,
               onPress: handleOpenSearch,
             },
+            {
+              show: true,
+              showRedDot: false,
+              icon: Icons.filter,
+              onPress: handleOpenFilter,
+            },
           ]}
         />
       ),
@@ -255,9 +272,6 @@ function ListRequestHandling(props) {
       loading={loading.main || loading.startFetch}
       content={
         <View style={cStyles.flex1}>
-          <View style={[cStyles.itemsCenter, cStyles.pb10]}>
-            <Filter isResolve data={data} onFilter={handleFilter} />
-          </View>
           <CSearchBar
             loading={loading.startFetch}
             isVisible={showSearchBar}
@@ -278,10 +292,28 @@ function ListRequestHandling(props) {
               onLoadmore={onLoadmore}
             />
           )}
+
+          <CAlert
+            contentStyle={styles.container_modal}
+            show={showFilter}
+            title={t('approved_assets:holder_filter')}
+            customContent={
+              <Filter
+                isResolve
+                data={data}
+                onFilter={handleFilter}
+                onClose={handleCloseFilter}
+              />
+            }
+          />
         </View>
       }
     />
   );
 }
+
+const styles = StyleSheet.create({
+  container_modal: {width: moderateScale(350)},
+});
 
 export default ListRequestHandling;
