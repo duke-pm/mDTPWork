@@ -12,6 +12,7 @@ import {cStyles} from '~/utils/style';
 
 function CLabel(props) {
   const {
+    style = {},
     medium = false,
     bold = false,
     color = null,
@@ -27,6 +28,7 @@ function CLabel(props) {
           medium && cStyles.fontMedium,
           bold && cStyles.fontBold,
           color && {color},
+          style,
         ]}
         label={label}
       />
@@ -40,6 +42,7 @@ function CLabel(props) {
           medium && cStyles.fontMedium,
           bold && cStyles.fontBold,
           color && {color},
+          style,
         ]}
         customLabel={customLabel}
       />

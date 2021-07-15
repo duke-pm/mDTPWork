@@ -632,13 +632,6 @@ function AddRequest(props) {
                         size={moderateScale(30)}
                         color={customColors.orange}
                       />
-                      <CText
-                        customStyles={[
-                          cStyles.textTitle,
-                          {color: customColors.orange},
-                        ]}
-                        label={'add_approved_lost_damaged:wait'}
-                      />
                     </View>
                   )}
                 </View>

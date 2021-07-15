@@ -191,19 +191,19 @@
   "approved": {
     "title": "Assets",
     "assets": "Assets",
-    "list_request": "Request list",
+    "list_request": "List request",
     "list_request_handling": "List processed"
   },
   "list_request_assets": {
-    "title": "Request List",
+    "title": "List Request",
     "title_add": "Allocation",
-    "title_damaged": "Failure",
+    "title_damaged": "Damage",
     "title_lost": "Lost"
   },
   "list_request_assets_handling": {
     "title": "List Processed",
     "title_add": "Allocation",
-    "title_damaged": "Failure",
+    "title_damaged": "Damage",
     "title_lost": "Lost"
   },
   "approved_assets": {

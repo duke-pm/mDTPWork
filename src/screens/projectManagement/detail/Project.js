@@ -99,7 +99,6 @@ function ProjectDetail(props) {
       value,
     );
     setLoading({...loading, startFetch: true});
-    setShowSearch(false);
   };
 
   const handleShowFilter = () => {
@@ -130,6 +129,9 @@ function ProjectDetail(props) {
 
   const handleCloseSearch = () => {
     setShowSearch(false);
+    if (data.search !== '') {
+      handleSearch('');
+    }
   };
 
   /************

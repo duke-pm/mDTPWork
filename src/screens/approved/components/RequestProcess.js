@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable react-native/no-inline-styles */
 /**
  ** Name: Preocess of request
  ** Author: DTP-Education
@@ -24,13 +23,13 @@ function RequestProcess(props) {
   /** Use state */
   const [anims, setAnims] = useState([]);
 
-  /******************
+  /****************
    ** LIFE CYCLE **
-   ******************/
+   ****************/
   useEffect(() => {
     let tmp = [],
-      item = null;
-    for (item of data) {
+      i = null;
+    for (i of data) {
       tmp.push(new Animated.Value(0));
     }
     setAnims(tmp);
@@ -54,9 +53,9 @@ function RequestProcess(props) {
     }
   }, [anims]);
 
-  /**************
+  /************
    ** RENDER **
-   **************/
+   ************/
   return anims.length > 0 ? (
     <View style={[cStyles.p16, cStyles.pb32]}>
       <CText styles={'textTitle'} label={'add_approved_assets:table_process'} />
@@ -98,7 +97,7 @@ function RequestProcess(props) {
                   cStyles.px10,
                   cStyles.py6,
                   cStyles.itemsCenter,
-                  {flex: 0.3},
+                  styles.con_date,
                 ]}
               />
             )}
@@ -108,7 +107,7 @@ function RequestProcess(props) {
                 cStyles.px10,
                 cStyles.pt6,
                 cStyles.itemsCenter,
-                {flex: 0.1},
+                styles.con_icon,
               ]}>
               <Icon
                 name={
@@ -138,8 +137,8 @@ function RequestProcess(props) {
               )}
             </View>
 
-            <View style={[cStyles.rounded1, cStyles.pr10, {flex: 0.6}]}>
-              <View style={[cStyles.row, cStyles.itemsStart, {width: '70%'}]}>
+            <View style={[cStyles.rounded1, cStyles.pr10, styles.con_info]}>
+              <View style={[cStyles.row, cStyles.itemsStart, styles.con_user]}>
                 <CText
                   customStyles={[
                     cStyles.textMeta,
@@ -205,7 +204,7 @@ function RequestProcess(props) {
                     cStyles.itemsStart,
                     cStyles.justifyStart,
                     cStyles.mt4,
-                    {width: '80%'},
+                    styles.con_reason,
                   ]}>
                   <CText
                     customStyles={[
@@ -239,6 +238,11 @@ function RequestProcess(props) {
 const styles = StyleSheet.create({
   con_time_process: {backgroundColor: colors.SECONDARY, flex: 0.3},
   line_2: {width: moderateScale(2), height: moderateScale(20)},
+  con_date: {flex: 0.3},
+  con_icon: {flex: 0.1},
+  con_info: {flex: 0.6},
+  con_user: {width: '70%'},
+  con_reason: {width: '80%'},
 });
 
 export default RequestProcess;

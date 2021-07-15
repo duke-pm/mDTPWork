@@ -89,7 +89,6 @@ function ProjectManagement(props) {
       value,
     );
     setLoading({...loading, startFetch: true});
-    setShowSearch(false);
   };
 
   const handleShowFilter = () => {
@@ -118,6 +117,9 @@ function ProjectManagement(props) {
 
   const handleCloseSearch = () => {
     setShowSearch(false);
+    if (data.search !== '') {
+      handleSearch('');
+    }
   };
 
   /************
@@ -360,11 +362,9 @@ function ProjectManagement(props) {
           <CSearchBar
             loading={loading.startFetch}
             isVisible={showSearchBar}
-            valueSearch={data.search}
             onSearch={handleSearch}
             onClose={handleCloseSearch}
           />
-
           {!loading.main && !loading.startFetch && (
             <ListProject
               loadmore={loading.loadmore}

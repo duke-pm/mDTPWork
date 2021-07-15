@@ -52,7 +52,6 @@ function ListRequest(props) {
     process = null;
   return (
     <CList
-      contentStyle={cStyles.pt16}
       data={props.data}
       item={({item, index}) => {
         detail = props.dataDetail.filter(f => f.requestID === item.requestID);

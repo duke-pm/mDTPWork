@@ -201,13 +201,13 @@
     "list_request_handling": "Yêu cầu cần xử lý"
   },
   "list_request_assets": {
-    "title": "Danh sách yêu cầu",
+    "title": "D/s yêu cầu",
     "title_add": "Cấp Phát",
     "title_damaged": "Báo Hỏng",
     "title_lost": "Báo Mất"
   },
   "list_request_assets_handling": {
-    "title": "Danh sách cần xử lý",
+    "title": "D/s xử lý",
     "title_add": "Cấp Phát",
     "title_damaged": "Báo Hỏng",
     "title_lost": "Báo Mất"

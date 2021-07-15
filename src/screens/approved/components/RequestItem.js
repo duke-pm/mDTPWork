@@ -12,6 +12,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 /* COMPONENTS */
 import CText from '~/components/CText';
+import CAvatar from '~/components/CAvatar';
 import CLabel from '~/components/CLabel';
 /* COMMON */
 import Icons from '~/config/Icons';
@@ -83,14 +84,7 @@ function RequestItem(props) {
             cStyles.itemsStart,
             cStyles.justifyBetween,
           ]}>
-          <View style={[cStyles.row, cStyles.itemsStart]}>
-            <Icon
-              name={statusIcon}
-              size={moderateScale(20)}
-              color={customColors[statusColor]}
-            />
-            <CText styles={'textTitle pl6'} customLabel={title} />
-          </View>
+          <CText styles={'textSubTitle'} customLabel={title} />
         </View>
 
         <View
@@ -111,10 +105,14 @@ function RequestItem(props) {
               </View>
 
               <View
-                style={[cStyles.row, cStyles.itemsStart, styles.header_right]}>
-                <CLabel label={'approved_lost_damaged:status_request'} />
+                style={[cStyles.row, cStyles.itemsCenter, styles.header_right]}>
+                <Icon
+                  name={statusIcon}
+                  size={moderateScale(18)}
+                  color={customColors[statusColor]}
+                />
                 <CText
-                  styles={'textMeta fontBold ' + colorText}
+                  styles={'pl6 textMeta fontBold ' + colorText}
                   customLabel={data.statusName}
                 />
               </View>
@@ -141,13 +139,17 @@ function RequestItem(props) {
                   cStyles.justifyStart,
                   styles.header_right,
                 ]}>
-                <CLabel label={'approved_lost_damaged:user_request'} />
-                <CLabel medium customLabel={data.personRequest} />
+                <CAvatar size={'vsmall'} label={data.personRequest} />
+                <CLabel
+                  style={cStyles.ml6}
+                  medium
+                  customLabel={data.personRequest}
+                />
               </View>
             </View>
 
-            {/** Description */}
-            <View
+            {/** Department */}
+            {/* <View
               style={[
                 cStyles.row,
                 cStyles.itemsStart,
@@ -159,7 +161,7 @@ function RequestItem(props) {
                 <CLabel label={'approved_lost_damaged:department_request'} />
                 <CLabel customLabel={data.deptName} />
               </View>
-            </View>
+            </View> */}
           </View>
         </View>
       </Animated.View>

@@ -35,14 +35,14 @@ function TabbarType(props) {
       extrapolate: 'clamp',
     });
     return (
-      <View style={[cStyles.itemsCenter]}>
+      <View style={cStyles.itemsCenter}>
         <View
           style={[
             cStyles.row,
             cStyles.itemsCenter,
             cStyles.justifyBetween,
             cStyles.mx16,
-            cStyles.mt10,
+            cStyles.my10,
             cStyles.rounded1,
             styles.tab_bar,
             {backgroundColor: customColors.cardDisable},

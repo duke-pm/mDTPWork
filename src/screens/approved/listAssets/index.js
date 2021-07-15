@@ -10,7 +10,6 @@ import React, {useState, useLayoutEffect} from 'react';
 import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {
-  StyleSheet,
   View,
   LayoutAnimation,
   UIManager,
@@ -31,10 +30,9 @@ import TabbarType from '../components/TabbarType';
 /* COMMON */
 import Routes from '~/navigation/Routes';
 import Commons from '~/utils/common/Commons';
-import {IS_ANDROID, moderateScale} from '~/utils/helper';
-import {cStyles} from '~/utils/style';
 import Icons from '~/config/Icons';
-
+import {IS_ANDROID} from '~/utils/helper';
+import {cStyles} from '~/utils/style';
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -154,8 +152,10 @@ function ListRequestAll(props) {
   };
 
   const handleCloseSearch = () => {
-    handleSearch('');
     setShowSearch(false);
+    if (routes[index].search !== '') {
+      handleSearch('');
+    }
   };
 
   const handleOpenFilter = () => {
@@ -215,7 +215,7 @@ function ListRequestAll(props) {
 
           <TabView
             lazy
-            initialLayout={{width: layout.width, height: layout.height}}
+            initialLayout={{width: layout.width}}
             navigationState={{index, routes}}
             onIndexChange={setIndex}
             renderScene={RenderScene}
@@ -239,9 +239,5 @@ function ListRequestAll(props) {
     />
   );
 }
-
-const styles = StyleSheet.create({
-  container_modal: {width: moderateScale(330)},
-});
 
 export default ListRequestAll;

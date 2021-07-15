@@ -27,7 +27,6 @@ import {cStyles} from '~/utils/style';
 import Icons from '~/config/Icons';
 /* REDUX */
 import * as Actions from '~/redux/actions';
-
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -99,8 +98,10 @@ function ListRequestHandling(props) {
   };
 
   const handleCloseSearch = () => {
-    handleSearch('');
     setShowSearch(false);
+    if (data.search !== '') {
+      handleSearch('');
+    }
   };
 
   const handleOpenFilter = () => {

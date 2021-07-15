@@ -292,7 +292,7 @@ export function RootMain(props) {
           title: t('project_management:title_activity'),
           headerLargeTitle: false,
           headerTranslucent: false,
-          headerStyle: headerStyles,
+          headerStyle: headerModalStyles,
         }}
       />
       <StackMain.Screen
@@ -302,7 +302,7 @@ export function RootMain(props) {
           title: t('project_management:title_watcher'),
           headerLargeTitle: false,
           headerTranslucent: false,
-          headerStyle: headerStyles,
+          headerStyle: headerModalStyles,
         }}
       />
       <StackMain.Screen
@@ -329,7 +329,7 @@ export function RootMain(props) {
         component={Routes.MAIN.APPROVED.childrens.LIST_REQUEST_HANDLING.path}
         options={{
           title: t('list_request_assets_handling:title'),
-          headerStyle: headerStyles,
+          headerStyle: headerModalStyles,
           headerLargeTitle: false,
           headerTranslucent: false,
         }}
