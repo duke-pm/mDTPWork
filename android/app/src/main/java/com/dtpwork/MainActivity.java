@@ -1,4 +1,4 @@
-package com.mdtpwork;
+package com.dtpwork;
 
 import android.os.Bundle;
 import com.facebook.react.ReactActivity;
