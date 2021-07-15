@@ -445,7 +445,9 @@
     "list_task": "Dự án #",
     "estimated_time": "Estimated",
     "detail_task": "Chi tiết",
-    "find": "Tìm"
+    "find": "Tìm",
+    "confirm_change_to_finished": "Khi Bạn chọn status Finished thì Tiến Độ sẽ là 100%.\nBạn có đồng ý thực hiện?",
+    "confirm_change_to_100": "Khi Bạn chọn Tiến Độ là 100% thì Status sẽ là Finished.\nBạn có đồng ý thực hiện?"
   },
   "sales_visit": {
     "title": "Sales Visit",

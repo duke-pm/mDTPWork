@@ -397,6 +397,7 @@ export function RootMain(props) {
         component={Routes.MAIN.CONTACT_US.path}
         options={{
           title: t('contact_us:title'),
+          headerBackTitle: t('common:back'),
           headerStyle: headerStyles,
         }}
       />

@@ -40,7 +40,7 @@ function CActionSheet(props) {
     needUpdate = true;
     actionRef.current?.hide();
     if (onConfirm) {
-      onConfirm();
+      onConfirm(needUpdate);
     }
   };
 

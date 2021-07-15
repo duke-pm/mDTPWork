@@ -15,18 +15,19 @@ import {
   TouchableOpacity,
   Text,
   TextInput,
+  Alert,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 /** COMPONENTS */
 import CActivityIndicator from '~/components/CActivityIndicator';
 /* COMMON */
+import Icons from '~/config/Icons';
+import Commons from '~/utils/common/Commons';
 import {THEME_DARK, THEME_LIGHT} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
-import Commons from '~/utils/common/Commons';
 import {moderateScale} from '~/utils/helper';
 /** REDUX */
 import * as Actions from '~/redux/actions';
-import Icons from '~/config/Icons';
 
 /** All refs of page */
 let percentRef = createRef();
@@ -40,10 +41,10 @@ function Percentage(props) {
     navigation,
     language,
     refreshToken,
-    task,
     onUpdate,
   } = props;
-  let curPercent = task.percentage;
+  let curStatus = props.task.statusName;
+  let curPercent = props.task.percentage;
 
   /** Use redux */
   const dispatch = useDispatch();
@@ -69,47 +70,83 @@ function Percentage(props) {
           icon: 'warning',
         });
         return percentRef.focus();
+      } else if (Number(percent.value) === 100) {
+        Alert.alert(
+          t('common:app_name'),
+          t('project_management:confirm_change_to_100'),
+          [
+            {text: t('common:cancel'), style: 'cancel', onPress: () => null},
+            {
+              text: t('common:ok'),
+              style: 'destructive',
+              onPress: () => onFetchPercent(true),
+            },
+          ],
+          {cancelable: true},
+        );
       } else {
-        if (Number(percent.value) === task.percentage) {
+        if (Number(percent.value) === props.task.percentage) {
           return setPercent({...percent, visible: !percent.visible});
         }
-        setPercent({...percent, visible: !percent.visible});
-        let params = {
-          TaskID: task.taskID,
-          StatusID: task.statusID,
-          Percentage: percent.value,
-          Lang: language,
-          RefreshToken: refreshToken,
-        };
-        dispatch(Actions.fetchUpdateTask(params, navigation));
-        return setLoading(true);
+        onFetchPercent(false);
       }
     } else {
       return setPercent({...percent, visible: !percent.visible});
     }
   };
 
+  const onFetchPercent = isFinished => {
+    setPercent({...percent, visible: !percent.visible});
+    let params = {
+      TaskID: props.task.taskID,
+      StatusID: isFinished
+        ? Commons.STATUS_TASK.CLOSED.value
+        : props.task.statusID,
+      Percentage: percent.value,
+      Lang: language,
+      RefreshToken: refreshToken,
+    };
+    dispatch(Actions.fetchUpdateTask(params, navigation));
+    return setLoading(true);
+  };
+
   const onUpdateActivities = () => {
-    let paramsActivities = {
-      LineNum: 0,
-      TaskID: task.taskID,
-      Comments: `* ${t(
-        'project_management:holder_task_percentage',
-      ).toUpperCase()} (%) ${t(
+    let taskDetail = projectState.get('taskDetail');
+    let comment = '';
+    if (taskDetail.percentage === 100) {
+      comment = `* ${t('project_management:status_filter').toUpperCase()} ${t(
+        'project_management:holder_change_from',
+      )} ${curStatus} ${t('project_management:holder_change_to')} ${
+        taskDetail.statusName
+      }.\n* ${t('project_management:holder_task_percentage').toUpperCase()} ${t(
         'project_management:holder_change_from',
       )} ${curPercent} ${t('project_management:holder_change_to')} ${
-        percent.value
-      }.`,
+        taskDetail.percentage
+      }.`;
+    } else {
+      comment = `* ${t(
+        'project_management:holder_task_percentage',
+      ).toUpperCase()} ${t(
+        'project_management:holder_change_from',
+      )} ${curPercent} ${t('project_management:holder_change_to')} ${
+        taskDetail.percentage
+      }.`;
+    }
+
+    let paramsActivities = {
+      LineNum: 0,
+      TaskID: props.task.taskID,
+      Comments: comment,
       Lang: language,
       RefreshToken: refreshToken,
     };
     dispatch(Actions.fetchTaskComment(paramsActivities, navigation));
-    curPercent = percent.value;
+    curPercent = taskDetail.percentage;
     return;
   };
 
   const handleClosePercent = () => {
-    setPercent({visible: !percent.visible, value: task.percentage});
+    setPercent({visible: !percent.visible, value: props.task.percentage});
   };
 
   /************
@@ -127,7 +164,7 @@ function Percentage(props) {
     if (isSuccess) {
       onUpdate();
     } else {
-      setPercent({...percent, value: task.percentage});
+      setPercent({...percent, value: props.task.percentage});
     }
     setLoading(false);
     return showMessage({
@@ -142,8 +179,8 @@ function Percentage(props) {
    ** LIFE CYCLE **
    ******************/
   useEffect(() => {
-    setPercent({...percent, value: task.percentage});
-  }, []);
+    setPercent({...percent, value: props.task.percentage});
+  }, [props.task.percentage]);
 
   useEffect(() => {
     if (percent.visible) {
@@ -175,13 +212,13 @@ function Percentage(props) {
    ** RENDER **
    **************/
   const isDisable =
-    task.statusID == Commons.STATUS_TASK.ON_HOLD.value ||
-    task.statusID == Commons.STATUS_TASK.REJECTED.value ||
-    task.statusID == Commons.STATUS_TASK.CLOSED.value;
+    props.task.statusID == Commons.STATUS_TASK.ON_HOLD.value ||
+    props.task.statusID == Commons.STATUS_TASK.REJECTED.value ||
+    props.task.statusID == Commons.STATUS_TASK.CLOSED.value;
   return (
     <TouchableOpacity
       style={cStyles.flex1}
-      disabled={!task.isUpdated || loading || disabled || isDisable}
+      disabled={!props.task.isUpdated || loading || disabled || isDisable}
       onPress={handleChangePercent}>
       <View style={[cStyles.row, cStyles.itemsCenter, cStyles.flex1]}>
         {!percent.visible ? (
@@ -216,7 +253,7 @@ function Percentage(props) {
                 {
                   width: `${percent.value}%`,
                   backgroundColor:
-                    !task.isUpdated || isDisable
+                    !props.task.isUpdated || isDisable
                       ? customColors.textDisable
                       : customColors.primary,
                 },
@@ -255,7 +292,7 @@ function Percentage(props) {
                     {
                       fontSize: moderateScale(10),
                       color:
-                        !task.isUpdated || isDisable
+                        !props.task.isUpdated || isDisable
                           ? customColors.textDisable
                           : customColors.primary,
                     },
@@ -281,9 +318,9 @@ function Percentage(props) {
                   {color: customColors.text},
                 ]}
                 editable={!loading}
-                autoFocus
-                selectTextOnFocus
-                blurOnSubmit
+                autoFocus={true}
+                selectTextOnFocus={true}
+                blurOnSubmit={true}
                 placeholder={t('project_management:holder_task_percentage')}
                 value={percent.value + ''}
                 keyboardAppearance={isDark ? THEME_DARK : THEME_LIGHT}
@@ -306,9 +343,7 @@ function Percentage(props) {
           </View>
         )}
 
-        {loading && (
-          <CActivityIndicator style={cStyles.pl2} />
-        )}
+        {loading && <CActivityIndicator style={cStyles.pl2} />}
       </View>
     </TouchableOpacity>
   );

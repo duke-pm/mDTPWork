@@ -55,6 +55,9 @@ function TaskItem(props) {
    ** HANDLE FUNC **
    *****************/
   const handleTaskItem = () => {
+    if (data.statusID === Commons.STATUS_TASK.REJECTED.value) {
+      data.isUpdated = false;
+    }
     onPress(data);
   };
 
@@ -117,6 +120,7 @@ function TaskItem(props) {
     outputRange: ['0deg', '180deg'],
   });
   const Touchable = IS_ANDROID ? TouchableNativeFeedback : TouchableOpacity;
+  console.log('[LOG] === delay ===> ', delay);
   return (
     <View style={[cStyles.flex1, cStyles.rounded2, cStyles.ofHidden]}>
       <Touchable

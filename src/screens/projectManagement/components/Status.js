@@ -9,7 +9,7 @@ import React, {createRef, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {showMessage} from 'react-native-flash-message';
-import {StyleSheet, View, TouchableOpacity} from 'react-native';
+import {StyleSheet, View, TouchableOpacity, Alert} from 'react-native';
 import Picker from '@gregfrench/react-native-wheel-picker';
 import Icon from 'react-native-vector-icons/Ionicons';
 /* COMPONENTS */
@@ -17,11 +17,12 @@ import CText from '~/components/CText';
 import CActionSheet from '~/components/CActionSheet';
 import CActivityIndicator from '~/components/CActivityIndicator';
 /* COMMON */
+import Icons from '~/config/Icons';
+import Commons from '~/utils/common/Commons';
 import {colors, cStyles} from '~/utils/style';
 import {moderateScale} from '~/utils/helper';
 /* REDUX */
 import * as Actions from '~/redux/actions';
-import Icons from '~/config/Icons';
 
 /** All refs use in this screen */
 const actionSheetStatusRef = createRef();
@@ -36,10 +37,10 @@ function Status(props) {
     language,
     refreshToken,
     navigation,
-    task,
     onUpdate,
   } = props;
-  let curStatus = task.statusName;
+  let curStatus = props.task.statusName;
+  let curPercent = props.task.percentage;
 
   /** Use redux */
   const dispatch = useDispatch();
@@ -49,6 +50,7 @@ function Status(props) {
 
   /** Use state */
   const [loading, setLoading] = useState(false);
+  const [isEdit, setIsEdit] = useState(true);
   const [status, setStatus] = useState({
     data: statusMaster,
     active: 0,
@@ -61,20 +63,38 @@ function Status(props) {
     actionSheetStatusRef.current?.show();
   };
 
-  const handleChangeStatus = () => {
-    actionSheetStatusRef.current?.hide();
+  const handleChangeStatus = needUpdate => {
+    if (
+      status.data[status.active].statusID === Commons.STATUS_TASK.CLOSED.value
+    ) {
+      Alert.alert(
+        t('common:app_name'),
+        t('project_management:confirm_change_to_finished'),
+        [
+          {text: t('common:cancel'), style: 'cancel', onPress: () => null},
+          {
+            text: t('common:ok'),
+            style: 'destructive',
+            onPress: () => onCloseActionSheet(needUpdate, true),
+          },
+        ],
+        {cancelable: true},
+      );
+    } else {
+      onCloseActionSheet(needUpdate, false);
+    }
   };
 
   /************
    ** FUNC **
    ************/
-  const onCloseActionSheet = needUpdate => {
+  const onCloseActionSheet = (needUpdate, isFinished) => {
     if (needUpdate) {
-      if (status.data[status.active].statusID !== task.statusID) {
+      if (status.data[status.active].statusID !== props.task.statusID) {
         let params = {
-          TaskID: task.taskID,
+          TaskID: props.task.taskID,
           StatusID: status.data[status.active].statusID,
-          Percentage: task.percentage,
+          Percentage: isFinished ? 100 : props.task.percentage,
           Lang: language,
           RefreshToken: refreshToken,
         };
@@ -82,7 +102,7 @@ function Status(props) {
         setLoading(true);
       }
     } else {
-      let find = status.data.findIndex(f => f.statusID === task.statusID);
+      let find = status.data.findIndex(f => f.statusID === props.task.statusID);
       if (find !== -1) {
         setStatus({...status, active: find});
       }
@@ -90,19 +110,38 @@ function Status(props) {
   };
 
   const onUpdateActivities = () => {
-    let paramsActivities = {
-      LineNum: 0,
-      TaskID: task.taskID,
-      Comments: `* ${t('project_management:status_filter').toUpperCase()} ${t(
+    let taskDetail = projectState.get('taskDetail');
+    let comment = '';
+    if (taskDetail.statusID === Commons.STATUS_TASK.CLOSED.value) {
+      comment = `* ${t('project_management:status_filter').toUpperCase()} ${t(
         'project_management:holder_change_from',
       )} ${curStatus} ${t('project_management:holder_change_to')} ${
-        status.data[status.active].statusName
-      }.`,
+        taskDetail.statusName
+      }.\n* ${t('project_management:holder_task_percentage').toUpperCase()} ${t(
+        'project_management:holder_change_from',
+      )} ${curPercent} ${t('project_management:holder_change_to')} ${
+        taskDetail.percentage
+      }.`;
+    } else {
+      comment = `* ${t('project_management:status_filter').toUpperCase()} ${t(
+        'project_management:holder_change_from',
+      )} ${curStatus} ${t('project_management:holder_change_to')} ${
+        taskDetail.statusName
+      }.`;
+    }
+
+    let paramsActivities = {
+      LineNum: 0,
+      TaskID: props.task.taskID,
+      Comments: comment,
       Lang: language,
       RefreshToken: refreshToken,
     };
     dispatch(Actions.fetchTaskComment(paramsActivities, navigation));
-    curStatus = status.active;
+    curStatus = taskDetail.statusName;
+    if (taskDetail.statusID === Commons.STATUS_TASK.REJECTED.value) {
+      setIsEdit(false);
+    }
     return;
   };
 
@@ -129,7 +168,7 @@ function Status(props) {
 
   const onPrepareStatus = () => {
     let moderateScaletatus = status.data.findIndex(
-      f => f.statusID === task.statusID,
+      f => f.statusID === props.task.statusID,
     );
     if (moderateScaletatus !== -1) {
       setStatus({...status, active: moderateScaletatus});
@@ -142,7 +181,7 @@ function Status(props) {
    ******************/
   useEffect(() => {
     onPrepareStatus();
-  }, []);
+  }, [props.task.statusID]);
 
   useEffect(() => {
     if (loading) {
@@ -183,24 +222,25 @@ function Status(props) {
             cStyles.itemsCenter,
             cStyles.justifyBetween,
             cStyles.rounded2,
-            {backgroundColor: task.colorCode},
-            isDark && {backgroundColor: task.colorOpacityCode},
+            {backgroundColor: props.task.colorCode},
+            isDark && {backgroundColor: props.task.colorOpacityCode},
           ]}>
           <CText
             customStyles={[
               cStyles.textTitle,
-              {color: isDark ? task.colorDarkCode : colors.WHITE},
+              {color: isDark ? props.task.colorDarkCode : colors.WHITE},
             ]}
-            customLabel={task.statusName.toUpperCase()}
+            customLabel={props.task.statusName.toUpperCase()}
           />
           {loading ? (
             <CActivityIndicator />
           ) : (
+            isEdit &&
             isUpdate && (
               <Icon
                 name={Icons.down}
-                color={isDark ? task.colorDarkCode : colors.WHITE}
-                size={moderateScale(25)}
+                color={isDark ? props.task.colorDarkCode : colors.WHITE}
+                size={moderateScale(21)}
               />
             )
           )}
