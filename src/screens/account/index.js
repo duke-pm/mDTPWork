@@ -38,7 +38,7 @@ const ACCOUNT = {
     childrens: [
       {
         id: 'myAccount',
-        icon: 'person',
+        icon: 'person-outline',
         iconColor: colors.BLUE,
         label: 'account:my_account',
         value: null,
@@ -50,7 +50,7 @@ const ACCOUNT = {
       },
       {
         id: 'changePassword',
-        icon: 'lock-open',
+        icon: 'lock-open-outline',
         iconColor: colors.PURPLE,
         label: 'account:change_password',
         value: null,
@@ -68,7 +68,7 @@ const ACCOUNT = {
     childrens: [
       {
         id: 'settingsApp',
-        icon: IS_IOS ? 'cog' : 'settings',
+        icon: IS_IOS ? 'cog-outline' : 'settings-outline',
         iconColor: colors.GRAY_500,
         label: 'account:app_settings',
         value: null,
@@ -80,7 +80,7 @@ const ACCOUNT = {
       },
       {
         id: 'helpAndInfo',
-        icon: 'information-circle',
+        icon: 'information-circle-outline',
         iconColor: colors.ORANGE,
         label: 'account:help_and_info',
         value: null,
@@ -92,7 +92,7 @@ const ACCOUNT = {
       },
       {
         id: 'hotline',
-        icon: 'call',
+        icon: 'call-outline',
         iconColor: colors.TEAL,
         label: 'account:hotline',
         value: '1800 6242',
@@ -104,7 +104,7 @@ const ACCOUNT = {
       },
       {
         id: 'signout',
-        icon: 'log-out',
+        icon: 'log-out-outline',
         iconColor: colors.RED,
         label: 'common:sign_out',
         value: null,

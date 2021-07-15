@@ -25,7 +25,7 @@ import Icons from '~/config/Icons';
 import Commons from '~/utils/common/Commons';
 import {THEME_DARK, THEME_LIGHT} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
-import {moderateScale} from '~/utils/helper';
+import {alert, moderateScale} from '~/utils/helper';
 /** REDUX */
 import * as Actions from '~/redux/actions';
 
@@ -63,26 +63,12 @@ function Percentage(props) {
   const handleChangePercent = () => {
     if (percent.visible) {
       if (percent.value < 0 || percent.value > 100) {
-        showMessage({
-          message: t('common:app_name'),
-          description: t('project_management:warning_input_percent'),
-          type: 'warning',
-          icon: 'warning',
-        });
-        return percentRef.focus();
+        alert(t, 'project_management:warning_input_percent', () =>
+          percentRef.focus(),
+        );
       } else if (Number(percent.value) === 100) {
-        Alert.alert(
-          t('common:app_name'),
-          t('project_management:confirm_change_to_100'),
-          [
-            {text: t('common:cancel'), style: 'cancel', onPress: () => null},
-            {
-              text: t('common:ok'),
-              style: 'destructive',
-              onPress: () => onFetchPercent(true),
-            },
-          ],
-          {cancelable: true},
+        alert(t, 'project_management:confirm_change_to_100', () =>
+          onFetchPercent(true),
         );
       } else {
         if (Number(percent.value) === props.task.percentage) {

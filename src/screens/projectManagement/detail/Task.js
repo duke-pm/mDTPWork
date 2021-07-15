@@ -579,15 +579,13 @@ function Task(props) {
                       style={cStyles.pb12}
                       isDark={isDark}
                       left={
-                        <CText
-                          styles={'textRight'}
-                          label={'project_management:estimated_time'}
-                        />
+                        <CText label={'project_management:estimated_time'} />
                       }
                       right={
                         <>
                           <CText
                             style={[
+                              cStyles.textRight,
                               cStyles.textDefault,
                               {color: customColors.text},
                             ]}
@@ -603,6 +601,7 @@ function Task(props) {
                           <CText
                             style={[
                               cStyles.mt5,
+                              cStyles.textRight,
                               cStyles.textDefault,
                               {
                                 color: isDelay

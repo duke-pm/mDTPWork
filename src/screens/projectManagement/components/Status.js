@@ -20,7 +20,7 @@ import CActivityIndicator from '~/components/CActivityIndicator';
 import Icons from '~/config/Icons';
 import Commons from '~/utils/common/Commons';
 import {colors, cStyles} from '~/utils/style';
-import {moderateScale} from '~/utils/helper';
+import {alert, moderateScale} from '~/utils/helper';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 
@@ -67,18 +67,8 @@ function Status(props) {
     if (
       status.data[status.active].statusID === Commons.STATUS_TASK.CLOSED.value
     ) {
-      Alert.alert(
-        t('common:app_name'),
-        t('project_management:confirm_change_to_finished'),
-        [
-          {text: t('common:cancel'), style: 'cancel', onPress: () => null},
-          {
-            text: t('common:ok'),
-            style: 'destructive',
-            onPress: () => onCloseActionSheet(needUpdate, true),
-          },
-        ],
-        {cancelable: true},
+      alert(t, 'project_management:confirm_change_to_finished', () =>
+        onCloseActionSheet(needUpdate, true),
       );
     } else {
       onCloseActionSheet(needUpdate, false);

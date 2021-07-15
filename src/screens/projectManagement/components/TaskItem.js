@@ -27,7 +27,7 @@ import Commons from '~/utils/common/Commons';
 import {IS_ANDROID, moderateScale} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
 import Icons from '~/config/Icons';
-
+const Touchable = IS_ANDROID ? TouchableNativeFeedback : TouchableOpacity;
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -71,9 +71,9 @@ function TaskItem(props) {
     setShowChildren(!showChildren);
   };
 
-  /**************
+  /************
    ** RENDER **
-   **************/
+   ************/
   let showPercentage = data.taskTypeID === Commons.TYPE_TASK.TASK.value;
   let delay = 0;
   let typeColor = customColors[Commons.TYPE_TASK.PHASE.color], // default is PHASE
@@ -119,18 +119,12 @@ function TaskItem(props) {
     inputRange: [0, 1],
     outputRange: ['0deg', '180deg'],
   });
-  const Touchable = IS_ANDROID ? TouchableNativeFeedback : TouchableOpacity;
-  console.log('[LOG] === delay ===> ', delay);
   return (
-    <View style={[cStyles.flex1, cStyles.rounded2, cStyles.ofHidden]}>
-      <Touchable
-        style={cStyles.rounded2}
-        disabled={props.loading}
-        onPress={handleTaskItem}>
+    <View style={[cStyles.rounded2, cStyles.ofHidden]}>
+      <Touchable disabled={props.loading} onPress={handleTaskItem}>
         <View
           style={[
             cStyles.p10,
-            cStyles.mb20,
             cStyles.rounded2,
             index === 0 && cStyles.mt12,
             {
@@ -185,7 +179,7 @@ function TaskItem(props) {
                   <View style={[cStyles.row, cStyles.itemsCenter]}>
                     <CAvatar size={'vsmall'} label={data.ownerName} />
                     <CText
-                      styles={'textMeta fontMedium pl6'}
+                      styles={'textMeta pl6'}
                       customLabel={data.ownerName}
                     />
                   </View>
@@ -245,11 +239,8 @@ function TaskItem(props) {
               ) : null}
             </View>
 
-            <View style={[cStyles.flex1, cStyles.mt10]}>
-              <CText
-                styles={'textSubTitle'}
-                customLabel={`#${data?.taskID} ${data?.taskName}`}
-              />
+            <View style={cStyles.mt10}>
+              <CText customLabel={`#${data?.taskID} ${data?.taskName}`} />
             </View>
           </View>
 

@@ -18,7 +18,7 @@ import {colors, cStyles} from '~/utils/style';
 const HELP_AND_INFO = [
   {
     id: 'contactUs',
-    icon: 'people',
+    icon: 'people-outline',
     iconColor: colors.BLUE,
     label: 'help_and_info:contact_us',
     value: null,
@@ -33,7 +33,7 @@ const HELP_AND_INFO = [
 const HELP_AND_INFO_1 = [
   {
     id: 'privacyPolicies',
-    icon: 'shield-checkmark',
+    icon: 'shield-checkmark-outline',
     iconColor: colors.GREEN,
     label: 'help_and_info:privacy_policies',
     value: 'https://www.dtp-education.com/gioi-thieu/',
@@ -45,7 +45,7 @@ const HELP_AND_INFO_1 = [
   },
   {
     id: 'termAndConditions',
-    icon: 'clipboard',
+    icon: 'clipboard-outline',
     iconColor: colors.ORANGE,
     label: 'help_and_info:term_conditions',
     value: 'https://www.dtp-education.com/gioi-thieu/tam-nhin-su-menh/',
@@ -57,7 +57,7 @@ const HELP_AND_INFO_1 = [
   },
   {
     id: 'aboutUs',
-    icon: 'people-circle',
+    icon: 'people-circle-outline',
     iconColor: colors.TEAL,
     label: 'help_and_info:about_us',
     value: 'https://www.dtp-education.com/?v=1',
@@ -72,7 +72,7 @@ const HELP_AND_INFO_1 = [
 const HELP_AND_INFO_2 = [
   {
     id: 'rateApp',
-    icon: 'star',
+    icon: 'star-outline',
     iconColor: colors.YELLOW,
     label: 'help_and_info:rate_app',
     value: null,

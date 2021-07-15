@@ -61,6 +61,7 @@ function CList(props) {
           />
         }
         ListFooterComponent={props.loadingmore ? <CFooterList /> : null}
+        ItemSeparatorComponent={() => <View style={cStyles.py6} />}
         {...props}
       />
     );
@@ -115,6 +116,7 @@ function CList(props) {
           />
         }
         ListFooterComponent={props.loadingmore ? <CFooterList /> : null}
+        ItemSeparatorComponent={() => <View style={cStyles.py4} />}
         {...props}
       />
     );

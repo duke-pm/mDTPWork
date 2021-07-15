@@ -68,7 +68,7 @@ function CCard(props) {
               cStyles.rounded1,
               cStyles.px10,
               cStyles.py8,
-              cStyles.mx10,
+              cStyles.mx16,
               styles.con_label,
               contentLabelStyle,
               {backgroundColor: isDark ? colors.GRAY_830 : colors.GRAY_200},
@@ -83,7 +83,7 @@ function CCard(props) {
           {header && <View style={cStyles.px16}>{header}</View>}
 
           {content && (
-            <View style={[cStyles.px10, cStyles.pb10, header && cStyles.pt10]}>
+            <View style={[cStyles.px16, cStyles.pb10, header && cStyles.pt10]}>
               {content}
             </View>
           )}

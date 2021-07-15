@@ -72,11 +72,11 @@ export function alert(t, message, onPressOK) {
       {
         text: t('common:close'),
         style: 'cancel',
-        onPress: () => console.log('[LOG] === Alert Cancel === '),
+        onPress: () => null,
       },
       {
         text: t('common:ok'),
-        style: 'default',
+        style: 'destructive',
         onPress: onPressOK,
       },
     ],

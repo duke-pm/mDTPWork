@@ -175,8 +175,8 @@ function CAlert(props) {
 const styles = StyleSheet.create({
   container: {width: moderateScale(350)},
   button: {width: moderateScale(1)},
-  con_button: {height: moderateScale(45), width: moderateScale(150)},
-  btn_alone: {width: moderateScale(300)},
+  con_button: {height: moderateScale(45), width: moderateScale(350) / 2},
+  btn_alone: {width: '100%'},
 });
 
 export default CAlert;

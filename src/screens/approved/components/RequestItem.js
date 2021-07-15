@@ -7,7 +7,13 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-import {StyleSheet, View, TouchableOpacity, Animated} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  TouchableNativeFeedback,
+  Animated,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 /* COMPONENTS */
@@ -19,7 +25,8 @@ import Icons from '~/config/Icons';
 import Commons from '~/utils/common/Commons';
 import {DEFAULT_FORMAT_DATE_4} from '~/config/constants';
 import {cStyles} from '~/utils/style';
-import {moderateScale} from '~/utils/helper';
+import {IS_ANDROID, moderateScale} from '~/utils/helper';
+const Touchable = IS_ANDROID ? TouchableNativeFeedback : TouchableOpacity;
 
 function RequestItem(props) {
   const {t} = useTranslation();
@@ -68,104 +75,112 @@ function RequestItem(props) {
     statusColor = 'green';
   }
   return (
-    <TouchableOpacity disabled={loading} onPress={handleRequestItem}>
-      <Animated.View
-        style={[
-          cStyles.p10,
-          cStyles.mb16,
-          cStyles.rounded2,
-          {backgroundColor: customColors.listItem},
-        ]}
-        renderToHardwareTextureAndroid>
-        <View
+    <View style={[cStyles.rounded2, cStyles.ofHidden]}>
+      <Touchable disabled={loading} onPress={handleRequestItem}>
+        <Animated.View
           style={[
-            cStyles.flex1,
-            cStyles.row,
-            cStyles.itemsStart,
-            cStyles.justifyBetween,
-          ]}>
-          <CText styles={'textSubTitle'} customLabel={title} />
-        </View>
+            cStyles.p10,
+            cStyles.rounded2,
+            {backgroundColor: customColors.listItem},
+          ]}
+          renderToHardwareTextureAndroid>
+          <View
+            style={[
+              cStyles.flex1,
+              cStyles.row,
+              cStyles.itemsStart,
+              cStyles.justifyBetween,
+            ]}>
+            <CText styles={'textSubTitle'} customLabel={title} />
+          </View>
 
-        <View
-          style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween]}>
-          <View style={[cStyles.flex1, cStyles.pt10]}>
-            {/** Date send & Status */}
-            <View
-              style={[cStyles.row, cStyles.itemsStart, cStyles.justifyBetween]}>
-              <View
-                style={[cStyles.row, cStyles.itemsStart, styles.header_left]}>
-                <CLabel label={'approved_lost_damaged:date_request'} />
-                <CLabel
-                  customLabel={moment(
-                    data.requestDate,
-                    DEFAULT_FORMAT_DATE_4,
-                  ).format(formatDateView)}
-                />
-              </View>
-
-              <View
-                style={[cStyles.row, cStyles.itemsCenter, styles.header_right]}>
-                <Icon
-                  name={statusIcon}
-                  size={moderateScale(18)}
-                  color={customColors[statusColor]}
-                />
-                <CText
-                  styles={'pl6 textMeta fontBold ' + colorText}
-                  customLabel={data.statusName}
-                />
-              </View>
-            </View>
-
-            {/** Region & User send */}
-            <View
-              style={[
-                cStyles.row,
-                cStyles.itemsStart,
-                cStyles.justifyBetween,
-                cStyles.mt6,
-              ]}>
-              <View
-                style={[cStyles.row, cStyles.itemsStart, styles.header_left]}>
-                <CLabel label={'approved_lost_damaged:region_request'} />
-                <CLabel customLabel={data.regionName} />
-              </View>
-
+          <View
+            style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween]}>
+            <View style={[cStyles.flex1, cStyles.pt10]}>
+              {/** Date send & Status */}
               <View
                 style={[
                   cStyles.row,
-                  cStyles.itemsCenter,
-                  cStyles.justifyStart,
-                  styles.header_right,
+                  cStyles.itemsStart,
+                  cStyles.justifyBetween,
                 ]}>
-                <CAvatar size={'vsmall'} label={data.personRequest} />
-                <CLabel
-                  style={cStyles.ml6}
-                  medium
-                  customLabel={data.personRequest}
-                />
+                <View
+                  style={[cStyles.row, cStyles.itemsStart, styles.header_left]}>
+                  <CLabel label={'approved_lost_damaged:date_request'} />
+                  <CLabel
+                    customLabel={moment(
+                      data.requestDate,
+                      DEFAULT_FORMAT_DATE_4,
+                    ).format(formatDateView)}
+                  />
+                </View>
+
+                <View
+                  style={[
+                    cStyles.row,
+                    cStyles.itemsCenter,
+                    styles.header_right,
+                  ]}>
+                  <Icon
+                    name={statusIcon}
+                    size={moderateScale(18)}
+                    color={customColors[statusColor]}
+                  />
+                  <CText
+                    styles={'pl6 textMeta fontBold ' + colorText}
+                    customLabel={data.statusName}
+                  />
+                </View>
+              </View>
+
+              {/** Region & User send */}
+              <View
+                style={[
+                  cStyles.row,
+                  cStyles.itemsStart,
+                  cStyles.justifyBetween,
+                  cStyles.mt6,
+                ]}>
+                <View
+                  style={[cStyles.row, cStyles.itemsStart, styles.header_left]}>
+                  <CLabel label={'approved_lost_damaged:region_request'} />
+                  <CLabel customLabel={data.regionName} />
+                </View>
+
+                <View
+                  style={[
+                    cStyles.row,
+                    cStyles.itemsCenter,
+                    cStyles.justifyStart,
+                    styles.header_right,
+                  ]}>
+                  <CAvatar size={'vsmall'} label={data.personRequest} />
+                  <CLabel
+                    style={cStyles.ml6}
+                    customLabel={data.personRequest}
+                  />
+                </View>
+              </View>
+
+              {/** Department */}
+              <View
+                style={[
+                  cStyles.row,
+                  cStyles.itemsStart,
+                  cStyles.justifyBetween,
+                  cStyles.mt6,
+                ]}>
+                <View
+                  style={[cStyles.row, cStyles.itemsStart, styles.header_left]}>
+                  <CLabel label={'approved_lost_damaged:department_request'} />
+                  <CLabel customLabel={data.deptName} />
+                </View>
               </View>
             </View>
-
-            {/** Department */}
-            {/* <View
-              style={[
-                cStyles.row,
-                cStyles.itemsStart,
-                cStyles.justifyBetween,
-                cStyles.mt6,
-              ]}>
-              <View
-                style={[cStyles.row, cStyles.itemsStart, styles.header_left]}>
-                <CLabel label={'approved_lost_damaged:department_request'} />
-                <CLabel customLabel={data.deptName} />
-              </View>
-            </View> */}
           </View>
-        </View>
-      </Animated.View>
-    </TouchableOpacity>
+        </Animated.View>
+      </Touchable>
+    </View>
   );
 }
 

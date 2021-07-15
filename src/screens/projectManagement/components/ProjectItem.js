@@ -18,6 +18,7 @@ import {colors, cStyles} from '~/utils/style';
 import {checkEmpty, moderateScale, IS_ANDROID} from '~/utils/helper';
 import {DEFAULT_FORMAT_DATE_4} from '~/config/constants';
 import Icons from '~/config/Icons';
+import CAvatar from '~/components/CAvatar';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -64,7 +65,7 @@ function ProjectItem(props) {
    ** RENDER **
    **************/
   return (
-    <View style={cStyles.mb20}>
+    <View>
       <CCard
         key={index}
         index={index}
@@ -88,8 +89,11 @@ function ProjectItem(props) {
                 {/** Owner */}
                 <View
                   style={[cStyles.row, cStyles.itemsCenter, styles.row_left]}>
-                  <CLabel label={'project_management:owner'} />
-                  <CLabel medium customLabel={checkEmpty(data.ownerName)} />
+                  <CAvatar size={'vsmall'} label={data.ownerName} />
+                  <CLabel
+                    style={cStyles.pl6}
+                    customLabel={checkEmpty(data.ownerName)}
+                  />
                 </View>
 
                 {/** Status */}

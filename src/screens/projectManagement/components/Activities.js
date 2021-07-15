@@ -352,21 +352,23 @@ function Activity(props) {
   ]);
 
   useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <CIconHeader
-          icons={[
-            {
-              show: true,
-              showRedDot: false,
-              icon: 'search',
-              onPress: handleOpenSearch,
-            },
-          ]}
-        />
-      ),
-    });
-  }, [navigation]);
+    if (messages.length > 0) {
+      navigation.setOptions({
+        headerRight: () => (
+          <CIconHeader
+            icons={[
+              {
+                show: true,
+                showRedDot: false,
+                icon: 'search',
+                onPress: handleOpenSearch,
+              },
+            ]}
+          />
+        ),
+      });
+    }
+  }, [navigation, messages.length]);
 
   /**************
    ** RENDER **
@@ -446,8 +448,8 @@ function Activity(props) {
                 : moderateScale(58)
             }>
             <CList
+              contentStyle={cStyles.pt10}
               viewRef={ref => (listRef = ref)}
-              contentStyle={[messages.length === 0 && cStyles.mt60]}
               customColors={customColors}
               sectionList={true}
               inverted={messages.length > 0}
@@ -456,7 +458,7 @@ function Activity(props) {
               item={({item, index}) => {
                 if (item.userName === userName) {
                   return (
-                    <View style={[cStyles.itemsEnd, cStyles.pb6]}>
+                    <View style={cStyles.itemsEnd}>
                       <Animatable.View
                         ref={ref => onCheckRef(index, ref)}
                         style={[
@@ -491,13 +493,7 @@ function Activity(props) {
                   );
                 }
                 return (
-                  <View
-                    style={[
-                      cStyles.row,
-                      cStyles.itemsStart,
-                      cStyles.pb6,
-                      cStyles.mr32,
-                    ]}>
+                  <View style={[cStyles.row, cStyles.itemsStart, cStyles.mr32]}>
                     {item.showAvatar ? (
                       <View style={styles.container_chat}>
                         <CAvatar size={'small'} label={item.fullName} />

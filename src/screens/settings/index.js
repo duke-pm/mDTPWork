@@ -35,7 +35,7 @@ const SETTINGS = [
   {
     id: 'language',
     label: 'settings:language',
-    icon: 'globe',
+    icon: 'globe-outline',
     iconColor: colors.PINK,
     isChooseLang: true,
     data: [
@@ -56,7 +56,7 @@ const SETTINGS = [
     id: 'biometrics',
     label: 'settings:biometrics',
     description: 'settings:holder_biometrics',
-    icon: 'finger-print',
+    icon: 'finger-print-outline',
     iconColor: colors.GREEN,
     iconFaceID: isIphoneX(),
     isToggle: true,
