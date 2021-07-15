@@ -21,6 +21,7 @@ import {
   UIManager,
   TouchableOpacity,
 } from 'react-native';
+import * as Animatable from 'react-native-animatable';
 import DeviceInfo from 'react-native-device-info';
 import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
@@ -128,6 +129,8 @@ function Activity(props) {
   const [valueMessage, setValueMessage] = useState('');
   const [messages, setMessages] = useState([]);
 
+  let arrayRef = [];
+
   /*****************
    ** HANDLE FUNC **
    *****************/
@@ -164,6 +167,7 @@ function Activity(props) {
         itemIndex: dataPos[0].item,
         sectionIndex: dataPos[0].section,
       });
+      arrayRef[dataPos[0].section].item[dataPos[0].item - 1].ref.shake(1000);
     }
   };
 
@@ -175,6 +179,9 @@ function Activity(props) {
       sectionIndex: dataSearch.data[dataSearch.active - 1].section,
     });
     setDataSearch({...dataSearch, active: dataSearch.active - 1});
+    arrayRef[dataSearch.data[dataSearch.active - 1].section].item[
+      dataSearch.data[dataSearch.active - 1].item - 1
+    ].ref.shake(1000);
   };
 
   const handleUpSearch = () => {
@@ -185,6 +192,9 @@ function Activity(props) {
       sectionIndex: dataSearch.data[dataSearch.active + 1].section,
     });
     setDataSearch({...dataSearch, active: dataSearch.active + 1});
+    arrayRef[dataSearch.data[dataSearch.active + 1].section].item[
+      dataSearch.data[dataSearch.active + 1].item - 1
+    ].ref.shake(1000);
   };
 
   /************
@@ -297,6 +307,22 @@ function Activity(props) {
     }
   };
 
+  const onCheckRef = (index, ref) => {
+    if (index === 0 && arrayRef.length !== 0) {
+      arrayRef.push({
+        section: arrayRef.length,
+        item: [{idx: index, ref}],
+      });
+    } else if (arrayRef.length === 0) {
+      arrayRef.push({
+        section: arrayRef.length,
+        item: [{idx: index, ref}],
+      });
+    } else {
+      arrayRef[arrayRef.length - 1].item.push({idx: index, ref});
+    }
+  };
+
   /******************
    ** LIFE CYCLE **
    ******************/
@@ -370,7 +396,7 @@ function Activity(props) {
               />
 
               {dataSearch.data.length > 0 ? (
-                <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt6]}>
+                <View style={[cStyles.row, cStyles.itemsCenter]}>
                   <TouchableOpacity
                     disabled={
                       dataSearch.data.length < 2 || dataSearch.active === 0
@@ -431,7 +457,8 @@ function Activity(props) {
                 if (item.userName === userName) {
                   return (
                     <View style={[cStyles.itemsEnd, cStyles.pb6]}>
-                      <View
+                      <Animatable.View
+                        ref={ref => onCheckRef(index, ref)}
                         style={[
                           cStyles.roundedTopLeft3,
                           cStyles.roundedTopRight3,
@@ -459,7 +486,7 @@ function Activity(props) {
                             'DD/MM/YYYY - HH:mm',
                           ).format('HH:mm')}`}
                         />
-                      </View>
+                      </Animatable.View>
                     </View>
                   );
                 }
@@ -517,7 +544,8 @@ function Activity(props) {
                           </Text>
                         </View>
                       )}
-                      <View
+                      <Animatable.View
+                        ref={ref => onCheckRef(index, ref)}
                         style={[
                           cStyles.roundedTopRight3,
                           cStyles.roundedBottomRight3,
@@ -530,7 +558,7 @@ function Activity(props) {
                           customStyles={[cStyles.textDefault]}
                           customLabel={item.comments}
                         />
-                      </View>
+                      </Animatable.View>
                     </View>
                   </View>
                 );
