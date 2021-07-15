@@ -826,7 +826,7 @@ function Task(props) {
                                 <View
                                   style={[
                                     cStyles.ml5,
-                                    cStyles.py10,
+                                    cStyles.pb10,
                                     cStyles.flex1,
                                     index !==
                                       data.taskDetail.lstUserInvited.length -

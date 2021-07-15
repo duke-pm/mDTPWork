@@ -401,6 +401,7 @@ function FilterProject(props) {
                 index === owner.data.length - 1,
               );
             }}
+            ItemSeparatorComponent={undefined}
           />
 
           {/** Status */}
@@ -426,6 +427,7 @@ function FilterProject(props) {
                 index === status.data.length - 1,
               );
             }}
+            ItemSeparatorComponent={undefined}
           />
 
           {/** Sector */}
@@ -452,6 +454,7 @@ function FilterProject(props) {
                     index === sectors.data.length - 1,
                   );
                 }}
+                ItemSeparatorComponent={undefined}
               />
             </>
           )}

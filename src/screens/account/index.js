@@ -122,7 +122,7 @@ const Information = ({isTablet, authState}) => {
   return (
     <CGroupInfo
       contentStyle={[
-        cStyles.mb10,
+        cStyles.mb0,
         cStyles.px10,
         isTablet ? cStyles.mx10 : cStyles.mx16,
       ]}
