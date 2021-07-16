@@ -14,11 +14,9 @@ import {showMessage} from 'react-native-flash-message';
 import {
   StyleSheet,
   View,
-  TouchableOpacity,
   Keyboard,
   UIManager,
   LayoutAnimation,
-  TouchableNativeFeedback,
 } from 'react-native';
 import Picker from '@gregfrench/react-native-wheel-picker';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -36,10 +34,12 @@ import CLabel from '~/components/CLabel';
 import CAvoidKeyboard from '~/components/CAvoidKeyboard';
 import CGroupInfo from '~/components/CGroupInfo';
 import CActivityIndicator from '~/components/CActivityIndicator';
+import CTouchable from '~/components/CTouchable';
 import RejectModal from '../components/RejectModal';
 import RequestProcess from '../components/RequestProcess';
 import CheckOption from '../components/CheckOption';
 /* COMMON */
+import Icons from '~/config/Icons';
 import Commons from '~/utils/common/Commons';
 import {colors, cStyles} from '~/utils/style';
 import {
@@ -48,12 +48,9 @@ import {
   moderateScale,
   verticalScale,
 } from '~/utils/helper';
-import Icons from '~/config/Icons';
 import {THEME_DARK, DEFAULT_FORMAT_DATE_4} from '~/config/constants';
 /* REDUX */
 import * as Actions from '~/redux/actions';
-const Touchable = IS_ANDROID ? TouchableNativeFeedback : TouchableOpacity;
-
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -104,8 +101,11 @@ const RowSelect = (
     find = data.find(f => f[keyToCompare] === activeIndex);
   }
   return (
-    <View>
-      <TouchableOpacity disabled={disabled} onPress={onPress}>
+    <>
+      <CTouchable
+        containerStyle={cStyles.mt6}
+        disabled={disabled}
+        onPress={onPress}>
         <View
           style={[
             cStyles.rounded1,
@@ -113,7 +113,6 @@ const RowSelect = (
             cStyles.itemsCenter,
             cStyles.justifyBetween,
             cStyles.px16,
-            cStyles.mt6,
             cStyles.borderAll,
             isDark && cStyles.borderAllDark,
             error && {borderColor: customColors.red},
@@ -139,7 +138,7 @@ const RowSelect = (
             />
           )}
         </View>
-      </TouchableOpacity>
+      </CTouchable>
       {error && (
         <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pt6]}>
           <Icon
@@ -158,7 +157,7 @@ const RowSelect = (
           />
         </View>
       )}
-    </View>
+    </>
   );
 };
 
@@ -433,9 +432,9 @@ function AddRequest(props) {
     setForm({...form, typeUpdate: newVal});
   };
 
-  /******************
+  /****************
    ** LIFE CYCLE **
-   ******************/
+   ****************/
   useEffect(() => {
     dispatch(Actions.resetStatusMasterData());
     onPrepareData();
@@ -601,9 +600,9 @@ function AddRequest(props) {
     });
   }, [navigation, isDetail, form.typeUpdate]);
 
-  /**************
+  /************
    ** RENDER **
-   **************/
+   ************/
   const isShowApprovedReject =
     isDetail && form.isAllowApproved && route.params?.permissionWrite;
   return (
@@ -618,11 +617,11 @@ function AddRequest(props) {
         <CAvoidKeyboard>
           <CContent>
             {isDetail && (
-              <Touchable onPress={handleShowProcess}>
+              <CTouchable
+                containerStyle={[cStyles.rounded2, cStyles.mx32, cStyles.mt16]}
+                onPress={handleShowProcess}>
                 <View
                   style={[
-                    cStyles.mx32,
-                    cStyles.mt10,
                     cStyles.px10,
                     cStyles.row,
                     cStyles.center,
@@ -677,7 +676,7 @@ function AddRequest(props) {
                     </View>
                   )}
                 </View>
-              </Touchable>
+              </CTouchable>
             )}
 
             {/** Date request */}

@@ -23,11 +23,16 @@ import Modal from 'react-native-modal';
 /** COMPONENTS */
 import CText from './CText';
 /* COMMON */
+import Icons from '~/config/Icons';
 import {Assets} from '~/utils/asset';
-import {askPermissionsCamera, IS_ANDROID, IS_IOS, moderateScale} from '~/utils/helper';
+import {
+  askPermissionsCamera,
+  IS_ANDROID,
+  IS_IOS,
+  moderateScale,
+} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
 import {THEME_DARK} from '~/config/constants';
-import Icons from '~/config/Icons';
 
 function CAvatar(props) {
   const isDark = useColorScheme() === THEME_DARK;
@@ -56,9 +61,9 @@ function CAvatar(props) {
     }
   };
 
-  /************
+  /**********
    ** FUNC **
-   ************/
+   **********/
   const onChooseFromCamera = async () => {
     // Do choose from camera
   };
@@ -85,9 +90,9 @@ function CAvatar(props) {
     setShowChooseType(false);
   };
 
-  /**************
+  /************
    ** RENDER **
-   **************/
+   ************/
   const Touchable = isEdit ? TouchableOpacity : View;
   let customLabel = '';
   if (!source && label) {

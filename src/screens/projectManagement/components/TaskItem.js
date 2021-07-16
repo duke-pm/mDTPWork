@@ -10,10 +10,8 @@ import {
   View,
   Text,
   Animated,
-  TouchableOpacity,
   LayoutAnimation,
   UIManager,
-  TouchableNativeFeedback,
 } from 'react-native';
 import * as Progress from 'react-native-progress';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -21,13 +19,13 @@ import moment from 'moment';
 /* COMPONENTS */
 import CText from '~/components/CText';
 import CAvatar from '~/components/CAvatar';
+import CTouchable from '~/components/CTouchable';
 import ListTask from '../list/Task';
 /* COMMON */
 import Commons from '~/utils/common/Commons';
 import {IS_ANDROID, moderateScale} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
 import Icons from '~/config/Icons';
-const Touchable = IS_ANDROID ? TouchableNativeFeedback : TouchableOpacity;
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -120,8 +118,11 @@ function TaskItem(props) {
     outputRange: ['0deg', '180deg'],
   });
   return (
-    <View style={[cStyles.rounded2, cStyles.ofHidden]}>
-      <Touchable disabled={props.loading} onPress={handleTaskItem}>
+    <View>
+      <CTouchable
+        containerStyle={cStyles.rounded2}
+        disabled={props.loading}
+        onPress={handleTaskItem}>
         <View
           style={[
             cStyles.p10,
@@ -199,48 +200,51 @@ function TaskItem(props) {
               </View>
 
               {showPercentage ? (
-                <View style={[cStyles.ofHidden, cStyles.rounded10]}>
-                  <Touchable onPress={handleShowChildren}>
-                    <Progress.Circle
-                      animated={false}
-                      size={moderateScale(30)}
-                      progress={data.percentage / 100}
-                      thickness={moderateScale(1)}
-                      color={customColors.primary}
-                      showsText
-                      textStyle={[
-                        cStyles.textCenter,
-                        cStyles.fontRegular,
-                        {fontSize: moderateScale(8)},
-                      ]}
-                    />
-                  </Touchable>
-                </View>
+                <CTouchable
+                  containerStyle={cStyles.rounded10}
+                  onPress={handleShowChildren}>
+                  <Progress.Circle
+                    animated={false}
+                    size={moderateScale(30)}
+                    progress={data.percentage / 100}
+                    thickness={moderateScale(1)}
+                    color={customColors.primary}
+                    showsText
+                    textStyle={[
+                      cStyles.textCenter,
+                      cStyles.fontRegular,
+                      {fontSize: moderateScale(8)},
+                    ]}
+                  />
+                </CTouchable>
               ) : data.countChild > 0 ? (
-                <View style={[cStyles.ofHidden, cStyles.rounded10]}>
-                  <Touchable onPress={handleShowChildren}>
-                    <Animated.View
-                      style={[
-                        cStyles.mr10,
-                        {
-                          width: moderateScale(23),
-                          height: moderateScale(23),
-                          transform: [{rotate: rotateData}],
-                        },
-                      ]}>
-                      <Icon
-                        name={Icons.down}
-                        size={moderateScale(23)}
-                        color={customColors.icon}
-                      />
-                    </Animated.View>
-                  </Touchable>
-                </View>
+                <CTouchable
+                  containerStyle={cStyles.rounded10}
+                  onPress={handleShowChildren}>
+                  <Animated.View
+                    style={[
+                      cStyles.mr10,
+                      {
+                        width: moderateScale(23),
+                        height: moderateScale(23),
+                        transform: [{rotate: rotateData}],
+                      },
+                    ]}>
+                    <Icon
+                      name={Icons.down}
+                      size={moderateScale(23)}
+                      color={customColors.icon}
+                    />
+                  </Animated.View>
+                </CTouchable>
               ) : null}
             </View>
 
             <View style={cStyles.mt10}>
-              <CText customLabel={`#${data?.taskID} ${data?.taskName}`} />
+              <CText
+                styles={'textSubTitle'}
+                customLabel={`#${data?.taskID} ${data?.taskName}`}
+              />
             </View>
           </View>
 
@@ -266,7 +270,7 @@ function TaskItem(props) {
             </View>
           )}
         </View>
-      </Touchable>
+      </CTouchable>
 
       {showChildren && data.countChild > 0 && (
         <View style={[cStyles.row, cStyles.itemsCenter]}>

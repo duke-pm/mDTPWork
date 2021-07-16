@@ -11,12 +11,7 @@ import {useTranslation} from 'react-i18next';
 import {useColorScheme} from 'react-native-appearance';
 import {useTheme} from '@react-navigation/native';
 import {showMessage} from 'react-native-flash-message';
-import {
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  TouchableNativeFeedback,
-} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import Picker from '@gregfrench/react-native-wheel-picker';
 import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
@@ -32,19 +27,19 @@ import CLabel from '~/components/CLabel';
 import CGroupInfo from '~/components/CGroupInfo';
 import CAvoidKeyboard from '~/components/CAvoidKeyboard';
 import CActivityIndicator from '~/components/CActivityIndicator';
+import CTouchable from '~/components/CTouchable';
 import RejectModal from '../components/RejectModal';
 import RequestProcess from '../components/RequestProcess';
 import AssetsTable from '../components/AssetsTable';
 import CheckOption from '../components/CheckOption';
 /* COMMON */
-import {THEME_DARK, DEFAULT_FORMAT_DATE_4} from '~/config/constants';
-import {colors, cStyles} from '~/utils/style';
-import {moderateScale, IS_ANDROID, verticalScale} from '~/utils/helper';
 import Icons from '~/config/Icons';
 import Commons from '~/utils/common/Commons';
+import {THEME_DARK, DEFAULT_FORMAT_DATE_4} from '~/config/constants';
+import {colors, cStyles} from '~/utils/style';
+import {moderateScale, verticalScale} from '~/utils/helper';
 /* REDUX */
 import * as Actions from '~/redux/actions';
-const Touchable = IS_ANDROID ? TouchableNativeFeedback : TouchableOpacity;
 
 const RowSelect = (
   loading,
@@ -62,39 +57,36 @@ const RowSelect = (
     find = data.find(f => f[keyToCompare] === activeIndex);
   }
   return (
-    <View style={[cStyles.round1, cStyles.ofHidden]}>
-      <Touchable
-        style={[cStyles.flex1, cStyles.round1]}
-        disabled={disabled}
-        onPress={onPress}>
-        <View
-          style={[
-            cStyles.row,
-            cStyles.itemsCenter,
-            cStyles.justifyBetween,
-            cStyles.rounded1,
-            cStyles.px16,
-            cStyles.mt6,
-            cStyles.borderAll,
-            styles.row_select,
-            isDark && cStyles.borderAllDark,
-            disabled && {backgroundColor: customColors.cardDisable},
-          ]}>
-          {!loading ? (
-            find && <CText customLabel={find[keyToShow]} />
-          ) : (
-            <CActivityIndicator />
-          )}
-          {!disabled && (
-            <Icon
-              name={Icons.down}
-              size={moderateScale(23)}
-              color={disabled ? customColors.textDisable : customColors.icon}
-            />
-          )}
-        </View>
-      </Touchable>
-    </View>
+    <CTouchable
+      containerStyle={cStyles.mt6}
+      disabled={disabled}
+      onPress={onPress}>
+      <View
+        style={[
+          cStyles.row,
+          cStyles.itemsCenter,
+          cStyles.justifyBetween,
+          cStyles.rounded1,
+          cStyles.px16,
+          cStyles.borderAll,
+          styles.row_select,
+          isDark && cStyles.borderAllDark,
+          disabled && {backgroundColor: customColors.cardDisable},
+        ]}>
+        {!loading ? (
+          find && <CText customLabel={find[keyToShow]} />
+        ) : (
+          <CActivityIndicator />
+        )}
+        {!disabled && (
+          <Icon
+            name={Icons.down}
+            size={moderateScale(21)}
+            color={disabled ? customColors.textDisable : customColors.icon}
+          />
+        )}
+      </View>
+    </CTouchable>
   );
 };
 
@@ -242,9 +234,9 @@ function AddRequest(props) {
     actionSheetDepartmentRef.current?.hide();
   };
 
-  /************
+  /**********
    ** FUNC **
-   ************/
+   **********/
   const onCloseReject = () => setShowReject(false);
 
   const onSendRequest = () => {
@@ -422,9 +414,9 @@ function AddRequest(props) {
     setForm({...form, inPlanning: newVal});
   };
 
-  /******************
+  /****************
    ** LIFE CYCLE **
-   ******************/
+   ****************/
   useEffect(() => {
     onPrepareData();
   }, []);
@@ -559,9 +551,9 @@ function AddRequest(props) {
     });
   }, [navigation, isDetail]);
 
-  /**************
+  /************
    ** RENDER **
-   **************/
+   ************/
   const isShowApprovedReject =
     isDetail && form.isAllowApproved && route.params?.permissionWrite;
   return (
@@ -576,11 +568,11 @@ function AddRequest(props) {
         <CAvoidKeyboard>
           <CContent>
             {isDetail && (
-              <Touchable onPress={handleShowProcess}>
+              <CTouchable
+                containerStyle={[cStyles.rounded2, cStyles.mx32, cStyles.mt16]}
+                onPress={handleShowProcess}>
                 <View
                   style={[
-                    cStyles.mx32,
-                    cStyles.mt10,
                     cStyles.px10,
                     cStyles.row,
                     cStyles.center,
@@ -635,7 +627,7 @@ function AddRequest(props) {
                     </View>
                   )}
                 </View>
-              </Touchable>
+              </CTouchable>
             )}
 
             {/** User request */}

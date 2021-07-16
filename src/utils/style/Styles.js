@@ -472,37 +472,37 @@ const text = {
 
   H1: {
     fontSize: moderateScale(28),
-    fontWeight: 'bold',
+    fontWeight: '700',
     lineHeight: moderateScale(34),
   },
   H2: {
     fontSize: moderateScale(26),
-    fontWeight: 'bold',
+    fontWeight: '700',
     lineHeight: moderateScale(32),
   },
   H3: {
     fontSize: moderateScale(24),
-    fontWeight: 'bold',
+    fontWeight: '700',
     lineHeight: moderateScale(30),
   },
   H4: {
     fontSize: moderateScale(22),
-    fontWeight: 'bold',
+    fontWeight: '700',
     lineHeight: moderateScale(28),
   },
   H5: {
     fontSize: moderateScale(20),
-    fontWeight: 'bold',
+    fontWeight: '700',
     lineHeight: moderateScale(26),
   },
   H6: {
     fontSize: moderateScale(18),
-    fontWeight: 'bold',
+    fontWeight: '700',
     lineHeight: moderateScale(24),
   },
   textTitle: {
     fontSize: moderateScale(16),
-    fontWeight: 'bold',
+    fontWeight: '700',
     lineHeight: moderateScale(22),
   },
   textSubTitle: {
@@ -528,7 +528,7 @@ const text = {
   textButton: {
     fontSize: moderateScale(16),
     color: 'white',
-    fontWeight: '600',
+    fontWeight: 'normal',
     lineHeight: moderateScale(20),
   },
   fontBold: {fontWeight: 'bold'},

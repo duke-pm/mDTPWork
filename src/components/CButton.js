@@ -8,16 +8,11 @@
 import React from 'react';
 import {useTranslation} from 'react-i18next';
 import {useColorScheme} from 'react-native-appearance';
-import {
-  StyleSheet,
-  TouchableOpacity,
-  TouchableNativeFeedback,
-  View,
-  Platform,
-} from 'react-native';
+import {StyleSheet, View, Platform} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 /** COMPONENTS */
-import CText from '~/components/CText';
+import CText from './CText';
+import CTouchable from './CTouchable';
 /** COMMON */
 import {colors, cStyles} from '~/utils/style';
 import {IS_ANDROID, moderateScale, verticalScale} from '~/utils/helper';
@@ -43,67 +38,59 @@ function CButton(props) {
   /************
    ** RENDER **
    ************/
-  const Touchable = IS_ANDROID ? TouchableNativeFeedback : TouchableOpacity;
   return (
-    <View style={[cStyles.rounded1, cStyles.ofHidden]}>
-      <Touchable
-        accessibilityRole={'button'}
-        disabled={disabled || loading}
-        onPress={onPress}>
-        <View
-          style={[
-            cStyles.row,
-            cStyles.center,
-            cStyles.rounded1,
-            styles.container,
-            fullWidth && styles.full_width,
-            block && cStyles.fullWidth,
-            {backgroundColor: color},
-            variant === 'text' && styles.con_variant_text,
-            variant === 'outlined' && {
-              borderColor: color,
-              borderWidth: 0.5,
-              backgroundColor: isDark ? colors.TRANSPARENT : colors.WHITE,
-            },
-            (disabled || loading) && styles.disabled_contained,
-            style,
-          ]}>
-          {icon && (
-            <Icon
-              name={icon}
-              color={
-                disabled || loading
-                  ? styles.textDisabled.color
-                  : variant === 'contained'
-                  ? colors.WHITE
-                  : color
-              }
-              size={moderateScale(16)}
-            />
-          )}
-
-          <CText
-            customStyles={[
-              cStyles.textButton,
-              cStyles.textCenter,
-              cStyles.m6,
-              {color: variant === 'contained' ? colors.WHITE : color},
-              (disabled || loading) && styles.textDisabled,
-              IS_ANDROID && {fontWeight: '500'},
-              textStyle,
-            ]}
-            label={t(label)}
+    <CTouchable disabled={disabled || loading} onPress={onPress}>
+      <View
+        style={[
+          cStyles.row,
+          cStyles.center,
+          cStyles.rounded1,
+          styles.container,
+          fullWidth && cStyles.deviceWidth,
+          block && cStyles.fullWidth,
+          {backgroundColor: color},
+          variant === 'text' && styles.con_variant_text,
+          variant === 'outlined' && {
+            borderColor: color,
+            borderWidth: 0.5,
+            backgroundColor: isDark ? colors.TRANSPARENT : colors.WHITE,
+          },
+          style,
+        ]}>
+        {icon && (
+          <Icon
+            name={icon}
+            color={
+              disabled || loading
+                ? styles.textDisabled.color
+                : variant === 'contained'
+                ? colors.WHITE
+                : color
+            }
+            size={moderateScale(16)}
           />
-        </View>
-      </Touchable>
-    </View>
+        )}
+
+        <CText
+          customStyles={[
+            cStyles.textButton,
+            cStyles.textCenter,
+            cStyles.m6,
+            {color: variant === 'contained' ? colors.WHITE : color},
+            (disabled || loading) && styles.textDisabled,
+            IS_ANDROID && {fontWeight: '500'},
+            textStyle,
+          ]}
+          label={t(label)}
+        />
+      </View>
+    </CTouchable>
   );
 }
 
 const styles = StyleSheet.create({
   container: {paddingVertical: verticalScale(3)},
-  full_width: {width: cStyles.deviceWidth},
-  disabled_contained: {elevation: 0},
+  con_variant_text: {backgroundColor: colors.TRANSPARENT},
   textDisabled: Platform.select({
     ios: {
       color: '#cdcdcd',
@@ -112,8 +99,6 @@ const styles = StyleSheet.create({
       color: '#a1a1a1',
     },
   }),
-  con_variant_text: {backgroundColor: colors.TRANSPARENT},
-  img_icon: {height: 35, width: 35},
 });
 
 export default CButton;

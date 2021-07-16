@@ -49,9 +49,9 @@ function Approved(props) {
     });
   };
 
-  /************
+  /**********
    ** FUNC **
-   ************/
+   **********/
   const onPrepareData = () => {
     let tmpListMenu = authState.getIn(['login', 'lstMenu']);
     let idRouteParent = route.params.idRouteParent;
@@ -82,16 +82,16 @@ function Approved(props) {
     setLoading(false);
   };
 
-  /******************
+  /****************
    ** LIFE CYCLE **
-   ******************/
+   ****************/
   useEffect(() => {
     onPrepareData();
   }, []);
 
-  /**************
+  /************
    ** RENDER **
-   **************/
+   ************/
   return (
     <CContainer
       loading={loading}

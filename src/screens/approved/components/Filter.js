@@ -22,7 +22,6 @@ import CGroupFilter from '~/components/CGroupFilter';
 import {colors, cStyles} from '~/utils/style';
 import {IS_ANDROID, moderateScale} from '~/utils/helper';
 import Icons from '~/config/Icons';
-
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -137,9 +136,9 @@ function Filter(props) {
     }
   };
 
-  /************
+  /**********
    ** FUNC **
-   ************/
+   **********/
   const onChangeDateRequest = (newDate, showPicker) => {
     setShowPickerDate({...showPickerDate, status: showPicker});
     if (newDate && showPickerDate.active) {
@@ -153,9 +152,9 @@ function Filter(props) {
     }
   };
 
-  /******************
+  /****************
    ** LIFE CYCLE **
-   ******************/
+   ****************/
   useEffect(() => {
     if (props.data) {
       let tmp = {
@@ -171,9 +170,9 @@ function Filter(props) {
     }
   }, [props.data]);
 
-  /**************
+  /************
    ** RENDER **
-   **************/
+   ************/
   return (
     <View
       style={[
@@ -293,7 +292,6 @@ const styles = StyleSheet.create({
   text_date: {flex: 0.3},
   input_date: {flex: 0.7},
   button: {width: moderateScale(110), marginHorizontal: moderateScale(10)},
-  box: {width: moderateScale(350)},
 });
 
 export default Filter;

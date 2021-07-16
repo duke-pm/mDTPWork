@@ -13,7 +13,7 @@ import {
   StyleSheet,
   ScrollView,
   View,
-  TouchableOpacity,
+  TouchableHighlight,
   UIManager,
   LayoutAnimation,
 } from 'react-native';
@@ -26,7 +26,6 @@ import AssetItem from './AssetItem';
 import {colors, cStyles} from '~/utils/style';
 import {moderateScale, IS_ANDROID} from '~/utils/helper';
 import Icons from '~/config/Icons';
-
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -80,9 +79,9 @@ function AssetsTable(props) {
     });
   };
 
-  /************
+  /**********
    ** FUNC **
-   ************/
+   **********/
   const onChangeCellItem = (value, rowIndex, cellIndex) => {
     let newData = form.assets.data;
     newData[rowIndex][cellIndex] = value;
@@ -156,9 +155,9 @@ function AssetsTable(props) {
     });
   };
 
-  /******************
+  /****************
    ** LIFE CYCLE **
-   ******************/
+   ****************/
   useEffect(() => {
     if (assets) {
       setForm({...form, assets: assets});
@@ -171,9 +170,9 @@ function AssetsTable(props) {
     }
   }, [checking]);
 
-  /**************
+  /************
    ** RENDER **
-   **************/
+   ************/
   return (
     <View style={cStyles.py16}>
       <View style={cStyles.flex1}>
@@ -184,13 +183,15 @@ function AssetsTable(props) {
             label={'add_approved_assets:assets'}
           />
           {!isDetail && form.assets.data.length === 0 && (
-            <TouchableOpacity
+            <TouchableHighlight
               style={[
                 cStyles.itemsEnd,
                 cStyles.pt10,
                 cStyles.pr16,
                 styles.con_left,
               ]}
+              activeOpacity={0.6}
+              underlayColor="#DDDDDD"
               disabled={loading || isDetail}
               onPress={handleAddAssets}>
               <CText
@@ -202,7 +203,7 @@ function AssetsTable(props) {
                 ]}
                 label={'add_approved_assets:add_assets'}
               />
-            </TouchableOpacity>
+            </TouchableHighlight>
           )}
         </View>
         {form.assets.data.length > 0 && (
@@ -309,13 +310,15 @@ function AssetsTable(props) {
           </View>
 
           {!isDetail && form.assets.data.length > 0 && (
-            <TouchableOpacity
+            <TouchableHighlight
               style={[
                 cStyles.itemsEnd,
                 cStyles.pt10,
                 cStyles.pr16,
                 styles.con_left,
               ]}
+              activeOpacity={0.6}
+              underlayColor="#DDDDDD"
               disabled={loading || isDetail}
               onPress={handleAddAssets}>
               <CText
@@ -327,7 +330,7 @@ function AssetsTable(props) {
                 ]}
                 label={'add_approved_assets:add_assets'}
               />
-            </TouchableOpacity>
+            </TouchableHighlight>
           )}
         </View>
       </View>

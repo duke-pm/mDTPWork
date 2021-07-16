@@ -30,7 +30,6 @@ const StackMain = createNativeStackNavigator();
 const StackDashboard = createNativeStackNavigator();
 const StackAccount = createNativeStackNavigator();
 const TabMain = createBottomTabNavigator();
-
 const headerAuthOptions = {headerShown: false};
 const commonBottomTabStyles = {backgroundColor: colors.BACKGROUND_HEADER_IOS};
 

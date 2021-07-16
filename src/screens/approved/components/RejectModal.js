@@ -12,9 +12,7 @@ import CAlert from '~/components/CAlert';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
 
-const INPUT_NAME = {
-  REASON_REJECT: 'reasonReject',
-};
+const INPUT_NAME = {REASON_REJECT: 'reasonReject'};
 
 function RejectModal(props) {
   const {
@@ -74,9 +72,9 @@ function RejectModal(props) {
     onCloseReject();
   };
 
-  /**************
+  /************
    ** RENDER **
-   **************/
+   ************/
   return (
     <CAlert
       loading={loading}

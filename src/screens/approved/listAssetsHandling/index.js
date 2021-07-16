@@ -10,8 +10,8 @@ import React, {useState, useEffect, useLayoutEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
-import {StyleSheet, View, LayoutAnimation, UIManager} from 'react-native';
 import {showMessage} from 'react-native-flash-message';
+import {StyleSheet, View, LayoutAnimation, UIManager} from 'react-native';
 import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
@@ -21,10 +21,10 @@ import CIconHeader from '~/components/CIconHeader';
 import Filter from '../components/Filter';
 import ListRequest from '../components/ListRequest';
 /* COMMON */
+import Icons from '~/config/Icons';
 import {LOAD_MORE, REFRESH} from '~/config/constants';
 import {IS_ANDROID, moderateScale} from '~/utils/helper';
 import {cStyles} from '~/utils/style';
-import Icons from '~/config/Icons';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 if (IS_ANDROID) {
@@ -104,17 +104,13 @@ function ListRequestHandling(props) {
     }
   };
 
-  const handleOpenFilter = () => {
-    setShowFilter(true);
+  const handleToggleFilter = () => {
+    setShowFilter(!showFilter);
   };
 
-  const handleCloseFilter = () => {
-    setShowFilter(false);
-  };
-
-  /************
+  /**********
    ** FUNC **
-   ************/
+   **********/
   const onFetchData = (
     fromDate = null,
     toDate = null,
@@ -208,9 +204,9 @@ function ListRequestHandling(props) {
     });
   };
 
-  /******************
+  /****************
    ** LIFE CYCLE **
-   ******************/
+   ****************/
   useEffect(() => {
     onFetchData(data.fromDate, data.toDate, data.page, data.search, data.type);
     setLoading({...loading, startFetch: true});
@@ -257,7 +253,7 @@ function ListRequestHandling(props) {
               show: true,
               showRedDot: false,
               icon: Icons.filter,
-              onPress: handleOpenFilter,
+              onPress: handleToggleFilter,
             },
           ]}
         />
@@ -265,9 +261,9 @@ function ListRequestHandling(props) {
     });
   }, [navigation, data.search]);
 
-  /**************
+  /************
    ** RENDER **
-   **************/
+   ************/
   return (
     <CContainer
       loading={loading.main || loading.startFetch}
@@ -303,7 +299,7 @@ function ListRequestHandling(props) {
                 isResolve
                 data={data}
                 onFilter={handleFilter}
-                onClose={handleCloseFilter}
+                onClose={handleToggleFilter}
               />
             }
           />

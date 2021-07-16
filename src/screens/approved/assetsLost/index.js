@@ -61,9 +61,9 @@ function ApprovedAssets(props) {
 
   let prevData = usePrevious(props.dataRoute);
 
-  /************
+  /**********
    ** FUNC **
-   ************/
+   **********/
   const onFetchData = (
     fromDate = null,
     toDate = null,
@@ -172,9 +172,9 @@ function ApprovedAssets(props) {
     });
   };
 
-  /******************
+  /****************
    ** LIFE CYCLE **
-   ******************/
+   ****************/
   useEffect(() => {
     onFetchData(
       data.fromDate,
@@ -242,9 +242,9 @@ function ApprovedAssets(props) {
     approvedState.get('errorListRequestLost'),
   ]);
 
-  /**************
+  /************
    ** RENDER **
-   **************/
+   ************/
   return (
     <View style={cStyles.flex1}>
       {!loading.main && !loading.startFetch && (
@@ -265,4 +265,4 @@ function ApprovedAssets(props) {
   );
 }
 
-export default React.memo(ApprovedAssets);
+export default ApprovedAssets;

@@ -72,9 +72,9 @@ function Dashboard(props) {
     navigation.navigate(Routes.MAIN.SALES_VISIT.name);
   };
 
-  /************
+  /**********
    ** FUNC **
-   ************/
+   **********/
   const onPrepareData = () => {
     let tmpListMenu = authState.getIn(['login', 'lstMenu']);
     if (tmpListMenu && tmpListMenu.lstPermissionItem.length > 0) {
@@ -97,16 +97,16 @@ function Dashboard(props) {
     setLoading(false);
   };
 
-  /******************
+  /****************
    ** LIFE CYCLE **
-   ******************/
+   ****************/
   useEffect(() => {
     onPrepareData();
   }, []);
 
-  /**************
+  /************
    ** RENDER **
-   **************/
+   ************/
   return (
     <CContainer
       loading={loading}

@@ -10,9 +10,10 @@ import React, {createRef, useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
+import {isIphoneX} from 'react-native-iphone-x-helper';
+import {showMessage} from 'react-native-flash-message';
 import {
   StyleSheet,
-  Image,
   View,
   TouchableWithoutFeedback,
   Keyboard,
@@ -20,8 +21,7 @@ import {
   LayoutAnimation,
   Alert,
 } from 'react-native';
-import {isIphoneX} from 'react-native-iphone-x-helper';
-import {showMessage} from 'react-native-flash-message';
+import FastImage from 'react-native-fast-image';
 import LinearGradient from 'react-native-linear-gradient';
 import TouchID from 'react-native-touch-id';
 /* COMPONENTS */
@@ -33,6 +33,7 @@ import CButton from '~/components/CButton';
 import CAvoidKeyboard from '~/components/CAvoidKeyboard';
 /* COMMON */
 import Routes from '~/navigation/Routes';
+import Icons from '~/config/Icons';
 import {Assets} from '~/utils/asset';
 import {LOGIN, LANGUAGE, BIOMETRICS, FAST_LOGIN} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
@@ -44,13 +45,10 @@ import {
   removeSecretInfo,
   resetRoute,
   saveSecretInfo,
-  sW,
   verticalScale,
 } from '~/utils/helper';
 /* REDUX */
 import * as Actions from '~/redux/actions';
-import Icons from '~/config/Icons';
-
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -163,9 +161,9 @@ function SignIn(props) {
     }
   };
 
-  /************
+  /**********
    ** FUNC **
-   ************/
+   **********/
   const onCheckBiometrics = type => {
     TouchID.authenticate(`${t('sign_in:login_with_biometrics')} ${type}`, {
       title: `${t('sign_in:login_with_biometrics')} ${type}`, // Android
@@ -323,9 +321,9 @@ function SignIn(props) {
     }
   };
 
-  /******************
+  /****************
    ** LIFE CYCLE **
-   ******************/
+   ****************/
   useEffect(() => {
     onCheckDataLogin();
   }, []);
@@ -349,9 +347,9 @@ function SignIn(props) {
     authState.get('errorLogin'),
   ]);
 
-  /**************
+  /************
    ** RENDER **
-   **************/
+   ************/
   return (
     <CContainer
       safeArea={{
@@ -373,10 +371,11 @@ function SignIn(props) {
                       cStyles.itemsCenter,
                       styles.container_logo,
                     ]}>
-                    <Image
+                    <FastImage
                       style={styles.logo}
                       source={Assets.imgLogo}
-                      resizeMode={'contain'}
+                      resizeMode={FastImage.resizeMode.contain}
+                      cache={FastImage.cacheControl.immutable}
                     />
                   </View>
 
@@ -480,7 +479,7 @@ const styles = StyleSheet.create({
     height: verticalScale(550),
     paddingHorizontal: moderateScale(14),
   },
-  logo: {height: sW('50%'), width: sW('50%')},
+  logo: {height: moderateScale(250), width: moderateScale(250)},
 });
 
 export default SignIn;

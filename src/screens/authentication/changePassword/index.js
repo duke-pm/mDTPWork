@@ -8,6 +8,7 @@
 import {fromJS} from 'immutable';
 import React, {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
+import {isIphoneX} from 'react-native-iphone-x-helper';
 import {
   StyleSheet,
   View,
@@ -25,6 +26,7 @@ import CText from '~/components/CText';
 import CButton from '~/components/CButton';
 import CAvoidKeyboard from '~/components/CAvoidKeyboard';
 /* COMMON */
+import Icons from '~/config/Icons';
 import Routes from '~/navigation/Routes';
 import {colors, cStyles} from '~/utils/style';
 import {
@@ -37,18 +39,13 @@ import {
 import {BIOMETRICS} from '~/config/constants';
 /** REDUX */
 import * as Actions from '~/redux/actions';
-import {isIphoneX} from 'react-native-iphone-x-helper';
-import Icons from '~/config/Icons';
-
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
   }
 }
 
-const INPUT_NAME = {
-  NEW_PASSWORD: 'password',
-};
+const INPUT_NAME = {NEW_PASSWORD: 'password'};
 
 function ChangePassword(props) {
   const {navigation, route} = props;
@@ -208,9 +205,9 @@ function ChangePassword(props) {
     authState.get('errorUpdatePass'),
   ]);
 
-  /**************
+  /************
    ** RENDER **
-   **************/
+   ************/
   return (
     <CContainer
       safeArea={{

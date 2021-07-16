@@ -9,6 +9,8 @@ import {fromJS} from 'immutable';
 import React, {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
+import {isIphoneX} from 'react-native-iphone-x-helper';
+import {showMessage} from 'react-native-flash-message';
 import {
   StyleSheet,
   View,
@@ -18,8 +20,6 @@ import {
   UIManager,
   LayoutAnimation,
 } from 'react-native';
-import {isIphoneX} from 'react-native-iphone-x-helper';
-import {showMessage} from 'react-native-flash-message';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/Ionicons';
 /* COMPONENTS */
@@ -29,6 +29,7 @@ import CText from '~/components/CText';
 import CButton from '~/components/CButton';
 import CAvoidKeyboard from '~/components/CAvoidKeyboard';
 /* COMMON */
+import Icons from '~/config/Icons';
 import {colors, cStyles} from '~/utils/style';
 import {
   IS_ANDROID,
@@ -38,7 +39,6 @@ import {
 } from '~/utils/helper';
 /** REDUX */
 import * as Actions from '~/redux/actions';
-import Icons from '~/config/Icons';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -172,9 +172,9 @@ function ForgotPassword(props) {
     authState.get('errorForgotPass'),
   ]);
 
-  /**************
+  /************
    ** RENDER **
-   **************/
+   ************/
   return (
     <CContainer
       safeArea={{

@@ -5,13 +5,13 @@
  ** Description: Description of CIconButton.js
  **/
 import React from 'react';
-import {StyleSheet, TouchableOpacity, TouchableNativeFeedback, View} from 'react-native';
+import {StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+/** COMPONENTS */
+import CTouchable from './CTouchable';
 /** COMMON */
-import {IS_IOS, moderateScale} from '~/utils/helper';
+import {moderateScale} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
-
-const Touchable = IS_IOS ? TouchableOpacity : TouchableNativeFeedback;
 
 function CIconButton(props) {
   const {
@@ -27,20 +27,23 @@ function CIconButton(props) {
    ** RENDER **
    ************/
   return (
-    <View style={[cStyles.ofHidden, cStyles.rounded10, style]}>
-      <Touchable
-        style={[cStyles.rounded10, cStyles.center, styles.container, style]}
-        disabled={disabled}
-        onPress={onPress}>
-        <Icon
-          style={cStyles.p4}
-          name={iconName}
-          color={iconColor}
-          size={moderateScale(21)}
-          {...iconProps}
-        />
-      </Touchable>
-    </View>
+    <CTouchable
+      containerStyle={[
+        cStyles.rounded10,
+        cStyles.center,
+        styles.container,
+        style,
+      ]}
+      disabled={disabled}
+      onPress={onPress}>
+      <Icon
+        style={cStyles.p4}
+        name={iconName}
+        color={iconColor}
+        size={moderateScale(21)}
+        {...iconProps}
+      />
+    </CTouchable>
   );
 }
 

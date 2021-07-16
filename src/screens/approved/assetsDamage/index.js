@@ -57,12 +57,11 @@ function ApprovedAssetsDamage(props) {
     page: 1,
     search: '',
   });
-
   let prevData = usePrevious(props.dataRoute);
 
-  /************
+  /**********
    ** FUNC **
-   ************/
+   **********/
   const onFetchData = (
     fromDate = null,
     toDate = null,
@@ -85,7 +84,7 @@ function ApprovedAssetsDamage(props) {
     return dispatch(Actions.fetchListRequestDamage(params, navigation));
   };
 
-  const onPrepareData = type => {
+  const onPrepareData = (type = REFRESH) => {
     let tmpRequests = [...data.requests];
     let tmpRequestDetail = [...data.requestsDetail];
     let tmpProcessApproveds = [...data.processApproveds];
@@ -171,9 +170,9 @@ function ApprovedAssetsDamage(props) {
     });
   };
 
-  /******************
+  /****************
    ** LIFE CYCLE **
-   ******************/
+   ****************/
   useEffect(() => {
     onFetchData(data.fromDate, data.toDate, data.status, 1, data.search);
     return setLoading({...loading, startFetch: true});
@@ -235,9 +234,9 @@ function ApprovedAssetsDamage(props) {
     approvedState.get('errorListRequestDamage'),
   ]);
 
-  /**************
+  /************
    ** RENDER **
-   **************/
+   ************/
   return (
     <View style={cStyles.flex1}>
       {!loading.main && !loading.startFetch && (
@@ -258,4 +257,4 @@ function ApprovedAssetsDamage(props) {
   );
 }
 
-export default React.memo(ApprovedAssetsDamage);
+export default ApprovedAssetsDamage;

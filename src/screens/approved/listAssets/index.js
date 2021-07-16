@@ -158,12 +158,8 @@ function ListRequestAll(props) {
     }
   };
 
-  const handleOpenFilter = () => {
-    setShowFilter(true);
-  };
-
-  const handleCloseFilter = () => {
-    setShowFilter(false);
+  const handleToggleFilter = () => {
+    setShowFilter(!showFilter);
   };
 
   /****************
@@ -184,7 +180,7 @@ function ListRequestAll(props) {
               show: true,
               showRedDot: false,
               icon: Icons.filter,
-              onPress: handleOpenFilter,
+              onPress: handleToggleFilter,
             },
             {
               show: isPermissionWrite,
@@ -230,7 +226,7 @@ function ListRequestAll(props) {
                 isResolve={false}
                 data={routes[index]}
                 onFilter={handleFilter}
-                onClose={handleCloseFilter}
+                onClose={handleToggleFilter}
               />
             }
           />

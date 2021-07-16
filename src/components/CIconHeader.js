@@ -8,13 +8,10 @@
 import React from 'react';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
-import {
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  TouchableNativeFeedback,
-} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+/** COMPONENTS */
+import CTouchable from './CTouchable';
 /* COMMON */
 import {THEME_DARK} from '~/config/constants';
 import {IS_ANDROID, moderateScale} from '~/utils/helper';
@@ -25,7 +22,6 @@ function CIconHeader(props) {
   const isDark = useColorScheme() === THEME_DARK;
   const {icons} = props;
 
-  const Touchable = IS_ANDROID ? TouchableNativeFeedback : TouchableOpacity;
   return (
     <View style={[cStyles.row, cStyles.itemsCenter]}>
       {icons.map((item, index) => {
@@ -33,42 +29,40 @@ function CIconHeader(props) {
           return null;
         }
         return (
-          <View
+          <CTouchable
             key={index.toString()}
-            style={[cStyles.rounded10, cStyles.ofHidden]}>
-            <Touchable onPress={item.onPress}>
-              <View
-                style={[
-                  cStyles.rounded10,
-                  index !== icons.length - 1 ? cStyles.mr20 : {},
-                ]}>
-                <Icon
-                  name={item.icon}
-                  color={
-                    item.iconColor ||
-                    (IS_ANDROID ? colors.WHITE : customColors.icon)
-                  }
-                  size={moderateScale(21)}
+            containerStyle={[
+              cStyles.rounded10,
+              index !== icons.length - 1 ? cStyles.mr20 : {},
+            ]}
+            onPress={item.onPress}>
+            <View style={cStyles.rounded10}>
+              <Icon
+                name={item.icon}
+                color={
+                  item.iconColor ||
+                  (IS_ANDROID ? colors.WHITE : customColors.icon)
+                }
+                size={moderateScale(21)}
+              />
+              {item.showRedDot && (
+                <View
+                  style={[
+                    cStyles.abs,
+                    cStyles.rounded2,
+                    cStyles.borderAll,
+                    styles.badge,
+                    isDark && cStyles.borderAllDark,
+                    {
+                      backgroundColor: customColors.red,
+                      top: 0,
+                      left: moderateScale(10),
+                    },
+                  ]}
                 />
-                {item.showRedDot && (
-                  <View
-                    style={[
-                      cStyles.abs,
-                      cStyles.rounded2,
-                      cStyles.borderAll,
-                      styles.badge,
-                      isDark && cStyles.borderAllDark,
-                      {
-                        backgroundColor: customColors.red,
-                        top: 0,
-                        left: moderateScale(10),
-                      },
-                    ]}
-                  />
-                )}
-              </View>
-            </Touchable>
-          </View>
+              )}
+            </View>
+          </CTouchable>
         );
       })}
     </View>
@@ -76,7 +70,6 @@ function CIconHeader(props) {
 }
 
 const styles = StyleSheet.create({
-  con_tab: {width: cStyles.deviceWidth},
   badge: {
     height: moderateScale(10),
     width: moderateScale(10),
