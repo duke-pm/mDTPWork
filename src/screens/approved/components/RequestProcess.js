@@ -6,17 +6,20 @@
  ** Description: Description of RequestProcess.js
  **/
 import React, {useState, useEffect} from 'react';
+import {useColorScheme} from 'react-native-appearance';
 import {StyleSheet, View, Animated} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 /* COMPONENTS */
 import CText from '~/components/CText';
 import CFooterList from '~/components/CFooterList';
 /* COMMON */
+import Icons from '~/config/icons';
 import {colors, cStyles} from '~/utils/style';
 import {moderateScale} from '~/utils/helper';
-import Icons from '~/config/icons';
+import {THEME_DARK} from '~/config/constants';
 
 function RequestProcess(props) {
+  const isDark = useColorScheme() === THEME_DARK;
   const {data = [], customColors = {}} = props;
   let isReject = false;
 
@@ -30,7 +33,9 @@ function RequestProcess(props) {
     let tmp = [],
       i = null;
     for (i of data) {
-      tmp.push(new Animated.Value(0));
+      if (i.personApproveName) {
+        tmp.push(new Animated.Value(0));
+      }
     }
     setAnims(tmp);
   }, []);
@@ -58,8 +63,14 @@ function RequestProcess(props) {
    ************/
   return anims.length > 0 ? (
     <View style={[cStyles.p16, cStyles.pb32]}>
-      <CText styles={'textTitle'} label={'add_approved_assets:table_process'} />
+      <CText
+        styles={'textTitle textCenter pb16'}
+        label={'add_approved_assets:table_process'}
+      />
       {data.map((item, index) => {
+        if (!item.personApproveName) {
+          return null;
+        }
         if (!isReject && item.statusID === 0) {
           isReject = true;
         }
@@ -82,11 +93,11 @@ function RequestProcess(props) {
                   styles.con_time_process,
                 ]}>
                 <CText
-                  styles={'textMeta fontBold colorWhite'}
+                  styles={'textMeta fontMedium colorWhite'}
                   customLabel={item.approveDate}
                 />
                 <CText
-                  styles={'textMeta fontBold colorWhite mt4'}
+                  styles={'textMeta fontMedium colorWhite'}
                   customLabel={item.approveTime}
                 />
               </View>
@@ -102,13 +113,7 @@ function RequestProcess(props) {
               />
             )}
 
-            <View
-              style={[
-                cStyles.px10,
-                cStyles.pt6,
-                cStyles.itemsCenter,
-                styles.con_icon,
-              ]}>
+            <View style={[cStyles.px6, cStyles.itemsCenter, styles.con_icon]}>
               <Icon
                 name={
                   !item.approveDate
@@ -130,7 +135,9 @@ function RequestProcess(props) {
                 <View
                   style={[
                     cStyles.mt10,
-                    {backgroundColor: customColors.text},
+                    cStyles.borderDashed,
+                    cStyles.borderAll,
+                    isDark && cStyles.borderAllDark,
                     styles.line_2,
                   ]}
                 />
@@ -237,7 +244,7 @@ function RequestProcess(props) {
 
 const styles = StyleSheet.create({
   con_time_process: {backgroundColor: colors.SECONDARY, flex: 0.3},
-  line_2: {width: moderateScale(2), height: moderateScale(20)},
+  line_2: {height: moderateScale(20)},
   con_date: {flex: 0.3},
   con_icon: {flex: 0.1},
   con_info: {flex: 0.6},

@@ -76,7 +76,6 @@ export function alert(t, message, onPressOK) {
       },
       {
         text: t('common:ok'),
-        style: 'destructive',
         onPress: onPressOK,
       },
     ],

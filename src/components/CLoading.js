@@ -27,7 +27,7 @@ function CLoading(props) {
       isVisible={props.visible}
       animationIn={'fadeIn'}
       animationOut={'fadeOut'}
-      backdropOpacity={isDark ? 0.8 : 0.3}
+      backdropOpacity={isDark ? 0.8 : 0.2}
       useNativeDriver={true}
       useNativeDriverForBackdrop={true}
       hideModalContentWhileAnimating={true}
@@ -39,12 +39,7 @@ function CLoading(props) {
       {...props}>
       <View style={cStyles.flexCenter}>
         <Animatable.View
-          style={[
-            cStyles.rounded2,
-            cStyles.center,
-            styles.indicator,
-            {backgroundColor: props.customColors.cardDisable},
-          ]}
+          style={[cStyles.rounded2, cStyles.center, styles.indicator]}
           animation={'pulse'}
           duration={1000}
           easing={'ease-out'}

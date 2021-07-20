@@ -40,7 +40,7 @@ function CContainer(props) {
     <SafeAreaView style={cStyles.flex1} edges={tmpSafeArea}>
       <View style={cStyles.flex1}>{content}</View>
       {footer && <CFooter content={footer} />}
-      <CLoading customColors={customColors} visible={props.loading} />
+      <CLoading visible={props.loading} />
     </SafeAreaView>
   );
 }

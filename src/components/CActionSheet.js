@@ -7,14 +7,15 @@
 import React from 'react';
 import {useColorScheme} from 'react-native-appearance';
 import {useTheme} from '@react-navigation/native';
-import {View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import ActionSheet from 'react-native-actions-sheet';
 /** COMPONENTS */
 import CIconButton from './CIconButton';
 /** COMMON */
+import Icons from '~/config/icons';
 import {cStyles} from '~/utils/style';
 import {THEME_DARK} from '~/config/constants';
-import Icons from '~/config/icons';
+import {moderateScale} from '~/utils/helper';
 
 function CActionSheet(props) {
   const {customColors} = useTheme();
@@ -67,14 +68,12 @@ function CActionSheet(props) {
   return (
     <ActionSheet
       ref={actionRef}
-      containerStyle={{backgroundColor: customColors.card}}
+      containerStyle={[{backgroundColor: customColors.card}, styles.container]}
       elevation={5}
       headerAlwaysVisible={true}
-      indicatorColor={customColors.cardDisable}
       gestureEnabled={true}
-      defaultOverlayOpacity={isDark ? 0.8 : 0.4}
-      openAnimationSpeed={20}
-      closeAnimationDuration={200}
+      indicatorColor={customColors.cardDisable}
+      defaultOverlayOpacity={isDark ? 0.8 : 0.2}
       onClose={onCloseAS}
       onOpen={onOpenAS}
       CustomHeaderComponent={
@@ -84,18 +83,29 @@ function CActionSheet(props) {
               cStyles.pt16,
               cStyles.px10,
               cStyles.row,
-              cStyles.itemsCenter,
+              cStyles.itemsStart,
               cStyles.justifyBetween,
               cStyles.roundedTopLeft5,
               cStyles.roundedTopRight5,
               {backgroundColor: customColors.card},
             ]}>
             <CIconButton
+              style={styles}
+              iconProps={{size: moderateScale(21)}}
               iconName={Icons.close}
-              iconColor={customColors.icon}
+              iconColor={customColors.red}
               onPress={handleClose}
             />
+            <View
+              style={[
+                cStyles.rounded5,
+                {backgroundColor: customColors.cardDisable},
+                styles.indicator,
+              ]}
+            />
             <CIconButton
+              style={styles}
+              iconProps={{size: moderateScale(21)}}
               iconName={Icons.check}
               iconColor={customColors.primary}
               onPress={handleConfirm}
@@ -110,5 +120,14 @@ function CActionSheet(props) {
     </ActionSheet>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    borderTopLeftRadius: moderateScale(30),
+    borderTopRightRadius: moderateScale(30),
+  },
+  indicator: {width: moderateScale(50), height: moderateScale(6)},
+  icon: {height: moderateScale(45), width: moderateScale(45)},
+});
 
 export default CActionSheet;

@@ -26,6 +26,7 @@ function CAlert(props) {
     loading = false,
     show = false,
     contentStyle = {},
+    hasTitle = true,
     title = 'common:need_confirm',
     content = null,
     customContent = null,
@@ -47,24 +48,25 @@ function CAlert(props) {
           contentStyle,
         ]}>
         {/** Header of Alert */}
-        <View
-          style={[
-            cStyles.roundedTopLeft2,
-            cStyles.roundedTopRight2,
-            cStyles.pt16,
-            cStyles.px10,
-            cStyles.center,
-          ]}>
-          <CText
-            styles={'textCenter textTitle'}
-            label={title}
-            customLabel={title !== 'common:need_confirm' ? title : null}
-          />
-        </View>
+        {hasTitle && (
+          <View
+            style={[
+              cStyles.roundedTopLeft2,
+              cStyles.roundedTopRight2,
+              cStyles.pt16,
+              cStyles.px10,
+              cStyles.center,
+            ]}>
+            <CText
+              styles={'textCenter textTitle'}
+              label={title}
+              customLabel={title !== 'common:need_confirm' ? title : null}
+            />
+          </View>
+        )}
 
         {/** Content of Alert */}
-        <View
-          style={[cStyles.px16, cStyles.pb20, cStyles.mt10, cStyles.fullWidth]}>
+        <View style={[cStyles.px16, cStyles.pb16, cStyles.fullWidth]}>
           {!loading && content && (
             <CText styles={'textMeta textCenter'} label={content} />
           )}
@@ -94,7 +96,7 @@ function CAlert(props) {
                   onClose && !onOK && styles.btn_alone,
                 ]}
                 textStyle={{
-                  color: customColors.blue,
+                  color: customColors.red,
                   fontSize: moderateScale(18),
                 }}
                 disabled={loading}

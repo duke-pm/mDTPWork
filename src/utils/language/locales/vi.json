@@ -40,7 +40,8 @@
     "back": "Trở về",
     "holder_search": "Tìm kiếm...",
     "find": "Tìm",
-    "edit": "SỬA"
+    "edit": "SỬA",
+    "congratulations": "Xin chúc mừng!!!"
   },
   "status": {
     "title": "Trạng thái",
@@ -447,7 +448,8 @@
     "detail_task": "Chi tiết",
     "find": "Tìm",
     "confirm_change_to_finished": "Khi Bạn chọn status Finished thì Tiến Độ sẽ là 100%.\nBạn có đồng ý thực hiện?",
-    "confirm_change_to_100": "Khi Bạn chọn Tiến Độ là 100% thì Status sẽ là Finished.\nBạn có đồng ý thực hiện?"
+    "confirm_change_to_100": "Khi Bạn chọn Tiến Độ là 100% thì Status sẽ là Finished.\nBạn có đồng ý thực hiện?",
+    "completed_task": "Bạn đã hoàn thành công việc này"
   },
   "sales_visit": {
     "title": "Sales Visit",

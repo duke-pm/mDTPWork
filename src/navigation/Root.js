@@ -264,6 +264,8 @@ export function RootMain(props) {
         options={{
           headerBackTitle: t('project_management:back_title'),
           headerStyle: headerStyles,
+          headerLargeTitle: false,
+          headerTranslucent: false,
         }}
       />
       <StackMain.Screen

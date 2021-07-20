@@ -13,6 +13,7 @@ import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
 import {StyleSheet, View, Text, LayoutAnimation, UIManager} from 'react-native';
 import {showMessage} from 'react-native-flash-message';
+import LottieView from 'lottie-react-native';
 import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
@@ -31,6 +32,7 @@ import FileAttach from '../components/FileAttach';
 import Icons from '~/config/icons';
 import Routes from '~/navigation/Routes';
 import Commons from '~/utils/common/Commons';
+import {usePrevious} from '~/utils/hook';
 import {colors, cStyles} from '~/utils/style';
 import {
   DEFAULT_FORMAT_DATE_4,
@@ -49,6 +51,8 @@ import {
 } from '~/utils/helper';
 /** REDUX */
 import * as Actions from '~/redux/actions';
+import CAlert from '~/components/CAlert';
+import {Animations} from '~/utils/asset';
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -115,9 +119,15 @@ function Task(props) {
   const [newComment, setNewComment] = useState(false);
   const [isFastWatch, setIsFastWatch] = useState(true);
   const [needRefresh, setNeedRefresh] = useState(false);
+  const [completed, setCompleted] = useState({
+    status: false,
+    show: false,
+  });
   const [data, setData] = useState({
     taskDetail: null,
   });
+
+  let prevTaskDetail = usePrevious(projectState.get('taskDetail'));
 
   /*****************
    ** HANDLE FUNC **
@@ -357,6 +367,20 @@ function Task(props) {
     projectState.get('successTaskWatcher'),
     projectState.get('errorTaskWatcher'),
   ]);
+
+  useEffect(() => {
+    if (prevTaskDetail) {
+      let taskDetail = projectState.get('taskDetail');
+      if (
+        prevTaskDetail.statusID !== Commons.STATUS_TASK.CLOSED.value &&
+        prevTaskDetail.statusID !== taskDetail.statusID
+      ) {
+        if (taskDetail.statusID === Commons.STATUS_TASK.CLOSED.value) {
+          setCompleted({status: true, show: true});
+        }
+      }
+    }
+  }, [prevTaskDetail, projectState.get('taskDetail')]);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('dismiss', e => {
@@ -870,6 +894,26 @@ function Task(props) {
               }
             />
           </CContent>
+
+          <CAlert
+            show={completed.show}
+            title={t('common:congratulations')}
+            customContent={
+              <View style={cStyles.flexCenter}>
+                <CText
+                  styles={'textMeta'}
+                  label={'project_management:completed_task'}
+                />
+                <LottieView
+                  style={styles.icon_completed}
+                  source={Animations.taskCompleted}
+                  autoPlay
+                  loop
+                />
+              </View>
+            }
+            onClose={() => setCompleted({...completed, show: false})}
+          />
         </CAvoidKeyboard>
       }
     />
@@ -881,6 +925,7 @@ const styles = StyleSheet.create({
   row_info_basic_left: {flex: 0.4},
   row_info_basic_right: {flex: 0.6},
   last_row_info_basic: {borderBottomWidth: 0},
+  icon_completed: {height: moderateScale(300), width: '100%'},
 });
 
 export default Task;

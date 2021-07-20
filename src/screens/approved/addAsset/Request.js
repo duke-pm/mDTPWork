@@ -546,9 +546,14 @@ function AddRequest(props) {
   ]);
 
   useLayoutEffect(() => {
-    navigation.setOptions({
-      title: `${t('add_approved_assets:' + (isDetail ? 'detail' : 'title'))}`,
-    });
+    let title = '';
+    if (!isDetail) {
+      title = t('add_approved_assets:title');
+    } else {
+      title =
+        t('add_approved_assets:detail') + ' #' + route.params?.data?.requestID;
+    }
+    navigation.setOptions({title});
   }, [navigation, isDetail]);
 
   /************
@@ -849,9 +854,7 @@ function AddRequest(props) {
             />
 
             {isDetail && (
-              <CActionSheet
-                indicatorColor={customColors.textDisable}
-                actionRef={actionSheetProcessRef}>
+              <CActionSheet actionRef={actionSheetProcessRef}>
                 <RequestProcess
                   data={process}
                   customColors={customColors}

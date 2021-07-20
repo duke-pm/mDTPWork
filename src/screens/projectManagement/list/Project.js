@@ -229,12 +229,12 @@ function ListProject(props) {
                           <CAvatar
                             containerStyle={cStyles.mr5}
                             label={item.fullName}
-                            size={'vsmall'}
+                            size={'small'}
                           />
                           <View
                             style={[
                               cStyles.ml5,
-                              cStyles.py10,
+                              cStyles.py6,
                               cStyles.flex1,
                               index !== usersInvitedLength - 1 &&
                                 cStyles.borderBottom,

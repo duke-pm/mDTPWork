@@ -571,33 +571,28 @@ function AddRequest(props) {
   ]);
 
   useLayoutEffect(() => {
-    navigation.setOptions({
-      title: `${t(
-        'add_approved_lost_damaged:' +
-          (isDetail
-            ? typeRequest === Commons.APPROVED_TYPE.DAMAGED.value
-              ? 'detail_damage'
-              : 'detail_lost'
-            : typeRequest === Commons.APPROVED_TYPE.DAMAGED.value
-            ? 'title_damage'
-            : 'title_lost'),
-      )}`,
-    });
-  }, [navigation, isDetail, typeRequest]);
+    let title = '';
+    if (!isDetail) {
+      if (form.typeUpdate === Commons.APPROVED_TYPE.DAMAGED.value) {
+        title = t('add_approved_lost_damaged:title_damage');
+      } else {
+        title = t('add_approved_lost_damaged:title_lost');
+      }
+    } else {
+      if (form.typeUpdate === Commons.APPROVED_TYPE.DAMAGED.value) {
+        title =
+          t('add_approved_lost_damaged:detail_damage') +
+          ' #' +
+          route.params?.data?.requestID;
+      } else {
+        title =
+          t('add_approved_lost_damaged:detail_lost') +
+          ' #' +
+          route.params?.data?.requestID;
+      }
+    }
 
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      title: `${t(
-        'add_approved_lost_damaged:' +
-          (isDetail
-            ? form.typeUpdate === Commons.APPROVED_TYPE.DAMAGED.value
-              ? 'detail_damage'
-              : 'detail_lost'
-            : form.typeUpdate === Commons.APPROVED_TYPE.DAMAGED.value
-            ? 'title_damage'
-            : 'title_lost'),
-      )}`,
-    });
+    navigation.setOptions({title});
   }, [navigation, isDetail, form.typeUpdate]);
 
   /************

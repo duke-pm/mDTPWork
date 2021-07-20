@@ -51,13 +51,9 @@ function CIconHeader(props) {
                     cStyles.abs,
                     cStyles.rounded2,
                     cStyles.borderAll,
-                    styles.badge,
                     isDark && cStyles.borderAllDark,
-                    {
-                      backgroundColor: customColors.red,
-                      top: 0,
-                      left: moderateScale(10),
-                    },
+                    {backgroundColor: customColors.red},
+                    styles.badge,
                   ]}
                 />
               )}
@@ -73,8 +69,9 @@ const styles = StyleSheet.create({
   badge: {
     height: moderateScale(10),
     width: moderateScale(10),
-    top: 16,
-    right: 15,
+    right: moderateScale(15),
+    left: moderateScale(10),
+    top: 0,
   },
 });
 

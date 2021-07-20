@@ -503,21 +503,11 @@ function Activity(props) {
                           styles.con_me,
                         ]}>
                         <CText
-                          customStyles={[
-                            cStyles.fontMedium,
-                            cStyles.textRight,
-                            cStyles.colorWhite,
-                          ]}
+                          styles={'colorWhite textRight'}
                           customLabel={item.comments}
                         />
                         <CText
-                          customStyles={[
-                            cStyles.textDate,
-                            cStyles.fontMedium,
-                            cStyles.textRight,
-                            cStyles.colorWhite,
-                            cStyles.mt6,
-                          ]}
+                          styles={'colorWhite textRight textDate mt6'}
                           customLabel={`${moment(
                             item.timeUpdate,
                             'DD/MM/YYYY - HH:mm',
@@ -619,7 +609,7 @@ const styles = StyleSheet.create({
     height: moderateScale(32),
     width: moderateScale(32),
   },
-  con_me: {backgroundColor: colors.STATUS_SCHEDULE},
+  con_me: {backgroundColor: IS_IOS ? colors.BLUE : colors.GREEN},
   con_you: {backgroundColor: colors.GRAY_200},
 });
 

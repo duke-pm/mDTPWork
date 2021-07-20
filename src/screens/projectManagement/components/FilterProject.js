@@ -10,13 +10,7 @@ import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
-import {
-  StyleSheet,
-  TouchableOpacity,
-  View,
-  StatusBar,
-  Text,
-} from 'react-native';
+import {StyleSheet, TouchableOpacity, View, StatusBar} from 'react-native';
 import Picker from '@gregfrench/react-native-wheel-picker';
 import Icon from 'react-native-vector-icons/Ionicons';
 /* COMPONENTS */
@@ -31,10 +25,10 @@ import CIconHeader from '~/components/CIconHeader';
 import CActivityIndicator from '~/components/CActivityIndicator';
 /* COMMON */
 import Configs from '~/config';
+import Icons from '~/config/icons';
 import {THEME_DARK} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
 import {moderateScale, IS_ANDROID, IS_IOS, sH} from '~/utils/helper';
-import Icons from '~/config/icons';
 
 /** All refs use in this screen */
 const actionSheetYearRef = createRef();
@@ -78,7 +72,11 @@ const RowPicker = (
           ]}>
           <CText label={label} />
           <View style={[cStyles.row, cStyles.itemsCenter]}>
-            {loading ? <CActivityIndicator /> : <CText label={active} />}
+            {loading ? (
+              <CActivityIndicator />
+            ) : (
+              <CText styles={'pr6'} label={active} />
+            )}
             <Icon
               name={Icons.next}
               size={moderateScale(18)}
@@ -142,7 +140,7 @@ const RowSelect = (
             <Icon
               name={Icons.check}
               color={customColors.blue}
-              size={moderateScale(23)}
+              size={moderateScale(21)}
             />
           )}
         </View>
@@ -317,6 +315,7 @@ function FilterProject(props) {
                   show: true,
                   showRedDot: false,
                   icon: Icons.close,
+                  iconColor: customColors.red,
                   onPress: handleReset,
                 },
               ]}
@@ -329,6 +328,7 @@ function FilterProject(props) {
                   show: true,
                   showRedDot: false,
                   icon: Icons.doubleCheck,
+                  iconColor: customColors.blue,
                   onPress: handleFilter,
                 },
               ]}
@@ -382,7 +382,9 @@ function FilterProject(props) {
           <CGroupLabel
             containerStyle={cStyles.mt0}
             labelLeft={t('project_management:title_owner')}
-            labelRight={t('project_management:holder_choose_multi')}
+            labelRight={`${t('project_management:holder_choose_multi')} (${
+              owner.active.length
+            })`}
           />
           <CList
             contentStyle={[cStyles.px0, cStyles.pb0]}
@@ -408,7 +410,9 @@ function FilterProject(props) {
           <CGroupLabel
             containerStyle={cStyles.mt0}
             labelLeft={t('status:title')}
-            labelRight={t('project_management:holder_choose_multi')}
+            labelRight={`${t('project_management:holder_choose_multi')} (${
+              status.active.length
+            })`}
           />
           <CList
             contentStyle={[cStyles.px0, cStyles.pb0]}
@@ -435,7 +439,9 @@ function FilterProject(props) {
             <>
               <CGroupLabel
                 labelLeft={t('project_management:holder_sector')}
-                labelRight={t('project_management:holder_choose_multi')}
+                labelRight={`${t('project_management:holder_choose_multi')} (${
+                  sectors.active.length
+                })`}
               />
               <CList
                 contentStyle={[cStyles.px0, cStyles.pb0]}
