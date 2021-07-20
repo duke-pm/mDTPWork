@@ -34,7 +34,7 @@ import Configs from '~/config';
 import {THEME_DARK} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
 import {moderateScale, IS_ANDROID, IS_IOS, sH} from '~/utils/helper';
-import Icons from '~/config/Icons';
+import Icons from '~/config/icons';
 
 /** All refs use in this screen */
 const actionSheetYearRef = createRef();

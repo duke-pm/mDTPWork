@@ -21,7 +21,7 @@ import CGroupFilter from '~/components/CGroupFilter';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
 import {IS_ANDROID, moderateScale} from '~/utils/helper';
-import Icons from '~/config/Icons';
+import Icons from '~/config/icons';
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);

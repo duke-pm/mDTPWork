@@ -21,7 +21,7 @@ import ListProject from './list/Project';
 /** COMMON */
 import Routes from '~/navigation/Routes';
 import Configs from '~/config';
-import Icons from '~/config/Icons';
+import Icons from '~/config/icons';
 import {LOAD_MORE, REFRESH} from '~/config/constants';
 import {IS_ANDROID} from '~/utils/helper';
 import {usePrevious} from '~/utils/hook';

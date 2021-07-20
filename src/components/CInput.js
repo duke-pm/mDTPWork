@@ -22,7 +22,7 @@ import CText from './CText';
 import {colors, cStyles} from '~/utils/style';
 import {IS_ANDROID, moderateScale, verticalScale} from '~/utils/helper';
 import {THEME_DARK, THEME_LIGHT} from '~/config/constants';
-import Icons from '~/config/Icons';
+import Icons from '~/config/icons';
 
 function CInput(props) {
   const {t} = useTranslation();

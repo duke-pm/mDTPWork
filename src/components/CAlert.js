@@ -17,7 +17,7 @@ import CActivityIndicator from './CActivityIndicator';
 /* COMMON */
 import {cStyles, colors} from '~/utils/style';
 import {THEME_DARK} from '~/config/constants';
-import {IS_ANDROID, IS_IOS, moderateScale} from '~/utils/helper';
+import {IS_IOS, moderateScale} from '~/utils/helper';
 
 function CAlert(props) {
   const isDark = useColorScheme() === THEME_DARK;
@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
   container: {width: moderateScale(350)},
   button: {width: moderateScale(1)},
   con_button: {height: moderateScale(45), width: moderateScale(350) / 2},
-  btn_alone: {width: '100%'},
+  btn_alone: {width: moderateScale(350)},
 });
 
 export default CAlert;

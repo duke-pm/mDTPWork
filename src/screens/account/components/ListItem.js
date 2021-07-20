@@ -24,7 +24,7 @@ import Configs from '~/config';
 import {alert, moderateScale} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
 import {Assets} from '~/utils/asset';
-import Icons from '~/config/Icons';
+import Icons from '~/config/icons';
 
 function ListItem(props) {
   const navigation = useNavigation();

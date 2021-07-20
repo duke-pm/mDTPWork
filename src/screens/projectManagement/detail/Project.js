@@ -22,7 +22,7 @@ import ListTask from '../list/Task';
 /** COMMON */
 import Routes from '~/navigation/Routes';
 import Configs from '~/config';
-import Icons from '~/config/Icons';
+import Icons from '~/config/icons';
 import {LOAD_MORE, LOGIN, REFRESH} from '~/config/constants';
 import {getSecretInfo, IS_ANDROID, IS_IOS, resetRoute} from '~/utils/helper';
 import {colors} from '~/utils/style';

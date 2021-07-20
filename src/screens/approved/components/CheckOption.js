@@ -13,7 +13,7 @@ import CText from '~/components/CText';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
 import {moderateScale} from '~/utils/helper';
-import Icons from '~/config/Icons';
+import Icons from '~/config/icons';
 
 function CheckOption(props) {
   const {loading, isDetail, customColors, value, values, onCallback} = props;

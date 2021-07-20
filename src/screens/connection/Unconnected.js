@@ -12,7 +12,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import CText from '~/components/CText';
 /* COMMON */
 import {cStyles} from '~/utils/style';
-import Icons from '~/config/Icons';
+import Icons from '~/config/icons';
 import {moderateScale} from '~/utils/helper';
 
 function Unconnected(props) {

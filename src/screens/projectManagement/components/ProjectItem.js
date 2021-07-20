@@ -17,7 +17,7 @@ import CLabel from '~/components/CLabel';
 import {colors, cStyles} from '~/utils/style';
 import {checkEmpty, moderateScale, IS_ANDROID} from '~/utils/helper';
 import {DEFAULT_FORMAT_DATE_4} from '~/config/constants';
-import Icons from '~/config/Icons';
+import Icons from '~/config/icons';
 import CAvatar from '~/components/CAvatar';
 
 if (IS_ANDROID) {

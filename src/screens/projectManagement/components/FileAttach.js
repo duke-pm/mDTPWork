@@ -21,7 +21,7 @@ import {THEME_DARK} from '~/config/constants';
 import {cStyles, colors} from '~/utils/style';
 import {checkExistsFile, moderateScale} from '~/utils/helper';
 import API from '~/services/axios';
-import Icons from '~/config/Icons';
+import Icons from '~/config/icons';
 
 function FileAttach(props) {
   const {customColors} = useTheme();

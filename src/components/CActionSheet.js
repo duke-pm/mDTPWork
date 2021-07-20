@@ -14,7 +14,7 @@ import CIconButton from './CIconButton';
 /** COMMON */
 import {cStyles} from '~/utils/style';
 import {THEME_DARK} from '~/config/constants';
-import Icons from '~/config/Icons';
+import Icons from '~/config/icons';
 
 function CActionSheet(props) {
   const {customColors} = useTheme();

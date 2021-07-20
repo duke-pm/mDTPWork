@@ -14,7 +14,7 @@ import CFooterList from '~/components/CFooterList';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
 import {moderateScale} from '~/utils/helper';
-import Icons from '~/config/Icons';
+import Icons from '~/config/icons';
 
 function RequestProcess(props) {
   const {data = [], customColors = {}} = props;

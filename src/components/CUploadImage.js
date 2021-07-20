@@ -26,7 +26,7 @@ import {
   moderateScale,
 } from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
-import Icons from '~/config/Icons';
+import Icons from '~/config/icons';
 
 function CUploadImage(props) {
   const {onChange} = props;

@@ -46,7 +46,7 @@ import {
   moderateScale,
   IS_IOS,
 } from '~/utils/helper';
-import Icons from '~/config/Icons';
+import Icons from '~/config/icons';
 /** REDUX */
 import * as Actions from '~/redux/actions';
 

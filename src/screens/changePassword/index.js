@@ -37,7 +37,7 @@ import {BIOMETRICS, LOGIN} from '~/config/constants';
 import Routes from '~/navigation/Routes';
 /* REDUX */
 import * as Actions from '~/redux/actions';
-import Icons from '~/config/Icons';
+import Icons from '~/config/icons';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {

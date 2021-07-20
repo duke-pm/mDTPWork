@@ -39,7 +39,7 @@ import RejectModal from '../components/RejectModal';
 import RequestProcess from '../components/RequestProcess';
 import CheckOption from '../components/CheckOption';
 /* COMMON */
-import Icons from '~/config/Icons';
+import Icons from '~/config/icons';
 import Commons from '~/utils/common/Commons';
 import {colors, cStyles} from '~/utils/style';
 import {

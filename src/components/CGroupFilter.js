@@ -17,7 +17,7 @@ import CText from './CText';
 /* COMMON */
 import {IS_ANDROID, moderateScale} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
-import Icons from '~/config/Icons';
+import Icons from '~/config/icons';
 
 function CGroupFilter(props) {
   const {t} = useTranslation();

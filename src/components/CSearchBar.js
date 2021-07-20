@@ -16,7 +16,7 @@ import CActivityIndicator from './CActivityIndicator';
 /* COMMON */
 import {IS_ANDROID} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
-import Icons from '~/config/Icons';
+import Icons from '~/config/icons';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {

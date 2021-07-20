@@ -21,7 +21,7 @@ import CIconHeader from '~/components/CIconHeader';
 import Filter from '../components/Filter';
 import ListRequest from '../components/ListRequest';
 /* COMMON */
-import Icons from '~/config/Icons';
+import Icons from '~/config/icons';
 import {LOAD_MORE, REFRESH} from '~/config/constants';
 import {IS_ANDROID, moderateScale} from '~/utils/helper';
 import {cStyles} from '~/utils/style';

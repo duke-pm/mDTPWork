@@ -16,7 +16,7 @@ import CAvatar from '~/components/CAvatar';
 import CLabel from '~/components/CLabel';
 import CTouchable from '~/components/CTouchable';
 /* COMMON */
-import Icons from '~/config/Icons';
+import Icons from '~/config/icons';
 import Commons from '~/utils/common/Commons';
 import {DEFAULT_FORMAT_DATE_4} from '~/config/constants';
 import {cStyles} from '~/utils/style';

@@ -25,7 +25,7 @@ import ListTask from '../list/Task';
 import Commons from '~/utils/common/Commons';
 import {IS_ANDROID, moderateScale} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
-import Icons from '~/config/Icons';
+import Icons from '~/config/icons';
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);

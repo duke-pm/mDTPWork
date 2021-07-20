@@ -28,7 +28,7 @@ import Routes from '~/navigation/Routes';
 import {DEFAULT_FORMAT_DATE_4, THEME_DARK} from '~/config/constants';
 import {checkEmpty, IS_ANDROID, moderateScale} from '~/utils/helper';
 import {cStyles} from '~/utils/style';
-import Icons from '~/config/Icons';
+import Icons from '~/config/icons';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
