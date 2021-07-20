@@ -20,16 +20,15 @@ import CText from '~/components/CText';
 import CIconHeader from '~/components/CIconHeader';
 import ListTask from '../list/Task';
 /** COMMON */
-import Routes from '~/navigation/Routes';
 import Configs from '~/config';
 import Icons from '~/config/icons';
+import Routes from '~/navigation/Routes';
 import {LOAD_MORE, LOGIN, REFRESH} from '~/config/constants';
 import {getSecretInfo, IS_ANDROID, IS_IOS, resetRoute} from '~/utils/helper';
 import {colors} from '~/utils/style';
 import {usePrevious} from '~/utils/hook';
 /** REDUX */
 import * as Actions from '~/redux/actions';
-
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -134,9 +133,9 @@ function ProjectDetail(props) {
     }
   };
 
-  /************
+  /**********
    ** FUNC **
-   ************/
+   **********/
   const onFetchData = (
     ownerID = null,
     statusID = null,
@@ -310,9 +309,9 @@ function ProjectDetail(props) {
     resetRoute(navigation, Routes.AUTHENTICATION.SIGN_IN.name);
   };
 
-  /******************
+  /****************
    ** LIFE CYCLE **
-   ******************/
+   ****************/
   useEffect(() => {
     let isLogin = authState.get('successLogin');
     if (isLogin) {
@@ -484,9 +483,9 @@ function ProjectDetail(props) {
     projectID,
   ]);
 
-  /**************
+  /************
    ** RENDER **
-   **************/
+   ************/
   return (
     <CContainer
       loading={loading.main}

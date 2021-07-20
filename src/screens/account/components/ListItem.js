@@ -21,10 +21,10 @@ import Rate, {AndroidMarket} from 'react-native-rate';
 import CText from '~/components/CText';
 /* COMMON */
 import Configs from '~/config';
+import Icons from '~/config/icons';
 import {alert, moderateScale} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
 import {Assets} from '~/utils/asset';
-import Icons from '~/config/icons';
 
 function ListItem(props) {
   const navigation = useNavigation();
@@ -79,9 +79,9 @@ function ListItem(props) {
     }
   };
 
-  /**************
+  /************
    ** RENDER **
-   **************/
+   ************/
   let isTouch =
     data.nextRoute ||
     data.isSignOut ||
@@ -94,7 +94,6 @@ function ListItem(props) {
   if (dataToggle && !dataToggle.activeBiometric) {
     return null;
   }
-
   return (
     <Component key={key} onPress={handleItem}>
       <View

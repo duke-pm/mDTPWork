@@ -33,13 +33,12 @@ import CCard from '~/components/CCard';
 import CLabel from '~/components/CLabel';
 import CActivityIndicator from '~/components/CActivityIndicator';
 /* COMMON */
+import Icons from '~/config/icons';
 import {THEME_DARK} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
 import {moderateScale, IS_ANDROID} from '~/utils/helper';
-import Icons from '~/config/icons';
 /** REDUX */
 import * as Actions from '~/redux/actions';
-
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -114,9 +113,9 @@ function Watchers(props) {
     });
   };
 
-  /************
+  /**********
    ** FUNC **
-   ************/
+   **********/
   const onPrepareData = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     /** Set list watchers */
@@ -140,9 +139,9 @@ function Watchers(props) {
     return setLoading({main: false, send: false});
   };
 
-  /******************
+  /****************
    ** LIFE CYCLE **
-   ******************/
+   ****************/
   useEffect(() => {
     onPrepareData();
   }, []);
@@ -175,9 +174,9 @@ function Watchers(props) {
     return unsubscribe;
   }, [navigation, needRefresh]);
 
-  /**************
+  /************
    ** RENDER **
-   **************/
+   ************/
   return (
     <CContainer
       loading={loading.main}
@@ -227,7 +226,6 @@ function Watchers(props) {
                       showsVerticalScrollIndicator={false}
                       nestedScrollEnabled={true}>
                       {watchers.map((item, index) => {
-                        let isLast = index === watchers.length - 1;
                         let time = moment(
                           item.timeUpdate,
                           'DD/MM/YYYY - HH:mm',
@@ -239,7 +237,16 @@ function Watchers(props) {
                         return (
                           <View
                             key={index + item.userName}
-                            style={[cStyles.row, cStyles.itemsCenter]}>
+                            style={[
+                              cStyles.row,
+                              cStyles.itemsCenter,
+                              index !== watchers.length - 1 &&
+                                cStyles.borderBottom,
+                              index !== watchers.length - 1 &&
+                                isDark &&
+                                cStyles.borderBottomDark,
+                              index !== -1 && cStyles.py4,
+                            ]}>
                             <View>
                               <CAvatar size={'small'} label={item.fullName} />
                               {item.isReceiveEmail && (
@@ -248,13 +255,7 @@ function Watchers(props) {
                                     cStyles.center,
                                     cStyles.rounded5,
                                     cStyles.abs,
-                                    {
-                                      height: moderateScale(14),
-                                      width: moderateScale(14),
-                                      backgroundColor: colors.WHITE,
-                                      right: -moderateScale(4),
-                                      bottom: -moderateScale(4),
-                                    },
+                                    styles.con_icon,
                                   ]}>
                                   <Icon
                                     name={Icons.mail}
@@ -271,9 +272,6 @@ function Watchers(props) {
                                 cStyles.itemsCenter,
                                 cStyles.justifyBetween,
                                 cStyles.ml10,
-                                cStyles.py10,
-                                !isLast && cStyles.borderBottom,
-                                !isLast && isDark && cStyles.borderBottomDark,
                               ]}>
                               <View style={styles.con_left}>
                                 <Text
@@ -284,7 +282,7 @@ function Watchers(props) {
                                   {item.fullName}
                                   <Text
                                     style={[
-                                      cStyles.textDefault,
+                                      cStyles.textMeta,
                                       {color: customColors.text},
                                     ]}>
                                     {item.userName === userName
@@ -296,10 +294,7 @@ function Watchers(props) {
                               <View
                                 style={[cStyles.itemsEnd, styles.con_right]}>
                                 <CText styles={'textMeta'} customLabel={date} />
-                                <CText
-                                  styles={'textMeta mt5'}
-                                  customLabel={time}
-                                />
+                                <CText styles={'textMeta'} customLabel={time} />
                               </View>
                             </View>
                           </View>
@@ -323,8 +318,15 @@ function Watchers(props) {
 }
 
 const styles = StyleSheet.create({
-  con_left: {flex: 0.5},
-  con_right: {flex: 0.5},
+  con_left: {flex: 0.6},
+  con_right: {flex: 0.4},
+  con_icon: {
+    height: moderateScale(14),
+    width: moderateScale(14),
+    backgroundColor: colors.WHITE,
+    right: -moderateScale(4),
+    bottom: -moderateScale(4),
+  },
 });
 
 export default Watchers;

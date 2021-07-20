@@ -18,8 +18,8 @@ import {IS_ANDROID} from '~/utils/helper';
 import {cStyles} from '~/utils/style';
 
 function ListTask(props) {
-  const navigation = useNavigation();
   const {t} = useTranslation();
+  const navigation = useNavigation();
   const isDark = useColorScheme() === THEME_DARK;
   const {customColors} = useTheme();
   const {onLoadmore, onRefreshTasks} = props;
@@ -37,9 +37,9 @@ function ListTask(props) {
     });
   };
 
-  /**************
+  /************
    ** RENDER **
-   **************/
+   ************/
   return (
     <CList
       contentStyle={IS_ANDROID ? cStyles.pt16 : {}}

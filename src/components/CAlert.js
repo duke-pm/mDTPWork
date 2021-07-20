@@ -52,7 +52,7 @@ function CAlert(props) {
             cStyles.roundedTopLeft2,
             cStyles.roundedTopRight2,
             cStyles.pt16,
-            cStyles.px8,
+            cStyles.px10,
             cStyles.center,
           ]}>
           <CText

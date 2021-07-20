@@ -22,10 +22,10 @@ import CAvatar from '~/components/CAvatar';
 import CTouchable from '~/components/CTouchable';
 import ListTask from '../list/Task';
 /* COMMON */
+import Icons from '~/config/icons';
 import Commons from '~/utils/common/Commons';
 import {IS_ANDROID, moderateScale} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
-import Icons from '~/config/icons';
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -186,11 +186,16 @@ function TaskItem(props) {
                   </View>
 
                   <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pt6]}>
+                    <Icon
+                      name={'ellipse'}
+                      color={isDark ? data.colorDarkCode : data.colorCode}
+                      size={moderateScale(14)}
+                    />
                     <CText
-                      styles={'textMeta fontBold colorWhite'}
                       customStyles={[
                         cStyles.textMeta,
                         cStyles.fontBold,
+                        cStyles.ml4,
                         {color: bgStatus},
                       ]}
                       customLabel={data.statusName}

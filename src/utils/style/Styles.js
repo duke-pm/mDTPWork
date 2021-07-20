@@ -7,7 +7,7 @@
 import {isIphoneX} from 'react-native-iphone-x-helper';
 import {Platform, Dimensions} from 'react-native';
 /** COMMON */
-import {IS_IOS, lH, moderateScale} from '~/utils/helper';
+import {IS_IOS, moderateScale} from '~/utils/helper';
 import Colors from './Colors';
 
 const PLATFORM = {
@@ -53,6 +53,8 @@ const main = {
   deviceHeight,
   deviceWidth,
   ofHidden: {overflow: 'hidden'},
+  ofScroll: {overflow: 'scroll'},
+  ofVisible: {overflow: 'visible'},
 };
 
 const padding = {
@@ -358,7 +360,7 @@ const margin = {
   mx60: {marginHorizontal: moderateScale(60)},
 
   m0: {margin: 0},
-  m1: {margin: 1},
+  m1: {margin: moderateScale(1)},
   m2: {margin: moderateScale(2)},
   m3: {margin: moderateScale(3)},
   m4: {margin: moderateScale(4)},
@@ -394,9 +396,6 @@ const position = {
 };
 
 const shadow = {
-  shadowHeader: {
-    elevation: 5,
-  },
   shadow1: {
     shadowColor: '#000',
     shadowOffset: {
@@ -443,7 +442,7 @@ const shadow = {
 };
 
 const text = {
-  colorPrimary: {color: '#003737'},
+  colorPrimary: {color: IS_IOS ? '#3490DC' : '#003737'},
   colorSecondary: {color: '#ff9910'},
   colorTransparent: {color: 'transparent'},
   colorBlack: {color: 'black'},
@@ -532,9 +531,9 @@ const text = {
     lineHeight: moderateScale(20),
   },
   fontBold: {fontWeight: 'bold'},
-  fontMedium: {fontWeight: '700'},
+  fontMedium: {fontWeight: '500'},
   fontRegular: {fontWeight: 'normal'},
-  fontLight: {fontWeight: '100'},
+  fontLight: {fontWeight: '300'},
   textLeft: {textAlign: 'left'},
   textRight: {textAlign: 'right'},
   textCenter: {textAlign: 'center', textAlignVertical: 'center'},

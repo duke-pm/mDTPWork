@@ -81,7 +81,7 @@ const RowPicker = (
             {loading ? <CActivityIndicator /> : <CText label={active} />}
             <Icon
               name={Icons.next}
-              size={moderateScale(23)}
+              size={moderateScale(18)}
               color={colors.GRAY_500}
             />
           </View>

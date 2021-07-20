@@ -49,11 +49,14 @@ function CInput(props) {
     keyboard = 'default',
     returnKey = 'next',
 
+    multiline = false,
     password = false,
     autoFocus = false,
     dateTimePicker = false,
     hasRemove = false,
 
+    onLayout = null,
+    onContentSizeChange = null,
     onChangeInput = null,
     onChangeValue = null,
     onPressIconLast = null,
@@ -181,6 +184,9 @@ function CInput(props) {
               keyboardAppearance={isDark ? THEME_DARK : THEME_LIGHT}
               keyboardType={keyboard}
               returnKeyType={returnKey}
+              multiline={multiline}
+              onContentSizeChange={onContentSizeChange}
+              onLayout={onLayout}
               onFocus={handleFocusInput}
               onBlur={() => setFocus(null)}
               onChangeText={handleChangeValue}

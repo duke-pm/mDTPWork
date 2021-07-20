@@ -40,7 +40,7 @@ function CIconButton(props) {
         style={cStyles.p4}
         name={iconName}
         color={iconColor}
-        size={moderateScale(21)}
+        size={moderateScale(18)}
         {...iconProps}
       />
     </CTouchable>
@@ -48,7 +48,7 @@ function CIconButton(props) {
 }
 
 const styles = StyleSheet.create({
-  container: {height: moderateScale(50), width: moderateScale(50)},
+  container: {height: moderateScale(35), width: moderateScale(35)},
 });
 
 export default CIconButton;

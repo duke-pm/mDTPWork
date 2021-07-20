@@ -19,15 +19,14 @@ import CSearchBar from '~/components/CSearchBar';
 import CIconHeader from '~/components/CIconHeader';
 import ListProject from './list/Project';
 /** COMMON */
-import Routes from '~/navigation/Routes';
 import Configs from '~/config';
 import Icons from '~/config/icons';
+import Routes from '~/navigation/Routes';
 import {LOAD_MORE, REFRESH} from '~/config/constants';
 import {IS_ANDROID} from '~/utils/helper';
 import {usePrevious} from '~/utils/hook';
 /** REDUX */
 import * as Actions from '~/redux/actions';
-
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -122,9 +121,9 @@ function ProjectManagement(props) {
     }
   };
 
-  /************
+  /**********
    ** FUNC **
-   ************/
+   **********/
   const onFetchMasterData = () => {
     let paramsMaster = {
       ListType: 'Users, PrjSector, PrjStatus',
@@ -351,9 +350,9 @@ function ProjectManagement(props) {
     isFiltering,
   ]);
 
-  /**************
+  /************
    ** RENDER **
-   **************/
+   ************/
   return (
     <CContainer
       loading={loading.main || loading.startFetch}

@@ -26,19 +26,18 @@ import CButton from '~/components/CButton';
 import CGroupInfo from '~/components/CGroupInfo';
 import CAvoidKeyboard from '~/components/CAvoidKeyboard';
 /* COMMON */
+import Icons from '~/config/icons';
+import Routes from '~/navigation/Routes';
 import {cStyles, colors} from '~/utils/style';
+import {BIOMETRICS, LOGIN} from '~/config/constants';
 import {
   IS_ANDROID,
   removeSecretInfo,
   resetRoute,
   saveLocalInfo,
 } from '~/utils/helper';
-import {BIOMETRICS, LOGIN} from '~/config/constants';
-import Routes from '~/navigation/Routes';
 /* REDUX */
 import * as Actions from '~/redux/actions';
-import Icons from '~/config/icons';
-
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);

@@ -9,7 +9,7 @@ import React, {createRef, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {showMessage} from 'react-native-flash-message';
-import {StyleSheet, View, TouchableOpacity, Alert} from 'react-native';
+import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import Picker from '@gregfrench/react-native-wheel-picker';
 import Icon from 'react-native-vector-icons/Ionicons';
 /* COMPONENTS */
@@ -75,9 +75,9 @@ function Status(props) {
     }
   };
 
-  /************
+  /**********
    ** FUNC **
-   ************/
+   **********/
   const onCloseActionSheet = (needUpdate, isFinished) => {
     if (needUpdate) {
       if (status.data[status.active].statusID !== props.task.statusID) {
@@ -166,9 +166,9 @@ function Status(props) {
     }
   };
 
-  /******************
+  /****************
    ** LIFE CYCLE **
-   ******************/
+   ****************/
   useEffect(() => {
     onPrepareStatus();
   }, [props.task.statusID]);
@@ -194,9 +194,9 @@ function Status(props) {
     projectState.get('errorTaskUpdate'),
   ]);
 
-  /**************
+  /************
    ** RENDER **
-   **************/
+   ************/
   return (
     <View>
       <TouchableOpacity
@@ -207,7 +207,7 @@ function Status(props) {
             cStyles.mt10,
             cStyles.mx16,
             cStyles.px16,
-            cStyles.py16,
+            cStyles.py12,
             cStyles.row,
             cStyles.itemsCenter,
             cStyles.justifyBetween,

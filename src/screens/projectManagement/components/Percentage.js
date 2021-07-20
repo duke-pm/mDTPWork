@@ -15,7 +15,6 @@ import {
   TouchableOpacity,
   Text,
   TextInput,
-  Alert,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 /** COMPONENTS */
@@ -135,9 +134,9 @@ function Percentage(props) {
     setPercent({visible: !percent.visible, value: props.task.percentage});
   };
 
-  /************
+  /**********
    ** FUNC **
-   ************/
+   **********/
   const onChangePercent = value => {
     setPercent({...percent, value: Number(value) + ''});
   };
@@ -161,9 +160,9 @@ function Percentage(props) {
     });
   };
 
-  /******************
+  /****************
    ** LIFE CYCLE **
-   ******************/
+   ****************/
   useEffect(() => {
     setPercent({...percent, value: props.task.percentage});
   }, [props.task.percentage]);
@@ -194,9 +193,9 @@ function Percentage(props) {
     projectState.get('errorTaskUpdate'),
   ]);
 
-  /**************
+  /************
    ** RENDER **
-   **************/
+   ************/
   const isDisable =
     props.task.statusID == Commons.STATUS_TASK.ON_HOLD.value ||
     props.task.statusID == Commons.STATUS_TASK.REJECTED.value ||

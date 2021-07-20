@@ -153,8 +153,8 @@ function FileAttach(props) {
                   height={moderateScale(2)}
                   borderColor={cStyles.borderAllDark.borderColor}
                   progress={progress / 100}
-                  useNativeDriver={true}
                   color={customColors.primary}
+                  useNativeDriver={true}
                 />
               </View>
             )}

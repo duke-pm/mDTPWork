@@ -11,15 +11,14 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 /* COMPONENTS */
 import CCard from '~/components/CCard';
-import ListProject from '../list/Project';
 import CLabel from '~/components/CLabel';
+import CAvatar from '~/components/CAvatar';
+import ListProject from '../list/Project';
 /* COMMON */
+import Icons from '~/config/icons';
 import {colors, cStyles} from '~/utils/style';
 import {checkEmpty, moderateScale, IS_ANDROID} from '~/utils/helper';
 import {DEFAULT_FORMAT_DATE_4} from '~/config/constants';
-import Icons from '~/config/icons';
-import CAvatar from '~/components/CAvatar';
-
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -48,6 +47,8 @@ function ProjectItem(props) {
   /*****************
    ** HANDLE FUNC **
    *****************/
+  const handleHeaderItem = () => onLongPress(data);
+
   const handleItem = () => {
     if (data.countChild > 0) {
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
@@ -57,13 +58,9 @@ function ProjectItem(props) {
     }
   };
 
-  const handleHeaderItem = () => {
-    onLongPress(data);
-  };
-
-  /**************
+  /************
    ** RENDER **
-   **************/
+   ************/
   return (
     <View>
       <CCard
@@ -97,8 +94,15 @@ function ProjectItem(props) {
                 </View>
 
                 {/** Status */}
-                <View style={styles.row_right}>
+                <View
+                  style={[cStyles.row, cStyles.itemsCenter, styles.row_right]}>
+                  <Icon
+                    name={'ellipse'}
+                    color={isDark ? data.colorDarkCode : data.colorCode}
+                    size={moderateScale(14)}
+                  />
                   <CLabel
+                    style={cStyles.ml4}
                     bold
                     color={isDark ? data.colorDarkCode : data.colorCode}
                     customLabel={data.statusName}

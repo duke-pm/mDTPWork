@@ -24,11 +24,11 @@ import CLabel from '~/components/CLabel';
 import CText from '~/components/CText';
 import ProjectItem from '../components/ProjectItem';
 /** COMMON */
+import Icons from '~/config/icons';
 import Routes from '~/navigation/Routes';
 import {DEFAULT_FORMAT_DATE_4, THEME_DARK} from '~/config/constants';
 import {checkEmpty, IS_ANDROID, moderateScale} from '~/utils/helper';
 import {cStyles} from '~/utils/style';
-import Icons from '~/config/icons';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -69,11 +69,17 @@ function ListProject(props) {
     setShowModal(false);
   };
 
+  /**********
+   ** FUNC **
+   **********/
   const onModalHide = () => {
     setLoadingModal(true);
     setChooseProject(null);
   };
 
+  /****************
+   ** LIFE CYCLE **
+   ****************/
   useEffect(() => {
     if (loadingModal && showModal) {
       if (chooseProject) {
@@ -85,9 +91,9 @@ function ListProject(props) {
     }
   }, [loadingModal, showModal, chooseProject]);
 
-  /**************
+  /************
    ** RENDER **
-   **************/
+   ************/
   const usersInvitedLength =
     (chooseProject && chooseProject.lstUserInvited.length) || 0;
   return (
@@ -165,10 +171,20 @@ function ListProject(props) {
                 {/** Status */}
                 <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt10]}>
                   <CLabel label={'project_management:status'} />
+                  <Icon
+                    name={'ellipse'}
+                    color={
+                      isDark
+                        ? chooseProject.colorDarkCode
+                        : chooseProject.colorCode
+                    }
+                    size={moderateScale(14)}
+                  />
                   <CText
                     customStyles={[
                       cStyles.textMeta,
                       cStyles.fontMedium,
+                      cStyles.ml4,
                       {
                         color: isDark
                           ? chooseProject.colorDarkCode
@@ -197,8 +213,8 @@ function ListProject(props) {
                       cStyles.mt10,
                       cStyles.p10,
                       cStyles.rounded2,
-                      styles.list_invited,
                       {backgroundColor: customColors.textInput},
+                      styles.list_invited,
                     ]}>
                     {chooseProject.lstUserInvited.map((item, index) => {
                       return (
@@ -252,8 +268,6 @@ function ListProject(props) {
 }
 
 const styles = StyleSheet.create({
-  row_left: {flex: 0.55},
-  row_right: {flex: 0.45},
   status: {
     height: moderateScale(8),
     width: moderateScale(8),

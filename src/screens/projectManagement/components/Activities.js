@@ -21,6 +21,7 @@ import {
   UIManager,
   TouchableOpacity,
 } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import * as Animatable from 'react-native-animatable';
 import DeviceInfo from 'react-native-device-info';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -38,8 +39,8 @@ import CSearchBar from '~/components/CSearchBar';
 import {
   saveLocalInfo,
   getLocalInfo,
-  IS_IOS,
   moderateScale,
+  IS_IOS,
   IS_ANDROID,
 } from '~/utils/helper';
 import {LAST_COMMENT_TASK} from '~/config/constants';
@@ -47,19 +48,20 @@ import {colors, cStyles} from '~/utils/style';
 import {LOCALE_VI, LOCALE_EN} from '~/utils/language/comment';
 /** REDUX */
 import * as Actions from '~/redux/actions';
-
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
   }
 }
-let listRef = createRef();
 const INPUT_NAME = {MESSAGE: 'message'};
+let listRef = createRef();
 
 const RenderInputMessage = ({
   customColors = {},
   value = '',
+  heightInput = 0,
   onSend = () => {},
+  onSizeInputChange = () => {},
   handleChangeText = () => {},
 }) => {
   return (
@@ -72,25 +74,49 @@ const RenderInputMessage = ({
       <View style={[cStyles.px16, cStyles.row, cStyles.itemsCenter]}>
         <CInput
           name={INPUT_NAME.MESSAGE}
-          style={{color: customColors.text}}
           containerStyle={styles.input}
+          style={[
+            cStyles.rounded5,
+            {
+              color: customColors.text,
+              height: Math.max(
+                moderateScale(40),
+                heightInput + moderateScale(10),
+              ),
+            },
+          ]}
+          styleInput={cStyles.px10}
           styleFocus={styles.input_focus}
           holder={'project_management:holder_input_your_comment'}
           value={value}
-          onBlur={() => Keyboard.dismiss()}
+          onBlur={Keyboard.dismiss}
           keyboard={'default'}
           returnKey={'send'}
+          multiline={true}
           onChangeInput={onSend}
           onChangeValue={handleChangeText}
+          onContentSizeChange={onSizeInputChange}
         />
-        <View style={[cStyles.flexCenter, cStyles.pt10, cStyles.ml12]}>
+        <LinearGradient
+          style={[
+            cStyles.center,
+            cStyles.rounded10,
+            cStyles.mt6,
+            cStyles.ml8,
+            {backgroundColor: customColors.card},
+          ]}
+          colors={
+            value === ''
+              ? [colors.GRAY_500, customColors.cardDisable]
+              : colors.BACKGROUND_GRADIENT_SEND
+          }>
           <CIconButton
             disabled={value === ''}
             iconName={'send'}
-            iconColor={value === '' ? colors.GRAY_500 : colors.SECONDARY}
+            iconColor={value === '' ? colors.GRAY_500 : colors.WHITE}
             onPress={onSend}
           />
-        </View>
+        </LinearGradient>
       </View>
     </View>
   );
@@ -126,6 +152,7 @@ function Activity(props) {
     data: [],
     active: 0,
   });
+  const [heightInput, setHeightInput] = useState(0);
   const [valueMessage, setValueMessage] = useState('');
   const [messages, setMessages] = useState([]);
 
@@ -167,7 +194,9 @@ function Activity(props) {
         itemIndex: dataPos[0].item,
         sectionIndex: dataPos[0].section,
       });
-      arrayRef[dataPos[0].section].item[dataPos[0].item - 1].ref.shake(1000);
+      arrayRef[dataPos[0].section].item[dataPos[0].item - 1].ref.rubberBand(
+        1000,
+      );
     }
   };
 
@@ -181,7 +210,7 @@ function Activity(props) {
     setDataSearch({...dataSearch, active: dataSearch.active - 1});
     arrayRef[dataSearch.data[dataSearch.active - 1].section].item[
       dataSearch.data[dataSearch.active - 1].item - 1
-    ].ref.shake(1000);
+    ].ref.rubberBand(1000);
   };
 
   const handleUpSearch = () => {
@@ -194,7 +223,7 @@ function Activity(props) {
     setDataSearch({...dataSearch, active: dataSearch.active + 1});
     arrayRef[dataSearch.data[dataSearch.active + 1].section].item[
       dataSearch.data[dataSearch.active + 1].item - 1
-    ].ref.shake(1000);
+    ].ref.rubberBand(1000);
   };
 
   /************
@@ -323,6 +352,10 @@ function Activity(props) {
     }
   };
 
+  const onSizeInputChange = event => {
+    setHeightInput(event.nativeEvent.contentSize.height);
+  };
+
   /******************
    ** LIFE CYCLE **
    ******************/
@@ -448,7 +481,7 @@ function Activity(props) {
                 : moderateScale(58)
             }>
             <CList
-              contentStyle={cStyles.pt10}
+              contentStyle={[cStyles.pt10, cStyles.flexGrow]}
               viewRef={ref => (listRef = ref)}
               customColors={customColors}
               sectionList={true}
@@ -467,20 +500,22 @@ function Activity(props) {
                           cStyles.roundedBottomLeft3,
                           cStyles.p10,
                           cStyles.ml10,
-                          {
-                            backgroundColor: IS_ANDROID
-                              ? colors.STATUS_SCHEDULE_OPACITY
-                              : colors.STATUS_NEW_OPACITY,
-                          },
+                          styles.con_me,
                         ]}>
                         <CText
-                          customStyles={cStyles.textRight}
+                          customStyles={[
+                            cStyles.fontMedium,
+                            cStyles.textRight,
+                            cStyles.colorWhite,
+                          ]}
                           customLabel={item.comments}
                         />
                         <CText
                           customStyles={[
                             cStyles.textDate,
+                            cStyles.fontMedium,
                             cStyles.textRight,
+                            cStyles.colorWhite,
                             cStyles.mt6,
                           ]}
                           customLabel={`${moment(
@@ -548,7 +583,7 @@ function Activity(props) {
                           cStyles.roundedBottomLeft3,
                           cStyles.p10,
                           cStyles.ml10,
-                          {backgroundColor: colors.STATUS_CLOSE_OPACITY},
+                          styles.con_you,
                         ]}>
                         <CText
                           customStyles={[cStyles.textDefault]}
@@ -564,6 +599,8 @@ function Activity(props) {
               <RenderInputMessage
                 customColors={customColors}
                 value={valueMessage}
+                heightInput={heightInput}
+                onSizeInputChange={onSizeInputChange}
                 onSend={onSendMessage}
                 handleChangeText={setValueMessage}
               />
@@ -582,6 +619,8 @@ const styles = StyleSheet.create({
     height: moderateScale(32),
     width: moderateScale(32),
   },
+  con_me: {backgroundColor: colors.STATUS_SCHEDULE},
+  con_you: {backgroundColor: colors.GRAY_200},
 });
 
 export default Activity;

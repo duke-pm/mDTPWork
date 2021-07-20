@@ -28,6 +28,7 @@ import Status from '../components/Status';
 import Percentage from '../components/Percentage';
 import FileAttach from '../components/FileAttach';
 /* COMMON */
+import Icons from '~/config/icons';
 import Routes from '~/navigation/Routes';
 import Commons from '~/utils/common/Commons';
 import {colors, cStyles} from '~/utils/style';
@@ -46,10 +47,8 @@ import {
   moderateScale,
   IS_IOS,
 } from '~/utils/helper';
-import Icons from '~/config/icons';
 /** REDUX */
 import * as Actions from '~/redux/actions';
-
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -165,9 +164,9 @@ function Task(props) {
     });
   };
 
-  /************
+  /**********
    ** FUNC **
-   ************/
+   **********/
   const onStart = () => {
     onFetchData();
   };
@@ -290,9 +289,9 @@ function Task(props) {
     resetRoute(navigation, Routes.AUTHENTICATION.SIGN_IN.name);
   };
 
-  /******************
+  /****************
    ** LIFE CYCLE **
-   ******************/
+   ****************/
   useEffect(() => {
     let isLogin = authState.get('successLogin');
     if (isLogin) {
@@ -422,9 +421,9 @@ function Task(props) {
     route.params?.taskID,
   ]);
 
-  /**************
+  /************
    ** RENDER **
-   **************/
+   ************/
   let bgPriority = customColors[Commons.PRIORITY_TASK.LOW.color]; // default is Low;
   if (data.taskDetail) {
     if (!data.taskDetail.priorityColor) {

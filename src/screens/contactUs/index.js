@@ -15,9 +15,9 @@ import CText from '~/components/CText';
 /* COMMON */
 import {cStyles} from '~/utils/style';
 import {DATA_CONTACT_US} from '~/config/constants';
-import {IS_ANDROID, IS_IOS} from '~/utils/helper';
+import {IS_IOS} from '~/utils/helper';
 
-const ContactUs = React.memo(function ContactUs(props) {
+function ContactUs(props) {
   /*****************
    ** HANDLE FUNC **
    *****************/
@@ -122,6 +122,6 @@ const ContactUs = React.memo(function ContactUs(props) {
       }
     />
   );
-});
+}
 
-export default ContactUs;
+export default React.memo(ContactUs);

@@ -15,7 +15,7 @@ function CTouchable({
   key = 'dtp-education',
   containerStyle = {},
   disabled = false,
-  activeOpacity = 0,
+  activeOpacity = 0.5,
   children = null,
   onPress = () => null,
 }) {
