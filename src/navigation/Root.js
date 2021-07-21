@@ -50,14 +50,16 @@ export function RootDashboard(props) {
     <StackDashboard.Navigator
       initialRouteName={Routes.MAIN.DASHBOARD.name}
       screenOptions={{
+        title: t('dashboard:title'),
+        headerStyle: headerStyles,
         headerTintColor: IS_IOS ? undefined : colors.WHITE,
         headerLargeTitle: true,
         headerLargeTitleHideShadow: true,
+        headerLargeStyle: {backgroundColor: customColors.background},
         headerTopInsetEnabled: false,
         headerTranslucent: IS_ANDROID ? false : true,
         disableBackButtonMenu: true,
         screenOrientation: 'portrait',
-        headerLargeStyle: {backgroundColor: customColors.background},
       }}>
       <StackDashboard.Screen
         name={Routes.MAIN.DASHBOARD.name}
@@ -69,7 +71,11 @@ export function RootDashboard(props) {
                 headerLeft: () => null,
                 headerCenter: () => (
                   <CText
-                    styles={'colorWhite fontMedium'}
+                    customStyles={[
+                      cStyles.colorWhite,
+                      cStyles.fontBold,
+                      {fontSize: cStyles.H6.fontSize},
+                    ]}
                     label={'dashboard:title'}
                   />
                 ),
@@ -101,11 +107,11 @@ export function RootAccount(props) {
         headerTintColor: IS_IOS ? undefined : colors.WHITE,
         headerLargeTitle: true,
         headerLargeTitleHideShadow: true,
+        headerLargeStyle: {backgroundColor: customColors.background},
         headerTopInsetEnabled: false,
         headerTranslucent: IS_ANDROID ? false : true,
         disableBackButtonMenu: true,
         screenOrientation: 'portrait',
-        headerLargeStyle: {backgroundColor: customColors.background},
       }}>
       <StackAccount.Screen
         name={Routes.MAIN.ACCOUNT.name}
@@ -117,7 +123,11 @@ export function RootAccount(props) {
                 headerLeft: () => null,
                 headerCenter: () => (
                   <CText
-                    styles={'colorWhite fontMedium'}
+                    customStyles={[
+                      cStyles.colorWhite,
+                      cStyles.fontBold,
+                      {fontSize: cStyles.H6.fontSize},
+                    ]}
                     label={'account:title'}
                   />
                 ),
@@ -211,13 +221,16 @@ export function RootMain(props) {
       initialRouteName={Routes.AUTHENTICATION.SIGN_IN.name}
       screenOptions={{
         headerTintColor: IS_IOS ? undefined : colors.WHITE,
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
         headerLargeTitle: true,
         headerLargeTitleHideShadow: true,
+        headerLargeStyle: {backgroundColor: customColors.background},
         headerTopInsetEnabled: false,
         headerTranslucent: IS_ANDROID ? false : true,
         disableBackButtonMenu: true,
         screenOrientation: 'portrait',
-        headerLargeStyle: {backgroundColor: customColors.background},
       }}>
       <StackMain.Screen
         name={Routes.AUTHENTICATION.SIGN_IN.name}
@@ -319,7 +332,7 @@ export function RootMain(props) {
         name={Routes.MAIN.APPROVED.childrens.LIST_REQUEST_ASSETS.name}
         component={Routes.MAIN.APPROVED.childrens.LIST_REQUEST_ASSETS.path}
         options={{
-          title: t('list_request_assets:title'),
+          title: '',
           headerStyle: headerModalStyles,
           headerLargeTitle: false,
           headerTranslucent: false,
@@ -339,7 +352,6 @@ export function RootMain(props) {
         name={Routes.MAIN.APPROVED_ASSETS.name}
         component={Routes.MAIN.APPROVED_ASSETS.path}
         options={{
-          title: t('list_request_assets:title'),
           headerStyle: headerStyles,
         }}
       />
@@ -347,7 +359,6 @@ export function RootMain(props) {
         name={Routes.MAIN.APPROVED_ASSETS_DAMAGE.name}
         component={Routes.MAIN.APPROVED_ASSETS_DAMAGE.path}
         options={{
-          title: t('list_request_assets:title'),
           headerStyle: headerStyles,
         }}
       />
@@ -355,7 +366,6 @@ export function RootMain(props) {
         name={Routes.MAIN.APPROVED_ASSETS_LOST.name}
         component={Routes.MAIN.APPROVED_ASSETS_LOST.path}
         options={{
-          title: t('list_request_assets:title'),
           headerStyle: headerStyles,
         }}
       />

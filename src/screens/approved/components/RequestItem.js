@@ -148,7 +148,7 @@ function RequestItem(props) {
             </View>
 
             {/** Department */}
-            {/* <View
+            <View
               style={[
                 cStyles.row,
                 cStyles.itemsStart,
@@ -160,7 +160,7 @@ function RequestItem(props) {
                 <CLabel label={'approved_lost_damaged:department_request'} />
                 <CLabel customLabel={data.deptName} />
               </View>
-            </View> */}
+            </View>
           </View>
         </View>
       </Animated.View>

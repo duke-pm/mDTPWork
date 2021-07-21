@@ -25,7 +25,7 @@ import Icons from '~/config/icons';
 import Routes from '~/navigation/Routes';
 import {LOAD_MORE, LOGIN, REFRESH} from '~/config/constants';
 import {getSecretInfo, IS_ANDROID, IS_IOS, resetRoute} from '~/utils/helper';
-import {colors} from '~/utils/style';
+import {colors, cStyles} from '~/utils/style';
 import {usePrevious} from '~/utils/hook';
 /** REDUX */
 import * as Actions from '~/redux/actions';
@@ -461,7 +461,11 @@ function ProjectDetail(props) {
           ? {
               headerCenter: () => (
                 <CText
-                  styles={'colorWhite fontMedium'}
+                  customStyles={[
+                    cStyles.colorWhite,
+                    cStyles.fontBold,
+                    {fontSize: cStyles.H6.fontSize},
+                  ]}
                   customLabel={`${t(
                     'project_management:list_task',
                   )}${projectID}`}

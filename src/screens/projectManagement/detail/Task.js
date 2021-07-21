@@ -372,6 +372,7 @@ function Task(props) {
     if (prevTaskDetail) {
       let taskDetail = projectState.get('taskDetail');
       if (
+        prevTaskDetail.taskID === taskDetail.taskID &&
         prevTaskDetail.statusID !== Commons.STATUS_TASK.CLOSED.value &&
         prevTaskDetail.statusID !== taskDetail.statusID
       ) {
@@ -394,10 +395,8 @@ function Task(props) {
   useLayoutEffect(() => {
     navigation.setOptions({
       backButtonInCustomView: true,
-      title: `${t('project_management:detail_task')} #${taskID}`,
       headerLeft: () =>
-        (route.params?.taskID !== null ||
-          route.params?.taskID !== undefined) && (
+        (taskID !== null || taskID !== undefined) && (
           <CIconHeader
             icons={[
               {
@@ -442,7 +441,6 @@ function Task(props) {
     isFastWatch,
     taskID,
     navigation.canGoBack,
-    route.params?.taskID,
   ]);
 
   /************
@@ -899,9 +897,9 @@ function Task(props) {
             show={completed.show}
             title={t('common:congratulations')}
             customContent={
-              <View style={cStyles.flexCenter}>
+              <View style={cStyles.center}>
                 <CText
-                  styles={'textMeta'}
+                  styles={'textMeta mt16'}
                   label={'project_management:completed_task'}
                 />
                 <LottieView

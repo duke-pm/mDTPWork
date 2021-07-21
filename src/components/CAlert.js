@@ -42,7 +42,7 @@ function CAlert(props) {
       <View
         style={[
           cStyles.center,
-          cStyles.rounded2,
+          cStyles.rounded3,
           styles.container,
           {backgroundColor: customColors.card},
           contentStyle,
@@ -51,8 +51,8 @@ function CAlert(props) {
         {hasTitle && (
           <View
             style={[
-              cStyles.roundedTopLeft2,
-              cStyles.roundedTopRight2,
+              cStyles.roundedTopLeft3,
+              cStyles.roundedTopRight3,
               cStyles.pt16,
               cStyles.px10,
               cStyles.center,
@@ -147,7 +147,7 @@ function CAlert(props) {
       isVisible={show}
       animationIn={'pulse'}
       animationOut={'fadeOut'}
-      backdropOpacity={isDark ? 0.8 : 0.4}
+      backdropOpacity={isDark ? 0.8 : 0.2}
       avoidKeyboard={true}
       useNativeDriver={true}
       useNativeDriverForBackdrop={true}

@@ -36,7 +36,7 @@ function CIconHeader(props) {
               index !== icons.length - 1 ? cStyles.mr20 : {},
             ]}
             onPress={item.onPress}>
-            <View style={cStyles.rounded10}>
+            <View style={cStyles.p3}>
               <Icon
                 name={item.icon}
                 color={
@@ -69,9 +69,8 @@ const styles = StyleSheet.create({
   badge: {
     height: moderateScale(10),
     width: moderateScale(10),
-    right: moderateScale(15),
-    left: moderateScale(10),
-    top: 0,
+    left: moderateScale(15),
+    top: moderateScale(5),
   },
 });
 

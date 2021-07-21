@@ -84,7 +84,7 @@ function ListProject(props) {
     if (loadingModal && showModal) {
       if (chooseProject) {
         setTimeout(() => {
-          LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+          LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
           setLoadingModal(false);
         }, 300);
       }

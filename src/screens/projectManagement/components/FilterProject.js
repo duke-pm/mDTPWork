@@ -315,7 +315,7 @@ function FilterProject(props) {
                   show: true,
                   showRedDot: false,
                   icon: Icons.close,
-                  iconColor: customColors.red,
+                  iconColor: IS_IOS ? customColors.red : colors.WHITE,
                   onPress: handleReset,
                 },
               ]}
@@ -328,7 +328,7 @@ function FilterProject(props) {
                   show: true,
                   showRedDot: false,
                   icon: Icons.doubleCheck,
-                  iconColor: customColors.blue,
+                  iconColor: IS_IOS ? customColors.blue : colors.WHITE,
                   onPress: handleFilter,
                 },
               ]}
@@ -339,7 +339,11 @@ function FilterProject(props) {
           ? {
               headerCenter: () => (
                 <CText
-                  styles={'colorWhite fontMedium'}
+                  customStyles={[
+                    cStyles.colorWhite,
+                    cStyles.fontBold,
+                    {fontSize: cStyles.H6.fontSize},
+                  ]}
                   label={'project_management:filter'}
                 />
               ),
