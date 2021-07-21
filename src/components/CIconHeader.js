@@ -23,7 +23,7 @@ function CIconHeader(props) {
   const {icons} = props;
 
   return (
-    <View style={[cStyles.row, cStyles.itemsCenter]}>
+    <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween]}>
       {icons.map((item, index) => {
         if (!item.show) {
           return null;
@@ -33,7 +33,7 @@ function CIconHeader(props) {
             key={index.toString()}
             containerStyle={[
               cStyles.rounded10,
-              index !== icons.length - 1 ? cStyles.mr20 : {},
+              index !== icons.length - 1 ? cStyles.mr16 : {},
             ]}
             onPress={item.onPress}>
             <View style={cStyles.p3}>

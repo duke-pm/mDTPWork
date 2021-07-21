@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable react-native/no-inline-styles */
 /**
  ** Name: Table of assets
  ** Author: DTP-Education
@@ -13,9 +12,9 @@ import {
   StyleSheet,
   ScrollView,
   View,
-  TouchableHighlight,
   UIManager,
   LayoutAnimation,
+  TouchableOpacity,
 } from 'react-native';
 import {Table, Row, TableWrapper, Cell} from 'react-native-table-component';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -24,13 +23,21 @@ import CText from '~/components/CText';
 import AssetItem from './AssetItem';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
-import {moderateScale, IS_ANDROID} from '~/utils/helper';
+import {moderateScale, IS_ANDROID, verticalScale} from '~/utils/helper';
 import Icons from '~/config/icons';
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
   }
 }
+const heightItemTable = IS_ANDROID ? verticalScale(38) : verticalScale(30);
+export const widthItemTable = [
+  moderateScale(35),
+  moderateScale(180),
+  moderateScale(80),
+  moderateScale(120),
+  moderateScale(120),
+];
 
 function AssetsTable(props) {
   const {t} = useTranslation();
@@ -40,7 +47,8 @@ function AssetsTable(props) {
     checking = false,
     isDetail = false,
     assets = {
-      header: ['', '', '', ''],
+      width: widthItemTable,
+      header: ['', '', '', '', ''],
       data: [],
     },
     onCallbackValidate = () => {},
@@ -49,14 +57,15 @@ function AssetsTable(props) {
   /** Use state */
   const [form, setForm] = useState({
     assets: {
+      width: widthItemTable,
       header: [
+        '',
         t('add_approved_assets:description'),
         t('add_approved_assets:amount'),
         t('add_approved_assets:price'),
         t('add_approved_assets:total'),
-        '',
       ],
-      data: [['', '', '', '', null]],
+      data: [[null, '', '', '', '']],
     },
   });
   const [error, setError] = useState({
@@ -69,7 +78,8 @@ function AssetsTable(props) {
    *****************/
   const handleAddAssets = () => {
     let newData = [...form.assets.data];
-    newData.push(['', '', '', '', null]);
+    newData.push([null, '', '', '', '']);
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setForm({
       ...form,
       assets: {
@@ -85,16 +95,16 @@ function AssetsTable(props) {
   const onChangeCellItem = (value, rowIndex, cellIndex) => {
     let newData = form.assets.data;
     newData[rowIndex][cellIndex] = value;
-    if (newData[rowIndex][1] !== '') {
-      if (newData[rowIndex][2] !== '') {
-        newData[rowIndex][3] = JSON.stringify(
-          Number(newData[rowIndex][1]) * Number(newData[rowIndex][2]),
+    if (newData[rowIndex][2] !== '') {
+      if (newData[rowIndex][3] !== '') {
+        newData[rowIndex][4] = JSON.stringify(
+          Number(newData[rowIndex][2]) * Number(newData[rowIndex][3]),
         );
       } else {
-        newData[rowIndex][3] = '';
+        newData[rowIndex][4] = '';
       }
     } else {
-      newData[rowIndex][3] = '';
+      newData[rowIndex][4] = '';
     }
     setForm({
       ...form,
@@ -112,6 +122,7 @@ function AssetsTable(props) {
   const onRemoveRow = rowIndex => {
     let newData = [...form.assets.data];
     newData.splice(rowIndex, 1);
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setForm({
       ...form,
       assets: {
@@ -133,11 +144,11 @@ function AssetsTable(props) {
       item = null;
     if (form.assets.data.length > 0) {
       for (item of form.assets.data) {
-        if (item[0].trim() === '') {
+        if (item[1].trim() === '') {
           tmpError.status = true;
           tmpError.helper = 'error:not_enough_assets';
         } else {
-          if (item[1] === '' || (item[1] !== '' && Number(item[1]) < 1)) {
+          if (item[2] === '' || (item[2] !== '' && Number(item[2]) < 1)) {
             tmpError.status = true;
             tmpError.helper = 'error:assets_need_larger_than_zero';
           }
@@ -174,68 +185,56 @@ function AssetsTable(props) {
    ** RENDER **
    ************/
   return (
-    <View style={cStyles.py16}>
+    <View>
       <View style={cStyles.flex1}>
-        <View
-          style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween]}>
-          <CText
-            styles={'textCaption1 fontMedium pl16'}
-            label={'add_approved_assets:assets'}
-          />
+        <View style={cStyles.itemsCenter}>
           {!isDetail && form.assets.data.length === 0 && (
-            <TouchableHighlight
-              style={[
-                cStyles.itemsEnd,
-                cStyles.pt10,
-                cStyles.pr16,
-                styles.con_left,
-              ]}
-              activeOpacity={0.6}
-              underlayColor="#DDDDDD"
+            <TouchableOpacity
               disabled={loading || isDetail}
               onPress={handleAddAssets}>
-              <CText
-                customStyles={[
-                  cStyles.textCaption1,
-                  cStyles.textUnderline,
-                  cStyles.pl6,
-                  {color: customColors.text},
-                ]}
-                label={'add_approved_assets:add_assets'}
-              />
-            </TouchableHighlight>
+              <View
+                style={[
+                  cStyles.row,
+                  cStyles.itemsCenter,
+                  cStyles.pr16,
+                  styles.con_left,
+                ]}>
+                <Icon
+                  name={Icons.addNew}
+                  color={customColors.icon}
+                  size={moderateScale(18)}
+                />
+                <CText
+                  customStyles={[
+                    cStyles.textUnderline,
+                    cStyles.textCaption1,
+                    cStyles.pl4,
+                    {color: customColors.text},
+                  ]}
+                  label={'add_approved_assets:add_assets'}
+                />
+              </View>
+            </TouchableOpacity>
           )}
         </View>
         {form.assets.data.length > 0 && (
-          <ScrollView
-            horizontal
-            contentContainerStyle={cStyles.px16}
-            keyboardShouldPersistTaps={'handled'}>
+          <ScrollView horizontal keyboardShouldPersistTaps={'handled'}>
             <Table
               borderStyle={{
-                borderWidth: 1,
+                borderWidth: moderateScale(0.7),
                 borderColor: error.status
                   ? customColors.red
                   : customColors.cardDisable,
               }}
               style={cStyles.mt6}>
               <Row
-                style={[
-                  styles.table_header,
-                  {backgroundColor: customColors.cardDisable},
-                ]}
+                style={styles.table_header}
                 textStyle={[
-                  cStyles.m3,
                   cStyles.textCenter,
-                  {color: customColors.text, fontSize: moderateScale(10)},
+                  cStyles.textCaption1,
+                  {color: customColors.text},
                 ]}
-                widthArr={[
-                  moderateScale(180),
-                  moderateScale(100),
-                  moderateScale(100),
-                  moderateScale(100),
-                  isDetail ? moderateScale(42) : undefined,
-                ]}
+                widthArr={form.assets.width}
                 data={form.assets.header}
               />
               {form.assets.data.map((rowData, rowIndex) => {
@@ -244,18 +243,12 @@ function AssetsTable(props) {
                     key={rowIndex.toString()}
                     style={[cStyles.flex1, cStyles.row]}>
                     {rowData.map((cellData, cellIndex) => {
-                      let disabled = loading || cellIndex === 3 || isDetail;
+                      let disabled = loading || cellIndex === 4 || isDetail;
                       return (
                         <Cell
                           key={cellIndex.toString()}
-                          width={
-                            cellIndex === 0
-                              ? moderateScale(180)
-                              : cellIndex === 4
-                              ? moderateScale(42)
-                              : moderateScale(100)
-                          }
-                          height={moderateScale(35)}
+                          width={form.assets.width[cellIndex]}
+                          height={heightItemTable}
                           data={
                             <AssetItem
                               disabled={disabled}
@@ -294,43 +287,50 @@ function AssetsTable(props) {
             {error.status && (
               <Icon
                 name={Icons.alert}
-                size={moderateScale(14)}
+                size={moderateScale(18)}
                 color={customColors.red}
               />
             )}
             {error.status && (
               <CText
-                styles={'textCaption1 fontRegular pl6'}
-                customStyles={{
-                  color: customColors.red,
-                }}
+                customStyles={[
+                  cStyles.textCaption1,
+                  cStyles.pl4,
+                  {color: customColors.red},
+                ]}
                 label={t(error.helper)}
               />
             )}
           </View>
 
           {!isDetail && form.assets.data.length > 0 && (
-            <TouchableHighlight
-              style={[
-                cStyles.itemsEnd,
-                cStyles.pt10,
-                cStyles.pr16,
-                styles.con_left,
-              ]}
-              activeOpacity={0.6}
-              underlayColor="#DDDDDD"
+            <TouchableOpacity
               disabled={loading || isDetail}
               onPress={handleAddAssets}>
-              <CText
-                customStyles={[
-                  cStyles.textCaption1,
-                  cStyles.textUnderline,
-                  cStyles.pl6,
-                  {color: customColors.text},
-                ]}
-                label={'add_approved_assets:add_assets'}
-              />
-            </TouchableHighlight>
+              <View
+                style={[
+                  cStyles.row,
+                  cStyles.itemsCenter,
+                  cStyles.pr16,
+                  cStyles.mt10,
+                  styles.con_left,
+                ]}>
+                <Icon
+                  name={Icons.addNew}
+                  color={customColors.icon}
+                  size={moderateScale(18)}
+                />
+                <CText
+                  customStyles={[
+                    cStyles.textUnderline,
+                    cStyles.textCaption1,
+                    cStyles.pl4,
+                    {color: customColors.text},
+                  ]}
+                  label={'add_approved_assets:add_assets'}
+                />
+              </View>
+            </TouchableOpacity>
           )}
         </View>
       </View>
@@ -341,7 +341,7 @@ function AssetsTable(props) {
 const styles = StyleSheet.create({
   table: {borderWidth: 1, borderColor: colors.TABLE_LINE},
   table_header: {
-    height: moderateScale(30),
+    height: heightItemTable,
     backgroundColor: colors.TABLE_HEADER,
   },
   con_left: {flex: 0.4},

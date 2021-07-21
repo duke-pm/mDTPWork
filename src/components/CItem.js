@@ -35,7 +35,7 @@ function CItem(props) {
       containerStyle={[
         cStyles.mb16,
         cStyles.mr16,
-        cStyles.rounded3,
+        cStyles.rounded2,
         cStyles.shadow1,
       ]}
       onPress={handleItem}>
@@ -48,12 +48,7 @@ function CItem(props) {
         ]}>
         <Icon name={data.mIcon} color={color} size={moderateScale(60)} />
         <CText
-          customStyles={[
-            cStyles.textCenter,
-            cStyles.pt10,
-            cStyles.fontMedium,
-            cStyles.textSubheadline,
-          ]}
+          customStyles={[cStyles.textCenter, cStyles.pt10, cStyles.textBody]}
           label={data.menuName}
           numberOfLines={2}
         />

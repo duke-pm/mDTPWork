@@ -1019,7 +1019,7 @@ const styles = StyleSheet.create({
   con_action: {width: '100%', height: verticalScale(180)},
   content_picker: {height: '40%'},
   box: {width: moderateScale(350)},
-  row_select: {height: verticalScale(38)},
+  row_select: {height: IS_ANDROID ? verticalScale(38) : verticalScale(30)},
 });
 
 export default AddRequest;

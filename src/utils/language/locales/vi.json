@@ -12,7 +12,7 @@
     "try_connect": "Thử kết nối lại",
     "warning_send_request_approved": "Bạn có chắc muốn gửi đơn cấp phát này không?",
     "empty_data": "Dữ liệu rỗng",
-    "cannot_find_data_filter": "Không tìm thấy dữ liệu tương ứng!\nVui lòng thử lại sau!",
+    "cannot_find_data_filter": "Không tìm thấy dữ liệu tương ứng",
     "loading": "Đang tải...\nVui lòng chờ trong giây lát.",
     "sign_out": "Đăng Xuất",
     "warning_sign_out": "Bạn có chắc muốn đăng xuất không?",

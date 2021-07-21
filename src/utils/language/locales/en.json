@@ -12,7 +12,7 @@
     "try_connect": "Try Connect Again",
     "warning_send_request_approved": "Are you sure you want to submit this application?",
     "empty_data": "Empty Data",
-    "cannot_find_data_filter": "No matching data found!\nPlease try again later!",
+    "cannot_find_data_filter": "No matching data found",
     "loading": "Loading...\nPlease wait a moment.",
     "sign_out": "Log0ut",
     "warning_sign_out": "Are you sure you want to sign out?",

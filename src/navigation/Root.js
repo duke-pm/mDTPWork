@@ -119,7 +119,7 @@ export function RootAccount(props) {
                 headerLeft: () => null,
                 headerCenter: () => (
                   <CText
-                    customStyles={[cStyles.colorWhite, cStyles.textTitle]}
+                    customStyles={[cStyles.colorWhite, cStyles.textHeadline]}
                     label={'account:title'}
                   />
                 ),
@@ -213,7 +213,9 @@ export function RootMain(props) {
       initialRouteName={Routes.AUTHENTICATION.SIGN_IN.name}
       screenOptions={{
         headerTintColor: IS_IOS ? undefined : colors.WHITE,
-        headerTitleStyle: cStyles.textHeadline,
+        headerTitleStyle: IS_IOS
+          ? cStyles.textSubheadline
+          : cStyles.textHeadline,
         headerLargeTitle: true,
         headerLargeTitleHideShadow: true,
         headerLargeStyle: {backgroundColor: customColors.background},
@@ -366,6 +368,7 @@ export function RootMain(props) {
         options={{
           headerStyle: headerStyles,
           headerBackTitle: t('common:back'),
+          headerLargeTitle: false,
         }}
       />
       <StackMain.Screen

@@ -5,8 +5,9 @@
  ** Description: Description of CEmpty.js
  **/
 import React from 'react';
-import {StyleSheet, View, Image} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 /* COMPONENTS */
+import CImage from '~/components/CImage';
 import CText from './CText';
 /* COMMON */
 import {cStyles} from '~/utils/style';
@@ -19,17 +20,14 @@ function CEmpty(props) {
    ************/
   return (
     <View style={[cStyles.flex1, cStyles.itemsCenter, cStyles.pt40]}>
-      <Image
+      <CImage
         style={styles.img_empty}
         source={Assets.iconEmpty}
         resizeMode={'contain'}
       />
 
-      <CText styles={'fontBold pt16'} label={props.label} />
-      <CText
-        styles={'textCaption1 textCenter pt10'}
-        label={props.description}
-      />
+      <CText styles={'pt16 textSubheadline'} label={props.label} />
+      <CText styles={'textCallout textCenter pt10'} label={props.description} />
     </View>
   );
 }

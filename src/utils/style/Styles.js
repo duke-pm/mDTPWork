@@ -491,23 +491,23 @@ const text = {
   },
   textHeadline: {
     fontSize: moderateScale(17),
-    fontWeight: '600',
+    fontWeight: '700',
     lineHeight: moderateScale(22),
   },
   textSubheadline: {
-    fontSize: moderateScale(15),
-    fontWeight: '500',
+    fontSize: moderateScale(16),
+    fontWeight: '600',
     lineHeight: moderateScale(20),
   },
   textBody: {
-    fontSize: moderateScale(17),
+    fontSize: moderateScale(15),
     fontWeight: '400',
-    lineHeight: moderateScale(22),
+    lineHeight: moderateScale(19),
   },
   textCallout: {
-    fontSize: moderateScale(16),
+    fontSize: moderateScale(13),
     fontWeight: '400',
-    lineHeight: moderateScale(21),
+    lineHeight: moderateScale(18),
   },
   textCaption1: {
     fontSize: moderateScale(12),
@@ -525,9 +525,9 @@ const text = {
     lineHeight: moderateScale(18),
   },
 
-  fontBold: {fontWeight: 'bold'},
-  fontMedium: {fontWeight: '500'},
-  fontRegular: {fontWeight: 'normal'},
+  fontBold: {fontWeight: '700'},
+  fontMedium: {fontWeight: '600'},
+  fontRegular: {fontWeight: '400'},
   fontLight: {fontWeight: '300'},
   textLeft: {textAlign: 'left'},
   textRight: {textAlign: 'right'},

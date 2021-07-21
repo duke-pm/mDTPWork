@@ -22,7 +22,7 @@ const Icons = {
   // Common
   filter: 'filter',
   remove: 'close-circle',
-  close: 'close',
+  close: 'close-sharp',
   informations: 'information-circle',
   calendar: 'calendar',
   search: 'search',
@@ -30,7 +30,7 @@ const Icons = {
   circle: 'ellipse-outline',
   checkCircle: 'checkmark-circle',
   doubleCheck: 'checkmark-done',
-  check: 'checkmark',
+  check: 'checkmark-sharp',
   eye: 'eye',
   eyeOff: 'eye-off',
   alert: 'alert-circle',

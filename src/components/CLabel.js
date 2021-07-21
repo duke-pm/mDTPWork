@@ -24,7 +24,7 @@ function CLabel(props) {
     return (
       <CText
         customStyles={[
-          cStyles.textCaption1,
+          cStyles.textCallout,
           medium && cStyles.fontMedium,
           bold && cStyles.fontBold,
           color && {color},
@@ -38,7 +38,7 @@ function CLabel(props) {
     return (
       <CText
         customStyles={[
-          cStyles.textCaption1,
+          cStyles.textCallout,
           medium && cStyles.fontMedium,
           bold && cStyles.fontBold,
           color && {color},

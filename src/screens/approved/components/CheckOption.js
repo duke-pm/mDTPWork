@@ -47,13 +47,7 @@ function CheckOption(props) {
    ** RENDER **
    ************/
   return (
-    <View
-      style={[
-        cStyles.row,
-        cStyles.itemsCenter,
-        cStyles.justifyStart,
-        !isDetail && cStyles.pt10,
-      ]}>
+    <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyStart]}>
       {values.map((item, index) => {
         if (isDetail && chooseValue !== item.value) {
           return null;

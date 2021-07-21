@@ -140,7 +140,7 @@ const RowSelect = (
             <Icon
               name={Icons.check}
               color={customColors.blue}
-              size={moderateScale(21)}
+              size={moderateScale(18)}
             />
           )}
         </View>
@@ -360,10 +360,7 @@ function FilterProject(props) {
           {/** Year */}
           {aParams.hasYear && (
             <>
-              <CGroupLabel
-                containerStyle={cStyles.mt0}
-                labelLeft={t('project_management:calendar_year')}
-              />
+              <CGroupLabel />
               {RowPicker(
                 loading,
                 isDark,
@@ -380,7 +377,6 @@ function FilterProject(props) {
 
           {/** Owners */}
           <CGroupLabel
-            containerStyle={cStyles.mt0}
             labelLeft={t('project_management:title_owner')}
             labelRight={`${t('project_management:holder_choose_multi')} (${
               owner.active.length
@@ -408,7 +404,6 @@ function FilterProject(props) {
 
           {/** Status */}
           <CGroupLabel
-            containerStyle={cStyles.mt0}
             labelLeft={t('status:title')}
             labelRight={`${t('project_management:holder_choose_multi')} (${
               status.active.length

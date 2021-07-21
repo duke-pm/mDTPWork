@@ -16,6 +16,7 @@ import CIconButton from '~/components/CIconButton';
 /* COMMON */
 import {moderateScale} from '~/utils/helper';
 import {cStyles} from '~/utils/style';
+import Icons from '~/config/icons';
 
 Number.prototype.format = function (n, x) {
   if (n == 0) {
@@ -29,26 +30,24 @@ function AssetItem(props) {
   const {customColors} = useTheme();
   const {rowIndex, cellIndex, onChangeCellItem, onRemoveRow} = props;
 
-  if (cellIndex === 4) {
+  if (cellIndex === 0) {
     return (
       <CIconButton
-        iconName={'close-circle'}
+        iconName={Icons.close}
         iconColor={customColors.red}
-        iconProps={{
-          size: moderateScale(21),
-        }}
+        iconProps={{size: moderateScale(21)}}
         onPress={() => onRemoveRow(rowIndex)}
       />
     );
   }
-  if (cellIndex === 2 || cellIndex === 3) {
+  if (cellIndex === 3 || cellIndex === 4) {
     return (
       <CurrencyInput
         style={[
-          cStyles.flexWrap,
           cStyles.p4,
+          cStyles.flexWrap,
           cStyles.textRight,
-          cStyles.textCaption1,
+          cStyles.textBody,
           styleText,
           {color: customColors.text},
         ]}
@@ -64,22 +63,21 @@ function AssetItem(props) {
     );
   }
   let styleText =
-    cellIndex === 0
+    cellIndex === 1
       ? cStyles.textLeft
-      : cellIndex === 1
+      : cellIndex === 2 || cellIndex === 0
       ? cStyles.textCenter
       : cStyles.textRight;
   return (
     <TextInput
       style={[
-        cStyles.flexWrap,
         cStyles.p4,
-        cStyles.textRight,
-        cStyles.textCaption1,
+        cStyles.flexWrap,
+        cStyles.textBody,
         styleText,
         {color: customColors.text},
       ]}
-      keyboardType={cellIndex !== 0 ? 'number-pad' : 'default'}
+      keyboardType={cellIndex !== 1 ? 'number-pad' : 'default'}
       returnKeyType={'done'}
       selectionColor={customColors.text}
       multiline

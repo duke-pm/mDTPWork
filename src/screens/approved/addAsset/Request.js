@@ -30,7 +30,7 @@ import CActivityIndicator from '~/components/CActivityIndicator';
 import CTouchable from '~/components/CTouchable';
 import RejectModal from '../components/RejectModal';
 import RequestProcess from '../components/RequestProcess';
-import AssetsTable from '../components/AssetsTable';
+import AssetsTable, {widthItemTable} from '../components/AssetsTable';
 import CheckOption from '../components/CheckOption';
 /* COMMON */
 import Icons from '~/config/icons';
@@ -177,14 +177,15 @@ function AddRequest(props) {
     department: authState.getIn(['login', 'deptCode']),
     region: authState.getIn(['login', 'regionCode']),
     assets: {
+      width: widthItemTable,
       header: [
+        '',
         t('add_approved_assets:description'),
         t('add_approved_assets:amount'),
         t('add_approved_assets:price'),
         t('add_approved_assets:total'),
-        '',
       ],
-      data: [['', '', '', '', null]],
+      data: [[null, '', '', '', '']],
     },
     whereUse: authState.getIn(['login', 'deptCode']),
     reason: '',
@@ -266,13 +267,15 @@ function AddRequest(props) {
       department: isDetail ? route.params?.data?.deptCode : '',
       region: isDetail ? route.params?.data?.regionCode : '',
       assets: {
+        width: widthItemTable,
         header: [
+          '',
           t('add_approved_assets:description'),
           t('add_approved_assets:amount'),
           t('add_approved_assets:price'),
           t('add_approved_assets:total'),
         ],
-        data: [['', '', '', '']],
+        data: [[null, '', '', '', '']],
       },
       whereUse: isDetail ? route.params?.data?.locationCode : '',
       reason: isDetail ? route.params?.data?.reason : '',
@@ -290,6 +293,7 @@ function AddRequest(props) {
           choosesRef = [];
         for (item of arrayDetail) {
           tmp.assets.data.push([
+            '',
             item.descr,
             item.qty,
             item.unitPrice,
@@ -759,7 +763,6 @@ function AddRequest(props) {
 
             {/** Assets */}
             <CGroupInfo
-              contentStyle={cStyles.p0}
               label={'add_approved_assets:info_assets'}
               content={
                 <AssetsTable
@@ -783,7 +786,7 @@ function AddRequest(props) {
               content={
                 <>
                   {/** Supplier */}
-                  <View style={cStyles.pt16}>
+                  <View>
                     <View
                       style={[
                         cStyles.row,
@@ -814,17 +817,10 @@ function AddRequest(props) {
                   <View
                     style={
                       isDetail
-                        ? [cStyles.row, cStyles.itemsCenter, cStyles.mt16]
+                        ? [cStyles.justifyCenter, cStyles.mt16]
                         : cStyles.mt16
                     }>
-                    <CText
-                      customStyles={[
-                        cStyles.textCaption1,
-                        cStyles.fontMedium,
-                        cStyles.pr16,
-                      ]}
-                      label={'add_approved_assets:type_assets'}
-                    />
+                    <CLabel medium label={'add_approved_assets:type_assets'} />
                     <CheckOption
                       loading={loading.main || loading.submitAdd}
                       isDetail={isDetail}
@@ -842,10 +838,7 @@ function AddRequest(props) {
                         ? [cStyles.justifyCenter, cStyles.mt16]
                         : cStyles.mt16
                     }>
-                    <CText
-                      customStyles={[cStyles.textCaption1, cStyles.fontMedium]}
-                      label={'add_approved_assets:in_planning'}
-                    />
+                    <CLabel medium label={'add_approved_assets:in_planning'} />
                     <CheckOption
                       loading={loading.main || loading.submitAdd}
                       isDetail={isDetail}
@@ -992,7 +985,7 @@ const styles = StyleSheet.create({
   con_right: {flex: 0.6},
   con_action: {width: '100%', height: verticalScale(180)},
   content_picker: {height: '40%'},
-  row_select: {height: IS_ANDROID ? verticalScale(38) : verticalScale(34)},
+  row_select: {height: IS_ANDROID ? verticalScale(38) : verticalScale(30)},
 });
 
 export default AddRequest;

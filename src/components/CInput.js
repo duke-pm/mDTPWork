@@ -130,9 +130,9 @@ function CInput(props) {
             <View
               style={[
                 cStyles.borderRight,
-                isDark && cStyles.borderRightDark,
                 cStyles.center,
                 styles.con_input_icon,
+                isDark && cStyles.borderRightDark,
               ]}>
               {typeof icon === 'string' ? (
                 <Icon name={icon} color={iconColor} size={moderateScale(23)} />
@@ -265,13 +265,13 @@ function CInput(props) {
 
 const styles = StyleSheet.create({
   con_input: {
-    height: IS_ANDROID ? verticalScale(38) : verticalScale(34),
+    height: IS_ANDROID ? verticalScale(38) : verticalScale(30),
     width: '100%',
     backgroundColor: colors.WHITE,
   },
   con_input_icon: {
-    width: IS_ANDROID ? verticalScale(38) : verticalScale(34),
-    height: IS_ANDROID ? verticalScale(38) : verticalScale(34),
+    width: IS_ANDROID ? verticalScale(38) : verticalScale(30),
+    height: IS_ANDROID ? verticalScale(38) : verticalScale(30),
   },
   input: {
     width: '100%',
@@ -282,8 +282,8 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
   },
   input_icon: {
-    width: IS_ANDROID ? verticalScale(38) : verticalScale(34),
-    height: IS_ANDROID ? verticalScale(38) : verticalScale(34),
+    width: IS_ANDROID ? verticalScale(38) : verticalScale(30),
+    height: IS_ANDROID ? verticalScale(38) : verticalScale(30),
   },
 });
 
