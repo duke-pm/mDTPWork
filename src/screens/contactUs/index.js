@@ -51,9 +51,12 @@ function ContactUs(props) {
                   <View>
                     <View
                       style={[cStyles.row, cStyles.itemsStart, {width: '88%'}]}>
-                      <CText styles={'textMeta'} label={'contact_us:address'} />
                       <CText
-                        styles={'textMeta fontBold'}
+                        styles={'textCaption1'}
+                        label={'contact_us:address'}
+                      />
+                      <CText
+                        styles={'textCaption1 fontBold'}
                         customLabel={item.address}
                       />
                     </View>
@@ -62,7 +65,7 @@ function ContactUs(props) {
                       <View
                         style={[cStyles.row, cStyles.itemsStart, cStyles.pt10]}>
                         <CText
-                          styles={'textMeta pt6'}
+                          styles={'textCaption1 pt6'}
                           label={'contact_us:phone'}
                         />
                         <View
@@ -76,7 +79,7 @@ function ContactUs(props) {
                             <CText
                               key={itemPhone}
                               styles={
-                                'textMeta fontBold textUnderline pt6 ' +
+                                'textCaption1 fontBold textUnderline pt6 ' +
                                 (indexPhone !== 0 && 'pl10')
                               }
                               customLabel={itemPhone}
@@ -90,9 +93,12 @@ function ContactUs(props) {
                     {item.email && (
                       <View
                         style={[cStyles.row, cStyles.itemsStart, cStyles.pt10]}>
-                        <CText styles={'textMeta'} label={'contact_us:email'} />
                         <CText
-                          styles={'textMeta fontBold textUnderline'}
+                          styles={'textCaption1'}
+                          label={'contact_us:email'}
+                        />
+                        <CText
+                          styles={'textCaption1 fontBold textUnderline'}
                           customLabel={item.email}
                           onPress={() => handleEmail(item.email)}
                         />
@@ -103,11 +109,11 @@ function ContactUs(props) {
                       <View
                         style={[cStyles.row, cStyles.itemsStart, cStyles.pt10]}>
                         <CText
-                          styles={'textMeta'}
+                          styles={'textCaption1'}
                           label={'contact_us:website'}
                         />
                         <CText
-                          styles={'textMeta fontBold textUnderline'}
+                          styles={'textCaption1 fontBold textUnderline'}
                           customLabel={item.website}
                           onPress={() => handleURL(item.website)}
                         />

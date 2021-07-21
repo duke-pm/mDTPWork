@@ -26,7 +26,10 @@ function CEmpty(props) {
       />
 
       <CText styles={'fontBold pt16'} label={props.label} />
-      <CText styles={'textMeta textCenter pt10'} label={props.description} />
+      <CText
+        styles={'textCaption1 textCenter pt10'}
+        label={props.description}
+      />
     </View>
   );
 }

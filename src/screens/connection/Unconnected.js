@@ -42,7 +42,7 @@ function Unconnected(props) {
       </View>
       <CText
         customStyles={[
-          cStyles.H5,
+          cStyles.textTitle3,
           cStyles.textCenter,
           {color: customColors.text},
         ]}
@@ -50,7 +50,7 @@ function Unconnected(props) {
       />
       <CText
         customStyles={[
-          cStyles.textMeta,
+          cStyles.textCaption1,
           cStyles.pt10,
           cStyles.textCenter,
           {color: customColors.text},

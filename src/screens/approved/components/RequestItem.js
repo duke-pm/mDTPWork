@@ -87,7 +87,7 @@ function RequestItem(props) {
             cStyles.itemsStart,
             cStyles.justifyBetween,
           ]}>
-          <CText styles={'textSubTitle'} customLabel={title} />
+          <CText styles={'textSubheadline'} customLabel={title} />
         </View>
 
         <View
@@ -115,7 +115,7 @@ function RequestItem(props) {
                   color={customColors[statusColor]}
                 />
                 <CText
-                  styles={'pl6 textMeta fontBold ' + colorText}
+                  styles={'pl6 textCaption1 fontBold ' + colorText}
                   customLabel={data.statusName}
                 />
               </View>

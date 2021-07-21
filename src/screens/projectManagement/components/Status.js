@@ -217,7 +217,7 @@ function Status(props) {
           ]}>
           <CText
             customStyles={[
-              cStyles.textTitle,
+              cStyles.textHeadline,
               {color: isDark ? props.task.colorDarkCode : colors.WHITE},
             ]}
             customLabel={props.task.statusName.toUpperCase()}

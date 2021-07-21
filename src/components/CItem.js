@@ -32,15 +32,19 @@ function CItem(props) {
   }
   return (
     <CTouchable
-      containerStyle={[cStyles.mb16, cStyles.mr16, cStyles.rounded3]}
+      containerStyle={[
+        cStyles.mb16,
+        cStyles.mr16,
+        cStyles.rounded3,
+        cStyles.shadow1,
+      ]}
       onPress={handleItem}>
       <View
         style={[
           cStyles.p10,
           cStyles.itemsCenter,
-          cStyles.rounded3,
-          styles.item,
           {backgroundColor: customColors.card},
+          styles.item,
         ]}>
         <Icon name={data.mIcon} color={color} size={moderateScale(60)} />
         <CText
@@ -48,7 +52,7 @@ function CItem(props) {
             cStyles.textCenter,
             cStyles.pt10,
             cStyles.fontMedium,
-            cStyles.textSubTitle,
+            cStyles.textSubheadline,
           ]}
           label={data.menuName}
           numberOfLines={2}
@@ -59,7 +63,7 @@ function CItem(props) {
 }
 
 const styles = StyleSheet.create({
-  item: {width: sW('28%'), height: moderateScale(125)},
+  item: {width: sW('28%'), height: moderateScale(130)},
 });
 
 export default CItem;

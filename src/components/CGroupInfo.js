@@ -37,7 +37,7 @@ function CGroupInfo({
       {label && (
         <View style={[containerLabelStyle]}>
           <CText
-            customStyles={[cStyles.H6, cStyles.px16, labelStyle]}
+            customStyles={[cStyles.textHeadline, cStyles.px16, labelStyle]}
             label={label}
           />
         </View>

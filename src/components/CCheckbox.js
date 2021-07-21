@@ -56,7 +56,7 @@ function CCheckbox(props) {
         {labelLeft && (
           <CText
             customStyles={[
-              cStyles.textDefault,
+              cStyles.textBody,
               cStyles.pr10,
               cStyles.colorWhite,
               textStyle,
@@ -74,7 +74,7 @@ function CCheckbox(props) {
         {labelRight && (
           <CText
             customStyles={[
-              cStyles.textDefault,
+              cStyles.textBody,
               cStyles.pl6,
               cStyles.colorWhite,
               textStyle,

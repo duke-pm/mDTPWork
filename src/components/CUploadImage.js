@@ -133,7 +133,7 @@ function CUploadImage(props) {
     <View style={cStyles.pt16}>
       <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween]}>
         <CText
-          styles={'textTitle'}
+          styles={'textHeadline'}
           label={'add_approved_lost_damaged:file_upload'}
         />
         <CButton
@@ -170,7 +170,7 @@ function CUploadImage(props) {
         onBackdropPress={handleCloseUpload}>
         <View style={[cStyles.pt10, cStyles.pb24, styles.container]}>
           <View style={[cStyles.py10, cStyles.px16]}>
-            <CText styles={'textMeta'} label={'common:from_upload'} />
+            <CText styles={'textCaption1'} label={'common:from_upload'} />
           </View>
           <TouchableOpacity activeOpacity={0.5} onPress={onChangeByCamera}>
             <View
@@ -185,7 +185,10 @@ function CUploadImage(props) {
                 size={moderateScale(23)}
                 color={customColors.red}
               />
-              <CText styles={'textTitle pl16'} label={'common:from_camera'} />
+              <CText
+                styles={'textHeadline pl16'}
+                label={'common:from_camera'}
+              />
             </View>
           </TouchableOpacity>
 
@@ -196,7 +199,10 @@ function CUploadImage(props) {
                 size={moderateScale(23)}
                 color={customColors.green}
               />
-              <CText styles={'textTitle pl16'} label={'common:from_gallery'} />
+              <CText
+                styles={'textHeadline pl16'}
+                label={'common:from_gallery'}
+              />
             </View>
           </TouchableOpacity>
         </View>

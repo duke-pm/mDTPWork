@@ -48,7 +48,7 @@ function AssetItem(props) {
           cStyles.flexWrap,
           cStyles.p4,
           cStyles.textRight,
-          cStyles.textMeta,
+          cStyles.textCaption1,
           styleText,
           {color: customColors.text},
         ]}
@@ -75,7 +75,7 @@ function AssetItem(props) {
         cStyles.flexWrap,
         cStyles.p4,
         cStyles.textRight,
-        cStyles.textMeta,
+        cStyles.textCaption1,
         styleText,
         {color: customColors.text},
       ]}

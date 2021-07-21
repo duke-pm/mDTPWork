@@ -19,7 +19,7 @@ function CFooterList(props) {
   return (
     <View style={[cStyles.py16, cStyles.itemsCenter]}>
       <CActivityIndicator />
-      <CText styles={'textMeta pt10 textCenter'} label={'common:loading'} />
+      <CText styles={'textCaption1 pt10 textCenter'} label={'common:loading'} />
     </View>
   );
 }

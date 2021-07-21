@@ -74,7 +74,7 @@ function CCard(props) {
               {backgroundColor: isDark ? colors.GRAY_830 : colors.GRAY_200},
             ]}>
             <CText
-              customStyles={cStyles.textSubTitle}
+              customStyles={cStyles.textSubheadline}
               label={label}
               customLabel={customLabel}
             />

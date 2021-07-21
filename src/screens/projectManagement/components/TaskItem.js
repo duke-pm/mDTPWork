@@ -147,7 +147,7 @@ function TaskItem(props) {
                 <View>
                   <CText
                     customStyles={[
-                      cStyles.H6,
+                      cStyles.textHeadline,
                       {color: typeColor},
                       delay > 0 && cStyles.pb3,
                     ]}
@@ -162,7 +162,7 @@ function TaskItem(props) {
                       />
                       <CText
                         customStyles={[
-                          cStyles.textMeta,
+                          cStyles.textCaption1,
                           cStyles.ml3,
                           {color: customColors.red},
                         ]}
@@ -180,7 +180,7 @@ function TaskItem(props) {
                   <View style={[cStyles.row, cStyles.itemsCenter]}>
                     <CAvatar size={'vsmall'} label={data.ownerName} />
                     <CText
-                      styles={'textMeta pl6'}
+                      styles={'textCaption1 pl6'}
                       customLabel={data.ownerName}
                     />
                   </View>
@@ -193,7 +193,7 @@ function TaskItem(props) {
                     />
                     <CText
                       customStyles={[
-                        cStyles.textMeta,
+                        cStyles.textCaption1,
                         cStyles.fontBold,
                         cStyles.ml4,
                         {color: bgStatus},
@@ -247,7 +247,7 @@ function TaskItem(props) {
 
             <View style={cStyles.mt10}>
               <CText
-                styles={'textSubTitle'}
+                styles={'textSubheadline'}
                 customLabel={`#${data?.taskID} ${data?.taskName}`}
               />
             </View>

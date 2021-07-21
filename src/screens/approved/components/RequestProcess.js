@@ -64,7 +64,7 @@ function RequestProcess(props) {
   return anims.length > 0 ? (
     <View style={[cStyles.p16, cStyles.pb32]}>
       <CText
-        styles={'textTitle textCenter pb16'}
+        styles={'textHeadline textCenter pb16'}
         label={'add_approved_assets:table_process'}
       />
       {data.map((item, index) => {
@@ -93,11 +93,11 @@ function RequestProcess(props) {
                   styles.con_time_process,
                 ]}>
                 <CText
-                  styles={'textMeta fontMedium colorWhite'}
+                  styles={'textCaption1 fontMedium colorWhite'}
                   customLabel={item.approveDate}
                 />
                 <CText
-                  styles={'textMeta fontMedium colorWhite'}
+                  styles={'textCaption1 fontMedium colorWhite'}
                   customLabel={item.approveTime}
                 />
               </View>
@@ -148,7 +148,7 @@ function RequestProcess(props) {
               <View style={[cStyles.row, cStyles.itemsStart, styles.con_user]}>
                 <CText
                   customStyles={[
-                    cStyles.textMeta,
+                    cStyles.textCaption1,
                     isReject && !item.approveDate && cStyles.textThrough,
                     {color: customColors.text},
                   ]}
@@ -159,7 +159,7 @@ function RequestProcess(props) {
                 />
                 <CText
                   customStyles={[
-                    cStyles.textMeta,
+                    cStyles.textCaption1,
                     item.approveDate && cStyles.fontBold,
                     isReject && !item.approveDate && cStyles.textThrough,
                     {color: customColors.text},
@@ -177,7 +177,7 @@ function RequestProcess(props) {
                 ]}>
                 <CText
                   customStyles={[
-                    cStyles.textMeta,
+                    cStyles.textCaption1,
                     isReject && !item.approveDate && cStyles.textThrough,
                     {color: customColors.text},
                   ]}
@@ -186,7 +186,7 @@ function RequestProcess(props) {
                 {item.approveDate ? (
                   <CText
                     customStyles={[
-                      cStyles.textMeta,
+                      cStyles.textCaption1,
                       cStyles.fontBold,
                       isReject && !item.approveDate && cStyles.textThrough,
                       {color: customColors.text},
@@ -196,7 +196,7 @@ function RequestProcess(props) {
                 ) : (
                   <CText
                     customStyles={[
-                      cStyles.textMeta,
+                      cStyles.textCaption1,
                       isReject && !item.approveDate && cStyles.textThrough,
                       {color: customColors.text},
                     ]}
@@ -215,7 +215,7 @@ function RequestProcess(props) {
                   ]}>
                   <CText
                     customStyles={[
-                      cStyles.textMeta,
+                      cStyles.textCaption1,
                       isReject && !item.approveDate && cStyles.textThrough,
                       {color: customColors.text},
                     ]}
@@ -223,7 +223,7 @@ function RequestProcess(props) {
                   />
                   <CText
                     customStyles={[
-                      cStyles.textMeta,
+                      cStyles.textCaption1,
                       cStyles.fontBold,
                       isReject && !item.approveDate && cStyles.textThrough,
                       {color: customColors.text},

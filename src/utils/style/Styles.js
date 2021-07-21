@@ -469,67 +469,62 @@ const text = {
   colorIcon: {color: '#000'},
   colorTextMeta: {color: '#8D94A6'},
 
-  H1: {
+  textLargeTitle: {
+    fontSize: moderateScale(34),
+    fontWeight: '900',
+    lineHeight: moderateScale(41),
+  },
+  textTitle1: {
     fontSize: moderateScale(28),
-    fontWeight: '700',
+    fontWeight: '800',
     lineHeight: moderateScale(34),
   },
-  H2: {
-    fontSize: moderateScale(26),
-    fontWeight: '700',
-    lineHeight: moderateScale(32),
-  },
-  H3: {
-    fontSize: moderateScale(24),
-    fontWeight: '700',
-    lineHeight: moderateScale(30),
-  },
-  H4: {
+  textTitle2: {
     fontSize: moderateScale(22),
-    fontWeight: '700',
+    fontWeight: '800',
     lineHeight: moderateScale(28),
   },
-  H5: {
+  textTitle3: {
     fontSize: moderateScale(20),
-    fontWeight: '700',
-    lineHeight: moderateScale(26),
-  },
-  H6: {
-    fontSize: moderateScale(18),
     fontWeight: '700',
     lineHeight: moderateScale(24),
   },
-  textTitle: {
-    fontSize: moderateScale(16),
-    fontWeight: '700',
+  textHeadline: {
+    fontSize: moderateScale(17),
+    fontWeight: '600',
     lineHeight: moderateScale(22),
   },
-  textSubTitle: {
-    fontSize: moderateScale(14),
-    fontWeight: '700',
-    lineHeight: moderateScale(20),
-  },
-  textDefault: {
+  textSubheadline: {
     fontSize: moderateScale(15),
-    fontWeight: 'normal',
+    fontWeight: '500',
     lineHeight: moderateScale(20),
   },
-  textMeta: {
-    fontSize: moderateScale(12),
-    fontWeight: 'normal',
-    lineHeight: moderateScale(18),
+  textBody: {
+    fontSize: moderateScale(17),
+    fontWeight: '400',
+    lineHeight: moderateScale(22),
   },
-  textDate: {
+  textCallout: {
+    fontSize: moderateScale(16),
+    fontWeight: '400',
+    lineHeight: moderateScale(21),
+  },
+  textCaption1: {
     fontSize: moderateScale(12),
     fontWeight: '300',
+    lineHeight: moderateScale(16),
+  },
+  textCaption2: {
+    fontSize: moderateScale(11),
+    fontWeight: '200',
+    lineHeight: moderateScale(13),
+  },
+  textFootnote: {
+    fontSize: moderateScale(13),
+    fontWeight: '400',
     lineHeight: moderateScale(18),
   },
-  textButton: {
-    fontSize: moderateScale(16),
-    color: 'white',
-    fontWeight: 'normal',
-    lineHeight: moderateScale(20),
-  },
+
   fontBold: {fontWeight: 'bold'},
   fontMedium: {fontWeight: '500'},
   fontRegular: {fontWeight: 'normal'},

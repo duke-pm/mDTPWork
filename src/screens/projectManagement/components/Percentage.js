@@ -298,7 +298,7 @@ function Percentage(props) {
               <TextInput
                 ref={ref => (percentRef = ref)}
                 style={[
-                  cStyles.textDefault,
+                  cStyles.textBody,
                   cStyles.px4,
                   {color: customColors.text},
                 ]}

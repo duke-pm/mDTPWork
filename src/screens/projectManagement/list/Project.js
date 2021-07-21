@@ -150,7 +150,7 @@ function ListProject(props) {
                 <View style={[cStyles.row, cStyles.itemsCenter]}>
                   <CLabel label={'project_management:date_created'} />
                   <CText
-                    styles={'textMeta ml3'}
+                    styles={'textCaption1 ml3'}
                     customLabel={moment(
                       chooseProject.crtdDate,
                       DEFAULT_FORMAT_DATE_4,
@@ -163,7 +163,7 @@ function ListProject(props) {
                   <CLabel label={'project_management:owner'} />
                   <CAvatar size={'vsmall'} label={chooseProject.ownerName} />
                   <CText
-                    styles={'ml6 textMeta fontMedium'}
+                    styles={'ml6 textCaption1 fontMedium'}
                     customLabel={checkEmpty(chooseProject.ownerName)}
                   />
                 </View>
@@ -182,7 +182,7 @@ function ListProject(props) {
                   />
                   <CText
                     customStyles={[
-                      cStyles.textMeta,
+                      cStyles.textCaption1,
                       cStyles.fontMedium,
                       cStyles.ml4,
                       {
@@ -247,7 +247,7 @@ function ListProject(props) {
                               customLabel={checkEmpty(item.fullName)}
                             />
                             <CText
-                              styles={'textMeta mt3'}
+                              styles={'textCaption1 mt3'}
                               customLabel={checkEmpty(item.email)}
                             />
                           </View>

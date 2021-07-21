@@ -65,17 +65,12 @@ export function RootDashboard(props) {
         name={Routes.MAIN.DASHBOARD.name}
         component={Routes.MAIN.DASHBOARD.path}
         options={Object.assign(
-          {title: t('dashboard:title'), headerStyle: headerStyles},
           IS_ANDROID
             ? {
                 headerLeft: () => null,
                 headerCenter: () => (
                   <CText
-                    customStyles={[
-                      cStyles.colorWhite,
-                      cStyles.fontBold,
-                      {fontSize: cStyles.H6.fontSize},
-                    ]}
+                    customStyles={[cStyles.colorWhite, cStyles.textHeadline]}
                     label={'dashboard:title'}
                   />
                 ),
@@ -104,6 +99,8 @@ export function RootAccount(props) {
     <StackAccount.Navigator
       initialRouteName={Routes.MAIN.ACCOUNT.name}
       screenOptions={{
+        title: t('account:title'),
+        headerStyle: headerStyles,
         headerTintColor: IS_IOS ? undefined : colors.WHITE,
         headerLargeTitle: true,
         headerLargeTitleHideShadow: true,
@@ -117,17 +114,12 @@ export function RootAccount(props) {
         name={Routes.MAIN.ACCOUNT.name}
         component={Routes.MAIN.ACCOUNT.path}
         options={Object.assign(
-          {title: t('account:title'), headerStyle: headerStyles},
           IS_ANDROID
             ? {
                 headerLeft: () => null,
                 headerCenter: () => (
                   <CText
-                    customStyles={[
-                      cStyles.colorWhite,
-                      cStyles.fontBold,
-                      {fontSize: cStyles.H6.fontSize},
-                    ]}
+                    customStyles={[cStyles.colorWhite, cStyles.textTitle]}
                     label={'account:title'}
                   />
                 ),
@@ -221,9 +213,7 @@ export function RootMain(props) {
       initialRouteName={Routes.AUTHENTICATION.SIGN_IN.name}
       screenOptions={{
         headerTintColor: IS_IOS ? undefined : colors.WHITE,
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },
+        headerTitleStyle: cStyles.textHeadline,
         headerLargeTitle: true,
         headerLargeTitleHideShadow: true,
         headerLargeStyle: {backgroundColor: customColors.background},
@@ -285,6 +275,7 @@ export function RootMain(props) {
         name={Routes.MAIN.TASK_DETAIL.name}
         component={Routes.MAIN.TASK_DETAIL.path}
         options={{
+          title: '',
           headerStyle: headerStyles,
         }}
       />

@@ -507,7 +507,7 @@ function Task(props) {
                     <Text>
                       <Text
                         style={[
-                          cStyles.H6,
+                          cStyles.textHeadline,
                           {
                             color: isDark
                               ? data.taskDetail.typeColorDark
@@ -518,7 +518,7 @@ function Task(props) {
                       </Text>
                       <Text
                         style={[
-                          cStyles.H6,
+                          cStyles.textHeadline,
                           {color: customColors.text},
                         ]}>{`  ${data.taskDetail.taskName}`}</Text>
                     </Text>
@@ -529,7 +529,7 @@ function Task(props) {
                         data.taskDetail.crtdUser === '') && (
                         <Text
                           style={[
-                            cStyles.textMeta,
+                            cStyles.textCaption1,
                             {color: customColors.text},
                           ]}>{`#${data.taskDetail.taskID} `}</Text>
                       )}
@@ -538,14 +538,14 @@ function Task(props) {
                           <Text>
                             <Text
                               style={[
-                                cStyles.textMeta,
+                                cStyles.textCaption1,
                                 {color: customColors.text},
                               ]}>{`#${data.taskDetail.taskID}: ${t(
                               'project_management:created_by',
                             )}`}</Text>
                             <Text
                               style={[
-                                cStyles.textMeta,
+                                cStyles.textCaption1,
                                 {color: customColors.primary},
                               ]}>
                               {` ${data.taskDetail.crtdUser}. `}
@@ -554,7 +554,7 @@ function Task(props) {
                         )}
                       <Text
                         style={[
-                          cStyles.textMeta,
+                          cStyles.textCaption1,
                           {color: customColors.text},
                         ]}>{`${t(
                         'project_management:last_updated_at',
@@ -579,7 +579,7 @@ function Task(props) {
                         },
                       ]}>
                       <CText
-                        styles={'textMeta fontMedium'}
+                        styles={'textCaption1 fontMedium'}
                         customLabel={data.taskDetail.prjName}
                       />
                     </View>
@@ -607,7 +607,7 @@ function Task(props) {
                           <CText
                             style={[
                               cStyles.textRight,
-                              cStyles.textDefault,
+                              cStyles.textBody,
                               {color: customColors.text},
                             ]}
                             customLabel={`${t(
@@ -623,7 +623,7 @@ function Task(props) {
                             style={[
                               cStyles.mt5,
                               cStyles.textRight,
-                              cStyles.textDefault,
+                              cStyles.textBody,
                               {
                                 color: isDelay
                                   ? customColors.red
@@ -863,7 +863,7 @@ function Task(props) {
                                     customLabel={checkEmpty(item.fullName)}
                                   />
                                   <CText
-                                    styles={'mt5 textMeta'}
+                                    styles={'mt5 textCaption1'}
                                     customLabel={checkEmpty(item.email)}
                                   />
                                 </View>
@@ -899,7 +899,7 @@ function Task(props) {
             customContent={
               <View style={cStyles.center}>
                 <CText
-                  styles={'textMeta mt16'}
+                  styles={'textCaption1 mt16'}
                   label={'project_management:completed_task'}
                 />
                 <LottieView

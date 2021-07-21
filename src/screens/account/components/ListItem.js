@@ -142,7 +142,10 @@ function ListItem(props) {
               label={data.label}
             />
             {data.description && (
-              <CText customStyles={cStyles.textMeta} label={data.description} />
+              <CText
+                customStyles={cStyles.textCaption1}
+                label={data.description}
+              />
             )}
           </View>
 

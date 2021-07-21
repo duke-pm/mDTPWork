@@ -249,7 +249,7 @@ function CAvatar(props) {
                   },
                 ]}>
                 <CText
-                  customStyles={cStyles.textMeta}
+                  customStyles={cStyles.textCaption1}
                   label={'common:from_upload'}
                 />
               </View>
@@ -272,7 +272,7 @@ function CAvatar(props) {
                 onPress={onCloseChooseType}>
                 <CText
                   customStyles={[
-                    cStyles.H5,
+                    cStyles.textTitle3,
                     cStyles.fontRegular,
                     {color: customColors.blue},
                   ]}
@@ -300,7 +300,7 @@ function CAvatar(props) {
                 onPress={onCloseChooseType}>
                 <CText
                   customStyles={[
-                    cStyles.H5,
+                    cStyles.textTitle3,
                     cStyles.fontRegular,
                     {color: customColors.blue},
                   ]}
@@ -323,7 +323,7 @@ function CAvatar(props) {
                 ]}
                 onPress={onCloseChooseType}>
                 <CText
-                  customStyles={[cStyles.H5, {color: customColors.blue}]}
+                  customStyles={[cStyles.textTitle3, {color: customColors.blue}]}
                   label={'common:cancel'}
                 />
               </TouchableOpacity>

@@ -58,7 +58,7 @@ function CAlert(props) {
               cStyles.center,
             ]}>
             <CText
-              styles={'textCenter textTitle'}
+              styles={'textCenter textHeadline'}
               label={title}
               customLabel={title !== 'common:need_confirm' ? title : null}
             />
@@ -68,7 +68,7 @@ function CAlert(props) {
         {/** Content of Alert */}
         <View style={[cStyles.px16, cStyles.pb16, cStyles.fullWidth]}>
           {!loading && content && (
-            <CText styles={'textMeta textCenter'} label={content} />
+            <CText styles={'textCaption1 textCenter'} label={content} />
           )}
           {!loading && customContent && (
             <View style={cStyles.mt10}>{customContent}</View>

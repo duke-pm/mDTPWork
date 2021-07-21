@@ -37,7 +37,7 @@ function CText(props) {
     <Component onPress={onPress}>
       <Text
         style={[
-          cStyles.textDefault,
+          cStyles.textBody,
           {color: colors.text},
           allStyles,
           onPress && cStyles.px3,

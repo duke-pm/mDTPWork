@@ -280,7 +280,7 @@ function ChangePassword(props) {
 
                         <CButton
                           textStyle={[
-                            cStyles.textSubTitle,
+                            cStyles.textSubheadline,
                             cStyles.textUnderline,
                           ]}
                           block
@@ -309,7 +309,7 @@ function ChangePassword(props) {
 
                 <>
                   <CText
-                    styles={'H3 textCenter colorWhite'}
+                    styles={'textTitle3 textCenter colorWhite'}
                     label={'forgot_password:success_change_password'}
                   />
 
@@ -322,7 +322,7 @@ function ChangePassword(props) {
                 <View style={styles.separator} />
 
                 <CButton
-                  textStyle={[cStyles.textSubTitle, cStyles.textUnderline]}
+                  textStyle={[cStyles.textSubheadline, cStyles.textUnderline]}
                   block
                   color={colors.WHITE}
                   variant={'text'}
@@ -346,7 +346,7 @@ function ChangePassword(props) {
 
                 <>
                   <CText
-                    styles={'H3 textCenter colorWhite'}
+                    styles={'textTitle3 textCenter colorWhite'}
                     label={'forgot_password:error_change_password'}
                   />
                   {typeof form.error === 'string' && (
@@ -360,7 +360,7 @@ function ChangePassword(props) {
                 <View style={styles.separator} />
 
                 <CButton
-                  textStyle={[cStyles.textSubTitle, cStyles.textUnderline]}
+                  textStyle={[cStyles.textSubheadline, cStyles.textUnderline]}
                   block
                   color={colors.WHITE}
                   variant={'text'}
@@ -387,7 +387,7 @@ function ChangePassword(props) {
 
                   <>
                     <CText
-                      styles={'H3 textCenter colorWhite'}
+                      styles={'textTitle3 textCenter colorWhite'}
                       label={'forgot_password:error_cannot_change_password'}
                     />
                     <CText
@@ -399,7 +399,7 @@ function ChangePassword(props) {
                   <View style={styles.separator} />
 
                   <CButton
-                    textStyle={[cStyles.textSubTitle, cStyles.textUnderline]}
+                    textStyle={[cStyles.textSubheadline, cStyles.textUnderline]}
                     block
                     color={colors.WHITE}
                     variant={'text'}

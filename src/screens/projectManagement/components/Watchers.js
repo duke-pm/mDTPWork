@@ -200,7 +200,7 @@ function Watchers(props) {
             <View style={cStyles.itemsStart}>
               {watched.status && (
                 <CCheckbox
-                  textStyle={[cStyles.textMeta, {color: customColors.text}]}
+                  textStyle={[cStyles.textCaption1, {color: customColors.text}]}
                   labelRight={'project_management:title_get_watcher'}
                   value={watched.email}
                   onChange={handleGetEmail}
@@ -276,13 +276,13 @@ function Watchers(props) {
                               <View style={styles.con_left}>
                                 <Text
                                   style={[
-                                    cStyles.textDefault,
+                                    cStyles.textBody,
                                     {color: customColors.text},
                                   ]}>
                                   {item.fullName}
                                   <Text
                                     style={[
-                                      cStyles.textMeta,
+                                      cStyles.textCaption1,
                                       {color: customColors.text},
                                     ]}>
                                     {item.userName === userName
@@ -293,8 +293,14 @@ function Watchers(props) {
                               </View>
                               <View
                                 style={[cStyles.itemsEnd, styles.con_right]}>
-                                <CText styles={'textMeta'} customLabel={date} />
-                                <CText styles={'textMeta'} customLabel={time} />
+                                <CText
+                                  styles={'textCaption1'}
+                                  customLabel={date}
+                                />
+                                <CText
+                                  styles={'textCaption1'}
+                                  customLabel={time}
+                                />
                               </View>
                             </View>
                           </View>

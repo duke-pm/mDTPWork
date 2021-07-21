@@ -22,7 +22,7 @@ function TabbarLoading(props) {
   return (
     <View style={[cStyles.flexCenter]}>
       <CActivityIndicator />
-      <CText styles={'textMeta pt10 textCenter'} label={'loading'} />
+      <CText styles={'textCaption1 pt10 textCenter'} label={'loading'} />
     </View>
   );
 }

@@ -179,7 +179,7 @@ function AssetsTable(props) {
         <View
           style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween]}>
           <CText
-            styles={'textMeta fontMedium pl16'}
+            styles={'textCaption1 fontMedium pl16'}
             label={'add_approved_assets:assets'}
           />
           {!isDetail && form.assets.data.length === 0 && (
@@ -196,7 +196,7 @@ function AssetsTable(props) {
               onPress={handleAddAssets}>
               <CText
                 customStyles={[
-                  cStyles.textMeta,
+                  cStyles.textCaption1,
                   cStyles.textUnderline,
                   cStyles.pl6,
                   {color: customColors.text},
@@ -300,7 +300,7 @@ function AssetsTable(props) {
             )}
             {error.status && (
               <CText
-                styles={'textMeta fontRegular pl6'}
+                styles={'textCaption1 fontRegular pl6'}
                 customStyles={{
                   color: customColors.red,
                 }}
@@ -323,7 +323,7 @@ function AssetsTable(props) {
               onPress={handleAddAssets}>
               <CText
                 customStyles={[
-                  cStyles.textMeta,
+                  cStyles.textCaption1,
                   cStyles.textUnderline,
                   cStyles.pl6,
                   {color: customColors.text},

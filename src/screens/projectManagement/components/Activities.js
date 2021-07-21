@@ -445,7 +445,8 @@ function Activity(props) {
                     />
                   </TouchableOpacity>
 
-                  <Text style={[cStyles.textMeta, {color: customColors.text}]}>
+                  <Text
+                    style={[cStyles.textCaption1, {color: customColors.text}]}>
                     {dataSearch.active + 1}/{dataSearch.data.length}
                   </Text>
 
@@ -465,7 +466,7 @@ function Activity(props) {
                 </View>
               ) : (
                 <View style={[cStyles.center, cStyles.my10]}>
-                  <CText styles={'textMeta'} label={'common:empty_info'} />
+                  <CText styles={'textCaption1'} label={'common:empty_info'} />
                 </View>
               )}
             </View>
@@ -507,7 +508,7 @@ function Activity(props) {
                           customLabel={item.comments}
                         />
                         <CText
-                          styles={'colorWhite textRight textDate mt6'}
+                          styles={'colorWhite textRight textCaption1 mt6'}
                           customLabel={`${moment(
                             item.timeUpdate,
                             'DD/MM/YYYY - HH:mm',
@@ -524,12 +525,10 @@ function Activity(props) {
                         <CAvatar size={'small'} label={item.fullName} />
                         <Text
                           style={[
-                            cStyles.textDate,
+                            cStyles.textCaption1,
                             cStyles.textLeft,
                             cStyles.mt10,
-                            {
-                              color: customColors.text,
-                            },
+                            {color: customColors.text},
                           ]}>
                           {`${moment(
                             item.timeUpdate,
@@ -541,7 +540,7 @@ function Activity(props) {
                       <View style={styles.container_chat}>
                         <Text
                           style={[
-                            cStyles.textDate,
+                            cStyles.textCaption1,
                             cStyles.textLeft,
                             cStyles.mt10,
                             {color: customColors.text},
@@ -558,7 +557,7 @@ function Activity(props) {
                         <View style={[cStyles.ml10, cStyles.mb6]}>
                           <Text
                             style={[
-                              cStyles.textSubTitle,
+                              cStyles.textSubheadline,
                               {color: customColors.primary},
                             ]}>
                             {item.fullName}
@@ -576,7 +575,7 @@ function Activity(props) {
                           styles.con_you,
                         ]}>
                         <CText
-                          customStyles={[cStyles.textDefault]}
+                          customStyles={cStyles.textBody}
                           customLabel={item.comments}
                         />
                       </Animatable.View>

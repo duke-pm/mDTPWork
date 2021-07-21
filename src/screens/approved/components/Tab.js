@@ -22,7 +22,7 @@ function Tab(props) {
     <TouchableOpacity key={key} onPress={onPress}>
       <View style={[cStyles.flexCenter, styles.tab]}>
         <CText
-          customStyles={[cStyles.textMeta, cStyles.fontMedium]}
+          customStyles={[cStyles.textCaption1, cStyles.fontMedium]}
           customLabel={title}
         />
       </View>

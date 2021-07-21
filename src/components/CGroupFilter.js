@@ -144,7 +144,7 @@ function CGroupFilter(props) {
                     />
                     <CText
                       customStyles={[
-                        cStyles.textMeta,
+                        cStyles.textCaption1,
                         cStyles.fontMedium,
                         cStyles.pl4,
                         isCheck && cStyles.colorSecondary,

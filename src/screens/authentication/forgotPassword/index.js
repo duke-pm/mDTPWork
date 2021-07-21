@@ -242,7 +242,7 @@ function ForgotPassword(props) {
 
                       <CButton
                         textStyle={[
-                          cStyles.textSubTitle,
+                          cStyles.textSubheadline,
                           cStyles.textUnderline,
                         ]}
                         block
@@ -270,20 +270,21 @@ function ForgotPassword(props) {
 
                   <View style={cStyles.py16}>
                     <CText
-                      styles={'H3 textCenter colorWhite'}
+                      styles={'textTitle3 textCenter colorWhite'}
                       label={'forgot_password:success_title'}
                     />
 
                     <View style={styles.separator} />
 
                     <Text style={cStyles.textCenter}>
-                      <Text style={[cStyles.textDefault, cStyles.colorWhite]}>
+                      <Text style={[cStyles.textBody, cStyles.colorWhite]}>
                         {`${t('forgot_password:success_content_1')} `}
                       </Text>
-                      <Text style={[cStyles.textTitle, cStyles.colorSecondary]}>
+                      <Text
+                        style={[cStyles.textHeadline, cStyles.colorSecondary]}>
                         {form.email}
                       </Text>
-                      <Text style={[cStyles.textDefault, cStyles.colorWhite]}>
+                      <Text style={[cStyles.textBody, cStyles.colorWhite]}>
                         {'.'}
                       </Text>
                     </Text>
@@ -291,13 +292,13 @@ function ForgotPassword(props) {
                     <View style={styles.separator} />
 
                     <Text style={cStyles.textCenter}>
-                      <Text style={[cStyles.textDefault, cStyles.colorWhite]}>
+                      <Text style={[cStyles.textBody, cStyles.colorWhite]}>
                         {`${t('forgot_password:success_content_2')} `}
                       </Text>
-                      <Text style={[cStyles.textTitle, cStyles.colorWhite]}>
+                      <Text style={[cStyles.textHeadline, cStyles.colorWhite]}>
                         {`"${t('forgot_password:success_content_3')}" `}
                       </Text>
-                      <Text style={[cStyles.textDefault, cStyles.colorWhite]}>
+                      <Text style={[cStyles.textBody, cStyles.colorWhite]}>
                         {`${t('forgot_password:success_content_4')}`}
                       </Text>
                     </Text>
@@ -306,7 +307,7 @@ function ForgotPassword(props) {
                   <View style={styles.separator} />
 
                   <CButton
-                    textStyle={[cStyles.textSubTitle, cStyles.textUnderline]}
+                    textStyle={[cStyles.textSubheadline, cStyles.textUnderline]}
                     block
                     color={colors.WHITE}
                     variant={'text'}

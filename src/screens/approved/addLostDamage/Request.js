@@ -148,7 +148,7 @@ const RowSelect = (
           />
           <CText
             customStyles={[
-              cStyles.textMeta,
+              cStyles.textCaption1,
               cStyles.fontRegular,
               cStyles.pl6,
               {color: customColors.red},
@@ -639,7 +639,7 @@ function AddRequest(props) {
                     />
                     <CText
                       customStyles={[
-                        cStyles.textTitle,
+                        cStyles.textHeadline,
                         {
                           color:
                             customColors[
@@ -750,7 +750,7 @@ function AddRequest(props) {
                     }>
                     <CText
                       customStyles={[
-                        cStyles.textMeta,
+                        cStyles.textCaption1,
                         cStyles.fontMedium,
                         cStyles.pr16,
                       ]}

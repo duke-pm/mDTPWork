@@ -160,11 +160,7 @@ function CInput(props) {
           {!dateTimePicker && (
             <TextInput
               ref={props.inputRef}
-              style={[
-                cStyles.textDefault,
-                {color: customColors.text},
-                styleInput,
-              ]}
+              style={[cStyles.textBody, {color: customColors.text}, styleInput]}
               editable={!disabled}
               placeholder={t(holder)}
               placeholderTextColor={holderColor}
@@ -254,8 +250,7 @@ function CInput(props) {
           />
           <CText
             customStyles={[
-              cStyles.textMeta,
-              cStyles.fontRegular,
+              cStyles.textCaption1,
               cStyles.pl6,
               {color: customColors.red},
             ]}
@@ -270,13 +265,13 @@ function CInput(props) {
 
 const styles = StyleSheet.create({
   con_input: {
-    height: verticalScale(38),
+    height: IS_ANDROID ? verticalScale(38) : verticalScale(34),
     width: '100%',
     backgroundColor: colors.WHITE,
   },
   con_input_icon: {
-    width: verticalScale(38),
-    height: verticalScale(38),
+    width: IS_ANDROID ? verticalScale(38) : verticalScale(34),
+    height: IS_ANDROID ? verticalScale(38) : verticalScale(34),
   },
   input: {
     width: '100%',
@@ -287,8 +282,8 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
   },
   input_icon: {
-    width: verticalScale(38),
-    height: verticalScale(38),
+    width: IS_ANDROID ? verticalScale(38) : verticalScale(34),
+    height: IS_ANDROID ? verticalScale(38) : verticalScale(34),
   },
 });
 

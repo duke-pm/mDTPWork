@@ -107,7 +107,7 @@ function FileAttach(props) {
         <Text
           dataDetectorType={'link'}
           style={[
-            cStyles.textMeta,
+            cStyles.textCaption1,
             cStyles.textItalic,
             cStyles.textCenter,
             cStyles.pt10,

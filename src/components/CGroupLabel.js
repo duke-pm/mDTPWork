@@ -30,9 +30,9 @@ function CGroupLabel(props) {
         containerStyle,
       ]}>
       {labelLeft && (
-        <CText styles={'textMeta'} customLabel={labelLeft.toUpperCase()} />
+        <CText styles={'textCaption1'} customLabel={labelLeft.toUpperCase()} />
       )}
-      {labelRight && <CText styles={'textMeta'} customLabel={labelRight} />}
+      {labelRight && <CText styles={'textCaption1'} customLabel={labelRight} />}
     </View>
   );
 }

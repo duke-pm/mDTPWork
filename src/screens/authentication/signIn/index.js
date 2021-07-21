@@ -438,14 +438,14 @@ function SignIn(props) {
                         {paddingVertical: verticalScale(4)},
                       ]}>
                       <CCheckbox
-                        textStyle={cStyles.textSubTitle}
+                        textStyle={cStyles.textSubheadline}
                         labelRight={'sign_in:save_account'}
                         value={form.saveAccount}
                         onChange={handleSaveAccount}
                       />
 
                       <CText
-                        styles={'textSubTitle textUnderline colorWhite'}
+                        styles={'textSubheadline textUnderline colorWhite'}
                         label={'sign_in:forgot_password'}
                         onPress={handleForgotPassword}
                       />

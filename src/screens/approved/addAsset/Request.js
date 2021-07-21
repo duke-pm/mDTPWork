@@ -37,7 +37,7 @@ import Icons from '~/config/icons';
 import Commons from '~/utils/common/Commons';
 import {THEME_DARK, DEFAULT_FORMAT_DATE_4} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
-import {moderateScale, verticalScale} from '~/utils/helper';
+import {IS_ANDROID, moderateScale, verticalScale} from '~/utils/helper';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 
@@ -600,7 +600,7 @@ function AddRequest(props) {
                     />
                     <CText
                       customStyles={[
-                        cStyles.textTitle,
+                        cStyles.textHeadline,
                         {
                           color:
                             customColors[
@@ -736,7 +736,10 @@ function AddRequest(props) {
                         cStyles.justifyBetween,
                       ]}>
                       <CLabel medium label={'add_approved_assets:reason'} />
-                      <CText styles={'textDate'} label={'common:optional'} />
+                      <CText
+                        styles={'textCaption1'}
+                        label={'common:optional'}
+                      />
                     </View>
                     <CInput
                       name={INPUT_NAME.REASON}
@@ -788,7 +791,10 @@ function AddRequest(props) {
                         cStyles.justifyBetween,
                       ]}>
                       <CLabel medium label={'add_approved_assets:supplier'} />
-                      <CText styles={'textDate'} label={'common:optional'} />
+                      <CText
+                        styles={'textCaption1'}
+                        label={'common:optional'}
+                      />
                     </View>
                     <CInput
                       name={INPUT_NAME.SUPPLIER}
@@ -813,7 +819,7 @@ function AddRequest(props) {
                     }>
                     <CText
                       customStyles={[
-                        cStyles.textMeta,
+                        cStyles.textCaption1,
                         cStyles.fontMedium,
                         cStyles.pr16,
                       ]}
@@ -837,7 +843,7 @@ function AddRequest(props) {
                         : cStyles.mt16
                     }>
                     <CText
-                      customStyles={[cStyles.textMeta, cStyles.fontMedium]}
+                      customStyles={[cStyles.textCaption1, cStyles.fontMedium]}
                       label={'add_approved_assets:in_planning'}
                     />
                     <CheckOption
@@ -901,7 +907,7 @@ function AddRequest(props) {
                     ) : (
                       <View style={[cStyles.center, styles.content_picker]}>
                         <CText
-                          styles={'textMeta'}
+                          styles={'textCaption1'}
                           label={'add_approved_assets:holder_empty_department'}
                         />
                       </View>
@@ -986,7 +992,7 @@ const styles = StyleSheet.create({
   con_right: {flex: 0.6},
   con_action: {width: '100%', height: verticalScale(180)},
   content_picker: {height: '40%'},
-  row_select: {height: verticalScale(38)},
+  row_select: {height: IS_ANDROID ? verticalScale(38) : verticalScale(34)},
 });
 
 export default AddRequest;

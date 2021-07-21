@@ -73,12 +73,11 @@ function CButton(props) {
 
         <CText
           customStyles={[
-            cStyles.textButton,
+            cStyles.textSubheadline,
             cStyles.textCenter,
             cStyles.m6,
             {color: variant === 'contained' ? colors.WHITE : color},
             (disabled || loading) && styles.textDisabled,
-            IS_ANDROID && {fontWeight: '500'},
             textStyle,
           ]}
           label={t(label)}

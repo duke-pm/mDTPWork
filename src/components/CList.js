@@ -85,7 +85,7 @@ function CList(props) {
               <View style={[cStyles.py5, cStyles.px16, cStyles.rounded5]}>
                 <CText
                   customStyles={[
-                    cStyles.textMeta,
+                    cStyles.textCaption1,
                     cStyles.fontMedium,
                     {color: isDark ? colors.GRAY_700 : colors.GRAY_600},
                   ]}

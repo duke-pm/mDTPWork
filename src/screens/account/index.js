@@ -144,12 +144,15 @@ const Information = ({isTablet, authState}) => {
               isTablet ? [cStyles.itemsCenter, cStyles.mt16] : cStyles.mx16
             }>
             <CText
-              customStyles={[cStyles.H6, isTablet && cStyles.textCenter]}
+              customStyles={[
+                cStyles.textHeadline,
+                isTablet && cStyles.textCenter,
+              ]}
               customLabel={authState.getIn(['login', 'fullName'])}
             />
             <CText
               customStyles={[
-                cStyles.textMeta,
+                cStyles.textCaption1,
                 cStyles.mt6,
                 isTablet && cStyles.textCenter,
               ]}
@@ -173,7 +176,7 @@ const Socials = ({customColors, isDark, isTablet, needUpdate, onUpdate}) => {
       content={
         <>
           <View style={cStyles.itemsStart}>
-            <Text style={[cStyles.textMeta, {color: customColors.text}]}>
+            <Text style={[cStyles.textCaption1, {color: customColors.text}]}>
               &#169; {Configs.nameOfApp}
             </Text>
           </View>
@@ -181,7 +184,7 @@ const Socials = ({customColors, isDark, isTablet, needUpdate, onUpdate}) => {
           <View style={[cStyles.mt6, cStyles.row, cStyles.itemsCenter]}>
             <Text
               style={[
-                cStyles.textMeta,
+                cStyles.textCaption1,
                 cStyles.mt5,
                 {color: customColors.text},
               ]}>
@@ -190,7 +193,7 @@ const Socials = ({customColors, isDark, isTablet, needUpdate, onUpdate}) => {
             {needUpdate.status && (
               <CButton
                 style={[cStyles.ml10, cStyles.px6]}
-                textStyle={cStyles.textMeta}
+                textStyle={cStyles.textCaption1}
                 variant={'outlined'}
                 icon={Icons.download}
                 label={'common:download'}
