@@ -97,7 +97,7 @@ function ProjectItem(props) {
                 <View
                   style={[cStyles.row, cStyles.itemsCenter, styles.row_right]}>
                   <Icon
-                    name={'ellipse'}
+                    name={Icons.dot}
                     color={isDark ? data.colorDarkCode : data.colorCode}
                     size={moderateScale(14)}
                   />
@@ -150,7 +150,7 @@ function ProjectItem(props) {
               right: PADDING_2_CHILDREN,
               bottom: -BOTTOM_CHILDREN,
               width: widthCard,
-              backgroundColor: isDark ? colors.GRAY_860 : colors.GRAY_200,
+              backgroundColor: isDark ? colors.GRAY_860 : colors.GRAY_300,
               zIndex: 1,
             },
           ]}

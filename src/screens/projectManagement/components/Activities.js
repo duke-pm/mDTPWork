@@ -36,6 +36,7 @@ import CAvatar from '~/components/CAvatar';
 import CIconHeader from '~/components/CIconHeader';
 import CSearchBar from '~/components/CSearchBar';
 /* COMMON */
+import Icons from '~/config/Icons';
 import {
   saveLocalInfo,
   getLocalInfo,
@@ -439,8 +440,8 @@ function Activity(props) {
                     onPress={handleDownSearch}>
                     <Icon
                       style={cStyles.p10}
-                      name={'chevron-down-circle-outline'}
-                      size={moderateScale(20)}
+                      name={Icons.downItem}
+                      size={moderateScale(21)}
                       color={customColors.icon}
                     />
                   </TouchableOpacity>
@@ -458,8 +459,8 @@ function Activity(props) {
                     onPress={handleUpSearch}>
                     <Icon
                       style={cStyles.p10}
-                      name={'chevron-up-circle-outline'}
-                      size={moderateScale(20)}
+                      name={Icons.upItem}
+                      size={moderateScale(21)}
                       color={customColors.icon}
                     />
                   </TouchableOpacity>
@@ -509,10 +510,7 @@ function Activity(props) {
                         />
                         <CText
                           styles={'colorWhite textRight textCaption1 mt6'}
-                          customLabel={`${moment(
-                            item.timeUpdate,
-                            'DD/MM/YYYY - HH:mm',
-                          ).format('HH:mm')}`}
+                          customLabel={`${item.timeUpdate.split(' - ')[1]}`}
                         />
                       </Animatable.View>
                     </View>
@@ -527,13 +525,9 @@ function Activity(props) {
                           style={[
                             cStyles.textCaption1,
                             cStyles.textLeft,
-                            cStyles.mt10,
                             {color: customColors.text},
                           ]}>
-                          {`${moment(
-                            item.timeUpdate,
-                            'DD/MM/YYYY - HH:mm',
-                          ).format('HH:mm')}`}
+                          {`${item.timeUpdate.split('-')[1]}`}
                         </Text>
                       </View>
                     ) : (
@@ -542,13 +536,9 @@ function Activity(props) {
                           style={[
                             cStyles.textCaption1,
                             cStyles.textLeft,
-                            cStyles.mt10,
                             {color: customColors.text},
                           ]}>
-                          {`${moment(
-                            item.timeUpdate,
-                            'DD/MM/YYYY - HH:mm',
-                          ).format('HH:mm')}`}
+                          {`${item.timeUpdate.split('-')[1]}`}
                         </Text>
                       </View>
                     )}
@@ -608,8 +598,12 @@ const styles = StyleSheet.create({
     height: moderateScale(32),
     width: moderateScale(32),
   },
-  con_me: {backgroundColor: IS_IOS ? colors.BLUE : colors.GREEN},
-  con_you: {backgroundColor: colors.GRAY_200},
+  con_me: {
+    backgroundColor: IS_IOS
+      ? colors.STATUS_NEW_DARK
+      : colors.STATUS_SCHEDULE_DARK,
+  },
+  con_you: {backgroundColor: colors.GRAY_100},
 });
 
 export default Activity;

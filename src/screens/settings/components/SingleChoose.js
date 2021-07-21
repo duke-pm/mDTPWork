@@ -19,6 +19,7 @@ import {moderateScale, saveLocalInfo, getLocalInfo, sH} from '~/utils/helper';
 import {cStyles} from '~/utils/style';
 import CText from '~/components/CText';
 import {useTranslation} from 'react-i18next';
+import Icons from '~/config/Icons';
 /* COMMON */
 
 /* REDUX */
@@ -64,7 +65,11 @@ const RowSelect = (
           ]}>
           <CText label={data.label} />
           {active && (
-            <Icon name={'checkmark'} color={customColors.blue} size={moderateScale(23)} />
+            <Icon
+              name={Icons.check}
+              color={customColors.blue}
+              size={moderateScale(23)}
+            />
           )}
         </View>
       </View>

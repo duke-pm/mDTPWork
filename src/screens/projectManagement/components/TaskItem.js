@@ -187,7 +187,7 @@ function TaskItem(props) {
 
                   <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pt6]}>
                     <Icon
-                      name={'ellipse'}
+                      name={Icons.dot}
                       color={isDark ? data.colorDarkCode : data.colorCode}
                       size={moderateScale(14)}
                     />

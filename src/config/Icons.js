@@ -53,6 +53,9 @@ const Icons = {
   login: 'log-in',
   save: 'save',
   nextStep: 'arrow-forward-outline',
+  downItem: 'chevron-down-circle-outline',
+  upItem: 'chevron-up-circle-outline',
+  dot: 'ellipse',
 };
 
 export default Icons;

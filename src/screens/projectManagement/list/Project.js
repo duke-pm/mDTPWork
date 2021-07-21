@@ -172,7 +172,7 @@ function ListProject(props) {
                 <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt10]}>
                   <CLabel label={'project_management:status'} />
                   <Icon
-                    name={'ellipse'}
+                    name={Icons.dot}
                     color={
                       isDark
                         ? chooseProject.colorDarkCode
