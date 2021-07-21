@@ -21,7 +21,7 @@ import Rate, {AndroidMarket} from 'react-native-rate';
 import CText from '~/components/CText';
 /* COMMON */
 import Configs from '~/config';
-import Icons from '~/config/icons';
+import Icons from '~/config/Icons';
 import {alert, moderateScale} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
 import {Assets} from '~/utils/asset';

@@ -12,7 +12,7 @@ import ActionSheet from 'react-native-actions-sheet';
 /** COMPONENTS */
 import CIconButton from './CIconButton';
 /** COMMON */
-import Icons from '~/config/icons';
+import Icons from '~/config/Icons';
 import {cStyles} from '~/utils/style';
 import {THEME_DARK} from '~/config/constants';
 import {moderateScale} from '~/utils/helper';

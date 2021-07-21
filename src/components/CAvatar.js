@@ -23,7 +23,7 @@ import Modal from 'react-native-modal';
 /** COMPONENTS */
 import CText from './CText';
 /* COMMON */
-import Icons from '~/config/icons';
+import Icons from '~/config/Icons';
 import {Assets} from '~/utils/asset';
 import {
   askPermissionsCamera,

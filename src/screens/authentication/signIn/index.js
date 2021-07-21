@@ -33,7 +33,7 @@ import CButton from '~/components/CButton';
 import CAvoidKeyboard from '~/components/CAvoidKeyboard';
 /* COMMON */
 import Routes from '~/navigation/Routes';
-import Icons from '~/config/icons';
+import Icons from '~/config/Icons';
 import {Assets} from '~/utils/asset';
 import {LOGIN, LANGUAGE, BIOMETRICS, FAST_LOGIN} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';

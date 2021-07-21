@@ -15,7 +15,7 @@ import CLabel from '~/components/CLabel';
 import CAvatar from '~/components/CAvatar';
 import ListProject from '../list/Project';
 /* COMMON */
-import Icons from '~/config/icons';
+import Icons from '~/config/Icons';
 import {colors, cStyles} from '~/utils/style';
 import {checkEmpty, moderateScale, IS_ANDROID} from '~/utils/helper';
 import {DEFAULT_FORMAT_DATE_4} from '~/config/constants';

@@ -33,7 +33,7 @@ import CCard from '~/components/CCard';
 import CLabel from '~/components/CLabel';
 import CActivityIndicator from '~/components/CActivityIndicator';
 /* COMMON */
-import Icons from '~/config/icons';
+import Icons from '~/config/Icons';
 import {THEME_DARK} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
 import {moderateScale, IS_ANDROID} from '~/utils/helper';

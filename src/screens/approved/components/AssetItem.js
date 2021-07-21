@@ -16,7 +16,7 @@ import CIconButton from '~/components/CIconButton';
 /* COMMON */
 import {moderateScale} from '~/utils/helper';
 import {cStyles} from '~/utils/style';
-import Icons from '~/config/icons';
+import Icons from '~/config/Icons';
 
 Number.prototype.format = function (n, x) {
   if (n == 0) {

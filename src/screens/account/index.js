@@ -27,7 +27,7 @@ import Routes from '~/navigation/Routes';
 import {LOGIN, THEME_DARK} from '~/config/constants';
 import {alert, IS_IOS, removeSecretInfo, resetRoute} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
-import Icons from '~/config/icons';
+import Icons from '~/config/Icons';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 

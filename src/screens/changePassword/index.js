@@ -26,7 +26,7 @@ import CButton from '~/components/CButton';
 import CGroupInfo from '~/components/CGroupInfo';
 import CAvoidKeyboard from '~/components/CAvoidKeyboard';
 /* COMMON */
-import Icons from '~/config/icons';
+import Icons from '~/config/Icons';
 import Routes from '~/navigation/Routes';
 import {cStyles, colors} from '~/utils/style';
 import {BIOMETRICS, LOGIN} from '~/config/constants';

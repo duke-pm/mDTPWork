@@ -24,7 +24,7 @@ import AssetItem from './AssetItem';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
 import {moderateScale, IS_ANDROID, verticalScale} from '~/utils/helper';
-import Icons from '~/config/icons';
+import Icons from '~/config/Icons';
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);

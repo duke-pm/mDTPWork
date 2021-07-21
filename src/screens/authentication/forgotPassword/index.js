@@ -29,7 +29,7 @@ import CText from '~/components/CText';
 import CButton from '~/components/CButton';
 import CAvoidKeyboard from '~/components/CAvoidKeyboard';
 /* COMMON */
-import Icons from '~/config/icons';
+import Icons from '~/config/Icons';
 import {colors, cStyles} from '~/utils/style';
 import {
   IS_ANDROID,

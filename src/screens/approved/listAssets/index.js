@@ -30,7 +30,7 @@ import TabbarType from '../components/TabbarType';
 /* COMMON */
 import Routes from '~/navigation/Routes';
 import Commons from '~/utils/common/Commons';
-import Icons from '~/config/icons';
+import Icons from '~/config/Icons';
 import {IS_ANDROID} from '~/utils/helper';
 import {cStyles} from '~/utils/style';
 if (IS_ANDROID) {

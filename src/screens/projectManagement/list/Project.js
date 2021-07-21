@@ -24,7 +24,7 @@ import CLabel from '~/components/CLabel';
 import CText from '~/components/CText';
 import ProjectItem from '../components/ProjectItem';
 /** COMMON */
-import Icons from '~/config/icons';
+import Icons from '~/config/Icons';
 import Routes from '~/navigation/Routes';
 import {DEFAULT_FORMAT_DATE_4, THEME_DARK} from '~/config/constants';
 import {checkEmpty, IS_ANDROID, moderateScale} from '~/utils/helper';

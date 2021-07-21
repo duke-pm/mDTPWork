@@ -14,7 +14,7 @@ import CText from '~/components/CText';
 /** COMMON */
 import {colors, cStyles} from '~/utils/style';
 import {moderateScale} from '~/utils/helper';
-import Icons from '~/config/icons';
+import Icons from '~/config/Icons';
 
 let handleRef = createRef();
 

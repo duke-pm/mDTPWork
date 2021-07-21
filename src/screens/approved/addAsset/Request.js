@@ -33,7 +33,7 @@ import RequestProcess from '../components/RequestProcess';
 import AssetsTable, {widthItemTable} from '../components/AssetsTable';
 import CheckOption from '../components/CheckOption';
 /* COMMON */
-import Icons from '~/config/icons';
+import Icons from '~/config/Icons';
 import Commons from '~/utils/common/Commons';
 import {THEME_DARK, DEFAULT_FORMAT_DATE_4} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';

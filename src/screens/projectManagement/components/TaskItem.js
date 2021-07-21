@@ -22,7 +22,7 @@ import CAvatar from '~/components/CAvatar';
 import CTouchable from '~/components/CTouchable';
 import ListTask from '../list/Task';
 /* COMMON */
-import Icons from '~/config/icons';
+import Icons from '~/config/Icons';
 import Commons from '~/utils/common/Commons';
 import {IS_ANDROID, moderateScale} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';

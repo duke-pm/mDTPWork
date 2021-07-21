@@ -29,7 +29,7 @@ import Status from '../components/Status';
 import Percentage from '../components/Percentage';
 import FileAttach from '../components/FileAttach';
 /* COMMON */
-import Icons from '~/config/icons';
+import Icons from '~/config/Icons';
 import Routes from '~/navigation/Routes';
 import Commons from '~/utils/common/Commons';
 import {usePrevious} from '~/utils/hook';

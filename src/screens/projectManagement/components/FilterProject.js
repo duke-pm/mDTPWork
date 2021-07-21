@@ -25,7 +25,7 @@ import CIconHeader from '~/components/CIconHeader';
 import CActivityIndicator from '~/components/CActivityIndicator';
 /* COMMON */
 import Configs from '~/config';
-import Icons from '~/config/icons';
+import Icons from '~/config/Icons';
 import {THEME_DARK} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
 import {moderateScale, IS_ANDROID, IS_IOS, sH} from '~/utils/helper';

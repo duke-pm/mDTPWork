@@ -20,7 +20,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 /** COMPONENTS */
 import CActivityIndicator from '~/components/CActivityIndicator';
 /* COMMON */
-import Icons from '~/config/icons';
+import Icons from '~/config/Icons';
 import Commons from '~/utils/common/Commons';
 import {THEME_DARK, THEME_LIGHT} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';

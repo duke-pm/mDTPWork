@@ -13,7 +13,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import CText from '~/components/CText';
 import CFooterList from '~/components/CFooterList';
 /* COMMON */
-import Icons from '~/config/icons';
+import Icons from '~/config/Icons';
 import {colors, cStyles} from '~/utils/style';
 import {moderateScale} from '~/utils/helper';
 import {THEME_DARK} from '~/config/constants';
