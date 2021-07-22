@@ -112,6 +112,7 @@ function CList(props) {
         onRefresh={onRefresh}
         ListEmptyComponent={
           <CEmpty
+            style={cStyles.mt60}
             label={'common:empty_data'}
             description={textEmpty || 'common:cannot_find_data_filter'}
           />

@@ -216,7 +216,7 @@ function FilterProject(props) {
    ** FUNC **
    ************/
   const onGetListYear = back => {
-    let tmp = new Date().getFullYear();
+    let tmp = new Date().getFullYear() + 2;
     tmp = Array.from({length: back}, (v, i) => tmp - back + i + 1);
     return tmp.map(item => {
       return {value: item + '', label: item + ''};
@@ -467,8 +467,8 @@ function FilterProject(props) {
               <Picker
                 style={styles.con_action}
                 itemStyle={{
+                  fontSize: moderateScale(21),
                   color: customColors.text,
-                  fontSize: moderateScale(20),
                 }}
                 selectedValue={year.active}
                 onValueChange={onChangeYear}>

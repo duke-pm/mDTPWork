@@ -244,7 +244,10 @@ function Status(props) {
         onClose={onCloseActionSheet}>
         <Picker
           style={[cStyles.justifyCenter, styles.con_action]}
-          itemStyle={{color: customColors.text, fontSize: moderateScale(20)}}
+          itemStyle={{
+            fontSize: moderateScale(21),
+            color: customColors.text,
+          }}
           selectedValue={status.active}
           onValueChange={onChangeStatus}>
           {status.data.map((value, i) => (

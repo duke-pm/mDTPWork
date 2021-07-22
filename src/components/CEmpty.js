@@ -6,24 +6,26 @@
  **/
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
+import LottieView from 'lottie-react-native';
 /* COMPONENTS */
-import CImage from '~/components/CImage';
 import CText from './CText';
 /* COMMON */
 import {cStyles} from '~/utils/style';
-import {Assets} from '~/utils/asset';
+import {Animations} from '~/utils/asset';
 import {moderateScale} from '~/utils/helper';
 
 function CEmpty(props) {
+  const {style} = props;
   /************
    ** RENDER **
    ************/
   return (
-    <View style={[cStyles.flex1, cStyles.itemsCenter, cStyles.pt40]}>
-      <CImage
+    <View style={[cStyles.flex1, cStyles.itemsCenter, cStyles.pt40, style]}>
+      <LottieView
         style={styles.img_empty}
-        source={Assets.iconEmpty}
-        resizeMode={'contain'}
+        source={Animations.empty}
+        autoPlay
+        loop
       />
 
       <CText styles={'pt16 textSubheadline'} label={props.label} />

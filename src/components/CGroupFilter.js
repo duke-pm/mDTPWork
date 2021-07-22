@@ -8,7 +8,14 @@
  **/
 import React, {createRef, useState, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
-import {StyleSheet, FlatList, TouchableOpacity, View} from 'react-native';
+import {
+  StyleSheet,
+  FlatList,
+  TouchableOpacity,
+  View,
+  LayoutAnimation,
+  UIManager,
+} from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import * as Animatable from 'react-native-animatable';
@@ -19,6 +26,12 @@ import CLabel from './CLabel';
 import {IS_ANDROID, moderateScale} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
 import Icons from '~/config/Icons';
+
+if (IS_ANDROID) {
+  if (UIManager.setLayoutAnimationEnabledExperimental) {
+    UIManager.setLayoutAnimationEnabledExperimental(true);
+  }
+}
 
 function CGroupFilter(props) {
   const {t} = useTranslation();

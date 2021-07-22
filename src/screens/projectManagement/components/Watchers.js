@@ -185,7 +185,7 @@ function Watchers(props) {
           <View style={[cStyles.mt16, cStyles.mx16]}>
             <CButton
               block
-              variant={'outlined'}
+              variant={isDark ? 'outlined' : 'contained'}
               color={!watched.status ? customColors.green : customColors.red}
               label={
                 !watched.status
@@ -237,16 +237,7 @@ function Watchers(props) {
                         return (
                           <View
                             key={index + item.userName}
-                            style={[
-                              cStyles.row,
-                              cStyles.itemsCenter,
-                              index !== watchers.length - 1 &&
-                                cStyles.borderBottom,
-                              index !== watchers.length - 1 &&
-                                isDark &&
-                                cStyles.borderBottomDark,
-                              index !== -1 && cStyles.py4,
-                            ]}>
+                            style={[cStyles.row, cStyles.itemsCenter]}>
                             <View>
                               <CAvatar size={'small'} label={item.fullName} />
                               {item.isReceiveEmail && (
@@ -255,6 +246,7 @@ function Watchers(props) {
                                     cStyles.center,
                                     cStyles.rounded5,
                                     cStyles.abs,
+                                    {backgroundColor: customColors.card},
                                     styles.con_icon,
                                   ]}>
                                   <Icon
@@ -272,6 +264,12 @@ function Watchers(props) {
                                 cStyles.itemsCenter,
                                 cStyles.justifyBetween,
                                 cStyles.ml10,
+                                index !== watchers.length - 1 &&
+                                  cStyles.borderBottom,
+                                index !== watchers.length - 1 &&
+                                  isDark &&
+                                  cStyles.borderBottomDark,
+                                index !== -1 && cStyles.py6,
                               ]}>
                               <View style={styles.con_left}>
                                 <Text
@@ -329,7 +327,6 @@ const styles = StyleSheet.create({
   con_icon: {
     height: moderateScale(14),
     width: moderateScale(14),
-    backgroundColor: colors.WHITE,
     right: -moderateScale(4),
     bottom: -moderateScale(4),
   },

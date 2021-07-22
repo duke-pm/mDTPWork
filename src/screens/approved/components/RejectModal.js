@@ -5,12 +5,19 @@
  ** Description: Description of RejectModal.js
  **/
 import React, {useState} from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, LayoutAnimation, UIManager} from 'react-native';
 /* COMPONENTS */
 import CInput from '~/components/CInput';
 import CAlert from '~/components/CAlert';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
+import {IS_ANDROID, verticalScale} from '~/utils/helper';
+
+if (IS_ANDROID) {
+  if (UIManager.setLayoutAnimationEnabledExperimental) {
+    UIManager.setLayoutAnimationEnabledExperimental(true);
+  }
+}
 
 const INPUT_NAME = {REASON_REJECT: 'reasonReject'};
 
@@ -48,6 +55,7 @@ function RejectModal(props) {
 
   const handleReject = () => {
     if (reasonReject.trim() === '') {
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
       setError({
         reasonReject: {
           status: true,
@@ -62,6 +70,7 @@ function RejectModal(props) {
 
   const handleClose = () => {
     if (error.reasonReject.status) {
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
       setError({
         reasonReject: {
           status: false,
@@ -83,7 +92,7 @@ function RejectModal(props) {
       customContent={
         <CInput
           name={INPUT_NAME.REASON_REJECT}
-          style={cStyles.fullWidth}
+          style={[cStyles.itemsStart, styles.input_multiline]}
           styleFocus={styles.input_focus}
           disabled={loading}
           holder={'add_approved_assets:reason'}
@@ -91,7 +100,8 @@ function RejectModal(props) {
           valueColor={colors.TEXT_BASE}
           keyboard={'default'}
           returnKey={'done'}
-          autoFocus
+          autoFocus={true}
+          multiline={true}
           error={error.reasonReject.status}
           errorHelper={error.reasonReject.helper}
           textAlignVertical={'top'}
@@ -101,12 +111,15 @@ function RejectModal(props) {
       }
       onClose={handleClose}
       onOK={handleReject}
+      onBackButtonPress={() => null}
+      onBackdropPress={() => null}
     />
   );
 }
 
 const styles = StyleSheet.create({
   input_focus: {borderColor: colors.SECONDARY},
+  input_multiline: {height: verticalScale(100)},
 });
 
 export default RejectModal;

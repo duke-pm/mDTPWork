@@ -217,8 +217,8 @@ function Settings(props) {
             <Picker
               style={styles.con_action}
               itemStyle={{
+                fontSize: moderateScale(21),
                 color: customColors.text,
-                fontSize: moderateScale(20),
               }}
               selectedValue={valueSettings.activeLanguage}
               onValueChange={onChangeLanguage}>

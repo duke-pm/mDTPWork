@@ -11,6 +11,7 @@ import {useTranslation} from 'react-i18next';
 import {useColorScheme} from 'react-native-appearance';
 import {useTheme} from '@react-navigation/native';
 import {showMessage} from 'react-native-flash-message';
+import {ifIphoneX} from 'react-native-iphone-x-helper';
 import {StyleSheet, View} from 'react-native';
 import Picker from '@gregfrench/react-native-wheel-picker';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -744,12 +745,14 @@ function AddRequest(props) {
                     </View>
                     <CInput
                       name={INPUT_NAME.REASON}
+                      style={[cStyles.itemsStart, styles.input_multiline]}
                       styleFocus={styles.input_focus}
                       disabled={loading.main || loading.submitAdd || isDetail}
                       holder={'add_approved_assets:holder_reason'}
                       value={form.reason}
                       keyboard={'default'}
                       returnKey={'next'}
+                      multiline={true}
                       onChangeInput={() => handleChangeInput(supplierRef)}
                       onChangeValue={handleChangeText}
                     />
@@ -879,8 +882,8 @@ function AddRequest(props) {
                   <Picker
                     style={[styles.con_action, cStyles.justifyCenter]}
                     itemStyle={{
-                      fontSize: moderateScale(20),
-                      color: customColors.textDisable,
+                      fontSize: moderateScale(21),
+                      color: customColors.text,
                     }}
                     selectedValue={whereUse}
                     onValueChange={onChangeWhereUse}>
@@ -982,7 +985,12 @@ const styles = StyleSheet.create({
   con_right: {flex: 0.6},
   con_action: {width: '100%', height: verticalScale(180)},
   content_picker: {height: '40%'},
-  row_select: {height: IS_ANDROID ? verticalScale(38) : verticalScale(30)},
+  row_select: {
+    height: IS_ANDROID
+      ? verticalScale(38)
+      : ifIphoneX(verticalScale(30), verticalScale(36)),
+  },
+  input_multiline: {height: verticalScale(100)},
 });
 
 export default AddRequest;

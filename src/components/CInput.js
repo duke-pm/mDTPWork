@@ -8,6 +8,7 @@ import React, {useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useColorScheme} from 'react-native-appearance';
 import {useTheme} from '@react-navigation/native';
+import {ifIphoneX} from 'react-native-iphone-x-helper';
 import {
   StyleSheet,
   TextInput,
@@ -19,10 +20,10 @@ import Icon from 'react-native-vector-icons/Ionicons';
 /* COMPONENTS */
 import CText from './CText';
 /* COMMON */
+import Icons from '~/config/Icons';
 import {colors, cStyles} from '~/utils/style';
 import {IS_ANDROID, moderateScale, verticalScale} from '~/utils/helper';
 import {THEME_DARK, THEME_LIGHT} from '~/config/constants';
-import Icons from '~/config/Icons';
 
 function CInput(props) {
   const {t} = useTranslation();
@@ -48,6 +49,7 @@ function CInput(props) {
     textAlign = 'left',
     keyboard = 'default',
     returnKey = 'next',
+    numberOfLines = undefined,
 
     multiline = false,
     password = false,
@@ -135,10 +137,10 @@ function CInput(props) {
                 isDark && cStyles.borderRightDark,
               ]}>
               {typeof icon === 'string' ? (
-                <Icon name={icon} color={iconColor} size={moderateScale(23)} />
+                <Icon name={icon} color={iconColor} size={moderateScale(21)} />
               ) : (
                 <Image
-                  style={{height: moderateScale(23), width: moderateScale(23)}}
+                  style={{height: moderateScale(21), width: moderateScale(21)}}
                   source={icon}
                 />
               )}
@@ -160,7 +162,13 @@ function CInput(props) {
           {!dateTimePicker && (
             <TextInput
               ref={props.inputRef}
-              style={[cStyles.textBody, {color: customColors.text}, styleInput]}
+              style={[
+                multiline && cStyles.flex1,
+                multiline && cStyles.itemsStart,
+                cStyles.textBody,
+                {color: customColors.text},
+                styleInput,
+              ]}
               editable={!disabled}
               placeholder={t(holder)}
               placeholderTextColor={holderColor}
@@ -181,6 +189,7 @@ function CInput(props) {
               keyboardType={keyboard}
               returnKeyType={returnKey}
               multiline={multiline}
+              numberOfLines={numberOfLines}
               onContentSizeChange={onContentSizeChange}
               onLayout={onLayout}
               onFocus={handleFocusInput}
@@ -196,9 +205,9 @@ function CInput(props) {
             style={[cStyles.center, styles.con_input_icon]}
             onPress={handleRemoveValue}>
             <Icon
-              name={Icons.remove}
+              name={Icons.close}
               color={customColors.red}
-              size={moderateScale(20)}
+              size={moderateScale(21)}
             />
           </Component>
         )}
@@ -213,12 +222,11 @@ function CInput(props) {
               styles.con_input_icon,
               iconLastStyle,
             ]}
-            // disabled={props.value === ''}
             onPress={handleIconLast}>
             <Icon
               name={iconLast}
               color={customColors.icon}
-              size={moderateScale(20)}
+              size={moderateScale(21)}
             />
           </Component>
         )}
@@ -236,7 +244,7 @@ function CInput(props) {
             <Icon
               name={showPassword ? Icons.eyeOff : Icons.eye}
               color={colors.GRAY_500}
-              size={moderateScale(20)}
+              size={moderateScale(21)}
             />
           </Component>
         )}
@@ -265,13 +273,19 @@ function CInput(props) {
 
 const styles = StyleSheet.create({
   con_input: {
-    height: IS_ANDROID ? verticalScale(38) : verticalScale(30),
+    height: IS_ANDROID
+      ? verticalScale(38)
+      : ifIphoneX(verticalScale(30), verticalScale(36)),
     width: '100%',
     backgroundColor: colors.WHITE,
   },
   con_input_icon: {
-    width: IS_ANDROID ? verticalScale(38) : verticalScale(30),
-    height: IS_ANDROID ? verticalScale(38) : verticalScale(30),
+    width: IS_ANDROID
+      ? verticalScale(38)
+      : ifIphoneX(verticalScale(30), verticalScale(36)),
+    height: IS_ANDROID
+      ? verticalScale(38)
+      : ifIphoneX(verticalScale(30), verticalScale(36)),
   },
   input: {
     width: '100%',
@@ -282,8 +296,12 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
   },
   input_icon: {
-    width: IS_ANDROID ? verticalScale(38) : verticalScale(30),
-    height: IS_ANDROID ? verticalScale(38) : verticalScale(30),
+    width: IS_ANDROID
+      ? verticalScale(38)
+      : ifIphoneX(verticalScale(30), verticalScale(36)),
+    height: IS_ANDROID
+      ? verticalScale(38)
+      : ifIphoneX(verticalScale(30), verticalScale(36)),
   },
 });
 

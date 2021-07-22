@@ -548,7 +548,7 @@ function Task(props) {
                                 cStyles.textCaption1,
                                 {color: customColors.primary},
                               ]}>
-                              {` ${data.taskDetail.crtdUser}. `}
+                              {` ${data.taskDetail.crtdUser}`}
                             </Text>
                           </Text>
                         )}
@@ -556,7 +556,7 @@ function Task(props) {
                         style={[
                           cStyles.textCaption1,
                           {color: customColors.text},
-                        ]}>{`${t(
+                        ]}>{`, ${t(
                         'project_management:last_updated_at',
                       )} ${moment(
                         data.taskDetail.lUpdDate,

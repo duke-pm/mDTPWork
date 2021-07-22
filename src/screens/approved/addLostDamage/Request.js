@@ -11,6 +11,7 @@ import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
 import {showMessage} from 'react-native-flash-message';
+import {ifIphoneX} from 'react-native-iphone-x-helper';
 import {
   StyleSheet,
   View,
@@ -51,6 +52,7 @@ import {
 import {THEME_DARK, DEFAULT_FORMAT_DATE_4} from '~/config/constants';
 /* REDUX */
 import * as Actions from '~/redux/actions';
+
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -724,6 +726,7 @@ function AddRequest(props) {
                     <CLabel bold label={'add_approved_lost_damaged:reason'} />
                     <CInput
                       name={INPUT_NAME.REASON}
+                      style={[cStyles.itemsStart, styles.input_multiline]}
                       styleFocus={styles.input_focus}
                       disabled={loading.main || loading.submitAdd || isDetail}
                       holder={'add_approved_lost_damaged:holder_reason'}
@@ -731,6 +734,7 @@ function AddRequest(props) {
                       valueColor={colors.BLACK}
                       keyboard={'default'}
                       returnKey={'done'}
+                      multiline={true}
                       error={error.reason.status}
                       errorHelper={error.reason.helper}
                       onChangeInput={Keyboard.dismiss}
@@ -904,8 +908,8 @@ function AddRequest(props) {
                     <Picker
                       style={styles.con_action}
                       itemStyle={{
+                        fontSize: moderateScale(21),
                         color: customColors.text,
-                        fontSize: moderateScale(20),
                       }}
                       selectedValue={assets}
                       onValueChange={onChangeAssets}>
@@ -1013,7 +1017,12 @@ const styles = StyleSheet.create({
   con_action: {width: '100%', height: verticalScale(180)},
   content_picker: {height: '40%'},
   box: {width: moderateScale(350)},
-  row_select: {height: IS_ANDROID ? verticalScale(38) : verticalScale(30)},
+  row_select: {
+    height: IS_ANDROID
+      ? verticalScale(38)
+      : ifIphoneX(verticalScale(30), verticalScale(36)),
+  },
+  input_multiline: {height: verticalScale(100)},
 });
 
 export default AddRequest;

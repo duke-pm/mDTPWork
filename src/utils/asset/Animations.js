@@ -6,13 +6,8 @@
  **/
 
 const Animations = {
-  loading: require('../../../assets/animations/loading.json'),
-  info: require('../../../assets/animations/info.json'),
-  approved: require('../../../assets/animations/approved.json'),
-  rejected: require('../../../assets/animations/rejected.json'),
-  connection: require('../../../assets/animations/connection.json'),
-  warning: require('../../../assets/animations/warning.json'),
   taskCompleted: require('../../../assets/animations/taskCompleted.json'),
+  empty: require('../../../assets/animations/empty.json'),
 };
 
 export default Animations;

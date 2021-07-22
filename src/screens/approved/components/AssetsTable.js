@@ -22,9 +22,9 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import CText from '~/components/CText';
 import AssetItem from './AssetItem';
 /* COMMON */
-import {colors, cStyles} from '~/utils/style';
-import {moderateScale, IS_ANDROID, verticalScale, IS_IOS} from '~/utils/helper';
 import Icons from '~/config/Icons';
+import {colors, cStyles} from '~/utils/style';
+import {moderateScale, IS_ANDROID, verticalScale} from '~/utils/helper';
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -33,7 +33,7 @@ if (IS_ANDROID) {
 const heightItemTable = IS_ANDROID ? verticalScale(38) : verticalScale(30);
 export const widthItemTable = [
   moderateScale(35),
-  moderateScale(180),
+  moderateScale(220),
   moderateScale(80),
   moderateScale(120),
   moderateScale(120),
@@ -231,7 +231,7 @@ function AssetsTable(props) {
                 style={styles.table_header}
                 textStyle={[
                   cStyles.textCenter,
-                  cStyles.textCaption1,
+                  cStyles.textCallout,
                   {color: customColors.text},
                 ]}
                 widthArr={form.assets.width}
@@ -342,7 +342,7 @@ const styles = StyleSheet.create({
   table: {borderWidth: 1, borderColor: colors.TABLE_LINE},
   table_header: {
     height: heightItemTable,
-    backgroundColor: colors.TABLE_HEADER,
+    backgroundColor: colors.STATUS_CLOSE_OPACITY,
   },
   con_left: {flex: 0.4},
   con_right: {flex: 0.6},

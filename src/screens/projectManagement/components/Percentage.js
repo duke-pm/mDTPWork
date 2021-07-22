@@ -320,7 +320,7 @@ function Percentage(props) {
               disabled={loading}
               onPress={handleClosePercent}>
               <Icon
-                name={Icons.remove}
+                name={Icons.close}
                 size={moderateScale(23)}
                 color={customColors.red}
               />

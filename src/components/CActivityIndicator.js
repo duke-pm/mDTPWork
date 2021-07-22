@@ -20,7 +20,7 @@ function CActivityIndicator(props) {
   return (
     <ActivityIndicator
       size={'small'}
-      color={isDark ? colors.GRAY_900 : colors.GRAY_300}
+      color={isDark ? colors.GRAY_300 : colors.GRAY_800}
       {...props}
     />
   );

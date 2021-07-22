@@ -131,7 +131,7 @@ function ListProject(props) {
               <View style={cStyles.itemsStart}>
                 {/** Is public */}
                 <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mb10]}>
-                  <CLabel label={'project_management:is_public'} />
+                  <CLabel bold label={'project_management:is_public'} />
                   <Icon
                     style={cStyles.ml3}
                     name={
@@ -148,9 +148,9 @@ function ListProject(props) {
 
                 {/** Date created */}
                 <View style={[cStyles.row, cStyles.itemsCenter]}>
-                  <CLabel label={'project_management:date_created'} />
+                  <CLabel bold label={'project_management:date_created'} />
                   <CText
-                    styles={'textCaption1 ml3'}
+                    styles={'textCallout ml3'}
                     customLabel={moment(
                       chooseProject.crtdDate,
                       DEFAULT_FORMAT_DATE_4,
@@ -160,17 +160,17 @@ function ListProject(props) {
 
                 {/** Owner */}
                 <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt10]}>
-                  <CLabel label={'project_management:owner'} />
+                  <CLabel bold label={'project_management:owner'} />
                   <CAvatar size={'vsmall'} label={chooseProject.ownerName} />
                   <CText
-                    styles={'ml6 textCaption1 fontMedium'}
+                    styles={'ml6 textCallout'}
                     customLabel={checkEmpty(chooseProject.ownerName)}
                   />
                 </View>
 
                 {/** Status */}
                 <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt10]}>
-                  <CLabel label={'project_management:status'} />
+                  <CLabel bold label={'project_management:status'} />
                   <Icon
                     name={Icons.dot}
                     color={
@@ -182,7 +182,7 @@ function ListProject(props) {
                   />
                   <CText
                     customStyles={[
-                      cStyles.textCaption1,
+                      cStyles.textCallout,
                       cStyles.fontMedium,
                       cStyles.ml4,
                       {
@@ -199,15 +199,18 @@ function ListProject(props) {
               {/** Description */}
               <View style={cStyles.mt10}>
                 <View style={[cStyles.row, cStyles.itemsCenter]}>
-                  <CLabel label={'project_management:description'} />
-                  <CLabel customLabel={checkEmpty(chooseProject.descr)} />
+                  <CLabel bold label={'project_management:description'} />
+                  <CText
+                    styles={'textCallout'}
+                    customLabel={checkEmpty(chooseProject.descr)}
+                  />
                 </View>
               </View>
 
               {/** Users invited */}
               {usersInvitedLength > 0 && (
                 <View style={cStyles.mt10}>
-                  <CLabel label={'project_management:user_invited'} />
+                  <CLabel bold label={'project_management:user_invited'} />
                   <ScrollView
                     style={[
                       cStyles.mt10,
@@ -242,8 +245,8 @@ function ListProject(props) {
                                 isDark &&
                                 cStyles.borderBottomDark,
                             ]}>
-                            <CLabel
-                              bold
+                            <CText
+                              styles={'textCallout'}
                               customLabel={checkEmpty(item.fullName)}
                             />
                             <CText

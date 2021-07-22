@@ -7,7 +7,6 @@
  **/
 import React, {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
-import {useTheme} from '@react-navigation/native';
 /** COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
@@ -17,19 +16,7 @@ import CItem from '~/components/CItem';
 import {cStyles} from '~/utils/style';
 
 function Approved(props) {
-  const {customColors} = useTheme();
   const {navigation, route} = props;
-
-  const DATA_COLOR = {
-    ListApprovedAssets: {
-      value: 'ListApprovedAssets',
-      color: customColors.green,
-    },
-    ListApprovedAssetsHandling: {
-      value: 'ListApprovedAssetsHandling',
-      color: customColors.orange,
-    },
-  };
 
   /** Use redux */
   const authState = useSelector(({auth}) => auth);

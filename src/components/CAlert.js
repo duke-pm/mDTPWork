@@ -15,9 +15,9 @@ import CText from './CText';
 import CButton from './CButton';
 import CActivityIndicator from './CActivityIndicator';
 /* COMMON */
-import {cStyles, colors} from '~/utils/style';
+import {cStyles} from '~/utils/style';
 import {THEME_DARK} from '~/config/constants';
-import {IS_IOS, moderateScale} from '~/utils/helper';
+import {IS_ANDROID, IS_IOS, moderateScale} from '~/utils/helper';
 
 function CAlert(props) {
   const isDark = useColorScheme() === THEME_DARK;
@@ -44,7 +44,8 @@ function CAlert(props) {
           cStyles.center,
           cStyles.rounded3,
           styles.container,
-          {backgroundColor: customColors.card},
+          content && styles.container_small,
+          IS_ANDROID && {backgroundColor: customColors.card},
           contentStyle,
         ]}>
         {/** Header of Alert */}
@@ -68,7 +69,7 @@ function CAlert(props) {
         {/** Content of Alert */}
         <View style={[cStyles.px16, cStyles.pb16, cStyles.fullWidth]}>
           {!loading && content && (
-            <CText styles={'textCaption1 textCenter'} label={content} />
+            <CText styles={'textCaption1 textCenter mt10'} label={content} />
           )}
           {!loading && customContent && (
             <View style={cStyles.mt10}>{customContent}</View>
@@ -93,12 +94,14 @@ function CAlert(props) {
               <CButton
                 style={[
                   styles.con_button,
+                  content && styles.con_button_small,
                   onClose && !onOK && styles.btn_alone,
+                  content && !onClose && onOK && styles.btn_alone_small,
                 ]}
-                textStyle={{
-                  color: customColors.red,
-                  fontSize: moderateScale(18),
-                }}
+                textStyle={[
+                  styles.text_button,
+                  {color: IS_IOS ? customColors.blue : customColors.primary},
+                ]}
                 disabled={loading}
                 block
                 variant={'text'}
@@ -111,8 +114,9 @@ function CAlert(props) {
                 style={[
                   cStyles.fullHeight,
                   styles.button,
-                  {
-                    backgroundColor: isDark ? colors.GRAY_800 : colors.GRAY_400,
+                  {backgroundColor: cStyles.borderTop.borderTopColor},
+                  isDark && {
+                    backgroundColor: cStyles.borderTopDark.borderTopColor,
                   },
                 ]}
               />
@@ -122,12 +126,15 @@ function CAlert(props) {
               <CButton
                 style={[
                   styles.con_button,
+                  content && styles.con_button_small,
                   !onClose && onOK && styles.btn_alone,
+                  content && !onClose && onOK && styles.btn_alone_small,
                 ]}
-                textStyle={{
-                  color: customColors.blue,
-                  fontSize: moderateScale(18),
-                }}
+                textStyle={[
+                  cStyles.fontRegular,
+                  styles.text_button,
+                  {color: IS_IOS ? customColors.blue : customColors.primary},
+                ]}
                 disabled={loading}
                 block
                 variant={'text'}
@@ -143,11 +150,11 @@ function CAlert(props) {
 
   return (
     <Modal
-      style={cStyles.m0}
+      style={[cStyles.m0, cStyles.flexCenter]}
       isVisible={show}
       animationIn={'pulse'}
       animationOut={'fadeOut'}
-      backdropOpacity={isDark ? 0.8 : 0.2}
+      backdropOpacity={isDark ? 0.8 : 0.3}
       avoidKeyboard={true}
       useNativeDriver={true}
       useNativeDriverForBackdrop={true}
@@ -161,7 +168,12 @@ function CAlert(props) {
       <View style={cStyles.center}>
         {IS_IOS ? (
           <BlurView
-            style={[cStyles.abs, cStyles.rounded3, styles.container]}
+            style={[
+              cStyles.abs,
+              cStyles.rounded3,
+              styles.container,
+              content && styles.container_small,
+            ]}
             blurType={isDark ? 'dark' : 'xlight'}
             blurAmount={10}>
             {RenderContent()}
@@ -176,9 +188,13 @@ function CAlert(props) {
 
 const styles = StyleSheet.create({
   container: {width: moderateScale(350)},
-  button: {width: moderateScale(1)},
+  container_small: {width: moderateScale(280)},
+  button: {width: cStyles.borderTop.borderTopWidth},
   con_button: {height: moderateScale(45), width: moderateScale(350) / 2},
+  con_button_small: {height: moderateScale(45), width: moderateScale(280) / 2},
   btn_alone: {width: moderateScale(350)},
+  btn_alone_small: {width: moderateScale(280)},
+  text_button: {fontSize: moderateScale(18)},
 });
 
 export default CAlert;

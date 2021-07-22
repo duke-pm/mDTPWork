@@ -144,10 +144,10 @@ export function RootTab(props) {
       lazy
       screenOptions={({route}) => ({
         tabBarIcon: ({focused, color, size}) => {
-          let iconName = 'home';
+          let iconName = focused ? 'home' : 'home-outline';
           switch (route.name) {
             case Routes.MAIN.ACCOUNT.name:
-              iconName = 'person';
+              iconName = focused ? 'person' : 'person-outline';
               break;
           }
           return <Icon name={iconName} size={size} color={color} />;
@@ -278,6 +278,8 @@ export function RootMain(props) {
         component={Routes.MAIN.TASK_DETAIL.path}
         options={{
           title: '',
+          headerLargeTitle: false,
+          headerTranslucent: IS_IOS,
           headerStyle: headerStyles,
         }}
       />
@@ -297,9 +299,10 @@ export function RootMain(props) {
         component={Routes.MAIN.TASK_DETAIL.childrens.TASK_ACTIVITIES.path}
         options={{
           title: t('project_management:title_activity'),
+          headerBackTitle: t('common:back'),
           headerLargeTitle: false,
           headerTranslucent: false,
-          headerStyle: headerModalStyles,
+          headerStyle: headerStyles,
         }}
       />
       <StackMain.Screen
@@ -307,9 +310,10 @@ export function RootMain(props) {
         component={Routes.MAIN.TASK_DETAIL.childrens.TASK_WATCHERS.path}
         options={{
           title: t('project_management:title_watcher'),
+          headerBackTitle: t('common:back'),
           headerLargeTitle: false,
           headerTranslucent: false,
-          headerStyle: headerModalStyles,
+          headerStyle: headerStyles,
         }}
       />
       <StackMain.Screen

@@ -22,3 +22,6 @@
 -keepclassmembers class com.android.installreferrer.api.** {
   *;
 }
+
+-keep class com.facebook.hermes.unicode.** { *; }
+-keep class com.facebook.jni.** { *; }

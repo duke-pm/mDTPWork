@@ -9,7 +9,7 @@ import {Animated, Keyboard} from 'react-native';
 import PropTypes from 'prop-types';
 /** COMMON */
 import {cStyles} from '~/utils/style';
-import {IS_ANDROID} from '~/utils/helper';
+import {IS_ANDROID, moderateScale} from '~/utils/helper';
 
 class CAvoidKeyboard extends Component {
   constructor(props) {
@@ -40,7 +40,7 @@ class CAvoidKeyboard extends Component {
   setViewHeightOnce(event) {
     const {height} = event.nativeEvent.layout;
     if (this.state.viewHeight === 0) {
-      const avoidPaddingBottom = 15;
+      const avoidPaddingBottom = moderateScale(64);
       this.setState({
         viewHeight: height + avoidPaddingBottom,
         animatedViewHeight: new Animated.Value(height + avoidPaddingBottom),
@@ -54,7 +54,7 @@ class CAvoidKeyboard extends Component {
       requestAnimationFrame(() => {
         Animated.timing(this.state.animatedViewHeight, {
           toValue: viewHeight - e.endCoordinates.height,
-          duration: 100,
+          duration: 300,
           useNativeDriver: IS_ANDROID,
         }).start();
       });
@@ -65,7 +65,7 @@ class CAvoidKeyboard extends Component {
     requestAnimationFrame(() => {
       Animated.timing(this.state.animatedViewHeight, {
         toValue: this.state.viewHeight,
-        duration: 100,
+        duration: 300,
         useNativeDriver: IS_ANDROID,
       }).start();
     });

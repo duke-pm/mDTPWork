@@ -77,6 +77,7 @@ const RenderInputMessage = ({
           name={INPUT_NAME.MESSAGE}
           containerStyle={styles.input}
           style={[
+            cStyles.py4,
             cStyles.rounded5,
             {
               color: customColors.text,
@@ -493,7 +494,7 @@ function Activity(props) {
               item={({item, index}) => {
                 if (item.userName === userName) {
                   return (
-                    <View style={cStyles.itemsEnd}>
+                    <View style={[cStyles.itemsEnd, cStyles.ml32]}>
                       <Animatable.View
                         ref={ref => onCheckRef(index, ref)}
                         style={[
@@ -501,7 +502,6 @@ function Activity(props) {
                           cStyles.roundedTopRight3,
                           cStyles.roundedBottomLeft3,
                           cStyles.p10,
-                          cStyles.ml10,
                           styles.con_me,
                         ]}>
                         <CText
@@ -509,7 +509,7 @@ function Activity(props) {
                           customLabel={item.comments}
                         />
                         <CText
-                          styles={'colorWhite textRight textCaption1 mt6'}
+                          styles={'colorWhite textRight textCaption2 mt4'}
                           customLabel={`${item.timeUpdate.split(' - ')[1]}`}
                         />
                       </Animatable.View>
@@ -520,11 +520,16 @@ function Activity(props) {
                   <View style={[cStyles.row, cStyles.itemsStart, cStyles.mr32]}>
                     {item.showAvatar ? (
                       <View style={styles.container_chat}>
-                        <CAvatar size={'small'} label={item.fullName} />
+                        <CAvatar
+                          containerStyle={cStyles.pl6}
+                          size={'small'}
+                          label={item.fullName}
+                        />
                         <Text
                           style={[
-                            cStyles.textCaption1,
+                            cStyles.textCaption2,
                             cStyles.textLeft,
+                            cStyles.mt6,
                             {color: customColors.text},
                           ]}>
                           {`${item.timeUpdate.split('-')[1]}`}
@@ -534,7 +539,7 @@ function Activity(props) {
                       <View style={styles.container_chat}>
                         <Text
                           style={[
-                            cStyles.textCaption1,
+                            cStyles.textCaption2,
                             cStyles.textLeft,
                             {color: customColors.text},
                           ]}>
@@ -542,9 +547,9 @@ function Activity(props) {
                         </Text>
                       </View>
                     )}
-                    <View>
+                    <View style={cStyles.ml4}>
                       {item.showAvatar && (
-                        <View style={[cStyles.ml10, cStyles.mb6]}>
+                        <View style={[cStyles.ml10, cStyles.mb3]}>
                           <Text
                             style={[
                               cStyles.textSubheadline,
@@ -562,7 +567,7 @@ function Activity(props) {
                           cStyles.roundedBottomLeft3,
                           cStyles.p10,
                           cStyles.ml10,
-                          styles.con_you,
+                          {backgroundColor: customColors.cardDisable},
                         ]}>
                         <CText
                           customStyles={cStyles.textBody}
@@ -594,16 +599,12 @@ function Activity(props) {
 const styles = StyleSheet.create({
   input_focus: {borderColor: colors.PRIMARY},
   input: {width: '85%'},
-  container_chat: {
-    height: moderateScale(32),
-    width: moderateScale(32),
-  },
+  container_chat: {width: moderateScale(32)},
   con_me: {
     backgroundColor: IS_IOS
       ? colors.STATUS_NEW_DARK
       : colors.STATUS_SCHEDULE_DARK,
   },
-  con_you: {backgroundColor: colors.GRAY_100},
 });
 
 export default Activity;
