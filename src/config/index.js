@@ -14,7 +14,7 @@ const Configs = {
   nameOfApp: '2021 DTP-Education',
   // for rating app
   appStoreID: '12345678',
-  googlePlayPackage: 'com.mdtpwork',
+  googlePlayPackage: 'com.dtpwork',
   // for change password
   lengthNewPassword: 6,
   // for filter project
