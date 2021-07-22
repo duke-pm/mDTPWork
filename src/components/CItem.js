@@ -12,7 +12,7 @@ import CTouchable from './CTouchable';
 import CImage from './CImage';
 /** COMMON */
 import {cStyles} from '~/utils/style';
-import {moderateScale, sW} from '~/utils/helper';
+import {IS_IOS, moderateScale, sW} from '~/utils/helper';
 import {Assets} from '~/utils/asset';
 
 function CItem(props) {
@@ -31,7 +31,7 @@ function CItem(props) {
   }
   return (
     <CTouchable
-      containerStyle={[cStyles.mb16, cStyles.mr16, cStyles.shadow1]}
+      containerStyle={[cStyles.mb16, cStyles.mr16, IS_IOS && cStyles.shadow1]}
       onPress={handleItem}>
       <View style={[cStyles.p10, cStyles.itemsCenter, styles.item]}>
         {/* <Icon name={data.mIcon} color={color} size={moderateScale(60)} /> */}
