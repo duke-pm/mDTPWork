@@ -19,6 +19,7 @@ import Icons from '~/config/Icons';
 import {colors, cStyles} from '~/utils/style';
 import {checkEmpty, moderateScale, IS_ANDROID} from '~/utils/helper';
 import {DEFAULT_FORMAT_DATE_4} from '~/config/constants';
+import CText from '~/components/CText';
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -87,8 +88,8 @@ function ProjectItem(props) {
                 <View
                   style={[cStyles.row, cStyles.itemsCenter, styles.row_left]}>
                   <CAvatar size={'vsmall'} label={data.ownerName} />
-                  <CLabel
-                    style={cStyles.pl6}
+                  <CText
+                    styles={'textCallout pl6'}
                     customLabel={checkEmpty(data.ownerName)}
                   />
                 </View>

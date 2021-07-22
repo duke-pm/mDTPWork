@@ -23,7 +23,7 @@ import CText from '~/components/CText';
 import AssetItem from './AssetItem';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
-import {moderateScale, IS_ANDROID, verticalScale} from '~/utils/helper';
+import {moderateScale, IS_ANDROID, verticalScale, IS_IOS} from '~/utils/helper';
 import Icons from '~/config/Icons';
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -201,7 +201,7 @@ function AssetsTable(props) {
                 ]}>
                 <Icon
                   name={Icons.addNew}
-                  color={customColors.icon}
+                  color={customColors.orange}
                   size={moderateScale(18)}
                 />
                 <CText
@@ -209,7 +209,7 @@ function AssetsTable(props) {
                     cStyles.textUnderline,
                     cStyles.textCaption1,
                     cStyles.pl4,
-                    {color: customColors.text},
+                    {color: customColors.orange},
                   ]}
                   label={'add_approved_assets:add_assets'}
                 />
@@ -251,6 +251,7 @@ function AssetsTable(props) {
                           height={heightItemTable}
                           data={
                             <AssetItem
+                              isDetail={isDetail}
                               disabled={disabled}
                               cellData={cellData}
                               rowIndex={rowIndex}
@@ -311,13 +312,12 @@ function AssetsTable(props) {
                 style={[
                   cStyles.row,
                   cStyles.itemsCenter,
-                  cStyles.pr16,
                   cStyles.mt10,
                   styles.con_left,
                 ]}>
                 <Icon
                   name={Icons.addNew}
-                  color={customColors.icon}
+                  color={customColors.orange}
                   size={moderateScale(18)}
                 />
                 <CText
@@ -325,7 +325,7 @@ function AssetsTable(props) {
                     cStyles.textUnderline,
                     cStyles.textCaption1,
                     cStyles.pl4,
-                    {color: customColors.text},
+                    {color: customColors.orange},
                   ]}
                   label={'add_approved_assets:add_assets'}
                 />

@@ -8,7 +8,7 @@
 import Configs from '~/config';
 
 const JWT_PROD_CONFIG = {
-  baseURL: Configs.hostProduction + '/api',
+  baseURL: Configs.hostProduction + '/' + Configs.prefixApi,
   timeout: 30000,
   headers: {
     Accept: 'application/json',
@@ -18,7 +18,7 @@ const JWT_PROD_CONFIG = {
 };
 
 const JWT_DEV_CONFIG = {
-  baseURL: Configs.hostDevelopment + '/api',
+  baseURL: Configs.hostDevelopment + '/' + Configs.prefixApi,
   timeout: 30000,
   headers: {
     Accept: 'application/json',

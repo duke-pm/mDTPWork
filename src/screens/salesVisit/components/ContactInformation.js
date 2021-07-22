@@ -70,7 +70,7 @@ function ContactInformation(props) {
       content={
         <ScrollView>
           <View>
-            <CLabel medium label={'sales_visit:first_name'} />
+            <CLabel bold label={'sales_visit:first_name'} />
             <CInput
               name={INPUT_NAME.FIRST_NAME}
               styleFocus={styles.input_focus}
@@ -89,7 +89,7 @@ function ContactInformation(props) {
           </View>
 
           <View style={cStyles.pt16}>
-            <CLabel medium label={'sales_visit:last_name'} />
+            <CLabel bold label={'sales_visit:last_name'} />
             <CInput
               name={INPUT_NAME.LAST_NAME}
               styleFocus={styles.input_focus}

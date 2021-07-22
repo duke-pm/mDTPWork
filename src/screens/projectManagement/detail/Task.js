@@ -859,7 +859,7 @@ function Task(props) {
                                       cStyles.borderBottomDark,
                                   ]}>
                                   <CLabel
-                                    medium
+                                    bold
                                     customLabel={checkEmpty(item.fullName)}
                                   />
                                   <CText

@@ -14,6 +14,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import * as Animatable from 'react-native-animatable';
 /* COMPONENTS */
 import CText from './CText';
+import CLabel from './CLabel';
 /* COMMON */
 import {IS_ANDROID, moderateScale} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
@@ -101,7 +102,7 @@ function CGroupFilter(props) {
         containerStyle,
       ]}>
       <View style={[cStyles.pt10, row && styles.con_left]}>
-        <CText label={t(label)} />
+        <CLabel bold label={t(label)} />
       </View>
 
       <View

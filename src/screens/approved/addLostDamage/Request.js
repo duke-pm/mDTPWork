@@ -681,7 +681,7 @@ function AddRequest(props) {
               content={
                 <View>
                   <CLabel
-                    medium
+                    bold
                     label={'add_approved_lost_damaged:date_request'}
                   />
                   <CInput
@@ -702,10 +702,7 @@ function AddRequest(props) {
                   {/** Assets */}
                   {!isDetail && (
                     <View>
-                      <CLabel
-                        medium
-                        label={'add_approved_lost_damaged:assets'}
-                      />
+                      <CLabel bold label={'add_approved_lost_damaged:assets'} />
                       {RowSelect(
                         t,
                         loading.main,
@@ -724,7 +721,7 @@ function AddRequest(props) {
 
                   {/** Reason */}
                   <View style={!isDetail ? cStyles.pt16 : {}}>
-                    <CLabel medium label={'add_approved_lost_damaged:reason'} />
+                    <CLabel bold label={'add_approved_lost_damaged:reason'} />
                     <CInput
                       name={INPUT_NAME.REASON}
                       styleFocus={styles.input_focus}
@@ -748,12 +745,9 @@ function AddRequest(props) {
                         ? [cStyles.row, cStyles.itemsCenter, cStyles.mt16]
                         : cStyles.mt16
                     }>
-                    <CText
-                      customStyles={[
-                        cStyles.textCaption1,
-                        cStyles.fontMedium,
-                        cStyles.pr16,
-                      ]}
+                    <CLabel
+                      bold
+                      style={cStyles.pr16}
                       label={'add_approved_lost_damaged:type_update'}
                     />
                     <CheckOption

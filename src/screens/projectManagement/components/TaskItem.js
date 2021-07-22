@@ -180,7 +180,7 @@ function TaskItem(props) {
                   <View style={[cStyles.row, cStyles.itemsCenter]}>
                     <CAvatar size={'vsmall'} label={data.ownerName} />
                     <CText
-                      styles={'textCaption1 pl6'}
+                      styles={'textCallout pl6'}
                       customLabel={data.ownerName}
                     />
                   </View>

@@ -131,7 +131,6 @@ function RequestItem(props) {
               ]}>
               <View
                 style={[cStyles.row, cStyles.itemsStart, styles.header_left]}>
-                <CLabel label={'approved_lost_damaged:region_request'} />
                 <CLabel customLabel={data.regionName} />
               </View>
 

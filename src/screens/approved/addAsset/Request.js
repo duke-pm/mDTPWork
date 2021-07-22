@@ -654,10 +654,7 @@ function AddRequest(props) {
                     ]}>
                     {/** Date request */}
                     <View style={[cStyles.mr5, styles.con_left]}>
-                      <CLabel
-                        medium
-                        label={'add_approved_assets:date_request'}
-                      />
+                      <CLabel bold label={'add_approved_assets:date_request'} />
                       <CInput
                         name={INPUT_NAME.DATE_REQUEST}
                         disabled={true}
@@ -669,7 +666,7 @@ function AddRequest(props) {
 
                     {/** Region */}
                     <View style={[cStyles.ml5, styles.con_right]}>
-                      <CLabel medium label={'add_approved_assets:region'} />
+                      <CLabel bold label={'add_approved_assets:region'} />
                       {RowSelect(
                         loading.main,
                         true,
@@ -686,7 +683,7 @@ function AddRequest(props) {
 
                   {/** Name */}
                   <View style={cStyles.pt16}>
-                    <CLabel medium label={'add_approved_assets:name'} />
+                    <CLabel bold label={'add_approved_assets:name'} />
                     <CInput
                       name={INPUT_NAME.NAME}
                       styleFocus={styles.input_focus}
@@ -701,7 +698,7 @@ function AddRequest(props) {
 
                   {/** Department */}
                   <View style={cStyles.pt16}>
-                    <CLabel medium label={'add_approved_assets:department'} />
+                    <CLabel bold label={'add_approved_assets:department'} />
                     {RowSelect(
                       loading.main,
                       true,
@@ -717,7 +714,7 @@ function AddRequest(props) {
 
                   {/** Where use */}
                   <View style={cStyles.pt16}>
-                    <CLabel medium label={'add_approved_assets:where_use'} />
+                    <CLabel bold label={'add_approved_assets:where_use'} />
                     {RowSelect(
                       loading.main,
                       loading.main || loading.submitAdd || isDetail,
@@ -739,7 +736,7 @@ function AddRequest(props) {
                         cStyles.itemsCenter,
                         cStyles.justifyBetween,
                       ]}>
-                      <CLabel medium label={'add_approved_assets:reason'} />
+                      <CLabel bold label={'add_approved_assets:reason'} />
                       <CText
                         styles={'textCaption1'}
                         label={'common:optional'}
@@ -793,7 +790,7 @@ function AddRequest(props) {
                         cStyles.itemsCenter,
                         cStyles.justifyBetween,
                       ]}>
-                      <CLabel medium label={'add_approved_assets:supplier'} />
+                      <CLabel bold label={'add_approved_assets:supplier'} />
                       <CText
                         styles={'textCaption1'}
                         label={'common:optional'}
@@ -820,7 +817,7 @@ function AddRequest(props) {
                         ? [cStyles.justifyCenter, cStyles.mt16]
                         : cStyles.mt16
                     }>
-                    <CLabel medium label={'add_approved_assets:type_assets'} />
+                    <CLabel bold label={'add_approved_assets:type_assets'} />
                     <CheckOption
                       loading={loading.main || loading.submitAdd}
                       isDetail={isDetail}
@@ -838,7 +835,7 @@ function AddRequest(props) {
                         ? [cStyles.justifyCenter, cStyles.mt16]
                         : cStyles.mt16
                     }>
-                    <CLabel medium label={'add_approved_assets:in_planning'} />
+                    <CLabel bold label={'add_approved_assets:in_planning'} />
                     <CheckOption
                       loading={loading.main || loading.submitAdd}
                       isDetail={isDetail}

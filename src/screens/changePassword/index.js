@@ -256,10 +256,7 @@ function ChangePassword(props) {
                   <>
                     {/** Current password */}
                     <View>
-                      <CLabel
-                        medium
-                        label={'change_password:current_password'}
-                      />
+                      <CLabel bold label={'change_password:current_password'} />
                       <CInput
                         name={INPUT_NAME.CUR_PASSWORD}
                         styleFocus={styles.input_focus}
@@ -279,7 +276,7 @@ function ChangePassword(props) {
 
                     {/** New password */}
                     <View style={cStyles.pt16}>
-                      <CLabel medium label={'change_password:new_password'} />
+                      <CLabel bold label={'change_password:new_password'} />
                       <CInput
                         name={INPUT_NAME.NEW_PASSWORD}
                         styleFocus={styles.input_focus}
@@ -301,10 +298,7 @@ function ChangePassword(props) {
 
                     {/** Confirm password */}
                     <View style={cStyles.pt16}>
-                      <CLabel
-                        medium
-                        label={'change_password:confirm_password'}
-                      />
+                      <CLabel bold label={'change_password:confirm_password'} />
                       <CInput
                         name={INPUT_NAME.CON_PASSWORD}
                         styleFocus={styles.input_focus}

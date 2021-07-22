@@ -28,9 +28,12 @@ Number.prototype.format = function (n, x) {
 
 function AssetItem(props) {
   const {customColors} = useTheme();
-  const {rowIndex, cellIndex, onChangeCellItem, onRemoveRow} = props;
+  const {isDetail, rowIndex, cellIndex, onChangeCellItem, onRemoveRow} = props;
 
   if (cellIndex === 0) {
+    if (isDetail) {
+      return null;
+    }
     return (
       <CIconButton
         iconName={Icons.close}

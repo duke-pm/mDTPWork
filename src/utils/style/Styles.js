@@ -471,42 +471,42 @@ const text = {
 
   textLargeTitle: {
     fontSize: moderateScale(34),
-    fontWeight: '900',
+    fontWeight: IS_IOS ? '900' : 'bold',
     lineHeight: moderateScale(41),
   },
   textTitle1: {
     fontSize: moderateScale(28),
-    fontWeight: '800',
+    fontWeight: IS_IOS ? '800' : 'bold',
     lineHeight: moderateScale(34),
   },
   textTitle2: {
     fontSize: moderateScale(22),
-    fontWeight: '800',
+    fontWeight: IS_IOS ? '800' : 'bold',
     lineHeight: moderateScale(28),
   },
   textTitle3: {
     fontSize: moderateScale(20),
-    fontWeight: '700',
+    fontWeight: IS_IOS ? '700' : 'bold',
     lineHeight: moderateScale(24),
   },
   textHeadline: {
     fontSize: moderateScale(17),
-    fontWeight: '700',
+    fontWeight: IS_IOS ? '700' : 'bold',
     lineHeight: moderateScale(22),
   },
   textSubheadline: {
     fontSize: moderateScale(16),
-    fontWeight: '600',
+    fontWeight: IS_IOS ? '600' : 'bold',
     lineHeight: moderateScale(20),
   },
   textBody: {
     fontSize: moderateScale(15),
-    fontWeight: '400',
+    fontWeight: 'normal',
     lineHeight: moderateScale(19),
   },
   textCallout: {
     fontSize: moderateScale(13),
-    fontWeight: '400',
+    fontWeight: 'normal',
     lineHeight: moderateScale(18),
   },
   textCaption1: {

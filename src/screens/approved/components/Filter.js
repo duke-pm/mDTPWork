@@ -13,7 +13,7 @@ import {showMessage} from 'react-native-flash-message';
 import {StyleSheet, View, UIManager} from 'react-native';
 import moment from 'moment';
 /* COMPONENTS */
-import CText from '~/components/CText';
+import CLabel from '~/components/CLabel';
 import CInput from '~/components/CInput';
 import CDateTimePicker from '~/components/CDateTimePicker';
 import CButton from '~/components/CButton';
@@ -185,8 +185,9 @@ function Filter(props) {
         <View
           style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween]}>
           <View style={styles.text_date}>
-            <CText
-              styles={'pt6 textLeft'}
+            <CLabel
+              style={[cStyles.pt6, cStyles.textLeft]}
+              bold
               label={'approved_assets:from_date'}
             />
           </View>
@@ -213,7 +214,11 @@ function Filter(props) {
         <View
           style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween]}>
           <View style={styles.text_date}>
-            <CText styles={'pt6 textLeft'} label={'approved_assets:to_date'} />
+            <CLabel
+              style={[cStyles.pt6, cStyles.textLeft]}
+              bold
+              label={'approved_assets:to_date'}
+            />
           </View>
           <CInput
             containerStyle={[cStyles.justifyEnd, styles.input_date]}
