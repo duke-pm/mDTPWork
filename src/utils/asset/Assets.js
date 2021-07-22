@@ -10,11 +10,6 @@ const Assets = {
   imgFacebook: require('../../../assets/images/photo/facebook.png'),
   imgYoutube: require('../../../assets/images/photo/youtube.png'),
 
-  iconApp: require('../../../assets/images/icon/react.png'),
-  iconLostNetwork: require('../../../assets/images/icon/lostNetwork.jpg'),
-  iconRequest: require('../../../assets/images/icon/request.png'),
-  iconApproved: require('../../../assets/images/icon/approved.png'),
-  iconReject: require('../../../assets/images/icon/reject.png'),
   iconEmpty: require('../../../assets/images/icon/empty.png'),
   iconUserDefault: require('../../../assets/images/icon/userDefault.png'),
   iconImageDefault: require('../../../assets/images/icon/imageDefault.png'),
@@ -22,6 +17,10 @@ const Assets = {
   iconEnglandFlag: require('../../../assets/images/icon/flags/england.png'),
   iconFaceID: require('../../../assets/images/icon/faceid.png'),
   iconFaceIDDark: require('../../../assets/images/icon/faceid2.png'),
+  iconProjects: require('../../../assets/images/icon/projects.png'),
+  iconAssetsList: require('../../../assets/images/icon/assetsList.png'),
+  iconAssets: require('../../../assets/images/icon/assets.png'),
+  iconAssetsHandling: require('../../../assets/images/icon/assetsHandling.png'),
 };
 
 export default Assets;

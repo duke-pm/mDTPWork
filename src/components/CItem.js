@@ -7,17 +7,18 @@
 import React from 'react';
 import {useTheme} from '@react-navigation/native';
 import {StyleSheet, View} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 /* COMPONENTS */
 import CText from './CText';
 import CTouchable from './CTouchable';
+import CImage from './CImage';
 /** COMMON */
 import {cStyles} from '~/utils/style';
 import {moderateScale, sW} from '~/utils/helper';
+import {Assets} from '~/utils/asset';
 
 function CItem(props) {
   const {customColors} = useTheme();
-  const {data = null, color = 'blue', onPress = () => {}} = props;
+  const {data = null, onPress = () => {}} = props;
 
   /*****************
    ** HANDLE FUNC **
@@ -46,7 +47,8 @@ function CItem(props) {
           {backgroundColor: customColors.card},
           styles.item,
         ]}>
-        <Icon name={data.mIcon} color={color} size={moderateScale(60)} />
+        {/* <Icon name={data.mIcon} color={color} size={moderateScale(60)} /> */}
+        <CImage style={styles.icon} source={Assets[data.mIcon]} />
         <CText
           customStyles={[cStyles.textCenter, cStyles.pt10, cStyles.textBody]}
           label={data.menuName}
@@ -58,7 +60,8 @@ function CItem(props) {
 }
 
 const styles = StyleSheet.create({
-  item: {width: sW('28%'), height: moderateScale(130)},
+  item: {width: sW('28%'), height: moderateScale(150)},
+  icon: {width: moderateScale(70), height: moderateScale(80)},
 });
 
 export default CItem;

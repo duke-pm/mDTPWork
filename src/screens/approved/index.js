@@ -103,14 +103,8 @@ function Approved(props) {
               data={routes}
               item={({item, index}) => {
                 if (item.isAccess) {
-                  let color = DATA_COLOR[item.mName].color;
                   return (
-                    <CItem
-                      index={index}
-                      data={item}
-                      color={color}
-                      onPress={handleItem}
-                    />
+                    <CItem index={index} data={item} onPress={handleItem} />
                   );
                 }
                 return null;

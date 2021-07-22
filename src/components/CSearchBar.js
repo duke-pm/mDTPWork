@@ -14,7 +14,7 @@ import SearchBar from 'react-native-platform-searchbar';
 import CIconButton from './CIconButton';
 import CActivityIndicator from './CActivityIndicator';
 /* COMMON */
-import {IS_ANDROID} from '~/utils/helper';
+import {IS_ANDROID, moderateScale} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
 import Icons from '~/config/Icons';
 
@@ -89,7 +89,8 @@ function CSearchBar(props) {
           style={cStyles.pl12}
           disabled={loading}
           iconName={Icons.backAndroid}
-          iconColor={customColors.icon}
+          iconColor={theme === 'dark' ? colors.GRAY_300 : colors.GRAY_700}
+          iconProps={{size: moderateScale(23)}}
           onPress={handleCancelInput}
         />
       )}
