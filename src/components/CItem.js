@@ -5,7 +5,6 @@
  ** Description: Description of CItem.js
  **/
 import React from 'react';
-import {useTheme} from '@react-navigation/native';
 import {StyleSheet, View} from 'react-native';
 /* COMPONENTS */
 import CText from './CText';
@@ -17,7 +16,6 @@ import {moderateScale, sW} from '~/utils/helper';
 import {Assets} from '~/utils/asset';
 
 function CItem(props) {
-  const {customColors} = useTheme();
   const {data = null, onPress = () => {}} = props;
 
   /*****************
@@ -33,20 +31,9 @@ function CItem(props) {
   }
   return (
     <CTouchable
-      containerStyle={[
-        cStyles.mb16,
-        cStyles.mr16,
-        cStyles.rounded2,
-        cStyles.shadow1,
-      ]}
+      containerStyle={[cStyles.mb16, cStyles.mr16]}
       onPress={handleItem}>
-      <View
-        style={[
-          cStyles.p10,
-          cStyles.itemsCenter,
-          {backgroundColor: customColors.card},
-          styles.item,
-        ]}>
+      <View style={[cStyles.p10, cStyles.itemsCenter, styles.item]}>
         {/* <Icon name={data.mIcon} color={color} size={moderateScale(60)} /> */}
         <CImage style={styles.icon} source={Assets[data.mIcon]} />
         <CText
