@@ -31,7 +31,7 @@ function CItem(props) {
   }
   return (
     <CTouchable
-      containerStyle={[cStyles.mb16, cStyles.mr16]}
+      containerStyle={[cStyles.mb16, cStyles.mr16, cStyles.shadow1]}
       onPress={handleItem}>
       <View style={[cStyles.p10, cStyles.itemsCenter, styles.item]}>
         {/* <Icon name={data.mIcon} color={color} size={moderateScale(60)} /> */}
