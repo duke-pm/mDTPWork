@@ -118,7 +118,7 @@ function TaskItem(props) {
     outputRange: ['0deg', '180deg'],
   });
   return (
-    <View>
+    <>
       <CTouchable
         containerStyle={cStyles.rounded2}
         disabled={props.loading}
@@ -185,22 +185,25 @@ function TaskItem(props) {
                     />
                   </View>
 
-                  <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pt6]}>
-                    <Icon
-                      name={Icons.dot}
-                      color={isDark ? data.colorDarkCode : data.colorCode}
-                      size={moderateScale(14)}
-                    />
-                    <CText
-                      customStyles={[
-                        cStyles.textCaption1,
-                        cStyles.fontBold,
-                        cStyles.ml4,
-                        {color: bgStatus},
-                      ]}
-                      customLabel={data.statusName}
-                    />
-                  </View>
+                  {data.taskTypeID !== Commons.TYPE_TASK.MILESTONE.value && (
+                    <View
+                      style={[cStyles.row, cStyles.itemsCenter, cStyles.pt6]}>
+                      <Icon
+                        name={Icons.dot}
+                        color={isDark ? data.colorDarkCode : data.colorCode}
+                        size={moderateScale(14)}
+                      />
+                      <CText
+                        customStyles={[
+                          cStyles.textCaption1,
+                          cStyles.fontBold,
+                          cStyles.ml4,
+                          {color: bgStatus},
+                        ]}
+                        customLabel={data.statusName}
+                      />
+                    </View>
+                  )}
                 </View>
               </View>
 
@@ -292,7 +295,7 @@ function TaskItem(props) {
           </View>
         </View>
       )}
-    </View>
+    </>
   );
 }
 

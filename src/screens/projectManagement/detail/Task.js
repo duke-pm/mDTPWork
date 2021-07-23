@@ -481,20 +481,23 @@ function Task(props) {
       content={
         <CAvoidKeyboard>
           <CContent>
-            {!loading.main && data.taskDetail && (
-              <Status
-                disabled={loading.preview}
-                isUpdate={perChangeStatus}
-                isDark={isDark}
-                customColors={customColors}
-                language={language}
-                refreshToken={refreshToken}
-                navigation={navigation}
-                task={data.taskDetail}
-                onUpdate={onPrepareUpdate}
-                onNeedUpdate={setNeedRefresh}
-              />
-            )}
+            {!loading.main &&
+              data.taskDetail &&
+              data.taskDetail.taskTypeID !==
+                Commons.TYPE_TASK.MILESTONE.value && (
+                <Status
+                  disabled={loading.preview}
+                  isUpdate={perChangeStatus}
+                  isDark={isDark}
+                  customColors={customColors}
+                  language={language}
+                  refreshToken={refreshToken}
+                  navigation={navigation}
+                  task={data.taskDetail}
+                  onUpdate={onPrepareUpdate}
+                  onNeedUpdate={setNeedRefresh}
+                />
+              )}
 
             {/** Title & Project */}
             <CGroupInfo
@@ -633,7 +636,7 @@ function Task(props) {
                             customLabel={`${t(
                               'project_management:to_date',
                             )} ${checkEmpty(
-                              data.taskDetail.startDate,
+                              data.taskDetail.endDate,
                               '#',
                               false,
                               formatDateView,
@@ -719,18 +722,10 @@ function Task(props) {
                       isDark={isDark}
                       left={<CText label={'project_management:author'} />}
                       right={
-                        <View style={[cStyles.row, cStyles.itemsCenter]}>
-                          {data.taskDetail.author !== '' && (
-                            <CAvatar
-                              size={'vsmall'}
-                              label={data.taskDetail.author}
-                            />
-                          )}
-                          <CText
-                            styles={'pl6 textRight'}
-                            customLabel={checkEmpty(data.taskDetail.author)}
-                          />
-                        </View>
+                        <CText
+                          styles={'textRight'}
+                          customLabel={checkEmpty(data.taskDetail.author)}
+                        />
                       }
                     />
 

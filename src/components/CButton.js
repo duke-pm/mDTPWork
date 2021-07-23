@@ -15,7 +15,7 @@ import CText from './CText';
 import CTouchable from './CTouchable';
 /** COMMON */
 import {colors, cStyles} from '~/utils/style';
-import {IS_ANDROID, moderateScale, verticalScale} from '~/utils/helper';
+import {moderateScale, verticalScale} from '~/utils/helper';
 import {THEME_DARK} from '~/config/constants';
 
 function CButton(props) {

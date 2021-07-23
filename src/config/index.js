@@ -8,8 +8,8 @@ import {Assets} from '~/utils/asset';
 
 const Configs = {
   // for Host APIs
-  hostDevelopment: 'http://api.dtpeducation.com',
-  hostProduction: 'http://api.dtpeducation.com',
+  hostDevelopment: 'http://api.dtp-education.com',
+  hostProduction: 'http://api.dtp-education.com',
   prefixApi: 'api',
   // for name of app in account page
   nameOfApp: '2021 DTP-Education',
