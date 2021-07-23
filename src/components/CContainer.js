@@ -5,7 +5,6 @@
  ** Description: Description of CContainer.js
  **/
 import React from 'react';
-import {useTheme} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {View} from 'react-native';
 /** COMMON */
@@ -15,7 +14,6 @@ import CLoading from './CLoading';
 import {cStyles} from '~/utils/style';
 
 function CContainer(props) {
-  const {customColors} = useTheme();
   const {
     safeArea = {
       top: false,

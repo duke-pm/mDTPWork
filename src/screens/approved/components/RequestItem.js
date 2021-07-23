@@ -44,16 +44,14 @@ function RequestItem(props) {
   /************
    ** RENDER **
    ************/
-  let title = t('approved_assets:title_request_item') + data.requestID;
+  let title = `#${data.requestID} ${t('approved_assets:title_request_item')}`;
   let statusIcon = Icons.request;
   let colorText = 'colorOrange';
   let statusColor = 'orange';
   if (data.requestTypeID !== Commons.APPROVED_TYPE.ASSETS.value) {
-    title =
-      t('approved_lost_damaged:title_request_item_1') +
-      data.requestTypeName +
-      t('approved_lost_damaged:title_request_item_2') +
-      data.requestID;
+    title = `#${data.requestID} ${t(
+      'approved_lost_damaged:title_request_item_1',
+    )}${data.requestTypeName}`;
   }
   if (data.statusID === Commons.STATUS_REQUEST.APPROVED.value) {
     statusIcon = Icons.requestApproved_1;

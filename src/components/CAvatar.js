@@ -12,7 +12,6 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {
   StyleSheet,
   View,
-  Animated,
   TouchableOpacity,
   Text,
   SafeAreaView,
@@ -47,7 +46,6 @@ function CAvatar(props) {
   } = props;
 
   /** Use state */
-  const [anim, setAnim] = useState(new Animated.Value(source ? 1 : 0));
   const [src, setSrc] = useState(source);
   const [showChooseType, setShowChooseType] = useState(false);
 
@@ -72,17 +70,7 @@ function CAvatar(props) {
     // Do choose from gallery
   };
 
-  const onLoad = () => {
-    let animationParams = {
-      toValue: 0,
-      duration: 500,
-      useNativeDriver: true,
-    };
-    Animated.timing(anim, animationParams).start();
-  };
-
   const onError = () => {
-    setAnim(1);
     setSrc(Assets.iconUserDefault);
   };
 
@@ -97,7 +85,15 @@ function CAvatar(props) {
   let customLabel = '';
   if (!source && label) {
     customLabel = label.split(' ');
-    customLabel = customLabel[customLabel.length - 1].charAt(0).toUpperCase();
+    if (customLabel.length > 1) {
+      customLabel =
+        customLabel[customLabel.length - 2].charAt(0).toUpperCase() +
+        customLabel[customLabel.length - 1].charAt(0).toUpperCase();
+    } else {
+      customLabel =
+        customLabel[customLabel.length - 1].charAt(0).toUpperCase() +
+        customLabel[0].charAt(0).toUpperCase();
+    }
   }
   return (
     <>
@@ -133,7 +129,6 @@ function CAvatar(props) {
             }
             resizeMode={FastImage.resizeMode.contain}
             cache={FastImage.cacheControl.immutable}
-            onLoad={onLoad}
             onError={onError}
           />
         ) : (
@@ -159,9 +154,9 @@ function CAvatar(props) {
                   {
                     fontSize:
                       size === 'vsmall'
-                        ? moderateScale(9)
+                        ? moderateScale(7)
                         : size === 'small'
-                        ? moderateScale(14)
+                        ? moderateScale(12)
                         : size === 'medium'
                         ? moderateScale(18)
                         : moderateScale(30),
@@ -323,7 +318,10 @@ function CAvatar(props) {
                 ]}
                 onPress={onCloseChooseType}>
                 <CText
-                  customStyles={[cStyles.textTitle3, {color: customColors.blue}]}
+                  customStyles={[
+                    cStyles.textTitle3,
+                    {color: customColors.blue},
+                  ]}
                   label={'common:cancel'}
                 />
               </TouchableOpacity>

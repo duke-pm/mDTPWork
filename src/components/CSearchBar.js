@@ -7,7 +7,6 @@
 import React, {useState, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useColorScheme} from 'react-native-appearance';
-import {useTheme} from '@react-navigation/native';
 import {LayoutAnimation, UIManager, Platform, View} from 'react-native';
 import SearchBar from 'react-native-platform-searchbar';
 /** COMPONENTS */
@@ -27,7 +26,6 @@ if (IS_ANDROID) {
 function CSearchBar(props) {
   const {t} = useTranslation();
   const theme = useColorScheme();
-  const {customColors} = useTheme();
   const {
     containerStyle = {},
     style = {},
@@ -57,20 +55,23 @@ function CSearchBar(props) {
     onClose();
   };
 
-  /************
+  /**********
    ** FUNC **
-   ************/
+   **********/
   const onChangeText = valueInput => {
     setValue(valueInput);
   };
 
+  /****************
+   ** LIFE CYCLE **
+   ****************/
   useEffect(() => {
     setValue(valueSearch);
   }, [valueSearch]);
 
-  /**************
+  /************
    ** RENDER **
-   **************/
+   ************/
   if (!isVisible) {
     return null;
   }

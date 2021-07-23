@@ -10,7 +10,7 @@ import {useColorScheme} from 'react-native-appearance';
 import {
   StyleSheet,
   View,
-  TouchableOpacity,
+  TouchableHighlight,
   TouchableNativeFeedback,
 } from 'react-native';
 /* COMPONENTS */
@@ -43,7 +43,7 @@ function CCard(props) {
    ************/
   const Component = onPress
     ? IS_IOS
-      ? TouchableOpacity
+      ? TouchableHighlight
       : TouchableNativeFeedback
     : View;
   return (
@@ -53,6 +53,7 @@ function CCard(props) {
       <Component
         style={[cStyles.flex1, cStyles.rounded2]}
         activeOpacity={0.5}
+        underlayColor={colors.TRANSPARENT}
         delayLongPress={400}
         onLayout={onLayout}
         onPress={onPress}

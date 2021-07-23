@@ -10,7 +10,7 @@ import React, {createRef, useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
-import {isIphoneX} from 'react-native-iphone-x-helper';
+import {ifIphoneX} from 'react-native-iphone-x-helper';
 import {showMessage} from 'react-native-flash-message';
 import {
   StyleSheet,
@@ -414,9 +414,7 @@ function SignIn(props) {
                       value={form.password}
                       icon={
                         fastLogin.status
-                          ? isIphoneX()
-                            ? fastLogin.iconFaceID
-                            : fastLogin.icon
+                          ? ifIphoneX(fastLogin.iconFaceID, fastLogin.icon)
                           : Icons.lock
                       }
                       iconColor={colors.GRAY_500}
@@ -470,8 +468,8 @@ function SignIn(props) {
 }
 
 const styles = StyleSheet.create({
-  container_logo: {flex: isIphoneX() ? 0.4 : 0.35},
-  container_input: {flex: isIphoneX() ? 0.6 : 0.65},
+  container_logo: {flex: 0.4},
+  container_input: {flex: 0.6},
   input: {backgroundColor: colors.TRANSPARENT, color: colors.WHITE},
   input_focus: {backgroundColor: colors.BACKGROUND_INPUT_FOCUS},
   box: {

@@ -8,7 +8,6 @@
 import React, {useState, useEffect} from 'react';
 import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-import {useTheme} from '@react-navigation/native';
 import {showMessage} from 'react-native-flash-message';
 import {StyleSheet, View, UIManager} from 'react-native';
 import moment from 'moment';
@@ -63,7 +62,6 @@ const STATUS_REQUEST = [
 
 function Filter(props) {
   const {t} = useTranslation();
-  const {customColors} = useTheme();
   const {isResolve = false, onFilter = () => {}, onClose = () => {}} = props;
 
   /** Use redux */
@@ -174,9 +172,9 @@ function Filter(props) {
    ** RENDER **
    ************/
   return (
-    <View>
+    <>
       {/** Show is visible */}
-      <View>
+      <>
         <View
           style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween]}>
           <View style={styles.text_date}>
@@ -272,7 +270,7 @@ function Filter(props) {
             onPress={handleFilter}
           />
         </View>
-      </View>
+      </>
 
       {/** Date Picker */}
       <CDateTimePicker
@@ -284,7 +282,7 @@ function Filter(props) {
         }
         onChangeDate={onChangeDateRequest}
       />
-    </View>
+    </>
   );
 }
 

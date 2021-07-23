@@ -919,7 +919,7 @@ function Task(props) {
 }
 
 const styles = StyleSheet.create({
-  list_invited: {height: moderateScale(150)},
+  list_invited: {maxHeight: moderateScale(150)},
   row_info_basic_left: {flex: 0.4},
   row_info_basic_right: {flex: 0.6},
   last_row_info_basic: {borderBottomWidth: 0},

@@ -372,7 +372,6 @@ export function RootMain(props) {
         options={{
           headerStyle: headerStyles,
           headerBackTitle: t('common:back'),
-          headerLargeTitle: false,
         }}
       />
       <StackMain.Screen

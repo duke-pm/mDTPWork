@@ -84,7 +84,7 @@ function ListProject(props) {
     if (loadingModal && showModal) {
       if (chooseProject) {
         setTimeout(() => {
-          LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+          LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
           setLoadingModal(false);
         }, 300);
       }
@@ -276,7 +276,7 @@ const styles = StyleSheet.create({
     width: moderateScale(8),
     borderRadius: moderateScale(8),
   },
-  list_invited: {height: moderateScale(180)},
+  list_invited: {maxHeight: moderateScale(180)},
 });
 
 export default ListProject;

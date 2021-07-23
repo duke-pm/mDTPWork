@@ -272,6 +272,7 @@ function ListRequestHandling(props) {
           <CSearchBar
             loading={loading.startFetch}
             isVisible={showSearchBar}
+            valueSearch={data.search}
             onSearch={handleSearch}
             onClose={handleCloseSearch}
           />
