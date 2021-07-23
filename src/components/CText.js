@@ -20,6 +20,7 @@ function CText(props) {
     label = '',
     customLabel = null,
     onPress = null,
+    numberOfLines = undefined,
   } = props;
 
   let tmpStyles = styles.split(' ');
@@ -44,6 +45,7 @@ function CText(props) {
           customStyles,
         ]}
         allowFontScaling={false}
+        numberOfLines={numberOfLines}
         {...props}>
         {customLabel || t(label)}
       </Text>

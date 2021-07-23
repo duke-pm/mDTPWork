@@ -6,14 +6,14 @@
  **/
 import React from 'react';
 import {useTheme} from '@react-navigation/native';
-import {ScrollView, RefreshControl} from 'react-native';
+import {ScrollView, RefreshControl, SafeAreaView} from 'react-native';
 /** COMMON */
 import {cStyles} from '~/utils/style';
 import {IS_IOS} from '~/utils/helper';
 
 function CContent(props) {
   const {customColors} = useTheme();
-  const {contentStyle = {}, padder = null} = props;
+  const {contentStyle = {}, padder = null, scrollEnabled = true} = props;
 
   /************
    ** RENDER **
@@ -22,6 +22,10 @@ function CContent(props) {
   if (padder) {
     stylePadder = cStyles.p16;
   }
+  if (!scrollEnabled) {
+    return <SafeAreaView style={cStyles.flex1}>{props.children}</SafeAreaView>;
+  }
+
   return (
     <ScrollView
       style={[

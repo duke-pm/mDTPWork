@@ -157,7 +157,7 @@ function RequestItem(props) {
               <View
                 style={[cStyles.row, cStyles.itemsStart, styles.header_left]}>
                 <CLabel label={'approved_lost_damaged:department_request'} />
-                <CLabel customLabel={data.deptName} />
+                <CLabel numberOfLines={1} customLabel={data.deptName} />
               </View>
             </View>
           </View>

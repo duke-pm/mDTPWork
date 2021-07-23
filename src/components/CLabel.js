@@ -18,6 +18,7 @@ function CLabel(props) {
     color = null,
     label = null,
     customLabel = null,
+    numberOfLines = undefined,
   } = props;
 
   if (label) {
@@ -30,6 +31,7 @@ function CLabel(props) {
           color && {color},
           style,
         ]}
+        numberOfLines={numberOfLines}
         label={label}
       />
     );
@@ -44,6 +46,7 @@ function CLabel(props) {
           color && {color},
           style,
         ]}
+        numberOfLines={numberOfLines}
         customLabel={customLabel}
       />
     );

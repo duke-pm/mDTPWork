@@ -83,7 +83,7 @@ function Approved(props) {
     <CContainer
       loading={loading}
       content={
-        <CContent contentStyle={cStyles.itemsStart}>
+        <CContent scrollEnabled={false}>
           {!loading && (
             <CList
               contentStyle={cStyles.pt16}

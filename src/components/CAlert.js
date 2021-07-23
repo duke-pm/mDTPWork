@@ -8,7 +8,6 @@ import React from 'react';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
 import {StyleSheet, View} from 'react-native';
-import {BlurView} from '@react-native-community/blur';
 import Modal from 'react-native-modal';
 /* COMPONENTS */
 import CText from './CText';
@@ -17,7 +16,7 @@ import CActivityIndicator from './CActivityIndicator';
 /* COMMON */
 import {cStyles} from '~/utils/style';
 import {THEME_DARK} from '~/config/constants';
-import {IS_ANDROID, IS_IOS, moderateScale} from '~/utils/helper';
+import {IS_IOS, moderateScale} from '~/utils/helper';
 
 function CAlert(props) {
   const isDark = useColorScheme() === THEME_DARK;
@@ -45,7 +44,7 @@ function CAlert(props) {
           cStyles.rounded3,
           styles.container,
           content && styles.container_small,
-          IS_ANDROID && {backgroundColor: customColors.card},
+          {backgroundColor: customColors.card},
           contentStyle,
         ]}>
         {/** Header of Alert */}
@@ -165,23 +164,7 @@ function CAlert(props) {
       onBackButtonPress={onClose}
       onBackdropPress={onClose}
       {...props}>
-      <View style={cStyles.center}>
-        {IS_IOS ? (
-          <BlurView
-            style={[
-              cStyles.abs,
-              cStyles.rounded3,
-              styles.container,
-              content && styles.container_small,
-            ]}
-            blurType={isDark ? 'dark' : 'xlight'}
-            blurAmount={10}>
-            {RenderContent()}
-          </BlurView>
-        ) : (
-          RenderContent()
-        )}
-      </View>
+      <View style={cStyles.center}>{RenderContent()}</View>
     </Modal>
   );
 }

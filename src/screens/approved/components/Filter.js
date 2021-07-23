@@ -174,12 +174,7 @@ function Filter(props) {
    ** RENDER **
    ************/
   return (
-    <View
-      style={[
-        cStyles.rounded2,
-        cStyles.mt10,
-        {backgroundColor: customColors.card},
-      ]}>
+    <View>
       {/** Show is visible */}
       <View>
         <View
