@@ -24,13 +24,19 @@ import ListTask from '../list/Task';
 /* COMMON */
 import Icons from '~/config/Icons';
 import Commons from '~/utils/common/Commons';
-import {IS_ANDROID, moderateScale} from '~/utils/helper';
+import {IS_ANDROID, IS_IOS, moderateScale} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
   }
 }
+const CustomLayout = {
+  duration: 600,
+  update: {
+    type: LayoutAnimation.Types.easeInEaseOut,
+  },
+};
 
 function TaskItem(props) {
   const {
@@ -60,7 +66,7 @@ function TaskItem(props) {
   };
 
   const handleShowChildren = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    LayoutAnimation.configureNext(CustomLayout);
     Animated.timing(valueAnim, {
       toValue: showChildren ? 0 : 1,
       duration: 200,
@@ -120,14 +126,17 @@ function TaskItem(props) {
   return (
     <>
       <CTouchable
-        containerStyle={cStyles.rounded2}
+        containerStyle={[
+          cStyles.rounded2,
+          cStyles.shadowListItem,
+          IS_IOS && cStyles.ofVisible,
+        ]}
         disabled={props.loading}
         onPress={handleTaskItem}>
         <View
           style={[
             cStyles.p10,
             cStyles.rounded2,
-            index === 0 && cStyles.mt12,
             {
               backgroundColor: customColors.listItem,
               borderLeftColor: typeColor,
@@ -290,7 +299,7 @@ function TaskItem(props) {
               styles.line_child,
             ]}
           />
-          <View style={[cStyles.flex1, cStyles.ml12]}>
+          <View style={[cStyles.flex1, cStyles.ml12, cStyles.pt16]}>
             <ListTask data={data.lstTaskItem} onRefreshTasks={onRefresh} />
           </View>
         </View>

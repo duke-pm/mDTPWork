@@ -163,8 +163,7 @@ function CInput(props) {
             <TextInput
               ref={props.inputRef}
               style={[
-                multiline && cStyles.flex1,
-                multiline && cStyles.itemsStart,
+                multiline && cStyles.justifyStart,
                 cStyles.textBody,
                 {color: customColors.text},
                 styleInput,

@@ -42,7 +42,7 @@ function ListTask(props) {
    ************/
   return (
     <CList
-      contentStyle={IS_ANDROID ? cStyles.pt16 : {}}
+      contentStyle={cStyles.pt16}
       textEmpty={'project_management:empty_tasks'}
       data={props.data}
       item={({item, index}) => {

@@ -15,6 +15,7 @@ import CText from '~/components/CText';
 import CAvatar from '~/components/CAvatar';
 import CLabel from '~/components/CLabel';
 import CTouchable from '~/components/CTouchable';
+import CCard from '~/components/CCard';
 /* COMMON */
 import Icons from '~/config/Icons';
 import Commons from '~/utils/common/Commons';
@@ -24,7 +25,15 @@ import {moderateScale} from '~/utils/helper';
 
 function RequestItem(props) {
   const {t} = useTranslation();
-  const {loading, customColors, data, dataProcess, dataDetail, onPress} = props;
+  const {
+    loading,
+    customColors,
+    index,
+    data,
+    dataProcess,
+    dataDetail,
+    onPress,
+  } = props;
 
   /** Use redux */
   const commonState = useSelector(({common}) => common);
@@ -67,42 +76,26 @@ function RequestItem(props) {
     statusColor = 'green';
   }
   return (
-    <CTouchable
-      containerStyle={cStyles.rounded2}
-      disabled={loading}
-      onPress={handleRequestItem}>
-      <Animated.View
-        style={[
-          cStyles.p10,
-          cStyles.rounded2,
-          {backgroundColor: customColors.listItem},
-        ]}
-        renderToHardwareTextureAndroid>
-        <View
-          style={[
-            cStyles.flex1,
-            cStyles.row,
-            cStyles.itemsStart,
-            cStyles.justifyBetween,
-          ]}>
-          <CText styles={'textSubheadline'} customLabel={title} />
-        </View>
-
+    <CCard
+      key={index}
+      customLabel={title}
+      onPress={handleRequestItem}
+      content={
         <View
           style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween]}>
-          <View style={[cStyles.flex1, cStyles.pt10]}>
+          <View style={cStyles.flex1}>
             {/** Date send & Status */}
             <View
               style={[cStyles.row, cStyles.itemsStart, cStyles.justifyBetween]}>
               <View
-                style={[cStyles.row, cStyles.itemsStart, styles.header_left]}>
-                <CLabel label={'approved_lost_damaged:date_request'} />
-                <CLabel
-                  customLabel={moment(
-                    data.requestDate,
-                    DEFAULT_FORMAT_DATE_4,
-                  ).format(formatDateView)}
-                />
+                style={[
+                  cStyles.row,
+                  cStyles.itemsCenter,
+                  cStyles.justifyStart,
+                  styles.header_right,
+                ]}>
+                <CAvatar size={'vsmall'} label={data.personRequest} />
+                <CLabel style={cStyles.ml6} customLabel={data.personRequest} />
               </View>
 
               <View
@@ -129,18 +122,18 @@ function RequestItem(props) {
               ]}>
               <View
                 style={[cStyles.row, cStyles.itemsStart, styles.header_left]}>
-                <CLabel customLabel={data.regionName} />
+                <CLabel label={'approved_lost_damaged:date_request'} />
+                <CLabel
+                  customLabel={moment(
+                    data.requestDate,
+                    DEFAULT_FORMAT_DATE_4,
+                  ).format(formatDateView)}
+                />
               </View>
 
               <View
-                style={[
-                  cStyles.row,
-                  cStyles.itemsCenter,
-                  cStyles.justifyStart,
-                  styles.header_right,
-                ]}>
-                <CAvatar size={'vsmall'} label={data.personRequest} />
-                <CLabel style={cStyles.ml6} customLabel={data.personRequest} />
+                style={[cStyles.row, cStyles.itemsStart, styles.header_left]}>
+                <CLabel customLabel={data.regionName} />
               </View>
             </View>
 
@@ -160,8 +153,8 @@ function RequestItem(props) {
             </View>
           </View>
         </View>
-      </Animated.View>
-    </CTouchable>
+      }
+    />
   );
 }
 

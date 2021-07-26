@@ -11,6 +11,7 @@ import {StyleSheet, View, Animated} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 /* COMPONENTS */
 import CText from '~/components/CText';
+import CLoading from '~/components/CLoading';
 import CFooterList from '~/components/CFooterList';
 /* COMMON */
 import Icons from '~/config/Icons';
@@ -24,20 +25,26 @@ function RequestProcess(props) {
   let isReject = false;
 
   /** Use state */
+  const [loading, setLoading] = useState(true);
   const [anims, setAnims] = useState([]);
+  const [dataProcess, setDataProcess] = useState([]);
 
   /****************
    ** LIFE CYCLE **
    ****************/
   useEffect(() => {
     let tmp = [],
+      tmp2 = [],
       i = null;
     for (i of data) {
-      if (i.personApproveName) {
+      if (i.personApproveID !== -1) {
         tmp.push(new Animated.Value(0));
+        tmp2.push(i);
       }
     }
     setAnims(tmp);
+    setDataProcess(tmp2);
+    setLoading(false);
   }, []);
 
   useEffect(() => {
@@ -53,7 +60,6 @@ function RequestProcess(props) {
         });
         tmp2.push(t);
       }
-
       Animated.sequence(tmp2).start();
     }
   }, [anims]);
@@ -67,151 +73,113 @@ function RequestProcess(props) {
         styles={'textHeadline textCenter pb16'}
         label={'add_approved_assets:table_process'}
       />
-      {data.map((item, index) => {
-        if (!item.personApproveName) {
-          return null;
-        }
-        if (!isReject && item.statusID === 0) {
-          isReject = true;
-        }
-        return (
-          <Animated.View
-            key={index.toString()}
-            style={[
-              cStyles.row,
-              cStyles.itemsStart,
-              cStyles.pt10,
-              {transform: [{scaleY: anims[index]}]},
-            ]}>
-            {item.approveDate ? (
-              <View
-                style={[
-                  cStyles.rounded5,
-                  cStyles.px10,
-                  cStyles.py5,
-                  cStyles.itemsCenter,
-                  styles.con_time_process,
-                ]}>
-                <CText
-                  styles={'textCaption1 fontMedium colorWhite'}
-                  customLabel={item.approveDate}
-                />
-                <CText
-                  styles={'textCaption1 fontMedium colorWhite'}
-                  customLabel={item.approveTime}
-                />
-              </View>
-            ) : (
-              <View
-                style={[
-                  cStyles.rounded1,
-                  cStyles.px10,
-                  cStyles.py6,
-                  cStyles.itemsCenter,
-                  styles.con_date,
-                ]}
-              />
-            )}
-
-            <View style={[cStyles.px6, cStyles.itemsCenter, styles.con_icon]}>
-              <Icon
-                name={
-                  !item.approveDate
-                    ? Icons.alert
-                    : item.statusID === 0
-                    ? Icons.remove
-                    : Icons.checkCircle
-                }
-                color={
-                  !item.approveDate
-                    ? customColors.orange
-                    : item.statusID === 0
-                    ? customColors.red
-                    : customColors.green
-                }
-                size={moderateScale(21)}
-              />
-              {index !== data.length - 1 && (
+      {loading && <CLoading />}
+      {!loading &&
+        dataProcess.map((item, index) => {
+          if (!isReject && item.statusID === 0) {
+            isReject = true;
+          }
+          return (
+            <Animated.View
+              key={index.toString()}
+              style={[
+                cStyles.row,
+                cStyles.itemsStart,
+                cStyles.pt10,
+                {transform: [{scaleY: anims[index]}]},
+              ]}>
+              {item.approveDate ? (
                 <View
                   style={[
-                    cStyles.mt10,
-                    cStyles.borderDashed,
-                    cStyles.borderAll,
-                    isDark && cStyles.borderAllDark,
-                    styles.line_2,
+                    cStyles.rounded5,
+                    cStyles.px10,
+                    cStyles.py5,
+                    cStyles.itemsCenter,
+                    styles.con_time_process,
+                  ]}>
+                  <CText
+                    styles={'textCaption1 fontMedium colorWhite'}
+                    customLabel={item.approveDate}
+                  />
+                  <CText
+                    styles={'textCaption1 fontMedium colorWhite'}
+                    customLabel={item.approveTime}
+                  />
+                </View>
+              ) : (
+                <View
+                  style={[
+                    cStyles.rounded1,
+                    cStyles.px10,
+                    cStyles.py6,
+                    cStyles.itemsCenter,
+                    styles.con_date,
                   ]}
                 />
               )}
-            </View>
 
-            <View style={[cStyles.rounded1, cStyles.pr10, styles.con_info]}>
-              <View style={[cStyles.row, cStyles.itemsStart, styles.con_user]}>
-                <CText
-                  customStyles={[
-                    cStyles.textCaption1,
-                    isReject && !item.approveDate && cStyles.textThrough,
-                    {color: customColors.text},
-                  ]}
-                  label={
-                    'add_approved_lost_damaged:' +
-                    (index === 0 ? 'user_request' : 'person_approved')
+              <View style={[cStyles.px6, cStyles.itemsCenter, styles.con_icon]}>
+                <Icon
+                  name={
+                    !item.approveDate
+                      ? Icons.alert
+                      : item.statusID === 0
+                      ? Icons.remove
+                      : Icons.checkCircle
                   }
+                  color={
+                    !item.approveDate
+                      ? customColors.orange
+                      : item.statusID === 0
+                      ? customColors.red
+                      : customColors.green
+                  }
+                  size={moderateScale(21)}
                 />
-                <CText
-                  customStyles={[
-                    cStyles.textCaption1,
-                    item.approveDate && cStyles.fontBold,
-                    isReject && !item.approveDate && cStyles.textThrough,
-                    {color: customColors.text},
-                  ]}
-                  customLabel={item.personApproveName}
-                />
-              </View>
-
-              <View
-                style={[
-                  cStyles.row,
-                  cStyles.itemsStart,
-                  cStyles.justifyStart,
-                  cStyles.mt4,
-                ]}>
-                <CText
-                  customStyles={[
-                    cStyles.textCaption1,
-                    isReject && !item.approveDate && cStyles.textThrough,
-                    {color: customColors.text},
-                  ]}
-                  label={'add_approved_assets:status_approved'}
-                />
-                {item.approveDate ? (
-                  <CText
-                    customStyles={[
-                      cStyles.textCaption1,
-                      cStyles.fontBold,
-                      isReject && !item.approveDate && cStyles.textThrough,
-                      {color: customColors.text},
+                {index !== dataProcess.length - 1 && (
+                  <View
+                    style={[
+                      cStyles.mt10,
+                      cStyles.borderDashed,
+                      cStyles.borderAll,
+                      isDark && cStyles.borderAllDark,
+                      styles.line_2,
                     ]}
-                    customLabel={item.statusName}
-                  />
-                ) : (
-                  <CText
-                    customStyles={[
-                      cStyles.textCaption1,
-                      isReject && !item.approveDate && cStyles.textThrough,
-                      {color: customColors.text},
-                    ]}
-                    label={'add_approved_assets:wait'}
                   />
                 )}
               </View>
-              {item.approveDate && item.reason !== '' && (
+
+              <View style={[cStyles.rounded1, cStyles.pr10, styles.con_info]}>
+                <View
+                  style={[cStyles.row, cStyles.itemsStart, styles.con_user]}>
+                  <CText
+                    customStyles={[
+                      cStyles.textCaption1,
+                      isReject && !item.approveDate && cStyles.textThrough,
+                      {color: customColors.text},
+                    ]}
+                    label={
+                      'add_approved_lost_damaged:' +
+                      (index === 0 ? 'user_request' : 'person_approved')
+                    }
+                  />
+                  <CText
+                    customStyles={[
+                      cStyles.textCaption1,
+                      item.approveDate && cStyles.fontBold,
+                      isReject && !item.approveDate && cStyles.textThrough,
+                      {color: customColors.text},
+                    ]}
+                    customLabel={item.personApproveName}
+                  />
+                </View>
+
                 <View
                   style={[
                     cStyles.row,
                     cStyles.itemsStart,
                     cStyles.justifyStart,
                     cStyles.mt4,
-                    styles.con_reason,
                   ]}>
                   <CText
                     customStyles={[
@@ -219,23 +187,61 @@ function RequestProcess(props) {
                       isReject && !item.approveDate && cStyles.textThrough,
                       {color: customColors.text},
                     ]}
-                    label={'add_approved_assets:reason_reject'}
+                    label={'add_approved_assets:status_approved'}
                   />
-                  <CText
-                    customStyles={[
-                      cStyles.textCaption1,
-                      cStyles.fontBold,
-                      isReject && !item.approveDate && cStyles.textThrough,
-                      {color: customColors.text},
-                    ]}
-                    customLabel={item.reason}
-                  />
+                  {item.approveDate ? (
+                    <CText
+                      customStyles={[
+                        cStyles.textCaption1,
+                        cStyles.fontBold,
+                        isReject && !item.approveDate && cStyles.textThrough,
+                        {color: customColors.text},
+                      ]}
+                      customLabel={item.statusName}
+                    />
+                  ) : (
+                    <CText
+                      customStyles={[
+                        cStyles.textCaption1,
+                        isReject && !item.approveDate && cStyles.textThrough,
+                        {color: customColors.text},
+                      ]}
+                      label={'add_approved_assets:wait'}
+                    />
+                  )}
                 </View>
-              )}
-            </View>
-          </Animated.View>
-        );
-      })}
+                {item.approveDate && item.reason !== '' && (
+                  <View
+                    style={[
+                      cStyles.row,
+                      cStyles.itemsStart,
+                      cStyles.justifyStart,
+                      cStyles.mt4,
+                      styles.con_reason,
+                    ]}>
+                    <CText
+                      customStyles={[
+                        cStyles.textCaption1,
+                        isReject && !item.approveDate && cStyles.textThrough,
+                        {color: customColors.text},
+                      ]}
+                      label={'add_approved_assets:reason_reject'}
+                    />
+                    <CText
+                      customStyles={[
+                        cStyles.textCaption1,
+                        cStyles.fontBold,
+                        isReject && !item.approveDate && cStyles.textThrough,
+                        {color: customColors.text},
+                      ]}
+                      customLabel={item.reason}
+                    />
+                  </View>
+                )}
+              </View>
+            </Animated.View>
+          );
+        })}
     </View>
   ) : (
     <CFooterList />

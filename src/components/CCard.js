@@ -18,7 +18,9 @@ import CText from './CText';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
 import {THEME_DARK} from '~/config/constants';
-import {IS_IOS, moderateScale} from '~/utils/helper';
+import {IS_ANDROID, IS_IOS, moderateScale} from '~/utils/helper';
+import Icons from '~/config/Icons';
+import CIconButton from './CIconButton';
 
 function CCard(props) {
   const {customColors} = useTheme();
@@ -28,9 +30,9 @@ function CCard(props) {
     style = {},
     containerStyle = {},
     contentLabelStyle = {},
+    detail = false,
     label = null,
     customLabel = null,
-    header = null,
     content = null,
     footer = null,
     onLayout = null,
@@ -49,47 +51,62 @@ function CCard(props) {
   return (
     <View
       key={key}
-      style={[cStyles.rounded2, cStyles.ofHidden, styles.con, style]}>
+      style={[
+        cStyles.shadowListItem,
+        cStyles.rounded2,
+        IS_ANDROID && cStyles.ofHidden,
+        styles.con,
+        style,
+      ]}>
       <Component
-        style={[cStyles.flex1, cStyles.rounded2]}
         activeOpacity={0.5}
         underlayColor={colors.TRANSPARENT}
-        delayLongPress={400}
         onLayout={onLayout}
-        onPress={onPress}
-        onLongPress={onLongPress}>
+        onPress={onPress}>
         <View
           style={[
-            cStyles.mt24,
+            cStyles.rounded2,
             {backgroundColor: customColors.card},
             containerStyle,
           ]}>
           <View
             style={[
-              cStyles.rounded1,
-              cStyles.px10,
+              cStyles.flex1,
+              cStyles.row,
+              cStyles.itemsCenter,
+              cStyles.justifyBetween,
+              cStyles.pl16,
               cStyles.py8,
-              cStyles.mx16,
-              styles.con_label,
+              cStyles.borderBottom,
+              isDark && cStyles.borderBottomDark,
               contentLabelStyle,
-              {backgroundColor: isDark ? colors.GRAY_830 : colors.GRAY_200},
             ]}>
-            <CText
-              customStyles={cStyles.textSubheadline}
-              label={label}
-              customLabel={customLabel}
-            />
+            <View style={styles.con_header_left}>
+              <CText
+                customStyles={cStyles.fontBold}
+                label={label}
+                customLabel={customLabel}
+              />
+            </View>
+            {detail && (
+              <CIconButton iconName={Icons.detail} onPress={onLongPress} />
+            )}
           </View>
 
-          {header && <View style={cStyles.px16}>{header}</View>}
-
           {content && (
-            <View style={[cStyles.px16, cStyles.pb10, header && cStyles.pt10]}>
-              {content}
-            </View>
+            <View style={[cStyles.py10, cStyles.px16]}>{content}</View>
           )}
 
-          {footer && <View style={[cStyles.pb10, cStyles.px16]}>{footer}</View>}
+          {footer && (
+            <View
+              style={[
+                cStyles.p10,
+                cStyles.borderTop,
+                isDark && cStyles.borderTopDark,
+              ]}>
+              {footer}
+            </View>
+          )}
         </View>
       </Component>
     </View>
@@ -100,6 +117,8 @@ const styles = StyleSheet.create({
   con: {zIndex: 2},
   container: {backgroundColor: colors.BACKGROUND_CARD},
   con_label: {top: -moderateScale(15)},
+  con_header_left: {flex: 0.9},
+  con_header_right: {flex: 0.1},
 });
 
 export default CCard;

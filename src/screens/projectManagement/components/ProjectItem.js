@@ -25,10 +25,16 @@ if (IS_ANDROID) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
   }
 }
+const CustomLayout = {
+  duration: 600,
+  update: {
+    type: LayoutAnimation.Types.easeInEaseOut,
+  },
+};
 
 const PADDING_CHILDREN = moderateScale(14);
 const PADDING_2_CHILDREN = moderateScale(6);
-const BOTTOM_CHILDREN = moderateScale(10);
+const BOTTOM_CHILDREN = moderateScale(7);
 
 function ProjectItem(props) {
   const {
@@ -52,7 +58,7 @@ function ProjectItem(props) {
 
   const handleItem = () => {
     if (data.countChild > 0) {
-      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+      LayoutAnimation.configureNext(CustomLayout);
       setShowChildren(!showChildren);
     } else {
       onPress(data);
@@ -69,6 +75,7 @@ function ProjectItem(props) {
         index={index}
         containerStyle={styles.card}
         customLabel={`#${data.prjID} ${data.prjName}`}
+        detail={true}
         onLayout={event => {
           var {width} = event.nativeEvent.layout;
           setWidthCard(width - PADDING_CHILDREN);
@@ -146,6 +153,7 @@ function ProjectItem(props) {
           style={[
             cStyles.rounded2,
             cStyles.abs,
+            cStyles.shadow1,
             styles.card_children,
             {
               right: PADDING_2_CHILDREN,
@@ -164,12 +172,12 @@ function ProjectItem(props) {
           <View
             style={[
               cStyles.borderAll,
-              isDark && cStyles.borderAllDark,
               cStyles.borderDashed,
               styles.line_child,
+              isDark && cStyles.borderAllDark,
             ]}
           />
-          <View style={[cStyles.flex1, cStyles.ml12, cStyles.mt10]}>
+          <View style={[cStyles.flex1, cStyles.ml12]}>
             <ListProject
               formatDateView={formatDateView}
               data={data.lstProjectItem}

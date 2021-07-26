@@ -1,3 +1,5 @@
+import {IS_IOS} from '~/utils/helper';
+
 /**
  ** Name: Icons for app
  ** Author: DTP-Education
@@ -18,6 +20,7 @@ const Icons = {
   projects: 'chart-gantt', //config on admin site, pls don't edit here
   comments: 'chatbubbles',
   watchers: 'people',
+  detail: IS_IOS ? 'ellipsis-horizontal-circle-outline' : 'ellipsis-vertical',
 
   // Common
   filter: 'filter',
