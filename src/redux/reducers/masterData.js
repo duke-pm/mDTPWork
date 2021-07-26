@@ -54,6 +54,11 @@ export default function (state = initialState, action = {}) {
         .set('errorHelper', payload);
 
     case types.CHANGE_MASTER_ALL:
+      let tmpUsers = payload.users;
+      if (tmpUsers && tmpUsers.length > 0) {
+        tmpUsers.shift();
+      }
+
       return state
         .set('submitting', false)
         .set('success', true)
@@ -66,7 +71,7 @@ export default function (state = initialState, action = {}) {
         .set('company', payload.company || state.get('company'))
         .set('assetType', payload.assetType || state.get('assetType'))
         .set('assetGroup', payload.assetGroup || state.get('assetGroup'))
-        .set('users', payload.users || state.get('users'))
+        .set('users', tmpUsers || state.get('users'))
         .set(
           'assetGroupDetail',
           payload.assetGroupDetail || state.get('assetGroupDetail'),

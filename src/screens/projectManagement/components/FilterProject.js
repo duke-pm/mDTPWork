@@ -382,15 +382,13 @@ function FilterProject(props) {
               owner.active.length
             })`}
           />
-          <CList
-            contentStyle={[cStyles.px0, cStyles.pb0]}
-            data={owner.data}
-            item={({item, index}) => {
-              let isActive = owner.active.indexOf(item.userName);
+          <View style={[cStyles.px0, cStyles.pb0]}>
+            {owner.data.map((item, index) => {
+              let isActive = owner.active.indexOf(item.empID);
               return RowSelect(
                 isDark,
                 customColors,
-                item.userName,
+                item.empID,
                 item.empName,
                 isActive !== -1,
                 onChangeOwner,
@@ -398,10 +396,8 @@ function FilterProject(props) {
                 index === 0,
                 index === owner.data.length - 1,
               );
-            }}
-            ItemSeparatorComponent={undefined}
-            scrollEnabled={false}
-          />
+            })}
+          </View>
 
           {/** Status */}
           <CGroupLabel
@@ -410,10 +406,8 @@ function FilterProject(props) {
               status.active.length
             })`}
           />
-          <CList
-            contentStyle={[cStyles.px0, cStyles.pb0]}
-            data={status.data}
-            item={({item, index}) => {
+          <View style={[cStyles.px0, cStyles.pb0]}>
+            {status.data.map((item, index) => {
               let isActive = status.active.indexOf(item.statusID);
               return RowSelect(
                 isDark,
@@ -426,10 +420,8 @@ function FilterProject(props) {
                 index === 0,
                 index === status.data.length - 1,
               );
-            }}
-            ItemSeparatorComponent={undefined}
-            scrollEnabled={false}
-          />
+            })}
+          </View>
 
           {/** Sector */}
           {aParams.hasSector && (
@@ -440,10 +432,8 @@ function FilterProject(props) {
                   sectors.active.length
                 })`}
               />
-              <CList
-                contentStyle={[cStyles.px0, cStyles.pb0]}
-                data={sectors.data}
-                item={({item, index}) => {
+              <View style={[cStyles.px0, cStyles.pb0]}>
+                {sectors.data.map((item, index) => {
                   let isActive = sectors.active.indexOf(item.sectorID);
                   return RowSelect(
                     isDark,
@@ -456,10 +446,8 @@ function FilterProject(props) {
                     index === 0,
                     index === sectors.data.length - 1,
                   );
-                }}
-                ItemSeparatorComponent={undefined}
-                scrollEnabled={false}
-              />
+                })}
+              </View>
             </>
           )}
           {!loading && aParams.hasYear && (
