@@ -490,7 +490,7 @@ function ProjectDetail(props) {
     <CContainer
       loading={loading.main}
       content={
-        <CContent refreshing={loading.refreshing} onRefresh={onRefreshTasks}>
+        <CContent scrollEnabled={false}>
           <CSearchBar
             loading={loading.startFetch}
             isVisible={showSearchBar}

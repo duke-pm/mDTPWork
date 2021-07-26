@@ -156,10 +156,10 @@ function CAvatar(props) {
                       size === 'vsmall'
                         ? moderateScale(7)
                         : size === 'small'
-                        ? moderateScale(12)
+                        ? moderateScale(10)
                         : size === 'medium'
-                        ? moderateScale(18)
-                        : moderateScale(30),
+                        ? moderateScale(16)
+                        : moderateScale(22),
                   },
                 ]}>
                 {customLabel}

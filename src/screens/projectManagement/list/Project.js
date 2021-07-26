@@ -97,7 +97,7 @@ function ListProject(props) {
   const usersInvitedLength =
     (chooseProject && chooseProject.lstUserInvited.length) || 0;
   return (
-    <>
+    <View style={cStyles.flex1}>
       {/** List of project */}
       <CList
         data={props.data}
@@ -183,7 +183,7 @@ function ListProject(props) {
                   <CText
                     customStyles={[
                       cStyles.textCallout,
-                      cStyles.fontMedium,
+                      cStyles.fontBold,
                       cStyles.ml4,
                       {
                         color: isDark
@@ -246,7 +246,7 @@ function ListProject(props) {
                                 cStyles.borderBottomDark,
                             ]}>
                             <CText
-                              styles={'textCallout'}
+                              styles={'textCallout fontBold'}
                               customLabel={checkEmpty(item.fullName)}
                             />
                             <CText
@@ -266,7 +266,7 @@ function ListProject(props) {
         onClose={handleCloseModal}
         onModalHide={onModalHide}
       />
-    </>
+    </View>
   );
 }
 

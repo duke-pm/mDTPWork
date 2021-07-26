@@ -443,7 +443,7 @@ function SignIn(props) {
                       />
 
                       <CText
-                        styles={'textBody textUnderline colorWhite'}
+                        styles={'textUnderline colorWhite'}
                         label={'sign_in:forgot_password'}
                         onPress={handleForgotPassword}
                       />

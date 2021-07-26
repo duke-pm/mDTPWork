@@ -8,14 +8,7 @@
  **/
 import React, {createRef, useState, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
-import {
-  StyleSheet,
-  FlatList,
-  TouchableOpacity,
-  View,
-  LayoutAnimation,
-  UIManager,
-} from 'react-native';
+import {StyleSheet, FlatList, TouchableOpacity, View} from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import * as Animatable from 'react-native-animatable';
@@ -23,15 +16,9 @@ import * as Animatable from 'react-native-animatable';
 import CText from './CText';
 import CLabel from './CLabel';
 /* COMMON */
+import Icons from '~/config/Icons';
 import {IS_ANDROID, moderateScale} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
-import Icons from '~/config/Icons';
-
-if (IS_ANDROID) {
-  if (UIManager.setLayoutAnimationEnabledExperimental) {
-    UIManager.setLayoutAnimationEnabledExperimental(true);
-  }
-}
 
 function CGroupFilter(props) {
   const {t} = useTranslation();
@@ -126,7 +113,7 @@ function CGroupFilter(props) {
           row && styles.con_right,
         ]}>
         <FlatList
-          contentContainerStyle={[cStyles.row, cStyles.flexWrap]}
+          contentContainerStyle={cStyles.row}
           data={values}
           renderItem={({item, index}) => {
             let isCheck = valuesChoose.find(f => f.value == item.value);
@@ -181,7 +168,6 @@ function CGroupFilter(props) {
 }
 
 const styles = StyleSheet.create({
-  con_active: {backgroundColor: colors.SECONDARY},
   active: {borderColor: colors.SECONDARY},
   con_left: {flex: 0.28},
   con_right: {flex: 0.72},

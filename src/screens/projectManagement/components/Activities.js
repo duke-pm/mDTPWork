@@ -228,9 +228,9 @@ function Activity(props) {
     ].ref.rubberBand(1000);
   };
 
-  /************
+  /**********
    ** FUNC **
-   ************/
+   **********/
   const onPrepareData = async isUpdate => {
     let array = [];
     let activities = projectState.get('activities');
@@ -358,9 +358,9 @@ function Activity(props) {
     setHeightInput(event.nativeEvent.contentSize.height);
   };
 
-  /******************
+  /****************
    ** LIFE CYCLE **
-   ******************/
+   ****************/
   useEffect(() => {
     onUpdateLastComment();
     onPrepareData(false);
@@ -405,9 +405,9 @@ function Activity(props) {
     }
   }, [navigation, messages.length]);
 
-  /**************
+  /************
    ** RENDER **
-   **************/
+   ************/
   return (
     <CContainer
       loading={loading.main || loading.send}
@@ -508,11 +508,11 @@ function Activity(props) {
                           styles={'colorWhite textRight'}
                           customLabel={item.comments}
                         />
-                        <CText
-                          styles={'colorWhite textRight textCaption2 mt4'}
-                          customLabel={`${item.timeUpdate.split(' - ')[1]}`}
-                        />
                       </Animatable.View>
+                      <CText
+                        styles={'textRight textCaption2 mt4'}
+                        customLabel={`${item.timeUpdate.split(' - ')[1]}`}
+                      />
                     </View>
                   );
                 }
@@ -552,7 +552,8 @@ function Activity(props) {
                         <View style={[cStyles.ml10, cStyles.mb3]}>
                           <Text
                             style={[
-                              cStyles.textSubheadline,
+                              cStyles.textBody,
+                              cStyles.fontBold,
                               {color: customColors.primary},
                             ]}>
                             {item.fullName}

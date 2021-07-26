@@ -261,6 +261,8 @@ export function RootMain(props) {
           title: t('project_management:title'),
           headerBackTitle: t('common:back'),
           headerStyle: headerStyles,
+          headerLargeTitle: false,
+          headerTranslucent: IS_IOS,
         }}
       />
       <StackMain.Screen
@@ -270,7 +272,7 @@ export function RootMain(props) {
           headerBackTitle: t('project_management:back_title'),
           headerStyle: headerStyles,
           headerLargeTitle: false,
-          headerTranslucent: false,
+          headerTranslucent: IS_IOS,
         }}
       />
       <StackMain.Screen
@@ -278,9 +280,9 @@ export function RootMain(props) {
         component={Routes.MAIN.TASK_DETAIL.path}
         options={{
           title: '',
+          headerStyle: headerStyles,
           headerLargeTitle: false,
           headerTranslucent: IS_IOS,
-          headerStyle: headerStyles,
         }}
       />
       <StackMain.Screen
@@ -299,10 +301,10 @@ export function RootMain(props) {
         component={Routes.MAIN.TASK_DETAIL.childrens.TASK_ACTIVITIES.path}
         options={{
           title: t('project_management:title_activity'),
+          headerStyle: headerStyles,
           headerBackTitle: t('common:back'),
           headerLargeTitle: false,
           headerTranslucent: false,
-          headerStyle: headerStyles,
         }}
       />
       <StackMain.Screen
@@ -310,10 +312,10 @@ export function RootMain(props) {
         component={Routes.MAIN.TASK_DETAIL.childrens.TASK_WATCHERS.path}
         options={{
           title: t('project_management:title_watcher'),
+          headerStyle: headerStyles,
           headerBackTitle: t('common:back'),
           headerLargeTitle: false,
           headerTranslucent: false,
-          headerStyle: headerStyles,
         }}
       />
       <StackMain.Screen

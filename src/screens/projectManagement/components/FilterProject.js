@@ -349,9 +349,9 @@ function FilterProject(props) {
     );
   }, [navigation, year, owner, status, sectors]);
 
-  /**************
+  /************
    ** RENDER **
-   **************/
+   ************/
   return (
     <CContainer
       loading={loading}
@@ -400,6 +400,7 @@ function FilterProject(props) {
               );
             }}
             ItemSeparatorComponent={undefined}
+            scrollEnabled={false}
           />
 
           {/** Status */}
@@ -427,6 +428,7 @@ function FilterProject(props) {
               );
             }}
             ItemSeparatorComponent={undefined}
+            scrollEnabled={false}
           />
 
           {/** Sector */}
@@ -456,6 +458,7 @@ function FilterProject(props) {
                   );
                 }}
                 ItemSeparatorComponent={undefined}
+                scrollEnabled={false}
               />
             </>
           )}
@@ -474,9 +477,9 @@ function FilterProject(props) {
                 onValueChange={onChangeYear}>
                 {year.data.map((value, i) => (
                   <Picker.Item
+                    key={value.value}
                     label={value.label}
                     value={i}
-                    key={value.value}
                   />
                 ))}
               </Picker>

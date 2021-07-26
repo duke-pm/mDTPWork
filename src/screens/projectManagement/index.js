@@ -357,7 +357,7 @@ function ProjectManagement(props) {
     <CContainer
       loading={loading.main || loading.startFetch}
       content={
-        <CContent refreshing={loading.refreshing} onRefresh={onRefresh}>
+        <CContent scrollEnabled={false}>
           <CSearchBar
             loading={loading.startFetch}
             isVisible={showSearchBar}
@@ -366,10 +366,12 @@ function ProjectManagement(props) {
           />
           {!loading.main && !loading.startFetch && (
             <ListProject
-              loadmore={loading.loadmore}
               formatDateView={formatDateView}
               data={data.projects}
+              loadmore={loading.loadmore}
+              refreshing={loading.refreshing}
               onLoadmore={onLoadmore}
+              onRefresh={onRefresh}
             />
           )}
         </CContent>

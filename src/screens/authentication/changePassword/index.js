@@ -8,7 +8,6 @@
 import {fromJS} from 'immutable';
 import React, {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {ifIphoneX} from 'react-native-iphone-x-helper';
 import {
   StyleSheet,
   View,
@@ -398,11 +397,8 @@ function ChangePassword(props) {
 
                   <View style={styles.separator} />
 
-                  <CButton
-                    textStyle={[cStyles.textSubheadline, cStyles.textUnderline]}
-                    block
-                    color={colors.WHITE}
-                    variant={'text'}
+                  <CText
+                    styles={'textUnderline textCenter colorWhite mt16'}
                     label={'forgot_password:button_go_back'}
                     onPress={handleGoBack}
                   />
@@ -416,8 +412,8 @@ function ChangePassword(props) {
 }
 
 const styles = StyleSheet.create({
-  container_title: {flex: ifIphoneX(0.4, 0.35)},
-  container_input: {flex: ifIphoneX(0.6, 0.65)},
+  container_title: {flex: 0.35},
+  container_input: {flex: 0.65},
   input: {backgroundColor: colors.TRANSPARENT, color: colors.WHITE},
   input_focus: {backgroundColor: colors.BACKGROUND_INPUT_FOCUS},
   box: {
