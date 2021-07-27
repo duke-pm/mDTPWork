@@ -43,6 +43,7 @@ const Icons = {
   image: 'image',
   next: 'chevron-forward',
   down: 'chevron-down',
+  up: 'chevron-up',
   successHappy: 'happy',
   failedSad: 'sad',
   lock: 'lock-closed',

@@ -8,7 +8,6 @@
 import React, {useState} from 'react';
 import {StyleSheet, View, LayoutAnimation, UIManager} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import Modal from 'react-native-modal';
 import moment from 'moment';
 /* COMPONENTS */
 import CCard from '~/components/CCard';
@@ -26,10 +25,17 @@ if (IS_ANDROID) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
   }
 }
-const CustomLayout = {
-  duration: 600,
+const CustomLayoutAnimated = {
+  duration: 500,
   update: {
-    type: LayoutAnimation.Types.easeInEaseOut,
+    type: LayoutAnimation.Types.spring,
+    property: LayoutAnimation.Properties.scaleXY,
+    springDamping: 1,
+  },
+  delete: {
+    type: LayoutAnimation.Types.spring,
+    property: LayoutAnimation.Properties.scaleXY,
+    springDamping: 1,
   },
 };
 
@@ -59,7 +65,7 @@ function ProjectItem(props) {
 
   const handleItem = () => {
     if (data.countChild > 0) {
-      LayoutAnimation.configureNext(CustomLayout);
+      LayoutAnimation.configureNext(CustomLayoutAnimated);
       setShowChildren(!showChildren);
     } else {
       onPress(data);
@@ -167,8 +173,14 @@ function ProjectItem(props) {
       )}
 
       {/** If project have children -> Show */}
-      {showChildren && data.countChild > 0 && (
-        <View style={[cStyles.row, cStyles.itemsCenter]}>
+      {data.countChild > 0 && (
+        <View
+          style={[
+            cStyles.row,
+            cStyles.itemsCenter,
+            !showChildren && cStyles.abs,
+            {opacity: showChildren ? 1 : 0},
+          ]}>
           <View
             style={[
               cStyles.borderAll,

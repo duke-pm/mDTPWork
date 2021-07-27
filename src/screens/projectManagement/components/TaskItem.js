@@ -31,10 +31,17 @@ if (IS_ANDROID) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
   }
 }
-const CustomLayout = {
-  duration: 600,
+const CustomLayoutAnimated = {
+  duration: 500,
   update: {
-    type: LayoutAnimation.Types.easeInEaseOut,
+    type: LayoutAnimation.Types.spring,
+    property: LayoutAnimation.Properties.scaleXY,
+    springDamping: 1,
+  },
+  delete: {
+    type: LayoutAnimation.Types.spring,
+    property: LayoutAnimation.Properties.scaleXY,
+    springDamping: 1,
   },
 };
 
@@ -66,10 +73,10 @@ function TaskItem(props) {
   };
 
   const handleShowChildren = () => {
-    LayoutAnimation.configureNext(CustomLayout);
+    LayoutAnimation.configureNext(CustomLayoutAnimated);
     Animated.timing(valueAnim, {
       toValue: showChildren ? 0 : 1,
-      duration: 200,
+      duration: 300,
       useNativeDriver: true,
     }).start();
     setShowChildren(!showChildren);
@@ -248,7 +255,7 @@ function TaskItem(props) {
                       },
                     ]}>
                     <Icon
-                      name={Icons.down}
+                      name={Icons.up}
                       size={moderateScale(23)}
                       color={customColors.icon}
                     />
