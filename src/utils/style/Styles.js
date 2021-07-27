@@ -55,6 +55,7 @@ const main = {
   ofHidden: {overflow: 'hidden'},
   ofScroll: {overflow: 'scroll'},
   ofVisible: {overflow: 'visible'},
+  aliSelCenter: {alignSelf: 'center'},
 };
 
 const padding = {

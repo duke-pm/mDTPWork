@@ -59,7 +59,7 @@ function CCard(props) {
         style,
       ]}>
       <Component
-        activeOpacity={0.5}
+        activeOpacity={0.8}
         underlayColor={colors.TRANSPARENT}
         onLayout={onLayout}
         onPress={onPress}>
@@ -89,7 +89,11 @@ function CCard(props) {
               />
             </View>
             {detail && (
-              <CIconButton iconName={Icons.detail} onPress={onLongPress} />
+              <CIconButton
+                iconName={Icons.detail}
+                iconColor={customColors.icon}
+                onPress={onLongPress}
+              />
             )}
           </View>
 

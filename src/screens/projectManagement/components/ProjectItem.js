@@ -8,6 +8,7 @@
 import React, {useState} from 'react';
 import {StyleSheet, View, LayoutAnimation, UIManager} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import Modal from 'react-native-modal';
 import moment from 'moment';
 /* COMPONENTS */
 import CCard from '~/components/CCard';
@@ -34,7 +35,7 @@ const CustomLayout = {
 
 const PADDING_CHILDREN = moderateScale(14);
 const PADDING_2_CHILDREN = moderateScale(6);
-const BOTTOM_CHILDREN = moderateScale(7);
+const BOTTOM_CHILDREN = moderateScale(8);
 
 function ProjectItem(props) {
   const {
@@ -69,7 +70,7 @@ function ProjectItem(props) {
    ** RENDER **
    ************/
   return (
-    <View>
+    <View style={data.countChild > 0 ? cStyles.mb10 : {}}>
       <CCard
         key={index}
         index={index}
@@ -153,7 +154,6 @@ function ProjectItem(props) {
           style={[
             cStyles.rounded2,
             cStyles.abs,
-            cStyles.shadow1,
             styles.card_children,
             {
               right: PADDING_2_CHILDREN,
