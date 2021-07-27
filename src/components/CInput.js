@@ -19,6 +19,7 @@ import {
 import Icon from 'react-native-vector-icons/Ionicons';
 /* COMPONENTS */
 import CText from './CText';
+import CLabel from './CLabel';
 /* COMMON */
 import Icons from '~/config/Icons';
 import {colors, cStyles} from '~/utils/style';
@@ -43,6 +44,8 @@ function CInput(props) {
     iconLast = null,
     iconLastStyle = {},
 
+    label = null,
+    caption = null,
     holder = '',
     holderColor = colors.TEXT_META,
     selectionColor = null,
@@ -111,6 +114,10 @@ function CInput(props) {
   const Component = disabled ? View : TouchableOpacity;
   return (
     <View style={[cStyles.fullWidth, containerStyle]}>
+      <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween]}>
+        {label && <CLabel bold label={label} />}
+        {caption && <CText styles={'textCaption1'} label={caption} />}
+      </View>
       <View
         style={[
           cStyles.row,
@@ -164,6 +171,8 @@ function CInput(props) {
               ref={props.inputRef}
               style={[
                 multiline && cStyles.justifyStart,
+                multiline && cStyles.flex1,
+                multiline && cStyles.textAliVerTop,
                 cStyles.textBody,
                 {color: customColors.text},
                 styleInput,

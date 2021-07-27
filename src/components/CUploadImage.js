@@ -148,18 +148,6 @@ function CUploadImage(props) {
           onPress={handleUpload}
         />
       </View>
-      {props.file.data && (
-        <CCard
-          containerStyle={cStyles.mt10}
-          content={
-            <CImage
-              style={[cStyles.rounded1, styles.image_upload]}
-              source={{uri: props.file.data64}}
-              resizeMode={'cover'}
-            />
-          }
-        />
-      )}
 
       <Modal
         style={[cStyles.m0, cStyles.justifyEnd]}

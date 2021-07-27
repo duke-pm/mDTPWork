@@ -92,7 +92,6 @@ function RequestProcess(props) {
                 <View
                   style={[
                     cStyles.rounded5,
-                    cStyles.px10,
                     cStyles.py5,
                     cStyles.itemsCenter,
                     styles.con_time_process,
@@ -110,7 +109,6 @@ function RequestProcess(props) {
                 <View
                   style={[
                     cStyles.rounded1,
-                    cStyles.px10,
                     cStyles.py6,
                     cStyles.itemsCenter,
                     styles.con_date,
@@ -118,7 +116,13 @@ function RequestProcess(props) {
                 />
               )}
 
-              <View style={[cStyles.px6, cStyles.itemsCenter, styles.con_icon]}>
+              <View
+                style={[
+                  cStyles.px6,
+                  cStyles.pt10,
+                  cStyles.itemsCenter,
+                  styles.con_icon,
+                ]}>
                 <Icon
                   name={
                     !item.approveDate
@@ -139,8 +143,7 @@ function RequestProcess(props) {
                 {index !== dataProcess.length - 1 && (
                   <View
                     style={[
-                      cStyles.mt10,
-                      cStyles.borderDashed,
+                      cStyles.mt6,
                       cStyles.borderAll,
                       isDark && cStyles.borderAllDark,
                       styles.line_2,
@@ -250,7 +253,7 @@ function RequestProcess(props) {
 
 const styles = StyleSheet.create({
   con_time_process: {backgroundColor: colors.SECONDARY, flex: 0.3},
-  line_2: {height: moderateScale(20)},
+  line_2: {height: moderateScale(30)},
   con_date: {flex: 0.3},
   con_icon: {flex: 0.1},
   con_info: {flex: 0.6},

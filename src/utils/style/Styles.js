@@ -541,6 +541,7 @@ const text = {
   },
   textItalic: {fontStyle: 'italic'},
   textBold: {fontWeight: 'bold'},
+  textAliVerTop: {textAlignVertical: 'top'},
 };
 
 const border = {

@@ -655,9 +655,9 @@ function AddRequest(props) {
                     ]}>
                     {/** Date request */}
                     <View style={[cStyles.mr5, styles.con_left]}>
-                      <CLabel bold label={'add_approved_assets:date_request'} />
                       <CInput
                         name={INPUT_NAME.DATE_REQUEST}
+                        label={'add_approved_assets:date_request'}
                         disabled={true}
                         dateTimePicker={true}
                         value={moment(form.dateRequest).format(formatDateView)}
@@ -684,9 +684,9 @@ function AddRequest(props) {
 
                   {/** Name */}
                   <View style={cStyles.pt16}>
-                    <CLabel bold label={'add_approved_assets:name'} />
                     <CInput
                       name={INPUT_NAME.NAME}
+                      label={'add_approved_assets:name'}
                       styleFocus={styles.input_focus}
                       disabled={true}
                       holder={'add_approved_assets:name'}
@@ -731,26 +731,15 @@ function AddRequest(props) {
 
                   {/** Reason */}
                   <View style={cStyles.pt16}>
-                    <View
-                      style={[
-                        cStyles.row,
-                        cStyles.itemsCenter,
-                        cStyles.justifyBetween,
-                      ]}>
-                      <CLabel bold label={'add_approved_assets:reason'} />
-                      <CText
-                        styles={'textCaption1'}
-                        label={'common:optional'}
-                      />
-                    </View>
                     <CInput
                       name={INPUT_NAME.REASON}
+                      label={'add_approved_assets:reason'}
+                      caption={'common:optional'}
                       style={[cStyles.itemsStart, styles.input_multiline]}
                       styleFocus={styles.input_focus}
                       disabled={loading.main || loading.submitAdd || isDetail}
                       holder={'add_approved_assets:holder_reason'}
                       value={form.reason}
-                      keyboard={'default'}
                       returnKey={'next'}
                       multiline={true}
                       onChangeInput={() => handleChangeInput(supplierRef)}
@@ -786,32 +775,20 @@ function AddRequest(props) {
               content={
                 <>
                   {/** Supplier */}
-                  <View>
-                    <View
-                      style={[
-                        cStyles.row,
-                        cStyles.itemsCenter,
-                        cStyles.justifyBetween,
-                      ]}>
-                      <CLabel bold label={'add_approved_assets:supplier'} />
-                      <CText
-                        styles={'textCaption1'}
-                        label={'common:optional'}
-                      />
-                    </View>
-                    <CInput
-                      name={INPUT_NAME.SUPPLIER}
-                      styleFocus={styles.input_focus}
-                      inputRef={ref => (supplierRef = ref)}
-                      disabled={loading.main || loading.submitAdd || isDetail}
-                      holder={'add_approved_assets:holder_supplier'}
-                      value={form.supplier}
-                      keyboard={'default'}
-                      returnKey={'done'}
-                      onChangeInput={onSendRequest}
-                      onChangeValue={handleChangeText}
-                    />
-                  </View>
+                  <CInput
+                    name={INPUT_NAME.SUPPLIER}
+                    label={'add_approved_assets:supplier'}
+                    caption={'common:optional'}
+                    styleFocus={styles.input_focus}
+                    inputRef={ref => (supplierRef = ref)}
+                    disabled={loading.main || loading.submitAdd || isDetail}
+                    holder={'add_approved_assets:holder_supplier'}
+                    value={form.supplier}
+                    keyboard={'default'}
+                    returnKey={'done'}
+                    onChangeInput={onSendRequest}
+                    onChangeValue={handleChangeText}
+                  />
 
                   {/** Type assets */}
                   <View

@@ -6,10 +6,10 @@
  **/
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
+import FastImage from 'react-native-fast-image';
 /* COMPONENTS */
 import CText from './CText';
 import CTouchable from './CTouchable';
-import CImage from './CImage';
 /** COMMON */
 import {cStyles} from '~/utils/style';
 import {IS_IOS, moderateScale, sW} from '~/utils/helper';
@@ -34,8 +34,12 @@ function CItem(props) {
       containerStyle={[cStyles.mb16, cStyles.mr16, IS_IOS && cStyles.shadow1]}
       onPress={handleItem}>
       <View style={[cStyles.p10, cStyles.itemsCenter, styles.item]}>
-        {/* <Icon name={data.mIcon} color={color} size={moderateScale(60)} /> */}
-        <CImage style={styles.icon} source={Assets[data.mIcon]} />
+        <FastImage
+          style={styles.icon}
+          source={Assets[data.mIcon]}
+          resizeMode={'contain'}
+          cache={FastImage.cacheControl.immutable}
+        />
         <CText
           customStyles={[cStyles.textCenter, cStyles.pt10, cStyles.textBody]}
           label={data.menuName}

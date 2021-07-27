@@ -8,13 +8,14 @@
  **/
 import React, {createRef, useState, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
-import {StyleSheet, FlatList, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, FlatList, View} from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import * as Animatable from 'react-native-animatable';
 /* COMPONENTS */
 import CText from './CText';
 import CLabel from './CLabel';
+import CTouchable from './CTouchable';
 /* COMMON */
 import Icons from '~/config/Icons';
 import {IS_ANDROID, moderateScale} from '~/utils/helper';
@@ -25,7 +26,6 @@ function CGroupFilter(props) {
   const {customColors} = useTheme();
   const {
     containerStyle = {},
-    activeAll = true,
     row = false,
     label = '',
     items = [],
@@ -35,7 +35,7 @@ function CGroupFilter(props) {
 
   /** Use state */
   const [values] = useState(items);
-  const [valuesChoose, setValuesChoose] = useState(activeAll ? items : []);
+  const [valuesChoose, setValuesChoose] = useState(items);
   const [valuesRef, setValuesRef] = useState([]);
 
   /*****************
@@ -43,7 +43,6 @@ function CGroupFilter(props) {
    *****************/
   const handleItem = (index, data) => {
     valuesRef[index].pulse(300);
-
     let tmpValues = [...valuesChoose];
     let fItem = tmpValues.findIndex(f => f.value == data.value);
     if (fItem !== -1) {
@@ -60,35 +59,38 @@ function CGroupFilter(props) {
    ** LIFE CYCLE **
    ****************/
   useEffect(() => {
-    let chooses = [],
-      choosesRef = [],
-      i = null;
-    for (i of itemsChoose) {
-      let find = values.findIndex(f => f.value == i);
-      if (find !== -1) {
-        if (typeof i === 'boolean') {
-          if (i === true) {
+    if (itemsChoose.length > 0) {
+      let chooses = [],
+        choosesRef = [],
+        i = null,
+        find = null;
+      for (i of itemsChoose) {
+        find = values.findIndex(f => f.value == i);
+        if (find !== -1) {
+          if (typeof i === 'boolean') {
+            if (i === true) {
+              chooses.push(values[find]);
+              let handleRef = createRef();
+              choosesRef.push(handleRef);
+            }
+          } else {
             chooses.push(values[find]);
             let handleRef = createRef();
             choosesRef.push(handleRef);
           }
-        } else {
-          chooses.push(values[find]);
-          let handleRef = createRef();
-          choosesRef.push(handleRef);
-        }
-      } else if (typeof i === 'boolean') {
-        if (i === true) {
-          let tmp = values[0];
-          tmp.value = true;
-          chooses.push(tmp);
-          let handleRef = createRef();
-          choosesRef.push(handleRef);
+        } else if (typeof i === 'boolean') {
+          if (i === true) {
+            let tmp = values[0];
+            tmp.value = true;
+            chooses.push(tmp);
+            let handleRef = createRef();
+            choosesRef.push(handleRef);
+          }
         }
       }
+      setValuesRef(choosesRef);
+      setValuesChoose(chooses);
     }
-    setValuesRef(choosesRef);
-    setValuesChoose(chooses);
   }, [itemsChoose]);
 
   /************
@@ -96,62 +98,61 @@ function CGroupFilter(props) {
    ************/
   return (
     <View style={[cStyles.pt8, containerStyle]}>
-      <View style={[cStyles.pt10]}>
+      <View style={cStyles.pt10}>
         <CLabel bold label={t(label)} />
       </View>
 
-      <View style={[cStyles.row, cStyles.itemsCenter, !row && cStyles.py6]}>
-        <FlatList
-          contentContainerStyle={cStyles.row}
-          data={values}
-          renderItem={({item, index}) => {
-            let isCheck = valuesChoose.find(f => f.value == item.value);
-            return (
-              <TouchableOpacity onPress={() => handleItem(index, item)}>
-                <Animatable.View
-                  ref={ref => (valuesRef[index] = ref)}
+      <FlatList
+        style={cStyles.mt10}
+        contentContainerStyle={cStyles.row}
+        data={values}
+        renderItem={({item, index}) => {
+          let isCheck = valuesChoose.find(f => f.value == item.value);
+          return (
+            <CTouchable
+              containerStyle={cStyles.rounded7}
+              onPress={() => handleItem(index, item)}>
+              <Animatable.View
+                ref={ref => (valuesRef[index] = ref)}
+                useNativeDriver={true}>
+                <View
                   style={[
-                    cStyles.mt6,
-                    index !== 0 && cStyles.ml6,
-                    !isCheck && {backgroundColor: customColors.card},
-                  ]}
-                  useNativeDriver={true}>
-                  <View
-                    style={[
-                      cStyles.py6,
-                      cStyles.px10,
-                      cStyles.rounded7,
-                      cStyles.borderAll,
-                      cStyles.row,
-                      cStyles.itemsCenter,
-                      isCheck && styles.active,
-                      {backgroundColor: customColors.card},
-                    ]}>
+                    cStyles.py6,
+                    cStyles.px10,
+                    cStyles.rounded7,
+                    cStyles.borderAll,
+                    cStyles.row,
+                    cStyles.itemsCenter,
+                    isCheck && styles.active,
+                    {backgroundColor: customColors.card},
+                  ]}>
+                  {isCheck && (
                     <Icon
                       name={Icons.check}
                       size={moderateScale(14)}
                       color={isCheck ? colors.SECONDARY : customColors.icon}
                     />
-                    <CText
-                      customStyles={[
-                        cStyles.textCaption1,
-                        cStyles.fontMedium,
-                        cStyles.pl4,
-                        isCheck && cStyles.colorSecondary,
-                      ]}
-                      label={item.label}
-                    />
-                  </View>
-                </Animatable.View>
-              </TouchableOpacity>
-            );
-          }}
-          keyExtractor={(item, index) => index.toString()}
-          removeClippedSubviews={IS_ANDROID}
-          scrollEnabled={false}
-          horizontal={row}
-        />
-      </View>
+                  )}
+                  <CText
+                    customStyles={[
+                      cStyles.textCaption1,
+                      cStyles.fontMedium,
+                      cStyles.pl4,
+                      isCheck && cStyles.colorSecondary,
+                    ]}
+                    label={item.label}
+                  />
+                </View>
+              </Animatable.View>
+            </CTouchable>
+          );
+        }}
+        keyExtractor={(item, index) => index.toString()}
+        ItemSeparatorComponent={() => <View style={cStyles.pr10} />}
+        removeClippedSubviews={IS_ANDROID}
+        scrollEnabled={false}
+        horizontal={row}
+      />
     </View>
   );
 }

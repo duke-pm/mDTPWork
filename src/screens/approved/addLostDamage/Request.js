@@ -681,19 +681,14 @@ function AddRequest(props) {
               style={cStyles.pt16}
               label={'add_approved_lost_damaged:info_other'}
               content={
-                <View>
-                  <CLabel
-                    bold
-                    label={'add_approved_lost_damaged:date_request'}
-                  />
-                  <CInput
-                    name={INPUT_NAME.DATE_REQUEST}
-                    disabled
-                    dateTimePicker
-                    value={moment(form.dateRequest).format(formatDateView)}
-                    valueColor={colors.BLACK}
-                  />
-                </View>
+                <CInput
+                  name={INPUT_NAME.DATE_REQUEST}
+                  label={'add_approved_lost_damaged:date_request'}
+                  disabled
+                  dateTimePicker
+                  value={moment(form.dateRequest).format(formatDateView)}
+                  valueColor={colors.BLACK}
+                />
               }
             />
 
@@ -722,17 +717,15 @@ function AddRequest(props) {
                   )}
 
                   {/** Reason */}
-                  <View style={!isDetail ? cStyles.pt16 : {}}>
-                    <CLabel bold label={'add_approved_lost_damaged:reason'} />
+                  <View style={!isDetail ? cStyles.pt16 : undefined}>
                     <CInput
                       name={INPUT_NAME.REASON}
+                      label={'add_approved_lost_damaged:reason'}
                       style={[cStyles.itemsStart, styles.input_multiline]}
                       styleFocus={styles.input_focus}
                       disabled={loading.main || loading.submitAdd || isDetail}
                       holder={'add_approved_lost_damaged:holder_reason'}
                       value={form.reason}
-                      valueColor={colors.BLACK}
-                      keyboard={'default'}
                       returnKey={'done'}
                       multiline={true}
                       error={error.reason.status}

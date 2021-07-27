@@ -33,7 +33,7 @@ function CGroupInfo({
     return null;
   }
   return (
-    <View style={[cStyles.mb16, style]}>
+    <View style={[cStyles.mb10, style]}>
       {label && (
         <View style={[containerLabelStyle]}>
           <CText
