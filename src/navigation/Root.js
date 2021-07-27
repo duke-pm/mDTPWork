@@ -331,7 +331,7 @@ export function RootMain(props) {
         name={Routes.MAIN.APPROVED.childrens.LIST_REQUEST_ASSETS.name}
         component={Routes.MAIN.APPROVED.childrens.LIST_REQUEST_ASSETS.path}
         options={{
-          title: '',
+          title: t('list_request_assets:title'),
           headerStyle: headerModalStyles,
           headerLargeTitle: false,
           headerTranslucent: false,

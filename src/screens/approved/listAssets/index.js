@@ -6,7 +6,7 @@
  ** CreateAt: 2021
  ** Description: Description of List.js
  **/
-import React, {useState, useLayoutEffect} from 'react';
+import React, {createRef, useState, useLayoutEffect} from 'react';
 import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {
@@ -21,7 +21,7 @@ import moment from 'moment';
 import CContainer from '~/components/CContainer';
 import CSearchBar from '~/components/CSearchBar';
 import CIconHeader from '~/components/CIconHeader';
-import CAlert from '~/components/CAlert';
+import CActionSheet from '~/components/CActionSheet';
 import Filter from '../components/Filter';
 import Assets from '../assets';
 import AssetsDamage from '../assetsDamage';
@@ -38,6 +38,8 @@ if (IS_ANDROID) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
   }
 }
+
+const actionSheetFilterRef = createRef();
 
 const RenderScene = ({route}) => {
   switch (route.key) {
@@ -65,7 +67,6 @@ function ListRequestAll(props) {
 
   /** use state */
   const [showSearchBar, setShowSearch] = useState(false);
-  const [showFilter, setShowFilter] = useState(false);
   const [index, setIndex] = useState(0);
   const [routes, setRoutes] = useState([
     {
@@ -143,7 +144,7 @@ function ListRequestAll(props) {
     let tmpRoutes = [...routes];
     tmpRoutes[index] = {...tmpRoutes[index], ...route};
     setRoutes(tmpRoutes);
-    setShowFilter(false);
+    actionSheetFilterRef.current?.hide();
   };
 
   const handleOpenSearch = () => {
@@ -158,8 +159,12 @@ function ListRequestAll(props) {
     }
   };
 
-  const handleToggleFilter = () => {
-    setShowFilter(!showFilter);
+  const handleOpenFilter = () => {
+    actionSheetFilterRef.current?.show();
+  };
+
+  const handleHideFilter = () => {
+    actionSheetFilterRef.current?.hide();
   };
 
   /****************
@@ -180,7 +185,7 @@ function ListRequestAll(props) {
               show: true,
               showRedDot: false,
               icon: Icons.filter,
-              onPress: handleToggleFilter,
+              onPress: handleOpenFilter,
             },
             {
               show: isPermissionWrite,
@@ -218,18 +223,16 @@ function ListRequestAll(props) {
             renderTabBar={RenderTabbar}
           />
 
-          <CAlert
-            show={showFilter}
-            title={t('approved_assets:holder_filter')}
-            customContent={
+          <CActionSheet actionRef={actionSheetFilterRef}>
+            <View style={cStyles.p16}>
               <Filter
                 isResolve={false}
                 data={routes[index]}
                 onFilter={handleFilter}
-                onClose={handleToggleFilter}
+                onClose={handleHideFilter}
               />
-            }
-          />
+            </View>
+          </CActionSheet>
         </View>
       }
     />

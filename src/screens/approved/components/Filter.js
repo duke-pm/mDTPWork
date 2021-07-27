@@ -113,15 +113,22 @@ function Filter(props) {
       return showMessage({
         message: t('common:app_name'),
         description: t('error:from_date_larger_than_to_date'),
-        type: 'danger',
-        icon: 'danger',
+        type: 'warning',
+        icon: 'warning',
       });
-    } else if (data.status.length === 0) {
+    } else if (!isResolve && data.status.length === 0) {
       return showMessage({
         message: t('common:app_name'),
         description: t('error:status_not_found'),
-        type: 'danger',
-        icon: 'danger',
+        type: 'warning',
+        icon: 'warning',
+      });
+    } else if (isResolve && data.type.length === 0) {
+      return showMessage({
+        message: t('common:app_name'),
+        description: t('error:type_not_found'),
+        type: 'warning',
+        icon: 'warning',
       });
     } else {
       onFilter(
@@ -172,7 +179,7 @@ function Filter(props) {
    ** RENDER **
    ************/
   return (
-    <>
+    <View style={cStyles.pb16}>
       {/** Show is visible */}
       <>
         <View
@@ -233,6 +240,7 @@ function Filter(props) {
 
         {isResolve && (
           <CGroupFilter
+            row={true}
             label={'common:type'}
             items={TYPES_ASSETS}
             itemsChoose={data.type}
@@ -242,6 +250,7 @@ function Filter(props) {
 
         {!isResolve && (
           <CGroupFilter
+            row={true}
             label={'common:status'}
             items={STATUS_REQUEST}
             itemsChoose={data.status}
@@ -254,7 +263,7 @@ function Filter(props) {
             cStyles.row,
             cStyles.itemsCenter,
             cStyles.justifyCenter,
-            cStyles.mt10,
+            cStyles.pt32,
           ]}>
           <CButton
             style={styles.button}
@@ -282,7 +291,7 @@ function Filter(props) {
         }
         onChangeDate={onChangeDateRequest}
       />
-    </>
+    </View>
   );
 }
 

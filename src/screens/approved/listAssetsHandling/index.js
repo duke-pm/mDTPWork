@@ -6,7 +6,7 @@
  ** Description: Description of ListHandling.js
  **/
 import {fromJS} from 'immutable';
-import React, {useState, useEffect, useLayoutEffect} from 'react';
+import React, {createRef, useState, useEffect, useLayoutEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
@@ -18,6 +18,7 @@ import CContainer from '~/components/CContainer';
 import CSearchBar from '~/components/CSearchBar';
 import CAlert from '~/components/CAlert';
 import CIconHeader from '~/components/CIconHeader';
+import CActionSheet from '~/components/CActionSheet';
 import Filter from '../components/Filter';
 import ListRequest from '../components/ListRequest';
 /* COMMON */
@@ -32,6 +33,8 @@ if (IS_ANDROID) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
   }
 }
+
+const actionSheetFilterRef = createRef();
 
 function ListRequestHandling(props) {
   const {t} = useTranslation();
@@ -57,7 +60,6 @@ function ListRequestHandling(props) {
     loadmore: false,
     isLoadmore: true,
   });
-  const [showFilter, setShowFilter] = useState(false);
   const [showSearchBar, setShowSearch] = useState(false);
   const [data, setData] = useState({
     fromDate: moment().clone().startOf('month').format(formatDate),
@@ -80,7 +82,7 @@ function ListRequestHandling(props) {
   };
 
   const handleFilter = (fromDate, toDate, status, type) => {
-    setShowFilter(false);
+    actionSheetFilterRef.current?.hide();
     setData({
       ...data,
       page: 1,
@@ -104,8 +106,12 @@ function ListRequestHandling(props) {
     }
   };
 
-  const handleToggleFilter = () => {
-    setShowFilter(!showFilter);
+  const handleOpenFilter = () => {
+    actionSheetFilterRef.current?.show();
+  };
+
+  const handleHideFilter = () => {
+    actionSheetFilterRef.current?.hide();
   };
 
   /**********
@@ -253,7 +259,7 @@ function ListRequestHandling(props) {
               show: true,
               showRedDot: false,
               icon: Icons.filter,
-              onPress: handleToggleFilter,
+              onPress: handleOpenFilter,
             },
           ]}
         />
@@ -290,20 +296,16 @@ function ListRequestHandling(props) {
               onLoadmore={onLoadmore}
             />
           )}
-
-          <CAlert
-            contentStyle={styles.container_modal}
-            show={showFilter}
-            title={t('approved_assets:holder_filter')}
-            customContent={
+          <CActionSheet actionRef={actionSheetFilterRef}>
+            <View style={cStyles.p16}>
               <Filter
-                isResolve
+                isResolve={true}
                 data={data}
                 onFilter={handleFilter}
-                onClose={handleToggleFilter}
+                onClose={handleHideFilter}
               />
-            }
-          />
+            </View>
+          </CActionSheet>
         </View>
       }
     />

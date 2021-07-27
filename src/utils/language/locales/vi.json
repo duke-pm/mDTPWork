@@ -80,6 +80,7 @@
     "list_request": "Nhận danh sách yêu cầu thất bại. Vui lòng thử lại sau!",
     "reason_reject_empty": "Lý do từ chối không thể trống!",
     "status_not_found": "Trạng thái không thể trống!",
+    "type_not_found": "Loại cần xử lý không thể trống!",
     "type_lost_damaged_not_found": "Loại báo hỏng mất không thể trống!",
     "assets_not_empty": "Tài sản không thể trống!",
     "reason_not_empty": "Lý do không thể trống!",
@@ -127,7 +128,6 @@
     "success_content_4": "để thay đổi mật khẩu mới.",
     "button_go_back": "Quay lại Đăng nhập",
     "error_password_not_fill": "Mật khẩu mới không thể trống!",
-
     "sub_title_update_password": "Nhập mật khẩu mới để cập nhật lại thông tin của bạn.",
     "success_change_password": "Đổi mật khẩu thành công!",
     "sub_title_success_update_password": "Vui lòng đăng nhập với mật khẩu đã lưu.",
@@ -202,7 +202,7 @@
     "list_request_handling": "Yêu cầu cần xử lý"
   },
   "list_request_assets": {
-    "title": "D/s yêu cầu",
+    "title": "Đề Xuất",
     "title_add": "Cấp Phát",
     "title_damaged": "Báo Hỏng",
     "title_lost": "Báo Mất"

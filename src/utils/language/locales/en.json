@@ -80,6 +80,7 @@
     "list_request": "Get list of failed requests. Please try again later!",
     "reason_reject_empty": "The reason for the rejection cannot be empty!",
     "status_not_found": "The state cannot be empty!",
+    "type_not_found": "Type of requests cannot be empty!",
     "type_lost_damaged_not_found": "Failure type cannot be empty!",
     "assets_not_empty": "Property cannot be empty!",
     "reason_not_empty": "Reason can't be empty!",
@@ -127,7 +128,6 @@
     "success_content_4": "to change new passwords.",
     "button_go_back": "Go back to Login",
     "error_password_not_fill": "New password cannot empty!",
-
     "sub_title_update_password": "Enter a new password to update your information.",
     "success_change_password": "Update password successfully!",
     "sub_title_success_update_password": "Please login with the saved password.",
@@ -196,7 +196,7 @@
     "list_request_handling": "List processed"
   },
   "list_request_assets": {
-    "title": "List Request",
+    "title": "Requests",
     "title_add": "Allocation",
     "title_damaged": "Damage",
     "title_lost": "Lost"

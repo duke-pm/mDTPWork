@@ -95,23 +95,12 @@ function CGroupFilter(props) {
    ** RENDER **
    ************/
   return (
-    <View
-      style={[
-        cStyles.py10,
-        row && [cStyles.row, cStyles.itemsStart],
-        containerStyle,
-      ]}>
-      <View style={[cStyles.pt10, row && styles.con_left]}>
+    <View style={[cStyles.pt8, containerStyle]}>
+      <View style={[cStyles.pt10]}>
         <CLabel bold label={t(label)} />
       </View>
 
-      <View
-        style={[
-          cStyles.row,
-          cStyles.itemsCenter,
-          !row && cStyles.py6,
-          row && styles.con_right,
-        ]}>
+      <View style={[cStyles.row, cStyles.itemsCenter, !row && cStyles.py6]}>
         <FlatList
           contentContainerStyle={cStyles.row}
           data={values}
@@ -160,7 +149,7 @@ function CGroupFilter(props) {
           keyExtractor={(item, index) => index.toString()}
           removeClippedSubviews={IS_ANDROID}
           scrollEnabled={false}
-          showsVerticalScrollIndicator={false}
+          horizontal={row}
         />
       </View>
     </View>
