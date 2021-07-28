@@ -31,8 +31,6 @@ function Process(props) {
     data = [],
   } = props;
 
-  /** Use state */
-
   /*****************
    ** HANDLE FUNC **
    *****************/

@@ -216,7 +216,6 @@ function Watchers(props) {
                 !watched.status && cStyles.mt16,
                 !isIphoneX() && cStyles.mb16,
               ]}
-              containerStyle={[cStyles.rounded2, cStyles.fullHeight]}
               label={'project_management:list_watchers'}
               content={
                 <View>

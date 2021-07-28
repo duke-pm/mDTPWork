@@ -12,6 +12,7 @@ import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
 import {StyleSheet, View, Text, LayoutAnimation, UIManager} from 'react-native';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {showMessage} from 'react-native-flash-message';
 import LottieView from 'lottie-react-native';
 import moment from 'moment';
@@ -479,8 +480,8 @@ function Task(props) {
     <CContainer
       loading={false}
       content={
-        <CAvoidKeyboard>
-          <CContent>
+        <>
+          <KeyboardAwareScrollView contentInsetAdjustmentBehavior={'automatic'}>
             {!loading.main &&
               data.taskDetail &&
               data.taskDetail.taskTypeID !==
@@ -886,7 +887,7 @@ function Task(props) {
                 ) : null
               }
             />
-          </CContent>
+          </KeyboardAwareScrollView>
 
           <CAlert
             show={completed.show}
@@ -907,7 +908,7 @@ function Task(props) {
             }
             onClose={() => setCompleted({...completed, show: false})}
           />
-        </CAvoidKeyboard>
+        </>
       }
     />
   );

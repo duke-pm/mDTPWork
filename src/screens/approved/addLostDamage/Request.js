@@ -607,6 +607,7 @@ function AddRequest(props) {
       }
       content={
         <KeyboardAwareScrollView>
+          {/** Process of request */}
           {isDetail && (
             <Process
               data={process}

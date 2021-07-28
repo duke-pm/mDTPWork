@@ -33,15 +33,20 @@ if (IS_ANDROID) {
 }
 const CustomLayoutAnimated = {
   duration: 500,
-  update: {
+  create: {
     type: LayoutAnimation.Types.spring,
+    property: LayoutAnimation.Properties.scaleXY,
+    springDamping: 0.7,
+  },
+  update: {
+    type: LayoutAnimation.Types.easeIn,
     property: LayoutAnimation.Properties.scaleXY,
     springDamping: 1,
   },
   delete: {
     type: LayoutAnimation.Types.spring,
     property: LayoutAnimation.Properties.scaleXY,
-    springDamping: 1,
+    springDamping: 0.7,
   },
 };
 
