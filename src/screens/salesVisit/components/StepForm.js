@@ -186,6 +186,7 @@ function StepForm(props) {
   return (
     <TabView
       lazy
+      style={cStyles.flex1}
       initialLayout={styles.con_tab}
       navigationState={{index, routes}}
       renderScene={renderScene}
@@ -196,8 +197,8 @@ function StepForm(props) {
 }
 
 const styles = StyleSheet.create({
-  item: {height: 35, width: 35},
-  seprator: {borderRadius: 1},
+  item: {height: moderateScale(35), width: moderateScale(35)},
+  seprator: {borderRadius: moderateScale(1)},
   con_tab: {width: cStyles.deviceWidth},
 });
 

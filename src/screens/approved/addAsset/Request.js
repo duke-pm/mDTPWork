@@ -14,11 +14,11 @@ import {showMessage} from 'react-native-flash-message';
 import {ifIphoneX} from 'react-native-iphone-x-helper';
 import {StyleSheet, View} from 'react-native';
 import Picker from '@gregfrench/react-native-wheel-picker';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
-import CContent from '~/components/CContent';
 import CText from '~/components/CText';
 import CInput from '~/components/CInput';
 import CButton from '~/components/CButton';
@@ -26,13 +26,12 @@ import CAlert from '~/components/CAlert';
 import CActionSheet from '~/components/CActionSheet';
 import CLabel from '~/components/CLabel';
 import CGroupInfo from '~/components/CGroupInfo';
-import CAvoidKeyboard from '~/components/CAvoidKeyboard';
 import CActivityIndicator from '~/components/CActivityIndicator';
 import CTouchable from '~/components/CTouchable';
 import RejectModal from '../components/RejectModal';
-import RequestProcess from '../components/RequestProcess';
 import AssetsTable, {widthItemTable} from '../components/AssetsTable';
 import CheckOption from '../components/CheckOption';
+import Process from '../components/Process';
 /* COMMON */
 import Icons from '~/config/Icons';
 import Commons from '~/utils/common/Commons';
@@ -68,7 +67,7 @@ const RowSelect = (
           cStyles.itemsCenter,
           cStyles.justifyBetween,
           cStyles.rounded1,
-          cStyles.px16,
+          cStyles.px10,
           cStyles.borderAll,
           styles.row_select,
           isDark && cStyles.borderAllDark,
@@ -105,7 +104,6 @@ const INPUT_NAME = {
 };
 
 /** All refs use in this screen */
-const actionSheetProcessRef = createRef();
 const actionSheetDepartmentRef = createRef();
 let supplierRef = createRef();
 let newRef = createRef();
@@ -204,8 +202,6 @@ function AddRequest(props) {
   const handleReject = () => setShowReject(true);
 
   const handleApproved = () => setShowConfirm(!showConfirm);
-
-  const handleShowProcess = () => actionSheetProcessRef.current?.show();
 
   const handleChangeInput = inputRef => {
     if (inputRef) {
@@ -575,340 +571,275 @@ function AddRequest(props) {
         loading.submitReject
       }
       content={
-        <CAvoidKeyboard>
-          <CContent>
-            {isDetail && (
-              <CTouchable
-                containerStyle={[cStyles.rounded2, cStyles.mx32, cStyles.mt16]}
-                onPress={handleShowProcess}>
+        <KeyboardAwareScrollView>
+          {isDetail && (
+            <Process
+              data={process}
+              isDark={isDark}
+              customColors={customColors}
+              statusColor={route.params.currentProcess.statusColor}
+              statusName={route.params.data.statusName}
+              statusIcon={route.params.currentProcess.statusIcon}
+              statusID={route.params.data.statusID}
+            />
+          )}
+
+          {/** User request */}
+          <CGroupInfo
+            style={cStyles.pt16}
+            label={'add_approved_assets:info_user_request'}
+            content={
+              <>
                 <View
                   style={[
-                    cStyles.px10,
+                    cStyles.flex1,
                     cStyles.row,
-                    cStyles.center,
-                    cStyles.rounded2,
-                    cStyles.borderDashed,
-                    cStyles.borderAll,
-                    route.params.data.statusID <
-                      Commons.STATUS_REQUEST.DONE.value &&
-                      cStyles.justifyBetween,
-                    isDark && cStyles.borderAllDark,
-                    {backgroundColor: customColors.card},
+                    cStyles.itemsCenter,
+                    cStyles.justifyBetween,
                   ]}>
-                  <View style={[cStyles.center, cStyles.p10]}>
-                    <Icon
-                      name={route.params.currentProcess.statusIcon}
-                      size={moderateScale(30)}
-                      color={
-                        customColors[route.params.currentProcess.statusColor]
-                      }
-                    />
-                    <CText
-                      customStyles={[
-                        cStyles.textHeadline,
-                        {
-                          color:
-                            customColors[
-                              route.params.currentProcess.statusColor
-                            ],
-                        },
-                      ]}
-                      customLabel={route.params.data.statusName}
-                    />
-                  </View>
-
-                  {route.params.data.statusID <
-                    Commons.STATUS_REQUEST.DONE.value && (
-                    <Icon
-                      name={Icons.nextStep}
-                      size={moderateScale(25)}
-                      color={customColors.icon}
-                    />
-                  )}
-
-                  {route.params.data.statusID <
-                    Commons.STATUS_REQUEST.DONE.value && (
-                    <View style={[cStyles.center, cStyles.p10]}>
-                      <Icon
-                        name={Icons.alert}
-                        size={moderateScale(30)}
-                        color={customColors.orange}
-                      />
-                    </View>
-                  )}
-                </View>
-              </CTouchable>
-            )}
-
-            {/** User request */}
-            <CGroupInfo
-              style={cStyles.pt16}
-              label={'add_approved_assets:info_user_request'}
-              content={
-                <>
-                  <View
-                    style={[
-                      cStyles.flex1,
-                      cStyles.row,
-                      cStyles.itemsCenter,
-                      cStyles.justifyBetween,
-                    ]}>
-                    {/** Date request */}
-                    <View style={[cStyles.mr5, styles.con_left]}>
-                      <CInput
-                        name={INPUT_NAME.DATE_REQUEST}
-                        label={'add_approved_assets:date_request'}
-                        disabled={true}
-                        dateTimePicker={true}
-                        value={moment(form.dateRequest).format(formatDateView)}
-                        valueColor={customColors.text}
-                      />
-                    </View>
-
-                    {/** Region */}
-                    <View style={[cStyles.ml5, styles.con_right]}>
-                      <CLabel bold label={'add_approved_assets:region'} />
-                      {RowSelect(
-                        loading.main,
-                        true,
-                        isDark,
-                        customColors,
-                        masterState.get('region'),
-                        form.region,
-                        Commons.SCHEMA_DROPDOWN.REGION.label,
-                        Commons.SCHEMA_DROPDOWN.REGION.value,
-                        null,
-                      )}
-                    </View>
-                  </View>
-
-                  {/** Name */}
-                  <View style={cStyles.pt16}>
+                  {/** Date request */}
+                  <View style={[cStyles.mr5, styles.con_left]}>
                     <CInput
-                      name={INPUT_NAME.NAME}
-                      label={'add_approved_assets:name'}
-                      styleFocus={styles.input_focus}
+                      name={INPUT_NAME.DATE_REQUEST}
+                      label={'add_approved_assets:date_request'}
                       disabled={true}
-                      holder={'add_approved_assets:name'}
-                      value={form.name}
+                      dateTimePicker={true}
+                      value={moment(form.dateRequest).format(formatDateView)}
                       valueColor={customColors.text}
-                      keyboard={'default'}
-                      returnKey={'next'}
                     />
                   </View>
 
-                  {/** Department */}
-                  <View style={cStyles.pt16}>
-                    <CLabel bold label={'add_approved_assets:department'} />
+                  {/** Region */}
+                  <View style={[cStyles.ml5, styles.con_right]}>
+                    <CLabel bold label={'add_approved_assets:region'} />
                     {RowSelect(
                       loading.main,
                       true,
                       isDark,
                       customColors,
-                      masterState.get('department'),
-                      form.department,
-                      Commons.SCHEMA_DROPDOWN.DEPARTMENT.label,
-                      Commons.SCHEMA_DROPDOWN.DEPARTMENT.value,
+                      masterState.get('region'),
+                      form.region,
+                      Commons.SCHEMA_DROPDOWN.REGION.label,
+                      Commons.SCHEMA_DROPDOWN.REGION.value,
                       null,
                     )}
                   </View>
+                </View>
 
-                  {/** Where use */}
-                  <View style={cStyles.pt16}>
-                    <CLabel bold label={'add_approved_assets:where_use'} />
-                    {RowSelect(
-                      loading.main,
-                      loading.main || loading.submitAdd || isDetail,
-                      isDark,
-                      customColors,
-                      masterState.get('department'),
-                      form.whereUse,
-                      Commons.SCHEMA_DROPDOWN.DEPARTMENT.label,
-                      Commons.SCHEMA_DROPDOWN.DEPARTMENT.value,
-                      () => actionSheetDepartmentRef.current?.show(),
-                    )}
-                  </View>
-
-                  {/** Reason */}
-                  <View style={cStyles.pt16}>
-                    <CInput
-                      name={INPUT_NAME.REASON}
-                      label={'add_approved_assets:reason'}
-                      caption={'common:optional'}
-                      style={[cStyles.itemsStart, styles.input_multiline]}
-                      styleFocus={styles.input_focus}
-                      disabled={loading.main || loading.submitAdd || isDetail}
-                      holder={'add_approved_assets:holder_reason'}
-                      value={form.reason}
-                      returnKey={'next'}
-                      multiline={true}
-                      onChangeInput={() => handleChangeInput(supplierRef)}
-                      onChangeValue={handleChangeText}
-                    />
-                  </View>
-                </>
-              }
-            />
-
-            {/** Assets */}
-            <CGroupInfo
-              label={'add_approved_assets:info_assets'}
-              content={
-                <AssetsTable
-                  loading={
-                    loading.main ||
-                    loading.submitAdd ||
-                    loading.submitApproved ||
-                    loading.submitReject
-                  }
-                  checking={loading.submitAdd}
-                  isDetail={isDetail}
-                  assets={form.assets}
-                  onCallbackValidate={onCallbackValidate}
-                />
-              }
-            />
-
-            {/** Other info */}
-            <CGroupInfo
-              label={'add_approved_assets:info_other'}
-              content={
-                <>
-                  {/** Supplier */}
+                {/** Name */}
+                <View style={cStyles.pt16}>
                   <CInput
-                    name={INPUT_NAME.SUPPLIER}
-                    label={'add_approved_assets:supplier'}
-                    caption={'common:optional'}
+                    name={INPUT_NAME.NAME}
+                    label={'add_approved_assets:name'}
                     styleFocus={styles.input_focus}
-                    inputRef={ref => (supplierRef = ref)}
-                    disabled={loading.main || loading.submitAdd || isDetail}
-                    holder={'add_approved_assets:holder_supplier'}
-                    value={form.supplier}
+                    disabled={true}
+                    holder={'add_approved_assets:name'}
+                    value={form.name}
+                    valueColor={customColors.text}
                     keyboard={'default'}
-                    returnKey={'done'}
-                    onChangeInput={onSendRequest}
+                    returnKey={'next'}
+                  />
+                </View>
+
+                {/** Department */}
+                <View style={cStyles.pt16}>
+                  <CLabel bold label={'add_approved_assets:department'} />
+                  {RowSelect(
+                    loading.main,
+                    true,
+                    isDark,
+                    customColors,
+                    masterState.get('department'),
+                    form.department,
+                    Commons.SCHEMA_DROPDOWN.DEPARTMENT.label,
+                    Commons.SCHEMA_DROPDOWN.DEPARTMENT.value,
+                    null,
+                  )}
+                </View>
+
+                {/** Where use */}
+                <View style={cStyles.pt16}>
+                  <CLabel bold label={'add_approved_assets:where_use'} />
+                  {RowSelect(
+                    loading.main,
+                    loading.main || loading.submitAdd || isDetail,
+                    isDark,
+                    customColors,
+                    masterState.get('department'),
+                    form.whereUse,
+                    Commons.SCHEMA_DROPDOWN.DEPARTMENT.label,
+                    Commons.SCHEMA_DROPDOWN.DEPARTMENT.value,
+                    () => actionSheetDepartmentRef.current?.show(),
+                  )}
+                </View>
+
+                {/** Reason */}
+                <View style={cStyles.pt16}>
+                  <CInput
+                    name={INPUT_NAME.REASON}
+                    label={'add_approved_assets:reason'}
+                    caption={'common:optional'}
+                    style={[cStyles.itemsStart, styles.input_multiline]}
+                    styleFocus={styles.input_focus}
+                    disabled={loading.main || loading.submitAdd || isDetail}
+                    holder={'add_approved_assets:holder_reason'}
+                    value={form.reason}
+                    returnKey={'next'}
+                    multiline={true}
+                    onChangeInput={() => handleChangeInput(supplierRef)}
                     onChangeValue={handleChangeText}
                   />
-
-                  {/** Type assets */}
-                  <View
-                    style={
-                      isDetail
-                        ? [cStyles.justifyCenter, cStyles.mt16]
-                        : cStyles.mt16
-                    }>
-                    <CLabel bold label={'add_approved_assets:type_assets'} />
-                    <CheckOption
-                      loading={loading.main || loading.submitAdd}
-                      isDetail={isDetail}
-                      customColors={customColors}
-                      value={form.typeAssets}
-                      values={dataTypeAssets}
-                      onCallback={onCallbackTypeAsset}
-                    />
-                  </View>
-
-                  {/** In Planning */}
-                  <View
-                    style={
-                      isDetail
-                        ? [cStyles.justifyCenter, cStyles.mt16]
-                        : cStyles.mt16
-                    }>
-                    <CLabel bold label={'add_approved_assets:in_planning'} />
-                    <CheckOption
-                      loading={loading.main || loading.submitAdd}
-                      isDetail={isDetail}
-                      customColors={customColors}
-                      value={form.inPlanning}
-                      values={dataInPlanning}
-                      onCallback={onCallbackInplanning}
-                    />
-                  </View>
-                </>
-              }
-            />
-
-            {isDetail && (
-              <CActionSheet actionRef={actionSheetProcessRef}>
-                <RequestProcess
-                  data={process}
-                  customColors={customColors}
-                  isDark={isDark}
-                />
-              </CActionSheet>
-            )}
-
-            {!isDetail && (
-              <CActionSheet
-                actionRef={actionSheetDepartmentRef}
-                headerChoose
-                onConfirm={handleChangeWhereUse}>
-                <View style={cStyles.px16}>
-                  <CInput
-                    containerStyle={cStyles.mb10}
-                    styleFocus={styles.input_focus}
-                    disabled={loading.main || loading.submitAdd || isDetail}
-                    holder={'add_approved_assets:holder_where_use'}
-                    icon={Icons.search}
-                    value={findWhereUse}
-                    keyboard={'default'}
-                    returnKey={'done'}
-                    onChangeValue={onSearchFilter}
-                  />
-                  <Picker
-                    style={[styles.con_action, cStyles.justifyCenter]}
-                    itemStyle={{
-                      fontSize: moderateScale(21),
-                      color: customColors.text,
-                    }}
-                    selectedValue={whereUse}
-                    onValueChange={onChangeWhereUse}>
-                    {dataWhereUse.length > 0 ? (
-                      dataWhereUse.map((value, i) => (
-                        <Picker.Item
-                          label={
-                            value[Commons.SCHEMA_DROPDOWN.DEPARTMENT.label]
-                          }
-                          value={i}
-                          key={value}
-                        />
-                      ))
-                    ) : (
-                      <View style={[cStyles.center, styles.content_picker]}>
-                        <CText
-                          styles={'textCaption1'}
-                          label={'add_approved_assets:holder_empty_department'}
-                        />
-                      </View>
-                    )}
-                  </Picker>
                 </View>
-              </CActionSheet>
-            )}
+              </>
+            }
+          />
 
-            {/** MODAL */}
-            {isShowApprovedReject && (
-              <RejectModal
-                loading={loading.submitReject}
-                showReject={showReject}
-                description={'add_approved_assets:message_confirm_reject'}
-                onReject={onReject}
-                onCloseReject={onCloseReject}
+          {/** Assets */}
+          <CGroupInfo
+            label={'add_approved_assets:info_assets'}
+            content={
+              <AssetsTable
+                loading={
+                  loading.main ||
+                  loading.submitAdd ||
+                  loading.submitApproved ||
+                  loading.submitReject
+                }
+                checking={loading.submitAdd}
+                isDetail={isDetail}
+                assets={form.assets}
+                onCallbackValidate={onCallbackValidate}
               />
-            )}
+            }
+          />
 
-            {isShowApprovedReject && (
-              <CAlert
-                loading={loading.submitApproved}
-                show={showConfirm}
-                content={'add_approved_assets:message_confirm_approved'}
-                onClose={handleApproved}
-                onOK={onApproved}
-              />
-            )}
-          </CContent>
-        </CAvoidKeyboard>
+          {/** Other info */}
+          <CGroupInfo
+            label={'add_approved_assets:info_other'}
+            content={
+              <>
+                {/** Supplier */}
+                <CInput
+                  name={INPUT_NAME.SUPPLIER}
+                  label={'add_approved_assets:supplier'}
+                  caption={'common:optional'}
+                  styleFocus={styles.input_focus}
+                  inputRef={ref => (supplierRef = ref)}
+                  disabled={loading.main || loading.submitAdd || isDetail}
+                  holder={'add_approved_assets:holder_supplier'}
+                  value={form.supplier}
+                  keyboard={'default'}
+                  returnKey={'done'}
+                  onChangeInput={onSendRequest}
+                  onChangeValue={handleChangeText}
+                />
+
+                {/** Type assets */}
+                <View
+                  style={
+                    isDetail
+                      ? [cStyles.justifyCenter, cStyles.mt16]
+                      : cStyles.mt16
+                  }>
+                  <CLabel bold label={'add_approved_assets:type_assets'} />
+                  <CheckOption
+                    loading={loading.main || loading.submitAdd}
+                    isDetail={isDetail}
+                    customColors={customColors}
+                    value={form.typeAssets}
+                    values={dataTypeAssets}
+                    onCallback={onCallbackTypeAsset}
+                  />
+                </View>
+
+                {/** In Planning */}
+                <View
+                  style={
+                    isDetail
+                      ? [cStyles.justifyCenter, cStyles.mt16]
+                      : cStyles.mt16
+                  }>
+                  <CLabel bold label={'add_approved_assets:in_planning'} />
+                  <CheckOption
+                    loading={loading.main || loading.submitAdd}
+                    isDetail={isDetail}
+                    customColors={customColors}
+                    value={form.inPlanning}
+                    values={dataInPlanning}
+                    onCallback={onCallbackInplanning}
+                  />
+                </View>
+              </>
+            }
+          />
+
+          {!isDetail && (
+            <CActionSheet
+              actionRef={actionSheetDepartmentRef}
+              headerChoose
+              onConfirm={handleChangeWhereUse}>
+              <View style={cStyles.px16}>
+                <CInput
+                  containerStyle={cStyles.mb10}
+                  styleFocus={styles.input_focus}
+                  disabled={loading.main || loading.submitAdd || isDetail}
+                  holder={'add_approved_assets:holder_where_use'}
+                  icon={Icons.search}
+                  value={findWhereUse}
+                  keyboard={'default'}
+                  returnKey={'done'}
+                  onChangeValue={onSearchFilter}
+                />
+                <Picker
+                  style={[styles.con_action, cStyles.justifyCenter]}
+                  itemStyle={{
+                    fontSize: moderateScale(21),
+                    color: customColors.text,
+                  }}
+                  selectedValue={whereUse}
+                  onValueChange={onChangeWhereUse}>
+                  {dataWhereUse.length > 0 ? (
+                    dataWhereUse.map((value, i) => (
+                      <Picker.Item
+                        label={value[Commons.SCHEMA_DROPDOWN.DEPARTMENT.label]}
+                        value={i}
+                        key={value}
+                      />
+                    ))
+                  ) : (
+                    <View style={[cStyles.center, styles.content_picker]}>
+                      <CText
+                        styles={'textCaption1'}
+                        label={'add_approved_assets:holder_empty_department'}
+                      />
+                    </View>
+                  )}
+                </Picker>
+              </View>
+            </CActionSheet>
+          )}
+
+          {/** MODAL */}
+          {isShowApprovedReject && (
+            <RejectModal
+              loading={loading.submitReject}
+              showReject={showReject}
+              description={'add_approved_assets:message_confirm_reject'}
+              onReject={onReject}
+              onCloseReject={onCloseReject}
+            />
+          )}
+
+          {isShowApprovedReject && (
+            <CAlert
+              loading={loading.submitApproved}
+              show={showConfirm}
+              content={'add_approved_assets:message_confirm_approved'}
+              onClose={handleApproved}
+              onOK={onApproved}
+            />
+          )}
+        </KeyboardAwareScrollView>
       }
       footer={
         !isDetail ? (

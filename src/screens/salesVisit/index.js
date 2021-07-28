@@ -12,15 +12,16 @@ import CContent from '~/components/CContent';
 import StepForm from './components/StepForm';
 /* COMMON */
 import {cStyles} from '~/utils/style';
-/* REDUX */
 
 function SalesVisit(props) {
-
+  /************
+   ** RENDER **
+   ************/
   return (
     <CContainer
       loading={false}
       content={
-        <View style={cStyles.flex1}>
+        <CContent scrollEnabled={false}>
           <StepForm
             items={[
               {
@@ -49,7 +50,7 @@ function SalesVisit(props) {
               },
             ]}
           />
-        </View>
+        </CContent>
       }
     />
   );

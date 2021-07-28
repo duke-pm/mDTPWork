@@ -6,7 +6,7 @@
  ** CreateAt: 2021
  ** Description: Description of SignIn.js
  **/
-import React, {createRef, useState, useEffect} from 'react';
+import React, {createRef, useRef, useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
@@ -20,6 +20,7 @@ import {
   UIManager,
   LayoutAnimation,
   Alert,
+  Animated,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import LinearGradient from 'react-native-linear-gradient';
@@ -54,6 +55,7 @@ if (IS_ANDROID) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
   }
 }
+const AnimImage = Animated.createAnimatedComponent(FastImage);
 
 const INPUT_NAME = {
   USER_NAME: 'userName',
@@ -66,6 +68,8 @@ function SignIn(props) {
   const {t} = useTranslation();
   const {customColors} = useTheme();
   const {navigation} = props;
+
+  let animSizeImage = useRef(new Animated.Value(0)).current;
 
   /** Use redux */
   const dispatch = useDispatch();
@@ -321,6 +325,22 @@ function SignIn(props) {
     }
   };
 
+  const onKeyboardDidShow = event => {
+    Animated.timing(animSizeImage, {
+      duration: 300,
+      toValue: 1,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const onKeyboardDidHide = event => {
+    Animated.timing(animSizeImage, {
+      duration: 300,
+      toValue: 0,
+      useNativeDriver: true,
+    }).start();
+  };
+
   /****************
    ** LIFE CYCLE **
    ****************/
@@ -347,9 +367,28 @@ function SignIn(props) {
     authState.get('errorLogin'),
   ]);
 
+  useEffect(() => {
+    let keyboardDidShowSub = null,
+      keyboardDidHideSub = null;
+    keyboardDidShowSub = Keyboard.addListener('keyboardDidShow', () =>
+      onKeyboardDidShow(),
+    );
+    keyboardDidHideSub = Keyboard.addListener('keyboardDidHide', () =>
+      onKeyboardDidHide(),
+    );
+    () => {
+      keyboardDidShowSub && keyboardDidShowSub.remove();
+      keyboardDidHideSub && keyboardDidHideSub.remove();
+    };
+  }, []);
+
   /************
    ** RENDER **
    ************/
+  const animScaleLogo = animSizeImage.interpolate({
+    inputRange: [0, 1],
+    outputRange: [1, 0.7],
+  });
   return (
     <CContainer
       safeArea={{
@@ -371,8 +410,11 @@ function SignIn(props) {
                       cStyles.itemsCenter,
                       styles.container_logo,
                     ]}>
-                    <FastImage
-                      style={styles.logo}
+                    <AnimImage
+                      style={[
+                        styles.logo,
+                        {transform: [{scale: animScaleLogo}]},
+                      ]}
                       source={Assets.imgLogo}
                       resizeMode={FastImage.resizeMode.contain}
                       cache={FastImage.cacheControl.immutable}
@@ -400,7 +442,7 @@ function SignIn(props) {
                       onChangeValue={handleChangeText}
                     />
 
-                    <View style={{paddingVertical: verticalScale(3)}} />
+                    <View style={cStyles.py4} />
 
                     <CInput
                       name={INPUT_NAME.PASSWORD}
@@ -477,7 +519,7 @@ const styles = StyleSheet.create({
     height: verticalScale(550),
     paddingHorizontal: moderateScale(14),
   },
-  logo: {height: moderateScale(250), width: moderateScale(250)},
+  logo: {height: moderateScale(180), width: moderateScale(250)},
 });
 
 export default SignIn;

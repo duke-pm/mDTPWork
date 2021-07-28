@@ -38,6 +38,7 @@ function CInput(props) {
     styleInput = {},
 
     disabled = false,
+    row = false,
 
     icon = null,
     iconColor = customColors.icon,
@@ -60,7 +61,7 @@ function CInput(props) {
     dateTimePicker = false,
     hasRemove = false,
 
-    onLayout = null,
+    onLayout = undefined,
     onContentSizeChange = null,
     onChangeInput = null,
     onChangeValue = null,
@@ -88,7 +89,7 @@ function CInput(props) {
     }
   };
 
-  const handleFocusInput = () => {
+  const handleFocusInput = e => {
     setFocus(props.name);
   };
 
@@ -113,168 +114,191 @@ function CInput(props) {
    **************/
   const Component = disabled ? View : TouchableOpacity;
   return (
-    <View style={[cStyles.fullWidth, containerStyle]}>
-      <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween]}>
-        {label && <CLabel bold label={label} />}
-        {caption && <CText styles={'textCaption1'} label={caption} />}
-      </View>
+    <View
+      style={[
+        cStyles.fullWidth,
+        row && cStyles.row,
+        row && cStyles.itemsCenter,
+        row && cStyles.justifyBetween,
+        containerStyle,
+      ]}
+      onLayout={onLayout}>
       <View
         style={[
           cStyles.row,
           cStyles.itemsCenter,
-          cStyles.rounded1,
-          cStyles.mt6,
-          cStyles.borderAll,
-          isDark && cStyles.borderAllDark,
-          styles.con_input,
-          disabled && {backgroundColor: customColors.cardDisable},
-          props.error && {borderColor: customColors.red},
-          !disabled && isDark && {backgroundColor: colors.TRANSPARENT},
-          disabled && isDark && {backgroundColor: customColors.cardDisable},
-          style,
-          focus === props.name && [styles.input_focus, styleFocus],
+          cStyles.justifyBetween,
+          row && cStyles.mt6,
+          row && styles.con_left,
         ]}>
-        {icon && (
-          <TouchableOpacity onPress={onPressIconFirst}>
-            <View
-              style={[
-                cStyles.borderRight,
-                cStyles.center,
-                styles.con_input_icon,
-                isDark && cStyles.borderRightDark,
-              ]}>
-              {typeof icon === 'string' ? (
-                <Icon name={icon} color={iconColor} size={moderateScale(21)} />
-              ) : (
-                <Image
-                  style={{height: moderateScale(21), width: moderateScale(21)}}
-                  source={icon}
-                />
-              )}
-            </View>
-          </TouchableOpacity>
-        )}
-
-        <View style={[cStyles.flex1, cStyles.px12]}>
-          {dateTimePicker && (
-            <View
-              style={[
-                cStyles.fullWidth,
-                isDark && {backgroundColor: colors.TRANSPARENT},
-              ]}>
-              <CText customLabel={props.value} />
-            </View>
+        {label && <CLabel bold label={label} />}
+        {caption && <CText styles={'textCaption1'} label={caption} />}
+      </View>
+      <View style={[row && styles.con_right]}>
+        <View
+          style={[
+            cStyles.row,
+            cStyles.itemsCenter,
+            cStyles.rounded1,
+            cStyles.mt6,
+            cStyles.borderAll,
+            isDark && cStyles.borderAllDark,
+            styles.con_input,
+            disabled && {backgroundColor: customColors.cardDisable},
+            props.error && {borderColor: customColors.red},
+            !disabled && isDark && {backgroundColor: colors.TRANSPARENT},
+            disabled && isDark && {backgroundColor: customColors.cardDisable},
+            style,
+            focus === props.name && [styles.input_focus, styleFocus],
+          ]}>
+          {icon && (
+            <TouchableOpacity onPress={onPressIconFirst}>
+              <View
+                style={[
+                  cStyles.borderRight,
+                  cStyles.center,
+                  styles.con_input_icon,
+                  isDark && cStyles.borderRightDark,
+                ]}>
+                {typeof icon === 'string' ? (
+                  <Icon
+                    name={icon}
+                    color={iconColor}
+                    size={moderateScale(21)}
+                  />
+                ) : (
+                  <Image
+                    style={{
+                      height: moderateScale(21),
+                      width: moderateScale(21),
+                    }}
+                    source={icon}
+                  />
+                )}
+              </View>
+            </TouchableOpacity>
           )}
 
-          {!dateTimePicker && (
-            <TextInput
-              ref={props.inputRef}
+          <View style={[cStyles.flex1, cStyles.px10]}>
+            {dateTimePicker && (
+              <View
+                style={[
+                  cStyles.fullWidth,
+                  isDark && {backgroundColor: colors.TRANSPARENT},
+                ]}>
+                <CText customLabel={props.value} />
+              </View>
+            )}
+
+            {!dateTimePicker && (
+              <TextInput
+                ref={props.inputRef}
+                style={[
+                  multiline && cStyles.justifyStart,
+                  multiline && cStyles.flex1,
+                  multiline && cStyles.textAliVerTop,
+                  cStyles.textBody,
+                  {color: customColors.text},
+                  styleInput,
+                ]}
+                editable={!disabled}
+                placeholder={t(holder)}
+                placeholderTextColor={holderColor}
+                selectionColor={selectionColor || customColors.text}
+                value={props.value}
+                autoCompleteType={'off'}
+                autoFocus={autoFocus}
+                autoCapitalize
+                autoCorrect={false}
+                secureTextEntry={password && !showPassword}
+                enablesReturnKeyAutomatically={true}
+                blurOnSubmit={true}
+                selectTextOnFocus={true}
+                textAlign={textAlign}
+                allowFontScaling={false}
+                removeClippedSubviews={IS_ANDROID}
+                keyboardAppearance={isDark ? THEME_DARK : THEME_LIGHT}
+                keyboardType={keyboard}
+                returnKeyType={returnKey}
+                multiline={multiline}
+                numberOfLines={numberOfLines}
+                onContentSizeChange={onContentSizeChange}
+                onFocus={handleFocusInput}
+                onBlur={() => setFocus(null)}
+                onChangeText={handleChangeValue}
+                onSubmitEditing={handleSubmitEditing}
+              />
+            )}
+          </View>
+
+          {hasRemove && props.value !== '' && (
+            <Component
+              style={[cStyles.center, styles.con_input_icon]}
+              onPress={handleRemoveValue}>
+              <Icon
+                name={Icons.close}
+                color={customColors.red}
+                size={moderateScale(21)}
+              />
+            </Component>
+          )}
+
+          {iconLast && (
+            <Component
               style={[
-                multiline && cStyles.justifyStart,
-                multiline && cStyles.flex1,
-                multiline && cStyles.textAliVerTop,
-                cStyles.textBody,
-                {color: customColors.text},
-                styleInput,
+                cStyles.center,
+                cStyles.roundedTopRight1,
+                cStyles.roundedBottomRight1,
+                {backgroundColor: customColors.cardDisable},
+                styles.con_input_icon,
+                iconLastStyle,
               ]}
-              editable={!disabled}
-              placeholder={t(holder)}
-              placeholderTextColor={holderColor}
-              selectionColor={selectionColor || customColors.text}
-              value={props.value}
-              autoCompleteType={'off'}
-              autoFocus={autoFocus}
-              autoCapitalize
-              autoCorrect={false}
-              secureTextEntry={password && !showPassword}
-              enablesReturnKeyAutomatically={true}
-              blurOnSubmit={true}
-              selectTextOnFocus={true}
-              textAlign={textAlign}
-              allowFontScaling={false}
-              removeClippedSubviews={IS_ANDROID}
-              keyboardAppearance={isDark ? THEME_DARK : THEME_LIGHT}
-              keyboardType={keyboard}
-              returnKeyType={returnKey}
-              multiline={multiline}
-              numberOfLines={numberOfLines}
-              onContentSizeChange={onContentSizeChange}
-              onLayout={onLayout}
-              onFocus={handleFocusInput}
-              onBlur={() => setFocus(null)}
-              onChangeText={handleChangeValue}
-              onSubmitEditing={handleSubmitEditing}
-            />
+              onPress={handleIconLast}>
+              <Icon
+                name={iconLast}
+                color={customColors.icon}
+                size={moderateScale(21)}
+              />
+            </Component>
+          )}
+
+          {password && (
+            <Component
+              style={[
+                cStyles.center,
+                cStyles.roundedTopRight1,
+                cStyles.roundedBottomRight1,
+                styles.con_input_icon,
+                iconLastStyle,
+              ]}
+              onPress={handleShowPassword}>
+              <Icon
+                name={showPassword ? Icons.eyeOff : Icons.eye}
+                color={colors.GRAY_500}
+                size={moderateScale(21)}
+              />
+            </Component>
           )}
         </View>
-
-        {hasRemove && props.value !== '' && (
-          <Component
-            style={[cStyles.center, styles.con_input_icon]}
-            onPress={handleRemoveValue}>
+        {props.error && (
+          <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pt6]}>
             <Icon
-              name={Icons.close}
+              name={Icons.alert}
               color={customColors.red}
-              size={moderateScale(21)}
+              size={moderateScale(14)}
             />
-          </Component>
-        )}
-
-        {iconLast && (
-          <Component
-            style={[
-              cStyles.center,
-              cStyles.roundedTopRight1,
-              cStyles.roundedBottomRight1,
-              {backgroundColor: customColors.cardDisable},
-              styles.con_input_icon,
-              iconLastStyle,
-            ]}
-            onPress={handleIconLast}>
-            <Icon
-              name={iconLast}
-              color={customColors.icon}
-              size={moderateScale(21)}
+            <CText
+              customStyles={[
+                cStyles.textCaption1,
+                cStyles.pl6,
+                {color: customColors.red},
+              ]}
+              label={t(props.errorHelper)}
+              customLabel={props.errorHelperCustom}
             />
-          </Component>
-        )}
-
-        {password && (
-          <Component
-            style={[
-              cStyles.center,
-              cStyles.roundedTopRight1,
-              cStyles.roundedBottomRight1,
-              styles.con_input_icon,
-              iconLastStyle,
-            ]}
-            onPress={handleShowPassword}>
-            <Icon
-              name={showPassword ? Icons.eyeOff : Icons.eye}
-              color={colors.GRAY_500}
-              size={moderateScale(21)}
-            />
-          </Component>
+          </View>
         )}
       </View>
-      {props.error && (
-        <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pt6]}>
-          <Icon
-            name={Icons.alert}
-            color={customColors.red}
-            size={moderateScale(14)}
-          />
-          <CText
-            customStyles={[
-              cStyles.textCaption1,
-              cStyles.pl6,
-              {color: customColors.red},
-            ]}
-            label={t(props.errorHelper)}
-            customLabel={props.errorHelperCustom}
-          />
-        </View>
-      )}
     </View>
   );
 }
@@ -311,6 +335,8 @@ const styles = StyleSheet.create({
       ? verticalScale(38)
       : ifIphoneX(verticalScale(30), verticalScale(36)),
   },
+  con_left: {flex: 0.4},
+  con_right: {flex: 0.6},
 });
 
 export default CInput;

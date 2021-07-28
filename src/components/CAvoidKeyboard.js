@@ -4,9 +4,9 @@
  ** CreateAt: 2021
  ** Description: Description of CAvoidKeyboard.js
  **/
+import PropTypes from 'prop-types';
 import React, {Component} from 'react';
 import {Animated, Keyboard} from 'react-native';
-import PropTypes from 'prop-types';
 /** COMMON */
 import {cStyles} from '~/utils/style';
 import {IS_ANDROID, moderateScale} from '~/utils/helper';
@@ -18,10 +18,6 @@ class CAvoidKeyboard extends Component {
       animatedViewHeight: new Animated.Value(0),
       viewHeight: 0,
     };
-
-    this.setViewHeightOnce = this.setViewHeightOnce.bind(this);
-    this.keyboardWillShow = this.keyboardWillShow.bind(this);
-    this.keyboardWillHide = this.keyboardWillHide.bind(this);
     this.keyboardDidShowListener = Keyboard.addListener(
       'keyboardWillShow',
       this.keyboardWillShow,
@@ -32,23 +28,17 @@ class CAvoidKeyboard extends Component {
     );
   }
 
-  componentWillUnmount() {
-    this.keyboardDidShowListener && this.keyboardDidShowListener.remove();
-    this.keyboardDidHideListener && this.keyboardDidHideListener.remove();
-  }
-
-  setViewHeightOnce(event) {
+  setViewHeightOnce = event => {
     const {height} = event.nativeEvent.layout;
     if (this.state.viewHeight === 0) {
-      const avoidPaddingBottom = moderateScale(64);
       this.setState({
-        viewHeight: height + avoidPaddingBottom,
-        animatedViewHeight: new Animated.Value(height + avoidPaddingBottom),
+        viewHeight: height,
+        animatedViewHeight: new Animated.Value(height),
       });
     }
-  }
+  };
 
-  keyboardWillShow(e) {
+  keyboardWillShow = e => {
     const {viewHeight} = this.state;
     if (viewHeight) {
       requestAnimationFrame(() => {
@@ -59,9 +49,9 @@ class CAvoidKeyboard extends Component {
         }).start();
       });
     }
-  }
+  };
 
-  keyboardWillHide() {
+  keyboardWillHide = () => {
     requestAnimationFrame(() => {
       Animated.timing(this.state.animatedViewHeight, {
         toValue: this.state.viewHeight,
@@ -69,6 +59,11 @@ class CAvoidKeyboard extends Component {
         useNativeDriver: IS_ANDROID,
       }).start();
     });
+  };
+
+  componentWillUnmount() {
+    this.keyboardDidShowListener && this.keyboardDidShowListener.remove();
+    this.keyboardDidHideListener && this.keyboardDidHideListener.remove();
   }
 
   render() {

@@ -16,8 +16,8 @@ import {moderateScale} from '~/utils/helper';
 
 function CGroupInfo({
   style = {},
-  contentStyle = {},
   containerLabelStyle = {},
+  contentStyle = {},
   labelStyle = {},
   loading = false,
   label = null,
@@ -44,6 +44,7 @@ function CGroupInfo({
       )}
       <View
         style={[
+          cStyles.flex1,
           cStyles.rounded2,
           cStyles.m16,
           cStyles.mt10,

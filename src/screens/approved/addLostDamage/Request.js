@@ -12,6 +12,7 @@ import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
 import {showMessage} from 'react-native-flash-message';
 import {ifIphoneX} from 'react-native-iphone-x-helper';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {
   StyleSheet,
   View,
@@ -24,7 +25,6 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
-import CContent from '~/components/CContent';
 import CText from '~/components/CText';
 import CInput from '~/components/CInput';
 import CCard from '~/components/CCard';
@@ -32,13 +32,12 @@ import CButton from '~/components/CButton';
 import CActionSheet from '~/components/CActionSheet';
 import CAlert from '~/components/CAlert';
 import CLabel from '~/components/CLabel';
-import CAvoidKeyboard from '~/components/CAvoidKeyboard';
 import CGroupInfo from '~/components/CGroupInfo';
 import CActivityIndicator from '~/components/CActivityIndicator';
 import CTouchable from '~/components/CTouchable';
 import RejectModal from '../components/RejectModal';
-import RequestProcess from '../components/RequestProcess';
 import CheckOption from '../components/CheckOption';
+import Process from '../components/Process';
 /* COMMON */
 import Icons from '~/config/Icons';
 import Commons from '~/utils/common/Commons';
@@ -52,7 +51,6 @@ import {
 import {THEME_DARK, DEFAULT_FORMAT_DATE_4} from '~/config/constants';
 /* REDUX */
 import * as Actions from '~/redux/actions';
-
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -67,7 +65,7 @@ const INPUT_NAME = {
   FILE: 'file',
 };
 
-const actionSheetProcessRef = createRef();
+/** All refs use in this screen */
 const actionSheetAssetsRef = createRef();
 let damageRef = createRef();
 let lostRef = createRef();
@@ -114,7 +112,7 @@ const RowSelect = (
             cStyles.row,
             cStyles.itemsCenter,
             cStyles.justifyBetween,
-            cStyles.px16,
+            cStyles.px10,
             cStyles.borderAll,
             isDark && cStyles.borderAllDark,
             error && {borderColor: customColors.red},
@@ -168,7 +166,6 @@ function AddRequest(props) {
   const {customColors} = useTheme();
   const isDark = useColorScheme() === THEME_DARK;
   const {navigation, route} = props;
-  const typeRequest = route.params.type || Commons.APPROVED_TYPE.DAMAGED.value;
 
   /** Use redux */
   const dispatch = useDispatch();
@@ -227,8 +224,6 @@ function AddRequest(props) {
   const handleReject = () => setShowReject(!showReject);
 
   const handleApproved = () => setShowConfirm(!showConfirm);
-
-  const handleShowProcess = () => actionSheetProcessRef.current?.show();
 
   const handleChangeText = (value, nameInput) => {
     setForm({...form, reason: value});
@@ -611,351 +606,284 @@ function AddRequest(props) {
         loading.submitReject
       }
       content={
-        <CAvoidKeyboard>
-          <CContent>
-            {isDetail && (
-              <CTouchable
-                containerStyle={[cStyles.rounded2, cStyles.mx32, cStyles.mt16]}
-                onPress={handleShowProcess}>
-                <View
-                  style={[
-                    cStyles.px10,
-                    cStyles.row,
-                    cStyles.center,
-                    cStyles.rounded2,
-                    cStyles.borderDashed,
-                    cStyles.borderAll,
-                    route.params.data.statusID <
-                      Commons.STATUS_REQUEST.DONE.value &&
-                      cStyles.justifyBetween,
-                    isDark && cStyles.borderAllDark,
-                    {backgroundColor: customColors.card},
-                  ]}>
-                  <View style={[cStyles.center, cStyles.p10]}>
-                    <Icon
-                      name={route.params.currentProcess.statusIcon}
-                      size={moderateScale(30)}
-                      color={
-                        customColors[route.params.currentProcess.statusColor]
-                      }
-                    />
-                    <CText
-                      customStyles={[
-                        cStyles.textHeadline,
-                        {
-                          color:
-                            customColors[
-                              route.params.currentProcess.statusColor
-                            ],
-                        },
-                      ]}
-                      customLabel={route.params.data.statusName}
-                    />
+        <KeyboardAwareScrollView>
+          {isDetail && (
+            <Process
+              data={process}
+              isDark={isDark}
+              customColors={customColors}
+              statusColor={route.params.currentProcess.statusColor}
+              statusName={route.params.data.statusName}
+              statusIcon={route.params.currentProcess.statusIcon}
+              statusID={route.params.data.statusID}
+            />
+          )}
+
+          {/** Date request */}
+          <CGroupInfo
+            style={cStyles.pt16}
+            label={'add_approved_lost_damaged:info_other'}
+            content={
+              <CInput
+                name={INPUT_NAME.DATE_REQUEST}
+                label={'add_approved_lost_damaged:date_request'}
+                disabled
+                dateTimePicker
+                value={moment(form.dateRequest).format(formatDateView)}
+                valueColor={colors.BLACK}
+              />
+            }
+          />
+
+          <CGroupInfo
+            label={'add_approved_lost_damaged:info_assets'}
+            content={
+              <>
+                {/** Assets */}
+                {!isDetail && (
+                  <View>
+                    <CLabel bold label={'add_approved_lost_damaged:assets'} />
+                    {RowSelect(
+                      t,
+                      loading.main,
+                      loading.main || loading.submitAdd || isDetail,
+                      error.assets.status,
+                      isDark,
+                      customColors,
+                      masterState.get('assetByUser'),
+                      form.assetID,
+                      Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.label,
+                      Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.value,
+                      () => actionSheetAssetsRef.current?.show(),
+                    )}
                   </View>
+                )}
 
-                  {route.params.data.statusID <
-                    Commons.STATUS_REQUEST.DONE.value && (
-                    <Icon
-                      name={Icons.nextStep}
-                      size={moderateScale(25)}
-                      color={customColors.icon}
-                    />
-                  )}
-
-                  {route.params.data.statusID <
-                    Commons.STATUS_REQUEST.DONE.value && (
-                    <View style={[cStyles.center, cStyles.p10]}>
-                      <Icon
-                        name={Icons.alert}
-                        size={moderateScale(30)}
-                        color={customColors.orange}
-                      />
-                    </View>
-                  )}
+                {/** Reason */}
+                <View style={!isDetail ? cStyles.pt16 : undefined}>
+                  <CInput
+                    name={INPUT_NAME.REASON}
+                    label={'add_approved_lost_damaged:reason'}
+                    style={[cStyles.itemsStart, styles.input_multiline]}
+                    styleFocus={styles.input_focus}
+                    disabled={loading.main || loading.submitAdd || isDetail}
+                    holder={'add_approved_lost_damaged:holder_reason'}
+                    value={form.reason}
+                    returnKey={'done'}
+                    multiline={true}
+                    error={error.reason.status}
+                    errorHelper={error.reason.helper}
+                    onChangeInput={Keyboard.dismiss}
+                    onChangeValue={handleChangeText}
+                  />
                 </View>
-              </CTouchable>
-            )}
 
-            {/** Date request */}
-            <CGroupInfo
-              style={cStyles.pt16}
-              label={'add_approved_lost_damaged:info_other'}
-              content={
-                <CInput
-                  name={INPUT_NAME.DATE_REQUEST}
-                  label={'add_approved_lost_damaged:date_request'}
-                  disabled
-                  dateTimePicker
-                  value={moment(form.dateRequest).format(formatDateView)}
-                  valueColor={colors.BLACK}
-                />
-              }
-            />
+                {/** Type update */}
+                <View
+                  style={
+                    isDetail
+                      ? [cStyles.row, cStyles.itemsCenter, cStyles.mt16]
+                      : cStyles.mt16
+                  }>
+                  <CLabel
+                    bold
+                    style={cStyles.pr16}
+                    label={'add_approved_lost_damaged:type_update'}
+                  />
+                  <CheckOption
+                    loading={loading.main || loading.submitAdd}
+                    isDetail={isDetail}
+                    customColors={customColors}
+                    value={form.typeUpdate}
+                    values={dataType}
+                    onCallback={onCallbackType}
+                  />
+                </View>
+              </>
+            }
+          />
 
-            <CGroupInfo
-              label={'add_approved_lost_damaged:info_assets'}
-              content={
-                <>
-                  {/** Assets */}
-                  {!isDetail && (
-                    <View>
-                      <CLabel bold label={'add_approved_lost_damaged:assets'} />
-                      {RowSelect(
-                        t,
-                        loading.main,
-                        loading.main || loading.submitAdd || isDetail,
-                        error.assets.status,
-                        isDark,
-                        customColors,
-                        masterState.get('assetByUser'),
-                        form.assetID,
-                        Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.label,
-                        Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.value,
-                        () => actionSheetAssetsRef.current?.show(),
-                      )}
-                    </View>
-                  )}
-
-                  {/** Reason */}
-                  <View style={!isDetail ? cStyles.pt16 : undefined}>
-                    <CInput
-                      name={INPUT_NAME.REASON}
-                      label={'add_approved_lost_damaged:reason'}
-                      style={[cStyles.itemsStart, styles.input_multiline]}
-                      styleFocus={styles.input_focus}
-                      disabled={loading.main || loading.submitAdd || isDetail}
-                      holder={'add_approved_lost_damaged:holder_reason'}
-                      value={form.reason}
-                      returnKey={'done'}
-                      multiline={true}
-                      error={error.reason.status}
-                      errorHelper={error.reason.helper}
-                      onChangeInput={Keyboard.dismiss}
-                      onChangeValue={handleChangeText}
-                    />
-                  </View>
-
-                  {/** Type update */}
-                  <View
-                    style={
-                      isDetail
-                        ? [cStyles.row, cStyles.itemsCenter, cStyles.mt16]
-                        : cStyles.mt16
-                    }>
-                    <CLabel
-                      bold
-                      style={cStyles.pr16}
-                      label={'add_approved_lost_damaged:type_update'}
-                    />
-                    <CheckOption
-                      loading={loading.main || loading.submitAdd}
-                      isDetail={isDetail}
-                      customColors={customColors}
-                      value={form.typeUpdate}
-                      values={dataType}
-                      onCallback={onCallbackType}
-                    />
-                  </View>
-                </>
-              }
-            />
-
-            {/** Assets for detail */}
-            {isDetail && (
-              <View style={cStyles.itemsCenter}>
-                <CCard
-                  containerStyle={[cStyles.rounded2, cStyles.mt16, styles.box]}
-                  customLabel={route.params?.data?.assetName}
-                  content={
-                    <>
-                      <View
-                        style={[
-                          cStyles.row,
-                          cStyles.itemsCenter,
-                          cStyles.justifyBetween,
-                        ]}>
-                        <View
-                          style={[
-                            cStyles.row,
-                            cStyles.justifyStart,
-                            styles.left,
-                          ]}>
-                          <CLabel
-                            label={
-                              'add_approved_lost_damaged:purchase_date_asset'
-                            }
-                          />
-                          <CLabel
-                            customLabel={moment(
-                              route.params?.data?.purchaseDate,
-                              DEFAULT_FORMAT_DATE_4,
-                            ).format(formatDateView)}
-                          />
-                        </View>
-                        <View
-                          style={[
-                            cStyles.row,
-                            cStyles.justifyStart,
-                            styles.right,
-                          ]}>
-                          <CLabel
-                            label={'add_approved_lost_damaged:type_asset'}
-                          />
-                          <CLabel
-                            customLabel={route.params?.data?.assetTypeName}
-                          />
-                        </View>
-                      </View>
-
-                      <View
-                        style={[
-                          cStyles.row,
-                          cStyles.itemsCenter,
-                          cStyles.justifyBetween,
-                          cStyles.mt5,
-                        ]}>
-                        <View
-                          style={[
-                            cStyles.row,
-                            cStyles.justifyStart,
-                            styles.left,
-                          ]}>
-                          <CLabel
-                            label={'add_approved_lost_damaged:price_asset'}
-                          />
-                          <CLabel
-                            customLabel={checkEmpty(
-                              route.params?.data?.originalPrice,
-                              null,
-                              true,
-                            )}
-                          />
-                        </View>
-                        <View
-                          style={[
-                            cStyles.row,
-                            cStyles.justifyStart,
-                            styles.right,
-                          ]}>
-                          <CLabel
-                            label={'add_approved_lost_damaged:status_asset'}
-                          />
-                          <CLabel
-                            customLabel={route.params?.data?.assetStatusName}
-                          />
-                        </View>
-                      </View>
-
+          {/** Assets for detail */}
+          {isDetail && (
+            <View style={[cStyles.itemsCenter, cStyles.pb16]}>
+              <CCard
+                containerStyle={[cStyles.rounded2, styles.box]}
+                customLabel={route.params?.data?.assetName}
+                content={
+                  <>
+                    <View
+                      style={[
+                        cStyles.row,
+                        cStyles.itemsCenter,
+                        cStyles.justifyBetween,
+                      ]}>
                       <View
                         style={[
                           cStyles.row,
                           cStyles.justifyStart,
-                          cStyles.mt5,
+                          styles.left,
                         ]}>
                         <CLabel
-                          label={'add_approved_lost_damaged:detail_asset'}
+                          label={
+                            'add_approved_lost_damaged:purchase_date_asset'
+                          }
+                        />
+                        <CLabel
+                          customLabel={moment(
+                            route.params?.data?.purchaseDate,
+                            DEFAULT_FORMAT_DATE_4,
+                          ).format(formatDateView)}
+                        />
+                      </View>
+                      <View
+                        style={[
+                          cStyles.row,
+                          cStyles.justifyStart,
+                          styles.right,
+                        ]}>
+                        <CLabel
+                          label={'add_approved_lost_damaged:type_asset'}
+                        />
+                        <CLabel
+                          customLabel={route.params?.data?.assetTypeName}
+                        />
+                      </View>
+                    </View>
+
+                    <View
+                      style={[
+                        cStyles.row,
+                        cStyles.itemsCenter,
+                        cStyles.justifyBetween,
+                        cStyles.mt5,
+                      ]}>
+                      <View
+                        style={[
+                          cStyles.row,
+                          cStyles.justifyStart,
+                          styles.left,
+                        ]}>
+                        <CLabel
+                          label={'add_approved_lost_damaged:price_asset'}
                         />
                         <CLabel
                           customLabel={checkEmpty(
-                            route.params?.data?.descr,
-                            t('common:empty_info'),
+                            route.params?.data?.originalPrice,
+                            null,
+                            true,
                           )}
                         />
                       </View>
-                    </>
-                  }
-                />
-              </View>
-            )}
-
-            {isDetail && (
-              <CActionSheet actionRef={actionSheetProcessRef}>
-                <RequestProcess
-                  data={process}
-                  customColors={customColors}
-                  isDark={isDark}
-                />
-              </CActionSheet>
-            )}
-
-            {/** MODAL */}
-            {!isDetail && (
-              <CActionSheet
-                actionRef={actionSheetAssetsRef}
-                headerChoose
-                onConfirm={handleChangeAssets}>
-                <View style={cStyles.px16}>
-                  {dataAssets.length > 0 && (
-                    <CInput
-                      containerStyle={cStyles.mb10}
-                      styleFocus={styles.input_focus}
-                      disabled={loading.main || loading.submitAdd || isDetail}
-                      holder={'add_approved_lost_damaged:search_assets'}
-                      value={findAssets}
-                      keyboard={'default'}
-                      returnKey={'done'}
-                      onChangeValue={onSearchFilter}
-                    />
-                  )}
-                  {dataAssets.length > 0 ? (
-                    <Picker
-                      style={styles.con_action}
-                      itemStyle={{
-                        fontSize: moderateScale(21),
-                        color: customColors.text,
-                      }}
-                      selectedValue={assets}
-                      onValueChange={onChangeAssets}>
-                      {dataAssets.map((value, i) => (
-                        <Picker.Item
-                          label={
-                            value[Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.label]
-                          }
-                          value={i}
-                          key={value}
+                      <View
+                        style={[
+                          cStyles.row,
+                          cStyles.justifyStart,
+                          styles.right,
+                        ]}>
+                        <CLabel
+                          label={'add_approved_lost_damaged:status_asset'}
                         />
-                      ))}
-                    </Picker>
-                  ) : (
-                    <View style={[cStyles.center, styles.content_picker]}>
+                        <CLabel
+                          customLabel={route.params?.data?.assetStatusName}
+                        />
+                      </View>
+                    </View>
+
+                    <View
+                      style={[cStyles.row, cStyles.justifyStart, cStyles.mt5]}>
                       <CLabel
-                        label={'add_approved_lost_damaged:holder_empty_assets'}
+                        label={'add_approved_lost_damaged:detail_asset'}
+                      />
+                      <CLabel
+                        customLabel={checkEmpty(
+                          route.params?.data?.descr,
+                          t('common:empty_info'),
+                        )}
                       />
                     </View>
-                  )}
-                </View>
-              </CActionSheet>
-            )}
-
-            {isShowApprovedReject && (
-              <RejectModal
-                loading={loading.submitReject}
-                showReject={showReject}
-                description={
-                  form.typeUpdate === Commons.APPROVED_TYPE.DAMAGED.value
-                    ? 'add_approved_lost_damaged:message_confirm_reject_damage'
-                    : 'add_approved_lost_damaged:message_confirm_reject_lost'
+                  </>
                 }
-                onReject={onReject}
-                onCloseReject={handleReject}
               />
-            )}
+            </View>
+          )}
 
-            {isShowApprovedReject && (
-              <CAlert
-                loading={loading.submitApproved}
-                show={showConfirm}
-                content={
-                  form.typeUpdate === Commons.APPROVED_TYPE.DAMAGED.value
-                    ? 'add_approved_lost_damaged:message_confirm_approved_damage'
-                    : 'add_approved_lost_damaged:message_confirm_approved_lost'
-                }
-                onClose={handleApproved}
-                onOK={onApproved}
-              />
-            )}
-          </CContent>
-        </CAvoidKeyboard>
+          {/** MODAL */}
+          {!isDetail && (
+            <CActionSheet
+              actionRef={actionSheetAssetsRef}
+              headerChoose
+              onConfirm={handleChangeAssets}>
+              <View style={cStyles.px16}>
+                {dataAssets.length > 0 && (
+                  <CInput
+                    containerStyle={cStyles.mb10}
+                    styleFocus={styles.input_focus}
+                    disabled={loading.main || loading.submitAdd || isDetail}
+                    holder={'add_approved_lost_damaged:search_assets'}
+                    value={findAssets}
+                    keyboard={'default'}
+                    returnKey={'done'}
+                    onChangeValue={onSearchFilter}
+                  />
+                )}
+                {dataAssets.length > 0 ? (
+                  <Picker
+                    style={styles.con_action}
+                    itemStyle={{
+                      fontSize: moderateScale(21),
+                      color: customColors.text,
+                    }}
+                    selectedValue={assets}
+                    onValueChange={onChangeAssets}>
+                    {dataAssets.map((value, i) => (
+                      <Picker.Item
+                        label={
+                          value[Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.label]
+                        }
+                        value={i}
+                        key={value}
+                      />
+                    ))}
+                  </Picker>
+                ) : (
+                  <View style={[cStyles.center, styles.content_picker]}>
+                    <CLabel
+                      label={'add_approved_lost_damaged:holder_empty_assets'}
+                    />
+                  </View>
+                )}
+              </View>
+            </CActionSheet>
+          )}
+
+          {isShowApprovedReject && (
+            <RejectModal
+              loading={loading.submitReject}
+              showReject={showReject}
+              description={
+                form.typeUpdate === Commons.APPROVED_TYPE.DAMAGED.value
+                  ? 'add_approved_lost_damaged:message_confirm_reject_damage'
+                  : 'add_approved_lost_damaged:message_confirm_reject_lost'
+              }
+              onReject={onReject}
+              onCloseReject={handleReject}
+            />
+          )}
+
+          {isShowApprovedReject && (
+            <CAlert
+              loading={loading.submitApproved}
+              show={showConfirm}
+              content={
+                form.typeUpdate === Commons.APPROVED_TYPE.DAMAGED.value
+                  ? 'add_approved_lost_damaged:message_confirm_approved_damage'
+                  : 'add_approved_lost_damaged:message_confirm_approved_lost'
+              }
+              onClose={handleApproved}
+              onOK={onApproved}
+            />
+          )}
+        </KeyboardAwareScrollView>
       }
       footer={
         !isDetail ? (

@@ -155,7 +155,7 @@ export function RootTab(props) {
       })}
       tabBarOptions={{
         activeTintColor: IS_IOS ? customColors.blue : customColors.primary,
-        inactiveTintColor: customColors.textDisable,
+        inactiveTintColor: customColors.text,
         keyboardHidesTabBar: true,
       }}
       tabBar={
@@ -374,6 +374,8 @@ export function RootMain(props) {
         options={{
           headerStyle: headerStyles,
           headerBackTitle: t('common:back'),
+          headerLargeTitle: false,
+          headerTranslucent: false,
         }}
       />
       <StackMain.Screen
@@ -382,6 +384,8 @@ export function RootMain(props) {
         options={{
           headerStyle: headerStyles,
           headerBackTitle: t('common:back'),
+          headerLargeTitle: false,
+          headerTranslucent: false,
         }}
       />
       <StackMain.Screen

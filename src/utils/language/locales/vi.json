@@ -282,7 +282,7 @@
     "table_process": "Quy trình xét duyệt",
     "status_wait": "Chờ phê duyệt",
     "search_department": "Tìm bộ phận...",
-    "detail": "Chi tiết cấp phát",
+    "detail": "Chi tiết cấp phát số",
     "info_user_request": "Thông tin người yêu cầu",
     "info_assets": "Thông tin tài sản",
     "info_other": "Thông tin khác",
@@ -455,6 +455,22 @@
     "title": "Sales Visit",
     "title_contact_information": "Thông tin căn bản",
     "first_name": "Tên",
-    "last_name": "Họ và Chữ lót"
+    "last_name": "Họ và Chữ lót",
+
+    "title_info": "Title",
+    "school_name": "School Name",
+    "dept": "Dept",
+    "address": "Địa chỉ",
+    "road": "Đường",
+    "district": "District",
+    "province": "Province",
+    "zip_code": "Zip code",
+    "phone_office": "Phone office",
+    "phone_fax": "Phone fax",
+    "phone_mobile": "Phone mobile",
+    "email": "E-mail",
+    "torf": "Torf",
+    "type": "Type",
+    "supplier": "Nhà cung cấp"
   }
 }
