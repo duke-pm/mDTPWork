@@ -8,13 +8,13 @@ import React from 'react';
 import {useTranslation} from 'react-i18next';
 import {useTheme, useNavigation} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
+import {View} from 'react-native';
 /* COMPONENTS */
 import CList from '~/components/CList';
 import TaskItem from '../components/TaskItem';
 /** COMMON */
 import Routes from '~/navigation/Routes';
 import {THEME_DARK} from '~/config/constants';
-import {IS_ANDROID} from '~/utils/helper';
 import {cStyles} from '~/utils/style';
 
 function ListTask(props) {
@@ -41,28 +41,31 @@ function ListTask(props) {
    ** RENDER **
    ************/
   return (
-    <CList
-      contentStyle={cStyles.pt16}
-      textEmpty={'project_management:empty_tasks'}
-      data={props.data}
-      item={({item, index}) => {
-        return (
-          <TaskItem
-            index={index}
-            data={item}
-            translation={t}
-            customColors={customColors}
-            isDark={isDark}
-            onPress={handleTaskItem}
-            onRefresh={onRefreshTasks}
-          />
-        );
-      }}
-      refreshing={props.refreshing}
-      onRefresh={onRefreshTasks}
-      loadingmore={props.loadmore}
-      onLoadmore={onLoadmore}
-    />
+    <View style={cStyles.flex1}>
+      <CList
+        style={cStyles.pt16}
+        contentStyle={cStyles.px10}
+        textEmpty={'project_management:empty_tasks'}
+        data={props.data}
+        item={({item, index}) => {
+          return (
+            <TaskItem
+              index={index}
+              data={item}
+              translation={t}
+              customColors={customColors}
+              isDark={isDark}
+              onPress={handleTaskItem}
+              onRefresh={onRefreshTasks}
+            />
+          );
+        }}
+        refreshing={props.refreshing}
+        onRefresh={onRefreshTasks}
+        loadingmore={props.loadmore}
+        onLoadmore={onLoadmore}
+      />
+    </View>
   );
 }
 

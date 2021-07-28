@@ -37,7 +37,7 @@ function CCard(props) {
     footer = null,
     onLayout = null,
     onPress = null,
-    onLongPress = null,
+    onDetailPress = null,
   } = props;
 
   /************
@@ -92,7 +92,7 @@ function CCard(props) {
               <CIconButton
                 iconName={Icons.detail}
                 iconColor={customColors.icon}
-                onPress={onLongPress}
+                onPress={onDetailPress}
               />
             )}
           </View>

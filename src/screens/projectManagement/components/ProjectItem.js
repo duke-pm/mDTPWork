@@ -28,25 +28,22 @@ if (IS_ANDROID) {
 const CustomLayoutAnimated = {
   duration: 500,
   create: {
-    type: LayoutAnimation.Types.spring,
+    type: LayoutAnimation.Types.easeInEaseOut,
     property: LayoutAnimation.Properties.scaleXY,
-    springDamping: 0.7,
   },
   update: {
     type: LayoutAnimation.Types.easeIn,
     property: LayoutAnimation.Properties.scaleXY,
-    springDamping: 1,
   },
   delete: {
-    type: LayoutAnimation.Types.spring,
+    type: LayoutAnimation.Types.easeOut,
     property: LayoutAnimation.Properties.scaleXY,
-    springDamping: 0.7,
   },
 };
 
 const PADDING_CHILDREN = moderateScale(14);
 const PADDING_2_CHILDREN = moderateScale(6);
-const BOTTOM_CHILDREN = moderateScale(8);
+const BOTTOM_CHILDREN = moderateScale(10);
 
 function ProjectItem(props) {
   const {
@@ -77,131 +74,150 @@ function ProjectItem(props) {
     }
   };
 
+  const onLayoutCard = event => {
+    setWidthCard(event.nativeEvent.layout.width - PADDING_CHILDREN);
+  };
+
   /************
    ** RENDER **
    ************/
   return (
-    <View style={data.countChild > 0 ? cStyles.mb10 : {}}>
-      <CCard
-        key={index}
-        index={index}
-        containerStyle={styles.card}
-        customLabel={`#${data.prjID} ${data.prjName}`}
-        detail={true}
-        onLayout={event => {
-          var {width} = event.nativeEvent.layout;
-          setWidthCard(width - PADDING_CHILDREN);
-        }}
-        onPress={handleItem}
-        onLongPress={handleHeaderItem}
-        content={
-          <View>
-            <View
-              style={[
-                cStyles.row,
-                cStyles.itemsCenter,
-                cStyles.justifyBetween,
-              ]}>
-              <View style={[cStyles.row, cStyles.itemsCenter]}>
-                {/** Owner */}
-                <View
-                  style={[cStyles.row, cStyles.itemsCenter, styles.row_left]}>
-                  <CAvatar size={'vsmall'} label={data.ownerName} />
-                  <CText
-                    styles={'textCallout pl6'}
-                    customLabel={checkEmpty(data.ownerName)}
-                  />
-                </View>
-
-                {/** Status */}
-                <View
-                  style={[cStyles.row, cStyles.itemsCenter, styles.row_right]}>
-                  <Icon
-                    name={Icons.dot}
-                    color={isDark ? data.colorDarkCode : data.colorCode}
-                    size={moderateScale(14)}
-                  />
-                  <CLabel
-                    style={cStyles.ml4}
-                    bold
-                    color={isDark ? data.colorDarkCode : data.colorCode}
-                    customLabel={data.statusName}
-                  />
-                </View>
-              </View>
-            </View>
-
-            <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt5]}>
-              {/** Date start */}
-              <View style={[cStyles.row, cStyles.itemsCenter, styles.row_left]}>
-                <CLabel label={'project_management:date_created'} />
-                <CLabel
-                  customLabel={moment(
-                    data.crtdDate,
-                    DEFAULT_FORMAT_DATE_4,
-                  ).format(formatDateView)}
-                />
-              </View>
-
-              {/** Is public */}
-              <View
-                style={[cStyles.row, cStyles.itemsCenter, styles.row_right]}>
-                <CLabel label={'project_management:is_public'} />
-                <Icon
-                  name={data.isPublic ? Icons.checkCircle : Icons.alert}
-                  color={
-                    data.isPublic ? customColors.green : customColors.orange
-                  }
-                  size={moderateScale(14)}
-                />
-              </View>
-            </View>
-          </View>
-        }
-      />
-
-      {!showChildren && data.countChild > 0 && (
-        <View
-          style={[
-            cStyles.rounded2,
-            cStyles.abs,
-            styles.card_children,
-            {
-              right: PADDING_2_CHILDREN,
-              bottom: -BOTTOM_CHILDREN,
-              width: widthCard,
-              backgroundColor: customColors.cardHolder,
-              zIndex: 1,
-            },
-          ]}
-        />
+    <View style={[cStyles.row, cStyles.itemsStart]}>
+      {/** Arrow childrens */}
+      {data.prjParentID > 0 && (
+        <View style={styles.con_arrow}>
+          <View
+            style={[styles.top_arrow, {borderRightColor: customColors.orange}]}
+          />
+          <View
+            style={[styles.bottom_arrow, {borderTopColor: customColors.orange}]}
+          />
+        </View>
       )}
 
-      {/** If project have children -> Show */}
-      {data.countChild > 0 && (
-        <View
-          style={[
-            cStyles.row,
-            cStyles.itemsCenter,
-            !showChildren && cStyles.abs,
-            {opacity: showChildren ? 1 : 0},
-          ]}>
+      {/** Project card */}
+      <View style={[cStyles.flex1, data.countChild > 0 ? cStyles.mb10 : {}]}>
+        <CCard
+          key={index}
+          index={index}
+          containerStyle={styles.card}
+          customLabel={`#${data.prjID} ${data.prjName}`}
+          detail={true}
+          onLayout={onLayoutCard}
+          onPress={handleItem}
+          onDetailPress={handleHeaderItem}
+          content={
+            <View>
+              <View
+                style={[
+                  cStyles.row,
+                  cStyles.itemsCenter,
+                  cStyles.justifyBetween,
+                ]}>
+                <View style={[cStyles.row, cStyles.itemsCenter]}>
+                  {/** Owner */}
+                  <View
+                    style={[cStyles.row, cStyles.itemsCenter, styles.row_left]}>
+                    <CAvatar size={'vsmall'} label={data.ownerName} />
+                    <CText
+                      styles={'textCallout pl6'}
+                      customLabel={checkEmpty(data.ownerName)}
+                    />
+                  </View>
+
+                  {/** Status */}
+                  <View
+                    style={[
+                      cStyles.row,
+                      cStyles.itemsCenter,
+                      styles.row_right,
+                    ]}>
+                    <Icon
+                      name={Icons.dot}
+                      color={isDark ? data.colorDarkCode : data.colorCode}
+                      size={moderateScale(14)}
+                    />
+                    <CLabel
+                      style={cStyles.ml4}
+                      bold
+                      color={isDark ? data.colorDarkCode : data.colorCode}
+                      customLabel={data.statusName}
+                    />
+                  </View>
+                </View>
+              </View>
+
+              <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt5]}>
+                {/** Date start */}
+                <View
+                  style={[cStyles.row, cStyles.itemsCenter, styles.row_left]}>
+                  <CLabel label={'project_management:date_created'} />
+                  <CLabel
+                    customLabel={moment(
+                      data.crtdDate,
+                      DEFAULT_FORMAT_DATE_4,
+                    ).format(formatDateView)}
+                  />
+                </View>
+
+                {/** Is public */}
+                <View
+                  style={[cStyles.row, cStyles.itemsCenter, styles.row_right]}>
+                  <CLabel label={'project_management:is_public'} />
+                  <Icon
+                    name={data.isPublic ? Icons.checkCircle : Icons.alert}
+                    color={
+                      data.isPublic ? customColors.green : customColors.orange
+                    }
+                    size={moderateScale(14)}
+                  />
+                </View>
+              </View>
+            </View>
+          }
+        />
+
+        {!showChildren && data.countChild > 0 && (
           <View
             style={[
-              cStyles.borderAll,
-              cStyles.borderDashed,
-              styles.line_child,
-              isDark && cStyles.borderAllDark,
+              cStyles.rounded2,
+              cStyles.abs,
+              styles.card_children,
+              {
+                right: PADDING_2_CHILDREN,
+                bottom: -BOTTOM_CHILDREN,
+                width: widthCard,
+                backgroundColor: customColors.cardHolder,
+                zIndex: 1,
+              },
             ]}
           />
-          <View style={[cStyles.flex1, cStyles.ml12]}>
+        )}
+
+        {/** If project have children -> Show */}
+        {data.countChild > 0 && (
+          <View
+            style={[
+              cStyles.flex1,
+              cStyles.row,
+              cStyles.itemsCenter,
+              !showChildren && cStyles.abs,
+              {opacity: showChildren ? 1 : 0},
+            ]}>
+            <View
+              style={[
+                cStyles.borderAll,
+                styles.line_child,
+                isDark && cStyles.borderAllDark,
+              ]}
+            />
             <ListProject
               formatDateView={formatDateView}
               data={data.lstProjectItem}
             />
           </View>
-        </View>
-      )}
+        )}
+      </View>
     </View>
   );
 }
@@ -217,6 +233,45 @@ const styles = StyleSheet.create({
     height: moderateScale(8),
     width: moderateScale(8),
     borderRadius: moderateScale(8),
+  },
+  con_arrow: {
+    backgroundColor: colors.TRANSPARENT,
+    overflow: 'visible',
+    width: moderateScale(15),
+    height: moderateScale(25),
+  },
+  top_arrow: {
+    backgroundColor: colors.TRANSPARENT,
+    width: 0,
+    height: 0,
+    borderTopWidth: moderateScale(9),
+    borderTopColor: colors.TRANSPARENT,
+    borderRightWidth: moderateScale(9),
+    borderStyle: 'solid',
+    transform: [{rotate: '10deg'}],
+    position: 'absolute',
+    bottom: moderateScale(9),
+    right: moderateScale(8),
+    left: 0,
+    overflow: 'visible',
+  },
+  bottom_arrow: {
+    backgroundColor: colors.TRANSPARENT,
+    position: 'absolute',
+    borderBottomColor: colors.TRANSPARENT,
+    borderLeftColor: colors.TRANSPARENT,
+    borderRightColor: colors.TRANSPARENT,
+    borderBottomWidth: 0,
+    borderLeftWidth: 0,
+    borderRightWidth: 0,
+    borderTopWidth: moderateScale(3),
+    borderStyle: 'solid',
+    borderTopLeftRadius: moderateScale(12),
+    top: moderateScale(5),
+    left: -moderateScale(8),
+    width: moderateScale(10),
+    height: moderateScale(15),
+    transform: [{rotate: '45deg'}],
   },
 });
 

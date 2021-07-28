@@ -101,6 +101,7 @@ function ListProject(props) {
       {/** List of project */}
       <CList
         style={cStyles.pt16}
+        contentStyle={cStyles.px10}
         data={props.data}
         item={({item, index}) => {
           return (
