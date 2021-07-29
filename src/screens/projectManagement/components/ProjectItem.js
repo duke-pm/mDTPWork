@@ -87,10 +87,16 @@ function ProjectItem(props) {
       {data.prjParentID > 0 && (
         <View style={styles.con_arrow}>
           <View
-            style={[styles.top_arrow, {borderRightColor: customColors.orange}]}
+            style={[
+              styles.top_arrow,
+              {borderRightColor: customColors.cardHolder},
+            ]}
           />
           <View
-            style={[styles.bottom_arrow, {borderTopColor: customColors.orange}]}
+            style={[
+              styles.bottom_arrow,
+              {borderTopColor: customColors.cardHolder},
+            ]}
           />
         </View>
       )}

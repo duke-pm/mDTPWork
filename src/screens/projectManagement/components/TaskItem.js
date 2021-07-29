@@ -35,17 +35,21 @@ if (IS_ANDROID) {
 const CustomLayoutAnimated = {
   duration: 500,
   create: {
-    type: LayoutAnimation.Types.easeInEaseOut,
-    property: LayoutAnimation.Properties.scaleXY,
+    type: LayoutAnimation.Types.spring,
+
+      property: LayoutAnimation.Properties.scaleXY,
+
+      springDamping: 1,
   },
   update: {
-    type: LayoutAnimation.Types.easeIn,
-    property: LayoutAnimation.Properties.scaleXY,
+    type: LayoutAnimation.Types.spring,
+
+    springDamping: 0.7,
   },
-  delete: {
-    type: LayoutAnimation.Types.easeOut,
-    property: LayoutAnimation.Properties.scaleXY,
-  },
+  // delete: {
+  //   type: LayoutAnimation.Types.easeOut,
+  //   property: LayoutAnimation.Properties.scaleXY,
+  // },
 };
 
 function TaskItem(props) {
@@ -147,10 +151,16 @@ function TaskItem(props) {
       {data.parentID > 0 && (
         <View style={styles.con_arrow}>
           <View
-            style={[styles.top_arrow, {borderRightColor: customColors.orange}]}
+            style={[
+              styles.top_arrow,
+              {borderRightColor: customColors.cardHolder},
+            ]}
           />
           <View
-            style={[styles.bottom_arrow, {borderTopColor: customColors.orange}]}
+            style={[
+              styles.bottom_arrow,
+              {borderTopColor: customColors.cardHolder},
+            ]}
           />
         </View>
       )}
@@ -272,16 +282,16 @@ function TaskItem(props) {
                     onPress={handleShowChildren}>
                     <Animated.View
                       style={[
-                        cStyles.mr10,
+                        cStyles.mr5,
                         {
-                          width: moderateScale(23),
-                          height: moderateScale(23),
+                          width: moderateScale(21),
+                          height: moderateScale(21),
                           transform: [{rotate: rotateData}],
                         },
                       ]}>
                       <Icon
                         name={Icons.up}
-                        size={moderateScale(23)}
+                        size={moderateScale(21)}
                         color={customColors.icon}
                       />
                     </Animated.View>
@@ -324,6 +334,7 @@ function TaskItem(props) {
         {showChildren && data.countChild > 0 && (
           <View
             style={[
+              cStyles.flex1,
               cStyles.row,
               cStyles.itemsCenter,
               !showChildren && cStyles.abs,
