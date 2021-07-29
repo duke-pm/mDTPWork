@@ -11,21 +11,28 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
-import {StyleSheet, View, Text, LayoutAnimation, UIManager} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  ScrollView,
+  LayoutAnimation,
+  UIManager,
+} from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {showMessage} from 'react-native-flash-message';
 import LottieView from 'lottie-react-native';
 import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
-import CContent from '~/components/CContent';
 import CText from '~/components/CText';
 import CAvatar from '~/components/CAvatar';
 import CLabel from '~/components/CLabel';
 import CList from '~/components/CList';
 import CGroupInfo from '~/components/CGroupInfo';
-import CAvoidKeyboard from '~/components/CAvoidKeyboard';
 import CIconHeader from '~/components/CIconHeader';
+import CAlert from '~/components/CAlert';
+import CReadMore from '~/components/CReadMore';
 import Status from '../components/Status';
 import Percentage from '../components/Percentage';
 import FileAttach from '../components/FileAttach';
@@ -33,6 +40,7 @@ import FileAttach from '../components/FileAttach';
 import Icons from '~/config/Icons';
 import Routes from '~/navigation/Routes';
 import Commons from '~/utils/common/Commons';
+import {Animations} from '~/utils/asset';
 import {usePrevious} from '~/utils/hook';
 import {colors, cStyles} from '~/utils/style';
 import {
@@ -52,13 +60,23 @@ import {
 } from '~/utils/helper';
 /** REDUX */
 import * as Actions from '~/redux/actions';
-import CAlert from '~/components/CAlert';
-import {Animations} from '~/utils/asset';
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
   }
 }
+const CustomLayoutAnimated = {
+  duration: 500,
+  create: {
+    type: LayoutAnimation.Types.spring,
+    property: LayoutAnimation.Properties.scaleXY,
+    springDamping: 1,
+  },
+  update: {
+    type: LayoutAnimation.Types.spring,
+    springDamping: 0.7,
+  },
+};
 
 const RowInfoBasic = ({
   style = {},
@@ -259,7 +277,7 @@ function Task(props) {
   };
 
   const done = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    LayoutAnimation.configureNext(CustomLayoutAnimated);
     return setLoading({...loading, main: false, startFetch: false});
   };
 
@@ -476,6 +494,8 @@ function Task(props) {
       'days',
     );
   }
+  const usersInvitedLength =
+    (data.taskDetail && data.taskDetail.lstUserInvited.length) || 0;
   return (
     <CContainer
       loading={false}
@@ -544,7 +564,7 @@ function Task(props) {
                               style={[
                                 cStyles.textCaption1,
                                 {color: customColors.text},
-                              ]}>{`#${data.taskDetail.taskID}: ${t(
+                              ]}>{`#${data.taskDetail.taskID} ${t(
                               'project_management:created_by',
                             )}`}</Text>
                             <Text
@@ -588,6 +608,28 @@ function Task(props) {
                       />
                     </View>
                   </View>
+                ) : null
+              }
+            />
+
+            {/** Description */}
+            <CGroupInfo
+              loading={loading.main || !data.taskDetail}
+              label={'project_management:info_basic_4'}
+              empty={data.taskDetail && data.taskDetail.descr.trim() === ''}
+              content={
+                data.taskDetail ? (
+                  <CReadMore
+                    textStyle={cStyles.textBody}
+                    textMoreStyle={[
+                      cStyles.textCaption1,
+                      {color: colors.SECONDARY},
+                    ]}
+                    numberOfLines={5}
+                    textShow={t('common:read_more')}
+                    textHide={t('common:read_less')}>
+                    {checkEmpty(data.taskDetail.descr)}
+                  </CReadMore>
                 ) : null
               }
             />
@@ -816,17 +858,15 @@ function Task(props) {
                     {data.taskDetail.lstUserInvited.length > 0 && (
                       <>
                         <CLabel label={'project_management:user_invited'} />
-                        <CList
-                          listStyle={[
-                            cStyles.mt6,
+                        <ScrollView
+                          style={[
+                            cStyles.mt10,
                             cStyles.rounded2,
-                            styles.list_invited,
                             {backgroundColor: customColors.textInput},
+                            styles.list_invited,
                           ]}
-                          contentStyle={cStyles.p10}
-                          nestedScrollEnabled={true}
-                          data={data.taskDetail.lstUserInvited}
-                          item={({item, index}) => {
+                          nestedScrollEnabled>
+                          {data.taskDetail.lstUserInvited.map((item, index) => {
                             return (
                               <View
                                 key={item.userName}
@@ -835,55 +875,39 @@ function Task(props) {
                                   cStyles.itemsCenter,
                                   cStyles.ml3,
                                 ]}>
-                                <CAvatar
-                                  containerStyle={cStyles.mr5}
-                                  label={item.fullName}
-                                  size={'vsmall'}
-                                />
+                                <View style={cStyles.px10}>
+                                  <CAvatar
+                                    label={item.fullName}
+                                    size={'small'}
+                                  />
+                                </View>
                                 <View
                                   style={[
                                     cStyles.ml5,
-                                    cStyles.pb10,
+                                    cStyles.py10,
                                     cStyles.flex1,
-                                    index !==
-                                      data.taskDetail.lstUserInvited.length -
-                                        1 && cStyles.borderBottom,
-                                    index !==
-                                      data.taskDetail.lstUserInvited.length -
-                                        1 &&
+                                    index !== usersInvitedLength - 1 &&
+                                      cStyles.borderBottom,
+                                    index !== usersInvitedLength - 1 &&
                                       isDark &&
                                       cStyles.borderBottomDark,
                                   ]}>
-                                  <CLabel
-                                    bold
+                                  <CText
+                                    styles={'textCallout fontBold'}
                                     customLabel={checkEmpty(item.fullName)}
                                   />
                                   <CText
-                                    styles={'mt5 textCaption1'}
+                                    styles={'textCaption1 mt3'}
                                     customLabel={checkEmpty(item.email)}
                                   />
                                 </View>
                               </View>
                             );
-                          }}
-                        />
+                          })}
+                        </ScrollView>
                       </>
                     )}
                   </>
-                ) : null
-              }
-            />
-
-            {/** Description */}
-            <CGroupInfo
-              loading={loading.main || !data.taskDetail}
-              label={'project_management:info_basic_4'}
-              empty={data.taskDetail && data.taskDetail.descr.trim() === ''}
-              content={
-                data.taskDetail ? (
-                  <View style={cStyles.pt5}>
-                    <CText customLabel={checkEmpty(data.taskDetail.descr)} />
-                  </View>
                 ) : null
               }
             />

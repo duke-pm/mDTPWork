@@ -91,12 +91,8 @@ const styles = StyleSheet.create({
   container: {paddingVertical: verticalScale(3)},
   con_variant_text: {backgroundColor: colors.TRANSPARENT},
   textDisabled: Platform.select({
-    ios: {
-      color: '#cdcdcd',
-    },
-    android: {
-      color: '#a1a1a1',
-    },
+    ios: {color: '#cdcdcd'},
+    android: {color: '#a1a1a1'},
   }),
 });
 

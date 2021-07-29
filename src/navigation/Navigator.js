@@ -52,7 +52,7 @@ function Navigator(props) {
       ref={nav => {
         NavigationService.setTopLevelNavigator(nav);
       }}
-      uriPrefix={Configs.prefixes}
+      uriPrefix={__DEV__ ? Configs.prefixesDev : Configs.prefixesProd}
       screenProps={props}
       {...props}
     />

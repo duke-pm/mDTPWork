@@ -13,13 +13,13 @@ import moment from 'moment';
 import CCard from '~/components/CCard';
 import CLabel from '~/components/CLabel';
 import CAvatar from '~/components/CAvatar';
+import CText from '~/components/CText';
 import ListProject from '../list/Project';
 /* COMMON */
 import Icons from '~/config/Icons';
 import {colors, cStyles} from '~/utils/style';
 import {checkEmpty, moderateScale, IS_ANDROID} from '~/utils/helper';
 import {DEFAULT_FORMAT_DATE_4} from '~/config/constants';
-import CText from '~/components/CText';
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -28,16 +28,13 @@ if (IS_ANDROID) {
 const CustomLayoutAnimated = {
   duration: 500,
   create: {
-    type: LayoutAnimation.Types.easeInEaseOut,
+    type: LayoutAnimation.Types.spring,
     property: LayoutAnimation.Properties.scaleXY,
+    springDamping: 1,
   },
   update: {
-    type: LayoutAnimation.Types.easeIn,
-    property: LayoutAnimation.Properties.scaleXY,
-  },
-  delete: {
-    type: LayoutAnimation.Types.easeOut,
-    property: LayoutAnimation.Properties.scaleXY,
+    type: LayoutAnimation.Types.spring,
+    springDamping: 0.7,
   },
 };
 
@@ -281,4 +278,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProjectItem;
+export default React.memo(ProjectItem);

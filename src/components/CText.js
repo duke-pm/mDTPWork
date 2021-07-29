@@ -13,39 +13,36 @@ import {cStyles} from '~/utils/style';
 
 function CText(props) {
   const {t} = useTranslation();
-  const {colors} = useTheme();
+  const {customColors} = useTheme();
   const {
     styles = '',
     customStyles = {},
     label = '',
     customLabel = null,
     onPress = null,
-    numberOfLines = undefined,
   } = props;
 
+  /**************
+   ** RENDER **
+   **************/
   let tmpStyles = styles.split(' ');
   let i,
     allStyles = [];
   for (i of tmpStyles) {
     allStyles.push(cStyles[i]);
   }
-
-  /**************
-   ** RENDER **
-   **************/
-  let Component = onPress ? TouchableOpacity : View;
+  const Component = onPress ? TouchableOpacity : View;
   return (
     <Component onPress={onPress}>
       <Text
         style={[
           cStyles.textBody,
-          {color: colors.text},
+          {color: customColors.text},
           allStyles,
           onPress && cStyles.px3,
           customStyles,
         ]}
         allowFontScaling={false}
-        numberOfLines={numberOfLines}
         {...props}>
         {customLabel || t(label)}
       </Text>

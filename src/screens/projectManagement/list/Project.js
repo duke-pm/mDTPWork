@@ -216,7 +216,6 @@ function ListProject(props) {
                   <ScrollView
                     style={[
                       cStyles.mt10,
-                      cStyles.p10,
                       cStyles.rounded2,
                       {backgroundColor: customColors.textInput},
                       styles.list_invited,
@@ -229,17 +228,14 @@ function ListProject(props) {
                             cStyles.row,
                             cStyles.itemsCenter,
                             cStyles.ml3,
-                            index === usersInvitedLength - 1 && cStyles.pb20,
                           ]}>
-                          <CAvatar
-                            containerStyle={cStyles.mr5}
-                            label={item.fullName}
-                            size={'small'}
-                          />
+                          <View style={cStyles.px10}>
+                            <CAvatar label={item.fullName} size={'small'} />
+                          </View>
                           <View
                             style={[
                               cStyles.ml5,
-                              cStyles.py6,
+                              cStyles.py10,
                               cStyles.flex1,
                               index !== usersInvitedLength - 1 &&
                                 cStyles.borderBottom,

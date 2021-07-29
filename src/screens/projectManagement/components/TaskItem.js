@@ -36,20 +36,13 @@ const CustomLayoutAnimated = {
   duration: 500,
   create: {
     type: LayoutAnimation.Types.spring,
-
-      property: LayoutAnimation.Properties.scaleXY,
-
-      springDamping: 1,
+    property: LayoutAnimation.Properties.scaleXY,
+    springDamping: 1,
   },
   update: {
     type: LayoutAnimation.Types.spring,
-
     springDamping: 0.7,
   },
-  // delete: {
-  //   type: LayoutAnimation.Types.easeOut,
-  //   property: LayoutAnimation.Properties.scaleXY,
-  // },
 };
 
 function TaskItem(props) {
@@ -404,4 +397,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TaskItem;
+export default React.memo(TaskItem);

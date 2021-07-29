@@ -6,11 +6,29 @@
  **/
 import {Assets} from '~/utils/asset';
 
+const HOST_DEV = 'http://api.dtpeducation.com';
+const HOST_PROD = 'http://api.dtp-education.com';
+const PREFIXES_IOS = 'mdtpwork://';
+
 const Configs = {
   // for Host APIs
-  hostDevelopment: 'http://api.dtpeducation.com',
-  hostProduction: 'http://api.dtp-education.com',
+  hostDevelopment: HOST_DEV,
+  hostProduction: HOST_PROD,
   prefixApi: 'api',
+  // for deep liking
+  prefixesDev: [
+    HOST_DEV, // for Android
+    PREFIXES_IOS, // for iOS
+  ],
+  prefixesProd: [
+    HOST_PROD, // for Android
+    PREFIXES_IOS, // for iOS
+  ],
+  routePath: {
+    ChangePassword: 'ChangePassword/:tokenData', // Config params for route update new password
+    ProjectDetail: 'ProjectDetail/:projectID', // Config params for route Project Detail
+    TaskDetail: 'TaskDetail/:taskID', // Config params for route Task Detail
+  },
   // for name of app in account page
   nameOfApp: '2021 DTP-Education',
   // for rating app
@@ -23,16 +41,6 @@ const Configs = {
   perPageProjects: 25,
   // for dev new feature
   salesVisit: false,
-  // for deep liking
-  prefixes: [
-    'http://dtpwork.dtp-education.com', // for Android
-    'mdtpwork://', // for iOS
-  ],
-  routePath: {
-    ChangePassword: 'ChangePassword/:tokenData', // Config params for route update new password
-    ProjectDetail: 'ProjectDetail/:projectID', // Config params for route Project Detail
-    TaskDetail: 'TaskDetail/:taskID', // Config params for route Task Detail
-  },
   // for link to socials
   socialsNetwork: [
     {

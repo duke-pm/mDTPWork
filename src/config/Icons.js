@@ -60,6 +60,8 @@ const Icons = {
   downItem: 'chevron-down-circle-outline',
   upItem: 'chevron-up-circle-outline',
   dot: 'ellipse',
+  readMore: 'arrow-down-circle-outline',
+  readLess: 'arrow-up-circle-outline',
 };
 
 export default Icons;

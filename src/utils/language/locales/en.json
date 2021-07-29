@@ -41,7 +41,9 @@
     "holder_search": "Search...",
     "find": "Find",
     "edit": "EDIT",
-    "congratulations": "Congratulations!!!"
+    "congratulations": "Congratulations!!!",
+    "read_less": "Read less...",
+    "read_more": "Read more..."
   },
   "status": {
     "title": "Status",
@@ -417,7 +419,7 @@
     "empty_tasks": "Currently no job in this project!",
     "empty_comment": "Currently no comment in this project!",
     "files_attach": "Attach files: ",
-    "created_by": "Created by",
+    "created_by": "created by",
     "last_updated_at": "updated at",
     "task_percentage": "Percentage: ",
     "task_version": "Version: ",

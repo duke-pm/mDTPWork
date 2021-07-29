@@ -42,6 +42,7 @@ import {
   getLocalInfo,
   getSecretInfo,
   IS_ANDROID,
+  IS_IOS,
   moderateScale,
   removeSecretInfo,
   resetRoute,
@@ -306,8 +307,6 @@ function SignIn(props) {
       /** Check biometrics */
       let dataFastLogin = await getSecretInfo(FAST_LOGIN);
       let isBio = await getLocalInfo(BIOMETRICS);
-      console.log('[LOG] ===  ===> ', dataFastLogin);
-      console.log('[LOG] ===  ===> ', isBio);
       if (
         isBio === '1' &&
         dataFastLogin &&
@@ -325,7 +324,7 @@ function SignIn(props) {
     }
   };
 
-  const onKeyboardDidShow = event => {
+  const onKeyboardShow = event => {
     Animated.timing(animSizeImage, {
       duration: 300,
       toValue: 1,
@@ -333,7 +332,7 @@ function SignIn(props) {
     }).start();
   };
 
-  const onKeyboardDidHide = event => {
+  const onKeyboardHide = event => {
     Animated.timing(animSizeImage, {
       duration: 300,
       toValue: 0,
@@ -345,7 +344,26 @@ function SignIn(props) {
    ** LIFE CYCLE **
    ****************/
   useEffect(() => {
+    /** Check has save data login */
     onCheckDataLogin();
+
+    /** Check show keyboard -> scale logo */
+    let keyboardShowSub = null,
+      keyboardHideSub = null,
+      nameOfListener = IS_IOS
+        ? {keyboardShow: 'keyboardWillShow', keyboardHide: 'keyboardWillHide'}
+        : {keyboardShow: 'keyboardDidShow', keyboardHide: 'keyboardDidHide'};
+
+    keyboardShowSub = Keyboard.addListener(nameOfListener.keyboardShow, () =>
+      onKeyboardShow(),
+    );
+    keyboardHideSub = Keyboard.addListener(nameOfListener.keyboardHide, () =>
+      onKeyboardHide(),
+    );
+    () => {
+      keyboardShowSub && keyboardShowSub.remove();
+      keyboardHideSub && keyboardHideSub.remove();
+    };
   }, []);
 
   useEffect(() => {
@@ -367,21 +385,6 @@ function SignIn(props) {
     authState.get('errorLogin'),
   ]);
 
-  useEffect(() => {
-    let keyboardDidShowSub = null,
-      keyboardDidHideSub = null;
-    keyboardDidShowSub = Keyboard.addListener('keyboardDidShow', () =>
-      onKeyboardDidShow(),
-    );
-    keyboardDidHideSub = Keyboard.addListener('keyboardDidHide', () =>
-      onKeyboardDidHide(),
-    );
-    () => {
-      keyboardDidShowSub && keyboardDidShowSub.remove();
-      keyboardDidHideSub && keyboardDidHideSub.remove();
-    };
-  }, []);
-
   /************
    ** RENDER **
    ************/
@@ -391,10 +394,7 @@ function SignIn(props) {
   });
   return (
     <CContainer
-      safeArea={{
-        top: false,
-        bottom: false,
-      }}
+      safeArea={{top: false, bottom: false}}
       loading={loading.main || loading.submit}
       content={
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

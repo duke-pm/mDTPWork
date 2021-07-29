@@ -478,32 +478,32 @@ const text = {
   textTitle1: {
     fontSize: moderateScale(28),
     fontWeight: IS_IOS ? '800' : 'bold',
-    lineHeight: moderateScale(34),
+    lineHeight: moderateScale(35),
   },
   textTitle2: {
     fontSize: moderateScale(22),
     fontWeight: IS_IOS ? '800' : 'bold',
-    lineHeight: moderateScale(28),
+    lineHeight: moderateScale(29),
   },
   textTitle3: {
     fontSize: moderateScale(20),
     fontWeight: IS_IOS ? '700' : 'bold',
-    lineHeight: moderateScale(24),
+    lineHeight: moderateScale(27),
   },
   textHeadline: {
     fontSize: moderateScale(17),
     fontWeight: IS_IOS ? '700' : 'bold',
-    lineHeight: moderateScale(22),
+    lineHeight: moderateScale(24),
   },
   textSubheadline: {
     fontSize: moderateScale(16),
     fontWeight: IS_IOS ? '600' : 'bold',
-    lineHeight: moderateScale(20),
+    lineHeight: moderateScale(23),
   },
   textBody: {
     fontSize: moderateScale(15),
     fontWeight: 'normal',
-    lineHeight: moderateScale(19),
+    lineHeight: moderateScale(22),
   },
   textCallout: {
     fontSize: moderateScale(13),
