@@ -4,6 +4,12 @@
  ** CreateAt: 2021
  ** Description: Description of Constants.js
  **/
+import {moderateScale} from '~/utils/helper';
+
+export const HOST_DEV = 'http://api.dtpeducation.com';
+export const HOST_PROD = 'http://api.dtp-education.com';
+export const PREFIXES_API = 'api';
+export const PREFIXES_IOS = 'mdtpwork://';
 export const LOAD_MORE = 'LOAD_MORE';
 export const REFRESH = 'REFRESH';
 export const LOGIN = 'LOGIN';
@@ -22,6 +28,12 @@ export const DEFAULT_FORMAT_DATE_3 = 'YYYY/MM/DD';
 export const DEFAULT_FORMAT_DATE_4 = 'YYYY-MM-DDTHH:mm:ss';
 export const DEFAULT_HEIGHT_UPLOAD = 250;
 export const DEFAULT_WIDTH_UPLOAD = 250;
+export const FIRST_CELL_WIDTH_LARGE = moderateScale(300);
+export const FIRST_CELL_WIDTH_SMALL = moderateScale(100);
+export const FIRST_CELL_WIDTH_DISTANCE =
+  FIRST_CELL_WIDTH_LARGE - FIRST_CELL_WIDTH_SMALL;
+export const CELL_HEIGHT = moderateScale(45);
+export const CELL_WIDTH = moderateScale(100);
 export const DATA_CONTACT_US = [
   {
     id: '1',

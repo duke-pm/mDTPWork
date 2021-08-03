@@ -360,7 +360,7 @@ function SignIn(props) {
     keyboardHideSub = Keyboard.addListener(nameOfListener.keyboardHide, () =>
       onKeyboardHide(),
     );
-    () => {
+    return () => {
       keyboardShowSub && keyboardShowSub.remove();
       keyboardHideSub && keyboardHideSub.remove();
     };

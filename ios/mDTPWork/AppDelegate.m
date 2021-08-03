@@ -7,6 +7,7 @@
 #import <RNScreens/UIViewController+RNScreens.h>
 
 #import "RNSplashScreen.h"
+#import "Orientation.h"
 
 #ifdef FB_SONARKIT_ENABLED
 #import <FlipperKit/FlipperClient.h>
@@ -107,6 +108,10 @@ static void ClearKeychainIfNecessary() {
  return [RCTLinkingManager application:application
                   continueUserActivity:userActivity
                     restorationHandler:restorationHandler];
+}
+
+- (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {
+  return [Orientation getOrientation];
 }
 
 @end

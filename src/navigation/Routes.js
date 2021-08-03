@@ -27,6 +27,7 @@ import AddRequestAsset from '~/screens/approved/addAsset/Request';
 import AddRequestLostDamage from '~/screens/approved/addLostDamage/Request';
 /** PROJECT MANAGEMENT */
 import ProjectManagement from '~/screens/projectManagement';
+import ProjectPreview from '~/screens/projectManagement/preview';
 import ProjectDetail from '~/screens/projectManagement/detail/Project';
 import ProjectFilter from '~/screens/projectManagement/components/FilterProject';
 import TaskDetail from '~/screens/projectManagement/detail/Task';
@@ -120,6 +121,10 @@ const Routes = {
     PROJECT_MANAGEMENT: {
       name: 'ProjectManagement',
       path: ProjectManagement,
+    },
+    PROJECT_PREVIEW: {
+      name: 'ProjectPreview',
+      path: ProjectPreview,
     },
     PROJECT_DETAIL: {
       name: 'ProjectDetail',

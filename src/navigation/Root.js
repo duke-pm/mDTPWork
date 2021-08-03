@@ -59,7 +59,6 @@ export function RootDashboard(props) {
         headerTopInsetEnabled: false,
         headerTranslucent: IS_ANDROID ? false : true,
         disableBackButtonMenu: true,
-        screenOrientation: 'portrait',
       }}>
       <StackDashboard.Screen
         name={Routes.MAIN.DASHBOARD.name}
@@ -108,7 +107,6 @@ export function RootAccount(props) {
         headerTopInsetEnabled: false,
         headerTranslucent: IS_ANDROID ? false : true,
         disableBackButtonMenu: true,
-        screenOrientation: 'portrait',
       }}>
       <StackAccount.Screen
         name={Routes.MAIN.ACCOUNT.name}
@@ -222,7 +220,6 @@ export function RootMain(props) {
         headerTopInsetEnabled: false,
         headerTranslucent: IS_ANDROID ? false : true,
         disableBackButtonMenu: true,
-        screenOrientation: 'portrait',
       }}>
       <StackMain.Screen
         name={Routes.AUTHENTICATION.SIGN_IN.name}
@@ -263,6 +260,16 @@ export function RootMain(props) {
           headerStyle: headerStyles,
           headerLargeTitle: false,
           headerTranslucent: IS_IOS,
+        }}
+      />
+      <StackMain.Screen
+        name={Routes.MAIN.PROJECT_PREVIEW.name}
+        component={Routes.MAIN.PROJECT_PREVIEW.path}
+        options={{
+          title: t('project_preview:title'),
+          headerStyle: headerStyles,
+          headerLargeTitle: false,
+          headerTranslucent: false,
         }}
       />
       <StackMain.Screen

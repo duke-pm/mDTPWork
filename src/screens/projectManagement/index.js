@@ -121,6 +121,10 @@ function ProjectManagement(props) {
     }
   };
 
+  const handleOpenPreview = () => {
+    navigation.navigate(Routes.MAIN.PROJECT_PREVIEW.name);
+  };
+
   /**********
    ** FUNC **
    **********/
@@ -325,6 +329,12 @@ function ProjectManagement(props) {
       headerRight: () => (
         <CIconHeader
           icons={[
+            // {
+            //   show: true,
+            //   showRedDot: false,
+            //   icon: Icons.listPreview,
+            //   onPress: handleOpenPreview,
+            // },
             {
               show: true,
               showRedDot: data.search !== '',

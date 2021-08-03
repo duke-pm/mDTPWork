@@ -5,16 +5,13 @@
  ** Description: Description of configs.js
  **/
 import {Assets} from '~/utils/asset';
-
-const HOST_DEV = 'http://api.dtpeducation.com';
-const HOST_PROD = 'http://api.dtp-education.com';
-const PREFIXES_IOS = 'mdtpwork://';
+import {HOST_DEV, HOST_PROD, PREFIXES_IOS, PREFIXES_API} from './constants';
 
 const Configs = {
   // for Host APIs
   hostDevelopment: HOST_DEV,
   hostProduction: HOST_PROD,
-  prefixApi: 'api',
+  prefixApi: PREFIXES_API,
   // for deep liking
   prefixesDev: [
     HOST_DEV, // for Android

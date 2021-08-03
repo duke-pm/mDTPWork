@@ -21,6 +21,10 @@ const Icons = {
   comments: 'chatbubbles',
   watchers: 'people',
   detail: IS_IOS ? 'ellipsis-horizontal-circle-outline' : 'ellipsis-vertical',
+  listPreview: 'list-outline',
+  showChild: 'return-down-forward-outline',
+  hideChild: 'remove-circle',
+  exportExcel: 'document-attach-outline',
 
   // Common
   filter: 'filter',

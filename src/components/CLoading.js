@@ -36,6 +36,7 @@ function CLoading(props) {
       deviceHeight={cStyles.deviceHeight}
       onBackButtonPress={null}
       onBackdropPress={null}
+      supportedOrientations={['landscape', 'landscape-left', 'landscape-right', 'portrait']}
       {...props}>
       <View style={cStyles.flexCenter}>
         <Animatable.View
