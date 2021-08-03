@@ -23,7 +23,7 @@ import CLabel from './CLabel';
 /* COMMON */
 import Icons from '~/config/Icons';
 import {colors, cStyles} from '~/utils/style';
-import {IS_ANDROID, moderateScale, verticalScale} from '~/utils/helper';
+import {IS_ANDROID, IS_IOS, moderateScale, verticalScale} from '~/utils/helper';
 import {THEME_DARK, THEME_LIGHT} from '~/config/constants';
 
 function CInput(props) {
@@ -197,6 +197,7 @@ function CInput(props) {
                   multiline && cStyles.justifyStart,
                   multiline && cStyles.flex1,
                   multiline && cStyles.textAliVerTop,
+                  IS_IOS && cStyles.pb6,
                   cStyles.textBody,
                   {color: customColors.text},
                   styleInput,

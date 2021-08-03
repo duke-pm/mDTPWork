@@ -446,10 +446,35 @@
     "confirm_change_to_100": "When you choose a progress of 100%, the status will be finished. Do you agree to do it?",
     "completed_task": "You have completed this job"
   },
+  "project_preview": {
+    "title": "Preview",
+    "task_name": "Task Name",
+    "durations": "Durations",
+    "start": "Start",
+    "finish": "Finish",
+    "predeceors": "Predeceors",
+    "resources_name": "Resources'Name",
+    "complete": "Complete %"
+  },
   "sales_visit": {
     "title": "Sales Visit",
     "title_contact_information": "Contact information",
     "first_name": "First Name",
-    "last_name": "Last Name"
+    "last_name": "Last Name",
+    "title_info": "Title",
+    "school_name": "School Name",
+    "dept": "Dept",
+    "address": "Address",
+    "road": "Road",
+    "district": "District",
+    "province": "Province",
+    "zip_code": "Zip code",
+    "phone_office": "Phone office",
+    "phone_fax": "Phone fax",
+    "phone_mobile": "Phone mobile",
+    "email": "E-mail",
+    "torf": "Torf",
+    "type": "Type",
+    "supplier": "Supplier"
   }
 }

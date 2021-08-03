@@ -370,7 +370,7 @@
     "holder_empty_assets": "Không có tài sản nào"
   },
   "project_management": {
-    "title": "Quản Lý Dự Án",
+    "title": "QL Dự Án",
     "back_title": "QL Dự Án",
     "project": "dự án",
     "sector": "Sector",
@@ -453,12 +453,21 @@
     "confirm_change_to_100": "Khi Bạn chọn Tiến Độ là 100% thì Status sẽ là Finished.\nBạn có đồng ý thực hiện?",
     "completed_task": "Bạn đã hoàn thành công việc này"
   },
+  "project_preview": {
+    "title": "Tổng Quan",
+    "task_name": "Task Name",
+    "durations": "Durations",
+    "start": "Start",
+    "finish": "Finish",
+    "predeceors": "Predeceors",
+    "resources_name": "Resources'Name",
+    "complete": "Complete %"
+  },
   "sales_visit": {
     "title": "Sales Visit",
     "title_contact_information": "Thông tin căn bản",
     "first_name": "Tên",
     "last_name": "Họ và Chữ lót",
-
     "title_info": "Title",
     "school_name": "School Name",
     "dept": "Dept",
