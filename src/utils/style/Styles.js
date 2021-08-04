@@ -545,6 +545,7 @@ const text = {
 };
 
 const border = {
+  rounded0: {borderRadius: 0},
   rounded1: {borderRadius: moderateScale(7)},
   rounded2: {borderRadius: moderateScale(10)},
   rounded3: {borderRadius: moderateScale(15)},

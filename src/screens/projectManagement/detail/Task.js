@@ -18,7 +18,9 @@ import {
   ScrollView,
   LayoutAnimation,
   UIManager,
+  TouchableOpacity,
 } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {showMessage} from 'react-native-flash-message';
 import LottieView from 'lottie-react-native';
@@ -28,7 +30,6 @@ import CContainer from '~/components/CContainer';
 import CText from '~/components/CText';
 import CAvatar from '~/components/CAvatar';
 import CLabel from '~/components/CLabel';
-import CList from '~/components/CList';
 import CGroupInfo from '~/components/CGroupInfo';
 import CIconHeader from '~/components/CIconHeader';
 import CAlert from '~/components/CAlert';
@@ -36,6 +37,7 @@ import CReadMore from '~/components/CReadMore';
 import Status from '../components/Status';
 import Percentage from '../components/Percentage';
 import FileAttach from '../components/FileAttach';
+import Reminder from '../components/Reminder';
 /* COMMON */
 import Icons from '~/config/Icons';
 import Routes from '~/navigation/Routes';
@@ -50,13 +52,13 @@ import {
   THEME_DARK,
 } from '~/config/constants';
 import {
+  IS_IOS,
+  IS_ANDROID,
   getLocalInfo,
   checkEmpty,
-  IS_ANDROID,
   getSecretInfo,
   resetRoute,
   moderateScale,
-  IS_IOS,
 } from '~/utils/helper';
 /** REDUX */
 import * as Actions from '~/redux/actions';
@@ -65,6 +67,7 @@ if (IS_ANDROID) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
   }
 }
+
 const CustomLayoutAnimated = {
   duration: 500,
   create: {
@@ -78,14 +81,17 @@ const CustomLayoutAnimated = {
   },
 };
 
-const RowInfoBasic = ({
+export const RowInfoBasic = ({
   style = {},
   isDark = false,
   left = null,
   right = null,
+  onPress = undefined,
+  iconOnPress = undefined,
 }) => {
+  const Touchable = onPress ? TouchableOpacity : View;
   return (
-    <View
+    <Touchable
       style={[
         cStyles.row,
         cStyles.itemsCenter,
@@ -94,14 +100,34 @@ const RowInfoBasic = ({
         cStyles.borderBottom,
         isDark && cStyles.borderBottomDark,
         style,
-      ]}>
+      ]}
+      onPress={onPress}>
       <View style={[cStyles.itemsStart, styles.row_info_basic_left]}>
         {left}
       </View>
-      <View style={[cStyles.itemsEnd, styles.row_info_basic_right]}>
-        {right}
-      </View>
-    </View>
+      {onPress ? (
+        <View
+          style={[
+            cStyles.row,
+            cStyles.itemsCenter,
+            cStyles.justifyEnd,
+            styles.row_info_basic_right,
+          ]}>
+          <View>{right}</View>
+          {iconOnPress || (
+            <Icon
+              name={Icons.next}
+              size={moderateScale(18)}
+              color={colors.GRAY_500}
+            />
+          )}
+        </View>
+      ) : (
+        <View style={[cStyles.itemsEnd, styles.row_info_basic_right]}>
+          {right}
+        </View>
+      )}
+    </Touchable>
   );
 };
 
@@ -126,6 +152,7 @@ function Task(props) {
   const formatDateView = commonState.get('formatDateView');
   const refreshToken = authState.getIn(['login', 'refreshToken']);
   const userName = authState.getIn(['login', 'userName']);
+  const userId = authState.getIn(['login', 'userId']);
 
   /** Use state */
   const [loading, setLoading] = useState({
@@ -298,6 +325,7 @@ function Task(props) {
           refresh_token: dataLogin.refreshToken,
           userName: dataLogin.userName,
           userID: dataLogin.userID,
+          userId: dataLogin.userId,
           empCode: dataLogin.empCode,
           fullName: dataLogin.fullName,
           regionCode: dataLogin.regionCode,
@@ -641,9 +669,19 @@ function Task(props) {
               content={
                 data.taskDetail ? (
                   <>
+                    {/** Reminder */}
+                    {data.taskDetail.owner == userId &&
+                      data.taskDetail.statusID < 5 && (
+                        <Reminder
+                          task={data.taskDetail}
+                          t={t}
+                          isDark={isDark}
+                          customColors={customColors}
+                        />
+                      )}
+
                     {/** Time */}
                     <RowInfoBasic
-                      style={cStyles.pb12}
                       isDark={isDark}
                       left={
                         <CText label={'project_management:estimated_time'} />

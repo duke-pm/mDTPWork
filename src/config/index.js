@@ -5,7 +5,14 @@
  ** Description: Description of configs.js
  **/
 import {Assets} from '~/utils/asset';
-import {HOST_DEV, HOST_PROD, PREFIXES_IOS, PREFIXES_API} from './constants';
+import {
+  HOST_DEV,
+  HOST_PROD,
+  PREFIXES_IOS,
+  PREFIXES_API,
+  PREFIXES_ANDROID,
+  PREFIXES_ANDROID_PROD,
+} from './constants';
 
 const Configs = {
   // for Host APIs
@@ -14,11 +21,11 @@ const Configs = {
   prefixApi: PREFIXES_API,
   // for deep liking
   prefixesDev: [
-    HOST_DEV, // for Android
+    PREFIXES_ANDROID, // for Android
     PREFIXES_IOS, // for iOS
   ],
   prefixesProd: [
-    HOST_PROD, // for Android
+    PREFIXES_ANDROID_PROD, // for Android
     PREFIXES_IOS, // for iOS
   ],
   routePath: {

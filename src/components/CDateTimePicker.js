@@ -15,7 +15,7 @@ import {THEME_DARK} from '~/config/constants';
 function CDateTimePicker(props) {
   const {t} = useTranslation();
   const isDark = useColorScheme() === THEME_DARK;
-  const {show, value, onChangeDate} = props;
+  const {show, value, mode = 'date', onChangeDate} = props;
 
   /** Use redux */
   const commonState = useSelector(({common}) => common);
@@ -40,13 +40,14 @@ function CDateTimePicker(props) {
       isVisible={show}
       isDarkModeEnabled={isDark}
       locale={language}
-      mode={'date'}
+      mode={mode}
       date={new Date(value)}
       cancelTextIOS={t('common:close')}
       confirmTextIOS={t('common:ok')}
       headerTextIOS={t('common:choose_date')}
       onConfirm={handleChangePicker}
       onCancel={handleClosePicker}
+      {...props}
     />
   );
 }

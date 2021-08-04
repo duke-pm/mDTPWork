@@ -104,7 +104,7 @@ function CGroupFilter(props) {
 
       <FlatList
         style={cStyles.mt10}
-        contentContainerStyle={cStyles.row}
+        contentContainerStyle={[cStyles.row, cStyles.flexWrap]}
         data={values}
         renderItem={({item, index}) => {
           let isCheck = valuesChoose.find(f => f.value == item.value);
@@ -159,8 +159,6 @@ function CGroupFilter(props) {
 
 const styles = StyleSheet.create({
   active: {borderColor: colors.SECONDARY},
-  con_left: {flex: 0.28},
-  con_right: {flex: 0.72},
 });
 
 export default CGroupFilter;

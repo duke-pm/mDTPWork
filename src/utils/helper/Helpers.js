@@ -97,11 +97,26 @@ export function resetRoute(navigation, routeName, params) {
   });
 }
 
+export async function askPermissionsCalendar() {
+  let permission = IS_ANDROID
+    ? PERMISSIONS.ANDROID.WRITE_CALENDAR
+    : PERMISSIONS.IOS.CALENDARS;
+  let result = await request(permission);
+  if (result !== 'granted') {
+    alert(
+      'You need allow permission for Calendar to remind task manager in Settings!',
+    );
+    return false;
+  } else {
+    return true;
+  }
+}
+
 export async function askPermissionsCamera() {
-  let perCamera = IS_ANDROID
+  let permission = IS_ANDROID
     ? PERMISSIONS.ANDROID.CAMERA
     : PERMISSIONS.IOS.CAMERA;
-  let result = await request(perCamera);
+  let result = await request(permission);
   if (result !== 'granted') {
     alert(
       'You need allow permission for Camera to upload avatar or album in Settings!',

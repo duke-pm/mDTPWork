@@ -289,6 +289,7 @@ function ProjectDetail(props) {
           refresh_token: dataLogin.refreshToken,
           userName: dataLogin.userName,
           userID: dataLogin.userID,
+          userId: dataLogin.userId,
           empCode: dataLogin.empCode,
           fullName: dataLogin.fullName,
           regionCode: dataLogin.regionCode,

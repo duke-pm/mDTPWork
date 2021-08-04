@@ -14,6 +14,7 @@ const Touchable = IS_IOS ? TouchableOpacity : TouchableNativeFeedback;
 function CTouchable({
   key = 'dtp-education',
   containerStyle = {},
+  style = {},
   disabled = false,
   activeOpacity = 0.5,
   children = null,
@@ -27,6 +28,7 @@ function CTouchable({
       key={key}
       style={[cStyles.rounded1, cStyles.ofHidden, containerStyle]}>
       <Touchable
+        style={style}
         disabled={disabled}
         activeOpacity={activeOpacity}
         onPress={onPress}>

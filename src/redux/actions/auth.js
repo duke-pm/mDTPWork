@@ -46,6 +46,7 @@ export const loginSuccess = (data, isRefresh) => {
         : data.tokenInfo.refresh_token,
       userName: isRefresh ? data.userName : data.tokenInfo.userName,
       userID: isRefresh ? data.userID : data.tokenInfo.userID,
+      userId: isRefresh ? data.userId : data.tokenInfo.userId,
       empCode: isRefresh ? data.empCode : data.tokenInfo.empCode,
       fullName: isRefresh ? data.fullName : data.tokenInfo.fullName,
       regionCode: isRefresh ? data.regionCode : data.tokenInfo.regionCode,

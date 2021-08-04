@@ -46,6 +46,7 @@ export const initialState = fromJS({
     refreshToken: null,
     userName: null,
     userID: null,
+    userId: null,
     empCode: null,
     fullName: null,
     regionCode: null,
@@ -74,6 +75,7 @@ export default function (state = initialState, action = {}) {
         .setIn(['login', 'refreshToken'], null)
         .setIn(['login', 'userName'], null)
         .setIn(['login', 'userID'], null)
+        .setIn(['login', 'userId'], null)
         .setIn(['login', 'empCode'], null)
         .setIn(['login', 'fullName'], null)
         .setIn(['login', 'regionCode'], null)
@@ -124,6 +126,7 @@ export default function (state = initialState, action = {}) {
         .setIn(['login', 'refreshToken'], payload.refreshToken)
         .setIn(['login', 'userName'], payload.userName)
         .setIn(['login', 'userID'], payload.userID)
+        .setIn(['login', 'userId'], payload.userId)
         .setIn(['login', 'empCode'], payload.empCode)
         .setIn(['login', 'fullName'], payload.fullName)
         .setIn(['login', 'regionCode'], payload.regionCode)

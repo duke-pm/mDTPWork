@@ -17,6 +17,7 @@ target 'mDTPWork' do
   pod 'Permission-MediaLibrary', :path => "#{permissions_path}/MediaLibrary"
   pod 'Permission-PhotoLibrary', :path => "#{permissions_path}/PhotoLibrary"
   pod 'Permission-PhotoLibraryAddOnly', :path => "#{permissions_path}/PhotoLibraryAddOnly"
+  pod 'Permission-Calendars', :path => "#{permissions_path}/Calendars"
 
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 

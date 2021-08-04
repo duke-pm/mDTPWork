@@ -49,7 +49,6 @@ function CGroupInfo({
           cStyles.m16,
           cStyles.mt10,
           cStyles.p16,
-          cStyles.pt10,
           {backgroundColor: customColors.card},
           loading && styles.group_holder,
           contentStyle,

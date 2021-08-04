@@ -25,6 +25,7 @@ const Icons = {
   showChild: 'return-down-forward-outline',
   hideChild: 'remove-circle',
   exportExcel: 'document-attach-outline',
+  alarm: 'alarm',
 
   // Common
   filter: 'filter',

@@ -451,7 +451,22 @@
     "find": "Tìm",
     "confirm_change_to_finished": "Khi Bạn chọn status Finished thì Tiến Độ sẽ là 100%.\nBạn có đồng ý thực hiện?",
     "confirm_change_to_100": "Khi Bạn chọn Tiến Độ là 100% thì Status sẽ là Finished.\nBạn có đồng ý thực hiện?",
-    "completed_task": "Bạn đã hoàn thành công việc này"
+    "completed_task": "Bạn đã hoàn thành công việc này",
+    "reminder_task": "Nhắc nhở",
+    "none_reminder": "Không",
+    "date_time_alert": "Thời gian",
+    "title_update_task": "[DTP Work] Nhắc nhở công việc số #",
+    "note_update_task": "Vui lòng truy cập vào ",
+    "note_update_task_2": " để cập nhật thông tin của công việc của bạn.",
+    "title_choose_alarms": "Chọn thời gian thông báo",
+    "five_minutes": "trước 5 phút",
+    "ten_minutes": "trước 10 phút",
+    "fifteen_minutes": "trước 15 phút",
+    "thirty_minutes": "trước 30 phút",
+    "sixty_minutes": "trước 60 phút",
+    "one_day": "trước 1 ngày",
+    "one_week": "trước 1 tuần",
+    "before": "trước "
   },
   "project_preview": {
     "title": "Tổng Quan",

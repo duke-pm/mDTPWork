@@ -153,7 +153,6 @@ function Filter(props) {
           commonState.get('formatDate'),
         ),
       });
-      setShowPickerDate({...showPickerDate, status: showPicker});
     }
   };
 
