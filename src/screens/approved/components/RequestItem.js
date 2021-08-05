@@ -7,33 +7,22 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-import {StyleSheet, View, Animated} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import {StyleSheet, View, Text} from 'react-native';
 import moment from 'moment';
 /* COMPONENTS */
-import CText from '~/components/CText';
 import CAvatar from '~/components/CAvatar';
 import CLabel from '~/components/CLabel';
-import CTouchable from '~/components/CTouchable';
 import CCard from '~/components/CCard';
+import CStatusTag from '~/components/CStatusTag';
 /* COMMON */
 import Icons from '~/config/Icons';
 import Commons from '~/utils/common/Commons';
 import {DEFAULT_FORMAT_DATE_4} from '~/config/constants';
 import {cStyles} from '~/utils/style';
-import {moderateScale} from '~/utils/helper';
 
 function RequestItem(props) {
   const {t} = useTranslation();
-  const {
-    loading,
-    customColors,
-    index,
-    data,
-    dataProcess,
-    dataDetail,
-    onPress,
-  } = props;
+  const {customColors, index, data, dataProcess, dataDetail, onPress} = props;
 
   /** Use redux */
   const commonState = useSelector(({common}) => common);
@@ -87,6 +76,12 @@ function RequestItem(props) {
             {/** Date send & Status */}
             <View
               style={[cStyles.row, cStyles.itemsStart, cStyles.justifyBetween]}>
+              <View style={[cStyles.itemsStart, styles.header_right]}>
+                <CStatusTag
+                  customLabel={data.statusName}
+                  color={customColors[statusColor]}
+                />
+              </View>
               <View
                 style={[
                   cStyles.row,
@@ -96,19 +91,6 @@ function RequestItem(props) {
                 ]}>
                 <CAvatar size={'vsmall'} label={data.personRequest} />
                 <CLabel style={cStyles.ml6} customLabel={data.personRequest} />
-              </View>
-
-              <View
-                style={[cStyles.row, cStyles.itemsCenter, styles.header_right]}>
-                <Icon
-                  name={statusIcon}
-                  size={moderateScale(18)}
-                  color={customColors[statusColor]}
-                />
-                <CText
-                  styles={'pl6 textCaption1 fontBold ' + colorText}
-                  customLabel={data.statusName}
-                />
               </View>
             </View>
 
@@ -131,24 +113,15 @@ function RequestItem(props) {
                 />
               </View>
 
+              {/** Department */}
               <View
                 style={[cStyles.row, cStyles.itemsStart, styles.header_left]}>
-                <CLabel customLabel={data.regionName} />
-              </View>
-            </View>
-
-            {/** Department */}
-            <View
-              style={[
-                cStyles.row,
-                cStyles.itemsStart,
-                cStyles.justifyBetween,
-                cStyles.mt6,
-              ]}>
-              <View
-                style={[cStyles.row, cStyles.itemsStart, styles.header_left]}>
-                <CLabel label={'approved_lost_damaged:department_request'} />
-                <CLabel numberOfLines={1} customLabel={data.deptName} />
+                <Text numberOfLines={2}>
+                  <Text style={cStyles.textCaption1}>
+                    {t('approved_lost_damaged:department_request')}
+                  </Text>
+                  <Text style={cStyles.textCaption1}>{data.deptName}</Text>
+                </Text>
               </View>
             </View>
           </View>

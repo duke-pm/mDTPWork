@@ -39,6 +39,7 @@ const Icons = {
   checkCircle: 'checkmark-circle',
   doubleCheck: 'checkmark-done',
   check: 'checkmark-sharp',
+  noneCheck: 'add-outline',
   eye: 'eye',
   eyeOff: 'eye-off',
   alert: 'alert-circle',

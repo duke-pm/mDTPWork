@@ -14,6 +14,7 @@ import CCard from '~/components/CCard';
 import CLabel from '~/components/CLabel';
 import CAvatar from '~/components/CAvatar';
 import CText from '~/components/CText';
+import CStatusTag from '~/components/CStatusTag';
 import ListProject from '../list/Project';
 /* COMMON */
 import Icons from '~/config/Icons';
@@ -117,7 +118,7 @@ function ProjectItem(props) {
                   cStyles.itemsCenter,
                   cStyles.justifyBetween,
                 ]}>
-                <View style={[cStyles.row, cStyles.itemsCenter]}>
+                <View style={[cStyles.row, cStyles.itemsCenter, cStyles.flex1]}>
                   {/** Owner */}
                   <View
                     style={[cStyles.row, cStyles.itemsCenter, styles.row_left]}>
@@ -129,22 +130,10 @@ function ProjectItem(props) {
                   </View>
 
                   {/** Status */}
-                  <View
-                    style={[
-                      cStyles.row,
-                      cStyles.itemsCenter,
-                      styles.row_right,
-                    ]}>
-                    <Icon
-                      name={Icons.dot}
-                      color={isDark ? data.colorDarkCode : data.colorCode}
-                      size={moderateScale(14)}
-                    />
-                    <CLabel
-                      style={cStyles.ml4}
-                      bold
-                      color={isDark ? data.colorDarkCode : data.colorCode}
+                  <View style={[cStyles.itemsStart, styles.row_right]}>
+                    <CStatusTag
                       customLabel={data.statusName}
+                      color={isDark ? data.colorDarkCode : data.colorCode}
                     />
                   </View>
                 </View>

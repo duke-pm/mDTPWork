@@ -109,9 +109,7 @@ function CGroupFilter(props) {
         renderItem={({item, index}) => {
           let isCheck = valuesChoose.find(f => f.value == item.value);
           return (
-            <CTouchable
-              containerStyle={cStyles.rounded7}
-              onPress={() => handleItem(index, item)}>
+            <CTouchable onPress={() => handleItem(index, item)}>
               <Animatable.View
                 ref={ref => (valuesRef[index] = ref)}
                 useNativeDriver={true}>
@@ -119,20 +117,18 @@ function CGroupFilter(props) {
                   style={[
                     cStyles.py6,
                     cStyles.px10,
-                    cStyles.rounded7,
+                    cStyles.rounded1,
                     cStyles.borderAll,
                     cStyles.row,
                     cStyles.itemsCenter,
                     isCheck && styles.active,
                     {backgroundColor: customColors.card},
                   ]}>
-                  {isCheck && (
-                    <Icon
-                      name={Icons.check}
-                      size={moderateScale(14)}
-                      color={isCheck ? colors.SECONDARY : customColors.icon}
-                    />
-                  )}
+                  <Icon
+                    name={isCheck ? Icons.check : Icons.noneCheck}
+                    size={moderateScale(14)}
+                    color={isCheck ? colors.SECONDARY : customColors.icon}
+                  />
                   <CText
                     customStyles={[
                       cStyles.textCaption1,

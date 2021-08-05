@@ -130,6 +130,16 @@ function ListProject(props) {
         customContent={
           loadingModal ? null : (
             <View>
+              <View
+                style={[
+                  cStyles.borderTop,
+                  isDark && cStyles.borderTopDark,
+                  cStyles.fullWidth,
+                  cStyles.pb16,
+                ]}
+              />
+
+              {/** Info basic */}
               <View style={cStyles.itemsStart}>
                 {/** Is public */}
                 <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mb10]}>

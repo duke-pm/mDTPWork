@@ -13,6 +13,7 @@ import {
   TouchableHighlight,
   TouchableNativeFeedback,
 } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 /* COMPONENTS */
 import CText from './CText';
 /* COMMON */
@@ -30,6 +31,7 @@ function CCard(props) {
     style = {},
     containerStyle = {},
     contentLabelStyle = {},
+    linearGradient = null,
     detail = false,
     label = null,
     customLabel = null,
@@ -48,6 +50,7 @@ function CCard(props) {
       ? TouchableHighlight
       : TouchableNativeFeedback
     : View;
+  const Gradient = linearGradient ? LinearGradient : View;
   return (
     <View
       key={key}
@@ -63,14 +66,17 @@ function CCard(props) {
         underlayColor={colors.TRANSPARENT}
         onLayout={onLayout}
         onPress={onPress}>
-        <View
+        <Gradient
           style={[
             cStyles.rounded2,
             {backgroundColor: customColors.card},
             containerStyle,
-          ]}>
+          ]}
+          colors={linearGradient}>
           <View
             style={[
+              cStyles.roundedTopLeft2,
+              cStyles.roundedTopRight2,
               cStyles.flex1,
               cStyles.row,
               cStyles.itemsCenter,
@@ -111,7 +117,7 @@ function CCard(props) {
               {footer}
             </View>
           )}
-        </View>
+        </Gradient>
       </Component>
     </View>
   );

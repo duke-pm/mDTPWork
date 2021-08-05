@@ -671,6 +671,7 @@ function Task(props) {
                   <>
                     {/** Reminder */}
                     {data.taskDetail.owner == userId &&
+                      data.taskDetail === Commons.TYPE_TASK.TASK.value &&
                       data.taskDetail.statusID < 5 && (
                         <Reminder
                           task={data.taskDetail}

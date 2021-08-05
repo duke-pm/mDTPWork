@@ -85,7 +85,6 @@ function RequestProcess(props) {
               style={[
                 cStyles.row,
                 cStyles.itemsStart,
-                cStyles.pt10,
                 {transform: [{scaleY: anims[index]}]},
               ]}>
               {item.approveDate ? (

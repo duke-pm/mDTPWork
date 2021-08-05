@@ -86,8 +86,8 @@ function FileAttach(props) {
     <TouchableOpacity
       style={[
         cStyles.p10,
-        cStyles.mb10,
-        cStyles.mt6,
+        cStyles.mb20,
+        cStyles.mt10,
         cStyles.center,
         cStyles.rounded2,
         isFileExisted && cStyles.borderAll,
