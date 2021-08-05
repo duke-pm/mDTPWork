@@ -466,7 +466,8 @@
     "sixty_minutes": "trước 60 phút",
     "one_day": "trước 1 ngày",
     "one_week": "trước 1 tuần",
-    "before": "trước "
+    "before": "trước ",
+    "alert_change_permission_calendar": "Bạn cần cầp quyền Lịch trong Cài Đặt Chung"
   },
   "project_preview": {
     "title": "Tổng Quan",

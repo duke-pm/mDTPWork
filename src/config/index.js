@@ -60,6 +60,37 @@ const Configs = {
       url: 'https://www.youtube.com/channel/UCPirvav1R6BC2WQoEyBy0PQ',
     },
   ],
+  // for alarm in android platform
+  alarmsAndroid: [
+    {
+      value: 5,
+      label: 'project_management:five_minutes',
+    },
+    {
+      value: 10,
+      label: 'project_management:ten_minutes',
+    },
+    {
+      value: 15,
+      label: 'project_management:fifteen_minutes',
+    },
+    {
+      value: 30,
+      label: 'project_management:thirty_minutes',
+    },
+    {
+      value: 60,
+      label: 'project_management:sixty_minutes',
+    },
+    {
+      value: 1440,
+      label: 'project_management:one_day',
+    },
+    {
+      value: 10080,
+      label: 'project_management:one_week',
+    },
+  ],
 };
 
 export default Configs;

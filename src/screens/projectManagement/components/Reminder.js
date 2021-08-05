@@ -1,10 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /**
  ** Name: Reminder
  ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of Reminder.js
  **/
-import React, {createRef, useState, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Linking,
@@ -18,11 +19,13 @@ import moment from 'moment';
 /* COMPONENTS */
 import CText from '~/components/CText';
 import CDateTimePicker from '~/components/CDateTimePicker';
+import CActivityIndicator from '~/components/CActivityIndicator';
 import CAlert from '~/components/CAlert';
 import {RowInfoBasic} from '../detail/Task';
 /* COMMON */
-import Icons from '~/config/Icons';
 import Configs from '~/config';
+import Icons from '~/config/Icons';
+import {DTP_CALENDAR} from '~/config/constants';
 import {
   IS_IOS,
   IS_ANDROID,
@@ -32,8 +35,6 @@ import {
   saveLocalInfo,
 } from '~/utils/helper';
 import {cStyles} from '~/utils/style';
-import {DTP_CALENDAR} from '~/config/constants';
-import CActivityIndicator from '~/components/CActivityIndicator';
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -46,48 +47,13 @@ const formatDataDateTime = 'YYYY-MM-DDTHH:mm:ss';
 const formatAlertDateTime = IS_IOS
   ? 'YYYY-MM-DDTHH:mm:00.000Z'
   : 'YYYY-MM-DDTHH:mm:ss.sss[Z]';
-const CustomLayoutAnimated = {
-  duration: 500,
-  create: {
-    type: LayoutAnimation.Types.spring,
-    property: LayoutAnimation.Properties.scaleXY,
-    springDamping: 1,
-  },
-  update: {
-    type: LayoutAnimation.Types.spring,
-    springDamping: 0.7,
-  },
-};
-const dataAndroidAlarms = [
-  {
-    value: 5,
-    label: 'project_management:five_minutes',
-  },
-  {
-    value: 10,
-    label: 'project_management:ten_minutes',
-  },
-  {
-    value: 15,
-    label: 'project_management:fifteen_minutes',
-  },
-  {
-    value: 30,
-    label: 'project_management:thirty_minutes',
-  },
-  {
-    value: 60,
-    label: 'project_management:sixty_minutes',
-  },
-  {
-    value: 1440,
-    label: 'project_management:one_day',
-  },
-  {
-    value: 10080,
-    label: 'project_management:one_week',
-  },
-];
+const urlLinkToApp = __DEV__
+  ? Configs.prefixesDev[IS_IOS ? 1 : 0] +
+    (IS_ANDROID ? '/' : '') +
+    Configs.routePath.TaskDetail.split(':')[0]
+  : Configs.prefixesProd[IS_IOS ? 1 : 0] +
+    (IS_ANDROID ? '/' : '') +
+    Configs.routePath.TaskDetail.split(':')[0];
 
 function Reminder(props) {
   const {task, t, isDark, customColors} = props;
@@ -114,42 +80,31 @@ function Reminder(props) {
    ** HANDLE FUNC **
    *****************/
   const handleToggleReminder = () => {
-    LayoutAnimation.configureNext(CustomLayoutAnimated);
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setShowReminder(!showReminder);
   };
 
   const handleUpdateEvent = async () => {
     let notesResult = '',
-      url = '';
-    if (__DEV__) {
-      url =
-        Configs.prefixesDev[IS_IOS ? 1 : 0] +
-        (IS_ANDROID ? '/' : '') +
-        Configs.routePath.TaskDetail.split(':')[0] +
-        task.taskID;
-    } else {
-      url =
-        Configs.prefixesProd[IS_IOS ? 1 : 0] +
-        (IS_ANDROID ? '/' : '') +
-        Configs.routePath.TaskDetail.split(':')[0] +
-        task.taskID;
-    }
+      url = urlLinkToApp + task.taskID;
     notesResult = notes + url + notes_2;
     try {
       let title = t('project_management:title_update_task') + task.taskID;
       let dataEvent = {
+        // For create event
         calendarId: reminder.calendar,
         title,
         startDate: moment(task.startDate, formatDataDateTime).format(
           formatAlertDateTime,
         ),
         endDate: moment(pickerDate.end).format(formatAlertDateTime),
-        notes: notesResult,
-        description: notesResult,
-        url,
+        notes: notesResult, // available iOS
+        description: notesResult, // available Android
+        url, // available iOS
         allDay: false,
       };
       if (reminder.event) {
+        // For update event
         dataEvent.id = reminder.event;
       }
       if (IS_IOS) {
@@ -203,10 +158,8 @@ function Reminder(props) {
     if (permission === 'authorized') {
       onCheckLocalRemind();
     } else if (permission === 'denied') {
-      alert(
-        t,
-        'You need request Calendar permission to Grant in Settings',
-        () => Linking.openURL('app-settings:'),
+      alert(t, 'project_management:alert_change_permission_calendar', () =>
+        Linking.openURL('app-settings:'),
       );
     } else {
       onRequestPermission();
@@ -242,8 +195,13 @@ function Reminder(props) {
                   minute,
                   findAlarm;
                 for (item of event.alarms) {
-                  minute = moment(item.date, formatAlertDateTime).minutes();
-                  findAlarm = dataAndroidAlarms.find(f => f.value == minute);
+                  minute = -moment(task.startDate, formatDataDateTime).diff(
+                    moment(item.date, formatAlertDateTime),
+                    'minutes',
+                  );
+                  findAlarm = Configs.alarmsAndroid.find(
+                    f => f.value === minute,
+                  );
                   if (findAlarm) {
                     tmpAlarmsAndroid.push(findAlarm);
                   }
@@ -251,29 +209,20 @@ function Reminder(props) {
                 setDataAlarmAndroid(tmpAlarmsAndroid);
                 setAlarmsAndroid(tmpAlarmsAndroid);
               }
-              setReminder({
+              onDone({
                 calendar: dtpCalendar.calendar,
                 event: find.id,
                 data: event,
               });
-              onDone();
             } else {
-              setReminder({
-                ...reminder,
-                calendar: dtpCalendar.calendar,
-              });
+              onDone({...reminder, calendar: dtpCalendar.calendar});
             }
           } else {
-            setReminder({
-              ...reminder,
-              calendar: dtpCalendar.calendar,
-            });
-            onDone();
+            onDone({...reminder, calendar: dtpCalendar.calendar});
           }
         } else {
           await onSaveLocal(dtpCalendar.calendar, task.taskID, null);
-          setReminder({...reminder, calendar: dtpCalendar.calendar});
-          onDone();
+          onDone({...reminder, calendar: dtpCalendar.calendar});
         }
       } else {
         let calendars = await RNCalendarEvents.findCalendars();
@@ -301,17 +250,15 @@ function Reminder(props) {
             }
             try {
               let idCalendar = await RNCalendarEvents.saveCalendar(dtpCalendar);
-              setReminder({...reminder, calendar: idCalendar});
               await onSaveLocal(idCalendar, task.taskID, null);
-              onDone();
+              onDone({...reminder, calendar: idCalendar});
             } catch (e) {
               console.log('[LOG] === error create calendar ===> ', e);
               onDone();
             }
           } else {
-            setReminder({...reminder, calendar: findCalendar.id});
             await onSaveLocal(findCalendar.id, task.taskID, null);
-            onDone();
+            onDone({...reminder, calendar: findCalendar.id});
           }
         }
       }
@@ -320,7 +267,10 @@ function Reminder(props) {
     }
   };
 
-  const onDone = () => {
+  const onDone = reminderObj => {
+    if (reminderObj) {
+      setReminder(reminderObj);
+    }
     setLoading(false);
   };
 
@@ -339,10 +289,7 @@ function Reminder(props) {
         events: [{task: taskID, id: eventID}],
       };
     }
-    await saveLocalInfo({
-      key: DTP_CALENDAR,
-      value: checkLocal,
-    });
+    await saveLocalInfo({key: DTP_CALENDAR, value: checkLocal});
   };
 
   const onChangeDateRequest = newDate => {
@@ -365,6 +312,9 @@ function Reminder(props) {
   /************
    ** RENDER **
    ************/
+  if (loading) {
+    return <CActivityIndicator />;
+  }
   const dateTime = {
     maximun: new Date(
       moment(pickerDate.end).year(),
@@ -381,12 +331,8 @@ function Reminder(props) {
       moment(pickerDate.start).minutes(),
     ),
   };
-  if (loading) {
-    return <CActivityIndicator />;
-  }
-  console.log('[LOG] === RENDER ===> ', dataAlarmAndroid);
   return (
-    <>
+    <View>
       <RowInfoBasic
         isDark={isDark}
         left={<CText label={'project_management:reminder_task'} />}
@@ -525,55 +471,59 @@ function Reminder(props) {
         </View>
       )}
 
-      <CAlert
-        show={showAlert}
-        title={t('project_management:title_choose_alarms')}
-        customContent={
-          <View style={cStyles.p16}>
-            {dataAndroidAlarms.map(item => {
-              let isChoose = alarmsAndroid.find(f => f.value === item.value);
-              return (
-                <TouchableOpacity
-                  onPress={() =>
-                    handleChangeAlarmAndroid(item, isChoose ? false : true)
-                  }>
-                  <View
-                    style={[cStyles.row, cStyles.itemsCenter, cStyles.py10]}>
-                    <View style={cStyles.px16}>
-                      {isChoose ? (
-                        <Icon
-                          name={Icons.dot}
-                          size={moderateScale(18)}
-                          color={customColors.primary}
-                        />
-                      ) : (
-                        <Icon
-                          name={Icons.circle}
-                          size={moderateScale(18)}
-                          color={customColors.icon}
-                        />
-                      )}
+      {IS_ANDROID && (
+        <CAlert
+          show={showAlert}
+          title={t('project_management:title_choose_alarms')}
+          customContent={
+            <View style={cStyles.p16}>
+              {Configs.alarmsAndroid.map(item => {
+                let isChoose = alarmsAndroid.find(f => f.value === item.value);
+                return (
+                  <TouchableOpacity
+                    onPress={() =>
+                      handleChangeAlarmAndroid(item, isChoose ? false : true)
+                    }>
+                    <View
+                      style={[cStyles.row, cStyles.itemsCenter, cStyles.py10]}>
+                      <View style={cStyles.px16}>
+                        {isChoose ? (
+                          <Icon
+                            name={Icons.dot}
+                            size={moderateScale(18)}
+                            color={customColors.primary}
+                          />
+                        ) : (
+                          <Icon
+                            name={Icons.circle}
+                            size={moderateScale(18)}
+                            color={customColors.icon}
+                          />
+                        )}
+                      </View>
+                      <CText label={item.label} />
                     </View>
-                    <CText label={item.label} />
-                  </View>
-                </TouchableOpacity>
-              );
-            })}
-          </View>
-        }
-        onOK={onToggleAlert}
-      />
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+          }
+          onOK={onToggleAlert}
+        />
+      )}
 
       {/** Date Picker */}
-      <CDateTimePicker
-        show={showPicker}
-        date={dateTime.value}
-        minimumDate={new Date()}
-        maximumDate={dateTime.maximun}
-        mode={'datetime'}
-        onChangeDate={onChangeDateRequest}
-      />
-    </>
+      {IS_IOS && (
+        <CDateTimePicker
+          show={showPicker}
+          date={dateTime.value}
+          minimumDate={new Date()}
+          maximumDate={dateTime.maximun}
+          mode={'datetime'}
+          onChangeDate={onChangeDateRequest}
+        />
+      )}
+    </View>
   );
 }
 

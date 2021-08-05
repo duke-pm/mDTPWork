@@ -160,9 +160,12 @@
     "current_password": "Current password",
     "new_password": "New password",
     "confirm_password": "Confirm password",
-    "error_not_fill": "not empty!",
-    "error_cur_not_like_new": "not like!",
-    "error_new_not_like_confirm": "incorrect!",
+    "error_cur_pass_not_fill": "The current password is not empty!",
+    "error_new_pass_not_fill": "The new password is not empty!",
+    "error_con_pass_not_fill": "Confirm the password is not empty!",
+    "error_cur_not_like_new": "The new password cannot match the current password!",
+    "error_length_new_lager": "Minimum new password length is",
+    "error_new_not_like_confirm": "Confirm password incorrectly!",
     "success_change": "Change password successfully! Please login with a new password to continue using application.",
     "error_change": "Password change failed. Please try again later!"
   },
@@ -187,7 +190,10 @@
     "holder_change_language": "Please select the language below",
     "vi": "Vietnamese",
     "en": "English",
-    "theme": "Dark mode",
+    "dard_mode": "Dark mode",
+    "dard_mode_on": "On",
+    "dard_mode_off": "Off",
+    "dard_mode_system": "System",
     "biometrics": "Fast login",
     "holder_biometrics": "Support TouchID or FaceID (if any)"
   },
@@ -282,7 +288,8 @@
     "info_user_request": "Information of user",
     "info_assets": "Information of assets",
     "info_other": "Other information",
-    "holder_empty_department": "Empty department"
+    "holder_empty_department": "Empty department",
+    "holder_empty_assets": "Empty assets"
   },
   "approved_lost_damaged": {
     "title": "Failure | Lost",
@@ -444,7 +451,23 @@
     "find": "Find",
     "confirm_change_to_finished": "When you choose Finished Status, the progress will be 100%. Do you agree to do it?",
     "confirm_change_to_100": "When you choose a progress of 100%, the status will be finished. Do you agree to do it?",
-    "completed_task": "You have completed this job"
+    "completed_task": "You have completed this job",
+    "reminder_task": "Reminder",
+    "none_reminder": "None",
+    "date_time_alert": "Time",
+    "title_update_task": "[DTP Work] Reminder job number #",
+    "note_update_task": "Please visit ",
+    "note_update_task_2": " to update the information of your work.",
+    "title_choose_alarms": "Choose the notification time",
+    "five_minutes": "Before 5 minutes",
+    "ten_minutes": "Before 10 minutes",
+    "fifteen_minutes": "Before 15 minutes",
+    "thirty_minutes": "Before 30 minutes",
+    "sixty_minutes": "Before 60 minutes",
+    "one_day": "Before 1 day",
+    "one_week": "Before 1 week",
+    "before": "Before ",
+    "alert_change_permission_calendar": "You need request Calendar permission to Grant in Settings"
   },
   "project_preview": {
     "title": "Preview",
