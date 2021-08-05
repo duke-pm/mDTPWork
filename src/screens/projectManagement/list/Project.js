@@ -22,6 +22,8 @@ import CAlert from '~/components/CAlert';
 import CAvatar from '~/components/CAvatar';
 import CLabel from '~/components/CLabel';
 import CText from '~/components/CText';
+import CUser from '~/components/CUser';
+import CStatusTag from '~/components/CStatusTag';
 import ProjectItem from '../components/ProjectItem';
 /** COMMON */
 import Icons from '~/config/Icons';
@@ -173,36 +175,19 @@ function ListProject(props) {
                 {/** Owner */}
                 <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt10]}>
                   <CLabel bold label={'project_management:owner'} />
-                  <CAvatar size={'vsmall'} label={chooseProject.ownerName} />
-                  <CText
-                    styles={'ml6 textCallout'}
-                    customLabel={checkEmpty(chooseProject.ownerName)}
-                  />
+                  <CUser style={cStyles.ml6} label={chooseProject.ownerName} />
                 </View>
 
                 {/** Status */}
                 <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt10]}>
                   <CLabel bold label={'project_management:status'} />
-                  <Icon
-                    name={Icons.dot}
+                  <CStatusTag
+                    style={cStyles.ml6}
                     color={
                       isDark
                         ? chooseProject.colorDarkCode
                         : chooseProject.colorCode
                     }
-                    size={moderateScale(14)}
-                  />
-                  <CText
-                    customStyles={[
-                      cStyles.textCallout,
-                      cStyles.fontBold,
-                      cStyles.ml4,
-                      {
-                        color: isDark
-                          ? chooseProject.colorDarkCode
-                          : chooseProject.colorCode,
-                      },
-                    ]}
                     customLabel={chooseProject.statusName}
                   />
                 </View>

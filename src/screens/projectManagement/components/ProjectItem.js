@@ -12,14 +12,13 @@ import moment from 'moment';
 /* COMPONENTS */
 import CCard from '~/components/CCard';
 import CLabel from '~/components/CLabel';
-import CAvatar from '~/components/CAvatar';
-import CText from '~/components/CText';
+import CUser from '~/components/CUser';
 import CStatusTag from '~/components/CStatusTag';
 import ListProject from '../list/Project';
 /* COMMON */
 import Icons from '~/config/Icons';
 import {colors, cStyles} from '~/utils/style';
-import {checkEmpty, moderateScale, IS_ANDROID} from '~/utils/helper';
+import {moderateScale, IS_ANDROID} from '~/utils/helper';
 import {DEFAULT_FORMAT_DATE_4} from '~/config/constants';
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -120,14 +119,7 @@ function ProjectItem(props) {
                 ]}>
                 <View style={[cStyles.row, cStyles.itemsCenter, cStyles.flex1]}>
                   {/** Owner */}
-                  <View
-                    style={[cStyles.row, cStyles.itemsCenter, styles.row_left]}>
-                    <CAvatar size={'vsmall'} label={data.ownerName} />
-                    <CText
-                      styles={'textCallout pl6'}
-                      customLabel={checkEmpty(data.ownerName)}
-                    />
-                  </View>
+                  <CUser style={styles.row_left} label={data.ownerName} />
 
                   {/** Status */}
                   <View style={[cStyles.itemsStart, styles.row_right]}>

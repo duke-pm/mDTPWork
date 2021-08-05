@@ -17,7 +17,7 @@ import {moderateScale} from '~/utils/helper';
 
 function CStatusTag(props) {
   const {customColors} = useTheme();
-  const {label, customLabel, color} = props;
+  const {style, label, customLabel, color} = props;
 
   /************
    ** RENDER **
@@ -31,6 +31,7 @@ function CStatusTag(props) {
         cStyles.px6,
         cStyles.rounded5,
         {backgroundColor: color},
+        style,
       ]}>
       <Icon
         name={Icons.dot}

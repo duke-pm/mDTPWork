@@ -62,6 +62,7 @@ import {
 } from '~/utils/helper';
 /** REDUX */
 import * as Actions from '~/redux/actions';
+import CUser from '~/components/CUser';
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -733,16 +734,10 @@ function Task(props) {
                       isDark={isDark}
                       left={<CText label={'project_management:assignee'} />}
                       right={
-                        <View style={[cStyles.row, cStyles.itemsCenter]}>
-                          <CAvatar
-                            size={'vsmall'}
-                            label={data.taskDetail.ownerName}
-                          />
-                          <CText
-                            styles={'pl6 textRight'}
-                            customLabel={data.taskDetail.ownerName}
-                          />
-                        </View>
+                        <CUser
+                          textStyle={cStyles.textBody}
+                          label={data.taskDetail.ownerName}
+                        />
                       }
                     />
 

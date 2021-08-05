@@ -151,10 +151,11 @@ function CAvatar(props) {
                 style={[
                   cStyles.textCenter,
                   cStyles.colorGray800,
+                  cStyles.fontBold,
                   {
                     fontSize:
                       size === 'vsmall'
-                        ? moderateScale(7)
+                        ? moderateScale(8)
                         : size === 'small'
                         ? moderateScale(10)
                         : size === 'medium'

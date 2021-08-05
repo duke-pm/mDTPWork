@@ -19,8 +19,8 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 /* COMPONENTS */
 import CText from '~/components/CText';
-import CAvatar from '~/components/CAvatar';
 import CTouchable from '~/components/CTouchable';
+import CUser from '~/components/CUser';
 import CStatusTag from '~/components/CStatusTag';
 import ListTask from '../list/Task';
 /* COMMON */
@@ -223,14 +223,7 @@ function TaskItem(props) {
                   color={isDark ? data.colorDarkCode : data.colorCode}
                 />
               )}
-
-              <View style={[cStyles.row, cStyles.itemsCenter]}>
-                <CAvatar size={'vsmall'} label={data.ownerName} />
-                <CText
-                  styles={'textCallout pl6'}
-                  customLabel={data.ownerName}
-                />
-              </View>
+              <CUser style={styles.row_left} label={data.ownerName} />
             </View>
 
             {delay > 0 && (

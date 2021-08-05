@@ -19,6 +19,7 @@ import Icons from '~/config/Icons';
 import Commons from '~/utils/common/Commons';
 import {DEFAULT_FORMAT_DATE_4} from '~/config/constants';
 import {cStyles} from '~/utils/style';
+import CUser from '~/components/CUser';
 
 function RequestItem(props) {
   const {t} = useTranslation();
@@ -82,16 +83,7 @@ function RequestItem(props) {
                   color={customColors[statusColor]}
                 />
               </View>
-              <View
-                style={[
-                  cStyles.row,
-                  cStyles.itemsCenter,
-                  cStyles.justifyStart,
-                  styles.header_right,
-                ]}>
-                <CAvatar size={'vsmall'} label={data.personRequest} />
-                <CLabel style={cStyles.ml6} customLabel={data.personRequest} />
-              </View>
+              <CUser style={styles.header_right} label={data.personRequest} />
             </View>
 
             {/** Region & User send */}
