@@ -265,12 +265,17 @@ function TaskItem(props) {
                     size={moderateScale(10)}
                   />
                   <Text style={cStyles.pl4} numberOfLines={1}>
-                    <Text style={cStyles.textCaption2}>
+                    <Text
+                      style={[
+                        cStyles.textCaption2,
+                        {color: customColors.text},
+                      ]}>
                       {`${moment(data.startDate).format('DD/MM/YYYY')} - `}
                     </Text>
                     <Text
                       style={[
                         cStyles.textCaption2,
+                        {color: customColors.text},
                         delay > 0 && {color: customColors.red},
                       ]}>
                       {moment(data.endDate).format('DD/MM/YYYY')}
@@ -327,7 +332,10 @@ function TaskItem(props) {
                               cStyles.abs,
                               {
                                 top: -moderateScale(10),
-                                right: (index + 1) * moderateScale(12),
+                                right:
+                                  (data.lstUserInvited.length > 3
+                                    ? index + 1
+                                    : index) * moderateScale(12),
                                 zIndex: index + 1,
                               },
                             ]}>
