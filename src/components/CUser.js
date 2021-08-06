@@ -23,7 +23,7 @@ function CUser(props) {
     <View style={[cStyles.row, cStyles.itemsCenter, style]}>
       <CAvatar size={'vsmall'} source={avatar} label={label} />
       <CText
-        customStyles={[cStyles.textCaption1, cStyles.pl5, textStyle]}
+        customStyles={[cStyles.textCaption2, cStyles.pl5, textStyle]}
         customLabel={checkEmpty(label)}
       />
     </View>

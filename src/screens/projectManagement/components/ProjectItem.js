@@ -79,9 +79,14 @@ function ProjectItem(props) {
    ** RENDER **
    ************/
   return (
-    <View style={[cStyles.row, cStyles.itemsStart]}>
+    <View
+      style={[
+        cStyles.row,
+        cStyles.itemsStart,
+        data.prjParentID > 0 && cStyles.ml12,
+      ]}>
       {/** Arrow childrens */}
-      {data.prjParentID > 0 && (
+      {/* {data.prjParentID > 0 && (
         <View style={styles.con_arrow}>
           <View
             style={[
@@ -96,7 +101,7 @@ function ProjectItem(props) {
             ]}
           />
         </View>
-      )}
+      )} */}
 
       {/** Project card */}
       <View style={[cStyles.flex1, data.countChild > 0 ? cStyles.mb10 : {}]}>

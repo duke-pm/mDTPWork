@@ -26,8 +26,9 @@ import ListTask from '../list/Task';
 /* COMMON */
 import Icons from '~/config/Icons';
 import Commons from '~/utils/common/Commons';
-import {IS_ANDROID, moderateScale} from '~/utils/helper';
+import {IS_ANDROID, IS_IOS, moderateScale} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
+import CAvatar from '~/components/CAvatar';
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -66,7 +67,7 @@ function TaskItem(props) {
   };
 
   const handleShowChildren = () => {
-    LayoutAnimation.configureNext(CustomLayoutAnimated);
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     Animated.timing(valueAnim, {
       toValue: showChildren ? 0 : 1,
       duration: 300,
@@ -78,8 +79,16 @@ function TaskItem(props) {
   /************
    ** RENDER **
    ************/
-  let showPercentage = data.taskTypeID === Commons.TYPE_TASK.TASK.value;
+  let showPercentage = data.taskTypeID === Commons.TYPE_TASK.TASK.value,
+    bgTaskType = colors.STATUS_NEW_OPACITY; // Default is TASK
   let delay = 0;
+  if (data) {
+    if (data.taskTypeID === Commons.TYPE_TASK.PHASE.value) {
+      bgTaskType = colors.STATUS_ON_HOLD_OPACITY;
+    } else if (data.taskTypeID === Commons.TYPE_TASK.MILESTONE.value) {
+      bgTaskType = colors.STATUS_SCHEDULE_OPACITY;
+    }
+  }
   if (
     data &&
     showPercentage &&
@@ -95,9 +104,14 @@ function TaskItem(props) {
     outputRange: ['0deg', '180deg'],
   });
   return (
-    <View style={[cStyles.row, cStyles.itemsStart]}>
+    <View
+      style={[
+        cStyles.row,
+        cStyles.itemsStart,
+        data.parentID > 0 && cStyles.ml12,
+      ]}>
       {/** Arrow childrens */}
-      {data.parentID > 0 && (
+      {/* {data.parentID > 0 && (
         <View style={styles.con_arrow}>
           <View
             style={[
@@ -112,26 +126,29 @@ function TaskItem(props) {
             ]}
           />
         </View>
-      )}
+      )} */}
 
       {/** Project card */}
       <View style={cStyles.flex1}>
-        <CTouchable disabled={props.loading} onPress={handleTaskItem}>
+        <CTouchable
+          containerStyle={cStyles.rounded3}
+          disabled={props.loading}
+          onPress={handleTaskItem}>
           <View
             style={[
               cStyles.flex1,
               cStyles.p10,
-              cStyles.rounded1,
-              cStyles.shadowListItem,
-              styles.con_task,
-              {
-                backgroundColor: customColors.card,
-                borderLeftColor: isDark ? data.typeColorDark : data.typeColor,
-              },
+              cStyles.rounded3,
+              {backgroundColor: bgTaskType},
             ]}>
             {/** Label */}
             <View
-              style={[cStyles.row, cStyles.itemsStart, cStyles.justifyBetween]}>
+              style={[
+                cStyles.row,
+                cStyles.itemsStart,
+                cStyles.justifyBetween,
+                {height: moderateScale(50)},
+              ]}>
               <View
                 style={[
                   cStyles.row,
@@ -139,19 +156,22 @@ function TaskItem(props) {
                   data.taskTypeID !== Commons.TYPE_TASK.MILESTONE.value &&
                     styles.con_label_left,
                 ]}>
-                <Text>
+                <Text numberOfLines={2}>
                   <Text
                     style={[
-                      cStyles.textHeadline,
+                      cStyles.textBody,
+                      cStyles.fontBold,
                       {color: isDark ? data.typeColorDark : data.typeColor},
                     ]}
                     customLabel={data.typeName}>
                     {data.typeName}
                   </Text>
                   <Text
-                    style={
-                      cStyles.textSubheadline
-                    }>{`  #${data?.taskID} ${data?.taskName}`}</Text>
+                    style={[
+                      cStyles.textBody,
+                      cStyles.fontBold,
+                      {color: customColors.text},
+                    ]}>{`  #${data?.taskID} ${data?.taskName}`}</Text>
                 </Text>
               </View>
 
@@ -165,39 +185,30 @@ function TaskItem(props) {
                 ]}>
                 {showPercentage ? (
                   <CTouchable
-                    containerStyle={cStyles.rounded10}
+                    containerStyle={cStyles.rounded5}
                     onPress={handleShowChildren}>
                     <Progress.Circle
                       animated={false}
                       size={moderateScale(30)}
                       progress={data.percentage / 100}
-                      thickness={moderateScale(1)}
+                      thickness={1}
                       color={customColors.primary}
                       showsText
                       textStyle={[
                         cStyles.textCenter,
                         cStyles.fontRegular,
-                        {fontSize: moderateScale(8)},
+                        {fontSize: moderateScale(7)},
                       ]}
                     />
                   </CTouchable>
                 ) : data.countChild > 0 ? (
-                  <CTouchable
-                    containerStyle={[
-                      cStyles.rounded10,
-                      cStyles.center,
-                      cStyles.mr5,
-                      cStyles.mt5,
-                      {width: moderateScale(30), height: moderateScale(30)},
-                    ]}
-                    onPress={handleShowChildren}>
+                  <CTouchable onPress={handleShowChildren}>
                     <Animated.View
                       style={[
-                        {
-                          width: moderateScale(21),
-                          height: moderateScale(21),
-                          transform: [{rotate: rotateData}],
-                        },
+                        cStyles.center,
+                        cStyles.rounded10,
+                        {transform: [{rotate: rotateData}]},
+                        styles.con_children,
                       ]}>
                       <Icon
                         name={Icons.up}
@@ -210,43 +221,131 @@ function TaskItem(props) {
               </View>
             </View>
 
-            <View
-              style={[
-                cStyles.row,
-                cStyles.itemsCenter,
-                cStyles.justifyBetween,
-                cStyles.mt10,
-              ]}>
-              {data.taskTypeID !== Commons.TYPE_TASK.MILESTONE.value && (
-                <CStatusTag
-                  customLabel={data.statusName}
-                  color={isDark ? data.colorDarkCode : data.colorCode}
-                />
-              )}
-              <CUser style={styles.row_left} label={data.ownerName} />
-            </View>
-
-            {delay > 0 && (
-              <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pt6]}>
-                <Icon
-                  name={Icons.time}
-                  color={customColors.red}
-                  size={moderateScale(10)}
-                />
+            {data.descr !== '' && (
+              <View>
                 <CText
-                  customStyles={[
-                    cStyles.textCaption1,
-                    cStyles.ml3,
-                    {color: customColors.red},
-                  ]}
-                  customLabel={`${translation(
-                    'project_management:delay_date_1',
-                  )} ${delay} ${translation(
-                    'project_management:delay_date_2',
-                  )}`}
+                  styles={'textCaption1'}
+                  customLabel={data.descr}
+                  numberOfLines={2}
                 />
               </View>
             )}
+
+            {/** Informations */}
+            <View
+              style={[
+                cStyles.mt6,
+                cStyles.pt10,
+                cStyles.borderTop,
+                isDark && cStyles.borderTopDark,
+              ]}>
+              <View
+                style={[
+                  cStyles.flex1,
+                  cStyles.row,
+                  cStyles.itemsCenter,
+                  cStyles.justifyBetween,
+                ]}>
+                <CUser style={styles.row_left} label={data.ownerName} />
+                {data.taskTypeID !== Commons.TYPE_TASK.MILESTONE.value && (
+                  <CStatusTag
+                    customLabel={data.statusName}
+                    color={isDark ? data.colorDarkCode : data.colorCode}
+                  />
+                )}
+              </View>
+
+              <View
+                style={[
+                  cStyles.flex1,
+                  cStyles.row,
+                  cStyles.itemsCenter,
+                  cStyles.justifyBetween,
+                  cStyles.pt12,
+                ]}>
+                <View style={[cStyles.row, cStyles.itemsCenter]}>
+                  <Icon
+                    name={Icons.time}
+                    color={delay > 0 ? customColors.red : customColors.icon}
+                    size={moderateScale(10)}
+                  />
+                  <Text style={cStyles.pl4} numberOfLines={1}>
+                    <Text style={cStyles.textCaption2}>
+                      {`${moment(data.startDate).format('DD/MM/YYYY')} - `}
+                    </Text>
+                    <Text
+                      style={[
+                        cStyles.textCaption2,
+                        delay > 0 && {color: customColors.red},
+                      ]}>
+                      {moment(data.endDate).format('DD/MM/YYYY')}
+                    </Text>
+                  </Text>
+                  {delay > 0 && (
+                    <CText
+                      customStyles={[
+                        cStyles.textCaption2,
+                        cStyles.ml3,
+                        {color: customColors.red},
+                      ]}
+                      customLabel={`(${translation(
+                        'project_management:delay_date_1',
+                      )} ${delay} ${translation(
+                        'project_management:delay_date_2',
+                      )})`}
+                    />
+                  )}
+                </View>
+                {data.lstUserInvited.length > 0 && (
+                  <View style={[cStyles.row, cStyles.itemsCenter]}>
+                    {data.lstUserInvited.map((item, index) => {
+                      if (index === 3) {
+                        return (
+                          <View
+                            style={[
+                              cStyles.rounded10,
+                              cStyles.p1,
+                              cStyles.center,
+                              cStyles.abs,
+                              cStyles.right0,
+                              {
+                                top: -moderateScale(10),
+                                backgroundColor: customColors.card,
+                                height: moderateScale(20),
+                                width: moderateScale(20),
+                                zIndex: 0,
+                              },
+                            ]}>
+                            <CText
+                              styles={'textCaption2'}
+                              customLabel={`+${data.lstUserInvited.length - 3}`}
+                            />
+                          </View>
+                        );
+                      }
+                      if (index < 3) {
+                        return (
+                          <View
+                            style={[
+                              cStyles.rounded10,
+                              cStyles.p1,
+                              cStyles.abs,
+                              {
+                                top: -moderateScale(10),
+                                right: (index + 1) * moderateScale(12),
+                                zIndex: index + 1,
+                              },
+                            ]}>
+                            <CAvatar size={'vsmall'} label={item.fullName} />
+                          </View>
+                        );
+                      }
+                      return null;
+                    })}
+                  </View>
+                )}
+              </View>
+            </View>
 
             {data.countChild > 0 && (
               <View
@@ -298,9 +397,12 @@ function TaskItem(props) {
 
 const styles = StyleSheet.create({
   line_child: {height: '100%', borderRadius: 1},
-  con_task: {borderLeftWidth: moderateScale(6)},
   con_label_left: {flex: 0.85},
   con_label_right: {flex: 0.15},
+  con_children: {
+    width: moderateScale(40),
+    height: moderateScale(40),
+  },
   badge: {
     height: moderateScale(15),
     width: moderateScale(15),

@@ -43,8 +43,8 @@ function ListTask(props) {
   return (
     <View style={cStyles.flex1}>
       <CList
-        style={cStyles.pt16}
-        contentStyle={cStyles.px10}
+        style={cStyles.py16}
+        contentStyle={cStyles.p10}
         textEmpty={'project_management:empty_tasks'}
         data={props.data}
         item={({item, index}) => {

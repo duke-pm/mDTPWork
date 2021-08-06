@@ -31,7 +31,7 @@ function CCard(props) {
     style = {},
     containerStyle = {},
     contentLabelStyle = {},
-    linearGradient = null,
+    gradientColor = null,
     detail = false,
     label = null,
     customLabel = null,
@@ -50,7 +50,7 @@ function CCard(props) {
       ? TouchableHighlight
       : TouchableNativeFeedback
     : View;
-  const Gradient = linearGradient ? LinearGradient : View;
+  const Gradient = gradientColor ? LinearGradient : View;
   return (
     <View
       key={key}
@@ -72,7 +72,7 @@ function CCard(props) {
             {backgroundColor: customColors.card},
             containerStyle,
           ]}
-          colors={linearGradient}>
+          colors={gradientColor}>
           <View
             style={[
               cStyles.roundedTopLeft2,
@@ -89,7 +89,7 @@ function CCard(props) {
             ]}>
             <View style={styles.con_header_left}>
               <CText
-                customStyles={cStyles.fontBold}
+                customStyles={[cStyles.textBody, cStyles.fontBold]}
                 label={label}
                 customLabel={customLabel}
               />

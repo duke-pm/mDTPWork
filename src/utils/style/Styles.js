@@ -517,13 +517,8 @@ const text = {
   },
   textCaption2: {
     fontSize: moderateScale(11),
-    fontWeight: '200',
+    fontWeight: '300',
     lineHeight: moderateScale(13),
-  },
-  textFootnote: {
-    fontSize: moderateScale(13),
-    fontWeight: '400',
-    lineHeight: moderateScale(18),
   },
 
   fontBold: {fontWeight: '700'},

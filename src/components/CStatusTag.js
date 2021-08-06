@@ -27,8 +27,8 @@ function CStatusTag(props) {
       style={[
         cStyles.row,
         cStyles.itemsCenter,
-        cStyles.py2,
-        cStyles.px6,
+        cStyles.py3,
+        cStyles.px8,
         cStyles.rounded5,
         {backgroundColor: color},
         style,
@@ -41,7 +41,7 @@ function CStatusTag(props) {
       <CText
         customStyles={[
           cStyles.textCaption2,
-          cStyles.fontMedium,
+          cStyles.fontRegular,
           cStyles.pl2,
           {color: colors.WHITE},
         ]}

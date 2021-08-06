@@ -76,13 +76,13 @@ function RequestItem(props) {
             {/** Date send & Status */}
             <View
               style={[cStyles.row, cStyles.itemsStart, cStyles.justifyBetween]}>
+              <CUser style={styles.header_right} label={data.personRequest} />
               <View style={[cStyles.itemsStart, styles.header_right]}>
                 <CStatusTag
                   customLabel={data.statusName}
                   color={customColors[statusColor]}
                 />
               </View>
-              <CUser style={styles.header_right} label={data.personRequest} />
             </View>
 
             {/** Region & User send */}
