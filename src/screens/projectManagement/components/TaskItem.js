@@ -143,12 +143,7 @@ function TaskItem(props) {
             ]}>
             {/** Label */}
             <View
-              style={[
-                cStyles.row,
-                cStyles.itemsStart,
-                cStyles.justifyBetween,
-                {height: moderateScale(50)},
-              ]}>
+              style={[cStyles.row, cStyles.itemsStart, cStyles.justifyBetween]}>
               <View
                 style={[
                   cStyles.row,
@@ -222,7 +217,7 @@ function TaskItem(props) {
             </View>
 
             {data.descr !== '' && (
-              <View>
+              <View style={cStyles.mt3}>
                 <CText
                   styles={'textCaption1'}
                   customLabel={data.descr}
