@@ -10,16 +10,15 @@ import {useTranslation} from 'react-i18next';
 import {StyleSheet, View, Text} from 'react-native';
 import moment from 'moment';
 /* COMPONENTS */
-import CAvatar from '~/components/CAvatar';
 import CLabel from '~/components/CLabel';
 import CCard from '~/components/CCard';
 import CStatusTag from '~/components/CStatusTag';
+import CUser from '~/components/CUser';
 /* COMMON */
 import Icons from '~/config/Icons';
 import Commons from '~/utils/common/Commons';
 import {DEFAULT_FORMAT_DATE_4} from '~/config/constants';
 import {cStyles} from '~/utils/style';
-import CUser from '~/components/CUser';
 
 function RequestItem(props) {
   const {t} = useTranslation();

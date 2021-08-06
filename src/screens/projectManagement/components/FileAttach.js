@@ -8,20 +8,21 @@
 import React, {useState, useEffect} from 'react';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
-import {StyleSheet, View, Image, Text, TouchableOpacity} from 'react-native';
+import {StyleSheet, View, Image, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import RNFS from 'react-native-fs';
 import FileViewer from 'react-native-file-viewer';
 import * as Progress from 'react-native-progress';
 /** COMPONENTS */
+import CText from '~/components/CText';
 import CActivityIndicator from '~/components/CActivityIndicator';
 /* COMMON */
+import Icons from '~/config/Icons';
+import API from '~/services/axios';
 import {Extensions} from '~/utils/asset';
 import {THEME_DARK} from '~/config/constants';
 import {cStyles, colors} from '~/utils/style';
 import {checkExistsFile, moderateScale} from '~/utils/helper';
-import API from '~/services/axios';
-import Icons from '~/config/Icons';
 
 function FileAttach(props) {
   const {customColors} = useTheme();
@@ -86,7 +87,6 @@ function FileAttach(props) {
     <TouchableOpacity
       style={[
         cStyles.p10,
-        cStyles.mb20,
         cStyles.mt10,
         cStyles.center,
         cStyles.rounded2,
@@ -98,23 +98,40 @@ function FileAttach(props) {
       disabled={loading.preview}
       onPress={handlePreviewFile}>
       <>
-        <Image
-          style={styles.file}
-          source={Extensions[extFile] || Extensions.file}
-          resizeMode={'contain'}
-        />
-
-        <Text
-          dataDetectorType={'link'}
+        <View
           style={[
-            cStyles.textCaption1,
-            cStyles.textItalic,
-            cStyles.textCenter,
-            cStyles.pt10,
-            {color: customColors.primary},
+            cStyles.flex1,
+            cStyles.row,
+            cStyles.itemsCenter,
+            cStyles.py10,
           ]}>
-          {shortFileName}
-        </Text>
+          <View style={styles.con_left}>
+            <Image
+              style={styles.file}
+              source={Extensions[extFile] || Extensions.file}
+              resizeMode={'contain'}
+            />
+          </View>
+
+          <View
+            style={[
+              cStyles.pt10,
+              cStyles.itemsCenter,
+              cStyles.fullWidth,
+              styles.con_right,
+            ]}>
+            <CText
+              customStyles={[
+                cStyles.textCaption1,
+                cStyles.textItalic,
+                cStyles.textCenter,
+                {color: customColors.primary},
+              ]}
+              customLabel={shortFileName}
+              dataDetectorType={'link'}
+            />
+          </View>
+        </View>
 
         {!isFileExisted && (
           <View
@@ -149,7 +166,7 @@ function FileAttach(props) {
               <View style={[cStyles.abs, cStyles.bottom0]}>
                 <Progress.Bar
                   animated={false}
-                  width={moderateScale(150)}
+                  width={moderateScale(250)}
                   height={moderateScale(2)}
                   borderColor={cStyles.borderAllDark.borderColor}
                   progress={progress / 100}
@@ -166,10 +183,12 @@ function FileAttach(props) {
 }
 
 const styles = StyleSheet.create({
-  container: {width: moderateScale(150)},
+  container: {width: moderateScale(250)},
   file: {width: moderateScale(60), height: moderateScale(60)},
   con_icon_download: {width: moderateScale(25), height: moderateScale(25)},
   con_bg: {zIndex: 5},
+  con_right: {flex: 0.7},
+  con_left: {flex: 0.3},
 });
 
 export default FileAttach;

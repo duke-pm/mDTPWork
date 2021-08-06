@@ -60,6 +60,8 @@ const Icons = {
   mail: 'mail',
   send: 'send',
   userCircle: 'person-circle',
+  user: 'person',
+  phone: 'call',
   login: 'log-in',
   save: 'save',
   nextStep: 'arrow-forward-outline',

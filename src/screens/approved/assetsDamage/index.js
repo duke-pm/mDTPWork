@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /**
- ** Name: Approved assets damage page
+ ** Name: Approved Assets Damage
  ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of ApprovedAssetsDamage.js
@@ -18,10 +18,10 @@ import ListRequest from '../components/ListRequest';
 import TabbarLoading from '../components/TabbarLoading';
 /* COMMON */
 import Routes from '~/navigation/Routes';
-import {LOAD_MORE, REFRESH} from '~/config/constants';
-import {usePrevious} from '~/utils/hook';
-import {cStyles} from '~/utils/style';
 import Commons from '~/utils/common/Commons';
+import {cStyles} from '~/utils/style';
+import {usePrevious} from '~/utils/hook';
+import {LOAD_MORE, REFRESH} from '~/config/constants';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 
@@ -38,7 +38,7 @@ function ApprovedAssetsDamage(props) {
   const perPage = commonState.get('perPage');
   const formatDate = commonState.get('formatDate');
   const refreshToken = authState.getIn(['login', 'refreshToken']);
-
+  const language = commonState.get('language');
   /** Use state */
   const [loading, setLoading] = useState({
     main: true,
@@ -57,11 +57,14 @@ function ApprovedAssetsDamage(props) {
     page: 1,
     search: '',
   });
-  let prevData = usePrevious(props.dataRoute);
+  /** Use previous */
+  const prevDataRoute = usePrevious(props.dataRoute);
 
   /**********
    ** FUNC **
    **********/
+  const onDone = curLoading => setLoading(curLoading);
+
   const onFetchData = (
     fromDate = null,
     toDate = null,
@@ -79,7 +82,7 @@ function ApprovedAssetsDamage(props) {
       RequestTypeID: Commons.APPROVED_TYPE.DAMAGED.value + '',
       IsResolveRequest: false,
       RefreshToken: refreshToken,
-      Lang: commonState.get('language'),
+      Lang: language,
     });
     return dispatch(Actions.fetchListRequestDamage(params, navigation));
   };
@@ -90,17 +93,18 @@ function ApprovedAssetsDamage(props) {
     let tmpProcessApproveds = [...data.processApproveds];
     let isLoadmore = true;
 
-    // Check if count result < perPage => loadmore is unavailable
+    // If count result < perPage => loadmore is unavailable
     if (approvedState.get('requestsDamage').length < perPage) {
       isLoadmore = false;
     }
 
-    // Check type fetch is refresh or loadmore
     if (type === REFRESH) {
+      // Fetch is refresh
       tmpRequests = approvedState.get('requestsDamage');
       tmpRequestDetail = approvedState.get('requestsDamageDetail');
       tmpProcessApproveds = approvedState.get('processDamageApproved');
     } else if (type === LOAD_MORE) {
+      // Fetch is loadmore
       tmpRequests = [...tmpRequests, ...approvedState.get('requestsDamage')];
       tmpRequestDetail = [
         ...tmpRequestDetail,
@@ -111,17 +115,13 @@ function ApprovedAssetsDamage(props) {
         ...approvedState.get('processDamageApproved'),
       ];
     }
-
-    // Update data
     setData({
       ...data,
       requests: tmpRequests,
       requestsDetail: tmpRequestDetail,
       processApproveds: tmpProcessApproveds,
     });
-
-    // Update loading and re-render
-    return setLoading({
+    return onDone({
       main: false,
       startFetch: false,
       refreshing: false,
@@ -134,7 +134,7 @@ function ApprovedAssetsDamage(props) {
     if (!loading.refreshing) {
       setData({...data, page: 1});
       onFetchData(data.fromDate, data.toDate, data.status, 1, data.search);
-      return setLoading({...loading, refreshing: true, isLoadmore: true});
+      return onDone({...loading, refreshing: true, isLoadmore: true});
     }
   };
 
@@ -149,7 +149,7 @@ function ApprovedAssetsDamage(props) {
         newPage,
         data.search,
       );
-      return setLoading({...loading, loadmore: true});
+      return onDone({...loading, loadmore: true});
     }
   };
 
@@ -160,8 +160,7 @@ function ApprovedAssetsDamage(props) {
       type: 'danger',
       icon: 'danger',
     });
-
-    return setLoading({
+    return onDone({
       main: false,
       startFetch: false,
       refreshing: false,
@@ -175,18 +174,19 @@ function ApprovedAssetsDamage(props) {
    ****************/
   useEffect(() => {
     onFetchData(data.fromDate, data.toDate, data.status, 1, data.search);
-    return setLoading({...loading, startFetch: true});
+    return onDone({...loading, startFetch: true});
   }, []);
 
   useEffect(() => {
-    if (prevData) {
+    if (prevDataRoute) {
       let curData = props.dataRoute;
       if (
-        prevData.fromDate !== curData.fromDate ||
-        prevData.toDate !== curData.toDate ||
-        JSON.stringify(prevData.status) !== JSON.stringify(curData.status) ||
-        prevData.search !== curData.search ||
-        prevData.isRefresh !== curData.isRefresh
+        prevDataRoute.fromDate !== curData.fromDate ||
+        prevDataRoute.toDate !== curData.toDate ||
+        JSON.stringify(prevDataRoute.status) !==
+          JSON.stringify(curData.status) ||
+        prevDataRoute.search !== curData.search ||
+        prevDataRoute.isRefresh !== curData.isRefresh
       ) {
         setData({
           ...data,
@@ -203,10 +203,10 @@ function ApprovedAssetsDamage(props) {
           curData.page,
           curData.search,
         );
-        return setLoading({...loading, startFetch: true});
+        return onDone({...loading, startFetch: true});
       }
     }
-  }, [setLoading, prevData, props.dataRoute]);
+  }, [setLoading, prevDataRoute, props.dataRoute]);
 
   useEffect(() => {
     if (loading.startFetch || loading.refreshing || loading.loadmore) {
@@ -243,11 +243,11 @@ function ApprovedAssetsDamage(props) {
         <ListRequest
           refreshing={loading.refreshing}
           loadmore={loading.loadmore}
+          routeDetail={Routes.MAIN.ADD_APPROVED_LOST_DAMAGED.name}
           data={data.requests}
           dataDetail={data.requestsDetail}
           dataProcess={data.processApproveds}
           customColors={customColors}
-          routeDetail={Routes.MAIN.ADD_APPROVED_LOST_DAMAGED.name}
           onRefresh={onRefresh}
           onLoadmore={onLoadmore}
         />

@@ -11,23 +11,23 @@ import {useSelector, useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
 import {showMessage} from 'react-native-flash-message';
-import {StyleSheet, View, LayoutAnimation, UIManager} from 'react-native';
+import {View, LayoutAnimation, UIManager} from 'react-native';
 import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CSearchBar from '~/components/CSearchBar';
-import CAlert from '~/components/CAlert';
 import CIconHeader from '~/components/CIconHeader';
 import CActionSheet from '~/components/CActionSheet';
-import Filter from '../components/Filter';
 import ListRequest from '../components/ListRequest';
+import Filter from '../components/Filter';
 /* COMMON */
 import Icons from '~/config/Icons';
 import {LOAD_MORE, REFRESH} from '~/config/constants';
-import {IS_ANDROID, moderateScale} from '~/utils/helper';
+import {IS_ANDROID} from '~/utils/helper';
 import {cStyles} from '~/utils/style';
 /* REDUX */
 import * as Actions from '~/redux/actions';
+
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -83,13 +83,7 @@ function ListRequestHandling(props) {
 
   const handleFilter = (fromDate, toDate, status, type) => {
     actionSheetFilterRef.current?.hide();
-    setData({
-      ...data,
-      page: 1,
-      type,
-      fromDate,
-      toDate,
-    });
+    setData({...data, page: 1, type, fromDate, toDate});
     onFetchData(fromDate, toDate, 1, data.search, type);
     return setLoading({...loading, startFetch: true});
   };
@@ -117,6 +111,8 @@ function ListRequestHandling(props) {
   /**********
    ** FUNC **
    **********/
+  const onDone = curLoading => setLoading(curLoading);
+
   const onFetchData = (
     fromDate = null,
     toDate = null,
@@ -135,7 +131,7 @@ function ListRequestHandling(props) {
       RefreshToken: refreshToken,
       Lang: language,
     });
-    dispatch(Actions.fetchListRequestApproved(params, navigation));
+    return dispatch(Actions.fetchListRequestApproved(params, navigation));
   };
 
   const onPrepareData = type => {
@@ -167,7 +163,7 @@ function ListRequestHandling(props) {
       requestsDetail: tmpRequestDetail,
       processApproveds: tmpProcessApproveds,
     });
-    setLoading({
+    return onDone({
       main: false,
       startFetch: false,
       refreshing: false,
@@ -178,18 +174,18 @@ function ListRequestHandling(props) {
 
   const onRefresh = () => {
     if (!loading.refreshing) {
-      setLoading({...loading, refreshing: true, isLoadmore: true});
       setData({...data, page: 1});
       onFetchData(data.fromDate, data.toDate, 1, data.search, data.type);
+      return onDone({...loading, refreshing: true, isLoadmore: true});
     }
   };
 
   const onLoadmore = () => {
     if (!loading.loadmore && loading.isLoadmore) {
       let newPage = data.page + 1;
-      setLoading({...loading, loadmore: true});
       setData({...data, page: newPage});
       onFetchData(data.fromDate, data.toDate, newPage, data.search, data.type);
+      return onDone({...loading, loadmore: true});
     }
   };
 
@@ -200,7 +196,6 @@ function ListRequestHandling(props) {
       type: 'danger',
       icon: 'danger',
     });
-
     return setLoading({
       main: false,
       startFetch: false,
@@ -215,7 +210,7 @@ function ListRequestHandling(props) {
    ****************/
   useEffect(() => {
     onFetchData(data.fromDate, data.toDate, data.page, data.search, data.type);
-    setLoading({...loading, startFetch: true});
+    return setLoading({...loading, startFetch: true});
   }, []);
 
   useEffect(() => {
@@ -311,9 +306,5 @@ function ListRequestHandling(props) {
     />
   );
 }
-
-const styles = StyleSheet.create({
-  container_modal: {width: moderateScale(350)},
-});
 
 export default ListRequestHandling;

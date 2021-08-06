@@ -15,6 +15,7 @@ import {
   StyleSheet,
   View,
   Text,
+  Linking,
   ScrollView,
   LayoutAnimation,
   UIManager,
@@ -33,6 +34,7 @@ import CLabel from '~/components/CLabel';
 import CGroupInfo from '~/components/CGroupInfo';
 import CIconHeader from '~/components/CIconHeader';
 import CAlert from '~/components/CAlert';
+import CUser from '~/components/CUser';
 import CReadMore from '~/components/CReadMore';
 import Status from '../components/Status';
 import Percentage from '../components/Percentage';
@@ -62,7 +64,8 @@ import {
 } from '~/utils/helper';
 /** REDUX */
 import * as Actions from '~/redux/actions';
-import CUser from '~/components/CUser';
+import CActivityIndicator from '~/components/CActivityIndicator';
+import CTouchable from '~/components/CTouchable';
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -163,6 +166,7 @@ function Task(props) {
     fastWatch: false,
     preview: false,
   });
+  const [participantInfo, setParticipantInfo] = useState(false);
   const [newComment, setNewComment] = useState(false);
   const [isFastWatch, setIsFastWatch] = useState(true);
   const [needRefresh, setNeedRefresh] = useState(false);
@@ -172,6 +176,7 @@ function Task(props) {
   });
   const [data, setData] = useState({
     taskDetail: null,
+    participantChoose: null,
   });
 
   let prevTaskDetail = usePrevious(projectState.get('taskDetail'));
@@ -219,6 +224,15 @@ function Task(props) {
       data: {taskID},
       onRefresh: onRefreshWatcher,
     });
+  };
+
+  const handleParticipant = (participant = null, showAlert = false) => {
+    setData({...data, participantChoose: participant});
+    setParticipantInfo(showAlert);
+  };
+
+  const handleEmail = data => {
+    Linking.openURL(`mailto:${data}`);
   };
 
   /**********
@@ -523,8 +537,8 @@ function Task(props) {
       'days',
     );
   }
-  const usersInvitedLength =
-    (data.taskDetail && data.taskDetail.lstUserInvited.length) || 0;
+  const usersInvited =
+    (data.taskDetail && data.taskDetail.lstUserInvited) || [];
   return (
     <CContainer
       loading={false}
@@ -672,7 +686,8 @@ function Task(props) {
                   <>
                     {/** Reminder */}
                     {data.taskDetail.owner == userId &&
-                      data.taskDetail === Commons.TYPE_TASK.TASK.value &&
+                      data.taskDetail.taskTypeID ===
+                        Commons.TYPE_TASK.TASK.value &&
                       data.taskDetail.statusID < 5 && (
                         <Reminder
                           task={data.taskDetail}
@@ -871,75 +886,78 @@ function Task(props) {
             {/** Other info */}
             <CGroupInfo
               loading={loading.main || !data.taskDetail}
+              contentStyle={cStyles.p0}
               label={'project_management:info_basic_3'}
               empty={
                 data.taskDetail &&
                 data.taskDetail.attachFiles === '' &&
-                data.taskDetail.lstUserInvited.length === 0
+                usersInvited.length === 0
               }
               content={
                 data.taskDetail ? (
                   <>
                     {/** Files attach */}
                     {data.taskDetail.attachFiles !== '' && (
-                      <View style={cStyles.flex1}>
+                      <View style={[cStyles.flex1, cStyles.px16, cStyles.py10]}>
                         <CLabel label={'project_management:files_attach'} />
                         <FileAttach file={data.taskDetail.attachFiles} />
                       </View>
                     )}
 
                     {/** Users invited */}
-                    {data.taskDetail.lstUserInvited.length > 0 && (
-                      <>
-                        <CLabel label={'project_management:user_invited'} />
+                    {usersInvited.length > 0 && (
+                      <View style={[cStyles.flex1, cStyles.mt10]}>
+                        <CLabel
+                          style={cStyles.px16}
+                          label={'project_management:user_invited'}
+                        />
                         <ScrollView
-                          style={[
-                            cStyles.mt10,
-                            cStyles.rounded2,
-                            {backgroundColor: customColors.textInput},
-                            styles.list_invited,
-                          ]}
-                          nestedScrollEnabled>
-                          {data.taskDetail.lstUserInvited.map((item, index) => {
+                          contentContainerStyle={[
+                            cStyles.flexWrap,
+                            cStyles.row,
+                            cStyles.itemsCenter,
+                            cStyles.p16,
+                            cStyles.pt10,
+                          ]}>
+                          {usersInvited.map((item, index) => {
                             return (
                               <View
                                 key={item.userName}
-                                style={[
-                                  cStyles.row,
-                                  cStyles.itemsCenter,
-                                  cStyles.ml3,
-                                ]}>
-                                <View style={cStyles.px10}>
-                                  <CAvatar
-                                    label={item.fullName}
-                                    size={'small'}
-                                  />
-                                </View>
-                                <View
-                                  style={[
-                                    cStyles.ml5,
-                                    cStyles.py10,
-                                    cStyles.flex1,
-                                    index !== usersInvitedLength - 1 &&
-                                      cStyles.borderBottom,
-                                    index !== usersInvitedLength - 1 &&
-                                      isDark &&
-                                      cStyles.borderBottomDark,
-                                  ]}>
-                                  <CText
-                                    styles={'textCallout fontBold'}
-                                    customLabel={checkEmpty(item.fullName)}
-                                  />
-                                  <CText
-                                    styles={'textCaption1 mt3'}
-                                    customLabel={checkEmpty(item.email)}
-                                  />
-                                </View>
+                                style={cStyles.shadowListItem}>
+                                <CTouchable
+                                  onPress={() => handleParticipant(item, true)}>
+                                  <View
+                                    style={[
+                                      cStyles.row,
+                                      cStyles.itemsCenter,
+                                      cStyles.rounded1,
+                                      cStyles.mt6,
+                                      cStyles.mr10,
+                                      cStyles.py6,
+                                      cStyles.px10,
+                                      IS_ANDROID && cStyles.borderAll,
+                                      IS_ANDROID &&
+                                        isDark &&
+                                        cStyles.borderAllDark,
+                                      {backgroundColor: customColors.card},
+                                    ]}>
+                                    <View style={cStyles.pr6}>
+                                      <CAvatar
+                                        label={item.fullName}
+                                        size={'vsmall'}
+                                      />
+                                    </View>
+                                    <CText
+                                      styles={'textCallout'}
+                                      customLabel={checkEmpty(item.fullName)}
+                                    />
+                                  </View>
+                                </CTouchable>
                               </View>
                             );
                           })}
                         </ScrollView>
-                      </>
+                      </View>
                     )}
                   </>
                 ) : null
@@ -966,6 +984,72 @@ function Task(props) {
             }
             onClose={() => setCompleted({...completed, show: false})}
           />
+
+          <CAlert
+            loading={data.participantChoose === null}
+            show={participantInfo}
+            contentStyle={cStyles.mt0}
+            title={''}
+            customContent={
+              data.participantChoose && (
+                <View>
+                  <View style={[cStyles.center, cStyles.mb10]}>
+                    <CAvatar
+                      size={'large'}
+                      label={data.participantChoose.fullName}
+                    />
+                  </View>
+                  {/** User name */}
+                  <View
+                    style={[cStyles.row, cStyles.itemsCenter, cStyles.mt16]}>
+                    <Icon
+                      name={Icons.user}
+                      size={moderateScale(21)}
+                      color={customColors.icon}
+                    />
+                    <CText
+                      styles={'pl12'}
+                      customLabel={data.participantChoose.userName}
+                    />
+                  </View>
+
+                  {/** Full name */}
+                  <View
+                    style={[cStyles.row, cStyles.itemsCenter, cStyles.mt16]}>
+                    <Icon
+                      name={Icons.userCircle}
+                      size={moderateScale(23)}
+                      color={customColors.icon}
+                    />
+                    <CText
+                      styles={'pl10'}
+                      customLabel={data.participantChoose.fullName}
+                    />
+                  </View>
+
+                  {/** Email */}
+                  <View
+                    style={[cStyles.row, cStyles.itemsCenter, cStyles.mt16]}>
+                    <Icon
+                      name={Icons.mail}
+                      size={moderateScale(21)}
+                      color={customColors.icon}
+                    />
+                    <CTouchable
+                      onPress={() => handleEmail(data.participantChoose.email)}>
+                      <CText
+                        styles={'pl12 textUnderline'}
+                        customLabel={data.participantChoose.email}
+                      />
+                    </CTouchable>
+                  </View>
+
+                  {/** Phone */}
+                </View>
+              )
+            }
+            onClose={handleParticipant}
+          />
         </>
       }
     />
@@ -973,7 +1057,6 @@ function Task(props) {
 }
 
 const styles = StyleSheet.create({
-  list_invited: {maxHeight: moderateScale(150)},
   row_info_basic_left: {flex: 0.4},
   row_info_basic_right: {flex: 0.6},
   last_row_info_basic: {borderBottomWidth: 0},

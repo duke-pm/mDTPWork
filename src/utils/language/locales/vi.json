@@ -438,7 +438,7 @@
     "year": "Năm",
     "holder_change_from": "được thay đổi từ",
     "holder_change_to": "đến",
-    "user_invited": "Cùng tham gia có",
+    "user_invited": "Những người tham gia",
     "delay_date_1": "Trễ",
     "delay_date_2": "ngày",
     "info_basic": "Thông tin cơ bản",
@@ -467,7 +467,8 @@
     "one_day": "trước 1 ngày",
     "one_week": "trước 1 tuần",
     "before": "trước ",
-    "alert_change_permission_calendar": "Bạn cần cầp quyền Lịch trong Cài Đặt Chung"
+    "alert_change_permission_calendar": "Bạn cần cầp quyền Lịch trong Cài Đặt Chung",
+    "info_participant": "Thông tin người cùng tham gia"
   },
   "project_preview": {
     "title": "Tổng Quan",

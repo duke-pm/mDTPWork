@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-shadow */
 /**
  ** Name: List request page
  ** Author: DTP-Education
@@ -9,12 +8,7 @@
 import React, {createRef, useState, useLayoutEffect} from 'react';
 import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-import {
-  View,
-  LayoutAnimation,
-  UIManager,
-  useWindowDimensions,
-} from 'react-native';
+import {StyleSheet, View, LayoutAnimation, UIManager} from 'react-native';
 import {TabView} from 'react-native-tab-view';
 import moment from 'moment';
 /* COMPONENTS */
@@ -28,11 +22,12 @@ import AssetsDamage from '../assetsDamage';
 import AssetsLost from '../assetsLost';
 import TabbarType from '../components/TabbarType';
 /* COMMON */
+import Icons from '~/config/Icons';
 import Routes from '~/navigation/Routes';
 import Commons from '~/utils/common/Commons';
-import Icons from '~/config/Icons';
 import {IS_ANDROID} from '~/utils/helper';
 import {cStyles} from '~/utils/style';
+
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -40,7 +35,7 @@ if (IS_ANDROID) {
 }
 
 const actionSheetFilterRef = createRef();
-
+const RenderTabbar = props => <TabbarType {...props} />;
 const RenderScene = ({route}) => {
   switch (route.key) {
     case Commons.APPROVED_TYPE.LOST.value + '':
@@ -53,13 +48,11 @@ const RenderScene = ({route}) => {
       return null;
   }
 };
-const RenderTabbar = props => <TabbarType {...props} />;
 
 function ListRequestAll(props) {
   const {t} = useTranslation();
   const {route, navigation} = props;
   const isPermissionWrite = route.params?.permission?.write || false;
-  const layout = useWindowDimensions();
 
   /** Use redux */
   const commonState = useSelector(({common}) => common);
@@ -133,16 +126,16 @@ function ListRequestAll(props) {
   };
 
   const handleSearch = value => {
-    let route = {search: value};
+    let tmp = {search: value};
     let tmpRoutes = [...routes];
-    tmpRoutes[index] = {...tmpRoutes[index], ...route};
+    tmpRoutes[index] = {...tmpRoutes[index], ...tmp};
     setRoutes(tmpRoutes);
   };
 
   const handleFilter = (fromDate, toDate, status, type) => {
-    let route = {fromDate, toDate, status, type};
+    let tmp = {fromDate, toDate, status, type};
     let tmpRoutes = [...routes];
-    tmpRoutes[index] = {...tmpRoutes[index], ...route};
+    tmpRoutes[index] = {...tmpRoutes[index], ...tmp};
     setRoutes(tmpRoutes);
     actionSheetFilterRef.current?.hide();
   };
@@ -216,7 +209,7 @@ function ListRequestAll(props) {
 
           <TabView
             lazy
-            initialLayout={{width: layout.width}}
+            initialLayout={styles.container_tab}
             navigationState={{index, routes}}
             onIndexChange={setIndex}
             renderScene={RenderScene}
@@ -238,5 +231,9 @@ function ListRequestAll(props) {
     />
   );
 }
+
+const styles = StyleSheet.create({
+  container_tab: {width: cStyles.deviceWidth},
+});
 
 export default ListRequestAll;

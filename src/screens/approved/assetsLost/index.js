@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /**
- ** Name: Approved assets page
+ ** Name: Approved Assets Lost
  ** Author: DTP-Education
  ** CreateAt: 2021
- ** Description: Description of ApprovedAssets.js
+ ** Description: Description of ApprovedAssetsLost.js
  **/
 import {fromJS} from 'immutable';
 import React, {useState, useEffect} from 'react';
@@ -25,7 +25,7 @@ import Commons from '~/utils/common/Commons';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 
-function ApprovedAssets(props) {
+function ApprovedAssetsLost(props) {
   const {t} = useTranslation();
   const {customColors} = useTheme();
   const navigation = useNavigation();
@@ -37,9 +37,8 @@ function ApprovedAssets(props) {
   const authState = useSelector(({auth}) => auth);
   const perPage = commonState.get('perPage');
   const formatDate = commonState.get('formatDate');
-  const language = commonState.get('language');
   const refreshToken = authState.getIn(['login', 'refreshToken']);
-
+  const language = commonState.get('language');
   /** Use state */
   const [loading, setLoading] = useState({
     main: true,
@@ -58,12 +57,14 @@ function ApprovedAssets(props) {
     page: 1,
     search: '',
   });
-
-  let prevData = usePrevious(props.dataRoute);
+  /** Use previous */
+  const prevDataRoute = usePrevious(props.dataRoute);
 
   /**********
    ** FUNC **
    **********/
+  const onDone = curLoading => setLoading(curLoading);
+
   const onFetchData = (
     fromDate = null,
     toDate = null,
@@ -92,17 +93,18 @@ function ApprovedAssets(props) {
     let tmpProcessApproveds = [...data.processApproveds];
     let isLoadmore = true;
 
-    // Check if count result < perPage => loadmore is unavailable
+    // If count result < perPage => loadmore is unavailable
     if (approvedState.get('requestsLost').length < perPage) {
       isLoadmore = false;
     }
 
-    // Check type fetch is refresh or loadmore
     if (type === REFRESH) {
+      // Fetch is refresh
       tmpRequests = approvedState.get('requestsLost');
       tmpRequestDetail = approvedState.get('requestsLostDetail');
       tmpProcessApproveds = approvedState.get('processLostApproved');
     } else if (type === LOAD_MORE) {
+      // Fetch is loadmore
       tmpRequests = [...tmpRequests, ...approvedState.get('requestsLost')];
       tmpRequestDetail = [
         ...tmpRequestDetail,
@@ -113,17 +115,13 @@ function ApprovedAssets(props) {
         ...approvedState.get('processLostApproved'),
       ];
     }
-
-    // Update data
     setData({
       ...data,
       requests: tmpRequests,
       requestsDetail: tmpRequestDetail,
       processApproveds: tmpProcessApproveds,
     });
-
-    // Update loading and re-render
-    return setLoading({
+    return onDone({
       main: false,
       startFetch: false,
       refreshing: false,
@@ -136,7 +134,7 @@ function ApprovedAssets(props) {
     if (!loading.refreshing) {
       setData({...data, page: 1});
       onFetchData(data.fromDate, data.toDate, data.status, 1, data.search);
-      return setLoading({...loading, refreshing: true, isLoadmore: true});
+      return onDone({...loading, refreshing: true, isLoadmore: true});
     }
   };
 
@@ -151,7 +149,7 @@ function ApprovedAssets(props) {
         newPage,
         data.search,
       );
-      return setLoading({...loading, loadmore: true});
+      return onDone({...loading, loadmore: true});
     }
   };
 
@@ -162,8 +160,7 @@ function ApprovedAssets(props) {
       type: 'danger',
       icon: 'danger',
     });
-
-    return setLoading({
+    return onDone({
       main: false,
       startFetch: false,
       refreshing: false,
@@ -183,18 +180,19 @@ function ApprovedAssets(props) {
       data.page,
       data.search,
     );
-    return setLoading({...loading, startFetch: true});
+    return onDone({...loading, startFetch: true});
   }, []);
 
   useEffect(() => {
-    if (prevData) {
+    if (prevDataRoute) {
       let curData = props.dataRoute;
       if (
-        prevData.fromDate !== curData.fromDate ||
-        prevData.toDate !== curData.toDate ||
-        JSON.stringify(prevData.status) !== JSON.stringify(curData.status) ||
-        prevData.search !== curData.search ||
-        prevData.isRefresh !== curData.isRefresh
+        prevDataRoute.fromDate !== curData.fromDate ||
+        prevDataRoute.toDate !== curData.toDate ||
+        JSON.stringify(prevDataRoute.status) !==
+          JSON.stringify(curData.status) ||
+        prevDataRoute.search !== curData.search ||
+        prevDataRoute.isRefresh !== curData.isRefresh
       ) {
         setData({
           ...data,
@@ -211,10 +209,10 @@ function ApprovedAssets(props) {
           curData.page,
           curData.search,
         );
-        return setLoading({...loading, startFetch: true});
+        return onDone({...loading, startFetch: true});
       }
     }
-  }, [setLoading, prevData, props.dataRoute]);
+  }, [setLoading, prevDataRoute, props.dataRoute]);
 
   useEffect(() => {
     if (loading.startFetch || loading.refreshing || loading.loadmore) {
@@ -251,11 +249,11 @@ function ApprovedAssets(props) {
         <ListRequest
           refreshing={loading.refreshing}
           loadmore={loading.loadmore}
+          routeDetail={Routes.MAIN.ADD_APPROVED_LOST_DAMAGED.name}
           data={data.requests}
           dataDetail={data.requestsDetail}
           dataProcess={data.processApproveds}
           customColors={customColors}
-          routeDetail={Routes.MAIN.ADD_APPROVED_LOST_DAMAGED.name}
           onRefresh={onRefresh}
           onLoadmore={onLoadmore}
         />
@@ -265,4 +263,4 @@ function ApprovedAssets(props) {
   );
 }
 
-export default ApprovedAssets;
+export default ApprovedAssetsLost;

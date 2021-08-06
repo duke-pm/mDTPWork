@@ -45,7 +45,6 @@ function CAlert(props) {
           styles.container,
           content && styles.container_small,
           {backgroundColor: customColors.card},
-          contentStyle,
         ]}>
         {/** Header of Alert */}
         {hasTitle && (
@@ -71,7 +70,7 @@ function CAlert(props) {
             <CText styles={'textCaption1 textCenter mt10'} label={content} />
           )}
           {!loading && customContent && (
-            <View style={cStyles.mt10}>{customContent}</View>
+            <View style={[cStyles.mt10, contentStyle]}>{customContent}</View>
           )}
           {loading && (
             <View style={[cStyles.flexCenter, cStyles.mt20, cStyles.mb10]}>

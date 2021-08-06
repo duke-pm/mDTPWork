@@ -18,10 +18,10 @@ import ListRequest from '../components/ListRequest';
 import TabbarLoading from '../components/TabbarLoading';
 /* COMMON */
 import Routes from '~/navigation/Routes';
-import {LOAD_MORE, REFRESH} from '~/config/constants';
-import {usePrevious} from '~/utils/hook';
-import {cStyles} from '~/utils/style';
 import Commons from '~/utils/common/Commons';
+import {cStyles} from '~/utils/style';
+import {usePrevious} from '~/utils/hook';
+import {LOAD_MORE, REFRESH} from '~/config/constants';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 
@@ -38,7 +38,7 @@ function ApprovedAssets(props) {
   const perPage = commonState.get('perPage');
   const formatDate = commonState.get('formatDate');
   const refreshToken = authState.getIn(['login', 'refreshToken']);
-
+  const language = commonState.get('language');
   /** Use state */
   const [loading, setLoading] = useState({
     main: true,
@@ -57,11 +57,14 @@ function ApprovedAssets(props) {
     page: 1,
     search: '',
   });
-  let prevData = usePrevious(props.dataRoute);
+  /** Use previous */
+  const prevDataRoute = usePrevious(props.dataRoute);
 
   /**********
    ** FUNC **
    **********/
+  const onDone = curLoading => setLoading(curLoading);
+
   const onFetchData = (
     fromDate = null,
     toDate = null,
@@ -79,7 +82,7 @@ function ApprovedAssets(props) {
       RequestTypeID: Commons.APPROVED_TYPE.ASSETS.value + '',
       IsResolveRequest: false,
       RefreshToken: refreshToken,
-      Lang: commonState.get('language'),
+      Lang: language,
     });
     return dispatch(Actions.fetchListRequestApproved(params, navigation));
   };
@@ -90,17 +93,18 @@ function ApprovedAssets(props) {
     let tmpProcessApproveds = [...data.processApproveds];
     let isLoadmore = true;
 
-    // Check if count result < perPage => loadmore is unavailable
+    // If count result < perPage => loadmore is unavailable
     if (approvedState.get('requests').length < perPage) {
       isLoadmore = false;
     }
 
-    // Check type fetch is refresh or loadmore
     if (type === REFRESH) {
+      // Fetch is refresh
       tmpRequests = approvedState.get('requests');
       tmpRequestDetail = approvedState.get('requestsDetail');
       tmpProcessApproveds = approvedState.get('processApproved');
     } else if (type === LOAD_MORE) {
+      // Fetch is loadmore
       tmpRequests = [...tmpRequests, ...approvedState.get('requests')];
       tmpRequestDetail = [
         ...tmpRequestDetail,
@@ -117,7 +121,7 @@ function ApprovedAssets(props) {
       requestsDetail: tmpRequestDetail,
       processApproveds: tmpProcessApproveds,
     });
-    return setLoading({
+    return onDone({
       main: false,
       startFetch: false,
       refreshing: false,
@@ -130,7 +134,7 @@ function ApprovedAssets(props) {
     if (!loading.refreshing) {
       setData({...data, page: 1});
       onFetchData(data.fromDate, data.toDate, data.status, 1, data.search);
-      return setLoading({...loading, refreshing: true, isLoadmore: true});
+      return onDone({...loading, refreshing: true, isLoadmore: true});
     }
   };
 
@@ -145,7 +149,7 @@ function ApprovedAssets(props) {
         newPage,
         data.search,
       );
-      return setLoading({...loading, loadmore: true});
+      return onDone({...loading, loadmore: true});
     }
   };
 
@@ -156,8 +160,7 @@ function ApprovedAssets(props) {
       type: 'danger',
       icon: 'danger',
     });
-
-    return setLoading({
+    return onDone({
       main: false,
       startFetch: false,
       refreshing: false,
@@ -177,18 +180,19 @@ function ApprovedAssets(props) {
       data.page,
       data.search,
     );
-    return setLoading({...loading, startFetch: true});
+    return onDone({...loading, startFetch: true});
   }, []);
 
   useEffect(() => {
-    if (prevData) {
+    if (prevDataRoute) {
       let curData = props.dataRoute;
       if (
-        prevData.fromDate !== curData.fromDate ||
-        prevData.toDate !== curData.toDate ||
-        JSON.stringify(prevData.status) !== JSON.stringify(curData.status) ||
-        prevData.search !== curData.search ||
-        prevData.isRefresh !== curData.isRefresh
+        prevDataRoute.fromDate !== curData.fromDate ||
+        prevDataRoute.toDate !== curData.toDate ||
+        JSON.stringify(prevDataRoute.status) !==
+          JSON.stringify(curData.status) ||
+        prevDataRoute.search !== curData.search ||
+        prevDataRoute.isRefresh !== curData.isRefresh
       ) {
         setData({
           ...data,
@@ -205,10 +209,10 @@ function ApprovedAssets(props) {
           1,
           curData.search,
         );
-        return setLoading({...loading, startFetch: true});
+        return onDone({...loading, startFetch: true});
       }
     }
-  }, [setLoading, prevData, props.dataRoute]);
+  }, [setLoading, prevDataRoute, props.dataRoute]);
 
   useEffect(() => {
     if (loading.startFetch || loading.refreshing || loading.loadmore) {
@@ -245,11 +249,11 @@ function ApprovedAssets(props) {
         <ListRequest
           refreshing={loading.refreshing}
           loadmore={loading.loadmore}
+          routeDetail={Routes.MAIN.ADD_APPROVED_ASSETS.name}
           data={data.requests}
           dataDetail={data.requestsDetail}
           dataProcess={data.processApproveds}
           customColors={customColors}
-          routeDetail={Routes.MAIN.ADD_APPROVED_ASSETS.name}
           onRefresh={onRefresh}
           onLoadmore={onLoadmore}
         />

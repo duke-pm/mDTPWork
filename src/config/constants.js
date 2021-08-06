@@ -29,6 +29,7 @@ export const DEFAULT_FORMAT_DATE_1 = 'YYYY-MM-DD';
 export const DEFAULT_FORMAT_DATE_2 = 'DD/MM/YYYY';
 export const DEFAULT_FORMAT_DATE_3 = 'YYYY/MM/DD';
 export const DEFAULT_FORMAT_DATE_4 = 'YYYY-MM-DDTHH:mm:ss';
+export const DEFAULT_FORMAT_DATE_5 = 'DD MMMM YYYY';
 export const DEFAULT_HEIGHT_UPLOAD = 250;
 export const DEFAULT_WIDTH_UPLOAD = 250;
 export const FIRST_CELL_WIDTH_LARGE = moderateScale(300);

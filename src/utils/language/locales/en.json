@@ -438,7 +438,7 @@
     "year": "Year",
     "holder_change_from": "changed from",
     "holder_change_to": "to",
-    "user_invited": "Users joined",
+    "user_invited": "Participants",
     "delay_date_1": "Delay",
     "delay_date_2": "days",
     "info_basic": "Basic information",
@@ -467,7 +467,8 @@
     "one_day": "Before 1 day",
     "one_week": "Before 1 week",
     "before": "Before ",
-    "alert_change_permission_calendar": "You need request Calendar permission to Grant in Settings"
+    "alert_change_permission_calendar": "You need request Calendar permission to Grant in Settings",
+    "info_participant": "Participant Info"
   },
   "project_preview": {
     "title": "Preview",

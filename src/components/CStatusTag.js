@@ -41,8 +41,8 @@ function CStatusTag(props) {
       <CText
         customStyles={[
           cStyles.textCaption2,
-          cStyles.fontBold,
-          cStyles.pl6,
+          cStyles.fontMedium,
+          cStyles.pl2,
           {color: colors.WHITE},
         ]}
         label={label || undefined}

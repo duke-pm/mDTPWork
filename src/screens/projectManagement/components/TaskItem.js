@@ -151,7 +151,7 @@ function TaskItem(props) {
                   <Text
                     style={
                       cStyles.textSubheadline
-                    }>{`  ${data?.taskName}`}</Text>
+                    }>{`  #${data?.taskID} ${data?.taskName}`}</Text>
                 </Text>
               </View>
 

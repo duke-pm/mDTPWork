@@ -22,8 +22,8 @@ import {colors, cStyles} from '~/utils/style';
 import {moderateScale, IS_ANDROID} from '~/utils/helper';
 
 function Dashboard(props) {
-  const {navigation} = props;
   const {customColors} = useTheme();
+  const {navigation} = props;
 
   /** Use State */
   const [loading, setLoading] = useState(true);
@@ -64,6 +64,8 @@ function Dashboard(props) {
   /**********
    ** FUNC **
    **********/
+  const onStart = () => setLoading(false);
+
   const onPrepareData = () => {
     let tmpListMenu = authState.getIn(['login', 'lstMenu']);
     if (tmpListMenu && tmpListMenu.lstPermissionItem.length > 0) {
@@ -76,22 +78,14 @@ function Dashboard(props) {
         }
       }
       setRoutes(tmpRoutes);
-      onStart();
-    } else {
-      onStart();
     }
-  };
-
-  const onStart = () => {
-    setLoading(false);
+    onStart();
   };
 
   /****************
    ** LIFE CYCLE **
    ****************/
-  useEffect(() => {
-    onPrepareData();
-  }, []);
+  useEffect(() => onPrepareData(), []);
 
   /************
    ** RENDER **
@@ -104,6 +98,7 @@ function Dashboard(props) {
           {!loading && (
             <CList
               contentStyle={cStyles.pt16}
+              numColumns={3}
               data={routes}
               item={({item, index}) => {
                 if (item.isAccess) {
@@ -113,7 +108,6 @@ function Dashboard(props) {
                 }
                 return null;
               }}
-              numColumns={3}
             />
           )}
         </CContent>

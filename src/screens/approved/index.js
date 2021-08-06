@@ -12,7 +12,6 @@ import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
 import CList from '~/components/CList';
 import CItem from '~/components/CItem';
-/** COMMON */
 import {cStyles} from '~/utils/style';
 
 function Approved(props) {
@@ -30,15 +29,15 @@ function Approved(props) {
    *****************/
   const handleItem = dataRoute => {
     navigation.navigate(dataRoute.mName, {
-      permission: {
-        write: dataRoute.isWrite,
-      },
+      permission: {write: dataRoute.isWrite},
     });
   };
 
   /**********
    ** FUNC **
    **********/
+  const onStart = () => setLoading(false);
+
   const onPrepareData = () => {
     let tmpListMenu = authState.getIn(['login', 'lstMenu']);
     let idRouteParent = route.params.idRouteParent;
@@ -56,25 +55,15 @@ function Approved(props) {
           }
         }
         setRoutes(tmpRoutes);
-        onStart();
-      } else {
-        onStart();
       }
-    } else {
-      onStart();
     }
-  };
-
-  const onStart = () => {
-    setLoading(false);
+    onStart();
   };
 
   /****************
    ** LIFE CYCLE **
    ****************/
-  useEffect(() => {
-    onPrepareData();
-  }, []);
+  useEffect(() => onPrepareData(), []);
 
   /************
    ** RENDER **
@@ -87,6 +76,7 @@ function Approved(props) {
           {!loading && (
             <CList
               contentStyle={cStyles.pt16}
+              numColumns={3}
               data={routes}
               item={({item, index}) => {
                 if (item.isAccess) {
@@ -96,7 +86,6 @@ function Approved(props) {
                 }
                 return null;
               }}
-              numColumns={3}
             />
           )}
         </CContent>
