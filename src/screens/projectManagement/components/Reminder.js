@@ -35,6 +35,7 @@ import {
   saveLocalInfo,
 } from '~/utils/helper';
 import {cStyles} from '~/utils/style';
+
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);

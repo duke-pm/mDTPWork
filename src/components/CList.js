@@ -60,7 +60,7 @@ function CList(props) {
           />
         }
         ListFooterComponent={props.loadingmore ? <CFooterList /> : null}
-        ItemSeparatorComponent={() => <View style={cStyles.py8} />}
+        ItemSeparatorComponent={() => <View style={cStyles.py10} />}
         {...props}
       />
     );

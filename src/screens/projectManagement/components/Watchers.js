@@ -35,10 +35,11 @@ import CActivityIndicator from '~/components/CActivityIndicator';
 /* COMMON */
 import Icons from '~/config/Icons';
 import {THEME_DARK} from '~/config/constants';
-import {colors, cStyles} from '~/utils/style';
+import {cStyles} from '~/utils/style';
 import {moderateScale, IS_ANDROID} from '~/utils/helper';
 /** REDUX */
 import * as Actions from '~/redux/actions';
+
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);

@@ -102,8 +102,8 @@ function ListProject(props) {
     <View style={cStyles.flex1}>
       {/** List of project */}
       <CList
-        style={cStyles.pt16}
-        contentStyle={cStyles.px10}
+        style={cStyles.mt10}
+        contentStyle={cStyles.p10}
         data={props.data}
         item={({item, index}) => {
           return (

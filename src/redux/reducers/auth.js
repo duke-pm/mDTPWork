@@ -42,7 +42,6 @@ export const initialState = fromJS({
   login: {
     accessToken: null,
     tokenType: null,
-    expiresIn: 0,
     refreshToken: null,
     userName: null,
     userID: null,
@@ -52,7 +51,6 @@ export const initialState = fromJS({
     regionCode: null,
     deptCode: null,
     jobTitle: null,
-    expired: null,
     groupID: null,
     lstMenu: null,
   },
@@ -71,7 +69,6 @@ export default function (state = initialState, action = {}) {
 
         .setIn(['login', 'accessToken'], null)
         .setIn(['login', 'tokenType'], null)
-        .setIn(['login', 'expiresIn'], 0)
         .setIn(['login', 'refreshToken'], null)
         .setIn(['login', 'userName'], null)
         .setIn(['login', 'userID'], null)
@@ -81,7 +78,6 @@ export default function (state = initialState, action = {}) {
         .setIn(['login', 'regionCode'], null)
         .setIn(['login', 'deptCode'], null)
         .setIn(['login', 'jobTitle'], null)
-        .setIn(['login', 'expired'], null)
         .setIn(['login', 'groupID'], null)
         .setIn(['login', 'lstMenu'], null);
     /*****************************/
@@ -122,7 +118,6 @@ export default function (state = initialState, action = {}) {
 
         .setIn(['login', 'accessToken'], payload.accessToken)
         .setIn(['login', 'tokenType'], payload.tokenType)
-        .setIn(['login', 'expiresIn'], payload.expiresIn)
         .setIn(['login', 'refreshToken'], payload.refreshToken)
         .setIn(['login', 'userName'], payload.userName)
         .setIn(['login', 'userID'], payload.userID)
@@ -132,7 +127,6 @@ export default function (state = initialState, action = {}) {
         .setIn(['login', 'regionCode'], payload.regionCode)
         .setIn(['login', 'deptCode'], payload.deptCode)
         .setIn(['login', 'jobTitle'], payload.jobTitle)
-        .setIn(['login', 'expired'], payload.expired)
         .setIn(['login', 'groupID'], payload.groupID)
         .setIn(['login', 'lstMenu'], payload.lstMenu);
     case types.ERROR_LOGIN:

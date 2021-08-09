@@ -11,8 +11,8 @@ import Icon from 'react-native-vector-icons/Ionicons';
 /* COMPONENTS */
 import CText from '~/components/CText';
 /* COMMON */
-import {cStyles} from '~/utils/style';
 import Icons from '~/config/Icons';
+import {cStyles} from '~/utils/style';
 import {moderateScale} from '~/utils/helper';
 
 function Unconnected(props) {

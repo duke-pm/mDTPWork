@@ -508,17 +508,17 @@ const text = {
   textCallout: {
     fontSize: moderateScale(13),
     fontWeight: 'normal',
-    lineHeight: moderateScale(18),
+    lineHeight: moderateScale(19),
   },
   textCaption1: {
     fontSize: moderateScale(12),
     fontWeight: '300',
-    lineHeight: moderateScale(16),
+    lineHeight: moderateScale(18),
   },
   textCaption2: {
     fontSize: moderateScale(11),
     fontWeight: '300',
-    lineHeight: moderateScale(13),
+    lineHeight: moderateScale(17),
   },
 
   fontBold: {fontWeight: '700'},

@@ -51,6 +51,7 @@ import {
 } from '~/utils/helper';
 /* REDUX */
 import * as Actions from '~/redux/actions';
+
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -204,7 +205,6 @@ function SignIn(props) {
       let dataLogin = {
         accessToken: authState.getIn(['login', 'accessToken']),
         tokenType: authState.getIn(['login', 'tokenType']),
-        expiresIn: authState.getIn(['login', 'expiresIn']),
         refreshToken: authState.getIn(['login', 'refreshToken']),
         userName: authState.getIn(['login', 'userName']),
         userID: authState.getIn(['login', 'userID']),
@@ -214,7 +214,6 @@ function SignIn(props) {
         regionCode: authState.getIn(['login', 'regionCode']),
         deptCode: authState.getIn(['login', 'deptCode']),
         jobTitle: authState.getIn(['login', 'jobTitle']),
-        expired: authState.getIn(['login', 'expired']),
         groupID: authState.getIn(['login', 'groupID']),
         lstMenu: authState.getIn(['login', 'lstMenu']),
       };
@@ -289,7 +288,6 @@ function SignIn(props) {
         tokenInfo: {
           access_token: dataLogin.accessToken,
           token_type: dataLogin.tokenType,
-          expires_in: dataLogin.expiresIn,
           refresh_token: dataLogin.refreshToken,
           userName: dataLogin.userName,
           userID: dataLogin.userID,
@@ -299,7 +297,6 @@ function SignIn(props) {
           regionCode: dataLogin.regionCode,
           deptCode: dataLogin.deptCode,
           jobTitle: dataLogin.jobTitle,
-          '.expires': dataLogin.expired,
           groupID: dataLogin.groupID,
         },
         lstMenu: dataLogin.lstMenu,

@@ -29,6 +29,7 @@ import {colors, cStyles} from '~/utils/style';
 import {usePrevious} from '~/utils/hook';
 /** REDUX */
 import * as Actions from '~/redux/actions';
+
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -285,7 +286,6 @@ function ProjectDetail(props) {
         tokenInfo: {
           access_token: dataLogin.accessToken,
           token_type: dataLogin.tokenType,
-          expires_in: dataLogin.expiresIn,
           refresh_token: dataLogin.refreshToken,
           userName: dataLogin.userName,
           userID: dataLogin.userID,
@@ -295,7 +295,6 @@ function ProjectDetail(props) {
           regionCode: dataLogin.regionCode,
           deptCode: dataLogin.deptCode,
           jobTitle: dataLogin.jobTitle,
-          '.expires': dataLogin.expired,
           groupID: dataLogin.groupID,
         },
         lstMenu: dataLogin.lstMenu,

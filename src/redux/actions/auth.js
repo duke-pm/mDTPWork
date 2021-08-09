@@ -40,7 +40,6 @@ export const loginSuccess = (data, isRefresh) => {
     payload: {
       accessToken: isRefresh ? data.access_token : data.tokenInfo.access_token,
       tokenType: isRefresh ? data.token_type : data.tokenInfo.token_type,
-      expiresIn: isRefresh ? data.expires_in : data.tokenInfo.expires_in,
       refreshToken: isRefresh
         ? data.refresh_token
         : data.tokenInfo.refresh_token,
@@ -52,7 +51,6 @@ export const loginSuccess = (data, isRefresh) => {
       regionCode: isRefresh ? data.regionCode : data.tokenInfo.regionCode,
       deptCode: isRefresh ? data.deptCode : data.tokenInfo.deptCode,
       jobTitle: isRefresh ? data.jobTitle : data.tokenInfo.jobTitle,
-      expired: isRefresh ? data['.expires'] : data.tokenInfo['.expires'],
       groupID: isRefresh ? data.groupID : data.tokenInfo.groupID,
       lstMenu: data.lstMenu
         ? data.lstMenu.menuID === 1

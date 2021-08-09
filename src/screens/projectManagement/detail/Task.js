@@ -11,6 +11,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {showMessage} from 'react-native-flash-message';
 import {
   StyleSheet,
   View,
@@ -22,8 +24,6 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {showMessage} from 'react-native-flash-message';
 import LottieView from 'lottie-react-native';
 import moment from 'moment';
 /* COMPONENTS */
@@ -36,6 +36,7 @@ import CIconHeader from '~/components/CIconHeader';
 import CAlert from '~/components/CAlert';
 import CUser from '~/components/CUser';
 import CReadMore from '~/components/CReadMore';
+import CTouchable from '~/components/CTouchable';
 import Status from '../components/Status';
 import Percentage from '../components/Percentage';
 import FileAttach from '../components/FileAttach';
@@ -64,8 +65,7 @@ import {
 } from '~/utils/helper';
 /** REDUX */
 import * as Actions from '~/redux/actions';
-import CActivityIndicator from '~/components/CActivityIndicator';
-import CTouchable from '~/components/CTouchable';
+
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -336,7 +336,6 @@ function Task(props) {
         tokenInfo: {
           access_token: dataLogin.accessToken,
           token_type: dataLogin.tokenType,
-          expires_in: dataLogin.expiresIn,
           refresh_token: dataLogin.refreshToken,
           userName: dataLogin.userName,
           userID: dataLogin.userID,
@@ -346,7 +345,6 @@ function Task(props) {
           regionCode: dataLogin.regionCode,
           deptCode: dataLogin.deptCode,
           jobTitle: dataLogin.jobTitle,
-          '.expires': dataLogin.expired,
           groupID: dataLogin.groupID,
         },
         lstMenu: dataLogin.lstMenu,

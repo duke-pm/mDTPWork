@@ -19,7 +19,6 @@ import CContent from '~/components/CContent';
 import CText from '~/components/CText';
 import CGroupLabel from '~/components/CGroupLabel';
 import CActionSheet from '~/components/CActionSheet';
-import CList from '~/components/CList';
 import CAvatar from '~/components/CAvatar';
 import CIconHeader from '~/components/CIconHeader';
 import CActivityIndicator from '~/components/CActivityIndicator';
