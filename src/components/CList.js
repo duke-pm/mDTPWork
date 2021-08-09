@@ -48,7 +48,7 @@ function CList(props) {
         removeClippedSubviews={IS_ANDROID}
         keyboardShouldPersistTaps={'handled'}
         keyboardDismissMode={'on-drag'}
-        scrollEventThrottle={16}
+        scrollEventThrottle={1}
         refreshing={props.refreshing}
         onRefresh={onRefresh}
         onEndReachedThreshold={0.1}

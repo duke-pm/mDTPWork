@@ -36,6 +36,19 @@ if (IS_ANDROID) {
   }
 }
 
+const CustomLayoutAnimation = {
+  duration: 200,
+  create: {
+    type: LayoutAnimation.Types.spring,
+    property: LayoutAnimation.Properties.scaleX,
+    springDamping: 16,
+  },
+  delete: {
+    type: LayoutAnimation.Types.easeInEaseOut,
+    property: LayoutAnimation.Properties.opacity,
+  },
+};
+
 function TaskItem(props) {
   const {data, translation, isDark, customColors, onPress, onRefresh} = props;
 
@@ -56,7 +69,7 @@ function TaskItem(props) {
   };
 
   const handleShowChildren = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    LayoutAnimation.configureNext(CustomLayoutAnimation);
     Animated.timing(valueAnim, {
       toValue: showChildren ? 0 : 1,
       duration: 300,

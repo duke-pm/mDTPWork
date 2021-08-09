@@ -481,7 +481,7 @@ function ProjectPreview(props) {
           contentContainerStyle={styles.row_header}
           horizontal
           scrollEnabled={false}
-          scrollEventThrottle={16}
+          scrollEventThrottle={1}
           removeClippedSubviews={IS_ANDROID}
           showsHorizontalScrollIndicator={false}>
           {cols}
@@ -500,7 +500,7 @@ function ProjectPreview(props) {
               data={state.dataRender}
               renderItem={formatRowForSheet}
               keyExtractor={(item, index) => item.key + index.toString()}
-              scrollEventThrottle={16}
+              scrollEventThrottle={1}
               removeClippedSubviews={IS_ANDROID}
             />
           </>

@@ -314,7 +314,7 @@ function BodyPreview(props) {
           horizontal
           removeClippedSubviews={IS_ANDROID}
           showsHorizontalScrollIndicator={false}
-          scrollEventThrottle={16}
+          scrollEventThrottle={1}
           onScroll={scrollEvent}
         />
 
