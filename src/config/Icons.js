@@ -26,6 +26,7 @@ const Icons = {
   hideChild: 'remove-circle',
   exportExcel: 'document-attach-outline',
   alarm: 'alarm',
+  children: 'git-merge',
 
   // Common
   filter: 'filter',
@@ -70,6 +71,7 @@ const Icons = {
   dot: 'ellipse',
   readMore: 'arrow-down-circle-outline',
   readLess: 'arrow-up-circle-outline',
+  flag: 'flag',
 };
 
 export default Icons;

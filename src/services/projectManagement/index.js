@@ -194,4 +194,57 @@ export default {
         });
     });
   },
+  projectOverview: params => {
+    return new Promise((resolve, reject) => {
+      let tmpConfigs = {params: {}};
+      if (params.get('Year')) {
+        tmpConfigs.params.Year = params.get('Year');
+      }
+      if (params.get('FromDate')) {
+        tmpConfigs.params.FromDate = params.get('FromDate');
+      }
+      if (params.get('ToDate')) {
+        tmpConfigs.params.ToDate = params.get('ToDate');
+      }
+      if (params.get('OwnerID')) {
+        tmpConfigs.params.OwnerID = params.get('OwnerID');
+      }
+      if (params.get('SectorID')) {
+        tmpConfigs.params.SectorID = params.get('SectorID');
+      }
+      if (params.get('StatusID')) {
+        tmpConfigs.params.StatusID = params.get('StatusID');
+      }
+      if (params.get('PageSize')) {
+        tmpConfigs.params.PageSize = params.get('PageSize');
+      } else {
+        tmpConfigs.params.PageSize = 25;
+      }
+      if (params.get('PageNum')) {
+        tmpConfigs.params.PageNum = params.get('PageNum');
+      } else {
+        tmpConfigs.params.PageSize = 1;
+      }
+      if (params.get('Lang')) {
+        tmpConfigs.params.Lang = params.get('Lang');
+      }
+
+      API.get(
+        jwtServiceConfig.baseURL + Routes.PROJECT_MANAGEMENT.PROJECT_OVERVIEW,
+        tmpConfigs,
+      )
+        .then(response => {
+          console.log('FETCH PROJECT OVERVIEW => ', response);
+          if (response.status === 200 && response.data) {
+            resolve(response.data);
+          } else {
+            reject(response.statusText);
+          }
+        })
+        .catch(error => {
+          console.log('ERROR PROJECT OVERVIEW => ', error);
+          reject(error.response ? error.response.data : error);
+        });
+    });
+  },
 };

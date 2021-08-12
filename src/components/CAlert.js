@@ -158,8 +158,6 @@ function CAlert(props) {
       useNativeDriverForBackdrop={true}
       hideModalContentWhileAnimating={true}
       backdropTransitionOutTiming={0}
-      deviceWidth={cStyles.deviceWidth}
-      deviceHeight={cStyles.deviceHeight}
       onBackButtonPress={onClose}
       onBackdropPress={onClose}
       {...props}>

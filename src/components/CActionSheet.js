@@ -20,13 +20,7 @@ import {moderateScale} from '~/utils/helper';
 function CActionSheet(props) {
   const {customColors} = useTheme();
   const isDark = useColorScheme() === THEME_DARK;
-  const {
-    actionRef,
-    customHeader,
-    headerChoose = false,
-    onConfirm,
-    onClose,
-  } = props;
+  const {customHeader, headerChoose = false, onConfirm, onClose} = props;
   let needUpdate = false;
 
   /*****************
@@ -34,12 +28,12 @@ function CActionSheet(props) {
    *****************/
   const handleClose = () => {
     needUpdate = false;
-    actionRef.current?.hide();
+    props.actionRef.current?.hide();
   };
 
   const handleConfirm = () => {
     needUpdate = true;
-    actionRef.current?.hide();
+    props.actionRef.current?.hide();
     if (onConfirm) {
       onConfirm(needUpdate);
     }
@@ -67,10 +61,12 @@ function CActionSheet(props) {
    ************/
   return (
     <ActionSheet
-      ref={actionRef}
+      ref={props.actionRef}
       containerStyle={[{backgroundColor: customColors.card}, styles.container]}
       elevation={5}
+      nestedScrollEnabled={true}
       headerAlwaysVisible={true}
+      initialOffsetFromBottom={true}
       gestureEnabled={true}
       indicatorColor={customColors.cardDisable}
       defaultOverlayOpacity={isDark ? 0.8 : 0.2}

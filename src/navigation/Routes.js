@@ -27,9 +27,11 @@ import AddRequestAsset from '~/screens/approved/addAsset/Request';
 import AddRequestLostDamage from '~/screens/approved/addLostDamage/Request';
 /** PROJECT MANAGEMENT */
 import ProjectManagement from '~/screens/projectManagement';
-import ProjectPreview from '~/screens/projectManagement/preview';
+import Project from '~/screens/projectManagement/project';
+import ProjectOverview from '~/screens/projectManagement/overview';
 import ProjectDetail from '~/screens/projectManagement/detail/Project';
 import ProjectFilter from '~/screens/projectManagement/components/FilterProject';
+import ProjectOverviewFilter from '~/screens/projectManagement/components/FilterOverview';
 import TaskDetail from '~/screens/projectManagement/detail/Task';
 import TaskActivities from '~/screens/projectManagement/components/Activities';
 import TaskWatchers from '~/screens/projectManagement/components/Watchers';
@@ -122,17 +124,25 @@ const Routes = {
       name: 'ProjectManagement',
       path: ProjectManagement,
     },
-    PROJECT_PREVIEW: {
-      name: 'ProjectPreview',
-      path: ProjectPreview,
+    PROJECT: {
+      name: 'Project',
+      path: Project,
     },
-    PROJECT_DETAIL: {
-      name: 'ProjectDetail',
-      path: ProjectDetail,
+    PROJECT_OVERVIEW: {
+      name: 'ProjectOverview',
+      path: ProjectOverview,
     },
     PROJECT_FILTER: {
       name: 'ProjectFilter',
       path: ProjectFilter,
+    },
+    PROJECT_OVERVIEW_FILTER: {
+      name: 'ProjectOverviewFilter',
+      path: ProjectOverviewFilter,
+    },
+    PROJECT_DETAIL: {
+      name: 'ProjectDetail',
+      path: ProjectDetail,
     },
     TASK_DETAIL: {
       name: 'TaskDetail',

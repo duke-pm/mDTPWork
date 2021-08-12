@@ -4,6 +4,7 @@
  ** CreateAt: 2021
  ** Description: Description of configs.js
  **/
+import {LocaleConfig} from 'react-native-calendars';
 import {Assets} from '~/utils/asset';
 import {
   HOST_DEV,
@@ -13,6 +14,83 @@ import {
   PREFIXES_ANDROID,
   PREFIXES_ANDROID_PROD,
 } from './constants';
+
+LocaleConfig.locales['en-SG'] = {
+  monthNames: [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ],
+  monthNamesShort: [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+  ],
+  dayNames: [
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thurday',
+    'Friday',
+    'Saturday',
+  ],
+  dayNamesShort: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
+  today: 'Today',
+};
+
+LocaleConfig.locales.vi = {
+  monthNames: [
+    'Tháng 1',
+    'Tháng 2',
+    'Tháng 3',
+    'Tháng 4',
+    'Tháng 5',
+    'Tháng 6',
+    'Tháng 7',
+    'Tháng 8',
+    'Tháng 9',
+    'Tháng 10',
+    'Tháng 11',
+    'Tháng 12',
+  ],
+  monthNamesShort: [
+    'Thg 1',
+    'Thg 2',
+    'Thg 3',
+    'Thg 4',
+    'Thg 5',
+    'Thg 6',
+    'Thg 7',
+    'Thg 8',
+    'Thg 9',
+    'Thg 10',
+    'Thg 11',
+    'Thg 12',
+  ],
+  dayNames: ['Chủ nhật', 'Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7'],
+  dayNamesShort: ['CN', 'H', 'B', 'T', 'N', 'S', 'B'],
+  today: 'Hôm nay',
+};
+LocaleConfig.defaultLocale = 'vi';
 
 const Configs = {
   // for Host APIs
@@ -43,6 +121,7 @@ const Configs = {
   // for filter project
   numberYearToFilter: 10,
   perPageProjects: 25,
+  perPageProjectOverview: 50,
   // for dev new feature
   salesVisit: false,
   // for link to socials

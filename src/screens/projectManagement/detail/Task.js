@@ -661,7 +661,7 @@ function Task(props) {
               content={
                 data.taskDetail ? (
                   <CReadMore
-                    textStyle={cStyles.textBody}
+                    textStyle={[cStyles.textBody, {color: customColors.text}]}
                     textMoreStyle={[
                       cStyles.textCaption1,
                       {color: colors.SECONDARY},

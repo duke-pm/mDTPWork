@@ -370,6 +370,7 @@
     "holder_empty_assets": "Không có tài sản nào"
   },
   "project_management": {
+    "main_title": "Dự Án",
     "title": "QL Dự Án",
     "back_title": "QL Dự Án",
     "project": "dự án",
@@ -468,9 +469,10 @@
     "one_week": "trước 1 tuần",
     "before": "trước ",
     "alert_change_permission_calendar": "Bạn cần cầp quyền Lịch trong Cài Đặt Chung",
-    "info_participant": "Thông tin người cùng tham gia"
+    "info_participant": "Thông tin người cùng tham gia",
+    "piority_item": "Piority:"
   },
-  "project_preview": {
+  "project_overview": {
     "title": "Tổng Quan",
     "task_name": "Task Name",
     "durations": "Durations",
@@ -478,7 +480,15 @@
     "finish": "Finish",
     "predeceors": "Predeceors",
     "resources_name": "Resources'Name",
-    "complete": "Complete %"
+    "complete": "Complete %",
+    "choose_year": "Chọn năm cần lọc",
+    "year": "Năm",
+    "date_month": "Ngày/Tháng",
+    "from_date": "Từ ngày",
+    "to_date": "Đến ngày",
+    "error_from_date": "Sai định dạng từ ngày",
+    "error_to_date": "Sai định dạng đến ngày",
+    "error_date_empty": "Ngày tháng không thể trống"
   },
   "sales_visit": {
     "title": "Sales Visit",

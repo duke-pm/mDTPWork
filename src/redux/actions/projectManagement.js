@@ -289,3 +289,52 @@ export const fetchUpdateTask = (params, navigation) => {
   };
 };
 /*****************************/
+
+/** For get list project */
+export const projectOverviewError = error => ({
+  type: types.ERROR_FETCH_PROJECT_OVERVIEW,
+  payload: error,
+});
+
+export const projectOverviewSuccess = projects => ({
+  type: types.SUCCESS_FETCH_PROJECT_OVERVIEW,
+  payload: projects,
+});
+
+export const fetchProjectOverview = (params, navigation) => {
+  return dispatch => {
+    dispatch({type: types.START_FETCH_PROJECT_OVERVIEW});
+
+    Services.projectManagement
+      .projectOverview(params)
+      .then(res => {
+        if (!res.isError) {
+          return dispatch(
+            projectOverviewSuccess({
+              data: res.data,
+              pages: res.totalPage || 0,
+            }),
+          );
+        } else {
+          return dispatch(projectOverviewError(res.errorMessage));
+        }
+      })
+      .catch(error => {
+        dispatch(projectOverviewError(error));
+        if (error.message && error.message.search('Authorization') !== -1) {
+          let tmp = {
+            RefreshToken: params.get('RefreshToken'),
+            Lang: params.get('Lang'),
+          };
+          return dispatch(
+            Actions.fetchRefreshToken(
+              tmp,
+              () => fetchProjectOverview(params),
+              navigation,
+            ),
+          );
+        }
+      });
+  };
+};
+/*****************************/

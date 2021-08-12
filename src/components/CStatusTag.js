@@ -5,7 +5,6 @@
  ** Description: Description of CStatusTag.js
  **/
 import React from 'react';
-import {useTheme} from '@react-navigation/native';
 import {View} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 /* COMPONENTS */
@@ -16,7 +15,6 @@ import {colors, cStyles} from '~/utils/style';
 import {moderateScale} from '~/utils/helper';
 
 function CStatusTag(props) {
-  const {customColors} = useTheme();
   const {style, label, customLabel, color} = props;
 
   /************
@@ -27,17 +25,13 @@ function CStatusTag(props) {
       style={[
         cStyles.row,
         cStyles.itemsCenter,
-        cStyles.py3,
+        cStyles.py2,
         cStyles.px8,
         cStyles.rounded5,
         {backgroundColor: color},
         style,
       ]}>
-      <Icon
-        name={Icons.dot}
-        color={customColors.card}
-        size={moderateScale(10)}
-      />
+      <Icon name={Icons.dot} color={colors.WHITE} size={moderateScale(10)} />
       <CText
         customStyles={[
           cStyles.textCaption2,

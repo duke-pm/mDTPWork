@@ -11,41 +11,47 @@ import * as types from '../actions/types';
 
 export const initialState = fromJS({
   submittingListProject: false,
-  projects: [],
-  pagesProjects: 0,
-  successListProject: false,
-  errorListProject: false,
-  errorHelperListProject: '',
-
-  submittingListTask: false,
-  tasks: [],
-  pagesTasks: 0,
-  successListTask: false,
-  errorListTask: false,
-  errorHelperListTask: '',
-
   submittingTaskDetail: false,
   submittingTaskComment: false,
   submittingTaskWatcher: false,
   submittingTaskUpdate: false,
-  isWatched: false,
-  isReceivedEmail: false,
-  taskDetail: null,
-  activities: List(),
-  relationships: List(),
-  watchers: List(),
+  submittingListTask: false,
+  submittingOverview: false,
+
+  successListProject: false,
+  successListTask: false,
   successTaskDetail: false,
+  successTaskComment: false,
+  successTaskWatcher: false,
+  successTaskUpdate: false,
+  successOverview: false,
+
+  errorListTask: false,
+  errorHelperListTask: '',
+  errorListProject: false,
+  errorHelperListProject: '',
   errorTaskDetail: false,
   errorHelperTaskDetail: '',
-  successTaskComment: false,
   errorTaskComment: false,
   errorHelperTaskComment: '',
-  successTaskWatcher: false,
   errorTaskWatcher: false,
   errorHelperTaskWatcher: '',
-  successTaskUpdate: false,
   errorTaskUpdate: false,
   errorHelperTaskUpdate: '',
+  errorOverview: false,
+  errorHelperOverview: '',
+
+  isWatched: false,
+  isReceivedEmail: false,
+  overview: [],
+  projects: [],
+  tasks: [],
+  pagesProjects: 0,
+  pagesTasks: 0,
+  pagesOverview: 0,
+  taskDetail: null,
+  activities: List(),
+  watchers: List(),
 });
 
 export default function (state = initialState, action = {}) {
@@ -105,7 +111,6 @@ export default function (state = initialState, action = {}) {
         .set('submittingTaskDetail', false)
         .set('taskDetail', null)
         .set('activities', [])
-        .set('relationships', [])
         .set('watchers', [])
         .set('successTaskDetail', false)
         .set('errorTaskDetail', false)
@@ -126,7 +131,6 @@ export default function (state = initialState, action = {}) {
         .set('errorHelperTaskDetail', '')
         .set('taskDetail', payload.detail)
         .set('activities', payload.activities)
-        .set('relationships', payload.relationShip)
         .set('watchers', payload.watcher)
         .set('isWatched', payload.isWatched)
         .set('isReceivedEmail', payload.isReceivedEmail);
@@ -250,6 +254,30 @@ export default function (state = initialState, action = {}) {
         .set('successTaskUpdate', false)
         .set('errorTaskUpdate', true)
         .set('errorHelperTaskUpdate', payload);
+
+    /** For overview **/
+    case types.START_FETCH_PROJECT_OVERVIEW:
+      return state
+        .set('submittingOverview', true)
+        .set('successOverview', false)
+        .set('errorOverview', false)
+        .set('errorHelperTasOverview', '');
+
+    case types.SUCCESS_FETCH_PROJECT_OVERVIEW:
+      return state
+        .set('submittingOverview', false)
+        .set('successOverview', true)
+        .set('errorOverview', false)
+        .set('errorHelperTasOverview', '')
+        .set('overview', payload.data)
+        .set('pagesOverview', payload.pages);
+
+    case types.ERROR_FETCH_PROJECT_OVERVIEW:
+      return state
+        .set('submittingOverview', false)
+        .set('successOverview', false)
+        .set('errorOverview', true)
+        .set('errorHelperTasOverview', payload);
 
     default:
       return state;

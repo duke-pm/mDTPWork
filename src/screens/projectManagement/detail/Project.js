@@ -412,6 +412,7 @@ function ProjectDetail(props) {
   }, [
     loading.startFetch,
     loading.refreshing,
+    loading.loadmore,
     projectState.get('submittingListTask'),
     projectState.get('successListTask'),
     projectState.get('errorListTask'),

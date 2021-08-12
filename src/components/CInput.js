@@ -218,7 +218,7 @@ function CInput(props) {
                 textAlign={textAlign}
                 allowFontScaling={false}
                 removeClippedSubviews={IS_ANDROID}
-                keyboardAppearance={isDark ? THEME_DARK : THEME_LIGHT}
+                keyboardAppearance={'default'}
                 keyboardType={keyboard}
                 returnKeyType={returnKey}
                 multiline={multiline}

@@ -520,6 +520,11 @@ const text = {
     fontWeight: '300',
     lineHeight: moderateScale(17),
   },
+  textBadge: {
+    fontSize: moderateScale(9),
+    fontWeight: '500',
+    lineHeight: moderateScale(15),
+  },
 
   fontBold: {fontWeight: '700'},
   fontMedium: {fontWeight: '600'},
@@ -600,65 +605,65 @@ const border = {
 
   borderAll: {
     borderColor: IS_IOS ? Colors.BORDER_COLOR_IOS : Colors.BORDER_COLOR_ANDROID,
-    borderWidth: 0.8,
+    borderWidth: 1,
   },
   borderAllDark: {
     borderColor: IS_IOS
       ? Colors.BORDER_COLOR_IOS_DARK
       : Colors.BORDER_COLOR_ANDROID_DARK,
-    borderWidth: 0.5,
+    borderWidth: 1,
   },
 
   borderTop: {
     borderTopColor: IS_IOS
       ? Colors.BORDER_COLOR_IOS
       : Colors.BORDER_COLOR_ANDROID,
-    borderTopWidth: 0.8,
+    borderTopWidth: 1,
   },
   borderTopDark: {
     borderTopColor: IS_IOS
       ? Colors.BORDER_COLOR_IOS_DARK
       : Colors.BORDER_COLOR_ANDROID_DARK,
-    borderTopWidth: 0.5,
+    borderTopWidth: 1,
   },
 
   borderBottom: {
     borderBottomColor: IS_IOS
       ? Colors.BORDER_COLOR_IOS
       : Colors.BORDER_COLOR_ANDROID,
-    borderBottomWidth: 0.8,
+    borderBottomWidth: 1,
   },
   borderBottomDark: {
     borderBottomColor: IS_IOS
       ? Colors.BORDER_COLOR_IOS_DARK
       : Colors.BORDER_COLOR_ANDROID_DARK,
-    borderBottomWidth: 0.5,
+    borderBottomWidth: 1,
   },
 
   borderRight: {
     borderRightColor: IS_IOS
       ? Colors.BORDER_COLOR_IOS
       : Colors.BORDER_COLOR_ANDROID,
-    borderRightWidth: 0.8,
+    borderRightWidth: 1,
   },
   borderRightDark: {
     borderRightColor: IS_IOS
       ? Colors.BORDER_COLOR_IOS_DARK
       : Colors.BORDER_COLOR_ANDROID_DARK,
-    borderRightWidth: 0.5,
+    borderRightWidth: 1,
   },
 
   borderLeft: {
     borderLeftColor: IS_IOS
       ? Colors.BORDER_COLOR_IOS
       : Colors.BORDER_COLOR_ANDROID,
-    borderLeftWidth: 0.8,
+    borderLeftWidth: 1,
   },
   borderLeftDark: {
     borderLeftColor: IS_IOS
       ? Colors.BORDER_COLOR_IOS_DARK
       : Colors.BORDER_COLOR_ANDROID_DARK,
-    borderLeftWidth: 0.5,
+    borderLeftWidth: 1,
   },
 };
 

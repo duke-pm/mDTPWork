@@ -134,8 +134,7 @@ function TaskItem(props) {
                     cStyles.textBody,
                     cStyles.fontBold,
                     {color: isDark ? data.typeColorDark : data.typeColor},
-                  ]}
-                  customLabel={data.typeName}>
+                  ]}>
                   {data.typeName}
                 </Text>
                 <Text

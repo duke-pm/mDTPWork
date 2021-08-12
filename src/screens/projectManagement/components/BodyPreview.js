@@ -8,12 +8,15 @@
 import {any} from 'prop-types';
 import React, {useRef, useState, useEffect} from 'react';
 import {useTheme} from '@react-navigation/native';
-import {StyleSheet, View, Animated} from 'react-native';
+import {useColorScheme} from 'react-native-appearance';
+import {StyleSheet, View, Text, Animated} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import moment from 'moment';
 /* COMPONENTS */
 import CText from '~/components/CText';
 /* COMMON */
 import Icons from '~/config/Icons';
+import Commons from '~/utils/common/Commons';
 import {IS_ANDROID, moderateScale} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
 import {
@@ -26,11 +29,14 @@ import {
 } from '~/config/constants';
 
 let listener = null;
+let child = 0;
+const plCommon = moderateScale(4);
+const sizeIconCommon = moderateScale(12);
 
 function BodyPreview(props) {
-  const isDark = useTheme() === THEME_DARK;
+  const isDark = useColorScheme() === THEME_DARK;
   const {customColors} = useTheme();
-  const {dataHeader, dataBody} = props;
+  const {formatDateView, dataHeader, dataBody, headerScroll} = props;
 
   /** All ref of page */
   let scrollX = useRef(new Animated.Value(0)).current;
@@ -46,20 +52,39 @@ function BodyPreview(props) {
   /**********
    ** FUNC **
    **********/
-  const onParseData = (key, data) => {
+  const onParseDataView = (key, data) => {
     let item,
       result = [],
       resultChild = [];
     for (item of data) {
-      if (item[key] === null || item[key] === undefined) {
-        result.push(key);
+      if (item[key] === null || item[key] === undefined || item[key] === 0) {
+        result.push('-');
+      } else if (key === 'startDate' || key === 'endDate') {
+        result.push(moment(item[key]).format(formatDateView));
+      } else if (key === 'statusName') {
+        if (item['taskTypeID'] === Commons.TYPE_TASK.MILESTONE.value) {
+          result.push('');
+        } else {
+          result.push(
+            <CText
+              customStyles={[
+                cStyles.textCaption1,
+                cStyles.fontBold,
+                {color: isDark ? item.colorDarkCode : item.colorCode},
+              ]}
+              customLabel={item[key]}
+            />,
+          );
+        }
+      } else if (key === 'completedPercent') {
+        result.push(item[key] + '%');
+      } else if (key === 'duration') {
+        result.push(item[key] + ' days');
       } else {
-        result.push(item[key]);
+        result.push(item[key] + '');
       }
-      if (item.lstProjChild.length > 0) {
-        resultChild = onParseData(key, item.lstProjChild);
-      } else if (item.lstTask.length > 0) {
-        resultChild = onParseData(key, item.lstTask);
+      if (item.lstItemChild.length > 0) {
+        resultChild = onParseDataView(key, item.lstItemChild);
       }
       result = result.concat(resultChild);
       resultChild = [];
@@ -72,7 +97,7 @@ function BodyPreview(props) {
       result = [],
       item;
     for (item of dataHeader) {
-      result = onParseData(item.key, dataBody);
+      result = onParseDataView(item.key, dataBody);
       dataRD.push(result);
       result = [];
     }
@@ -80,38 +105,41 @@ function BodyPreview(props) {
     setLoading(false);
   };
 
-  const formatIdentityColumn = (data, isIcon) => {
+  const formatIdentityColumn = (data, isIcon, pChild = 0) => {
     let cells = [],
       cellsChild = [],
-      item;
-
-    for (item of data) {
+      i;
+    let tmpPChild = pChild + 1;
+    for (i = 0; i < data.length; i++) {
       if (!isIcon) {
         cells.push(
-          formatCell(
-            customColors.card,
-            'itemsStart',
-            undefined,
-            item.name,
-            item.isChild,
-            item.isProject,
-            item.taskType,
+          formatFirstCell(
+            data[i].itemName,
+            tmpPChild,
+            data[i].isProject,
+            data[i].taskTypeID,
+            data[i].typeName,
+            isDark ? data[i].typeColorDark : data[i].typeColor,
           ),
         );
       } else {
         cells.push(
-          formatCellIcon(
-            customColors.card,
-            item.id,
-            item.isProject,
-            item.taskType,
+          formatCompactCell(
+            data[i].itemID,
+            data[i].itemName,
+            data[i].isProject,
+            data[i].taskTypeID,
+            data[i].typeName,
+            isDark ? data[i].typeColorDark : data[i].typeColor,
           ),
         );
       }
-      if (item.lstProjChild.length > 0) {
-        cellsChild = formatIdentityColumn(item.lstProjChild, isIcon);
-      } else if (item.lstTask.length > 0) {
-        cellsChild = formatIdentityColumn(item.lstTask, isIcon);
+      if (data[i].lstItemChild.length > 0) {
+        cellsChild = formatIdentityColumn(
+          data[i].lstItemChild,
+          isIcon,
+          tmpPChild,
+        );
       }
       cells = cells.concat(cellsChild);
       cellsChild = [];
@@ -120,9 +148,9 @@ function BodyPreview(props) {
   };
 
   const onCheckTaskType = taskType => {
-    if (taskType === 'PHASE') {
+    if (taskType === Commons.TYPE_TASK.PHASE.value) {
       return 'orange';
-    } else if (taskType === 'MILESTONE') {
+    } else if (taskType === Commons.TYPE_TASK.MILESTONE.value) {
       return 'green';
     } else {
       return 'blue';
@@ -141,10 +169,10 @@ function BodyPreview(props) {
 
   useEffect(() => {
     listener = scrollX.addListener(position => {
-      props.headerScroll.scrollTo &&
-        props.headerScroll.scrollTo({x: position.value, animated: false});
+      headerScroll.current.scrollTo &&
+        headerScroll.current.scrollTo({x: position.value, animated: false});
     });
-  }, [scrollX, props.headerScroll]);
+  }, [scrollX, headerScroll]);
 
   /************
    ** RENDER **
@@ -153,79 +181,104 @@ function BodyPreview(props) {
     return null;
   }
 
-  const formatCell = (
-    bgColor = '',
-    align = 'center',
-    width = undefined,
-    value = any,
-    isChild = false,
-    isProject = false,
-    taskType = undefined,
-  ) => {
+  const formatCell = (bgColor = undefined, align = 'center', value = any) => {
     return (
       <View
-        key={value}
+        key={value + ''}
         style={[
           cStyles.center,
           cStyles[align],
-          cStyles.px6,
+          cStyles.borderLeft,
+          cStyles.borderBottom,
+          isDark && cStyles.borderLeftDark,
+          isDark && cStyles.borderBottomDark,
+          bgColor && {backgroundColor: bgColor},
+          styles.cell,
+          {width: CELL_WIDTH},
+        ]}>
+        {typeof value === 'string' ? (
+          <CText
+            customStyles={[cStyles.textCaption1, cStyles.fontRegular]}
+            customLabel={value}
+            numberOfLines={1}
+          />
+        ) : (
+          value
+        )}
+      </View>
+    );
+  };
+
+  const formatFirstCell = (
+    value = any,
+    pChild = 0,
+    isProject = false,
+    taskType = undefined,
+    taskTypeName = undefined,
+    taskTypeColor = undefined,
+  ) => {
+    return (
+      <View
+        key={value + ''}
+        style={[
+          cStyles.px4,
+          cStyles.flex1,
+          cStyles.row,
+          cStyles.itemsCenter,
           cStyles.borderLeft,
           cStyles.borderBottom,
           isDark && cStyles.borderLeftDark,
           isDark && cStyles.borderBottomDark,
           styles.cell,
-          {width, backgroundColor: bgColor},
-          isChild && cStyles.row,
-          isChild && cStyles.itemsCenter,
-          isChild && cStyles.justifyStart,
+          pChild > 2 ? {paddingLeft: plCommon * pChild} : {},
         ]}>
-        {isChild && isProject && !taskType && (
-          <Icon
-            name={Icons.showChild}
-            size={moderateScale(14)}
-            color={customColors.icon}
-          />
+        {pChild > 1 && (
+          <View style={[!isProject ? {paddingLeft: plCommon * pChild} : {}]}>
+            <Icon
+              name={Icons.showChild}
+              size={sizeIconCommon}
+              color={customColors.icon}
+            />
+          </View>
         )}
-        <View>
-          {isChild && !isProject && taskType && (
-            <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pl16]}>
-              <Icon
-                name={Icons.showChild}
-                size={moderateScale(14)}
-                color={customColors.icon}
-              />
-              <CText
-                customStyles={[
-                  cStyles.pl4,
-                  cStyles.textCaption1,
-                  cStyles.fontBold,
-                  {color: customColors[onCheckTaskType(taskType)]},
-                ]}
-                numberOfLines={2}
-                customLabel={`${taskType}`}
-              />
-            </View>
+        <Text
+          style={[pChild > 1 && cStyles.pl4, cStyles.flex1]}
+          numberOfLines={2}>
+          {!isProject && (
+            <Text
+              style={[
+                cStyles.textCaption1,
+                cStyles.fontBold,
+                {
+                  color:
+                    taskTypeColor || customColors[onCheckTaskType(taskType)],
+                },
+              ]}
+              numberOfLines={1}>
+              {`${taskTypeName}  `}
+            </Text>
           )}
-          <CText
-            customStyles={[
+          <Text
+            style={[
               cStyles.textCaption1,
+              cStyles.fontRegular,
+              {color: customColors.text},
               isProject && cStyles.fontBold,
-              isChild && cStyles.pl4,
-              isChild && !isProject && taskType && cStyles.pl16,
-            ]}
-            numberOfLines={1}
-            customLabel={value}
-          />
-        </View>
+            ]}>
+            {value}
+          </Text>
+        </Text>
       </View>
     );
   };
 
-  const formatCellIcon = (
-    bgColor = '',
+  const formatCompactCell = (
     value = '',
+    name = '',
     isProject = false,
-    taskType = null,
+    taskType = undefined,
+    taskTypeName = undefined,
+    taskTypeColor = undefined,
   ) => {
     return (
       <View
@@ -235,31 +288,42 @@ function BodyPreview(props) {
           cStyles.px6,
           cStyles.borderLeft,
           cStyles.borderBottom,
+          cStyles.borderRight,
           isDark && cStyles.borderLeftDark,
           isDark && cStyles.borderBottomDark,
+          isDark && cStyles.borderRightDark,
           styles.cell_small,
-          {backgroundColor: bgColor},
         ]}>
-        {isProject && !taskType && (
+        <View style={cStyles.itemsStart}>
+          {isProject && !taskType && (
+            <CText
+              customStyles={[
+                cStyles.textCaption1,
+                cStyles.fontBold,
+                cStyles.textCenter,
+              ]}
+              customLabel={'Project #' + value}
+            />
+          )}
+          {!isProject && taskType && (
+            <CText
+              customStyles={[
+                cStyles.textCaption1,
+                cStyles.fontBold,
+                {
+                  color:
+                    taskTypeColor || customColors[onCheckTaskType(taskType)],
+                },
+              ]}
+              customLabel={taskTypeName + ' #' + value}
+            />
+          )}
           <CText
-            customStyles={[
-              cStyles.textCaption1,
-              cStyles.fontBold,
-              cStyles.textCenter,
-            ]}
-            customLabel={'Project #' + value}
+            customStyles={[cStyles.textCaption1, cStyles.fontRegular]}
+            numberOfLines={1}
+            customLabel={name}
           />
-        )}
-        {!isProject && taskType && (
-          <CText
-            customStyles={[
-              cStyles.textCaption1,
-              cStyles.fontBold,
-              {color: customColors[onCheckTaskType(taskType)]},
-            ]}
-            customLabel={taskType + ' #' + value}
-          />
-        )}
+        </View>
       </View>
     );
   };
@@ -271,10 +335,14 @@ function BodyPreview(props) {
     for (i = 0; i < dataRender[0].length; i++) {
       cells.push([
         formatCell(
-          i % 2 ? colors.STATUS_NEW_OPACITY : colors.STATUS_ON_HOLD_OPACITY,
+          i % 2
+            ? customColors.card
+            : IS_ANDROID
+            ? colors.STATUS_SCHEDULE_OPACITY
+            : customColors.green2,
           'center',
-          CELL_WIDTH,
           item[i],
+          false,
         ),
       ]);
     }
@@ -299,9 +367,12 @@ function BodyPreview(props) {
           style={[
             cStyles.abs,
             styles.identity_large,
-            {transform: [{translateX: headerTranslate}]},
+            {
+              backgroundColor: customColors.card,
+              transform: [{translateX: headerTranslate}],
+            },
           ]}>
-          {formatIdentityColumn(dataBody, false)}
+          {formatIdentityColumn(dataBody, false, child)}
         </Animated.View>
 
         <Animated.FlatList
@@ -310,11 +381,10 @@ function BodyPreview(props) {
           data={dataRender}
           renderItem={formatColumn}
           keyExtractor={(item, index) => index.toString()}
-          extraData={dataBody}
           horizontal
           removeClippedSubviews={IS_ANDROID}
           showsHorizontalScrollIndicator={false}
-          scrollEventThrottle={1}
+          scrollEventThrottle={16}
           onScroll={scrollEvent}
         />
 
@@ -323,8 +393,12 @@ function BodyPreview(props) {
           style={[
             cStyles.ofHidden,
             cStyles.abs,
+            cStyles.shadowListItem,
             styles.identity_small,
-            {transform: [{translateX: headerTranslate2}]},
+            {
+              backgroundColor: customColors.card,
+              transform: [{translateX: headerTranslate2}],
+            },
           ]}>
           {formatIdentityColumn(dataBody, true)}
         </Animated.View>
@@ -337,14 +411,8 @@ const styles = StyleSheet.create({
   identity_large: {width: FIRST_CELL_WIDTH_LARGE},
   identity_small: {width: FIRST_CELL_WIDTH_SMALL},
   body: {paddingLeft: FIRST_CELL_WIDTH_LARGE},
-  cell: {
-    height: CELL_HEIGHT,
-    width: FIRST_CELL_WIDTH_LARGE,
-  },
-  cell_small: {
-    height: CELL_HEIGHT,
-    width: FIRST_CELL_WIDTH_SMALL,
-  },
+  cell: {height: CELL_HEIGHT},
+  cell_small: {height: CELL_HEIGHT},
 });
 
-export default BodyPreview;
+export default React.memo(BodyPreview);

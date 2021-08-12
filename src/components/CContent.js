@@ -48,7 +48,7 @@ function CContent(props) {
         contentStyle,
       ]}
       contentInsetAdjustmentBehavior={'automatic'}
-      keyboardShouldPersistTaps={'handled'}
+      keyboardShouldPersistTaps={'always'}
       refreshControl={
         props.onRefresh ? (
           <RefreshControl

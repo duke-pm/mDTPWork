@@ -255,21 +255,29 @@ export function RootMain(props) {
         name={Routes.MAIN.PROJECT_MANAGEMENT.name}
         component={Routes.MAIN.PROJECT_MANAGEMENT.path}
         options={{
-          title: t('project_management:title'),
+          title: t('project_management:main_title'),
           headerBackTitle: t('common:back'),
           headerStyle: headerStyles,
-          headerLargeTitle: false,
-          headerTranslucent: IS_IOS,
         }}
       />
       <StackMain.Screen
-        name={Routes.MAIN.PROJECT_PREVIEW.name}
-        component={Routes.MAIN.PROJECT_PREVIEW.path}
+        name={Routes.MAIN.PROJECT_OVERVIEW.name}
+        component={Routes.MAIN.PROJECT_OVERVIEW.path}
         options={{
-          title: t('project_preview:title'),
+          title: t('project_overview:title'),
           headerStyle: headerStyles,
           headerLargeTitle: false,
           headerTranslucent: false,
+        }}
+      />
+      <StackMain.Screen
+        name={Routes.MAIN.PROJECT.name}
+        component={Routes.MAIN.PROJECT.path}
+        options={{
+          title: t('project_management:title'),
+          headerLargeTitle: false,
+          headerTranslucent: IS_IOS,
+          headerStyle: headerStyles,
         }}
       />
       <StackMain.Screen
@@ -290,6 +298,17 @@ export function RootMain(props) {
           headerStyle: headerStyles,
           headerLargeTitle: false,
           headerTranslucent: IS_IOS,
+        }}
+      />
+      <StackMain.Screen
+        name={Routes.MAIN.PROJECT_OVERVIEW_FILTER.name}
+        component={Routes.MAIN.PROJECT_OVERVIEW_FILTER.path}
+        options={{
+          title: t('project_management:filter'),
+          stackPresentation: 'modal',
+          headerStyle: headerModalStyles,
+          headerLargeTitle: false,
+          headerTranslucent: false,
         }}
       />
       <StackMain.Screen

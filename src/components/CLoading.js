@@ -32,11 +32,8 @@ function CLoading(props) {
       useNativeDriverForBackdrop={true}
       hideModalContentWhileAnimating={true}
       backdropTransitionOutTiming={0}
-      deviceWidth={cStyles.deviceWidth}
-      deviceHeight={cStyles.deviceHeight}
       onBackButtonPress={null}
       onBackdropPress={null}
-      supportedOrientations={['landscape', 'landscape-left', 'landscape-right', 'portrait']}
       {...props}>
       <View style={cStyles.flexCenter}>
         <Animatable.View

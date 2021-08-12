@@ -7,6 +7,7 @@
 import React from 'react';
 import {useTheme} from '@react-navigation/native';
 import {View} from 'react-native';
+import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/Ionicons';
 /* COMPONENTS */
 import CText from '~/components/CText';
@@ -21,43 +22,44 @@ function Unconnected(props) {
   /************
    ** RENDER **
    ************/
-  if (props.connected) {
-    return null;
-  }
   return (
-    <View
-      style={[
-        cStyles.flexCenter,
-        cStyles.p16,
-        cStyles.abs,
-        cStyles.inset0,
-        {backgroundColor: customColors.background},
-      ]}>
-      <View style={cStyles.pb32}>
-        <Icon
-          name={Icons.failedSad}
-          color={customColors.orange}
-          size={moderateScale(80)}
+    <Modal
+      isVisible={!props.connected}
+      onBackButtonPress={() => null}
+      onBackdropPress={() => {}}>
+      <View
+        style={[
+          cStyles.center,
+          cStyles.p16,
+          cStyles.rounded2,
+          {backgroundColor: customColors.background},
+        ]}>
+        <View style={cStyles.pb32}>
+          <Icon
+            name={Icons.failedSad}
+            color={customColors.orange}
+            size={moderateScale(80)}
+          />
+        </View>
+        <CText
+          customStyles={[
+            cStyles.textTitle3,
+            cStyles.textCenter,
+            {color: customColors.text},
+          ]}
+          label={'error:title'}
+        />
+        <CText
+          customStyles={[
+            cStyles.textCaption1,
+            cStyles.pt10,
+            cStyles.textCenter,
+            {color: customColors.text},
+          ]}
+          label={'error:lost_network'}
         />
       </View>
-      <CText
-        customStyles={[
-          cStyles.textTitle3,
-          cStyles.textCenter,
-          {color: customColors.text},
-        ]}
-        label={'error:title'}
-      />
-      <CText
-        customStyles={[
-          cStyles.textCaption1,
-          cStyles.pt10,
-          cStyles.textCenter,
-          {color: customColors.text},
-        ]}
-        label={'error:lost_network'}
-      />
-    </View>
+    </Modal>
   );
 }
 

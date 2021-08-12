@@ -31,6 +31,7 @@ const Routes = {
     TASK_UPDATE: '/Task/UpdateTaskInfo',
     TASK_COMMENT: '/TaskActivity/Modify',
     TASK_WATCHER: '/TaskWatcher/Modify',
+    PROJECT_OVERVIEW: '/Project/GetListOverview',
   },
 };
 

@@ -20,6 +20,7 @@ import Icons from '~/config/Icons';
 import {cStyles} from '~/utils/style';
 import {moderateScale, IS_ANDROID} from '~/utils/helper';
 import {DEFAULT_FORMAT_DATE_4} from '~/config/constants';
+import CText from '~/components/CText';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -112,9 +113,21 @@ function ProjectItem(props) {
               </View>
             </View>
 
-            <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt5]}>
+            <View
+              style={[
+                cStyles.flex1,
+                cStyles.row,
+                cStyles.itemsCenter,
+                cStyles.mt5,
+              ]}>
               {/** Date start */}
-              <View style={[cStyles.row, cStyles.itemsCenter, styles.row_left]}>
+              <View
+                style={[
+                  cStyles.row,
+                  cStyles.itemsCenter,
+                  data.priorityLevel > 0 && styles.row_left_1,
+                  data.priorityLevel === 0 && styles.row_left,
+                ]}>
                 <CLabel label={'project_management:date_created'} />
                 <CLabel
                   customLabel={moment(
@@ -125,8 +138,46 @@ function ProjectItem(props) {
               </View>
 
               {/** Is public */}
+              {data.priorityLevel > 0 && (
+                <View
+                  style={[
+                    cStyles.row,
+                    cStyles.itemsCenter,
+                    styles.row_middle_1,
+                  ]}>
+                  <CLabel label={'project_management:piority_item'} />
+                  <Icon
+                    style={cStyles.ml5}
+                    name={Icons.flag}
+                    color={customColors.green}
+                    size={moderateScale(14)}
+                  />
+                  <View
+                    style={[
+                      cStyles.center,
+                      cStyles.rounded5,
+                      {
+                        maxWidth: moderateScale(32),
+                        minWidth: moderateScale(16),
+                        backgroundColor: customColors.red,
+                      },
+                    ]}>
+                    <CText
+                      styles={'textBadge colorWhite'}
+                      customLabel={data.priorityLevel}
+                    />
+                  </View>
+                </View>
+              )}
+
+              {/** Is public */}
               <View
-                style={[cStyles.row, cStyles.itemsCenter, styles.row_right]}>
+                style={[
+                  cStyles.row,
+                  cStyles.itemsCenter,
+                  data.priorityLevel > 0 && styles.row_right_1,
+                  data.priorityLevel === 0 && styles.row_right,
+                ]}>
                 <CLabel label={'project_management:is_public'} />
                 <Icon
                   name={data.isPublic ? Icons.checkCircle : Icons.alert}
@@ -188,6 +239,9 @@ function ProjectItem(props) {
 const styles = StyleSheet.create({
   row_left: {flex: 0.6},
   row_right: {flex: 0.4},
+  row_left_1: {flex: 0.45},
+  row_middle_1: {flex: 0.35},
+  row_right_1: {flex: 0.2},
   line_child: {height: '100%', borderRadius: 1},
   card: {zIndex: 100},
   card_children: {height: moderateScale(50)},

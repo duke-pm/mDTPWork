@@ -370,6 +370,7 @@
     "holder_empty_assets": "Empty assets"
   },
   "project_management": {
+    "main_title": "Projects Management",
     "title": "Projects",
     "back_title": "Projects",
     "project": "projects",
@@ -468,9 +469,10 @@
     "one_week": "Before 1 week",
     "before": "Before ",
     "alert_change_permission_calendar": "You need request Calendar permission to Grant in Settings",
-    "info_participant": "Participant Info"
+    "info_participant": "Participant Info",
+    "piority_item": "Piority:"
   },
-  "project_preview": {
+  "project_overview": {
     "title": "Preview",
     "task_name": "Task Name",
     "durations": "Durations",
@@ -478,7 +480,15 @@
     "finish": "Finish",
     "predeceors": "Predeceors",
     "resources_name": "Resources'Name",
-    "complete": "Complete %"
+    "complete": "Complete %",
+    "choose_year": "Chọn năm cần lọc",
+    "year": "Year",
+    "date_month": "Date/Month",
+    "from_date": "From date",
+    "to_date": "To date",
+    "error_from_date": "Wrong format from date!",
+    "error_to_date": "Wrong format to date!",
+    "error_date_empty": "Months and days cannot be blank!"
   },
   "sales_visit": {
     "title": "Sales Visit",

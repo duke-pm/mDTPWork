@@ -67,6 +67,7 @@ function Filter(props) {
   /** Use redux */
   const commonState = useSelector(({common}) => common);
   const formatDate = commonState.get('formatDate');
+  const formatDateView = commonState.get('formatDateView');
 
   /** Use State */
   const [showPickerDate, setShowPickerDate] = useState({
@@ -149,9 +150,7 @@ function Filter(props) {
     if (newDate && showPickerDate.active) {
       setData({
         ...data,
-        [showPickerDate.active]: moment(newDate).format(
-          commonState.get('formatDate'),
-        ),
+        [showPickerDate.active]: moment(newDate).format(formatDate),
       });
     }
   };
@@ -198,9 +197,7 @@ function Filter(props) {
             value={
               data.fromDate === ''
                 ? ''
-                : moment(data.fromDate).format(
-                    commonState.get('formatDateView'),
-                  )
+                : moment(data.fromDate).format(formatDateView)
             }
             valueColor={colors.TEXT_BASE}
             iconLast={Icons.calendar}
@@ -227,7 +224,7 @@ function Filter(props) {
             value={
               data.toDate === ''
                 ? ''
-                : moment(data.toDate).format(commonState.get('formatDateView'))
+                : moment(data.toDate).format(formatDateView)
             }
             valueColor={colors.TEXT_BASE}
             iconLast={Icons.calendar}
@@ -285,7 +282,7 @@ function Filter(props) {
         show={showPickerDate.status}
         value={
           data[showPickerDate.active] === ''
-            ? moment().format(commonState.get('formatDate'))
+            ? moment().format(formatDate)
             : data[showPickerDate.active]
         }
         onChangeDate={onChangeDateRequest}

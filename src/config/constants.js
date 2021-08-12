@@ -7,7 +7,7 @@
 import {moderateScale} from '~/utils/helper';
 
 export const HOST_DEV = 'http://api.dtpeducation.com';
-export const HOST_PROD = 'http://api.dtp-education.com';
+export const HOST_PROD = 'http://api.dtpeducation.com';
 export const PREFIXES_API = 'api';
 export const PREFIXES_ANDROID = 'http://dtpwork.dtpeducation.com';
 export const PREFIXES_ANDROID_PROD = 'http://dtpwork.dtp-education.com';
@@ -33,11 +33,11 @@ export const DEFAULT_FORMAT_DATE_5 = 'DD MMMM YYYY';
 export const DEFAULT_HEIGHT_UPLOAD = 250;
 export const DEFAULT_WIDTH_UPLOAD = 250;
 export const FIRST_CELL_WIDTH_LARGE = moderateScale(300);
-export const FIRST_CELL_WIDTH_SMALL = moderateScale(100);
+export const FIRST_CELL_WIDTH_SMALL = moderateScale(150);
 export const FIRST_CELL_WIDTH_DISTANCE =
   FIRST_CELL_WIDTH_LARGE - FIRST_CELL_WIDTH_SMALL;
 export const CELL_HEIGHT = moderateScale(45);
-export const CELL_WIDTH = moderateScale(100);
+export const CELL_WIDTH = moderateScale(150);
 export const DATA_CONTACT_US = [
   {
     id: '1',

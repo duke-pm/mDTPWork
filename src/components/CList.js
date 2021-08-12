@@ -46,9 +46,10 @@ function CList(props) {
         }
         keyExtractor={(item, index) => index.toString()}
         removeClippedSubviews={IS_ANDROID}
+        initialNumToRender={1000}
         keyboardShouldPersistTaps={'handled'}
         keyboardDismissMode={'on-drag'}
-        scrollEventThrottle={1}
+        scrollEventThrottle={16}
         refreshing={props.refreshing}
         onRefresh={onRefresh}
         onEndReachedThreshold={0.1}

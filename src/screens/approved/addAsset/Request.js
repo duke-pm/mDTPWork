@@ -862,7 +862,7 @@ function AddRequest(props) {
               cStyles.px16,
             ]}>
             <CButton
-              style={styles.button_approved}
+              style={styles.button_reject}
               block
               color={customColors.red}
               disabled={loading.main}
@@ -871,7 +871,7 @@ function AddRequest(props) {
               onPress={handleReject}
             />
             <CButton
-              style={styles.button_reject}
+              style={styles.button_approved}
               block
               color={customColors.green}
               disabled={loading.main}

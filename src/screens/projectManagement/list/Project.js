@@ -102,7 +102,7 @@ function ListProject(props) {
     <View style={cStyles.flex1}>
       {/** List of project */}
       <CList
-        style={cStyles.mt10}
+        style={cStyles.pt10}
         contentStyle={cStyles.p10}
         data={props.data}
         item={({item, index}) => {
