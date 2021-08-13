@@ -16,8 +16,8 @@ import {
   Text,
   TextInput,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
 /** COMPONENTS */
+import CIcon from '~/components/CIcon';
 import CActivityIndicator from '~/components/CActivityIndicator';
 /* COMMON */
 import Icons from '~/config/Icons';
@@ -319,11 +319,7 @@ function Percentage(props) {
               style={[cStyles.p3, cStyles.ml16]}
               disabled={loading}
               onPress={handleClosePercent}>
-              <Icon
-                name={Icons.close}
-                size={moderateScale(23)}
-                color={customColors.red}
-              />
+              <CIcon name={Icons.close} size={'medium'} color={'red'} />
             </TouchableOpacity>
           </View>
         )}

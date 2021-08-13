@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 /**
  ** Name: CIconHeader
  ** Author: DTP-Education
@@ -9,8 +8,8 @@ import React from 'react';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
 import {StyleSheet, View} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
 /** COMPONENTS */
+import CIcon from './CIcon';
 import CTouchable from './CTouchable';
 /* COMMON */
 import {THEME_DARK} from '~/config/constants';
@@ -37,13 +36,13 @@ function CIconHeader(props) {
             ]}
             onPress={item.onPress}>
             <View style={cStyles.p3}>
-              <Icon
+              <CIcon
                 name={item.icon}
-                color={
+                size={'medium'}
+                customColor={
                   item.iconColor ||
                   (IS_ANDROID ? colors.WHITE : customColors.icon)
                 }
-                size={moderateScale(21)}
               />
               {item.showRedDot && (
                 <View

@@ -16,15 +16,15 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
 /* COMPONENTS */
 import CText from './CText';
+import CIcon from './CIcon';
 import CLabel from './CLabel';
 /* COMMON */
 import Icons from '~/config/Icons';
 import {colors, cStyles} from '~/utils/style';
 import {IS_ANDROID, IS_IOS, moderateScale, verticalScale} from '~/utils/helper';
-import {THEME_DARK, THEME_LIGHT} from '~/config/constants';
+import {THEME_DARK} from '~/config/constants';
 
 function CInput(props) {
   const {t} = useTranslation();
@@ -161,11 +161,7 @@ function CInput(props) {
                   isDark && cStyles.borderRightDark,
                 ]}>
                 {typeof icon === 'string' ? (
-                  <Icon
-                    name={icon}
-                    color={iconColor}
-                    size={moderateScale(21)}
-                  />
+                  <CIcon name={icon} size={'medium'} customColor={iconColor} />
                 ) : (
                   <Image
                     style={{
@@ -236,11 +232,7 @@ function CInput(props) {
             <Component
               style={[cStyles.center, styles.con_input_icon]}
               onPress={handleRemoveValue}>
-              <Icon
-                name={Icons.close}
-                color={customColors.red}
-                size={moderateScale(21)}
-              />
+              <CIcon name={Icons.close} size={'medium'} color={'red'} />
             </Component>
           )}
 
@@ -255,11 +247,7 @@ function CInput(props) {
                 iconLastStyle,
               ]}
               onPress={handleIconLast}>
-              <Icon
-                name={iconLast}
-                color={customColors.icon}
-                size={moderateScale(21)}
-              />
+              <CIcon name={iconLast} size={'medium'} />
             </Component>
           )}
 
@@ -273,21 +261,17 @@ function CInput(props) {
                 iconLastStyle,
               ]}
               onPress={handleShowPassword}>
-              <Icon
+              <CIcon
                 name={showPassword ? Icons.eyeOff : Icons.eye}
-                color={colors.GRAY_500}
-                size={moderateScale(21)}
+                size={'medium'}
+                customColor={colors.GRAY_500}
               />
             </Component>
           )}
         </View>
         {props.error && (
           <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pt6]}>
-            <Icon
-              name={Icons.alert}
-              color={customColors.red}
-              size={moderateScale(14)}
-            />
+            <CIcon name={Icons.alert} size={'smaller'} color={'red'} />
             <CText
               customStyles={[
                 cStyles.textCaption1,

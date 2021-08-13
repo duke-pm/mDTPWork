@@ -14,7 +14,6 @@ import {
   UIManager,
   ScrollView,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 /* COMPONENTS */
 import CList from '~/components/CList';
@@ -24,6 +23,7 @@ import CLabel from '~/components/CLabel';
 import CText from '~/components/CText';
 import CUser from '~/components/CUser';
 import CStatusTag from '~/components/CStatusTag';
+import CIcon from '~/components/CIcon';
 import ProjectItem from '../components/ProjectItem';
 /** COMMON */
 import Icons from '~/config/Icons';
@@ -146,17 +146,13 @@ function ListProject(props) {
                 {/** Is public */}
                 <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mb10]}>
                   <CLabel bold label={'project_management:is_public'} />
-                  <Icon
+                  <CIcon
                     style={cStyles.ml3}
                     name={
                       chooseProject.isPublic ? Icons.checkCircle : Icons.alert
                     }
-                    color={
-                      chooseProject.isPublic
-                        ? customColors.green
-                        : customColors.orange
-                    }
-                    size={moderateScale(14)}
+                    color={chooseProject.isPublic ? 'green' : 'orange'}
+                    size={'smaller'}
                   />
                 </View>
 

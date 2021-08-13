@@ -14,27 +14,26 @@ import {
   UIManager,
 } from 'react-native';
 import RNCalendarEvents from 'react-native-calendar-events';
-import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 /* COMPONENTS */
 import CText from '~/components/CText';
 import CDateTimePicker from '~/components/CDateTimePicker';
 import CActivityIndicator from '~/components/CActivityIndicator';
 import CAlert from '~/components/CAlert';
+import CIcon from '~/components/CIcon';
 import {RowInfoBasic} from '../detail/Task';
 /* COMMON */
 import Configs from '~/config';
 import Icons from '~/config/Icons';
 import {DTP_CALENDAR} from '~/config/constants';
+import {cStyles} from '~/utils/style';
 import {
   IS_IOS,
   IS_ANDROID,
-  moderateScale,
   alert,
   getLocalInfo,
   saveLocalInfo,
 } from '~/utils/helper';
-import {cStyles} from '~/utils/style';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -393,11 +392,11 @@ function Reminder(props) {
           )
         }
         iconOnPress={
-          <Icon
+          <CIcon
             style={cStyles.pl10}
             name={Icons.alarm}
-            size={moderateScale(18)}
-            color={customColors.red}
+            size={'small'}
+            color={'red'}
           />
         }
         onPress={!showReminder ? handleToggleReminder : null}
@@ -422,17 +421,13 @@ function Reminder(props) {
             <TouchableOpacity
               style={cStyles.p10}
               onPress={handleToggleReminder}>
-              <Icon
-                name={Icons.close}
-                size={moderateScale(21)}
-                color={customColors.red}
-              />
+              <CIcon name={Icons.close} size={'medium'} color={'red'} />
             </TouchableOpacity>
             <TouchableOpacity style={cStyles.p10} onPress={handleUpdateEvent}>
-              <Icon
+              <CIcon
                 name={Icons.doubleCheck}
-                size={moderateScale(21)}
-                color={customColors.primary}
+                size={'medium'}
+                color={'primary'}
               />
             </TouchableOpacity>
           </View>
@@ -489,17 +484,13 @@ function Reminder(props) {
                       style={[cStyles.row, cStyles.itemsCenter, cStyles.py10]}>
                       <View style={cStyles.px16}>
                         {isChoose ? (
-                          <Icon
+                          <CIcon
                             name={Icons.dot}
-                            size={moderateScale(18)}
-                            color={customColors.primary}
+                            size={'small'}
+                            color={'primary'}
                           />
                         ) : (
-                          <Icon
-                            name={Icons.circle}
-                            size={moderateScale(18)}
-                            color={customColors.icon}
-                          />
+                          <CIcon name={Icons.circle} size={'small'} />
                         )}
                       </View>
                       <CText label={item.label} />

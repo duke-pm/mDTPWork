@@ -11,9 +11,9 @@ import {useTranslation} from 'react-i18next';
 import {showMessage} from 'react-native-flash-message';
 import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import Picker from '@gregfrench/react-native-wheel-picker';
-import Icon from 'react-native-vector-icons/Ionicons';
 /* COMPONENTS */
 import CText from '~/components/CText';
+import CIcon from '~/components/CIcon';
 import CActionSheet from '~/components/CActionSheet';
 import CActivityIndicator from '~/components/CActivityIndicator';
 /* COMMON */
@@ -227,10 +227,10 @@ function Status(props) {
           ) : (
             isEdit &&
             isUpdate && (
-              <Icon
+              <CIcon
                 name={Icons.down}
-                color={isDark ? props.task.colorDarkCode : colors.WHITE}
-                size={moderateScale(21)}
+                customColor={isDark ? props.task.colorDarkCode : colors.WHITE}
+                size={'medium'}
               />
             )
           )}

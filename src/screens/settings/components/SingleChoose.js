@@ -5,24 +5,22 @@
  ** Description: Description of SingleChoose.js
  **/
 import React, {useState, useEffect} from 'react';
+import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
 import {StyleSheet, View, TouchableOpacity} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
 /* COMPONENTS */
+import CText from '~/components/CText';
+import CIcon from '~/components/CIcon';
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
 import CGroupLabel from '~/components/CGroupLabel';
 import CList from '~/components/CList';
-import {DARK_MODE, THEME_DARK} from '~/config/constants';
-import {moderateScale, saveLocalInfo, getLocalInfo, sH} from '~/utils/helper';
-import {cStyles} from '~/utils/style';
-import CText from '~/components/CText';
-import {useTranslation} from 'react-i18next';
-import Icons from '~/config/Icons';
 /* COMMON */
-
-/* REDUX */
+import {DARK_MODE, THEME_DARK} from '~/config/constants';
+import {saveLocalInfo, getLocalInfo, sH} from '~/utils/helper';
+import {cStyles} from '~/utils/style';
+import Icons from '~/config/Icons';
 
 const RowSelect = (
   isDark,
@@ -65,11 +63,7 @@ const RowSelect = (
           ]}>
           <CText label={data.label} />
           {active && (
-            <Icon
-              name={Icons.check}
-              color={customColors.blue}
-              size={moderateScale(23)}
-            />
+            <CIcon name={Icons.check} color={'blue'} size={'medium'} />
           )}
         </View>
       </View>

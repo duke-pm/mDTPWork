@@ -23,7 +23,6 @@ import {
   UIManager,
   TouchableOpacity,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
 import LottieView from 'lottie-react-native';
 import moment from 'moment';
 /* COMPONENTS */
@@ -37,6 +36,7 @@ import CAlert from '~/components/CAlert';
 import CUser from '~/components/CUser';
 import CReadMore from '~/components/CReadMore';
 import CTouchable from '~/components/CTouchable';
+import CIcon from '~/components/CIcon';
 import Status from '../components/Status';
 import Percentage from '../components/Percentage';
 import FileAttach from '../components/FileAttach';
@@ -90,8 +90,8 @@ export const RowInfoBasic = ({
   isDark = false,
   left = null,
   right = null,
-  onPress = undefined,
   iconOnPress = undefined,
+  onPress = undefined,
 }) => {
   const Touchable = onPress ? TouchableOpacity : View;
   return (
@@ -119,10 +119,10 @@ export const RowInfoBasic = ({
           ]}>
           <View>{right}</View>
           {iconOnPress || (
-            <Icon
+            <CIcon
               name={Icons.next}
-              size={moderateScale(18)}
-              color={colors.GRAY_500}
+              size={'small'}
+              customColor={colors.GRAY_500}
             />
           )}
         </View>
@@ -1000,11 +1000,7 @@ function Task(props) {
                   {/** User name */}
                   <View
                     style={[cStyles.row, cStyles.itemsCenter, cStyles.mt16]}>
-                    <Icon
-                      name={Icons.user}
-                      size={moderateScale(21)}
-                      color={customColors.icon}
-                    />
+                    <CIcon name={Icons.user} size={'medium'} />
                     <CText
                       styles={'pl12'}
                       customLabel={data.participantChoose.userName}
@@ -1014,11 +1010,7 @@ function Task(props) {
                   {/** Full name */}
                   <View
                     style={[cStyles.row, cStyles.itemsCenter, cStyles.mt16]}>
-                    <Icon
-                      name={Icons.userCircle}
-                      size={moderateScale(23)}
-                      color={customColors.icon}
-                    />
+                    <CIcon name={Icons.userCircle} size={'large'} />
                     <CText
                       styles={'pl10'}
                       customLabel={data.participantChoose.fullName}
@@ -1028,11 +1020,7 @@ function Task(props) {
                   {/** Email */}
                   <View
                     style={[cStyles.row, cStyles.itemsCenter, cStyles.mt16]}>
-                    <Icon
-                      name={Icons.mail}
-                      size={moderateScale(21)}
-                      color={customColors.icon}
-                    />
+                    <CIcon name={Icons.mail} size={'medium'} />
                     <CTouchable
                       onPress={() => handleEmail(data.participantChoose.email)}>
                       <CText

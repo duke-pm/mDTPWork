@@ -22,7 +22,6 @@ import {
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Calendar} from 'react-native-calendars';
 import Picker from '@gregfrench/react-native-wheel-picker';
-import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
@@ -33,6 +32,7 @@ import CIconHeader from '~/components/CIconHeader';
 import CActivityIndicator from '~/components/CActivityIndicator';
 import CAlert from '~/components/CAlert';
 import CButton from '~/components/CButton';
+import CIcon from '~/components/CIcon';
 /* COMMON */
 import Configs from '~/config';
 import Icons from '~/config/Icons';
@@ -54,11 +54,7 @@ if (IS_ANDROID) {
 
 let keyboardOpen = null;
 let keyboardHide = null;
-const sizeIconCommon = moderateScale(18);
-const INPUT_NAME = {
-  FROM_DATE: 'fromDate',
-  TO_DATE: 'toDate',
-};
+const INPUT_NAME = {FROM_DATE: 'fromDate', TO_DATE: 'toDate'};
 const themesCalendar = {
   textDayFontSize: cStyles.textCallout.fontSize,
   textMonthFontSize: cStyles.textCallout.fontSize,
@@ -139,10 +135,10 @@ const RowPicker = (
             ) : (
               <CText styles={'pr6'} label={active} />
             )}
-            <Icon
+            <CIcon
               name={Icons.next}
-              size={sizeIconCommon}
-              color={colors.GRAY_500}
+              size={'small'}
+              customColor={colors.GRAY_500}
             />
           </View>
         </View>
@@ -238,10 +234,10 @@ const RowSelect = (
           ]}>
           <CText label={label} />
           {active && (
-            <Icon
+            <CIcon
               name={Icons.check}
-              color={customColors.blue}
-              size={sizeIconCommon}
+              color={IS_IOS ? 'blue' : 'green'}
+              size={'small'}
             />
           )}
         </View>

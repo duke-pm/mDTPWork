@@ -8,12 +8,11 @@ import React, {createRef} from 'react';
 import {useTranslation} from 'react-i18next';
 import {TouchableOpacity} from 'react-native';
 import * as Animatable from 'react-native-animatable';
-import Icon from 'react-native-vector-icons/Ionicons';
 /** COMPONENTS */
 import CText from '~/components/CText';
+import CIcon from './CIcon';
 /** COMMON */
 import {colors, cStyles} from '~/utils/style';
-import {moderateScale} from '~/utils/helper';
 import Icons from '~/config/Icons';
 
 let handleRef = createRef();
@@ -65,10 +64,10 @@ function CCheckbox(props) {
           />
         )}
 
-        <Icon
+        <CIcon
           name={value ? Icons.checkCircle : Icons.circle}
-          size={moderateScale(21)}
-          color={value ? colors.SECONDARY : colors.GRAY_500}
+          size={'medium'}
+          customColor={value ? colors.SECONDARY : colors.WHITE}
         />
 
         {labelRight && (

@@ -21,6 +21,7 @@ import FastImage from 'react-native-fast-image';
 import Modal from 'react-native-modal';
 /** COMPONENTS */
 import CText from './CText';
+import CIcon from './CIcon';
 /* COMMON */
 import Icons from '~/config/Icons';
 import {Assets} from '~/utils/asset';
@@ -203,12 +204,15 @@ function CAvatar(props) {
               size === 'large' && styles.icon_camera_large,
               {backgroundColor: customColors.card},
             ]}>
-            <Icon
+            <CIcon
               name={Icons.camera}
-              color={customColors.text}
-              size={moderateScale(
-                size === 'small' ? 10 : size === 'medium' ? 14 : 18,
-              )}
+              size={
+                size === 'small'
+                  ? 'minium'
+                  : size === 'medium'
+                  ? 'smaller'
+                  : 'small'
+              }
             />
           </View>
         )}

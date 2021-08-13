@@ -20,11 +20,11 @@ import {
   LayoutAnimation,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import Icon from 'react-native-vector-icons/Ionicons';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CInput from '~/components/CInput';
 import CText from '~/components/CText';
+import CIcon from '~/components/CIcon';
 import CButton from '~/components/CButton';
 import CAvoidKeyboard from '~/components/CAvoidKeyboard';
 /* COMMON */
@@ -45,9 +45,8 @@ if (IS_ANDROID) {
   }
 }
 
-const INPUT_NAME = {
-  EMAIL: 'email',
-};
+const sizeLargeIcon = moderateScale(80);
+const INPUT_NAME = {EMAIL: 'email'};
 
 function ForgotPassword(props) {
   const {t} = useTranslation();
@@ -254,10 +253,10 @@ function ForgotPassword(props) {
               <View style={cStyles.flexCenter}>
                 <View style={styles.box2}>
                   <View style={[cStyles.center, cStyles.py20, cStyles.pt32]}>
-                    <Icon
+                    <CIcon
                       name={Icons.mailUnread}
-                      color={colors.GRAY_500}
-                      size={moderateScale(80)}
+                      customColor={colors.GRAY_500}
+                      customSize={sizeLargeIcon}
                     />
                   </View>
 

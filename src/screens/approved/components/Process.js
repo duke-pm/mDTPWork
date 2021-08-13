@@ -6,11 +6,11 @@
  **/
 import React, {createRef} from 'react';
 import {View} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
 /* COMPONENTS */
 import CText from '~/components/CText';
 import CTouchable from '~/components/CTouchable';
 import CActionSheet from '~/components/CActionSheet';
+import CIcon from '~/components/CIcon';
 import RequestProcess from './RequestProcess';
 /* COMMON */
 import Icons from '~/config/Icons';
@@ -19,6 +19,7 @@ import {cStyles} from '~/utils/style';
 import {moderateScale} from '~/utils/helper';
 
 const actionSheetProcessRef = createRef();
+const sizeLargeIcon = moderateScale(30);
 
 function Process(props) {
   const {
@@ -60,11 +61,7 @@ function Process(props) {
             {backgroundColor: customColors.card},
           ]}>
           <View style={[cStyles.center, cStyles.p10]}>
-            <Icon
-              name={statusIcon}
-              size={moderateScale(24)}
-              color={customColors[statusColor]}
-            />
+            <CIcon name={statusIcon} size={'large'} color={statusColor} />
             <CText
               customStyles={[
                 cStyles.textSubheadline,
@@ -76,19 +73,15 @@ function Process(props) {
           </View>
 
           {statusID < Commons.STATUS_REQUEST.DONE.value && (
-            <Icon
-              name={Icons.nextStep}
-              size={moderateScale(25)}
-              color={customColors.icon}
-            />
+            <CIcon name={Icons.nextStep} size={'large'} />
           )}
 
           {statusID < Commons.STATUS_REQUEST.DONE.value && (
             <View style={[cStyles.center, cStyles.p10]}>
-              <Icon
+              <CIcon
                 name={Icons.alert}
-                size={moderateScale(30)}
-                color={customColors.orange}
+                customSize={sizeLargeIcon}
+                color={'orange'}
               />
             </View>
           )}

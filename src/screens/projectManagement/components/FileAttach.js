@@ -9,12 +9,12 @@ import React, {useState, useEffect} from 'react';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
 import {StyleSheet, View, Image, TouchableOpacity} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
 import RNFS from 'react-native-fs';
 import FileViewer from 'react-native-file-viewer';
 import * as Progress from 'react-native-progress';
 /** COMPONENTS */
 import CText from '~/components/CText';
+import CIcon from '~/components/CIcon';
 import CActivityIndicator from '~/components/CActivityIndicator';
 /* COMMON */
 import Icons from '~/config/Icons';
@@ -153,13 +153,7 @@ function FileAttach(props) {
                 {backgroundColor: customColors.card},
               ]}>
               {loading && <CActivityIndicator />}
-              {!loading && (
-                <Icon
-                  name={Icons.download}
-                  color={customColors.icon}
-                  size={moderateScale(14)}
-                />
-              )}
+              {!loading && <CIcon name={Icons.download} size={'smaller'} />}
             </View>
 
             {loading && (

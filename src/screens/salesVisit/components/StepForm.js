@@ -4,7 +4,7 @@
  ** CreateAt: 2021
  ** Description: Description of StepForm.js
  **/
-import React, {createRef, useRef, useState, useEffect} from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
@@ -15,12 +15,10 @@ import {
   Animated,
   Easing,
 } from 'react-native';
-import {TabView, SceneMap} from 'react-native-tab-view';
-import Icon from 'react-native-vector-icons/Ionicons';
+import {TabView} from 'react-native-tab-view';
 /* COMPONENTS */
+import CIcon from '~/components/CIcon';
 import CLabel from '~/components/CLabel';
-import CList from '~/components/CList';
-import CCard from '~/components/CCard';
 import ContactInformation from './ContactInformation';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
@@ -151,10 +149,10 @@ function StepForm(props) {
                     />
                   )}
                   {item.icon && (
-                    <Icon
+                    <CIcon
                       name={item.icon}
-                      size={moderateScale(20)}
-                      color={
+                      size={'medium'}
+                      customColor={
                         isActive || isActive2
                           ? colors.WHITE
                           : customColors.primary

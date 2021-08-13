@@ -10,10 +10,10 @@ import React, {useRef, useState, useEffect} from 'react';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
 import {StyleSheet, View, Text, Animated} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 /* COMPONENTS */
 import CText from '~/components/CText';
+import CIcon from '~/components/CIcon';
 /* COMMON */
 import Icons from '~/config/Icons';
 import Commons from '~/utils/common/Commons';
@@ -31,7 +31,6 @@ import {
 let listener = null;
 let child = 0;
 const plCommon = moderateScale(4);
-const sizeIconCommon = moderateScale(12);
 
 function BodyPreview(props) {
   const isDark = useColorScheme() === THEME_DARK;
@@ -62,7 +61,7 @@ function BodyPreview(props) {
       } else if (key === 'startDate' || key === 'endDate') {
         result.push(moment(item[key]).format(formatDateView));
       } else if (key === 'statusName') {
-        if (item['taskTypeID'] === Commons.TYPE_TASK.MILESTONE.value) {
+        if (item.taskTypeID === Commons.TYPE_TASK.MILESTONE.value) {
           result.push('');
         } else {
           result.push(
@@ -234,11 +233,7 @@ function BodyPreview(props) {
         ]}>
         {pChild > 1 && (
           <View style={[!isProject ? {paddingLeft: plCommon * pChild} : {}]}>
-            <Icon
-              name={Icons.showChild}
-              size={sizeIconCommon}
-              color={customColors.icon}
-            />
+            <CIcon name={Icons.showChild} size={'smaller'} />
           </View>
         )}
         <Text

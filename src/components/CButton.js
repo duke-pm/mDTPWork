@@ -9,13 +9,13 @@ import React from 'react';
 import {useTranslation} from 'react-i18next';
 import {useColorScheme} from 'react-native-appearance';
 import {StyleSheet, View, Platform} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
 /** COMPONENTS */
 import CText from './CText';
 import CTouchable from './CTouchable';
+import CIcon from './CIcon';
 /** COMMON */
 import {colors, cStyles} from '~/utils/style';
-import {moderateScale, verticalScale} from '~/utils/helper';
+import {verticalScale} from '~/utils/helper';
 import {THEME_DARK} from '~/config/constants';
 
 function CButton(props) {
@@ -58,16 +58,16 @@ function CButton(props) {
           style,
         ]}>
         {icon && (
-          <Icon
+          <CIcon
             name={icon}
-            color={
+            customColor={
               disabled || loading
                 ? styles.textDisabled.color
                 : variant === 'contained'
                 ? colors.WHITE
                 : color
             }
-            size={moderateScale(16)}
+            size={'small'}
           />
         )}
 
@@ -88,7 +88,7 @@ function CButton(props) {
 }
 
 const styles = StyleSheet.create({
-  container: {paddingVertical: verticalScale(3)},
+  container: {paddingVertical: verticalScale(1)},
   con_variant_text: {backgroundColor: colors.TRANSPARENT},
   textDisabled: Platform.select({
     ios: {color: '#cdcdcd'},

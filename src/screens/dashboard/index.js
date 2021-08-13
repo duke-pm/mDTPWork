@@ -7,22 +7,15 @@
  **/
 import React, {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
-import {useTheme} from '@react-navigation/native';
-import {TouchableOpacity, View} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
 /** COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
 import CList from '~/components/CList';
 import CItem from '~/components/CItem';
 /** COMMON */
-import Configs from '~/config';
-import Routes from '~/navigation/Routes';
-import {colors, cStyles} from '~/utils/style';
-import {moderateScale, IS_ANDROID} from '~/utils/helper';
+import {cStyles} from '~/utils/style';
 
 function Dashboard(props) {
-  const {customColors} = useTheme();
   const {navigation} = props;
 
   /** Use State */
@@ -32,22 +25,6 @@ function Dashboard(props) {
   /** Use redux */
   const authState = useSelector(({auth}) => auth);
 
-  if (Configs.salesVisit) {
-    navigation.setOptions({
-      headerRight: () => (
-        <TouchableOpacity onPress={handleNewFeature}>
-          <View>
-            <Icon
-              name={'logo-react'}
-              color={IS_ANDROID ? colors.WHITE : customColors.icon}
-              size={moderateScale(23)}
-            />
-          </View>
-        </TouchableOpacity>
-      ),
-    });
-  }
-
   /*****************
    ** HANDLE FUNC **
    *****************/
@@ -55,10 +32,6 @@ function Dashboard(props) {
     navigation.navigate(dataRoute.mName, {
       idRouteParent: dataRoute.menuID,
     });
-  };
-
-  const handleNewFeature = () => {
-    navigation.navigate(Routes.MAIN.SALES_VISIT.name);
   };
 
   /**********

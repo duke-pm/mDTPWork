@@ -20,7 +20,6 @@ import {
   LayoutAnimation,
 } from 'react-native';
 import {isIphoneX} from 'react-native-iphone-x-helper';
-import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
@@ -31,6 +30,7 @@ import CContent from '~/components/CContent';
 import CButton from '~/components/CButton';
 import CCard from '~/components/CCard';
 import CLabel from '~/components/CLabel';
+import CIcon from '~/components/CIcon';
 import CActivityIndicator from '~/components/CActivityIndicator';
 /* COMMON */
 import Icons from '~/config/Icons';
@@ -249,10 +249,10 @@ function Watchers(props) {
                                     {backgroundColor: customColors.card},
                                     styles.con_icon,
                                   ]}>
-                                  <Icon
+                                  <CIcon
                                     name={Icons.mail}
-                                    color={customColors.green}
-                                    size={moderateScale(10)}
+                                    color={'green'}
+                                    size={'minium'}
                                   />
                                 </View>
                               )}

@@ -7,12 +7,13 @@
  **/
 import React, {useState} from 'react';
 import {StyleSheet, View, LayoutAnimation, UIManager} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 /* COMPONENTS */
 import CCard from '~/components/CCard';
 import CLabel from '~/components/CLabel';
 import CUser from '~/components/CUser';
+import CText from '~/components/CText';
+import CIcon from '~/components/CIcon';
 import CStatusTag from '~/components/CStatusTag';
 import ListProject from '../list/Project';
 /* COMMON */
@@ -20,7 +21,6 @@ import Icons from '~/config/Icons';
 import {cStyles} from '~/utils/style';
 import {moderateScale, IS_ANDROID} from '~/utils/helper';
 import {DEFAULT_FORMAT_DATE_4} from '~/config/constants';
-import CText from '~/components/CText';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -146,11 +146,11 @@ function ProjectItem(props) {
                     styles.row_middle_1,
                   ]}>
                   <CLabel label={'project_management:piority_item'} />
-                  <Icon
+                  <CIcon
                     style={cStyles.ml5}
                     name={Icons.flag}
-                    color={customColors.green}
-                    size={moderateScale(14)}
+                    color={'green'}
+                    size={'smaller'}
                   />
                   <View
                     style={[
@@ -179,12 +179,10 @@ function ProjectItem(props) {
                   data.priorityLevel === 0 && styles.row_right,
                 ]}>
                 <CLabel label={'project_management:is_public'} />
-                <Icon
+                <CIcon
                   name={data.isPublic ? Icons.checkCircle : Icons.alert}
-                  color={
-                    data.isPublic ? customColors.green : customColors.orange
-                  }
-                  size={moderateScale(14)}
+                  color={data.isPublic ? 'green' : 'orange'}
+                  size={'smaller'}
                 />
               </View>
             </View>

@@ -81,7 +81,7 @@ function CCard(props) {
               cStyles.row,
               cStyles.itemsCenter,
               cStyles.justifyBetween,
-              cStyles.pl16,
+              cStyles.px10,
               cStyles.py8,
               cStyles.borderBottom,
               isDark && cStyles.borderBottomDark,
@@ -103,9 +103,7 @@ function CCard(props) {
             )}
           </View>
 
-          {content && (
-            <View style={[cStyles.py10, cStyles.px16]}>{content}</View>
-          )}
+          {content && <View style={cStyles.p10}>{content}</View>}
 
           {footer && (
             <View

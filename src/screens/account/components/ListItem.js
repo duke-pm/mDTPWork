@@ -15,10 +15,10 @@ import {
   Switch,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/Ionicons';
 import Rate, {AndroidMarket} from 'react-native-rate';
 /* COMPONENTS */
 import CText from '~/components/CText';
+import CIcon from '~/components/CIcon';
 /* COMMON */
 import Configs from '~/config';
 import Icons from '~/config/Icons';
@@ -113,10 +113,10 @@ function ListItem(props) {
               {backgroundColor: data.iconColor || colors.TRANSPARENT},
             ]}>
             {data.icon && !data.iconFaceID && (
-              <Icon
+              <CIcon
                 name={data.icon}
-                size={moderateScale(21)}
-                color={data.iconColor ? colors.WHITE : customColors.text}
+                size={'medium'}
+                customColor={data.iconColor ? colors.WHITE : customColors.text}
               />
             )}
             {dataToggle && dataToggle.activeBiometric && data.iconFaceID && (
@@ -174,10 +174,10 @@ function ListItem(props) {
               data.isURL ||
               data.isChooseLang ||
               data.isRate) && (
-              <Icon
+              <CIcon
                 name={Icons.next}
-                size={moderateScale(18)}
-                color={colors.GRAY_500}
+                size={'small'}
+                customColor={colors.GRAY_500}
               />
             )}
             {data.isToggle && dataToggle && (

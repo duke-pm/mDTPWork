@@ -8,21 +8,22 @@
 import React, {useState, useEffect} from 'react';
 import {useColorScheme} from 'react-native-appearance';
 import {StyleSheet, View, Animated} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
 /* COMPONENTS */
 import CText from '~/components/CText';
 import CLoading from '~/components/CLoading';
 import CFooterList from '~/components/CFooterList';
+import CIcon from '~/components/CIcon';
 /* COMMON */
 import Icons from '~/config/Icons';
 import {colors, cStyles} from '~/utils/style';
 import {moderateScale} from '~/utils/helper';
 import {THEME_DARK} from '~/config/constants';
 
+let isReject = false;
+
 function RequestProcess(props) {
   const isDark = useColorScheme() === THEME_DARK;
   const {data = [], customColors = {}} = props;
-  let isReject = false;
 
   /** Use state */
   const [loading, setLoading] = useState(true);
@@ -122,7 +123,7 @@ function RequestProcess(props) {
                   cStyles.itemsCenter,
                   styles.con_icon,
                 ]}>
-                <Icon
+                <CIcon
                   name={
                     !item.approveDate
                       ? Icons.alert
@@ -130,14 +131,14 @@ function RequestProcess(props) {
                       ? Icons.remove
                       : Icons.checkCircle
                   }
-                  color={
+                  customColor={
                     !item.approveDate
                       ? customColors.orange
                       : item.statusID === 0
                       ? customColors.red
                       : customColors.green
                   }
-                  size={moderateScale(21)}
+                  size={'medium'}
                 />
                 {index !== dataProcess.length - 1 && (
                   <View

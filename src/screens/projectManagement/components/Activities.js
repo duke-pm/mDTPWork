@@ -24,7 +24,6 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import * as Animatable from 'react-native-animatable';
 import DeviceInfo from 'react-native-device-info';
-import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
@@ -32,6 +31,7 @@ import CText from '~/components/CText';
 import CInput from '~/components/CInput';
 import CIconButton from '~/components/CIconButton';
 import CList from '~/components/CList';
+import CIcon from '~/components/CIcon';
 import CAvatar from '~/components/CAvatar';
 import CIconHeader from '~/components/CIconHeader';
 import CSearchBar from '~/components/CSearchBar';
@@ -440,11 +440,10 @@ function Activity(props) {
                       dataSearch.data.length < 2 || dataSearch.active === 0
                     }
                     onPress={handleDownSearch}>
-                    <Icon
+                    <CIcon
                       style={cStyles.p10}
                       name={Icons.downItem}
-                      size={moderateScale(21)}
-                      color={customColors.icon}
+                      size={'medium'}
                     />
                   </TouchableOpacity>
 
@@ -459,11 +458,10 @@ function Activity(props) {
                       dataSearch.active === dataSearch.data.length - 1
                     }
                     onPress={handleUpSearch}>
-                    <Icon
+                    <CIcon
                       style={cStyles.p10}
-                      name={Icons.upItem}
-                      size={moderateScale(21)}
-                      color={customColors.icon}
+                      name={Icons.downItem}
+                      size={'medium'}
                     />
                   </TouchableOpacity>
                 </View>

@@ -17,20 +17,23 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {Table, Row, TableWrapper, Cell} from 'react-native-table-component';
-import Icon from 'react-native-vector-icons/Ionicons';
 /* COMPONENTS */
 import CText from '~/components/CText';
+import CIcon from '~/components/CIcon';
 import AssetItem from './AssetItem';
 /* COMMON */
 import Icons from '~/config/Icons';
 import {colors, cStyles} from '~/utils/style';
 import {moderateScale, IS_ANDROID, verticalScale} from '~/utils/helper';
+
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
   }
 }
+
 const heightItemTable = IS_ANDROID ? verticalScale(38) : verticalScale(30);
+
 export const widthItemTable = [
   moderateScale(35),
   moderateScale(220),
@@ -199,11 +202,7 @@ function AssetsTable(props) {
                   cStyles.pr16,
                   styles.con_left,
                 ]}>
-                <Icon
-                  name={Icons.addNew}
-                  color={customColors.orange}
-                  size={moderateScale(18)}
-                />
+                <CIcon name={Icons.addNew} color={'orange'} size={'small'} />
                 <CText
                   customStyles={[
                     cStyles.textUnderline,
@@ -286,11 +285,7 @@ function AssetsTable(props) {
               styles.con_right,
             ]}>
             {error.status && (
-              <Icon
-                name={Icons.alert}
-                size={moderateScale(18)}
-                color={customColors.red}
-              />
+              <CIcon name={Icons.alert} color={'red'} size={'small'} />
             )}
             {error.status && (
               <CText
@@ -315,11 +310,7 @@ function AssetsTable(props) {
                   cStyles.mt10,
                   styles.con_left,
                 ]}>
-                <Icon
-                  name={Icons.addNew}
-                  color={customColors.orange}
-                  size={moderateScale(18)}
-                />
+                <CIcon name={Icons.addNew} color={'orange'} size={'small'} />
                 <CText
                   customStyles={[
                     cStyles.textUnderline,

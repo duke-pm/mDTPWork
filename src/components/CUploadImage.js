@@ -6,16 +6,14 @@
  **/
 import React, {useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {useTheme} from '@react-navigation/native';
 import {StyleSheet, View, ActionSheetIOS, TouchableOpacity} from 'react-native';
 import Modal from 'react-native-modal';
-import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 /* COMPONENTS */
 import CButton from './CButton';
-import CCard from './CCard';
-import CImage from './CImage';
 import CText from './CText';
+import CIcon from './CIcon';
+import Icons from '~/config/Icons';
 /* COMMON */
 import {
   IS_IOS,
@@ -23,16 +21,14 @@ import {
   choosePhotoFromCamera,
   choosePhotoFromGallery,
   IS_ANDROID,
-  moderateScale,
 } from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
-import Icons from '~/config/Icons';
 
 function CUploadImage(props) {
-  const {onChange} = props;
   const {t} = useTranslation();
-  const {customColors} = useTheme();
+  const {onChange} = props;
 
+  /** Use State */
   const [showUpload, setShowUpload] = useState(false);
 
   /*****************
@@ -168,11 +164,7 @@ function CUploadImage(props) {
                 cStyles.py16,
                 cStyles.px16,
               ]}>
-              <Icon
-                name={Icons.camera}
-                size={moderateScale(23)}
-                color={customColors.red}
-              />
+              <CIcon name={Icons.camera} size={'medium'} color={'red'} />
               <CText
                 styles={'textHeadline pl16'}
                 label={'common:from_camera'}
@@ -182,11 +174,7 @@ function CUploadImage(props) {
 
           <TouchableOpacity activeOpacity={0.5} onPress={onChangeByGallery}>
             <View style={[cStyles.row, cStyles.itemsCenter, cStyles.p16]}>
-              <Icon
-                name={Icons.image}
-                size={moderateScale(23)}
-                color={customColors.green}
-              />
+              <CIcon name={Icons.image} size={'medium'} color={'green'} />
               <CText
                 styles={'textHeadline pl16'}
                 label={'common:from_gallery'}

@@ -7,7 +7,7 @@
 import {moderateScale} from '~/utils/helper';
 
 export const HOST_DEV = 'http://api.dtpeducation.com';
-export const HOST_PROD = 'http://api.dtpeducation.com';
+export const HOST_PROD = 'http://api.dtp-education.com';
 export const PREFIXES_API = 'api';
 export const PREFIXES_ANDROID = 'http://dtpwork.dtpeducation.com';
 export const PREFIXES_ANDROID_PROD = 'http://dtpwork.dtp-education.com';

@@ -6,13 +6,12 @@
  **/
 import React from 'react';
 import {View} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
 /* COMPONENTS */
 import CText from './CText';
+import CIcon from './CIcon';
 /* COMMON */
 import Icons from '~/config/Icons';
 import {colors, cStyles} from '~/utils/style';
-import {moderateScale} from '~/utils/helper';
 
 function CStatusTag(props) {
   const {style, label, customLabel, color} = props;
@@ -31,7 +30,7 @@ function CStatusTag(props) {
         {backgroundColor: color},
         style,
       ]}>
-      <Icon name={Icons.dot} color={colors.WHITE} size={moderateScale(10)} />
+      <CIcon name={Icons.dot} customColor={colors.WHITE} size={'minium'} />
       <CText
         customStyles={[
           cStyles.textCaption2,

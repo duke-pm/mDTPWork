@@ -12,7 +12,6 @@ import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
 import {StyleSheet, TouchableOpacity, View, StatusBar} from 'react-native';
 import Picker from '@gregfrench/react-native-wheel-picker';
-import Icon from 'react-native-vector-icons/Ionicons';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
@@ -20,6 +19,7 @@ import CText from '~/components/CText';
 import CGroupLabel from '~/components/CGroupLabel';
 import CActionSheet from '~/components/CActionSheet';
 import CAvatar from '~/components/CAvatar';
+import CIcon from '~/components/CIcon';
 import CIconHeader from '~/components/CIconHeader';
 import CActivityIndicator from '~/components/CActivityIndicator';
 /* COMMON */
@@ -76,10 +76,10 @@ const RowPicker = (
             ) : (
               <CText styles={'pr6'} label={active} />
             )}
-            <Icon
+            <CIcon
               name={Icons.next}
-              size={moderateScale(18)}
-              color={colors.GRAY_500}
+              size={'small'}
+              customColor={colors.GRAY_500}
             />
           </View>
         </View>
@@ -136,10 +136,10 @@ const RowSelect = (
           ]}>
           <CText label={label} />
           {active && (
-            <Icon
+            <CIcon
               name={Icons.check}
-              color={customColors.blue}
-              size={moderateScale(18)}
+              size={'small'}
+              color={IS_IOS ? 'blue' : 'green'}
             />
           )}
         </View>

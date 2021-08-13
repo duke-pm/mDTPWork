@@ -6,13 +6,12 @@
  **/
 import React, {useState, useEffect} from 'react';
 import {View, TouchableOpacity} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
 import * as Animatable from 'react-native-animatable';
 /* COMPONENTS */
 import CText from '~/components/CText';
+import CIcon from '~/components/CIcon';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
-import {moderateScale} from '~/utils/helper';
 import Icons from '~/config/Icons';
 
 function CheckOption(props) {
@@ -66,12 +65,12 @@ function CheckOption(props) {
                 cStyles.pr24,
               ]}
               useNativeDriver={true}>
-              <Icon
+              <CIcon
                 name={
                   chooseValue === item.value ? Icons.checkCircle : Icons.circle
                 }
-                size={moderateScale(23)}
-                color={
+                size={'medium'}
+                customColor={
                   chooseValue === item.value
                     ? colors.SECONDARY
                     : customColors.text

@@ -8,13 +8,15 @@ import React from 'react';
 import {useTheme} from '@react-navigation/native';
 import {View} from 'react-native';
 import Modal from 'react-native-modal';
-import Icon from 'react-native-vector-icons/Ionicons';
 /* COMPONENTS */
 import CText from '~/components/CText';
+import CIcon from '~/components/CIcon';
 /* COMMON */
 import Icons from '~/config/Icons';
 import {cStyles} from '~/utils/style';
 import {moderateScale} from '~/utils/helper';
+
+const iconLargeSize = moderateScale(80);
 
 function Unconnected(props) {
   const {customColors} = useTheme();
@@ -35,10 +37,10 @@ function Unconnected(props) {
           {backgroundColor: customColors.background},
         ]}>
         <View style={cStyles.pb32}>
-          <Icon
+          <CIcon
             name={Icons.failedSad}
-            color={customColors.orange}
-            size={moderateScale(80)}
+            color={'orange'}
+            customSize={iconLargeSize}
           />
         </View>
         <CText

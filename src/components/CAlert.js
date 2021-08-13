@@ -80,7 +80,7 @@ function CAlert(props) {
         </View>
 
         {/** Footer of Alert */}
-        {(onClose || onOK) && (
+        {!loading && (onClose || onOK) && (
           <View
             style={[
               cStyles.row,

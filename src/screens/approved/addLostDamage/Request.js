@@ -21,7 +21,6 @@ import {
   LayoutAnimation,
 } from 'react-native';
 import Picker from '@gregfrench/react-native-wheel-picker';
-import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
@@ -34,6 +33,7 @@ import CAlert from '~/components/CAlert';
 import CLabel from '~/components/CLabel';
 import CGroupInfo from '~/components/CGroupInfo';
 import CActivityIndicator from '~/components/CActivityIndicator';
+import CIcon from '~/components/CIcon';
 import CTouchable from '~/components/CTouchable';
 import RejectModal from '../components/RejectModal';
 import CheckOption from '../components/CheckOption';
@@ -51,6 +51,7 @@ import {
 import {THEME_DARK, DEFAULT_FORMAT_DATE_4} from '~/config/constants';
 /* REDUX */
 import * as Actions from '~/redux/actions';
+
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -131,21 +132,19 @@ const RowSelect = (
             <CActivityIndicator />
           )}
           {!disabled && (
-            <Icon
+            <CIcon
               name={Icons.down}
-              size={moderateScale(23)}
-              color={disabled ? customColors.textDisable : customColors.icon}
+              size={'medium'}
+              customColor={
+                disabled ? customColors.textDisable : customColors.icon
+              }
             />
           )}
         </View>
       </CTouchable>
       {error && (
         <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pt6]}>
-          <Icon
-            name={Icons.alert}
-            color={customColors.red}
-            size={moderateScale(14)}
-          />
+          <CIcon name={Icons.alert} size={'smaller'} color={'red'} />
           <CText
             customStyles={[
               cStyles.textCaption1,

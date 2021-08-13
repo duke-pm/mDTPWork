@@ -15,7 +15,6 @@ import {
   UIManager,
 } from 'react-native';
 import * as Progress from 'react-native-progress';
-import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 /* COMPONENTS */
 import CText from '~/components/CText';
@@ -23,6 +22,7 @@ import CTouchable from '~/components/CTouchable';
 import CUser from '~/components/CUser';
 import CStatusTag from '~/components/CStatusTag';
 import CAvatar from '~/components/CAvatar';
+import CIcon from '~/components/CIcon';
 import ListTask from '../list/Task';
 /* COMMON */
 import Icons from '~/config/Icons';
@@ -37,10 +37,15 @@ if (IS_ANDROID) {
 }
 
 const CustomLayoutAnimation = {
-  duration: 200,
+  duration: 500,
   create: {
     type: LayoutAnimation.Types.spring,
-    property: LayoutAnimation.Properties.scaleX,
+    property: LayoutAnimation.Properties.scaleXY,
+    springDamping: 1,
+  },
+  update: {
+    type: LayoutAnimation.Types.spring,
+    property: LayoutAnimation.Properties.scaleXY,
     springDamping: 16,
   },
   delete: {
@@ -181,11 +186,7 @@ function TaskItem(props) {
                       {transform: [{rotate: rotateData}]},
                       styles.con_children,
                     ]}>
-                    <Icon
-                      name={Icons.up}
-                      size={moderateScale(21)}
-                      color={customColors.icon}
-                    />
+                    <CIcon name={Icons.up} size={'medium'} />
                   </Animated.View>
                 </CTouchable>
               ) : null}
@@ -235,10 +236,10 @@ function TaskItem(props) {
                 cStyles.pt12,
               ]}>
               <View style={[cStyles.row, cStyles.itemsCenter]}>
-                <Icon
+                <CIcon
                   name={Icons.time}
-                  color={delay > 0 ? customColors.red : customColors.icon}
-                  size={moderateScale(10)}
+                  size={'minium'}
+                  color={delay > 0 ? 'red' : 'icon'}
                 />
                 <Text style={cStyles.pl4} numberOfLines={1}>
                   <Text

@@ -64,7 +64,7 @@ function Project(props) {
     activeStatus: [],
   });
   const [data, setData] = useState({
-    year: Number(moment().format('YYYY')),
+    year: moment().year(),
     statusID: null,
     ownerID: null,
     page: 1,
@@ -135,7 +135,7 @@ function Project(props) {
   };
 
   const onFetchData = (
-    year = Number(moment().format('YYYY')),
+    year = data.year,
     ownerID = null,
     statusID = null,
     perPage = perPageMaster,
@@ -154,16 +154,14 @@ function Project(props) {
     });
     dispatch(Actions.fetchListProject(params, navigation));
     if (
-      (statusID !== null ||
-        ownerID !== null ||
-        year !== Number(moment().format('YYYY'))) &&
+      (statusID !== null || ownerID !== null || year !== moment().year()) &&
       !isFiltering
     ) {
       setIsFiltering(true);
     } else if (
       statusID === null &&
       ownerID === null &&
-      year === Number(moment().format('YYYY')) &&
+      year === moment().year() &&
       isFiltering
     ) {
       setIsFiltering(false);
@@ -187,7 +185,7 @@ function Project(props) {
       tmpProjects = [...tmpProjects, ...projects];
     }
     setData({...data, projects: tmpProjects});
-    return done(isLoadmore);
+    return onDone(isLoadmore);
   };
 
   const onError = () => {
@@ -197,11 +195,10 @@ function Project(props) {
       type: 'danger',
       icon: 'danger',
     });
-
-    return done(false);
+    return onDone(false);
   };
 
-  const done = isLoadmore => {
+  const onDone = isLoadmore => {
     return setLoading({
       main: false,
       refreshing: false,
@@ -213,7 +210,6 @@ function Project(props) {
 
   const onRefresh = () => {
     if (!loading.refreshing) {
-      setLoading({...loading, refreshing: true, isLoadmore: true});
       setData({...data, page: 1});
       onFetchData(
         data.year,
@@ -223,6 +219,7 @@ function Project(props) {
         1,
         data.search,
       );
+      setLoading({...loading, refreshing: true, isLoadmore: true});
     }
   };
 
@@ -247,7 +244,7 @@ function Project(props) {
    ****************/
   useEffect(() => {
     onFetchMasterData();
-    onFetchData(data.year, null, null, perPageMaster, 1, '');
+    onFetchData();
     setLoading({...loading, startFetch: true});
   }, []);
 

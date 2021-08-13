@@ -17,17 +17,18 @@ import {
   LayoutAnimation,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import Icon from 'react-native-vector-icons/Ionicons';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CInput from '~/components/CInput';
 import CText from '~/components/CText';
 import CButton from '~/components/CButton';
+import CIcon from '~/components/CIcon';
 import CAvoidKeyboard from '~/components/CAvoidKeyboard';
 /* COMMON */
 import Icons from '~/config/Icons';
 import Routes from '~/navigation/Routes';
 import {colors, cStyles} from '~/utils/style';
+import {BIOMETRICS} from '~/config/constants';
 import {
   moderateScale,
   IS_ANDROID,
@@ -35,15 +36,16 @@ import {
   saveLocalInfo,
   verticalScale,
 } from '~/utils/helper';
-import {BIOMETRICS} from '~/config/constants';
 /** REDUX */
 import * as Actions from '~/redux/actions';
+
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
   }
 }
 
+const sizeLargeIcon = moderateScale(80);
 const INPUT_NAME = {NEW_PASSWORD: 'password'};
 
 function ChangePassword(props) {
@@ -297,10 +299,10 @@ function ChangePassword(props) {
             {!loading.update && form.success && !form.error && (
               <View style={[cStyles.flex1, cStyles.px48, cStyles.pt32]}>
                 <View style={[cStyles.center, cStyles.py20, cStyles.pt32]}>
-                  <Icon
+                  <CIcon
                     name={Icons.successHappy}
-                    color={colors.GRAY_500}
-                    size={moderateScale(80)}
+                    color={'orange'}
+                    customSize={sizeLargeIcon}
                   />
                 </View>
 
@@ -334,10 +336,10 @@ function ChangePassword(props) {
             {!loading.update && !form.success && form.error && (
               <View style={[cStyles.flex1, cStyles.px48, cStyles.pt32]}>
                 <View style={[cStyles.center, cStyles.py20, cStyles.pt32]}>
-                  <Icon
+                  <CIcon
                     name={Icons.failedSad}
-                    color={colors.GRAY_500}
-                    size={moderateScale(80)}
+                    customColor={colors.GRAY_500}
+                    customSize={sizeLargeIcon}
                   />
                 </View>
 
@@ -375,10 +377,10 @@ function ChangePassword(props) {
               form.errorExpired && (
                 <View style={[cStyles.flex1, cStyles.px48, cStyles.pt32]}>
                   <View style={[cStyles.center, cStyles.py20, cStyles.pt32]}>
-                    <Icon
+                    <CIcon
                       name={Icons.failedSad}
-                      color={colors.GRAY_500}
-                      size={moderateScale(80)}
+                      customColor={colors.GRAY_500}
+                      customSize={sizeLargeIcon}
                     />
                   </View>
 

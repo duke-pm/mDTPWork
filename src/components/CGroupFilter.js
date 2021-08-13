@@ -10,15 +10,15 @@ import React, {createRef, useState, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
 import {StyleSheet, FlatList, View} from 'react-native';
 import {useTheme} from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/Ionicons';
 import * as Animatable from 'react-native-animatable';
 /* COMPONENTS */
 import CText from './CText';
 import CLabel from './CLabel';
+import CIcon from './CIcon';
 import CTouchable from './CTouchable';
 /* COMMON */
 import Icons from '~/config/Icons';
-import {IS_ANDROID, moderateScale} from '~/utils/helper';
+import {IS_ANDROID} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
 
 function CGroupFilter(props) {
@@ -124,10 +124,10 @@ function CGroupFilter(props) {
                     isCheck && styles.active,
                     {backgroundColor: customColors.card},
                   ]}>
-                  <Icon
+                  <CIcon
                     name={isCheck ? Icons.check : Icons.noneCheck}
-                    size={moderateScale(14)}
-                    color={isCheck ? colors.SECONDARY : customColors.icon}
+                    size={'smaller'}
+                    customColor={isCheck ? colors.SECONDARY : customColors.icon}
                   />
                   <CText
                     customStyles={[

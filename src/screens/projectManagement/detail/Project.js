@@ -192,7 +192,7 @@ function ProjectDetail(props) {
     }
     setData({...data, tasks: tmpTasks});
 
-    return done(isLoadmore);
+    return onDone(isLoadmore);
   };
 
   const onRecursiveData = (currentData, newData) => {
@@ -232,11 +232,10 @@ function ProjectDetail(props) {
       type: 'danger',
       icon: 'danger',
     });
-
-    return done(false);
+    return onDone(false);
   };
 
-  const done = isLoadmore => {
+  const onDone = isLoadmore => {
     return setLoading({
       main: false,
       refreshing: false,
@@ -248,7 +247,6 @@ function ProjectDetail(props) {
 
   const onRefreshTasks = () => {
     if (!loading.refreshing) {
-      setLoading({...loading, refreshing: true, isLoadmore: true});
       setData({...data, page: 1});
       onFetchData(
         data.ownerID,
@@ -258,6 +256,7 @@ function ProjectDetail(props) {
         1,
         data.search,
       );
+      setLoading({...loading, refreshing: true, isLoadmore: true});
     }
   };
 
@@ -315,7 +314,7 @@ function ProjectDetail(props) {
   useEffect(() => {
     let isLogin = authState.get('successLogin');
     if (isLogin) {
-      onFetchData(null, null, null, perPageMaster, 1, '');
+      onFetchData();
       setLoading({...loading, startFetch: true});
     } else {
       setLoading({...loading, startFetchLogin: true});
@@ -327,7 +326,7 @@ function ProjectDetail(props) {
     if (loading.startFetchLogin) {
       if (!authState.get('submitting')) {
         if (authState.get('successLogin')) {
-          onFetchData(null, null, null, perPageMaster, 1, '');
+          onFetchData();
           return setLoading({
             ...loading,
             startFetch: true,

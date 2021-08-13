@@ -12,10 +12,9 @@ import {useColorScheme} from 'react-native-appearance';
 import {useTheme} from '@react-navigation/native';
 import {showMessage} from 'react-native-flash-message';
 import {ifIphoneX} from 'react-native-iphone-x-helper';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {StyleSheet, View} from 'react-native';
 import Picker from '@gregfrench/react-native-wheel-picker';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
@@ -26,6 +25,7 @@ import CAlert from '~/components/CAlert';
 import CActionSheet from '~/components/CActionSheet';
 import CLabel from '~/components/CLabel';
 import CGroupInfo from '~/components/CGroupInfo';
+import CIcon from '~/components/CIcon';
 import CActivityIndicator from '~/components/CActivityIndicator';
 import CTouchable from '~/components/CTouchable';
 import RejectModal from '../components/RejectModal';
@@ -79,10 +79,12 @@ const RowSelect = (
           <CActivityIndicator />
         )}
         {!disabled && (
-          <Icon
+          <CIcon
             name={Icons.down}
-            size={moderateScale(21)}
-            color={disabled ? customColors.textDisable : customColors.icon}
+            size={'medium'}
+            customColor={
+              disabled ? customColors.textDisable : customColors.icon
+            }
           />
         )}
       </View>
@@ -776,12 +778,12 @@ function AddRequest(props) {
 
           {!isDetail && (
             <CActionSheet
-              actionRef={actionSheetDepartmentRef}
               headerChoose
+              actionRef={actionSheetDepartmentRef}
               onConfirm={handleChangeWhereUse}>
               <View style={cStyles.px16}>
                 <CInput
-                  containerStyle={cStyles.mb10}
+                  containerStyle={cStyles.my10}
                   styleFocus={styles.input_focus}
                   disabled={loading.main || loading.submitAdd || isDetail}
                   holder={'add_approved_assets:holder_where_use'}
