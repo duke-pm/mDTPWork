@@ -43,7 +43,8 @@
     "edit": "EDIT",
     "congratulations": "Congratulations!!!",
     "read_less": "Read less",
-    "read_more": "Read more"
+    "read_more": "Read more",
+    "connection_again": "Connection Again"
   },
   "status": {
     "title": "Status",

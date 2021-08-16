@@ -1,23 +1,62 @@
 /**
- ** Name:
+ ** Name:Fields Auth
  ** Author: DTP-Education
  ** CreateAt: 2021
- ** Description: Description of .js
+ ** Description: Description of fieldsAuth.js
  **/
 const FieldsAuth = [
-  'accessToken',
-  'tokenType',
-  'refreshToken',
-  'userName',
-  'userID',
-  'userId',
-  'empCode',
-  'fullName',
-  'regionCode',
-  'deptCode',
-  'jobTitle',
-  'groupID',
+  {
+    key: 'lstMenu',
+    value: 'lstMenu',
+  },
+  {
+    key: 'access_token',
+    value: 'accessToken',
+  },
+  {
+    key: 'token_type',
+    value: 'tokenType',
+  },
+  {
+    key: 'refresh_token',
+    value: 'refreshToken',
+  },
+  {
+    key: 'userName',
+    value: 'userName',
+  },
+  {
+    key: 'userID',
+    value: 'userID',
+  },
+  {
+    key: 'userId',
+    value: 'userId',
+  },
+  {
+    key: 'empCode',
+    value: 'empCode',
+  },
+  {
+    key: 'fullName',
+    value: 'fullName',
+  },
+  {
+    key: 'regionCode',
+    value: 'regionCode',
+  },
+  {
+    key: 'deptCode',
+    value: 'deptCode',
+  },
+  {
+    key: 'jobTitle',
+    value: 'jobTitle',
+  },
+  {
+    key: 'groupID',
+    value: 'groupID',
+  },
 ];
-const FieldsListMenu = 'lstMenu';
 
-export default {FieldsAuth, FieldsListMenu};
+export default FieldsAuth;

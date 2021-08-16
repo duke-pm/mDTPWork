@@ -45,6 +45,7 @@ import Reminder from '../components/Reminder';
 import Icons from '~/config/Icons';
 import Routes from '~/navigation/Routes';
 import Commons from '~/utils/common/Commons';
+import FieldsAuth from '~/config/fieldsAuth';
 import {Animations} from '~/utils/asset';
 import {usePrevious} from '~/utils/hook';
 import {colors, cStyles} from '~/utils/style';
@@ -335,24 +336,17 @@ function Task(props) {
     let dataLogin = await getSecretInfo(LOGIN);
     if (dataLogin) {
       console.log('[LOG] === SignIn Local === ', dataLogin);
-      dataLogin = {
-        tokenInfo: {
-          access_token: dataLogin.accessToken,
-          token_type: dataLogin.tokenType,
-          refresh_token: dataLogin.refreshToken,
-          userName: dataLogin.userName,
-          userID: dataLogin.userID,
-          userId: dataLogin.userId,
-          empCode: dataLogin.empCode,
-          fullName: dataLogin.fullName,
-          regionCode: dataLogin.regionCode,
-          deptCode: dataLogin.deptCode,
-          jobTitle: dataLogin.jobTitle,
-          groupID: dataLogin.groupID,
-        },
-        lstMenu: dataLogin.lstMenu,
-      };
-      dispatch(Actions.loginSuccess(dataLogin));
+      let i,
+        tmpDataLogin = {tokenInfo: {}, lstMenu: {}};
+      for (i = 0; i < FieldsAuth.length; i++) {
+        if (i === 0) {
+          tmpDataLogin[FieldsAuth[i].key] = dataLogin[FieldsAuth[i].key];
+        } else {
+          tmpDataLogin.tokenInfo[FieldsAuth[i].key] =
+            dataLogin[FieldsAuth[i].value];
+        }
+      }
+      dispatch(Actions.loginSuccess(tmpDataLogin));
     } else {
       onGoToSignIn();
     }

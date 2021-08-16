@@ -9,6 +9,7 @@ import {showMessage} from 'react-native-flash-message';
 import Routes from '~/navigation/Routes';
 import Services from '~/services';
 import API from '~/services/axios';
+import FieldsAuth from '~/config/fieldsAuth';
 import {removeSecretInfo, resetRoute} from '~/utils/helper';
 import {LOGIN} from '~/config/constants';
 /** REDUX */
@@ -34,31 +35,29 @@ export const loginSuccess = (data, isRefresh) => {
     API.defaults.headers.Authorization =
       'Bearer ' + data.tokenInfo.access_token;
   }
+  let payload = {},
+    item;
+  if (isRefresh) {
+    for (item of FieldsAuth) {
+      payload[item.value] = data[item.key];
+    }
+  } else {
+    for (item of FieldsAuth) {
+      payload[item.value] = data.tokenInfo[item.key];
+    }
+  }
+  // Check list menu master
+  if (data[FieldsAuth[0].key]) {
+    if (data[FieldsAuth[0].key].menuID === 1) {
+      payload[FieldsAuth[0].key] = data[FieldsAuth[0].key];
+    } else {
+      payload[FieldsAuth[0].key] = data[FieldsAuth[0].key].lstPermissionItem[0];
+    }
+  } else {
+    payload[FieldsAuth[0].key] = null;
+  }
 
-  return {
-    type: types.SUCCESS_LOGIN,
-    payload: {
-      accessToken: isRefresh ? data.access_token : data.tokenInfo.access_token,
-      tokenType: isRefresh ? data.token_type : data.tokenInfo.token_type,
-      refreshToken: isRefresh
-        ? data.refresh_token
-        : data.tokenInfo.refresh_token,
-      userName: isRefresh ? data.userName : data.tokenInfo.userName,
-      userID: isRefresh ? data.userID : data.tokenInfo.userID,
-      userId: isRefresh ? data.userId : data.tokenInfo.userId,
-      empCode: isRefresh ? data.empCode : data.tokenInfo.empCode,
-      fullName: isRefresh ? data.fullName : data.tokenInfo.fullName,
-      regionCode: isRefresh ? data.regionCode : data.tokenInfo.regionCode,
-      deptCode: isRefresh ? data.deptCode : data.tokenInfo.deptCode,
-      jobTitle: isRefresh ? data.jobTitle : data.tokenInfo.jobTitle,
-      groupID: isRefresh ? data.groupID : data.tokenInfo.groupID,
-      lstMenu: data.lstMenu
-        ? data.lstMenu.menuID === 1
-          ? data.lstMenu
-          : data.lstMenu.lstPermissionItem[0]
-        : null,
-    },
-  };
+  return {type: types.SUCCESS_LOGIN, payload};
 };
 
 export const fetchLogin = params => {
@@ -99,7 +98,7 @@ export const fetchRefreshToken = (params, callback, navigation) => {
           dispatch(loginError('error'));
           dispatch(Actions.logout());
           showMessage({
-            message: 'Phiên làm việc hết hạn. Vui lòng đăng nhập lại!',
+            message: 'The session has expired. Please log in again!',
             type: 'warning',
             icon: 'warning',
           });

@@ -108,8 +108,8 @@ const Configs = {
   ],
   routePath: {
     ChangePassword: 'ChangePassword/:tokenData', // Config params for route update new password
-    RequestAssetsDetail: 'RequestAssetsDetail/:requestID', // Config params for route Request Assets Detail
-    RequestLostDamageDetail: 'RequestLostDamageDetail/:requestID', // Config params for route Request Lost Damage Detail
+    AddRequestAsset: 'AddRequestAsset/:requestID', // Config params for route Request Assets Detail
+    AddRequestLostDamage: 'AddRequestLostDamage/:requestID', // Config params for route Request Lost Damage Detail
     ProjectDetail: 'ProjectDetail/:projectID', // Config params for route Project Detail
     TaskDetail: 'TaskDetail/:taskID', // Config params for route Task Detail
   },

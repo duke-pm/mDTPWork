@@ -34,6 +34,7 @@ import CButton from '~/components/CButton';
 import CAvoidKeyboard from '~/components/CAvoidKeyboard';
 /* COMMON */
 import Routes from '~/navigation/Routes';
+import FieldsAuth from '~/config/fieldsAuth';
 import Icons from '~/config/Icons';
 import {Assets} from '~/utils/asset';
 import {LOGIN, LANGUAGE, BIOMETRICS, FAST_LOGIN} from '~/config/constants';
@@ -202,21 +203,11 @@ function SignIn(props) {
 
   const onPrepareData = async () => {
     if (form.saveAccount) {
-      let dataLogin = {
-        accessToken: authState.getIn(['login', 'accessToken']),
-        tokenType: authState.getIn(['login', 'tokenType']),
-        refreshToken: authState.getIn(['login', 'refreshToken']),
-        userName: authState.getIn(['login', 'userName']),
-        userID: authState.getIn(['login', 'userID']),
-        userId: authState.getIn(['login', 'userId']),
-        empCode: authState.getIn(['login', 'empCode']),
-        fullName: authState.getIn(['login', 'fullName']),
-        regionCode: authState.getIn(['login', 'regionCode']),
-        deptCode: authState.getIn(['login', 'deptCode']),
-        jobTitle: authState.getIn(['login', 'jobTitle']),
-        groupID: authState.getIn(['login', 'groupID']),
-        lstMenu: authState.getIn(['login', 'lstMenu']),
-      };
+      let dataLogin = {},
+        item;
+      for (item of FieldsAuth) {
+        dataLogin[item.value] = authState.getIn(['login', item.value]);
+      }
       await saveSecretInfo({key: LOGIN, value: dataLogin});
       if (!fastLogin.status) {
         await saveSecretInfo({
@@ -284,24 +275,17 @@ function SignIn(props) {
     if (dataLogin) {
       console.log('[LOG] === SignIn Local === ', dataLogin);
       setLoading({main: false, submit: true});
-      dataLogin = {
-        tokenInfo: {
-          access_token: dataLogin.accessToken,
-          token_type: dataLogin.tokenType,
-          refresh_token: dataLogin.refreshToken,
-          userName: dataLogin.userName,
-          userID: dataLogin.userID,
-          userId: dataLogin.userId,
-          empCode: dataLogin.empCode,
-          fullName: dataLogin.fullName,
-          regionCode: dataLogin.regionCode,
-          deptCode: dataLogin.deptCode,
-          jobTitle: dataLogin.jobTitle,
-          groupID: dataLogin.groupID,
-        },
-        lstMenu: dataLogin.lstMenu,
-      };
-      dispatch(Actions.loginSuccess(dataLogin));
+      let i,
+        tmpDataLogin = {tokenInfo: {}, lstMenu: {}};
+      for (i = 0; i < FieldsAuth.length; i++) {
+        if (i === 0) {
+          tmpDataLogin[FieldsAuth[i].key] = dataLogin[FieldsAuth[i].value];
+        } else {
+          tmpDataLogin.tokenInfo[FieldsAuth[i].key] =
+            dataLogin[FieldsAuth[i].value];
+        }
+      }
+      dispatch(Actions.loginSuccess(tmpDataLogin));
     } else {
       /** Check biometrics */
       let dataFastLogin = await getSecretInfo(FAST_LOGIN);

@@ -13,12 +13,12 @@ import {
   SafeAreaProvider,
   initialWindowMetrics,
 } from 'react-native-safe-area-context';
-import {AppearanceProvider, useColorScheme} from 'react-native-appearance';
 import {
   NavigationContainer,
   DarkTheme,
   DefaultTheme,
 } from '@react-navigation/native';
+import {AppearanceProvider, useColorScheme} from 'react-native-appearance';
 import {StatusBar, Text} from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
 import FlashMessage from 'react-native-flash-message';

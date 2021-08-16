@@ -27,6 +27,7 @@ if (IS_ANDROID) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
   }
 }
+
 const CustomLayoutAnimated = {
   duration: 500,
   create: {

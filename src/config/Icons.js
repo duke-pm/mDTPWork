@@ -74,6 +74,7 @@ const Icons = {
   readMore: 'arrow-down-circle-outline',
   readLess: 'arrow-up-circle-outline',
   flag: 'flag',
+  reconnection: 'repeat-outline',
 };
 
 export default Icons;

@@ -18,6 +18,7 @@ const Assets = {
   iconFaceID: require('../../../assets/images/icon/faceid.png'),
   iconFaceIDDark: require('../../../assets/images/icon/faceid2.png'),
   iconProjects: require('../../../assets/images/icon/projects.png'),
+  iconProjectManagement: require('../../../assets/images/icon/projectManagement.png'),
   iconProjectOverview: require('../../../assets/images/icon/projectOverview.png'),
   iconAssetsList: require('../../../assets/images/icon/assetsList.png'),
   iconAssets: require('../../../assets/images/icon/assets.png'),
