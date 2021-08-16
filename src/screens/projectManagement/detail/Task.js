@@ -274,11 +274,9 @@ function Task(props) {
       }
     }
     setData({taskDetail});
-
     /** Find watcher */
     setIsFastWatch(!isWatched);
-
-    return done();
+    return onDone();
   };
 
   const onPrepareWatch = () => {
@@ -315,12 +313,17 @@ function Task(props) {
       type: 'danger',
       icon: 'danger',
     });
-    return done();
+    return onDone();
   };
 
-  const done = () => {
+  const onDone = () => {
     LayoutAnimation.configureNext(CustomLayoutAnimated);
-    return setLoading({...loading, main: false, startFetch: false});
+    return setLoading({
+      ...loading,
+      main: false,
+      startFetch: false,
+      startFetchLogin: false,
+    });
   };
 
   const onRefreshWatcher = isWatch => {
@@ -364,7 +367,7 @@ function Task(props) {
    ****************/
   useEffect(() => {
     let isLogin = authState.get('successLogin');
-    if (isLogin) {
+    if (isLogin && !loading.startFetchLogin) {
       onStart();
     } else {
       setLoading({...loading, startFetchLogin: true});

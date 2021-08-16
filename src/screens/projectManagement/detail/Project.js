@@ -313,7 +313,7 @@ function ProjectDetail(props) {
    ****************/
   useEffect(() => {
     let isLogin = authState.get('successLogin');
-    if (isLogin) {
+    if (isLogin && !loading.startFetchLogin) {
       onFetchData();
       setLoading({...loading, startFetch: true});
     } else {

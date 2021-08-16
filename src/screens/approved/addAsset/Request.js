@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /**
- ** Name: Add new request
+ ** Name: Detail request assets
  ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of Request.js
@@ -34,10 +34,17 @@ import CheckOption from '../components/CheckOption';
 import Process from '../components/Process';
 /* COMMON */
 import Icons from '~/config/Icons';
+import Routes from '~/navigation/Routes';
 import Commons from '~/utils/common/Commons';
-import {THEME_DARK, DEFAULT_FORMAT_DATE_4} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
-import {IS_ANDROID, moderateScale, verticalScale} from '~/utils/helper';
+import {
+  getSecretInfo,
+  IS_ANDROID,
+  moderateScale,
+  resetRoute,
+  verticalScale,
+} from '~/utils/helper';
+import {THEME_DARK, DEFAULT_FORMAT_DATE_4, LOGIN} from '~/config/constants';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 
@@ -159,6 +166,7 @@ function AddRequest(props) {
   /** Use state */
   const [loading, setLoading] = useState({
     main: true,
+    startFetchLogin: false,
     submitAdd: false,
     submitApproved: false,
     submitReject: false,
@@ -237,11 +245,18 @@ function AddRequest(props) {
   /**********
    ** FUNC **
    **********/
+  const onChangeWhereUse = index => setWhereUse(index);
+
   const onCloseReject = () => setShowReject(false);
 
-  const onSendRequest = () => {
-    setLoading({...loading, submitAdd: true});
-  };
+  const onSendRequest = () => setLoading({...loading, submitAdd: true});
+
+  const onCallbackTypeAsset = newVal => setForm({...form, typeAssets: newVal});
+
+  const onCallbackInplanning = newVal => setForm({...form, inPlanning: newVal});
+
+  const onGoToSignIn = () =>
+    resetRoute(navigation, Routes.AUTHENTICATION.SIGN_IN.name);
 
   const onPrepareData = () => {
     let params = {
@@ -318,11 +333,10 @@ function AddRequest(props) {
       setWhereUse(find);
     }
     setForm(tmp);
-    setLoading({...loading, main: false});
+    setLoading({...loading, main: false, startFetchLogin: false});
   };
 
   const onApproved = () => {
-    setLoading({...loading, submitApproved: true});
     let params = {
       RequestID: form.id,
       RequestTypeID: Commons.APPROVED_TYPE.ASSETS.value,
@@ -333,10 +347,10 @@ function AddRequest(props) {
       Lang: language,
     };
     dispatch(Actions.fetchApprovedRequest(params, navigation));
+    setLoading({...loading, submitApproved: true});
   };
 
   const onReject = reason => {
-    setLoading({...loading, submitReject: true});
     let params = {
       RequestID: form.id,
       RequestTypeID: Commons.APPROVED_TYPE.ASSETS.value,
@@ -347,10 +361,7 @@ function AddRequest(props) {
       Lang: language,
     };
     dispatch(Actions.fetchRejectRequest(params, navigation));
-  };
-
-  const onChangeWhereUse = index => {
-    setWhereUse(index);
+    setLoading({...loading, submitReject: true});
   };
 
   const onSearchFilter = text => {
@@ -409,20 +420,64 @@ function AddRequest(props) {
     }
   };
 
-  const onCallbackTypeAsset = newVal => {
-    setForm({...form, typeAssets: newVal});
-  };
-
-  const onCallbackInplanning = newVal => {
-    setForm({...form, inPlanning: newVal});
+  const onCheckLocalLogin = async () => {
+    /** Check Data Login */
+    let dataLogin = await getSecretInfo(LOGIN);
+    if (dataLogin) {
+      console.log('[LOG] === SignIn Local === ', dataLogin);
+      dataLogin = {
+        tokenInfo: {
+          access_token: dataLogin.accessToken,
+          token_type: dataLogin.tokenType,
+          refresh_token: dataLogin.refreshToken,
+          userName: dataLogin.userName,
+          userID: dataLogin.userID,
+          userId: dataLogin.userId,
+          empCode: dataLogin.empCode,
+          fullName: dataLogin.fullName,
+          regionCode: dataLogin.regionCode,
+          deptCode: dataLogin.deptCode,
+          jobTitle: dataLogin.jobTitle,
+          groupID: dataLogin.groupID,
+        },
+        lstMenu: dataLogin.lstMenu,
+      };
+      dispatch(Actions.loginSuccess(dataLogin));
+    } else {
+      onGoToSignIn();
+    }
   };
 
   /****************
    ** LIFE CYCLE **
    ****************/
   useEffect(() => {
-    onPrepareData();
+    let isLogin = authState.get('successLogin');
+    if (isLogin && !loading.startFetchLogin) {
+      onPrepareData();
+    } else {
+      setLoading({...loading, startFetchLogin: true});
+      onCheckLocalLogin();
+    }
   }, []);
+
+  useEffect(() => {
+    if (loading.startFetchLogin) {
+      if (!authState.get('submitting')) {
+        if (authState.get('successLogin')) {
+          return onPrepareData();
+        }
+        if (authState.get('errorLogin')) {
+          return onGoToSignIn();
+        }
+      }
+    }
+  }, [
+    loading.startFetchLogin,
+    authState.get('submitting'),
+    authState.get('successLogin'),
+    authState.get('errorLogin'),
+  ]);
 
   useEffect(() => {
     if (loading.main) {
@@ -436,7 +491,7 @@ function AddRequest(props) {
           if (find !== -1) {
             setWhereUse(find);
           }
-          setLoading({...loading, main: false});
+          setLoading({...loading, main: false, startFetchLogin: false});
         }
       }
     }

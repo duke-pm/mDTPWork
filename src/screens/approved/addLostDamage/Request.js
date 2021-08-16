@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /**
- ** Name: Add new request lost damage
+ ** Name: Detail request lost damage
  ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of RequestLostDamage.js
@@ -13,6 +13,7 @@ import {useColorScheme} from 'react-native-appearance';
 import {showMessage} from 'react-native-flash-message';
 import {ifIphoneX} from 'react-native-iphone-x-helper';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import Picker from '@gregfrench/react-native-wheel-picker';
 import {
   StyleSheet,
   View,
@@ -20,7 +21,6 @@ import {
   UIManager,
   LayoutAnimation,
 } from 'react-native';
-import Picker from '@gregfrench/react-native-wheel-picker';
 import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
@@ -40,15 +40,18 @@ import CheckOption from '../components/CheckOption';
 import Process from '../components/Process';
 /* COMMON */
 import Icons from '~/config/Icons';
+import Routes from '~/navigation/Routes';
 import Commons from '~/utils/common/Commons';
 import {colors, cStyles} from '~/utils/style';
 import {
+  getSecretInfo,
   IS_ANDROID,
   checkEmpty,
   moderateScale,
   verticalScale,
+  resetRoute,
 } from '~/utils/helper';
-import {THEME_DARK, DEFAULT_FORMAT_DATE_4} from '~/config/constants';
+import {THEME_DARK, DEFAULT_FORMAT_DATE_4, LOGIN} from '~/config/constants';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 
@@ -180,6 +183,7 @@ function AddRequest(props) {
   /** Use state */
   const [loading, setLoading] = useState({
     main: false,
+    startFetchLogin: false,
     submitAdd: false,
     submitApproved: false,
     submitReject: false,
@@ -262,6 +266,13 @@ function AddRequest(props) {
   /**********
    ** FUNC **
    **********/
+  const onChangeAssets = index => setAssets(index);
+
+  const onCallbackType = newVal => setForm({...form, typeUpdate: newVal});
+
+  const onGoToSignIn = () =>
+    resetRoute(navigation, Routes.AUTHENTICATION.SIGN_IN.name);
+
   const onPrepareData = () => {
     let type = route.params?.type;
     if (type) {
@@ -291,10 +302,7 @@ function AddRequest(props) {
       status = false;
     }
 
-    return {
-      status,
-      data: tmpError,
-    };
+    return {status, data: tmpError};
   };
 
   const onSendRequest = () => {
@@ -325,10 +333,7 @@ function AddRequest(props) {
         });
       }
 
-      let params = {
-        RefreshToken: refreshToken,
-        Lang: language,
-      };
+      let params = {RefreshToken: refreshToken, Lang: language};
       dispatch(Actions.fetchAddRequestLostDamage(params, formData, navigation));
     } else {
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
@@ -365,11 +370,10 @@ function AddRequest(props) {
       }
     }
     setForm(tmp);
-    setLoading({...loading, main: false});
+    setLoading({...loading, main: false, startFetchLogin: false});
   };
 
   const onApproved = () => {
-    setLoading({...loading, submitApproved: true});
     let params = {
       RequestID: form.id,
       RequestTypeID: form.typeUpdate,
@@ -380,10 +384,10 @@ function AddRequest(props) {
       Lang: language,
     };
     dispatch(Actions.fetchApprovedRequest(params, navigation));
+    setLoading({...loading, submitApproved: true});
   };
 
   const onReject = reason => {
-    setLoading({...loading, submitReject: true});
     let params = {
       RequestID: form.id,
       RequestTypeID: form.typeUpdate,
@@ -394,6 +398,7 @@ function AddRequest(props) {
       Lang: language,
     };
     dispatch(Actions.fetchRejectRequest(params, navigation));
+    setLoading({...loading, submitReject: true});
   };
 
   const onSearchFilter = text => {
@@ -420,12 +425,32 @@ function AddRequest(props) {
     }
   };
 
-  const onChangeAssets = index => {
-    setAssets(index);
-  };
-
-  const onCallbackType = newVal => {
-    setForm({...form, typeUpdate: newVal});
+  const onCheckLocalLogin = async () => {
+    /** Check Data Login */
+    let dataLogin = await getSecretInfo(LOGIN);
+    if (dataLogin) {
+      console.log('[LOG] === SignIn Local === ', dataLogin);
+      dataLogin = {
+        tokenInfo: {
+          access_token: dataLogin.accessToken,
+          token_type: dataLogin.tokenType,
+          refresh_token: dataLogin.refreshToken,
+          userName: dataLogin.userName,
+          userID: dataLogin.userID,
+          userId: dataLogin.userId,
+          empCode: dataLogin.empCode,
+          fullName: dataLogin.fullName,
+          regionCode: dataLogin.regionCode,
+          deptCode: dataLogin.deptCode,
+          jobTitle: dataLogin.jobTitle,
+          groupID: dataLogin.groupID,
+        },
+        lstMenu: dataLogin.lstMenu,
+      };
+      dispatch(Actions.loginSuccess(dataLogin));
+    } else {
+      onGoToSignIn();
+    }
   };
 
   /****************
@@ -433,8 +458,32 @@ function AddRequest(props) {
    ****************/
   useEffect(() => {
     dispatch(Actions.resetStatusMasterData());
-    onPrepareData();
+    let isLogin = authState.get('successLogin');
+    if (isLogin && !loading.startFetchLogin) {
+      onPrepareData();
+    } else {
+      setLoading({...loading, startFetchLogin: true});
+      onCheckLocalLogin();
+    }
   }, []);
+
+  useEffect(() => {
+    if (loading.startFetchLogin) {
+      if (!authState.get('submitting')) {
+        if (authState.get('successLogin')) {
+          return onPrepareData();
+        }
+        if (authState.get('errorLogin')) {
+          return onGoToSignIn();
+        }
+      }
+    }
+  }, [
+    loading.startFetchLogin,
+    authState.get('submitting'),
+    authState.get('successLogin'),
+    authState.get('errorLogin'),
+  ]);
 
   useEffect(() => {
     if (loading.main) {
@@ -451,7 +500,7 @@ function AddRequest(props) {
                 assetID: data[0][Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.value],
               });
             }
-            setLoading({...loading, main: false});
+            setLoading({...loading, main: false, startFetchLogin: false});
           }
         }
       }
