@@ -22,6 +22,7 @@ function CButton(props) {
   const {t} = useTranslation();
   const isDark = useColorScheme() === THEME_DARK;
   const {
+    touchStyle = {},
     style = {},
     textStyle = {},
     loading = false,
@@ -39,7 +40,10 @@ function CButton(props) {
    ** RENDER **
    ************/
   return (
-    <CTouchable disabled={disabled || loading} onPress={onPress}>
+    <CTouchable
+      containerStyle={touchStyle}
+      disabled={disabled || loading}
+      onPress={onPress}>
       <View
         style={[
           cStyles.row,

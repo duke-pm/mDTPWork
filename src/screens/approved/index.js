@@ -7,11 +7,12 @@
  **/
 import React, {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
+import {View} from 'react-native';
 /** COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
-import CList from '~/components/CList';
 import CItem from '~/components/CItem';
+/** COMMON */
 import {cStyles} from '~/utils/style';
 
 function Approved(props) {
@@ -36,8 +37,6 @@ function Approved(props) {
   /**********
    ** FUNC **
    **********/
-  const onStart = () => setLoading(false);
-
   const onPrepareData = () => {
     let tmpListMenu = authState.getIn(['login', 'lstMenu']);
     let idRouteParent = route.params.idRouteParent;
@@ -57,13 +56,14 @@ function Approved(props) {
         setRoutes(tmpRoutes);
       }
     }
-    onStart();
   };
 
   /****************
    ** LIFE CYCLE **
    ****************/
   useEffect(() => onPrepareData(), []);
+
+  useEffect(() => setLoading(false), [routes]);
 
   /************
    ** RENDER **
@@ -72,21 +72,23 @@ function Approved(props) {
     <CContainer
       loading={loading}
       content={
-        <CContent scrollEnabled={false}>
+        <CContent>
           {!loading && (
-            <CList
-              contentStyle={cStyles.pt16}
-              numColumns={3}
-              data={routes}
-              item={({item, index}) => {
+            <View style={[cStyles.row, cStyles.itemsStart]}>
+              {routes.map((item, index) => {
                 if (item.isAccess) {
                   return (
-                    <CItem index={index} data={item} onPress={handleItem} />
+                    <CItem
+                      key={index.toString()}
+                      index={index}
+                      data={item}
+                      onPress={handleItem}
+                    />
                   );
                 }
                 return null;
-              }}
-            />
+              })}
+            </View>
           )}
         </CContent>
       }

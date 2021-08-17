@@ -5,21 +5,24 @@
  ** Description: Description of CTouchable.js
  **/
 import React from 'react';
-import {View, TouchableNativeFeedback, TouchableOpacity} from 'react-native';
+import {useTheme} from '@react-navigation/native';
+import {View, TouchableNativeFeedback, TouchableHighlight} from 'react-native';
 /* COMMON */
 import {IS_IOS} from '~/utils/helper';
 import {cStyles} from '~/utils/style';
-const Touchable = IS_IOS ? TouchableOpacity : TouchableNativeFeedback;
+
+const Touchable = IS_IOS ? TouchableHighlight : TouchableNativeFeedback;
 
 function CTouchable({
   key = 'dtp-education',
   containerStyle = {},
   style = {},
   disabled = false,
-  activeOpacity = 0.5,
+  activeOpacity = 0.8,
   children = null,
   onPress = () => null,
 }) {
+  const {customColors} = useTheme();
   /************
    ** RENDER **
    ************/
@@ -30,6 +33,7 @@ function CTouchable({
       <Touchable
         style={style}
         disabled={disabled}
+        underlayColor={customColors.cardDisable}
         activeOpacity={activeOpacity}
         onPress={onPress}>
         {children}

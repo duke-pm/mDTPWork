@@ -92,9 +92,9 @@ function CAlert(props) {
               <CButton
                 style={[
                   styles.con_button,
-                  content && styles.con_button_small,
                   onClose && !onOK && styles.btn_alone,
-                  content && !onClose && onOK && styles.btn_alone_small,
+                  content && styles.con_button_small,
+                  content && onClose && !onOK && styles.btn_alone_small,
                 ]}
                 textStyle={[
                   styles.text_button,
@@ -124,8 +124,8 @@ function CAlert(props) {
               <CButton
                 style={[
                   styles.con_button,
-                  content && styles.con_button_small,
                   !onClose && onOK && styles.btn_alone,
+                  content && styles.con_button_small,
                   content && !onClose && onOK && styles.btn_alone_small,
                 ]}
                 textStyle={[
@@ -172,6 +172,11 @@ const styles = StyleSheet.create({
   button: {width: cStyles.borderTop.borderTopWidth},
   con_button: {height: moderateScale(45), width: moderateScale(350) / 2},
   con_button_small: {height: moderateScale(45), width: moderateScale(280) / 2},
+  btn_left_border_radius: {
+    borderTopLeftRadius: 0,
+    borderTopRightRadius: 0,
+    borderBottomRightRadius: 0,
+  },
   btn_alone: {width: moderateScale(350)},
   btn_alone_small: {width: moderateScale(280)},
   text_button: {fontSize: moderateScale(18)},

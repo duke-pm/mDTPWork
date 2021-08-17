@@ -108,10 +108,14 @@ function RequestItem(props) {
               <View
                 style={[cStyles.row, cStyles.itemsStart, styles.header_left]}>
                 <Text numberOfLines={2}>
-                  <Text style={cStyles.textCaption1}>
+                  <Text
+                    style={[cStyles.textCaption1, {color: customColors.text}]}>
                     {t('approved_lost_damaged:department_request')}
                   </Text>
-                  <Text style={cStyles.textCaption1}>{data.deptName}</Text>
+                  <Text
+                    style={[cStyles.textCaption1, {color: customColors.text}]}>
+                    {data.deptName}
+                  </Text>
                 </Text>
               </View>
             </View>

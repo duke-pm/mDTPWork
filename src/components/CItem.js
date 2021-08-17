@@ -5,18 +5,27 @@
  ** Description: Description of CItem.js
  **/
 import React from 'react';
+import {useTheme} from '@react-navigation/native';
 import {StyleSheet, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
 /* COMPONENTS */
 import CText from './CText';
 import CTouchable from './CTouchable';
 /** COMMON */
-import {cStyles} from '~/utils/style';
-import {IS_IOS, moderateScale, sW} from '~/utils/helper';
 import {Assets} from '~/utils/asset';
+import {cStyles} from '~/utils/style';
+import {IS_ANDROID, moderateScale, sW} from '~/utils/helper';
 
 function CItem(props) {
-  const {data = null, onPress = () => {}} = props;
+  const {
+    itemStyle = {},
+    iconStyle = {},
+    textStyle = {},
+    key = '',
+    data = null,
+    onPress = () => {},
+  } = props;
+  const {customColors} = useTheme();
 
   /*****************
    ** HANDLE FUNC **
@@ -30,29 +39,54 @@ function CItem(props) {
     return null;
   }
   return (
-    <CTouchable
-      containerStyle={[cStyles.mb16, cStyles.mr16, IS_IOS && cStyles.shadow1]}
-      onPress={handleItem}>
-      <View style={[cStyles.p10, cStyles.itemsCenter, styles.item]}>
-        <FastImage
-          style={styles.icon}
-          source={Assets[data.mIcon]}
-          resizeMode={'contain'}
-          cache={FastImage.cacheControl.immutable}
-        />
-        <CText
-          customStyles={[cStyles.textCenter, cStyles.pt10, cStyles.textBody]}
-          label={data.menuName}
-          numberOfLines={2}
-        />
-      </View>
-    </CTouchable>
+    <View
+      key={key}
+      style={[
+        cStyles.px16,
+        cStyles.mx16,
+        cStyles.mt16,
+        cStyles.itemsCenter,
+        styles.item,
+        itemStyle,
+      ]}>
+      <CTouchable
+        containerStyle={cStyles.rounded3}
+        style={[cStyles.m16, cStyles.rounded3]}
+        onPress={handleItem}>
+        <View
+          style={[
+            cStyles.shadowListItem,
+            cStyles.rounded2,
+            cStyles.p10,
+            {backgroundColor: customColors.card},
+          ]}>
+          <FastImage
+            style={[styles.icon, iconStyle]}
+            source={Assets[data.mIcon]}
+            resizeMode={'contain'}
+            cache={FastImage.cacheControl.immutable}
+          />
+        </View>
+      </CTouchable>
+
+      <CText
+        customStyles={[
+          cStyles.textCaption2,
+          cStyles.fontBold,
+          cStyles.textCenter,
+          IS_ANDROID && cStyles.pt10,
+          textStyle,
+        ]}
+        label={data.menuName}
+        numberOfLines={3}
+      />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  item: {width: sW('28%'), height: moderateScale(150)},
-  icon: {width: moderateScale(70), height: moderateScale(80)},
+  item: {width: sW('24%')},
+  icon: {width: moderateScale(50), height: moderateScale(50)},
 });
 
 export default CItem;

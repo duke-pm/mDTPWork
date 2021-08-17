@@ -258,7 +258,7 @@ function Filter(props) {
           style={[
             cStyles.row,
             cStyles.itemsCenter,
-            cStyles.justifyCenter,
+            cStyles.justifyAround,
             cStyles.pt32,
           ]}>
           <CButton
@@ -294,7 +294,7 @@ function Filter(props) {
 const styles = StyleSheet.create({
   text_date: {flex: 0.3},
   input_date: {flex: 0.7},
-  button: {width: moderateScale(110), marginHorizontal: moderateScale(10)},
+  button: {width: moderateScale(140)},
 });
 
 export default Filter;

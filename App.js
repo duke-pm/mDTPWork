@@ -171,16 +171,16 @@ const App = () => {
   useEffect(() => {
     setDefaultAxios();
     NetInfo.addEventListener(handleNetInfo);
+    StatusBar.setTranslucent(true);
+    StatusBar.setBackgroundColor(colors.TRANSPARENT, true);
   }, []);
 
   const isDark = useColorScheme() === 'dark';
   useEffect(() => {
     if (isDark) {
       StatusBar.setBarStyle('light-content', true);
-      StatusBar.setBackgroundColor(DarkTheme.colors.background, true);
     } else {
-      IS_IOS && StatusBar.setBarStyle('dark-content', true);
-      IS_ANDROID && StatusBar.setBackgroundColor(colors.PRIMARY, true);
+      StatusBar.setBarStyle('dark-content', true);
     }
   }, [isDark]);
 

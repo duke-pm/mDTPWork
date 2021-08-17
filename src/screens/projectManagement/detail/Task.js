@@ -560,6 +560,7 @@ function Task(props) {
 
             {/** Title & Project */}
             <CGroupInfo
+              style={cStyles.mt10}
               loading={loading.main || !data.taskDetail}
               label={null}
               content={
@@ -721,9 +722,13 @@ function Task(props) {
                               cStyles.textRight,
                               cStyles.textBody,
                               {
-                                color: isDelay
-                                  ? customColors.red
-                                  : customColors.text,
+                                color:
+                                  data.taskDetail.statusID <
+                                  Commons.STATUS_TASK.CLOSED.value
+                                    ? isDelay
+                                      ? customColors.red
+                                      : customColors.text
+                                    : customColors.text,
                               },
                             ]}
                             customLabel={`${t(

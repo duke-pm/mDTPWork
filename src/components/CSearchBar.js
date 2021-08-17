@@ -10,12 +10,13 @@ import {useColorScheme} from 'react-native-appearance';
 import {LayoutAnimation, UIManager, Platform, View} from 'react-native';
 import SearchBar from 'react-native-platform-searchbar';
 /** COMPONENTS */
-import CIconButton from './CIconButton';
+import CText from './CText';
+import CTouchable from './CTouchable';
 import CActivityIndicator from './CActivityIndicator';
 /* COMMON */
-import {IS_ANDROID, moderateScale} from '~/utils/helper';
+import {IS_ANDROID} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
-import Icons from '~/config/Icons';
+
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -41,13 +42,9 @@ function CSearchBar(props) {
   /*****************
    ** HANDLE FUNC **
    *****************/
-  const handleSearch = () => {
-    onSearch(value);
-  };
+  const handleSearch = () => onSearch(value);
 
-  const handleClearInput = () => {
-    setValue('');
-  };
+  const handleClearInput = () => setValue('');
 
   const handleCancelInput = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
@@ -57,16 +54,12 @@ function CSearchBar(props) {
   /**********
    ** FUNC **
    **********/
-  const onChangeText = valueInput => {
-    setValue(valueInput);
-  };
+  const onChangeText = valueInput => setValue(valueInput);
 
   /****************
    ** LIFE CYCLE **
    ****************/
-  useEffect(() => {
-    setValue(valueSearch);
-  }, [valueSearch]);
+  useEffect(() => setValue(valueSearch), [valueSearch]);
 
   /************
    ** RENDER **
@@ -85,14 +78,12 @@ function CSearchBar(props) {
         containerStyle,
       ]}>
       {IS_ANDROID && (
-        <CIconButton
-          style={cStyles.pl12}
-          disabled={loading}
-          iconName={Icons.backAndroid}
-          iconColor={theme === 'dark' ? colors.GRAY_300 : colors.GRAY_700}
-          iconProps={{size: moderateScale(23)}}
-          onPress={handleCancelInput}
-        />
+        <CTouchable disabled={loading} onPress={handleCancelInput}>
+          <CText
+            styles={'textCaption1 pl12 colorOrange'}
+            label={'common:close'}
+          />
+        </CTouchable>
       )}
       <SearchBar
         style={[cStyles.mx16, style]}

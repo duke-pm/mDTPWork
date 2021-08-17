@@ -7,13 +7,17 @@
  **/
 import React, {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
+import {ifIphoneX} from 'react-native-iphone-x-helper';
+import {StyleSheet, View} from 'react-native';
 /** COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
-import CList from '~/components/CList';
 import CItem from '~/components/CItem';
+import CText from '~/components/CText';
+import CAvatar from '~/components/CAvatar';
 /** COMMON */
 import {cStyles} from '~/utils/style';
+import {moderateScale} from '~/utils/helper';
 
 function Dashboard(props) {
   const {navigation} = props;
@@ -24,6 +28,7 @@ function Dashboard(props) {
 
   /** Use redux */
   const authState = useSelector(({auth}) => auth);
+  const fullName = authState.getIn(['login', 'fullName']);
 
   /*****************
    ** HANDLE FUNC **
@@ -37,8 +42,6 @@ function Dashboard(props) {
   /**********
    ** FUNC **
    **********/
-  const onStart = () => setLoading(false);
-
   const onPrepareData = () => {
     let tmpListMenu = authState.getIn(['login', 'lstMenu']);
     if (tmpListMenu && tmpListMenu.lstPermissionItem.length > 0) {
@@ -50,9 +53,11 @@ function Dashboard(props) {
           tmpRoutes.push(item);
         }
       }
+      // tmpRoutes.push(tmpListMenu.lstPermissionItem[0]);
+      // tmpRoutes.push(tmpListMenu.lstPermissionItem[0]);
+      // tmpRoutes.push(tmpListMenu.lstPermissionItem[0]);
       setRoutes(tmpRoutes);
     }
-    onStart();
   };
 
   /****************
@@ -60,33 +65,72 @@ function Dashboard(props) {
    ****************/
   useEffect(() => onPrepareData(), []);
 
+  useEffect(() => setLoading(false), [routes]);
+
   /************
    ** RENDER **
    ************/
   return (
     <CContainer
       loading={loading}
+      hasShapes
       content={
-        <CContent scrollEnabled={false}>
-          {!loading && (
-            <CList
-              contentStyle={cStyles.pt16}
-              numColumns={3}
-              data={routes}
-              item={({item, index}) => {
-                if (item.isAccess) {
-                  return (
-                    <CItem index={index} data={item} onPress={handleItem} />
-                  );
-                }
-                return null;
-              }}
-            />
-          )}
+        <CContent>
+          <View
+            style={[
+              cStyles.row,
+              cStyles.itemsEnd,
+              cStyles.justifyBetween,
+              cStyles.px16,
+              cStyles.fullWidth,
+              ifIphoneX(cStyles.pt60, cStyles.pt40),
+              styles.welcome,
+            ]}>
+            <View>
+              <CText
+                styles={'textTitle1 colorWhite'}
+                label={'dashboard:welcome'}
+              />
+              <CText
+                styles={'textSubheadline colorWhite'}
+                customLabel={fullName}
+              />
+            </View>
+            <View style={cStyles.itemsEnd}>
+              <CAvatar size={'medium'} label={fullName} />
+            </View>
+          </View>
+          <View
+            style={[
+              cStyles.row,
+              cStyles.itemsStart,
+              cStyles.flexWrap,
+              cStyles.pt16,
+              styles.list_item,
+            ]}>
+            {routes.map((item, index) => {
+              if (item.isAccess) {
+                return (
+                  <CItem
+                    key={index.toString()}
+                    index={index}
+                    data={item}
+                    onPress={handleItem}
+                  />
+                );
+              }
+              return null;
+            })}
+          </View>
         </CContent>
       }
     />
   );
 }
+
+const styles = StyleSheet.create({
+  welcome: {flex: 0.5},
+  list_item: {flex: 0.5},
+});
 
 export default Dashboard;

@@ -14,12 +14,12 @@ import {
   View,
   UIManager,
   LayoutAnimation,
-  TouchableOpacity,
 } from 'react-native';
 import {Table, Row, TableWrapper, Cell} from 'react-native-table-component';
 /* COMPONENTS */
 import CText from '~/components/CText';
 import CIcon from '~/components/CIcon';
+import CTouchable from '~/components/CTouchable';
 import AssetItem from './AssetItem';
 /* COMMON */
 import Icons from '~/config/Icons';
@@ -192,28 +192,24 @@ function AssetsTable(props) {
       <View style={cStyles.flex1}>
         <View style={cStyles.itemsCenter}>
           {!isDetail && form.assets.data.length === 0 && (
-            <TouchableOpacity
-              disabled={loading || isDetail}
-              onPress={handleAddAssets}>
-              <View
-                style={[
-                  cStyles.row,
-                  cStyles.itemsCenter,
-                  cStyles.pr16,
-                  styles.con_left,
-                ]}>
-                <CIcon name={Icons.addNew} color={'orange'} size={'small'} />
-                <CText
-                  customStyles={[
-                    cStyles.textUnderline,
-                    cStyles.textCaption1,
-                    cStyles.pl4,
-                    {color: customColors.orange},
-                  ]}
-                  label={'add_approved_assets:add_assets'}
-                />
-              </View>
-            </TouchableOpacity>
+            <View style={cStyles.mt10}>
+              <CTouchable
+                disabled={loading || isDetail}
+                onPress={handleAddAssets}>
+                <View style={[cStyles.row, cStyles.itemsCenter]}>
+                  <CIcon name={Icons.addNew} color={'orange'} size={'small'} />
+                  <CText
+                    customStyles={[
+                      cStyles.textUnderline,
+                      cStyles.textCaption1,
+                      cStyles.pl4,
+                      {color: customColors.orange},
+                    ]}
+                    label={'add_approved_assets:add_assets'}
+                  />
+                </View>
+              </CTouchable>
+            </View>
           )}
         </View>
         {form.assets.data.length > 0 && (
@@ -300,28 +296,25 @@ function AssetsTable(props) {
           </View>
 
           {!isDetail && form.assets.data.length > 0 && (
-            <TouchableOpacity
-              disabled={loading || isDetail}
-              onPress={handleAddAssets}>
-              <View
-                style={[
-                  cStyles.row,
-                  cStyles.itemsCenter,
-                  cStyles.mt10,
-                  styles.con_left,
-                ]}>
-                <CIcon name={Icons.addNew} color={'orange'} size={'small'} />
-                <CText
-                  customStyles={[
-                    cStyles.textUnderline,
-                    cStyles.textCaption1,
-                    cStyles.pl4,
-                    {color: customColors.orange},
-                  ]}
-                  label={'add_approved_assets:add_assets'}
-                />
-              </View>
-            </TouchableOpacity>
+            <View style={cStyles.mt10}>
+              <CTouchable
+                disabled={loading || isDetail}
+                onPress={handleAddAssets}>
+                <View
+                  style={[cStyles.row, cStyles.itemsCenter, styles.con_left]}>
+                  <CIcon name={Icons.addNew} color={'orange'} size={'small'} />
+                  <CText
+                    customStyles={[
+                      cStyles.textUnderline,
+                      cStyles.textCaption1,
+                      cStyles.pl4,
+                      {color: customColors.orange},
+                    ]}
+                    label={'add_approved_assets:add_assets'}
+                  />
+                </View>
+              </CTouchable>
+            </View>
           )}
         </View>
       </View>

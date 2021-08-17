@@ -5,7 +5,7 @@
  ** Description: Description of colors.js
  **/
 export default {
-  PRIMARY: '#006565',
+  PRIMARY: '#007AFF',
   SECONDARY: '#ff9910',
   TRANSPARENT: 'transparent',
   TABLE_LINE: '#ccd0d0',

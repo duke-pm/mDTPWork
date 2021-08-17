@@ -32,7 +32,7 @@ const Icons = {
 
   // Common
   filter: 'filter-outline',
-  remove: 'close-circle',
+  remove: 'close-circle-outline',
   close: 'close-sharp',
   informations: 'information-circle',
   calendar: 'calendar-outline',

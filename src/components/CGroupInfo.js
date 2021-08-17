@@ -35,7 +35,7 @@ function CGroupInfo({
   return (
     <View style={style}>
       {label && (
-        <View style={[containerLabelStyle]}>
+        <View style={containerLabelStyle}>
           <CText
             customStyles={[cStyles.textHeadline, cStyles.px16, labelStyle]}
             label={label}
@@ -49,6 +49,7 @@ function CGroupInfo({
           cStyles.m16,
           cStyles.mt10,
           cStyles.p16,
+          cStyles.shadowListItem,
           {backgroundColor: customColors.card},
           loading && styles.group_holder,
           contentStyle,

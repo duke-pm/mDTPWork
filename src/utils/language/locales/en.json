@@ -139,7 +139,8 @@
     "error_change_password": "Update password failed. Please try again later!"
   },
   "dashboard": {
-    "title": "Dashboard"
+    "title": "Dashboard",
+    "feature": "Feature"
   },
   "account": {
     "title": "Account",

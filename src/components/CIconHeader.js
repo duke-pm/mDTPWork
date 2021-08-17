@@ -39,10 +39,7 @@ function CIconHeader(props) {
               <CIcon
                 name={item.icon}
                 size={'medium'}
-                customColor={
-                  item.iconColor ||
-                  (IS_ANDROID ? colors.WHITE : customColors.icon)
-                }
+                customColor={item.iconColor || customColors.icon}
               />
               {item.showRedDot && (
                 <View

@@ -5,14 +5,12 @@
  ** Description: Description of CContent.js
  **/
 import React from 'react';
-import {useTheme} from '@react-navigation/native';
 import {ScrollView, RefreshControl, SafeAreaView, View} from 'react-native';
 /** COMMON */
 import {cStyles} from '~/utils/style';
 import {IS_IOS} from '~/utils/helper';
 
 function CContent(props) {
-  const {customColors} = useTheme();
   const {
     containerStyle = {},
     contentStyle = {},
@@ -37,11 +35,7 @@ function CContent(props) {
 
   return (
     <ScrollView
-      style={[
-        cStyles.flex1,
-        {backgroundColor: customColors.background},
-        containerStyle,
-      ]}
+      style={[cStyles.flex1, containerStyle]}
       contentContainerStyle={[
         stylePadder,
         IS_IOS && cStyles.pb32,

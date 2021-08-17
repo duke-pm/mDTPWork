@@ -348,8 +348,8 @@ const styles = StyleSheet.create({
     width: moderateScale(26),
   },
   image_medium: {
-    height: moderateScale(36),
-    width: moderateScale(36),
+    height: moderateScale(44),
+    width: moderateScale(44),
   },
   image_large: {
     height: moderateScale(60),

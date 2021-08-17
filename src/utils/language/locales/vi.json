@@ -139,7 +139,9 @@
     "error_change_password": "Đổi mật khẩu thất bại!"
   },
   "dashboard": {
-    "title": "Trang chủ"
+    "title": "Trang chủ",
+    "feature": "Tính năng",
+    "welcome": "Chào mừng"
   },
   "account": {
     "title": "Tài Khoản",

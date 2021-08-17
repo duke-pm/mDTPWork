@@ -190,8 +190,8 @@ function CInput(props) {
               <TextInput
                 ref={props.inputRef}
                 style={[
+                  cStyles.flex1,
                   multiline && cStyles.justifyStart,
-                  multiline && cStyles.flex1,
                   multiline && cStyles.textAliVerTop,
                   IS_IOS && cStyles.pb6,
                   cStyles.textBody,

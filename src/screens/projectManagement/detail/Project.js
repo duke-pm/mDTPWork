@@ -455,7 +455,7 @@ function ProjectDetail(props) {
           ? {
               headerCenter: () => (
                 <CText
-                  customStyles={[cStyles.colorWhite, cStyles.textHeadline]}
+                  customStyles={cStyles.textHeadline}
                   customLabel={`${t(
                     'project_management:list_task',
                   )}${projectID}`}
