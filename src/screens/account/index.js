@@ -25,7 +25,13 @@ import SocialItem from './components/SocialItem';
 import Configs from '~/config';
 import Routes from '~/navigation/Routes';
 import {LOGIN, THEME_DARK} from '~/config/constants';
-import {alert, IS_IOS, removeSecretInfo, resetRoute} from '~/utils/helper';
+import {
+  alert,
+  IS_ANDROID,
+  IS_IOS,
+  removeSecretInfo,
+  resetRoute,
+} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
 import Icons from '~/config/Icons';
 /* REDUX */
@@ -194,7 +200,7 @@ const Socials = ({customColors, isDark, isTablet, needUpdate, onUpdate}) => {
               <CButton
                 style={[cStyles.ml10, cStyles.px6]}
                 textStyle={cStyles.textCaption1}
-                variant={'outlined'}
+                variant={'text'}
                 icon={Icons.download}
                 label={'common:download'}
                 onPress={onUpdate}
@@ -280,7 +286,9 @@ function Account(props) {
       loading={loading}
       hasShapes
       content={
-        <CContent showsVerticalScrollIndicator={false}>
+        <CContent
+          contentStyle={IS_ANDROID ? cStyles.mt24 : {}}
+          showsVerticalScrollIndicator={false}>
           <View
             style={
               isTablet

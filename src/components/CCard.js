@@ -60,6 +60,7 @@ function CCard(props) {
         style,
       ]}>
       <Component
+        style={[cStyles.rounded2, {backgroundColor: customColors.card}]}
         activeOpacity={0.8}
         underlayColor={colors.TRANSPARENT}
         onLayout={onLayout}
@@ -70,6 +71,7 @@ function CCard(props) {
             {backgroundColor: customColors.card},
             containerStyle,
           ]}
+          locations={[0, 0.6, 1]}
           colors={gradientColor}>
           <View
             style={[
@@ -85,7 +87,7 @@ function CCard(props) {
               isDark && cStyles.borderBottomDark,
               contentLabelStyle,
             ]}>
-            <View style={styles.con_header_left}>
+            <View style={detail ? styles.con_header_left : cStyles.flex1}>
               <CText
                 customStyles={[cStyles.textBody, cStyles.fontBold]}
                 label={label}

@@ -828,7 +828,7 @@ function AddRequest(props) {
           {!isDetail && (
             <CActionSheet
               headerChoose
-              actionRef={actionSheetDepartmentRef}
+              actionRef={asDepartmentRef}
               onConfirm={handleChangeWhereUse}>
               <View style={cStyles.px16}>
                 <CInput
@@ -915,7 +915,7 @@ function AddRequest(props) {
             <CButton
               style={styles.button_reject}
               block
-              color={customColors.red}
+              color={colors.STATUS_ON_HOLD_OPACITY}
               disabled={loading.main}
               icon={Icons.close}
               label={'add_approved_assets:reject'}

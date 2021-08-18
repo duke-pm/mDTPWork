@@ -6,18 +6,25 @@
  ** Description: Description of ContactUs.js
  **/
 import React from 'react';
+import {useColorScheme} from 'react-native-appearance';
 import {Linking, View} from 'react-native';
 /* COMPONENTS */
 import CCard from '~/components/CCard';
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
 import CText from '~/components/CText';
+import CList from '~/components/CList';
 /* COMMON */
 import {cStyles} from '~/utils/style';
-import {DATA_CONTACT_US} from '~/config/constants';
-import {IS_IOS} from '~/utils/helper';
+import {DATA_CONTACT_US, THEME_DARK} from '~/config/constants';
+
+const colorsHeaderCard = {
+  dark: ['#232526', '#414345'],
+  light: ['#8e9eab', '#eef2f3', '#fff'],
+};
 
 function ContactUs(props) {
+  const isDark = useColorScheme() === THEME_DARK;
   /*****************
    ** HANDLE FUNC **
    *****************/
@@ -40,90 +47,112 @@ function ContactUs(props) {
     <CContainer
       loading={false}
       content={
-        <CContent contentStyle={[cStyles.p16, IS_IOS && cStyles.pb60]}>
-          {DATA_CONTACT_US.map((item, index) => {
-            return (
-              <CCard
-                key={item.id}
-                containerStyle={index === 0 ? cStyles.mt16 : cStyles.mt40}
-                customLabel={item.label}
-                content={
-                  <View>
-                    <View
-                      style={[cStyles.row, cStyles.itemsStart, {width: '88%'}]}>
-                      <CText
-                        styles={'textCaption1'}
-                        label={'contact_us:address'}
-                      />
-                      <CText
-                        styles={'textCaption1 fontBold'}
-                        customLabel={item.address}
-                      />
-                    </View>
-
-                    {item.phone && item.phone.length > 0 && (
+        <CContent scrollEnabled={false}>
+          <CList
+            contentStyle={cStyles.mt16}
+            data={DATA_CONTACT_US}
+            item={({item, index}) => {
+              return (
+                <CCard
+                  key={item.id}
+                  customLabel={item.label}
+                  gradientColor={
+                    isDark ? colorsHeaderCard.dark : colorsHeaderCard.light
+                  }
+                  content={
+                    <View>
                       <View
-                        style={[cStyles.row, cStyles.itemsStart, cStyles.pt10]}>
+                        style={[
+                          cStyles.row,
+                          cStyles.itemsStart,
+                          {width: '88%'},
+                        ]}>
                         <CText
-                          styles={'textCaption1 pt6'}
-                          label={'contact_us:phone'}
+                          styles={'textCaption1'}
+                          label={'contact_us:address'}
                         />
+                        <CText
+                          styles={'textCaption1 fontBold'}
+                          customLabel={item.address}
+                        />
+                      </View>
+
+                      {item.phone && item.phone.length > 0 && (
                         <View
                           style={[
                             cStyles.row,
-                            cStyles.itemsCenter,
-                            cStyles.flexWrap,
-                            {width: '95%'},
+                            cStyles.itemsStart,
+                            cStyles.pt10,
                           ]}>
-                          {item.phone.map((itemPhone, indexPhone) => (
-                            <CText
-                              key={itemPhone}
-                              styles={
-                                'textCaption1 fontBold textUnderline pt6 ' +
-                                (indexPhone !== 0 && 'pl10')
-                              }
-                              customLabel={itemPhone}
-                              onPress={() => handlePhone(itemPhone)}
-                            />
-                          ))}
+                          <CText
+                            styles={'textCaption1 pt6'}
+                            label={'contact_us:phone'}
+                          />
+                          <View
+                            style={[
+                              cStyles.row,
+                              cStyles.itemsCenter,
+                              cStyles.flexWrap,
+                              {width: '95%'},
+                            ]}>
+                            {item.phone.map((itemPhone, indexPhone) => (
+                              <CText
+                                key={itemPhone}
+                                styles={
+                                  'textCaption1 fontBold textUnderline pt6 ' +
+                                  (indexPhone !== 0 && 'pl10')
+                                }
+                                customLabel={itemPhone}
+                                onPress={() => handlePhone(itemPhone)}
+                              />
+                            ))}
+                          </View>
                         </View>
-                      </View>
-                    )}
+                      )}
 
-                    {item.email && (
-                      <View
-                        style={[cStyles.row, cStyles.itemsStart, cStyles.pt10]}>
-                        <CText
-                          styles={'textCaption1'}
-                          label={'contact_us:email'}
-                        />
-                        <CText
-                          styles={'textCaption1 fontBold textUnderline'}
-                          customLabel={item.email}
-                          onPress={() => handleEmail(item.email)}
-                        />
-                      </View>
-                    )}
+                      {item.email && (
+                        <View
+                          style={[
+                            cStyles.row,
+                            cStyles.itemsStart,
+                            cStyles.pt10,
+                          ]}>
+                          <CText
+                            styles={'textCaption1'}
+                            label={'contact_us:email'}
+                          />
+                          <CText
+                            styles={'textCaption1 fontBold textUnderline'}
+                            customLabel={item.email}
+                            onPress={() => handleEmail(item.email)}
+                          />
+                        </View>
+                      )}
 
-                    {item.website && (
-                      <View
-                        style={[cStyles.row, cStyles.itemsStart, cStyles.pt10]}>
-                        <CText
-                          styles={'textCaption1'}
-                          label={'contact_us:website'}
-                        />
-                        <CText
-                          styles={'textCaption1 fontBold textUnderline'}
-                          customLabel={item.website}
-                          onPress={() => handleURL(item.website)}
-                        />
-                      </View>
-                    )}
-                  </View>
-                }
-              />
-            );
-          })}
+                      {item.website && (
+                        <View
+                          style={[
+                            cStyles.row,
+                            cStyles.itemsStart,
+                            cStyles.pt10,
+                          ]}>
+                          <CText
+                            styles={'textCaption1'}
+                            label={'contact_us:website'}
+                          />
+                          <CText
+                            styles={'textCaption1 fontBold textUnderline'}
+                            customLabel={item.website}
+                            onPress={() => handleURL(item.website)}
+                          />
+                        </View>
+                      )}
+                    </View>
+                  }
+                />
+              );
+            }}
+          />
         </CContent>
       }
     />

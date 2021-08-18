@@ -27,8 +27,8 @@ function CList(props) {
     contentStyle = {},
     sectionList = false,
     textEmpty = null,
-    onRefresh = () => null,
-    onLoadmore = () => null,
+    onRefresh = undefined,
+    onLoadmore = undefined,
   } = props;
 
   if (!sectionList) {
@@ -50,7 +50,7 @@ function CList(props) {
         keyboardShouldPersistTaps={'handled'}
         keyboardDismissMode={'on-drag'}
         scrollEventThrottle={16}
-        refreshing={props.refreshing}
+        refreshing={props.refreshing || false}
         onRefresh={onRefresh}
         onEndReachedThreshold={0.1}
         onEndReached={onLoadmore}

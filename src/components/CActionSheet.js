@@ -9,13 +9,16 @@ import {useColorScheme} from 'react-native-appearance';
 import {useTheme} from '@react-navigation/native';
 import {StyleSheet, View} from 'react-native';
 import ActionSheet from 'react-native-actions-sheet';
+import {BlurView} from '@react-native-community/blur';
 /** COMPONENTS */
 import CIconButton from './CIconButton';
 /** COMMON */
 import Icons from '~/config/Icons';
-import {cStyles} from '~/utils/style';
+import {colors, cStyles} from '~/utils/style';
 import {THEME_DARK} from '~/config/constants';
-import {moderateScale} from '~/utils/helper';
+import {IS_IOS, moderateScale} from '~/utils/helper';
+
+const propIcon = {size: moderateScale(21)};
 
 function CActionSheet(props) {
   const {customColors} = useTheme();
@@ -62,66 +65,64 @@ function CActionSheet(props) {
   return (
     <ActionSheet
       ref={props.actionRef}
-      containerStyle={[{backgroundColor: customColors.card}, styles.container]}
+      containerStyle={[
+        cStyles.roundedTopLeft3,
+        cStyles.roundedTopRight3,
+        styles.container,
+      ]}
       elevation={5}
       nestedScrollEnabled={true}
       headerAlwaysVisible={true}
-      initialOffsetFromBottom={true}
       gestureEnabled={true}
       indicatorColor={customColors.cardDisable}
       defaultOverlayOpacity={isDark ? 0.8 : 0.2}
       onClose={onCloseAS}
       onOpen={onOpenAS}
-      CustomHeaderComponent={
-        headerChoose ? (
-          <View
-            style={[
-              cStyles.pt16,
-              cStyles.px10,
-              cStyles.row,
-              cStyles.itemsStart,
-              cStyles.justifyBetween,
-              cStyles.roundedTopLeft5,
-              cStyles.roundedTopRight5,
-              {backgroundColor: customColors.card},
-            ]}>
-            <CIconButton
-              style={styles}
-              iconProps={{size: moderateScale(21)}}
-              iconName={Icons.close}
-              iconColor={customColors.red}
-              onPress={handleClose}
-            />
-            <View
-              style={[
-                cStyles.rounded5,
-                {backgroundColor: customColors.cardDisable},
-                styles.indicator,
-              ]}
-            />
-            <CIconButton
-              style={styles}
-              iconProps={{size: moderateScale(21)}}
-              iconName={Icons.check}
-              iconColor={customColors.primary}
-              onPress={handleConfirm}
-            />
-          </View>
-        ) : customHeader ? (
-          customHeader
-        ) : undefined
-      }
+      CustomHeaderComponent={undefined}
       {...props}>
+      <BlurView
+        style={[cStyles.abs, cStyles.inset0, cStyles.rounded3]}
+        blurAmount={50}
+        blurType={isDark ? 'dark' : IS_IOS ? 'materialLight' : 'light'}
+        overlayColor={colors.TRANSPARENT}
+        reducedTransparencyFallbackColor="white"
+      />
+      {headerChoose ? (
+        <View
+          style={[
+            cStyles.px10,
+            cStyles.row,
+            cStyles.itemsStart,
+            cStyles.justifyBetween,
+            cStyles.roundedTopLeft3,
+            cStyles.roundedTopRight3,
+          ]}>
+          <CIconButton
+            style={styles}
+            iconProps={propIcon}
+            iconName={Icons.close}
+            iconColor={customColors.red}
+            onPress={handleClose}
+          />
+          <View style={[cStyles.rounded3, styles.indicator]} />
+          <CIconButton
+            style={styles}
+            iconProps={propIcon}
+            iconName={Icons.check}
+            iconColor={customColors.primary}
+            onPress={handleConfirm}
+          />
+        </View>
+      ) : customHeader ? (
+        customHeader
+      ) : undefined}
       {props.children}
     </ActionSheet>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    borderTopLeftRadius: moderateScale(30),
-    borderTopRightRadius: moderateScale(30),
-  },
+  container: {backgroundColor: colors.TRANSPARENT},
   indicator: {width: moderateScale(50), height: moderateScale(6)},
   icon: {height: moderateScale(45), width: moderateScale(45)},
 });

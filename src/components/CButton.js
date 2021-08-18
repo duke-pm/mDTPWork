@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 /**
  ** Name: CButton
  ** Author: DTP-Education
@@ -7,7 +6,6 @@
  **/
 import React from 'react';
 import {useTranslation} from 'react-i18next';
-import {useColorScheme} from 'react-native-appearance';
 import {StyleSheet, View, Platform} from 'react-native';
 /** COMPONENTS */
 import CText from './CText';
@@ -16,11 +14,9 @@ import CIcon from './CIcon';
 /** COMMON */
 import {colors, cStyles} from '~/utils/style';
 import {verticalScale} from '~/utils/helper';
-import {THEME_DARK} from '~/config/constants';
 
 function CButton(props) {
   const {t} = useTranslation();
-  const isDark = useColorScheme() === THEME_DARK;
   const {
     touchStyle = {},
     style = {},
@@ -29,7 +25,7 @@ function CButton(props) {
     fullWidth = false,
     block = false,
     disabled = false,
-    variant = 'contained', // contained | outlined | text
+    variant = 'contained', // contained | text
     label = '',
     color = colors.SECONDARY,
     icon = null,
@@ -54,11 +50,6 @@ function CButton(props) {
           block && cStyles.fullWidth,
           {backgroundColor: color},
           variant === 'text' && styles.con_variant_text,
-          variant === 'outlined' && {
-            borderColor: color,
-            borderWidth: 0.5,
-            backgroundColor: isDark ? colors.TRANSPARENT : colors.WHITE,
-          },
           style,
         ]}>
         {icon && (

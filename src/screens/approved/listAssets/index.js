@@ -218,7 +218,7 @@ function ListRequestAll(props) {
           />
 
           <CActionSheet actionRef={asFilterRef}>
-            <View style={cStyles.p16}>
+            <View style={[cStyles.px16, cStyles.pb16]}>
               <Filter
                 isResolve={false}
                 data={routes[index]}

@@ -206,6 +206,7 @@ function Settings(props) {
                   );
                 }}
                 scrollEnabled={false}
+                refreshing={false}
               />
             }
           />

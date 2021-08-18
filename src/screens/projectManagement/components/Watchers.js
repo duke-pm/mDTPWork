@@ -186,7 +186,6 @@ function Watchers(props) {
           <View style={[cStyles.mt16, cStyles.mx16]}>
             <CButton
               block
-              variant={isDark ? 'outlined' : 'contained'}
               color={!watched.status ? customColors.green : customColors.red}
               label={
                 !watched.status

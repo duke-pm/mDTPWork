@@ -20,7 +20,7 @@ import CDateTimePicker from '~/components/CDateTimePicker';
 /* COMMON */
 import Icons from '~/config/Icons';
 import {colors, cStyles} from '~/utils/style';
-import {IS_ANDROID, moderateScale} from '~/utils/helper';
+import {IS_ANDROID} from '~/utils/helper';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -172,11 +172,24 @@ function Filter(props) {
    ** RENDER **
    ************/
   return (
-    <View style={cStyles.pb16}>
+    <View style={cStyles.pb20}>
+      <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween]}>
+        <CButton variant={'text'} label={'common:close'} onPress={onClose} />
+        <CButton
+          variant={'text'}
+          label={'common:apply'}
+          onPress={handleFilter}
+        />
+      </View>
       {/** Show is visible */}
       <>
         <View
-          style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween]}>
+          style={[
+            cStyles.row,
+            cStyles.itemsCenter,
+            cStyles.justifyBetween,
+            cStyles.mt20,
+          ]}>
           <View style={styles.text_date}>
             <CLabel
               style={[cStyles.pt6, cStyles.textLeft]}
@@ -248,28 +261,6 @@ function Filter(props) {
             onChange={handleChangeStatus}
           />
         )}
-
-        <View
-          style={[
-            cStyles.row,
-            cStyles.itemsCenter,
-            cStyles.justifyAround,
-            cStyles.pt32,
-          ]}>
-          <CButton
-            style={styles.button}
-            variant={'outlined'}
-            icon={Icons.close}
-            label={'common:close'}
-            onPress={onClose}
-          />
-          <CButton
-            style={styles.button}
-            label={'common:apply'}
-            icon={Icons.filter}
-            onPress={handleFilter}
-          />
-        </View>
       </>
 
       {/** Date Picker */}
@@ -289,7 +280,6 @@ function Filter(props) {
 const styles = StyleSheet.create({
   text_date: {flex: 0.3},
   input_date: {flex: 0.7},
-  button: {width: moderateScale(140)},
 });
 
 export default Filter;

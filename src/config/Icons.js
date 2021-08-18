@@ -37,7 +37,7 @@ const Icons = {
   informations: 'information-circle',
   calendar: 'calendar-outline',
   search: 'search-outline',
-  addNew: 'add-circle-outline',
+  addNew: 'add-sharp',
   circle: 'ellipse-outline',
   checkCircle: 'checkmark-circle-outline',
   doubleCheck: 'checkmark-done-outline',

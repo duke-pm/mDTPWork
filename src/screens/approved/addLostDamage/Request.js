@@ -846,7 +846,7 @@ function AddRequest(props) {
           {!isDetail && (
             <CActionSheet
               headerChoose
-              actionRef={actionSheetAssetsRef}
+              actionRef={asAssetsRef}
               onConfirm={handleChangeAssets}>
               <View style={cStyles.px16}>
                 {dataAssets.length > 0 && (

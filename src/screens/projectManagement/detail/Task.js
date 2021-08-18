@@ -185,9 +185,10 @@ function Task(props) {
   /*****************
    ** HANDLE FUNC **
    *****************/
-  const handleBack = () => {
-    resetRoute(navigation, Routes.ROOT_TAB.name);
-  };
+  const handleBack = () => resetRoute(navigation, Routes.ROOT_TAB.name);
+
+  const handleEmail = () =>
+    Linking.openURL(`mailto:${data.participantChoose.email}`);
 
   const handleFastWatch = () => {
     setIsFastWatch(!isFastWatch);
@@ -232,16 +233,15 @@ function Task(props) {
     setParticipantInfo(showAlert);
   };
 
-  const handleEmail = data => {
-    Linking.openURL(`mailto:${data}`);
-  };
-
   /**********
    ** FUNC **
    **********/
-  const onStart = () => {
-    onFetchData();
-  };
+  const onRefreshWatcher = isWatch => setIsFastWatch(!isWatch);
+
+  const onStart = () => onFetchData();
+
+  const onGoToSignIn = () =>
+    resetRoute(navigation, Routes.AUTHENTICATION.SIGN_IN.name);
 
   const onFetchData = () => {
     let params = fromJS({
@@ -327,10 +327,6 @@ function Task(props) {
     });
   };
 
-  const onRefreshWatcher = isWatch => {
-    setIsFastWatch(!isWatch);
-  };
-
   const onCheckLocalLogin = async () => {
     /** Check Data Login */
     let dataLogin = await getSecretInfo(LOGIN);
@@ -350,10 +346,6 @@ function Task(props) {
     } else {
       onGoToSignIn();
     }
-  };
-
-  const onGoToSignIn = () => {
-    resetRoute(navigation, Routes.AUTHENTICATION.SIGN_IN.name);
   };
 
   /****************
@@ -921,38 +913,41 @@ function Task(props) {
                           ]}>
                           {usersInvited.map((item, index) => {
                             return (
-                              <View
-                                key={item.userName}
-                                style={cStyles.shadowListItem}>
-                                <CTouchable
-                                  onPress={() => handleParticipant(item, true)}>
-                                  <View
-                                    style={[
-                                      cStyles.row,
-                                      cStyles.itemsCenter,
-                                      cStyles.rounded1,
-                                      cStyles.mt6,
-                                      cStyles.mr10,
-                                      cStyles.py6,
-                                      cStyles.px10,
-                                      IS_ANDROID && cStyles.borderAll,
-                                      IS_ANDROID &&
-                                        isDark &&
-                                        cStyles.borderAllDark,
-                                      {backgroundColor: customColors.card},
-                                    ]}>
-                                    <View style={cStyles.pr6}>
-                                      <CAvatar
-                                        label={item.fullName}
-                                        size={'vsmall'}
+                              <View style={[cStyles.row, cStyles.itemsCenter]}>
+                                <View
+                                  key={item.userName}
+                                  style={cStyles.shadowListItem}>
+                                  <CTouchable
+                                    onPress={() =>
+                                      handleParticipant(item, true)
+                                    }>
+                                    <View
+                                      style={[
+                                        cStyles.row,
+                                        cStyles.itemsCenter,
+                                        cStyles.rounded1,
+                                        cStyles.py6,
+                                        cStyles.px10,
+                                        IS_ANDROID && cStyles.borderAll,
+                                        IS_ANDROID &&
+                                          isDark &&
+                                          cStyles.borderAllDark,
+                                        {backgroundColor: customColors.card},
+                                      ]}>
+                                      <View style={cStyles.pr6}>
+                                        <CAvatar
+                                          label={item.fullName}
+                                          size={'vsmall'}
+                                        />
+                                      </View>
+                                      <CText
+                                        styles={'textCallout'}
+                                        customLabel={checkEmpty(item.fullName)}
                                       />
                                     </View>
-                                    <CText
-                                      styles={'textCallout'}
-                                      customLabel={checkEmpty(item.fullName)}
-                                    />
-                                  </View>
-                                </CTouchable>
+                                  </CTouchable>
+                                </View>
+                                <View style={cStyles.mx5} />
                               </View>
                             );
                           })}
@@ -1024,9 +1019,10 @@ function Task(props) {
                     style={[cStyles.row, cStyles.itemsCenter, cStyles.mt16]}>
                     <CIcon name={Icons.mail} size={'medium'} />
                     <CTouchable
-                      onPress={() => handleEmail(data.participantChoose.email)}>
+                      containerStyle={cStyles.ml12}
+                      onPress={handleEmail}>
                       <CText
-                        styles={'pl12 textUnderline'}
+                        styles={'textUnderline'}
                         customLabel={data.participantChoose.email}
                       />
                     </CTouchable>

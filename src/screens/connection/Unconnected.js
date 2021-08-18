@@ -95,7 +95,7 @@ function Unconnected(props) {
           loading={loading}
           disabled={loading}
           block
-          variant={'outlined'}
+          variant={'text'}
           label={'common:connection_again'}
           icon={Icons.reconnection}
           onPress={onCheckConnection}
