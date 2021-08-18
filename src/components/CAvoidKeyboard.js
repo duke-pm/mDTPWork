@@ -9,7 +9,7 @@ import React, {Component} from 'react';
 import {Animated, Keyboard} from 'react-native';
 /** COMMON */
 import {cStyles} from '~/utils/style';
-import {IS_ANDROID, moderateScale} from '~/utils/helper';
+import {IS_ANDROID} from '~/utils/helper';
 
 class CAvoidKeyboard extends Component {
   constructor(props) {

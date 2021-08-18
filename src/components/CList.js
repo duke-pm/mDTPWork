@@ -27,8 +27,8 @@ function CList(props) {
     contentStyle = {},
     sectionList = false,
     textEmpty = null,
-    onRefresh = null,
-    onLoadmore = null,
+    onRefresh = () => null,
+    onLoadmore = () => null,
   } = props;
 
   if (!sectionList) {

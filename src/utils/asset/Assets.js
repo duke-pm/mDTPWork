@@ -4,7 +4,6 @@
  ** CreateAt: 2021
  ** Description: Description of Assets.js
  **/
-
 const Assets = {
   imgLogo: require('../../../assets/images/photo/logo.png'),
   imgFacebook: require('../../../assets/images/photo/facebook.png'),

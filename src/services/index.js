@@ -1,10 +1,10 @@
 /**
  ** Name: Api
- ** Author: DTP-Education 
+ ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of Api.js
  **/
-/** SERVICES */
+/** COMMON */
 import master from './master';
 import authentication from './authentication';
 import approved from './approved';

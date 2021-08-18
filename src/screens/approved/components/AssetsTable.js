@@ -83,13 +83,7 @@ function AssetsTable(props) {
     let newData = [...form.assets.data];
     newData.push([null, '', '', '', '']);
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    setForm({
-      ...form,
-      assets: {
-        ...form.assets,
-        data: newData,
-      },
-    });
+    setForm({...form, assets: {...form.assets, data: newData}});
   };
 
   /**********
@@ -109,13 +103,7 @@ function AssetsTable(props) {
     } else {
       newData[rowIndex][4] = '';
     }
-    setForm({
-      ...form,
-      assets: {
-        ...form.assets,
-        data: newData,
-      },
-    });
+    setForm({...form, assets: {...form.assets, data: newData}});
     if (error.status) {
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
       setError({status: false, helper: ''});
@@ -126,24 +114,12 @@ function AssetsTable(props) {
     let newData = [...form.assets.data];
     newData.splice(rowIndex, 1);
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    setForm({
-      ...form,
-      assets: {
-        ...form.assets,
-        data: newData,
-      },
-    });
+    setForm({...form, assets: {...form.assets, data: newData}});
   };
 
   const onValidate = () => {
-    setError({
-      status: false,
-      helper: '',
-    });
-    let tmpError = {
-        status: false,
-        helper: '',
-      },
+    setError({status: false, helper: ''});
+    let tmpError = {status: false, helper: ''},
       item = null;
     if (form.assets.data.length > 0) {
       for (item of form.assets.data) {
@@ -163,10 +139,7 @@ function AssetsTable(props) {
     }
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setError(tmpError);
-    onCallbackValidate({
-      status: tmpError.status,
-      data: form.assets.data,
-    });
+    onCallbackValidate({status: tmpError.status, data: form.assets.data});
   };
 
   /****************
@@ -188,142 +161,139 @@ function AssetsTable(props) {
    ** RENDER **
    ************/
   return (
-    <View>
-      <View style={cStyles.flex1}>
-        <View style={cStyles.itemsCenter}>
-          {!isDetail && form.assets.data.length === 0 && (
-            <View style={cStyles.mt10}>
-              <CTouchable
-                disabled={loading || isDetail}
-                onPress={handleAddAssets}>
-                <View style={[cStyles.row, cStyles.itemsCenter]}>
-                  <CIcon name={Icons.addNew} color={'orange'} size={'small'} />
-                  <CText
-                    customStyles={[
-                      cStyles.textUnderline,
-                      cStyles.textCaption1,
-                      cStyles.pl4,
-                      {color: customColors.orange},
-                    ]}
-                    label={'add_approved_assets:add_assets'}
-                  />
-                </View>
-              </CTouchable>
-            </View>
-          )}
-        </View>
-        {form.assets.data.length > 0 && (
-          <ScrollView horizontal keyboardShouldPersistTaps={'handled'}>
-            <Table
-              borderStyle={{
-                borderWidth: moderateScale(0.7),
-                borderColor: error.status
-                  ? customColors.red
-                  : customColors.cardDisable,
-              }}
-              style={cStyles.mt6}>
-              <Row
-                style={styles.table_header}
-                textStyle={[
-                  cStyles.textCenter,
-                  cStyles.textCallout,
-                  {color: customColors.text},
-                ]}
-                widthArr={form.assets.width}
-                data={form.assets.header}
-              />
-              {form.assets.data.map((rowData, rowIndex) => {
-                return (
-                  <TableWrapper
-                    key={rowIndex.toString()}
-                    style={[cStyles.flex1, cStyles.row]}>
-                    {rowData.map((cellData, cellIndex) => {
-                      let disabled = loading || cellIndex === 4 || isDetail;
-                      return (
-                        <Cell
-                          key={cellIndex.toString()}
-                          width={form.assets.width[cellIndex]}
-                          height={heightItemTable}
-                          data={
-                            <AssetItem
-                              isDetail={isDetail}
-                              disabled={disabled}
-                              cellData={cellData}
-                              rowIndex={rowIndex}
-                              cellIndex={cellIndex}
-                              onChangeCellItem={onChangeCellItem}
-                              onRemoveRow={onRemoveRow}
-                            />
-                          }
-                        />
-                      );
-                    })}
-                  </TableWrapper>
-                );
-              })}
-            </Table>
-          </ScrollView>
+    <View style={cStyles.flex1}>
+      <View style={cStyles.itemsCenter}>
+        {!isDetail && form.assets.data.length === 0 && (
+          <View style={cStyles.mt10}>
+            <CTouchable
+              disabled={loading || isDetail}
+              onPress={handleAddAssets}>
+              <View style={[cStyles.row, cStyles.itemsCenter]}>
+                <CIcon name={Icons.addNew} color={'orange'} size={'small'} />
+                <CText
+                  customStyles={[
+                    cStyles.textUnderline,
+                    cStyles.textCaption1,
+                    cStyles.pl4,
+                    {color: customColors.orange},
+                  ]}
+                  label={'add_approved_assets:add_assets'}
+                />
+              </View>
+            </CTouchable>
+          </View>
         )}
+      </View>
 
+      {form.assets.data.length > 0 && (
+        <ScrollView horizontal keyboardShouldPersistTaps={'handled'}>
+          <Table
+            borderStyle={{
+              borderWidth: moderateScale(0.7),
+              borderColor: error.status
+                ? customColors.red
+                : customColors.cardDisable,
+            }}
+            style={cStyles.mt6}>
+            <Row
+              style={styles.table_header}
+              textStyle={[
+                cStyles.textCenter,
+                cStyles.textCallout,
+                {color: customColors.text},
+              ]}
+              widthArr={form.assets.width}
+              data={form.assets.header}
+            />
+            {form.assets.data.map((rowData, rowIndex) => {
+              return (
+                <TableWrapper
+                  key={rowIndex.toString()}
+                  style={[cStyles.flex1, cStyles.row]}>
+                  {rowData.map((cellData, cellIndex) => {
+                    let disabled = loading || cellIndex === 4 || isDetail;
+                    return (
+                      <Cell
+                        key={cellIndex.toString()}
+                        width={form.assets.width[cellIndex]}
+                        height={heightItemTable}
+                        data={
+                          <AssetItem
+                            isDetail={isDetail}
+                            disabled={disabled}
+                            cellData={cellData}
+                            rowIndex={rowIndex}
+                            cellIndex={cellIndex}
+                            onChangeCellItem={onChangeCellItem}
+                            onRemoveRow={onRemoveRow}
+                          />
+                        }
+                      />
+                    );
+                  })}
+                </TableWrapper>
+              );
+            })}
+          </Table>
+        </ScrollView>
+      )}
+
+      <View
+        style={[
+          cStyles.flex1,
+          cStyles.row,
+          cStyles.justifyBetween,
+          cStyles.itemsCenter,
+          cStyles.pt6,
+        ]}>
         <View
           style={[
-            cStyles.flex1,
             cStyles.row,
-            cStyles.justifyBetween,
             cStyles.itemsCenter,
-            cStyles.pt6,
+            cStyles.pl16,
+            styles.con_right,
           ]}>
-          <View
-            style={[
-              cStyles.row,
-              cStyles.itemsCenter,
-              cStyles.pl16,
-              styles.con_right,
-            ]}>
-            {error.status && (
-              <CIcon name={Icons.alert} color={'red'} size={'small'} />
-            )}
-            {error.status && (
-              <CText
-                customStyles={[
-                  cStyles.textCaption1,
-                  cStyles.pl4,
-                  {color: customColors.red},
-                ]}
-                label={t(error.helper)}
-              />
-            )}
-          </View>
-
-          {!isDetail && form.assets.data.length > 0 && (
-            <View style={cStyles.mt10}>
-              <CTouchable
-                disabled={loading || isDetail}
-                onPress={handleAddAssets}>
-                <View
-                  style={[cStyles.row, cStyles.itemsCenter, styles.con_left]}>
-                  <CIcon name={Icons.addNew} color={'orange'} size={'small'} />
-                  <CText
-                    customStyles={[
-                      cStyles.textUnderline,
-                      cStyles.textCaption1,
-                      cStyles.pl4,
-                      {color: customColors.orange},
-                    ]}
-                    label={'add_approved_assets:add_assets'}
-                  />
-                </View>
-              </CTouchable>
-            </View>
+          {error.status && (
+            <CIcon name={Icons.alert} color={'red'} size={'small'} />
+          )}
+          {error.status && (
+            <CText
+              customStyles={[
+                cStyles.textCaption1,
+                cStyles.pl4,
+                {color: customColors.red},
+              ]}
+              label={t(error.helper)}
+            />
           )}
         </View>
+
+        {!isDetail && form.assets.data.length > 0 && (
+          <View style={cStyles.mt10}>
+            <CTouchable
+              disabled={loading || isDetail}
+              onPress={handleAddAssets}>
+              <View style={[cStyles.row, cStyles.itemsCenter, styles.con_left]}>
+                <CIcon name={Icons.addNew} color={'orange'} size={'small'} />
+                <CText
+                  customStyles={[
+                    cStyles.textUnderline,
+                    cStyles.textCaption1,
+                    cStyles.pl4,
+                    {color: customColors.orange},
+                  ]}
+                  label={'add_approved_assets:add_assets'}
+                />
+              </View>
+            </CTouchable>
+          </View>
+        )}
       </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  table: {borderWidth: 1, borderColor: colors.TABLE_LINE},
   table_header: {
     height: heightItemTable,
     backgroundColor: colors.STATUS_CLOSE_OPACITY,

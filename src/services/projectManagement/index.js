@@ -4,6 +4,7 @@
  ** CreateAt: 2021
  ** Description: Description of approved.js
  **/
+/** COMMON */
 import jwtServiceConfig from '../jwtServiceConfig';
 import Routes from '../routesApi';
 import API from '../axios';

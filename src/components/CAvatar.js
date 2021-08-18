@@ -8,7 +8,6 @@
 import React, {useState} from 'react';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
-import Icon from 'react-native-vector-icons/Ionicons';
 import {
   StyleSheet,
   View,
@@ -25,14 +24,14 @@ import CIcon from './CIcon';
 /* COMMON */
 import Icons from '~/config/Icons';
 import {Assets} from '~/utils/asset';
+import {colors, cStyles} from '~/utils/style';
+import {THEME_DARK} from '~/config/constants';
 import {
   askPermissionsCamera,
   IS_ANDROID,
   IS_IOS,
   moderateScale,
 } from '~/utils/helper';
-import {colors, cStyles} from '~/utils/style';
-import {THEME_DARK} from '~/config/constants';
 
 function CAvatar(props) {
   const isDark = useColorScheme() === THEME_DARK;

@@ -6,7 +6,9 @@
  **/
 import React from 'react';
 import {StyleSheet, Text, View, UIManager, LayoutAnimation} from 'react-native';
+/** COMMON */
 import {IS_ANDROID, moderateScale} from '~/utils/helper';
+
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);

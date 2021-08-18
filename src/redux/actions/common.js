@@ -4,7 +4,7 @@
  ** CreatedAt: 2021
  ** Description: Description of Common.js
  **/
-/* TYPES */
+/** REDUX */
 import * as types from './types';
 
 export const changeLanguage = language => ({

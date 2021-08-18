@@ -1,6 +1,6 @@
 /**
  ** Name: NavigationService
- ** Author: DTP-Education 
+ ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of NavigationService.js
  **/

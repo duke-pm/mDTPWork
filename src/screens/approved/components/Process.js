@@ -18,7 +18,7 @@ import Commons from '~/utils/common/Commons';
 import {cStyles} from '~/utils/style';
 import {moderateScale} from '~/utils/helper';
 
-const actionSheetProcessRef = createRef();
+const asProcessRef = createRef();
 const sizeLargeIcon = moderateScale(30);
 
 function Process(props) {
@@ -36,7 +36,7 @@ function Process(props) {
    ** HANDLE FUNC **
    *****************/
   const handleShowProcess = () => {
-    actionSheetProcessRef.current?.show();
+    asProcessRef.current?.show();
   };
 
   /************
@@ -88,7 +88,7 @@ function Process(props) {
         </View>
       </CTouchable>
 
-      <CActionSheet actionRef={actionSheetProcessRef}>
+      <CActionSheet actionRef={asProcessRef}>
         <RequestProcess
           data={data}
           customColors={customColors}

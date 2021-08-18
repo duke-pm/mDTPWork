@@ -23,16 +23,12 @@ function Navigator(props) {
   /************
    ** FUNC **
    ************/
-  const onStartApp = () => {
-    SplashScreen.hide();
-  };
+  const onStartApp = () => SplashScreen.hide();
 
   /******************
    ** LIFE CYCLE **
    ******************/
-  useEffect(() => {
-    onStartApp();
-  }, []);
+  useEffect(() => onStartApp(), []);
 
   useEffect(() => {
     if (commonState.get('language') !== props.i18n.language) {

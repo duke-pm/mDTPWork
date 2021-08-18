@@ -27,13 +27,13 @@ import Routes from '~/navigation/Routes';
 import Icons from '~/config/Icons';
 import {IS_ANDROID} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
+import {usePrevious} from '~/utils/hook';
 import {
   THEME_DARK,
   FIRST_CELL_WIDTH_LARGE,
   CELL_HEIGHT,
   CELL_WIDTH,
 } from '~/config/constants';
-import {usePrevious} from '~/utils/hook';
 /** REDUX */
 import * as Actions from '~/redux/actions';
 
@@ -90,6 +90,7 @@ function ProjectOverview(props) {
   let headerScroll = useRef(null);
 
   /** All state for page */
+  const [isFiltering, setIsFiltering] = useState(false);
   const [loading, setLoading] = useState({
     startFetch: false,
     refreshing: false,
@@ -100,7 +101,6 @@ function ProjectOverview(props) {
     status: false,
     active: null,
   });
-  const [isFiltering, setIsFiltering] = useState(false);
   const [showFilter, setShowFilter] = useState({
     activeOwner: [],
     activeStatus: [],

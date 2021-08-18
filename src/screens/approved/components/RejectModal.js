@@ -44,12 +44,7 @@ function RejectModal(props) {
   const handleChangeReasonReject = value => {
     setReasonReject(value);
     if (error.reasonReject.status) {
-      setError({
-        reasonReject: {
-          status: false,
-          helper: '',
-        },
-      });
+      setError({reasonReject: {status: false, helper: ''}});
     }
   };
 
@@ -57,10 +52,7 @@ function RejectModal(props) {
     if (reasonReject.trim() === '') {
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
       setError({
-        reasonReject: {
-          status: true,
-          helper: 'error:reason_reject_empty',
-        },
+        reasonReject: {status: true, helper: 'error:reason_reject_empty'},
       });
     } else {
       setLoading(true);
@@ -71,12 +63,7 @@ function RejectModal(props) {
   const handleClose = () => {
     if (error.reasonReject.status) {
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-      setError({
-        reasonReject: {
-          status: false,
-          helper: '',
-        },
-      });
+      setError({reasonReject: {status: false, helper: ''}});
     }
     onCloseReject();
   };

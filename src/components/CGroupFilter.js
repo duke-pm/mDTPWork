@@ -21,6 +21,8 @@ import Icons from '~/config/Icons';
 import {IS_ANDROID} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
 
+let isCheck = null;
+
 function CGroupFilter(props) {
   const {t} = useTranslation();
   const {customColors} = useTheme();
@@ -107,7 +109,7 @@ function CGroupFilter(props) {
         contentContainerStyle={[cStyles.row, cStyles.flexWrap]}
         data={values}
         renderItem={({item, index}) => {
-          let isCheck = valuesChoose.find(f => f.value == item.value);
+          isCheck = valuesChoose.find(f => f.value == item.value);
           return (
             <CTouchable onPress={() => handleItem(index, item)}>
               <Animatable.View

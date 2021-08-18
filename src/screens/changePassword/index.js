@@ -8,6 +8,7 @@
 import React, {createRef, useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {
   UIManager,
   LayoutAnimation,
@@ -24,7 +25,6 @@ import CLabel from '~/components/CLabel';
 import CInput from '~/components/CInput';
 import CButton from '~/components/CButton';
 import CGroupInfo from '~/components/CGroupInfo';
-import CAvoidKeyboard from '~/components/CAvoidKeyboard';
 /* COMMON */
 import Icons from '~/config/Icons';
 import Routes from '~/navigation/Routes';
@@ -248,8 +248,8 @@ function ChangePassword(props) {
       loading={loading}
       content={
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <CAvoidKeyboard>
-            <CContent>
+          <KeyboardAwareScrollView>
+            <CContent scrollEnabled={false}>
               <CGroupInfo
                 style={cStyles.pt16}
                 label={'change_password:sub_title'}
@@ -329,7 +329,7 @@ function ChangePassword(props) {
                 }
               />
             </CContent>
-          </CAvoidKeyboard>
+          </KeyboardAwareScrollView>
         </TouchableWithoutFeedback>
       }
     />

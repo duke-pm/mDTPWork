@@ -35,7 +35,7 @@ import ProjectOverviewFilter from '~/screens/projectManagement/components/Filter
 import TaskDetail from '~/screens/projectManagement/detail/Task';
 import TaskActivities from '~/screens/projectManagement/components/Activities';
 import TaskWatchers from '~/screens/projectManagement/components/Watchers';
-/** PROJECT MANAGEMENT */
+/** SALE VISIT */
 import SalesVisit from '~/screens/salesVisit';
 
 const Routes = {

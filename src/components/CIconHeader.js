@@ -13,13 +13,20 @@ import CIcon from './CIcon';
 import CTouchable from './CTouchable';
 /* COMMON */
 import {THEME_DARK} from '~/config/constants';
-import {IS_ANDROID, moderateScale} from '~/utils/helper';
-import {colors, cStyles} from '~/utils/style';
+import {moderateScale} from '~/utils/helper';
+import {cStyles} from '~/utils/style';
 
 function CIconHeader(props) {
   const {customColors} = useTheme();
   const isDark = useColorScheme() === THEME_DARK;
-  const {icons} = props;
+  const {icons = []} = props;
+
+  /************
+   ** RENDER **
+   ************/
+  if (icons.length === 0) {
+    return null;
+  }
 
   return (
     <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween]}>

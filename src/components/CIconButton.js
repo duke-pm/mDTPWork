@@ -15,12 +15,12 @@ import {colors, cStyles} from '~/utils/style';
 
 function CIconButton(props) {
   const {
-    style,
+    style = {},
     iconName = '',
     iconColor = colors.ICON_BASE,
     iconProps = {},
     disabled = false,
-    onPress = () => {},
+    onPress = () => null,
   } = props;
 
   /************

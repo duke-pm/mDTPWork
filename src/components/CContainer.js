@@ -8,7 +8,6 @@ import React from 'react';
 import {useTheme} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {View} from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
 /** COMMON */
 import CFooter from './CFooter';
 import CLoading from './CLoading';
@@ -22,10 +21,7 @@ function CContainer(props) {
   const {customColors} = useTheme();
   const isDark = useColorScheme() === THEME_DARK;
   const {
-    safeArea = {
-      top: false,
-      bottom: false,
-    },
+    safeArea = {top: false, bottom: false},
     safeAreaStyle = {},
     style = {},
     hasShapes = false,
@@ -36,7 +32,6 @@ function CContainer(props) {
   /************
    ** RENDER **
    ************/
-  // Theme
   let tmpSafeArea = ['right', 'left'];
   if (safeArea.top) {
     tmpSafeArea.push('top');

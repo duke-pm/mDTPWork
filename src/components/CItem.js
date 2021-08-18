@@ -23,7 +23,7 @@ function CItem(props) {
     textStyle = {},
     key = '',
     data = null,
-    onPress = () => {},
+    onPress = () => null,
   } = props;
   const {customColors} = useTheme();
 

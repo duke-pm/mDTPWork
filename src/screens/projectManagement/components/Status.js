@@ -25,7 +25,7 @@ import {alert, moderateScale} from '~/utils/helper';
 import * as Actions from '~/redux/actions';
 
 /** All refs use in this screen */
-const actionSheetStatusRef = createRef();
+const asStatusRef = createRef();
 
 function Status(props) {
   const {t} = useTranslation();
@@ -60,7 +60,7 @@ function Status(props) {
    ** HANDLE FUNC **
    *****************/
   const handleShowChangeStatus = () => {
-    actionSheetStatusRef.current?.show();
+    asStatusRef.current?.show();
   };
 
   const handleChangeStatus = needUpdate => {
@@ -238,7 +238,7 @@ function Status(props) {
       </TouchableOpacity>
 
       <CActionSheet
-        actionRef={actionSheetStatusRef}
+        actionRef={asStatusRef}
         headerChoose
         onConfirm={handleChangeStatus}
         onClose={onCloseActionSheet}>

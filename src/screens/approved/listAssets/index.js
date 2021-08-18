@@ -34,7 +34,8 @@ if (IS_ANDROID) {
   }
 }
 
-const actionSheetFilterRef = createRef();
+const asFilterRef = createRef();
+
 const RenderTabbar = props => <TabbarType {...props} />;
 const RenderScene = ({route}) => {
   switch (route.key) {
@@ -137,7 +138,7 @@ function ListRequestAll(props) {
     let tmpRoutes = [...routes];
     tmpRoutes[index] = {...tmpRoutes[index], ...tmp};
     setRoutes(tmpRoutes);
-    actionSheetFilterRef.current?.hide();
+    asFilterRef.current?.hide();
   };
 
   const handleOpenSearch = () => {
@@ -153,11 +154,11 @@ function ListRequestAll(props) {
   };
 
   const handleOpenFilter = () => {
-    actionSheetFilterRef.current?.show();
+    asFilterRef.current?.show();
   };
 
   const handleHideFilter = () => {
-    actionSheetFilterRef.current?.hide();
+    asFilterRef.current?.hide();
   };
 
   /****************
@@ -216,7 +217,7 @@ function ListRequestAll(props) {
             renderTabBar={RenderTabbar}
           />
 
-          <CActionSheet actionRef={actionSheetFilterRef}>
+          <CActionSheet actionRef={asFilterRef}>
             <View style={cStyles.p16}>
               <Filter
                 isResolve={false}

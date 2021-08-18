@@ -17,8 +17,8 @@ import CUser from '~/components/CUser';
 /* COMMON */
 import Icons from '~/config/Icons';
 import Commons from '~/utils/common/Commons';
-import {DEFAULT_FORMAT_DATE_4} from '~/config/constants';
 import {cStyles} from '~/utils/style';
+import {DEFAULT_FORMAT_DATE_4} from '~/config/constants';
 
 function RequestItem(props) {
   const {t} = useTranslation();
@@ -76,8 +76,8 @@ function RequestItem(props) {
             {/** Date send & Status */}
             <View
               style={[cStyles.row, cStyles.itemsStart, cStyles.justifyBetween]}>
-              <CUser style={styles.header_right} label={data.personRequest} />
-              <View style={[cStyles.itemsStart, styles.header_right]}>
+              <CUser style={styles.flex_half} label={data.personRequest} />
+              <View style={[cStyles.itemsStart, styles.flex_half]}>
                 <CStatusTag
                   customLabel={data.statusName}
                   color={customColors[statusColor]}
@@ -93,8 +93,7 @@ function RequestItem(props) {
                 cStyles.justifyBetween,
                 cStyles.mt6,
               ]}>
-              <View
-                style={[cStyles.row, cStyles.itemsStart, styles.header_left]}>
+              <View style={[cStyles.row, cStyles.itemsStart, styles.flex_half]}>
                 <CLabel label={'approved_lost_damaged:date_request'} />
                 <CLabel
                   customLabel={moment(
@@ -105,8 +104,7 @@ function RequestItem(props) {
               </View>
 
               {/** Department */}
-              <View
-                style={[cStyles.row, cStyles.itemsStart, styles.header_left]}>
+              <View style={[cStyles.row, cStyles.itemsStart, styles.flex_half]}>
                 <Text numberOfLines={2}>
                   <Text
                     style={[cStyles.textCaption1, {color: customColors.text}]}>
@@ -127,8 +125,7 @@ function RequestItem(props) {
 }
 
 const styles = StyleSheet.create({
-  header_left: {flex: 0.5},
-  header_right: {flex: 0.5},
+  flex_half: {flex: 0.5},
 });
 
 export default React.memo(RequestItem);

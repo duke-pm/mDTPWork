@@ -241,9 +241,9 @@ function Account(props) {
   /*****************
    ** HANDLE FUNC **
    *****************/
-  const handleSignOut = () => {
-    alert(t, 'common:warning_sign_out', handleOk);
-  };
+  const handleUpdate = () => Linking.openURL(needUpdate.linkUpdate);
+
+  const handleSignOut = () => alert(t, 'common:warning_sign_out', handleOk);
 
   const handleOk = async () => {
     setLoading(true);
@@ -251,10 +251,6 @@ function Account(props) {
     dispatch(Actions.logout());
     setLoading(false);
     resetRoute(props.navigation, Routes.AUTHENTICATION.SIGN_IN.name);
-  };
-
-  const handleUpdate = () => {
-    Linking.openURL(needUpdate.linkUpdate);
   };
 
   /****************
@@ -282,6 +278,7 @@ function Account(props) {
   return (
     <CContainer
       loading={loading}
+      hasShapes
       content={
         <CContent showsVerticalScrollIndicator={false}>
           <View

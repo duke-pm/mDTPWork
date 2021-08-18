@@ -12,21 +12,22 @@ import * as Animatable from 'react-native-animatable';
 import CText from '~/components/CText';
 import CIcon from './CIcon';
 /** COMMON */
-import {colors, cStyles} from '~/utils/style';
 import Icons from '~/config/Icons';
+import {colors, cStyles} from '~/utils/style';
 
+/** All refs on check box */
 let handleRef = createRef();
 
 function CCheckbox(props) {
   const {t} = useTranslation();
   const {
-    containerStyle,
-    textStyle,
-    labelLeft,
-    labelRight,
-    disabled,
-    value,
-    onChange,
+    containerStyle = {},
+    textStyle = {},
+    labelLeft = undefined,
+    labelRight = undefined,
+    disabled = false,
+    value = true,
+    onChange = () => null,
   } = props;
 
   /*****************

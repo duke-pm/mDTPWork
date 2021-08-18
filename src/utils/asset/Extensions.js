@@ -4,7 +4,6 @@
  ** CreateAt: 2021
  ** Description: Description of Extensions.js
  **/
-
 const Extensions = {
   doc: require('../../../assets/images/extension/doc.png'),
   docx: require('../../../assets/images/extension/docx.png'),

@@ -1,9 +1,16 @@
+/**
+ ** Name: CBackgroundSharp
+ ** Author: DTP-Education
+ ** CreateAt: 2021
+ ** Description: Description of CBackgroundSharp.js
+ **/
 import React from 'react';
+import {useColorScheme} from 'react-native-appearance';
 import {StyleSheet, Dimensions, View} from 'react-native';
-import { useColorScheme } from 'react-native-appearance';
 import LinearGradient from 'react-native-linear-gradient';
-import { THEME_DARK } from '~/config/constants';
-import {cStyles} from '~/utils/style';
+/** COMMON */
+import {THEME_DARK} from '~/config/constants';
+import {colors, cStyles} from '~/utils/style';
 
 const Circle = ({size, color, position}) => {
   let style = {
@@ -167,8 +174,8 @@ const Shapes = ({
 }) => {
   const isDark = useColorScheme() === THEME_DARK;
   const config = {
-    primaryColor: primaryColor || '#416DF8',
-    secondaryColor: secondaryColor || '#2F53D5',
+    primaryColor: primaryColor || colors.PRIMARY,
+    secondaryColor: secondaryColor || colors.SECONDARY,
     height: Dimensions.get('window').height / (height || 3.5),
     sizefigure: 100,
     figures: figures || [

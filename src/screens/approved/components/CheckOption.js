@@ -11,8 +11,8 @@ import * as Animatable from 'react-native-animatable';
 import CText from '~/components/CText';
 import CIcon from '~/components/CIcon';
 /* COMMON */
-import {colors, cStyles} from '~/utils/style';
 import Icons from '~/config/Icons';
+import {colors, cStyles} from '~/utils/style';
 
 function CheckOption(props) {
   const {loading, isDetail, customColors, value, values, onCallback} = props;

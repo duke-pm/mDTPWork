@@ -4,6 +4,7 @@
  ** CreateAt: 2021
  ** Description: Description of Axios.js
  **/
+/** LIBRARY */
 import axios from 'axios';
 /** COMMON */
 import Configs from '~/config';

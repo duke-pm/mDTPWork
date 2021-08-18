@@ -9,9 +9,9 @@ import {useTheme} from '@react-navigation/native';
 import {StyleSheet, View} from 'react-native';
 /* COMPONENTS */
 import CText from './CText';
+import CActivityIndicator from './CActivityIndicator';
 /* COMMON */
 import {cStyles} from '~/utils/style';
-import CActivityIndicator from './CActivityIndicator';
 import {moderateScale} from '~/utils/helper';
 
 function CGroupInfo({

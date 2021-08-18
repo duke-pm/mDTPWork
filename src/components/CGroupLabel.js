@@ -13,7 +13,11 @@ import {cStyles} from '~/utils/style';
 import {moderateScale} from '~/utils/helper';
 
 function CGroupLabel(props) {
-  const {containerStyle, labelLeft, labelRight} = props;
+  const {
+    containerStyle = {},
+    labelLeft = undefined,
+    labelRight = undefined,
+  } = props;
 
   /************
    ** RENDER **

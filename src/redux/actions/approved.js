@@ -5,9 +5,10 @@
  ** Description: Description of Approved.js
  **/
 /* COMMON */
+import Services from '~/services';
+/** REDUX */
 import * as types from './types';
 import * as Actions from '~/redux/actions';
-import Services from '~/services';
 
 /** For get list request assets */
 export const listRequestApprovedError = error => ({

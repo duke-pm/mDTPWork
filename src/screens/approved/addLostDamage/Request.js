@@ -71,7 +71,7 @@ const INPUT_NAME = {
 };
 
 /** All refs use in this screen */
-const actionSheetAssetsRef = createRef();
+const asAssetsRef = createRef();
 let damageRef = createRef();
 let lostRef = createRef();
 
@@ -192,10 +192,10 @@ function AddRequest(props) {
   const [showReject, setShowReject] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [isDetail] = useState(route.params?.data ? true : false);
-  const [process, setProcess] = useState([]);
   const [assets, setAssets] = useState(0);
   const [findAssets, setFindAssets] = useState('');
   const [dataAssets, setDataAssets] = useState([]);
+  const [process, setProcess] = useState([]);
   const [form, setForm] = useState({
     dateRequest: moment().format(formatDate),
     reason: '',
@@ -206,20 +206,14 @@ function AddRequest(props) {
     id: '',
     personRequestId: '',
     name: '',
-    department: authState.getIn(['login', 'deptCode']),
-    region: authState.getIn(['login', 'regionCode']),
     status: 1,
     isAllowApproved: false,
+    department: authState.getIn(['login', 'deptCode']),
+    region: authState.getIn(['login', 'regionCode']),
   });
   const [error, setError] = useState({
-    assets: {
-      status: false,
-      helper: '',
-    },
-    reason: {
-      status: false,
-      helper: '',
-    },
+    assets: {status: false, helper: ''},
+    reason: {status: false, helper: ''},
   });
 
   /*****************
@@ -235,10 +229,7 @@ function AddRequest(props) {
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
       setError({
         ...error,
-        reason: {
-          status: false,
-          helper: '',
-        },
+        reason: {status: false, helper: ''},
       });
     }
   };
@@ -261,7 +252,7 @@ function AddRequest(props) {
         assetID: asset[Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.value],
       });
     }
-    actionSheetAssetsRef.current?.hide();
+    asAssetsRef.current?.hide();
   };
 
   /**********
@@ -453,7 +444,7 @@ function AddRequest(props) {
   useEffect(() => {
     dispatch(Actions.resetStatusMasterData());
     let isLogin = authState.get('successLogin');
-    if (isLogin && !loading.startFetchLogin) {
+    if (isLogin) {
       onPrepareData();
     } else {
       setLoading({...loading, startFetchLogin: true});
@@ -678,6 +669,7 @@ function AddRequest(props) {
             }
           />
 
+          {/** Info assets */}
           <CGroupInfo
             label={'add_approved_lost_damaged:info_assets'}
             content={
@@ -697,7 +689,7 @@ function AddRequest(props) {
                       form.assetID,
                       Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.label,
                       Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.value,
-                      () => actionSheetAssetsRef.current?.show(),
+                      () => asAssetsRef.current?.show(),
                     )}
                   </View>
                 )}
@@ -853,8 +845,8 @@ function AddRequest(props) {
           {/** MODAL */}
           {!isDetail && (
             <CActionSheet
-              actionRef={actionSheetAssetsRef}
               headerChoose
+              actionRef={actionSheetAssetsRef}
               onConfirm={handleChangeAssets}>
               <View style={cStyles.px16}>
                 {dataAssets.length > 0 && (
@@ -863,9 +855,9 @@ function AddRequest(props) {
                     styleFocus={styles.input_focus}
                     disabled={loading.main || loading.submitAdd || isDetail}
                     holder={'add_approved_lost_damaged:search_assets'}
-                    value={findAssets}
                     keyboard={'default'}
                     returnKey={'done'}
+                    value={findAssets}
                     onChangeValue={onSearchFilter}
                   />
                 )}

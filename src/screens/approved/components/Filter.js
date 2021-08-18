@@ -14,13 +14,14 @@ import moment from 'moment';
 /* COMPONENTS */
 import CLabel from '~/components/CLabel';
 import CInput from '~/components/CInput';
-import CDateTimePicker from '~/components/CDateTimePicker';
 import CButton from '~/components/CButton';
 import CGroupFilter from '~/components/CGroupFilter';
+import CDateTimePicker from '~/components/CDateTimePicker';
 /* COMMON */
+import Icons from '~/config/Icons';
 import {colors, cStyles} from '~/utils/style';
 import {IS_ANDROID, moderateScale} from '~/utils/helper';
-import Icons from '~/config/Icons';
+
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -85,16 +86,10 @@ function Filter(props) {
   /*****************
    ** HANDLE FUNC **
    *****************/
-  const handleDateInput = inputName => {
-    setShowPickerDate({
-      active: inputName,
-      status: true,
-    });
-  };
+  const handleChangeType = typesChoose => setData({...data, type: typesChoose});
 
-  const handleChangeType = typesChoose => {
-    setData({...data, type: typesChoose});
-  };
+  const handleDateInput = iName =>
+    setShowPickerDate({active: iName, status: true});
 
   const handleChangeStatus = statusChoose => {
     let tmp = statusChoose;

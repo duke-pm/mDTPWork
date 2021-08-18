@@ -9,13 +9,19 @@ import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {useColorScheme} from 'react-native-appearance';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import moment from 'moment';
 /** COMMON */
 import {THEME_DARK} from '~/config/constants';
 
 function CDateTimePicker(props) {
   const {t} = useTranslation();
   const isDark = useColorScheme() === THEME_DARK;
-  const {show, value, mode = 'date', onChangeDate} = props;
+  const {
+    show = false,
+    value = moment(),
+    mode = 'date',
+    onChangeDate = () => null,
+  } = props;
 
   /** Use redux */
   const commonState = useSelector(({common}) => common);

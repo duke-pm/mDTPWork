@@ -30,7 +30,7 @@ import {colors, cStyles} from '~/utils/style';
 import {moderateScale, IS_ANDROID, IS_IOS, sH} from '~/utils/helper';
 
 /** All refs use in this screen */
-const actionSheetYearRef = createRef();
+const asYearRef = createRef();
 
 const RowPicker = (
   loading,
@@ -194,7 +194,7 @@ function FilterProject(props) {
   };
 
   const handlePickerYear = () => {
-    actionSheetYearRef.current?.show();
+    asYearRef.current?.show();
   };
 
   const handleChangeYear = () => {
@@ -451,7 +451,7 @@ function FilterProject(props) {
           )}
           {!loading && aParams.hasYear && (
             <CActionSheet
-              actionRef={actionSheetYearRef}
+              actionRef={asYearRef}
               headerChoose
               onConfirm={handleChangeYear}>
               <Picker

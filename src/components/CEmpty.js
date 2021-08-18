@@ -15,7 +15,7 @@ import {Animations} from '~/utils/asset';
 import {moderateScale} from '~/utils/helper';
 
 function CEmpty(props) {
-  const {style} = props;
+  const {style = {}} = props;
   /************
    ** RENDER **
    ************/

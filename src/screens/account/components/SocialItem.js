@@ -16,9 +16,7 @@ function SocialItem(props) {
   /*****************
    ** HANDLE FUNC **
    *****************/
-  const handleSocial = () => {
-    Linking.openURL(data.url);
-  };
+  const handleSocial = () => Linking.openURL(data.url);
 
   /**************
    ** RENDER **

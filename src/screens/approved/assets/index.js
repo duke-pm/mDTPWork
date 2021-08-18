@@ -8,8 +8,8 @@
 import {fromJS} from 'immutable';
 import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import {useTheme, useNavigation} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
+import {useTheme, useNavigation} from '@react-navigation/native';
 import {showMessage} from 'react-native-flash-message';
 import {View} from 'react-native';
 import moment from 'moment';
@@ -39,6 +39,7 @@ function ApprovedAssets(props) {
   const formatDate = commonState.get('formatDate');
   const refreshToken = authState.getIn(['login', 'refreshToken']);
   const language = commonState.get('language');
+
   /** Use state */
   const [loading, setLoading] = useState({
     main: true,
@@ -57,6 +58,7 @@ function ApprovedAssets(props) {
     page: 1,
     search: '',
   });
+
   /** Use previous */
   const prevDataRoute = usePrevious(props.dataRoute);
 

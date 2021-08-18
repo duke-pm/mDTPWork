@@ -4,10 +4,11 @@
  ** CreatedAt: 2021
  ** Description: Description of Auth.js
  **/
+/** LIBRARY */
 import {showMessage} from 'react-native-flash-message';
 /* COMMON */
-import Routes from '~/navigation/Routes';
 import Services from '~/services';
+import Routes from '~/navigation/Routes';
 import API from '~/services/axios';
 import FieldsAuth from '~/config/fieldsAuth';
 import {removeSecretInfo, resetRoute} from '~/utils/helper';

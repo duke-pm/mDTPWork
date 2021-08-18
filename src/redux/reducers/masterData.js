@@ -5,7 +5,7 @@
  ** Description: Description of masterData.js
  **/
 /* LIBRARY */
-import {fromJS, List} from 'immutable';
+import {fromJS} from 'immutable';
 /** REDUX */
 import * as types from '../actions/types';
 

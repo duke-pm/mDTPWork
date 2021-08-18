@@ -1,11 +1,11 @@
 /**
- ** Name: Approved.js
+ ** Name: Approved
  ** Author: DTP-Education
  ** CreatedAt: 2021
  ** Description: Description of Approved.js
  **/
 /* LIBRARY */
-import {fromJS, List} from 'immutable';
+import {fromJS} from 'immutable';
 /** REDUX */
 import * as types from '../actions/types';
 

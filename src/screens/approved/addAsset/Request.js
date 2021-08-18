@@ -38,6 +38,7 @@ import Routes from '~/navigation/Routes';
 import Commons from '~/utils/common/Commons';
 import FieldsAuth from '~/config/fieldsAuth';
 import {colors, cStyles} from '~/utils/style';
+import {THEME_DARK, DEFAULT_FORMAT_DATE_4, LOGIN} from '~/config/constants';
 import {
   getSecretInfo,
   IS_ANDROID,
@@ -45,7 +46,6 @@ import {
   resetRoute,
   verticalScale,
 } from '~/utils/helper';
-import {THEME_DARK, DEFAULT_FORMAT_DATE_4, LOGIN} from '~/config/constants';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 
@@ -114,7 +114,7 @@ const INPUT_NAME = {
 };
 
 /** All refs use in this screen */
-const actionSheetDepartmentRef = createRef();
+const asDepartmentRef = createRef();
 let supplierRef = createRef();
 let newRef = createRef();
 let addRef = createRef();
@@ -240,7 +240,7 @@ function AddRequest(props) {
         whereUse: department[Commons.SCHEMA_DROPDOWN.DEPARTMENT.value],
       });
     }
-    actionSheetDepartmentRef.current?.hide();
+    asDepartmentRef.current?.hide();
   };
 
   /**********
@@ -447,7 +447,7 @@ function AddRequest(props) {
    ****************/
   useEffect(() => {
     let isLogin = authState.get('successLogin');
-    if (isLogin && !loading.startFetchLogin) {
+    if (isLogin) {
       onPrepareData();
     } else {
       setLoading({...loading, startFetchLogin: true});
@@ -721,7 +721,7 @@ function AddRequest(props) {
                     form.whereUse,
                     Commons.SCHEMA_DROPDOWN.DEPARTMENT.label,
                     Commons.SCHEMA_DROPDOWN.DEPARTMENT.value,
-                    () => actionSheetDepartmentRef.current?.show(),
+                    () => asDepartmentRef.current?.show(),
                   )}
                 </View>
 

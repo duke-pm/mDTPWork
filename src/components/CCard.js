@@ -16,12 +16,14 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 /* COMPONENTS */
 import CText from './CText';
-/* COMMON */
-import {colors, cStyles} from '~/utils/style';
-import {THEME_DARK} from '~/config/constants';
-import {IS_ANDROID, IS_IOS, moderateScale} from '~/utils/helper';
-import Icons from '~/config/Icons';
 import CIconButton from './CIconButton';
+/* COMMON */
+import Icons from '~/config/Icons';
+import {THEME_DARK} from '~/config/constants';
+import {colors, cStyles} from '~/utils/style';
+import {IS_ANDROID, IS_IOS} from '~/utils/helper';
+
+const Touchable = IS_IOS ? TouchableHighlight : TouchableNativeFeedback;
 
 function CCard(props) {
   const {customColors} = useTheme();
@@ -45,11 +47,7 @@ function CCard(props) {
   /************
    ** RENDER **
    ************/
-  const Component = onPress
-    ? IS_IOS
-      ? TouchableHighlight
-      : TouchableNativeFeedback
-    : View;
+  const Component = onPress ? Touchable : View;
   const Gradient = gradientColor ? LinearGradient : View;
   return (
     <View
@@ -58,7 +56,7 @@ function CCard(props) {
         cStyles.shadowListItem,
         cStyles.rounded2,
         IS_ANDROID && cStyles.ofHidden,
-        styles.con,
+        styles.container,
         style,
       ]}>
       <Component
@@ -95,11 +93,13 @@ function CCard(props) {
               />
             </View>
             {detail && (
-              <CIconButton
-                iconName={Icons.detail}
-                iconColor={customColors.icon}
-                onPress={onDetailPress}
-              />
+              <View style={styles.con_header_right}>
+                <CIconButton
+                  iconName={Icons.detail}
+                  iconColor={customColors.icon}
+                  onPress={onDetailPress}
+                />
+              </View>
             )}
           </View>
 
@@ -122,9 +122,7 @@ function CCard(props) {
 }
 
 const styles = StyleSheet.create({
-  con: {zIndex: 2},
-  container: {backgroundColor: colors.BACKGROUND_CARD},
-  con_label: {top: -moderateScale(15)},
+  container: {zIndex: 2},
   con_header_left: {flex: 0.9},
   con_header_right: {flex: 0.1},
 });

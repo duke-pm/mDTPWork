@@ -14,9 +14,9 @@ import CurrencyInput from 'react-native-currency-input';
 /** COMPONENTS */
 import CIconButton from '~/components/CIconButton';
 /* COMMON */
-import {moderateScale} from '~/utils/helper';
-import {cStyles} from '~/utils/style';
 import Icons from '~/config/Icons';
+import {cStyles} from '~/utils/style';
+import {moderateScale} from '~/utils/helper';
 
 Number.prototype.format = function (n, x) {
   if (n == 0) {

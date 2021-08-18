@@ -34,7 +34,7 @@ if (IS_ANDROID) {
   }
 }
 
-const actionSheetFilterRef = createRef();
+const asFilterRef = createRef();
 
 function ListRequestHandling(props) {
   const {t} = useTranslation();
@@ -82,7 +82,7 @@ function ListRequestHandling(props) {
   };
 
   const handleFilter = (fromDate, toDate, status, type) => {
-    actionSheetFilterRef.current?.hide();
+    asFilterRef.current?.hide();
     setData({...data, page: 1, type, fromDate, toDate});
     onFetchData(fromDate, toDate, 1, data.search, type);
     return setLoading({...loading, startFetch: true});
@@ -101,11 +101,11 @@ function ListRequestHandling(props) {
   };
 
   const handleOpenFilter = () => {
-    actionSheetFilterRef.current?.show();
+    asFilterRef.current?.show();
   };
 
   const handleHideFilter = () => {
-    actionSheetFilterRef.current?.hide();
+    asFilterRef.current?.hide();
   };
 
   /**********
@@ -291,7 +291,7 @@ function ListRequestHandling(props) {
               onLoadmore={onLoadmore}
             />
           )}
-          <CActionSheet actionRef={actionSheetFilterRef}>
+          <CActionSheet actionRef={asFilterRef}>
             <View style={cStyles.p16}>
               <Filter
                 isResolve={true}
