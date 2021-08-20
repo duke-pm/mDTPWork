@@ -470,11 +470,7 @@ function ProjectOverview(props) {
           isDark && cStyles.borderLeftDark,
           isDark && cStyles.borderBottomDark,
           styles.cell,
-          {
-            backgroundColor: IS_ANDROID
-              ? customColors.green
-              : customColors.blue,
-          },
+          {backgroundColor: customColors.green},
         ]}>
         <CText
           customStyles={[
@@ -506,11 +502,7 @@ function ProjectOverview(props) {
             isDark && cStyles.borderLeftDark,
             isDark && cStyles.borderBottomDark,
             styles.first_cell,
-            {
-              backgroundColor: IS_ANDROID
-                ? customColors.green
-                : customColors.blue,
-            },
+            {backgroundColor: customColors.green},
           ]}>
           <CText
             customStyles={[

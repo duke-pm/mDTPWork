@@ -330,11 +330,7 @@ function BodyPreview(props) {
     for (i = 0; i < dataRender[0].length; i++) {
       cells.push([
         formatCell(
-          i % 2
-            ? customColors.card
-            : IS_ANDROID
-            ? colors.STATUS_SCHEDULE_OPACITY
-            : customColors.green2,
+          i % 2 ? customColors.card : colors.STATUS_SCHEDULE_OPACITY,
           'center',
           item[i],
           false,

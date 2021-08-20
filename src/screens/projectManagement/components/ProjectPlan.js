@@ -21,7 +21,7 @@ import Services from '~/services';
 import Configs from '~/config';
 import {cStyles} from '~/utils/style';
 import {THEME_DARK} from '~/config/constants';
-import {IS_IOS, moderateScale, verticalScale} from '~/utils/helper';
+import {moderateScale, verticalScale} from '~/utils/helper';
 
 const descriptionChart = {text: 'Durations (days)'};
 const animationChart = {
