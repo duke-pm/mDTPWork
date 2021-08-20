@@ -13,7 +13,9 @@ import {
   LayoutAnimation,
   UIManager,
   ScrollView,
+  processColor,
 } from 'react-native';
+import {HorizontalBarChart} from 'react-native-charts-wrapper';
 import moment from 'moment';
 /* COMPONENTS */
 import CList from '~/components/CList';
@@ -25,6 +27,7 @@ import CUser from '~/components/CUser';
 import CStatusTag from '~/components/CStatusTag';
 import CIcon from '~/components/CIcon';
 import ProjectItem from '../components/ProjectItem';
+import ProjectPlan from '../components/ProjectPlan';
 /** COMMON */
 import Icons from '~/config/Icons';
 import Routes from '~/navigation/Routes';
@@ -45,7 +48,8 @@ function ListProject(props) {
   const {formatDateView, onLoadmore, onRefresh} = props;
 
   /** Use state */
-  const [showModal, setShowModal] = useState(false);
+  const [showModalDetail, setShowModalDetail] = useState(false);
+  const [showModalProjectPlan, setShowModalProjectPlan] = useState(false);
   const [loadingModal, setLoadingModal] = useState(true);
   const [chooseProject, setChooseProject] = useState(null);
 
@@ -63,12 +67,21 @@ function ListProject(props) {
   };
 
   const handleHeaderItem = project => {
-    setShowModal(true);
+    setShowModalDetail(true);
     setChooseProject(project);
   };
 
-  const handleCloseModal = () => {
-    setShowModal(false);
+  const handleProjectPlan = project => {
+    setShowModalProjectPlan(true);
+    setChooseProject(project);
+  };
+
+  const handleCloseModalDetail = () => {
+    setShowModalDetail(false);
+  };
+
+  const handleCloseModalPlan = () => {
+    setShowModalProjectPlan(false);
   };
 
   /**********
@@ -83,7 +96,7 @@ function ListProject(props) {
    ** LIFE CYCLE **
    ****************/
   useEffect(() => {
-    if (loadingModal && showModal) {
+    if (loadingModal && (showModalDetail || showModalProjectPlan)) {
       if (chooseProject) {
         setTimeout(() => {
           LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
@@ -91,7 +104,7 @@ function ListProject(props) {
         }, 300);
       }
     }
-  }, [loadingModal, showModal, chooseProject]);
+  }, [loadingModal, showModalDetail, showModalProjectPlan, chooseProject]);
 
   /************
    ** RENDER **
@@ -114,7 +127,8 @@ function ListProject(props) {
               customColors={customColors}
               isDark={isDark}
               onPress={handleItem}
-              onLongPress={handleHeaderItem}
+              onPressDetail={handleHeaderItem}
+              onPressPlan={handleProjectPlan}
             />
           );
         }}
@@ -126,7 +140,7 @@ function ListProject(props) {
 
       {/** Alert show info of project */}
       <CAlert
-        show={showModal}
+        show={showModalDetail}
         loading={loadingModal}
         title={chooseProject ? chooseProject.prjName : ''}
         customContent={
@@ -252,7 +266,17 @@ function ListProject(props) {
             </View>
           )
         }
-        onClose={handleCloseModal}
+        onClose={handleCloseModalDetail}
+        onModalHide={onModalHide}
+      />
+
+      {/** Alert show project plan */}
+      <CAlert
+        show={showModalProjectPlan}
+        loading={loadingModal}
+        title={chooseProject ? chooseProject.prjName : ''}
+        customContent={<ProjectPlan project={chooseProject} />}
+        onClose={handleCloseModalPlan}
         onModalHide={onModalHide}
       />
     </View>

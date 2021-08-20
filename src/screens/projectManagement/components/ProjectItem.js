@@ -53,7 +53,8 @@ function ProjectItem(props) {
     customColors,
     isDark,
     onPress,
-    onLongPress,
+    onPressDetail,
+    onPressPlan,
   } = props;
 
   /** Use state */
@@ -63,7 +64,9 @@ function ProjectItem(props) {
   /*****************
    ** HANDLE FUNC **
    *****************/
-  const handleHeaderItem = () => onLongPress(data);
+  const handleHeaderItem = () => onPressDetail(data);
+
+  const handleProjectPlan = () => onPressPlan(data);
 
   const handleItem = () => {
     if (data.countChild > 0) {
@@ -188,6 +191,18 @@ function ProjectItem(props) {
               </View>
             </View>
           </View>
+        }
+        customIconHeader={
+          data.countChild === 0
+            ? [
+                {
+                  id: 'projectPlan',
+                  name: 'Project Plan',
+                  icon: Icons.barChart,
+                  onPress: handleProjectPlan,
+                },
+              ]
+            : []
         }
       />
 

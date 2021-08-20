@@ -27,6 +27,9 @@ import Routes from '~/navigation/Routes';
 import Commons from '~/utils/common/Commons';
 import {IS_ANDROID} from '~/utils/helper';
 import {cStyles} from '~/utils/style';
+import CIcon from '~/components/CIcon';
+import {useTheme} from '@react-navigation/native';
+import CText from '~/components/CText';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -52,12 +55,14 @@ const RenderScene = ({route}) => {
 
 function ListRequestAll(props) {
   const {t} = useTranslation();
+  const {customColors} = useTheme();
   const {route, navigation} = props;
   const isPermissionWrite = route.params?.permission?.write || false;
 
   /** Use redux */
   const commonState = useSelector(({common}) => common);
   const formatDate = commonState.get('formatDate');
+  const formatDateView = commonState.get('formatDateView');
 
   /** use state */
   const [showSearchBar, setShowSearch] = useState(false);
@@ -196,6 +201,20 @@ function ListRequestAll(props) {
   /************
    ** RENDER **
    ************/
+  let item,
+    status = routes[index].status.split(','),
+    statusObj = [];
+  for (item of status) {
+    if (item == Commons.STATUS_REQUEST.WAIT.value) {
+      statusObj.push('approved_assets:status_wait');
+    } else if (item == Commons.STATUS_REQUEST.REJECT.value) {
+      statusObj.push('approved_assets:status_reject');
+    } else if (
+      statusObj.indexOf('approved_assets:status_approved_done') === -1
+    ) {
+      statusObj.push('approved_assets:status_approved_done');
+    }
+  }
   return (
     <CContainer
       loading={false}
@@ -207,7 +226,53 @@ function ListRequestAll(props) {
             onSearch={handleSearch}
             onClose={handleCloseSearch}
           />
+          <View
+            style={[
+              cStyles.flexWrap,
+              cStyles.row,
+              cStyles.itemsCenter,
+              cStyles.px16,
+              cStyles.pt10,
+            ]}>
+            <CIcon name={Icons.tags} />
+            <View
+              style={[
+                cStyles.px6,
+                cStyles.py2,
+                cStyles.mx10,
+                cStyles.rounded1,
+                {backgroundColor: customColors.green2},
+              ]}>
+              <CText
+                styles={'textCaption2'}
+                customLabel={
+                  (routes[index].fromDate !== ''
+                    ? moment(routes[index].fromDate).format(formatDateView)
+                    : '#') +
+                  ' - ' +
+                  (routes[index].toDate !== ''
+                    ? moment(routes[index].toDate).format(formatDateView)
+                    : '#')
+                }
+              />
+            </View>
 
+            {statusObj.map(itemStatus => {
+              return (
+                <View
+                  style={[
+                    cStyles.px6,
+                    cStyles.py2,
+                    cStyles.mr10,
+                    cStyles.mt8,
+                    cStyles.rounded1,
+                    {backgroundColor: customColors.green2},
+                  ]}>
+                  <CText styles={'textCaption2'} label={itemStatus} />
+                </View>
+              );
+            })}
+          </View>
           <TabView
             lazy
             initialLayout={styles.container_tab}

@@ -244,7 +244,6 @@ function Filter(props) {
 
         {isResolve && (
           <CGroupFilter
-            row={true}
             label={'common:type'}
             items={TYPES_ASSETS}
             itemsChoose={data.type}
@@ -254,7 +253,6 @@ function Filter(props) {
 
         {!isResolve && (
           <CGroupFilter
-            row={true}
             label={'common:status'}
             items={STATUS_REQUEST}
             itemsChoose={data.status}

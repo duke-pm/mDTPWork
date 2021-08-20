@@ -31,7 +31,9 @@ const Icons = {
   children: 'git-merge-outline',
 
   // Common
-  filter: 'filter-outline',
+  barChart: 'stats-chart-outline',
+  tags: 'pricetags-outline',
+  filter: 'options-outline',
   remove: 'close-circle-outline',
   close: 'close-sharp',
   informations: 'information-circle',

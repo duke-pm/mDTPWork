@@ -28,7 +28,6 @@ function CGroupFilter(props) {
   const {customColors} = useTheme();
   const {
     containerStyle = {},
-    row = false,
     label = '',
     items = [],
     itemsChoose = [],
@@ -106,50 +105,55 @@ function CGroupFilter(props) {
 
       <FlatList
         style={cStyles.mt10}
-        contentContainerStyle={[cStyles.row, cStyles.flexWrap]}
+        contentContainerStyle={cStyles.row}
         data={values}
         renderItem={({item, index}) => {
           isCheck = valuesChoose.find(f => f.value == item.value);
           return (
-            <CTouchable onPress={() => handleItem(index, item)}>
-              <Animatable.View
-                ref={ref => (valuesRef[index] = ref)}
-                useNativeDriver={true}>
-                <View
-                  style={[
-                    cStyles.py6,
-                    cStyles.px10,
-                    cStyles.rounded1,
-                    cStyles.borderAll,
-                    cStyles.row,
-                    cStyles.itemsCenter,
-                    isCheck && styles.active,
-                    {backgroundColor: customColors.card},
-                  ]}>
-                  <CIcon
-                    name={isCheck ? Icons.check : Icons.noneCheck}
-                    size={'smaller'}
-                    customColor={isCheck ? colors.SECONDARY : customColors.icon}
-                  />
-                  <CText
-                    customStyles={[
-                      cStyles.textCaption1,
-                      cStyles.fontMedium,
-                      cStyles.pl4,
-                      isCheck && cStyles.colorSecondary,
-                    ]}
-                    label={item.label}
-                  />
-                </View>
-              </Animatable.View>
-            </CTouchable>
+            <View style={[cStyles.row, cStyles.itemsCenter]}>
+              <CTouchable onPress={() => handleItem(index, item)}>
+                <Animatable.View
+                  ref={ref => (valuesRef[index] = ref)}
+                  useNativeDriver={true}>
+                  <View
+                    style={[
+                      cStyles.py6,
+                      cStyles.px10,
+                      cStyles.rounded1,
+                      cStyles.borderAll,
+                      cStyles.row,
+                      cStyles.itemsCenter,
+                      isCheck && styles.active,
+                      {backgroundColor: customColors.card},
+                    ]}>
+                    <CIcon
+                      name={isCheck ? Icons.check : Icons.noneCheck}
+                      size={'smaller'}
+                      customColor={
+                        isCheck ? colors.SECONDARY : customColors.icon
+                      }
+                    />
+                    <CText
+                      customStyles={[
+                        cStyles.textCaption1,
+                        cStyles.fontMedium,
+                        cStyles.pl4,
+                        isCheck && cStyles.colorSecondary,
+                      ]}
+                      label={item.label}
+                    />
+                  </View>
+                </Animatable.View>
+              </CTouchable>
+              <View style={cStyles.mx5} />
+            </View>
           );
         }}
+        numColumns={3}
         keyExtractor={(item, index) => index.toString()}
         ItemSeparatorComponent={() => <View style={cStyles.pr10} />}
         removeClippedSubviews={IS_ANDROID}
         scrollEnabled={false}
-        horizontal={row}
       />
     </View>
   );

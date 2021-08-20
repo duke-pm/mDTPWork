@@ -96,10 +96,7 @@ function CAlert(props) {
                   content && styles.con_button_small,
                   content && onClose && !onOK && styles.btn_alone_small,
                 ]}
-                textStyle={[
-                  styles.text_button,
-                  {color: IS_IOS ? customColors.blue : customColors.primary},
-                ]}
+                textStyle={[styles.text_button, {color: customColors.orange}]}
                 disabled={loading}
                 block
                 variant={'text'}
@@ -131,7 +128,7 @@ function CAlert(props) {
                 textStyle={[
                   cStyles.fontRegular,
                   styles.text_button,
-                  {color: IS_IOS ? customColors.blue : customColors.primary},
+                  {color: customColors.orange},
                 ]}
                 disabled={loading}
                 block

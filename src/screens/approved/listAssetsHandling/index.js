@@ -14,6 +14,8 @@ import {showMessage} from 'react-native-flash-message';
 import {View, LayoutAnimation, UIManager} from 'react-native';
 import moment from 'moment';
 /* COMPONENTS */
+import CIcon from '~/components/CIcon';
+import CText from '~/components/CText';
 import CContainer from '~/components/CContainer';
 import CSearchBar from '~/components/CSearchBar';
 import CIconHeader from '~/components/CIconHeader';
@@ -22,6 +24,7 @@ import ListRequest from '../components/ListRequest';
 import Filter from '../components/Filter';
 /* COMMON */
 import Icons from '~/config/Icons';
+import Commons from '~/utils/common/Commons';
 import {LOAD_MORE, REFRESH} from '~/config/constants';
 import {IS_ANDROID} from '~/utils/helper';
 import {cStyles} from '~/utils/style';
@@ -49,6 +52,7 @@ function ListRequestHandling(props) {
   const authState = useSelector(({auth}) => auth);
   const perPage = commonState.get('perPage');
   const formatDate = commonState.get('formatDate');
+  const formatDateView = commonState.get('formatDateView');
   const language = commonState.get('language');
   const refreshToken = authState.getIn(['login', 'refreshToken']);
 
@@ -265,6 +269,18 @@ function ListRequestHandling(props) {
   /************
    ** RENDER **
    ************/
+  let item,
+    types = data.type.split(','),
+    typesObj = [];
+  for (item of types) {
+    if (item == Commons.APPROVED_TYPE.ASSETS.value) {
+      typesObj.push(Commons.APPROVED_TYPE.ASSETS);
+    } else if (item == Commons.APPROVED_TYPE.LOST.value) {
+      typesObj.push(Commons.APPROVED_TYPE.LOST);
+    } else {
+      typesObj.push(Commons.APPROVED_TYPE.DAMAGED);
+    }
+  }
   return (
     <CContainer
       loading={loading.main || loading.startFetch}
@@ -277,6 +293,58 @@ function ListRequestHandling(props) {
             onSearch={handleSearch}
             onClose={handleCloseSearch}
           />
+          <View
+            style={[
+              cStyles.flexWrap,
+              cStyles.row,
+              cStyles.itemsCenter,
+              cStyles.px16,
+              cStyles.py10,
+            ]}>
+            <CIcon name={Icons.tags} />
+            <View
+              style={[
+                cStyles.px6,
+                cStyles.py2,
+                cStyles.mx10,
+                cStyles.rounded1,
+                {backgroundColor: customColors.green2},
+              ]}>
+              <CText
+                styles={'textCaption2'}
+                customLabel={
+                  (data.fromDate !== ''
+                    ? moment(data.fromDate).format(formatDateView)
+                    : '#') +
+                  ' - ' +
+                  (data.toDate !== ''
+                    ? moment(data.toDate).format(formatDateView)
+                    : '#')
+                }
+              />
+            </View>
+
+            {typesObj.map(itemType => {
+              return (
+                <View
+                  style={[
+                    cStyles.px6,
+                    cStyles.py2,
+                    cStyles.mr10,
+                    cStyles.mt8,
+                    cStyles.rounded1,
+                    {backgroundColor: customColors.green2},
+                  ]}>
+                  <CText
+                    styles={'textCaption2'}
+                    label={
+                      'list_request_assets_handling:title_' + itemType.label
+                    }
+                  />
+                </View>
+              );
+            })}
+          </View>
           {!loading.main && (
             <ListRequest
               permissionWrite={isPermissionWrite}

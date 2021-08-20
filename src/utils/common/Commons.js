@@ -39,7 +39,7 @@ const Commons = {
     },
     DAMAGED: {
       value: 2,
-      label: 'damage',
+      label: 'damaged',
     },
     LOST: {
       value: 3,

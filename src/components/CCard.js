@@ -35,6 +35,7 @@ function CCard(props) {
     contentLabelStyle = {},
     gradientColor = null,
     detail = false,
+    customIconHeader = [],
     label = null,
     customLabel = null,
     content = null,
@@ -94,11 +95,19 @@ function CCard(props) {
                 customLabel={customLabel}
               />
             </View>
+            {customIconHeader.length > 0 &&
+              customIconHeader.map(item => (
+                <CIconButton
+                  iconName={item.icon}
+                  iconColor={customColors.orange}
+                  onPress={item.onPress}
+                />
+              ))}
             {detail && (
               <View style={styles.con_header_right}>
                 <CIconButton
                   iconName={Icons.detail}
-                  iconColor={customColors.icon}
+                  iconColor={customColors.orange}
                   onPress={onDetailPress}
                 />
               </View>
