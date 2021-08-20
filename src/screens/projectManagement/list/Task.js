@@ -4,6 +4,7 @@
  ** CreateAt: 2021
  ** Description: Description of Task.js
  **/
+import PropTypes from 'prop-types';
 import React from 'react';
 import {useTranslation} from 'react-i18next';
 import {useTheme, useNavigation} from '@react-navigation/native';
@@ -16,6 +17,14 @@ import TaskItem from '../components/TaskItem';
 import Routes from '~/navigation/Routes';
 import {THEME_DARK} from '~/config/constants';
 import {cStyles} from '~/utils/style';
+
+ListTask.propTypes = {
+  refreshing: PropTypes.bool,
+  loadmore: PropTypes.bool,
+  data: PropTypes.array,
+  onLoadmore: PropTypes.func,
+  onRefreshTasks: PropTypes.func,
+};
 
 function ListTask(props) {
   const {t} = useTranslation();

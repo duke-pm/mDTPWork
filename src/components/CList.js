@@ -4,6 +4,7 @@
  ** CreateAt: 2021
  ** Description: Description of CList.js
  **/
+import PropTypes from 'prop-types';
 import React, {createRef} from 'react';
 import {useColorScheme} from 'react-native-appearance';
 import {StyleSheet, View, FlatList, SectionList} from 'react-native';
@@ -18,6 +19,20 @@ import {THEME_DARK} from '~/config/constants';
 
 /** All refs of CList */
 let listRef = createRef();
+
+CList.propTypes = {
+  viewRef: PropTypes.any,
+  listStyle: PropTypes.object,
+  contentStyle: PropTypes.object,
+  data: PropTypes.array,
+  item: PropTypes.func,
+  sectionList: PropTypes.bool,
+  refreshing: PropTypes.bool,
+  textEmpty: PropTypes.string,
+  loadingmore: PropTypes.bool,
+  onRefresh: PropTypes.func,
+  onLoadmore: PropTypes.func,
+};
 
 function CList(props) {
   const isDark = useColorScheme() === THEME_DARK;

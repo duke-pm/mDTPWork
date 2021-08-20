@@ -4,6 +4,7 @@
  ** CreateAt: 2021
  ** Description: Description of CItem.js
  **/
+import PropTypes from 'prop-types';
 import React from 'react';
 import {useTheme} from '@react-navigation/native';
 import {StyleSheet, View} from 'react-native';
@@ -15,6 +16,16 @@ import CTouchable from './CTouchable';
 import {Assets} from '~/utils/asset';
 import {cStyles} from '~/utils/style';
 import {IS_ANDROID, moderateScale, sW} from '~/utils/helper';
+
+CItem.propTypes = {
+  itemStyle: PropTypes.object,
+  iconStyle: PropTypes.object,
+  textStyle: PropTypes.object,
+  key: PropTypes.string,
+  index: PropTypes.number,
+  data: PropTypes.object,
+  onPress: PropTypes.func,
+};
 
 function CItem(props) {
   const {

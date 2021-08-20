@@ -5,6 +5,7 @@
  ** CreateAt: 2021
  ** Description: Description of Percentage.js
  **/
+import PropTypes from 'prop-types';
 import React, {createRef, useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
@@ -30,6 +31,17 @@ import * as Actions from '~/redux/actions';
 
 /** All refs of page */
 let percentRef = createRef();
+
+Percentage.propTypes = {
+  disabled: PropTypes.bool,
+  isDark: PropTypes.bool,
+  task: PropTypes.object,
+  customColors: PropTypes.object,
+  navigation: PropTypes.object,
+  language: PropTypes.string,
+  refreshToken: PropTypes.string,
+  onUpdate: PropTypes.func,
+};
 
 function Percentage(props) {
   const {t} = useTranslation();

@@ -4,6 +4,7 @@
  ** CreateAt: 2021
  ** Description: Description of CSearchBar.js
  **/
+import PropTypes from 'prop-types';
 import React, {useState, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useColorScheme} from 'react-native-appearance';
@@ -22,6 +23,16 @@ if (IS_ANDROID) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
   }
 }
+
+CSearchBar.propTypes = {
+  containerStyle: PropTypes.object,
+  style: PropTypes.object,
+  loading: PropTypes.bool,
+  isVisible: PropTypes.bool.isRequired,
+  valueSearch: PropTypes.string,
+  onSearch: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
+};
 
 function CSearchBar(props) {
   const {t} = useTranslation();

@@ -4,6 +4,7 @@
  ** CreateAt: 2021
  ** Description: Description of Process.js
  **/
+import PropTypes from 'prop-types';
 import React, {createRef} from 'react';
 import {View} from 'react-native';
 /* COMPONENTS */
@@ -21,6 +22,16 @@ import {moderateScale} from '~/utils/helper';
 const asProcessRef = createRef();
 const sizeLargeIcon = moderateScale(30);
 
+Process.propTypes = {
+  isDark: PropTypes.bool.isRequired,
+  customColors: PropTypes.object.isRequired,
+  statusColor: PropTypes.string,
+  statusName: PropTypes.string,
+  statusIcon: PropTypes.string,
+  statusID: PropTypes.number,
+  data: PropTypes.array,
+};
+
 function Process(props) {
   const {
     isDark = false,
@@ -35,9 +46,7 @@ function Process(props) {
   /*****************
    ** HANDLE FUNC **
    *****************/
-  const handleShowProcess = () => {
-    asProcessRef.current?.show();
-  };
+  const handleShowProcess = () => asProcessRef.current?.show();
 
   /************
    ** RENDER **

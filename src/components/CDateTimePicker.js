@@ -4,6 +4,7 @@
  ** CreateAt: 2021
  ** Description: Description of CDateTimePicker.js
  **/
+import PropTypes from 'prop-types';
 import React from 'react';
 import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
@@ -12,6 +13,13 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import moment from 'moment';
 /** COMMON */
 import {THEME_DARK} from '~/config/constants';
+
+CDateTimePicker.propTypes = {
+  show: PropTypes.object,
+  value: PropTypes.object,
+  mode: PropTypes.oneOf(['date', 'time', 'datetime']),
+  onChangeDate: PropTypes.func,
+};
 
 function CDateTimePicker(props) {
   const {t} = useTranslation();

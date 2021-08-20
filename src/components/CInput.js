@@ -4,6 +4,7 @@
  ** CreateAt: 2021
  ** Description: Description of CInput.js
  **/
+import PropTypes from 'prop-types';
 import React, {useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useColorScheme} from 'react-native-appearance';
@@ -25,6 +26,46 @@ import Icons from '~/config/Icons';
 import {colors, cStyles} from '~/utils/style';
 import {IS_ANDROID, IS_IOS, moderateScale, verticalScale} from '~/utils/helper';
 import {THEME_DARK} from '~/config/constants';
+
+CInput.propTypes = {
+  containerStyle: PropTypes.object,
+  style: PropTypes.object,
+  styleFocus: PropTypes.object,
+  styleInput: PropTypes.object,
+  iconLastStyle: PropTypes.object,
+  disabled: PropTypes.bool,
+  row: PropTypes.bool,
+  icon: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  iconColor: PropTypes.string,
+  iconLast: PropTypes.string,
+  label: PropTypes.string,
+  caption: PropTypes.string,
+  holder: PropTypes.string,
+  holderColor: PropTypes.string,
+  selectionColor: PropTypes.string,
+  textAlign: PropTypes.oneOf(['left', 'center', 'right']),
+  keyboard: PropTypes.string,
+  returnKey: PropTypes.string,
+  numberOfLines: PropTypes.number,
+  name: PropTypes.string,
+  value: PropTypes.string,
+  inputRef: PropTypes.any,
+  errorHelper: PropTypes.string,
+  errorHelperCustom: PropTypes.string,
+  error: PropTypes.bool,
+  multiline: PropTypes.bool,
+  password: PropTypes.bool,
+  autoFocus: PropTypes.bool,
+  dateTimePicker: PropTypes.bool,
+  hasRemove: PropTypes.bool,
+  onLayout: PropTypes.func,
+  onContentSizeChange: PropTypes.func,
+  onChangeInput: PropTypes.func,
+  onChangeValue: PropTypes.func,
+  onPressIconLast: PropTypes.func,
+  onPressIconFirst: PropTypes.func,
+  onPressRemoveValue: PropTypes.func,
+};
 
 function CInput(props) {
   const {t} = useTranslation();

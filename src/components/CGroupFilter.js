@@ -6,6 +6,7 @@
  ** CreateAt: 2021
  ** Description: Description of CGroupFilter.js
  **/
+import PropTypes from 'prop-types';
 import React, {createRef, useState, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
 import {StyleSheet, FlatList, View} from 'react-native';
@@ -22,6 +23,14 @@ import {IS_ANDROID} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
 
 let isCheck = null;
+
+CGroupFilter.propTypes = {
+  containerStyle: PropTypes.object,
+  label: PropTypes.string,
+  items: PropTypes.array,
+  itemsChoose: PropTypes.array,
+  onChange: PropTypes.func,
+};
 
 function CGroupFilter(props) {
   const {t} = useTranslation();

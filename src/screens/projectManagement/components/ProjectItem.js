@@ -5,6 +5,7 @@
  ** CreateAt: 2021
  ** Description: Description of ProjectItem.js
  **/
+import PropTypes from 'prop-types';
 import React, {useState} from 'react';
 import {StyleSheet, View, LayoutAnimation, UIManager} from 'react-native';
 import moment from 'moment';
@@ -44,6 +45,17 @@ const CustomLayoutAnimated = {
 const PADDING_CHILDREN = moderateScale(14);
 const PADDING_2_CHILDREN = moderateScale(6);
 const BOTTOM_CHILDREN = moderateScale(10);
+
+ProjectItem.propTypes = {
+  index: PropTypes.number,
+  data: PropTypes.object,
+  formatDateView: PropTypes.string,
+  customColors: PropTypes.object,
+  isDark: PropTypes.bool,
+  onPress: PropTypes.func,
+  onPressDetail: PropTypes.func,
+  onPressPlan: PropTypes.func,
+};
 
 function ProjectItem(props) {
   const {

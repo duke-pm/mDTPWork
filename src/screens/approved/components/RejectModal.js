@@ -4,6 +4,7 @@
  ** CreateAt: 2021
  ** Description: Description of RejectModal.js
  **/
+import PropTypes from 'prop-types';
 import React, {useState} from 'react';
 import {StyleSheet, LayoutAnimation, UIManager} from 'react-native';
 /* COMPONENTS */
@@ -20,6 +21,13 @@ if (IS_ANDROID) {
 }
 
 const INPUT_NAME = {REASON_REJECT: 'reasonReject'};
+
+RejectModal.propTypes = {
+  showReject: PropTypes.bool,
+  description: PropTypes.string,
+  onCloseReject: PropTypes.func,
+  onReject: PropTypes.func,
+};
 
 function RejectModal(props) {
   const {

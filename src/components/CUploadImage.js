@@ -4,6 +4,7 @@
  ** CreateAt: 2021
  ** Description: Description of CUploadImage.js
  **/
+import PropTypes from 'prop-types';
 import React, {useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {StyleSheet, View, ActionSheetIOS, TouchableOpacity} from 'react-native';
@@ -15,6 +16,7 @@ import CText from './CText';
 import CIcon from './CIcon';
 import Icons from '~/config/Icons';
 /* COMMON */
+import {colors, cStyles} from '~/utils/style';
 import {
   IS_IOS,
   askPermissionsCamera,
@@ -22,7 +24,12 @@ import {
   choosePhotoFromGallery,
   IS_ANDROID,
 } from '~/utils/helper';
-import {colors, cStyles} from '~/utils/style';
+
+CUploadImage.propTypes = {
+  onChange: PropTypes.func,
+  loading: PropTypes.object,
+  file: PropTypes.object,
+};
 
 function CUploadImage(props) {
   const {t} = useTranslation();

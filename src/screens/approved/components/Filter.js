@@ -5,6 +5,7 @@
  ** CreateAt: 2021
  ** Description: Description of Filter.js
  **/
+import PropTypes from 'prop-types';
 import React, {useState, useEffect} from 'react';
 import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
@@ -60,6 +61,13 @@ const STATUS_REQUEST = [
     label: 'approved_assets:status_reject',
   },
 ];
+
+Filter.propTypes = {
+  isResolve: PropTypes.bool.isRequired,
+  data: PropTypes.object.isRequired,
+  onFilter: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
+};
 
 function Filter(props) {
   const {t} = useTranslation();

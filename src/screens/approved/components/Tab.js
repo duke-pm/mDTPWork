@@ -4,6 +4,7 @@
  ** CreateAt: 2021
  ** Description: Description of Tab.js
  **/
+import PropTypes from 'prop-types';
 import React from 'react';
 import {StyleSheet, View, TouchableOpacity} from 'react-native';
 /* COMPONENTS */
@@ -11,6 +12,12 @@ import CText from '~/components/CText';
 /* COMMON */
 import {moderateScale} from '~/utils/helper';
 import {cStyles} from '~/utils/style';
+
+Tab.propTypes = {
+  key: PropTypes.string,
+  title: PropTypes.string,
+  onPress: PropTypes.func,
+};
 
 function Tab(props) {
   const {key, title, onPress} = props;

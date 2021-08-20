@@ -4,6 +4,7 @@
  ** CreateAt: 2021
  ** Description: Description of CheckOption.js
  **/
+import PropTypes from 'prop-types';
 import React, {useState, useEffect} from 'react';
 import {View, TouchableOpacity} from 'react-native';
 import * as Animatable from 'react-native-animatable';
@@ -13,6 +14,15 @@ import CIcon from '~/components/CIcon';
 /* COMMON */
 import Icons from '~/config/Icons';
 import {colors, cStyles} from '~/utils/style';
+
+CheckOption.propTypes = {
+  loading: PropTypes.bool,
+  isDetail: PropTypes.bool,
+  customColors: PropTypes.object,
+  value: PropTypes.string,
+  values: PropTypes.array,
+  onCallback: PropTypes.func,
+};
 
 function CheckOption(props) {
   const {loading, isDetail, customColors, value, values, onCallback} = props;

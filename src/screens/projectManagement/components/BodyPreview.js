@@ -5,7 +5,7 @@
  ** CreateAt: 2021
  ** Description: Description of BodyPreview.js
  **/
-import {any} from 'prop-types';
+import PropTypes, {any} from 'prop-types';
 import React, {useRef, useState, useEffect} from 'react';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
@@ -31,6 +31,13 @@ import {
 let listener = null;
 let child = 0;
 const plCommon = moderateScale(4);
+
+BodyPreview.propTypes = {
+  formatDateView: PropTypes.string,
+  dataHeader: PropTypes.array,
+  dataBody: PropTypes.array,
+  headerScroll: PropTypes.any,
+};
 
 function BodyPreview(props) {
   const isDark = useColorScheme() === THEME_DARK;

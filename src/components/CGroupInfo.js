@@ -4,6 +4,7 @@
  ** CreateAt: 2021
  ** Description: Description of CGroupInfo.js
  **/
+import PropTypes from 'prop-types';
 import React from 'react';
 import {useTheme} from '@react-navigation/native';
 import {StyleSheet, View} from 'react-native';
@@ -13,6 +14,17 @@ import CActivityIndicator from './CActivityIndicator';
 /* COMMON */
 import {cStyles} from '~/utils/style';
 import {moderateScale} from '~/utils/helper';
+
+CGroupInfo.propTypes = {
+  style: PropTypes.object,
+  containerLabelStyle: PropTypes.object,
+  contentStyle: PropTypes.object,
+  labelStyle: PropTypes.object,
+  loading: PropTypes.bool,
+  label: PropTypes.string,
+  content: PropTypes.element,
+  empty: PropTypes.bool,
+};
 
 function CGroupInfo({
   style = {},

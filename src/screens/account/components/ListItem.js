@@ -4,6 +4,7 @@
  ** CreateAt: 2021
  ** Description: Description of ListItem.js
  **/
+import PropTypes from 'prop-types';
 import React from 'react';
 import {useTranslation} from 'react-i18next';
 import {
@@ -25,6 +26,18 @@ import Icons from '~/config/Icons';
 import {alert, moderateScale} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
 import {Assets} from '~/utils/asset';
+
+ListItem.propTypes = {
+  key: PropTypes.string,
+  index: PropTypes.number,
+  lastIndex: PropTypes.number,
+  data: PropTypes.object,
+  dataActiveLang: PropTypes.object,
+  dataToggle: PropTypes.object,
+  customColors: PropTypes.object,
+  onSignOut: PropTypes.func,
+  onToggle: PropTypes.func,
+};
 
 function ListItem(props) {
   const navigation = useNavigation();

@@ -4,11 +4,19 @@
  ** CreateAt: 2021
  ** Description: Description of SocialItem.js
  **/
+import PropTypes from 'prop-types';
 import React from 'react';
 import {StyleSheet, Linking, View, TouchableOpacity, Image} from 'react-native';
 /* COMMON */
 import {cStyles} from '~/utils/style';
 import {moderateScale} from '~/utils/helper';
+
+SocialItem.propTypes = {
+  key: PropTypes.string,
+  index: PropTypes.number,
+  data: PropTypes.object,
+  customColors: PropTypes.object,
+};
 
 function SocialItem(props) {
   const {key, index, data} = props;

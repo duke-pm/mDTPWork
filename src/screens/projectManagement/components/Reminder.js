@@ -5,6 +5,7 @@
  ** CreateAt: 2021
  ** Description: Description of Reminder.js
  **/
+import PropTypes from 'prop-types';
 import React, {useState, useEffect} from 'react';
 import {
   View,
@@ -54,6 +55,13 @@ const urlLinkToApp = __DEV__
   : Configs.prefixesProd[IS_IOS ? 1 : 0] +
     (IS_ANDROID ? '/' : '') +
     Configs.routePath.TaskDetail.split(':')[0];
+
+Reminder.propTypes = {
+  t: PropTypes.func,
+  isDark: PropTypes.bool,
+  customColors: PropTypes.object,
+  task: PropTypes.object,
+};
 
 function Reminder(props) {
   const {task, t, isDark, customColors} = props;

@@ -4,6 +4,7 @@
  ** CreateAt: 2021
  ** Description: Description of Unconnected.js
  **/
+import PropTypes from 'prop-types';
 import React, {useState} from 'react';
 import {useTheme} from '@react-navigation/native';
 import {View, UIManager, LayoutAnimation} from 'react-native';
@@ -26,10 +27,14 @@ if (IS_ANDROID) {
 
 const iconLargeSize = moderateScale(80);
 
+Unconnected.propTypes = {
+  connected: PropTypes.bool.isRequired,
+};
+
 function Unconnected(props) {
   const {customColors} = useTheme();
 
-  /** Use state */
+  /** Use states */
   const [loading, setLoading] = useState(false);
 
   /*****************

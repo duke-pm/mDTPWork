@@ -4,17 +4,29 @@
  ** CreateAt: 2021
  ** Description: Description of CContent.js
  **/
+import PropTypes from 'prop-types';
 import React from 'react';
 import {ScrollView, RefreshControl, SafeAreaView, View} from 'react-native';
 /** COMMON */
 import {cStyles} from '~/utils/style';
 import {IS_IOS} from '~/utils/helper';
 
+CContent.propTypes = {
+  containerStyle: PropTypes.object,
+  contentStyle: PropTypes.object,
+  padder: PropTypes.bool,
+  hasSafeArea: PropTypes.bool,
+  scrollEnabled: PropTypes.bool,
+  children: PropTypes.element,
+  refreshing: PropTypes.bool,
+  onRefresh: PropTypes.func,
+};
+
 function CContent(props) {
   const {
     containerStyle = {},
     contentStyle = {},
-    padder = null,
+    padder = false,
     hasSafeArea = true,
     scrollEnabled = true,
   } = props;

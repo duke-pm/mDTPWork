@@ -4,6 +4,7 @@
  ** CreateAt: 2021
  ** Description: Description of CIconButton.js
  **/
+import PropTypes from 'prop-types';
 import React from 'react';
 import {StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -12,6 +13,15 @@ import CTouchable from './CTouchable';
 /** COMMON */
 import {moderateScale} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
+
+CIconButton.propTypes = {
+  style: PropTypes.object,
+  iconName: PropTypes.string,
+  iconColor: PropTypes.string,
+  iconProps: PropTypes.object,
+  disabled: PropTypes.bool,
+  onPress: PropTypes.func,
+};
 
 function CIconButton(props) {
   const {

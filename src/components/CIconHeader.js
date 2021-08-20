@@ -4,6 +4,7 @@
  ** CreateAt: 2021
  ** Description: Description of CIconHeader.js
  **/
+import PropTypes from 'prop-types';
 import React from 'react';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
@@ -15,6 +16,10 @@ import CTouchable from './CTouchable';
 import {THEME_DARK} from '~/config/constants';
 import {moderateScale} from '~/utils/helper';
 import {cStyles} from '~/utils/style';
+
+CIconHeader.propTypes = {
+  icons: PropTypes.array,
+};
 
 function CIconHeader(props) {
   const {customColors} = useTheme();

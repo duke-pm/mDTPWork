@@ -4,6 +4,7 @@
  ** CreateAt: 2021
  ** Description: Description of CGroupLabel.js
  **/
+import PropTypes from 'prop-types';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 /* COMPONENTS */
@@ -11,6 +12,12 @@ import CText from './CText';
 /* COMMON */
 import {cStyles} from '~/utils/style';
 import {moderateScale} from '~/utils/helper';
+
+CGroupLabel.propTypes = {
+  containerStyle: PropTypes.object,
+  labelLeft: PropTypes.string,
+  labelRight: PropTypes.string,
+};
 
 function CGroupLabel(props) {
   const {

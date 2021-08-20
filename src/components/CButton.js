@@ -4,6 +4,7 @@
  ** CreateAt: 2021
  ** Description: Description of CButton.js
  **/
+import PropTypes from 'prop-types';
 import React from 'react';
 import {useTranslation} from 'react-i18next';
 import {StyleSheet, View, Platform} from 'react-native';
@@ -15,6 +16,21 @@ import CIcon from './CIcon';
 import {colors, cStyles} from '~/utils/style';
 import {verticalScale} from '~/utils/helper';
 
+CButton.propTypes = {
+  touchStyle: PropTypes.object,
+  style: PropTypes.object,
+  textStyle: PropTypes.object,
+  loading: PropTypes.bool,
+  fullWidth: PropTypes.bool,
+  block: PropTypes.bool,
+  disabled: PropTypes.bool,
+  variant: PropTypes.oneOf(['contained', 'text']),
+  label: PropTypes.string,
+  color: PropTypes.string,
+  icon: PropTypes.string,
+  onPress: PropTypes.func,
+};
+
 function CButton(props) {
   const {t} = useTranslation();
   const {
@@ -25,7 +41,7 @@ function CButton(props) {
     fullWidth = false,
     block = false,
     disabled = false,
-    variant = 'contained', // contained | text
+    variant = 'contained',
     label = '',
     color = colors.SECONDARY,
     icon = null,

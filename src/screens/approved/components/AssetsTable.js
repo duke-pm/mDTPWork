@@ -5,6 +5,7 @@
  ** CreateAt: 2021
  ** Description: Description of AssetsTable.js
  **/
+import PropTypes from 'prop-types';
 import React, {useState, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
@@ -33,6 +34,14 @@ if (IS_ANDROID) {
 }
 
 const heightItemTable = IS_ANDROID ? verticalScale(38) : verticalScale(30);
+
+AssetsTable.propTypes = {
+  loading: PropTypes.bool,
+  checking: PropTypes.bool,
+  isDetail: PropTypes.bool,
+  assets: PropTypes.object,
+  onCallbackValidate: PropTypes.func,
+};
 
 export const widthItemTable = [
   moderateScale(35),

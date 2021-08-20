@@ -20,7 +20,7 @@ import {DATA_CONTACT_US, THEME_DARK} from '~/config/constants';
 
 const colorsHeaderCard = {
   dark: ['#232526', '#414345'],
-  light: ['#8e9eab', '#eef2f3', '#fff'],
+  light: ['#C6FFDD', '#FBD786', '#f7797d'],
 };
 
 function ContactUs(props) {
@@ -28,17 +28,11 @@ function ContactUs(props) {
   /*****************
    ** HANDLE FUNC **
    *****************/
-  const handlePhone = data => {
-    Linking.openURL(`tel:${data}`);
-  };
+  const handlePhone = data => Linking.openURL(`tel:${data}`);
 
-  const handleEmail = data => {
-    Linking.openURL(`mailto:${data}`);
-  };
+  const handleEmail = data => Linking.openURL(`mailto:${data}`);
 
-  const handleURL = data => {
-    Linking.openURL(data);
-  };
+  const handleURL = data => Linking.openURL(data);
 
   /************
    ** RENDER **

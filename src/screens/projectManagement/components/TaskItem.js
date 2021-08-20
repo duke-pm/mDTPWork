@@ -5,6 +5,7 @@
  ** CreateAt: 2021
  ** Description: Description of TaskItem.js
  **/
+import PropTypes from 'prop-types';
 import React, {useRef, useState} from 'react';
 import {
   StyleSheet,
@@ -52,6 +53,16 @@ const CustomLayoutAnimation = {
     type: LayoutAnimation.Types.easeInEaseOut,
     property: LayoutAnimation.Properties.opacity,
   },
+};
+
+TaskItem.propTypes = {
+  loading: PropTypes.bool,
+  data: PropTypes.object.isRequired,
+  translation: PropTypes.func,
+  isDark: PropTypes.bool,
+  customColors: PropTypes.object,
+  onPress: PropTypes.func,
+  onRefresh: PropTypes.func,
 };
 
 function TaskItem(props) {

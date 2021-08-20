@@ -5,6 +5,7 @@
  ** CreateAt: 2021
  ** Description: Description of FileAttach.js
  **/
+import PropTypes from 'prop-types';
 import React, {useState, useEffect} from 'react';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
@@ -23,6 +24,10 @@ import {Extensions} from '~/utils/asset';
 import {THEME_DARK} from '~/config/constants';
 import {cStyles, colors} from '~/utils/style';
 import {checkExistsFile, moderateScale} from '~/utils/helper';
+
+FileAttach.propTypes = {
+  file: PropTypes.string,
+};
 
 function FileAttach(props) {
   const {customColors} = useTheme();

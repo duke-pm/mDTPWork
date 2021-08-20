@@ -4,6 +4,7 @@
  ** CreateAt: 2021
  ** Description: Description of CAlert.js
  **/
+import PropTypes from 'prop-types';
 import React from 'react';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
@@ -16,7 +17,19 @@ import CActivityIndicator from './CActivityIndicator';
 /* COMMON */
 import {cStyles} from '~/utils/style';
 import {THEME_DARK} from '~/config/constants';
-import {IS_IOS, moderateScale} from '~/utils/helper';
+import {moderateScale} from '~/utils/helper';
+
+CAlert.propTypes = {
+  loading: PropTypes.bool,
+  show: PropTypes.bool,
+  contentStyle: PropTypes.object,
+  hasTitle: PropTypes.bool,
+  title: PropTypes.string,
+  content: PropTypes.string,
+  customContent: PropTypes.element,
+  onClose: PropTypes.func,
+  onOK: PropTypes.func,
+};
 
 function CAlert(props) {
   const isDark = useColorScheme() === THEME_DARK;
@@ -96,7 +109,7 @@ function CAlert(props) {
                   content && styles.con_button_small,
                   content && onClose && !onOK && styles.btn_alone_small,
                 ]}
-                textStyle={[styles.text_button, {color: customColors.orange}]}
+                textStyle={[styles.text_button, {color: customColors.red}]}
                 disabled={loading}
                 block
                 variant={'text'}
@@ -128,7 +141,7 @@ function CAlert(props) {
                 textStyle={[
                   cStyles.fontRegular,
                   styles.text_button,
-                  {color: customColors.orange},
+                  {color: customColors.blue},
                 ]}
                 disabled={loading}
                 block
@@ -176,7 +189,7 @@ const styles = StyleSheet.create({
   },
   btn_alone: {width: moderateScale(350)},
   btn_alone_small: {width: moderateScale(280)},
-  text_button: {fontSize: moderateScale(18)},
+  text_button: {fontSize: moderateScale(15)},
 });
 
 export default CAlert;

@@ -5,14 +5,15 @@
  ** CreateAt: 2021
  ** Description: Description of RequestProcess.js
  **/
+import PropTypes from 'prop-types';
 import React, {useState, useEffect} from 'react';
 import {useColorScheme} from 'react-native-appearance';
 import {StyleSheet, View, Animated} from 'react-native';
 /* COMPONENTS */
+import CIcon from '~/components/CIcon';
 import CText from '~/components/CText';
 import CLoading from '~/components/CLoading';
 import CFooterList from '~/components/CFooterList';
-import CIcon from '~/components/CIcon';
 /* COMMON */
 import Icons from '~/config/Icons';
 import {colors, cStyles} from '~/utils/style';
@@ -20,6 +21,11 @@ import {moderateScale} from '~/utils/helper';
 import {THEME_DARK} from '~/config/constants';
 
 let isReject = false;
+
+RequestProcess.propTypes = {
+  data: PropTypes.array,
+  customColors: PropTypes.object,
+};
 
 function RequestProcess(props) {
   const isDark = useColorScheme() === THEME_DARK;

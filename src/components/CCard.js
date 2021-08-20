@@ -4,6 +4,7 @@
  ** CreateAt: 2021
  ** Description: Description of CCard.js
  **/
+import PropTypes from 'prop-types';
 import React from 'react';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
@@ -25,6 +26,23 @@ import {IS_ANDROID, IS_IOS} from '~/utils/helper';
 
 const Touchable = IS_IOS ? TouchableHighlight : TouchableNativeFeedback;
 
+CCard.propTypes = {
+  key: PropTypes.string,
+  style: PropTypes.object,
+  containerStyle: PropTypes.object,
+  contentLabelStyle: PropTypes.object,
+  gradientColor: PropTypes.array,
+  detail: PropTypes.bool,
+  customIconHeader: PropTypes.array,
+  label: PropTypes.string,
+  customLabel: PropTypes.string,
+  content: PropTypes.element,
+  footer: PropTypes.element,
+  onLayout: PropTypes.func,
+  onPress: PropTypes.func,
+  onDetailPress: PropTypes.func,
+};
+
 function CCard(props) {
   const {customColors} = useTheme();
   const isDark = useColorScheme() === THEME_DARK;
@@ -33,11 +51,11 @@ function CCard(props) {
     style = {},
     containerStyle = {},
     contentLabelStyle = {},
-    gradientColor = null,
+    gradientColor = undefined,
     detail = false,
     customIconHeader = [],
-    label = null,
-    customLabel = null,
+    label = undefined,
+    customLabel = undefined,
     content = null,
     footer = null,
     onLayout = null,

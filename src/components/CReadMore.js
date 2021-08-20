@@ -4,6 +4,7 @@
  ** CreateAt: 2021
  ** Description: Description of CReadMore.js
  **/
+import PropTypes from 'prop-types';
 import React from 'react';
 import {StyleSheet, Text, View, UIManager, LayoutAnimation} from 'react-native';
 /** COMMON */
@@ -16,8 +17,20 @@ if (IS_ANDROID) {
 }
 
 const INIT = {
-  textShowMore: 'Read more...',
-  textShowLess: 'Read less...',
+  textShowMore: 'Read more',
+  textShowLess: 'Read less',
+};
+
+CReadMore.propTypes = {
+  textStyle: PropTypes.object,
+  textMoreStyle: PropTypes.object,
+  children: PropTypes.element,
+  numberOfLines: PropTypes.number,
+  textHide: PropTypes.string,
+  textShow: PropTypes.string,
+  renderTruncatedFooter: PropTypes.func,
+  renderRevealedFooter: PropTypes.func,
+  onReady: PropTypes.func,
 };
 
 export default class CReadMore extends React.Component {

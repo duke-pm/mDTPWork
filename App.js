@@ -131,7 +131,7 @@ const linking = {
 };
 
 const App = () => {
-  /** Use state */
+  /** Use states */
   const [state, setState] = useState({
     checked: false,
     connected: true,
@@ -193,7 +193,7 @@ const App = () => {
         independent
         theme={isDark ? MyDarkTheme : MyDefaultTheme}
         linking={linking}
-        fallback={<Text>Loading...</Text>}>
+        fallback={<Text>Loading</Text>}>
         <Provider store={Store}>
           <SafeAreaProvider initialMetrics={initialWindowMetrics}>
             <Navigator />

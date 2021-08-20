@@ -4,6 +4,7 @@
  ** CreateAt: 2021
  ** Description: Description of CEmpty.js
  **/
+import PropTypes from 'prop-types';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import LottieView from 'lottie-react-native';
@@ -13,6 +14,12 @@ import CText from './CText';
 import {cStyles} from '~/utils/style';
 import {Animations} from '~/utils/asset';
 import {moderateScale} from '~/utils/helper';
+
+CEmpty.propTypes = {
+  style: PropTypes.object,
+  label: PropTypes.string,
+  description: PropTypes.string,
+};
 
 function CEmpty(props) {
   const {style = {}} = props;

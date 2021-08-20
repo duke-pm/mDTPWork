@@ -4,6 +4,7 @@
  ** CreateAt: 2021
  ** Description: Description of TabbarType.js
  **/
+import PropTypes from 'prop-types';
 import React from 'react';
 import {useTheme} from '@react-navigation/native';
 import {Animated, StyleSheet, View} from 'react-native';
@@ -18,6 +19,12 @@ import {IS_IOS, moderateScale} from '~/utils/helper';
 const posTab1 = 1;
 const posTab2 = moderateScale(350) / 3 - 1;
 const posTab3 = (moderateScale(350) / 3) * 2 - 2;
+
+TabbarType.propTypes = {
+  navigationState: PropTypes.object,
+  position: PropTypes.any,
+  jumpTo: PropTypes.func,
+};
 
 function TabbarType(props) {
   const {customColors} = useTheme();

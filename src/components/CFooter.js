@@ -4,6 +4,7 @@
  ** CreateAt: 2021
  ** Description: Description of CFooter.js
  **/
+import PropTypes from 'prop-types';
 import React from 'react';
 import {View} from 'react-native';
 import {useColorScheme} from 'react-native-appearance';
@@ -13,6 +14,10 @@ import {BlurView} from '@react-native-community/blur';
 import {colors, cStyles} from '~/utils/style';
 import {IS_IOS} from '~/utils/helper';
 import {THEME_DARK} from '~/config/constants';
+
+CFooter.propTypes = {
+  content: PropTypes.element,
+};
 
 function CFooter(props) {
   const {customColors} = useTheme();

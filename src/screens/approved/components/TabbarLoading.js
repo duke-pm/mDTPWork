@@ -4,6 +4,7 @@
  ** CreateAt: 2021
  ** Description: Description of .js
  **/
+import PropTypes from 'prop-types';
 import React from 'react';
 import {View} from 'react-native';
 /* COMPONENTS */
@@ -11,6 +12,10 @@ import CText from '~/components/CText';
 import CActivityIndicator from '~/components/CActivityIndicator';
 /* COMMON */
 import {cStyles} from '~/utils/style';
+
+TabbarLoading.propTypes = {
+  show: PropTypes.bool,
+};
 
 function TabbarLoading(props) {
   /**************

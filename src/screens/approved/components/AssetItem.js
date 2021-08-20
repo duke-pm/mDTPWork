@@ -7,6 +7,7 @@
  ** CreateAt: 2021
  ** Description: Description of AssetItem.js
  **/
+import PropTypes from 'prop-types';
 import React from 'react';
 import {useTheme} from '@react-navigation/native';
 import {Keyboard, TextInput} from 'react-native';
@@ -24,6 +25,16 @@ Number.prototype.format = function (n, x) {
   }
   let re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
   return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
+};
+
+AssetItem.propTypes = {
+  disabled: PropTypes.bool,
+  isDetail: PropTypes.bool,
+  rowIndex: PropTypes.number,
+  cellIndex: PropTypes.number,
+  cellData: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  onChangeCellItem: PropTypes.func,
+  onRemoveRow: PropTypes.func,
 };
 
 function AssetItem(props) {

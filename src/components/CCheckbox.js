@@ -4,6 +4,7 @@
  ** CreateAt: 2021
  ** Description: Description of CCheckbox.js
  **/
+import PropTypes from 'prop-types';
 import React, {createRef} from 'react';
 import {useTranslation} from 'react-i18next';
 import {TouchableOpacity} from 'react-native';
@@ -17,6 +18,16 @@ import {colors, cStyles} from '~/utils/style';
 
 /** All refs on check box */
 let handleRef = createRef();
+
+CCheckbox.propTypes = {
+  containerStyle: PropTypes.object,
+  textStyle: PropTypes.object,
+  labelLeft: PropTypes.string,
+  labelRight: PropTypes.string,
+  disabled: PropTypes.bool,
+  value: PropTypes.bool,
+  onChange: PropTypes.func,
+};
 
 function CCheckbox(props) {
   const {t} = useTranslation();

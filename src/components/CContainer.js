@@ -4,6 +4,7 @@
  ** CreateAt: 2021
  ** Description: Description of CContainer.js
  **/
+import PropTypes from 'prop-types';
 import React from 'react';
 import {useTheme} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -16,6 +17,16 @@ import {Shapes} from './CBackgroundSharp';
 import {colors, cStyles} from '~/utils/style';
 import {useColorScheme} from 'react-native-appearance';
 import {THEME_DARK} from '~/config/constants';
+
+CContainer.propTypes = {
+  loading: PropTypes.bool,
+  safeArea: PropTypes.object,
+  safeAreaStyle: PropTypes.object,
+  style: PropTypes.object,
+  hasShapes: PropTypes.bool,
+  content: PropTypes.element,
+  footer: PropTypes.element,
+};
 
 function CContainer(props) {
   const {customColors} = useTheme();

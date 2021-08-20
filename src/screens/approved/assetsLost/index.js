@@ -5,6 +5,7 @@
  ** CreateAt: 2021
  ** Description: Description of ApprovedAssetsLost.js
  **/
+import PropTypes from 'prop-types';
 import {fromJS} from 'immutable';
 import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
@@ -24,6 +25,10 @@ import {cStyles} from '~/utils/style';
 import Commons from '~/utils/common/Commons';
 /* REDUX */
 import * as Actions from '~/redux/actions';
+
+ApprovedAssetsLost.propTypes = {
+  dataRoute: PropTypes.object,
+};
 
 function ApprovedAssetsLost(props) {
   const {t} = useTranslation();

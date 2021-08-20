@@ -4,6 +4,7 @@
  ** CreateAt: 2021
  ** Description: Description of ListRequest.js
  **/
+import PropTypes from 'prop-types';
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 /* COMPONENTS */
@@ -14,13 +15,25 @@ import Routes from '~/navigation/Routes';
 import Commons from '~/utils/common/Commons';
 import {cStyles} from '~/utils/style';
 
+ListRequest.propTypes = {
+  permissionWrite: PropTypes.bool.isRequired,
+  customColors: PropTypes.object.isRequired,
+  onRefresh: PropTypes.func,
+  onLoadmore: PropTypes.func,
+  routeDetail: PropTypes.oneOf([
+    'auto',
+    Routes.MAIN.ADD_APPROVED_ASSETS.name,
+    Routes.MAIN.ADD_APPROVED_LOST_DAMAGED.name,
+  ]).isRequired,
+};
+
 function ListRequest(props) {
   const navigation = useNavigation();
   const {
     permissionWrite = false,
     customColors = {},
-    onLoadmore = () => {},
-    onRefresh = () => {},
+    onLoadmore = undefined,
+    onRefresh = undefined,
     routeDetail = Routes.MAIN.ADD_APPROVED_ASSETS.name,
   } = props;
 

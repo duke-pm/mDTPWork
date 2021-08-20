@@ -5,6 +5,7 @@
  ** CreateAt: 2021
  ** Description: Description of Status.js
  **/
+import PropTypes from 'prop-types';
 import React, {createRef, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
@@ -26,6 +27,18 @@ import * as Actions from '~/redux/actions';
 
 /** All refs use in this screen */
 const asStatusRef = createRef();
+
+Status.propTypes = {
+  disabled: PropTypes.bool,
+  isUpdate: PropTypes.bool,
+  isDark: PropTypes.bool,
+  customColors: PropTypes.object,
+  language: PropTypes.string,
+  refreshToken: PropTypes.string,
+  navigation: PropTypes.object,
+  task: PropTypes.object,
+  onUpdate: PropTypes.func,
+};
 
 function Status(props) {
   const {t} = useTranslation();

@@ -5,6 +5,7 @@
  ** CreateAt: 2021
  ** Description: Description of CAvatar.js
  **/
+import PropTypes from 'prop-types';
 import React, {useState} from 'react';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
@@ -32,6 +33,15 @@ import {
   IS_IOS,
   moderateScale,
 } from '~/utils/helper';
+
+CAvatar.propTypes = {
+  containerStyle: PropTypes.object,
+  imageStyle: PropTypes.object,
+  size: PropTypes.oneOf(['vsmall', 'small', 'medium', 'large']),
+  source: PropTypes.string,
+  isEdit: PropTypes.bool,
+  label: PropTypes.string,
+};
 
 function CAvatar(props) {
   const isDark = useColorScheme() === THEME_DARK;

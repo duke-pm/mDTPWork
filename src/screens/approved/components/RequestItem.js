@@ -4,6 +4,7 @@
  ** CreateAt: 2021
  ** Description: Description of RequestItem.js
  **/
+import PropTypes from 'prop-types';
 import React from 'react';
 import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
@@ -19,6 +20,15 @@ import Icons from '~/config/Icons';
 import Commons from '~/utils/common/Commons';
 import {cStyles} from '~/utils/style';
 import {DEFAULT_FORMAT_DATE_4} from '~/config/constants';
+
+RequestItem.propTypes = {
+  customColors: PropTypes.object,
+  index: PropTypes.number,
+  data: PropTypes.object,
+  dataProcess: PropTypes.array,
+  dataDetail: PropTypes.array,
+  onPress: PropTypes.func,
+};
 
 function RequestItem(props) {
   const {t} = useTranslation();

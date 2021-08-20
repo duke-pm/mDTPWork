@@ -4,11 +4,22 @@
  ** CreateAt: 2021
  ** Description: Description of CLabel.js
  **/
+import PropTypes from 'prop-types';
 import React from 'react';
 /* COMPONENTS */
 import CText from './CText';
 /** COMMON */
 import {cStyles} from '~/utils/style';
+
+CLabel.propTypes = {
+  style: PropTypes.object,
+  medium: PropTypes.bool,
+  bold: PropTypes.bool,
+  color: PropTypes.string,
+  label: PropTypes.string,
+  customLabel: PropTypes.string,
+  numberOfLines: PropTypes.number,
+};
 
 function CLabel(props) {
   const {

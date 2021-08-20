@@ -4,6 +4,7 @@
  ** CreateAt: 2021
  ** Description: Description of CStatusTag.js
  **/
+import PropTypes from 'prop-types';
 import React from 'react';
 import {View} from 'react-native';
 /* COMPONENTS */
@@ -12,6 +13,13 @@ import CIcon from './CIcon';
 /* COMMON */
 import Icons from '~/config/Icons';
 import {colors, cStyles} from '~/utils/style';
+
+CStatusTag.propTypes = {
+  style: PropTypes.object,
+  label: PropTypes.string,
+  customLabel: PropTypes.string,
+  color: PropTypes.string,
+};
 
 function CStatusTag(props) {
   const {style, label, customLabel, color} = props;

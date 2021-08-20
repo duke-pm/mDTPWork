@@ -4,12 +4,21 @@
  ** CreateAt: 2021
  ** Description: Description of CText.js
  **/
+import PropTypes from 'prop-types';
 import React from 'react';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
 import {View, Text, TouchableOpacity} from 'react-native';
 /** COMMON */
 import {cStyles} from '~/utils/style';
+
+CText.propTypes = {
+  styles: PropTypes.string,
+  customStyles: PropTypes.object,
+  label: PropTypes.string,
+  customLabel: PropTypes.string,
+  onPress: PropTypes.func,
+};
 
 function CText(props) {
   const {t} = useTranslation();

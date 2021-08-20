@@ -4,6 +4,7 @@
  ** CreateAt: 2021
  ** Description: Description of CActionSheet.js
  **/
+import PropTypes from 'prop-types';
 import React from 'react';
 import {useColorScheme} from 'react-native-appearance';
 import {useTheme} from '@react-navigation/native';
@@ -19,6 +20,15 @@ import {THEME_DARK} from '~/config/constants';
 import {IS_IOS, moderateScale} from '~/utils/helper';
 
 const propIcon = {size: moderateScale(21)};
+
+CActionSheet.propTypes = {
+  actionRef: PropTypes.any,
+  customHeader: PropTypes.element,
+  headerChoose: PropTypes.bool,
+  children: PropTypes.element,
+  onConfirm: PropTypes.func,
+  onClose: PropTypes.func,
+};
 
 function CActionSheet(props) {
   const {customColors} = useTheme();

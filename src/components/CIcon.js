@@ -4,6 +4,7 @@
  ** CreateAt: 2021
  ** Description: Description of CIcon.js
  **/
+import PropTypes from 'prop-types';
 import React from 'react';
 import {useTheme} from '@react-navigation/native';
 import {View} from 'react-native';
@@ -20,6 +21,24 @@ const INITIALS = {
   medium: moderateScale(21),
   large: moderateScale(23),
   larger: moderateScale(28),
+};
+
+CIcon.propTypes = {
+  style: PropTypes.object,
+  iconStyle: PropTypes.object,
+  name: PropTypes.string,
+  size: PropTypes.oneOf([
+    'minium',
+    'smaller',
+    'small',
+    'medium',
+    'large',
+    'larger',
+  ]),
+  customSize: PropTypes.number,
+  color: PropTypes.string,
+  customColor: PropTypes.string,
+  onPress: PropTypes.func,
 };
 
 function CIcon(props) {

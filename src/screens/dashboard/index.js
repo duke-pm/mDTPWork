@@ -17,7 +17,6 @@ import CText from '~/components/CText';
 import CAvatar from '~/components/CAvatar';
 /** COMMON */
 import {cStyles} from '~/utils/style';
-import {moderateScale} from '~/utils/helper';
 
 function Dashboard(props) {
   const {navigation} = props;

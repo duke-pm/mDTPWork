@@ -5,10 +5,9 @@
  ** CreateAt: 2021
  ** Description: Description of ProjectPlan.js
  **/
+import PropTypes from 'prop-types';
 import {fromJS} from 'immutable';
 import React, {useState, useEffect} from 'react';
-import {useTheme} from '@react-navigation/native';
-import {useColorScheme} from 'react-native-appearance';
 import {StyleSheet, View, ScrollView, processColor} from 'react-native';
 import {HorizontalBarChart} from 'react-native-charts-wrapper';
 import moment from 'moment';
@@ -20,7 +19,6 @@ import CActivityIndicator from '~/components/CActivityIndicator';
 import Services from '~/services';
 import Configs from '~/config';
 import {cStyles} from '~/utils/style';
-import {THEME_DARK} from '~/config/constants';
 import {moderateScale, verticalScale} from '~/utils/helper';
 
 const descriptionChart = {text: 'Durations (days)'};
@@ -30,11 +28,16 @@ const animationChart = {
   easingY: 'Linear',
 };
 
-function ProjectPlan(props) {
-  const isDark = useColorScheme() === THEME_DARK;
-  const {customColors} = useTheme();
-  const {project = null} = props;
+ProjectPlan.propTypes = {
+  isDark: PropTypes.bool,
+  customColors: PropTypes.object,
+  project: PropTypes.object,
+};
 
+function ProjectPlan(props) {
+  const {isDark = false, customColors = {}, project = null} = props;
+
+  /** Use states */
   const [loading, setLoading] = useState({
     main: true,
     data: false,
@@ -100,7 +103,7 @@ function ProjectPlan(props) {
   /**********
    ** FUNC **
    **********/
-  const onDone = isError => setLoading({...loading, main: false});
+  const onDone = () => setLoading({...loading, main: false});
 
   const onFetchData = async (newpage = 1) => {
     let paramsListTask = fromJS({
@@ -120,10 +123,10 @@ function ProjectPlan(props) {
         setPage(newPage);
         return onFetchData(newPage);
       } else {
-        onDone(false);
+        onDone();
       }
     } else {
-      onDone(true);
+      onDone();
     }
   };
 
@@ -145,7 +148,7 @@ function ProjectPlan(props) {
             moment(item.startDate, 'YYYY-MM-DDT00:00:00'),
             'days',
           );
-          dataChart[0].values.push({y: durations});
+          dataChart[0].values.push({y: durations + 1});
           xValueFormatter.push('#' + item.taskID);
           dataTask.push({
             id: item.taskID,
@@ -178,11 +181,19 @@ function ProjectPlan(props) {
   useEffect(() => onFetchData(), []);
 
   useEffect(() => {
-    if (!loading.main && !loading.data && chart.data.length === 0) {
+    if (!loading.main && !loading.data) {
       setLoading({...loading, data: true});
       onPrepareData();
     }
-  }, [loading.data, loading.main, chart.data]);
+  }, [loading.main, loading.data]);
+
+  useEffect(() => {
+    if (loading.data) {
+      if (chart.data.length > 0) {
+        setLoading({...loading, data: false});
+      }
+    }
+  }, [loading.main, loading.data, chart.data]);
 
   /************
    ** RENDER **

@@ -5,6 +5,7 @@
  ** CreateAt: 2021
  ** Description: Description of ApprovedAssets.js
  **/
+import PropTypes from 'prop-types';
 import {fromJS} from 'immutable';
 import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
@@ -24,6 +25,10 @@ import {usePrevious} from '~/utils/hook';
 import {LOAD_MORE, REFRESH} from '~/config/constants';
 /* REDUX */
 import * as Actions from '~/redux/actions';
+
+ApprovedAssets.propTypes = {
+  dataRoute: PropTypes.object,
+};
 
 function ApprovedAssets(props) {
   const {t} = useTranslation();
