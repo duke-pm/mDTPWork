@@ -600,11 +600,7 @@ const styles = StyleSheet.create({
   input_focus: {borderColor: colors.PRIMARY},
   input: {width: '85%'},
   container_chat: {width: moderateScale(32)},
-  con_me: {
-    backgroundColor: IS_IOS
-      ? colors.STATUS_NEW_DARK
-      : colors.STATUS_SCHEDULE_DARK,
-  },
+  con_me: {backgroundColor: colors.STATUS_NEW_DARK},
 });
 
 export default Activity;

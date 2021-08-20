@@ -314,7 +314,7 @@ function FilterProject(props) {
                   show: true,
                   showRedDot: false,
                   icon: Icons.close,
-                  iconColor: IS_IOS ? customColors.red : colors.WHITE,
+                  iconColor: customColors.red,
                   onPress: handleReset,
                 },
               ]}
@@ -327,7 +327,7 @@ function FilterProject(props) {
                   show: true,
                   showRedDot: false,
                   icon: Icons.doubleCheck,
-                  iconColor: IS_IOS ? customColors.blue : colors.WHITE,
+                  iconColor: customColors.blue,
                   onPress: handleFilter,
                 },
               ]}
@@ -354,6 +354,8 @@ function FilterProject(props) {
   return (
     <CContainer
       loading={loading}
+      safeAreaStyle={{backgroundColor: customColors.background}}
+      style={{backgroundColor: customColors.background}}
       content={
         <CContent contentStyle={cStyles.pb24}>
           {/** Year */}
