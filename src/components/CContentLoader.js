@@ -66,7 +66,7 @@ function CContentLoader(props) {
             ]}>
             {!horizontal && type === 'normal' && (
               <ContentLoader
-                speed={2}
+                speed={1}
                 width={'100%'}
                 height={110}
                 backgroundColor={customColors.cardHolder}
@@ -98,7 +98,7 @@ function CContentLoader(props) {
 
             {!horizontal && type === 'block' && (
               <ContentLoader
-                speed={2}
+                speed={1}
                 width={'100%'}
                 height={250}
                 backgroundColor={customColors.cardHolder}
@@ -135,7 +135,7 @@ function CContentLoader(props) {
 
             {horizontal && type === 'table' && (
               <ContentLoader
-                speed={2}
+                speed={1}
                 width={'100%'}
                 height={1000}
                 backgroundColor={customColors.cardHolder}

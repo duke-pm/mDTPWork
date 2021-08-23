@@ -19,6 +19,7 @@ import moment from 'moment';
 import CText from '~/components/CText';
 import CIconHeader from '~/components/CIconHeader';
 import CDateTimePicker from '~/components/CDateTimePicker';
+import CContentLoader from '~/components/CContentLoader';
 import BodyPreview from '../components/BodyPreview';
 /** COMMON */
 import Configs from '~/config';
@@ -35,7 +36,6 @@ import {
 } from '~/config/constants';
 /** REDUX */
 import * as Actions from '~/redux/actions';
-import CContentLoader from '~/components/CContentLoader';
 
 const DATA_HEADER = [
   {
@@ -548,12 +548,14 @@ function ProjectOverview(props) {
           />
         )}
 
-        <CContentLoader
-          horizontal={true}
-          type={'table'}
-          visible={loading.startFetch}
-          customColors={customColors}
-        />
+        {loading.startFetch && (
+          <CContentLoader
+            horizontal={true}
+            type={'table'}
+            visible={loading.startFetch}
+            customColors={customColors}
+          />
+        )}
 
         {/** Date Picker */}
         <CDateTimePicker

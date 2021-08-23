@@ -44,10 +44,10 @@ function FilterTags(props) {
           cStyles.py2,
           cStyles.mx4,
           cStyles.rounded1,
-          {backgroundColor: customColors.green2},
+          {backgroundColor: customColors.tag},
         ]}>
         <CText
-          styles={'textCaption2'}
+          styles={'textCaption2 colorBlack'}
           customLabel={
             (fromDate !== '' ? moment(fromDate).format(formatDateView) : '#') +
             ' - ' +
@@ -68,7 +68,7 @@ function FilterTags(props) {
                 cStyles.rounded1,
                 {backgroundColor: customColors.green2},
               ]}>
-              <CText styles={'textCaption2'} label={itemStatus} />
+              <CText styles={'textCaption2 colorBlack'} label={itemStatus} />
             </View>
           );
         })}
@@ -86,7 +86,7 @@ function FilterTags(props) {
                 {backgroundColor: customColors.green2},
               ]}>
               <CText
-                styles={'textCaption2'}
+                styles={'textCaption2 colorBlack'}
                 label={'list_request_assets_handling:title_' + itemType.label}
               />
             </View>
