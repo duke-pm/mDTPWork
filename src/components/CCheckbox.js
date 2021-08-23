@@ -19,16 +19,6 @@ import {colors, cStyles} from '~/utils/style';
 /** All refs on check box */
 let handleRef = createRef();
 
-CCheckbox.propTypes = {
-  containerStyle: PropTypes.object,
-  textStyle: PropTypes.object,
-  labelLeft: PropTypes.string,
-  labelRight: PropTypes.string,
-  disabled: PropTypes.bool,
-  value: PropTypes.bool,
-  onChange: PropTypes.func,
-};
-
 function CCheckbox(props) {
   const {t} = useTranslation();
   const {
@@ -97,5 +87,15 @@ function CCheckbox(props) {
     </TouchableOpacity>
   );
 }
+
+CCheckbox.propTypes = {
+  containerStyle: PropTypes.object,
+  textStyle: PropTypes.object,
+  labelLeft: PropTypes.string,
+  labelRight: PropTypes.string,
+  disabled: PropTypes.bool,
+  value: PropTypes.bool,
+  onChange: PropTypes.func,
+};
 
 export default CCheckbox;

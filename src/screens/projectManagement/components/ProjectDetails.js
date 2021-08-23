@@ -21,13 +21,6 @@ import {cStyles} from '~/utils/style';
 import {DEFAULT_FORMAT_DATE_4} from '~/config/constants';
 import {checkEmpty, moderateScale} from '~/utils/helper';
 
-ProjectDetails.propTypes = {
-  isDark: PropTypes.bool,
-  customColors: PropTypes.object,
-  formatDateView: PropTypes.string,
-  project: PropTypes.object,
-};
-
 function ProjectDetails(props) {
   const {
     isDark = false,
@@ -155,5 +148,12 @@ function ProjectDetails(props) {
 const styles = StyleSheet.create({
   list_invited: {maxHeight: moderateScale(180)},
 });
+
+ProjectDetails.propTypes = {
+  isDark: PropTypes.bool,
+  customColors: PropTypes.object,
+  formatDateView: PropTypes.string,
+  project: PropTypes.object,
+};
 
 export default ProjectDetails;

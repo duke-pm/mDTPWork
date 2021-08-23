@@ -27,15 +27,6 @@ if (IS_ANDROID) {
   }
 }
 
-ListProject.propTypes = {
-  refreshing: PropTypes.bool,
-  loadmore: PropTypes.bool,
-  data: PropTypes.array,
-  formatDateView: PropTypes.string,
-  onLoadmore: PropTypes.func,
-  onRefresh: PropTypes.func,
-};
-
 function ListProject(props) {
   const navigation = useNavigation();
   const isDark = useColorScheme() === THEME_DARK;
@@ -172,5 +163,14 @@ function ListProject(props) {
     </View>
   );
 }
+
+ListProject.propTypes = {
+  refreshing: PropTypes.bool,
+  loadmore: PropTypes.bool,
+  data: PropTypes.array,
+  formatDateView: PropTypes.string,
+  onLoadmore: PropTypes.func,
+  onRefresh: PropTypes.func,
+};
 
 export default ListProject;

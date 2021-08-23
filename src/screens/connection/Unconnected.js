@@ -27,10 +27,6 @@ if (IS_ANDROID) {
 
 const iconLargeSize = moderateScale(80);
 
-Unconnected.propTypes = {
-  connected: PropTypes.bool.isRequired,
-};
-
 function Unconnected(props) {
   const {customColors} = useTheme();
 
@@ -109,5 +105,9 @@ function Unconnected(props) {
     </Modal>
   );
 }
+
+Unconnected.propTypes = {
+  connected: PropTypes.bool.isRequired,
+};
 
 export default Unconnected;

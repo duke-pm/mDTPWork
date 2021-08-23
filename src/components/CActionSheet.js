@@ -21,15 +21,6 @@ import {IS_IOS, moderateScale} from '~/utils/helper';
 
 const propIcon = {size: moderateScale(21)};
 
-CActionSheet.propTypes = {
-  actionRef: PropTypes.any,
-  customHeader: PropTypes.element,
-  headerChoose: PropTypes.bool,
-  children: PropTypes.element,
-  onConfirm: PropTypes.func,
-  onClose: PropTypes.func,
-};
-
 function CActionSheet(props) {
   const {customColors} = useTheme();
   const isDark = useColorScheme() === THEME_DARK;
@@ -136,5 +127,14 @@ const styles = StyleSheet.create({
   indicator: {width: moderateScale(50), height: moderateScale(6)},
   icon: {height: moderateScale(45), width: moderateScale(45)},
 });
+
+CActionSheet.propTypes = {
+  actionRef: PropTypes.any,
+  customHeader: PropTypes.element,
+  headerChoose: PropTypes.bool,
+  children: PropTypes.element,
+  onConfirm: PropTypes.func,
+  onClose: PropTypes.func,
+};
 
 export default CActionSheet;

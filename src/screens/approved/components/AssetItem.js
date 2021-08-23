@@ -27,16 +27,6 @@ Number.prototype.format = function (n, x) {
   return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
 };
 
-AssetItem.propTypes = {
-  disabled: PropTypes.bool,
-  isDetail: PropTypes.bool,
-  rowIndex: PropTypes.number,
-  cellIndex: PropTypes.number,
-  cellData: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  onChangeCellItem: PropTypes.func,
-  onRemoveRow: PropTypes.func,
-};
-
 function AssetItem(props) {
   const {customColors} = useTheme();
   const {isDetail, rowIndex, cellIndex, onChangeCellItem, onRemoveRow} = props;
@@ -106,5 +96,15 @@ function AssetItem(props) {
     />
   );
 }
+
+AssetItem.propTypes = {
+  disabled: PropTypes.bool,
+  isDetail: PropTypes.bool,
+  rowIndex: PropTypes.number,
+  cellIndex: PropTypes.number,
+  cellData: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  onChangeCellItem: PropTypes.func,
+  onRemoveRow: PropTypes.func,
+};
 
 export default AssetItem;

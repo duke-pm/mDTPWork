@@ -28,18 +28,6 @@ import * as Actions from '~/redux/actions';
 /** All refs use in this screen */
 const asStatusRef = createRef();
 
-Status.propTypes = {
-  disabled: PropTypes.bool,
-  isUpdate: PropTypes.bool,
-  isDark: PropTypes.bool,
-  customColors: PropTypes.object,
-  language: PropTypes.string,
-  refreshToken: PropTypes.string,
-  navigation: PropTypes.object,
-  task: PropTypes.object,
-  onUpdate: PropTypes.func,
-};
-
 function Status(props) {
   const {t} = useTranslation();
   const {
@@ -279,5 +267,17 @@ function Status(props) {
 const styles = StyleSheet.create({
   con_action: {width: '100%', height: moderateScale(200)},
 });
+
+Status.propTypes = {
+  disabled: PropTypes.bool,
+  isUpdate: PropTypes.bool,
+  isDark: PropTypes.bool,
+  customColors: PropTypes.object,
+  language: PropTypes.string,
+  refreshToken: PropTypes.string,
+  navigation: PropTypes.object,
+  task: PropTypes.object,
+  onUpdate: PropTypes.func,
+};
 
 export default Status;

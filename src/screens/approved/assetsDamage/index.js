@@ -26,10 +26,6 @@ import {LOAD_MORE, REFRESH} from '~/config/constants';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 
-ApprovedAssetsDamage.propTypes = {
-  dataRoute: PropTypes.object,
-};
-
 function ApprovedAssetsDamage(props) {
   const {t} = useTranslation();
   const {customColors} = useTheme();
@@ -263,5 +259,9 @@ function ApprovedAssetsDamage(props) {
     </View>
   );
 }
+
+ApprovedAssetsDamage.propTypes = {
+  dataRoute: PropTypes.object,
+};
 
 export default ApprovedAssetsDamage;

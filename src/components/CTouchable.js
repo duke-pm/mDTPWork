@@ -14,16 +14,6 @@ import {cStyles} from '~/utils/style';
 
 const Touchable = IS_IOS ? TouchableHighlight : TouchableNativeFeedback;
 
-CTouchable.propTypes = {
-  key: PropTypes.string,
-  containerStyle: PropTypes.object,
-  style: PropTypes.object,
-  disabled: PropTypes.bool,
-  activeOpacity: PropTypes.number,
-  children: PropTypes.element,
-  onPress: PropTypes.func,
-};
-
 function CTouchable({
   key = 'dtp-education',
   containerStyle = {},
@@ -52,5 +42,15 @@ function CTouchable({
     </View>
   );
 }
+
+CTouchable.propTypes = {
+  key: PropTypes.string,
+  containerStyle: PropTypes.object,
+  style: PropTypes.object,
+  disabled: PropTypes.bool,
+  activeOpacity: PropTypes.number,
+  children: PropTypes.element,
+  onPress: PropTypes.func,
+};
 
 export default CTouchable;

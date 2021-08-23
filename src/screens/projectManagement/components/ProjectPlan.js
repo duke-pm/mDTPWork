@@ -27,12 +27,7 @@ const animationChart = {
   durationY: 1000,
   easingY: 'Linear',
 };
-
-ProjectPlan.propTypes = {
-  isDark: PropTypes.bool,
-  customColors: PropTypes.object,
-  project: PropTypes.object,
-};
+const formatDateTime = 'YYYY-MM-DDT00:00:00';
 
 function ProjectPlan(props) {
   const {isDark = false, customColors = {}, project = null} = props;
@@ -53,21 +48,7 @@ function ProjectPlan(props) {
       digits: 0,
       markerColor: processColor('orange'),
       textColor: processColor('white'),
-      textSize: moderateScale(16),
-      config: {
-        drawValues: true,
-        drawCircles: true,
-        lineWidth: 1,
-        mode: 'CUBIC_BEZIER',
-        drawCubicIntensity: 0.2,
-        circleRadius: moderateScale(4),
-        color: processColor('gray'),
-        drawFilled: true,
-        fillColor: processColor('gray'),
-        fillAlpha: 45,
-        circleColor: processColor('gray'),
-        circleHoleColor: processColor('gray'),
-      },
+      textSize: cStyles.textBody.fontSize,
     },
     xAxis: {
       valueFormatter: [],
@@ -144,8 +125,8 @@ function ProjectPlan(props) {
         durations = 0;
       for (item of tasks) {
         if (item.parentID === 0) {
-          durations = moment(item.endDate, 'YYYY-MM-DDT00:00:00').diff(
-            moment(item.startDate, 'YYYY-MM-DDT00:00:00'),
+          durations = moment(item.endDate, formatDateTime).diff(
+            moment(item.startDate, formatDateTime),
             'days',
           );
           dataChart[0].values.push({y: durations + 1});
@@ -242,7 +223,6 @@ function ProjectPlan(props) {
           highlightPerTapEnabled={true}
           highlightPerDragEnabled={true}
           dragDecelerationEnabled={true}
-          dragDecelerationFrictionCoef={0.99}
           keepPositionOnRotation={false}
           drawValueAboveBar={true}
         />
@@ -285,5 +265,11 @@ const styles = StyleSheet.create({
   scroll: {maxHeight: verticalScale(340)},
   chart: {height: verticalScale(230), width: moderateScale(300)},
 });
+
+ProjectPlan.propTypes = {
+  isDark: PropTypes.bool,
+  customColors: PropTypes.object,
+  project: PropTypes.object,
+};
 
 export default ProjectPlan;

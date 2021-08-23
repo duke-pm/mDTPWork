@@ -22,13 +22,6 @@ if (IS_ANDROID) {
 
 const INPUT_NAME = {REASON_REJECT: 'reasonReject'};
 
-RejectModal.propTypes = {
-  showReject: PropTypes.bool,
-  description: PropTypes.string,
-  onCloseReject: PropTypes.func,
-  onReject: PropTypes.func,
-};
-
 function RejectModal(props) {
   const {
     description = 'add_approved_assets:message_confirm_reject',
@@ -116,5 +109,12 @@ const styles = StyleSheet.create({
   input_focus: {borderColor: colors.SECONDARY},
   input_multiline: {height: verticalScale(100)},
 });
+
+RejectModal.propTypes = {
+  showReject: PropTypes.bool,
+  description: PropTypes.string,
+  onCloseReject: PropTypes.func,
+  onReject: PropTypes.func,
+};
 
 export default RejectModal;

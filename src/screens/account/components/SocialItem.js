@@ -11,13 +11,6 @@ import {StyleSheet, Linking, View, TouchableOpacity, Image} from 'react-native';
 import {cStyles} from '~/utils/style';
 import {moderateScale} from '~/utils/helper';
 
-SocialItem.propTypes = {
-  key: PropTypes.string,
-  index: PropTypes.number,
-  data: PropTypes.object,
-  customColors: PropTypes.object,
-};
-
 function SocialItem(props) {
   const {key, index, data} = props;
 
@@ -52,5 +45,12 @@ function SocialItem(props) {
 const styles = StyleSheet.create({
   social: {height: moderateScale(20), width: moderateScale(20)},
 });
+
+SocialItem.propTypes = {
+  key: PropTypes.string,
+  index: PropTypes.number,
+  data: PropTypes.object,
+  customColors: PropTypes.object,
+};
 
 export default SocialItem;

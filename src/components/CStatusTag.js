@@ -14,13 +14,6 @@ import CIcon from './CIcon';
 import Icons from '~/config/Icons';
 import {colors, cStyles} from '~/utils/style';
 
-CStatusTag.propTypes = {
-  style: PropTypes.object,
-  label: PropTypes.string,
-  customLabel: PropTypes.string,
-  color: PropTypes.string,
-};
-
 function CStatusTag(props) {
   const {style, label, customLabel, color} = props;
 
@@ -52,5 +45,12 @@ function CStatusTag(props) {
     </View>
   );
 }
+
+CStatusTag.propTypes = {
+  style: PropTypes.object,
+  label: PropTypes.string,
+  customLabel: PropTypes.string,
+  color: PropTypes.string,
+};
 
 export default CStatusTag;

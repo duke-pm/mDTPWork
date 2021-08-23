@@ -15,18 +15,6 @@ import Routes from '~/navigation/Routes';
 import Commons from '~/utils/common/Commons';
 import {cStyles} from '~/utils/style';
 
-ListRequest.propTypes = {
-  permissionWrite: PropTypes.bool.isRequired,
-  customColors: PropTypes.object.isRequired,
-  onRefresh: PropTypes.func,
-  onLoadmore: PropTypes.func,
-  routeDetail: PropTypes.oneOf([
-    'auto',
-    Routes.MAIN.ADD_APPROVED_ASSETS.name,
-    Routes.MAIN.ADD_APPROVED_LOST_DAMAGED.name,
-  ]).isRequired,
-};
-
 function ListRequest(props) {
   const navigation = useNavigation();
   const {
@@ -89,5 +77,17 @@ function ListRequest(props) {
     />
   );
 }
+
+ListRequest.propTypes = {
+  permissionWrite: PropTypes.bool.isRequired,
+  customColors: PropTypes.object.isRequired,
+  onRefresh: PropTypes.func,
+  onLoadmore: PropTypes.func,
+  routeDetail: PropTypes.oneOf([
+    'auto',
+    'AddRequestAsset',
+    'AddRequestLostDamage',
+  ]).isRequired,
+};
 
 export default ListRequest;

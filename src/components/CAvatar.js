@@ -34,14 +34,7 @@ import {
   moderateScale,
 } from '~/utils/helper';
 
-CAvatar.propTypes = {
-  containerStyle: PropTypes.object,
-  imageStyle: PropTypes.object,
-  size: PropTypes.oneOf(['vsmall', 'small', 'medium', 'large']),
-  source: PropTypes.string,
-  isEdit: PropTypes.bool,
-  label: PropTypes.string,
-};
+
 
 function CAvatar(props) {
   const isDark = useColorScheme() === THEME_DARK;
@@ -385,5 +378,14 @@ const styles = StyleSheet.create({
   con_edit: {bottom: -moderateScale(1)},
   text_edit: {fontSize: moderateScale(9)},
 });
+
+CAvatar.propTypes = {
+  containerStyle: PropTypes.object,
+  imageStyle: PropTypes.object,
+  size: PropTypes.oneOf(['vsmall', 'small', 'medium', 'large']),
+  source: PropTypes.string,
+  isEdit: PropTypes.bool,
+  label: PropTypes.string,
+};
 
 export default CAvatar;

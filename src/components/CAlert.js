@@ -19,18 +19,6 @@ import {cStyles} from '~/utils/style';
 import {THEME_DARK} from '~/config/constants';
 import {moderateScale} from '~/utils/helper';
 
-CAlert.propTypes = {
-  loading: PropTypes.bool,
-  show: PropTypes.bool,
-  contentStyle: PropTypes.object,
-  hasTitle: PropTypes.bool,
-  title: PropTypes.string,
-  content: PropTypes.string,
-  customContent: PropTypes.element,
-  onClose: PropTypes.func,
-  onOK: PropTypes.func,
-};
-
 function CAlert(props) {
   const isDark = useColorScheme() === THEME_DARK;
   const {customColors} = useTheme();
@@ -191,5 +179,17 @@ const styles = StyleSheet.create({
   btn_alone_small: {width: moderateScale(280)},
   text_button: {fontSize: moderateScale(15)},
 });
+
+CAlert.propTypes = {
+  loading: PropTypes.bool,
+  show: PropTypes.bool,
+  contentStyle: PropTypes.object,
+  hasTitle: PropTypes.bool,
+  title: PropTypes.string,
+  content: PropTypes.string,
+  customContent: PropTypes.element,
+  onClose: PropTypes.func,
+  onOK: PropTypes.func,
+};
 
 export default CAlert;

@@ -14,14 +14,6 @@ import CAvatar from './CAvatar';
 import {cStyles} from '~/utils/style';
 import {checkEmpty} from '~/utils/helper';
 
-CUser.propTypes = {
-  style: PropTypes.object,
-  textStyle: PropTypes.object,
-  avatar: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  label: PropTypes.string,
-  sizeAvatar: PropTypes.string,
-};
-
 function CUser(props) {
   const {
     style = {},
@@ -44,5 +36,13 @@ function CUser(props) {
     </View>
   );
 }
+
+CUser.propTypes = {
+  style: PropTypes.object,
+  textStyle: PropTypes.object,
+  avatar: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  label: PropTypes.string,
+  sizeAvatar: PropTypes.string,
+};
 
 export default CUser;

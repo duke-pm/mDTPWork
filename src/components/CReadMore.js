@@ -21,18 +21,6 @@ const INIT = {
   textShowLess: 'Read less',
 };
 
-CReadMore.propTypes = {
-  textStyle: PropTypes.object,
-  textMoreStyle: PropTypes.object,
-  children: PropTypes.element,
-  numberOfLines: PropTypes.number,
-  textHide: PropTypes.string,
-  textShow: PropTypes.string,
-  renderTruncatedFooter: PropTypes.func,
-  renderRevealedFooter: PropTypes.func,
-  onReady: PropTypes.func,
-};
-
 export default class CReadMore extends React.Component {
   state = {
     measured: false,
@@ -153,3 +141,15 @@ const styles = StyleSheet.create({
     marginTop: moderateScale(5),
   },
 });
+
+CReadMore.propTypes = {
+  textStyle: PropTypes.object,
+  textMoreStyle: PropTypes.object,
+  children: PropTypes.element,
+  numberOfLines: PropTypes.number,
+  textHide: PropTypes.string,
+  textShow: PropTypes.string,
+  renderTruncatedFooter: PropTypes.func,
+  renderRevealedFooter: PropTypes.func,
+  onReady: PropTypes.func,
+};

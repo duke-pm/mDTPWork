@@ -22,11 +22,6 @@ import {THEME_DARK} from '~/config/constants';
 
 let isReject = false;
 
-RequestProcess.propTypes = {
-  data: PropTypes.array,
-  customColors: PropTypes.object,
-};
-
 function RequestProcess(props) {
   const isDark = useColorScheme() === THEME_DARK;
   const {data = [], customColors = {}} = props;
@@ -266,5 +261,10 @@ const styles = StyleSheet.create({
   con_user: {width: '70%'},
   con_reason: {width: '80%'},
 });
+
+RequestProcess.propTypes = {
+  data: PropTypes.array,
+  customColors: PropTypes.object,
+};
 
 export default RequestProcess;

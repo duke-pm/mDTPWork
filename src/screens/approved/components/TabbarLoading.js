@@ -13,10 +13,6 @@ import CActivityIndicator from '~/components/CActivityIndicator';
 /* COMMON */
 import {cStyles} from '~/utils/style';
 
-TabbarLoading.propTypes = {
-  show: PropTypes.bool,
-};
-
 function TabbarLoading(props) {
   /**************
    ** RENDER **
@@ -31,5 +27,9 @@ function TabbarLoading(props) {
     </View>
   );
 }
+
+TabbarLoading.propTypes = {
+  show: PropTypes.bool,
+};
 
 export default React.memo(TabbarLoading);

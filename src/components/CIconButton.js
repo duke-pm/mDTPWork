@@ -14,15 +14,6 @@ import CTouchable from './CTouchable';
 import {moderateScale} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
 
-CIconButton.propTypes = {
-  style: PropTypes.object,
-  iconName: PropTypes.string,
-  iconColor: PropTypes.string,
-  iconProps: PropTypes.object,
-  disabled: PropTypes.bool,
-  onPress: PropTypes.func,
-};
-
 function CIconButton(props) {
   const {
     style = {},
@@ -60,5 +51,14 @@ function CIconButton(props) {
 const styles = StyleSheet.create({
   container: {height: moderateScale(35), width: moderateScale(35)},
 });
+
+CIconButton.propTypes = {
+  style: PropTypes.object,
+  iconName: PropTypes.string,
+  iconColor: PropTypes.string,
+  iconProps: PropTypes.object,
+  disabled: PropTypes.bool,
+  onPress: PropTypes.func,
+};
 
 export default CIconButton;

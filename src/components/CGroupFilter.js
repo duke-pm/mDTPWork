@@ -24,14 +24,6 @@ import {colors, cStyles} from '~/utils/style';
 
 let isCheck = null;
 
-CGroupFilter.propTypes = {
-  containerStyle: PropTypes.object,
-  label: PropTypes.string,
-  items: PropTypes.array,
-  itemsChoose: PropTypes.array,
-  onChange: PropTypes.func,
-};
-
 function CGroupFilter(props) {
   const {t} = useTranslation();
   const {customColors} = useTheme();
@@ -171,5 +163,13 @@ function CGroupFilter(props) {
 const styles = StyleSheet.create({
   active: {borderColor: colors.SECONDARY},
 });
+
+CGroupFilter.propTypes = {
+  containerStyle: PropTypes.object,
+  label: PropTypes.string,
+  items: PropTypes.array,
+  itemsChoose: PropTypes.array,
+  onChange: PropTypes.func,
+};
 
 export default CGroupFilter;

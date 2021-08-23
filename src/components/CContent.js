@@ -11,17 +11,6 @@ import {ScrollView, RefreshControl, SafeAreaView, View} from 'react-native';
 import {cStyles} from '~/utils/style';
 import {IS_IOS} from '~/utils/helper';
 
-CContent.propTypes = {
-  containerStyle: PropTypes.object,
-  contentStyle: PropTypes.object,
-  padder: PropTypes.bool,
-  hasSafeArea: PropTypes.bool,
-  scrollEnabled: PropTypes.bool,
-  children: PropTypes.element,
-  refreshing: PropTypes.bool,
-  onRefresh: PropTypes.func,
-};
-
 function CContent(props) {
   const {
     containerStyle = {},
@@ -68,5 +57,16 @@ function CContent(props) {
     </ScrollView>
   );
 }
+
+CContent.propTypes = {
+  containerStyle: PropTypes.object,
+  contentStyle: PropTypes.object,
+  padder: PropTypes.bool,
+  hasSafeArea: PropTypes.bool,
+  scrollEnabled: PropTypes.bool,
+  children: PropTypes.element,
+  refreshing: PropTypes.bool,
+  onRefresh: PropTypes.func,
+};
 
 export default CContent;

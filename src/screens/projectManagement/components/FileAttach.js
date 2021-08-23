@@ -25,10 +25,6 @@ import {THEME_DARK} from '~/config/constants';
 import {cStyles, colors} from '~/utils/style';
 import {checkExistsFile, moderateScale} from '~/utils/helper';
 
-FileAttach.propTypes = {
-  file: PropTypes.string,
-};
-
 function FileAttach(props) {
   const {customColors} = useTheme();
   const isDark = useColorScheme() === THEME_DARK;
@@ -189,5 +185,9 @@ const styles = StyleSheet.create({
   con_right: {flex: 0.7},
   con_left: {flex: 0.3},
 });
+
+FileAttach.propTypes = {
+  file: PropTypes.string,
+};
 
 export default FileAttach;

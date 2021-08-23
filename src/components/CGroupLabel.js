@@ -13,12 +13,6 @@ import CText from './CText';
 import {cStyles} from '~/utils/style';
 import {moderateScale} from '~/utils/helper';
 
-CGroupLabel.propTypes = {
-  containerStyle: PropTypes.object,
-  labelLeft: PropTypes.string,
-  labelRight: PropTypes.string,
-};
-
 function CGroupLabel(props) {
   const {
     containerStyle = {},
@@ -51,5 +45,11 @@ function CGroupLabel(props) {
 const styles = StyleSheet.create({
   row_header: {height: moderateScale(60), zIndex: 1},
 });
+
+CGroupLabel.propTypes = {
+  containerStyle: PropTypes.object,
+  labelLeft: PropTypes.string,
+  labelRight: PropTypes.string,
+};
 
 export default CGroupLabel;

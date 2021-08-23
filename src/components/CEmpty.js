@@ -15,12 +15,6 @@ import {cStyles} from '~/utils/style';
 import {Animations} from '~/utils/asset';
 import {moderateScale} from '~/utils/helper';
 
-CEmpty.propTypes = {
-  style: PropTypes.object,
-  label: PropTypes.string,
-  description: PropTypes.string,
-};
-
 function CEmpty(props) {
   const {style = {}} = props;
   /************
@@ -44,5 +38,11 @@ function CEmpty(props) {
 const styles = StyleSheet.create({
   img_empty: {height: moderateScale(100), width: moderateScale(100)},
 });
+
+CEmpty.propTypes = {
+  style: PropTypes.object,
+  label: PropTypes.string,
+  description: PropTypes.string,
+};
 
 export default CEmpty;
