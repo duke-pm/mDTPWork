@@ -16,7 +16,7 @@ import CUser from '~/components/CUser';
 import CAvatar from '~/components/CAvatar';
 import CStatusTag from '~/components/CStatusTag';
 /* COMMON */
-import Icons from '~/config/Icons';
+import Icons from '~/utils/common/Icons';
 import {cStyles} from '~/utils/style';
 import {DEFAULT_FORMAT_DATE_4} from '~/config/constants';
 import {checkEmpty, moderateScale} from '~/utils/helper';

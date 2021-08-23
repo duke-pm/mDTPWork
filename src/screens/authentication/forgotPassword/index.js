@@ -28,7 +28,7 @@ import CIcon from '~/components/CIcon';
 import CButton from '~/components/CButton';
 import CAvoidKeyboard from '~/components/CAvoidKeyboard';
 /* COMMON */
-import Icons from '~/config/Icons';
+import Icons from '~/utils/common/Icons';
 import {colors, cStyles} from '~/utils/style';
 import {
   IS_ANDROID,
@@ -216,7 +216,7 @@ function ForgotPassword(props) {
                         holderColor={colors.GRAY_500}
                         disabled={loading}
                         keyboard={'email-address'}
-                        icon={Icons.mail}
+                        icon={Icons.mailAuth}
                         iconColor={colors.GRAY_500}
                         holder={'forgot_password:input_email'}
                         returnKey={'send'}

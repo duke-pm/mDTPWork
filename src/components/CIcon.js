@@ -23,24 +23,6 @@ const INITIALS = {
   larger: moderateScale(28),
 };
 
-CIcon.propTypes = {
-  style: PropTypes.object,
-  iconStyle: PropTypes.object,
-  name: PropTypes.string,
-  size: PropTypes.oneOf([
-    'minium',
-    'smaller',
-    'small',
-    'medium',
-    'large',
-    'larger',
-  ]),
-  customSize: PropTypes.number,
-  color: PropTypes.string,
-  customColor: PropTypes.string,
-  onPress: PropTypes.func,
-};
-
 function CIcon(props) {
   const {customColors} = useTheme();
   const {
@@ -69,5 +51,23 @@ function CIcon(props) {
     </Touchable>
   );
 }
+
+CIcon.propTypes = {
+  style: PropTypes.object,
+  iconStyle: PropTypes.object,
+  name: PropTypes.string,
+  size: PropTypes.oneOf([
+    'minium',
+    'smaller',
+    'small',
+    'medium',
+    'large',
+    'larger',
+  ]),
+  customSize: PropTypes.number,
+  color: PropTypes.string,
+  customColor: PropTypes.string,
+  onPress: PropTypes.func,
+};
 
 export default CIcon;

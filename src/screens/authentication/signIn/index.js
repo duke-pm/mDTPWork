@@ -35,7 +35,7 @@ import CAvoidKeyboard from '~/components/CAvoidKeyboard';
 /* COMMON */
 import Routes from '~/navigation/Routes';
 import FieldsAuth from '~/config/fieldsAuth';
-import Icons from '~/config/Icons';
+import Icons from '~/utils/common/Icons';
 import {Assets} from '~/utils/asset';
 import {LOGIN, LANGUAGE, BIOMETRICS, FAST_LOGIN} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
@@ -227,20 +227,20 @@ function SignIn(props) {
   const onValidate = () => {
     let isUNEmpty = form.userName.trim().length === 0;
     let isPWEmpty = form.password.trim().length === 0;
-    let error = {};
+    let errorValidate = {};
 
     if (isUNEmpty) {
-      error.userName = true;
-      error.userNameHelper = 'error:user_name_empty';
+      errorValidate.userName = true;
+      errorValidate.userNameHelper = 'error:user_name_empty';
     }
     if (isPWEmpty) {
-      error.password = true;
-      error.passwordHelper = 'error:password_empty';
+      errorValidate.password = true;
+      errorValidate.passwordHelper = 'error:password_empty';
     }
 
     if (isUNEmpty || isPWEmpty) {
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-      setError(error);
+      setError(errorValidate);
       return false;
     } else {
       return true;
@@ -415,7 +415,7 @@ function SignIn(props) {
                       inputRef={userNameRef}
                       disabled={loading.submit}
                       value={form.userName}
-                      icon={Icons.userCircle}
+                      icon={Icons.usernameAuth}
                       iconColor={colors.GRAY_500}
                       holder={'sign_in:input_username'}
                       returnKey={'next'}
@@ -440,7 +440,7 @@ function SignIn(props) {
                       icon={
                         fastLogin.status
                           ? ifIphoneX(fastLogin.iconFaceID, fastLogin.icon)
-                          : Icons.lock
+                          : Icons.passwordAuth
                       }
                       iconColor={colors.GRAY_500}
                       holder={'sign_in:input_password'}

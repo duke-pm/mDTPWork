@@ -15,7 +15,7 @@ import moment from 'moment';
 import CText from '~/components/CText';
 import CIcon from '~/components/CIcon';
 /* COMMON */
-import Icons from '~/config/Icons';
+import Icons from '~/utils/common/Icons';
 import Commons from '~/utils/common/Commons';
 import {IS_ANDROID, moderateScale} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
@@ -31,13 +31,6 @@ import {
 let listener = null;
 let child = 0;
 const plCommon = moderateScale(4);
-
-BodyPreview.propTypes = {
-  formatDateView: PropTypes.string,
-  dataHeader: PropTypes.array,
-  dataBody: PropTypes.array,
-  headerScroll: PropTypes.any,
-};
 
 function BodyPreview(props) {
   const isDark = useColorScheme() === THEME_DARK;
@@ -412,5 +405,12 @@ const styles = StyleSheet.create({
   cell: {height: CELL_HEIGHT},
   cell_small: {height: CELL_HEIGHT},
 });
+
+BodyPreview.propTypes = {
+  formatDateView: PropTypes.string,
+  dataHeader: PropTypes.array,
+  dataBody: PropTypes.array,
+  headerScroll: PropTypes.any,
+};
 
 export default React.memo(BodyPreview);

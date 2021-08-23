@@ -25,7 +25,7 @@ const descriptionChart = {text: 'Durations (days)'};
 const animationChart = {
   durationX: 0,
   durationY: 1000,
-  easingY: 'Linear',
+  easingY: 'EaseInOutQuart',
 };
 const formatDateTime = 'YYYY-MM-DDT00:00:00';
 
@@ -129,8 +129,11 @@ function ProjectPlan(props) {
             moment(item.startDate, formatDateTime),
             'days',
           );
-          dataChart[0].values.push({y: durations + 1});
-          xValueFormatter.push('#' + item.taskID);
+          dataChart[0].values.unshift({
+            y: durations + 1,
+            marker: durations + 1 + ' days',
+          });
+          xValueFormatter.unshift('#' + item.taskID);
           dataTask.push({
             id: item.taskID,
             name: item.taskName,
@@ -250,6 +253,15 @@ function ProjectPlan(props) {
                     customLabel={'#' + item.id}
                   />
                 </View>
+                <CText
+                  customStyles={[
+                    cStyles.textCaption2,
+                    cStyles.fontBold,
+                    cStyles.pl6,
+                    {color: isDark ? item.typeDarkColor : item.typeColor},
+                  ]}
+                  customLabel={item.type}
+                />
                 <CText styles={'textCaption2 pl6'} customLabel={item.name} />
               </View>
             );

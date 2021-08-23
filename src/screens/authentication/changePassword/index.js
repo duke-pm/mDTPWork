@@ -25,7 +25,7 @@ import CButton from '~/components/CButton';
 import CIcon from '~/components/CIcon';
 import CAvoidKeyboard from '~/components/CAvoidKeyboard';
 /* COMMON */
-import Icons from '~/config/Icons';
+import Icons from '~/utils/common/Icons';
 import Routes from '~/navigation/Routes';
 import {colors, cStyles} from '~/utils/style';
 import {BIOMETRICS} from '~/config/constants';
@@ -258,7 +258,7 @@ function ChangePassword(props) {
                           value={form.password}
                           keyboard={'default'}
                           returnKey={'send'}
-                          icon={Icons.lock}
+                          icon={Icons.passwordAuth}
                           iconColor={colors.GRAY_500}
                           password
                           error={error.password}

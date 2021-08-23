@@ -19,7 +19,7 @@ import CButton from '~/components/CButton';
 import CGroupFilter from '~/components/CGroupFilter';
 import CDateTimePicker from '~/components/CDateTimePicker';
 /* COMMON */
-import Icons from '~/config/Icons';
+import Icons from '~/utils/common/Icons';
 import {colors, cStyles} from '~/utils/style';
 import {IS_ANDROID} from '~/utils/helper';
 
@@ -61,13 +61,6 @@ const STATUS_REQUEST = [
     label: 'approved_assets:status_reject',
   },
 ];
-
-Filter.propTypes = {
-  isResolve: PropTypes.bool.isRequired,
-  data: PropTypes.object.isRequired,
-  onFilter: PropTypes.func.isRequired,
-  onClose: PropTypes.func.isRequired,
-};
 
 function Filter(props) {
   const {t} = useTranslation();
@@ -287,5 +280,12 @@ const styles = StyleSheet.create({
   text_date: {flex: 0.3},
   input_date: {flex: 0.7},
 });
+
+Filter.propTypes = {
+  isResolve: PropTypes.bool.isRequired,
+  data: PropTypes.object.isRequired,
+  onFilter: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
+};
 
 export default Filter;

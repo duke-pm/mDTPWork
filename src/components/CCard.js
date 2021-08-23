@@ -19,29 +19,12 @@ import LinearGradient from 'react-native-linear-gradient';
 import CText from './CText';
 import CIconButton from './CIconButton';
 /* COMMON */
-import Icons from '~/config/Icons';
+import Icons from '~/utils/common/Icons';
 import {THEME_DARK} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
 import {IS_ANDROID, IS_IOS} from '~/utils/helper';
 
 const Touchable = IS_IOS ? TouchableHighlight : TouchableNativeFeedback;
-
-CCard.propTypes = {
-  key: PropTypes.string,
-  style: PropTypes.object,
-  containerStyle: PropTypes.object,
-  contentLabelStyle: PropTypes.object,
-  gradientColor: PropTypes.array,
-  detail: PropTypes.bool,
-  customIconHeader: PropTypes.array,
-  label: PropTypes.string,
-  customLabel: PropTypes.string,
-  content: PropTypes.element,
-  footer: PropTypes.element,
-  onLayout: PropTypes.func,
-  onPress: PropTypes.func,
-  onDetailPress: PropTypes.func,
-};
 
 function CCard(props) {
   const {customColors} = useTheme();
@@ -155,5 +138,22 @@ const styles = StyleSheet.create({
   con_header_left: {flex: 0.9},
   con_header_right: {flex: 0.1},
 });
+
+CCard.propTypes = {
+  key: PropTypes.string,
+  style: PropTypes.object,
+  containerStyle: PropTypes.object,
+  contentLabelStyle: PropTypes.object,
+  gradientColor: PropTypes.array,
+  detail: PropTypes.bool,
+  customIconHeader: PropTypes.array,
+  label: PropTypes.string,
+  customLabel: PropTypes.string,
+  content: PropTypes.element,
+  footer: PropTypes.element,
+  onLayout: PropTypes.func,
+  onPress: PropTypes.func,
+  onDetailPress: PropTypes.func,
+};
 
 export default CCard;

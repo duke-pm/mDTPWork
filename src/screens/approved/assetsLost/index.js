@@ -16,7 +16,7 @@ import {View} from 'react-native';
 import moment from 'moment';
 /* COMPONENTS */
 import ListRequest from '../components/ListRequest';
-import TabbarLoading from '../components/TabbarLoading';
+import CContentLoader from '~/components/CContentLoader';
 /* COMMON */
 import Routes from '~/navigation/Routes';
 import {LOAD_MORE, REFRESH} from '~/config/constants';
@@ -25,10 +25,6 @@ import {cStyles} from '~/utils/style';
 import Commons from '~/utils/common/Commons';
 /* REDUX */
 import * as Actions from '~/redux/actions';
-
-ApprovedAssetsLost.propTypes = {
-  dataRoute: PropTypes.object,
-};
 
 function ApprovedAssetsLost(props) {
   const {t} = useTranslation();
@@ -265,9 +261,16 @@ function ApprovedAssetsLost(props) {
           onLoadmore={onLoadmore}
         />
       )}
-      <TabbarLoading show={loading.main || loading.startFetch} />
+      <CContentLoader
+        visible={loading.main || loading.startFetch}
+        customColors={customColors}
+      />
     </View>
   );
 }
+
+ApprovedAssetsLost.propTypes = {
+  dataRoute: PropTypes.object,
+};
 
 export default ApprovedAssetsLost;

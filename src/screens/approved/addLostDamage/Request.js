@@ -27,7 +27,6 @@ import CContainer from '~/components/CContainer';
 import CText from '~/components/CText';
 import CInput from '~/components/CInput';
 import CCard from '~/components/CCard';
-import CButton from '~/components/CButton';
 import CActionSheet from '~/components/CActionSheet';
 import CAlert from '~/components/CAlert';
 import CLabel from '~/components/CLabel';
@@ -38,8 +37,9 @@ import CTouchable from '~/components/CTouchable';
 import RejectModal from '../components/RejectModal';
 import CheckOption from '../components/CheckOption';
 import Process from '../components/Process';
+import FooterFormRequest from '../components/FooterFormRequest';
 /* COMMON */
-import Icons from '~/config/Icons';
+import Icons from '~/utils/common/Icons';
 import Routes from '~/navigation/Routes';
 import Commons from '~/utils/common/Commons';
 import FieldsAuth from '~/config/fieldsAuth';
@@ -921,44 +921,15 @@ function AddRequest(props) {
         </KeyboardAwareScrollView>
       }
       footer={
-        !isDetail ? (
-          <View style={[cStyles.px16, cStyles.pb8]}>
-            <CButton
-              block
-              disabled={loading.main || loading.submitAdd}
-              icon={Icons.send}
-              label={'add_approved_lost_damaged:send'}
-              onPress={onSendRequest}
-            />
-          </View>
-        ) : isShowApprovedReject ? (
-          <View
-            style={[
-              cStyles.row,
-              cStyles.itemsCenter,
-              cStyles.justifyEvenly,
-              cStyles.px16,
-            ]}>
-            <CButton
-              style={styles.button_approved}
-              block
-              color={customColors.red}
-              disabled={loading.main}
-              icon={Icons.close}
-              label={'add_approved_lost_damaged:reject'}
-              onPress={handleReject}
-            />
-            <CButton
-              style={styles.button_reject}
-              block
-              color={customColors.green}
-              disabled={loading.main}
-              icon={Icons.check}
-              label={'add_approved_lost_damaged:approved'}
-              onPress={handleApproved}
-            />
-          </View>
-        ) : null
+        <FooterFormRequest
+          loading={loading.main || loading.submitAdd}
+          customColors={customColors}
+          isDetail={isDetail}
+          isApprovedReject={isShowApprovedReject}
+          onAdd={onSendRequest}
+          onReject={handleReject}
+          onApproved={handleApproved}
+        />
       }
     />
   );

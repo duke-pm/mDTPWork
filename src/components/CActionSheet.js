@@ -14,7 +14,7 @@ import {BlurView} from '@react-native-community/blur';
 /** COMPONENTS */
 import CIconButton from './CIconButton';
 /** COMMON */
-import Icons from '~/config/Icons';
+import Icons from '~/utils/common/Icons';
 import {colors, cStyles} from '~/utils/style';
 import {THEME_DARK} from '~/config/constants';
 import {IS_IOS, moderateScale} from '~/utils/helper';

@@ -20,7 +20,7 @@ import CList from '~/components/CList';
 import {DARK_MODE, THEME_DARK} from '~/config/constants';
 import {saveLocalInfo, getLocalInfo, sH} from '~/utils/helper';
 import {cStyles} from '~/utils/style';
-import Icons from '~/config/Icons';
+import Icons from '~/utils/common/Icons';
 
 const RowSelect = (
   isDark,

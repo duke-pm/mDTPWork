@@ -45,7 +45,9 @@
     "read_less": "Read less",
     "read_more": "Read more",
     "connection_again": "Connection Again",
-    "note_chart": "Note chart"
+    "note_chart": "Note chart",
+    "approved": "Approved",
+    "reject": "Reject"
   },
   "status": {
     "title": "Status",
@@ -276,8 +278,6 @@
     "supplier": "Suggested supplier",
     "holder_supplier": "Supplier",
     "send": "Send",
-    "approved": "Approved",
-    "reject": "Reject",
     "wait": "Wait approved",
     "message_confirm_approved": "Would you like to approve this application?",
     "message_confirm_reject": "The reason for rejecting this allotment report",
@@ -343,8 +343,6 @@
     "lost_assets": "Lost",
     "damage_assets": "Damage",
     "send": "Send",
-    "approved": "Approved",
-    "reject": "Reject",
     "wait": "Wait approve",
     "message_confirm_approved_lost": "Would you like to accept this claim for lost of property?",
     "message_confirm_approved_damage": "Would you like to accept this property damage report?",

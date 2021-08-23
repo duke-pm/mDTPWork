@@ -33,7 +33,7 @@ import {
   resetRoute,
 } from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
-import Icons from '~/config/Icons';
+import Icons from '~/utils/common/Icons';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 

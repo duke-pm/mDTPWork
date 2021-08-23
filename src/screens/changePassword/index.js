@@ -26,7 +26,7 @@ import CInput from '~/components/CInput';
 import CButton from '~/components/CButton';
 import CGroupInfo from '~/components/CGroupInfo';
 /* COMMON */
-import Icons from '~/config/Icons';
+import Icons from '~/utils/common/Icons';
 import Routes from '~/navigation/Routes';
 import {cStyles, colors} from '~/utils/style';
 import {BIOMETRICS, LOGIN} from '~/config/constants';

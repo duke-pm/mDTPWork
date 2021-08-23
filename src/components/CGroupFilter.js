@@ -18,7 +18,7 @@ import CLabel from './CLabel';
 import CIcon from './CIcon';
 import CTouchable from './CTouchable';
 /* COMMON */
-import Icons from '~/config/Icons';
+import Icons from '~/utils/common/Icons';
 import {IS_ANDROID} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
 

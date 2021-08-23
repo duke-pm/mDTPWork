@@ -17,16 +17,6 @@ import {Assets} from '~/utils/asset';
 import {cStyles} from '~/utils/style';
 import {IS_ANDROID, moderateScale, sW} from '~/utils/helper';
 
-CItem.propTypes = {
-  itemStyle: PropTypes.object,
-  iconStyle: PropTypes.object,
-  textStyle: PropTypes.object,
-  key: PropTypes.string,
-  index: PropTypes.number,
-  data: PropTypes.object,
-  onPress: PropTypes.func,
-};
-
 function CItem(props) {
   const {
     itemStyle = {},
@@ -99,5 +89,15 @@ const styles = StyleSheet.create({
   item: {width: sW('24%')},
   icon: {width: moderateScale(50), height: moderateScale(50)},
 });
+
+CItem.propTypes = {
+  itemStyle: PropTypes.object,
+  iconStyle: PropTypes.object,
+  textStyle: PropTypes.object,
+  key: PropTypes.string,
+  index: PropTypes.number,
+  data: PropTypes.object,
+  onPress: PropTypes.func,
+};
 
 export default CItem;

@@ -9,6 +9,7 @@ import {fromJS} from 'immutable';
 import React, {useState, useEffect, useLayoutEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
+import {useTheme} from '@react-navigation/native';
 import {showMessage} from 'react-native-flash-message';
 import {LayoutAnimation, UIManager} from 'react-native';
 import moment from 'moment';
@@ -20,13 +21,14 @@ import CIconHeader from '~/components/CIconHeader';
 import ListProject from '../list/Project';
 /** COMMON */
 import Configs from '~/config';
-import Icons from '~/config/Icons';
+import Icons from '~/utils/common/Icons';
 import Routes from '~/navigation/Routes';
 import {LOAD_MORE, REFRESH} from '~/config/constants';
 import {IS_ANDROID} from '~/utils/helper';
 import {usePrevious} from '~/utils/hook';
 /** REDUX */
 import * as Actions from '~/redux/actions';
+import CContentLoader from '~/components/CContentLoader';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -36,6 +38,7 @@ if (IS_ANDROID) {
 
 function Project(props) {
   const {t} = useTranslation();
+  const {customColors} = useTheme();
   const {navigation} = props;
 
   /** Use redux */
@@ -347,7 +350,8 @@ function Project(props) {
    ************/
   return (
     <CContainer
-      loading={loading.main || loading.startFetch}
+      loading={false}
+      contentLoader={loading.main || loading.startFetch}
       content={
         <CContent scrollEnabled={false}>
           <CSearchBar

@@ -26,7 +26,7 @@ import CAvatar from '~/components/CAvatar';
 import CIcon from '~/components/CIcon';
 import ListTask from '../list/Task';
 /* COMMON */
-import Icons from '~/config/Icons';
+import Icons from '~/utils/common/Icons';
 import Commons from '~/utils/common/Commons';
 import {IS_ANDROID, moderateScale} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
@@ -53,16 +53,6 @@ const CustomLayoutAnimation = {
     type: LayoutAnimation.Types.easeInEaseOut,
     property: LayoutAnimation.Properties.opacity,
   },
-};
-
-TaskItem.propTypes = {
-  loading: PropTypes.bool,
-  data: PropTypes.object.isRequired,
-  translation: PropTypes.func,
-  isDark: PropTypes.bool,
-  customColors: PropTypes.object,
-  onPress: PropTypes.func,
-  onRefresh: PropTypes.func,
 };
 
 function TaskItem(props) {
@@ -397,5 +387,15 @@ const styles = StyleSheet.create({
     right: moderateScale(5),
   },
 });
+
+TaskItem.propTypes = {
+  loading: PropTypes.bool,
+  data: PropTypes.object.isRequired,
+  translation: PropTypes.func,
+  isDark: PropTypes.bool,
+  customColors: PropTypes.object,
+  onPress: PropTypes.func,
+  onRefresh: PropTypes.func,
+};
 
 export default React.memo(TaskItem);

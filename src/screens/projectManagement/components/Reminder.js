@@ -25,7 +25,7 @@ import CIcon from '~/components/CIcon';
 import {RowInfoBasic} from '../detail/Task';
 /* COMMON */
 import Configs from '~/config';
-import Icons from '~/config/Icons';
+import Icons from '~/utils/common/Icons';
 import {DTP_CALENDAR} from '~/config/constants';
 import {cStyles} from '~/utils/style';
 import {
@@ -55,13 +55,6 @@ const urlLinkToApp = __DEV__
   : Configs.prefixesProd[IS_IOS ? 1 : 0] +
     (IS_ANDROID ? '/' : '') +
     Configs.routePath.TaskDetail.split(':')[0];
-
-Reminder.propTypes = {
-  t: PropTypes.func,
-  isDark: PropTypes.bool,
-  customColors: PropTypes.object,
-  task: PropTypes.object,
-};
 
 function Reminder(props) {
   const {task, t, isDark, customColors} = props;
@@ -526,5 +519,12 @@ function Reminder(props) {
     </View>
   );
 }
+
+Reminder.propTypes = {
+  t: PropTypes.func,
+  isDark: PropTypes.bool,
+  customColors: PropTypes.object,
+  task: PropTypes.object,
+};
 
 export default Reminder;

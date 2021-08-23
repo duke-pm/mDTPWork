@@ -16,7 +16,7 @@ import {View} from 'react-native';
 import moment from 'moment';
 /* COMPONENTS */
 import ListRequest from '../components/ListRequest';
-import TabbarLoading from '../components/TabbarLoading';
+import CContentLoader from '~/components/CContentLoader';
 /* COMMON */
 import Routes from '~/navigation/Routes';
 import Commons from '~/utils/common/Commons';
@@ -25,10 +25,6 @@ import {usePrevious} from '~/utils/hook';
 import {LOAD_MORE, REFRESH} from '~/config/constants';
 /* REDUX */
 import * as Actions from '~/redux/actions';
-
-ApprovedAssets.propTypes = {
-  dataRoute: PropTypes.object,
-};
 
 function ApprovedAssets(props) {
   const {t} = useTranslation();
@@ -265,9 +261,16 @@ function ApprovedAssets(props) {
           onLoadmore={onLoadmore}
         />
       )}
-      <TabbarLoading show={loading.main || loading.startFetch} />
+      <CContentLoader
+        visible={loading.main || loading.startFetch}
+        customColors={customColors}
+      />
     </View>
   );
 }
+
+ApprovedAssets.propTypes = {
+  dataRoute: PropTypes.object,
+};
 
 export default ApprovedAssets;

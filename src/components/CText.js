@@ -12,14 +12,6 @@ import {View, Text, TouchableOpacity} from 'react-native';
 /** COMMON */
 import {cStyles} from '~/utils/style';
 
-CText.propTypes = {
-  styles: PropTypes.string,
-  customStyles: PropTypes.object,
-  label: PropTypes.string,
-  customLabel: PropTypes.string,
-  onPress: PropTypes.func,
-};
-
 function CText(props) {
   const {t} = useTranslation();
   const {customColors} = useTheme();
@@ -58,5 +50,13 @@ function CText(props) {
     </Component>
   );
 }
+
+CText.propTypes = {
+  styles: PropTypes.string,
+  customStyles: PropTypes.object,
+  label: PropTypes.string,
+  customLabel: PropTypes.string,
+  onPress: PropTypes.func,
+};
 
 export default CText;

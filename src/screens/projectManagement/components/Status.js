@@ -18,7 +18,7 @@ import CIcon from '~/components/CIcon';
 import CActionSheet from '~/components/CActionSheet';
 import CActivityIndicator from '~/components/CActivityIndicator';
 /* COMMON */
-import Icons from '~/config/Icons';
+import Icons from '~/utils/common/Icons';
 import Commons from '~/utils/common/Commons';
 import {colors, cStyles} from '~/utils/style';
 import {alert, moderateScale} from '~/utils/helper';

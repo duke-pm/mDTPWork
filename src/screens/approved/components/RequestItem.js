@@ -16,19 +16,10 @@ import CCard from '~/components/CCard';
 import CStatusTag from '~/components/CStatusTag';
 import CUser from '~/components/CUser';
 /* COMMON */
-import Icons from '~/config/Icons';
+import Icons from '~/utils/common/Icons';
 import Commons from '~/utils/common/Commons';
 import {cStyles} from '~/utils/style';
 import {DEFAULT_FORMAT_DATE_4} from '~/config/constants';
-
-RequestItem.propTypes = {
-  customColors: PropTypes.object,
-  index: PropTypes.number,
-  data: PropTypes.object,
-  dataProcess: PropTypes.array,
-  dataDetail: PropTypes.array,
-  onPress: PropTypes.func,
-};
 
 function RequestItem(props) {
   const {t} = useTranslation();
@@ -137,5 +128,14 @@ function RequestItem(props) {
 const styles = StyleSheet.create({
   flex_half: {flex: 0.5},
 });
+
+RequestItem.propTypes = {
+  customColors: PropTypes.object,
+  index: PropTypes.number,
+  data: PropTypes.object,
+  dataProcess: PropTypes.array,
+  dataDetail: PropTypes.array,
+  onPress: PropTypes.func,
+};
 
 export default React.memo(RequestItem);

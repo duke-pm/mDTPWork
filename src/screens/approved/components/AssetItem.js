@@ -15,7 +15,7 @@ import CurrencyInput from 'react-native-currency-input';
 /** COMPONENTS */
 import CIconButton from '~/components/CIconButton';
 /* COMMON */
-import Icons from '~/config/Icons';
+import Icons from '~/utils/common/Icons';
 import {cStyles} from '~/utils/style';
 import {moderateScale} from '~/utils/helper';
 

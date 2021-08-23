@@ -16,7 +16,7 @@ import {View} from 'react-native';
 import moment from 'moment';
 /* COMPONENTS */
 import ListRequest from '../components/ListRequest';
-import TabbarLoading from '../components/TabbarLoading';
+import CContentLoader from '~/components/CContentLoader';
 /* COMMON */
 import Routes from '~/navigation/Routes';
 import Commons from '~/utils/common/Commons';
@@ -255,7 +255,10 @@ function ApprovedAssetsDamage(props) {
           onLoadmore={onLoadmore}
         />
       )}
-      <TabbarLoading show={loading.main || loading.startFetch} />
+      <CContentLoader
+        visible={loading.main || loading.startFetch}
+        customColors={customColors}
+      />
     </View>
   );
 }

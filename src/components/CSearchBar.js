@@ -24,16 +24,6 @@ if (IS_ANDROID) {
   }
 }
 
-CSearchBar.propTypes = {
-  containerStyle: PropTypes.object,
-  style: PropTypes.object,
-  loading: PropTypes.bool,
-  isVisible: PropTypes.bool.isRequired,
-  valueSearch: PropTypes.string,
-  onSearch: PropTypes.func.isRequired,
-  onClose: PropTypes.func.isRequired,
-};
-
 function CSearchBar(props) {
   const {t} = useTranslation();
   const theme = useColorScheme();
@@ -118,5 +108,15 @@ function CSearchBar(props) {
     </View>
   );
 }
+
+CSearchBar.propTypes = {
+  containerStyle: PropTypes.object,
+  style: PropTypes.object,
+  loading: PropTypes.bool,
+  isVisible: PropTypes.bool.isRequired,
+  valueSearch: PropTypes.string,
+  onSearch: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
+};
 
 export default CSearchBar;

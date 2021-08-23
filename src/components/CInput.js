@@ -22,7 +22,7 @@ import CText from './CText';
 import CIcon from './CIcon';
 import CLabel from './CLabel';
 /* COMMON */
-import Icons from '~/config/Icons';
+import Icons from '~/utils/common/Icons';
 import {colors, cStyles} from '~/utils/style';
 import {IS_ANDROID, IS_IOS, moderateScale, verticalScale} from '~/utils/helper';
 import {THEME_DARK} from '~/config/constants';
@@ -302,8 +302,8 @@ const styles = StyleSheet.create({
       ? verticalScale(38)
       : ifIphoneX(verticalScale(30), verticalScale(36)),
     height: IS_ANDROID
-      ? verticalScale(38)
-      : ifIphoneX(verticalScale(30), verticalScale(36)),
+      ? verticalScale(36)
+      : ifIphoneX(verticalScale(28), verticalScale(34)),
   },
   input: {
     width: '100%',

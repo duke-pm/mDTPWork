@@ -23,7 +23,7 @@ import CIcon from '~/components/CIcon';
 import CTouchable from '~/components/CTouchable';
 import AssetItem from './AssetItem';
 /* COMMON */
-import Icons from '~/config/Icons';
+import Icons from '~/utils/common/Icons';
 import {colors, cStyles} from '~/utils/style';
 import {moderateScale, IS_ANDROID, verticalScale} from '~/utils/helper';
 
@@ -34,14 +34,6 @@ if (IS_ANDROID) {
 }
 
 const heightItemTable = IS_ANDROID ? verticalScale(38) : verticalScale(30);
-
-AssetsTable.propTypes = {
-  loading: PropTypes.bool,
-  checking: PropTypes.bool,
-  isDetail: PropTypes.bool,
-  assets: PropTypes.object,
-  onCallbackValidate: PropTypes.func,
-};
 
 export const widthItemTable = [
   moderateScale(35),
@@ -310,5 +302,13 @@ const styles = StyleSheet.create({
   con_left: {flex: 0.4},
   con_right: {flex: 0.6},
 });
+
+AssetsTable.propTypes = {
+  loading: PropTypes.bool,
+  checking: PropTypes.bool,
+  isDetail: PropTypes.bool,
+  assets: PropTypes.object,
+  onCallbackValidate: PropTypes.func,
+};
 
 export default AssetsTable;

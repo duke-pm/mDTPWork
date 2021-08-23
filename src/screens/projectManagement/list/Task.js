@@ -18,14 +18,6 @@ import Routes from '~/navigation/Routes';
 import {THEME_DARK} from '~/config/constants';
 import {cStyles} from '~/utils/style';
 
-ListTask.propTypes = {
-  refreshing: PropTypes.bool,
-  loadmore: PropTypes.bool,
-  data: PropTypes.array,
-  onLoadmore: PropTypes.func,
-  onRefreshTasks: PropTypes.func,
-};
-
 function ListTask(props) {
   const {t} = useTranslation();
   const navigation = useNavigation();
@@ -77,5 +69,13 @@ function ListTask(props) {
     </View>
   );
 }
+
+ListTask.propTypes = {
+  refreshing: PropTypes.bool,
+  loadmore: PropTypes.bool,
+  data: PropTypes.array,
+  onLoadmore: PropTypes.func,
+  onRefreshTasks: PropTypes.func,
+};
 
 export default ListTask;

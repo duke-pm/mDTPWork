@@ -14,23 +14,13 @@ import CActionSheet from '~/components/CActionSheet';
 import CIcon from '~/components/CIcon';
 import RequestProcess from './RequestProcess';
 /* COMMON */
-import Icons from '~/config/Icons';
+import Icons from '~/utils/common/Icons';
 import Commons from '~/utils/common/Commons';
 import {cStyles} from '~/utils/style';
 import {moderateScale} from '~/utils/helper';
 
 const asProcessRef = createRef();
 const sizeLargeIcon = moderateScale(30);
-
-Process.propTypes = {
-  isDark: PropTypes.bool.isRequired,
-  customColors: PropTypes.object.isRequired,
-  statusColor: PropTypes.string,
-  statusName: PropTypes.string,
-  statusIcon: PropTypes.string,
-  statusID: PropTypes.number,
-  data: PropTypes.array,
-};
 
 function Process(props) {
   const {
@@ -107,5 +97,15 @@ function Process(props) {
     </>
   );
 }
+
+Process.propTypes = {
+  isDark: PropTypes.bool.isRequired,
+  customColors: PropTypes.object.isRequired,
+  statusColor: PropTypes.string,
+  statusName: PropTypes.string,
+  statusIcon: PropTypes.string,
+  statusID: PropTypes.number,
+  data: PropTypes.array,
+};
 
 export default Process;

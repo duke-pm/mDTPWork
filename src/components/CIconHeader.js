@@ -17,10 +17,6 @@ import {THEME_DARK} from '~/config/constants';
 import {moderateScale} from '~/utils/helper';
 import {cStyles} from '~/utils/style';
 
-CIconHeader.propTypes = {
-  icons: PropTypes.array,
-};
-
 function CIconHeader(props) {
   const {customColors} = useTheme();
   const isDark = useColorScheme() === THEME_DARK;
@@ -81,5 +77,9 @@ const styles = StyleSheet.create({
     top: moderateScale(5),
   },
 });
+
+CIconHeader.propTypes = {
+  icons: PropTypes.array,
+};
 
 export default CIconHeader;

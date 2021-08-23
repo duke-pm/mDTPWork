@@ -30,6 +30,7 @@
     "moment": "^2.29.1",
     "prop-types": "^15.7.2",
     "react": "17.0.1",
+    "react-content-loader": "^6.0.3",
     "react-devtools": "^4.12.4",
     "react-i18next": "^11.8.13",
     "react-native": "0.64.2",

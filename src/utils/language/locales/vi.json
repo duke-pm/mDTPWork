@@ -45,7 +45,9 @@
     "read_less": "Thu gọn",
     "read_more": "Xem thêm",
     "connection_again": "Kiểm tra kết nối",
-    "note_chart": "Chú thích"
+    "note_chart": "Chú thích",
+    "approved": "Duyệt",
+    "reject": "Không Duyệt"
   },
   "status": {
     "title": "Trạng thái",
@@ -276,8 +278,6 @@
     "supplier": "Nhà cung cấp đề nghị",
     "holder_supplier": "Nhà cung cấp",
     "send": "Gửi Yêu Cầu",
-    "approved": "Duyệt",
-    "reject": "Không Duyệt",
     "wait": "Chờ duyệt",
     "message_confirm_approved": "Bạn đồng ý chấp thuận đơn cấp phát này?",
     "message_confirm_reject": "Lý do từ chối đơn cấp phát này",
@@ -343,8 +343,6 @@
     "lost_assets": "Báo mất",
     "damage_assets": "Báo hỏng",
     "send": "Gửi Yêu Cầu",
-    "approved": "Duyệt",
-    "reject": "Không Duyệt",
     "wait": "Chờ duyệt",
     "message_confirm_approved_lost": "Bạn đồng ý chấp thuận đơn báo mất này?",
     "message_confirm_approved_damage": "Bạn đồng ý chấp thuận đơn báo hỏng này?",

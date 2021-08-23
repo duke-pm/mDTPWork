@@ -14,7 +14,7 @@ import moment from 'moment';
 import CButton from './CButton';
 import CText from './CText';
 import CIcon from './CIcon';
-import Icons from '~/config/Icons';
+import Icons from '~/utils/common/Icons';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
 import {
@@ -24,12 +24,6 @@ import {
   choosePhotoFromGallery,
   IS_ANDROID,
 } from '~/utils/helper';
-
-CUploadImage.propTypes = {
-  onChange: PropTypes.func,
-  loading: PropTypes.object,
-  file: PropTypes.object,
-};
 
 function CUploadImage(props) {
   const {t} = useTranslation();
@@ -201,5 +195,11 @@ const styles = StyleSheet.create({
 
   container: {backgroundColor: colors.WHITE},
 });
+
+CUploadImage.propTypes = {
+  onChange: PropTypes.func,
+  loading: PropTypes.object,
+  file: PropTypes.object,
+};
 
 export default CUploadImage;

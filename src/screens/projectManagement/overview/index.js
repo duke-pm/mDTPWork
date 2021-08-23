@@ -19,12 +19,11 @@ import moment from 'moment';
 import CText from '~/components/CText';
 import CIconHeader from '~/components/CIconHeader';
 import CDateTimePicker from '~/components/CDateTimePicker';
-import CActivityIndicator from '~/components/CActivityIndicator';
 import BodyPreview from '../components/BodyPreview';
 /** COMMON */
 import Configs from '~/config';
 import Routes from '~/navigation/Routes';
-import Icons from '~/config/Icons';
+import Icons from '~/utils/common/Icons';
 import {IS_ANDROID} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
 import {usePrevious} from '~/utils/hook';
@@ -36,6 +35,7 @@ import {
 } from '~/config/constants';
 /** REDUX */
 import * as Actions from '~/redux/actions';
+import CContentLoader from '~/components/CContentLoader';
 
 const DATA_HEADER = [
   {
@@ -545,16 +545,15 @@ function ProjectOverview(props) {
             removeClippedSubviews={IS_ANDROID}
             refreshing={loading.refreshing}
             onRefresh={onRefreshOverview}
-            // onEndReachedThreshold={0.1}
-            // onEndReached={onLoadmoreOverview}
           />
         )}
 
-        {loading.startFetch && (
-          <View style={cStyles.flexCenter}>
-            <CActivityIndicator />
-          </View>
-        )}
+        <CContentLoader
+          horizontal={true}
+          type={'table'}
+          visible={loading.startFetch}
+          customColors={customColors}
+        />
 
         {/** Date Picker */}
         <CDateTimePicker

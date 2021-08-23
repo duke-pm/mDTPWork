@@ -13,7 +13,7 @@ import * as Animatable from 'react-native-animatable';
 import CText from '~/components/CText';
 import CIcon from './CIcon';
 /** COMMON */
-import Icons from '~/config/Icons';
+import Icons from '~/utils/common/Icons';
 import {colors, cStyles} from '~/utils/style';
 
 /** All refs on check box */
@@ -67,7 +67,7 @@ function CCheckbox(props) {
         )}
 
         <CIcon
-          name={value ? Icons.checkCircle : Icons.circle}
+          name={value ? Icons.checkSquare : Icons.square}
           size={'medium'}
           customColor={value ? colors.SECONDARY : colors.WHITE}
         />

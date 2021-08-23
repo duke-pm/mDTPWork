@@ -35,7 +35,7 @@ import CButton from '~/components/CButton';
 import CIcon from '~/components/CIcon';
 /* COMMON */
 import Configs from '~/config';
-import Icons from '~/config/Icons';
+import Icons from '~/utils/common/Icons';
 import {THEME_DARK} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
 import {

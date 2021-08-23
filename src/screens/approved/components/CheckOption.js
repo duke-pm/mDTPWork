@@ -12,11 +12,18 @@ import * as Animatable from 'react-native-animatable';
 import CText from '~/components/CText';
 import CIcon from '~/components/CIcon';
 /* COMMON */
-import Icons from '~/config/Icons';
+import Icons from '~/utils/common/Icons';
 import {colors, cStyles} from '~/utils/style';
 
 function CheckOption(props) {
-  const {loading, isDetail, customColors, value, values, onCallback} = props;
+  const {
+    loading = false,
+    isDetail = false,
+    customColors = {},
+    value = true,
+    values = [],
+    onCallback = () => null,
+  } = props;
 
   /** Use state */
   const [chooseValue, setChooseValue] = useState('N');
@@ -54,7 +61,7 @@ function CheckOption(props) {
         }
         return (
           <TouchableOpacity
-            key={index.toString()}
+            key={item.label}
             disabled={loading || isDetail}
             onPress={() => handleChooseTypeAssets(item.value, item.ref)}>
             <Animatable.View
@@ -68,7 +75,7 @@ function CheckOption(props) {
               useNativeDriver={true}>
               <CIcon
                 name={
-                  chooseValue === item.value ? Icons.checkCircle : Icons.circle
+                  chooseValue === item.value ? Icons.checkSquare : Icons.square
                 }
                 size={'medium'}
                 customColor={
@@ -90,7 +97,7 @@ CheckOption.propTypes = {
   loading: PropTypes.bool,
   isDetail: PropTypes.bool,
   customColors: PropTypes.object,
-  value: PropTypes.string,
+  value: PropTypes.any,
   values: PropTypes.array,
   onCallback: PropTypes.func,
 };

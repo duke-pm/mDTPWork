@@ -15,10 +15,6 @@ import {colors, cStyles} from '~/utils/style';
 import {IS_IOS} from '~/utils/helper';
 import {THEME_DARK} from '~/config/constants';
 
-CFooter.propTypes = {
-  content: PropTypes.element,
-};
-
 function CFooter(props) {
   const {customColors} = useTheme();
   const isDark = useColorScheme() === THEME_DARK;
@@ -48,5 +44,9 @@ function CFooter(props) {
     </View>
   );
 }
+
+CFooter.propTypes = {
+  content: PropTypes.element,
+};
 
 export default CFooter;

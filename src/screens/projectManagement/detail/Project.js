@@ -21,7 +21,7 @@ import CIconHeader from '~/components/CIconHeader';
 import ListTask from '../list/Task';
 /** COMMON */
 import Configs from '~/config';
-import Icons from '~/config/Icons';
+import Icons from '~/utils/common/Icons';
 import Routes from '~/navigation/Routes';
 import FieldsAuth from '~/config/fieldsAuth';
 import {LOAD_MORE, LOGIN, REFRESH} from '~/config/constants';
@@ -482,7 +482,8 @@ function ProjectDetail(props) {
    ************/
   return (
     <CContainer
-      loading={loading.main}
+      loading={false}
+      contentLoader={loading.main || loading.startFetch}
       content={
         <CContent scrollEnabled={false}>
           <CSearchBar

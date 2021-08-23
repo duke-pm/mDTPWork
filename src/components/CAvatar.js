@@ -23,7 +23,7 @@ import Modal from 'react-native-modal';
 import CText from './CText';
 import CIcon from './CIcon';
 /* COMMON */
-import Icons from '~/config/Icons';
+import Icons from '~/utils/common/Icons';
 import {Assets} from '~/utils/asset';
 import {colors, cStyles} from '~/utils/style';
 import {THEME_DARK} from '~/config/constants';

@@ -15,7 +15,7 @@ import CText from '~/components/CText';
 import CLoading from '~/components/CLoading';
 import CFooterList from '~/components/CFooterList';
 /* COMMON */
-import Icons from '~/config/Icons';
+import Icons from '~/utils/common/Icons';
 import {colors, cStyles} from '~/utils/style';
 import {moderateScale} from '~/utils/helper';
 import {THEME_DARK} from '~/config/constants';

@@ -22,22 +22,10 @@ import CText from '~/components/CText';
 import CIcon from '~/components/CIcon';
 /* COMMON */
 import Configs from '~/config';
-import Icons from '~/config/Icons';
+import Icons from '~/utils/common/Icons';
 import {alert, moderateScale} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
 import {Assets} from '~/utils/asset';
-
-ListItem.propTypes = {
-  key: PropTypes.string,
-  index: PropTypes.number,
-  lastIndex: PropTypes.number,
-  data: PropTypes.object,
-  dataActiveLang: PropTypes.object,
-  dataToggle: PropTypes.object,
-  customColors: PropTypes.object,
-  onSignOut: PropTypes.func,
-  onToggle: PropTypes.func,
-};
 
 function ListItem(props) {
   const navigation = useNavigation();
@@ -213,5 +201,17 @@ const styles = StyleSheet.create({
   img_flag: {height: moderateScale(20), width: moderateScale(20)},
   img_biometric: {height: moderateScale(23), width: moderateScale(23)},
 });
+
+ListItem.propTypes = {
+  key: PropTypes.string,
+  index: PropTypes.number,
+  lastIndex: PropTypes.number,
+  data: PropTypes.object,
+  dataActiveLang: PropTypes.object,
+  dataToggle: PropTypes.object,
+  customColors: PropTypes.object,
+  onSignOut: PropTypes.func,
+  onToggle: PropTypes.func,
+};
 
 export default ListItem;

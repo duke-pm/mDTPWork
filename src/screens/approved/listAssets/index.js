@@ -8,6 +8,7 @@
 import React, {createRef, useState, useLayoutEffect} from 'react';
 import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
+import {useTheme} from '@react-navigation/native';
 import {StyleSheet, View, LayoutAnimation, UIManager} from 'react-native';
 import {TabView} from 'react-native-tab-view';
 import moment from 'moment';
@@ -21,15 +22,13 @@ import Assets from '../assets';
 import AssetsDamage from '../assetsDamage';
 import AssetsLost from '../assetsLost';
 import TabbarType from '../components/TabbarType';
+import FilterTags from '../components/FilterTags';
 /* COMMON */
-import Icons from '~/config/Icons';
+import Icons from '~/utils/common/Icons';
 import Routes from '~/navigation/Routes';
 import Commons from '~/utils/common/Commons';
 import {IS_ANDROID} from '~/utils/helper';
 import {cStyles} from '~/utils/style';
-import CIcon from '~/components/CIcon';
-import {useTheme} from '@react-navigation/native';
-import CText from '~/components/CText';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -226,53 +225,13 @@ function ListRequestAll(props) {
             onSearch={handleSearch}
             onClose={handleCloseSearch}
           />
-          <View
-            style={[
-              cStyles.flexWrap,
-              cStyles.row,
-              cStyles.itemsCenter,
-              cStyles.px16,
-              cStyles.pt10,
-            ]}>
-            <CIcon name={Icons.tags} />
-            <View
-              style={[
-                cStyles.px6,
-                cStyles.py2,
-                cStyles.mx10,
-                cStyles.rounded1,
-                {backgroundColor: customColors.green2},
-              ]}>
-              <CText
-                styles={'textCaption2'}
-                customLabel={
-                  (routes[index].fromDate !== ''
-                    ? moment(routes[index].fromDate).format(formatDateView)
-                    : '#') +
-                  ' - ' +
-                  (routes[index].toDate !== ''
-                    ? moment(routes[index].toDate).format(formatDateView)
-                    : '#')
-                }
-              />
-            </View>
-
-            {statusObj.map(itemStatus => {
-              return (
-                <View
-                  style={[
-                    cStyles.px6,
-                    cStyles.py2,
-                    cStyles.mr10,
-                    cStyles.mt8,
-                    cStyles.rounded1,
-                    {backgroundColor: customColors.green2},
-                  ]}>
-                  <CText styles={'textCaption2'} label={itemStatus} />
-                </View>
-              );
-            })}
-          </View>
+          <FilterTags
+            formatDateView={formatDateView}
+            customColors={customColors}
+            fromDate={routes[index].fromDate}
+            toDate={routes[index].toDate}
+            arrStatus={statusObj}
+          />
           <TabView
             lazy
             initialLayout={styles.container_tab}

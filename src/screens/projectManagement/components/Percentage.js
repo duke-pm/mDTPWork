@@ -21,7 +21,7 @@ import {
 import CIcon from '~/components/CIcon';
 import CActivityIndicator from '~/components/CActivityIndicator';
 /* COMMON */
-import Icons from '~/config/Icons';
+import Icons from '~/utils/common/Icons';
 import Commons from '~/utils/common/Commons';
 import {THEME_DARK, THEME_LIGHT} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
@@ -31,17 +31,6 @@ import * as Actions from '~/redux/actions';
 
 /** All refs of page */
 let percentRef = createRef();
-
-Percentage.propTypes = {
-  disabled: PropTypes.bool,
-  isDark: PropTypes.bool,
-  task: PropTypes.object,
-  customColors: PropTypes.object,
-  navigation: PropTypes.object,
-  language: PropTypes.string,
-  refreshToken: PropTypes.string,
-  onUpdate: PropTypes.func,
-};
 
 function Percentage(props) {
   const {t} = useTranslation();
@@ -347,5 +336,16 @@ const styles = StyleSheet.create({
   percent_body: {height: moderateScale(16)},
   percent_input: {width: '40%', height: moderateScale(45)},
 });
+
+Percentage.propTypes = {
+  disabled: PropTypes.bool,
+  isDark: PropTypes.bool,
+  task: PropTypes.object,
+  customColors: PropTypes.object,
+  navigation: PropTypes.object,
+  language: PropTypes.string,
+  refreshToken: PropTypes.string,
+  onUpdate: PropTypes.func,
+};
 
 export default Percentage;

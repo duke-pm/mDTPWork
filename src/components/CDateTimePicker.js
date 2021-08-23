@@ -14,13 +14,6 @@ import moment from 'moment';
 /** COMMON */
 import {THEME_DARK} from '~/config/constants';
 
-CDateTimePicker.propTypes = {
-  show: PropTypes.object,
-  value: PropTypes.object,
-  mode: PropTypes.oneOf(['date', 'time', 'datetime']),
-  onChangeDate: PropTypes.func,
-};
-
 function CDateTimePicker(props) {
   const {t} = useTranslation();
   const isDark = useColorScheme() === THEME_DARK;
@@ -65,5 +58,12 @@ function CDateTimePicker(props) {
     />
   );
 }
+
+CDateTimePicker.propTypes = {
+  show: PropTypes.object,
+  value: PropTypes.object,
+  mode: PropTypes.oneOf(['date', 'time', 'datetime']),
+  onChangeDate: PropTypes.func,
+};
 
 export default CDateTimePicker;

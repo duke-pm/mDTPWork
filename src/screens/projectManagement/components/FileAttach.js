@@ -18,7 +18,7 @@ import CText from '~/components/CText';
 import CIcon from '~/components/CIcon';
 import CActivityIndicator from '~/components/CActivityIndicator';
 /* COMMON */
-import Icons from '~/config/Icons';
+import Icons from '~/utils/common/Icons';
 import API from '~/services/axios';
 import {Extensions} from '~/utils/asset';
 import {THEME_DARK} from '~/config/constants';

@@ -36,7 +36,7 @@ import CAvatar from '~/components/CAvatar';
 import CIconHeader from '~/components/CIconHeader';
 import CSearchBar from '~/components/CSearchBar';
 /* COMMON */
-import Icons from '~/config/Icons';
+import Icons from '~/utils/common/Icons';
 import {
   saveLocalInfo,
   getLocalInfo,

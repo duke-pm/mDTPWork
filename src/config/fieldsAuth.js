@@ -1,8 +1,10 @@
 /**
- ** Name:Fields Auth
- ** Author: DTP-Education
- ** CreateAt: 2021
- ** Description: Description of fieldsAuth.js
+ ** @name: Fields Auth
+ ** @author: DTP-Education
+ ** @copyright 2021
+ ** @description: If you want add new key for login, you just add at
+ **   + ~/config/fieldsAuth.js (here)
+ **   + ~/redux/reducers/auth.js
  **/
 const FieldsAuth = [
   {

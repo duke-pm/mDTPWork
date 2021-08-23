@@ -15,17 +15,6 @@ import CActivityIndicator from './CActivityIndicator';
 import {cStyles} from '~/utils/style';
 import {moderateScale} from '~/utils/helper';
 
-CGroupInfo.propTypes = {
-  style: PropTypes.object,
-  containerLabelStyle: PropTypes.object,
-  contentStyle: PropTypes.object,
-  labelStyle: PropTypes.object,
-  loading: PropTypes.bool,
-  label: PropTypes.string,
-  content: PropTypes.element,
-  empty: PropTypes.bool,
-};
-
 function CGroupInfo({
   style = {},
   containerLabelStyle = {},
@@ -75,5 +64,16 @@ function CGroupInfo({
 const styles = StyleSheet.create({
   group_holder: {height: moderateScale(50)},
 });
+
+CGroupInfo.propTypes = {
+  style: PropTypes.object,
+  containerLabelStyle: PropTypes.object,
+  contentStyle: PropTypes.object,
+  labelStyle: PropTypes.object,
+  loading: PropTypes.bool,
+  label: PropTypes.string,
+  content: PropTypes.element,
+  empty: PropTypes.bool,
+};
 
 export default CGroupInfo;

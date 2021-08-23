@@ -14,16 +14,16 @@ import {showMessage} from 'react-native-flash-message';
 import {View, LayoutAnimation, UIManager} from 'react-native';
 import moment from 'moment';
 /* COMPONENTS */
-import CIcon from '~/components/CIcon';
-import CText from '~/components/CText';
 import CContainer from '~/components/CContainer';
 import CSearchBar from '~/components/CSearchBar';
 import CIconHeader from '~/components/CIconHeader';
 import CActionSheet from '~/components/CActionSheet';
+import CContentLoader from '~/components/CContentLoader';
 import ListRequest from '../components/ListRequest';
+import FilterTags from '../components/FilterTags';
 import Filter from '../components/Filter';
 /* COMMON */
-import Icons from '~/config/Icons';
+import Icons from '~/utils/common/Icons';
 import Commons from '~/utils/common/Commons';
 import {LOAD_MORE, REFRESH} from '~/config/constants';
 import {IS_ANDROID} from '~/utils/helper';
@@ -283,7 +283,8 @@ function ListRequestHandling(props) {
   }
   return (
     <CContainer
-      loading={loading.main || loading.startFetch}
+      loading={false}
+      contentLoader={loading.main || loading.startFetch}
       content={
         <View style={cStyles.flex1}>
           <CSearchBar
@@ -293,59 +294,14 @@ function ListRequestHandling(props) {
             onSearch={handleSearch}
             onClose={handleCloseSearch}
           />
-          <View
-            style={[
-              cStyles.flexWrap,
-              cStyles.row,
-              cStyles.itemsCenter,
-              cStyles.px16,
-              cStyles.py10,
-            ]}>
-            <CIcon name={Icons.tags} />
-            <View
-              style={[
-                cStyles.px6,
-                cStyles.py2,
-                cStyles.mx10,
-                cStyles.rounded1,
-                {backgroundColor: customColors.green2},
-              ]}>
-              <CText
-                styles={'textCaption2'}
-                customLabel={
-                  (data.fromDate !== ''
-                    ? moment(data.fromDate).format(formatDateView)
-                    : '#') +
-                  ' - ' +
-                  (data.toDate !== ''
-                    ? moment(data.toDate).format(formatDateView)
-                    : '#')
-                }
-              />
-            </View>
-
-            {typesObj.map(itemType => {
-              return (
-                <View
-                  style={[
-                    cStyles.px6,
-                    cStyles.py2,
-                    cStyles.mr10,
-                    cStyles.mt8,
-                    cStyles.rounded1,
-                    {backgroundColor: customColors.green2},
-                  ]}>
-                  <CText
-                    styles={'textCaption2'}
-                    label={
-                      'list_request_assets_handling:title_' + itemType.label
-                    }
-                  />
-                </View>
-              );
-            })}
-          </View>
-          {!loading.main && (
+          <FilterTags
+            formatDateView={formatDateView}
+            customColors={customColors}
+            fromDate={data.fromDate}
+            toDate={data.toDate}
+            types={typesObj}
+          />
+          {!loading.main && !loading.startFetch && (
             <ListRequest
               permissionWrite={isPermissionWrite}
               loadmore={loading.loadmore}
@@ -375,4 +331,4 @@ function ListRequestHandling(props) {
   );
 }
 
-export default ListRequestHandling;
+export default React.memo(ListRequestHandling);

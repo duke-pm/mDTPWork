@@ -18,7 +18,7 @@ import CIcon from '~/components/CIcon';
 import CStatusTag from '~/components/CStatusTag';
 import ListProject from '../list/Project';
 /* COMMON */
-import Icons from '~/config/Icons';
+import Icons from '~/utils/common/Icons';
 import {cStyles} from '~/utils/style';
 import {moderateScale, IS_ANDROID} from '~/utils/helper';
 import {DEFAULT_FORMAT_DATE_4} from '~/config/constants';
@@ -45,17 +45,6 @@ const CustomLayoutAnimated = {
 const PADDING_CHILDREN = moderateScale(14);
 const PADDING_2_CHILDREN = moderateScale(6);
 const BOTTOM_CHILDREN = moderateScale(10);
-
-ProjectItem.propTypes = {
-  index: PropTypes.number,
-  data: PropTypes.object,
-  formatDateView: PropTypes.string,
-  customColors: PropTypes.object,
-  isDark: PropTypes.bool,
-  onPress: PropTypes.func,
-  onPressDetail: PropTypes.func,
-  onPressPlan: PropTypes.func,
-};
 
 function ProjectItem(props) {
   const {
@@ -278,5 +267,16 @@ const styles = StyleSheet.create({
     borderRadius: moderateScale(8),
   },
 });
+
+ProjectItem.propTypes = {
+  index: PropTypes.number,
+  data: PropTypes.object,
+  formatDateView: PropTypes.string,
+  customColors: PropTypes.object,
+  isDark: PropTypes.bool,
+  onPress: PropTypes.func,
+  onPressDetail: PropTypes.func,
+  onPressPlan: PropTypes.func,
+};
 
 export default React.memo(ProjectItem);
