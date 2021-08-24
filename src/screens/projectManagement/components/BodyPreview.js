@@ -15,8 +15,7 @@ import moment from 'moment';
 import CText from '~/components/CText';
 import CIcon from '~/components/CIcon';
 /* COMMON */
-import Icons from '~/utils/common/Icons';
-import Commons from '~/utils/common/Commons';
+import {Commons, Icons} from '~/utils/common';
 import {IS_ANDROID, moderateScale} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
 import {

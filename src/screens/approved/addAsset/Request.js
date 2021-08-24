@@ -33,10 +33,10 @@ import CheckOption from '../components/CheckOption';
 import Process from '../components/Process';
 import FooterFormRequest from '../components/FooterFormRequest';
 /* COMMON */
-import Icons from '~/utils/common/Icons';
+import Configs from '~/config';
 import Routes from '~/navigation/Routes';
-import Commons from '~/utils/common/Commons';
 import FieldsAuth from '~/config/fieldsAuth';
+import {Commons, Icons} from '~/utils/common';
 import {colors, cStyles} from '~/utils/style';
 import {THEME_DARK, DEFAULT_FORMAT_DATE_4, LOGIN} from '~/config/constants';
 import {
@@ -182,7 +182,7 @@ function AddRequest(props) {
   const [form, setForm] = useState({
     id: '',
     personRequestId: '',
-    dateRequest: moment().format(formatDate),
+    dateRequest: Configs.toDay.format(formatDate),
     name: authState.getIn(['login', 'fullName']),
     department: authState.getIn(['login', 'deptCode']),
     region: authState.getIn(['login', 'regionCode']),
@@ -277,7 +277,7 @@ function AddRequest(props) {
         ? moment(route.params?.data?.requestDate, DEFAULT_FORMAT_DATE_4).format(
             formatDate,
           )
-        : moment().format(formatDate),
+        : Configs.toDay.format(formatDate),
       name: isDetail ? route.params?.data?.personRequest : '',
       department: isDetail ? route.params?.data?.deptCode : '',
       region: isDetail ? route.params?.data?.regionCode : '',

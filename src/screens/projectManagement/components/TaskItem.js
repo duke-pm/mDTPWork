@@ -26,8 +26,8 @@ import CAvatar from '~/components/CAvatar';
 import CIcon from '~/components/CIcon';
 import ListTask from '../list/Task';
 /* COMMON */
-import Icons from '~/utils/common/Icons';
-import Commons from '~/utils/common/Commons';
+import Configs from '~/config';
+import {Commons, Icons} from '~/utils/common';
 import {IS_ANDROID, moderateScale} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
 
@@ -104,7 +104,7 @@ function TaskItem(props) {
     data.statusID !== Commons.STATUS_TASK.CLOSED.value
   ) {
     if (data.endDate && data.endDate !== '') {
-      delay = moment().diff(data.endDate, 'days');
+      delay = Configs.toDay.diff(data.endDate, 'days');
     }
   }
   const rotateData = valueAnim.interpolate({
@@ -238,8 +238,8 @@ function TaskItem(props) {
               ]}>
               <View style={[cStyles.row, cStyles.itemsCenter]}>
                 <CIcon
-                  name={Icons.time}
-                  size={'minium'}
+                  name={Icons.timeTask}
+                  size={'small'}
                   color={delay > 0 ? 'red' : 'icon'}
                 />
                 <Text style={cStyles.pl4} numberOfLines={1}>

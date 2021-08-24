@@ -11,7 +11,6 @@ import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
 import {StyleSheet, View, LayoutAnimation, UIManager} from 'react-native';
 import {TabView} from 'react-native-tab-view';
-import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CSearchBar from '~/components/CSearchBar';
@@ -24,9 +23,9 @@ import AssetsLost from '../assetsLost';
 import TabbarType from '../components/TabbarType';
 import FilterTags from '../components/FilterTags';
 /* COMMON */
-import Icons from '~/utils/common/Icons';
+import Configs from '~/config';
 import Routes from '~/navigation/Routes';
-import Commons from '~/utils/common/Commons';
+import {Commons, Icons} from '~/utils/common';
 import {IS_ANDROID} from '~/utils/helper';
 import {cStyles} from '~/utils/style';
 
@@ -70,8 +69,8 @@ function ListRequestAll(props) {
     {
       key: Commons.APPROVED_TYPE.ASSETS.value + '',
       title: t('list_request_assets:title_add'),
-      fromDate: moment().clone().startOf('month').format(formatDate),
-      toDate: moment().clone().endOf('month').format(formatDate),
+      fromDate: Configs.toDay.clone().startOf('month').format(formatDate),
+      toDate: Configs.toDay.clone().endOf('month').format(formatDate),
       status: '1,2,3,4',
       type: Commons.APPROVED_TYPE.ASSETS.value + '',
       search: '',
@@ -80,8 +79,8 @@ function ListRequestAll(props) {
     {
       key: Commons.APPROVED_TYPE.DAMAGED.value + '',
       title: t('list_request_assets:title_damaged'),
-      fromDate: moment().clone().startOf('month').format(formatDate),
-      toDate: moment().clone().endOf('month').format(formatDate),
+      fromDate: Configs.toDay.clone().startOf('month').format(formatDate),
+      toDate: Configs.toDay.clone().endOf('month').format(formatDate),
       status: '1,2,3,4',
       type: Commons.APPROVED_TYPE.DAMAGED.value + '',
       search: '',
@@ -90,8 +89,8 @@ function ListRequestAll(props) {
     {
       key: Commons.APPROVED_TYPE.LOST.value + '',
       title: t('list_request_assets:title_lost'),
-      fromDate: moment().clone().startOf('month').format(formatDate),
-      toDate: moment().clone().endOf('month').format(formatDate),
+      fromDate: Configs.toDay.clone().startOf('month').format(formatDate),
+      toDate: Configs.toDay.clone().endOf('month').format(formatDate),
       status: '1,2,3,4',
       type: Commons.APPROVED_TYPE.LOST.value + '',
       search: '',

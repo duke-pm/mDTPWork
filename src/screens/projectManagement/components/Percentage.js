@@ -21,8 +21,7 @@ import {
 import CIcon from '~/components/CIcon';
 import CActivityIndicator from '~/components/CActivityIndicator';
 /* COMMON */
-import Icons from '~/utils/common/Icons';
-import Commons from '~/utils/common/Commons';
+import {Commons, Icons} from '~/utils/common';
 import {THEME_DARK, THEME_LIGHT} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
 import {alert, moderateScale} from '~/utils/helper';

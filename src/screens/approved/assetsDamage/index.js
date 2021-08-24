@@ -13,13 +13,13 @@ import {useTranslation} from 'react-i18next';
 import {useTheme, useNavigation} from '@react-navigation/native';
 import {showMessage} from 'react-native-flash-message';
 import {View} from 'react-native';
-import moment from 'moment';
 /* COMPONENTS */
 import ListRequest from '../components/ListRequest';
 import CContentLoader from '~/components/CContentLoader';
 /* COMMON */
+import Configs from '~/config';
 import Routes from '~/navigation/Routes';
-import Commons from '~/utils/common/Commons';
+import {Commons} from '~/utils/common';
 import {cStyles} from '~/utils/style';
 import {usePrevious} from '~/utils/hook';
 import {LOAD_MORE, REFRESH} from '~/config/constants';
@@ -50,8 +50,8 @@ function ApprovedAssetsDamage(props) {
     isLoadmore: true,
   });
   const [data, setData] = useState({
-    fromDate: moment().clone().startOf('month').format(formatDate),
-    toDate: moment().clone().endOf('month').format(formatDate),
+    fromDate: Configs.toDay.clone().startOf('month').format(formatDate),
+    toDate: Configs.toDay.clone().endOf('month').format(formatDate),
     status: '1,2,3,4',
     requests: [],
     requestsDetail: [],

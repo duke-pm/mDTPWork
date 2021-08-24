@@ -39,10 +39,10 @@ import CheckOption from '../components/CheckOption';
 import Process from '../components/Process';
 import FooterFormRequest from '../components/FooterFormRequest';
 /* COMMON */
-import Icons from '~/utils/common/Icons';
+import Configs from '~/config';
 import Routes from '~/navigation/Routes';
-import Commons from '~/utils/common/Commons';
 import FieldsAuth from '~/config/fieldsAuth';
+import {Commons, Icons} from '~/utils/common';
 import {colors, cStyles} from '~/utils/style';
 import {THEME_DARK, DEFAULT_FORMAT_DATE_4, LOGIN} from '~/config/constants';
 import {
@@ -197,7 +197,7 @@ function AddRequest(props) {
   const [dataAssets, setDataAssets] = useState([]);
   const [process, setProcess] = useState([]);
   const [form, setForm] = useState({
-    dateRequest: moment().format(formatDate),
+    dateRequest: Configs.toDay.format(formatDate),
     reason: '',
     typeUpdate: Commons.APPROVED_TYPE.DAMAGED.value, // 2: Damage, 3: Lost
     assetID: '',
@@ -340,7 +340,7 @@ function AddRequest(props) {
         ? moment(route.params?.data?.requestDate, DEFAULT_FORMAT_DATE_4).format(
             formatDate,
           )
-        : moment().format(formatDate),
+        : Configs.toDay.format(formatDate),
       department: isDetail ? route.params?.data?.deptCode : '',
       region: isDetail ? route.params?.data?.regionCode : '',
       assetID: isDetail ? route.params?.data?.assetID : '',

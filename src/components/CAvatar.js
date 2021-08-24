@@ -34,15 +34,13 @@ import {
   moderateScale,
 } from '~/utils/helper';
 
-
-
 function CAvatar(props) {
   const isDark = useColorScheme() === THEME_DARK;
   const {customColors} = useTheme();
   const {
     containerStyle = {},
     imageStyle = {},
-    size = 'small', // very small | small | medium | large
+    size = 'small',
     source = null,
     isEdit = false,
     label = null,
@@ -139,7 +137,7 @@ function CAvatar(props) {
             style={cStyles.rounded10}
             start={{x: 0.0, y: 0.25}}
             end={{x: 0.5, y: 1.0}}
-            colors={['#8e9eab', '#eef2f3']}>
+            colors={['#C6FFDD', '#FBD786', '#f7797d']}>
             <View
               style={[
                 cStyles.rounded10,

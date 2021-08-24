@@ -12,7 +12,7 @@ import CList from '~/components/CList';
 import RequestItem from './RequestItem';
 /* COMMON */
 import Routes from '~/navigation/Routes';
-import Commons from '~/utils/common/Commons';
+import {Commons} from '~/utils/common';
 import {cStyles} from '~/utils/style';
 
 function ListRequest(props) {

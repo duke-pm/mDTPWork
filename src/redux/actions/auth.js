@@ -150,7 +150,7 @@ export const fetchChangePassword = (params, navigation) => {
           return dispatch(
             Actions.fetchRefreshToken(
               tmp,
-              () => fetchChangePassword(params, navigation),
+              () => fetchChangePassword(params),
               navigation,
             ),
           );

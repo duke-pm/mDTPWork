@@ -20,8 +20,8 @@ import CGroupFilter from '~/components/CGroupFilter';
 import CDateTimePicker from '~/components/CDateTimePicker';
 import CIconButton from '~/components/CIconButton';
 /* COMMON */
-import Icons from '~/utils/common/Icons';
-import Commons from '~/utils/common/Commons';
+import Configs from '~/config';
+import {Commons, Icons} from '~/utils/common';
 import {colors, cStyles} from '~/utils/style';
 import {IS_ANDROID, moderateScale} from '~/utils/helper';
 
@@ -31,9 +31,8 @@ if (IS_ANDROID) {
   }
 }
 
-const propIcon = {size: moderateScale(21)};
-
 /** All init avriables */
+const propIcon = {size: moderateScale(21)};
 const INPUT_NAME = {
   FROM_DATE: 'fromDate',
   TO_DATE: 'toDate',
@@ -275,7 +274,7 @@ function Filter(props) {
         show={showPickerDate.status}
         value={
           data[showPickerDate.active] === ''
-            ? moment().format(formatDate)
+            ? Configs.toDay.format(formatDate)
             : data[showPickerDate.active]
         }
         onChangeDate={onChangeDateRequest}

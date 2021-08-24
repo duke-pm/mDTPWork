@@ -279,8 +279,8 @@ function FilterOverview(props) {
   });
   const [dateFilter, setDateFilter] = useState({
     active: null,
-    from: moment().clone().startOf('year').format(formatDate),
-    to: moment().clone().endOf('year').format(formatDate),
+    from: Configs.toDay.clone().startOf('year').format(formatDate),
+    to: Configs.toDay.clone().endOf('year').format(formatDate),
   });
   const [owner, setOwner] = useState({
     data: masterState.get('users'),

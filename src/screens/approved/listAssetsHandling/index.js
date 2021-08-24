@@ -12,19 +12,17 @@ import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
 import {showMessage} from 'react-native-flash-message';
 import {View, LayoutAnimation, UIManager} from 'react-native';
-import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CSearchBar from '~/components/CSearchBar';
 import CIconHeader from '~/components/CIconHeader';
 import CActionSheet from '~/components/CActionSheet';
-import CContentLoader from '~/components/CContentLoader';
 import ListRequest from '../components/ListRequest';
 import FilterTags from '../components/FilterTags';
 import Filter from '../components/Filter';
 /* COMMON */
-import Icons from '~/utils/common/Icons';
-import Commons from '~/utils/common/Commons';
+import Configs from '~/config';
+import {Commons, Icons} from '~/utils/common';
 import {LOAD_MORE, REFRESH} from '~/config/constants';
 import {IS_ANDROID} from '~/utils/helper';
 import {cStyles} from '~/utils/style';
@@ -37,6 +35,7 @@ if (IS_ANDROID) {
   }
 }
 
+/** All refs */
 const asFilterRef = createRef();
 
 function ListRequestHandling(props) {
@@ -66,8 +65,8 @@ function ListRequestHandling(props) {
   });
   const [showSearchBar, setShowSearch] = useState(false);
   const [data, setData] = useState({
-    fromDate: moment().clone().startOf('month').format(formatDate),
-    toDate: moment().clone().endOf('month').format(formatDate),
+    fromDate: Configs.toDay.clone().startOf('month').format(formatDate),
+    toDate: Configs.toDay.clone().endOf('month').format(formatDate),
     type: '1,2,3',
     requests: [],
     requestsDetail: [],

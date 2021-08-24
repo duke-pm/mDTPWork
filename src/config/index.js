@@ -5,6 +5,8 @@
  ** Description: Description of configs.js
  **/
 import {LocaleConfig} from 'react-native-calendars';
+import moment from 'moment';
+/** COMMON */
 import {Assets} from '~/utils/asset';
 import {
   HOST_DEV,
@@ -114,7 +116,7 @@ const Configs = {
     TaskDetail: 'TaskDetail/:taskID', // Config params for route Task Detail
   },
   // for name of app in account page
-  nameOfApp: '2021 DTP-Education',
+  nameOfApp: 'DTP-Education',
   // for rating app
   appStoreID: '12345678',
   googlePlayPackage: 'com.dtpwork',
@@ -172,6 +174,7 @@ const Configs = {
       label: 'project_management:one_week',
     },
   ],
+  toDay: moment(),
 };
 
 export default Configs;

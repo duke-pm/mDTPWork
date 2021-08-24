@@ -22,8 +22,8 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import * as Animatable from 'react-native-animatable';
 import DeviceInfo from 'react-native-device-info';
+import * as Animatable from 'react-native-animatable';
 import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
@@ -140,9 +140,9 @@ function Activity(props) {
   const refreshToken = authState.getIn(['login', 'refreshToken']);
   const language = commonState.get('language');
   if (language === 'vi') {
-    moment.locale('vi', LOCALE_VI);
+    moment.updateLocale('vi', LOCALE_VI);
   } else {
-    moment.locale('en', LOCALE_EN);
+    moment.updateLocale('en', LOCALE_EN);
   }
 
   /** Use state */

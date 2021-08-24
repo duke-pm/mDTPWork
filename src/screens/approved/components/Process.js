@@ -14,9 +14,8 @@ import CActionSheet from '~/components/CActionSheet';
 import CIcon from '~/components/CIcon';
 import RequestProcess from './RequestProcess';
 /* COMMON */
-import Icons from '~/utils/common/Icons';
-import Commons from '~/utils/common/Commons';
 import {cStyles} from '~/utils/style';
+import {Commons, Icons} from '~/utils/common';
 import {moderateScale} from '~/utils/helper';
 
 const asProcessRef = createRef();

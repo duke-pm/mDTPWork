@@ -9,10 +9,8 @@ import {fromJS} from 'immutable';
 import React, {useState, useEffect, useLayoutEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-import {useTheme} from '@react-navigation/native';
 import {showMessage} from 'react-native-flash-message';
 import {LayoutAnimation, UIManager} from 'react-native';
-import moment from 'moment';
 /** COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
@@ -28,7 +26,6 @@ import {IS_ANDROID} from '~/utils/helper';
 import {usePrevious} from '~/utils/hook';
 /** REDUX */
 import * as Actions from '~/redux/actions';
-import CContentLoader from '~/components/CContentLoader';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -38,7 +35,6 @@ if (IS_ANDROID) {
 
 function Project(props) {
   const {t} = useTranslation();
-  const {customColors} = useTheme();
   const {navigation} = props;
 
   /** Use redux */
@@ -67,7 +63,7 @@ function Project(props) {
     activeStatus: [],
   });
   const [data, setData] = useState({
-    year: moment().year(),
+    year: Configs.toDay.year(),
     statusID: null,
     ownerID: null,
     page: 1,
@@ -157,14 +153,16 @@ function Project(props) {
     });
     dispatch(Actions.fetchListProject(params, navigation));
     if (
-      (statusID !== null || ownerID !== null || year !== moment().year()) &&
+      (statusID !== null ||
+        ownerID !== null ||
+        year !== Configs.toDay.year()) &&
       !isFiltering
     ) {
       setIsFiltering(true);
     } else if (
       statusID === null &&
       ownerID === null &&
-      year === moment().year() &&
+      year === Configs.toDay.year() &&
       isFiltering
     ) {
       setIsFiltering(false);

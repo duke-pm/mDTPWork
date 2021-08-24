@@ -123,7 +123,7 @@ function ProjectItem(props) {
                 cStyles.flex1,
                 cStyles.row,
                 cStyles.itemsCenter,
-                cStyles.mt5,
+                cStyles.mt10,
               ]}>
               {/** Date start */}
               <View
@@ -133,8 +133,9 @@ function ProjectItem(props) {
                   data.priorityLevel > 0 && styles.row_left_1,
                   data.priorityLevel === 0 && styles.row_left,
                 ]}>
-                <CLabel label={'project_management:date_created'} />
+                <CIcon size={'small'} name={Icons.dateCreateProj} />
                 <CLabel
+                  style={cStyles.pl5}
                   customLabel={moment(
                     data.crtdDate,
                     DEFAULT_FORMAT_DATE_4,

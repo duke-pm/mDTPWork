@@ -17,7 +17,6 @@ import {
   StyleSheet,
   View,
   Text,
-  Linking,
   ScrollView,
   LayoutAnimation,
   UIManager,
@@ -42,10 +41,10 @@ import Percentage from '../components/Percentage';
 import FileAttach from '../components/FileAttach';
 import Reminder from '../components/Reminder';
 /* COMMON */
-import Icons from '~/utils/common/Icons';
+import Configs from '~/config';
 import Routes from '~/navigation/Routes';
-import Commons from '~/utils/common/Commons';
 import FieldsAuth from '~/config/fieldsAuth';
+import {Commons, Icons} from '~/utils/common';
 import {Animations} from '~/utils/asset';
 import {usePrevious} from '~/utils/hook';
 import {colors, cStyles} from '~/utils/style';
@@ -66,6 +65,7 @@ import {
 } from '~/utils/helper';
 /** REDUX */
 import * as Actions from '~/redux/actions';
+import InvitedDetails from '../components/InvitedDetails';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -186,9 +186,6 @@ function Task(props) {
    ** HANDLE FUNC **
    *****************/
   const handleBack = () => resetRoute(navigation, Routes.ROOT_TAB.name);
-
-  const handleEmail = () =>
-    Linking.openURL(`mailto:${data.participantChoose.email}`);
 
   const handleFastWatch = () => {
     setIsFastWatch(!isFastWatch);
@@ -519,7 +516,7 @@ function Task(props) {
     data.taskDetail.endDate &&
     data.taskDetail.endDate !== ''
   ) {
-    isDelay = moment().isAfter(
+    isDelay = Configs.toDay.isAfter(
       moment(data.taskDetail.endDate, DEFAULT_FORMAT_DATE_4),
       'days',
     );
@@ -1000,51 +997,7 @@ function Task(props) {
               contentStyle={cStyles.mt0}
               title={''}
               customContent={
-                data.participantChoose && (
-                  <View>
-                    <View style={[cStyles.center, cStyles.mb10]}>
-                      <CAvatar
-                        size={'large'}
-                        label={data.participantChoose.fullName}
-                      />
-                    </View>
-                    {/** User name */}
-                    <View
-                      style={[cStyles.row, cStyles.itemsCenter, cStyles.mt16]}>
-                      <CIcon name={Icons.user} size={'medium'} />
-                      <CText
-                        styles={'pl12'}
-                        customLabel={data.participantChoose.userName}
-                      />
-                    </View>
-
-                    {/** Full name */}
-                    <View
-                      style={[cStyles.row, cStyles.itemsCenter, cStyles.mt16]}>
-                      <CIcon name={Icons.userCircle} size={'large'} />
-                      <CText
-                        styles={'pl10'}
-                        customLabel={data.participantChoose.fullName}
-                      />
-                    </View>
-
-                    {/** Email */}
-                    <View
-                      style={[cStyles.row, cStyles.itemsCenter, cStyles.mt16]}>
-                      <CIcon name={Icons.mail} size={'medium'} />
-                      <CTouchable
-                        containerStyle={cStyles.ml12}
-                        onPress={handleEmail}>
-                        <CText
-                          styles={'textUnderline'}
-                          customLabel={data.participantChoose.email}
-                        />
-                      </CTouchable>
-                    </View>
-
-                    {/** Phone */}
-                  </View>
-                )
+                <InvitedDetails participant={data.participantChoose} />
               }
               onClose={handleParticipant}
             />

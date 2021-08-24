@@ -183,7 +183,7 @@ const Socials = ({customColors, isDark, isTablet, needUpdate, onUpdate}) => {
         <>
           <View style={cStyles.itemsStart}>
             <Text style={[cStyles.textCaption1, {color: customColors.text}]}>
-              &#169; {Configs.nameOfApp}
+              &#169; {`${Configs.toDay.year()} ${Configs.nameOfApp}`}
             </Text>
           </View>
 

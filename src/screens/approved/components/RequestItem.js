@@ -8,16 +8,16 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-import {StyleSheet, View, Text} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import moment from 'moment';
 /* COMPONENTS */
 import CLabel from '~/components/CLabel';
 import CCard from '~/components/CCard';
 import CStatusTag from '~/components/CStatusTag';
 import CUser from '~/components/CUser';
+import CIcon from '~/components/CIcon';
 /* COMMON */
-import Icons from '~/utils/common/Icons';
-import Commons from '~/utils/common/Commons';
+import {Commons, Icons} from '~/utils/common';
 import {cStyles} from '~/utils/style';
 import {DEFAULT_FORMAT_DATE_4} from '~/config/constants';
 
@@ -92,11 +92,13 @@ function RequestItem(props) {
                 cStyles.row,
                 cStyles.itemsStart,
                 cStyles.justifyBetween,
-                cStyles.mt6,
+                cStyles.mt10,
               ]}>
-              <View style={[cStyles.row, cStyles.itemsStart, styles.flex_half]}>
-                <CLabel label={'approved_lost_damaged:date_request'} />
+              <View
+                style={[cStyles.row, cStyles.itemsCenter, styles.flex_half]}>
+                <CIcon size={'small'} name={Icons.dateRequest} />
                 <CLabel
+                  style={cStyles.pl5}
                   customLabel={moment(
                     data.requestDate,
                     DEFAULT_FORMAT_DATE_4,
@@ -105,17 +107,15 @@ function RequestItem(props) {
               </View>
 
               {/** Department */}
-              <View style={[cStyles.row, cStyles.itemsStart, styles.flex_half]}>
-                <Text numberOfLines={2}>
-                  <Text
-                    style={[cStyles.textCaption1, {color: customColors.text}]}>
-                    {t('approved_lost_damaged:department_request')}
-                  </Text>
-                  <Text
-                    style={[cStyles.textCaption1, {color: customColors.text}]}>
-                    {data.deptName}
-                  </Text>
-                </Text>
+              <View
+                style={[
+                  cStyles.row,
+                  cStyles.itemsStart,
+                  cStyles.pr10,
+                  styles.flex_half,
+                ]}>
+                <CIcon size={'small'} name={Icons.departmentRequest} />
+                <CLabel style={cStyles.pl5} customLabel={data.deptName} />
               </View>
             </View>
           </View>

@@ -20,6 +20,8 @@ const Icons = {
   requestApproved_1: 'checkmark-outline',
   requestApproved_2: 'checkmark-done-outline',
   requestRejected: 'close-outline',
+  dateRequest: 'calendar',
+  departmentRequest: 'people',
 
   // Projects management modules
   projects: 'chart-gantt-outline', //config on admin site, pls don't edit here
@@ -34,6 +36,13 @@ const Icons = {
   exportExcel: 'document-attach-outline',
   alarm: 'alarm-outline',
   children: 'git-merge-outline',
+  dateCreateProj: 'calendar',
+  timeTask: 'time',
+  userTask: 'person',
+  userCircleTask: 'person-circle',
+  mailTask: 'mail',
+  jobTask: 'hammer',
+  departmentTask: 'people',
 
   // Common
   barChart: 'stats-chart-outline',
