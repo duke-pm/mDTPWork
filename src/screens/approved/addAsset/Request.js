@@ -40,6 +40,7 @@ import FieldsAuth from '~/config/fieldsAuth';
 import {colors, cStyles} from '~/utils/style';
 import {THEME_DARK, DEFAULT_FORMAT_DATE_4, LOGIN} from '~/config/constants';
 import {
+  checkEmpty,
   getSecretInfo,
   IS_ANDROID,
   moderateScale,
@@ -50,19 +51,19 @@ import {
 import * as Actions from '~/redux/actions';
 
 const RowSelect = (
-  loading,
-  disabled,
-  isDark,
-  customColors,
-  data,
-  activeIndex,
-  keyToShow,
-  keyToCompare,
-  onPress,
+  loading = false,
+  disabled = false,
+  isDark = false,
+  customColors = {},
+  data = [],
+  activeIndex = -1,
+  keyToShow = '',
+  keyToCompare = '',
+  onPress = () => null,
 ) => {
-  let find = null;
-  if (data) {
-    find = data.find(f => f[keyToCompare] === activeIndex);
+  let findRow = null;
+  if (data && data.length > 0) {
+    findRow = data.find(f => f[keyToCompare] === activeIndex);
   }
   return (
     <CTouchable
@@ -74,15 +75,15 @@ const RowSelect = (
           cStyles.row,
           cStyles.itemsCenter,
           cStyles.justifyBetween,
-          cStyles.rounded1,
           cStyles.px10,
+          cStyles.rounded1,
           cStyles.borderAll,
-          styles.row_select,
           isDark && cStyles.borderAllDark,
           disabled && {backgroundColor: customColors.cardDisable},
+          styles.row_select,
         ]}>
         {!loading ? (
-          find && <CText customLabel={find[keyToShow]} />
+          <CText customLabel={findRow ? checkEmpty(findRow[keyToShow]) : '-'} />
         ) : (
           <CActivityIndicator />
         )}
@@ -100,6 +101,15 @@ const RowSelect = (
   );
 };
 
+/** All refs */
+const asDepartmentRef = createRef();
+let supplierRef = createRef();
+let newRef = createRef();
+let addRef = createRef();
+let yesRef = createRef();
+let noRef = createRef();
+
+/** All init value */
 const INPUT_NAME = {
   DATE_REQUEST: 'dateRequest',
   NAME: 'name',
@@ -112,16 +122,6 @@ const INPUT_NAME = {
   IN_PLANNING: 'inPlanning',
   SUPPLIER: 'supplier',
 };
-
-/** All refs use in this screen */
-const asDepartmentRef = createRef();
-let supplierRef = createRef();
-let newRef = createRef();
-let addRef = createRef();
-let yesRef = createRef();
-let noRef = createRef();
-
-/** All init value use in this screen */
 const dataTypeAssets = [
   {
     ref: newRef,
@@ -650,19 +650,17 @@ function AddRequest(props) {
                     cStyles.justifyBetween,
                   ]}>
                   {/** Date request */}
-                  <View style={[cStyles.mr5, styles.con_left]}>
-                    <CInput
-                      name={INPUT_NAME.DATE_REQUEST}
-                      label={'add_approved_assets:date_request'}
-                      disabled={true}
-                      dateTimePicker={true}
-                      value={moment(form.dateRequest).format(formatDateView)}
-                      valueColor={customColors.text}
-                    />
-                  </View>
+                  <CInput
+                    containerStyle={[cStyles.mr5, styles.left]}
+                    name={INPUT_NAME.DATE_REQUEST}
+                    label={'add_approved_assets:date_request'}
+                    value={moment(form.dateRequest).format(formatDateView)}
+                    disabled
+                    dateTimePicker
+                  />
 
                   {/** Region */}
-                  <View style={[cStyles.ml5, styles.con_right]}>
+                  <View style={[cStyles.ml5, styles.right]}>
                     <CLabel bold label={'add_approved_assets:region'} />
                     {RowSelect(
                       loading.main,
@@ -679,19 +677,15 @@ function AddRequest(props) {
                 </View>
 
                 {/** Name */}
-                <View style={cStyles.pt16}>
-                  <CInput
-                    name={INPUT_NAME.NAME}
-                    label={'add_approved_assets:name'}
-                    styleFocus={styles.input_focus}
-                    disabled={true}
-                    holder={'add_approved_assets:name'}
-                    value={form.name}
-                    valueColor={customColors.text}
-                    keyboard={'default'}
-                    returnKey={'next'}
-                  />
-                </View>
+                <CInput
+                  containerStyle={cStyles.mt16}
+                  styleFocus={styles.input_focus}
+                  name={INPUT_NAME.NAME}
+                  label={'add_approved_assets:name'}
+                  holder={'add_approved_assets:name'}
+                  value={form.name}
+                  disabled
+                />
 
                 {/** Department */}
                 <View style={cStyles.pt16}>
@@ -726,22 +720,20 @@ function AddRequest(props) {
                 </View>
 
                 {/** Reason */}
-                <View style={cStyles.pt16}>
-                  <CInput
-                    name={INPUT_NAME.REASON}
-                    label={'add_approved_assets:reason'}
-                    caption={'common:optional'}
-                    style={[cStyles.itemsStart, styles.input_multiline]}
-                    styleFocus={styles.input_focus}
-                    disabled={loading.main || loading.submitAdd || isDetail}
-                    holder={'add_approved_assets:holder_reason'}
-                    value={form.reason}
-                    returnKey={'next'}
-                    multiline={true}
-                    onChangeInput={() => handleChangeInput(supplierRef)}
-                    onChangeValue={handleChangeText}
-                  />
-                </View>
+                <CInput
+                  containerStyle={cStyles.mt16}
+                  style={[cStyles.itemsStart, styles.input_multiline]}
+                  styleFocus={styles.input_focus}
+                  name={INPUT_NAME.REASON}
+                  label={'add_approved_assets:reason'}
+                  caption={'common:optional'}
+                  holder={'add_approved_assets:holder_reason'}
+                  value={form.reason}
+                  multiline
+                  disabled={loading.main || loading.submitAdd || isDetail}
+                  onChangeInput={() => handleChangeInput(supplierRef)}
+                  onChangeValue={handleChangeText}
+                />
               </>
             }
           />
@@ -772,16 +764,15 @@ function AddRequest(props) {
               <>
                 {/** Supplier */}
                 <CInput
+                  styleFocus={styles.input_focus}
+                  inputRef={ref => (supplierRef = ref)}
                   name={INPUT_NAME.SUPPLIER}
                   label={'add_approved_assets:supplier'}
                   caption={'common:optional'}
-                  styleFocus={styles.input_focus}
-                  inputRef={ref => (supplierRef = ref)}
-                  disabled={loading.main || loading.submitAdd || isDetail}
                   holder={'add_approved_assets:holder_supplier'}
                   value={form.supplier}
-                  keyboard={'default'}
                   returnKey={'done'}
+                  disabled={loading.main || loading.submitAdd || isDetail}
                   onChangeInput={onSendRequest}
                   onChangeValue={handleChangeText}
                 />
@@ -834,16 +825,15 @@ function AddRequest(props) {
                 <CInput
                   containerStyle={cStyles.my10}
                   styleFocus={styles.input_focus}
-                  disabled={loading.main || loading.submitAdd || isDetail}
                   holder={'add_approved_assets:holder_where_use'}
+                  returnKey={'search'}
                   icon={Icons.search}
                   value={findWhereUse}
-                  keyboard={'default'}
-                  returnKey={'done'}
+                  disabled={loading.main || loading.submitAdd || isDetail}
                   onChangeValue={onSearchFilter}
                 />
                 <Picker
-                  style={[styles.con_action, cStyles.justifyCenter]}
+                  style={[styles.action, cStyles.justifyCenter]}
                   itemStyle={{
                     fontSize: moderateScale(21),
                     color: customColors.text,
@@ -910,11 +900,9 @@ function AddRequest(props) {
 
 const styles = StyleSheet.create({
   input_focus: {borderColor: colors.SECONDARY},
-  button_approved: {width: moderateScale(150)},
-  button_reject: {width: moderateScale(150)},
-  con_left: {flex: 0.4},
-  con_right: {flex: 0.6},
-  con_action: {width: '100%', height: verticalScale(180)},
+  left: {flex: 0.4},
+  right: {flex: 0.6},
+  action: {width: '100%', height: verticalScale(180)},
   content_picker: {height: '40%'},
   row_select: {
     height: IS_ANDROID

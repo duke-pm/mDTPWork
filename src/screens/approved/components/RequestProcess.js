@@ -12,15 +12,17 @@ import {StyleSheet, View, Animated} from 'react-native';
 /* COMPONENTS */
 import CIcon from '~/components/CIcon';
 import CText from '~/components/CText';
-import CLoading from '~/components/CLoading';
 import CFooterList from '~/components/CFooterList';
+import CActivityIndicator from '~/components/CActivityIndicator';
 /* COMMON */
 import Icons from '~/utils/common/Icons';
 import {colors, cStyles} from '~/utils/style';
 import {moderateScale} from '~/utils/helper';
 import {THEME_DARK} from '~/config/constants';
 
+/** All init variables */
 let isReject = false;
+let isLastProcess = false;
 
 function RequestProcess(props) {
   const isDark = useColorScheme() === THEME_DARK;
@@ -75,9 +77,14 @@ function RequestProcess(props) {
         styles={'textHeadline textCenter pb16'}
         label={'add_approved_assets:table_process'}
       />
-      {loading && <CLoading />}
+      {loading && (
+        <View style={cStyles.flexCenter}>
+          <CActivityIndicator />
+        </View>
+      )}
       {!loading &&
         dataProcess.map((item, index) => {
+          isLastProcess = index === dataProcess.length - 1;
           if (!isReject && item.statusID === 0) {
             isReject = true;
           }
@@ -147,15 +154,28 @@ function RequestProcess(props) {
                       cStyles.mt6,
                       cStyles.borderAll,
                       isDark && cStyles.borderAllDark,
-                      styles.line_2,
+                      styles.line,
                     ]}
                   />
                 )}
               </View>
 
-              <View style={[cStyles.rounded1, cStyles.pr10, styles.con_info]}>
+              <View
+                style={[
+                  cStyles.rounded1,
+                  cStyles.pr10,
+                  cStyles.pb10,
+                  !isLastProcess && cStyles.borderBottom,
+                  !isLastProcess && isDark && cStyles.borderBottomDark,
+                  styles.con_info,
+                ]}>
                 <View
-                  style={[cStyles.row, cStyles.itemsStart, styles.con_user]}>
+                  style={[
+                    cStyles.row,
+                    cStyles.itemsStart,
+                    cStyles.pt10,
+                    styles.con_user,
+                  ]}>
                   <CText
                     customStyles={[
                       cStyles.textCaption1,
@@ -214,6 +234,7 @@ function RequestProcess(props) {
                     />
                   )}
                 </View>
+
                 {item.approveDate && item.reason !== '' && (
                   <View
                     style={[
@@ -254,7 +275,7 @@ function RequestProcess(props) {
 
 const styles = StyleSheet.create({
   con_time_process: {backgroundColor: colors.SECONDARY, flex: 0.3},
-  line_2: {height: moderateScale(30)},
+  line: {height: moderateScale(30)},
   con_date: {flex: 0.3},
   con_icon: {flex: 0.1},
   con_info: {flex: 0.6},

@@ -99,7 +99,7 @@ function CActionSheet(props) {
             cStyles.roundedTopRight3,
           ]}>
           <CIconButton
-            style={styles}
+            style={styles.icon}
             iconProps={propIcon}
             iconName={Icons.close}
             iconColor={customColors.red}
@@ -107,9 +107,9 @@ function CActionSheet(props) {
           />
           <View style={[cStyles.rounded3, styles.indicator]} />
           <CIconButton
-            style={styles}
+            style={styles.icon}
             iconProps={propIcon}
-            iconName={Icons.check}
+            iconName={Icons.doubleCheck}
             iconColor={customColors.primary}
             onPress={handleConfirm}
           />

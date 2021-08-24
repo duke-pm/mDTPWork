@@ -8,7 +8,7 @@
 import PropTypes from 'prop-types';
 import {fromJS} from 'immutable';
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, View, ScrollView, processColor} from 'react-native';
+import {StyleSheet, View, ScrollView, processColor, Text} from 'react-native';
 import {HorizontalBarChart} from 'react-native-charts-wrapper';
 import moment from 'moment';
 /* COMPONENTS */
@@ -16,8 +16,8 @@ import CText from '~/components/CText';
 import CEmpty from '~/components/CEmpty';
 import CActivityIndicator from '~/components/CActivityIndicator';
 /* COMMON */
-import Services from '~/services';
 import Configs from '~/config';
+import Services from '~/services';
 import {cStyles} from '~/utils/style';
 import {moderateScale, verticalScale} from '~/utils/helper';
 
@@ -31,13 +31,13 @@ const formatDateTime = 'YYYY-MM-DDT00:00:00';
 
 function ProjectPlan(props) {
   const {isDark = false, customColors = {}, project = null} = props;
+  let page = 1;
 
   /** Use states */
   const [loading, setLoading] = useState({
     main: true,
     data: false,
   });
-  const [page, setPage] = useState(1);
   const [tasks, setTasks] = useState([]);
   const [chart, setChart] = useState({
     dataTask: [],
@@ -84,7 +84,7 @@ function ProjectPlan(props) {
   /**********
    ** FUNC **
    **********/
-  const onDone = () => setLoading({...loading, main: false});
+  const onDone = (main, data) => setLoading({main, data});
 
   const onFetchData = async (newpage = 1) => {
     let paramsListTask = fromJS({
@@ -100,14 +100,13 @@ function ProjectPlan(props) {
         setTasks(listTask);
       }
       if (res.totalPage > page) {
-        let newPage = page + 1;
-        setPage(newPage);
-        return onFetchData(newPage);
+        page = page + 1;
+        return onFetchData(page);
       } else {
-        onDone();
+        onDone(false, true);
       }
     } else {
-      onDone();
+      onDone(false, false);
     }
   };
 
@@ -153,59 +152,44 @@ function ProjectPlan(props) {
         data: dataChart,
         dataTask,
       });
-      setLoading({...loading, data: false});
+      onDone(false, false);
     } else {
-      setLoading({...loading, data: false});
+      onDone(false, false);
     }
   };
 
   /****************
    ** LIFE CYCLE **
    ****************/
-  useEffect(() => onFetchData(), []);
+  useEffect(() => {
+    onFetchData();
+  }, []);
 
   useEffect(() => {
-    if (!loading.main && !loading.data) {
-      setLoading({...loading, data: true});
+    if (!loading.main && loading.data) {
       onPrepareData();
     }
-  }, [loading.main, loading.data]);
-
-  useEffect(() => {
-    if (loading.data) {
-      if (chart.data.length > 0) {
-        setLoading({...loading, data: false});
-      }
-    }
-  }, [loading.main, loading.data, chart.data]);
+  }, [loading.data, loading.main]);
 
   /************
    ** RENDER **
    ************/
-  if (!loading.data && chart.data.length === 0) {
-    return (
-      <View style={[cStyles.center, styles.empty]}>
-        <CEmpty
-          label={'common:empty_data'}
-          description={'common:cannot_find_data_filter'}
-        />
-      </View>
-    );
+  if (loading.main || loading.data) {
+    return <CActivityIndicator />;
   }
-  return (
-    <ScrollView style={styles.scroll}>
-      <View
-        style={[
-          cStyles.borderTop,
-          isDark && cStyles.borderTopDark,
-          cStyles.fullWidth,
-          cStyles.pb16,
-        ]}
-      />
 
-      {(loading.data || loading.main) && <CActivityIndicator />}
+  if (!loading.main && !loading.main && chart.data.length > 0) {
+    return (
+      <ScrollView style={styles.scroll}>
+        <View
+          style={[
+            cStyles.pb16,
+            cStyles.fullWidth,
+            cStyles.borderTop,
+            isDark && cStyles.borderTopDark,
+          ]}
+        />
 
-      {!loading.data && chart.data.length > 0 && (
         <HorizontalBarChart
           style={styles.chart}
           legend={chart.legend}
@@ -229,19 +213,18 @@ function ProjectPlan(props) {
           keepPositionOnRotation={false}
           drawValueAboveBar={true}
         />
-      )}
 
-      {!loading.data && chart.data.length > 0 && (
         <View style={[cStyles.flex1, cStyles.mt10]}>
           <CText styles={'textCaption2 fontBold'} label={'common:note_chart'} />
           {chart.dataTask.map(item => {
             return (
-              <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt4]}>
+              <View style={[cStyles.row, cStyles.itemsStart, cStyles.mt6]}>
                 <View
                   style={[
                     cStyles.center,
                     cStyles.p4,
                     cStyles.rounded1,
+                    styles.caption_left,
                     {
                       backgroundColor: isDark
                         ? item.typeDarkColor
@@ -253,29 +236,51 @@ function ProjectPlan(props) {
                     customLabel={'#' + item.id}
                   />
                 </View>
-                <CText
-                  customStyles={[
-                    cStyles.textCaption2,
-                    cStyles.fontBold,
-                    cStyles.pl6,
-                    {color: isDark ? item.typeDarkColor : item.typeColor},
-                  ]}
-                  customLabel={item.type}
-                />
-                <CText styles={'textCaption2 pl6'} customLabel={item.name} />
+                <View style={[cStyles.mt5, styles.caption_right]}>
+                  <Text style={cStyles.ml10}>
+                    <Text
+                      style={[
+                        cStyles.textCaption2,
+                        cStyles.fontBold,
+                        {color: isDark ? item.typeDarkColor : item.typeColor},
+                      ]}>
+                      {item.type}
+                    </Text>
+                    <Text
+                      style={[
+                        cStyles.textCaption2,
+                        {color: customColors.text},
+                      ]}>
+                      {'  ' + item.name}
+                    </Text>
+                  </Text>
+                </View>
               </View>
             );
           })}
         </View>
-      )}
-    </ScrollView>
-  );
+      </ScrollView>
+    );
+  }
+  if (!loading.main && !loading.main && chart.data.length === 0) {
+    return (
+      <View style={[cStyles.center, styles.empty]}>
+        <CEmpty
+          label={'common:empty_data'}
+          description={'common:cannot_find_data_filter'}
+        />
+      </View>
+    );
+  }
+  return null;
 }
 
 const styles = StyleSheet.create({
   empty: {height: verticalScale(150)},
   scroll: {maxHeight: verticalScale(340)},
   chart: {height: verticalScale(230), width: moderateScale(300)},
+  caption_left: {flex: 0.1},
+  caption_right: {flex: 0.9},
 });
 
 ProjectPlan.propTypes = {

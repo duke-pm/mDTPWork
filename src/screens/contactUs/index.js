@@ -20,7 +20,7 @@ import {DATA_CONTACT_US, THEME_DARK} from '~/config/constants';
 
 const colorsHeaderCard = {
   dark: ['#232526', '#414345'],
-  light: ['#C6FFDD', '#FBD786', '#f7797d'],
+  light: ['#E0EAFC', '#eef2f3', '#fff'],
 };
 
 function ContactUs(props) {

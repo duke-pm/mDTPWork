@@ -72,6 +72,7 @@ function FooterFormRequest(props) {
       </View>
     );
   }
+  return null;
 }
 
 const styles = StyleSheet.create({

@@ -23,7 +23,9 @@ import ListItem from './components/ListItem';
 import SocialItem from './components/SocialItem';
 /* COMMON */
 import Configs from '~/config';
+import Icons from '~/utils/common/Icons';
 import Routes from '~/navigation/Routes';
+import {colors, cStyles} from '~/utils/style';
 import {LOGIN, THEME_DARK} from '~/config/constants';
 import {
   alert,
@@ -32,8 +34,6 @@ import {
   removeSecretInfo,
   resetRoute,
 } from '~/utils/helper';
-import {colors, cStyles} from '~/utils/style';
-import Icons from '~/utils/common/Icons';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 

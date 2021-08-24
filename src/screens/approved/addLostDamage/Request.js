@@ -44,6 +44,7 @@ import Routes from '~/navigation/Routes';
 import Commons from '~/utils/common/Commons';
 import FieldsAuth from '~/config/fieldsAuth';
 import {colors, cStyles} from '~/utils/style';
+import {THEME_DARK, DEFAULT_FORMAT_DATE_4, LOGIN} from '~/config/constants';
 import {
   getSecretInfo,
   IS_ANDROID,
@@ -52,7 +53,6 @@ import {
   verticalScale,
   resetRoute,
 } from '~/utils/helper';
-import {THEME_DARK, DEFAULT_FORMAT_DATE_4, LOGIN} from '~/config/constants';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 
@@ -62,48 +62,22 @@ if (IS_ANDROID) {
   }
 }
 
-const INPUT_NAME = {
-  DATE_REQUEST: 'dateRequest',
-  ASSETID: 'assetID',
-  REASON: 'reason',
-  TYPE_UPDATE: 'typeUpdate',
-  FILE: 'file',
-};
-
-/** All refs use in this screen */
-const asAssetsRef = createRef();
-let damageRef = createRef();
-let lostRef = createRef();
-
-const dataType = [
-  {
-    ref: damageRef,
-    value: Commons.APPROVED_TYPE.DAMAGED.value,
-    label: 'add_approved_lost_damaged:damage_assets',
-  },
-  {
-    ref: lostRef,
-    value: Commons.APPROVED_TYPE.LOST.value,
-    label: 'add_approved_lost_damaged:lost_assets',
-  },
-];
-
 const RowSelect = (
-  t,
-  loading,
-  disabled,
-  error,
-  isDark,
-  customColors,
-  data,
-  activeIndex,
-  keyToShow,
-  keyToCompare,
-  onPress,
+  t = () => null,
+  loading = false,
+  disabled = false,
+  error = false,
+  isDark = false,
+  customColors = {},
+  data = [],
+  activeIndex = -1,
+  keyToShow = '',
+  keyToCompare = '',
+  onPress = () => null,
 ) => {
-  let find = null;
-  if (data) {
-    find = data.find(f => f[keyToCompare] === activeIndex);
+  let findRow = null;
+  if (data && data.length > 0) {
+    findRow = data.find(f => f[keyToCompare] === activeIndex);
   }
   return (
     <>
@@ -113,11 +87,11 @@ const RowSelect = (
         onPress={onPress}>
         <View
           style={[
-            cStyles.rounded1,
             cStyles.row,
             cStyles.itemsCenter,
             cStyles.justifyBetween,
             cStyles.px10,
+            cStyles.rounded1,
             cStyles.borderAll,
             isDark && cStyles.borderAllDark,
             error && {borderColor: customColors.red},
@@ -127,8 +101,8 @@ const RowSelect = (
           {!loading ? (
             <CText
               customLabel={
-                find
-                  ? find[keyToShow]
+                findRow
+                  ? findRow[keyToShow]
                   : t('add_approved_lost_damaged:holder_no_asset')
               }
             />
@@ -151,9 +125,9 @@ const RowSelect = (
           <CIcon name={Icons.alert} size={'smaller'} color={'red'} />
           <CText
             customStyles={[
+              cStyles.pl6,
               cStyles.textCaption1,
               cStyles.fontRegular,
-              cStyles.pl6,
               {color: customColors.red},
             ]}
             label={'error:assets_not_empty'}
@@ -162,6 +136,32 @@ const RowSelect = (
       )}
     </>
   );
+};
+
+/** All refs*/
+const asAssetsRef = createRef();
+let damageRef = createRef();
+let lostRef = createRef();
+
+/** All init value */
+const dataType = [
+  {
+    ref: damageRef,
+    value: Commons.APPROVED_TYPE.DAMAGED.value,
+    label: 'add_approved_lost_damaged:damage_assets',
+  },
+  {
+    ref: lostRef,
+    value: Commons.APPROVED_TYPE.LOST.value,
+    label: 'add_approved_lost_damaged:lost_assets',
+  },
+];
+const INPUT_NAME = {
+  DATE_REQUEST: 'dateRequest',
+  ASSETID: 'assetID',
+  REASON: 'reason',
+  TYPE_UPDATE: 'typeUpdate',
+  FILE: 'file',
 };
 
 function AddRequest(props) {
@@ -199,7 +199,7 @@ function AddRequest(props) {
   const [form, setForm] = useState({
     dateRequest: moment().format(formatDate),
     reason: '',
-    typeUpdate: Commons.APPROVED_TYPE.DAMAGED.value, // 2: Damage or 3: Lost
+    typeUpdate: Commons.APPROVED_TYPE.DAMAGED.value, // 2: Damage, 3: Lost
     assetID: '',
     file: null,
     fileBase64: '',
@@ -227,10 +227,7 @@ function AddRequest(props) {
     setForm({...form, reason: value});
     if (error.reason.status) {
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-      setError({
-        ...error,
-        reason: {status: false, helper: ''},
-      });
+      setError({...error, reason: {status: false, helper: ''}});
     }
   };
 
@@ -661,10 +658,9 @@ function AddRequest(props) {
               <CInput
                 name={INPUT_NAME.DATE_REQUEST}
                 label={'add_approved_lost_damaged:date_request'}
+                value={moment(form.dateRequest).format(formatDateView)}
                 disabled
                 dateTimePicker
-                value={moment(form.dateRequest).format(formatDateView)}
-                valueColor={colors.BLACK}
               />
             }
           />
@@ -695,23 +691,22 @@ function AddRequest(props) {
                 )}
 
                 {/** Reason */}
-                <View style={!isDetail ? cStyles.pt16 : undefined}>
-                  <CInput
-                    name={INPUT_NAME.REASON}
-                    label={'add_approved_lost_damaged:reason'}
-                    style={[cStyles.itemsStart, styles.input_multiline]}
-                    styleFocus={styles.input_focus}
-                    disabled={loading.main || loading.submitAdd || isDetail}
-                    holder={'add_approved_lost_damaged:holder_reason'}
-                    value={form.reason}
-                    returnKey={'done'}
-                    multiline={true}
-                    error={error.reason.status}
-                    errorHelper={error.reason.helper}
-                    onChangeInput={Keyboard.dismiss}
-                    onChangeValue={handleChangeText}
-                  />
-                </View>
+                <CInput
+                  containerStyle={!isDetail ? cStyles.mt16 : undefined}
+                  style={[cStyles.itemsStart, styles.input_multiline]}
+                  styleFocus={styles.input_focus}
+                  name={INPUT_NAME.REASON}
+                  label={'add_approved_lost_damaged:reason'}
+                  holder={'add_approved_lost_damaged:holder_reason'}
+                  value={form.reason}
+                  returnKey={'done'}
+                  multiline
+                  error={error.reason.status}
+                  errorHelper={error.reason.helper}
+                  disabled={loading.main || loading.submitAdd || isDetail}
+                  onChangeInput={Keyboard.dismiss}
+                  onChangeValue={handleChangeText}
+                />
 
                 {/** Type update */}
                 <View
@@ -853,17 +848,16 @@ function AddRequest(props) {
                   <CInput
                     containerStyle={cStyles.mb10}
                     styleFocus={styles.input_focus}
-                    disabled={loading.main || loading.submitAdd || isDetail}
                     holder={'add_approved_lost_damaged:search_assets'}
-                    keyboard={'default'}
-                    returnKey={'done'}
                     value={findAssets}
+                    returnKey={'search'}
+                    disabled={loading.main || loading.submitAdd || isDetail}
                     onChangeValue={onSearchFilter}
                   />
                 )}
                 {dataAssets.length > 0 ? (
                   <Picker
-                    style={styles.con_action}
+                    style={styles.action}
                     itemStyle={{
                       fontSize: moderateScale(21),
                       color: customColors.text,
@@ -937,11 +931,9 @@ function AddRequest(props) {
 
 const styles = StyleSheet.create({
   input_focus: {borderColor: colors.SECONDARY},
-  button_approved: {width: moderateScale(150)},
-  button_reject: {width: moderateScale(150)},
   left: {flex: 0.5},
   right: {flex: 0.5},
-  con_action: {width: '100%', height: verticalScale(180)},
+  action: {width: '100%', height: verticalScale(180)},
   content_picker: {height: '40%'},
   box: {width: moderateScale(350)},
   row_select: {

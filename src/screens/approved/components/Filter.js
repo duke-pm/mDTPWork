@@ -9,19 +9,21 @@ import PropTypes from 'prop-types';
 import React, {useState, useEffect} from 'react';
 import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
+import {useTheme} from '@react-navigation/native';
 import {showMessage} from 'react-native-flash-message';
 import {StyleSheet, View, UIManager} from 'react-native';
 import moment from 'moment';
 /* COMPONENTS */
 import CLabel from '~/components/CLabel';
 import CInput from '~/components/CInput';
-import CButton from '~/components/CButton';
 import CGroupFilter from '~/components/CGroupFilter';
 import CDateTimePicker from '~/components/CDateTimePicker';
+import CIconButton from '~/components/CIconButton';
 /* COMMON */
 import Icons from '~/utils/common/Icons';
+import Commons from '~/utils/common/Commons';
 import {colors, cStyles} from '~/utils/style';
-import {IS_ANDROID} from '~/utils/helper';
+import {IS_ANDROID, moderateScale} from '~/utils/helper';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -29,41 +31,45 @@ if (IS_ANDROID) {
   }
 }
 
+const propIcon = {size: moderateScale(21)};
+
+/** All init avriables */
 const INPUT_NAME = {
   FROM_DATE: 'fromDate',
   TO_DATE: 'toDate',
 };
 const TYPES_ASSETS = [
   {
-    value: 1,
+    value: Commons.APPROVED_TYPE.ASSETS.value,
     label: 'list_request_assets_handling:title_add',
   },
   {
-    value: 2,
+    value: Commons.APPROVED_TYPE.DAMAGED.value,
     label: 'list_request_assets_handling:title_damaged',
   },
   {
-    value: 3,
+    value: Commons.APPROVED_TYPE.LOST.value,
     label: 'list_request_assets_handling:title_lost',
   },
 ];
 const STATUS_REQUEST = [
   {
-    value: 1,
+    value: Commons.STATUS_REQUEST.WAIT.value,
     label: 'approved_assets:status_wait',
   },
   {
-    value: 2,
+    value: Commons.STATUS_REQUEST.APPROVED.value,
     label: 'approved_assets:status_approved_done',
   },
   {
-    value: 4,
+    value: Commons.STATUS_REQUEST.REJECT.value,
     label: 'approved_assets:status_reject',
   },
 ];
 
 function Filter(props) {
   const {t} = useTranslation();
+  const {customColors} = useTheme();
   const {isResolve = false, onFilter = () => {}, onClose = () => {}} = props;
 
   /** Use redux */
@@ -98,7 +104,7 @@ function Filter(props) {
     if (index !== -1) {
       tmp.push(3);
     }
-    setData({...data, status: tmp});
+    return setData({...data, status: tmp});
   };
 
   const handleFilter = () => {
@@ -107,28 +113,13 @@ function Filter(props) {
     let tmpToDate =
       data.toDate !== '' ? moment(data.toDate, formatDate).valueOf() : null;
     if (tmpFromDate && tmpToDate && tmpFromDate > tmpToDate) {
-      return showMessage({
-        message: t('common:app_name'),
-        description: t('error:from_date_larger_than_to_date'),
-        type: 'warning',
-        icon: 'warning',
-      });
+      return onErrorValidation('error:from_date_larger_than_to_date');
     } else if (!isResolve && data.status.length === 0) {
-      return showMessage({
-        message: t('common:app_name'),
-        description: t('error:status_not_found'),
-        type: 'warning',
-        icon: 'warning',
-      });
+      return onErrorValidation('error:status_not_found');
     } else if (isResolve && data.type.length === 0) {
-      return showMessage({
-        message: t('common:app_name'),
-        description: t('error:type_not_found'),
-        type: 'warning',
-        icon: 'warning',
-      });
+      return onErrorValidation('error:type_not_found');
     } else {
-      onFilter(
+      return onFilter(
         data.fromDate,
         data.toDate,
         data.status.join(),
@@ -138,13 +129,22 @@ function Filter(props) {
     }
   };
 
+  const onErrorValidation = messageKey => {
+    return showMessage({
+      message: t('common:app_name'),
+      description: t(messageKey),
+      type: 'warning',
+      icon: 'warning',
+    });
+  };
+
   /**********
    ** FUNC **
    **********/
   const onChangeDateRequest = (newDate, showPicker) => {
     setShowPickerDate({...showPickerDate, status: showPicker});
     if (newDate && showPickerDate.active) {
-      setData({
+      return setData({
         ...data,
         [showPickerDate.active]: moment(newDate).format(formatDate),
       });
@@ -175,10 +175,18 @@ function Filter(props) {
   return (
     <View style={cStyles.pb20}>
       <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween]}>
-        <CButton variant={'text'} label={'common:close'} onPress={onClose} />
-        <CButton
-          variant={'text'}
-          label={'common:apply'}
+        <CIconButton
+          style={styles.icon}
+          iconProps={propIcon}
+          iconName={Icons.close}
+          iconColor={customColors.red}
+          onPress={onClose}
+        />
+        <CIconButton
+          style={styles.icon}
+          iconProps={propIcon}
+          iconName={Icons.doubleCheck}
+          iconColor={customColors.primary}
           onPress={handleFilter}
         />
       </View>
@@ -279,6 +287,7 @@ function Filter(props) {
 const styles = StyleSheet.create({
   text_date: {flex: 0.3},
   input_date: {flex: 0.7},
+  icon: {height: moderateScale(45), width: moderateScale(45)},
 });
 
 Filter.propTypes = {
