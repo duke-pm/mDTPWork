@@ -10,7 +10,7 @@ import {useTheme} from '@react-navigation/native';
 import {View, TouchableNativeFeedback, TouchableHighlight} from 'react-native';
 /* COMMON */
 import {IS_IOS} from '~/utils/helper';
-import {cStyles} from '~/utils/style';
+import {colors, cStyles} from '~/utils/style';
 
 const Touchable = IS_IOS ? TouchableHighlight : TouchableNativeFeedback;
 
@@ -34,7 +34,7 @@ function CTouchable({
       <Touchable
         style={style}
         disabled={disabled}
-        underlayColor={customColors.cardDisable}
+        underlayColor={colors.BG_TOUCHABLE}
         activeOpacity={activeOpacity}
         onPress={onPress}>
         {children}

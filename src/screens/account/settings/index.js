@@ -20,7 +20,7 @@ import CContent from '~/components/CContent';
 import CActionSheet from '~/components/CActionSheet';
 import CList from '~/components/CList';
 import CGroupInfo from '~/components/CGroupInfo';
-import ListItem from '~/screens/account/components/ListItem';
+import ListItem from '../components/ListItem';
 /* COMMON */
 import {Assets} from '~/utils/asset';
 import {LANGUAGE, BIOMETRICS, THEME_DARK} from '~/config/constants';

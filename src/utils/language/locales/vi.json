@@ -160,6 +160,15 @@
     "hotline": "Hotline",
     "sign_out": "Đăng xuất"
   },
+  "my_account": {
+    "title": "Tài Khoản Của Tôi",
+    "employee_code": "Employee Code",
+    "user_name": "User Name",
+    "full_name": "Họ và Tên",
+    "job_title": "Chức Danh",
+    "department": "Bộ phận",
+    "region": "Khu vực"
+  },
   "change_password": {
     "title": "Đổi mật khẩu",
     "sub_title": "Điền thông tin cần thiết dưới đây",
@@ -512,5 +521,15 @@
     "torf": "Torf",
     "type": "Type",
     "supplier": "Nhà cung cấp"
+  },
+  "booking_management": {
+    "title": "QL Booking"
+  },
+  "bookings": {
+    "title": "Bookings",
+    "resume": "Đang diễn ra"
+  },
+  "my_bookings": {
+    "title": "Bookings của tôi"
   }
 }

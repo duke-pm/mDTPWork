@@ -43,6 +43,9 @@ const Icons = {
   mailTask: 'mail',
   jobTask: 'hammer',
   departmentTask: 'people',
+  // Booking
+  resource: 'location',
+  usersJoin: 'people',
 
   // Common
   barChart: 'stats-chart-outline',

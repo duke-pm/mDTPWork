@@ -1,18 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /**
- ** Name: Project Management
+ ** Name: Booking Management
  ** Author: DTP-Education
  ** CreateAt: 2021
- ** Description: Description of ProjectManagement.js
+ ** Description: Description of BookingManagement.js
  **/
-import React, {useEffect, useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useSelector} from 'react-redux';
 import {View} from 'react-native';
-/** COMPONENTS */
+/* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
 import CItem from '~/components/CItem';
-/** COMMON */
+/* COMMON */
 import {colors, cStyles} from '~/utils/style';
 
 const colorsItem = [
@@ -26,7 +26,7 @@ const colorsItem = [
   },
 ];
 
-function ProjectManagement(props) {
+function BookingManagement(props) {
   const {navigation, route} = props;
 
   /** Use redux */
@@ -116,4 +116,4 @@ function ProjectManagement(props) {
   );
 }
 
-export default ProjectManagement;
+export default BookingManagement;

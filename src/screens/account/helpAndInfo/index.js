@@ -10,7 +10,7 @@ import DeviceInfo from 'react-native-device-info';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
-import ListItem from '../account/components/ListItem';
+import ListItem from '../components/ListItem';
 import CGroupInfo from '~/components/CGroupInfo';
 /** COMMON */
 import {colors, cStyles} from '~/utils/style';
@@ -128,10 +128,7 @@ function HelpAndInfo(props) {
           />
 
           <CGroupInfo
-            contentStyle={[
-              cStyles.px10,
-              DeviceInfo.isTablet() ? cStyles.mb10 : cStyles.mb0,
-            ]}
+            contentStyle={[cStyles.px10, cStyles.mb10]}
             content={HELP_AND_INFO_2.map((item, index) => (
               <ListItem
                 key={item.id}

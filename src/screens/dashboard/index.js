@@ -16,7 +16,23 @@ import CItem from '~/components/CItem';
 import CText from '~/components/CText';
 import CAvatar from '~/components/CAvatar';
 /** COMMON */
-import {cStyles} from '~/utils/style';
+import {colors, cStyles} from '~/utils/style';
+
+/** All init */
+const colorsItem = [
+  {
+    colors: [colors.YELLOW, '#373B44'],
+    bgColor: colors.BG_APPROVED,
+  },
+  {
+    colors: [colors.BLUE, '#373B44'],
+    bgColor: colors.BG_PROJECT,
+  },
+  {
+    colors: [colors.GREEN, '#373B44'],
+    bgColor: colors.BG_BOOKING,
+  },
+];
 
 function Dashboard(props) {
   const {navigation} = props;
@@ -32,7 +48,7 @@ function Dashboard(props) {
   /*****************
    ** HANDLE FUNC **
    *****************/
-  const handleItem = dataRoute => {
+  const handleItem = (dataRoute, indexRoute) => {
     navigation.navigate(dataRoute.mName, {
       idRouteParent: dataRoute.menuID,
     });
@@ -102,7 +118,8 @@ function Dashboard(props) {
           <View
             style={[
               cStyles.row,
-              cStyles.itemsStart,
+              cStyles.itemscenter,
+              cStyles.justifyStart,
               cStyles.flexWrap,
               cStyles.pt16,
               styles.list_item,
@@ -114,6 +131,8 @@ function Dashboard(props) {
                     key={index.toString()}
                     index={index}
                     data={item}
+                    colors={colorsItem[index].colors}
+                    bgColor={colorsItem[index].bgColor}
                     onPress={handleItem}
                   />
                 );

@@ -149,13 +149,56 @@ export function RootMain(props) {
         component={RootTab}
         options={headerAuthOptions}
       />
+
+      {/** ACCOUNT */}
       <StackMain.Screen
-        name={Routes.MAIN.SALES_VISIT.name}
-        component={Routes.MAIN.SALES_VISIT.path}
+        name={Routes.MAIN.MY_ACCOUNT.name}
+        component={Routes.MAIN.MY_ACCOUNT.path}
         options={{
-          title: t('sales_visit:title'),
+          title: t('my_account:title'),
+          headerBackTitle: t('common:back'),
+          headerTintColor: colors.WHITE,
+          headerTranslucent: true,
+          headerHideShadow: true,
+          headerStyle: {
+            backgroundColor: colors.TRANSPARENT,
+          },
         }}
       />
+      <StackMain.Screen
+        name={Routes.MAIN.HELP_AND_INFO.name}
+        component={Routes.MAIN.HELP_AND_INFO.path}
+        options={{
+          title: t('help_and_info:title'),
+          headerBackTitle: t('common:back'),
+        }}
+      />
+      <StackMain.Screen
+        name={Routes.MAIN.CHANGE_PASSWORD.name}
+        component={Routes.MAIN.CHANGE_PASSWORD.path}
+        options={{
+          title: t('change_password:title'),
+          headerBackTitle: t('common:back'),
+        }}
+      />
+      <StackMain.Screen
+        name={Routes.MAIN.CONTACT_US.name}
+        component={Routes.MAIN.CONTACT_US.path}
+        options={{
+          title: t('contact_us:title'),
+          headerBackTitle: t('common:back'),
+        }}
+      />
+      <StackMain.Screen
+        name={Routes.MAIN.SETTINGS.name}
+        component={Routes.MAIN.SETTINGS.path}
+        options={{
+          title: t('settings:title'),
+          headerBackTitle: t('common:back'),
+        }}
+      />
+
+      {/** PROJECT MANAGEMENT */}
       <StackMain.Screen
         name={Routes.MAIN.PROJECT_MANAGEMENT.name}
         component={Routes.MAIN.PROJECT_MANAGEMENT.path}
@@ -224,6 +267,8 @@ export function RootMain(props) {
           headerBackTitle: t('common:back'),
         }}
       />
+
+      {/** APPROVED ASSETS */}
       <StackMain.Screen
         name={Routes.MAIN.APPROVED.name}
         component={Routes.MAIN.APPROVED.path}
@@ -272,36 +317,37 @@ export function RootMain(props) {
           headerBackTitle: t('common:back'),
         }}
       />
+
+      {/** SALES VISIT */}
       <StackMain.Screen
-        name={Routes.MAIN.HELP_AND_INFO.name}
-        component={Routes.MAIN.HELP_AND_INFO.path}
+        name={Routes.MAIN.SALES_VISIT.name}
+        component={Routes.MAIN.SALES_VISIT.path}
         options={{
-          title: t('help_and_info:title'),
+          title: t('sales_visit:title'),
+        }}
+      />
+
+      {/** BOOKING */}
+      <StackMain.Screen
+        name={Routes.MAIN.BOOKING_MANAGEMENT.name}
+        component={Routes.MAIN.BOOKING_MANAGEMENT.path}
+        options={{
+          title: t('booking_management:title'),
           headerBackTitle: t('common:back'),
         }}
       />
       <StackMain.Screen
-        name={Routes.MAIN.CHANGE_PASSWORD.name}
-        component={Routes.MAIN.CHANGE_PASSWORD.path}
+        name={Routes.MAIN.BOOKINGS.name}
+        component={Routes.MAIN.BOOKINGS.path}
         options={{
-          title: t('change_password:title'),
-          headerBackTitle: t('common:back'),
+          title: t('bookings:title'),
         }}
       />
       <StackMain.Screen
-        name={Routes.MAIN.CONTACT_US.name}
-        component={Routes.MAIN.CONTACT_US.path}
+        name={Routes.MAIN.MY_BOOKINGS.name}
+        component={Routes.MAIN.MY_BOOKINGS.path}
         options={{
-          title: t('contact_us:title'),
-          headerBackTitle: t('common:back'),
-        }}
-      />
-      <StackMain.Screen
-        name={Routes.MAIN.SETTINGS.name}
-        component={Routes.MAIN.SETTINGS.path}
-        options={{
-          title: t('settings:title'),
-          headerBackTitle: t('common:back'),
+          title: t('my_bookings:title'),
         }}
       />
     </StackMain.Navigator>

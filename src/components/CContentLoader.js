@@ -7,7 +7,7 @@
  **/
 import React, {useState, useEffect} from 'react';
 import {UIManager, LayoutAnimation, View} from 'react-native';
-import ContentLoader, {Rect} from 'react-content-loader/native';
+import ContentLoader, {Rect, Circle} from 'react-content-loader/native';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
 import {IS_ANDROID, SCREEN_WIDTH} from '~/utils/helper';

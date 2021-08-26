@@ -48,7 +48,7 @@ const ACCOUNT = {
         iconColor: colors.BLUE,
         label: 'account:my_account',
         value: null,
-        nextRoute: 'NotReady',
+        nextRoute: 'MyAccount',
         isPhone: false,
         isSignOut: false,
         isRate: false,
@@ -140,7 +140,7 @@ const Information = ({isTablet, authState}) => {
               : [cStyles.row, cStyles.itemsCenter]
           }>
           <CAvatar
-            isEdit={true}
+            isEdit={false}
             size={'large'}
             label={authState.getIn(['login', 'fullName'])}
           />

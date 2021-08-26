@@ -159,9 +159,9 @@ function AddRequest(props) {
   const commonState = useSelector(({common}) => common);
   const approvedState = useSelector(({approved}) => approved);
   const authState = useSelector(({auth}) => auth);
-  const language = commonState.get('language');
   const formatDate = commonState.get('formatDate');
   const formatDateView = commonState.get('formatDateView');
+  const language = commonState.get('language');
   const refreshToken = authState.getIn(['login', 'refreshToken']);
 
   /** Use state */

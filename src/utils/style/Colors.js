@@ -43,6 +43,14 @@ export default {
   STATUS_ON_HOLD_OPACITY: 'rgba(246,153,63,0.1)',
   STATUS_REJECT_OPACITY: 'rgba(227,52,47,0.1)',
 
+  BG_APPROVED: 'rgba(255,237,74, 0.5)',
+  BG_APPROVED_ASSETS: 'rgba(246,153,63,0.5)',
+  BG_HANDLED_ASSETS: 'rgba(227,52,47,0.5)',
+  BG_PROJECT: 'rgba(10,132,255, 0.5)',
+  BG_PROJECT_M: 'rgba(149,97,226, 0.5)',
+  BG_PROJECT_O: 'rgba(50,215,75, 0.5)',
+  BG_BOOKING: 'rgba(50,215,75, 0.5)',
+
   TYPE_MILESTONE: '#34C759',
   TYPE_PHASE: '#FF9500',
   TYPE_TASK: '#007AFF',
@@ -100,11 +108,5 @@ export default {
   GOOGLE: '#dd4b39',
   APPLE: '#fff',
 
-  SHOW_MORE: [
-    'rgba(0,0,0,0)',
-    'rgba(0,0,0,0.1)',
-    'rgba(0,0,0,0.2)',
-    'rgba(0,0,0,0.3)',
-    'rgba(0,0,0,3)',
-  ],
+  BG_TOUCHABLE: 'rgba(0,0,0,0.2)',
 };

@@ -109,8 +109,8 @@ function ListItem(props) {
         <View style={[cStyles.center, styles.con_left]}>
           <View
             style={[
-              cStyles.rounded1,
-              cStyles.p6,
+              cStyles.rounded2,
+              cStyles.p8,
               {backgroundColor: data.iconColor || colors.TRANSPARENT},
             ]}>
             {data.icon && !data.iconFaceID && (

@@ -13,7 +13,19 @@ import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
 import CItem from '~/components/CItem';
 /** COMMON */
-import {cStyles} from '~/utils/style';
+import {colors, cStyles} from '~/utils/style';
+
+/** All init */
+const colorsItem = [
+  {
+    colors: [colors.ORANGE, '#373B44'],
+    bgColor: colors.BG_APPROVED_ASSETS,
+  },
+  {
+    colors: [colors.RED, '#373B44'],
+    bgColor: colors.BG_HANDLED_ASSETS,
+  },
+];
 
 function Approved(props) {
   const {navigation, route} = props;
@@ -74,7 +86,13 @@ function Approved(props) {
       content={
         <CContent>
           {!loading && (
-            <View style={[cStyles.row, cStyles.itemsStart]}>
+            <View
+              style={[
+                cStyles.row,
+                cStyles.itemscenter,
+                cStyles.justifyStart,
+                cStyles.flexWrap,
+              ]}>
               {routes.map((item, index) => {
                 if (item.isAccess) {
                   return (
@@ -82,6 +100,8 @@ function Approved(props) {
                       key={index.toString()}
                       index={index}
                       data={item}
+                      colors={colorsItem[index].colors}
+                      bgColor={colorsItem[index].bgColor}
                       onPress={handleItem}
                     />
                   );

@@ -160,6 +160,15 @@
     "hotline": "Hotline",
     "sign_out": "Logout"
   },
+  "my_account": {
+    "title": "Profile",
+    "employee_code": "Employee Code",
+    "user_name": "User Name",
+    "full_name": "Full Name",
+    "job_title": "Job Title",
+    "department": "Department",
+    "region": "Region"
+  },
   "change_password": {
     "title": "Change Password",
     "sub_title": "Please fill in the required information below",

@@ -12,10 +12,11 @@ import ChangePasswordScreen from '~/screens/authentication/changePassword';
 import Dashboard from '~/screens/dashboard';
 /** ACCOUNT */
 import Account from '~/screens/account';
-import ChangePassword from '~/screens/changePassword';
-import HelpAndInfo from '~/screens/helpAndInfo';
-import ContactUs from '~/screens/contactUs';
-import Settings from '~/screens/settings';
+import MyAccount from '~/screens/account/myAccount';
+import ChangePassword from '~/screens/account/changePassword';
+import HelpAndInfo from '~/screens/account/helpAndInfo';
+import ContactUs from '~/screens/account/contactUs';
+import Settings from '~/screens/account/settings';
 /** APPROVED */
 import Approved from '~/screens/approved';
 import ListRequest from '~/screens/approved/listAssets';
@@ -37,6 +38,10 @@ import TaskActivities from '~/screens/projectManagement/components/Activities';
 import TaskWatchers from '~/screens/projectManagement/components/Watchers';
 /** SALE VISIT */
 import SalesVisit from '~/screens/salesVisit';
+/** BOOKING */
+import BookingManagement from '~/screens/bookingManagement';
+import Bookings from '~/screens/bookingManagement/bookings';
+import MyBookings from '~/screens/bookingManagement/myBookings';
 
 const Routes = {
   AUTHENTICATION: {
@@ -65,6 +70,10 @@ const Routes = {
     ACCOUNT: {
       name: 'Account',
       path: Account,
+    },
+    MY_ACCOUNT: {
+      name: 'MyAccount',
+      path: MyAccount,
     },
     CHANGE_PASSWORD: {
       name: 'ChangePassword',
@@ -163,6 +172,20 @@ const Routes = {
     SALES_VISIT: {
       name: 'SalesVisit',
       path: SalesVisit,
+    },
+
+    // Booking screens
+    BOOKING_MANAGEMENT: {
+      name: 'BookingManagement',
+      path: BookingManagement,
+    },
+    BOOKINGS: {
+      name: 'Bookings',
+      path: Bookings,
+    },
+    MY_BOOKINGS: {
+      name: 'MyBookings',
+      path: MyBookings,
     },
   },
 };

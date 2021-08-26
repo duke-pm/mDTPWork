@@ -55,6 +55,9 @@ const CustomLayoutAnimation = {
   },
 };
 
+const paddingParticipant = moderateScale(14);
+const paddingTopParticipant = moderateScale(10);
+
 function TaskItem(props) {
   const {data, translation, isDark, customColors, onPress, onRefresh} = props;
 
@@ -301,11 +304,8 @@ function TaskItem(props) {
                             cStyles.p1,
                             cStyles.abs,
                             {
-                              top: -moderateScale(10),
-                              right:
-                                (data.lstUserInvited.length > 3
-                                  ? index + 1
-                                  : index) * moderateScale(12),
+                              top: -paddingTopParticipant,
+                              right: (index + 1.5) * paddingParticipant,
                               zIndex: index + 1,
                             },
                           ]}>

@@ -34,6 +34,15 @@ import {
   moderateScale,
 } from '~/utils/helper';
 
+/** All init */
+const sizes = {
+  vsmall: moderateScale(8),
+  small: moderateScale(10),
+  medium: moderateScale(16),
+  large: moderateScale(22),
+  vlarge: moderateScale(30),
+};
+
 function CAvatar(props) {
   const isDark = useColorScheme() === THEME_DARK;
   const {customColors} = useTheme();
@@ -106,6 +115,7 @@ function CAvatar(props) {
           size === 'small' && styles.image_small,
           size === 'medium' && styles.image_medium,
           size === 'large' && styles.image_large,
+          size === 'vlarge' && styles.image_vlarge,
           containerStyle,
           {backgroundColor: customColors.card},
         ]}
@@ -118,6 +128,7 @@ function CAvatar(props) {
               size === 'small' && styles.image_small,
               size === 'medium' && styles.image_medium,
               size === 'large' && styles.image_large,
+              size === 'vlarge' && styles.image_vlarge,
               imageStyle,
             ]}
             source={
@@ -137,7 +148,7 @@ function CAvatar(props) {
             style={cStyles.rounded10}
             start={{x: 0.0, y: 0.25}}
             end={{x: 0.5, y: 1.0}}
-            colors={['#C6FFDD', '#FBD786', '#f7797d']}>
+            colors={['#EAECC6', '#2BC0E4']}>
             <View
               style={[
                 cStyles.rounded10,
@@ -146,6 +157,7 @@ function CAvatar(props) {
                 size === 'small' && styles.image_small,
                 size === 'medium' && styles.image_medium,
                 size === 'large' && styles.image_large,
+                size === 'vlarge' && styles.image_vlarge,
                 imageStyle,
               ]}>
               <Text
@@ -153,16 +165,7 @@ function CAvatar(props) {
                   cStyles.textCenter,
                   cStyles.colorGray800,
                   cStyles.fontBold,
-                  {
-                    fontSize:
-                      size === 'vsmall'
-                        ? moderateScale(8)
-                        : size === 'small'
-                        ? moderateScale(10)
-                        : size === 'medium'
-                        ? moderateScale(16)
-                        : moderateScale(22),
-                  },
+                  {fontSize: sizes[size]},
                 ]}>
                 {customLabel}
               </Text>
@@ -202,10 +205,12 @@ function CAvatar(props) {
               size === 'small' && styles.icon_camera_small,
               size === 'medium' && styles.icon_camera_medium,
               size === 'large' && styles.icon_camera_large,
-              {backgroundColor: customColors.card},
+              size === 'vlarge' && styles.icon_camera_vlarge,
+              {backgroundColor: colors.SECONDARY},
             ]}>
             <CIcon
               name={Icons.camera}
+              customColor={colors.WHITE}
               size={
                 size === 'small'
                   ? 'minium'
@@ -355,6 +360,10 @@ const styles = StyleSheet.create({
     height: moderateScale(60),
     width: moderateScale(60),
   },
+  image_vlarge: {
+    height: moderateScale(80),
+    width: moderateScale(80),
+  },
 
   icon_camera_vsmall: {
     height: moderateScale(10),
@@ -372,6 +381,10 @@ const styles = StyleSheet.create({
     height: moderateScale(22),
     width: moderateScale(22),
   },
+  icon_camera_vlarge: {
+    height: moderateScale(28),
+    width: moderateScale(28),
+  },
   con_loading: {backgroundColor: 'transparent'},
   con_edit: {bottom: -moderateScale(1)},
   text_edit: {fontSize: moderateScale(9)},
@@ -380,7 +393,7 @@ const styles = StyleSheet.create({
 CAvatar.propTypes = {
   containerStyle: PropTypes.object,
   imageStyle: PropTypes.object,
-  size: PropTypes.oneOf(['vsmall', 'small', 'medium', 'large']),
+  size: PropTypes.oneOf(['vsmall', 'small', 'medium', 'large', 'vlarge']),
   source: PropTypes.string,
   isEdit: PropTypes.bool,
   label: PropTypes.string,
