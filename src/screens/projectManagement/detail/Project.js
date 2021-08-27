@@ -482,8 +482,7 @@ function ProjectDetail(props) {
    ************/
   return (
     <CContainer
-      loading={false}
-      contentLoader={loading.main || loading.startFetch}
+      loading={loading.main}
       content={
         <CContent scrollEnabled={false}>
           <CSearchBar

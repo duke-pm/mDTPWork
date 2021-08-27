@@ -390,7 +390,7 @@
     "status": "Trạng thái: ",
     "owner": "Phụ trách: ",
     "title_owner": "Người phụ trách",
-    "date_created": "Ngày tạo: ",
+    "date_created": "Ngày thêm: ",
     "is_public": "Public: ",
     "description": "Mô tả: ",
     "status_on_track": "Đang Theo Dõi",
@@ -438,7 +438,7 @@
     "empty_tasks": "Hiện tại chưa có công việc cho dự án này!",
     "empty_comment": "Hiện tại chưa có nhận xét cho dự án này!",
     "files_attach": "Tệp tin đính kèm: ",
-    "created_by": "tạo bởi",
+    "created_by": "thêm bởi",
     "last_updated_at": "cập nhật ngày",
     "task_percentage": "Tiến độ: ",
     "task_version": "Phiên bản: ",
@@ -527,9 +527,35 @@
   },
   "bookings": {
     "title": "Bookings",
-    "resume": "Đang diễn ra"
+    "resume": "Đang diễn ra",
+    "from_date": "Từ ngày",
+    "to_date": "Đến ngày"
   },
   "my_bookings": {
     "title": "Bookings của tôi"
+  },
+  "add_booking": {
+    "title": "Thêm Mới Booking",
+    "info": "Thông tin cơ bản",
+    "info_booking": "Thông tin Booking",
+    "create_date": "Ngày",
+    "create_user": "Người thêm",
+    "resource": "Tài nguyên *",
+    "holder_find_resource": "Tìm tài nguyên...",
+    "holder_empty_resource": "Tài nguyên rỗng",
+    "label": "Tên *",
+    "holder_label": "Tên booking...",
+    "note": "Ghi chú",
+    "holder_note": "Ghi chú thông tin booking...",
+    "participants": "Người tham gia",
+    "no_participants": "Chọn người tham gia tại đây...",
+    "choosed": " [Đã chọn]",
+    "date_time": "Thời gian",
+    "from_date_time": "Từ *",
+    "to_date_time": "Đến *",
+    "create_booking": "Thêm Booking",
+    "warning_dischange": "Bạn có chắc chắn muốn rời khỏi trang này?",
+    "agree_dischange": "Rời khỏi",
+    "close_dischange": "Huỷ bỏ"
   }
 }

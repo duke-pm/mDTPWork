@@ -45,7 +45,9 @@ const Icons = {
   departmentTask: 'people',
   // Booking
   resource: 'location',
-  usersJoin: 'people',
+  userCreated: 'person',
+  calendarBooking: 'calendar-outline',
+  listBooking: 'list-outline',
 
   // Common
   barChart: 'stats-chart-outline',
@@ -54,7 +56,8 @@ const Icons = {
   remove: 'close-circle-outline',
   close: 'close-sharp',
   informations: 'information-circle',
-  calendar: 'calendar-outline',
+  calendar: 'calendar',
+  list: 'list-outline',
   search: 'search-outline',
   addNew: 'add-sharp',
   circle: 'ellipse-outline',

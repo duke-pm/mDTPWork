@@ -19,7 +19,7 @@ import moment from 'moment';
 import CText from '~/components/CText';
 import CIconHeader from '~/components/CIconHeader';
 import CDateTimePicker from '~/components/CDateTimePicker';
-import CContentLoader from '~/components/CContentLoader';
+import CActivityIndicator from '~/components/CActivityIndicator';
 import BodyPreview from '../components/BodyPreview';
 /** COMMON */
 import Configs from '~/config';
@@ -36,6 +36,7 @@ import {
 } from '~/config/constants';
 /** REDUX */
 import * as Actions from '~/redux/actions';
+import CLoading from '~/components/CLoading';
 
 const DATA_HEADER = [
   {
@@ -470,7 +471,7 @@ function ProjectOverview(props) {
           isDark && cStyles.borderLeftDark,
           isDark && cStyles.borderBottomDark,
           styles.cell,
-          {backgroundColor: customColors.green},
+          {backgroundColor: customColors.teal},
         ]}>
         <CText
           customStyles={[
@@ -502,7 +503,7 @@ function ProjectOverview(props) {
             isDark && cStyles.borderLeftDark,
             isDark && cStyles.borderBottomDark,
             styles.first_cell,
-            {backgroundColor: customColors.green},
+            {backgroundColor: customColors.teal},
           ]}>
           <CText
             customStyles={[
@@ -548,14 +549,7 @@ function ProjectOverview(props) {
           />
         )}
 
-        {loading.startFetch && (
-          <CContentLoader
-            horizontal={true}
-            type={'table'}
-            visible={loading.startFetch}
-            customColors={customColors}
-          />
-        )}
+        <CLoading visible={loading.startFetch} />
 
         {/** Date Picker */}
         <CDateTimePicker

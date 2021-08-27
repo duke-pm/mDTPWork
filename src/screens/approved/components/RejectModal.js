@@ -85,7 +85,6 @@ function RejectModal(props) {
           disabled={loading}
           holder={'add_approved_assets:reason'}
           value={reasonReject}
-          valueColor={colors.TEXT_BASE}
           keyboard={'default'}
           returnKey={'done'}
           autoFocus={true}

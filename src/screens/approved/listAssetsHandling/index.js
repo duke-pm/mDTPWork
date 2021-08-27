@@ -282,8 +282,7 @@ function ListRequestHandling(props) {
   }
   return (
     <CContainer
-      loading={false}
-      contentLoader={loading.main || loading.startFetch}
+      loading={loading.main}
       content={
         <View style={cStyles.flex1}>
           <CSearchBar
@@ -295,10 +294,10 @@ function ListRequestHandling(props) {
           />
           <FilterTags
             formatDateView={formatDateView}
-            customColors={customColors}
             fromDate={data.fromDate}
             toDate={data.toDate}
             types={typesObj}
+            primaryColor={customColors.yellow2}
           />
           {!loading.main && !loading.startFetch && (
             <ListRequest

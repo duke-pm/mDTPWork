@@ -6,7 +6,6 @@
  **/
 import PropTypes from 'prop-types';
 import React from 'react';
-import {useTheme} from '@react-navigation/native';
 import {View, TouchableNativeFeedback, TouchableHighlight} from 'react-native';
 /* COMMON */
 import {IS_IOS} from '~/utils/helper';
@@ -23,7 +22,6 @@ function CTouchable({
   children = null,
   onPress = () => null,
 }) {
-  const {customColors} = useTheme();
   /************
    ** RENDER **
    ************/

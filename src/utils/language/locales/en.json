@@ -521,5 +521,39 @@
     "torf": "Torf",
     "type": "Type",
     "supplier": "Supplier"
+  },
+  "booking_management": {
+    "title": "Booking Management"
+  },
+  "bookings": {
+    "title": "All Bookings",
+    "resume": "Live"
+  },
+  "my_bookings": {
+    "title": "My Bookings"
+  },
+  "add_booking": {
+    "title": "New Booking",
+    "info": "Basic Information",
+    "info_booking": "Booking Information",
+    "create_date": "Day",
+    "create_user": "User",
+    "resource": "Resource *",
+    "holder_find_resource": "Find resource...",
+    "holder_empty_resource": "Resource empty!",
+    "label": "Name *",
+    "holder_label": "Booking name...",
+    "note": "Notes",
+    "holder_note": "Booking notes...",
+    "participants": "Participants",
+    "no_participants": "Select participants here...",
+    "choosed": " [Choosed]",
+    "date_time": "Time",
+    "from_date_time": "From *",
+    "to_date_time": "To *",
+    "create_booking": "Add Booking",
+    "warning_dischange": "Are you sure you want to leave this page??",
+    "agree_dischange": "Go back",
+    "close_dischange": "Close"
   }
 }

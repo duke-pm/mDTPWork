@@ -9,8 +9,9 @@
 import PropTypes from 'prop-types';
 import React, {createRef, useState, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
-import {StyleSheet, FlatList, View} from 'react-native';
-import {useTheme} from '@react-navigation/native';
+import {useColorScheme} from 'react-native-appearance';
+import {THEME_DARK} from '~/config/constants';
+import {FlatList, View} from 'react-native';
 import * as Animatable from 'react-native-animatable';
 /* COMPONENTS */
 import CText from './CText';
@@ -26,12 +27,13 @@ let isCheck = null;
 
 function CGroupFilter(props) {
   const {t} = useTranslation();
-  const {customColors} = useTheme();
+  const isDark = useColorScheme() === THEME_DARK;
   const {
     containerStyle = {},
     label = '',
     items = [],
     itemsChoose = [],
+    primaryColor = undefined,
     onChange = () => {},
   } = props;
 
@@ -112,7 +114,10 @@ function CGroupFilter(props) {
           isCheck = valuesChoose.find(f => f.value == item.value);
           return (
             <View style={[cStyles.row, cStyles.itemsCenter]}>
-              <CTouchable onPress={() => handleItem(index, item)}>
+              <CTouchable
+                onPress={() => handleItem(index, item)}
+                containerStyle={cStyles.rounded5}
+                style={cStyles.rounded5}>
                 <Animatable.View
                   ref={ref => (valuesRef[index] = ref)}
                   useNativeDriver={true}>
@@ -120,28 +125,24 @@ function CGroupFilter(props) {
                     style={[
                       cStyles.py6,
                       cStyles.px10,
-                      cStyles.rounded1,
+                      cStyles.rounded5,
                       cStyles.borderAll,
+                      isDark && cStyles.borderAllDark,
                       cStyles.row,
                       cStyles.itemsCenter,
-                      isCheck && styles.active,
-                      {backgroundColor: customColors.card},
+                      {
+                        backgroundColor: isCheck
+                          ? primaryColor
+                          : colors.TRANSPARENT,
+                      },
                     ]}>
+                    <CText
+                      styles={'fontMedium textCaption1 pr4'}
+                      label={item.label}
+                    />
                     <CIcon
                       name={isCheck ? Icons.check : Icons.noneCheck}
                       size={'smaller'}
-                      customColor={
-                        isCheck ? colors.SECONDARY : customColors.icon
-                      }
-                    />
-                    <CText
-                      customStyles={[
-                        cStyles.textCaption1,
-                        cStyles.fontMedium,
-                        cStyles.pl4,
-                        isCheck && cStyles.colorSecondary,
-                      ]}
-                      label={item.label}
                     />
                   </View>
                 </Animatable.View>
@@ -160,15 +161,12 @@ function CGroupFilter(props) {
   );
 }
 
-const styles = StyleSheet.create({
-  active: {borderColor: colors.SECONDARY},
-});
-
 CGroupFilter.propTypes = {
   containerStyle: PropTypes.object,
   label: PropTypes.string,
   items: PropTypes.array,
   itemsChoose: PropTypes.array,
+  primaryColor: PropTypes.string,
   onChange: PropTypes.func,
 };
 

@@ -29,6 +29,7 @@ export const initialState = fromJS({
   projectSector: [],
   projectComponent: [],
   projectPriority: [],
+  bookingResource: [],
 });
 
 export default function (state = initialState, action = {}) {
@@ -92,6 +93,10 @@ export default function (state = initialState, action = {}) {
         .set(
           'projectPriority',
           payload.projectPriority || state.get('projectPriority'),
+        )
+        .set(
+          'bookingResource',
+          payload.bookingResource || state.get('bookingResource'),
         );
 
     default:

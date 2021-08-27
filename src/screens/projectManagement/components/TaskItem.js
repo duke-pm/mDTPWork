@@ -242,7 +242,7 @@ function TaskItem(props) {
               <View style={[cStyles.row, cStyles.itemsCenter]}>
                 <CIcon
                   name={Icons.timeTask}
-                  size={'small'}
+                  size={'smaller'}
                   color={delay > 0 ? 'red' : 'icon'}
                 />
                 <Text style={cStyles.pl4} numberOfLines={1}>

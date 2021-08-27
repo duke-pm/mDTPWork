@@ -13,13 +13,14 @@ import CText from '~/components/CText';
 import CIcon from '~/components/CIcon';
 /* COMMON */
 import Icons from '~/utils/common/Icons';
-import {colors, cStyles} from '~/utils/style';
+import {cStyles} from '~/utils/style';
 
 function CheckOption(props) {
   const {
     loading = false,
     isDetail = false,
     customColors = {},
+    primaryColor = '',
     value = true,
     values = [],
     onCallback = () => null,
@@ -79,9 +80,7 @@ function CheckOption(props) {
                 }
                 size={'medium'}
                 customColor={
-                  chooseValue === item.value
-                    ? colors.SECONDARY
-                    : customColors.text
+                  chooseValue === item.value ? primaryColor : customColors.icon
                 }
               />
               <CText styles={'pl6'} label={item.label} />
@@ -97,6 +96,7 @@ CheckOption.propTypes = {
   loading: PropTypes.bool,
   isDetail: PropTypes.bool,
   customColors: PropTypes.object,
+  primaryColor: PropTypes.string,
   value: PropTypes.any,
   values: PropTypes.array,
   onCallback: PropTypes.func,

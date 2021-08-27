@@ -15,7 +15,7 @@ import CTouchable from './CTouchable';
 /* COMMON */
 import {THEME_DARK} from '~/config/constants';
 import {moderateScale} from '~/utils/helper';
-import {cStyles} from '~/utils/style';
+import {colors, cStyles} from '~/utils/style';
 
 function CIconHeader(props) {
   const {customColors} = useTheme();
@@ -61,6 +61,19 @@ function CIconHeader(props) {
                   ]}
                 />
               )}
+              {item.active && (
+                <View
+                  style={[
+                    cStyles.abs,
+                    cStyles.rounded5,
+                    cStyles.borderAll,
+                    isDark && cStyles.borderAllDark,
+                    {backgroundColor: customColors.green},
+                    styles.active,
+                  ]}>
+                  <CIcon name={'checkmark'} size={'minium'} customColor={colors.WHITE} />
+                </View>
+              )}
             </View>
           </CTouchable>
         );
@@ -73,6 +86,12 @@ const styles = StyleSheet.create({
   badge: {
     height: moderateScale(10),
     width: moderateScale(10),
+    left: moderateScale(15),
+    top: moderateScale(5),
+  },
+  active: {
+    height: moderateScale(12),
+    width: moderateScale(12),
     left: moderateScale(15),
     top: moderateScale(5),
   },

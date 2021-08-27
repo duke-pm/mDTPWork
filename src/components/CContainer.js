@@ -12,7 +12,6 @@ import {View} from 'react-native';
 /** COMMON */
 import CFooter from './CFooter';
 import CLoading from './CLoading';
-import CContentLoader from './CContentLoader';
 import {Shapes} from './CBackgroundSharp';
 /** COMMON */
 import {colors, cStyles} from '~/utils/style';
@@ -27,7 +26,6 @@ function CContainer(props) {
     safeAreaStyle = {},
     style = {},
     hasShapes = false,
-    contentLoaderType = 'normal',
     content = null,
     footer = null,
   } = props;
@@ -63,16 +61,9 @@ function CContainer(props) {
           ]}
         />
       )}
-      {props.contentLoader && (
-        <CContentLoader
-          visible={props.contentLoader}
-          type={contentLoaderType}
-          customColors={customColors}
-        />
-      )}
-      {!props.contentLoader && (
-        <View style={[cStyles.flex1, style]}>{content}</View>
-      )}
+      <View style={[cStyles.flex1, style]}>
+        {!props.loading ? content : null}
+      </View>
       {footer && <CFooter content={footer} />}
       <CLoading visible={props.loading} />
     </SafeAreaView>
@@ -81,12 +72,10 @@ function CContainer(props) {
 
 CContainer.propTypes = {
   loading: PropTypes.bool,
-  contentLoader: PropTypes.bool,
   safeArea: PropTypes.object,
   safeAreaStyle: PropTypes.object,
   style: PropTypes.object,
   hasShapes: PropTypes.bool,
-  contentLoaderType: PropTypes.string,
   content: PropTypes.element,
   footer: PropTypes.element,
 };

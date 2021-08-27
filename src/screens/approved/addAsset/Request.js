@@ -789,6 +789,7 @@ function AddRequest(props) {
                     loading={loading.main || loading.submitAdd}
                     isDetail={isDetail}
                     customColors={customColors}
+                    primaryColor={customColors.yellow}
                     value={form.typeAssets}
                     values={dataTypeAssets}
                     onCallback={onCallbackTypeAsset}
@@ -807,6 +808,7 @@ function AddRequest(props) {
                     loading={loading.main || loading.submitAdd}
                     isDetail={isDetail}
                     customColors={customColors}
+                    primaryColor={customColors.yellow}
                     value={form.inPlanning}
                     values={dataInPlanning}
                     onCallback={onCallbackInplanning}

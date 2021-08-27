@@ -14,8 +14,8 @@ import {useTheme, useNavigation} from '@react-navigation/native';
 import {showMessage} from 'react-native-flash-message';
 import {View} from 'react-native';
 /* COMPONENTS */
+import CLoading from '~/components/CLoading';
 import ListRequest from '../components/ListRequest';
-import CContentLoader from '~/components/CContentLoader';
 /* COMMON */
 import Configs from '~/config';
 import Routes from '~/navigation/Routes';
@@ -255,10 +255,7 @@ function ApprovedAssetsDamage(props) {
           onLoadmore={onLoadmore}
         />
       )}
-      <CContentLoader
-        visible={loading.main || loading.startFetch}
-        customColors={customColors}
-      />
+      <CLoading visible={loading.main} />
     </View>
   );
 }

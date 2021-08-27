@@ -133,7 +133,7 @@ function ProjectItem(props) {
                   data.priorityLevel > 0 && styles.row_left_1,
                   data.priorityLevel === 0 && styles.row_left,
                 ]}>
-                <CIcon size={'small'} name={Icons.dateCreateProj} />
+                <CIcon size={'smaller'} name={Icons.dateCreateProj} />
                 <CLabel
                   style={cStyles.pl5}
                   customLabel={moment(

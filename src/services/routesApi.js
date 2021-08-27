@@ -33,6 +33,9 @@ const Routes = {
     TASK_WATCHER: '/TaskWatcher/Modify',
     PROJECT_OVERVIEW: '/Project/GetListOverview',
   },
+  BOOKING: {
+    LIST_BOOKING: '/Booking/GetList',
+  },
 };
 
 export default Routes;

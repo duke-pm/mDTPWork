@@ -148,6 +148,19 @@ const Commons = {
       color: 'indigo',
     },
   },
+
+  TYPE_SHOW_BOOKING: {
+    CALENDAR: {
+      value: 'typeCalendar',
+      label: 'Calendar',
+      icon: 'calendar',
+    },
+    LIST: {
+      value: 'typeList',
+      label: 'List',
+      icon: 'list',
+    },
+  },
 };
 
 export default Commons;

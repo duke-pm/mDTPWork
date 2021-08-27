@@ -42,6 +42,7 @@ import SalesVisit from '~/screens/salesVisit';
 import BookingManagement from '~/screens/bookingManagement';
 import Bookings from '~/screens/bookingManagement/bookings';
 import MyBookings from '~/screens/bookingManagement/myBookings';
+import AddBooking from '~/screens/bookingManagement/addBooking';
 
 const Routes = {
   AUTHENTICATION: {
@@ -186,6 +187,10 @@ const Routes = {
     MY_BOOKINGS: {
       name: 'MyBookings',
       path: MyBookings,
+    },
+    ADD_BOOKING: {
+      name: 'AddBooking',
+      path: AddBooking,
     },
   },
 };

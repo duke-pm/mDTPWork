@@ -348,6 +348,15 @@ export function RootMain(props) {
         component={Routes.MAIN.MY_BOOKINGS.path}
         options={{
           title: t('my_bookings:title'),
+          headerBackTitle: t('common:back'),
+        }}
+      />
+      <StackMain.Screen
+        name={Routes.MAIN.ADD_BOOKING.name}
+        component={Routes.MAIN.ADD_BOOKING.path}
+        options={{
+          title: t('add_booking:title'),
+          headerBackTitle: t('common:back'),
         }}
       />
     </StackMain.Navigator>

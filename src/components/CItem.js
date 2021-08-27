@@ -14,7 +14,7 @@ import CText from './CText';
 import CTouchable from './CTouchable';
 /** COMMON */
 import {colors, cStyles} from '~/utils/style';
-import {IS_ANDROID, moderateScale, sW} from '~/utils/helper';
+import {moderateScale, sW} from '~/utils/helper';
 
 function CItem(props) {
   const {
@@ -42,28 +42,19 @@ function CItem(props) {
   return (
     <CTouchable
       key={key}
-      containerStyle={cStyles.rounded3}
-      style={[
-        cStyles.px16,
-        cStyles.mx12,
-        cStyles.mt16,
-        cStyles.rounded3,
-        cStyles.itemsCenter,
-        styles.item,
-        itemStyle,
-      ]}
+      containerStyle={[cStyles.rounded3, cStyles.mt16, styles.item, itemStyle]}
+      style={cStyles.rounded3}
       onPress={handleItem}>
-      <>
+      <View style={[cStyles.itemsCenter, cStyles.py10]}>
         <View
           style={[
-            cStyles.m16,
             cStyles.rounded3,
             cStyles.center,
             {backgroundColor: bgColor},
             styles.con_icon,
           ]}>
           <LinearGradient
-            style={[cStyles.center, cStyles.rounded8, cStyles.p10, iconStyle]}
+            style={[cStyles.center, cStyles.rounded8, cStyles.p8, iconStyle]}
             start={{x: 0.0, y: 0.25}}
             end={{x: 0.5, y: 1.0}}
             colors={props.colors}>
@@ -80,21 +71,21 @@ function CItem(props) {
             cStyles.textCaption2,
             cStyles.fontBold,
             cStyles.textCenter,
-            IS_ANDROID && cStyles.pt10,
+            cStyles.pt10,
             textStyle,
           ]}
           label={data.menuName}
           numberOfLines={3}
         />
-      </>
+      </View>
     </CTouchable>
   );
 }
 
 const styles = StyleSheet.create({
-  item: {width: sW('26%')},
-  con_icon: {height: moderateScale(70), width: moderateScale(70)},
-  icon: {width: moderateScale(50), height: moderateScale(50)},
+  item: {width: sW('22.5%')},
+  con_icon: {height: moderateScale(60), width: moderateScale(60)},
+  icon: {width: moderateScale(40), height: moderateScale(40)},
 });
 
 CItem.propTypes = {

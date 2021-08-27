@@ -63,9 +63,9 @@ const themesCalendar = {
   textDayHeaderFontWeight: '500',
   arrowColor: colors.ORANGE,
   selectedDotColor: '#ffffff',
-  selectedDayBackgroundColor: IS_IOS ? colors.BLUE : colors.GREEN,
+  selectedDayBackgroundColor: colors.BLUE,
   selectedDayTextColor: colors.WHITE,
-  todayTextColor: IS_IOS ? colors.BLUE : colors.GREEN,
+  todayTextColor: colors.BLUE,
   'stylesheet.calendar.header': {
     dayTextAtIndex0: {
       color: colors.BLUE,
@@ -560,8 +560,6 @@ function FilterOverview(props) {
                 onDayPress={onChangeFromDate}
                 monthFormat={'MMMM - yyyy'}
                 firstDay={1}
-                onPressArrowLeft={subtractMonth => subtractMonth()}
-                onPressArrowRight={addMonth => addMonth()}
                 disableAllTouchEventsForDisabledDays={true}
                 enableSwipeMonths={true}
                 theme={themesCalendar}
@@ -594,8 +592,6 @@ function FilterOverview(props) {
                 onDayPress={onChangeToDate}
                 monthFormat={'MMMM - yyyy'}
                 firstDay={1}
-                onPressArrowLeft={subtractMonth => subtractMonth()}
-                onPressArrowRight={addMonth => addMonth()}
                 disableAllTouchEventsForDisabledDays={true}
                 enableSwipeMonths={true}
                 theme={themesCalendar}

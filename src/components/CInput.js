@@ -44,6 +44,7 @@ function CInput(props) {
     icon = null,
     iconColor = customColors.icon,
     iconLast = null,
+    iconLastColor = customColors.icon,
     iconLastStyle = {},
 
     label = null,
@@ -243,12 +244,16 @@ function CInput(props) {
                 cStyles.center,
                 cStyles.roundedTopRight1,
                 cStyles.roundedBottomRight1,
-                {backgroundColor: customColors.cardDisable},
+                {backgroundColor: customColors.cardHolder},
                 styles.con_input_icon,
                 iconLastStyle,
               ]}
               onPress={handleIconLast}>
-              <CIcon name={iconLast} size={'medium'} />
+              <CIcon
+                name={iconLast}
+                size={'medium'}
+                customColor={iconLastColor}
+              />
             </Component>
           )}
 

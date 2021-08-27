@@ -90,13 +90,13 @@ function RequestItem(props) {
             <View
               style={[
                 cStyles.row,
-                cStyles.itemsStart,
+                cStyles.itemsCenter,
                 cStyles.justifyBetween,
                 cStyles.mt10,
               ]}>
               <View
                 style={[cStyles.row, cStyles.itemsCenter, styles.flex_half]}>
-                <CIcon size={'small'} name={Icons.dateRequest} />
+                <CIcon size={'smaller'} name={Icons.dateRequest} />
                 <CLabel
                   style={cStyles.pl5}
                   customLabel={moment(
@@ -110,11 +110,11 @@ function RequestItem(props) {
               <View
                 style={[
                   cStyles.row,
-                  cStyles.itemsStart,
+                  cStyles.itemsCenter,
                   cStyles.pr10,
                   styles.flex_half,
                 ]}>
-                <CIcon size={'small'} name={Icons.departmentRequest} />
+                <CIcon size={'smaller'} name={Icons.departmentRequest} />
                 <CLabel style={cStyles.pl5} customLabel={data.deptName} />
               </View>
             </View>

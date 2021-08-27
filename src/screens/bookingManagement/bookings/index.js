@@ -1,37 +1,47 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /**
  ** Name: Bookings
  ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of Bookings.js
  **/
-import React, {useRef, useState, useEffect} from 'react';
+import React, {createRef, useState, useEffect, useLayoutEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
+import {useTheme} from '@react-navigation/native';
 import {StyleSheet, View, Text} from 'react-native';
+import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
 import CList from '~/components/CList';
+import CText from '~/components/CText';
 import CCard from '~/components/CCard';
+import CIcon from '~/components/CIcon';
+import CLabel from '~/components/CLabel';
+import CAvatar from '~/components/CAvatar';
+import CIconHeader from '~/components/CIconHeader';
 /* COMMON */
 import Configs from '~/config';
-import {colors, cStyles} from '~/utils/style';
+import Routes from '~/navigation/Routes';
 import {Booking} from '~/utils/mockup';
-import moment from 'moment';
-import CText from '~/components/CText';
-import {useTheme} from '@react-navigation/native';
-import CIcon from '~/components/CIcon';
+import {colors, cStyles} from '~/utils/style';
 import {Icons} from '~/utils/common';
-import CLabel from '~/components/CLabel';
 import {moderateScale} from '~/utils/helper';
-import CAvatar from '~/components/CAvatar';
 /* REDUX */
+import * as Actions from '~/redux/actions';
+import CActionSheet from '~/components/CActionSheet';
+import Filter from '../components/Filter';
 
-const paddingTopParticipant = moderateScale(10);
-const paddingParticipant = moderateScale(14);
+/** All init */
+const formatDateCalendar = 'YYYY-MM-DD HH:mm:ss';
+
+/** All refs */
+const asFilterRef = createRef();
 
 function Bookings(props) {
   const {customColors} = useTheme();
-  const {} = props;
+  const {navigation, route} = props;
+  const isPermissionWrite = route.params?.permission?.write || false;
 
   /** Use redux */
   const dispatch = useDispatch();
@@ -64,6 +74,22 @@ function Bookings(props) {
    *****************/
   const handleBookingItem = () => {};
 
+  const handleOpenFilter = () => {
+    asFilterRef.current?.show();
+  };
+
+  const handleHideFilter = () => {
+    asFilterRef.current?.hide();
+  };
+
+  const handleAddNew = () => {
+    navigation.navigate(Routes.MAIN.ADD_BOOKING.name);
+  };
+
+  const handleFilter = (fromDate, toDate, status, type) => {
+    asFilterRef.current?.hide();
+  };
+
   /**********
    ** FUNC **
    **********/
@@ -78,6 +104,7 @@ function Bookings(props) {
     return setLoading({
       main: false,
       startFetch: false,
+      changeType: false,
       refreshing: false,
       loadmore: false,
       isLoadmore,
@@ -89,17 +116,37 @@ function Bookings(props) {
    ****************/
   useEffect(() => {
     onFetchData();
-    // setLoading({...loading, startFetch: true});
   }, []);
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <CIconHeader
+          icons={[
+            {
+              show: true,
+              showRedDot: false,
+              icon: Icons.filter,
+              onPress: handleOpenFilter,
+            },
+            {
+              show: isPermissionWrite,
+              showRedDot: false,
+              icon: Icons.addNew,
+              onPress: handleAddNew,
+            },
+          ]}
+        />
+      ),
+    });
+  }, [navigation, isPermissionWrite]);
 
   /************
    ** RENDER **
    ************/
-  console.log('[LOG] ===  ===> ', data);
   return (
     <CContainer
-      loading={false}
-      contentLoader={loading.main && loading.startFetch}
+      loading={loading.main}
       content={
         <CContent scrollEnabled={false}>
           {!loading.main && !loading.startFetch && (
@@ -109,8 +156,8 @@ function Bookings(props) {
               item={({item, index}) => {
                 let between = false;
                 between = Configs.toDay.isBetween(
-                  moment(item.fromDate, 'YYYY-MM-DD HH:mm'),
-                  moment(item.toDate, 'YYYY-MM-DD HH:mm'),
+                  moment(item.fromDate, formatDateCalendar),
+                  moment(item.toDate, formatDateCalendar),
                 );
 
                 return (
@@ -141,10 +188,10 @@ function Bookings(props) {
                                       ]}>
                                       {`${moment(
                                         item.fromDate,
-                                        'YYYY-MM-DD HH:mm',
+                                        formatDateCalendar,
                                       ).format(formatDateView)}\n${moment(
                                         item.fromDate,
-                                        'YYYY-MM-DD HH:mm',
+                                        formatDateCalendar,
                                       ).format('HH:mm')}`}
                                     </Text>
                                   </Text>
@@ -162,10 +209,10 @@ function Bookings(props) {
                                       ]}>
                                       {`${moment(
                                         item.toDate,
-                                        'YYYY-MM-DD HH:mm',
+                                        formatDateCalendar,
                                       ).format(formatDateView)}\n${moment(
                                         item.toDate,
-                                        'YYYY-MM-DD HH:mm',
+                                        formatDateCalendar,
                                       ).format('HH:mm')}`}
                                     </Text>
                                   </Text>
@@ -208,61 +255,14 @@ function Bookings(props) {
                                 cStyles.itemsCenter,
                                 cStyles.mt6,
                               ]}>
-                              <CIcon name={Icons.usersJoin} size={'small'} />
-                              <View>
-                                {item.users.length > 0 && (
-                                  <View
-                                    style={[cStyles.row, cStyles.itemsCenter]}>
-                                    {item.users.map((itemUser, indexUser) => {
-                                      if (indexUser < 3) {
-                                        return (
-                                          <View
-                                            style={[
-                                              cStyles.rounded10,
-                                              cStyles.p1,
-                                              cStyles.abs,
-                                              {
-                                                top: -paddingTopParticipant,
-                                                left:
-                                                  (indexUser + 1) *
-                                                  paddingParticipant,
-                                                zIndex: indexUser + 1,
-                                              },
-                                            ]}>
-                                            <CAvatar
-                                              size={'vsmall'}
-                                              label={itemUser}
-                                            />
-                                          </View>
-                                        );
-                                      }
-                                      return null;
-                                    })}
-                                    {item.users.length > 3 && (
-                                      <View
-                                        style={[
-                                          cStyles.abs,
-                                          cStyles.p1,
-                                          cStyles.rounded10,
-                                          cStyles.center,
-                                          styles.con_user_invite,
-                                          {
-                                            left: paddingParticipant * 4.5,
-                                            backgroundColor:
-                                              customColors.cardDisable,
-                                          },
-                                        ]}>
-                                        <CText
-                                          styles={'textCaption2'}
-                                          customLabel={`+${
-                                            item.users.length - 3
-                                          }`}
-                                        />
-                                      </View>
-                                    )}
-                                  </View>
-                                )}
-                              </View>
+                              <CIcon
+                                name={Icons.userCreated}
+                                size={'smaller'}
+                              />
+                              <CLabel
+                                style={cStyles.pl5}
+                                customLabel={item.cretaedUser}
+                              />
                             </View>
                           </View>
                         </View>
@@ -273,6 +273,16 @@ function Bookings(props) {
               }}
             />
           )}
+
+          <CActionSheet actionRef={asFilterRef}>
+            <View style={cStyles.p16}>
+              <Filter
+                data={params}
+                onFilter={handleFilter}
+                onClose={handleHideFilter}
+              />
+            </View>
+          </CActionSheet>
         </CContent>
       }
     />
@@ -287,6 +297,14 @@ const styles = StyleSheet.create({
     height: moderateScale(20),
     width: moderateScale(20),
     zIndex: 0,
+  },
+  item: {
+    backgroundColor: 'white',
+    flex: 1,
+    borderRadius: 5,
+    padding: 10,
+    marginRight: 10,
+    marginTop: 17,
   },
 });
 

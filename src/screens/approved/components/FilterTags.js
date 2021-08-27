@@ -18,11 +18,11 @@ import {cStyles} from '~/utils/style';
 function FilterTags(props) {
   const {
     formatDateView = 'DD/MM/YYYY',
-    customColors = {},
     fromDate = '',
     toDate = '',
     types = [],
     arrStatus = [],
+    primaryColor = undefined,
   } = props;
 
   /************
@@ -44,7 +44,7 @@ function FilterTags(props) {
           cStyles.py2,
           cStyles.mx4,
           cStyles.rounded1,
-          {backgroundColor: customColors.tag},
+          {backgroundColor: primaryColor},
         ]}>
         <CText
           styles={'textCaption2 colorBlack'}
@@ -66,7 +66,7 @@ function FilterTags(props) {
                 cStyles.mr4,
                 cStyles.mt8,
                 cStyles.rounded1,
-                {backgroundColor: customColors.green2},
+                {backgroundColor: primaryColor},
               ]}>
               <CText styles={'textCaption2 colorBlack'} label={itemStatus} />
             </View>
@@ -83,7 +83,7 @@ function FilterTags(props) {
                 cStyles.mr4,
                 cStyles.mt8,
                 cStyles.rounded1,
-                {backgroundColor: customColors.green2},
+                {backgroundColor: primaryColor},
               ]}>
               <CText
                 styles={'textCaption2 colorBlack'}
@@ -98,11 +98,11 @@ function FilterTags(props) {
 
 FilterTags.propTypes = {
   formatDateView: PropTypes.string,
-  customColors: PropTypes.object.isRequired,
   fromDate: PropTypes.string,
   toDate: PropTypes.string,
   types: PropTypes.array,
   arrStatus: PropTypes.array,
+  primaryColor: PropTypes.string,
 };
 
 export default FilterTags;

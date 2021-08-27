@@ -69,8 +69,6 @@ function Dashboard(props) {
         }
       }
       // tmpRoutes.push(tmpListMenu.lstPermissionItem[0]);
-      // tmpRoutes.push(tmpListMenu.lstPermissionItem[0]);
-      // tmpRoutes.push(tmpListMenu.lstPermissionItem[0]);
       setRoutes(tmpRoutes);
     }
   };
@@ -90,13 +88,12 @@ function Dashboard(props) {
       loading={loading}
       hasShapes
       content={
-        <CContent>
+        <CContent padder>
           <View
             style={[
               cStyles.row,
               cStyles.itemsEnd,
               cStyles.justifyBetween,
-              cStyles.px16,
               cStyles.fullWidth,
               ifIphoneX(cStyles.pt60, cStyles.pt40),
               styles.welcome,

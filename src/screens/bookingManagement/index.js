@@ -7,22 +7,23 @@
  **/
 import React, {useState, useEffect} from 'react';
 import {useSelector} from 'react-redux';
-import {View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
 import CItem from '~/components/CItem';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
+import {sW} from '~/utils/helper';
 
 const colorsItem = [
   {
-    colors: [colors.INDIGO, '#373B44'],
-    bgColor: colors.BG_PROJECT_M,
+    colors: [colors.GREEN_2, '#373B44'],
+    bgColor: colors.BG_BOOKINGS,
   },
   {
-    colors: [colors.GREEN, '#373B44'],
-    bgColor: colors.BG_PROJECT_O,
+    colors: [colors.GREEN_2, '#373B44'],
+    bgColor: colors.BG_MY_BOOKINGS,
   },
 ];
 
@@ -84,7 +85,7 @@ function BookingManagement(props) {
     <CContainer
       loading={loading}
       content={
-        <CContent scrollEnabled={false}>
+        <CContent padder>
           {!loading && (
             <View
               style={[
@@ -98,6 +99,7 @@ function BookingManagement(props) {
                   return (
                     <CItem
                       key={index.toString()}
+                      itemStyle={styles.item}
                       index={index}
                       data={item}
                       colors={colorsItem[index].colors}
@@ -115,5 +117,9 @@ function BookingManagement(props) {
     />
   );
 }
+
+const styles = StyleSheet.create({
+  item: {width: sW('32%')},
+});
 
 export default BookingManagement;

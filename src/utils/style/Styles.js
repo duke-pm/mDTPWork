@@ -512,12 +512,12 @@ const text = {
   },
   textCaption1: {
     fontSize: moderateScale(12),
-    fontWeight: '300',
+    fontWeight: 'normal',
     lineHeight: moderateScale(18),
   },
   textCaption2: {
     fontSize: moderateScale(11),
-    fontWeight: '300',
+    fontWeight: 'normal',
     lineHeight: moderateScale(17),
   },
   textBadge: {

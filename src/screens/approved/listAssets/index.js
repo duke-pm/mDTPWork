@@ -226,10 +226,10 @@ function ListRequestAll(props) {
           />
           <FilterTags
             formatDateView={formatDateView}
-            customColors={customColors}
             fromDate={routes[index].fromDate}
             toDate={routes[index].toDate}
             arrStatus={statusObj}
+            primaryColor={customColors.yellow2}
           />
           <TabView
             lazy

@@ -4,6 +4,7 @@
  ** CreateAt: 2021
  ** Description: Description of CLoading.js
  **/
+import PropTypes from 'prop-types';
 import React from 'react';
 import {useColorScheme} from 'react-native-appearance';
 import {View, StyleSheet} from 'react-native';
@@ -52,5 +53,9 @@ function CLoading(props) {
 const styles = StyleSheet.create({
   indicator: {height: moderateScale(40), width: moderateScale(40)},
 });
+
+CLoading.propTypes = {
+  visible: PropTypes.bool,
+};
 
 export default CLoading;

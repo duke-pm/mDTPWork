@@ -170,13 +170,13 @@ function AssetsTable(props) {
               disabled={loading || isDetail}
               onPress={handleAddAssets}>
               <View style={[cStyles.row, cStyles.itemsCenter]}>
-                <CIcon name={Icons.addNew} color={'orange'} size={'small'} />
+                <CIcon name={Icons.addNew} color={'yellow'} size={'small'} />
                 <CText
                   customStyles={[
                     cStyles.textUnderline,
                     cStyles.textCaption1,
                     cStyles.pl4,
-                    {color: customColors.orange},
+                    {color: customColors.yellow},
                   ]}
                   label={'add_approved_assets:add_assets'}
                 />
@@ -275,13 +275,13 @@ function AssetsTable(props) {
               disabled={loading || isDetail}
               onPress={handleAddAssets}>
               <View style={[cStyles.row, cStyles.itemsCenter, styles.con_left]}>
-                <CIcon name={Icons.addNew} color={'orange'} size={'small'} />
+                <CIcon name={Icons.addNew} color={'yellow'} size={'small'} />
                 <CText
                   customStyles={[
                     cStyles.textUnderline,
                     cStyles.textCaption1,
                     cStyles.pl4,
-                    {color: customColors.orange},
+                    {color: customColors.yellow},
                   ]}
                   label={'add_approved_assets:add_assets'}
                 />

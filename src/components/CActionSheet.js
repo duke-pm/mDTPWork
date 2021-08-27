@@ -74,7 +74,7 @@ function CActionSheet(props) {
       elevation={5}
       nestedScrollEnabled={true}
       headerAlwaysVisible={true}
-      gestureEnabled={true}
+      gestureEnabled={false}
       indicatorColor={customColors.cardDisable}
       defaultOverlayOpacity={isDark ? 0.8 : 0.2}
       onClose={onCloseAS}

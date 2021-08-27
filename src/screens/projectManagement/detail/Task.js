@@ -525,9 +525,7 @@ function Task(props) {
     (data.taskDetail && data.taskDetail.lstUserInvited) || [];
   return (
     <CContainer
-      loading={false}
-      contentLoader={loading.main || !data.taskDetail}
-      contentLoaderType={'block'}
+      loading={loading.main}
       content={
         !loading.main ? (
           <>

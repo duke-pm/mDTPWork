@@ -30,7 +30,7 @@ import Unconnected from '~/screens/connection/Unconnected';
 import Configs from '~/config';
 import {colors} from '~/utils/style';
 import jwtServiceConfig from '~/services/jwtServiceConfig';
-import {IS_IOS} from '~/utils/helper';
+import {IS_ANDROID, IS_IOS} from '~/utils/helper';
 /** REDUX */
 import Store from './src/redux/store';
 
@@ -53,7 +53,7 @@ const MyDarkTheme = {
     textDisable: colors.GRAY_700,
     card: colors.GRAY_900,
     cardDisable: colors.BACKGROUND_INPUT_FOCUS,
-    cardHolder: colors.GRAY_800,
+    cardHolder: colors.GRAY_900,
     tab: colors.GRAY_900,
     tabActive: colors.GRAY_700,
     listItem: colors.GRAY_900,
@@ -71,10 +71,12 @@ const MyDarkTheme = {
     red: colors.RED_DARK,
     orange: colors.ORANGE_DARK,
     yellow: colors.YELLOW_DARK,
+    yellow2: colors.YELLOW_DARK_2,
     green: colors.GREEN_DARK,
     green2: colors.GREEN_2_DARK,
     teal: colors.TEAL_DARK,
     blue: colors.BLUE_DARK,
+    blue2: colors.BLUE_DARK_2,
     indigo: colors.INDIGO_DARK,
     purple: colors.PURPLE_DARK,
     pink: colors.PINK_DARK,
@@ -100,7 +102,7 @@ const MyDefaultTheme = {
     textDisable: colors.GRAY_700,
     card: colors.BACKGROUND_CARD,
     cardDisable: colors.GRAY_200,
-    cardHolder: colors.GRAY_300,
+    cardHolder: colors.GRAY_100,
     tab: colors.GRAY_600,
     tabActive: colors.WHITE,
     listItem: colors.WHITE,
@@ -118,10 +120,12 @@ const MyDefaultTheme = {
     red: colors.RED,
     orange: colors.ORANGE,
     yellow: colors.YELLOW,
+    yellow2: colors.YELLOW_2,
     green: colors.GREEN,
     green2: colors.GREEN_2,
     teal: colors.TEAL,
     blue: colors.BLUE,
+    blue2: colors.BLUE_2,
     indigo: colors.INDIGO,
     purple: colors.PURPLE,
     pink: colors.PINK,
@@ -173,8 +177,10 @@ const App = () => {
   useEffect(() => {
     setDefaultAxios();
     NetInfo.addEventListener(handleNetInfo);
-    StatusBar.setTranslucent(true);
-    StatusBar.setBackgroundColor(colors.TRANSPARENT, true);
+    if (IS_ANDROID) {
+      StatusBar.setTranslucent(true);
+      StatusBar.setBackgroundColor(colors.TRANSPARENT, true);
+    }
   }, []);
 
   const isDark = useColorScheme() === 'dark';

@@ -329,7 +329,7 @@ function BodyPreview(props) {
     for (i = 0; i < dataRender[0].length; i++) {
       cells.push([
         formatCell(
-          i % 2 ? customColors.card : colors.STATUS_SCHEDULE_OPACITY,
+          i % 2 ? customColors.card : colors.STATUS_NEW_OPACITY,
           'center',
           item[i],
           false,

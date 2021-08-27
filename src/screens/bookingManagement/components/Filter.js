@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /**
  ** Name: Filter request
  ** Author: DTP-Education
@@ -16,12 +15,11 @@ import moment from 'moment';
 /* COMPONENTS */
 import CLabel from '~/components/CLabel';
 import CInput from '~/components/CInput';
-import CGroupFilter from '~/components/CGroupFilter';
 import CDateTimePicker from '~/components/CDateTimePicker';
 import CIconButton from '~/components/CIconButton';
 /* COMMON */
 import Configs from '~/config';
-import {Commons, Icons} from '~/utils/common';
+import {Icons} from '~/utils/common';
 import {colors, cStyles} from '~/utils/style';
 import {IS_ANDROID, moderateScale} from '~/utils/helper';
 
@@ -37,39 +35,11 @@ const INPUT_NAME = {
   FROM_DATE: 'fromDate',
   TO_DATE: 'toDate',
 };
-const TYPES_ASSETS = [
-  {
-    value: Commons.APPROVED_TYPE.ASSETS.value,
-    label: 'list_request_assets_handling:title_add',
-  },
-  {
-    value: Commons.APPROVED_TYPE.DAMAGED.value,
-    label: 'list_request_assets_handling:title_damaged',
-  },
-  {
-    value: Commons.APPROVED_TYPE.LOST.value,
-    label: 'list_request_assets_handling:title_lost',
-  },
-];
-const STATUS_REQUEST = [
-  {
-    value: Commons.STATUS_REQUEST.WAIT.value,
-    label: 'approved_assets:status_wait',
-  },
-  {
-    value: Commons.STATUS_REQUEST.APPROVED.value,
-    label: 'approved_assets:status_approved_done',
-  },
-  {
-    value: Commons.STATUS_REQUEST.REJECT.value,
-    label: 'approved_assets:status_reject',
-  },
-];
 
 function Filter(props) {
   const {t} = useTranslation();
   const {customColors} = useTheme();
-  const {isResolve = false, onFilter = () => {}, onClose = () => {}} = props;
+  const {onFilter = () => {}, onClose = () => {}} = props;
 
   /** Use redux */
   const commonState = useSelector(({common}) => common);
@@ -84,27 +54,13 @@ function Filter(props) {
   const [data, setData] = useState({
     fromDate: props.data.fromDate,
     toDate: props.data.toDate,
-    status: [1, 2, 3, 4],
-    type: [1, 2, 3],
-    resolveRequest: isResolve,
   });
 
   /*****************
    ** HANDLE FUNC **
    *****************/
-  const handleChangeType = typesChoose => setData({...data, type: typesChoose});
-
   const handleDateInput = iName =>
     setShowPickerDate({active: iName, status: true});
-
-  const handleChangeStatus = statusChoose => {
-    let tmp = statusChoose;
-    let index = tmp.indexOf(2);
-    if (index !== -1) {
-      tmp.push(3);
-    }
-    return setData({...data, status: tmp});
-  };
 
   const handleFilter = () => {
     let tmpFromDate =
@@ -113,18 +69,8 @@ function Filter(props) {
       data.toDate !== '' ? moment(data.toDate, formatDate).valueOf() : null;
     if (tmpFromDate && tmpToDate && tmpFromDate > tmpToDate) {
       return onErrorValidation('error:from_date_larger_than_to_date');
-    } else if (!isResolve && data.status.length === 0) {
-      return onErrorValidation('error:status_not_found');
-    } else if (isResolve && data.type.length === 0) {
-      return onErrorValidation('error:type_not_found');
     } else {
-      return onFilter(
-        data.fromDate,
-        data.toDate,
-        data.status.join(),
-        data.type.join(),
-        data.resolveRequest,
-      );
+      return onFilter(data.fromDate, data.toDate);
     }
   };
 
@@ -156,14 +102,9 @@ function Filter(props) {
   useEffect(() => {
     if (props.data) {
       let tmp = {
-        ...data,
         fromDate: props.data.fromDate,
         toDate: props.data.toDate,
-        type: JSON.parse('[' + props.data.type + ']'),
       };
-      if (props.data.status) {
-        tmp.status = JSON.parse('[' + props.data.status + ']');
-      }
       setData(tmp);
     }
   }, [props.data]);
@@ -202,7 +143,7 @@ function Filter(props) {
             <CLabel
               style={[cStyles.pt6, cStyles.textLeft]}
               bold
-              label={'approved_assets:from_date'}
+              label={'bookings:from_date'}
             />
           </View>
           <CInput
@@ -228,7 +169,7 @@ function Filter(props) {
             <CLabel
               style={[cStyles.pt6, cStyles.textLeft]}
               bold
-              label={'approved_assets:to_date'}
+              label={'bookings:to_date'}
             />
           </View>
           <CInput
@@ -247,26 +188,6 @@ function Filter(props) {
             onPressRemoveValue={() => setData({...data, toDate: ''})}
           />
         </View>
-
-        {isResolve && (
-          <CGroupFilter
-            label={'common:type'}
-            items={TYPES_ASSETS}
-            itemsChoose={data.type}
-            primaryColor={customColors.yellow2}
-            onChange={handleChangeType}
-          />
-        )}
-
-        {!isResolve && (
-          <CGroupFilter
-            label={'common:status'}
-            items={STATUS_REQUEST}
-            itemsChoose={data.status}
-            primaryColor={customColors.yellow2}
-            onChange={handleChangeStatus}
-          />
-        )}
       </>
 
       {/** Date Picker */}
@@ -290,7 +211,6 @@ const styles = StyleSheet.create({
 });
 
 Filter.propTypes = {
-  isResolve: PropTypes.bool.isRequired,
   data: PropTypes.object.isRequired,
   onFilter: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
