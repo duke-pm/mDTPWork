@@ -30,14 +30,15 @@ const asStatusRef = createRef();
 function Status(props) {
   const {t} = useTranslation();
   const {
-    disabled,
-    isUpdate,
-    isDark,
-    customColors,
-    language,
-    refreshToken,
-    navigation,
-    onUpdate,
+    disabled = false,
+    isUpdate = false,
+    isDark = false,
+    customColors = {},
+    language = 'vi',
+    refreshToken = '',
+    navigation = {},
+    onStartUpdate = () => null,
+    onEndUpdate = () => null,
   } = props;
   let curStatus = props.task.statusName;
   let curPercent = props.task.percentage;
@@ -59,19 +60,17 @@ function Status(props) {
   /*****************
    ** HANDLE FUNC **
    *****************/
-  const handleShowChangeStatus = () => {
-    asStatusRef.current?.show();
-  };
+  const handleShowChangeStatus = () => asStatusRef.current?.show();
 
   const handleChangeStatus = needUpdate => {
     if (
       status.data[status.active].statusID === Commons.STATUS_TASK.CLOSED.value
     ) {
-      alert(t, 'project_management:confirm_change_to_finished', () =>
+      return alert(t, 'project_management:confirm_change_to_finished', () =>
         onCloseActionSheet(needUpdate, true),
       );
     } else {
-      onCloseActionSheet(needUpdate, false);
+      return onCloseActionSheet(needUpdate, false);
     }
   };
 
@@ -81,6 +80,7 @@ function Status(props) {
   const onCloseActionSheet = (needUpdate, isFinished) => {
     if (needUpdate) {
       if (status.data[status.active].statusID !== props.task.statusID) {
+        onStartUpdate();
         let params = {
           TaskID: props.task.taskID,
           StatusID: status.data[status.active].statusID,
@@ -145,7 +145,7 @@ function Status(props) {
       : projectState.get('errorHelperTaskUpdate');
     let type = isSuccess ? 'success' : 'danger';
     if (isSuccess) {
-      onUpdate();
+      onEndUpdate();
     }
     setLoading(false);
     return showMessage({
@@ -276,7 +276,8 @@ Status.propTypes = {
   refreshToken: PropTypes.string,
   navigation: PropTypes.object,
   task: PropTypes.object,
-  onUpdate: PropTypes.func,
+  onStartUpdate: PropTypes.func,
+  onEndUpdate: PropTypes.func,
 };
 
 export default Status;

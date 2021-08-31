@@ -80,6 +80,9 @@ const MyDarkTheme = {
     indigo: colors.INDIGO_DARK,
     purple: colors.PURPLE_DARK,
     pink: colors.PINK_DARK,
+    bookingHeader: colors.BG_HEADER_BOOKING_DARK,
+    projectHeader: colors.BG_HEADER_PROJECT_DARK,
+    approvedHeader: colors.BG_HEADER_APPROVED_DARK,
   },
 };
 const MyDefaultTheme = {
@@ -129,6 +132,9 @@ const MyDefaultTheme = {
     indigo: colors.INDIGO,
     purple: colors.PURPLE,
     pink: colors.PINK,
+    bookingHeader: colors.BG_HEADER_BOOKING,
+    projectHeader: colors.BG_HEADER_PROJECT,
+    approvedHeader: colors.BG_HEADER_APPROVED,
   },
 };
 const linking = {

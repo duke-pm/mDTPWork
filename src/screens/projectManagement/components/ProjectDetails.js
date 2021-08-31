@@ -32,6 +32,9 @@ function ProjectDetails(props) {
   /************
    ** RENDER **
    ************/
+  if (!project) {
+    return null;
+  }
   const usersInvitedLength = (project && project.lstUserInvited.length) || 0;
   return (
     <View>

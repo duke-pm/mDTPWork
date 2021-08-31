@@ -635,6 +635,10 @@ function AddRequest(props) {
         loading.submitApproved ||
         loading.submitReject
       }
+      hasShapes
+      figuresShapes={[]}
+      primaryColorShapes={colors.BG_HEADER_APPROVED}
+      primaryColorShapesDark={colors.BG_HEADER_APPROVED_DARK}
       content={
         <KeyboardAwareScrollView>
           {/** Process of request */}

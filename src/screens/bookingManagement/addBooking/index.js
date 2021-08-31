@@ -417,6 +417,10 @@ function AddBooking(props) {
   return (
     <CContainer
       loading={loading.main || loading.submitAdd}
+      hasShapes
+      figuresShapes={[]}
+      primaryColorShapes={colors.BG_HEADER_BOOKING}
+      primaryColorShapesDark={colors.BG_HEADER_BOOKING_DARK}
       content={
         <KeyboardAwareScrollView>
           {/** Info booking */}

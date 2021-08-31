@@ -47,7 +47,11 @@
     "connection_again": "Connection Again",
     "note_chart": "Note chart",
     "approved": "Approved",
-    "reject": "Reject"
+    "reject": "Reject",
+    "days": "days",
+    "at": "-",
+    "from_date": "From ",
+    "to_date": "To "
   },
   "status": {
     "title": "Status",
@@ -144,7 +148,8 @@
   "dashboard": {
     "title": "Dashboard",
     "feature": "Feature",
-    "welcome": "Hello"
+    "welcome": "Hello! ",
+    "welcome_1": "Wishing you a productive new day!"
   },
   "account": {
     "title": "Account",
@@ -216,7 +221,9 @@
     "title": "Assets",
     "assets": "Assets",
     "list_request": "List request",
-    "list_request_handling": "List processed"
+    "list_request_handling": "List processed",
+    "approved_services": "Approved Services",
+    "approved_services_holder": "Set up and manage proposals, applications from individuals and departments easily and quickly."
   },
   "list_request_assets": {
     "title": "Requests",
@@ -481,7 +488,9 @@
     "before": "Before ",
     "alert_change_permission_calendar": "You need request Calendar permission to Grant in Settings",
     "info_participant": "Participant Info",
-    "piority_item": "Piority:"
+    "piority_item": "Piority:",
+    "project_services": "Project Services",
+    "project_services_holder": "Work management within the enterprise. Support remote monitoring on devices according to job characteristics."
   },
   "project_overview": {
     "title": "Preview",
@@ -523,11 +532,15 @@
     "supplier": "Supplier"
   },
   "booking_management": {
-    "title": "Booking Management"
+    "title": "Booking",
+    "booking_services": "Booking Services",
+    "booking_services_holder": "Dedicated administrative management for meeting room bookings and internal corporate resources."
   },
   "bookings": {
     "title": "All Bookings",
-    "resume": "Live"
+    "resume": "Live",
+    "from_date": "From date",
+    "to_date": "To date"
   },
   "my_bookings": {
     "title": "My Bookings"

@@ -234,19 +234,21 @@ export default function (state = initialState, action = {}) {
         .set('errorHelperTaskUpdate', '');
 
     case types.SUCCESS_FETCH_TASK_UPDATE:
-      let tmpTasks = state.get('tasks');
-      let find = tmpTasks.findIndex(f => f.taskID === payload.taskID);
-      if (find !== -1) {
-        tmpTasks[find] = payload;
-      }
+      let tmpTask = state.get('taskDetail');
+      // Update task detail
+      tmpTask.statusID = payload.status.statusID;
+      tmpTask.statusName = payload.status.statusName;
+      tmpTask.colorCode = payload.status.colorCode;
+      tmpTask.colorDarkCode = payload.status.colorCode;
+      tmpTask.colorOpacityCode = payload.status.colorOpacityCode;
+      tmpTask.percentage = payload.percentage;
 
       return state
         .set('submittingTaskUpdate', false)
         .set('successTaskUpdate', true)
         .set('errorTaskUpdate', false)
         .set('errorHelperTaskUpdate', '')
-        .set('tasks', tmpTasks)
-        .set('taskDetail', payload);
+        .set('taskDetail', tmpTask);
 
     case types.ERROR_FETCH_TASK_UPDATE:
       return state

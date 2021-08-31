@@ -26,6 +26,7 @@ import {IS_ANDROID} from '~/utils/helper';
 import {usePrevious} from '~/utils/hook';
 /** REDUX */
 import * as Actions from '~/redux/actions';
+import { colors } from '~/utils/style';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -71,6 +72,7 @@ function Project(props) {
     projects: [],
   });
 
+  /** Use prev */
   let prevShowFilter = usePrevious(showFilter);
   let prevYear = usePrevious(data.year);
 
@@ -349,6 +351,10 @@ function Project(props) {
   return (
     <CContainer
       loading={loading.main}
+      hasShapes
+      figuresShapes={[]}
+      primaryColorShapes={colors.BG_HEADER_PROJECT}
+      primaryColorShapesDark={colors.BG_HEADER_PROJECT_DARK}
       content={
         <CContent scrollEnabled={false}>
           <CSearchBar

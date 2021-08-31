@@ -261,7 +261,7 @@ function ApprovedAssets(props) {
           onLoadmore={onLoadmore}
         />
       )}
-      <CLoading visible={loading.main} />
+      <CLoading visible={loading.main || loading.startFetch} />
     </View>
   );
 }

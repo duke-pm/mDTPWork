@@ -16,6 +16,20 @@ import CTouchable from '~/components/CTouchable';
 import {Icons} from '~/utils/common';
 import {cStyles} from '~/utils/style';
 
+const RowInfo = React.memo(({icon = '', label = '', onPress = null}) => {
+  return (
+    <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt16]}>
+      <CIcon name={icon} size={'medium'} />
+      <CTouchable
+        disabled={!onPress}
+        containerStyle={cStyles.ml12}
+        onPress={onPress}>
+        <CText styles={'ml12'} customLabel={label} />
+      </CTouchable>
+    </View>
+  );
+});
+
 function InvitedDetails(props) {
   const {participant = null} = props;
 
@@ -35,37 +49,25 @@ function InvitedDetails(props) {
       <View style={[cStyles.center, cStyles.mb10]}>
         <CAvatar size={'large'} label={participant.fullName} />
       </View>
+
       {/** User name */}
-      <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt16]}>
-        <CIcon name={Icons.userTask} size={'medium'} />
-        <CText styles={'pl12'} customLabel={participant.userName} />
-      </View>
+      <RowInfo icon={Icons.userCircleTask} label={participant.userName} />
 
       {/** Full name */}
-      <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt16]}>
-        <CIcon name={Icons.userCircleTask} size={'large'} />
-        <CText styles={'pl10'} customLabel={participant.fullName} />
-      </View>
+      <RowInfo icon={Icons.userTask} label={participant.fullName} />
 
       {/** Email */}
-      <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt16]}>
-        <CIcon name={Icons.mailTask} size={'medium'} />
-        <CTouchable containerStyle={cStyles.ml12} onPress={handleEmail}>
-          <CText styles={'textUnderline'} customLabel={participant.email} />
-        </CTouchable>
-      </View>
+      <RowInfo
+        icon={Icons.mailTask}
+        label={participant.email}
+        onPress={handleEmail}
+      />
 
       {/** Job */}
-      <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt16]}>
-        <CIcon name={Icons.jobTask} size={'medium'} />
-        <CText styles={'ml12'} customLabel={participant.jobTitle} />
-      </View>
+      <RowInfo icon={Icons.jobTask} label={participant.jobTitle} />
 
       {/** Department */}
-      <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt16]}>
-        <CIcon name={Icons.departmentTask} size={'medium'} />
-        <CText styles={'ml12'} customLabel={participant.deptName} />
-      </View>
+      <RowInfo icon={Icons.departmentTask} label={participant.deptName} />
     </View>
   );
 }

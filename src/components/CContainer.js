@@ -26,6 +26,9 @@ function CContainer(props) {
     safeAreaStyle = {},
     style = {},
     hasShapes = false,
+    figuresShapes = undefined,
+    primaryColorShapes = undefined,
+    primaryColorShapesDark = undefined,
     content = null,
     footer = null,
   } = props;
@@ -50,20 +53,24 @@ function CContainer(props) {
       edges={tmpSafeArea}>
       {hasShapes && (
         <Shapes
-          primaryColor={isDark ? colors.STATUS_ON_HOLD_OPACITY : colors.BLUE}
+          primaryColor={
+            isDark
+              ? primaryColorShapesDark || colors.STATUS_ON_HOLD_OPACITY
+              : primaryColorShapes || colors.BLUE
+          }
           secondaryColor={isDark ? colors.STATUS_NEW_OPACITY : colors.FACEBOOK}
           height={3}
           borderRadius={20}
-          figures={[
-            {name: 'circle', position: 'center', size: 60},
-            {name: 'donut', position: 'flex-start', axis: 'top', size: 80},
-            {name: 'circle', position: 'center', axis: 'right', size: 100},
-          ]}
+          figures={
+            figuresShapes || [
+              {name: 'circle', position: 'center', size: 60},
+              {name: 'donut', position: 'flex-start', axis: 'top', size: 80},
+              {name: 'donut', position: 'center', axis: 'right', size: 100},
+            ]
+          }
         />
       )}
-      <View style={[cStyles.flex1, style]}>
-        {!props.loading ? content : null}
-      </View>
+      <View style={[cStyles.flex1, style]}>{content}</View>
       {footer && <CFooter content={footer} />}
       <CLoading visible={props.loading} />
     </SafeAreaView>
@@ -76,6 +83,9 @@ CContainer.propTypes = {
   safeAreaStyle: PropTypes.object,
   style: PropTypes.object,
   hasShapes: PropTypes.bool,
+  figuresShapes: PropTypes.array,
+  primaryColorShapes: PropTypes.string,
+  primaryColorShapesDark: PropTypes.string,
   content: PropTypes.element,
   footer: PropTypes.element,
 };

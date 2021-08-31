@@ -21,7 +21,7 @@ import Services from '~/services';
 import {cStyles} from '~/utils/style';
 import {moderateScale, verticalScale} from '~/utils/helper';
 
-const descriptionChart = {text: 'Durations (days)'};
+/** All inits */
 const animationChart = {
   durationX: 0,
   durationY: 1000,
@@ -30,7 +30,12 @@ const animationChart = {
 const formatDateTime = 'YYYY-MM-DDT00:00:00';
 
 function ProjectPlan(props) {
-  const {isDark = false, customColors = {}, project = null} = props;
+  const {
+    isDark = false,
+    customColors = {},
+    project = null,
+    translation = () => null,
+  } = props;
   let page = 1;
 
   /** Use states */
@@ -130,7 +135,7 @@ function ProjectPlan(props) {
           );
           dataChart[0].values.unshift({
             y: durations + 1,
-            marker: durations + 1 + ' days',
+            marker: durations + 1 + ` ${translation('common:days')}`,
           });
           xValueFormatter.unshift('#' + item.taskID);
           dataTask.push({
@@ -198,7 +203,7 @@ function ProjectPlan(props) {
           xAxis={chart.xAxis}
           yAxis={chart.yAxis}
           animation={animationChart}
-          chartDescription={descriptionChart}
+          chartDescription={{text: `Durations (${translation('common:days')})`}}
           drawGridBackground={false}
           autoScaleMinMaxEnabled={true}
           touchEnabled={true}
@@ -285,6 +290,7 @@ const styles = StyleSheet.create({
 
 ProjectPlan.propTypes = {
   isDark: PropTypes.bool,
+  translation: PropTypes.func,
   customColors: PropTypes.object,
   project: PropTypes.object,
 };

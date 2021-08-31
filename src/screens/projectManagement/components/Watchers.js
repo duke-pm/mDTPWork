@@ -35,7 +35,7 @@ import CActivityIndicator from '~/components/CActivityIndicator';
 /* COMMON */
 import Icons from '~/utils/common/Icons';
 import {THEME_DARK} from '~/config/constants';
-import {cStyles} from '~/utils/style';
+import {colors, cStyles} from '~/utils/style';
 import {moderateScale, IS_ANDROID} from '~/utils/helper';
 /** REDUX */
 import * as Actions from '~/redux/actions';
@@ -181,6 +181,10 @@ function Watchers(props) {
   return (
     <CContainer
       loading={loading.main}
+      hasShapes
+      figuresShapes={[]}
+      primaryColorShapes={colors.BG_HEADER_PROJECT}
+      primaryColorShapesDark={colors.BG_HEADER_PROJECT_DARK}
       content={
         <CContent>
           <View style={[cStyles.mt16, cStyles.mx16]}>
@@ -249,7 +253,7 @@ function Watchers(props) {
                                     styles.con_icon,
                                   ]}>
                                   <CIcon
-                                    name={Icons.mail}
+                                    name={Icons.mailTask}
                                     color={'green'}
                                     size={'minium'}
                                   />
@@ -289,15 +293,26 @@ function Watchers(props) {
                                 </Text>
                               </View>
                               <View
-                                style={[cStyles.itemsEnd, styles.con_right]}>
+                                style={[
+                                  cStyles.row,
+                                  cStyles.itemsCenter,
+                                  cStyles.justifyBetween,
+                                  styles.con_right,
+                                ]}>
                                 <CText
-                                  styles={'textCaption1'}
-                                  customLabel={date}
+                                  styles={'textCaption2'}
+                                  label={'common:at'}
                                 />
-                                <CText
-                                  styles={'textCaption1'}
-                                  customLabel={time}
-                                />
+                                <View style={cStyles.itemsEnd}>
+                                  <CText
+                                    styles={'textCaption1'}
+                                    customLabel={date}
+                                  />
+                                  <CText
+                                    styles={'textCaption1'}
+                                    customLabel={time}
+                                  />
+                                </View>
                               </View>
                             </View>
                           </View>
@@ -321,8 +336,8 @@ function Watchers(props) {
 }
 
 const styles = StyleSheet.create({
-  con_left: {flex: 0.6},
-  con_right: {flex: 0.4},
+  con_left: {flex: 0.65},
+  con_right: {flex: 0.35},
   con_icon: {
     height: moderateScale(14),
     width: moderateScale(14),

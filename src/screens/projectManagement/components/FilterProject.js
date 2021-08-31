@@ -32,121 +32,120 @@ import {moderateScale, IS_ANDROID, IS_IOS, sH} from '~/utils/helper';
 /** All refs use in this screen */
 const asYearRef = createRef();
 
-const RowPicker = (
-  loading,
-  isDark,
-  customColors,
-  label,
-  active,
-  onPress,
-  isBorder = true,
-  isFirst,
-  isLast,
-) => {
-  return (
-    <TouchableOpacity key={label} onPress={onPress}>
-      <View
-        style={[
-          cStyles.row,
-          cStyles.itemsCenter,
-          styles.row_header,
-          isFirst && isDark && cStyles.borderTopDark,
-          isFirst && !isDark && cStyles.borderTop,
-          isLast && isDark && cStyles.borderBottomDark,
-          isLast && !isDark && cStyles.borderBottom,
-          {backgroundColor: customColors.card},
-        ]}>
-        <View style={styles.left_row_select} />
-
+const RowPicker = React.memo(
+  ({
+    loading = false,
+    isDark = false,
+    customColors = {},
+    label = '',
+    active = '',
+    onPress = () => null,
+  }) => {
+    return (
+      <TouchableOpacity key={label} onPress={onPress}>
         <View
           style={[
-            cStyles.fullHeight,
-            cStyles.fullWidth,
             cStyles.row,
             cStyles.itemsCenter,
-            cStyles.justifyBetween,
-            cStyles.pr24,
-            !isLast && isBorder && isDark && cStyles.borderBottomDark,
-            !isLast && isBorder && !isDark && cStyles.borderBottom,
+            styles.row_header,
+            isDark && cStyles.borderTopDark,
+            isDark && cStyles.borderBottomDark,
+            !isDark && cStyles.borderTop,
+            !isDark && cStyles.borderBottom,
+            {backgroundColor: customColors.card},
           ]}>
-          <CText label={label} />
-          <View style={[cStyles.row, cStyles.itemsCenter]}>
-            {loading ? (
-              <CActivityIndicator />
-            ) : (
-              <CText styles={'pr6'} label={active} />
-            )}
-            <CIcon
-              name={Icons.next}
-              size={'small'}
-              customColor={colors.GRAY_500}
-            />
+          <View style={styles.left_row_select} />
+
+          <View
+            style={[
+              cStyles.fullHeight,
+              cStyles.fullWidth,
+              cStyles.row,
+              cStyles.itemsCenter,
+              cStyles.justifyBetween,
+              cStyles.pr24,
+            ]}>
+            <CText label={label} />
+            <View style={[cStyles.row, cStyles.itemsCenter]}>
+              {loading ? (
+                <CActivityIndicator />
+              ) : (
+                <CText styles={'pr6'} label={active} />
+              )}
+              <CIcon
+                name={Icons.next}
+                size={'small'}
+                customColor={colors.GRAY_500}
+              />
+            </View>
           </View>
         </View>
-      </View>
-    </TouchableOpacity>
-  );
-};
+      </TouchableOpacity>
+    );
+  },
+);
 
-const RowSelect = (
-  isDark,
-  customColors,
-  value,
-  label,
-  active,
-  onPress,
-  isUser,
-  isFirst,
-  isLast,
-) => {
-  const handleChange = () => onPress(value);
-  return (
-    <TouchableOpacity key={value + label} onPress={handleChange}>
-      <View
-        style={[
-          cStyles.flex1,
-          cStyles.fullWidth,
-          cStyles.row,
-          cStyles.itemsCenter,
-          styles.row_header,
-          isFirst && isDark && cStyles.borderTopDark,
-          isFirst && !isDark && cStyles.borderTop,
-          isLast && isDark && cStyles.borderBottomDark,
-          isLast && !isDark && cStyles.borderBottom,
-          {backgroundColor: customColors.card},
-        ]}>
-        {isUser ? (
-          <View style={cStyles.px16}>
-            <CAvatar size={'small'} label={label} />
-          </View>
-        ) : (
-          <View style={styles.left_row_select} />
-        )}
-
+const RowSelect = React.memo(
+  ({
+    isDark = false,
+    customColors = {},
+    value = '',
+    label = '',
+    active = '',
+    user = false,
+    first = false,
+    last = false,
+    onPress = () => null,
+  }) => {
+    const handleChange = () => onPress(value);
+    return (
+      <TouchableOpacity key={value + label} onPress={handleChange}>
         <View
           style={[
             cStyles.flex1,
-            cStyles.fullHeight,
+            cStyles.fullWidth,
             cStyles.row,
             cStyles.itemsCenter,
-            cStyles.justifyBetween,
-            cStyles.pr16,
-            !isLast && isDark && cStyles.borderBottomDark,
-            !isLast && !isDark && cStyles.borderBottom,
+            styles.row_header,
+            first && isDark && cStyles.borderTopDark,
+            first && !isDark && cStyles.borderTop,
+            last && isDark && cStyles.borderBottomDark,
+            last && !isDark && cStyles.borderBottom,
+            {backgroundColor: customColors.card},
           ]}>
-          <CText label={label} />
-          {active && (
-            <CIcon
-              name={Icons.check}
-              size={'small'}
-              color={IS_IOS ? 'blue' : 'green'}
-            />
+          {user ? (
+            <View style={cStyles.px16}>
+              <CAvatar size={'small'} label={label} />
+            </View>
+          ) : (
+            <View style={styles.left_row_select} />
           )}
+
+          <View
+            style={[
+              cStyles.flex1,
+              cStyles.fullHeight,
+              cStyles.row,
+              cStyles.itemsCenter,
+              cStyles.justifyBetween,
+              cStyles.pr16,
+              !last && isDark && cStyles.borderBottomDark,
+              !last && !isDark && cStyles.borderBottom,
+            ]}>
+            <CText label={label} />
+            {active && (
+              <CIcon
+                name={Icons.check}
+                size={'small'}
+                color={IS_IOS ? 'blue' : 'green'}
+              />
+            )}
+          </View>
         </View>
-      </View>
-    </TouchableOpacity>
-  );
-};
+      </TouchableOpacity>
+    );
+  },
+);
 
 function FilterProject(props) {
   const {t} = useTranslation();
@@ -354,25 +353,22 @@ function FilterProject(props) {
   return (
     <CContainer
       loading={loading}
-      safeAreaStyle={{backgroundColor: customColors.background}}
-      style={{backgroundColor: customColors.background}}
+      safeAreaStyle={{backgroundColor: customColors.cardHolder}}
+      style={{backgroundColor: customColors.cardHolder}}
       content={
         <CContent contentStyle={cStyles.pb24}>
           {/** Year */}
           {aParams.hasYear && (
             <>
               <CGroupLabel />
-              {RowPicker(
-                loading,
-                isDark,
-                customColors,
-                t('project_management:year'),
-                year.data[year.choose]?.label,
-                handlePickerYear,
-                true,
-                true,
-                true,
-              )}
+              <RowPicker
+                loading={loading}
+                isDark={isDark}
+                customColors={customColors}
+                label={t('project_management:year')}
+                active={year.data[year.choose]?.label}
+                onPress={handlePickerYear}
+              />
             </>
           )}
 
@@ -386,16 +382,18 @@ function FilterProject(props) {
           <View style={[cStyles.px0, cStyles.pb0]}>
             {owner.data.map((item, index) => {
               let isActive = owner.active.indexOf(item.empID);
-              return RowSelect(
-                isDark,
-                customColors,
-                item.empID,
-                item.empName,
-                isActive !== -1,
-                onChangeOwner,
-                true,
-                index === 0,
-                index === owner.data.length - 1,
+              return (
+                <RowSelect
+                  user
+                  first={index === 0}
+                  last={index === owner.data.length - 1}
+                  isDark={isDark}
+                  customColors={customColors}
+                  value={item.empID}
+                  label={item.empName}
+                  active={isActive !== -1}
+                  onPress={onChangeOwner}
+                />
               );
             })}
           </View>
@@ -410,16 +408,18 @@ function FilterProject(props) {
           <View style={[cStyles.px0, cStyles.pb0]}>
             {status.data.map((item, index) => {
               let isActive = status.active.indexOf(item.statusID);
-              return RowSelect(
-                isDark,
-                customColors,
-                item.statusID,
-                item.statusName,
-                isActive !== -1,
-                onChangeStatus,
-                false,
-                index === 0,
-                index === status.data.length - 1,
+              return (
+                <RowSelect
+                  user={false}
+                  first={index === 0}
+                  last={index === status.data.length - 1}
+                  isDark={isDark}
+                  customColors={customColors}
+                  value={item.statusID}
+                  label={item.statusName}
+                  active={isActive !== -1}
+                  onPress={onChangeStatus}
+                />
               );
             })}
           </View>
@@ -436,16 +436,18 @@ function FilterProject(props) {
               <View style={[cStyles.px0, cStyles.pb0]}>
                 {sectors.data.map((item, index) => {
                   let isActive = sectors.active.indexOf(item.sectorID);
-                  return RowSelect(
-                    isDark,
-                    customColors,
-                    item.sectorID,
-                    item.sectorName,
-                    isActive !== -1,
-                    onChangeSector,
-                    false,
-                    index === 0,
-                    index === sectors.data.length - 1,
+                  return (
+                    <RowSelect
+                      user={false}
+                      first={index === 0}
+                      last={index === sectors.data.length - 1}
+                      isDark={isDark}
+                      customColors={customColors}
+                      value={item.sectorID}
+                      label={item.sectorName}
+                      active={isActive !== -1}
+                      onPress={onChangeSector}
+                    />
                   );
                 })}
               </View>

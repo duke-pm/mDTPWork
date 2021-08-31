@@ -55,75 +55,80 @@ if (IS_ANDROID) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
   }
 }
-const INPUT_NAME = {MESSAGE: 'message'};
+
+/** All refs */
 let listRef = createRef();
 
-const RenderInputMessage = ({
-  customColors = {},
-  value = '',
-  heightInput = 0,
-  onSend = () => {},
-  onSizeInputChange = () => {},
-  handleChangeText = () => {},
-}) => {
-  return (
-    <View
-      style={[
-        ifIphoneX(cStyles.pb24, cStyles.pb6),
-        cStyles.fullWidth,
-        {backgroundColor: customColors.cardDisable},
-      ]}>
-      <View style={[cStyles.px16, cStyles.row, cStyles.itemsCenter]}>
-        <CInput
-          name={INPUT_NAME.MESSAGE}
-          containerStyle={styles.input}
-          style={[
-            cStyles.py4,
-            cStyles.rounded5,
-            {
-              color: customColors.text,
-              height: Math.max(
-                moderateScale(40),
-                heightInput + moderateScale(10),
-              ),
-            },
-          ]}
-          styleInput={cStyles.px10}
-          styleFocus={styles.input_focus}
-          holder={'project_management:holder_input_your_comment'}
-          value={value}
-          onBlur={Keyboard.dismiss}
-          keyboard={'default'}
-          returnKey={'send'}
-          multiline={true}
-          onChangeInput={onSend}
-          onChangeValue={handleChangeText}
-          onContentSizeChange={onSizeInputChange}
-        />
-        <LinearGradient
-          style={[
-            cStyles.center,
-            cStyles.rounded10,
-            cStyles.mt6,
-            cStyles.ml8,
-            {backgroundColor: customColors.card},
-          ]}
-          colors={
-            value === ''
-              ? [colors.GRAY_500, customColors.cardDisable]
-              : colors.BACKGROUND_GRADIENT_SEND
-          }>
-          <CIconButton
-            disabled={value === ''}
-            iconName={'send'}
-            iconColor={value === '' ? colors.GRAY_500 : colors.WHITE}
-            onPress={onSend}
+/** All inits */
+const INPUT_NAME = {MESSAGE: 'message'};
+
+const RenderInputMessage = React.memo(
+  ({
+    customColors = {},
+    value = '',
+    heightInput = 0,
+    onSend = () => {},
+    onSizeInputChange = () => {},
+    handleChangeText = () => {},
+  }) => {
+    return (
+      <View
+        style={[
+          ifIphoneX(cStyles.pb24, cStyles.pb6),
+          cStyles.fullWidth,
+          {backgroundColor: customColors.cardDisable},
+        ]}>
+        <View style={[cStyles.px16, cStyles.row, cStyles.itemsCenter]}>
+          <CInput
+            name={INPUT_NAME.MESSAGE}
+            containerStyle={styles.input}
+            style={[
+              cStyles.py4,
+              cStyles.rounded5,
+              {
+                color: customColors.text,
+                height: Math.max(
+                  moderateScale(40),
+                  heightInput + moderateScale(10),
+                ),
+              },
+            ]}
+            styleInput={cStyles.px10}
+            styleFocus={styles.input_focus}
+            holder={'project_management:holder_input_your_comment'}
+            value={value}
+            onBlur={Keyboard.dismiss}
+            returnKey={'send'}
+            multiline
+            onChangeInput={onSend}
+            onChangeValue={handleChangeText}
+            onContentSizeChange={onSizeInputChange}
           />
-        </LinearGradient>
+          <LinearGradient
+            style={[
+              cStyles.center,
+              cStyles.rounded10,
+              cStyles.mt6,
+              cStyles.ml8,
+              {backgroundColor: customColors.card},
+            ]}
+            colors={
+              value === ''
+                ? [colors.GRAY_500, customColors.cardDisable]
+                : colors.BACKGROUND_GRADIENT_SEND
+            }>
+            <CIconButton
+              disabled={value === ''}
+              iconName={'send'}
+              iconColor={value === '' ? colors.GRAY_500 : colors.WHITE}
+              onPress={onSend}
+            />
+          </LinearGradient>
+        </View>
       </View>
-    </View>
-  );
-};
+    );
+  },
+);
 
 function Activity(props) {
   const {t} = useTranslation();
@@ -412,12 +417,12 @@ function Activity(props) {
   return (
     <CContainer
       loading={loading.main || loading.send}
+      hasShapes
+      figuresShapes={[]}
+      primaryColorShapes={colors.BG_HEADER_PROJECT}
+      primaryColorShapesDark={colors.BG_HEADER_PROJECT_DARK}
       content={
-        <View
-          style={[
-            cStyles.flex1,
-            {backgroundColor: customColors.backgroundActivity},
-          ]}>
+        <View style={cStyles.flex1}>
           {showSearch && (
             <View
               style={[
@@ -524,39 +529,26 @@ function Activity(props) {
                           size={'small'}
                           label={item.fullName}
                         />
-                        <Text
-                          style={[
-                            cStyles.textCaption2,
-                            cStyles.textLeft,
-                            cStyles.mt6,
-                            {color: customColors.text},
-                          ]}>
-                          {`${item.timeUpdate.split('-')[1]}`}
-                        </Text>
+                        <CText
+                          styles={'textCaption2 textLeft mt6'}
+                          customLabel={`${item.timeUpdate.split('-')[1]}`}
+                        />
                       </View>
                     ) : (
                       <View style={styles.container_chat}>
-                        <Text
-                          style={[
-                            cStyles.textCaption2,
-                            cStyles.textLeft,
-                            {color: customColors.text},
-                          ]}>
-                          {`${item.timeUpdate.split('-')[1]}`}
-                        </Text>
+                        <CText
+                          styles={'textCaption2 textLeft'}
+                          customLabel={`${item.timeUpdate.split('-')[1]}`}
+                        />
                       </View>
                     )}
                     <View style={cStyles.ml4}>
                       {item.showAvatar && (
                         <View style={[cStyles.ml10, cStyles.mb3]}>
-                          <Text
-                            style={[
-                              cStyles.textBody,
-                              cStyles.fontBold,
-                              {color: customColors.primary},
-                            ]}>
-                            {item.fullName}
-                          </Text>
+                          <CText
+                            styles={'fontBold colorPrimary'}
+                            customLabel={item.fullName}
+                          />
                         </View>
                       )}
                       <Animatable.View
@@ -567,12 +559,9 @@ function Activity(props) {
                           cStyles.roundedBottomLeft3,
                           cStyles.p10,
                           cStyles.ml10,
-                          {backgroundColor: customColors.cardDisable},
+                          {backgroundColor: customColors.cardHolder},
                         ]}>
-                        <CText
-                          customStyles={cStyles.textBody}
-                          customLabel={item.comments}
-                        />
+                        <CText customLabel={item.comments} />
                       </Animatable.View>
                     </View>
                   </View>
@@ -600,7 +589,7 @@ const styles = StyleSheet.create({
   input_focus: {borderColor: colors.PRIMARY},
   input: {width: '85%'},
   container_chat: {width: moderateScale(32)},
-  con_me: {backgroundColor: colors.STATUS_NEW_DARK},
+  con_me: {backgroundColor: colors.BLUE},
 });
 
 export default Activity;

@@ -52,6 +52,7 @@ if (IS_ANDROID) {
   }
 }
 
+/** All inits */
 let keyboardOpen = null;
 let keyboardHide = null;
 const INPUT_NAME = {FROM_DATE: 'fromDate', TO_DATE: 'toDate'};
@@ -60,191 +61,186 @@ const themesCalendar = {
   textMonthFontSize: cStyles.textCallout.fontSize,
   textDayHeaderFontSize: cStyles.textCallout.fontSize,
   textMonthFontWeight: 'bold',
-  textDayHeaderFontWeight: '500',
+  textDayHeaderFontWeight: 'bold',
   arrowColor: colors.ORANGE,
-  selectedDotColor: '#ffffff',
+  selectedDotColor: colors.WHITE,
   selectedDayBackgroundColor: colors.BLUE,
   selectedDayTextColor: colors.WHITE,
   todayTextColor: colors.BLUE,
   'stylesheet.calendar.header': {
-    dayTextAtIndex0: {
-      color: colors.BLUE,
-    },
-    dayTextAtIndex1: {
-      color: colors.BLUE,
-    },
-    dayTextAtIndex2: {
-      color: colors.BLUE,
-    },
-    dayTextAtIndex3: {
-      color: colors.BLUE,
-    },
-    dayTextAtIndex4: {
-      color: colors.BLUE,
-    },
-    dayTextAtIndex5: {
-      color: colors.PURPLE,
-    },
     dayTextAtIndex6: {
       color: colors.RED,
     },
   },
+  // arrows
+  arrowStyle: {padding: 0},
+  // day names
+  textSectionTitleColor: colors.GRAY_600,
+  textDayFontWeight: cStyles.textBody.fontWeight,
+  textDayStyle: {marginTop: IS_ANDROID ? moderateScale(2) : moderateScale(7)},
+  // disabled date
+  textDisabledColor: 'grey',
+  // dot (marked date)
+  dotColor: colors.PRIMARY,
+  disabledDotColor: 'grey',
+  dotStyle: {marginTop: -2},
 };
 
-const RowPicker = (
-  loading,
-  isDark,
-  customColors,
-  label,
-  active,
-  onPress,
-  isBorder = true,
-  isFirst,
-  isLast,
-) => {
-  return (
-    <TouchableOpacity key={label} onPress={() => onPress(true)}>
-      <View
-        style={[
-          cStyles.row,
-          cStyles.itemsCenter,
-          styles.row_header,
-          isFirst && isDark && cStyles.borderTopDark,
-          isFirst && !isDark && cStyles.borderTop,
-          isLast && isDark && cStyles.borderBottomDark,
-          isLast && !isDark && cStyles.borderBottom,
-          {backgroundColor: customColors.card},
-        ]}>
-        <View style={styles.left_row_select} />
-
+const RowPicker = React.memo(
+  ({
+    loading = false,
+    isDark = false,
+    customColors = {},
+    label = '',
+    active = '',
+    onPress = () => null,
+  }) => {
+    return (
+      <TouchableOpacity key={label} onPress={() => onPress(true)}>
         <View
           style={[
-            cStyles.fullHeight,
-            cStyles.fullWidth,
             cStyles.row,
             cStyles.itemsCenter,
-            cStyles.justifyBetween,
-            cStyles.pr24,
-            !isLast && isBorder && isDark && cStyles.borderBottomDark,
-            !isLast && isBorder && !isDark && cStyles.borderBottom,
+            styles.row_header,
+            isDark && cStyles.borderTopDark,
+            isDark && cStyles.borderBottomDark,
+            !isDark && cStyles.borderTop,
+            !isDark && cStyles.borderBottom,
+            {backgroundColor: customColors.card},
           ]}>
-          <CText label={label} />
-          <View style={[cStyles.row, cStyles.itemsCenter]}>
-            {loading ? (
-              <CActivityIndicator />
-            ) : (
-              <CText styles={'pr6'} label={active} />
-            )}
-            <CIcon
-              name={Icons.next}
-              size={'small'}
-              customColor={colors.GRAY_500}
-            />
-          </View>
-        </View>
-      </View>
-    </TouchableOpacity>
-  );
-};
-
-const RowInputDate = (
-  key,
-  isDark,
-  customColors,
-  label,
-  value,
-  onChangeDate,
-) => {
-  const handleChange = () => onChangeDate(key);
-  return (
-    <TouchableOpacity key={key} onPress={handleChange}>
-      <View
-        style={[
-          cStyles.row,
-          cStyles.itemsCenter,
-          styles.row_header,
-          isDark && cStyles.borderBottomDark,
-          !isDark && cStyles.borderBottom,
-          {backgroundColor: customColors.card},
-        ]}>
-        <View style={styles.left_row_select} />
-
-        <View
-          style={[
-            cStyles.fullHeight,
-            cStyles.fullWidth,
-            cStyles.row,
-            cStyles.itemsCenter,
-            cStyles.justifyBetween,
-            cStyles.pr24,
-          ]}>
-          <CText label={label} />
-          <CText customLabel={value} />
-        </View>
-      </View>
-    </TouchableOpacity>
-  );
-};
-
-const RowSelect = (
-  isDark,
-  customColors,
-  value,
-  label,
-  active,
-  onPress,
-  isUser,
-  isFirst,
-  isLast,
-) => {
-  const handleChange = () => onPress(value);
-  return (
-    <TouchableOpacity key={value + label} onPress={handleChange}>
-      <View
-        style={[
-          cStyles.flex1,
-          cStyles.fullWidth,
-          cStyles.row,
-          cStyles.itemsCenter,
-          styles.row_header,
-          isFirst && isDark && cStyles.borderTopDark,
-          isFirst && !isDark && cStyles.borderTop,
-          isLast && isDark && cStyles.borderBottomDark,
-          isLast && !isDark && cStyles.borderBottom,
-          {backgroundColor: customColors.card},
-        ]}>
-        {isUser ? (
-          <View style={cStyles.px16}>
-            <CAvatar size={'small'} label={label} />
-          </View>
-        ) : (
           <View style={styles.left_row_select} />
-        )}
 
+          <View
+            style={[
+              cStyles.fullHeight,
+              cStyles.fullWidth,
+              cStyles.row,
+              cStyles.itemsCenter,
+              cStyles.justifyBetween,
+              cStyles.pr24,
+            ]}>
+            <CText label={label} />
+            <View style={[cStyles.row, cStyles.itemsCenter]}>
+              {loading ? (
+                <CActivityIndicator />
+              ) : (
+                <CText styles={'pr6'} label={active} />
+              )}
+              <CIcon
+                name={Icons.next}
+                size={'small'}
+                customColor={colors.GRAY_500}
+              />
+            </View>
+          </View>
+        </View>
+      </TouchableOpacity>
+    );
+  },
+);
+
+const RowInputDate = React.memo(
+  ({
+    key = '',
+    isDark = false,
+    customColors = {},
+    label = '',
+    value = '',
+    onChangeDate = () => null,
+  }) => {
+    const handleChange = () => onChangeDate(key);
+    return (
+      <TouchableOpacity key={key} onPress={handleChange}>
+        <View
+          style={[
+            cStyles.row,
+            cStyles.itemsCenter,
+            styles.row_header,
+            isDark && cStyles.borderBottomDark,
+            !isDark && cStyles.borderBottom,
+            {backgroundColor: customColors.card},
+          ]}>
+          <View style={styles.left_row_select} />
+
+          <View
+            style={[
+              cStyles.fullHeight,
+              cStyles.fullWidth,
+              cStyles.row,
+              cStyles.itemsCenter,
+              cStyles.justifyBetween,
+              cStyles.pr24,
+            ]}>
+            <CText label={label} />
+            <CText customLabel={value} />
+          </View>
+        </View>
+      </TouchableOpacity>
+    );
+  },
+);
+
+const RowSelect = React.memo(
+  ({
+    isDark = false,
+    customColors = {},
+    value = '',
+    label = '',
+    active = '',
+    user,
+    first,
+    last,
+    onPress = () => null,
+  }) => {
+    const handleChange = () => onPress(value);
+    return (
+      <TouchableOpacity key={value + label} onPress={handleChange}>
         <View
           style={[
             cStyles.flex1,
-            cStyles.fullHeight,
+            cStyles.fullWidth,
             cStyles.row,
             cStyles.itemsCenter,
-            cStyles.justifyBetween,
-            cStyles.pr16,
-            !isLast && isDark && cStyles.borderBottomDark,
-            !isLast && !isDark && cStyles.borderBottom,
+            styles.row_header,
+            first && isDark && cStyles.borderTopDark,
+            first && !isDark && cStyles.borderTop,
+            last && isDark && cStyles.borderBottomDark,
+            last && !isDark && cStyles.borderBottom,
+            {backgroundColor: customColors.card},
           ]}>
-          <CText label={label} />
-          {active && (
-            <CIcon
-              name={Icons.check}
-              color={IS_IOS ? 'blue' : 'green'}
-              size={'small'}
-            />
+          {user ? (
+            <View style={cStyles.px16}>
+              <CAvatar size={'small'} label={label} />
+            </View>
+          ) : (
+            <View style={styles.left_row_select} />
           )}
+
+          <View
+            style={[
+              cStyles.flex1,
+              cStyles.fullHeight,
+              cStyles.row,
+              cStyles.itemsCenter,
+              cStyles.justifyBetween,
+              cStyles.pr16,
+              !last && isDark && cStyles.borderBottomDark,
+              !last && !isDark && cStyles.borderBottom,
+            ]}>
+            <CText label={label} />
+            {active && (
+              <CIcon
+                name={Icons.check}
+                color={IS_IOS ? 'blue' : 'green'}
+                size={'small'}
+              />
+            )}
+          </View>
         </View>
-      </View>
-    </TouchableOpacity>
-  );
-};
+      </TouchableOpacity>
+    );
+  },
+);
 
 function FilterOverview(props) {
   const {t} = useTranslation();
@@ -524,27 +520,24 @@ function FilterOverview(props) {
         <KeyboardAwareScrollView contentContainerStyle={cStyles.pb24}>
           {/** Year */}
           <CGroupLabel />
-          {RowPicker(
-            loading,
-            isDark,
-            customColors,
-            t('project_overview:year'),
-            year.data[year.active]?.label,
-            handlePickerYear,
-            true,
-            true,
-            true,
-          )}
+          <RowPicker
+            loading={loading}
+            isDark={isDark}
+            customColors={customColors}
+            label={t('project_overview:year')}
+            active={year.data[year.active]?.label}
+            onPress={handlePickerYear}
+          />
 
           {/** From date */}
-          {RowInputDate(
-            INPUT_NAME.FROM_DATE,
-            isDark,
-            customColors,
-            t('project_overview:from_date'),
-            moment(dateFilter.from, formatDate).format(formatDateView),
-            onChangeDate,
-          )}
+          <RowInputDate
+            key={INPUT_NAME.FROM_DATE}
+            isDark={isDark}
+            customColors={customColors}
+            label={t('project_overview:from_date')}
+            value={moment(dateFilter.from, formatDate).format(formatDateView)}
+            onChangeDate={onChangeDate}
+          />
           {dateFilter.active === INPUT_NAME.FROM_DATE && (
             <View style={[cStyles.row, cStyles.itemsStart, cStyles.justifyEnd]}>
               <CText
@@ -569,14 +562,14 @@ function FilterOverview(props) {
           )}
 
           {/** To date */}
-          {RowInputDate(
-            INPUT_NAME.TO_DATE,
-            isDark,
-            customColors,
-            t('project_overview:to_date'),
-            moment(dateFilter.to, formatDate).format(formatDateView),
-            onChangeDate,
-          )}
+          <RowInputDate
+            key={INPUT_NAME.TO_DATE}
+            isDark={isDark}
+            customColors={customColors}
+            label={t('project_overview:to_date')}
+            value={moment(dateFilter.to, formatDate).format(formatDateView)}
+            onChangeDate={onChangeDate}
+          />
           {dateFilter.active === INPUT_NAME.TO_DATE && (
             <View style={[cStyles.row, cStyles.itemsStart, cStyles.justifyEnd]}>
               <CText
@@ -610,16 +603,18 @@ function FilterOverview(props) {
           <View style={[cStyles.px0, cStyles.pb0]}>
             {owner.data.map((item, index) => {
               let isActive = owner.active.indexOf(item.empID);
-              return RowSelect(
-                isDark,
-                customColors,
-                item.empID,
-                item.empName,
-                isActive !== -1,
-                onChangeOwner,
-                true,
-                index === 0,
-                index === owner.data.length - 1,
+              return (
+                <RowSelect
+                  isDark={isDark}
+                  customColors={customColors}
+                  value={item.empID}
+                  label={item.empName}
+                  active={isActive !== -1}
+                  user
+                  first={index === 0}
+                  last={index === owner.data.length - 1}
+                  onPress={onChangeOwner}
+                />
               );
             })}
           </View>
@@ -634,16 +629,18 @@ function FilterOverview(props) {
           <View style={[cStyles.px0, cStyles.pb0]}>
             {status.data.map((item, index) => {
               let isActive = status.active.indexOf(item.statusID);
-              return RowSelect(
-                isDark,
-                customColors,
-                item.statusID,
-                item.statusName,
-                isActive !== -1,
-                onChangeStatus,
-                false,
-                index === 0,
-                index === status.data.length - 1,
+              return (
+                <RowSelect
+                  isDark={isDark}
+                  customColors={customColors}
+                  value={item.statusID}
+                  label={item.statusName}
+                  active={isActive !== -1}
+                  user={false}
+                  first={index === 0}
+                  last={index === status.data.length - 1}
+                  onPress={onChangeStatus}
+                />
               );
             })}
           </View>
@@ -658,16 +655,18 @@ function FilterOverview(props) {
           <View style={[cStyles.px0, cStyles.pb0]}>
             {sectors.data.map((item, index) => {
               let isActive = sectors.active.indexOf(item.sectorID);
-              return RowSelect(
-                isDark,
-                customColors,
-                item.sectorID,
-                item.sectorName,
-                isActive !== -1,
-                onChangeSector,
-                false,
-                index === 0,
-                index === sectors.data.length - 1,
+              return (
+                <RowSelect
+                  isDark={isDark}
+                  customColors={customColors}
+                  value={item.sectorID}
+                  label={item.sectorName}
+                  active={isActive !== -1}
+                  user={false}
+                  first={index === 0}
+                  last={index === sectors.data.length - 1}
+                  onPress={onChangeSector}
+                />
               );
             })}
           </View>

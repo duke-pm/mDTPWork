@@ -51,19 +51,19 @@ function ListTask(props) {
         item={({item, index}) => {
           return (
             <TaskItem
+              isDark={isDark}
               index={index}
               data={item}
               translation={t}
               customColors={customColors}
-              isDark={isDark}
               onPress={handleTaskItem}
               onRefresh={onRefreshTasks}
             />
           );
         }}
         refreshing={props.refreshing}
-        onRefresh={onRefreshTasks}
         loadingmore={props.loadmore}
+        onRefresh={onRefreshTasks}
         onLoadmore={onLoadmore}
       />
     </View>

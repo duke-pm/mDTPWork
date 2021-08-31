@@ -5,28 +5,15 @@
  ** CreateAt: 2021
  ** Description: Description of Approved.js
  **/
-import React, {useEffect, useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useSelector} from 'react-redux';
-import {StyleSheet, View} from 'react-native';
 /** COMPONENTS */
 import CContainer from '~/components/CContainer';
-import CContent from '~/components/CContent';
-import CItem from '~/components/CItem';
+import CContentSubMenu from '~/components/CContentSubMenu';
 /** COMMON */
-import {colors, cStyles} from '~/utils/style';
-import {sW} from '~/utils/helper';
-
-/** All init */
-const colorsItem = [
-  {
-    colors: [colors.YELLOW_2, '#373B44'],
-    bgColor: colors.BG_APPROVED_ASSETS,
-  },
-  {
-    colors: [colors.YELLOW_2, '#373B44'],
-    bgColor: colors.BG_HANDLED_ASSETS,
-  },
-];
+import {Animations} from '~/utils/asset';
+import Configs from '~/config';
+import {colors} from '~/utils/style';
 
 function Approved(props) {
   const {navigation, route} = props;
@@ -84,42 +71,21 @@ function Approved(props) {
   return (
     <CContainer
       loading={loading}
+      hasShapes
+      figuresShapes={[]}
+      primaryColorShapes={colors.BG_HEADER_APPROVED}
+      primaryColorShapesDark={colors.BG_HEADER_APPROVED_DARK}
       content={
-        <CContent padder>
-          {!loading && (
-            <View
-              style={[
-                cStyles.row,
-                cStyles.itemscenter,
-                cStyles.justifyStart,
-                cStyles.flexWrap,
-              ]}>
-              {routes.map((item, index) => {
-                if (item.isAccess) {
-                  return (
-                    <CItem
-                      key={index.toString()}
-                      itemStyle={styles.item}
-                      index={index}
-                      data={item}
-                      colors={colorsItem[index].colors}
-                      bgColor={colorsItem[index].bgColor}
-                      onPress={handleItem}
-                    />
-                  );
-                }
-                return null;
-              })}
-            </View>
-          )}
-        </CContent>
+        <CContentSubMenu
+          loading={loading}
+          animTypeImage={Animations.approvedHolder}
+          routes={routes}
+          colorsItem={Configs.colorsSubMenu.approved}
+          onPressItem={handleItem}
+        />
       }
     />
   );
 }
-
-const styles = StyleSheet.create({
-  item: {width: sW('32%')},
-});
 
 export default Approved;

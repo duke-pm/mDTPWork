@@ -25,7 +25,7 @@ import Configs from '~/config';
 import {Commons, Icons} from '~/utils/common';
 import {LOAD_MORE, REFRESH} from '~/config/constants';
 import {IS_ANDROID} from '~/utils/helper';
-import {cStyles} from '~/utils/style';
+import {colors, cStyles} from '~/utils/style';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 
@@ -283,6 +283,10 @@ function ListRequestHandling(props) {
   return (
     <CContainer
       loading={loading.main}
+      hasShapes
+      figuresShapes={[]}
+      primaryColorShapes={colors.BG_HEADER_APPROVED}
+      primaryColorShapesDark={colors.BG_HEADER_APPROVED_DARK}
       content={
         <View style={cStyles.flex1}>
           <CSearchBar

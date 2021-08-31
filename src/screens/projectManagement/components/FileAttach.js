@@ -18,8 +18,8 @@ import CText from '~/components/CText';
 import CIcon from '~/components/CIcon';
 import CActivityIndicator from '~/components/CActivityIndicator';
 /* COMMON */
-import Icons from '~/utils/common/Icons';
 import API from '~/services/axios';
+import Icons from '~/utils/common/Icons';
 import {Extensions} from '~/utils/asset';
 import {THEME_DARK} from '~/config/constants';
 import {cStyles, colors} from '~/utils/style';
@@ -38,7 +38,9 @@ function FileAttach(props) {
   const [isFileExisted, setFileExisted] = useState(false);
   const [progress, setProgress] = useState(0);
 
-  /** HANDLE FUNC */
+  /*****************
+   ** HANDLE FUNC **
+   *****************/
   const handlePreviewFile = async () => {
     if (!isFileExisted) {
       setLoading(true);
@@ -69,7 +71,9 @@ function FileAttach(props) {
     }
   };
 
-  /** FUNC */
+  /**********
+   ** FUNC **
+   **********/
   const onCheckExisted = async () => {
     let existed = await checkExistsFile(fileName);
     if (existed) {
@@ -77,12 +81,16 @@ function FileAttach(props) {
     }
   };
 
-  /** LIFE CYCLE */
+  /****************
+   ** LIFE CYCLE **
+   ****************/
   useEffect(() => {
     onCheckExisted();
   }, []);
 
-  /** RENDER */
+  /************
+   ** RENDER **
+   ************/
   let shortFileName = file.substring(file.lastIndexOf('/') + 1, file.length);
   return (
     <TouchableOpacity

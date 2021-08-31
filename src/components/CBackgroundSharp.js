@@ -181,7 +181,7 @@ const Shapes = ({
     figures: figures || [
       {name: 'circle', position: 'center', size: 60},
       {name: 'donut', position: 'flex-start', axis: 'top', size: 80},
-      {name: 'circle', position: 'center', axis: 'right', size: 100},
+      {name: 'cutDiamond', position: 'center', axis: 'right', size: 100},
     ],
     borderRadius: borderRadius !== undefined ? borderRadius : 30,
   };

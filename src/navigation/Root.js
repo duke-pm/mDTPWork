@@ -18,7 +18,7 @@ import {BlurView} from '@react-native-community/blur';
 import Icon from 'react-native-vector-icons/Ionicons';
 /** COMMON */
 import Routes from './Routes';
-import {IS_IOS} from '~/utils/helper';
+import {IS_IOS, moderateScale} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
 import {THEME_DARK} from '~/config/constants';
 
@@ -119,15 +119,21 @@ export function RootTab(props) {
 
 export function RootMain(props) {
   const {t} = useTranslation();
+  const {customColors} = useTheme();
 
   return (
     <StackMain.Navigator
       initialRouteName={Routes.AUTHENTICATION.SIGN_IN.name}
       screenOptions={{
-        headerTitleStyle: cStyles.textSubheadline,
+        headerTitleStyle: {
+          color: customColors.text,
+          fontSize: cStyles.textSubheadline.fontSize,
+          fontWeight: cStyles.fontBold.fontWeight,
+        },
         headerTopInsetEnabled: true,
         headerLargeTitle: false,
         disableBackButtonMenu: true,
+        headerBackTitleVisible: false,
       }}>
       <StackMain.Screen
         name={Routes.AUTHENTICATION.SIGN_IN.name}
@@ -156,7 +162,6 @@ export function RootMain(props) {
         component={Routes.MAIN.MY_ACCOUNT.path}
         options={{
           title: t('my_account:title'),
-          headerBackTitle: t('common:back'),
           headerTintColor: colors.WHITE,
           headerTranslucent: true,
           headerHideShadow: true,
@@ -170,7 +175,6 @@ export function RootMain(props) {
         component={Routes.MAIN.HELP_AND_INFO.path}
         options={{
           title: t('help_and_info:title'),
-          headerBackTitle: t('common:back'),
         }}
       />
       <StackMain.Screen
@@ -178,7 +182,6 @@ export function RootMain(props) {
         component={Routes.MAIN.CHANGE_PASSWORD.path}
         options={{
           title: t('change_password:title'),
-          headerBackTitle: t('common:back'),
         }}
       />
       <StackMain.Screen
@@ -186,7 +189,6 @@ export function RootMain(props) {
         component={Routes.MAIN.CONTACT_US.path}
         options={{
           title: t('contact_us:title'),
-          headerBackTitle: t('common:back'),
         }}
       />
       <StackMain.Screen
@@ -194,7 +196,6 @@ export function RootMain(props) {
         component={Routes.MAIN.SETTINGS.path}
         options={{
           title: t('settings:title'),
-          headerBackTitle: t('common:back'),
         }}
       />
 
@@ -204,7 +205,8 @@ export function RootMain(props) {
         component={Routes.MAIN.PROJECT_MANAGEMENT.path}
         options={{
           title: t('project_management:main_title'),
-          headerBackTitle: t('common:back'),
+          headerStyle: {backgroundColor: customColors.projectHeader},
+          headerTintColor: customColors.text,
         }}
       />
       <StackMain.Screen
@@ -212,6 +214,8 @@ export function RootMain(props) {
         component={Routes.MAIN.PROJECT_OVERVIEW.path}
         options={{
           title: t('project_overview:title'),
+          headerStyle: {backgroundColor: customColors.projectHeader},
+          headerTintColor: customColors.text,
         }}
       />
       <StackMain.Screen
@@ -219,13 +223,16 @@ export function RootMain(props) {
         component={Routes.MAIN.PROJECT.path}
         options={{
           title: t('project_management:title'),
+          headerStyle: {backgroundColor: customColors.projectHeader},
+          headerTintColor: customColors.text,
         }}
       />
       <StackMain.Screen
         name={Routes.MAIN.PROJECT_DETAIL.name}
         component={Routes.MAIN.PROJECT_DETAIL.path}
         options={{
-          headerBackTitle: t('project_management:back_title'),
+          headerStyle: {backgroundColor: customColors.projectHeader},
+          headerTintColor: customColors.text,
         }}
       />
       <StackMain.Screen
@@ -233,6 +240,8 @@ export function RootMain(props) {
         component={Routes.MAIN.TASK_DETAIL.path}
         options={{
           title: '',
+          headerStyle: {backgroundColor: customColors.projectHeader},
+          headerTintColor: customColors.text,
         }}
       />
       <StackMain.Screen
@@ -241,6 +250,8 @@ export function RootMain(props) {
         options={{
           title: t('project_management:filter'),
           stackPresentation: 'modal',
+          headerStyle: {backgroundColor: customColors.projectHeader},
+          headerTintColor: customColors.text,
         }}
       />
       <StackMain.Screen
@@ -249,6 +260,8 @@ export function RootMain(props) {
         options={{
           title: t('project_management:filter'),
           stackPresentation: 'modal',
+          headerStyle: {backgroundColor: customColors.projectHeader},
+          headerTintColor: customColors.text,
         }}
       />
       <StackMain.Screen
@@ -256,7 +269,8 @@ export function RootMain(props) {
         component={Routes.MAIN.TASK_DETAIL.childrens.TASK_ACTIVITIES.path}
         options={{
           title: t('project_management:title_activity'),
-          headerBackTitle: t('common:back'),
+          headerStyle: {backgroundColor: customColors.projectHeader},
+          headerTintColor: customColors.text,
         }}
       />
       <StackMain.Screen
@@ -264,7 +278,8 @@ export function RootMain(props) {
         component={Routes.MAIN.TASK_DETAIL.childrens.TASK_WATCHERS.path}
         options={{
           title: t('project_management:title_watcher'),
-          headerBackTitle: t('common:back'),
+          headerStyle: {backgroundColor: customColors.projectHeader},
+          headerTintColor: customColors.text,
         }}
       />
 
@@ -274,7 +289,8 @@ export function RootMain(props) {
         component={Routes.MAIN.APPROVED.path}
         options={{
           title: t('approved:assets'),
-          headerBackTitle: t('common:back'),
+          headerStyle: {backgroundColor: customColors.approvedHeader},
+          headerTintColor: customColors.text,
         }}
       />
       <StackMain.Screen
@@ -282,6 +298,8 @@ export function RootMain(props) {
         component={Routes.MAIN.APPROVED.childrens.LIST_REQUEST_ASSETS.path}
         options={{
           title: t('list_request_assets:title'),
+          headerStyle: {backgroundColor: customColors.approvedHeader},
+          headerTintColor: customColors.text,
         }}
       />
       <StackMain.Screen
@@ -289,32 +307,48 @@ export function RootMain(props) {
         component={Routes.MAIN.APPROVED.childrens.LIST_REQUEST_HANDLING.path}
         options={{
           title: t('list_request_assets_handling:title'),
+          headerStyle: {backgroundColor: customColors.approvedHeader},
+          headerTintColor: customColors.text,
         }}
       />
       <StackMain.Screen
         name={Routes.MAIN.APPROVED_ASSETS.name}
         component={Routes.MAIN.APPROVED_ASSETS.path}
+        options={{
+          headerStyle: {backgroundColor: customColors.approvedHeader},
+          headerTintColor: customColors.text,
+        }}
       />
       <StackMain.Screen
         name={Routes.MAIN.APPROVED_ASSETS_DAMAGE.name}
         component={Routes.MAIN.APPROVED_ASSETS_DAMAGE.path}
+        options={{
+          headerStyle: {backgroundColor: customColors.approvedHeader},
+          headerTintColor: customColors.text,
+        }}
       />
       <StackMain.Screen
         name={Routes.MAIN.APPROVED_ASSETS_LOST.name}
         component={Routes.MAIN.APPROVED_ASSETS_LOST.path}
+        options={{
+          headerStyle: {backgroundColor: customColors.approvedHeader},
+          headerTintColor: customColors.text,
+        }}
       />
       <StackMain.Screen
         name={Routes.MAIN.ADD_APPROVED_ASSETS.name}
         component={Routes.MAIN.ADD_APPROVED_ASSETS.path}
         options={{
-          headerBackTitle: t('common:back'),
+          headerStyle: {backgroundColor: customColors.approvedHeader},
+          headerTintColor: customColors.text,
         }}
       />
       <StackMain.Screen
         name={Routes.MAIN.ADD_APPROVED_LOST_DAMAGED.name}
         component={Routes.MAIN.ADD_APPROVED_LOST_DAMAGED.path}
         options={{
-          headerBackTitle: t('common:back'),
+          headerStyle: {backgroundColor: customColors.approvedHeader},
+          headerTintColor: customColors.text,
         }}
       />
 
@@ -333,7 +367,8 @@ export function RootMain(props) {
         component={Routes.MAIN.BOOKING_MANAGEMENT.path}
         options={{
           title: t('booking_management:title'),
-          headerBackTitle: t('common:back'),
+          headerStyle: {backgroundColor: customColors.bookingHeader},
+          headerTintColor: customColors.text,
         }}
       />
       <StackMain.Screen
@@ -341,6 +376,8 @@ export function RootMain(props) {
         component={Routes.MAIN.BOOKINGS.path}
         options={{
           title: t('bookings:title'),
+          headerStyle: {backgroundColor: customColors.bookingHeader},
+          headerTintColor: customColors.text,
         }}
       />
       <StackMain.Screen
@@ -348,7 +385,8 @@ export function RootMain(props) {
         component={Routes.MAIN.MY_BOOKINGS.path}
         options={{
           title: t('my_bookings:title'),
-          headerBackTitle: t('common:back'),
+          headerStyle: {backgroundColor: customColors.bookingHeader},
+          headerTintColor: customColors.text,
         }}
       />
       <StackMain.Screen
@@ -356,7 +394,8 @@ export function RootMain(props) {
         component={Routes.MAIN.ADD_BOOKING.path}
         options={{
           title: t('add_booking:title'),
-          headerBackTitle: t('common:back'),
+          headerStyle: {backgroundColor: customColors.bookingHeader},
+          headerTintColor: customColors.text,
         }}
       />
     </StackMain.Navigator>

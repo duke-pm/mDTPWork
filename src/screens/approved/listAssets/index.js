@@ -27,7 +27,7 @@ import Configs from '~/config';
 import Routes from '~/navigation/Routes';
 import {Commons, Icons} from '~/utils/common';
 import {IS_ANDROID} from '~/utils/helper';
-import {cStyles} from '~/utils/style';
+import {colors, cStyles} from '~/utils/style';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -216,6 +216,10 @@ function ListRequestAll(props) {
   return (
     <CContainer
       loading={false}
+      hasShapes
+      figuresShapes={[]}
+      primaryColorShapes={colors.BG_HEADER_APPROVED}
+      primaryColorShapesDark={colors.BG_HEADER_APPROVED_DARK}
       content={
         <View style={cStyles.flex1}>
           <CSearchBar
@@ -225,6 +229,7 @@ function ListRequestAll(props) {
             onClose={handleCloseSearch}
           />
           <FilterTags
+            translation={t}
             formatDateView={formatDateView}
             fromDate={routes[index].fromDate}
             toDate={routes[index].toDate}

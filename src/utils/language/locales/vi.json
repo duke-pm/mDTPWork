@@ -47,7 +47,11 @@
     "connection_again": "Kiểm tra kết nối",
     "note_chart": "Chú thích",
     "approved": "Duyệt",
-    "reject": "Không Duyệt"
+    "reject": "Không Duyệt",
+    "days": "ngày",
+    "at": "-",
+    "from_date": "Từ ",
+    "to_date": "Đến "
   },
   "status": {
     "title": "Trạng thái",
@@ -144,7 +148,8 @@
   "dashboard": {
     "title": "Trang chủ",
     "feature": "Tính năng",
-    "welcome": "Xin chào"
+    "welcome": "Xin chào! ",
+    "welcome_1": "Chúc bạn ngày mới làm việc hiệu quả!"
   },
   "account": {
     "title": "Tài Khoản",
@@ -216,7 +221,9 @@
     "title": "Tài Sản",
     "assets": "Tài Sản",
     "list_request": "Yêu cầu của tôi",
-    "list_request_handling": "Yêu cầu cần xử lý"
+    "list_request_handling": "Yêu cầu cần xử lý",
+    "approved_services": "Approved Services",
+    "approved_services_holder": "Thiết lập và quản lý đề xuất, đơn từ cá nhân và các phòng ban dễ dàng và nhanh chóng."
   },
   "list_request_assets": {
     "title": "Đề Xuất",
@@ -481,7 +488,9 @@
     "before": "trước ",
     "alert_change_permission_calendar": "Bạn cần cầp quyền Lịch trong Cài Đặt Chung",
     "info_participant": "Thông tin người cùng tham gia",
-    "piority_item": "Piority:"
+    "piority_item": "Piority:",
+    "project_services": "Project Services",
+    "project_services_holder": "Quản lý công việc trong nội bộ doanh nghiệp. Hỗ trợ theo dõi từ xa trên các thiết bị theo đặc thù công việc."
   },
   "project_overview": {
     "title": "Tổng Quan",
@@ -523,7 +532,9 @@
     "supplier": "Nhà cung cấp"
   },
   "booking_management": {
-    "title": "QL Booking"
+    "title": "Booking",
+    "booking_services": "Booking Services",
+    "booking_services_holder": "Quản lý hành chính dành riêng cho đặt lịch phòng họp và các tài nguyên nội bộ doanh nghiệp."
   },
   "bookings": {
     "title": "Bookings",

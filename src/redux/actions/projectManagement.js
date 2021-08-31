@@ -261,9 +261,27 @@ export const fetchUpdateTask = (params, navigation) => {
         if (!res.isError) {
           let dataTask = null;
           if (res.data.length > 0) {
-            dataTask = res.data[0];
+            dataTask = {
+              status: {
+                statusID: res.data[0].statusID,
+                statusName: res.data[0].statusName,
+                colorCode: res.data[0].colorCode,
+                colorDarkCode: res.data[0].colorDarkCode,
+                colorOpacityCode: res.data[0].colorOpacityCode,
+              },
+              percentage: res.data[0].percentage,
+            };
           } else {
-            dataTask = res.data;
+            dataTask = {
+              status: {
+                statusID: res.data.statusID,
+                statusName: res.data.statusName,
+                colorCode: res.data.colorCode,
+                colorDarkCode: res.data.colorDarkCode,
+                colorOpacityCode: res.data.colorOpacityCode,
+              },
+              percentage: res.data.percentage,
+            };
           }
           return dispatch(updateTaskSuccess(dataTask));
         } else {

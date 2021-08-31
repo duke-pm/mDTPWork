@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 /* eslint-disable react-hooks/exhaustive-deps */
 /**
  ** Name: Percentage
@@ -28,19 +29,20 @@ import {alert, moderateScale} from '~/utils/helper';
 /** REDUX */
 import * as Actions from '~/redux/actions';
 
-/** All refs of page */
+/** All refs */
 let percentRef = createRef();
 
 function Percentage(props) {
   const {t} = useTranslation();
   const {
-    disabled,
-    isDark,
-    customColors,
-    navigation,
-    language,
-    refreshToken,
-    onUpdate,
+    disabled = false,
+    isDark = false,
+    customColors = {},
+    navigation = {},
+    language = 'vi',
+    refreshToken = '',
+    onStartUpdate = () => null,
+    onEndUpdate = () => null,
   } = props;
   let curStatus = props.task.statusName;
   let curPercent = props.task.percentage;
@@ -81,6 +83,7 @@ function Percentage(props) {
   };
 
   const onFetchPercent = isFinished => {
+    onStartUpdate();
     setPercent({...percent, visible: !percent.visible});
     let params = {
       TaskID: props.task.taskID,
@@ -147,7 +150,7 @@ function Percentage(props) {
       : projectState.get('errorHelperTaskUpdate');
     let type = isSuccess ? 'success' : 'danger';
     if (isSuccess) {
-      onUpdate();
+      onEndUpdate();
     } else {
       setPercent({...percent, value: props.task.percentage});
     }
@@ -344,7 +347,8 @@ Percentage.propTypes = {
   navigation: PropTypes.object,
   language: PropTypes.string,
   refreshToken: PropTypes.string,
-  onUpdate: PropTypes.func,
+  onStartUpdate: PropTypes.func,
+  onEndUpdate: PropTypes.func,
 };
 
 export default Percentage;

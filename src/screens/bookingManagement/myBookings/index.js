@@ -8,6 +8,7 @@
 import React, {useState, useEffect, useLayoutEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {useTheme} from '@react-navigation/native';
+import {useColorScheme} from 'react-native-appearance';
 import {StyleSheet, View, Text} from 'react-native';
 import {
   ExpandableCalendar,
@@ -27,16 +28,15 @@ import CLabel from '~/components/CLabel';
 import CIconHeader from '~/components/CIconHeader';
 /* COMMON */
 import Configs from '~/config';
-import {usePrevious} from '~/utils/hook';
 import Routes from '~/navigation/Routes';
 import {Booking} from '~/utils/mockup';
 import {colors, cStyles} from '~/utils/style';
 import {Commons, Icons} from '~/utils/common';
 import {IS_ANDROID, moderateScale} from '~/utils/helper';
+import {THEME_DARK} from '~/config/constants';
+import {usePrevious} from '~/utils/hook';
 /* REDUX */
 import * as Actions from '~/redux/actions';
-import {useColorScheme} from 'react-native-appearance';
-import {THEME_DARK} from '~/config/constants';
 
 /** All init */
 const formatDateCalendar = 'YYYY-MM-DD HH:mm:ss';
@@ -269,6 +269,10 @@ function MyBookings(props) {
   return (
     <CContainer
       loading={loading.main}
+      hasShapes
+      figuresShapes={[]}
+      primaryColorShapes={colors.BG_HEADER_BOOKING}
+      primaryColorShapesDark={colors.BG_HEADER_BOOKING_DARK}
       content={
         <CContent scrollEnabled={false}>
           {!loading.main &&

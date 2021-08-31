@@ -147,6 +147,10 @@ function Bookings(props) {
   return (
     <CContainer
       loading={loading.main}
+      hasShapes
+      figuresShapes={[]}
+      primaryColorShapes={colors.BG_HEADER_BOOKING}
+      primaryColorShapesDark={colors.BG_HEADER_BOOKING_DARK}
       content={
         <CContent scrollEnabled={false}>
           {!loading.main && !loading.startFetch && (

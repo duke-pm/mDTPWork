@@ -80,6 +80,7 @@ function ProjectDetail(props) {
     tasks: [],
   });
 
+  /** Use prev */
   let prevShowFilter = usePrevious(showFilter);
 
   /*****************
@@ -99,12 +100,12 @@ function ProjectDetail(props) {
       1,
       value,
     );
-    setLoading({...loading, startFetch: true});
+    return setLoading({...loading, startFetch: true});
   };
 
   const handleShowFilter = () => {
     setShowSearch(false);
-    navigation.navigate(Routes.MAIN.PROJECT_FILTER.name, {
+    return navigation.navigate(Routes.MAIN.PROJECT_FILTER.name, {
       hasYear: false,
       hasSector: true,
       activeOwner: showFilter.activeOwner,
@@ -116,7 +117,7 @@ function ProjectDetail(props) {
   };
 
   const handleFilter = (year, activeOwner, activeStatus, activeSector) => {
-    setShowFilter({
+    return setShowFilter({
       activeOwner,
       activeStatus,
       activeSector,
@@ -125,14 +126,15 @@ function ProjectDetail(props) {
 
   const handleOpenSearch = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    setShowSearch(true);
+    return setShowSearch(true);
   };
 
   const handleCloseSearch = () => {
     setShowSearch(false);
     if (data.search !== '') {
-      handleSearch('');
+      return handleSearch('');
     }
+    return;
   };
 
   /**********
@@ -162,21 +164,23 @@ function ProjectDetail(props) {
       (ownerID !== null || statusID !== null || sectorID !== null) &&
       !isFiltering
     ) {
-      setIsFiltering(true);
+      return setIsFiltering(true);
     } else if (
       statusID === null &&
       ownerID === null &&
       sectorID === null &&
       isFiltering
     ) {
-      setIsFiltering(false);
+      return setIsFiltering(false);
     }
+    return;
   };
 
   const onPrepareData = (type = REFRESH) => {
     let isLoadmore = true;
     let tmpTasks = [...data.tasks];
-    /** Prepare data tasks */
+
+    // Prepare data tasks
     let tasks = projectState.get('tasks');
     let pagesTasks = projectState.get('pagesTasks');
 
@@ -257,8 +261,9 @@ function ProjectDetail(props) {
         1,
         data.search,
       );
-      setLoading({...loading, refreshing: true, isLoadmore: true});
+      return setLoading({...loading, refreshing: true, isLoadmore: true});
     }
+    return;
   };
 
   const onLoadmore = () => {
@@ -273,15 +278,15 @@ function ProjectDetail(props) {
         newPage,
         data.search,
       );
-      setLoading({...loading, loadmore: true});
+      return setLoading({...loading, loadmore: true});
     }
+    return;
   };
 
   const onCheckLocalLogin = async () => {
     /** Check Data Login */
     let dataLogin = await getSecretInfo(LOGIN);
     if (dataLogin) {
-      console.log('[LOG] === SignIn Local === ', dataLogin);
       let i,
         tmpDataLogin = {tokenInfo: {}, lstMenu: {}};
       for (i = 0; i < FieldsAuth.length; i++) {
@@ -292,14 +297,14 @@ function ProjectDetail(props) {
             dataLogin[FieldsAuth[i].value];
         }
       }
-      dispatch(Actions.loginSuccess(tmpDataLogin));
+      return dispatch(Actions.loginSuccess(tmpDataLogin));
     } else {
-      onGoToSignIn();
+      return onGoToSignIn();
     }
   };
 
   const onGoToSignIn = () => {
-    resetRoute(navigation, Routes.AUTHENTICATION.SIGN_IN.name);
+    return resetRoute(navigation, Routes.AUTHENTICATION.SIGN_IN.name);
   };
 
   /****************
@@ -483,6 +488,10 @@ function ProjectDetail(props) {
   return (
     <CContainer
       loading={loading.main}
+      hasShapes
+      figuresShapes={[]}
+      primaryColorShapes={colors.BG_HEADER_PROJECT}
+      primaryColorShapesDark={colors.BG_HEADER_PROJECT_DARK}
       content={
         <CContent scrollEnabled={false}>
           <CSearchBar

@@ -8,7 +8,7 @@
 import React, {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {ifIphoneX} from 'react-native-iphone-x-helper';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View, Text} from 'react-native';
 /** COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
@@ -17,6 +17,7 @@ import CText from '~/components/CText';
 import CAvatar from '~/components/CAvatar';
 /** COMMON */
 import {colors, cStyles} from '~/utils/style';
+import {useTranslation} from 'react-i18next';
 
 /** All init */
 const colorsItem = [
@@ -35,6 +36,7 @@ const colorsItem = [
 ];
 
 function Dashboard(props) {
+  const {t} = useTranslation();
   const {navigation} = props;
 
   /** Use State */
@@ -99,13 +101,17 @@ function Dashboard(props) {
               styles.welcome,
             ]}>
             <View>
+              <Text>
+                <Text style={[cStyles.textHeadline, cStyles.colorWhite]}>
+                  {t('dashboard:welcome')}
+                </Text>
+                <Text style={[cStyles.textHeadline, cStyles.colorWhite]}>
+                  {` ${fullName}`},
+                </Text>
+              </Text>
               <CText
-                styles={'textTitle1 colorWhite'}
-                label={'dashboard:welcome'}
-              />
-              <CText
-                styles={'textSubheadline colorWhite'}
-                customLabel={fullName}
+                styles={'textCaption1 colorWhite'}
+                label={'dashboard:welcome_1'}
               />
             </View>
             <View style={cStyles.itemsEnd}>

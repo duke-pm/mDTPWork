@@ -27,9 +27,244 @@ import {
   CELL_WIDTH,
 } from '~/config/constants';
 
+/** All inits */
 let listener = null;
 let child = 0;
 const plCommon = moderateScale(4);
+
+const FormatCell = React.memo(
+  ({isDark = false, bgColor = undefined, align = 'center', value = any}) => {
+    return (
+      <View
+        key={value + ''}
+        style={[
+          cStyles.center,
+          cStyles[align],
+          cStyles.borderLeft,
+          cStyles.borderBottom,
+          isDark && cStyles.borderLeftDark,
+          isDark && cStyles.borderBottomDark,
+          bgColor && {backgroundColor: bgColor},
+          styles.cell,
+          {width: CELL_WIDTH},
+        ]}>
+        {typeof value === 'string' ? (
+          <CText
+            customStyles={[cStyles.textCaption1, cStyles.fontRegular]}
+            customLabel={value}
+            numberOfLines={1}
+          />
+        ) : (
+          value
+        )}
+      </View>
+    );
+  },
+);
+
+const FormatCompactCell = React.memo(
+  ({
+    isDark = false,
+    customColors = {},
+    value = '',
+    name = '',
+    isProject = false,
+    taskType = undefined,
+    taskTypeName = undefined,
+    taskTypeColor = undefined,
+    onCheckTaskType = () => null,
+  }) => {
+    return (
+      <View
+        style={[
+          cStyles.justifyCenter,
+          cStyles.itemsStart,
+          cStyles.px6,
+          cStyles.borderLeft,
+          cStyles.borderBottom,
+          cStyles.borderRight,
+          isDark && cStyles.borderLeftDark,
+          isDark && cStyles.borderBottomDark,
+          isDark && cStyles.borderRightDark,
+          styles.cell_small,
+        ]}>
+        <View style={cStyles.itemsStart}>
+          {isProject && !taskType && (
+            <CText
+              customStyles={[
+                cStyles.textCaption1,
+                cStyles.fontBold,
+                cStyles.textCenter,
+              ]}
+              customLabel={'Project #' + value}
+            />
+          )}
+          {!isProject && taskType && (
+            <CText
+              customStyles={[
+                cStyles.textCaption1,
+                cStyles.fontBold,
+                {
+                  color:
+                    taskTypeColor || customColors[onCheckTaskType(taskType)],
+                },
+              ]}
+              customLabel={taskTypeName + ' #' + value}
+            />
+          )}
+          <CText
+            customStyles={[cStyles.textCaption1, cStyles.fontRegular]}
+            numberOfLines={1}
+            customLabel={name}
+          />
+        </View>
+      </View>
+    );
+  },
+);
+
+const FormatFirstCell = React.memo(
+  ({
+    isDark = false,
+    customColors = {},
+    value = any,
+    pChild = 0,
+    isProject = false,
+    taskType = undefined,
+    taskTypeName = undefined,
+    taskTypeColor = undefined,
+    onCheckTaskType = () => null,
+  }) => {
+    return (
+      <View
+        key={value + ''}
+        style={[
+          cStyles.px4,
+          cStyles.flex1,
+          cStyles.row,
+          cStyles.itemsCenter,
+          cStyles.borderLeft,
+          cStyles.borderBottom,
+          isDark && cStyles.borderLeftDark,
+          isDark && cStyles.borderBottomDark,
+          styles.cell,
+          pChild > 2 ? {paddingLeft: plCommon * pChild} : {},
+        ]}>
+        {pChild > 1 && (
+          <View style={[!isProject ? {paddingLeft: plCommon * pChild} : {}]}>
+            <CIcon name={Icons.showChild} size={'smaller'} />
+          </View>
+        )}
+        <Text
+          style={[pChild > 1 && cStyles.pl4, cStyles.flex1]}
+          numberOfLines={2}>
+          {!isProject && (
+            <Text
+              style={[
+                cStyles.textCaption1,
+                cStyles.fontBold,
+                {
+                  color:
+                    taskTypeColor || customColors[onCheckTaskType(taskType)],
+                },
+              ]}
+              numberOfLines={1}>
+              {`${taskTypeName}  `}
+            </Text>
+          )}
+          <Text
+            style={[
+              cStyles.textCaption1,
+              cStyles.fontRegular,
+              {color: customColors.text},
+              isProject && cStyles.fontBold,
+            ]}>
+            {value}
+          </Text>
+        </Text>
+      </View>
+    );
+  },
+);
+
+const FormatColumn = React.memo(
+  ({isDark = false, customColors = {}, section = {}, dataRender = []}) => {
+    let {item} = section,
+      cells = [],
+      i;
+    for (i = 0; i < dataRender[0].length; i++) {
+      cells.push([
+        <FormatCell
+          isDark={isDark}
+          bgColor={i % 2 ? customColors.card : colors.STATUS_NEW_OPACITY}
+          align={'center'}
+          value={item[i]}
+        />,
+      ]);
+    }
+    return <View style={cStyles.col}>{cells}</View>;
+  },
+);
+
+const FormatIdentityColumn = React.memo(
+  ({
+    isDark = false,
+    customColors = {},
+    data = {},
+    isIcon = false,
+    pChild = 0,
+    onCheckTaskType = () => null,
+  }) => {
+    let cells = [],
+      cellsChild = [],
+      i;
+    let tmpPChild = pChild + 1;
+    for (i = 0; i < data.length; i++) {
+      if (!isIcon) {
+        cells.push(
+          <FormatFirstCell
+            isDark={isDark}
+            isProject={data[i].isProject}
+            value={data[i].itemName}
+            pChild={tmpPChild}
+            taskType={data[i].taskTypeID}
+            taskTypeName={data[i].typeName}
+            taskTypeColor={isDark ? data[i].typeColorDark : data[i].typeColor}
+          />,
+        );
+      } else {
+        cells.push(
+          <FormatCompactCell
+            isDark={isDark}
+            customColors={customColors}
+            isProject={data[i].isProject}
+            value={data[i].itemID}
+            name={data[i].itemName}
+            taskType={data[i].taskTypeID}
+            taskTypeName={data[i].typeName}
+            taskTypeColor={isDark ? data[i].typeColorDark : data[i].typeColor}
+            onCheckTaskType={onCheckTaskType}
+          />,
+        );
+      }
+      if (data[i].lstItemChild.length > 0) {
+        cellsChild = (
+          <FormatIdentityColumn
+            isIcon={isIcon}
+            isDark={isDark}
+            customColors={customColors}
+            data={data[i].lstItemChild}
+            pChild={tmpPChild}
+            onCheckTaskType={onCheckTaskType}
+          />
+        );
+      }
+      cells = cells.concat(cellsChild);
+      cellsChild = [];
+    }
+    return cells;
+  },
+);
 
 function BodyPreview(props) {
   const isDark = useColorScheme() === THEME_DARK;
@@ -103,48 +338,6 @@ function BodyPreview(props) {
     setLoading(false);
   };
 
-  const formatIdentityColumn = (data, isIcon, pChild = 0) => {
-    let cells = [],
-      cellsChild = [],
-      i;
-    let tmpPChild = pChild + 1;
-    for (i = 0; i < data.length; i++) {
-      if (!isIcon) {
-        cells.push(
-          formatFirstCell(
-            data[i].itemName,
-            tmpPChild,
-            data[i].isProject,
-            data[i].taskTypeID,
-            data[i].typeName,
-            isDark ? data[i].typeColorDark : data[i].typeColor,
-          ),
-        );
-      } else {
-        cells.push(
-          formatCompactCell(
-            data[i].itemID,
-            data[i].itemName,
-            data[i].isProject,
-            data[i].taskTypeID,
-            data[i].typeName,
-            isDark ? data[i].typeColorDark : data[i].typeColor,
-          ),
-        );
-      }
-      if (data[i].lstItemChild.length > 0) {
-        cellsChild = formatIdentityColumn(
-          data[i].lstItemChild,
-          isIcon,
-          tmpPChild,
-        );
-      }
-      cells = cells.concat(cellsChild);
-      cellsChild = [];
-    }
-    return cells;
-  };
-
   const onCheckTaskType = taskType => {
     if (taskType === Commons.TYPE_TASK.PHASE.value) {
       return 'orange';
@@ -179,166 +372,6 @@ function BodyPreview(props) {
     return null;
   }
 
-  const formatCell = (bgColor = undefined, align = 'center', value = any) => {
-    return (
-      <View
-        key={value + ''}
-        style={[
-          cStyles.center,
-          cStyles[align],
-          cStyles.borderLeft,
-          cStyles.borderBottom,
-          isDark && cStyles.borderLeftDark,
-          isDark && cStyles.borderBottomDark,
-          bgColor && {backgroundColor: bgColor},
-          styles.cell,
-          {width: CELL_WIDTH},
-        ]}>
-        {typeof value === 'string' ? (
-          <CText
-            customStyles={[cStyles.textCaption1, cStyles.fontRegular]}
-            customLabel={value}
-            numberOfLines={1}
-          />
-        ) : (
-          value
-        )}
-      </View>
-    );
-  };
-
-  const formatFirstCell = (
-    value = any,
-    pChild = 0,
-    isProject = false,
-    taskType = undefined,
-    taskTypeName = undefined,
-    taskTypeColor = undefined,
-  ) => {
-    return (
-      <View
-        key={value + ''}
-        style={[
-          cStyles.px4,
-          cStyles.flex1,
-          cStyles.row,
-          cStyles.itemsCenter,
-          cStyles.borderLeft,
-          cStyles.borderBottom,
-          isDark && cStyles.borderLeftDark,
-          isDark && cStyles.borderBottomDark,
-          styles.cell,
-          pChild > 2 ? {paddingLeft: plCommon * pChild} : {},
-        ]}>
-        {pChild > 1 && (
-          <View style={[!isProject ? {paddingLeft: plCommon * pChild} : {}]}>
-            <CIcon name={Icons.showChild} size={'smaller'} />
-          </View>
-        )}
-        <Text
-          style={[pChild > 1 && cStyles.pl4, cStyles.flex1]}
-          numberOfLines={2}>
-          {!isProject && (
-            <Text
-              style={[
-                cStyles.textCaption1,
-                cStyles.fontBold,
-                {
-                  color:
-                    taskTypeColor || customColors[onCheckTaskType(taskType)],
-                },
-              ]}
-              numberOfLines={1}>
-              {`${taskTypeName}  `}
-            </Text>
-          )}
-          <Text
-            style={[
-              cStyles.textCaption1,
-              cStyles.fontRegular,
-              {color: customColors.text},
-              isProject && cStyles.fontBold,
-            ]}>
-            {value}
-          </Text>
-        </Text>
-      </View>
-    );
-  };
-
-  const formatCompactCell = (
-    value = '',
-    name = '',
-    isProject = false,
-    taskType = undefined,
-    taskTypeName = undefined,
-    taskTypeColor = undefined,
-  ) => {
-    return (
-      <View
-        style={[
-          cStyles.justifyCenter,
-          cStyles.itemsStart,
-          cStyles.px6,
-          cStyles.borderLeft,
-          cStyles.borderBottom,
-          cStyles.borderRight,
-          isDark && cStyles.borderLeftDark,
-          isDark && cStyles.borderBottomDark,
-          isDark && cStyles.borderRightDark,
-          styles.cell_small,
-        ]}>
-        <View style={cStyles.itemsStart}>
-          {isProject && !taskType && (
-            <CText
-              customStyles={[
-                cStyles.textCaption1,
-                cStyles.fontBold,
-                cStyles.textCenter,
-              ]}
-              customLabel={'Project #' + value}
-            />
-          )}
-          {!isProject && taskType && (
-            <CText
-              customStyles={[
-                cStyles.textCaption1,
-                cStyles.fontBold,
-                {
-                  color:
-                    taskTypeColor || customColors[onCheckTaskType(taskType)],
-                },
-              ]}
-              customLabel={taskTypeName + ' #' + value}
-            />
-          )}
-          <CText
-            customStyles={[cStyles.textCaption1, cStyles.fontRegular]}
-            numberOfLines={1}
-            customLabel={name}
-          />
-        </View>
-      </View>
-    );
-  };
-
-  const formatColumn = section => {
-    let {item} = section,
-      cells = [],
-      i;
-    for (i = 0; i < dataRender[0].length; i++) {
-      cells.push([
-        formatCell(
-          i % 2 ? customColors.card : colors.STATUS_NEW_OPACITY,
-          'center',
-          item[i],
-          false,
-        ),
-      ]);
-    }
-    return <View style={cStyles.col}>{cells}</View>;
-  };
-
   if (!loading) {
     const headerTranslate = scrollX.interpolate({
       inputRange: [0, FIRST_CELL_WIDTH_DISTANCE],
@@ -362,14 +395,28 @@ function BodyPreview(props) {
               transform: [{translateX: headerTranslate}],
             },
           ]}>
-          {formatIdentityColumn(dataBody, false, child)}
+          <FormatIdentityColumn
+            isIcon={false}
+            isDark={isDark}
+            customColors={customColors}
+            data={dataBody}
+            pChild={child}
+            onCheckTaskType={onCheckTaskType}
+          />
         </Animated.View>
 
         <Animated.FlatList
           style={cStyles.flex1}
           contentContainerStyle={styles.body}
           data={dataRender}
-          renderItem={formatColumn}
+          renderItem={section => (
+            <FormatColumn
+              isDark={isDark}
+              customColors={customColors}
+              section={section}
+              dataRender={dataRender}
+            />
+          )}
           keyExtractor={(item, index) => index.toString()}
           horizontal
           removeClippedSubviews={IS_ANDROID}
@@ -379,7 +426,7 @@ function BodyPreview(props) {
         />
 
         <Animated.View
-          pointerEvents="none"
+          pointerEvents={'none'}
           style={[
             cStyles.ofHidden,
             cStyles.abs,
@@ -390,7 +437,13 @@ function BodyPreview(props) {
               transform: [{translateX: headerTranslate2}],
             },
           ]}>
-          {formatIdentityColumn(dataBody, true)}
+          <FormatIdentityColumn
+            isIcon={true}
+            isDark={isDark}
+            customColors={customColors}
+            data={dataBody}
+            onCheckTaskType={onCheckTaskType}
+          />
         </Animated.View>
       </View>
     );

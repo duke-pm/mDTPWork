@@ -7,25 +7,13 @@
  **/
 import React, {useState, useEffect} from 'react';
 import {useSelector} from 'react-redux';
-import {StyleSheet, View} from 'react-native';
-/* COMPONENTS */
+/** COMPONENTS */
 import CContainer from '~/components/CContainer';
-import CContent from '~/components/CContent';
-import CItem from '~/components/CItem';
-/* COMMON */
-import {colors, cStyles} from '~/utils/style';
-import {sW} from '~/utils/helper';
-
-const colorsItem = [
-  {
-    colors: [colors.GREEN_2, '#373B44'],
-    bgColor: colors.BG_BOOKINGS,
-  },
-  {
-    colors: [colors.GREEN_2, '#373B44'],
-    bgColor: colors.BG_MY_BOOKINGS,
-  },
-];
+import CContentSubMenu from '~/components/CContentSubMenu';
+/** COMMON */
+import {Animations} from '~/utils/asset';
+import Configs from '~/config';
+import {colors} from '~/utils/style';
 
 function BookingManagement(props) {
   const {navigation, route} = props;
@@ -84,42 +72,21 @@ function BookingManagement(props) {
   return (
     <CContainer
       loading={loading}
+      hasShapes
+      figuresShapes={[]}
+      primaryColorShapes={colors.BG_HEADER_BOOKING}
+      primaryColorShapesDark={colors.BG_HEADER_BOOKING_DARK}
       content={
-        <CContent padder>
-          {!loading && (
-            <View
-              style={[
-                cStyles.row,
-                cStyles.itemscenter,
-                cStyles.justifyStart,
-                cStyles.flexWrap,
-              ]}>
-              {routes.map((item, index) => {
-                if (item.isAccess) {
-                  return (
-                    <CItem
-                      key={index.toString()}
-                      itemStyle={styles.item}
-                      index={index}
-                      data={item}
-                      colors={colorsItem[index].colors}
-                      bgColor={colorsItem[index].bgColor}
-                      onPress={handleItem}
-                    />
-                  );
-                }
-                return null;
-              })}
-            </View>
-          )}
-        </CContent>
+        <CContentSubMenu
+          loading={loading}
+          animTypeImage={Animations.approvedHolder}
+          routes={routes}
+          colorsItem={Configs.colorsSubMenu.booking}
+          onPressItem={handleItem}
+        />
       }
     />
   );
 }
-
-const styles = StyleSheet.create({
-  item: {width: sW('32%')},
-});
 
 export default BookingManagement;

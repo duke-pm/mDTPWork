@@ -16,6 +16,7 @@ import {
   PREFIXES_ANDROID,
   PREFIXES_ANDROID_PROD,
 } from './constants';
+import { colors } from '~/utils/style';
 
 LocaleConfig.locales['en-SG'] = {
   monthNames: [
@@ -174,6 +175,38 @@ const Configs = {
       label: 'project_management:one_week',
     },
   ],
+  colorsSubMenu: {
+    approved: [
+      {
+        colors: [colors.YELLOW_2, '#373B44'],
+        bgColor: colors.BG_APPROVED_ASSETS,
+      },
+      {
+        colors: [colors.YELLOW_2, '#373B44'],
+        bgColor: colors.BG_HANDLED_ASSETS,
+      },
+    ],
+    project: [
+      {
+        colors: [colors.BLUE_2, '#373B44'],
+        bgColor: colors.BG_PROJECT_M,
+      },
+      {
+        colors: [colors.BLUE_2, '#373B44'],
+        bgColor: colors.BG_PROJECT_O,
+      },
+    ],
+    booking: [
+      {
+        colors: [colors.GREEN_2, '#373B44'],
+        bgColor: colors.BG_BOOKINGS,
+      },
+      {
+        colors: [colors.GREEN_2, '#373B44'],
+        bgColor: colors.BG_MY_BOOKINGS,
+      },
+    ],
+  },
   toDay: moment(),
 };
 

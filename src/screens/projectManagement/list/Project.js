@@ -6,6 +6,7 @@
  **/
 import PropTypes from 'prop-types';
 import React, {useState, useEffect} from 'react';
+import {useTranslation} from 'react-i18next';
 import {useTheme, useNavigation} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
 import {View, LayoutAnimation, UIManager} from 'react-native';
@@ -28,6 +29,7 @@ if (IS_ANDROID) {
 }
 
 function ListProject(props) {
+  const {t} = useTranslation();
   const navigation = useNavigation();
   const isDark = useColorScheme() === THEME_DARK;
   const {customColors} = useTheme();
@@ -109,11 +111,11 @@ function ListProject(props) {
         item={({item, index}) => {
           return (
             <ProjectItem
+              isDark={isDark}
               index={index}
               data={item}
               formatDateView={formatDateView}
               customColors={customColors}
-              isDark={isDark}
               onPress={handleItem}
               onPressDetail={handleHeaderItem}
               onPressPlan={handleProjectPlan}
@@ -121,8 +123,8 @@ function ListProject(props) {
           );
         }}
         refreshing={props.refreshing}
-        onRefresh={onRefresh}
         loadingmore={props.loadmore}
+        onRefresh={onRefresh}
         onLoadmore={onLoadmore}
       />
 
@@ -153,6 +155,7 @@ function ListProject(props) {
         customContent={
           <ProjectPlan
             isDark={isDark}
+            translation={t}
             customColors={customColors}
             project={chooseProject}
           />

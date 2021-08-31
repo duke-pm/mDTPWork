@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 /* eslint-disable react-hooks/exhaustive-deps */
 /*
  ** Name: Task
@@ -40,6 +41,7 @@ import Status from '../components/Status';
 import Percentage from '../components/Percentage';
 import FileAttach from '../components/FileAttach';
 import Reminder from '../components/Reminder';
+import InvitedDetails from '../components/InvitedDetails';
 /* COMMON */
 import Configs from '~/config';
 import Routes from '~/navigation/Routes';
@@ -65,7 +67,7 @@ import {
 } from '~/utils/helper';
 /** REDUX */
 import * as Actions from '~/redux/actions';
-import InvitedDetails from '../components/InvitedDetails';
+import CLoading from '~/components/CLoading';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -164,6 +166,7 @@ function Task(props) {
     main: true,
     startFetch: false,
     startFetchLogin: false,
+    update: false,
     fastWatch: false,
     preview: false,
   });
@@ -180,6 +183,7 @@ function Task(props) {
     participantChoose: null,
   });
 
+  /** Use prev */
   let prevTaskDetail = usePrevious(projectState.get('taskDetail'));
 
   /*****************
@@ -210,7 +214,7 @@ function Task(props) {
     if (newComment) {
       setNewComment(false);
     }
-    navigation.navigate(
+    return navigation.navigate(
       Routes.MAIN.TASK_DETAIL.childrens.TASK_ACTIVITIES.name,
       {
         data: {taskID},
@@ -219,15 +223,18 @@ function Task(props) {
   };
 
   const handleWatchers = () => {
-    navigation.navigate(Routes.MAIN.TASK_DETAIL.childrens.TASK_WATCHERS.name, {
-      data: {taskID},
-      onRefresh: onRefreshWatcher,
-    });
+    return navigation.navigate(
+      Routes.MAIN.TASK_DETAIL.childrens.TASK_WATCHERS.name,
+      {
+        data: {taskID},
+        onRefresh: onRefreshWatcher,
+      },
+    );
   };
 
   const handleParticipant = (participant = null, showAlert = false) => {
     setData({...data, participantChoose: participant});
-    setParticipantInfo(showAlert);
+    return setParticipantInfo(showAlert);
   };
 
   /**********
@@ -247,7 +254,7 @@ function Task(props) {
       RefreshToken: refreshToken,
     });
     dispatch(Actions.fetchTaskDetail(params, navigation));
-    setLoading({...loading, startFetch: true});
+    return setLoading({...loading, startFetch: true});
   };
 
   const onPrepareData = async () => {
@@ -295,6 +302,7 @@ function Task(props) {
     }
     let taskDetail = projectState.get('taskDetail');
     setData({taskDetail});
+    setLoading({...loading, update: false});
     return showMessage({
       message: t('common:app_name'),
       description: t('success:change_info'),
@@ -339,11 +347,13 @@ function Task(props) {
             dataLogin[FieldsAuth[i].value];
         }
       }
-      dispatch(Actions.loginSuccess(tmpDataLogin));
+      return dispatch(Actions.loginSuccess(tmpDataLogin));
     } else {
-      onGoToSignIn();
+      return onGoToSignIn();
     }
   };
+
+  const onStartUpdate = () => setLoading({...loading, update: true});
 
   /****************
    ** LIFE CYCLE **
@@ -526,6 +536,10 @@ function Task(props) {
   return (
     <CContainer
       loading={loading.main}
+      hasShapes
+      figuresShapes={[]}
+      primaryColorShapes={colors.BG_HEADER_PROJECT}
+      primaryColorShapesDark={colors.BG_HEADER_PROJECT_DARK}
       content={
         !loading.main ? (
           <>
@@ -544,7 +558,8 @@ function Task(props) {
                     refreshToken={refreshToken}
                     navigation={navigation}
                     task={data.taskDetail}
-                    onUpdate={onPrepareUpdate}
+                    onStartUpdate={onStartUpdate}
+                    onEndUpdate={onPrepareUpdate}
                     onNeedUpdate={setNeedRefresh}
                   />
                 )}
@@ -556,7 +571,7 @@ function Task(props) {
                 label={null}
                 content={
                   data.taskDetail ? (
-                    <View style={cStyles.pb10}>
+                    <View>
                       {/** Title & Type */}
                       <Text>
                         <Text
@@ -873,7 +888,8 @@ function Task(props) {
                         language={language}
                         refreshToken={refreshToken}
                         task={data.taskDetail}
-                        onUpdate={onPrepareUpdate}
+                        onStartUpdate={onStartUpdate}
+                        onEndUpdate={onPrepareUpdate}
                       />
                     </View>
                   ) : null
@@ -920,7 +936,11 @@ function Task(props) {
                             {usersInvited.map((item, index) => {
                               return (
                                 <View
-                                  style={[cStyles.row, cStyles.itemsCenter]}>
+                                  style={[
+                                    cStyles.row,
+                                    cStyles.itemsCenter,
+                                    cStyles.mt6,
+                                  ]}>
                                   <View
                                     key={item.userName}
                                     style={cStyles.shadowListItem}>
@@ -999,6 +1019,8 @@ function Task(props) {
               }
               onClose={handleParticipant}
             />
+
+            <CLoading visible={loading.update} />
           </>
         ) : null
       }

@@ -11,7 +11,7 @@ import React, {createRef, useState, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useColorScheme} from 'react-native-appearance';
 import {THEME_DARK} from '~/config/constants';
-import {FlatList, View} from 'react-native';
+import {StyleSheet, FlatList, View} from 'react-native';
 import * as Animatable from 'react-native-animatable';
 /* COMPONENTS */
 import CText from './CText';
@@ -128,6 +128,7 @@ function CGroupFilter(props) {
                       cStyles.rounded5,
                       cStyles.borderAll,
                       isDark && cStyles.borderAllDark,
+                      isDark && isCheck && {borderColor: primaryColor},
                       cStyles.row,
                       cStyles.itemsCenter,
                       {
@@ -135,14 +136,22 @@ function CGroupFilter(props) {
                           ? primaryColor
                           : colors.TRANSPARENT,
                       },
+                      isDark && {backgroundColor: colors.TRANSPARENT},
                     ]}>
                     <CText
-                      styles={'fontMedium textCaption1 pr4'}
+                      styles={'textCaption1 fontMedium pr4'}
+                      customStyles={[
+                        cStyles.textCaption1,
+                        cStyles.fontMedium,
+                        cStyles.pr4,
+                        isDark && isCheck && {color: primaryColor},
+                      ]}
                       label={item.label}
                     />
                     <CIcon
                       name={isCheck ? Icons.check : Icons.noneCheck}
                       size={'smaller'}
+                      customColor={isDark && isCheck ? primaryColor : undefined}
                     />
                   </View>
                 </Animatable.View>
@@ -160,6 +169,10 @@ function CGroupFilter(props) {
     </View>
   );
 }
+
+// const styles = StyleSheet.create({
+//   active_dark: {borderColor: }
+// });
 
 CGroupFilter.propTypes = {
   containerStyle: PropTypes.object,

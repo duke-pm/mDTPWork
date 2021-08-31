@@ -23,6 +23,7 @@ function FilterTags(props) {
     types = [],
     arrStatus = [],
     primaryColor = undefined,
+    translation = () => null,
   } = props;
 
   /************
@@ -49,9 +50,15 @@ function FilterTags(props) {
         <CText
           styles={'textCaption2 colorBlack'}
           customLabel={
-            (fromDate !== '' ? moment(fromDate).format(formatDateView) : '#') +
-            ' - ' +
-            (toDate !== '' ? moment(toDate).format(formatDateView) : '#')
+            (fromDate !== ''
+              ? translation('common:from_date') +
+                moment(fromDate).format(formatDateView)
+              : '#') +
+            '\n' +
+            (toDate !== ''
+              ? translation('common:to_date') +
+                moment(toDate).format(formatDateView)
+              : '#')
           }
         />
       </View>
@@ -103,6 +110,7 @@ FilterTags.propTypes = {
   types: PropTypes.array,
   arrStatus: PropTypes.array,
   primaryColor: PropTypes.string,
+  translation: PropTypes.func,
 };
 
 export default FilterTags;
