@@ -57,6 +57,35 @@ export default {
     });
   },
 
+  requestDetail: params => {
+    return new Promise((resolve, reject) => {
+      let tmpConfigs = {params: {}};
+      if (params.get('RequestID')) {
+        tmpConfigs.params.RequestID = params.get('RequestID');
+      }
+      if (params.get('Lang')) {
+        tmpConfigs.params.Lang = params.get('Lang');
+      }
+
+      API.get(
+        jwtServiceConfig.baseURL + Routes.APPROVED.REQUEST_DETAIL,
+        tmpConfigs,
+      )
+        .then(response => {
+          console.log('FETCH REQUEST APPROVED DETAIL => ', response);
+          if (response.status === 200 && response.data) {
+            resolve(response.data);
+          } else {
+            reject(response.statusText);
+          }
+        })
+        .catch(error => {
+          console.log('ERROR REQUEST APPROVED DETAIL => ', error);
+          reject(error.response ? error.response.data : error);
+        });
+    });
+  },
+
   addRequest: params => {
     return new Promise((resolve, reject) => {
       API.post(jwtServiceConfig.baseURL + Routes.APPROVED.ADD_REQUEST, params)

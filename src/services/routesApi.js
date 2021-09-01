@@ -19,6 +19,7 @@ const Routes = {
   },
   APPROVED: {
     LIST_REQUEST: '/RQAsset/GetList',
+    REQUEST_DETAIL: '/RQAsset/GetByID',
     ADD_REQUEST: '/RQAsset/CreateAllocation',
     ADD_REQUEST_LOST_DAMAGE: '/RQAsset/CreateHandling',
     APPROVED_REQUEST: '/RequestApprove/Approve',

@@ -7,6 +7,7 @@
  **/
 import React, {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
+import {useTranslation} from 'react-i18next';
 import {ifIphoneX} from 'react-native-iphone-x-helper';
 import {StyleSheet, View, Text} from 'react-native';
 /** COMPONENTS */
@@ -16,24 +17,8 @@ import CItem from '~/components/CItem';
 import CText from '~/components/CText';
 import CAvatar from '~/components/CAvatar';
 /** COMMON */
-import {colors, cStyles} from '~/utils/style';
-import {useTranslation} from 'react-i18next';
-
-/** All init */
-const colorsItem = [
-  {
-    colors: [colors.YELLOW, '#373B44'],
-    bgColor: colors.BG_APPROVED,
-  },
-  {
-    colors: [colors.BLUE, '#373B44'],
-    bgColor: colors.BG_PROJECT,
-  },
-  {
-    colors: [colors.GREEN, '#373B44'],
-    bgColor: colors.BG_BOOKING,
-  },
-];
+import Configs from '~/config';
+import {cStyles} from '~/utils/style';
 
 function Dashboard(props) {
   const {t} = useTranslation();
@@ -134,8 +119,8 @@ function Dashboard(props) {
                     key={index.toString()}
                     index={index}
                     data={item}
-                    colors={colorsItem[index].colors}
-                    bgColor={colorsItem[index].bgColor}
+                    colors={Configs.colorsSubMenu.main[index].colors}
+                    bgColor={Configs.colorsSubMenu.main[index].bgColor}
                     onPress={handleItem}
                   />
                 );

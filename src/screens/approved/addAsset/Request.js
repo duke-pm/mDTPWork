@@ -5,6 +5,7 @@
  ** CreateAt: 2021
  ** Description: Description of Request.js
  **/
+import {fromJS} from 'immutable';
 import React, {createRef, useEffect, useState, useLayoutEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
@@ -152,6 +153,10 @@ function AddRequest(props) {
   const {customColors} = useTheme();
   const isDark = useColorScheme() === THEME_DARK;
   const {navigation, route} = props;
+  let requestParam = route.params?.data || -1;
+  if (requestParam === -1) {
+    requestParam = route.params?.requestID || -1;
+  }
 
   /** Use redux */
   const dispatch = useDispatch();
@@ -167,6 +172,7 @@ function AddRequest(props) {
   /** Use state */
   const [loading, setLoading] = useState({
     main: true,
+    startFetch: false,
     startFetchLogin: false,
     submitAdd: false,
     submitApproved: false,
@@ -175,6 +181,8 @@ function AddRequest(props) {
   const [showReject, setShowReject] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [isDetail] = useState(route.params?.data ? true : false);
+  const [requestDetail, setRequestDetail] = useState(null); // NOTE: just use for deep linking
+  const [currentProcess, setCurrentProcess] = useState(null); // NOTE: just use for deep linking
   const [process, setProcess] = useState([]);
   const [whereUse, setWhereUse] = useState(0);
   const [findWhereUse, setFindWhereUse] = useState('');
@@ -269,18 +277,18 @@ function AddRequest(props) {
     dispatch(Actions.resetAllApproved());
   };
 
-  const onPrepareDetail = () => {
+  const onPrepareDetail = (dataRequest, dataAssets, dataProcess) => {
     let tmp = {
-      id: isDetail ? route.params?.data?.requestID : '',
-      personRequestId: isDetail ? route.params?.data?.personRequestID : '',
-      dateRequest: isDetail
-        ? moment(route.params?.data?.requestDate, DEFAULT_FORMAT_DATE_4).format(
+      id: dataRequest ? dataRequest?.requestID : '',
+      personRequestId: dataRequest ? dataRequest?.personRequestID : '',
+      dateRequest: dataRequest
+        ? moment(dataRequest?.requestDate, DEFAULT_FORMAT_DATE_4).format(
             formatDate,
           )
         : Configs.toDay.format(formatDate),
-      name: isDetail ? route.params?.data?.personRequest : '',
-      department: isDetail ? route.params?.data?.deptCode : '',
-      region: isDetail ? route.params?.data?.regionCode : '',
+      name: dataRequest ? dataRequest?.personRequest : '',
+      department: dataRequest ? dataRequest?.deptCode : '',
+      region: dataRequest ? dataRequest?.regionCode : '',
       assets: {
         width: widthItemTable,
         header: [
@@ -292,21 +300,20 @@ function AddRequest(props) {
         ],
         data: [[null, '', '', '', '']],
       },
-      whereUse: isDetail ? route.params?.data?.locationCode : '',
-      reason: isDetail ? route.params?.data?.reason : '',
-      typeAssets: isDetail ? route.params?.data?.docType : 'N',
-      inPlanning: isDetail ? route.params?.data?.isBudget : false,
-      supplier: isDetail ? route.params?.data?.supplierName : '',
-      status: isDetail ? route.params?.data?.statusID : 1,
-      isAllowApproved: isDetail ? route.params?.data?.isAllowApproved : false,
+      whereUse: dataRequest ? dataRequest?.locationCode : '',
+      reason: dataRequest ? dataRequest?.reason : '',
+      typeAssets: dataRequest ? dataRequest?.docType : 'N',
+      inPlanning: dataRequest ? dataRequest?.isBudget : false,
+      supplier: dataRequest ? dataRequest?.supplierName : '',
+      status: dataRequest ? dataRequest?.statusID : 1,
+      isAllowApproved: dataRequest ? dataRequest?.isAllowApproved : false,
     };
-    if (route.params?.dataDetail) {
-      let arrayDetail = route.params?.dataDetail;
-      if (arrayDetail.length > 0) {
+    if (dataAssets) {
+      if (dataAssets.length > 0) {
         tmp.assets.data = [];
         let item = null,
           choosesRef = [];
-        for (item of arrayDetail) {
+        for (item of dataAssets) {
           tmp.assets.data.push([
             '',
             item.descr,
@@ -320,21 +327,21 @@ function AddRequest(props) {
         tmp.refsAssets = choosesRef;
       }
     }
-    if (route.params?.dataProcess) {
-      let arrayProcess = route.params?.dataProcess;
-      if (arrayProcess.length > 0) {
-        setProcess(arrayProcess);
-      }
+    if (dataProcess && dataProcess.length > 0) {
+      setProcess(dataProcess);
     }
     let data = masterState.get('department');
-    let find = data.findIndex(
-      f => f.deptCode === route.params?.data?.locationCode,
-    );
+    let find = data.findIndex(f => f.deptCode === dataRequest.locationCode);
     if (find !== -1) {
       setWhereUse(find);
     }
     setForm(tmp);
-    setLoading({...loading, main: false, startFetchLogin: false});
+    setLoading({
+      ...loading,
+      main: false,
+      startFetchLogin: false,
+      startFetch: false,
+    });
   };
 
   const onApproved = () => {
@@ -442,13 +449,31 @@ function AddRequest(props) {
     }
   };
 
+  const onFetchRequestDetail = requestID => {
+    let params = fromJS({
+      RequestID: requestID,
+      Lang: language,
+      RefreshToken: refreshToken,
+    });
+    dispatch(Actions.fetchRequestDetail(params, navigation));
+    return setLoading({...loading, startFetch: true});
+  };
+
+  const onCheckDeeplink = () => {
+    if (typeof requestParam === 'object' || requestParam === -1) {
+      onPrepareData();
+    } else {
+      onFetchRequestDetail(requestParam);
+    }
+  };
+
   /****************
    ** LIFE CYCLE **
    ****************/
   useEffect(() => {
     let isLogin = authState.get('successLogin');
     if (isLogin) {
-      onPrepareData();
+      onCheckDeeplink();
     } else {
       setLoading({...loading, startFetchLogin: true});
       onCheckLocalLogin();
@@ -459,7 +484,7 @@ function AddRequest(props) {
     if (loading.startFetchLogin) {
       if (!authState.get('submitting')) {
         if (authState.get('successLogin')) {
-          return onPrepareData();
+          return onCheckDeeplink();
         }
         if (authState.get('errorLogin')) {
           return onGoToSignIn();
@@ -474,22 +499,75 @@ function AddRequest(props) {
   ]);
 
   useEffect(() => {
-    if (loading.main) {
-      if (masterState.get('department').length > 0) {
-        setDataWhereUse(masterState.get('department'));
-        if (isDetail) {
-          onPrepareDetail();
-        } else {
-          let data = masterState.get('department');
-          let find = data.findIndex(f => f.deptCode === form.department);
-          if (find !== -1) {
-            setWhereUse(find);
-          }
-          setLoading({...loading, main: false, startFetchLogin: false});
+    if (loading.startFetch) {
+      if (!approvedState.get('submittingRequestDetail')) {
+        if (approvedState.get('successRequestDetail')) {
+          return onPrepareData();
+        }
+
+        if (approvedState.get('errorRequestDetail')) {
+          return onGoToSignIn();
         }
       }
     }
-  }, [loading.main, masterState.get('department')]);
+  }, [
+    loading.startFetch,
+    approvedState.get('submittingRequestDetail'),
+    approvedState.get('successRequestDetail'),
+    approvedState.get('errorRequestDetail'),
+  ]);
+
+  useEffect(() => {
+    if (loading.main) {
+      if (!masterState.get('submitting')) {
+        if (masterState.get('department').length > 0) {
+          setDataWhereUse(masterState.get('department'));
+          if (approvedState.get('requestDetail')) {
+            let statusIcon = Icons.request;
+            let statusColor = 'orange';
+            let tmp = approvedState.get('requestDetail');
+            if (tmp.statusID === Commons.STATUS_REQUEST.APPROVED.value) {
+              statusIcon = Icons.requestApproved_1;
+              statusColor = 'blue';
+            } else if (tmp.statusID === Commons.STATUS_REQUEST.REJECT.value) {
+              statusIcon = Icons.requestRejected;
+              statusColor = 'red';
+            } else if (tmp.statusID === Commons.STATUS_REQUEST.DONE.value) {
+              statusIcon = Icons.requestApproved_2;
+              statusColor = 'green';
+            }
+            setCurrentProcess({statusIcon, statusColor});
+            setRequestDetail(tmp);
+            onPrepareDetail(
+              approvedState.get('requestDetail'),
+              approvedState.get('requestAssetsDetail'),
+              approvedState.get('requestProcessDetail'),
+            );
+          } else {
+            if (isDetail) {
+              onPrepareDetail(
+                route.params?.data,
+                route.params?.dataDetail,
+                route.params?.dataProcess,
+              );
+            } else {
+              let data = masterState.get('department');
+              let find = data.findIndex(f => f.deptCode === form.department);
+              if (find !== -1) {
+                setWhereUse(find);
+              }
+              setLoading({...loading, main: false, startFetchLogin: false});
+            }
+          }
+        }
+      }
+    }
+  }, [
+    loading.main,
+    masterState.get('submitting'),
+    masterState.get('department'),
+    approvedState.get('requestDetail'),
+  ]);
 
   useEffect(() => {
     if (loading.submitAdd) {
@@ -599,14 +677,21 @@ function AddRequest(props) {
 
   useLayoutEffect(() => {
     let title = '';
-    if (!isDetail) {
+    if (!isDetail && !requestDetail) {
       title = t('add_approved_assets:title');
     } else {
-      title =
-        t('add_approved_assets:detail') + ' #' + route.params?.data?.requestID;
+      if (isDetail && !requestDetail) {
+        title =
+          t('add_approved_assets:detail') +
+          ' #' +
+          route.params?.data?.requestID;
+      }
+      if (!isDetail && requestDetail) {
+        title = t('add_approved_assets:detail') + ' #' + requestParam;
+      }
     }
     navigation.setOptions({title});
-  }, [navigation, isDetail]);
+  }, [navigation, isDetail, requestDetail]);
 
   /************
    ** RENDER **
@@ -617,6 +702,8 @@ function AddRequest(props) {
     <CContainer
       loading={
         loading.main ||
+        loading.startFetch ||
+        loading.startFetchLogin ||
         loading.submitAdd ||
         loading.submitApproved ||
         loading.submitReject
@@ -628,7 +715,7 @@ function AddRequest(props) {
       content={
         <KeyboardAwareScrollView>
           {/** Process of request */}
-          {isDetail && (
+          {isDetail && !currentProcess && (
             <Process
               data={process}
               isDark={isDark}
@@ -639,6 +726,21 @@ function AddRequest(props) {
               statusID={route.params.data.statusID}
             />
           )}
+
+          {!isDetail &&
+            currentProcess &&
+            typeof requestParam !== 'object' &&
+            requestParam !== -1 && (
+              <Process
+                data={process}
+                isDark={isDark}
+                customColors={customColors}
+                statusColor={currentProcess.statusColor}
+                statusName={requestDetail.statusName}
+                statusIcon={currentProcess.statusIcon}
+                statusID={requestDetail.statusID}
+              />
+            )}
 
           {/** User request */}
           <CGroupInfo
@@ -712,7 +814,10 @@ function AddRequest(props) {
                   <CLabel bold label={'add_approved_assets:where_use'} />
                   {RowSelect(
                     loading.main,
-                    loading.main || loading.submitAdd || isDetail,
+                    loading.main ||
+                      loading.submitAdd ||
+                      isDetail ||
+                      requestDetail,
                     isDark,
                     customColors,
                     masterState.get('department'),
@@ -734,7 +839,12 @@ function AddRequest(props) {
                   holder={'add_approved_assets:holder_reason'}
                   value={form.reason}
                   multiline
-                  disabled={loading.main || loading.submitAdd || isDetail}
+                  disabled={
+                    loading.main ||
+                    loading.submitAdd ||
+                    isDetail ||
+                    requestDetail
+                  }
                   onChangeInput={() => handleChangeInput(supplierRef)}
                   onChangeValue={handleChangeText}
                 />
@@ -754,7 +864,7 @@ function AddRequest(props) {
                   loading.submitReject
                 }
                 checking={loading.submitAdd}
-                isDetail={isDetail}
+                isDetail={isDetail || requestDetail}
                 assets={form.assets}
                 onCallbackValidate={onCallbackValidate}
               />
@@ -776,7 +886,12 @@ function AddRequest(props) {
                   holder={'add_approved_assets:holder_supplier'}
                   value={form.supplier}
                   returnKey={'done'}
-                  disabled={loading.main || loading.submitAdd || isDetail}
+                  disabled={
+                    loading.main ||
+                    loading.submitAdd ||
+                    isDetail ||
+                    requestDetail
+                  }
                   onChangeInput={onSendRequest}
                   onChangeValue={handleChangeText}
                 />
@@ -784,14 +899,14 @@ function AddRequest(props) {
                 {/** Type assets */}
                 <View
                   style={
-                    isDetail
+                    isDetail || requestDetail
                       ? [cStyles.justifyCenter, cStyles.mt16]
                       : cStyles.mt16
                   }>
                   <CLabel bold label={'add_approved_assets:type_assets'} />
                   <CheckOption
                     loading={loading.main || loading.submitAdd}
-                    isDetail={isDetail}
+                    isDetail={isDetail || requestDetail}
                     customColors={customColors}
                     primaryColor={customColors.yellow}
                     value={form.typeAssets}
@@ -803,14 +918,14 @@ function AddRequest(props) {
                 {/** In Planning */}
                 <View
                   style={
-                    isDetail
+                    isDetail || requestDetail
                       ? [cStyles.justifyCenter, cStyles.mt16]
                       : cStyles.mt16
                   }>
                   <CLabel bold label={'add_approved_assets:in_planning'} />
                   <CheckOption
                     loading={loading.main || loading.submitAdd}
-                    isDetail={isDetail}
+                    isDetail={isDetail || requestDetail}
                     customColors={customColors}
                     primaryColor={customColors.yellow}
                     value={form.inPlanning}
@@ -822,7 +937,7 @@ function AddRequest(props) {
             }
           />
 
-          {!isDetail && (
+          {!isDetail && !requestDetail && (
             <CActionSheet
               headerChoose
               actionRef={asDepartmentRef}
@@ -835,7 +950,7 @@ function AddRequest(props) {
                   returnKey={'search'}
                   icon={Icons.search}
                   value={findWhereUse}
-                  disabled={loading.main || loading.submitAdd || isDetail}
+                  disabled={loading.main || loading.submitAdd}
                   onChangeValue={onSearchFilter}
                 />
                 <Picker
@@ -893,7 +1008,10 @@ function AddRequest(props) {
         <FooterFormRequest
           loading={loading.main || loading.submitAdd}
           customColors={customColors}
-          isDetail={isDetail}
+          isDetail={
+            isDetail ||
+            (typeof requestParam !== 'object' && requestParam !== -1)
+          }
           isApprovedReject={isShowApprovedReject}
           onAdd={onSendRequest}
           onReject={handleReject}

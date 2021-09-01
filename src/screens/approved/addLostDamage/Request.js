@@ -5,6 +5,7 @@
  ** CreateAt: 2021
  ** Description: Description of RequestLostDamage.js
  **/
+import {fromJS} from 'immutable';
 import React, {createRef, useEffect, useState, useLayoutEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
@@ -169,6 +170,10 @@ function AddRequest(props) {
   const {customColors} = useTheme();
   const isDark = useColorScheme() === THEME_DARK;
   const {navigation, route} = props;
+  let requestParam = route.params?.data || -1;
+  if (requestParam === -1) {
+    requestParam = route.params?.requestID || -1;
+  }
 
   /** Use redux */
   const dispatch = useDispatch();
@@ -184,6 +189,7 @@ function AddRequest(props) {
   /** Use state */
   const [loading, setLoading] = useState({
     main: false,
+    startFetch: false,
     startFetchLogin: false,
     submitAdd: false,
     submitApproved: false,
@@ -192,6 +198,8 @@ function AddRequest(props) {
   const [showReject, setShowReject] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [isDetail] = useState(route.params?.data ? true : false);
+  const [requestDetail, setRequestDetail] = useState(null); // NOTE: just use for deep linking
+  const [currentProcess, setCurrentProcess] = useState(null); // NOTE: just use for deep linking
   const [assets, setAssets] = useState(0);
   const [findAssets, setFindAssets] = useState('');
   const [dataAssets, setDataAssets] = useState([]);
@@ -331,35 +339,37 @@ function AddRequest(props) {
     }
   };
 
-  const onPrepareDetail = () => {
+  const onPrepareDetail = (dataRequest, dataProcess) => {
     let tmp = {
-      id: isDetail ? route.params?.data?.requestID : '',
-      personRequestId: isDetail ? route.params?.data?.personRequestID : '',
-      name: isDetail ? route.params?.data?.personRequest : '',
-      dateRequest: isDetail
-        ? moment(route.params?.data?.requestDate, DEFAULT_FORMAT_DATE_4).format(
+      id: dataRequest ? dataRequest?.requestID : '',
+      personRequestId: dataRequest ? dataRequest?.personRequestID : '',
+      name: dataRequest ? dataRequest?.personRequest : '',
+      dateRequest: dataRequest
+        ? moment(dataRequest?.requestDate, DEFAULT_FORMAT_DATE_4).format(
             formatDate,
           )
         : Configs.toDay.format(formatDate),
-      department: isDetail ? route.params?.data?.deptCode : '',
-      region: isDetail ? route.params?.data?.regionCode : '',
-      assetID: isDetail ? route.params?.data?.assetID : '',
-      reason: isDetail ? route.params?.data?.reason : '',
-      typeUpdate: isDetail
-        ? route.params?.data?.requestTypeID
+      department: dataRequest ? dataRequest?.deptCode : '',
+      region: dataRequest ? dataRequest?.regionCode : '',
+      assetID: dataRequest ? dataRequest?.assetID : '',
+      reason: dataRequest ? dataRequest?.reason : '',
+      typeUpdate: dataRequest
+        ? dataRequest?.requestTypeID
         : Commons.APPROVED_TYPE.DAMAGED.value,
-      status: isDetail ? route.params?.data?.statusID : 1,
-      isAllowApproved: isDetail ? route.params?.data?.isAllowApproved : false,
-      file: isDetail ? route.params?.data?.attachFiles : null,
+      status: dataRequest ? dataRequest?.statusID : 1,
+      isAllowApproved: dataRequest ? dataRequest?.isAllowApproved : false,
+      file: dataRequest ? dataRequest?.attachFiles : null,
     };
-    if (route.params?.dataProcess) {
-      let arrayProcess = route.params?.dataProcess;
-      if (arrayProcess.length > 0) {
-        setProcess(arrayProcess);
-      }
+    if (dataProcess && dataProcess.length > 0) {
+      setProcess(dataProcess);
     }
     setForm(tmp);
-    setLoading({...loading, main: false, startFetchLogin: false});
+    setLoading({
+      ...loading,
+      main: false,
+      startFetchLogin: false,
+      startFetch: false,
+    });
   };
 
   const onApproved = () => {
@@ -435,6 +445,24 @@ function AddRequest(props) {
     }
   };
 
+  const onFetchRequestDetail = requestID => {
+    let params = fromJS({
+      RequestID: requestID,
+      Lang: language,
+      RefreshToken: refreshToken,
+    });
+    dispatch(Actions.fetchRequestDetail(params, navigation));
+    return setLoading({...loading, startFetch: true});
+  };
+
+  const onCheckDeeplink = () => {
+    if (typeof requestParam === 'object' || requestParam === -1) {
+      onPrepareData();
+    } else {
+      onFetchRequestDetail(requestParam);
+    }
+  };
+
   /****************
    ** LIFE CYCLE **
    ****************/
@@ -442,7 +470,7 @@ function AddRequest(props) {
     dispatch(Actions.resetStatusMasterData());
     let isLogin = authState.get('successLogin');
     if (isLogin) {
-      onPrepareData();
+      onCheckDeeplink();
     } else {
       setLoading({...loading, startFetchLogin: true});
       onCheckLocalLogin();
@@ -453,7 +481,7 @@ function AddRequest(props) {
     if (loading.startFetchLogin) {
       if (!authState.get('submitting')) {
         if (authState.get('successLogin')) {
-          return onPrepareData();
+          return onCheckDeeplink();
         }
         if (authState.get('errorLogin')) {
           return onGoToSignIn();
@@ -468,21 +496,63 @@ function AddRequest(props) {
   ]);
 
   useEffect(() => {
+    if (loading.startFetch) {
+      if (!approvedState.get('submittingRequestDetail')) {
+        if (approvedState.get('successRequestDetail')) {
+          return onPrepareData();
+        }
+
+        if (approvedState.get('errorRequestDetail')) {
+          return onGoToSignIn();
+        }
+      }
+    }
+  }, [
+    loading.startFetch,
+    approvedState.get('submittingRequestDetail'),
+    approvedState.get('successRequestDetail'),
+    approvedState.get('errorRequestDetail'),
+  ]);
+
+  useEffect(() => {
     if (loading.main) {
       if (!masterState.get('submitting')) {
         if (masterState.get('success')) {
-          if (isDetail) {
-            onPrepareDetail();
-          } else {
-            setDataAssets(masterState.get('assetByUser'));
-            let data = masterState.get('assetByUser');
-            if (data && data.length > 0) {
-              setForm({
-                ...form,
-                assetID: data[0][Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.value],
-              });
+          if (approvedState.get('requestDetail')) {
+            let statusIcon = Icons.request;
+            let statusColor = 'orange';
+            let tmp = approvedState.get('requestDetail');
+            if (tmp.statusID === Commons.STATUS_REQUEST.APPROVED.value) {
+              statusIcon = Icons.requestApproved_1;
+              statusColor = 'blue';
+            } else if (tmp.statusID === Commons.STATUS_REQUEST.REJECT.value) {
+              statusIcon = Icons.requestRejected;
+              statusColor = 'red';
+            } else if (tmp.statusID === Commons.STATUS_REQUEST.DONE.value) {
+              statusIcon = Icons.requestApproved_2;
+              statusColor = 'green';
             }
-            setLoading({...loading, main: false, startFetchLogin: false});
+            setCurrentProcess({statusIcon, statusColor});
+            setRequestDetail(tmp);
+            onPrepareDetail(
+              approvedState.get('requestDetail'),
+              approvedState.get('requestProcessDetail'),
+            );
+          } else {
+            if (isDetail) {
+              onPrepareDetail(route.params?.data, route.params?.dataProcess);
+            } else {
+              setDataAssets(masterState.get('assetByUser'));
+              let data = masterState.get('assetByUser');
+              if (data && data.length > 0) {
+                setForm({
+                  ...form,
+                  assetID:
+                    data[0][Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.value],
+                });
+              }
+              setLoading({...loading, main: false, startFetchLogin: false});
+            }
           }
         }
       }
@@ -491,6 +561,7 @@ function AddRequest(props) {
     loading.main,
     masterState.get('assetByUser'),
     masterState.get('submitting'),
+    approvedState.get('requestDetail'),
   ]);
 
   useEffect(() => {
@@ -599,28 +670,22 @@ function AddRequest(props) {
 
   useLayoutEffect(() => {
     let title = '';
-    if (!isDetail) {
-      if (form.typeUpdate === Commons.APPROVED_TYPE.DAMAGED.value) {
-        title = t('add_approved_lost_damaged:title_damage');
-      } else {
-        title = t('add_approved_lost_damaged:title_lost');
-      }
+    if (!isDetail && !requestDetail) {
+      title = t('add_approved_lost_damaged:title');
     } else {
+      let tmpID =
+        isDetail && !requestDetail
+          ? route.params?.data?.requestID
+          : requestParam;
       if (form.typeUpdate === Commons.APPROVED_TYPE.DAMAGED.value) {
-        title =
-          t('add_approved_lost_damaged:detail_damage') +
-          ' #' +
-          route.params?.data?.requestID;
+        title = t('add_approved_lost_damaged:detail_damage') + ' #' + tmpID;
       } else {
-        title =
-          t('add_approved_lost_damaged:detail_lost') +
-          ' #' +
-          route.params?.data?.requestID;
+        title = t('add_approved_lost_damaged:detail_lost') + ' #' + tmpID;
       }
     }
 
     navigation.setOptions({title});
-  }, [navigation, isDetail, form.typeUpdate]);
+  }, [navigation, isDetail, form.typeUpdate, requestDetail]);
 
   /************
    ** RENDER **
@@ -631,6 +696,8 @@ function AddRequest(props) {
     <CContainer
       loading={
         loading.main ||
+        loading.startFetch ||
+        loading.startFetchLogin ||
         loading.submitAdd ||
         loading.submitApproved ||
         loading.submitReject
@@ -642,7 +709,7 @@ function AddRequest(props) {
       content={
         <KeyboardAwareScrollView>
           {/** Process of request */}
-          {isDetail && (
+          {isDetail && !currentProcess && (
             <Process
               data={process}
               isDark={isDark}
@@ -653,6 +720,21 @@ function AddRequest(props) {
               statusID={route.params.data.statusID}
             />
           )}
+
+          {!isDetail &&
+            currentProcess &&
+            typeof requestParam !== 'object' &&
+            requestParam !== -1 && (
+              <Process
+                data={process}
+                isDark={isDark}
+                customColors={customColors}
+                statusColor={currentProcess.statusColor}
+                statusName={requestDetail.statusName}
+                statusIcon={currentProcess.statusIcon}
+                statusID={requestDetail.statusID}
+              />
+            )}
 
           {/** Date request */}
           <CGroupInfo
@@ -675,13 +757,16 @@ function AddRequest(props) {
             content={
               <>
                 {/** Assets */}
-                {!isDetail && (
+                {!isDetail && !requestDetail && (
                   <View>
                     <CLabel bold label={'add_approved_lost_damaged:assets'} />
                     {RowSelect(
                       t,
                       loading.main,
-                      loading.main || loading.submitAdd || isDetail,
+                      loading.main ||
+                        loading.submitAdd ||
+                        isDetail ||
+                        requestDetail,
                       error.assets.status,
                       isDark,
                       customColors,
@@ -696,7 +781,9 @@ function AddRequest(props) {
 
                 {/** Reason */}
                 <CInput
-                  containerStyle={!isDetail ? cStyles.mt16 : undefined}
+                  containerStyle={
+                    !isDetail && !requestDetail ? cStyles.mt16 : undefined
+                  }
                   style={[cStyles.itemsStart, styles.input_multiline]}
                   styleFocus={styles.input_focus}
                   name={INPUT_NAME.REASON}
@@ -707,7 +794,12 @@ function AddRequest(props) {
                   multiline
                   error={error.reason.status}
                   errorHelper={error.reason.helper}
-                  disabled={loading.main || loading.submitAdd || isDetail}
+                  disabled={
+                    loading.main ||
+                    loading.submitAdd ||
+                    isDetail ||
+                    requestDetail
+                  }
                   onChangeInput={Keyboard.dismiss}
                   onChangeValue={handleChangeText}
                 />
@@ -715,7 +807,7 @@ function AddRequest(props) {
                 {/** Type update */}
                 <View
                   style={
-                    isDetail
+                    isDetail || requestDetail
                       ? [cStyles.row, cStyles.itemsCenter, cStyles.mt16]
                       : cStyles.mt16
                   }>
@@ -726,7 +818,7 @@ function AddRequest(props) {
                   />
                   <CheckOption
                     loading={loading.main || loading.submitAdd}
-                    isDetail={isDetail}
+                    isDetail={isDetail || requestDetail}
                     customColors={customColors}
                     primaryColor={customColors.yellow}
                     value={form.typeUpdate}
@@ -739,11 +831,15 @@ function AddRequest(props) {
           />
 
           {/** Assets for detail */}
-          {isDetail && (
+          {(isDetail || requestDetail) && (
             <View style={[cStyles.itemsCenter, cStyles.pb16]}>
               <CCard
                 containerStyle={[cStyles.rounded2, styles.box]}
-                customLabel={route.params?.data?.assetName}
+                customLabel={
+                  isDetail
+                    ? route.params?.data?.assetName
+                    : requestDetail.assetName
+                }
                 content={
                   <>
                     <View
@@ -765,7 +861,9 @@ function AddRequest(props) {
                         />
                         <CLabel
                           customLabel={moment(
-                            route.params?.data?.purchaseDate,
+                            isDetail
+                              ? route.params?.data?.purchaseDate
+                              : requestDetail.purchaseDate,
                             DEFAULT_FORMAT_DATE_4,
                           ).format(formatDateView)}
                         />
@@ -780,7 +878,11 @@ function AddRequest(props) {
                           label={'add_approved_lost_damaged:type_asset'}
                         />
                         <CLabel
-                          customLabel={route.params?.data?.assetTypeName}
+                          customLabel={
+                            isDetail
+                              ? route.params?.data?.assetTypeName
+                              : requestDetail.assetTypeName
+                          }
                         />
                       </View>
                     </View>
@@ -803,7 +905,9 @@ function AddRequest(props) {
                         />
                         <CLabel
                           customLabel={checkEmpty(
-                            route.params?.data?.originalPrice,
+                            isDetail
+                              ? route.params?.data?.originalPrice
+                              : requestDetail.originalPrice,
                             null,
                             true,
                           )}
@@ -819,7 +923,11 @@ function AddRequest(props) {
                           label={'add_approved_lost_damaged:status_asset'}
                         />
                         <CLabel
-                          customLabel={route.params?.data?.assetStatusName}
+                          customLabel={
+                            isDetail
+                              ? route.params?.data?.assetStatusName
+                              : requestDetail.assetStatusName
+                          }
                         />
                       </View>
                     </View>
@@ -831,7 +939,9 @@ function AddRequest(props) {
                       />
                       <CLabel
                         customLabel={checkEmpty(
-                          route.params?.data?.descr,
+                          isDetail
+                            ? route.params?.data?.descr
+                            : requestDetail.descr,
                           t('common:empty_info'),
                         )}
                       />
@@ -843,7 +953,7 @@ function AddRequest(props) {
           )}
 
           {/** MODAL */}
-          {!isDetail && (
+          {!isDetail && !requestDetail && (
             <CActionSheet
               headerChoose
               actionRef={asAssetsRef}
@@ -856,7 +966,7 @@ function AddRequest(props) {
                     holder={'add_approved_lost_damaged:search_assets'}
                     value={findAssets}
                     returnKey={'search'}
-                    disabled={loading.main || loading.submitAdd || isDetail}
+                    disabled={loading.main || loading.submitAdd}
                     onChangeValue={onSearchFilter}
                   />
                 )}
@@ -923,7 +1033,7 @@ function AddRequest(props) {
         <FooterFormRequest
           loading={loading.main || loading.submitAdd}
           customColors={customColors}
-          isDetail={isDetail}
+          isDetail={isDetail || requestDetail}
           isApprovedReject={isShowApprovedReject}
           onAdd={onSendRequest}
           onReject={handleReject}

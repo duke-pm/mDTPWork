@@ -79,7 +79,7 @@ function BookingManagement(props) {
       content={
         <CContentSubMenu
           loading={loading}
-          animTypeImage={Animations.approvedHolder}
+          animTypeImage={Animations.bookingHolder}
           routes={routes}
           colorsItem={Configs.colorsSubMenu.booking}
           onPressItem={handleItem}

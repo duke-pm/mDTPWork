@@ -86,9 +86,7 @@ function ProjectDetail(props) {
   /*****************
    ** HANDLE FUNC **
    *****************/
-  const handleBack = () => {
-    resetRoute(navigation, Routes.ROOT_TAB.name);
-  };
+  const handleBack = () => resetRoute(navigation, Routes.ROOT_TAB.name);
 
   const handleSearch = value => {
     setData({...data, page: 1, search: value});
@@ -116,7 +114,12 @@ function ProjectDetail(props) {
     });
   };
 
-  const handleFilter = (year, activeOwner, activeStatus, activeSector) => {
+  const handleFilter = (
+    year = Configs.toDay.year(),
+    activeOwner = [],
+    activeStatus = [],
+    activeSector = [],
+  ) => {
     return setShowFilter({
       activeOwner,
       activeStatus,
@@ -266,7 +269,7 @@ function ProjectDetail(props) {
     return;
   };
 
-  const onLoadmore = () => {
+  const onLoadmoreTasks = () => {
     if (!loading.loadmore && loading.isLoadmore) {
       let newPage = data.page + 1;
       setData({...data, page: newPage});
@@ -506,7 +509,7 @@ function ProjectDetail(props) {
               loadmore={loading.loadmore}
               data={data.tasks}
               onRefreshTasks={onRefreshTasks}
-              onLoadmore={onLoadmore}
+              onLoadmore={onLoadmoreTasks}
             />
           )}
         </CContent>

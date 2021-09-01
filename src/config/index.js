@@ -8,6 +8,7 @@ import {LocaleConfig} from 'react-native-calendars';
 import moment from 'moment';
 /** COMMON */
 import {Assets} from '~/utils/asset';
+import {colors} from '~/utils/style';
 import {
   HOST_DEV,
   HOST_PROD,
@@ -16,7 +17,6 @@ import {
   PREFIXES_ANDROID,
   PREFIXES_ANDROID_PROD,
 } from './constants';
-import { colors } from '~/utils/style';
 
 LocaleConfig.locales['en-SG'] = {
   monthNames: [
@@ -56,7 +56,7 @@ LocaleConfig.locales['en-SG'] = {
     'Friday',
     'Saturday',
   ],
-  dayNamesShort: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
+  dayNamesShort: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
   today: 'Today',
 };
 
@@ -110,11 +110,16 @@ const Configs = {
     PREFIXES_IOS, // for iOS
   ],
   routePath: {
-    ChangePassword: 'ChangePassword/:tokenData', // Config params for route update new password
-    AddRequestAsset: 'AddRequestAsset/:requestID', // Config params for route Request Assets Detail
-    AddRequestLostDamage: 'AddRequestLostDamage/:requestID', // Config params for route Request Lost Damage Detail
-    ProjectDetail: 'ProjectDetail/:projectID', // Config params for route Project Detail
-    TaskDetail: 'TaskDetail/:taskID', // Config params for route Task Detail
+    // Config params for route update new password
+    ChangePassword: 'ChangePassword/:tokenData',
+    // Config params for route Request Assets Detail
+    AddRequestAsset: 'AddRequestAsset/:requestID',
+    // Config params for route Request Lost Damage Detail
+    AddRequestLostDamage: 'AddRequestLostDamage/:requestID',
+    // Config params for route Project Detail
+    ProjectDetail: 'ProjectDetail/:projectID',
+    // Config params for route Task Detail
+    TaskDetail: 'TaskDetail/:taskID',
   },
   // for name of app in account page
   nameOfApp: 'DTP-Education',
@@ -129,6 +134,7 @@ const Configs = {
   perPageProjectOverview: 50,
   // for dev new feature
   salesVisit: false,
+  toDay: moment(),
   // for link to socials
   socialsNetwork: [
     {
@@ -176,6 +182,20 @@ const Configs = {
     },
   ],
   colorsSubMenu: {
+    main: [
+      {
+        colors: [colors.YELLOW, '#373B44'],
+        bgColor: colors.BG_APPROVED,
+      },
+      {
+        colors: [colors.BLUE, '#373B44'],
+        bgColor: colors.BG_PROJECT,
+      },
+      {
+        colors: [colors.GREEN, '#373B44'],
+        bgColor: colors.BG_BOOKING,
+      },
+    ],
     approved: [
       {
         colors: [colors.YELLOW_2, '#373B44'],
@@ -207,7 +227,6 @@ const Configs = {
       },
     ],
   },
-  toDay: moment(),
 };
 
 export default Configs;

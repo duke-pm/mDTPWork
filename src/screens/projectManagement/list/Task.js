@@ -23,7 +23,7 @@ function ListTask(props) {
   const navigation = useNavigation();
   const isDark = useColorScheme() === THEME_DARK;
   const {customColors} = useTheme();
-  const {onLoadmore, onRefreshTasks} = props;
+  const {onLoadmore = undefined, onRefreshTasks = undefined} = props;
 
   /*****************
    ** HANDLE FUNC **

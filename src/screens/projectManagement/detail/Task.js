@@ -37,6 +37,7 @@ import CUser from '~/components/CUser';
 import CReadMore from '~/components/CReadMore';
 import CTouchable from '~/components/CTouchable';
 import CIcon from '~/components/CIcon';
+import CLoading from '~/components/CLoading';
 import Status from '../components/Status';
 import Percentage from '../components/Percentage';
 import FileAttach from '../components/FileAttach';
@@ -67,7 +68,6 @@ import {
 } from '~/utils/helper';
 /** REDUX */
 import * as Actions from '~/redux/actions';
-import CLoading from '~/components/CLoading';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -216,19 +216,14 @@ function Task(props) {
     }
     return navigation.navigate(
       Routes.MAIN.TASK_DETAIL.childrens.TASK_ACTIVITIES.name,
-      {
-        data: {taskID},
-      },
+      {data: {taskID}},
     );
   };
 
   const handleWatchers = () => {
     return navigation.navigate(
       Routes.MAIN.TASK_DETAIL.childrens.TASK_WATCHERS.name,
-      {
-        data: {taskID},
-        onRefresh: onRefreshWatcher,
-      },
+      {data: {taskID}, onRefresh: onRefreshWatcher},
     );
   };
 

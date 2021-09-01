@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 /* eslint-disable react-hooks/exhaustive-deps */
 /**
  ** Name: Project screen
@@ -24,9 +25,9 @@ import Routes from '~/navigation/Routes';
 import {LOAD_MORE, REFRESH} from '~/config/constants';
 import {IS_ANDROID} from '~/utils/helper';
 import {usePrevious} from '~/utils/hook';
+import {colors} from '~/utils/style';
 /** REDUX */
 import * as Actions from '~/redux/actions';
-import { colors } from '~/utils/style';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -104,7 +105,11 @@ function Project(props) {
     });
   };
 
-  const handleFilter = (year, activeOwner, activeStatus, activeSector) => {
+  const handleFilter = (
+    year = Configs.toDay.year(),
+    activeOwner = [],
+    activeStatus = [],
+  ) => {
     if (year !== data.year) {
       setData({...data, year});
     }
@@ -155,16 +160,14 @@ function Project(props) {
     });
     dispatch(Actions.fetchListProject(params, navigation));
     if (
-      (statusID !== null ||
-        ownerID !== null ||
-        year !== Configs.toDay.year()) &&
+      (statusID !== null || ownerID !== null || year != Configs.toDay.year()) &&
       !isFiltering
     ) {
       setIsFiltering(true);
     } else if (
       statusID === null &&
       ownerID === null &&
-      year === Configs.toDay.year() &&
+      year == Configs.toDay.year() &&
       isFiltering
     ) {
       setIsFiltering(false);
@@ -211,7 +214,7 @@ function Project(props) {
     });
   };
 
-  const onRefresh = () => {
+  const onRefreshProjects = () => {
     if (!loading.refreshing) {
       setData({...data, page: 1});
       onFetchData(
@@ -226,7 +229,7 @@ function Project(props) {
     }
   };
 
-  const onLoadmore = () => {
+  const onLoadmoreProjects = () => {
     if (!loading.loadmore && loading.isLoadmore) {
       let newPage = data.page + 1;
       setData({...data, page: newPage});
@@ -369,8 +372,8 @@ function Project(props) {
               data={data.projects}
               loadmore={loading.loadmore}
               refreshing={loading.refreshing}
-              onLoadmore={onLoadmore}
-              onRefresh={onRefresh}
+              onRefresh={onRefreshProjects}
+              onLoadmore={onLoadmoreProjects}
             />
           )}
         </CContent>

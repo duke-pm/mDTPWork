@@ -16,6 +16,7 @@ export const initialState = fromJS({
   submittingAdd: false,
   submittingApproved: false,
   submittingReject: false,
+  submittingRequestDetail: false,
 
   countRequests: 0,
   requests: [],
@@ -40,6 +41,14 @@ export const initialState = fromJS({
   successListRequestLost: false,
   errorListRequestLost: false,
   errorHelperListRequestLost: '',
+
+  requestDetail: null,
+  requestAssetsDetail: null,
+  requestProcessDetail: null,
+
+  successRequestDetail: false,
+  errorRequestDetail: false,
+  errorHelperRequestDetail: '',
 
   successAddRequest: false,
   errorAddRequest: false,
@@ -78,7 +87,8 @@ export default function (state = initialState, action = {}) {
         .set('submittingList', true)
         .set('successListRequest', false)
         .set('errorListRequest', false)
-        .set('errorHelperListRequest', '');
+        .set('errorHelperListRequest', '')
+        .set('requestDetail', null);
 
     case types.SUCCESS_FETCH_LIST_REQUEST_APPROVED:
       return state
@@ -105,7 +115,8 @@ export default function (state = initialState, action = {}) {
         .set('submittingListDamage', true)
         .set('successListRequestDamage', false)
         .set('errorListRequestDamage', false)
-        .set('errorHelperListRequestDamage', '');
+        .set('errorHelperListRequestDamage', '')
+        .set('requestDetail', null);
 
     case types.SUCCESS_FETCH_LIST_REQUEST_DAMAGE:
       return state
@@ -132,7 +143,8 @@ export default function (state = initialState, action = {}) {
         .set('submittingListLost', true)
         .set('successListRequestLost', false)
         .set('errorListRequestLost', false)
-        .set('errorHelperListRequestLost', '');
+        .set('errorHelperListRequestLost', '')
+        .set('requestDetail', null);
 
     case types.SUCCESS_FETCH_LIST_REQUEST_LOST:
       return state
@@ -152,6 +164,32 @@ export default function (state = initialState, action = {}) {
         .set('errorListRequestLost', true)
         .set('errorHelperListRequestLost', payload);
     /*****************************/
+
+    /** For request detail **/
+    case types.START_FETCH_REQUEST_DETAIL:
+      return state
+        .set('submittingRequestDetail', true)
+        .set('successRequestDetail', false)
+        .set('errorRequestDetail', false)
+        .set('errorHelperRequestDetail', '')
+        .set('requestDetail', null);
+
+    case types.SUCCESS_FETCH_REQUEST_DETAIL:
+      return state
+        .set('submittingRequestDetail', false)
+        .set('successRequestDetail', true)
+        .set('errorRequestDetail', false)
+        .set('errorHelperRequestDetail', '')
+        .set('requestDetail', payload.listRequest[0] || null)
+        .set('requestAssetsDetail', payload.listRequestDetail)
+        .set('requestProcessDetail', payload.listProcessApprove);
+
+    case types.ERROR_FETCH_REQUEST_DETAIL:
+      return state
+        .set('submittingRequestDetail', false)
+        .set('successRequestDetail', false)
+        .set('errorRequestDetail', true)
+        .set('errorHelperRequestDetail', payload);
 
     /** For add request **/
     case types.START_FETCH_ADD_REQUEST_APPROVED:

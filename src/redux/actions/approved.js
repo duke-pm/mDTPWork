@@ -73,6 +73,50 @@ export const fetchListRequestApproved = (params, navigation) => {
 };
 /*****************************/
 
+/** For get request detail */
+export const requestDetailError = error => ({
+  type: types.ERROR_FETCH_REQUEST_DETAIL,
+  payload: error,
+});
+
+export const requestDetailSuccess = data => ({
+  type: types.SUCCESS_FETCH_REQUEST_DETAIL,
+  payload: data,
+});
+
+export const fetchRequestDetail = (params, navigation) => {
+  return dispatch => {
+    dispatch({type: types.START_FETCH_REQUEST_DETAIL});
+
+    Services.approved
+      .requestDetail(params)
+      .then(res => {
+        if (!res.isError) {
+          return dispatch(requestDetailSuccess(res.data));
+        } else {
+          return dispatch(requestDetailError(res.errorMessage));
+        }
+      })
+      .catch(error => {
+        dispatch(requestDetailError(error));
+        if (error.message && error.message.search('Authorization') !== -1) {
+          let tmp = {
+            RefreshToken: params.get('RefreshToken'),
+            Lang: params.get('Lang'),
+          };
+          return dispatch(
+            Actions.fetchRefreshToken(
+              tmp,
+              () => fetchRequestDetail(params),
+              navigation,
+            ),
+          );
+        }
+      });
+  };
+};
+/*****************************/
+
 /** For get list request damage */
 export const listRequestDamageError = error => ({
   type: types.ERROR_FETCH_LIST_REQUEST_DAMAGE,

@@ -11,8 +11,8 @@ import {useSelector} from 'react-redux';
 import CContainer from '~/components/CContainer';
 import CContentSubMenu from '~/components/CContentSubMenu';
 /** COMMON */
-import {Animations} from '~/utils/asset';
 import Configs from '~/config';
+import {Animations} from '~/utils/asset';
 import {colors} from '~/utils/style';
 
 function ProjectManagement(props) {
@@ -79,7 +79,7 @@ function ProjectManagement(props) {
       content={
         <CContentSubMenu
           loading={loading}
-          animTypeImage={Animations.approvedHolder}
+          animTypeImage={Animations.projectHolder}
           routes={routes}
           colorsItem={Configs.colorsSubMenu.project}
           onPressItem={handleItem}

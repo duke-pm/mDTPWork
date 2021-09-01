@@ -48,15 +48,9 @@ function ListProject(props) {
   /*****************
    ** HANDLE FUNC **
    *****************/
-  const handleItem = data => {
-    navigation.navigate(Routes.MAIN.PROJECT_DETAIL.name, {
-      data: {
-        projectID: data.prjID,
-        projectName: data.prjName,
-        projectStatus: data.statusName,
-      },
-    });
-  };
+  const handleCloseModalDetail = () => setShowModalDetail(false);
+
+  const handleCloseModalPlan = () => setShowModalProjectPlan(false);
 
   const handleHeaderItem = project => {
     setShowModalDetail(true);
@@ -68,12 +62,14 @@ function ListProject(props) {
     setChooseProject(project);
   };
 
-  const handleCloseModalDetail = () => {
-    setShowModalDetail(false);
-  };
-
-  const handleCloseModalPlan = () => {
-    setShowModalProjectPlan(false);
+  const handleItem = data => {
+    navigation.navigate(Routes.MAIN.PROJECT_DETAIL.name, {
+      data: {
+        projectID: data.prjID,
+        projectName: data.prjName,
+        projectStatus: data.statusName,
+      },
+    });
   };
 
   /**********

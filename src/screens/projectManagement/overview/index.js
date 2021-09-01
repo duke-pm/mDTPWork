@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 /* eslint-disable react-hooks/exhaustive-deps */
 /**
  ** Name: ProjectOverview
@@ -19,7 +20,7 @@ import moment from 'moment';
 import CText from '~/components/CText';
 import CIconHeader from '~/components/CIconHeader';
 import CDateTimePicker from '~/components/CDateTimePicker';
-import CActivityIndicator from '~/components/CActivityIndicator';
+import CLoading from '~/components/CLoading';
 import BodyPreview from '../components/BodyPreview';
 /** COMMON */
 import Configs from '~/config';
@@ -36,7 +37,6 @@ import {
 } from '~/config/constants';
 /** REDUX */
 import * as Actions from '~/redux/actions';
-import CLoading from '~/components/CLoading';
 
 const DATA_HEADER = [
   {
@@ -71,12 +71,98 @@ const DATA_HEADER = [
   },
 ];
 
+const FormatCell = ({isDark = false, customColors = {}, value = ''}) => {
+  return (
+    <View
+      key={value}
+      style={[
+        cStyles.center,
+        cStyles.px6,
+        cStyles.borderLeft,
+        cStyles.borderBottom,
+        isDark && cStyles.borderLeftDark,
+        isDark && cStyles.borderBottomDark,
+        styles.cell,
+        {backgroundColor: customColors.teal},
+      ]}>
+      <CText
+        customStyles={[
+          cStyles.textCenter,
+          cStyles.textCaption1,
+          cStyles.fontBold,
+          {color: colors.WHITE},
+        ]}
+        numberOfLines={1}
+        customLabel={value}
+      />
+    </View>
+  );
+};
+
+const FormatHeader = ({
+  headerScroll = undefined,
+  isDark = false,
+  customColors = {},
+}) => {
+  let cols = [],
+    item;
+  for (item of DATA_HEADER) {
+    cols.push(
+      <FormatCell
+        isDark={isDark}
+        customColors={customColors}
+        value={item.name}
+      />,
+    );
+  }
+  return (
+    <View style={cStyles.row}>
+      <View
+        style={[
+          cStyles.abs,
+          cStyles.center,
+          cStyles.borderLeft,
+          cStyles.borderBottom,
+          isDark && cStyles.borderLeftDark,
+          isDark && cStyles.borderBottomDark,
+          styles.first_cell,
+          {backgroundColor: customColors.teal},
+        ]}>
+        <CText
+          customStyles={[
+            cStyles.textCenter,
+            cStyles.textCaption1,
+            cStyles.fontBold,
+            {color: colors.WHITE},
+          ]}
+          numberOfLines={1}
+          label={'project_overview:task_name'}
+        />
+      </View>
+      <ScrollView
+        ref={headerScroll}
+        contentContainerStyle={styles.row_header}
+        horizontal
+        scrollEnabled={false}
+        scrollEventThrottle={16}
+        removeClippedSubviews={IS_ANDROID}
+        showsHorizontalScrollIndicator={false}>
+        {cols}
+      </ScrollView>
+    </View>
+  );
+};
+
 function ProjectOverview(props) {
   const {t} = useTranslation();
-  const isDark = useTheme() === THEME_DARK;
   const {customColors} = useTheme();
+  const isDark = useTheme() === THEME_DARK;
   const {navigation} = props;
 
+  /** Use ref */
+  let headerScroll = useRef(null);
+
+  /** Use redux */
   const dispatch = useDispatch();
   const projectState = useSelector(({projectManagement}) => projectManagement);
   const commonState = useSelector(({common}) => common);
@@ -87,10 +173,7 @@ function ProjectOverview(props) {
   const refreshToken = authState.getIn(['login', 'refreshToken']);
   const perPageMaster = Configs.perPageProjectOverview;
 
-  /** All ref for page */
-  let headerScroll = useRef(null);
-
-  /** All state for page */
+  /** Use state */
   const [isFiltering, setIsFiltering] = useState(false);
   const [loading, setLoading] = useState({
     startFetch: false,
@@ -122,6 +205,7 @@ function ProjectOverview(props) {
     page: 1,
   });
 
+  /** Use prev */
   let prevShowFilter = usePrevious(showFilter);
   let prevYear = usePrevious(params.year);
   let prevFromDate = usePrevious(params.fromDate);
@@ -142,12 +226,12 @@ function ProjectOverview(props) {
   };
 
   const handleFilter = (
-    year,
-    fromDate,
-    toDate,
-    activeOwner,
-    activeStatus,
-    activeSector,
+    year = Configs.toDay.year(),
+    fromDate = '',
+    toDate = '',
+    activeOwner = [],
+    activeStatus = [],
+    activeSector = [],
   ) => {
     setParams({
       ...params,
@@ -161,9 +245,7 @@ function ProjectOverview(props) {
   /**********
    ** FUNC **
    **********/
-  const formatRowForSheet = section => {
-    return section.item.render;
-  };
+  const formatRowForSheet = section => section.item.render;
 
   const onChangeDateRequest = (newDate, show) => {
     setShowPicker({...showPicker, status: show});
@@ -175,7 +257,7 @@ function ProjectOverview(props) {
     }
   };
 
-  const onRecursiveData = (currentData, newData) => {
+  const onRecursiveData = (currentData = [], newData = []) => {
     if (currentData.length > 0) {
       if (newData.length > 0) {
         let endData = currentData;
@@ -241,7 +323,7 @@ function ProjectOverview(props) {
       (ownerID !== null ||
         statusID !== null ||
         sectorID !== null ||
-        year !== Number(Configs.toDay.format('YYYY'))) &&
+        year != Configs.toDay.year()) &&
       !isFiltering
     ) {
       setIsFiltering(true);
@@ -249,7 +331,7 @@ function ProjectOverview(props) {
       ownerID === null &&
       statusID === null &&
       sectorID === null &&
-      year === Number(Configs.toDay.format('YYYY')) &&
+      year == Configs.toDay.year() &&
       isFiltering
     ) {
       setIsFiltering(false);
@@ -257,10 +339,11 @@ function ProjectOverview(props) {
   };
 
   const onPrepareData = () => {
-    let isLoadmore = true;
     let tmpRender = [],
-      tmpOverview = [];
-    /** Prepare data overview */
+      tmpOverview = [],
+      isLoadmore = true;
+
+    // Prepare data overview
     let overview = projectState.get('overview');
     let pagesOverview = projectState.get('pagesOverview');
 
@@ -268,6 +351,7 @@ function ProjectOverview(props) {
     if (params.page >= pagesOverview) {
       isLoadmore = false;
     }
+
     tmpOverview = onRecursiveData(data.overview, overview);
     if (isLoadmore) {
       let newPage = params.page + 1;
@@ -342,7 +426,7 @@ function ProjectOverview(props) {
    ** LIFE CYCLE **
    ****************/
   useEffect(() => {
-    /** Force to Horizontal to see many fields */
+    /** Force to Horizontal to see more fields */
     Orientation.lockToLandscapeLeft();
 
     /** Prepare data body */
@@ -373,7 +457,7 @@ function ProjectOverview(props) {
     loading.loadmore,
     projectState.get('submittingOverview'),
     projectState.get('successOverview'),
-    projectState.get('overview'),
+    projectState.get('errorOverview'),
   ]);
 
   useEffect(() => {
@@ -414,7 +498,7 @@ function ProjectOverview(props) {
             1,
           );
           setLoading({...loading, startFetch: true});
-          setParams({
+          return setParams({
             ...params,
             ownerID: tmp.ownerID,
             statusID: tmp.statusID,
@@ -458,81 +542,14 @@ function ProjectOverview(props) {
   /************
    ** RENDER **
    ************/
-  const formatCell = (align = 'center', value = '') => {
-    return (
-      <View
-        key={value}
-        style={[
-          cStyles.center,
-          cStyles[align],
-          cStyles.px6,
-          cStyles.borderLeft,
-          cStyles.borderBottom,
-          isDark && cStyles.borderLeftDark,
-          isDark && cStyles.borderBottomDark,
-          styles.cell,
-          {backgroundColor: customColors.teal},
-        ]}>
-        <CText
-          customStyles={[
-            cStyles.textCenter,
-            cStyles.textCaption1,
-            cStyles.fontBold,
-            {color: colors.WHITE},
-          ]}
-          numberOfLines={1}
-          customLabel={value}
-        />
-      </View>
-    );
-  };
-  const formatHeader = () => {
-    let cols = [],
-      item;
-    for (item of DATA_HEADER) {
-      cols.push(formatCell('center', item.name));
-    }
-    return (
-      <View style={cStyles.row}>
-        <View
-          style={[
-            cStyles.abs,
-            cStyles.center,
-            cStyles.borderLeft,
-            cStyles.borderBottom,
-            isDark && cStyles.borderLeftDark,
-            isDark && cStyles.borderBottomDark,
-            styles.first_cell,
-            {backgroundColor: customColors.teal},
-          ]}>
-          <CText
-            customStyles={[
-              cStyles.textCenter,
-              cStyles.textCaption1,
-              cStyles.fontBold,
-              {color: colors.WHITE},
-            ]}
-            numberOfLines={1}
-            label={'project_overview:task_name'}
-          />
-        </View>
-        <ScrollView
-          ref={headerScroll}
-          contentContainerStyle={styles.row_header}
-          horizontal
-          scrollEnabled={false}
-          scrollEventThrottle={16}
-          removeClippedSubviews={IS_ANDROID}
-          showsHorizontalScrollIndicator={false}>
-          {cols}
-        </ScrollView>
-      </View>
-    );
-  };
   return (
     <SafeAreaView style={cStyles.flex1} edges={['left', 'bottom']}>
       <View style={cStyles.flex1}>
-        {formatHeader()}
+        <FormatHeader
+          isDark={isDark}
+          customColors={customColors}
+          headerScroll={headerScroll}
+        />
 
         {!loading.startFetch && (
           <FlatList

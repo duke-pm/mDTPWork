@@ -1,5 +1,5 @@
 /**
- ** Name:CContentSubMenu
+ ** Name: CContentSubMenu
  ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of CContentSubMenu.js
@@ -104,4 +104,4 @@ CContentSubMenu.propTypes = {
   onPressItem: PropTypes.func,
 };
 
-export default CContentSubMenu;
+export default React.memo(CContentSubMenu);

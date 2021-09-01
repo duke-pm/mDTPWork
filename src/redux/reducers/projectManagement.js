@@ -106,16 +106,6 @@ export default function (state = initialState, action = {}) {
         .set('errorHelperListTask', payload);
 
     /** For task detail **/
-    case types.RESET_TASK_DETAIL:
-      return state
-        .set('submittingTaskDetail', false)
-        .set('taskDetail', null)
-        .set('activities', [])
-        .set('watchers', [])
-        .set('successTaskDetail', false)
-        .set('errorTaskDetail', false)
-        .set('errorHelperTaskDetail', '');
-
     case types.START_FETCH_TASK_DETAIL:
       return state
         .set('submittingTaskDetail', true)
