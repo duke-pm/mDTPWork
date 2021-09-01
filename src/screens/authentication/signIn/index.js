@@ -19,7 +19,6 @@ import {
   Keyboard,
   UIManager,
   LayoutAnimation,
-  Alert,
   Animated,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
@@ -34,11 +33,11 @@ import CButton from '~/components/CButton';
 import CAvoidKeyboard from '~/components/CAvoidKeyboard';
 /* COMMON */
 import Routes from '~/navigation/Routes';
-import FieldsAuth from '~/config/fieldsAuth';
 import Icons from '~/utils/common/Icons';
+import FieldsAuth from '~/config/fieldsAuth';
 import {Assets} from '~/utils/asset';
-import {LOGIN, LANGUAGE, BIOMETRICS, FAST_LOGIN} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
+import {LOGIN, LANGUAGE, BIOMETRICS, FAST_LOGIN} from '~/config/constants';
 import {
   getLocalInfo,
   getSecretInfo,
@@ -60,10 +59,13 @@ if (IS_ANDROID) {
 }
 const AnimImage = Animated.createAnimatedComponent(FastImage);
 
+/** All init */
 const INPUT_NAME = {
   USER_NAME: 'userName',
   PASSWORD: 'password',
 };
+
+/** All refs */
 let userNameRef = createRef();
 let passwordRef = createRef();
 
@@ -72,6 +74,7 @@ function SignIn(props) {
   const {customColors} = useTheme();
   const {navigation} = props;
 
+  /** Use ref */
   let animSizeImage = useRef(new Animated.Value(0)).current;
 
   /** Use redux */
@@ -104,6 +107,14 @@ function SignIn(props) {
   /*****************
    ** HANDLE FUNC **
    *****************/
+  const handleChangeInput = () => passwordRef.current.focus();
+
+  const handleSaveAccount = () =>
+    setForm({...form, saveAccount: !form.saveAccount});
+
+  const handleForgotPassword = () =>
+    navigation.navigate(Routes.AUTHENTICATION.FORGOT_PASSWORD.name);
+
   const handleAuth = () => {
     TouchID.isSupported()
       .then(biometryType => {
@@ -116,13 +127,7 @@ function SignIn(props) {
         }
       })
       .catch(e => {
-        console.log('[LOG] === Error ===> ', e);
-        Alert.alert(
-          t('error:title'),
-          t('error:cannot_auth_with_biometrics'),
-          [{style: 'cancel', onPress: () => null}],
-          {cancelable: true},
-        );
+        alert(t('error:cannot_auth_with_biometrics'));
       });
   };
 
@@ -140,18 +145,6 @@ function SignIn(props) {
         setError({...error, password: false});
       }
     }
-  };
-
-  const handleChangeInput = () => {
-    passwordRef.current.focus();
-  };
-
-  const handleForgotPassword = () => {
-    navigation.navigate(Routes.AUTHENTICATION.FORGOT_PASSWORD.name);
-  };
-
-  const handleSaveAccount = () => {
-    setForm({...form, saveAccount: !form.saveAccount});
   };
 
   const handleSignIn = () => {
@@ -196,7 +189,7 @@ function SignIn(props) {
           dispatch(Actions.fetchLogin(params));
         }
       })
-      .catch(error => {
+      .catch(e => {
         alert(t('sign_in:error_login'));
       });
   };
@@ -287,6 +280,7 @@ function SignIn(props) {
       }
       dispatch(Actions.loginSuccess(tmpDataLogin));
     } else {
+      console.log('[LOG] === SignIn Server === ');
       /** Check biometrics */
       let dataFastLogin = await getSecretInfo(FAST_LOGIN);
       let isBio = await getLocalInfo(BIOMETRICS);
@@ -301,13 +295,11 @@ function SignIn(props) {
           status: true,
         });
       }
-
-      console.log('[LOG] === SignIn Server === ');
       setLoading({main: false, submit: false});
     }
   };
 
-  const onKeyboardShow = event => {
+  const onKeyboardShow = e => {
     Animated.timing(animSizeImage, {
       duration: 300,
       toValue: 1,
@@ -315,7 +307,7 @@ function SignIn(props) {
     }).start();
   };
 
-  const onKeyboardHide = event => {
+  const onKeyboardHide = e => {
     Animated.timing(animSizeImage, {
       duration: 300,
       toValue: 0,
@@ -458,7 +450,7 @@ function SignIn(props) {
                         cStyles.row,
                         cStyles.itemsCenter,
                         cStyles.justifyBetween,
-                        {paddingVertical: verticalScale(4)},
+                        styles.bottom,
                       ]}>
                       <CCheckbox
                         textStyle={cStyles.textBody}
@@ -503,6 +495,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: moderateScale(14),
   },
   logo: {height: moderateScale(180), width: moderateScale(250)},
+  bottom: {paddingVertical: verticalScale(4)},
 });
 
 export default SignIn;

@@ -45,6 +45,7 @@ if (IS_ANDROID) {
   }
 }
 
+/** All init */
 const sizeLargeIcon = moderateScale(80);
 const INPUT_NAME = {NEW_PASSWORD: 'password'};
 
@@ -77,9 +78,11 @@ function ChangePassword(props) {
   /*****************
    ** HANDLE FUNC **
    *****************/
+  const handleGoBack = () =>
+    resetRoute(navigation, Routes.AUTHENTICATION.SIGN_IN.name);
+
   const handleSend = () => {
     let isValid = onCheckValid();
-    console.log('[LOG] ===  ===> ', isValid);
     if (isValid) {
       onSubmit();
     }
@@ -91,10 +94,6 @@ function ChangePassword(props) {
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
       setError({...error, password: false});
     }
-  };
-
-  const handleGoBack = () => {
-    resetRoute(navigation, Routes.AUTHENTICATION.SIGN_IN.name);
   };
 
   /**********
@@ -211,10 +210,7 @@ function ChangePassword(props) {
    ************/
   return (
     <CContainer
-      safeArea={{
-        top: false,
-        bottom: false,
-      }}
+      safeArea={{top: false, bottom: false}}
       loading={loading.check || loading.update}
       title={'forgot_password:title'}
       content={

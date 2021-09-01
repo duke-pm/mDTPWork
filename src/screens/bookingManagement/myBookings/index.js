@@ -132,6 +132,8 @@ function MyBookings(props) {
   /**********
    ** FUNC **
    **********/
+  const onDateChanged = newDate => setDate({currentDate: newDate});
+
   const onFetchData = () => {
     let params = {};
 
@@ -199,10 +201,6 @@ function MyBookings(props) {
       a.getMonth() === b.getMonth() &&
       a.getDate() === b.getDate()
     );
-  };
-
-  const onDateChanged = date => {
-    setDate({currentDate: date});
   };
 
   /****************

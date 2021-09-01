@@ -45,6 +45,7 @@ if (IS_ANDROID) {
   }
 }
 
+/** All init */
 const sizeLargeIcon = moderateScale(80);
 const INPUT_NAME = {EMAIL: 'email'};
 
@@ -72,6 +73,8 @@ function ForgotPassword(props) {
   /*****************
    ** HANDLE FUNC **
    *****************/
+  const handleGoBack = () => navigation.goBack();
+
   const handleSend = () => {
     let isValid = onCheckValid();
     if (isValid) {
@@ -85,10 +88,6 @@ function ForgotPassword(props) {
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
       setError({...error, email: false});
     }
-  };
-
-  const handleGoBack = () => {
-    navigation.goBack();
   };
 
   /**********
@@ -129,10 +128,7 @@ function ForgotPassword(props) {
   };
 
   const onCompleteSend = (status, message) => {
-    setForm({
-      email: form.email,
-      success: status,
-    });
+    setForm({email: form.email, success: status});
     !status &&
       showMessage({
         message: t('common:app_name'),
@@ -175,10 +171,7 @@ function ForgotPassword(props) {
    ************/
   return (
     <CContainer
-      safeArea={{
-        top: false,
-        bottom: false,
-      }}
+      safeArea={{top: false, bottom: false}}
       loading={loading}
       title={'forgot_password:title'}
       content={

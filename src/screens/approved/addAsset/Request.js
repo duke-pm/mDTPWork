@@ -51,56 +51,60 @@ import {
 /* REDUX */
 import * as Actions from '~/redux/actions';
 
-const RowSelect = (
-  loading = false,
-  disabled = false,
-  isDark = false,
-  customColors = {},
-  data = [],
-  activeIndex = -1,
-  keyToShow = '',
-  keyToCompare = '',
-  onPress = () => null,
-) => {
-  let findRow = null;
-  if (data && data.length > 0) {
-    findRow = data.find(f => f[keyToCompare] === activeIndex);
-  }
-  return (
-    <CTouchable
-      containerStyle={cStyles.mt6}
-      disabled={disabled}
-      onPress={onPress}>
-      <View
-        style={[
-          cStyles.row,
-          cStyles.itemsCenter,
-          cStyles.justifyBetween,
-          cStyles.px10,
-          cStyles.rounded1,
-          cStyles.borderAll,
-          isDark && cStyles.borderAllDark,
-          disabled && {backgroundColor: customColors.cardDisable},
-          styles.row_select,
-        ]}>
-        {!loading ? (
-          <CText customLabel={findRow ? checkEmpty(findRow[keyToShow]) : '-'} />
-        ) : (
-          <CActivityIndicator />
-        )}
-        {!disabled && (
-          <CIcon
-            name={Icons.down}
-            size={'medium'}
-            customColor={
-              disabled ? customColors.textDisable : customColors.icon
-            }
-          />
-        )}
-      </View>
-    </CTouchable>
-  );
-};
+const RowSelect = React.memo(
+  ({
+    loading = false,
+    disabled = false,
+    isDark = false,
+    customColors = {},
+    data = [],
+    activeIndex = -1,
+    keyToShow = '',
+    keyToCompare = '',
+    onPress = () => null,
+  }) => {
+    let findRow = null;
+    if (data && data.length > 0) {
+      findRow = data.find(f => f[keyToCompare] === activeIndex);
+    }
+    return (
+      <CTouchable
+        containerStyle={cStyles.mt6}
+        disabled={disabled}
+        onPress={onPress}>
+        <View
+          style={[
+            cStyles.row,
+            cStyles.itemsCenter,
+            cStyles.justifyBetween,
+            cStyles.px10,
+            cStyles.rounded1,
+            cStyles.borderAll,
+            isDark && cStyles.borderAllDark,
+            disabled && {backgroundColor: customColors.cardDisable},
+            styles.row_select,
+          ]}>
+          {!loading ? (
+            <CText
+              customLabel={findRow ? checkEmpty(findRow[keyToShow]) : '-'}
+            />
+          ) : (
+            <CActivityIndicator />
+          )}
+          {!disabled && (
+            <CIcon
+              name={Icons.down}
+              size={'medium'}
+              customColor={
+                disabled ? customColors.textDisable : customColors.icon
+              }
+            />
+          )}
+        </View>
+      </CTouchable>
+    );
+  },
+);
 
 /** All refs */
 const asDepartmentRef = createRef();
@@ -768,17 +772,17 @@ function AddRequest(props) {
                   {/** Region */}
                   <View style={[cStyles.ml5, styles.right]}>
                     <CLabel bold label={'add_approved_assets:region'} />
-                    {RowSelect(
-                      loading.main,
-                      true,
-                      isDark,
-                      customColors,
-                      masterState.get('region'),
-                      form.region,
-                      Commons.SCHEMA_DROPDOWN.REGION.label,
-                      Commons.SCHEMA_DROPDOWN.REGION.value,
-                      null,
-                    )}
+                    <RowSelect
+                      disabled
+                      loading={loading.main}
+                      isDark={isDark}
+                      customColors={customColors}
+                      data={masterState.get('region')}
+                      activeIndex={form.region}
+                      keyToShow={Commons.SCHEMA_DROPDOWN.REGION.label}
+                      keyToCompare={Commons.SCHEMA_DROPDOWN.REGION.value}
+                      onPress={null}
+                    />
                   </View>
                 </View>
 
@@ -796,36 +800,38 @@ function AddRequest(props) {
                 {/** Department */}
                 <View style={cStyles.pt16}>
                   <CLabel bold label={'add_approved_assets:department'} />
-                  {RowSelect(
-                    loading.main,
-                    true,
-                    isDark,
-                    customColors,
-                    masterState.get('department'),
-                    form.department,
-                    Commons.SCHEMA_DROPDOWN.DEPARTMENT.label,
-                    Commons.SCHEMA_DROPDOWN.DEPARTMENT.value,
-                    null,
-                  )}
+                  <RowSelect
+                    disabled
+                    loading={loading.main}
+                    isDark={isDark}
+                    customColors={customColors}
+                    data={masterState.get('department')}
+                    activeIndex={form.department}
+                    keyToShow={Commons.SCHEMA_DROPDOWN.DEPARTMENT.label}
+                    keyToCompare={Commons.SCHEMA_DROPDOWN.DEPARTMENT.value}
+                    onPress={null}
+                  />
                 </View>
 
                 {/** Where use */}
                 <View style={cStyles.pt16}>
                   <CLabel bold label={'add_approved_assets:where_use'} />
-                  {RowSelect(
-                    loading.main,
-                    loading.main ||
+                  <RowSelect
+                    disabled={
+                      loading.main ||
                       loading.submitAdd ||
                       isDetail ||
-                      requestDetail,
-                    isDark,
-                    customColors,
-                    masterState.get('department'),
-                    form.whereUse,
-                    Commons.SCHEMA_DROPDOWN.DEPARTMENT.label,
-                    Commons.SCHEMA_DROPDOWN.DEPARTMENT.value,
-                    () => asDepartmentRef.current?.show(),
-                  )}
+                      requestDetail
+                    }
+                    loading={loading.main}
+                    isDark={isDark}
+                    customColors={customColors}
+                    data={masterState.get('department')}
+                    activeIndex={form.whereUse}
+                    keyToShow={Commons.SCHEMA_DROPDOWN.DEPARTMENT.label}
+                    keyToCompare={Commons.SCHEMA_DROPDOWN.DEPARTMENT.value}
+                    onPress={() => asDepartmentRef.current?.show()}
+                  />
                 </View>
 
                 {/** Reason */}

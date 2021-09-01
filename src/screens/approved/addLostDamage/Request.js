@@ -63,81 +63,83 @@ if (IS_ANDROID) {
   }
 }
 
-const RowSelect = (
-  t = () => null,
-  loading = false,
-  disabled = false,
-  error = false,
-  isDark = false,
-  customColors = {},
-  data = [],
-  activeIndex = -1,
-  keyToShow = '',
-  keyToCompare = '',
-  onPress = () => null,
-) => {
-  let findRow = null;
-  if (data && data.length > 0) {
-    findRow = data.find(f => f[keyToCompare] === activeIndex);
-  }
-  return (
-    <>
-      <CTouchable
-        containerStyle={cStyles.mt6}
-        disabled={disabled}
-        onPress={onPress}>
-        <View
-          style={[
-            cStyles.row,
-            cStyles.itemsCenter,
-            cStyles.justifyBetween,
-            cStyles.px10,
-            cStyles.rounded1,
-            cStyles.borderAll,
-            isDark && cStyles.borderAllDark,
-            error && {borderColor: customColors.red},
-            disabled && {backgroundColor: customColors.cardDisable},
-            styles.row_select,
-          ]}>
-          {!loading ? (
+const RowSelect = React.memo(
+  ({
+    translation = () => null,
+    loading = false,
+    disabled = false,
+    error = false,
+    isDark = false,
+    customColors = {},
+    data = [],
+    activeIndex = -1,
+    keyToShow = '',
+    keyToCompare = '',
+    onPress = () => null,
+  }) => {
+    let findRow = null;
+    if (data && data.length > 0) {
+      findRow = data.find(f => f[keyToCompare] === activeIndex);
+    }
+    return (
+      <>
+        <CTouchable
+          containerStyle={cStyles.mt6}
+          disabled={disabled}
+          onPress={onPress}>
+          <View
+            style={[
+              cStyles.row,
+              cStyles.itemsCenter,
+              cStyles.justifyBetween,
+              cStyles.px10,
+              cStyles.rounded1,
+              cStyles.borderAll,
+              isDark && cStyles.borderAllDark,
+              error && {borderColor: customColors.red},
+              disabled && {backgroundColor: customColors.cardDisable},
+              styles.row_select,
+            ]}>
+            {!loading ? (
+              <CText
+                customLabel={
+                  findRow
+                    ? findRow[keyToShow]
+                    : translation('add_approved_lost_damaged:holder_no_asset')
+                }
+              />
+            ) : (
+              <CActivityIndicator />
+            )}
+            {!disabled && (
+              <CIcon
+                name={Icons.down}
+                size={'medium'}
+                customColor={
+                  disabled ? customColors.textDisable : customColors.icon
+                }
+              />
+            )}
+          </View>
+        </CTouchable>
+        {error && (
+          <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pt6]}>
+            <CIcon name={Icons.alert} size={'smaller'} color={'red'} />
             <CText
-              customLabel={
-                findRow
-                  ? findRow[keyToShow]
-                  : t('add_approved_lost_damaged:holder_no_asset')
-              }
+              customStyles={[
+                cStyles.pl6,
+                cStyles.textCaption1,
+                cStyles.fontRegular,
+                {color: customColors.red},
+              ]}
+              label={'error:assets_not_empty'}
             />
-          ) : (
-            <CActivityIndicator />
-          )}
-          {!disabled && (
-            <CIcon
-              name={Icons.down}
-              size={'medium'}
-              customColor={
-                disabled ? customColors.textDisable : customColors.icon
-              }
-            />
-          )}
-        </View>
-      </CTouchable>
-      {error && (
-        <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pt6]}>
-          <CIcon name={Icons.alert} size={'smaller'} color={'red'} />
-          <CText
-            customStyles={[
-              cStyles.pl6,
-              cStyles.textCaption1,
-              cStyles.fontRegular,
-              {color: customColors.red},
-            ]}
-            label={'error:assets_not_empty'}
-          />
-        </View>
-      )}
-    </>
-  );
-};
+          </View>
+        )}
+      </>
+    );
+  },
+);
 
 /** All refs*/
 const asAssetsRef = createRef();
@@ -760,22 +762,26 @@ function AddRequest(props) {
                 {!isDetail && !requestDetail && (
                   <View>
                     <CLabel bold label={'add_approved_lost_damaged:assets'} />
-                    {RowSelect(
-                      t,
-                      loading.main,
-                      loading.main ||
+                    <RowSelect
+                      translation={t}
+                      loading={loading.main}
+                      disabled={
+                        loading.main ||
                         loading.submitAdd ||
                         isDetail ||
-                        requestDetail,
-                      error.assets.status,
-                      isDark,
-                      customColors,
-                      masterState.get('assetByUser'),
-                      form.assetID,
-                      Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.label,
-                      Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.value,
-                      () => asAssetsRef.current?.show(),
-                    )}
+                        requestDetail
+                      }
+                      error={error.assets.status}
+                      isDark={isDark}
+                      customColors={customColors}
+                      data={masterState.get('assetByUser')}
+                      activeIndex={form.assetID}
+                      keyToShow={Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.label}
+                      keyToCompare={
+                        Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.value
+                      }
+                      onPress={() => asAssetsRef.current?.show()}
+                    />
                   </View>
                 )}
 
