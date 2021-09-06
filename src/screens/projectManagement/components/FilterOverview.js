@@ -141,16 +141,16 @@ const RowPicker = React.memo(
 
 const RowInputDate = React.memo(
   ({
-    key = '',
+    keyInput = '',
     isDark = false,
     customColors = {},
     label = '',
     value = '',
     onChangeDate = () => null,
   }) => {
-    const handleChange = () => onChangeDate(key);
+    const handleChange = () => onChangeDate(keyInput);
     return (
-      <TouchableOpacity key={key} onPress={handleChange}>
+      <TouchableOpacity onPress={handleChange}>
         <View
           style={[
             cStyles.row,
@@ -311,6 +311,7 @@ function FilterOverview(props) {
     if (dateFilter.active) {
       return setDateFilter({...dateFilter, active: null});
     }
+    console.log('[LOG] ===  ===> ', type);
     setDateFilter({...dateFilter, active: type});
   };
 
@@ -531,7 +532,7 @@ function FilterOverview(props) {
 
           {/** From date */}
           <RowInputDate
-            key={INPUT_NAME.FROM_DATE}
+            keyInput={INPUT_NAME.FROM_DATE}
             isDark={isDark}
             customColors={customColors}
             label={t('project_overview:from_date')}
@@ -563,7 +564,7 @@ function FilterOverview(props) {
 
           {/** To date */}
           <RowInputDate
-            key={INPUT_NAME.TO_DATE}
+            keyInput={INPUT_NAME.TO_DATE}
             isDark={isDark}
             customColors={customColors}
             label={t('project_overview:to_date')}

@@ -297,6 +297,7 @@ function ListRequestHandling(props) {
             onClose={handleCloseSearch}
           />
           <FilterTags
+            translation={t}
             formatDateView={formatDateView}
             fromDate={data.fromDate}
             toDate={data.toDate}

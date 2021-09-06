@@ -700,9 +700,7 @@ function AddRequest(props) {
         loading.main ||
         loading.startFetch ||
         loading.startFetchLogin ||
-        loading.submitAdd ||
-        loading.submitApproved ||
-        loading.submitReject
+        loading.submitAdd
       }
       hasShapes
       figuresShapes={[]}
@@ -1008,7 +1006,6 @@ function AddRequest(props) {
 
           {isShowApprovedReject && (
             <RejectModal
-              loading={loading.submitReject}
               showReject={showReject}
               description={
                 form.typeUpdate === Commons.APPROVED_TYPE.DAMAGED.value

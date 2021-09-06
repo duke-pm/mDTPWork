@@ -150,14 +150,13 @@ function CAlert(props) {
       isVisible={show}
       animationIn={'pulse'}
       animationOut={'fadeOut'}
-      backdropOpacity={isDark ? 0.8 : 0.3}
       avoidKeyboard={true}
       useNativeDriver={true}
       useNativeDriverForBackdrop={true}
       hideModalContentWhileAnimating={true}
       backdropTransitionOutTiming={0}
-      onBackButtonPress={onClose}
-      onBackdropPress={onClose}
+      onBackButtonPress={!loading ? onClose : () => null}
+      onBackdropPress={!loading ? onClose : () => null}
       {...props}>
       <View style={cStyles.center}>{RenderContent()}</View>
     </Modal>

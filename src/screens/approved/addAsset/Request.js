@@ -404,10 +404,10 @@ function AddRequest(props) {
         item = null;
       for (item of data.data) {
         assets.push({
-          Descr: item[0],
-          Qty: Number(item[1]),
-          UnitPrice: item[2] === '' ? 0 : Number(item[2]),
-          TotalAmt: item[3] === '' ? 0 : Number(item[3]),
+          Descr: item[1],
+          Qty: Number(item[2]),
+          UnitPrice: item[3] === '' ? 0 : Number(item[3]),
+          TotalAmt: item[4] === '' ? 0 : Number(item[4]),
         });
       }
 
@@ -708,9 +708,7 @@ function AddRequest(props) {
         loading.main ||
         loading.startFetch ||
         loading.startFetchLogin ||
-        loading.submitAdd ||
-        loading.submitApproved ||
-        loading.submitReject
+        loading.submitAdd
       }
       hasShapes
       figuresShapes={[]}
@@ -991,7 +989,6 @@ function AddRequest(props) {
           {/** MODAL */}
           {isShowApprovedReject && (
             <RejectModal
-              loading={loading.submitReject}
               showReject={showReject}
               description={'add_approved_assets:message_confirm_reject'}
               onReject={onReject}

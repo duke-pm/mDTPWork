@@ -30,11 +30,12 @@ function CIconButton(props) {
   return (
     <CTouchable
       containerStyle={[
-        cStyles.rounded10,
+        cStyles.rounded5,
         cStyles.center,
         styles.container,
         style,
       ]}
+      style={cStyles.rounded5}
       disabled={disabled}
       onPress={onPress}>
       <Icon

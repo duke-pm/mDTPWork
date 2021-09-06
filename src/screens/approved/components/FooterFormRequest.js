@@ -54,7 +54,7 @@ function FooterFormRequest(props) {
         <CButton
           style={styles.button_reject}
           block
-          color={colors.STATUS_ON_HOLD_OPACITY}
+          color={customColors.red}
           disabled={loading.main}
           icon={Icons.close}
           label={'common:reject'}
