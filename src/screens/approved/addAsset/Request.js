@@ -222,7 +222,7 @@ function AddRequest(props) {
   /*****************
    ** HANDLE FUNC **
    *****************/
-  const handleReject = () => setShowReject(true);
+  const handleReject = () => setShowReject(!showReject);
 
   const handleApproved = () => setShowConfirm(!showConfirm);
 
@@ -259,8 +259,6 @@ function AddRequest(props) {
    ** FUNC **
    **********/
   const onChangeWhereUse = index => setWhereUse(index);
-
-  const onCloseReject = () => setShowReject(false);
 
   const onSendRequest = () => setLoading({...loading, submitAdd: true});
 
@@ -626,6 +624,7 @@ function AddRequest(props) {
         }
 
         if (approvedState.get('errorApprovedRequest')) {
+          handleApproved();
           setLoading({...loading, submitApproved: false});
           showMessage({
             message: t('common:app_name'),
@@ -662,6 +661,7 @@ function AddRequest(props) {
         }
 
         if (approvedState.get('errorRejectRequest')) {
+          handleReject();
           setLoading({...loading, submitReject: false});
           showMessage({
             message: t('common:app_name'),
@@ -992,7 +992,7 @@ function AddRequest(props) {
               showReject={showReject}
               description={'add_approved_assets:message_confirm_reject'}
               onReject={onReject}
-              onCloseReject={onCloseReject}
+              onCloseReject={handleReject}
             />
           )}
 

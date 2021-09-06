@@ -20,6 +20,8 @@ import CIcon from '~/components/CIcon';
 import CLabel from '~/components/CLabel';
 import CAvatar from '~/components/CAvatar';
 import CIconHeader from '~/components/CIconHeader';
+import CActionSheet from '~/components/CActionSheet';
+import Filter from '../components/Filter';
 /* COMMON */
 import Configs from '~/config';
 import Routes from '~/navigation/Routes';
@@ -29,8 +31,6 @@ import {Icons} from '~/utils/common';
 import {moderateScale} from '~/utils/helper';
 /* REDUX */
 import * as Actions from '~/redux/actions';
-import CActionSheet from '~/components/CActionSheet';
-import Filter from '../components/Filter';
 
 /** All init */
 const formatDateCalendar = 'YYYY-MM-DD HH:mm:ss';

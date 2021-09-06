@@ -617,6 +617,7 @@ function AddRequest(props) {
         }
 
         if (approvedState.get('errorApprovedRequest')) {
+          handleApproved();
           setLoading({...loading, submitApproved: false});
           showMessage({
             message: t('common:app_name'),
@@ -653,6 +654,7 @@ function AddRequest(props) {
         }
 
         if (approvedState.get('errorRejectRequest')) {
+          handleReject();
           setLoading({...loading, submitReject: false});
           showMessage({
             message: t('common:app_name'),
