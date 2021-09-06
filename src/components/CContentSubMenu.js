@@ -49,7 +49,6 @@ function CContentSubMenu(props) {
           <LottieView
             style={styles.image_anim_type}
             source={animTypeImage}
-            speed={1.5}
             autoPlay
             loop
           />
