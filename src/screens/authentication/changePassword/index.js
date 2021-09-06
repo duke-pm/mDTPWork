@@ -252,7 +252,6 @@ function ChangePassword(props) {
                           holder={'change_password:new_password'}
                           holderColor={colors.GRAY_500}
                           value={form.password}
-                          keyboard={'default'}
                           returnKey={'send'}
                           icon={Icons.passwordAuth}
                           iconColor={colors.GRAY_500}
@@ -309,7 +308,6 @@ function ChangePassword(props) {
                     styles={'textTitle3 textCenter colorWhite'}
                     label={'forgot_password:success_change_password'}
                   />
-
                   <CText
                     styles={'textCenter colorWhite pt32'}
                     label={'forgot_password:sub_title_success_update_password'}

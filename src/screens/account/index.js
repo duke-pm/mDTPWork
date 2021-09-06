@@ -37,6 +37,7 @@ import {
 /* REDUX */
 import * as Actions from '~/redux/actions';
 
+/** all init */
 const ACCOUNT = {
   INFORMATION: {
     id: 'information',
@@ -124,7 +125,7 @@ const ACCOUNT = {
   },
 };
 
-const Information = ({isTablet, authState}) => {
+const Information = ({isTablet = false, authState = {}}) => {
   return (
     <CGroupInfo
       contentStyle={[
@@ -171,7 +172,13 @@ const Information = ({isTablet, authState}) => {
   );
 };
 
-const Socials = ({customColors, isDark, isTablet, needUpdate, onUpdate}) => {
+const Socials = ({
+  customColors = {},
+  isDark = false,
+  isTablet = false,
+  needUpdate = {},
+  onUpdate = () => null,
+}) => {
   return (
     <CGroupInfo
       contentStyle={[

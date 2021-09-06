@@ -7,6 +7,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {useTranslation} from 'react-i18next';
+import {useNavigation} from '@react-navigation/native';
 import {
   StyleSheet,
   View,
@@ -15,7 +16,6 @@ import {
   TouchableOpacity,
   Switch,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
 import Rate, {AndroidMarket} from 'react-native-rate';
 /* COMPONENTS */
 import CText from '~/components/CText';
@@ -31,15 +31,15 @@ function ListItem(props) {
   const navigation = useNavigation();
   const {t} = useTranslation();
   const {
-    key,
-    index,
-    lastIndex,
-    data,
-    dataActiveLang,
-    dataToggle,
-    customColors,
-    onSignOut,
-    onToggle,
+    key = '',
+    index = 0,
+    lastIndex = 0,
+    data = null,
+    dataActiveLang = null,
+    dataToggle = null,
+    customColors = {},
+    onSignOut = () => null,
+    onToggle = () => null,
   } = props;
   const isSignOut = data.id === 'signout';
 

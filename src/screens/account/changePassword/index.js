@@ -9,6 +9,7 @@ import React, {createRef, useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {showMessage} from 'react-native-flash-message';
 import {
   UIManager,
   LayoutAnimation,
@@ -17,7 +18,6 @@ import {
   Keyboard,
   StyleSheet,
 } from 'react-native';
-import {showMessage} from 'react-native-flash-message';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
@@ -45,6 +45,7 @@ if (IS_ANDROID) {
   }
 }
 
+/** All ref */
 const INPUT_NAME = {
   CUR_PASSWORD: 'currentPassword',
   NEW_PASSWORD: 'newPassword',
@@ -88,18 +89,15 @@ function ChangePassword(props) {
     setForm({...form, [nameInput]: value});
     if (nameInput === INPUT_NAME.CUR_PASSWORD) {
       if (error.currentPassword) {
-        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-        setError({...error, currentPassword: false});
+        onError(INPUT_NAME.CUR_PASSWORD);
       }
     } else if (nameInput === INPUT_NAME.NEW_PASSWORD) {
       if (error.newPassword) {
-        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-        setError({...error, newPassword: false});
+        onError(INPUT_NAME.NEW_PASSWORD);
       }
     } else {
       if (error.confirmPassword) {
-        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-        setError({...error, confirmPassword: false});
+        onError(INPUT_NAME.CON_PASSWORD);
       }
     }
   };
@@ -130,6 +128,11 @@ function ChangePassword(props) {
   /**********
    ** FUNC **
    **********/
+  const onError = keyError => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    setError({...error, [keyError]: false});
+  };
+
   const onValidate = () => {
     let status = false,
       errCur = {status: false, helper: ''},

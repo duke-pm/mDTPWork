@@ -29,8 +29,9 @@ import {colors, cStyles} from '~/utils/style';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 
-/** All refs use in this screen */
+/** All ref */
 const asLangRef = createRef();
+/** All init */
 const SETTINGS = [
   {
     id: 'language',
@@ -171,9 +172,7 @@ function Settings(props) {
   /****************
    ** LIFE CYCLE **
    ****************/
-  useEffect(() => {
-    onPrepareData();
-  }, []);
+  useEffect(() => onPrepareData(), []);
 
   /************
    ** RENDER **

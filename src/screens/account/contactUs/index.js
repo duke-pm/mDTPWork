@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 /**
- ** Name: Contact Us
+ ** Name: Contact Us page
  ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of ContactUs.js
@@ -16,15 +16,17 @@ import CText from '~/components/CText';
 import CList from '~/components/CList';
 /* COMMON */
 import {cStyles} from '~/utils/style';
-import {DATA_CONTACT_US, THEME_DARK} from '~/config/constants';
+import {DATA_CONTACT_US} from '~/config/constants';
 
+/** All init */
 const colorsHeaderCard = {
   dark: ['#232526', '#414345'],
   light: ['#E0EAFC', '#eef2f3', '#fff'],
 };
 
 function ContactUs(props) {
-  const isDark = useColorScheme() === THEME_DARK;
+  const theme = useColorScheme();
+
   /*****************
    ** HANDLE FUNC **
    *****************/
@@ -50,9 +52,7 @@ function ContactUs(props) {
                 <CCard
                   key={item.id}
                   customLabel={item.label}
-                  gradientColor={
-                    isDark ? colorsHeaderCard.dark : colorsHeaderCard.light
-                  }
+                  gradientColor={colorsHeaderCard[theme]}
                   content={
                     <View>
                       <View

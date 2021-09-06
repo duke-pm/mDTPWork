@@ -206,13 +206,14 @@ function ForgotPassword(props) {
                         styleInput={styles.input}
                         styleFocus={styles.input_focus}
                         selectionColor={colors.WHITE}
-                        holderColor={colors.GRAY_500}
                         disabled={loading}
+                        value={form.email}
+                        holder={'forgot_password:input_email'}
+                        holderColor={colors.GRAY_500}
                         keyboard={'email-address'}
+                        returnKey={'send'}
                         icon={Icons.mailAuth}
                         iconColor={colors.GRAY_500}
-                        holder={'forgot_password:input_email'}
-                        returnKey={'send'}
                         error={error.email}
                         errorHelper={error.emailHelper}
                         onChangeValue={handleChangeText}

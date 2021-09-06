@@ -12,7 +12,7 @@ import {cStyles} from '~/utils/style';
 import {moderateScale} from '~/utils/helper';
 
 function SocialItem(props) {
-  const {key, index, data} = props;
+  const {key = '', customColors = {}, index = 0, data = null} = props;
 
   /*****************
    ** HANDLE FUNC **
@@ -29,7 +29,7 @@ function SocialItem(props) {
           cStyles.rounded1,
           cStyles.center,
           cStyles.p8,
-          {backgroundColor: props.customColors.cardDisable},
+          {backgroundColor: customColors.cardDisable},
           index !== 0 && cStyles.ml16,
         ]}>
         <Image
