@@ -1,5 +1,5 @@
 /**
- ** Name: Routes
+ ** Name: All routes of app
  ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of Routes.js

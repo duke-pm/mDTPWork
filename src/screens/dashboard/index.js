@@ -13,9 +13,9 @@ import {StyleSheet, View, Text} from 'react-native';
 /** COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
+import CAvatar from '~/components/CAvatar';
 import CItem from '~/components/CItem';
 import CText from '~/components/CText';
-import CAvatar from '~/components/CAvatar';
 /** COMMON */
 import Configs from '~/config';
 import {cStyles} from '~/utils/style';

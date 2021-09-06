@@ -177,7 +177,7 @@ function Project(props) {
   const onPrepareData = (type = REFRESH) => {
     let isLoadmore = true;
     let tmpProjects = [...data.projects];
-    /** Prepare data projects */
+    // Prepare data projects
     let projects = projectState.get('projects');
     let pagesProjects = projectState.get('pagesProjects');
     // Check if count result < perPage => loadmore is unavailable

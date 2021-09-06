@@ -20,7 +20,7 @@ import CIconButton from '~/components/CIconButton';
 /* COMMON */
 import Configs from '~/config';
 import {Icons} from '~/utils/common';
-import {colors, cStyles} from '~/utils/style';
+import {cStyles} from '~/utils/style';
 import {IS_ANDROID, moderateScale} from '~/utils/helper';
 
 if (IS_ANDROID) {

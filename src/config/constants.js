@@ -1,5 +1,5 @@
 /**
- ** Name: Constants
+ ** Name: Constants of app
  ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of Constants.js

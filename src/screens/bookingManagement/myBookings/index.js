@@ -33,13 +33,12 @@ import {Booking} from '~/utils/mockup';
 import {colors, cStyles} from '~/utils/style';
 import {Commons, Icons} from '~/utils/common';
 import {IS_ANDROID, moderateScale} from '~/utils/helper';
-import {THEME_DARK} from '~/config/constants';
+import {THEME_DARK, DEFAULT_FORMAT_DATE_6} from '~/config/constants';
 import {usePrevious} from '~/utils/hook';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 
 /** All init */
-const formatDateCalendar = 'YYYY-MM-DD HH:mm:ss';
 const getTheme = {
   textDayFontSize: cStyles.textCallout.fontSize,
   textMonthFontSize: cStyles.textCallout.fontSize,
@@ -150,7 +149,7 @@ function MyBookings(props) {
 
     for (itemBooking of Booking.Bookings) {
       itemCalendar = {};
-      dateDot = moment(itemBooking.fromDate, formatDateCalendar).format(
+      dateDot = moment(itemBooking.fromDate, DEFAULT_FORMAT_DATE_6).format(
         formatDate,
       );
       if (!tmpMarker[dateDot]) {
@@ -325,8 +324,8 @@ function MyBookings(props) {
                 item={({item, index}) => {
                   let between = false;
                   between = Configs.toDay.isBetween(
-                    moment(item.fromDate, formatDateCalendar),
-                    moment(item.toDate, formatDateCalendar),
+                    moment(item.fromDate, DEFAULT_FORMAT_DATE_6),
+                    moment(item.toDate, DEFAULT_FORMAT_DATE_6),
                   );
 
                   return (
@@ -357,10 +356,10 @@ function MyBookings(props) {
                                         ]}>
                                         {`${moment(
                                           item.fromDate,
-                                          formatDateCalendar,
+                                          DEFAULT_FORMAT_DATE_6,
                                         ).format(formatDateView)}\n${moment(
                                           item.fromDate,
-                                          formatDateCalendar,
+                                          DEFAULT_FORMAT_DATE_6,
                                         ).format('HH:mm')}`}
                                       </Text>
                                     </Text>
@@ -378,10 +377,10 @@ function MyBookings(props) {
                                         ]}>
                                         {`${moment(
                                           item.toDate,
-                                          formatDateCalendar,
+                                          DEFAULT_FORMAT_DATE_6,
                                         ).format(formatDateView)}\n${moment(
                                           item.toDate,
-                                          formatDateCalendar,
+                                          DEFAULT_FORMAT_DATE_6,
                                         ).format('HH:mm')}`}
                                       </Text>
                                     </Text>
