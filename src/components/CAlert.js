@@ -191,4 +191,4 @@ CAlert.propTypes = {
   onOK: PropTypes.func,
 };
 
-export default CAlert;
+export default React.memo(CAlert);

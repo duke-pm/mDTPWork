@@ -62,4 +62,4 @@ CIconButton.propTypes = {
   onPress: PropTypes.func,
 };
 
-export default CIconButton;
+export default React.memo(CIconButton);

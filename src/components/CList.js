@@ -144,4 +144,4 @@ CList.propTypes = {
   onLoadmore: PropTypes.func,
 };
 
-export default CList;
+export default React.memo(CList);

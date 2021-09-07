@@ -53,4 +53,4 @@ CStatusTag.propTypes = {
   color: PropTypes.string,
 };
 
-export default CStatusTag;
+export default React.memo(CStatusTag);

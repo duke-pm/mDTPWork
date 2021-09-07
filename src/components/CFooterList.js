@@ -24,4 +24,4 @@ function CFooterList(props) {
   );
 }
 
-export default CFooterList;
+export default React.memo(CFooterList);

@@ -65,4 +65,4 @@ CLabel.propTypes = {
   numberOfLines: PropTypes.number,
 };
 
-export default CLabel;
+export default React.memo(CLabel);

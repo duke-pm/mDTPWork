@@ -69,4 +69,4 @@ CContent.propTypes = {
   onRefresh: PropTypes.func,
 };
 
-export default CContent;
+export default React.memo(CContent);

@@ -71,7 +71,11 @@ function CIconHeader(props) {
                     {backgroundColor: customColors.green},
                     styles.active,
                   ]}>
-                  <CIcon name={'checkmark'} size={'minium'} customColor={colors.WHITE} />
+                  <CIcon
+                    name={'checkmark'}
+                    size={'minium'}
+                    customColor={colors.WHITE}
+                  />
                 </View>
               )}
             </View>
@@ -101,4 +105,4 @@ CIconHeader.propTypes = {
   icons: PropTypes.array,
 };
 
-export default CIconHeader;
+export default React.memo(CIconHeader);

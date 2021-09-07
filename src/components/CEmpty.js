@@ -45,4 +45,4 @@ CEmpty.propTypes = {
   description: PropTypes.string,
 };
 
-export default CEmpty;
+export default React.memo(CEmpty);

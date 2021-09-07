@@ -49,4 +49,4 @@ CFooter.propTypes = {
   content: PropTypes.element,
 };
 
-export default CFooter;
+export default React.memo(CFooter);

@@ -100,4 +100,4 @@ CItem.propTypes = {
   onPress: PropTypes.func,
 };
 
-export default CItem;
+export default React.memo(CItem);

@@ -45,4 +45,4 @@ CUser.propTypes = {
   sizeAvatar: PropTypes.string,
 };
 
-export default CUser;
+export default React.memo(CUser);

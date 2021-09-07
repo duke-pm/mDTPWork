@@ -26,4 +26,4 @@ function CActivityIndicator(props) {
   );
 }
 
-export default CActivityIndicator;
+export default React.memo(CActivityIndicator);

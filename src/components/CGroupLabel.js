@@ -52,4 +52,4 @@ CGroupLabel.propTypes = {
   labelRight: PropTypes.string,
 };
 
-export default CGroupLabel;
+export default React.memo(CGroupLabel);

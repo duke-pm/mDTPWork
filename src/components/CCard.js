@@ -156,4 +156,4 @@ CCard.propTypes = {
   onDetailPress: PropTypes.func,
 };
 
-export default CCard;
+export default React.memo(CCard);

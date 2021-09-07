@@ -107,4 +107,4 @@ CButton.propTypes = {
   onPress: PropTypes.func,
 };
 
-export default CButton;
+export default React.memo(CButton);

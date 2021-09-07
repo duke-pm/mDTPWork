@@ -90,4 +90,4 @@ CContainer.propTypes = {
   footer: PropTypes.element,
 };
 
-export default CContainer;
+export default React.memo(CContainer);

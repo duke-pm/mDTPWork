@@ -24,7 +24,12 @@ const propIcon = {size: moderateScale(21)};
 function CActionSheet(props) {
   const {customColors} = useTheme();
   const isDark = useColorScheme() === THEME_DARK;
-  const {customHeader, headerChoose = false, onConfirm, onClose} = props;
+  const {
+    customHeader = null,
+    headerChoose = false,
+    onConfirm = undefined,
+    onClose = undefined,
+  } = props;
   let needUpdate = false;
 
   /*****************
@@ -137,4 +142,4 @@ CActionSheet.propTypes = {
   onClose: PropTypes.func,
 };
 
-export default CActionSheet;
+export default React.memo(CActionSheet);

@@ -59,4 +59,4 @@ CText.propTypes = {
   onPress: PropTypes.func,
 };
 
-export default CText;
+export default React.memo(CText);

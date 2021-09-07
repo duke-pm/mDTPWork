@@ -51,4 +51,4 @@ CTouchable.propTypes = {
   onPress: PropTypes.func,
 };
 
-export default CTouchable;
+export default React.memo(CTouchable);

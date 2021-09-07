@@ -76,4 +76,4 @@ CGroupInfo.propTypes = {
   empty: PropTypes.bool,
 };
 
-export default CGroupInfo;
+export default React.memo(CGroupInfo);

@@ -98,4 +98,4 @@ CCheckbox.propTypes = {
   onChange: PropTypes.func,
 };
 
-export default CCheckbox;
+export default React.memo(CCheckbox);

@@ -58,4 +58,4 @@ CLoading.propTypes = {
   visible: PropTypes.bool,
 };
 
-export default CLoading;
+export default React.memo(CLoading);
