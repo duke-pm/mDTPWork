@@ -48,13 +48,10 @@ const formatDataDateTime = 'YYYY-MM-DDTHH:mm:ss';
 const formatAlertDateTime = IS_IOS
   ? 'YYYY-MM-DDTHH:mm:00.000Z'
   : 'YYYY-MM-DDTHH:mm:ss.sss[Z]';
-const urlLinkToApp = __DEV__
-  ? Configs.prefixesDev[IS_IOS ? 1 : 0] +
-    (IS_ANDROID ? '/' : '') +
-    Configs.routePath.TaskDetail.split(':')[0]
-  : Configs.prefixesProd[IS_IOS ? 1 : 0] +
-    (IS_ANDROID ? '/' : '') +
-    Configs.routePath.TaskDetail.split(':')[0];
+const urlLinkToApp =
+  Configs.prefixesDeepLink[IS_IOS ? 1 : 0] +
+  (IS_ANDROID ? '/' : '') +
+  Configs.routePath.TaskDetail.split(':')[0];
 
 function Reminder(props) {
   const {task, t, isDark, customColors} = props;
@@ -306,9 +303,7 @@ function Reminder(props) {
   /****************
    ** LIFE CYCLE **
    ****************/
-  useEffect(() => {
-    onCheckPermission();
-  }, []);
+  useEffect(() => onCheckPermission(), []);
 
   /************
    ** RENDER **
@@ -478,9 +473,7 @@ function Reminder(props) {
                 let isChoose = alarmsAndroid.find(f => f.value === item.value);
                 return (
                   <TouchableOpacity
-                    onPress={() =>
-                      handleChangeAlarmAndroid(item, isChoose ? false : true)
-                    }>
+                    onPress={() => handleChangeAlarmAndroid(item, !isChoose)}>
                     <View
                       style={[cStyles.row, cStyles.itemsCenter, cStyles.py10]}>
                       <View style={cStyles.px16}>

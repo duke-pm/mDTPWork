@@ -44,18 +44,16 @@ function FileAttach(props) {
   const handlePreviewFile = async () => {
     if (!isFileExisted) {
       setLoading(true);
-      let url = (
+      let urlDownload = (
         API.defaults.baseURL.substring(0, API.defaults.baseURL.length - 3) +
         file
       ).replace(' ', '%20');
       let options = {
         background: true, // Continue the download in the background after the app terminates (iOS only)**
         discretionary: true, // Allow the OS to control the timing and speed of the download to improve perceived performance  (iOS only)**
-        fromUrl: url,
+        fromUrl: urlDownload,
         toFile: localFile,
-        begin: res => {
-          console.log('[LOG] === Begin download ===> ');
-        },
+        begin: res => console.log('[LOG] === Begin ===> '),
         progress: res => {
           setProgress(
             ((res.bytesWritten / res.contentLength) * 100).toFixed(0),
@@ -84,9 +82,7 @@ function FileAttach(props) {
   /****************
    ** LIFE CYCLE **
    ****************/
-  useEffect(() => {
-    onCheckExisted();
-  }, []);
+  useEffect(() => onCheckExisted(), []);
 
   /************
    ** RENDER **
@@ -169,8 +165,8 @@ function FileAttach(props) {
               <View style={[cStyles.abs, cStyles.bottom0]}>
                 <Progress.Bar
                   animated={false}
-                  width={moderateScale(250)}
-                  height={moderateScale(2)}
+                  width={styles.process_bar.width}
+                  height={styles.process_bar.height}
                   borderColor={cStyles.borderAllDark.borderColor}
                   progress={progress / 100}
                   color={customColors.primary}
@@ -192,6 +188,7 @@ const styles = StyleSheet.create({
   con_bg: {zIndex: 5},
   con_right: {flex: 0.7},
   con_left: {flex: 0.3},
+  process_bar: {width: moderateScale(250), height: moderateScale(2)},
 });
 
 FileAttach.propTypes = {

@@ -48,7 +48,7 @@ function Navigator(props) {
       ref={nav => {
         NavigationService.setTopLevelNavigator(nav);
       }}
-      uriPrefix={__DEV__ ? Configs.prefixesDev : Configs.prefixesProd}
+      uriPrefix={Configs.prefixesDeepLink}
       screenProps={props}
       {...props}
     />

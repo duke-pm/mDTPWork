@@ -29,7 +29,7 @@ import {alert, moderateScale} from '~/utils/helper';
 /** REDUX */
 import * as Actions from '~/redux/actions';
 
-/** All refs */
+/** All ref */
 let percentRef = createRef();
 
 function Percentage(props) {
@@ -306,9 +306,9 @@ function Percentage(props) {
                   {color: customColors.text},
                 ]}
                 editable={!loading}
-                autoFocus={true}
-                selectTextOnFocus={true}
-                blurOnSubmit={true}
+                autoFocus
+                selectTextOnFocus
+                blurOnSubmit
                 placeholder={t('project_management:holder_task_percentage')}
                 value={percent.value + ''}
                 keyboardAppearance={isDark ? THEME_DARK : THEME_LIGHT}

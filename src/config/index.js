@@ -5,6 +5,7 @@
  ** Description: Description of configs.js
  **/
 import {LocaleConfig} from 'react-native-calendars';
+import Config from 'react-native-config';
 import moment from 'moment';
 /** COMMON */
 import {Assets} from '~/utils/asset';
@@ -97,17 +98,12 @@ LocaleConfig.defaultLocale = 'vi';
 
 const Configs = {
   // for Host APIs
-  hostDevelopment: HOST_DEV,
-  hostProduction: HOST_PROD,
-  prefixApi: PREFIXES_API,
+  hostAPI: Config.API_URL,
+  prefixAPI: Config.API_PREFIX,
   // for deep liking
-  prefixesDev: [
-    PREFIXES_ANDROID, // for Android
-    PREFIXES_IOS, // for iOS
-  ],
-  prefixesProd: [
-    PREFIXES_ANDROID_PROD, // for Android
-    PREFIXES_IOS, // for iOS
+  prefixesDeepLink: [
+    Config.ANDROID_DEEP_LINK, // for Android
+    Config.IOS_DEEP_LINK, // for iOS
   ],
   routePath: {
     // Config params for route update new password

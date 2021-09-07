@@ -1,3 +1,4 @@
+/* eslint-disable curly */
 /* eslint-disable react-hooks/exhaustive-deps */
 /**
  ** Name: Filter of project
@@ -52,9 +53,9 @@ if (IS_ANDROID) {
   }
 }
 
-/** All inits */
-let keyboardOpen = null;
-let keyboardHide = null;
+/** All init */
+let keyboardOpen = null,
+  keyboardHide = null;
 const INPUT_NAME = {FROM_DATE: 'fromDate', TO_DATE: 'toDate'};
 const themesCalendar = {
   textDayFontSize: cStyles.textCallout.fontSize,
@@ -83,7 +84,7 @@ const themesCalendar = {
   // dot (marked date)
   dotColor: colors.PRIMARY,
   disabledDotColor: 'grey',
-  dotStyle: {marginTop: -2},
+  dotStyle: {marginTop: -moderateScale(2)},
 };
 
 const RowPicker = React.memo(
@@ -294,33 +295,11 @@ function FilterOverview(props) {
   /*****************
    ** HANDLE FUNC **
    *****************/
-  const handleReset = () => {
-    navigation.goBack();
-  };
+  const handleReset = () => navigation.goBack();
 
   const handlePickerYear = show => {
-    if (keyboardShow) {
-      Keyboard.dismiss();
-    } else {
-      setYear({...year, status: show});
-    }
-  };
-
-  const onChangeDate = type => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    if (dateFilter.active) {
-      return setDateFilter({...dateFilter, active: null});
-    }
-    console.log('[LOG] ===  ===> ', type);
-    setDateFilter({...dateFilter, active: type});
-  };
-
-  const onChangeFromDate = day => {
-    setDateFilter({...dateFilter, from: day.dateString});
-  };
-
-  const onChangeToDate = day => {
-    setDateFilter({...dateFilter, to: day.dateString});
+    if (keyboardShow) Keyboard.dismiss();
+    else setYear({...year, status: show});
   };
 
   const handleChangeYear = () => {
@@ -364,6 +343,26 @@ function FilterOverview(props) {
   /************
    ** FUNC **
    ************/
+  const onKeyboardOpen = () => setKeyboardShow(true);
+
+  const onKeyboardHide = () => setKeyboardShow(false);
+
+  const onChangeDate = type => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    if (dateFilter.active) {
+      return setDateFilter({...dateFilter, active: null});
+    }
+    setDateFilter({...dateFilter, active: type});
+  };
+
+  const onChangeFromDate = day => {
+    setDateFilter({...dateFilter, from: day.dateString});
+  };
+
+  const onChangeToDate = day => {
+    setDateFilter({...dateFilter, to: day.dateString});
+  };
+
   const onGetListYear = back => {
     let tmp = new Date().getFullYear() + 2;
     tmp = Array.from({length: back}, (v, i) => tmp - back + i + 1);
@@ -409,13 +408,6 @@ function FilterOverview(props) {
     setSectors({...sectors, active: newSector});
   };
 
-  const onKeyboardOpen = () => {
-    setKeyboardShow(true);
-  };
-  const onKeyboardHide = () => {
-    setKeyboardShow(false);
-  };
-
   /****************
    ** LIFE CYCLE **
    ****************/
@@ -424,9 +416,7 @@ function FilterOverview(props) {
     keyboardHide = Keyboard.addListener('keyboardDidHide', onKeyboardHide);
 
     if (IS_IOS) {
-      if (isDark) {
-        // Do nothing
-      } else {
+      if (!isDark) {
         StatusBar.setBarStyle('light-content', true);
       }
     }
@@ -435,18 +425,13 @@ function FilterOverview(props) {
       let find = years.findIndex(
         f => f.value === JSON.stringify(aParams.activeYear),
       );
-      setYear({
-        data: years,
-        active: find,
-      });
+      setYear({data: years, active: find});
     }
   }, []);
 
   useEffect(() => {
     if (loading) {
-      if (year.data.length > 0) {
-        setLoading(false);
-      }
+      if (year.data.length > 0) setLoading(false);
     }
   }, [loading, year.data]);
 
@@ -455,9 +440,7 @@ function FilterOverview(props) {
       Keyboard.removeAllListeners(keyboardOpen);
       Keyboard.removeAllListeners(keyboardHide);
       if (IS_IOS) {
-        if (isDark) {
-          // Do nothing
-        } else {
+        if (!isDark) {
           StatusBar.setBarStyle('dark-content', true);
         }
       }
@@ -554,8 +537,8 @@ function FilterOverview(props) {
                 onDayPress={onChangeFromDate}
                 monthFormat={'MMMM - yyyy'}
                 firstDay={1}
-                disableAllTouchEventsForDisabledDays={true}
-                enableSwipeMonths={true}
+                disableAllTouchEventsForDisabledDays
+                enableSwipeMonths
                 theme={themesCalendar}
                 markedDates={{[dateFilter.from]: selectedDate}}
               />
@@ -586,8 +569,8 @@ function FilterOverview(props) {
                 onDayPress={onChangeToDate}
                 monthFormat={'MMMM - yyyy'}
                 firstDay={1}
-                disableAllTouchEventsForDisabledDays={true}
-                enableSwipeMonths={true}
+                disableAllTouchEventsForDisabledDays
+                enableSwipeMonths
                 theme={themesCalendar}
                 markedDates={{[dateFilter.to]: selectedDate}}
               />
@@ -608,10 +591,10 @@ function FilterOverview(props) {
                 <RowSelect
                   isDark={isDark}
                   customColors={customColors}
+                  user
                   value={item.empID}
                   label={item.empName}
                   active={isActive !== -1}
-                  user
                   first={index === 0}
                   last={index === owner.data.length - 1}
                   onPress={onChangeOwner}
@@ -634,10 +617,10 @@ function FilterOverview(props) {
                 <RowSelect
                   isDark={isDark}
                   customColors={customColors}
+                  user={false}
                   value={item.statusID}
                   label={item.statusName}
                   active={isActive !== -1}
-                  user={false}
                   first={index === 0}
                   last={index === status.data.length - 1}
                   onPress={onChangeStatus}
@@ -660,10 +643,10 @@ function FilterOverview(props) {
                 <RowSelect
                   isDark={isDark}
                   customColors={customColors}
+                  user={false}
                   value={item.sectorID}
                   label={item.sectorName}
                   active={isActive !== -1}
-                  user={false}
                   first={index === 0}
                   last={index === sectors.data.length - 1}
                   onPress={onChangeSector}

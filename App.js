@@ -138,7 +138,7 @@ const MyDefaultTheme = {
   },
 };
 const linking = {
-  prefixes: __DEV__ ? Configs.prefixesDev : Configs.prefixesProd,
+  prefixes: Configs.prefixesDeepLink,
   config: {screens: Configs.routePath},
 };
 

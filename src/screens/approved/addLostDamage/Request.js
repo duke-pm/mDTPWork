@@ -63,6 +63,32 @@ if (IS_ANDROID) {
   }
 }
 
+/** All refs*/
+const asAssetsRef = createRef();
+let damageRef = createRef();
+let lostRef = createRef();
+
+/** All init value */
+const dataType = [
+  {
+    ref: damageRef,
+    value: Commons.APPROVED_TYPE.DAMAGED.value,
+    label: 'add_approved_lost_damaged:damage_assets',
+  },
+  {
+    ref: lostRef,
+    value: Commons.APPROVED_TYPE.LOST.value,
+    label: 'add_approved_lost_damaged:lost_assets',
+  },
+];
+const INPUT_NAME = {
+  DATE_REQUEST: 'dateRequest',
+  ASSETID: 'assetID',
+  REASON: 'reason',
+  TYPE_UPDATE: 'typeUpdate',
+  FILE: 'file',
+};
+
 const RowSelect = React.memo(
   ({
     translation = () => null,
@@ -141,32 +167,6 @@ const RowSelect = React.memo(
   },
 );
 
-/** All refs*/
-const asAssetsRef = createRef();
-let damageRef = createRef();
-let lostRef = createRef();
-
-/** All init value */
-const dataType = [
-  {
-    ref: damageRef,
-    value: Commons.APPROVED_TYPE.DAMAGED.value,
-    label: 'add_approved_lost_damaged:damage_assets',
-  },
-  {
-    ref: lostRef,
-    value: Commons.APPROVED_TYPE.LOST.value,
-    label: 'add_approved_lost_damaged:lost_assets',
-  },
-];
-const INPUT_NAME = {
-  DATE_REQUEST: 'dateRequest',
-  ASSETID: 'assetID',
-  REASON: 'reason',
-  TYPE_UPDATE: 'typeUpdate',
-  FILE: 'file',
-};
-
 function AddRequest(props) {
   const {t} = useTranslation();
   const {customColors} = useTheme();
@@ -206,24 +206,24 @@ function AddRequest(props) {
   const [findAssets, setFindAssets] = useState('');
   const [dataAssets, setDataAssets] = useState([]);
   const [process, setProcess] = useState([]);
+  const [error, setError] = useState({
+    assets: {status: false, helper: ''},
+    reason: {status: false, helper: ''},
+  });
   const [form, setForm] = useState({
+    id: '',
+    name: '',
     dateRequest: Configs.toDay.format(formatDate),
-    reason: '',
     typeUpdate: Commons.APPROVED_TYPE.DAMAGED.value, // 2: Damage, 3: Lost
     assetID: '',
     file: null,
     fileBase64: '',
-    id: '',
     personRequestId: '',
-    name: '',
+    reason: '',
     status: 1,
     isAllowApproved: false,
     department: authState.getIn(['login', 'deptCode']),
     region: authState.getIn(['login', 'regionCode']),
-  });
-  const [error, setError] = useState({
-    assets: {status: false, helper: ''},
-    reason: {status: false, helper: ''},
   });
 
   /*****************

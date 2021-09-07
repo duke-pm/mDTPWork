@@ -1,5 +1,11 @@
 apply plugin: "com.android.application"
 
+project.ext.envConfigFiles = [
+    development: ".env.development",
+    product: ".env.production",
+    anothercustombuild: ".env",
+]
+
 import com.android.build.OutputFile
 
 /**
@@ -83,6 +89,7 @@ project.ext.react = [
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
+apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
 
 /**
  * Set this to true to create two separate APKs instead of one:
@@ -132,12 +139,13 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.dtpwork"
+        applicationId env.get("ANDROID_APP_ID")
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         vectorDrawables.useSupportLibrary = true
-        versionCode 1
-        versionName "1.0.0"
+        versionCode Integer.valueOf(env.get("ANDROID_APP_VERSION_CODE"))
+        versionName env.get("ANDROID_APP_VERSION_NAME")
+        resValue "string", "build_config_package", "com.dtpwork"
     }
     splits {
         abi {
@@ -148,31 +156,50 @@ android {
         }
     }
     signingConfigs {
-        release {
-            if (project.hasProperty('MYAPP_UPLOAD_STORE_FILE')) {
-                storeFile file(MYAPP_UPLOAD_STORE_FILE)
-                storePassword MYAPP_UPLOAD_STORE_PASSWORD
-                keyAlias MYAPP_UPLOAD_KEY_ALIAS
-                keyPassword MYAPP_UPLOAD_KEY_PASSWORD
-            }
-        }
         debug {
-            storeFile file('debug.keystore')
-            storePassword 'android'
-            keyAlias 'androiddebugkey'
-            keyPassword 'android'
+            storeFile file(DEBUG_STORE_FILE)
+            storePassword DEBUG_STORE_PASSWORD
+            keyAlias DEBUG_KEY_ALIAS
+            keyPassword DEBUG_KEY_PASSWORD
+        
+        }
+        development {
+            storeFile file(DEBUG_STORE_FILE)
+            storePassword DEBUG_STORE_PASSWORD
+            keyAlias DEBUG_KEY_ALIAS
+            keyPassword DEBUG_KEY_PASSWORD
+        }
+        product {
+            storeFile file(PRODUCT_STORE_FILE)
+            storePassword PRODUCT_STORE_PASSWORD
+            keyAlias PRODUCT_KEY_ALIAS
+            keyPassword PRODUCT_KEY_PASSWORD
         }
     }
     buildTypes {
         debug {
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.development
         }
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
-            signingConfig signingConfigs.release
+            signingConfig signingConfigs.product
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+        }
+    }
+
+    flavorDimensions "enviroment"
+    productFlavors {
+        dev {
+            dimension "enviroment"
+            resValue "string", "app_name", project.env.get("APP_NAME")
+            signingConfig signingConfigs.development
+        }
+        product {
+            dimension "enviroment"
+            resValue "string", "app_name", project.env.get("APP_NAME")
+            signingConfig signingConfigs.product
         }
     }
 

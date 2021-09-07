@@ -166,9 +166,7 @@ function ProjectPlan(props) {
   /****************
    ** LIFE CYCLE **
    ****************/
-  useEffect(() => {
-    onFetchData();
-  }, []);
+  useEffect(() => onFetchData(), []);
 
   useEffect(() => {
     if (!loading.main && loading.data) {

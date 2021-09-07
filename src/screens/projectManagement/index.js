@@ -79,8 +79,8 @@ function ProjectManagement(props) {
       content={
         <CContentSubMenu
           loading={loading}
-          animTypeImage={Animations.projectHolder}
           routes={routes}
+          animTypeImage={Animations.projectHolder}
           colorsItem={Configs.colorsSubMenu.project}
           onPressItem={handleItem}
         />

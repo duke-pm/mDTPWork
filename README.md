@@ -12,8 +12,10 @@
 > ***cd android && ./gradlew clean && cd ***
 3. (Optional) Reset cache node package:
 > ***npm start -- --reset-cache***
-4. Run on Android device:
-> ***npm run android***
+4. Run develop build on Android device:
+> ***npm run android-debug-develop***
+5. Run prod build on Android device:
+> ***npm run android-debug-product***
 
 ### Run on iOS device
 1. Intasll all package libs:
@@ -22,7 +24,7 @@
 > ***npx pod-install***
 3. (Optional) Reset cache node package:
 > ***npm start -- --reset-cache***
-4. Run on Android device:
-> ***npm run ios***
-5. Or if you want run on other device, just replace @ to any device you want
-> ***react-native run-ios --simulator="iPhone @"***
+4. Run develop build on iOS device:
+> ***npm run ios-debug-develop***
+5. Run prod build on iOS device:
+> ***npm run ios-debug-production***

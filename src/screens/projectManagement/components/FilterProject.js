@@ -29,7 +29,7 @@ import {THEME_DARK} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
 import {moderateScale, IS_ANDROID, IS_IOS, sH} from '~/utils/helper';
 
-/** All refs use in this screen */
+/** All ref */
 const asYearRef = createRef();
 
 const RowPicker = React.memo(
@@ -188,17 +188,11 @@ function FilterProject(props) {
   /*****************
    ** HANDLE FUNC **
    *****************/
-  const handleReset = () => {
-    navigation.goBack();
-  };
+  const handleReset = () => navigation.goBack();
 
-  const handlePickerYear = () => {
-    asYearRef.current?.show();
-  };
+  const handlePickerYear = () => asYearRef.current?.show();
 
-  const handleChangeYear = () => {
-    setYear({...year, choose: year.active});
-  };
+  const handleChangeYear = () => setYear({...year, choose: year.active});
 
   const handleFilter = () => {
     aParams.onFilter(
@@ -213,16 +207,14 @@ function FilterProject(props) {
   /************
    ** FUNC **
    ************/
+  const onChangeYear = index => setYear({...year, active: index});
+
   const onGetListYear = back => {
     let tmp = new Date().getFullYear() + 2;
     tmp = Array.from({length: back}, (v, i) => tmp - back + i + 1);
     return tmp.map(item => {
       return {value: item + '', label: item + ''};
     });
-  };
-
-  const onChangeYear = index => {
-    setYear({...year, active: index});
   };
 
   const onChangeOwner = value => {
@@ -233,7 +225,7 @@ function FilterProject(props) {
     } else {
       newOwner.push(value);
     }
-    setOwner({...owner, active: newOwner});
+    return setOwner({...owner, active: newOwner});
   };
 
   const onChangeStatus = value => {
@@ -244,7 +236,7 @@ function FilterProject(props) {
     } else {
       newStatus.push(value);
     }
-    setStatus({...status, active: newStatus});
+    return setStatus({...status, active: newStatus});
   };
 
   const onChangeSector = value => {
@@ -255,7 +247,7 @@ function FilterProject(props) {
     } else {
       newSector.push(value);
     }
-    setSectors({...sectors, active: newSector});
+    return setSectors({...sectors, active: newSector});
   };
 
   /****************
@@ -263,9 +255,7 @@ function FilterProject(props) {
    ****************/
   useEffect(() => {
     if (IS_IOS) {
-      if (isDark) {
-        // Do nothing
-      } else {
+      if (!isDark) {
         StatusBar.setBarStyle('light-content', true);
       }
     }
@@ -293,9 +283,7 @@ function FilterProject(props) {
   useLayoutEffect(() => {
     return () => {
       if (IS_IOS) {
-        if (isDark) {
-          // Do nothing
-        } else {
+        if (!isDark) {
           StatusBar.setBarStyle('dark-content', true);
         }
       }

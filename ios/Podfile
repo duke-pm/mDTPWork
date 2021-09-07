@@ -3,6 +3,13 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 
 platform :ios, '10.0'
 
+project 'mDTPWork', {
+  'DebugDev' => :debug,
+  'DebugProd' => :debug,
+  'ReleaseDev' => :release,
+  'ReleaseProd' => :release,
+}
+
 target 'mDTPWork' do
   config = use_native_modules!
 
@@ -32,7 +39,7 @@ target 'mDTPWork' do
   #
   # Note that if you have use_frameworks! enabled, Flipper will not work and
   # you should disable the next line.
-  use_flipper!()
+  # use_flipper!()
 
   post_install do |installer|
     react_native_post_install(installer)

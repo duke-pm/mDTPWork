@@ -37,6 +37,9 @@ import CIconHeader from '~/components/CIconHeader';
 import CSearchBar from '~/components/CSearchBar';
 /* COMMON */
 import Icons from '~/utils/common/Icons';
+import {colors, cStyles} from '~/utils/style';
+import {LAST_COMMENT_TASK} from '~/config/constants';
+import {LOCALE_VI, LOCALE_EN} from '~/utils/language/comment';
 import {
   saveLocalInfo,
   getLocalInfo,
@@ -44,9 +47,6 @@ import {
   IS_IOS,
   IS_ANDROID,
 } from '~/utils/helper';
-import {LAST_COMMENT_TASK} from '~/config/constants';
-import {colors, cStyles} from '~/utils/style';
-import {LOCALE_VI, LOCALE_EN} from '~/utils/language/comment';
 /** REDUX */
 import * as Actions from '~/redux/actions';
 
@@ -56,10 +56,10 @@ if (IS_ANDROID) {
   }
 }
 
-/** All refs */
+/** All ref */
 let listRef = createRef();
 
-/** All inits */
+/** All init */
 const INPUT_NAME = {MESSAGE: 'message'};
 
 const RenderInputMessage = React.memo(

@@ -137,7 +137,7 @@ function ChangePassword(props) {
     setForm({
       password: '',
       success: status,
-      error: message || (status ? false : true),
+      error: message || !status,
     });
     setLoading({check: false, update: false});
   };

@@ -51,6 +51,52 @@ import {
 /* REDUX */
 import * as Actions from '~/redux/actions';
 
+/** All refs */
+const asDepartmentRef = createRef();
+let supplierRef = createRef();
+let newRef = createRef();
+let addRef = createRef();
+let yesRef = createRef();
+let noRef = createRef();
+
+/** All init value */
+const INPUT_NAME = {
+  DATE_REQUEST: 'dateRequest',
+  NAME: 'name',
+  DEPARTMENT: 'department',
+  REGION: 'region',
+  ASEETS: 'assets',
+  WHERE_USE: 'whereUse',
+  REASON: 'reason',
+  TYPE_ASSETS: 'typeAssets',
+  IN_PLANNING: 'inPlanning',
+  SUPPLIER: 'supplier',
+};
+const dataTypeAssets = [
+  {
+    ref: newRef,
+    value: 'N',
+    label: 'add_approved_assets:buy_new',
+  },
+  {
+    ref: addRef,
+    value: 'A',
+    label: 'add_approved_assets:additional',
+  },
+];
+const dataInPlanning = [
+  {
+    ref: yesRef,
+    value: true,
+    label: 'add_approved_assets:yes',
+  },
+  {
+    ref: noRef,
+    value: false,
+    label: 'add_approved_assets:no',
+  },
+];
+
 const RowSelect = React.memo(
   ({
     loading = false,
@@ -105,52 +151,6 @@ const RowSelect = React.memo(
     );
   },
 );
-
-/** All refs */
-const asDepartmentRef = createRef();
-let supplierRef = createRef();
-let newRef = createRef();
-let addRef = createRef();
-let yesRef = createRef();
-let noRef = createRef();
-
-/** All init value */
-const INPUT_NAME = {
-  DATE_REQUEST: 'dateRequest',
-  NAME: 'name',
-  DEPARTMENT: 'department',
-  REGION: 'region',
-  ASEETS: 'assets',
-  WHERE_USE: 'whereUse',
-  REASON: 'reason',
-  TYPE_ASSETS: 'typeAssets',
-  IN_PLANNING: 'inPlanning',
-  SUPPLIER: 'supplier',
-};
-const dataTypeAssets = [
-  {
-    ref: newRef,
-    value: 'N',
-    label: 'add_approved_assets:buy_new',
-  },
-  {
-    ref: addRef,
-    value: 'A',
-    label: 'add_approved_assets:additional',
-  },
-];
-const dataInPlanning = [
-  {
-    ref: yesRef,
-    value: true,
-    label: 'add_approved_assets:yes',
-  },
-  {
-    ref: noRef,
-    value: false,
-    label: 'add_approved_assets:no',
-  },
-];
 
 function AddRequest(props) {
   const {t} = useTranslation();

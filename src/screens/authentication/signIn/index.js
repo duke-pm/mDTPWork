@@ -403,12 +403,12 @@ function SignIn(props) {
                       styleInput={styles.input}
                       styleFocus={styles.input_focus}
                       selectionColor={colors.WHITE}
-                      holderColor={colors.GRAY_500}
                       inputRef={userNameRef}
                       disabled={loading.submit}
                       value={form.userName}
                       icon={Icons.usernameAuth}
                       iconColor={colors.GRAY_500}
+                      holderColor={colors.GRAY_500}
                       holder={'sign_in:input_username'}
                       returnKey={'next'}
                       error={error.userName}
@@ -425,7 +425,6 @@ function SignIn(props) {
                       styleInput={styles.input}
                       styleFocus={styles.input_focus}
                       selectionColor={colors.WHITE}
-                      holderColor={colors.GRAY_500}
                       inputRef={passwordRef}
                       disabled={loading.submit}
                       value={form.password}
@@ -435,6 +434,7 @@ function SignIn(props) {
                           : Icons.passwordAuth
                       }
                       iconColor={colors.GRAY_500}
+                      holderColor={colors.GRAY_500}
                       holder={'sign_in:input_password'}
                       returnKey={'done'}
                       password
