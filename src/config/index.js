@@ -10,14 +10,6 @@ import moment from 'moment';
 /** COMMON */
 import {Assets} from '~/utils/asset';
 import {colors} from '~/utils/style';
-import {
-  HOST_DEV,
-  HOST_PROD,
-  PREFIXES_IOS,
-  PREFIXES_API,
-  PREFIXES_ANDROID,
-  PREFIXES_ANDROID_PROD,
-} from './constants';
 
 LocaleConfig.locales['en-SG'] = {
   monthNames: [
@@ -97,6 +89,7 @@ LocaleConfig.locales.vi = {
 LocaleConfig.defaultLocale = 'vi';
 
 const Configs = {
+  toDay: moment(),
   // for Host APIs
   hostAPI: Config.API_URL,
   prefixAPI: Config.API_PREFIX,
@@ -118,19 +111,14 @@ const Configs = {
     TaskDetail: 'TaskDetail/:taskID',
   },
   // for name of app in account page
-  nameOfApp: 'DTP-Education',
+  nameOfApp: Config.APP_NAME,
   // for rating app
-  appStoreID: '12345678',
-  googlePlayPackage: 'com.dtpwork',
-  // for change password
-  lengthNewPassword: 6,
+  appStoreID: Config.IOS_APPSTORE_ID,
+  googlePlayPackage: Config.ANDROID_APP_ID,
   // for filter project
   numberYearToFilter: 10,
   perPageProjects: 25,
   perPageProjectOverview: 50,
-  // for dev new feature
-  salesVisit: false,
-  toDay: moment(),
   // for link to socials
   socialsNetwork: [
     {
