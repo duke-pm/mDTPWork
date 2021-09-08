@@ -143,9 +143,7 @@ function Watchers(props) {
   /****************
    ** LIFE CYCLE **
    ****************/
-  useEffect(() => {
-    onPrepareData();
-  }, []);
+  useEffect(() => onPrepareData(), []);
 
   useEffect(() => {
     if (loading.send) {
