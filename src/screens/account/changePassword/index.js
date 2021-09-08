@@ -255,6 +255,7 @@ function ChangePassword(props) {
             <CContent scrollEnabled={false}>
               <CGroupInfo
                 style={cStyles.pt16}
+                labelStyle={cStyles.textCallout}
                 label={'change_password:sub_title'}
                 content={
                   <>
@@ -262,14 +263,12 @@ function ChangePassword(props) {
                     <View>
                       <CLabel bold label={'change_password:current_password'} />
                       <CInput
+                        inputRef={curPasswordRef}
                         name={INPUT_NAME.CUR_PASSWORD}
                         styleFocus={styles.input_focus}
-                        inputRef={curPasswordRef}
                         disabled={loading}
                         holder={'change_password:current_password'}
                         value={form.currentPassword}
-                        keyboard={'default'}
-                        returnKey={'next'}
                         password
                         error={error.currentPassword}
                         errorHelper={error.currentPasswordHelper}
@@ -282,14 +281,12 @@ function ChangePassword(props) {
                     <View style={cStyles.pt16}>
                       <CLabel bold label={'change_password:new_password'} />
                       <CInput
+                        inputRef={newPasswordRef}
                         name={INPUT_NAME.NEW_PASSWORD}
                         styleFocus={styles.input_focus}
-                        inputRef={newPasswordRef}
                         disabled={loading}
                         holder={'change_password:new_password'}
                         value={form.newPassword}
-                        keyboard={'default'}
-                        returnKey={'next'}
                         password
                         error={error.newPassword}
                         errorHelperCustom={error.newPasswordHelper}
@@ -310,7 +307,6 @@ function ChangePassword(props) {
                         disabled={loading}
                         holder={'change_password:confirm_password'}
                         value={form.confirmPassword}
-                        keyboard={'default'}
                         returnKey={'send'}
                         password
                         error={error.confirmPassword}

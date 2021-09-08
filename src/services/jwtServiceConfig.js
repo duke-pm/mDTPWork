@@ -7,7 +7,7 @@
 /* COMMON */
 import Configs from '~/config';
 
-const jwtServiceConfig = {
+export const jwtServiceConfig = {
   baseURL: Configs.hostAPI + '/' + Configs.prefixAPI,
   timeout: 30000,
   headers: {

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /**
  ** Name: MyAccount
  ** Author: DTP-Education
@@ -19,20 +20,12 @@ import {IS_ANDROID, moderateScale} from '~/utils/helper';
 import {THEME_DARK} from '~/config/constants';
 /* REDUX */
 import * as Actions from '~/redux/actions';
+import CInput from '~/components/CInput';
 
-const RowInfo = ({isDark = false, label = '', value = ''}) => {
+const RowInfo = ({style = {}, label = '', value = ''}) => {
   return (
-    <View style={cStyles.flex1}>
-      <View
-        style={[
-          cStyles.borderBottom,
-          isDark && cStyles.borderBottomDark,
-          cStyles.mt20,
-          cStyles.pb6,
-        ]}>
-        <CText styles={'textCaption2 colorGray500 fontMedium'} label={label} />
-        <CText styles={'pt6 fontRegular'} customLabel={value} />
-      </View>
+    <View style={[cStyles.flex1, cStyles.mt16, style]}>
+      <CInput label={label} holder={label} value={value} disabled />
     </View>
   );
 };
@@ -73,9 +66,7 @@ function MyAccount(props) {
   /****************
    ** LIFE CYCLE **
    ****************/
-  useEffect(() => {
-    onFetchData();
-  }, []);
+  useEffect(() => onFetchData(), []);
 
   useEffect(() => {
     if (loading) {
@@ -125,38 +116,40 @@ function MyAccount(props) {
             />
           </View>
 
-          <RowInfo
-            isDark={isDark}
-            label={'my_account:employee_code'}
-            value={authState.getIn(['login', 'empCode'])}
-          />
+          <View
+            style={[
+              cStyles.row,
+              cStyles.itemsCenter,
+              cStyles.justifyBetween,
+              cStyles.mt20,
+            ]}>
+            <RowInfo
+              style={[styles.row, cStyles.mr5]}
+              label={'my_account:employee_code'}
+              value={authState.getIn(['login', 'empCode'])}
+            />
+
+            <RowInfo
+              style={[styles.row, cStyles.ml5]}
+              label={'my_account:user_name'}
+              value={authState.getIn(['login', 'userName'])}
+            />
+          </View>
 
           <RowInfo
-            isDark={isDark}
-            label={'my_account:user_name'}
-            value={authState.getIn(['login', 'userName'])}
-          />
-
-          <RowInfo
-            isDark={isDark}
             label={'my_account:full_name'}
             value={authState.getIn(['login', 'fullName'])}
           />
 
           {department && (
             <RowInfo
-              isDark={isDark}
               label={'my_account:department'}
               value={department.deptName}
             />
           )}
 
           {region && (
-            <RowInfo
-              isDark={isDark}
-              label={'my_account:region'}
-              value={region.regionName}
-            />
+            <RowInfo label={'my_account:region'} value={region.regionName} />
           )}
         </CContent>
       }
@@ -166,6 +159,7 @@ function MyAccount(props) {
 
 const styles = StyleSheet.create({
   con_avatar_android: {paddingTop: moderateScale(80)},
+  row: {flex: 0.5},
 });
 
 export default MyAccount;

@@ -150,8 +150,9 @@ function Percentage(props) {
       : projectState.get('errorHelperTaskUpdate');
     let type = isSuccess ? 'success' : 'danger';
     if (isSuccess) {
-      onEndUpdate();
+      onEndUpdate(true);
     } else {
+      onEndUpdate(false);
       setPercent({...percent, value: props.task.percentage});
     }
     setLoading(false);

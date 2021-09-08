@@ -18,7 +18,7 @@ import {BlurView} from '@react-native-community/blur';
 import Icon from 'react-native-vector-icons/Ionicons';
 /** COMMON */
 import Routes from './Routes';
-import {IS_IOS, moderateScale} from '~/utils/helper';
+import {IS_IOS} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
 import {THEME_DARK} from '~/config/constants';
 
@@ -165,6 +165,7 @@ export function RootMain(props) {
           headerTintColor: colors.WHITE,
           headerTranslucent: true,
           headerHideShadow: true,
+          headerTitleStyle: {color: colors.WHITE},
           headerStyle: {
             backgroundColor: colors.TRANSPARENT,
           },

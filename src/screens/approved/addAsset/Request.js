@@ -44,12 +44,14 @@ import {
   checkEmpty,
   getSecretInfo,
   IS_ANDROID,
+  IS_IOS,
   moderateScale,
   resetRoute,
   verticalScale,
 } from '~/utils/helper';
 /* REDUX */
 import * as Actions from '~/redux/actions';
+import CIconHeader from '~/components/CIconHeader';
 
 /** All refs */
 const asDepartmentRef = createRef();
@@ -222,6 +224,8 @@ function AddRequest(props) {
   /*****************
    ** HANDLE FUNC **
    *****************/
+  const handleBack = () => resetRoute(navigation, Routes.ROOT_TAB.name);
+
   const handleReject = () => setShowReject(!showReject);
 
   const handleApproved = () => setShowConfirm(!showConfirm);
@@ -694,7 +698,40 @@ function AddRequest(props) {
         title = t('add_approved_assets:detail') + ' #' + requestParam;
       }
     }
-    navigation.setOptions({title});
+
+    navigation.setOptions(
+      Object.assign(
+        {
+          title,
+          backButtonInCustomView: true,
+          headerLeft: () =>
+            (route.params?.requestID !== null ||
+              route.params?.requestID !== undefined) && (
+              <CIconHeader
+                icons={[
+                  {
+                    show: !navigation.canGoBack(),
+                    showRedDot: false,
+                    icon: IS_IOS ? Icons.backiOS : Icons.backAndroid,
+                    iconColor: customColors.icon,
+                    onPress: handleBack,
+                  },
+                ]}
+              />
+            ),
+        },
+        IS_ANDROID
+          ? {
+              headerCenter: () => (
+                <CText
+                  customStyles={cStyles.textHeadline}
+                  label={'add_approved_assets:detail'}
+                />
+              ),
+            }
+          : {},
+      ),
+    );
   }, [navigation, isDetail, requestDetail]);
 
   /************
@@ -787,7 +824,6 @@ function AddRequest(props) {
                 {/** Name */}
                 <CInput
                   containerStyle={cStyles.mt16}
-                  styleFocus={styles.input_focus}
                   name={INPUT_NAME.NAME}
                   label={'add_approved_assets:name'}
                   holder={'add_approved_assets:name'}

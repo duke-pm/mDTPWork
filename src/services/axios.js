@@ -7,17 +7,7 @@
 /** LIBRARY */
 import axios from 'axios';
 /** COMMON */
-import Configs from '~/config';
-
-const jwtServiceConfig = {
-  baseURL: Configs.hostAPI + '/' + Configs.prefixAPI,
-  timeout: 30000,
-  headers: {
-    Accept: 'application/json',
-  },
-  responseType: 'json',
-  responseEncoding: 'utf8',
-};
+import {jwtServiceConfig} from './jwtServiceConfig';
 
 const API = axios.create(jwtServiceConfig);
 

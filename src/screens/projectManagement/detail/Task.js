@@ -235,9 +235,11 @@ function Task(props) {
   /**********
    ** FUNC **
    **********/
+  const onStart = () => onFetchData();
+
   const onRefreshWatcher = isWatch => setIsFastWatch(!isWatch);
 
-  const onStart = () => onFetchData();
+  const onStartUpdate = () => setLoading({...loading, update: true});
 
   const onGoToSignIn = () =>
     resetRoute(navigation, Routes.AUTHENTICATION.SIGN_IN.name);
@@ -291,19 +293,23 @@ function Task(props) {
     return setLoading({...loading, fastWatch: false});
   };
 
-  const onPrepareUpdate = () => {
-    if (!needRefresh) {
-      setNeedRefresh(true);
+  const onPrepareUpdate = isSuccess => {
+    if (isSuccess) {
+      if (!needRefresh) {
+        setNeedRefresh(true);
+      }
+      let taskDetail = projectState.get('taskDetail');
+      setData({taskDetail});
+      setLoading({...loading, update: false});
+      return showMessage({
+        message: t('common:app_name'),
+        description: t('success:change_info'),
+        type: 'success',
+        icon: 'success',
+      });
+    } else {
+      setLoading({...loading, update: false});
     }
-    let taskDetail = projectState.get('taskDetail');
-    setData({taskDetail});
-    setLoading({...loading, update: false});
-    return showMessage({
-      message: t('common:app_name'),
-      description: t('success:change_info'),
-      type: 'success',
-      icon: 'success',
-    });
   };
 
   const onError = desUpdate => {
@@ -347,8 +353,6 @@ function Task(props) {
       return onGoToSignIn();
     }
   };
-
-  const onStartUpdate = () => setLoading({...loading, update: true});
 
   /****************
    ** LIFE CYCLE **
@@ -454,7 +458,7 @@ function Task(props) {
                 show: !navigation.canGoBack(),
                 showRedDot: false,
                 icon: IS_IOS ? Icons.backiOS : Icons.backAndroid,
-                iconColor: IS_ANDROID ? colors.WHITE : customColors.blue,
+                iconColor: customColors.icon,
                 onPress: handleBack,
               },
             ]}

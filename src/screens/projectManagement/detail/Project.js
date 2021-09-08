@@ -434,7 +434,7 @@ function ProjectDetail(props) {
                     show: !navigation.canGoBack(),
                     showRedDot: false,
                     icon: IS_IOS ? Icons.backiOS : Icons.backAndroid,
-                    iconColor: IS_ANDROID ? colors.WHITE : customColors.blue,
+                    iconColor: customColors.icon,
                     onPress: handleBack,
                   },
                 ]}

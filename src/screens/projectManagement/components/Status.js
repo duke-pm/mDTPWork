@@ -80,7 +80,6 @@ function Status(props) {
   const onCloseActionSheet = (needUpdate, isFinished) => {
     if (needUpdate) {
       if (status.data[status.active].statusID !== props.task.statusID) {
-        onStartUpdate();
         let params = {
           TaskID: props.task.taskID,
           StatusID: status.data[status.active].statusID,
@@ -90,6 +89,7 @@ function Status(props) {
         };
         dispatch(Actions.fetchUpdateTask(params, navigation));
         setLoading(true);
+        onStartUpdate();
       }
     } else {
       let find = status.data.findIndex(f => f.statusID === props.task.statusID);
@@ -144,9 +144,7 @@ function Status(props) {
       ? 'success:change_status'
       : projectState.get('errorHelperTaskUpdate');
     let type = isSuccess ? 'success' : 'danger';
-    if (isSuccess) {
-      onEndUpdate();
-    }
+    onEndUpdate(isSuccess);
     setLoading(false);
     return showMessage({
       message: t('common:app_name'),
@@ -223,7 +221,7 @@ function Status(props) {
             customLabel={props.task.statusName.toUpperCase()}
           />
           {loading ? (
-            <CActivityIndicator />
+            <CActivityIndicator color={colors.WHITE} />
           ) : (
             isEdit &&
             isUpdate && (

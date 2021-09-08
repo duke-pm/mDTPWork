@@ -53,9 +53,11 @@ import {
   moderateScale,
   verticalScale,
   resetRoute,
+  IS_IOS,
 } from '~/utils/helper';
 /* REDUX */
 import * as Actions from '~/redux/actions';
+import CIconHeader from '~/components/CIconHeader';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -265,6 +267,8 @@ function AddRequest(props) {
   /**********
    ** FUNC **
    **********/
+  const handleBack = () => resetRoute(navigation, Routes.ROOT_TAB.name);
+
   const onChangeAssets = index => setAssets(index);
 
   const onCallbackType = newVal => setForm({...form, typeUpdate: newVal});
@@ -688,7 +692,39 @@ function AddRequest(props) {
       }
     }
 
-    navigation.setOptions({title});
+    navigation.setOptions(
+      Object.assign(
+        {
+          title,
+          backButtonInCustomView: true,
+          headerLeft: () =>
+            (route.params?.requestID !== null ||
+              route.params?.requestID !== undefined) && (
+              <CIconHeader
+                icons={[
+                  {
+                    show: !navigation.canGoBack(),
+                    showRedDot: false,
+                    icon: IS_IOS ? Icons.backiOS : Icons.backAndroid,
+                    iconColor: customColors.icon,
+                    onPress: handleBack,
+                  },
+                ]}
+              />
+            ),
+        },
+        IS_ANDROID
+          ? {
+              headerCenter: () => (
+                <CText
+                  customStyles={cStyles.textHeadline}
+                  label={'add_approved_lost_damaged:detail'}
+                />
+              ),
+            }
+          : {},
+      ),
+    );
   }, [navigation, isDetail, form.typeUpdate, requestDetail]);
 
   /************

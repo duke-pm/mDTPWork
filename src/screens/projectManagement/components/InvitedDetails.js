@@ -15,6 +15,7 @@ import CTouchable from '~/components/CTouchable';
 /* COMMON */
 import {Icons} from '~/utils/common';
 import {cStyles} from '~/utils/style';
+import {checkEmpty} from '~/utils/helper';
 
 const RowInfo = React.memo(({icon = '', label = '', onPress = null}) => {
   return (
@@ -64,10 +65,13 @@ function InvitedDetails(props) {
       />
 
       {/** Job */}
-      <RowInfo icon={Icons.jobTask} label={participant.jobTitle} />
+      <RowInfo icon={Icons.jobTask} label={checkEmpty(participant.jobTitle)} />
 
       {/** Department */}
-      <RowInfo icon={Icons.departmentTask} label={participant.deptName} />
+      <RowInfo
+        icon={Icons.departmentTask}
+        label={checkEmpty(participant.deptName)}
+      />
     </View>
   );
 }

@@ -241,10 +241,14 @@ function SignIn(props) {
   };
 
   const onLoginError = () => {
+    let eLogin = authState.get('errorHelperLogin');
+    if (typeof eLogin === 'object') {
+      eLogin = t('sign_in:error_login');
+    }
+
     showMessage({
       message: t('common:app_name'),
-      description:
-        authState.get('errorHelperLogin') || t('sign_in:error_login'),
+      description: eLogin,
       type: 'danger',
       icon: 'danger',
     });

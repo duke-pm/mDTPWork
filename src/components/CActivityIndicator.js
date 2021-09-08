@@ -4,6 +4,7 @@
  ** CreateAt: 2021
  ** Description: Description of CActivityIndicator.js
  **/
+import PropTypes from 'prop-types';
 import React from 'react';
 import {useColorScheme} from 'react-native-appearance';
 import {ActivityIndicator} from 'react-native';
@@ -13,6 +14,7 @@ import {THEME_DARK} from '~/config/constants';
 
 function CActivityIndicator(props) {
   const isDark = useColorScheme() === THEME_DARK;
+  const {color = undefined} = props;
 
   /************
    ** RENDER **
@@ -20,10 +22,14 @@ function CActivityIndicator(props) {
   return (
     <ActivityIndicator
       size={'small'}
-      color={isDark ? colors.GRAY_300 : colors.GRAY_800}
+      color={color || isDark ? colors.GRAY_300 : colors.GRAY_800}
       {...props}
     />
   );
 }
+
+CActivityIndicator.propTypes = {
+  color: PropTypes.any,
+};
 
 export default React.memo(CActivityIndicator);
