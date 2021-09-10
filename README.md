@@ -13,9 +13,9 @@
 3. (Optional) Reset cache node package:
 > ***npm start -- --reset-cache***
 4. Run develop build on Android device:
-> ***npm run android-debug-develop***
+> ***npm run android-dev***
 5. Run prod build on Android device:
-> ***npm run android-debug-product***
+> ***npm run android-prod***
 
 ### Run on iOS device
 1. Intasll all package libs:
@@ -25,6 +25,6 @@
 3. (Optional) Reset cache node package:
 > ***npm start -- --reset-cache***
 4. Run develop build on iOS device:
-> ***npm run ios-debug-develop***
+> ***npm run ios-dev***
 5. Run prod build on iOS device:
-> ***npm run ios-debug-production***
+> ***npm run ios-prod***
