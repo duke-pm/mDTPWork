@@ -14,7 +14,7 @@ import {IS_ANDROID, IS_IOS, moderateScale} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
 
 function Tab(props) {
-  const {key, title, onPress} = props;
+  const {key = '', title = '', onPress = () => null} = props;
 
   /**************
    ** RENDER **

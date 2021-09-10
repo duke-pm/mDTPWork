@@ -24,7 +24,7 @@ import {alert, moderateScale} from '~/utils/helper';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 
-/** All refs use in this screen */
+/** All ref */
 const asStatusRef = createRef();
 
 function Status(props) {

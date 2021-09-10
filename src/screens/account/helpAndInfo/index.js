@@ -15,6 +15,7 @@ import CGroupInfo from '~/components/CGroupInfo';
 /** COMMON */
 import {colors, cStyles} from '~/utils/style';
 
+/** All init */
 const HELP_AND_INFO = [
   {
     id: 'contactUs',
@@ -29,7 +30,6 @@ const HELP_AND_INFO = [
     isURL: false,
   },
 ];
-
 const HELP_AND_INFO_1 = [
   {
     id: 'privacyPolicies',
@@ -68,7 +68,6 @@ const HELP_AND_INFO_1 = [
     isURL: true,
   },
 ];
-
 const HELP_AND_INFO_2 = [
   {
     id: 'rateApp',
@@ -145,4 +144,4 @@ function HelpAndInfo(props) {
   );
 }
 
-export default HelpAndInfo;
+export default React.memo(HelpAndInfo);

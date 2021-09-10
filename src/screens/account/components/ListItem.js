@@ -41,7 +41,7 @@ function ListItem(props) {
     onSignOut = () => null,
     onToggle = () => null,
   } = props;
-  const isSignOut = data.id === 'signout';
+  const IS_SIGN_OUT = data.id === 'signout';
 
   /*****************
    ** HANDLE FUNC **
@@ -75,7 +75,7 @@ function ListItem(props) {
       });
     } else if (data.isChooseLang) {
       data.onPress?.current?.show();
-    } else if (isSignOut) {
+    } else if (IS_SIGN_OUT) {
       onSignOut();
     }
   };
@@ -90,7 +90,7 @@ function ListItem(props) {
     data.isURL ||
     data.isChooseLang ||
     data.isRate ||
-    isSignOut;
+    IS_SIGN_OUT;
   const Component = isTouch ? TouchableOpacity : View;
   if (dataToggle && !dataToggle.activeBiometric) {
     return null;
@@ -139,7 +139,7 @@ function ListItem(props) {
           ]}>
           <View style={[cStyles.ml6, styles.container_label]}>
             <CText
-              customStyles={isSignOut ? {color: customColors.red} : {}}
+              customStyles={IS_SIGN_OUT ? {color: customColors.red} : {}}
               label={data.label}
             />
             {data.description && (

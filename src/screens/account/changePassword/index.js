@@ -45,12 +45,13 @@ if (IS_ANDROID) {
   }
 }
 
-/** All ref */
+/** All init */
 const INPUT_NAME = {
   CUR_PASSWORD: 'currentPassword',
   NEW_PASSWORD: 'newPassword',
   CON_PASSWORD: 'confirmPassword',
 };
+/** All ref */
 let curPasswordRef = createRef();
 let newPasswordRef = createRef();
 let confirmPasswordRef = createRef();

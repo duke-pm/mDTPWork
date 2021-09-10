@@ -14,9 +14,10 @@ import Tab from './Tab';
 import {colors, cStyles} from '~/utils/style';
 import {IS_IOS, moderateScale} from '~/utils/helper';
 
-const posTab1 = 1;
-const posTab2 = moderateScale(350) / 3 - 1;
-const posTab3 = (moderateScale(350) / 3) * 2 - 1;
+/** All init */
+const POSITION_TAB_1 = 1;
+const POSITION_TAB_2 = moderateScale(350) / 3 - 1;
+const POSITION_TAB_3 = (moderateScale(350) / 3) * 2 - 1;
 
 function TabbarType(props) {
   const {customColors} = useTheme();
@@ -29,7 +30,7 @@ function TabbarType(props) {
    **************/
   translateX = position.interpolate({
     inputRange,
-    outputRange: [posTab1, posTab2, posTab3],
+    outputRange: [POSITION_TAB_1, POSITION_TAB_2, POSITION_TAB_3],
     extrapolate: 'clamp',
   });
   return (

@@ -18,7 +18,7 @@ import CActivityIndicator from '~/components/CActivityIndicator';
 /* COMMON */
 import Configs from '~/config';
 import Services from '~/services';
-import {colors, cStyles} from '~/utils/style';
+import {cStyles} from '~/utils/style';
 import {moderateScale, verticalScale} from '~/utils/helper';
 
 /** All init */

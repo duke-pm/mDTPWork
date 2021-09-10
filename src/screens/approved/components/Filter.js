@@ -22,7 +22,7 @@ import CIconButton from '~/components/CIconButton';
 /* COMMON */
 import Configs from '~/config';
 import {Commons, Icons} from '~/utils/common';
-import {colors, cStyles} from '~/utils/style';
+import {cStyles} from '~/utils/style';
 import {IS_ANDROID, moderateScale} from '~/utils/helper';
 
 if (IS_ANDROID) {
@@ -31,8 +31,8 @@ if (IS_ANDROID) {
   }
 }
 
-/** All init avriables */
-const propIcon = {size: moderateScale(21)};
+/** All init */
+const PROPS_ICON = {size: moderateScale(21)};
 const INPUT_NAME = {
   FROM_DATE: 'fromDate',
   TO_DATE: 'toDate',
@@ -176,14 +176,14 @@ function Filter(props) {
       <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween]}>
         <CIconButton
           style={styles.icon}
-          iconProps={propIcon}
+          iconProps={PROPS_ICON}
           iconName={Icons.close}
           iconColor={customColors.red}
           onPress={onClose}
         />
         <CIconButton
           style={styles.icon}
-          iconProps={propIcon}
+          iconProps={PROPS_ICON}
           iconName={Icons.doubleCheck}
           iconColor={customColors.primary}
           onPress={handleFilter}

@@ -42,6 +42,7 @@ if (IS_ANDROID) {
   }
 }
 
+/** All init */
 const formatShowDate = 'DD/MM/YYYY HH:mm';
 const formatDateTime = 'YYYY-MM-DD HH:mm';
 const formatDataDateTime = 'YYYY-MM-DDTHH:mm:ss';

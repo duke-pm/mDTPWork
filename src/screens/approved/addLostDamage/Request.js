@@ -35,6 +35,7 @@ import CGroupInfo from '~/components/CGroupInfo';
 import CActivityIndicator from '~/components/CActivityIndicator';
 import CIcon from '~/components/CIcon';
 import CTouchable from '~/components/CTouchable';
+import CIconHeader from '~/components/CIconHeader';
 import RejectModal from '../components/RejectModal';
 import CheckOption from '../components/CheckOption';
 import Process from '../components/Process';
@@ -57,7 +58,6 @@ import {
 } from '~/utils/helper';
 /* REDUX */
 import * as Actions from '~/redux/actions';
-import CIconHeader from '~/components/CIconHeader';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -65,12 +65,12 @@ if (IS_ANDROID) {
   }
 }
 
-/** All refs*/
+/** All ref */
 const asAssetsRef = createRef();
 let damageRef = createRef();
 let lostRef = createRef();
 
-/** All init value */
+/** All init */
 const dataType = [
   {
     ref: damageRef,

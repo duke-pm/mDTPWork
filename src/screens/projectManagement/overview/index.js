@@ -72,61 +72,19 @@ const DATA_HEADER = [
   },
 ];
 
-const FormatCell = ({isDark = false, customColors = {}, value = ''}) => {
-  return (
-    <View
-      key={value}
-      style={[
-        cStyles.center,
-        cStyles.px6,
-        cStyles.borderLeft,
-        cStyles.borderBottom,
-        isDark && cStyles.borderLeftDark,
-        isDark && cStyles.borderBottomDark,
-        styles.cell,
-        {backgroundColor: customColors.blue},
-      ]}>
-      <CText
-        customStyles={[
-          cStyles.textCenter,
-          cStyles.textCaption1,
-          cStyles.fontBold,
-          {color: colors.WHITE},
-        ]}
-        numberOfLines={1}
-        customLabel={value}
-      />
-    </View>
-  );
-};
-
-const FormatHeader = ({
-  headerScroll = undefined,
-  isDark = false,
-  customColors = {},
-}) => {
-  let cols = [],
-    item;
-  for (item of DATA_HEADER) {
-    cols.push(
-      <FormatCell
-        isDark={isDark}
-        customColors={customColors}
-        value={item.name}
-      />,
-    );
-  }
-  return (
-    <View style={cStyles.row}>
+const FormatCell = React.memo(
+  ({isDark = false, customColors = {}, value = ''}) => {
+    return (
       <View
+        key={value}
         style={[
-          cStyles.abs,
           cStyles.center,
+          cStyles.px6,
           cStyles.borderLeft,
           cStyles.borderBottom,
           isDark && cStyles.borderLeftDark,
           isDark && cStyles.borderBottomDark,
-          styles.first_cell,
+          styles.cell,
           {backgroundColor: customColors.blue},
         ]}>
         <CText
@@ -137,22 +95,64 @@ const FormatHeader = ({
             {color: colors.WHITE},
           ]}
           numberOfLines={1}
-          label={'project_overview:task_name'}
+          customLabel={value}
         />
       </View>
-      <ScrollView
-        ref={headerScroll}
-        contentContainerStyle={styles.row_header}
-        horizontal
-        scrollEnabled={false}
-        scrollEventThrottle={16}
-        removeClippedSubviews={IS_ANDROID}
-        showsHorizontalScrollIndicator={false}>
-        {cols}
-      </ScrollView>
-    </View>
-  );
-};
+    );
+  },
+);
+
+const FormatHeader = React.memo(
+  ({headerScroll = undefined, isDark = false, customColors = {}}) => {
+    let cols = [],
+      item;
+    for (item of DATA_HEADER) {
+      cols.push(
+        <FormatCell
+          isDark={isDark}
+          customColors={customColors}
+          value={item.name}
+        />,
+      );
+    }
+    return (
+      <View style={cStyles.row}>
+        <View
+          style={[
+            cStyles.abs,
+            cStyles.center,
+            cStyles.borderLeft,
+            cStyles.borderBottom,
+            isDark && cStyles.borderLeftDark,
+            isDark && cStyles.borderBottomDark,
+            styles.first_cell,
+            {backgroundColor: customColors.blue},
+          ]}>
+          <CText
+            customStyles={[
+              cStyles.textCenter,
+              cStyles.textCaption1,
+              cStyles.fontBold,
+              {color: colors.WHITE},
+            ]}
+            numberOfLines={1}
+            label={'project_overview:task_name'}
+          />
+        </View>
+        <ScrollView
+          ref={headerScroll}
+          contentContainerStyle={styles.row_header}
+          horizontal
+          scrollEnabled={false}
+          scrollEventThrottle={16}
+          removeClippedSubviews={IS_ANDROID}
+          showsHorizontalScrollIndicator={false}>
+          {cols}
+        </ScrollView>
+      </View>
+    );
+  },
+);
 
 function ProjectOverview(props) {
   const {t} = useTranslation();

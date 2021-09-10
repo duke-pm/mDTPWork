@@ -33,9 +33,9 @@ if (IS_ANDROID) {
   }
 }
 
-const heightItemTable = IS_ANDROID ? verticalScale(38) : verticalScale(30);
-
-export const widthItemTable = [
+/** All init */
+const HEIGHT_ITEM_TABLE = IS_ANDROID ? verticalScale(38) : verticalScale(30);
+export const WIDTH_ITEM_TABLE = [
   moderateScale(35),
   moderateScale(220),
   moderateScale(80),
@@ -51,7 +51,7 @@ function AssetsTable(props) {
     checking = false,
     isDetail = false,
     assets = {
-      width: widthItemTable,
+      width: WIDTH_ITEM_TABLE,
       header: ['', '', '', '', ''],
       data: [],
     },
@@ -61,7 +61,7 @@ function AssetsTable(props) {
   /** Use state */
   const [form, setForm] = useState({
     assets: {
-      width: widthItemTable,
+      width: WIDTH_ITEM_TABLE,
       header: [
         '',
         t('add_approved_assets:description'),
@@ -217,7 +217,7 @@ function AssetsTable(props) {
                       <Cell
                         key={cellIndex.toString()}
                         width={form.assets.width[cellIndex]}
-                        height={heightItemTable}
+                        height={HEIGHT_ITEM_TABLE}
                         data={
                           <AssetItem
                             isDetail={isDetail}
@@ -296,7 +296,7 @@ function AssetsTable(props) {
 
 const styles = StyleSheet.create({
   table_header: {
-    height: heightItemTable,
+    height: HEIGHT_ITEM_TABLE,
     backgroundColor: colors.STATUS_CLOSE_OPACITY,
   },
   con_left: {flex: 0.4},

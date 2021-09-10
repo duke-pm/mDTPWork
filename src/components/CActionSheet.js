@@ -19,7 +19,8 @@ import {colors, cStyles} from '~/utils/style';
 import {THEME_DARK} from '~/config/constants';
 import {IS_IOS, moderateScale} from '~/utils/helper';
 
-const propIcon = {size: moderateScale(21)};
+/** All init */
+const PROPS_ICON = {size: moderateScale(21)};
 
 function CActionSheet(props) {
   const {customColors} = useTheme();
@@ -51,9 +52,7 @@ function CActionSheet(props) {
   /**********
    ** FUNC **
    **********/
-  const onOpenAS = () => {
-    needUpdate = false;
-  };
+  const onOpenAS = () => (needUpdate = false);
 
   const onCloseAS = () => {
     if (onClose) {
@@ -105,7 +104,7 @@ function CActionSheet(props) {
           ]}>
           <CIconButton
             style={styles.icon}
-            iconProps={propIcon}
+            iconProps={PROPS_ICON}
             iconName={Icons.close}
             iconColor={customColors.red}
             onPress={handleClose}
@@ -113,7 +112,7 @@ function CActionSheet(props) {
           <View style={[cStyles.rounded3, styles.indicator]} />
           <CIconButton
             style={styles.icon}
-            iconProps={propIcon}
+            iconProps={PROPS_ICON}
             iconName={Icons.doubleCheck}
             iconColor={customColors.primary}
             onPress={handleConfirm}
@@ -142,4 +141,4 @@ CActionSheet.propTypes = {
   onClose: PropTypes.func,
 };
 
-export default React.memo(CActionSheet);
+export default CActionSheet;

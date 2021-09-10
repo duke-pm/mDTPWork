@@ -6,7 +6,9 @@
  **/
 import PropTypes from 'prop-types';
 import React from 'react';
-import {StyleSheet, Linking, View, TouchableOpacity, Image} from 'react-native';
+import {StyleSheet, Linking, View, Image} from 'react-native';
+/** COMPONENTS */
+import CTouchable from '~/components/CTouchable';
 /* COMMON */
 import {cStyles} from '~/utils/style';
 import {moderateScale} from '~/utils/helper';
@@ -23,14 +25,16 @@ function SocialItem(props) {
    ** RENDER **
    **************/
   return (
-    <TouchableOpacity key={key} onPress={handleSocial}>
+    <CTouchable
+      key={key}
+      containerStyle={[index !== 0 && cStyles.ml16, {}]}
+      onPress={handleSocial}>
       <View
         style={[
           cStyles.rounded1,
           cStyles.center,
           cStyles.p8,
           {backgroundColor: customColors.cardDisable},
-          index !== 0 && cStyles.ml16,
         ]}>
         <Image
           style={styles.social}
@@ -38,7 +42,7 @@ function SocialItem(props) {
           resizeMode={'contain'}
         />
       </View>
-    </TouchableOpacity>
+    </CTouchable>
   );
 }
 

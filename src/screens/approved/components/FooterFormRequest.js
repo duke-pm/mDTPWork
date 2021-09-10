@@ -12,7 +12,7 @@ import CButton from '~/components/CButton';
 /* COMMON */
 import Icons from '~/utils/common/Icons';
 import {moderateScale} from '~/utils/helper';
-import {colors, cStyles} from '~/utils/style';
+import {cStyles} from '~/utils/style';
 
 function FooterFormRequest(props) {
   const {

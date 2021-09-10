@@ -31,6 +31,7 @@ import * as Actions from '~/redux/actions';
 
 /** All ref */
 const asLangRef = createRef();
+
 /** All init */
 const SETTINGS = [
   {

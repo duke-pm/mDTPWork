@@ -35,6 +35,7 @@ if (IS_ANDROID) {
   }
 }
 
+/** All ref */
 const asFilterRef = createRef();
 
 const RenderTabbar = props => <TabbarType {...props} />;

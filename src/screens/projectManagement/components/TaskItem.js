@@ -38,8 +38,10 @@ if (IS_ANDROID) {
   }
 }
 
+/** All init */
 const SIZE_PERCENT_CIRCLE = moderateScale(30);
-
+const PADDING_PARTICIPANT = moderateScale(14);
+const PADDING_TOP_PARTICIPANT = moderateScale(10);
 const CustomLayoutAnimation = {
   duration: 500,
   create: {
@@ -57,9 +59,6 @@ const CustomLayoutAnimation = {
     property: LayoutAnimation.Properties.opacity,
   },
 };
-
-const paddingParticipant = moderateScale(14);
-const paddingTopParticipant = moderateScale(10);
 
 function TaskItem(props) {
   const {data, translation, isDark, customColors, onPress, onRefresh} = props;
@@ -308,8 +307,8 @@ function TaskItem(props) {
                             cStyles.p1,
                             cStyles.abs,
                             {
-                              top: -paddingTopParticipant,
-                              right: (index + 1.5) * paddingParticipant,
+                              top: -PADDING_TOP_PARTICIPANT,
+                              right: (index + 1.5) * PADDING_PARTICIPANT,
                               zIndex: index + 1,
                             },
                           ]}>

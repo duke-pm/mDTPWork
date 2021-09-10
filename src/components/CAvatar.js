@@ -35,7 +35,7 @@ import {
 } from '~/utils/helper';
 
 /** All init */
-const sizes = {
+const SIZES = {
   vsmall: moderateScale(8),
   small: moderateScale(10),
   medium: moderateScale(16),
@@ -165,7 +165,7 @@ function CAvatar(props) {
                   cStyles.textCenter,
                   cStyles.colorGray800,
                   cStyles.fontBold,
-                  {fontSize: sizes[size]},
+                  {fontSize: SIZES[size]},
                 ]}>
                 {customLabel}
               </Text>

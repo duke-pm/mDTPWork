@@ -6,13 +6,13 @@
  **/
 import React from 'react';
 import {useColorScheme} from 'react-native-appearance';
-import {StyleSheet, Dimensions, View} from 'react-native';
+import {Dimensions, View} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 /** COMMON */
 import {THEME_DARK} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
 
-const Circle = ({size, color, position}) => {
+const Circle = React.memo(({size, color, position}) => {
   let style = {
     wrapper: {
       flexDirection: 'row',
@@ -30,9 +30,9 @@ const Circle = ({size, color, position}) => {
       <View style={style.circle} />
     </View>
   );
-};
+});
 
-const Donut = ({size, color, position}) => {
+const Donut = React.memo(({size, color, position}) => {
   let style = {
     wrapper: {
       flexDirection: 'row',
@@ -51,9 +51,9 @@ const Donut = ({size, color, position}) => {
       <View style={style.donut} />
     </View>
   );
-};
+});
 
-const Triangle = ({size, color, position}) => {
+const Triangle = React.memo(({size, color, position}) => {
   let style = {
     wrapper: {
       flexDirection: 'row',
@@ -78,9 +78,9 @@ const Triangle = ({size, color, position}) => {
       <View style={style.triangle} />
     </View>
   );
-};
+});
 
-const DiamondNarrow = ({size, color, position}) => {
+const DiamondNarrow = React.memo(({size, color, position}) => {
   let style = {
     wrapper: {
       flexDirection: 'row',
@@ -120,9 +120,9 @@ const DiamondNarrow = ({size, color, position}) => {
       </View>
     </View>
   );
-};
+});
 
-const CutDiamond = ({size, color, position}) => {
+const CutDiamond = React.memo(({size, color, position}) => {
   let style = {
     wrapper: {
       flexDirection: 'row',
@@ -162,148 +162,139 @@ const CutDiamond = ({size, color, position}) => {
       </View>
     </View>
   );
-};
-
-const Shapes = ({
-  primaryColor,
-  secondaryColor,
-  height,
-  figures,
-  borderRadius,
-  style,
-}) => {
-  const isDark = useColorScheme() === THEME_DARK;
-  const config = {
-    primaryColor: primaryColor || colors.PRIMARY,
-    secondaryColor: secondaryColor || colors.SECONDARY,
-    height: Dimensions.get('window').height / (height || 3.5),
-    sizefigure: 100,
-    figures: figures || [
-      {name: 'circle', position: 'center', size: 60},
-      {name: 'donut', position: 'flex-start', axis: 'top', size: 80},
-      {name: 'cutDiamond', position: 'center', axis: 'right', size: 100},
-    ],
-    borderRadius: borderRadius !== undefined ? borderRadius : 30,
-  };
-
-  const arrFigures = [];
-  const buildFigures = () => {
-    config.figures.forEach((e, i) => {
-      let position = {
-        alignItems: e.position,
-      };
-
-      const sizefigure = e.size || config.sizefigure;
-
-      switch (e.axis) {
-        case 'left':
-          position.left = -sizefigure / 2;
-          break;
-        case 'right':
-          position.right = -sizefigure / 2;
-          break;
-        case 'top':
-          position.top = -sizefigure / 2;
-          break;
-        case 'bottom':
-          position.bottom = -sizefigure / 2;
-          break;
-        default:
-          break;
-      }
-
-      if (e.name === 'circle') {
-        arrFigures.push(
-          <Circle
-            key={i}
-            size={sizefigure}
-            color={config.secondaryColor}
-            position={position}
-          />,
-        );
-      }
-      if (e.name === 'donut') {
-        arrFigures.push(
-          <Donut
-            key={i}
-            size={sizefigure}
-            color={config.secondaryColor}
-            position={position}
-          />,
-        );
-      }
-      if (e.name === 'triangle') {
-        arrFigures.push(
-          <Triangle
-            key={i}
-            size={sizefigure}
-            color={config.secondaryColor}
-            position={position}
-          />,
-        );
-      }
-      if (e.name === 'diamondNarrow') {
-        arrFigures.push(
-          <DiamondNarrow
-            key={i}
-            size={sizefigure}
-            color={config.secondaryColor}
-            position={position}
-          />,
-        );
-      }
-      if (e.name === 'cutDiamond') {
-        arrFigures.push(
-          <CutDiamond
-            key={i}
-            size={sizefigure}
-            color={config.secondaryColor}
-            position={position}
-          />,
-        );
-      }
-    });
-
-    return arrFigures;
-  };
-
-  return (
-    <LinearGradient
-      style={[
-        cStyles.flex1,
-        {
-          ...styles.wrapper,
-          height: config.height,
-          borderBottomLeftRadius: config.borderRadius,
-          borderBottomRightRadius: config.borderRadius,
-        },
-      ]}
-      colors={[primaryColor, isDark ? '#000' : '#FFF']}>
-      <View
-        style={{
-          ...styles.wrapper,
-          height: config.height,
-          borderBottomLeftRadius: config.borderRadius,
-          borderBottomRightRadius: config.borderRadius,
-          ...style,
-        }}>
-        <>{buildFigures()}</>
-      </View>
-    </LinearGradient>
-  );
-};
-
-const styles = StyleSheet.create({
-  wrapper: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
 });
+
+const Shapes = React.memo(
+  ({primaryColor, secondaryColor, height, figures, borderRadius, style}) => {
+    const isDark = useColorScheme() === THEME_DARK;
+    const config = {
+      primaryColor: primaryColor || colors.PRIMARY,
+      secondaryColor: secondaryColor || colors.SECONDARY,
+      height: Dimensions.get('window').height / (height || 3.5),
+      sizefigure: 100,
+      figures: figures || [
+        {name: 'circle', position: 'center', size: 60},
+        {name: 'donut', position: 'flex-start', axis: 'top', size: 80},
+        {name: 'cutDiamond', position: 'center', axis: 'right', size: 100},
+      ],
+      borderRadius: borderRadius !== undefined ? borderRadius : 30,
+    };
+
+    const arrFigures = [];
+    const buildFigures = () => {
+      config.figures.forEach((e, i) => {
+        let position = {
+          alignItems: e.position,
+        };
+
+        const sizefigure = e.size || config.sizefigure;
+
+        switch (e.axis) {
+          case 'left':
+            position.left = -sizefigure / 2;
+            break;
+          case 'right':
+            position.right = -sizefigure / 2;
+            break;
+          case 'top':
+            position.top = -sizefigure / 2;
+            break;
+          case 'bottom':
+            position.bottom = -sizefigure / 2;
+            break;
+          default:
+            break;
+        }
+
+        if (e.name === 'circle') {
+          arrFigures.push(
+            <Circle
+              key={i}
+              size={sizefigure}
+              color={config.secondaryColor}
+              position={position}
+            />,
+          );
+        }
+        if (e.name === 'donut') {
+          arrFigures.push(
+            <Donut
+              key={i}
+              size={sizefigure}
+              color={config.secondaryColor}
+              position={position}
+            />,
+          );
+        }
+        if (e.name === 'triangle') {
+          arrFigures.push(
+            <Triangle
+              key={i}
+              size={sizefigure}
+              color={config.secondaryColor}
+              position={position}
+            />,
+          );
+        }
+        if (e.name === 'diamondNarrow') {
+          arrFigures.push(
+            <DiamondNarrow
+              key={i}
+              size={sizefigure}
+              color={config.secondaryColor}
+              position={position}
+            />,
+          );
+        }
+        if (e.name === 'cutDiamond') {
+          arrFigures.push(
+            <CutDiamond
+              key={i}
+              size={sizefigure}
+              color={config.secondaryColor}
+              position={position}
+            />,
+          );
+        }
+      });
+
+      return arrFigures;
+    };
+
+    return (
+      <LinearGradient
+        style={[
+          cStyles.abs,
+          cStyles.inset0,
+          cStyles.flex1,
+          cStyles.row,
+          cStyles.justifyBetween,
+          {
+            height: config.height,
+            borderBottomLeftRadius: config.borderRadius,
+            borderBottomRightRadius: config.borderRadius,
+          },
+        ]}
+        colors={[primaryColor, isDark ? '#000' : '#FFF']}>
+        <View
+          style={[
+            cStyles.abs,
+            cStyles.inset0,
+            cStyles.flex1,
+            cStyles.row,
+            cStyles.justifyBetween,
+            {
+              height: config.height,
+              borderBottomLeftRadius: config.borderRadius,
+              borderBottomRightRadius: config.borderRadius,
+              ...style,
+            },
+          ]}>
+          <>{buildFigures()}</>
+        </View>
+      </LinearGradient>
+    );
+  },
+);
 
 export {Shapes};

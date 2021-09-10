@@ -125,7 +125,7 @@ const ACCOUNT = {
   },
 };
 
-const Information = ({isTablet = false, authState = {}}) => {
+const Information = React.memo(({isTablet = false, authState = {}}) => {
   return (
     <CGroupInfo
       contentStyle={[
@@ -170,69 +170,71 @@ const Information = ({isTablet = false, authState = {}}) => {
       }
     />
   );
-};
+});
 
-const Socials = ({
-  customColors = {},
-  isDark = false,
-  isTablet = false,
-  needUpdate = {},
-  onUpdate = () => null,
-}) => {
-  return (
-    <CGroupInfo
-      contentStyle={[
-        cStyles.mb10,
-        cStyles.px10,
-        isTablet ? cStyles.mx10 : cStyles.mx16,
-      ]}
-      content={
-        <>
-          <View style={cStyles.itemsStart}>
-            <Text style={[cStyles.textCaption1, {color: customColors.text}]}>
-              &#169; {`${Configs.toDay.year()} ${Configs.nameOfApp}`}
-            </Text>
-          </View>
-
-          <View style={[cStyles.mt6, cStyles.row, cStyles.itemsCenter]}>
-            <Text
-              style={[
-                cStyles.textCaption1,
-                cStyles.mt5,
-                {color: customColors.text},
-              ]}>
-              {`v${VersionCheck.getCurrentVersion()}`}
-            </Text>
-            {needUpdate.status && (
-              <CButton
-                style={[cStyles.ml10, cStyles.px6]}
-                textStyle={cStyles.textCaption1}
-                variant={'text'}
-                icon={Icons.download}
-                label={'common:download'}
-                onPress={onUpdate}
-              />
-            )}
-          </View>
-
-          <View style={[cStyles.itemsStart, cStyles.mt10]}>
-            <View style={[cStyles.row, cStyles.itemsCenter]}>
-              {Configs.socialsNetwork.map((item, index) => (
-                <SocialItem
-                  key={item.id}
-                  index={index}
-                  data={item}
-                  customColors={customColors}
-                  isDark={isDark}
-                />
-              ))}
+const Socials = React.memo(
+  ({
+    customColors = {},
+    isDark = false,
+    isTablet = false,
+    needUpdate = {},
+    onUpdate = () => null,
+  }) => {
+    return (
+      <CGroupInfo
+        contentStyle={[
+          cStyles.mb10,
+          cStyles.px10,
+          isTablet ? cStyles.mx10 : cStyles.mx16,
+        ]}
+        content={
+          <>
+            <View style={cStyles.itemsStart}>
+              <Text style={[cStyles.textCaption1, {color: customColors.text}]}>
+                &#169; {`${Configs.toDay.year()} ${Configs.nameOfApp}`}
+              </Text>
             </View>
-          </View>
-        </>
-      }
-    />
-  );
-};
+
+            <View style={[cStyles.mt6, cStyles.row, cStyles.itemsCenter]}>
+              <Text
+                style={[
+                  cStyles.textCaption1,
+                  cStyles.mt5,
+                  {color: customColors.text},
+                ]}>
+                {`v${VersionCheck.getCurrentVersion()}`}
+              </Text>
+              {needUpdate.status && (
+                <CButton
+                  style={[cStyles.ml10, cStyles.px6]}
+                  textStyle={cStyles.textCaption1}
+                  variant={'text'}
+                  icon={Icons.download}
+                  label={'common:download'}
+                  onPress={onUpdate}
+                />
+              )}
+            </View>
+
+            <View style={[cStyles.itemsStart, cStyles.mt10]}>
+              <View style={[cStyles.row, cStyles.itemsCenter]}>
+                {Configs.socialsNetwork.map((item, index) => (
+                  <SocialItem
+                    key={item.id}
+                    index={index}
+                    data={item}
+                    customColors={customColors}
+                    isDark={isDark}
+                  />
+                ))}
+              </View>
+            </View>
+          </>
+        }
+      />
+    );
+  },
+);
 
 function Account(props) {
   const {t} = useTranslation();

@@ -28,8 +28,9 @@ import CGroupInfo from '~/components/CGroupInfo';
 import CIcon from '~/components/CIcon';
 import CActivityIndicator from '~/components/CActivityIndicator';
 import CTouchable from '~/components/CTouchable';
+import CIconHeader from '~/components/CIconHeader';
 import RejectModal from '../components/RejectModal';
-import AssetsTable, {widthItemTable} from '../components/AssetsTable';
+import AssetsTable, {WIDTH_ITEM_TABLE} from '../components/AssetsTable';
 import CheckOption from '../components/CheckOption';
 import Process from '../components/Process';
 import FooterFormRequest from '../components/FooterFormRequest';
@@ -51,9 +52,8 @@ import {
 } from '~/utils/helper';
 /* REDUX */
 import * as Actions from '~/redux/actions';
-import CIconHeader from '~/components/CIconHeader';
 
-/** All refs */
+/** All ref */
 const asDepartmentRef = createRef();
 let supplierRef = createRef();
 let newRef = createRef();
@@ -61,7 +61,7 @@ let addRef = createRef();
 let yesRef = createRef();
 let noRef = createRef();
 
-/** All init value */
+/** All init */
 const INPUT_NAME = {
   DATE_REQUEST: 'dateRequest',
   NAME: 'name',
@@ -201,7 +201,7 @@ function AddRequest(props) {
     department: authState.getIn(['login', 'deptCode']),
     region: authState.getIn(['login', 'regionCode']),
     assets: {
-      width: widthItemTable,
+      width: WIDTH_ITEM_TABLE,
       header: [
         '',
         t('add_approved_assets:description'),
@@ -296,7 +296,7 @@ function AddRequest(props) {
       department: dataRequest ? dataRequest?.deptCode : '',
       region: dataRequest ? dataRequest?.regionCode : '',
       assets: {
-        width: widthItemTable,
+        width: WIDTH_ITEM_TABLE,
         header: [
           '',
           t('add_approved_assets:description'),

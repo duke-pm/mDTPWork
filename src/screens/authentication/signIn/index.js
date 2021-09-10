@@ -57,15 +57,15 @@ if (IS_ANDROID) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
   }
 }
-const AnimImage = Animated.createAnimatedComponent(FastImage);
 
 /** All init */
 const INPUT_NAME = {
   USER_NAME: 'userName',
   PASSWORD: 'password',
 };
+const AnimImage = Animated.createAnimatedComponent(FastImage);
 
-/** All refs */
+/** All ref */
 let userNameRef = createRef();
 let passwordRef = createRef();
 

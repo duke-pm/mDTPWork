@@ -29,6 +29,7 @@ if (IS_ANDROID) {
   }
 }
 
+/** All init */
 const CustomLayoutAnimated = {
   duration: 500,
   create: {
@@ -41,7 +42,6 @@ const CustomLayoutAnimated = {
     springDamping: 0.7,
   },
 };
-
 const PADDING_CHILDREN = moderateScale(14);
 const PADDING_2_CHILDREN = moderateScale(6);
 const BOTTOM_CHILDREN = moderateScale(10);

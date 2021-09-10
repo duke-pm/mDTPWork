@@ -20,7 +20,7 @@ import {colors, cStyles} from '~/utils/style';
 import {moderateScale} from '~/utils/helper';
 import {THEME_DARK} from '~/config/constants';
 
-/** All init variables */
+/** All init */
 let isReject = false;
 let isLastProcess = false;
 

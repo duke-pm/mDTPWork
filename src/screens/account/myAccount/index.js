@@ -7,31 +7,27 @@
  **/
 import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import {useColorScheme} from 'react-native-appearance';
 import {StyleSheet, View} from 'react-native';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
-import CText from '~/components/CText';
 import CAvatar from '~/components/CAvatar';
+import CInput from '~/components/CInput';
 /* COMMON */
 import {cStyles} from '~/utils/style';
 import {IS_ANDROID, moderateScale} from '~/utils/helper';
-import {THEME_DARK} from '~/config/constants';
 /* REDUX */
 import * as Actions from '~/redux/actions';
-import CInput from '~/components/CInput';
 
-const RowInfo = ({style = {}, label = '', value = ''}) => {
+const RowInfo = React.memo(({style = {}, label = '', value = ''}) => {
   return (
     <View style={[cStyles.flex1, cStyles.mt16, style]}>
       <CInput label={label} holder={label} value={value} disabled />
     </View>
   );
-};
+});
 
 function MyAccount(props) {
-  const isDark = useColorScheme() === THEME_DARK;
   const {navigation} = props;
 
   /** Use state */

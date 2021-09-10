@@ -20,6 +20,7 @@ if (IS_ANDROID) {
   }
 }
 
+/** All init */
 const INPUT_NAME = {REASON_REJECT: 'reasonReject'};
 
 function RejectModal(props) {

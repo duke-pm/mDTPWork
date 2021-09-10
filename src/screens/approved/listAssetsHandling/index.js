@@ -35,7 +35,7 @@ if (IS_ANDROID) {
   }
 }
 
-/** All refs */
+/** All ref */
 const asFilterRef = createRef();
 
 function ListRequestHandling(props) {
