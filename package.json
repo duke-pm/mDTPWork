@@ -8,11 +8,11 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint .",
-    "ios-debug-develop-ip8": "react-native run-ios --scheme mDTPWorkDev --configuration DebugDev --simulator='iPhone 8 Plus'",
-    "ios-debug-develop": "react-native run-ios --scheme mDTPWorkDev --configuration DebugDev",
-    "ios-debug-product" : "react-native run-ios --scheme mDTPWorkProd --configuration DebugDev",
-    "android-debug-develop": "react-native run-android --no-jetifier --variant=devDebug --appId 'com.dtpwork.dev'",
-    "android-debug-product": "react-native run-android --no-jetifier --variant=productDebug --appId 'com.dtpwork'"
+    "ios-dev-ip8": "react-native run-ios --scheme mDTPWorkDev --configuration DebugDev --simulator='iPhone 8 Plus'",
+    "ios-dev": "react-native run-ios --scheme mDTPWorkDev --configuration DebugDev",
+    "ios-prod" : "react-native run-ios --scheme mDTPWorkProd --configuration DebugDev",
+    "android-dev": "react-native run-android --no-jetifier --variant=devDebug --appId 'com.dtpwork.dev'",
+    "android-prod": "react-native run-android --no-jetifier --variant=productDebug --appId 'com.dtpwork'"
   },
   "dependencies": {
     "@gregfrench/react-native-wheel-picker": "^1.2.13",
