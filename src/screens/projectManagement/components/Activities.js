@@ -218,7 +218,7 @@ function Activity(props) {
     setDataSearch({...dataSearch, active: dataSearch.active - 1});
     arrayRef[dataSearch.data[dataSearch.active - 1].section].item[
       dataSearch.data[dataSearch.active - 1].item - 1
-    ].ref.rubberBand(1000);
+    ].ref.pulse(1000);
   };
 
   const handleUpSearch = () => {
@@ -231,7 +231,7 @@ function Activity(props) {
     setDataSearch({...dataSearch, active: dataSearch.active + 1});
     arrayRef[dataSearch.data[dataSearch.active + 1].section].item[
       dataSearch.data[dataSearch.active + 1].item - 1
-    ].ref.rubberBand(1000);
+    ].ref.pulse(1000);
   };
 
   /**********
@@ -417,10 +417,10 @@ function Activity(props) {
   return (
     <CContainer
       loading={loading.main || loading.send}
-      hasShapes
-      figuresShapes={[]}
-      primaryColorShapes={colors.BG_HEADER_PROJECT}
-      primaryColorShapesDark={colors.BG_HEADER_PROJECT_DARK}
+      // hasShapes
+      // figuresShapes={[]}
+      // primaryColorShapes={colors.BG_HEADER_PROJECT}
+      // primaryColorShapesDark={colors.BG_HEADER_PROJECT_DARK}
       content={
         <View style={cStyles.flex1}>
           {showSearch && (
@@ -502,9 +502,9 @@ function Activity(props) {
                       <Animatable.View
                         ref={ref => onCheckRef(index, ref)}
                         style={[
-                          cStyles.roundedTopLeft3,
-                          cStyles.roundedTopRight3,
-                          cStyles.roundedBottomLeft3,
+                          cStyles.roundedTopLeft1,
+                          cStyles.roundedTopRight1,
+                          cStyles.roundedBottomLeft1,
                           cStyles.p10,
                           styles.con_me,
                         ]}>
@@ -512,39 +512,28 @@ function Activity(props) {
                           styles={'colorWhite textRight'}
                           customLabel={item.comments}
                         />
+                        <CText
+                          styles={
+                            'colorWhite textRight textCaption2 fontLight mt4'
+                          }
+                          customLabel={`${item.timeUpdate.split(' - ')[1]}`}
+                        />
                       </Animatable.View>
-                      <CText
-                        styles={'textRight textCaption2 mt4'}
-                        customLabel={`${item.timeUpdate.split(' - ')[1]}`}
-                      />
                     </View>
                   );
                 }
                 return (
-                  <View style={[cStyles.row, cStyles.itemsStart, cStyles.mr32]}>
-                    {item.showAvatar ? (
+                  <View
+                    style={[cStyles.flex1, cStyles.row, cStyles.itemsStart]}>
+                    {item.showAvatar && (
                       <View style={styles.container_chat}>
-                        <CAvatar
-                          containerStyle={cStyles.pl6}
-                          size={'small'}
-                          label={item.fullName}
-                        />
-                        <CText
-                          styles={'textCaption2 textLeft mt6'}
-                          customLabel={`${item.timeUpdate.split('-')[1]}`}
-                        />
-                      </View>
-                    ) : (
-                      <View style={styles.container_chat}>
-                        <CText
-                          styles={'textCaption2 textLeft'}
-                          customLabel={`${item.timeUpdate.split('-')[1]}`}
-                        />
+                        <CAvatar size={'small'} label={item.fullName} />
                       </View>
                     )}
-                    <View style={cStyles.ml4}>
+                    {!item.showAvatar && <View style={styles.container_chat} />}
+                    <View style={styles.container_cmt}>
                       {item.showAvatar && (
-                        <View style={[cStyles.ml10, cStyles.mb3]}>
+                        <View style={cStyles.mb3}>
                           <CText
                             styles={'fontBold colorPrimary'}
                             customLabel={item.fullName}
@@ -554,14 +543,17 @@ function Activity(props) {
                       <Animatable.View
                         ref={ref => onCheckRef(index, ref)}
                         style={[
-                          cStyles.roundedTopRight3,
-                          cStyles.roundedBottomRight3,
-                          cStyles.roundedBottomLeft3,
+                          cStyles.roundedTopRight1,
+                          cStyles.roundedBottomRight1,
+                          cStyles.roundedBottomLeft1,
                           cStyles.p10,
-                          cStyles.ml10,
                           {backgroundColor: customColors.cardHolder},
                         ]}>
                         <CText customLabel={item.comments} />
+                        <CText
+                          styles={'textCaption2 textRight fontLight mt4'}
+                          customLabel={`${item.timeUpdate.split('-')[1]}`}
+                        />
                       </Animatable.View>
                     </View>
                   </View>
@@ -588,7 +580,8 @@ function Activity(props) {
 const styles = StyleSheet.create({
   input_focus: {borderColor: colors.PRIMARY},
   input: {width: '85%'},
-  container_chat: {width: moderateScale(32)},
+  container_chat: {flex: 0.1},
+  container_cmt: {flex: 0.9},
   con_me: {backgroundColor: colors.BLUE},
 });
 

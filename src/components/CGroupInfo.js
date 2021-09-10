@@ -46,7 +46,7 @@ function CGroupInfo({
       <View
         style={[
           cStyles.flex1,
-          cStyles.rounded2,
+          cStyles.rounded1,
           cStyles.m16,
           cStyles.mt10,
           cStyles.p16,

@@ -209,7 +209,7 @@ function Status(props) {
             cStyles.row,
             cStyles.itemsCenter,
             cStyles.justifyBetween,
-            cStyles.rounded2,
+            cStyles.rounded1,
             {backgroundColor: props.task.colorCode},
             isDark && {backgroundColor: props.task.colorOpacityCode},
           ]}>

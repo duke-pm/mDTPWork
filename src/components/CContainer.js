@@ -55,7 +55,7 @@ function CContainer(props) {
         <Shapes
           primaryColor={
             isDark
-              ? primaryColorShapesDark || colors.STATUS_ON_HOLD_OPACITY
+              ? primaryColorShapesDark || colors.STATUS_NEW_OPACITY
               : primaryColorShapes || colors.BLUE
           }
           secondaryColor={isDark ? colors.STATUS_NEW_OPACITY : colors.FACEBOOK}

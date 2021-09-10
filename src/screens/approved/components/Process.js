@@ -43,14 +43,14 @@ function Process(props) {
   return (
     <>
       <CTouchable
-        containerStyle={[cStyles.rounded2, cStyles.mx32, cStyles.mt16]}
+        containerStyle={[cStyles.rounded1, cStyles.mx32, cStyles.mt16]}
         onPress={handleShowProcess}>
         <View
           style={[
             cStyles.px10,
             cStyles.row,
             cStyles.center,
-            cStyles.rounded2,
+            cStyles.rounded1,
             cStyles.borderDashed,
             cStyles.borderAll,
             statusID < Commons.STATUS_REQUEST.DONE.value &&

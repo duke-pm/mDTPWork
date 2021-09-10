@@ -42,7 +42,7 @@ function CAlert(props) {
       <View
         style={[
           cStyles.center,
-          cStyles.rounded3,
+          cStyles.rounded1,
           styles.container,
           content && styles.container_small,
           {backgroundColor: customColors.card},
@@ -51,8 +51,8 @@ function CAlert(props) {
         {hasTitle && (
           <View
             style={[
-              cStyles.roundedTopLeft3,
-              cStyles.roundedTopRight3,
+              cStyles.roundedTopLeft1,
+              cStyles.roundedTopRight1,
               cStyles.pt16,
               cStyles.px10,
               cStyles.center,

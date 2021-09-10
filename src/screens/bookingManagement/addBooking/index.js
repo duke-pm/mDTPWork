@@ -139,7 +139,7 @@ const RowSelectTags = (
                     style={[
                       cStyles.row,
                       cStyles.itemsCenter,
-                      cStyles.rounded3,
+                      cStyles.rounded1,
                       cStyles.px6,
                       cStyles.py6,
                       cStyles.mr6,

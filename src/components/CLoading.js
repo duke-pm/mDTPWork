@@ -38,7 +38,7 @@ function CLoading(props) {
       {...props}>
       <View style={cStyles.flexCenter}>
         <Animatable.View
-          style={[cStyles.rounded2, cStyles.center, styles.indicator]}
+          style={[cStyles.rounded1, cStyles.center, styles.indicator]}
           animation={'pulse'}
           duration={1000}
           easing={'ease-out'}

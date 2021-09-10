@@ -83,7 +83,7 @@ function CList(props) {
                 cStyles.itemsCenter,
                 styles.title,
               ]}>
-              <View style={[cStyles.py5, cStyles.px16, cStyles.rounded5]}>
+              <View style={[cStyles.py5, cStyles.px16]}>
                 <CText
                   customStyles={[
                     cStyles.textCaption1,

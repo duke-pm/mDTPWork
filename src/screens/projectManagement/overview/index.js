@@ -7,9 +7,10 @@
  ** Description: Description of ProjectOverview.js
  **/
 import {fromJS} from 'immutable';
-import {useDispatch, useSelector} from 'react-redux';
 import React, {useEffect, useRef, useState, useLayoutEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
+import {useColorScheme} from 'react-native-appearance';
 import {useTheme} from '@react-navigation/native';
 import {showMessage} from 'react-native-flash-message';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -83,7 +84,7 @@ const FormatCell = ({isDark = false, customColors = {}, value = ''}) => {
         isDark && cStyles.borderLeftDark,
         isDark && cStyles.borderBottomDark,
         styles.cell,
-        {backgroundColor: customColors.teal},
+        {backgroundColor: customColors.blue},
       ]}>
       <CText
         customStyles={[
@@ -126,7 +127,7 @@ const FormatHeader = ({
           isDark && cStyles.borderLeftDark,
           isDark && cStyles.borderBottomDark,
           styles.first_cell,
-          {backgroundColor: customColors.teal},
+          {backgroundColor: customColors.blue},
         ]}>
         <CText
           customStyles={[
@@ -155,8 +156,8 @@ const FormatHeader = ({
 
 function ProjectOverview(props) {
   const {t} = useTranslation();
+  const isDark = useColorScheme() === THEME_DARK;
   const {customColors} = useTheme();
-  const isDark = useTheme() === THEME_DARK;
   const {navigation} = props;
 
   /** Use ref */

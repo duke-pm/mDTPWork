@@ -176,8 +176,8 @@ const FormatFirstCell = React.memo(
             style={[
               cStyles.textCaption1,
               cStyles.fontRegular,
-              {color: customColors.text},
               isProject && cStyles.fontBold,
+              {color: customColors.text},
             ]}>
             {value}
           </Text>
@@ -225,6 +225,7 @@ const FormatIdentityColumn = React.memo(
           <FormatFirstCell
             isDark={isDark}
             isProject={data[i].isProject}
+            customColors={customColors}
             value={data[i].itemName}
             pChild={tmpPChild}
             taskType={data[i].taskTypeID}

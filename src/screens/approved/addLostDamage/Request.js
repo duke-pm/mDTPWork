@@ -868,131 +868,136 @@ function AddRequest(props) {
                     onCallback={onCallbackType}
                   />
                 </View>
+
+                {/** Assets for detail */}
+                {(isDetail || requestDetail) && (
+                  <View style={[cStyles.itemsCenter, cStyles.mt16]}>
+                    <CCard
+                      containerStyle={[cStyles.rounded1, styles.box]}
+                      customLabel={
+                        isDetail
+                          ? route.params?.data?.assetName
+                          : requestDetail.assetName
+                      }
+                      content={
+                        <>
+                          <View
+                            style={[
+                              cStyles.row,
+                              cStyles.itemsCenter,
+                              cStyles.justifyBetween,
+                            ]}>
+                            <View
+                              style={[
+                                cStyles.row,
+                                cStyles.itemsCenter,
+                                cStyles.justifyStart,
+                                styles.left,
+                              ]}>
+                              <CIcon name={Icons.calendar} size={'smaller'} />
+                              <CLabel
+                                style={cStyles.ml6}
+                                customLabel={moment(
+                                  isDetail
+                                    ? route.params?.data?.purchaseDate
+                                    : requestDetail.purchaseDate,
+                                  DEFAULT_FORMAT_DATE_4,
+                                ).format(formatDateView)}
+                              />
+                            </View>
+                            <View
+                              style={[
+                                cStyles.row,
+                                cStyles.itemsCenter,
+                                cStyles.justifyStart,
+                                styles.right,
+                              ]}>
+                              <CIcon name={Icons.typeAsset} size={'smaller'} />
+                              <CLabel
+                                style={cStyles.ml6}
+                                customLabel={
+                                  isDetail
+                                    ? route.params?.data?.assetTypeName
+                                    : requestDetail.assetTypeName
+                                }
+                              />
+                            </View>
+                          </View>
+
+                          <View
+                            style={[
+                              cStyles.row,
+                              cStyles.itemsCenter,
+                              cStyles.justifyBetween,
+                              cStyles.mt5,
+                            ]}>
+                            <View
+                              style={[
+                                cStyles.row,
+                                cStyles.itemsCenter,
+                                cStyles.justifyStart,
+                                styles.left,
+                              ]}>
+                              <CIcon name={Icons.priceAsset} size={'smaller'} />
+                              <CLabel
+                                style={cStyles.ml6}
+                                customLabel={checkEmpty(
+                                  isDetail
+                                    ? route.params?.data?.originalPrice
+                                    : requestDetail.originalPrice,
+                                  null,
+                                  true,
+                                )}
+                              />
+                            </View>
+                            <View
+                              style={[
+                                cStyles.row,
+                                cStyles.itemsCenter,
+                                cStyles.justifyStart,
+                                styles.right,
+                              ]}>
+                              <CIcon
+                                name={Icons.statusAsset}
+                                size={'smaller'}
+                              />
+                              <CLabel
+                                style={cStyles.ml6}
+                                customLabel={
+                                  isDetail
+                                    ? route.params?.data?.assetStatusName
+                                    : requestDetail.assetStatusName
+                                }
+                              />
+                            </View>
+                          </View>
+
+                          <View
+                            style={[
+                              cStyles.row,
+                              cStyles.itemsCenter,
+                              cStyles.justifyStart,
+                              cStyles.mt5,
+                            ]}>
+                            <CIcon name={Icons.detailAsset} size={'smaller'} />
+                            <CLabel
+                              style={cStyles.ml6}
+                              customLabel={checkEmpty(
+                                isDetail
+                                  ? route.params?.data?.descr
+                                  : requestDetail.descr,
+                                t('common:empty_info'),
+                              )}
+                            />
+                          </View>
+                        </>
+                      }
+                    />
+                  </View>
+                )}
               </>
             }
           />
-
-          {/** Assets for detail */}
-          {(isDetail || requestDetail) && (
-            <View style={[cStyles.itemsCenter, cStyles.pb16]}>
-              <CCard
-                containerStyle={[cStyles.rounded2, styles.box]}
-                customLabel={
-                  isDetail
-                    ? route.params?.data?.assetName
-                    : requestDetail.assetName
-                }
-                content={
-                  <>
-                    <View
-                      style={[
-                        cStyles.row,
-                        cStyles.itemsCenter,
-                        cStyles.justifyBetween,
-                      ]}>
-                      <View
-                        style={[
-                          cStyles.row,
-                          cStyles.justifyStart,
-                          styles.left,
-                        ]}>
-                        <CLabel
-                          label={
-                            'add_approved_lost_damaged:purchase_date_asset'
-                          }
-                        />
-                        <CLabel
-                          customLabel={moment(
-                            isDetail
-                              ? route.params?.data?.purchaseDate
-                              : requestDetail.purchaseDate,
-                            DEFAULT_FORMAT_DATE_4,
-                          ).format(formatDateView)}
-                        />
-                      </View>
-                      <View
-                        style={[
-                          cStyles.row,
-                          cStyles.justifyStart,
-                          styles.right,
-                        ]}>
-                        <CLabel
-                          label={'add_approved_lost_damaged:type_asset'}
-                        />
-                        <CLabel
-                          customLabel={
-                            isDetail
-                              ? route.params?.data?.assetTypeName
-                              : requestDetail.assetTypeName
-                          }
-                        />
-                      </View>
-                    </View>
-
-                    <View
-                      style={[
-                        cStyles.row,
-                        cStyles.itemsCenter,
-                        cStyles.justifyBetween,
-                        cStyles.mt5,
-                      ]}>
-                      <View
-                        style={[
-                          cStyles.row,
-                          cStyles.justifyStart,
-                          styles.left,
-                        ]}>
-                        <CLabel
-                          label={'add_approved_lost_damaged:price_asset'}
-                        />
-                        <CLabel
-                          customLabel={checkEmpty(
-                            isDetail
-                              ? route.params?.data?.originalPrice
-                              : requestDetail.originalPrice,
-                            null,
-                            true,
-                          )}
-                        />
-                      </View>
-                      <View
-                        style={[
-                          cStyles.row,
-                          cStyles.justifyStart,
-                          styles.right,
-                        ]}>
-                        <CLabel
-                          label={'add_approved_lost_damaged:status_asset'}
-                        />
-                        <CLabel
-                          customLabel={
-                            isDetail
-                              ? route.params?.data?.assetStatusName
-                              : requestDetail.assetStatusName
-                          }
-                        />
-                      </View>
-                    </View>
-
-                    <View
-                      style={[cStyles.row, cStyles.justifyStart, cStyles.mt5]}>
-                      <CLabel
-                        label={'add_approved_lost_damaged:detail_asset'}
-                      />
-                      <CLabel
-                        customLabel={checkEmpty(
-                          isDetail
-                            ? route.params?.data?.descr
-                            : requestDetail.descr,
-                          t('common:empty_info'),
-                        )}
-                      />
-                    </View>
-                  </>
-                }
-              />
-            </View>
-          )}
 
           {/** MODAL */}
           {!isDetail && !requestDetail && (
@@ -1091,7 +1096,7 @@ const styles = StyleSheet.create({
   right: {flex: 0.5},
   action: {width: '100%', height: verticalScale(180)},
   content_picker: {height: '40%'},
-  box: {width: moderateScale(350)},
+  box: {width: moderateScale(320)},
   row_select: {
     height: IS_ANDROID
       ? verticalScale(38)

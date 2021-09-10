@@ -42,19 +42,19 @@ function CItem(props) {
   return (
     <CTouchable
       key={key}
-      containerStyle={[cStyles.rounded3, cStyles.mt16, styles.item, itemStyle]}
-      style={cStyles.rounded3}
+      containerStyle={[cStyles.rounded1, cStyles.mt16, styles.item, itemStyle]}
+      style={cStyles.rounded1}
       onPress={handleItem}>
       <View style={[cStyles.itemsCenter, cStyles.py10]}>
         <View
           style={[
-            cStyles.rounded3,
+            cStyles.rounded1,
             cStyles.center,
             {backgroundColor: bgColor},
             styles.con_icon,
           ]}>
           <LinearGradient
-            style={[cStyles.center, cStyles.rounded8, cStyles.p8, iconStyle]}
+            style={[cStyles.center, cStyles.rounded5, cStyles.p8, iconStyle]}
             start={{x: 0.0, y: 0.25}}
             end={{x: 0.5, y: 1.0}}
             colors={props.colors}>

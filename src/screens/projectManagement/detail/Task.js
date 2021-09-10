@@ -88,55 +88,57 @@ const CustomLayoutAnimated = {
   },
 };
 
-export const RowInfoBasic = ({
-  style = {},
-  isDark = false,
-  left = null,
-  right = null,
-  iconOnPress = undefined,
-  onPress = undefined,
-}) => {
-  const Touchable = onPress ? TouchableOpacity : View;
-  return (
-    <Touchable
-      style={[
-        cStyles.row,
-        cStyles.itemsCenter,
-        cStyles.justifyBetween,
-        cStyles.py12,
-        cStyles.borderBottom,
-        isDark && cStyles.borderBottomDark,
-        style,
-      ]}
-      onPress={onPress}>
-      <View style={[cStyles.itemsStart, styles.row_info_basic_left]}>
-        {left}
-      </View>
-      {onPress ? (
-        <View
-          style={[
-            cStyles.row,
-            cStyles.itemsCenter,
-            cStyles.justifyEnd,
-            styles.row_info_basic_right,
-          ]}>
-          <View>{right}</View>
-          {iconOnPress || (
-            <CIcon
-              name={Icons.next}
-              size={'small'}
-              customColor={colors.GRAY_500}
-            />
-          )}
+export const RowInfoBasic = React.memo(
+  ({
+    style = {},
+    isDark = false,
+    left = null,
+    right = null,
+    iconOnPress = undefined,
+    onPress = undefined,
+  }) => {
+    const Touchable = onPress ? TouchableOpacity : View;
+    return (
+      <Touchable
+        style={[
+          cStyles.row,
+          cStyles.itemsCenter,
+          cStyles.justifyBetween,
+          cStyles.py12,
+          cStyles.borderBottom,
+          isDark && cStyles.borderBottomDark,
+          style,
+        ]}
+        onPress={onPress}>
+        <View style={[cStyles.itemsStart, styles.row_info_basic_left]}>
+          {left}
         </View>
-      ) : (
-        <View style={[cStyles.itemsEnd, styles.row_info_basic_right]}>
-          {right}
-        </View>
-      )}
-    </Touchable>
-  );
-};
+        {onPress ? (
+          <View
+            style={[
+              cStyles.row,
+              cStyles.itemsCenter,
+              cStyles.justifyEnd,
+              styles.row_info_basic_right,
+            ]}>
+            <View>{right}</View>
+            {iconOnPress || (
+              <CIcon
+                name={Icons.next}
+                size={'small'}
+                customColor={colors.GRAY_500}
+              />
+            )}
+          </View>
+        ) : (
+          <View style={[cStyles.itemsEnd, styles.row_info_basic_right]}>
+            {right}
+          </View>
+        )}
+      </Touchable>
+    );
+  },
+);
 
 function Task(props) {
   const {t} = useTranslation();
@@ -519,16 +521,18 @@ function Task(props) {
       bgPriority = data.taskDetail.priorityColor;
     }
   }
-  let isDelay = false;
+  let isDelay = customColors.text;
   if (
     data.taskDetail &&
-    data.taskDetail.endDate &&
-    data.taskDetail.endDate !== ''
+    data.taskDetail.statusID < Commons.STATUS_TASK.CLOSED.value
   ) {
-    isDelay = Configs.toDay.isAfter(
-      moment(data.taskDetail.endDate, DEFAULT_FORMAT_DATE_4),
-      'days',
-    );
+    if (data.taskDetail.endDate && data.taskDetail.endDate !== '') {
+      isDelay = Configs.toDay.isAfter(
+        moment(data.taskDetail.endDate, DEFAULT_FORMAT_DATE_4),
+        'days',
+      );
+      isDelay = isDelay ? customColors.red : customColors.text;
+    }
   }
   const usersInvited =
     (data.taskDetail && data.taskDetail.lstUserInvited) || [];
@@ -726,15 +730,7 @@ function Task(props) {
                                 cStyles.mt5,
                                 cStyles.textRight,
                                 cStyles.textBody,
-                                {
-                                  color:
-                                    data.taskDetail.statusID <
-                                    Commons.STATUS_TASK.CLOSED.value
-                                      ? isDelay
-                                        ? customColors.red
-                                        : customColors.text
-                                      : customColors.text,
-                                },
+                                {color: isDelay},
                               ]}
                               customLabel={`${t(
                                 'project_management:to_date',
@@ -958,7 +954,11 @@ function Task(props) {
                                           IS_ANDROID &&
                                             isDark &&
                                             cStyles.borderAllDark,
-                                          {backgroundColor: customColors.card},
+                                          {
+                                            backgroundColor: isDark
+                                              ? customColors.cardDisable
+                                              : customColors.card,
+                                          },
                                         ]}>
                                         <View style={cStyles.pr6}>
                                           <CAvatar

@@ -22,6 +22,10 @@ const Icons = {
   requestRejected: 'close-outline',
   dateRequest: 'calendar',
   departmentRequest: 'people',
+  typeAsset: 'construct',
+  priceAsset: 'pricetag',
+  statusAsset: 'pulse',
+  detailAsset: 'reader',
 
   // Projects management modules
   projects: 'chart-gantt-outline', //config on admin site, pls don't edit here

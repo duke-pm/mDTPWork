@@ -57,7 +57,7 @@ function Unconnected(props) {
         style={[
           cStyles.center,
           cStyles.p16,
-          cStyles.rounded2,
+          cStyles.rounded1,
           {backgroundColor: customColors.background},
         ]}>
         <View style={cStyles.pb32}>

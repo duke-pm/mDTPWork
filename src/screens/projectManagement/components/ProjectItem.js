@@ -162,11 +162,8 @@ function ProjectItem(props) {
                     style={[
                       cStyles.center,
                       cStyles.rounded5,
-                      {
-                        maxWidth: moderateScale(32),
-                        minWidth: moderateScale(16),
-                        backgroundColor: customColors.red,
-                      },
+                      styles.piority_number,
+                      {backgroundColor: customColors.red},
                     ]}>
                     <CText
                       styles={'textBadge colorWhite'}
@@ -188,7 +185,7 @@ function ProjectItem(props) {
                 <CIcon
                   name={data.isPublic ? Icons.checkCircle : Icons.alert}
                   color={data.isPublic ? 'green' : 'orange'}
-                  size={'smaller'}
+                  size={'small'}
                 />
               </View>
             </View>
@@ -211,14 +208,14 @@ function ProjectItem(props) {
       {!showChildren && data.countChild > 0 && (
         <View
           style={[
-            cStyles.rounded2,
+            cStyles.rounded1,
             cStyles.abs,
             styles.card_children,
             {
               right: PADDING_2_CHILDREN,
               bottom: -BOTTOM_CHILDREN,
               width: widthCard,
-              backgroundColor: customColors.cardHolder,
+              backgroundColor: customColors.cardDisable,
               zIndex: 1,
             },
           ]}
@@ -266,6 +263,10 @@ const styles = StyleSheet.create({
     height: moderateScale(8),
     width: moderateScale(8),
     borderRadius: moderateScale(8),
+  },
+  piority_number: {
+    maxWidth: moderateScale(32),
+    minWidth: moderateScale(16),
   },
 });
 

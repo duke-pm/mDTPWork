@@ -56,20 +56,20 @@ function CCard(props) {
       key={key}
       style={[
         cStyles.shadowListItem,
-        cStyles.rounded2,
+        cStyles.rounded1,
         IS_ANDROID && cStyles.ofHidden,
         styles.container,
         style,
       ]}>
       <Component
-        style={[cStyles.rounded2, {backgroundColor: customColors.card}]}
+        style={[cStyles.rounded1, {backgroundColor: customColors.card}]}
         activeOpacity={0.8}
         underlayColor={colors.TRANSPARENT}
         onLayout={onLayout}
         onPress={onPress}>
         <Gradient
           style={[
-            cStyles.rounded2,
+            cStyles.rounded1,
             {backgroundColor: customColors.card},
             containerStyle,
           ]}
@@ -77,8 +77,8 @@ function CCard(props) {
           colors={gradientColor}>
           <View
             style={[
-              cStyles.roundedTopLeft2,
-              cStyles.roundedTopRight2,
+              cStyles.roundedTopLeft1,
+              cStyles.roundedTopRight1,
               cStyles.flex1,
               cStyles.row,
               cStyles.itemsCenter,

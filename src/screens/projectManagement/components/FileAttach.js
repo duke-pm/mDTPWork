@@ -94,7 +94,7 @@ function FileAttach(props) {
         cStyles.p10,
         cStyles.mt10,
         cStyles.center,
-        cStyles.rounded2,
+        cStyles.rounded1,
         isFileExisted && cStyles.borderAll,
         isFileExisted && isDark && cStyles.borderAllDark,
         cStyles.borderDashed,
@@ -143,7 +143,7 @@ function FileAttach(props) {
             style={[
               cStyles.abs,
               cStyles.inset0,
-              cStyles.rounded2,
+              cStyles.rounded1,
               cStyles.itemsEnd,
               cStyles.ofHidden,
               styles.con_bg,

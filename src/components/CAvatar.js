@@ -239,13 +239,13 @@ function CAvatar(props) {
             <View
               style={[
                 cStyles.mb8,
-                cStyles.rounded2,
+                cStyles.rounded1,
                 {backgroundColor: customColors.card},
               ]}>
               <View
                 style={[
-                  cStyles.roundedTopLeft2,
-                  cStyles.roundedTopRight2,
+                  cStyles.roundedTopLeft1,
+                  cStyles.roundedTopRight1,
                   cStyles.fullWidth,
                   cStyles.center,
                   {
@@ -293,8 +293,8 @@ function CAvatar(props) {
               />
               <TouchableOpacity
                 style={[
-                  cStyles.roundedBottomLeft2,
-                  cStyles.roundedBottomRight2,
+                  cStyles.roundedBottomLeft1,
+                  cStyles.roundedBottomRight1,
                   cStyles.fullWidth,
                   cStyles.center,
                   {
@@ -315,10 +315,10 @@ function CAvatar(props) {
             </View>
 
             <View
-              style={[cStyles.rounded2, {backgroundColor: customColors.card}]}>
+              style={[cStyles.rounded1, {backgroundColor: customColors.card}]}>
               <TouchableOpacity
                 style={[
-                  cStyles.rounded2,
+                  cStyles.rounded1,
                   cStyles.fullWidth,
                   cStyles.center,
                   {

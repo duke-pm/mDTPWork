@@ -116,8 +116,8 @@ function CGroupFilter(props) {
             <View style={[cStyles.row, cStyles.itemsCenter]}>
               <CTouchable
                 onPress={() => handleItem(index, item)}
-                containerStyle={cStyles.rounded5}
-                style={cStyles.rounded5}>
+                containerStyle={cStyles.rounded1}
+                style={cStyles.rounded1}>
                 <Animatable.View
                   ref={ref => (valuesRef[index] = ref)}
                   useNativeDriver={true}>
@@ -125,7 +125,7 @@ function CGroupFilter(props) {
                     style={[
                       cStyles.py6,
                       cStyles.px10,
-                      cStyles.rounded5,
+                      cStyles.rounded1,
                       cStyles.borderAll,
                       isDark && cStyles.borderAllDark,
                       isDark && isCheck && {borderColor: primaryColor},

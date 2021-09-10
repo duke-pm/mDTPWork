@@ -107,7 +107,7 @@ function ProjectDetails(props) {
           <ScrollView
             style={[
               cStyles.mt10,
-              cStyles.rounded2,
+              cStyles.rounded1,
               {backgroundColor: customColors.textInput},
               styles.list_invited,
             ]}>

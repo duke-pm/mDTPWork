@@ -18,10 +18,10 @@ import CActivityIndicator from '~/components/CActivityIndicator';
 /* COMMON */
 import Configs from '~/config';
 import Services from '~/services';
-import {cStyles} from '~/utils/style';
+import {colors, cStyles} from '~/utils/style';
 import {moderateScale, verticalScale} from '~/utils/helper';
 
-/** All inits */
+/** All init */
 const animationChart = {
   durationX: 0,
   durationY: 1000,
@@ -68,6 +68,7 @@ function ProjectPlan(props) {
         spaceLength: 1,
       },
       labelCount: 0,
+      textColor: isDark ? processColor('white') : processColor('black'),
     },
     yAxis: {
       left: {
@@ -81,6 +82,7 @@ function ProjectPlan(props) {
           lineLength: 1,
           spaceLength: 1,
         },
+        textColor: isDark ? processColor('white') : processColor('black'),
       },
       right: {enabled: false},
     },
@@ -105,6 +107,7 @@ function ProjectPlan(props) {
         setTasks(listTask);
       }
       if (res.totalPage > page) {
+        // Load more data
         page = page + 1;
         return onFetchData(page);
       } else {
@@ -123,7 +126,17 @@ function ProjectPlan(props) {
         dataChart = [
           {
             values: [],
-            config: {valueFormatter: '#', color: customColors.green2},
+            config: {
+              valueFormatter: '#',
+              color: isDark
+                ? processColor('darkblue')
+                : processColor('lightblue'),
+              highlightAlpha: 90,
+              highlightColor: processColor('red'),
+              valueTextColor: isDark
+                ? processColor('white')
+                : processColor('black'),
+            },
           },
         ],
         durations = 0;
@@ -201,7 +214,10 @@ function ProjectPlan(props) {
           xAxis={chart.xAxis}
           yAxis={chart.yAxis}
           animation={animationChart}
-          chartDescription={{text: `Durations (${translation('common:days')})`}}
+          chartDescription={{
+            textColor: isDark ? processColor('white') : processColor('black'),
+            text: `Durations (${translation('common:days')})`,
+          }}
           drawGridBackground={false}
           autoScaleMinMaxEnabled={true}
           touchEnabled={true}
@@ -214,7 +230,7 @@ function ProjectPlan(props) {
           highlightPerDragEnabled={true}
           dragDecelerationEnabled={true}
           keepPositionOnRotation={false}
-          drawValueAboveBar={true}
+          drawValueAboveBar={false}
         />
 
         <View style={[cStyles.flex1, cStyles.mt10]}>

@@ -27,6 +27,7 @@ import CIcon from '~/components/CIcon';
 import ListTask from '../list/Task';
 /* COMMON */
 import Configs from '~/config';
+import {DEFAULT_FORMAT_DATE_2} from '~/config/constants';
 import {Commons, Icons} from '~/utils/common';
 import {IS_ANDROID, moderateScale} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
@@ -36,6 +37,8 @@ if (IS_ANDROID) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
   }
 }
+
+const SIZE_PERCENT_CIRCLE = moderateScale(30);
 
 const CustomLayoutAnimation = {
   duration: 500,
@@ -103,8 +106,7 @@ function TaskItem(props) {
   if (
     data &&
     showPercentage &&
-    data.statusID !== Commons.STATUS_TASK.REJECTED.value &&
-    data.statusID !== Commons.STATUS_TASK.CLOSED.value
+    data.statusID < Commons.STATUS_TASK.CLOSED.value
   ) {
     if (data.endDate && data.endDate !== '') {
       delay = Configs.toDay.diff(data.endDate, 'days');
@@ -117,14 +119,14 @@ function TaskItem(props) {
   return (
     <View style={[cStyles.flex1, data.parentID > 0 ? cStyles.ml12 : {}]}>
       <CTouchable
-        containerStyle={cStyles.rounded3}
+        containerStyle={cStyles.rounded1}
         disabled={props.loading}
         onPress={handleTaskItem}>
         <View
           style={[
             cStyles.flex1,
             cStyles.p10,
-            cStyles.rounded3,
+            cStyles.rounded1,
             {backgroundColor: bgTaskType},
           ]}>
           {/** Label */}
@@ -169,7 +171,7 @@ function TaskItem(props) {
                   onPress={handleShowChildren}>
                   <Progress.Circle
                     animated={false}
-                    size={moderateScale(30)}
+                    size={SIZE_PERCENT_CIRCLE}
                     progress={data.percentage / 100}
                     thickness={1}
                     color={customColors.primary}
@@ -177,7 +179,7 @@ function TaskItem(props) {
                     textStyle={[
                       cStyles.textCenter,
                       cStyles.fontRegular,
-                      {fontSize: moderateScale(7)},
+                      styles.txt_percent,
                     ]}
                   />
                 </CTouchable>
@@ -248,7 +250,9 @@ function TaskItem(props) {
                 <Text style={cStyles.pl4} numberOfLines={1}>
                   <Text
                     style={[cStyles.textCaption2, {color: customColors.text}]}>
-                    {`${moment(data.startDate).format('DD/MM/YYYY')} - `}
+                    {`${moment(data.startDate).format(
+                      DEFAULT_FORMAT_DATE_2,
+                    )} - `}
                   </Text>
                   <Text
                     style={[
@@ -256,7 +260,7 @@ function TaskItem(props) {
                       {color: customColors.text},
                       delay > 0 && {color: customColors.red},
                     ]}>
-                    {moment(data.endDate).format('DD/MM/YYYY')}
+                    {moment(data.endDate).format(DEFAULT_FORMAT_DATE_2)}
                   </Text>
                 </Text>
                 {delay > 0 && (
@@ -324,19 +328,15 @@ function TaskItem(props) {
             <View
               style={[
                 cStyles.center,
-                cStyles.rounded2,
+                cStyles.rounded1,
                 cStyles.abs,
-                styles.badge,
                 cStyles.borderAll,
+                styles.badge,
                 isDark && cStyles.borderAllDark,
+                showPercentage && styles.right_child,
                 {backgroundColor: customColors.red},
-                showPercentage && {right: moderateScale(10)},
               ]}>
-              <Text
-                style={[
-                  cStyles.fontRegular,
-                  {color: colors.WHITE, fontSize: moderateScale(8)},
-                ]}>
+              <Text style={[cStyles.fontRegular, styles.txt_count_child]}>
                 {data.countChild}
               </Text>
             </View>
@@ -386,6 +386,9 @@ const styles = StyleSheet.create({
     top: moderateScale(8),
     right: moderateScale(5),
   },
+  right_child: {right: moderateScale(10)},
+  txt_percent: {fontSize: moderateScale(7)},
+  txt_count_child: {color: colors.WHITE, fontSize: moderateScale(8)},
 });
 
 TaskItem.propTypes = {
