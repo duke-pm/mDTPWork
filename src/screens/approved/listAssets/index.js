@@ -39,14 +39,14 @@ if (IS_ANDROID) {
 const asFilterRef = createRef();
 
 const RenderTabbar = props => <TabbarType {...props} />;
-const RenderScene = ({route}) => {
+const RenderScene = ({route}, navigation) => {
   switch (route.key) {
     case Commons.APPROVED_TYPE.LOST.value + '':
-      return <AssetsLost dataRoute={route} />;
+      return <AssetsLost dataRoute={route} navigation={navigation} />;
     case Commons.APPROVED_TYPE.DAMAGED.value + '':
-      return <AssetsDamage dataRoute={route} />;
+      return <AssetsDamage dataRoute={route} navigation={navigation} />;
     case Commons.APPROVED_TYPE.ASSETS.value + '':
-      return <Assets dataRoute={route} />;
+      return <Assets dataRoute={route} navigation={navigation} />;
     default:
       return null;
   }
@@ -102,6 +102,10 @@ function ListRequestAll(props) {
   /*****************
    ** HANDLE FUNC **
    *****************/
+  const handleOpenFilter = () => asFilterRef.current?.show();
+
+  const handleHideFilter = () => asFilterRef.current?.hide();
+
   const handleAddNew = () => {
     if (index === 1) {
       navigation.navigate(Routes.MAIN.ADD_APPROVED_LOST_DAMAGED.name, {
@@ -127,14 +131,14 @@ function ListRequestAll(props) {
       ...tmpRoutes[idxRoute],
       isRefresh: !tmpRoutes[idxRoute].isRefresh,
     };
-    setRoutes(tmpRoutes);
+    return setRoutes(tmpRoutes);
   };
 
   const handleSearch = value => {
     let tmp = {search: value};
     let tmpRoutes = [...routes];
     tmpRoutes[index] = {...tmpRoutes[index], ...tmp};
-    setRoutes(tmpRoutes);
+    return setRoutes(tmpRoutes);
   };
 
   const handleFilter = (fromDate, toDate, status, type) => {
@@ -142,12 +146,12 @@ function ListRequestAll(props) {
     let tmpRoutes = [...routes];
     tmpRoutes[index] = {...tmpRoutes[index], ...tmp};
     setRoutes(tmpRoutes);
-    asFilterRef.current?.hide();
+    return handleHideFilter();
   };
 
   const handleOpenSearch = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    setShowSearch(true);
+    return setShowSearch(true);
   };
 
   const handleCloseSearch = () => {
@@ -155,14 +159,6 @@ function ListRequestAll(props) {
     if (routes[index].search !== '') {
       handleSearch('');
     }
-  };
-
-  const handleOpenFilter = () => {
-    asFilterRef.current?.show();
-  };
-
-  const handleHideFilter = () => {
-    asFilterRef.current?.hide();
   };
 
   /****************
@@ -229,6 +225,8 @@ function ListRequestAll(props) {
             onSearch={handleSearch}
             onClose={handleCloseSearch}
           />
+
+          {/** All filter tag for current approved type */}
           <FilterTags
             translation={t}
             formatDateView={formatDateView}
@@ -237,15 +235,18 @@ function ListRequestAll(props) {
             arrStatus={statusObj}
             primaryColor={customColors.yellow2}
           />
+
+          {/** Tab aprroved type */}
           <TabView
             lazy
             initialLayout={styles.container_tab}
             navigationState={{index, routes}}
             onIndexChange={setIndex}
-            renderScene={RenderScene}
+            renderScene={propsTab => RenderScene(propsTab, navigation)}
             renderTabBar={RenderTabbar}
           />
 
+          {/** Actionsheet for filter */}
           <CActionSheet actionRef={asFilterRef}>
             <View style={[cStyles.px16, cStyles.pb16]}>
               <Filter

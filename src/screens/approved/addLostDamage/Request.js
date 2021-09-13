@@ -71,7 +71,7 @@ let damageRef = createRef();
 let lostRef = createRef();
 
 /** All init */
-const dataType = [
+const DATA_TYPE = [
   {
     ref: damageRef,
     value: Commons.APPROVED_TYPE.DAMAGED.value,
@@ -366,9 +366,13 @@ function AddRequest(props) {
       isAllowApproved: dataRequest ? dataRequest?.isAllowApproved : false,
       file: dataRequest ? dataRequest?.attachFiles : null,
     };
+
+    // If data have any more process
     if (dataProcess && dataProcess.length > 0) {
       setProcess(dataProcess);
     }
+
+    // Apply to form
     setForm(tmp);
     setLoading({
       ...loading,
@@ -389,7 +393,7 @@ function AddRequest(props) {
       Lang: language,
     };
     dispatch(Actions.fetchApprovedRequest(params, navigation));
-    setLoading({...loading, submitApproved: true});
+    return setLoading({...loading, submitApproved: true});
   };
 
   const onReject = reason => {
@@ -403,7 +407,7 @@ function AddRequest(props) {
       Lang: language,
     };
     dispatch(Actions.fetchRejectRequest(params, navigation));
-    setLoading({...loading, submitReject: true});
+    return setLoading({...loading, submitReject: true});
   };
 
   const onSearchFilter = text => {
@@ -415,18 +419,18 @@ function AddRequest(props) {
         const textData = text.toUpperCase();
         return itemData.indexOf(textData) > -1;
       });
-      setDataAssets(newData);
-      setFindAssets(text);
-      if (newData.length > 0) {
-        setAssets(0);
-      }
+      onSetDataAsset(newData, text);
     } else {
       let tmp = masterState.get('assetByUser');
-      setDataAssets(tmp);
-      setFindAssets(text);
-      if (tmp.length > 0) {
-        setAssets(0);
-      }
+      onSetDataAsset(tmp, text);
+    }
+  };
+
+  const onSetDataAsset = (data, searchKey) => {
+    setDataAssets(data);
+    setFindAssets(searchKey);
+    if (data.length > 0) {
+      setAssets(0);
     }
   };
 
@@ -864,7 +868,7 @@ function AddRequest(props) {
                     customColors={customColors}
                     primaryColor={customColors.yellow}
                     value={form.typeUpdate}
-                    values={dataType}
+                    values={DATA_TYPE}
                     onCallback={onCallbackType}
                   />
                 </View>
@@ -1097,12 +1101,12 @@ const styles = StyleSheet.create({
   action: {width: '100%', height: verticalScale(180)},
   content_picker: {height: '40%'},
   box: {width: moderateScale(320)},
+  input_multiline: {height: verticalScale(100)},
   row_select: {
     height: IS_ANDROID
       ? verticalScale(38)
       : ifIphoneX(verticalScale(30), verticalScale(36)),
   },
-  input_multiline: {height: verticalScale(100)},
 });
 
 export default AddRequest;

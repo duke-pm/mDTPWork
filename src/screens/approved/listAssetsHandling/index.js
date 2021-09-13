@@ -78,6 +78,10 @@ function ListRequestHandling(props) {
   /*****************
    ** HANDLE FUNC **
    *****************/
+  const handleOpenFilter = () => asFilterRef.current?.show();
+
+  const handleHideFilter = () => asFilterRef.current?.hide();
+
   const handleSearch = value => {
     setData({...data, search: value, page: 1});
     onFetchData(data.fromDate, data.toDate, 1, value, data.type);
@@ -93,7 +97,7 @@ function ListRequestHandling(props) {
 
   const handleOpenSearch = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    setShowSearch(true);
+    return setShowSearch(true);
   };
 
   const handleCloseSearch = () => {
@@ -101,14 +105,6 @@ function ListRequestHandling(props) {
     if (data.search !== '') {
       handleSearch('');
     }
-  };
-
-  const handleOpenFilter = () => {
-    asFilterRef.current?.show();
-  };
-
-  const handleHideFilter = () => {
-    asFilterRef.current?.hide();
   };
 
   /**********
@@ -296,6 +292,8 @@ function ListRequestHandling(props) {
             onSearch={handleSearch}
             onClose={handleCloseSearch}
           />
+
+          {/** All filter tag for current approved type */}
           <FilterTags
             translation={t}
             formatDateView={formatDateView}
@@ -304,6 +302,8 @@ function ListRequestHandling(props) {
             types={typesObj}
             primaryColor={customColors.yellow2}
           />
+
+          {/** List all approved */}
           {!loading.main && !loading.startFetch && (
             <ListRequest
               permissionWrite={isPermissionWrite}
@@ -318,6 +318,8 @@ function ListRequestHandling(props) {
               onLoadmore={onLoadmore}
             />
           )}
+
+          {/** Actionsheet for filter */}
           <CActionSheet actionRef={asFilterRef}>
             <View style={cStyles.p16}>
               <Filter

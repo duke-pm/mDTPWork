@@ -78,8 +78,8 @@ function AssetItem(props) {
         cStyles.p4,
         cStyles.flexWrap,
         cStyles.textBody,
-        styleText,
         {color: customColors.text},
+        styleText,
       ]}
       keyboardType={cellIndex !== 1 ? 'number-pad' : 'default'}
       returnKeyType={'done'}

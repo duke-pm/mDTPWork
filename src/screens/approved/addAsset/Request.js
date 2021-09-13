@@ -19,16 +19,16 @@ import Picker from '@gregfrench/react-native-wheel-picker';
 import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
+import CIconHeader from '~/components/CIconHeader';
+import CActionSheet from '~/components/CActionSheet';
+import CActivityIndicator from '~/components/CActivityIndicator';
+import CTouchable from '~/components/CTouchable';
 import CText from '~/components/CText';
 import CInput from '~/components/CInput';
 import CAlert from '~/components/CAlert';
-import CActionSheet from '~/components/CActionSheet';
 import CLabel from '~/components/CLabel';
 import CGroupInfo from '~/components/CGroupInfo';
 import CIcon from '~/components/CIcon';
-import CActivityIndicator from '~/components/CActivityIndicator';
-import CTouchable from '~/components/CTouchable';
-import CIconHeader from '~/components/CIconHeader';
 import RejectModal from '../components/RejectModal';
 import AssetsTable, {WIDTH_ITEM_TABLE} from '../components/AssetsTable';
 import CheckOption from '../components/CheckOption';
@@ -74,7 +74,7 @@ const INPUT_NAME = {
   IN_PLANNING: 'inPlanning',
   SUPPLIER: 'supplier',
 };
-const dataTypeAssets = [
+const DATA_TYPE_ASSET = [
   {
     ref: newRef,
     value: 'N',
@@ -86,7 +86,7 @@ const dataTypeAssets = [
     label: 'add_approved_assets:additional',
   },
 ];
-const dataInPlanning = [
+const DATA_IN_PLANNING = [
   {
     ref: yesRef,
     value: true,
@@ -314,33 +314,39 @@ function AddRequest(props) {
       status: dataRequest ? dataRequest?.statusID : 1,
       isAllowApproved: dataRequest ? dataRequest?.isAllowApproved : false,
     };
-    if (dataAssets) {
-      if (dataAssets.length > 0) {
-        tmp.assets.data = [];
-        let item = null,
-          choosesRef = [];
-        for (item of dataAssets) {
-          tmp.assets.data.push([
-            '',
-            item.descr,
-            item.qty,
-            item.unitPrice,
-            item.totalAmt,
-          ]);
-          let handleRef = createRef();
-          choosesRef.push(handleRef);
-        }
-        tmp.refsAssets = choosesRef;
+
+    // If data have any more assets
+    if (dataAssets && dataAssets.length > 0) {
+      tmp.assets.data = [];
+      let item = null,
+        choosesRef = [];
+      for (item of dataAssets) {
+        tmp.assets.data.push([
+          '',
+          item.descr,
+          item.qty,
+          item.unitPrice,
+          item.totalAmt,
+        ]);
+        let handleRef = createRef();
+        choosesRef.push(handleRef);
       }
+      tmp.refsAssets = choosesRef;
     }
+
+    // If data have any more process
     if (dataProcess && dataProcess.length > 0) {
       setProcess(dataProcess);
     }
+
+    // Find where use assets
     let data = masterState.get('department');
     let find = data.findIndex(f => f.deptCode === dataRequest.locationCode);
     if (find !== -1) {
       setWhereUse(find);
     }
+
+    // Apply to form
     setForm(tmp);
     setLoading({
       ...loading,
@@ -361,7 +367,7 @@ function AddRequest(props) {
       Lang: language,
     };
     dispatch(Actions.fetchApprovedRequest(params, navigation));
-    setLoading({...loading, submitApproved: true});
+    return setLoading({...loading, submitApproved: true});
   };
 
   const onReject = reason => {
@@ -375,7 +381,7 @@ function AddRequest(props) {
       Lang: language,
     };
     dispatch(Actions.fetchRejectRequest(params, navigation));
-    setLoading({...loading, submitReject: true});
+    return setLoading({...loading, submitReject: true});
   };
 
   const onSearchFilter = text => {
@@ -950,7 +956,7 @@ function AddRequest(props) {
                     customColors={customColors}
                     primaryColor={customColors.yellow}
                     value={form.typeAssets}
-                    values={dataTypeAssets}
+                    values={DATA_TYPE_ASSET}
                     onCallback={onCallbackTypeAsset}
                   />
                 </View>
@@ -969,7 +975,7 @@ function AddRequest(props) {
                     customColors={customColors}
                     primaryColor={customColors.yellow}
                     value={form.inPlanning}
-                    values={dataInPlanning}
+                    values={DATA_IN_PLANNING}
                     onCallback={onCallbackInplanning}
                   />
                 </View>

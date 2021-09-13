@@ -12,8 +12,8 @@ import CContainer from '~/components/CContainer';
 import CContentSubMenu from '~/components/CContentSubMenu';
 /** COMMON */
 import Configs from '~/config';
-import {Animations} from '~/utils/asset';
 import {colors} from '~/utils/style';
+import {Animations} from '~/utils/asset';
 
 function Approved(props) {
   const {navigation, route} = props;

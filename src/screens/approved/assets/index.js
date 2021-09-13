@@ -10,7 +10,7 @@ import {fromJS} from 'immutable';
 import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-import {useTheme, useNavigation} from '@react-navigation/native';
+import {useTheme} from '@react-navigation/native';
 import {showMessage} from 'react-native-flash-message';
 import {View} from 'react-native';
 /* COMPONENTS */
@@ -29,7 +29,7 @@ import * as Actions from '~/redux/actions';
 function ApprovedAssets(props) {
   const {t} = useTranslation();
   const {customColors} = useTheme();
-  const navigation = useNavigation();
+  const {navigation} = props;
 
   /** Use redux */
   const dispatch = useDispatch();
@@ -91,38 +91,35 @@ function ApprovedAssets(props) {
   };
 
   const onPrepareData = (type = REFRESH) => {
-    let tmpRequests = [...data.requests];
-    let tmpRequestDetail = [...data.requestsDetail];
-    let tmpProcessApproveds = [...data.processApproveds];
     let isLoadmore = true;
+    let cRequests = [...data.requests],
+      cRequestDetail = [...data.requestsDetail],
+      cProcessApproveds = [...data.processApproveds];
+    let nRequests = approvedState.get('requests'),
+      nRequestsDetail = approvedState.get('requestsDetail'),
+      nProcessApproved = approvedState.get('processApproved');
 
     // If count result < perPage => loadmore is unavailable
-    if (approvedState.get('requests').length < perPage) {
+    if (nRequests.length < perPage) {
       isLoadmore = false;
     }
 
     if (type === REFRESH) {
       // Fetch is refresh
-      tmpRequests = approvedState.get('requests');
-      tmpRequestDetail = approvedState.get('requestsDetail');
-      tmpProcessApproveds = approvedState.get('processApproved');
+      cRequests = nRequests;
+      cRequestDetail = nRequestsDetail;
+      cProcessApproveds = nProcessApproved;
     } else if (type === LOAD_MORE) {
       // Fetch is loadmore
-      tmpRequests = [...tmpRequests, ...approvedState.get('requests')];
-      tmpRequestDetail = [
-        ...tmpRequestDetail,
-        ...approvedState.get('requestsDetail'),
-      ];
-      tmpProcessApproveds = [
-        ...tmpProcessApproveds,
-        ...approvedState.get('processApproved'),
-      ];
+      cRequests = [...cRequests, ...nRequests];
+      cRequestDetail = [...cRequestDetail, ...nRequestsDetail];
+      cProcessApproveds = [...cProcessApproveds, ...nProcessApproved];
     }
     setData({
       ...data,
-      requests: tmpRequests,
-      requestsDetail: tmpRequestDetail,
-      processApproveds: tmpProcessApproveds,
+      requests: cRequests,
+      requestsDetail: cRequestDetail,
+      processApproveds: cProcessApproveds,
     });
     return onDone({
       main: false,
@@ -267,7 +264,8 @@ function ApprovedAssets(props) {
 }
 
 ApprovedAssets.propTypes = {
-  dataRoute: PropTypes.object,
+  navigation: PropTypes.object.isRequired,
+  dataRoute: PropTypes.object.isRequired,
 };
 
 export default ApprovedAssets;

@@ -10,7 +10,7 @@ import {fromJS} from 'immutable';
 import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-import {useTheme, useNavigation} from '@react-navigation/native';
+import {useTheme} from '@react-navigation/native';
 import {showMessage} from 'react-native-flash-message';
 import {View} from 'react-native';
 /* COMPONENTS */
@@ -29,7 +29,7 @@ import * as Actions from '~/redux/actions';
 function ApprovedAssetsLost(props) {
   const {t} = useTranslation();
   const {customColors} = useTheme();
-  const navigation = useNavigation();
+  const {navigation} = props;
 
   /** Use redux */
   const dispatch = useDispatch();
@@ -91,38 +91,35 @@ function ApprovedAssetsLost(props) {
   };
 
   const onPrepareData = (type = REFRESH) => {
-    let tmpRequests = [...data.requests];
-    let tmpRequestDetail = [...data.requestsDetail];
-    let tmpProcessApproveds = [...data.processApproveds];
     let isLoadmore = true;
+    let cRequests = [...data.requests],
+      cRequestDetail = [...data.requestsDetail],
+      cProcessApproveds = [...data.processApproveds];
+    let nRequestsLost = approvedState.get('requestsLost'),
+      nRequestsLostDetail = approvedState.get('requestsLostDetail'),
+      nProcessLostApproved = approvedState.get('processLostApproved');
 
     // If count result < perPage => loadmore is unavailable
-    if (approvedState.get('requestsLost').length < perPage) {
+    if (nRequestsLost.length < perPage) {
       isLoadmore = false;
     }
 
     if (type === REFRESH) {
       // Fetch is refresh
-      tmpRequests = approvedState.get('requestsLost');
-      tmpRequestDetail = approvedState.get('requestsLostDetail');
-      tmpProcessApproveds = approvedState.get('processLostApproved');
+      cRequests = nRequestsLost;
+      cRequestDetail = nRequestsLostDetail;
+      cProcessApproveds = nProcessLostApproved;
     } else if (type === LOAD_MORE) {
       // Fetch is loadmore
-      tmpRequests = [...tmpRequests, ...approvedState.get('requestsLost')];
-      tmpRequestDetail = [
-        ...tmpRequestDetail,
-        ...approvedState.get('requestsLostDetail'),
-      ];
-      tmpProcessApproveds = [
-        ...tmpProcessApproveds,
-        ...approvedState.get('processLostApproved'),
-      ];
+      cRequests = [...cRequests, ...nRequestsLost];
+      cRequestDetail = [...cRequestDetail, ...nRequestsLostDetail];
+      cProcessApproveds = [...cProcessApproveds, ...nProcessLostApproved];
     }
     setData({
       ...data,
-      requests: tmpRequests,
-      requestsDetail: tmpRequestDetail,
-      processApproveds: tmpProcessApproveds,
+      requests: cRequests,
+      requestsDetail: cRequestDetail,
+      processApproveds: cProcessApproveds,
     });
     return onDone({
       main: false,
@@ -261,13 +258,14 @@ function ApprovedAssetsLost(props) {
           onLoadmore={onLoadmore}
         />
       )}
-      <CLoading visible={loading.main} />
+      <CLoading visible={loading.main || loading.startFetch} />
     </View>
   );
 }
 
 ApprovedAssetsLost.propTypes = {
-  dataRoute: PropTypes.object,
+  navigation: PropTypes.object.isRequired,
+  dataRoute: PropTypes.object.isRequired,
 };
 
 export default ApprovedAssetsLost;
