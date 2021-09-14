@@ -696,7 +696,7 @@ function Task(props) {
                         data.taskDetail.statusID < 5 && (
                           <Reminder
                             task={data.taskDetail}
-                            t={t}
+                            trans={t}
                             isDark={isDark}
                             customColors={customColors}
                           />

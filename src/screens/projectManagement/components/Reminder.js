@@ -26,7 +26,7 @@ import {RowInfoBasic} from '../detail/Task';
 /* COMMON */
 import Configs from '~/config';
 import Icons from '~/utils/common/Icons';
-import {DTP_CALENDAR} from '~/config/constants';
+import {DTP_CALENDAR, DEFAULT_FORMAT_DATE_4} from '~/config/constants';
 import {cStyles} from '~/utils/style';
 import {
   IS_IOS,
@@ -43,21 +43,20 @@ if (IS_ANDROID) {
 }
 
 /** All init */
-const formatShowDate = 'DD/MM/YYYY HH:mm';
-const formatDateTime = 'YYYY-MM-DD HH:mm';
-const formatDataDateTime = 'YYYY-MM-DDTHH:mm:ss';
-const formatAlertDateTime = IS_IOS
+const FORMAT_SHOW_DATE = 'DD/MM/YYYY HH:mm';
+const FORMAT_DATE_TIME = 'YYYY-MM-DD HH:mm';
+const FORMAT_ALERT_DATE_TIME = IS_IOS
   ? 'YYYY-MM-DDTHH:mm:00.000Z'
   : 'YYYY-MM-DDTHH:mm:ss.sss[Z]';
-const urlLinkToApp =
+const URL_LINK_TO_APP =
   Configs.prefixesDeepLink[IS_IOS ? 1 : 0] +
   (IS_ANDROID ? '/' : '') +
   Configs.routePath.TaskDetail.split(':')[0];
 
 function Reminder(props) {
-  const {task, t, isDark, customColors} = props;
-  const notes = t('project_management:note_update_task');
-  const notes_2 = t('project_management:note_update_task_2');
+  const {task, trans, isDark, customColors} = props;
+  const notes = trans('project_management:note_update_task');
+  const notes_2 = trans('project_management:note_update_task_2');
 
   const [loading, setLoading] = useState(true);
   const [showReminder, setShowReminder] = useState(false);
@@ -66,8 +65,10 @@ function Reminder(props) {
   const [dataAlarmAndroid, setDataAlarmAndroid] = useState([]);
   const [alarmsAndroid, setAlarmsAndroid] = useState([]);
   const [pickerDate, setPickerDate] = useState({
-    start: moment(task.startDate, formatDataDateTime).format(formatDateTime),
-    end: moment(task.endDate, formatDataDateTime).format(formatDateTime),
+    start: moment(task.startDate, DEFAULT_FORMAT_DATE_4).format(
+      FORMAT_DATE_TIME,
+    ),
+    end: moment(task.endDate, DEFAULT_FORMAT_DATE_4).format(FORMAT_DATE_TIME),
   });
   const [reminder, setReminder] = useState({
     calendar: null,
@@ -85,18 +86,18 @@ function Reminder(props) {
 
   const handleUpdateEvent = async () => {
     let notesResult = '',
-      url = urlLinkToApp + task.taskID;
+      url = URL_LINK_TO_APP + task.taskID;
     notesResult = notes + url + notes_2;
     try {
-      let title = t('project_management:title_update_task') + task.taskID;
+      let title = trans('project_management:title_update_task') + task.taskID;
       let dataEvent = {
         // For create event
         calendarId: reminder.calendar,
         title,
-        startDate: moment(task.startDate, formatDataDateTime).format(
-          formatAlertDateTime,
+        startDate: moment(task.startDate, DEFAULT_FORMAT_DATE_4).format(
+          FORMAT_ALERT_DATE_TIME,
         ),
-        endDate: moment(pickerDate.end).format(formatAlertDateTime),
+        endDate: moment(pickerDate.end).format(FORMAT_ALERT_DATE_TIME),
         notes: notesResult, // available iOS
         description: notesResult, // available Android
         url, // available iOS
@@ -108,8 +109,8 @@ function Reminder(props) {
       }
       if (IS_IOS) {
         dataEvent.alarms = [
-          {date: moment(pickerDate.start).format(formatAlertDateTime)},
-          {date: moment(pickerDate.end).format(formatAlertDateTime)},
+          {date: moment(pickerDate.start).format(FORMAT_ALERT_DATE_TIME)},
+          {date: moment(pickerDate.end).format(FORMAT_ALERT_DATE_TIME)},
         ];
       } else {
         dataEvent.alarms = [];
@@ -157,7 +158,7 @@ function Reminder(props) {
     if (permission === 'authorized') {
       onCheckLocalRemind();
     } else if (permission === 'denied') {
-      alert(t, 'project_management:alert_change_permission_calendar', () =>
+      alert(trans, 'project_management:alert_change_permission_calendar', () =>
         Linking.openURL('app-settings:'),
       );
     } else {
@@ -177,15 +178,16 @@ function Reminder(props) {
               if (IS_IOS) {
                 let tmp = event.alarms[0].date;
                 if (
-                  moment(event.alarms[0].date).format(formatAlertDateTime) ===
-                  moment(pickerDate.end).format(formatAlertDateTime)
+                  moment(event.alarms[0].date).format(
+                    FORMAT_ALERT_DATE_TIME,
+                  ) === moment(pickerDate.end).format(FORMAT_ALERT_DATE_TIME)
                 ) {
                   tmp = event.alarms[1].date;
                 }
                 setPickerDate({
                   ...pickerDate,
-                  start: moment(tmp, formatAlertDateTime).format(
-                    formatDateTime,
+                  start: moment(tmp, FORMAT_ALERT_DATE_TIME).format(
+                    FORMAT_DATE_TIME,
                   ),
                 });
               } else {
@@ -194,8 +196,8 @@ function Reminder(props) {
                   minute,
                   findAlarm;
                 for (item of event.alarms) {
-                  minute = -moment(task.startDate, formatDataDateTime).diff(
-                    moment(item.date, formatAlertDateTime),
+                  minute = -moment(task.startDate, DEFAULT_FORMAT_DATE_4).diff(
+                    moment(item.date, FORMAT_ALERT_DATE_TIME),
                     'minutes',
                   );
                   findAlarm = Configs.alarmsAndroid.find(
@@ -295,7 +297,7 @@ function Reminder(props) {
     if (newDate) {
       setPickerDate({
         ...pickerDate,
-        start: moment(newDate).format(formatDateTime),
+        start: moment(newDate).format(FORMAT_DATE_TIME),
       });
     }
     onTogglePicker();
@@ -344,11 +346,11 @@ function Reminder(props) {
                 ]}
                 customLabel={
                   !reminder.data
-                    ? t('project_management:none_reminder')
+                    ? trans('project_management:none_reminder')
                     : moment(
                         reminder.data.alarms[1].date,
-                        formatAlertDateTime,
-                      ).format(formatShowDate)
+                        FORMAT_ALERT_DATE_TIME,
+                      ).format(FORMAT_SHOW_DATE)
                 }
               />
               {reminder.data && (
@@ -360,11 +362,11 @@ function Reminder(props) {
                   ]}
                   customLabel={
                     !reminder.data
-                      ? t('project_management:none_reminder')
+                      ? trans('project_management:none_reminder')
                       : moment(
                           reminder.data.alarms[0].date,
-                          formatAlertDateTime,
-                        ).format(formatShowDate)
+                          FORMAT_ALERT_DATE_TIME,
+                        ).format(FORMAT_SHOW_DATE)
                   }
                 />
               )}
@@ -378,7 +380,7 @@ function Reminder(props) {
                     cStyles.textBody,
                     {color: customColors.text},
                   ]}
-                  customLabel={t('project_management:none_reminder')}
+                  customLabel={trans('project_management:none_reminder')}
                 />
               )}
               {dataAlarmAndroid.length > 0 &&
@@ -440,7 +442,9 @@ function Reminder(props) {
             <TouchableOpacity onPress={IS_IOS ? onTogglePicker : onToggleAlert}>
               {IS_IOS && (
                 <CText
-                  customLabel={moment(pickerDate.start).format(formatShowDate)}
+                  customLabel={moment(pickerDate.start).format(
+                    FORMAT_SHOW_DATE,
+                  )}
                 />
               )}
               {IS_ANDROID &&
@@ -467,7 +471,7 @@ function Reminder(props) {
       {IS_ANDROID && (
         <CAlert
           show={showAlert}
-          title={t('project_management:title_choose_alarms')}
+          title={trans('project_management:title_choose_alarms')}
           customContent={
             <View style={cStyles.p16}>
               {Configs.alarmsAndroid.map(item => {
@@ -515,7 +519,7 @@ function Reminder(props) {
 }
 
 Reminder.propTypes = {
-  t: PropTypes.func,
+  trans: PropTypes.func,
   isDark: PropTypes.bool,
   customColors: PropTypes.object,
   task: PropTypes.object,

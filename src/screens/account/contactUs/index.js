@@ -19,7 +19,7 @@ import {cStyles} from '~/utils/style';
 import {DATA_CONTACT_US} from '~/config/constants';
 
 /** All init */
-const colorsHeaderCard = {
+const COLORS_HEADER_CARD = {
   dark: ['#232526', '#414345'],
   light: ['#E0EAFC', '#eef2f3', '#fff'],
 };
@@ -52,7 +52,7 @@ function ContactUs(props) {
                 <CCard
                   key={item.id}
                   customLabel={item.label}
-                  gradientColor={colorsHeaderCard[theme]}
+                  gradientColor={COLORS_HEADER_CARD[theme]}
                   content={
                     <View>
                       <View

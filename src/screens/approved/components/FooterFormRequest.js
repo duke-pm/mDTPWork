@@ -34,7 +34,7 @@ function FooterFormRequest(props) {
         <CButton
           block
           disabled={loading}
-          icon={Icons.send}
+          icon={Icons.addNew}
           label={'common:send'}
           onPress={onAdd}
         />

@@ -147,7 +147,6 @@ function FileAttach(props) {
               cStyles.itemsEnd,
               cStyles.ofHidden,
               styles.con_bg,
-              {backgroundColor: colors.BACKGROUND_DOWNLOAD},
             ]}>
             <View
               style={[
@@ -185,7 +184,7 @@ const styles = StyleSheet.create({
   container: {width: moderateScale(250)},
   file: {width: moderateScale(60), height: moderateScale(60)},
   con_icon_download: {width: moderateScale(25), height: moderateScale(25)},
-  con_bg: {zIndex: 5},
+  con_bg: {zIndex: 5, backgroundColor: colors.BACKGROUND_DOWNLOAD},
   con_right: {flex: 0.7},
   con_left: {flex: 0.3},
   process_bar: {width: moderateScale(250), height: moderateScale(2)},

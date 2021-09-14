@@ -42,7 +42,7 @@ if (IS_ANDROID) {
 const SIZE_PERCENT_CIRCLE = moderateScale(30);
 const PADDING_PARTICIPANT = moderateScale(14);
 const PADDING_TOP_PARTICIPANT = moderateScale(10);
-const CustomLayoutAnimation = {
+const CUSTOM_ANIM = {
   duration: 500,
   create: {
     type: LayoutAnimation.Types.spring,
@@ -80,7 +80,7 @@ function TaskItem(props) {
   };
 
   const handleShowChildren = () => {
-    LayoutAnimation.configureNext(CustomLayoutAnimation);
+    LayoutAnimation.configureNext(CUSTOM_ANIM);
     Animated.timing(valueAnim, {
       toValue: showChildren ? 0 : 1,
       duration: 300,

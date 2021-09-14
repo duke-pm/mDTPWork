@@ -46,7 +46,7 @@ if (IS_ANDROID) {
 }
 
 /** All init */
-const sizeLargeIcon = moderateScale(80);
+const SIZE_LARGE_ICON = moderateScale(80);
 const INPUT_NAME = {EMAIL: 'email'};
 
 function ForgotPassword(props) {
@@ -250,7 +250,7 @@ function ForgotPassword(props) {
                     <CIcon
                       name={Icons.mailUnread}
                       customColor={colors.GRAY_500}
-                      customSize={sizeLargeIcon}
+                      customSize={SIZE_LARGE_ICON}
                     />
                   </View>
 

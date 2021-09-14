@@ -34,7 +34,7 @@ import CIcon from '~/components/CIcon';
 import CActivityIndicator from '~/components/CActivityIndicator';
 /* COMMON */
 import Icons from '~/utils/common/Icons';
-import {THEME_DARK} from '~/config/constants';
+import {THEME_DARK, DEFAULT_FORMAT_DATE_7} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
 import {moderateScale, IS_ANDROID} from '~/utils/helper';
 /** REDUX */
@@ -69,11 +69,11 @@ function Watchers(props) {
     send: false,
   });
   const [needRefresh, setNeedRefresh] = useState(false);
+  const [watchers, setWatchers] = useState([]);
   const [watched, setWatched] = useState({
     status: projectState.get('isWatched'),
     email: projectState.get('isReceivedEmail'),
   });
-  const [watchers, setWatchers] = useState([]);
 
   /*****************
    ** HANDLE FUNC **
@@ -117,6 +117,8 @@ function Watchers(props) {
   /**********
    ** FUNC **
    **********/
+  const done = () => setLoading({main: false, send: false});
+
   const onPrepareData = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     /** Set list watchers */
@@ -134,10 +136,6 @@ function Watchers(props) {
     });
 
     return done();
-  };
-
-  const done = () => {
-    return setLoading({main: false, send: false});
   };
 
   /****************
@@ -229,11 +227,11 @@ function Watchers(props) {
                       {watchers.map((item, index) => {
                         let time = moment(
                           item.timeUpdate,
-                          'DD/MM/YYYY - HH:mm',
+                          DEFAULT_FORMAT_DATE_7,
                         ).format('HH:mm');
                         let date = moment(
                           item.timeUpdate,
-                          'DD/MM/YYYY - HH:mm',
+                          DEFAULT_FORMAT_DATE_7,
                         ).format('DD/MM/YYYY');
                         return (
                           <View

@@ -169,7 +169,7 @@ function Bookings(props) {
                     content={
                       <View style={cStyles.flex1}>
                         <View style={[cStyles.row, cStyles.itemsStart]}>
-                          <View style={[styles.left]}>
+                          <View style={styles.left}>
                             <View style={[cStyles.row, cStyles.itemsCenter]}>
                               <CIcon
                                 name={Icons.timeTask}
@@ -242,9 +242,9 @@ function Bookings(props) {
                             </View>
                           </View>
 
-                          <View style={[styles.right]}>
+                          <View style={styles.right}>
                             <View style={[cStyles.row, cStyles.itemsCenter]}>
-                              <CIcon name={Icons.resource} size={'small'} />
+                              <CIcon name={Icons.resource} size={'smaller'} />
                               <CLabel
                                 style={cStyles.pl3}
                                 customLabel={item.resource.label}

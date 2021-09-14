@@ -27,10 +27,10 @@ import {
   CELL_WIDTH,
 } from '~/config/constants';
 
-/** All inits */
+/** All init */
 let listener = null;
 let child = 0;
-const plCommon = moderateScale(4);
+const PLEFT_COMMON = moderateScale(4);
 
 const FormatCell = React.memo(
   ({isDark = false, bgColor = undefined, align = 'center', value = any}) => {
@@ -148,10 +148,11 @@ const FormatFirstCell = React.memo(
           isDark && cStyles.borderLeftDark,
           isDark && cStyles.borderBottomDark,
           styles.cell,
-          pChild > 2 ? {paddingLeft: plCommon * pChild} : {},
+          pChild > 2 ? {paddingLeft: PLEFT_COMMON * pChild} : {},
         ]}>
         {pChild > 1 && (
-          <View style={[!isProject ? {paddingLeft: plCommon * pChild} : {}]}>
+          <View
+            style={[!isProject ? {paddingLeft: PLEFT_COMMON * pChild} : {}]}>
             <CIcon name={Icons.showChild} size={'smaller'} />
           </View>
         )}

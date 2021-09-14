@@ -167,9 +167,7 @@ function Status(props) {
   /****************
    ** LIFE CYCLE **
    ****************/
-  useEffect(() => {
-    onPrepareStatus();
-  }, [props.task.statusID]);
+  useEffect(() => onPrepareStatus(), [props.task.statusID]);
 
   useEffect(() => {
     if (loading) {

@@ -124,6 +124,7 @@ const RowSelectTags = (
           cStyles.justifyBetween,
           cStyles.px10,
           cStyles.pb10,
+          cStyles.borderDashed,
           cStyles.rounded1,
           cStyles.borderAll,
           isDark && cStyles.borderAllDark,
@@ -163,9 +164,9 @@ const RowSelectTags = (
                   cStyles.center,
                   cStyles.pt10,
                 ]}>
-                <CIcon name={Icons.addNew} size={'smaller'} color={'green'} />
+                <CIcon name={Icons.addNew} size={'small'} color={'green'} />
                 <CText
-                  styles={'textCaption1 fontRegular pl10'}
+                  styles={'textCaption1 fontRegular pl6 colorGreen'}
                   label={'add_booking:no_participants'}
                 />
               </View>
@@ -707,7 +708,7 @@ function AddBooking(props) {
           <CButton
             block
             disabled={loading.main || loading.submitAdd}
-            icon={Icons.send}
+            icon={Icons.addNew}
             label={'add_booking:create_booking'}
             onPress={onSubmitAdd}
           />

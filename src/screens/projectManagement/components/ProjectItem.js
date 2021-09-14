@@ -30,7 +30,7 @@ if (IS_ANDROID) {
 }
 
 /** All init */
-const CustomLayoutAnimated = {
+const C_LAYOUT_ANIM = {
   duration: 500,
   create: {
     type: LayoutAnimation.Types.spring,
@@ -71,7 +71,7 @@ function ProjectItem(props) {
 
   const handleItem = () => {
     if (data.countChild > 0) {
-      LayoutAnimation.configureNext(CustomLayoutAnimated);
+      LayoutAnimation.configureNext(C_LAYOUT_ANIM);
       setShowChildren(!showChildren);
     } else {
       onPress(data);
@@ -143,7 +143,7 @@ function ProjectItem(props) {
                 />
               </View>
 
-              {/** Is public */}
+              {/** Is piority */}
               {data.priorityLevel > 0 && (
                 <View
                   style={[

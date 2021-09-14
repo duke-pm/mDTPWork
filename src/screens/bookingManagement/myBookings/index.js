@@ -39,7 +39,7 @@ import {usePrevious} from '~/utils/hook';
 import * as Actions from '~/redux/actions';
 
 /** All init */
-const getTheme = {
+const THEME_CALENDAR = {
   textDayFontSize: cStyles.textCallout.fontSize,
   textMonthFontSize: cStyles.textCallout.fontSize,
   textDayHeaderFontSize: cStyles.textCallout.fontSize,
@@ -289,7 +289,7 @@ function MyBookings(props) {
                   monthFormat={'MMMM - yyyy'}
                   enableSwipeMonths={true}
                   theme={{
-                    ...getTheme,
+                    ...THEME_CALENDAR,
                     backgroundColor: customColors.card,
                     calendarBackground: customColors.card,
                     textDayStyle: {color: customColors.text},
@@ -336,7 +336,7 @@ function MyBookings(props) {
                       content={
                         <View style={cStyles.flex1}>
                           <View style={[cStyles.row, cStyles.itemsStart]}>
-                            <View style={[styles.left]}>
+                            <View style={styles.left}>
                               <View style={[cStyles.row, cStyles.itemsCenter]}>
                                 <CIcon
                                   name={Icons.timeTask}
@@ -409,11 +409,11 @@ function MyBookings(props) {
                               </View>
                             </View>
 
-                            <View style={[styles.right]}>
+                            <View style={styles.right}>
                               <View style={[cStyles.row, cStyles.itemsCenter]}>
                                 <CIcon name={Icons.resource} size={'smaller'} />
                                 <CLabel
-                                  style={cStyles.pl5}
+                                  style={cStyles.pl3}
                                   customLabel={item.resource.label}
                                 />
                               </View>

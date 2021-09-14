@@ -57,7 +57,7 @@ if (IS_ANDROID) {
 let keyboardOpen = null,
   keyboardHide = null;
 const INPUT_NAME = {FROM_DATE: 'fromDate', TO_DATE: 'toDate'};
-const themesCalendar = {
+const THEME_CALENDAR = {
   textDayFontSize: cStyles.textCallout.fontSize,
   textMonthFontSize: cStyles.textCallout.fontSize,
   textDayHeaderFontSize: cStyles.textCallout.fontSize,
@@ -539,7 +539,7 @@ function FilterOverview(props) {
                 firstDay={1}
                 disableAllTouchEventsForDisabledDays
                 enableSwipeMonths
-                theme={themesCalendar}
+                theme={THEME_CALENDAR}
                 markedDates={{[dateFilter.from]: selectedDate}}
               />
             </View>
@@ -571,7 +571,7 @@ function FilterOverview(props) {
                 firstDay={1}
                 disableAllTouchEventsForDisabledDays
                 enableSwipeMonths
-                theme={themesCalendar}
+                theme={THEME_CALENDAR}
                 markedDates={{[dateFilter.to]: selectedDate}}
               />
             </View>

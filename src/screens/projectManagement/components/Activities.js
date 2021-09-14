@@ -38,7 +38,11 @@ import CSearchBar from '~/components/CSearchBar';
 /* COMMON */
 import Icons from '~/utils/common/Icons';
 import {colors, cStyles} from '~/utils/style';
-import {LAST_COMMENT_TASK} from '~/config/constants';
+import {
+  LAST_COMMENT_TASK,
+  DEFAULT_FORMAT_DATE_7,
+  DEFAULT_FORMAT_DATE_8,
+} from '~/config/constants';
 import {LOCALE_VI, LOCALE_EN} from '~/utils/language/comment';
 import {
   saveLocalInfo,
@@ -61,6 +65,8 @@ let listRef = createRef();
 
 /** All init */
 const INPUT_NAME = {MESSAGE: 'message'};
+const HEIGHT_INPUT_1 = moderateScale(40);
+const HEIGHT_INPUT_2 = moderateScale(10);
 
 const RenderInputMessage = React.memo(
   ({
@@ -87,10 +93,7 @@ const RenderInputMessage = React.memo(
               cStyles.rounded5,
               {
                 color: customColors.text,
-                height: Math.max(
-                  moderateScale(40),
-                  heightInput + moderateScale(10),
-                ),
+                height: Math.max(HEIGHT_INPUT_1, heightInput + HEIGHT_INPUT_2),
               },
             ]}
             styleInput={cStyles.px10}
@@ -237,6 +240,11 @@ function Activity(props) {
   /**********
    ** FUNC **
    **********/
+  const done = () => setLoading({main: false, send: false});
+
+  const onSizeInputChange = event =>
+    setHeightInput(event.nativeEvent.contentSize.height);
+
   const onPrepareData = async isUpdate => {
     let array = [];
     let activities = projectState.get('activities');
@@ -246,8 +254,8 @@ function Activity(props) {
         find = null,
         tmp = null;
       for (item of activities) {
-        date = moment(item.timeUpdate, 'DD/MM/YYYY - HH:mm').format(
-          'dddd - DD/MM/YYYY',
+        date = moment(item.timeUpdate, DEFAULT_FORMAT_DATE_7).format(
+          DEFAULT_FORMAT_DATE_8,
         );
         find = array.findIndex(f => f.title === date);
         if (find !== -1) {
@@ -269,8 +277,8 @@ function Activity(props) {
     } else {
       array = [...messages];
       let lastCmt = activities[activities.length - 1];
-      let date = moment(lastCmt.timeUpdate, 'DD/MM/YYYY - HH:mm').format(
-        'dddd - DD/MM/YYYY',
+      let date = moment(lastCmt.timeUpdate, DEFAULT_FORMAT_DATE_7).format(
+        DEFAULT_FORMAT_DATE_8,
       );
       let find = array.findIndex(f => f.title === date);
       if (find !== -1) {
@@ -311,10 +319,6 @@ function Activity(props) {
     });
 
     return done();
-  };
-
-  const done = () => {
-    return setLoading({main: false, send: false});
   };
 
   const onUpdateLastComment = async () => {
@@ -358,10 +362,6 @@ function Activity(props) {
     } else {
       arrayRef[arrayRef.length - 1].item.push({idx: index, ref});
     }
-  };
-
-  const onSizeInputChange = event => {
-    setHeightInput(event.nativeEvent.contentSize.height);
   };
 
   /****************

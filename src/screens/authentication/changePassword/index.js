@@ -46,7 +46,7 @@ if (IS_ANDROID) {
 }
 
 /** All init */
-const sizeLargeIcon = moderateScale(80);
+const SIZE_LARGE_ICON = moderateScale(80);
 const INPUT_NAME = {NEW_PASSWORD: 'password'};
 
 function ChangePassword(props) {
@@ -297,7 +297,7 @@ function ChangePassword(props) {
                   <CIcon
                     name={Icons.successHappy}
                     color={'orange'}
-                    customSize={sizeLargeIcon}
+                    customSize={SIZE_LARGE_ICON}
                   />
                 </View>
 
@@ -333,7 +333,7 @@ function ChangePassword(props) {
                   <CIcon
                     name={Icons.failedSad}
                     customColor={colors.GRAY_500}
-                    customSize={sizeLargeIcon}
+                    customSize={SIZE_LARGE_ICON}
                   />
                 </View>
 
@@ -374,7 +374,7 @@ function ChangePassword(props) {
                     <CIcon
                       name={Icons.failedSad}
                       customColor={colors.GRAY_500}
-                      customSize={sizeLargeIcon}
+                      customSize={SIZE_LARGE_ICON}
                     />
                   </View>
 

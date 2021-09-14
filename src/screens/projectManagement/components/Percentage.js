@@ -130,7 +130,6 @@ function Percentage(props) {
     };
     dispatch(Actions.fetchTaskComment(paramsActivities, navigation));
     curPercent = taskDetail.percentage;
-    return;
   };
 
   const handleClosePercent = () => {
@@ -253,7 +252,7 @@ function Percentage(props) {
                     cStyles.fontMedium,
                     cStyles.textCenter,
                     cStyles.mr3,
-                    {color: colors.WHITE, fontSize: moderateScale(10)},
+                    styles.text_percent_2,
                   ]}>{`${percent.value}%`}</Text>
               )}
             </View>
@@ -267,10 +266,8 @@ function Percentage(props) {
                 percent.value === 0 && cStyles.roundedBottomLeft5,
                 cStyles.itemsStart,
                 cStyles.justifyCenter,
-                {
-                  height: moderateScale(16),
-                  width: `${100 - percent.value}%`,
-                },
+                styles.con_percent,
+                {width: `${100 - percent.value}%`},
               ]}>
               {percent.value <= 25 && (
                 <Text
@@ -278,8 +275,8 @@ function Percentage(props) {
                     cStyles.fontMedium,
                     cStyles.textCenter,
                     cStyles.ml5,
+                    styles.text_percent_1,
                     {
-                      fontSize: moderateScale(10),
                       color:
                         !props.task.isUpdated || isDisable
                           ? customColors.textDisable
@@ -338,6 +335,9 @@ const styles = StyleSheet.create({
   percent_active: {height: moderateScale(16)},
   percent_body: {height: moderateScale(16)},
   percent_input: {width: '40%', height: moderateScale(45)},
+  con_percent: {height: moderateScale(16)},
+  text_percent_1: {fontSize: moderateScale(10)},
+  text_percent_2: {color: colors.WHITE, fontSize: moderateScale(10)},
 });
 
 Percentage.propTypes = {
