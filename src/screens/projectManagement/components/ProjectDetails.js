@@ -18,7 +18,7 @@ import CStatusTag from '~/components/CStatusTag';
 /* COMMON */
 import Icons from '~/utils/common/Icons';
 import {cStyles} from '~/utils/style';
-import {DEFAULT_FORMAT_DATE_4} from '~/config/constants';
+import {DEFAULT_FORMAT_DATE_4, DEFAULT_FORMAT_DATE_1} from '~/config/constants';
 import {checkEmpty, moderateScale} from '~/utils/helper';
 
 function ProjectDetails(props) {
@@ -34,6 +34,13 @@ function ProjectDetails(props) {
    ************/
   if (!project) {
     return null;
+  }
+  let appraisalTime = null;
+  if (project.appraisalTime) {
+    appraisalTime = project.appraisalTime.split('T')[0];
+    appraisalTime = moment(appraisalTime, DEFAULT_FORMAT_DATE_1).format(
+      formatDateView,
+    );
   }
   const usersInvitedLength = (project && project.lstUserInvited.length) || 0;
   return (
@@ -61,16 +68,44 @@ function ProjectDetails(props) {
           />
         </View>
 
-        {/** Date created */}
+        {/** Date start - end */}
         <View style={[cStyles.row, cStyles.itemsCenter]}>
-          <CLabel bold label={'project_management:date_created'} />
-          <CText
-            styles={'textCallout ml3'}
-            customLabel={moment(project.crtdDate, DEFAULT_FORMAT_DATE_4).format(
-              formatDateView,
-            )}
-          />
+          <View style={[cStyles.row, cStyles.itemsCenter]}>
+            <CLabel bold label={'project_management:start_date'} />
+            <CText
+              styles={'textCallout ml3'}
+              customLabel={
+                project.startDate
+                  ? moment(project.startDate, DEFAULT_FORMAT_DATE_4).format(
+                      formatDateView,
+                    )
+                  : '-'
+              }
+            />
+          </View>
+
+          <View style={[cStyles.row, cStyles.itemsCenter, cStyles.ml10]}>
+            <CLabel bold label={'project_management:end_date'} />
+            <CText
+              styles={'textCallout ml3'}
+              customLabel={
+                project.endDate
+                  ? moment(project.endDate, DEFAULT_FORMAT_DATE_4).format(
+                      formatDateView,
+                    )
+                  : '-'
+              }
+            />
+          </View>
         </View>
+
+        {/** Date appraisal */}
+        {appraisalTime && (
+          <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt10]}>
+            <CLabel bold label={'project_management:appraisal_time'} />
+            <CText styles={'textCallout ml3'} customLabel={appraisalTime} />
+          </View>
+        )}
 
         {/** Owner */}
         <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt10]}>

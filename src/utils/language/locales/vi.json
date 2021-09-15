@@ -490,7 +490,8 @@
     "info_participant": "Thông tin người cùng tham gia",
     "piority_item": "Piority:",
     "project_services": "Project Services",
-    "project_services_holder": "Quản lý công việc trong nội bộ doanh nghiệp. Hỗ trợ theo dõi từ xa trên các thiết bị theo đặc thù công việc."
+    "project_services_holder": "Quản lý công việc trong nội bộ doanh nghiệp. Hỗ trợ theo dõi từ xa trên các thiết bị theo đặc thù công việc.",
+    "appraisal_time": "Inspection: "
   },
   "project_overview": {
     "title": "Tổng Quan",
