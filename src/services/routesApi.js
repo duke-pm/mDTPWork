@@ -36,6 +36,7 @@ const Routes = {
   },
   BOOKING: {
     LIST_BOOKING: '/Booking/GetList',
+    ADD_BOOKING: '/Booking/CreateBooking',
   },
 };
 

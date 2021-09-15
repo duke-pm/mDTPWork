@@ -10,6 +10,10 @@ import Services from '~/services';
 import * as types from './types';
 import * as Actions from '~/redux/actions';
 
+export const resetAllBooking = () => ({
+  type: types.RESET_REQUEST_APPROVED,
+});
+
 /** For get list request assets */
 export const listRequestApprovedError = error => ({
   type: types.ERROR_FETCH_LIST_REQUEST_APPROVED,
@@ -242,10 +246,6 @@ export const fetchListRequestLost = (params, navigation) => {
   };
 };
 /*****************************/
-
-export const resetAllApproved = () => ({
-  type: types.RESET_REQUEST_APPROVED,
-});
 
 /** For add request */
 export const addRequestApprovedError = error => ({

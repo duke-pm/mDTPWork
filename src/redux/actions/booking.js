@@ -10,6 +10,10 @@ import Services from '~/services';
 import * as types from './types';
 import * as Actions from '~/redux/actions';
 
+export const resetAllBooking = () => ({
+  type: types.RESET_REQUEST_BOOKING,
+});
+
 /** For get list booking */
 export const listBookingError = error => ({
   type: types.ERROR_FETCH_LIST_BOOKING,
@@ -45,6 +49,49 @@ export const fetchListBooking = (params, navigation) => {
             Actions.fetchRefreshToken(
               tmp,
               () => fetchListBooking(params),
+              navigation,
+            ),
+          );
+        }
+      });
+  };
+};
+/*****************************/
+
+/** For add booking */
+export const addBookingError = error => ({
+  type: types.ERROR_FETCH_ADD_BOOKING,
+  payload: error,
+});
+
+export const addBookingSuccess = () => ({
+  type: types.SUCCESS_FETCH_ADD_BOOKING,
+});
+
+export const fetchAddBooking = (params, navigation) => {
+  return dispatch => {
+    dispatch({type: types.START_FETCH_ADD_BOOKING});
+
+    Services.booking
+      .addBooking(params)
+      .then(res => {
+        if (!res.isError) {
+          return dispatch(addBookingSuccess());
+        } else {
+          return dispatch(addBookingError(res.errorMessage));
+        }
+      })
+      .catch(error => {
+        dispatch(addBookingError(error));
+        if (error.message && error.message.search('Authorization') !== -1) {
+          let tmp = {
+            RefreshToken: params.RefreshToken,
+            Lang: params.Lang,
+          };
+          return dispatch(
+            Actions.fetchRefreshToken(
+              tmp,
+              () => fetchAddBooking(params),
               navigation,
             ),
           );

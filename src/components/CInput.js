@@ -40,6 +40,7 @@ function CInput(props) {
 
     disabled = false,
     row = false,
+    name = '',
 
     icon = null,
     iconColor = customColors.icon,
@@ -87,17 +88,17 @@ function CInput(props) {
 
   const handleChangeValue = value => {
     if (onChangeValue) {
-      onChangeValue(value, props.name);
+      onChangeValue(value, name);
     }
   };
 
   const handleFocusInput = e => {
-    setFocus(props.name);
+    setFocus(name);
   };
 
   const handleIconLast = () => {
     if (onPressIconLast) {
-      onPressIconLast();
+      onPressIconLast(name);
     }
   };
 
@@ -151,7 +152,7 @@ function CInput(props) {
             !disabled && isDark && {backgroundColor: colors.TRANSPARENT},
             disabled && isDark && {backgroundColor: customColors.cardDisable},
             style,
-            focus === props.name && [styles.input_focus, styleFocus],
+            focus === name && [styles.input_focus, styleFocus],
           ]}>
           {icon && (
             <TouchableOpacity onPress={onPressIconFirst}>

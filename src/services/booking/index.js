@@ -45,4 +45,22 @@ export default {
         });
     });
   },
+
+  addBooking: params => {
+    return new Promise((resolve, reject) => {
+      API.post(jwtServiceConfig.baseURL + Routes.BOOKING.ADD_BOOKING, params)
+        .then(response => {
+          console.log('FETCH ADD BOOKING => ', response);
+          if (response.status === 200 && response.data) {
+            resolve(response.data);
+          } else {
+            reject(response.statusText);
+          }
+        })
+        .catch(error => {
+          console.log('ERROR ADD BOOKING => ', error);
+          reject(error.response ? error.response.data : error);
+        });
+    });
+  },
 };

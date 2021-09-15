@@ -207,7 +207,7 @@ function Filter(props) {
           </View>
           <CInput
             containerStyle={[cStyles.justifyEnd, styles.input_date]}
-            style={styles.con_input_date}
+            name={INPUT_NAME.FROM_DATE}
             hasRemove
             dateTimePicker
             value={
@@ -217,7 +217,7 @@ function Filter(props) {
             }
             iconLast={Icons.calendar}
             iconLastColor={customColors.icon}
-            onPressIconLast={() => handleDateInput(INPUT_NAME.FROM_DATE)}
+            onPressIconLast={handleDateInput}
             onPressRemoveValue={() => setData({...data, fromDate: ''})}
           />
         </View>
@@ -233,7 +233,7 @@ function Filter(props) {
           </View>
           <CInput
             containerStyle={[cStyles.justifyEnd, styles.input_date]}
-            style={styles.con_input_date}
+            name={INPUT_NAME.TO_DATE}
             hasRemove
             dateTimePicker
             value={
@@ -243,7 +243,7 @@ function Filter(props) {
             }
             iconLast={Icons.calendar}
             iconLastColor={customColors.icon}
-            onPressIconLast={() => handleDateInput(INPUT_NAME.TO_DATE)}
+            onPressIconLast={handleDateInput}
             onPressRemoveValue={() => setData({...data, toDate: ''})}
           />
         </View>

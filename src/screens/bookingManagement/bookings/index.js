@@ -25,10 +25,10 @@ import Filter from '../components/Filter';
 import Configs from '~/config';
 import {Icons} from '~/utils/common';
 import Routes from '~/navigation/Routes';
-import {Booking} from '~/utils/mockup';
-import {DEFAULT_FORMAT_DATE_6} from '~/config/constants';
 import {colors, cStyles} from '~/utils/style';
 import {moderateScale} from '~/utils/helper';
+import {DEFAULT_FORMAT_DATE_6} from '~/config/constants';
+import {Booking} from '~/utils/mockup';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 
@@ -71,13 +71,9 @@ function Bookings(props) {
    *****************/
   const handleBookingItem = () => {};
 
-  const handleOpenFilter = () => {
-    asFilterRef.current?.show();
-  };
+  const handleOpenFilter = () => asFilterRef.current?.show();
 
-  const handleHideFilter = () => {
-    asFilterRef.current?.hide();
-  };
+  const handleHideFilter = () => asFilterRef.current?.hide();
 
   const handleAddNew = () => {
     navigation.navigate(Routes.MAIN.ADD_BOOKING.name);
@@ -111,9 +107,7 @@ function Bookings(props) {
   /****************
    ** LIFE CYCLE **
    ****************/
-  useEffect(() => {
-    onFetchData();
-  }, []);
+  useEffect(() => onFetchData(), []);
 
   useLayoutEffect(() => {
     navigation.setOptions({

@@ -546,7 +546,7 @@
     "title": "My Bookings"
   },
   "add_booking": {
-    "title": "New Booking",
+    "title": "Add New",
     "info": "Basic Information",
     "info_booking": "Booking Information",
     "create_date": "Day",
@@ -554,12 +554,12 @@
     "resource": "Resource",
     "holder_find_resource": "Find resource...",
     "holder_empty_resource": "Resource empty!",
-    "label": "Name *",
+    "label": "Name",
     "holder_label": "Booking name...",
     "note": "Notes",
     "holder_note": "Booking notes...",
     "participants": "Participants",
-    "no_participants": "Select participants here...",
+    "no_participants": "Select participants here",
     "choosed": " [Choosed]",
     "date_time": "Time",
     "from_date_time": "From",

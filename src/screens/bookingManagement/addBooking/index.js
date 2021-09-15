@@ -43,151 +43,155 @@ import {Booking} from '~/utils/mockup';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 
-const RowSelect = (
-  loading = false,
-  disabled = false,
-  isDark = false,
-  customColors = {},
-  data = [],
-  activeIndex = -1,
-  keyToShow = undefined,
-  keyToCompare = undefined,
-  onPress = () => null,
-) => {
-  let findRow = null;
-  if (data && data.length > 0) {
-    if (keyToCompare) {
-      findRow = data.find(f => f[keyToCompare] === activeIndex);
-    } else {
-      findRow = data.find(f => f === activeIndex);
+const RowSelect = React.memo(
+  ({
+    loading = false,
+    disabled = false,
+    isDark = false,
+    customColors = {},
+    data = [],
+    activeIndex = -1,
+    keyToShow = undefined,
+    keyToCompare = undefined,
+    onPress = () => null,
+  }) => {
+    let findRow = null;
+    if (data && data.length > 0) {
+      if (keyToCompare) {
+        findRow = data.find(f => f[keyToCompare] === activeIndex);
+      } else {
+        findRow = data.find(f => f === activeIndex);
+      }
     }
-  }
-  return (
-    <CTouchable
-      containerStyle={cStyles.mt6}
-      disabled={disabled}
-      onPress={onPress}>
-      <View
-        style={[
-          cStyles.row,
-          cStyles.itemsCenter,
-          cStyles.justifyBetween,
-          cStyles.px10,
-          cStyles.rounded1,
-          cStyles.borderAll,
-          isDark && cStyles.borderAllDark,
-          disabled && {backgroundColor: customColors.cardDisable},
-          styles.row_select,
-        ]}>
-        {!loading ? (
-          keyToShow ? (
-            <CText
-              customLabel={findRow ? checkEmpty(findRow[keyToShow]) : '-'}
-            />
+    return (
+      <CTouchable
+        containerStyle={cStyles.mt6}
+        disabled={disabled}
+        onPress={onPress}>
+        <View
+          style={[
+            cStyles.row,
+            cStyles.itemsCenter,
+            cStyles.justifyBetween,
+            cStyles.px10,
+            cStyles.rounded1,
+            cStyles.borderAll,
+            isDark && cStyles.borderAllDark,
+            disabled && {backgroundColor: customColors.cardDisable},
+            styles.row_select,
+          ]}>
+          {!loading ? (
+            keyToShow ? (
+              <CText
+                customLabel={findRow ? checkEmpty(findRow[keyToShow]) : '-'}
+              />
+            ) : (
+              <CText customLabel={findRow ? checkEmpty(findRow) : '-'} />
+            )
           ) : (
-            <CText customLabel={findRow ? checkEmpty(findRow) : '-'} />
-          )
-        ) : (
-          <CActivityIndicator />
-        )}
-        {!disabled && (
-          <CIcon
-            name={Icons.down}
-            size={'medium'}
-            customColor={
-              disabled ? customColors.textDisable : customColors.icon
-            }
-          />
-        )}
-      </View>
-    </CTouchable>
-  );
-};
+            <CActivityIndicator />
+          )}
+          {!disabled && (
+            <CIcon
+              name={Icons.down}
+              size={'medium'}
+              customColor={
+                disabled ? customColors.textDisable : customColors.icon
+              }
+            />
+          )}
+        </View>
+      </CTouchable>
+    );
+  },
+);
 
-const RowSelectTags = (
-  loading = false,
-  disabled = false,
-  isDark = false,
-  customColors = {},
-  dataActive = [],
-  onPress = () => null,
-) => {
-  return (
-    <CTouchable
-      containerStyle={cStyles.mt6}
-      disabled={disabled}
-      onPress={onPress}>
-      <View
-        style={[
-          cStyles.row,
-          cStyles.itemsCenter,
-          cStyles.justifyBetween,
-          cStyles.px10,
-          cStyles.pb10,
-          cStyles.borderDashed,
-          cStyles.rounded1,
-          cStyles.borderAll,
-          isDark && cStyles.borderAllDark,
-          disabled && {backgroundColor: customColors.cardDisable},
-        ]}>
-        {!loading ? (
-          <View style={[cStyles.flexWrap, cStyles.row]}>
-            {dataActive.length > 0 &&
-              dataActive.map((item, index) => {
-                return (
-                  <View
-                    key={item.empID + index}
-                    style={[
-                      cStyles.row,
-                      cStyles.itemsCenter,
-                      cStyles.rounded1,
-                      cStyles.px6,
-                      cStyles.py6,
-                      cStyles.mr6,
-                      cStyles.mt10,
-                      {backgroundColor: colors.STATUS_SCHEDULE_OPACITY},
-                    ]}>
-                    <CAvatar size={'vsmall'} label={item.empName} />
-                    <CText
-                      styles={'textCaption1 fontRegular pl6'}
-                      customLabel={item.empName}
-                    />
-                  </View>
-                );
-              })}
+const RowSelectTags = React.memo(
+  ({
+    loading = false,
+    disabled = false,
+    isDark = false,
+    customColors = {},
+    dataActive = [],
+    onPress = () => null,
+  }) => {
+    return (
+      <CTouchable
+        containerStyle={cStyles.mt6}
+        disabled={disabled}
+        onPress={onPress}>
+        <View
+          style={[
+            cStyles.row,
+            cStyles.itemsCenter,
+            cStyles.justifyBetween,
+            cStyles.px10,
+            cStyles.pb10,
+            cStyles.borderDashed,
+            cStyles.rounded1,
+            cStyles.borderAll,
+            isDark && cStyles.borderAllDark,
+            disabled && {backgroundColor: customColors.cardDisable},
+          ]}>
+          {!loading ? (
+            <View style={[cStyles.flexWrap, cStyles.row]}>
+              {dataActive.length > 0 &&
+                dataActive.map((item, index) => {
+                  return (
+                    <View
+                      key={item.empID + index}
+                      style={[
+                        cStyles.row,
+                        cStyles.itemsCenter,
+                        cStyles.rounded1,
+                        cStyles.px6,
+                        cStyles.py6,
+                        cStyles.mr6,
+                        cStyles.mt10,
+                        {backgroundColor: colors.STATUS_SCHEDULE_OPACITY},
+                      ]}>
+                      <CAvatar size={'vsmall'} label={item.empName} />
+                      <CText
+                        styles={'textCaption1 fontRegular pl6'}
+                        customLabel={item.empName}
+                      />
+                    </View>
+                  );
+                })}
 
-            {dataActive.length === 0 && (
-              <View
-                style={[
-                  cStyles.flex1,
-                  cStyles.row,
-                  cStyles.center,
-                  cStyles.pt10,
-                ]}>
-                <CIcon name={Icons.addNew} size={'small'} color={'green'} />
-                <CText
-                  styles={'textCaption1 fontRegular pl6 colorGreen'}
-                  label={'add_booking:no_participants'}
-                />
-              </View>
-            )}
-          </View>
-        ) : (
-          <CActivityIndicator />
-        )}
-      </View>
-    </CTouchable>
-  );
-};
+              {dataActive.length === 0 && (
+                <View
+                  style={[
+                    cStyles.flex1,
+                    cStyles.row,
+                    cStyles.center,
+                    cStyles.pt10,
+                  ]}>
+                  <CIcon name={Icons.addNew} size={'small'} color={'green'} />
+                  <CText
+                    styles={'textCaption1 fontRegular pl6 colorGreen'}
+                    label={'add_booking:no_participants'}
+                  />
+                </View>
+              )}
+            </View>
+          ) : (
+            <CActivityIndicator />
+          )}
+        </View>
+      </CTouchable>
+    );
+  },
+);
 
-/** All refs */
+/** All ref */
 const asResourceRef = createRef();
 const asFromTimeRef = createRef();
 const asToTimeRef = createRef();
 const asParticipantRef = createRef();
 let noteRef = createRef();
 
-/** All init value */
+/** All init */
 const INPUT_NAME = {
   DATE_REQUEST: 'dateRequest',
   USER_REQUEST: 'createdUser',
@@ -198,7 +202,7 @@ const INPUT_NAME = {
   TO_DATE_TIME: 'toDate',
   RESOURCE: 'resource',
 };
-const textSizeAS = moderateScale(18);
+const TXT_AS_SIZE = moderateScale(18);
 
 function AddBooking(props) {
   const {t} = useTranslation();
@@ -252,6 +256,9 @@ function AddBooking(props) {
   /*****************
    ** HANDLE FUNC **
    *****************/
+  const handleDateInput = iName =>
+    setShowPickerDate({active: iName, status: true});
+
   const handleChangeInput = inputRef => {
     if (inputRef) {
       inputRef.focus();
@@ -261,9 +268,6 @@ function AddBooking(props) {
   const handleChangeText = (value, nameInput) => {
     setDataBooking({...dataBooking, [nameInput]: value});
   };
-
-  const handleDateInput = iName =>
-    setShowPickerDate({active: iName, status: true});
 
   const handleChangeResource = () => {
     let tmpResource = null;
@@ -317,6 +321,14 @@ function AddBooking(props) {
   /**********
    ** FUNC **
    **********/
+  const onChangeResource = index => setResource(index);
+
+  const onChangeFromTime = index => setFromTime(index);
+
+  const onChangeToTime = index => setToTime(index);
+
+  const onChangeParticipant = index => setParticipant(index);
+
   const onPrepareDetail = () => {};
 
   const onPrepareData = () => {
@@ -326,7 +338,7 @@ function AddBooking(props) {
       Lang: language,
     };
     dispatch(Actions.fetchMasterData(params, navigation));
-    // dispatch(Actions.resetAllApproved());
+    dispatch(Actions.resetAllBooking());
   };
 
   const onSubmitAdd = () => {};
@@ -362,20 +374,10 @@ function AddBooking(props) {
     }
   };
 
-  const onChangeResource = index => setResource(index);
-
-  const onChangeFromTime = index => setFromTime(index);
-
-  const onChangeToTime = index => setToTime(index);
-
-  const onChangeParticipant = index => setParticipant(index);
-
   /****************
    ** LIFE CYCLE **
    ****************/
-  useEffect(() => {
-    onPrepareData();
-  }, []);
+  useEffect(() => onPrepareData(), []);
 
   useEffect(() => {
     if (loading.main) {
@@ -433,7 +435,19 @@ function AddBooking(props) {
                 {/** Department */}
                 <View>
                   <CLabel bold label={'add_booking:resource'} />
-                  {RowSelect(
+                  <RowSelect
+                    loading={loading.main}
+                    disabled={loading.main || loading.submitAdd || isDetail}
+                    isDark={isDark}
+                    customColors={customColors}
+                    data={Booking.Resources}
+                    activeIndex={dataBooking.resource}
+                    keyToShow={'label'}
+                    keyToCompare={'id'}
+                    onPress={() => asResourceRef.current?.show()}
+                  />
+
+                  {/* {RowSelect(
                     loading.main,
                     loading.main || loading.submitAdd || isDetail,
                     isDark,
@@ -443,7 +457,7 @@ function AddBooking(props) {
                     'label',
                     'id',
                     () => asResourceRef.current?.show(),
-                  )}
+                  )} */}
                 </View>
 
                 {/** Label */}
@@ -493,12 +507,22 @@ function AddBooking(props) {
                     dateTimePicker
                     iconLast={Icons.calendar}
                     iconLastColor={customColors.icon}
-                    onPressIconLast={() =>
-                      handleDateInput(INPUT_NAME.TO_DATE_TIME)
-                    }
+                    onPressIconLast={handleDateInput}
                   />
                   <View style={[cStyles.ml5, styles.right]}>
-                    {RowSelect(
+                    <RowSelect
+                      loading={loading.main}
+                      disabled={loading.main || loading.submitAdd || isDetail}
+                      isDark={isDark}
+                      customColors={customColors}
+                      data={DATA_TIME_BOOKING}
+                      activeIndex={dataBooking.fromTime}
+                      keyToShow={null}
+                      keyToCompare={null}
+                      onPress={() => asFromTimeRef.current?.show()}
+                    />
+
+                    {/* {RowSelect(
                       loading.main,
                       loading.main || loading.submitAdd || isDetail,
                       isDark,
@@ -508,7 +532,7 @@ function AddBooking(props) {
                       null,
                       null,
                       () => asFromTimeRef.current?.show(),
-                    )}
+                    )} */}
                   </View>
                 </View>
 
@@ -529,12 +553,22 @@ function AddBooking(props) {
                     dateTimePicker
                     iconLast={Icons.calendar}
                     iconLastColor={customColors.icon}
-                    onPressIconLast={() =>
-                      handleDateInput(INPUT_NAME.TO_DATE_TIME)
-                    }
+                    onPressIconLast={handleDateInput}
                   />
                   <View style={[cStyles.ml5, styles.right]}>
-                    {RowSelect(
+                    <RowSelect
+                      loading={loading.main}
+                      disabled={loading.main || loading.submitAdd || isDetail}
+                      isDark={isDark}
+                      customColors={customColors}
+                      data={DATA_TIME_BOOKING}
+                      activeIndex={dataBooking.toTime}
+                      keyToShow={null}
+                      keyToCompare={null}
+                      onPress={() => asToTimeRef.current?.show()}
+                    />
+
+                    {/* {RowSelect(
                       loading.main,
                       loading.main || loading.submitAdd || isDetail,
                       isDark,
@@ -544,21 +578,30 @@ function AddBooking(props) {
                       null,
                       null,
                       () => asFromTimeRef.current?.show(),
-                    )}
+                    )} */}
                   </View>
                 </View>
 
                 {/** Participants */}
                 <View style={cStyles.mt16}>
                   <CLabel bold label={'add_booking:participants'} />
-                  {RowSelectTags(
+                  <RowSelectTags
+                    loading={loading.main}
+                    disabled={loading.main || loading.submitAdd || isDetail}
+                    isDark={isDark}
+                    customColors={customColors}
+                    dataActive={dataBooking.participants}
+                    onPress={() => asParticipantRef.current?.show()}
+                  />
+
+                  {/* {RowSelectTags(
                     loading.main,
                     loading.main || loading.submitAdd || isDetail,
                     isDark,
                     customColors,
                     dataBooking.participants,
                     () => asParticipantRef.current?.show(),
-                  )}
+                  )} */}
                 </View>
               </>
             }
@@ -583,7 +626,7 @@ function AddBooking(props) {
                 <Picker
                   style={[styles.action, cStyles.justifyCenter]}
                   itemStyle={{
-                    fontSize: textSizeAS,
+                    fontSize: TXT_AS_SIZE,
                     color: customColors.text,
                   }}
                   selectedValue={resource}
@@ -618,7 +661,7 @@ function AddBooking(props) {
                 <Picker
                   style={[styles.action, cStyles.justifyCenter]}
                   itemStyle={{
-                    fontSize: textSizeAS,
+                    fontSize: TXT_AS_SIZE,
                     color: customColors.text,
                   }}
                   selectedValue={fromTime}
@@ -641,7 +684,7 @@ function AddBooking(props) {
                 <Picker
                   style={[styles.action, cStyles.justifyCenter]}
                   itemStyle={{
-                    fontSize: textSizeAS,
+                    fontSize: TXT_AS_SIZE,
                     color: customColors.text,
                   }}
                   selectedValue={toTime}
@@ -664,7 +707,7 @@ function AddBooking(props) {
                 <Picker
                   style={[styles.action, cStyles.justifyCenter]}
                   itemStyle={{
-                    fontSize: textSizeAS,
+                    fontSize: TXT_AS_SIZE,
                     color: customColors.text,
                   }}
                   selectedValue={participant}

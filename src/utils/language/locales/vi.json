@@ -546,7 +546,7 @@
     "title": "Bookings của tôi"
   },
   "add_booking": {
-    "title": "Thêm Mới Booking",
+    "title": "Thêm Mới",
     "info": "Thông tin cơ bản",
     "info_booking": "Thông tin Booking",
     "create_date": "Ngày",
@@ -554,12 +554,12 @@
     "resource": "Tài nguyên",
     "holder_find_resource": "Tìm tài nguyên...",
     "holder_empty_resource": "Tài nguyên rỗng",
-    "label": "Tên *",
+    "label": "Tên",
     "holder_label": "Tên booking...",
     "note": "Ghi chú",
     "holder_note": "Ghi chú thông tin booking...",
     "participants": "Người tham gia",
-    "no_participants": "Chọn người tham gia tại đây...",
+    "no_participants": "Chọn người tham gia tại đây",
     "choosed": " [Đã chọn]",
     "date_time": "Thời gian",
     "from_date_time": "Từ",

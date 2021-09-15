@@ -28,6 +28,13 @@ export const initialState = fromJS({
 export default function (state = initialState, action = {}) {
   const {type, payload} = action;
   switch (type) {
+    case types.RESET_REQUEST_BOOKING:
+      return state
+        .set('submittingAddBooking', false)
+        .set('successAddBooking', false)
+        .set('errorAddBooking', false)
+        .set('errorHelperAddBooking', '');
+
     /** For list booking **/
     case types.START_FETCH_LIST_BOOKING:
       return state
@@ -55,14 +62,14 @@ export default function (state = initialState, action = {}) {
     case types.START_FETCH_ADD_BOOKING:
       return state
         .set('submittingAddBooking', true)
-        .set('successListBooking', false)
+        .set('successAddBooking', false)
         .set('errorAddBooking', false)
         .set('errorHelperAddBooking', '');
 
     case types.SUCCESS_FETCH_ADD_BOOKING:
       return state
         .set('submittingAddBooking', false)
-        .set('successListBooking', true)
+        .set('successAddBooking', true)
         .set('errorAddBooking', false)
         .set('errorHelperAddBooking', '')
         .set('bookingDetail', payload);
@@ -70,7 +77,7 @@ export default function (state = initialState, action = {}) {
     case types.ERROR_FETCH_ADD_BOOKING:
       return state
         .set('submittingAddBooking', false)
-        .set('successListBooking', false)
+        .set('successAddBooking', false)
         .set('errorAddBooking', true)
         .set('errorHelperAddBooking', payload);
     default:
