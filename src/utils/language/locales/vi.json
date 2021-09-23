@@ -51,19 +51,11 @@
     "days": "ngày",
     "at": "-",
     "from_date": "Từ ",
-    "to_date": "Đến "
+    "to_date": "Đến ",
+    "filter": "Bộ Lọc"
   },
   "status": {
-    "title": "Trạng thái",
-    "any": "Bất kỳ",
-    "new": "Mới",
-    "scheduled": "Đã lên kế hoạch",
-    "to_be_scheduled": "Đã lên lịch",
-    "in_progress": "Đang diễn ra",
-    "rejected": "Đã từ chối",
-    "closed": "Đã đóng",
-    "on_hold": "Tạm dừng",
-    "completed": "Hoàn thành"
+    "title": "Trạng thái"
   },
   "success": {
     "title": "Thành Công",
@@ -240,8 +232,6 @@
   "approved_assets": {
     "title": "Cấp Phát Tài Sản",
     "title_assets": "Tài Sản",
-    "filter": "Bộ lọc:",
-    "holder_filter": "Bộ Lọc",
     "status": "Trạng thái",
     "user_request": "Người gửi: ",
     "department_request": "Bộ phận ",
@@ -259,7 +249,6 @@
     "search_request": "Tìm kiếm...",
     "from_date": "Từ ngày ",
     "to_date": "Đến ngày ",
-    "filter_start": "Lọc",
     "show_timeline": "Thông tin trạng thái",
     "person_approved": "Người duyệt: ",
     "reason_reject": "Lý do ",
@@ -314,7 +303,6 @@
   "approved_lost_damaged": {
     "title": "Báo Hỏng | Báo Mất",
     "title_assets": "Tài Sản",
-    "filter": "Bộ lọc:",
     "status": "Trạng thái",
     "user_request": "Người gửi: ",
     "department_request": "Bộ phận: ",
@@ -332,7 +320,6 @@
     "search_request": "Tìm kiếm...",
     "from_date": "Từ ngày ",
     "to_date": "Đến ngày ",
-    "filter_start": "Lọc",
     "show_timeline": "Thông tin trạng thái",
     "person_approved": "Người duyệt: ",
     "reason_reject": "Lý do: ",
@@ -354,7 +341,7 @@
     "holder_assets": "Chọn tài sản...",
     "search_assets": "Tìm tài sản",
     "reason": "Lý do đề xuất",
-    "holder_reason": "Lý do...",
+    "holder_reason": "Điền lý do...",
     "type_update": "Tài sản cần",
     "lost_assets": "Báo mất",
     "damage_assets": "Báo hỏng",
@@ -413,11 +400,7 @@
     "holder_change_status": "Vui lòng chọn trạng thái",
     "from_date": "Từ ",
     "to_date": "Đến ",
-    "filter": "Bộ lọc",
-    "date_filter": "Ngày",
-    "assigned_filter": "Người phụ trách",
     "status_filter": "Trạng thái",
-    "author_filter": "Tác giả",
     "assign_to_me": "Công việc của tôi",
     "assign_to": "Đến",
     "assign_to_any": "Bất kì người dùng",

@@ -51,19 +51,11 @@
     "days": "days",
     "at": "-",
     "from_date": "From ",
-    "to_date": "To "
+    "to_date": "To ",
+    "filter": "Filter"
   },
   "status": {
-    "title": "Status",
-    "any": "Any",
-    "new": "New",
-    "scheduled": "Scheduled",
-    "to_be_scheduled": "To be scheduled",
-    "in_progress": "In progress",
-    "rejected": "Rejected",
-    "closed": "Closed",
-    "on_hold": "On hold",
-    "completed": "Completed"
+    "title": "Status"
   },
   "success": {
     "title": "Successfully!",
@@ -240,8 +232,6 @@
   "approved_assets": {
     "title": "Asset Allocation",
     "title_assets": "Asset",
-    "filter": "Filters:",
-    "holder_filter": "Filters",
     "status": "Status",
     "user_request": "Sender: ",
     "department_request": "Department ",
@@ -259,7 +249,6 @@
     "search_request": "Search...",
     "from_date": "From date ",
     "to_date": "To date ",
-    "filter_start": "Filter",
     "show_timeline": "Status info",
     "person_approved": "Approved by: ",
     "reason_reject": "Reason ",
@@ -314,7 +303,6 @@
   "approved_lost_damaged": {
     "title": "Failure | Lost",
     "title_assets": "Asset",
-    "filter": "Filter:",
     "status": "Status: ",
     "user_request": "Sender: ",
     "department_request": "Department: ",
@@ -332,7 +320,6 @@
     "search_request": "search...",
     "from_date": "From date ",
     "to_date": "To date ",
-    "filter_start": "Filter",
     "show_timeline": "Status info",
     "person_approved": "Approved by: ",
     "reason_reject": "Reason: ",
@@ -413,11 +400,7 @@
     "holder_change_status": "Please select the status",
     "from_date": "From ",
     "to_date": "To ",
-    "filter": "Filters",
-    "date_filter": "Date",
-    "assigned_filter": "Assigned",
     "status_filter": "Status",
-    "author_filter": "Author",
     "assign_to_me": "Assigned to me",
     "assign_to": "To",
     "assign_to_any": "Any user",

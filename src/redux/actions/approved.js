@@ -10,7 +10,7 @@ import Services from '~/services';
 import * as types from './types';
 import * as Actions from '~/redux/actions';
 
-export const resetAllBooking = () => ({
+export const resetAllApproved = () => ({
   type: types.RESET_REQUEST_APPROVED,
 });
 

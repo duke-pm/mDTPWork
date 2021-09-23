@@ -49,17 +49,11 @@ function FilterTags(props) {
         ]}>
         <CText
           styles={'textCaption2 colorBlack'}
-          customLabel={
-            (fromDate !== ''
-              ? translation('common:from_date') +
-                moment(fromDate).format(formatDateView)
-              : '#') +
-            '\n' +
-            (toDate !== ''
-              ? translation('common:to_date') +
-                moment(toDate).format(formatDateView)
-              : '#')
-          }
+          customLabel={`${translation('common:from_date')}${
+            fromDate !== '' ? moment(fromDate).format(formatDateView) : '#'
+          }\n${translation('common:to_date')}${
+            toDate !== '' ? moment(toDate).format(formatDateView) : '#'
+          }`}
         />
       </View>
 

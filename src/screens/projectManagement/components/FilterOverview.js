@@ -483,7 +483,7 @@ function FilterOverview(props) {
               headerCenter: () => (
                 <CText
                   customStyles={[cStyles.colorWhite, cStyles.textHeadline]}
-                  label={'project_management:filter'}
+                  label={'common:filter'}
                 />
               ),
             }

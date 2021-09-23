@@ -19,6 +19,7 @@ import CInput from '~/components/CInput';
 import CGroupFilter from '~/components/CGroupFilter';
 import CDateTimePicker from '~/components/CDateTimePicker';
 import CIconButton from '~/components/CIconButton';
+import CText from '~/components/CText';
 /* COMMON */
 import Configs from '~/config';
 import {Commons, Icons} from '~/utils/common';
@@ -181,6 +182,7 @@ function Filter(props) {
           iconColor={customColors.red}
           onPress={onClose}
         />
+        <CText styles={'textSubheadline'} label={'common:filter'} />
         <CIconButton
           style={styles.icon}
           iconProps={PROPS_ICON}
