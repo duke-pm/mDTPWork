@@ -13,6 +13,7 @@ import ActionSheet from 'react-native-actions-sheet';
 import {BlurView} from '@react-native-community/blur';
 /** COMPONENTS */
 import CIconButton from './CIconButton';
+import CText from './CText';
 /** COMMON */
 import Icons from '~/utils/common/Icons';
 import {colors, cStyles} from '~/utils/style';
@@ -28,6 +29,7 @@ function CActionSheet(props) {
   const {
     customHeader = null,
     headerChoose = false,
+    headerChooseTitle = null,
     onConfirm = undefined,
     onClose = undefined,
   } = props;
@@ -109,7 +111,14 @@ function CActionSheet(props) {
             iconColor={customColors.red}
             onPress={handleClose}
           />
-          <View style={[cStyles.rounded3, styles.indicator]} />
+          <View style={[cStyles.flexCenter]}>
+            {headerChooseTitle && (
+              <CText
+                styles={'textSubheadline pt10'}
+                label={headerChooseTitle}
+              />
+            )}
+          </View>
           <CIconButton
             style={styles.icon}
             iconProps={PROPS_ICON}
@@ -128,7 +137,7 @@ function CActionSheet(props) {
 
 const styles = StyleSheet.create({
   container: {backgroundColor: colors.TRANSPARENT},
-  indicator: {width: moderateScale(50), height: moderateScale(6)},
+  indicator: {width: '100%'},
   icon: {height: moderateScale(45), width: moderateScale(45)},
 });
 
@@ -136,6 +145,7 @@ CActionSheet.propTypes = {
   actionRef: PropTypes.any,
   customHeader: PropTypes.element,
   headerChoose: PropTypes.bool,
+  headerChooseTitle: PropTypes.oneOfType[(PropTypes.string, PropTypes.any)],
   children: PropTypes.element,
   onConfirm: PropTypes.func,
   onClose: PropTypes.func,

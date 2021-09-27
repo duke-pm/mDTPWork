@@ -10,16 +10,16 @@ import {fromJS} from 'immutable';
 import * as types from '../actions/types';
 
 export const initialState = fromJS({
-  submittingListBooking: false,
-  submittingAddBooking: false,
+  submittingList: false,
+  submittingAdd: false,
 
-  successListBooking: false,
-  successAddBooking: false,
+  successList: false,
+  successAdd: false,
 
-  errorListBooking: false,
-  errorHelperListBooking: '',
-  errorAddBooking: false,
-  errorHelperAddBooking: '',
+  errorList: false,
+  errorHelperList: '',
+  errorAdd: false,
+  errorHelperAdd: '',
 
   bookings: [],
   bookingDetail: null,
@@ -30,56 +30,56 @@ export default function (state = initialState, action = {}) {
   switch (type) {
     case types.RESET_REQUEST_BOOKING:
       return state
-        .set('submittingAddBooking', false)
-        .set('successAddBooking', false)
-        .set('errorAddBooking', false)
-        .set('errorHelperAddBooking', '');
+        .set('submittingAdd', false)
+        .set('successAdd', false)
+        .set('errorAdd', false)
+        .set('errorHelperAdd', '');
 
     /** For list booking **/
     case types.START_FETCH_LIST_BOOKING:
       return state
-        .set('submittingListBooking', true)
-        .set('successListBooking', false)
-        .set('errorListBooking', false)
-        .set('errorHelperListBooking', '');
+        .set('submittingList', true)
+        .set('successList', false)
+        .set('errorList', false)
+        .set('errorHelperList', '');
 
-    case types.SUCCESS_FETCH_LIST_PROJECT:
+    case types.SUCCESS_FETCH_LIST_BOOKING:
       return state
-        .set('submittingListBooking', false)
-        .set('successListBooking', true)
-        .set('errorListBooking', false)
-        .set('errorHelperListBooking', '')
+        .set('submittingList', false)
+        .set('successList', true)
+        .set('errorList', false)
+        .set('errorHelperList', '')
         .set('bookings', payload);
 
-    case types.ERROR_FETCH_LIST_PROJECT:
+    case types.ERROR_FETCH_LIST_BOOKING:
       return state
-        .set('submittingListBooking', false)
-        .set('successListBooking', false)
-        .set('errorListBooking', true)
-        .set('errorHelperListBooking', payload);
+        .set('submittingList', false)
+        .set('successList', false)
+        .set('errorList', true)
+        .set('errorHelperList', payload);
 
     /** For add booking **/
     case types.START_FETCH_ADD_BOOKING:
       return state
-        .set('submittingAddBooking', true)
-        .set('successAddBooking', false)
-        .set('errorAddBooking', false)
-        .set('errorHelperAddBooking', '');
+        .set('submittingAdd', true)
+        .set('successAdd', false)
+        .set('errorAdd', false)
+        .set('errorHelperAdd', '');
 
     case types.SUCCESS_FETCH_ADD_BOOKING:
       return state
-        .set('submittingAddBooking', false)
-        .set('successAddBooking', true)
-        .set('errorAddBooking', false)
-        .set('errorHelperAddBooking', '')
+        .set('submittingAdd', false)
+        .set('successAdd', true)
+        .set('errorAdd', false)
+        .set('errorHelperAdd', '')
         .set('bookingDetail', payload);
 
     case types.ERROR_FETCH_ADD_BOOKING:
       return state
-        .set('submittingAddBooking', false)
-        .set('successAddBooking', false)
-        .set('errorAddBooking', true)
-        .set('errorHelperAddBooking', payload);
+        .set('submittingAdd', false)
+        .set('successAdd', false)
+        .set('errorAdd', true)
+        .set('errorHelperAdd', payload);
     default:
       return state;
   }

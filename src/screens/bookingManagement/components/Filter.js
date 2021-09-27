@@ -15,6 +15,7 @@ import moment from 'moment';
 /* COMPONENTS */
 import CLabel from '~/components/CLabel';
 import CInput from '~/components/CInput';
+import CText from '~/components/CText';
 import CDateTimePicker from '~/components/CDateTimePicker';
 import CIconButton from '~/components/CIconButton';
 /* COMMON */
@@ -122,6 +123,7 @@ function Filter(props) {
           iconColor={customColors.red}
           onPress={onClose}
         />
+        <CText styles={'textSubheadline'} label={'common:filter'} />
         <CIconButton
           style={styles.icon}
           iconProps={PROP_ICON}

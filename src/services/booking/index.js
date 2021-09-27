@@ -13,6 +13,21 @@ export default {
   listBooking: params => {
     return new Promise((resolve, reject) => {
       let tmpConfigs = {params: {}};
+      if (params.get('FromDate')) {
+        tmpConfigs.params.FromDate = params.get('FromDate');
+      }
+      if (params.get('ToDate')) {
+        tmpConfigs.params.ToDate = params.get('ToDate');
+      }
+      if (params.get('Search')) {
+        console.log('[LOG] === Search ===> ', params.get('Search'));
+        tmpConfigs.params.Search = params.get('Search');
+      }
+      if (params.get('IsMyBooking')) {
+        tmpConfigs.params.IsMyBooking = params.get('IsMyBooking');
+      } else {
+        tmpConfigs.params.IsMyBooking = false;
+      }
       if (params.get('PageSize')) {
         tmpConfigs.params.PageSize = params.get('PageSize');
       } else {
@@ -48,7 +63,7 @@ export default {
 
   addBooking: params => {
     return new Promise((resolve, reject) => {
-      API.post(jwtServiceConfig.baseURL + Routes.BOOKING.ADD_BOOKING, params)
+      API.put(jwtServiceConfig.baseURL + Routes.BOOKING.ADD_BOOKING, params)
         .then(response => {
           console.log('FETCH ADD BOOKING => ', response);
           if (response.status === 200 && response.data) {

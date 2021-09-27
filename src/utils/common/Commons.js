@@ -161,6 +161,24 @@ const Commons = {
       icon: 'list',
     },
   },
+
+  BOOKING_STATUS_HAPPEND: {
+    NOT_HAPPEND: {
+      value: 'Not happen',
+      label: '',
+      color: 'orange',
+    },
+    HAPPENNING: {
+      value: 'Happenning',
+      label: 'bookings:resume',
+      color: 'green',
+    },
+    HAPPENED: {
+      value: 'Happened',
+      label: '',
+      color: 'icon',
+    },
+  },
 };
 
 export default Commons;

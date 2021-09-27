@@ -6,7 +6,8 @@
  ** Description: Description of BookingManagement.js
  **/
 import React, {useState, useEffect} from 'react';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
+import {useTranslation} from 'react-i18next';
 /** COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContentSubMenu from '~/components/CContentSubMenu';
@@ -14,12 +15,21 @@ import CContentSubMenu from '~/components/CContentSubMenu';
 import Configs from '~/config';
 import {Animations} from '~/utils/asset';
 import {colors} from '~/utils/style';
+/* REDUX */
+import * as Actions from '~/redux/actions';
+import {showMessage} from 'react-native-flash-message';
 
 function BookingManagement(props) {
+  const {t} = useTranslation();
   const {navigation, route} = props;
 
   /** Use redux */
+  const dispatch = useDispatch();
+  const masterState = useSelector(({masterData}) => masterData);
+  const commonState = useSelector(({common}) => common);
   const authState = useSelector(({auth}) => auth);
+  const language = commonState.get('language');
+  const refreshToken = authState.getIn(['login', 'refreshToken']);
 
   /** Use State */
   const [loading, setLoading] = useState(true);
@@ -38,6 +48,15 @@ function BookingManagement(props) {
    ** FUNC **
    **********/
   const onStart = () => setLoading(false);
+
+  const onGetMasterData = () => {
+    let params = {
+      listType: 'BKIcon, BKColor, BKResource, Users',
+      RefreshToken: refreshToken,
+      Lang: language,
+    };
+    dispatch(Actions.fetchMasterData(params, navigation));
+  };
 
   const onPrepareData = () => {
     let tmpListMenu = authState.getIn(['login', 'lstMenu']);
@@ -61,10 +80,38 @@ function BookingManagement(props) {
     onStart();
   };
 
+  const onError = () => {
+    showMessage({
+      message: t('common:app_name'),
+      description: t('error:cannot_get_master_booking'),
+      type: 'danger',
+      icon: 'danger',
+    });
+  };
+
   /****************
    ** LIFE CYCLE **
    ****************/
-  useEffect(() => onPrepareData(), []);
+  useEffect(() => {
+    dispatch(Actions.resetStatusMasterData());
+    onGetMasterData();
+  }, []);
+
+  useEffect(() => {
+    if (loading) {
+      if (!masterState.get('submitting')) {
+        if (!masterState.get('success') && masterState.get('error')) {
+          onError();
+        }
+        onPrepareData();
+      }
+    }
+  }, [
+    loading,
+    masterState.get('submitting'),
+    masterState.get('success'),
+    masterState.get('error'),
+  ]);
 
   /************
    ** RENDER **

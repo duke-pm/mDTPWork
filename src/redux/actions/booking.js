@@ -33,7 +33,7 @@ export const fetchListBooking = (params, navigation) => {
       .listBooking(params)
       .then(res => {
         if (!res.isError) {
-          return dispatch(listBookingSuccess(res.data));
+          return dispatch(listBookingSuccess(res.data.lstBooking));
         } else {
           return dispatch(listBookingError(res.errorMessage));
         }

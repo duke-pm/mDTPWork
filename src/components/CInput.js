@@ -276,7 +276,7 @@ function CInput(props) {
             </Component>
           )}
         </View>
-        {props.error && (
+        {props.error && (props.errorHelper || props.errorHelperCustom) && (
           <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pt6]}>
             <CIcon name={Icons.alert} size={'smaller'} color={'red'} />
             <CText

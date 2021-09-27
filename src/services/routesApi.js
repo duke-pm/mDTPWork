@@ -35,8 +35,10 @@ const Routes = {
     PROJECT_OVERVIEW: '/Project/GetListOverview',
   },
   BOOKING: {
-    LIST_BOOKING: '/Booking/GetList',
-    ADD_BOOKING: '/Booking/CreateBooking',
+    LIST_BOOKING: '/TransBooking/GetList',
+    ADD_BOOKING: '/TransBooking/Modify',
+    UPDATE_BOOKING: '/TransBooking/Modify',
+    REMOVE_BOOKING: '/TransBooking/Remove',
   },
 };
 

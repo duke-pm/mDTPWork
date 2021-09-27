@@ -29,7 +29,8 @@ export const initialState = fromJS({
   projectSector: [],
   projectComponent: [],
   projectPriority: [],
-  bookingResource: [],
+  bkColor: [],
+  bkReSource: [],
 });
 
 export default function (state = initialState, action = {}) {
@@ -97,7 +98,9 @@ export default function (state = initialState, action = {}) {
         .set(
           'bookingResource',
           payload.bookingResource || state.get('bookingResource'),
-        );
+        )
+        .set('bkColor', payload.bkColor || state.get('bkColor'))
+        .set('bkReSource', payload.bkReSource || state.get('bkReSource'));
 
     default:
       return state;
