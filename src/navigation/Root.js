@@ -394,7 +394,6 @@ export function RootMain(props) {
         name={Routes.MAIN.ADD_BOOKING.name}
         component={Routes.MAIN.ADD_BOOKING.path}
         options={{
-          title: t('add_booking:title'),
           headerStyle: {backgroundColor: customColors.bookingHeader},
           headerTintColor: customColors.text,
         }}

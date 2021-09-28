@@ -530,10 +530,12 @@
     "to_date": "Đến ngày"
   },
   "my_bookings": {
-    "title": "Bookings của tôi"
+    "title": "Bookings của tôi",
+    "see_as": "Xem theo: "
   },
   "add_booking": {
-    "title": "Thêm Mới",
+    "title_add": "Thêm Mới",
+    "title_update": "Cập nhật",
     "info": "Thông tin cơ bản",
     "info_booking": "Thông tin Booking",
     "create_date": "Ngày",
@@ -548,11 +550,14 @@
     "participants": "Người tham gia",
     "holder_participants": "Chọn người tham gia",
     "no_participants": "Chọn người tham gia tại đây",
+    "holder_find_participant": "Tìm người tham gia...",
+    "add_participant": "Thêm",
     "choosed": " [Đã chọn]",
     "date_time": "Thời gian",
     "from_date_time": "Từ",
     "to_date_time": "Đến",
     "create_booking": "Thêm Booking",
+    "update_booking": "Cập nhật Booking",
     "warning_dischange": "Bạn có chắc chắn muốn rời khỏi trang này?",
     "agree_dischange": "Rời khỏi",
     "close_dischange": "Huỷ bỏ",

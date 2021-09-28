@@ -101,9 +101,9 @@ const RenderInputMessage = React.memo(
             holder={'project_management:holder_input_your_comment'}
             value={value}
             onBlur={Keyboard.dismiss}
-            returnKey={'send'}
+            returnKey={'default'}
+            blurOnSubmit={false}
             multiline
-            onChangeInput={onSend}
             onChangeValue={handleChangeText}
             onContentSizeChange={onSizeInputChange}
           />

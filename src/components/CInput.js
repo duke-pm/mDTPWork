@@ -58,6 +58,7 @@ function CInput(props) {
     returnKey = 'next',
     numberOfLines = undefined,
 
+    blurOnSubmit = true,
     multiline = false,
     password = false,
     autoFocus = false,
@@ -211,9 +212,9 @@ function CInput(props) {
                 autoCapitalize
                 autoCorrect={false}
                 secureTextEntry={password && !showPassword}
-                enablesReturnKeyAutomatically={true}
-                blurOnSubmit={true}
-                selectTextOnFocus={true}
+                enablesReturnKeyAutomatically
+                blurOnSubmit={blurOnSubmit}
+                selectTextOnFocus
                 textAlign={textAlign}
                 allowFontScaling={false}
                 removeClippedSubviews={IS_ANDROID}

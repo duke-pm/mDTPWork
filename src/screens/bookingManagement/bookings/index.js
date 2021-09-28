@@ -10,26 +10,22 @@ import React, {createRef, useState, useEffect, useLayoutEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
-import {StyleSheet, View, Text, LayoutAnimation, UIManager} from 'react-native';
+import {View, LayoutAnimation, UIManager} from 'react-native';
 import {showMessage} from 'react-native-flash-message';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
 import CSearchBar from '~/components/CSearchBar';
-import CList from '~/components/CList';
-import CText from '~/components/CText';
-import CCard from '~/components/CCard';
-import CIcon from '~/components/CIcon';
-import CLabel from '~/components/CLabel';
 import CIconHeader from '~/components/CIconHeader';
 import CActionSheet from '~/components/CActionSheet';
 import Filter from '../components/Filter';
+import BookingList from '../components/BookingList';
 /* COMMON */
 import Configs from '~/config';
-import {Icons, Commons} from '~/utils/common';
 import Routes from '~/navigation/Routes';
+import {Icons} from '~/utils/common';
 import {colors, cStyles} from '~/utils/style';
-import {IS_ANDROID, moderateScale} from '~/utils/helper';
+import {IS_ANDROID} from '~/utils/helper';
 import {LOAD_MORE, REFRESH} from '~/config/constants';
 /* REDUX */
 import * as Actions from '~/redux/actions';
@@ -62,7 +58,7 @@ function Bookings(props) {
   /** All state */
   const [loading, setLoading] = useState({
     main: true,
-    startFetch: true,
+    startFetch: false,
     refreshing: false,
     loadmore: false,
     isLoadmore: true,
@@ -79,8 +75,6 @@ function Bookings(props) {
   /*****************
    ** HANDLE FUNC **
    *****************/
-  const handleBookingItem = () => {};
-
   const handleOpenFilter = () => asFilterRef.current?.show();
 
   const handleHideFilter = () => asFilterRef.current?.hide();
@@ -206,7 +200,7 @@ function Bookings(props) {
    ****************/
   useEffect(() => {
     onFetchData(form.fromDate, form.toDate, form.page, form.search);
-    return onDone({...loading, startFetch: true});
+    onDone({...loading, startFetch: true});
   }, []);
 
   useEffect(() => {
@@ -284,135 +278,13 @@ function Bookings(props) {
             onClose={handleCloseSearch}
           />
           {!loading.main && !loading.startFetch && (
-            <CList
-              contentStyle={cStyles.pt10}
-              data={data}
-              item={({item, index}) => {
-                let timeDate = {
-                  startDate: item.strStartDateTime.split(' - ')[0],
-                  startTime: item.strStartDateTime.split(' - ')[1],
-                  endDate: item.strEndDateTime.split(' - ')[0],
-                  endTime: item.strEndDateTime.split(' - ')[1],
-                };
-
-                return (
-                  <CCard
-                    key={index}
-                    customLabel={`#${item.bookID} ${item.purpose}`}
-                    onPress={handleBookingItem}
-                    content={
-                      <View style={cStyles.flex1}>
-                        <View style={[cStyles.row, cStyles.itemsStart]}>
-                          <View style={styles.left}>
-                            <View style={[cStyles.row, cStyles.itemsCenter]}>
-                              <CIcon
-                                name={Icons.timeTask}
-                                size={'smaller'}
-                                color={
-                                  item.statusHappend ===
-                                  Commons.BOOKING_STATUS_HAPPEND.HAPPENNING
-                                    .value
-                                    ? Commons.BOOKING_STATUS_HAPPEND.HAPPENNING
-                                        .color
-                                    : item.statusHappend ===
-                                      Commons.BOOKING_STATUS_HAPPEND.NOT_HAPPEND
-                                        .value
-                                    ? Commons.BOOKING_STATUS_HAPPEND.NOT_HAPPEND
-                                        .color
-                                    : Commons.BOOKING_STATUS_HAPPEND.HAPPENED
-                                        .color
-                                }
-                              />
-                              <View>
-                                <View
-                                  style={[cStyles.row, cStyles.itemsCenter]}>
-                                  <Text
-                                    style={[cStyles.textCenter, cStyles.pl4]}
-                                    numberOfLines={2}>
-                                    <Text
-                                      style={[
-                                        cStyles.textCaption2,
-                                        {color: customColors.text},
-                                      ]}>
-                                      {`${timeDate.startDate}\n${timeDate.startTime}`}
-                                    </Text>
-                                  </Text>
-                                  <CIcon
-                                    name={Icons.nextStep}
-                                    size={'minimum'}
-                                  />
-                                  <Text
-                                    style={cStyles.textCenter}
-                                    numberOfLines={2}>
-                                    <Text
-                                      style={[
-                                        cStyles.textCaption2,
-                                        {color: customColors.text},
-                                      ]}>
-                                      {`${timeDate.endDate}\n${timeDate.endTime}`}
-                                    </Text>
-                                  </Text>
-                                </View>
-                                {item.statusHappend ===
-                                  Commons.BOOKING_STATUS_HAPPEND.HAPPENNING
-                                    .value && (
-                                  <View
-                                    style={[
-                                      cStyles.itemsCenter,
-                                      cStyles.rounded5,
-                                      cStyles.py2,
-                                      cStyles.px2,
-                                      styles.live,
-                                    ]}>
-                                    <CText
-                                      styles={
-                                        'textCaption2 colorGreen fontBold'
-                                      }
-                                      label={'bookings:resume'}
-                                    />
-                                  </View>
-                                )}
-                              </View>
-                            </View>
-                          </View>
-
-                          <View style={styles.right}>
-                            <View style={[cStyles.row, cStyles.itemsCenter]}>
-                              <CIcon
-                                name={Icons.resource}
-                                size={'smaller'}
-                                customColor={item.color}
-                              />
-                              <CLabel
-                                style={cStyles.pl3}
-                                customLabel={item.resourceName}
-                              />
-                            </View>
-                            <View
-                              style={[
-                                cStyles.row,
-                                cStyles.itemsCenter,
-                                cStyles.mt6,
-                              ]}>
-                              <CIcon
-                                name={Icons.userCreated}
-                                size={'smaller'}
-                              />
-                              <CLabel
-                                style={cStyles.pl5}
-                                customLabel={item.ownerName}
-                              />
-                            </View>
-                          </View>
-                        </View>
-                      </View>
-                    }
-                  />
-                );
-              }}
+            <BookingList
+              navigation={navigation}
+              customColors={customColors}
               refreshing={loading.refreshing}
+              loadmore={loading.loadmore}
+              data={data}
               onRefresh={onRefresh}
-              loadingmore={loading.loadmore}
               onLoadmore={onLoadmore}
             />
           )}
@@ -431,25 +303,5 @@ function Bookings(props) {
     />
   );
 }
-
-const styles = StyleSheet.create({
-  left: {flex: 0.5},
-  right: {flex: 0.5},
-  con_user_invite: {
-    top: -moderateScale(10),
-    height: moderateScale(20),
-    width: moderateScale(20),
-    zIndex: 0,
-  },
-  item: {
-    backgroundColor: 'white',
-    flex: 1,
-    borderRadius: 5,
-    padding: 10,
-    marginRight: 10,
-    marginTop: 17,
-  },
-  live: {backgroundColor: colors.STATUS_SCHEDULE_OPACITY},
-});
 
 export default Bookings;

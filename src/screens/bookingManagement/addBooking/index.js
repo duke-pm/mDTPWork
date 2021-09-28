@@ -5,7 +5,7 @@
  ** CreateAt: 2021
  ** Description: Description of AddBooking.js
  **/
-import React, {createRef, useState, useEffect} from 'react';
+import React, {createRef, useState, useEffect, useLayoutEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
@@ -13,6 +13,7 @@ import {useColorScheme} from 'react-native-appearance';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {StyleSheet, View, UIManager, LayoutAnimation} from 'react-native';
 import Picker from '@gregfrench/react-native-wheel-picker';
+import {showMessage} from 'react-native-flash-message';
 import {ifIphoneX} from 'react-native-iphone-x-helper';
 import moment from 'moment';
 /* COMPONENTS */
@@ -25,6 +26,7 @@ import CAvatar from '~/components/CAvatar';
 import CInput from '~/components/CInput';
 import CButton from '~/components/CButton';
 import CTouchable from '~/components/CTouchable';
+import CIconButton from '~/components/CIconButton';
 import CActionSheet from '~/components/CActionSheet';
 import CDateTimePicker from '~/components/CDateTimePicker';
 import CActivityIndicator from '~/components/CActivityIndicator';
@@ -32,17 +34,19 @@ import CActivityIndicator from '~/components/CActivityIndicator';
 import Configs from '~/config';
 import {Icons} from '~/utils/common';
 import {colors, cStyles} from '~/utils/style';
-import {THEME_DARK, DATA_TIME_BOOKING} from '~/config/constants';
+import {
+  THEME_DARK,
+  DATA_TIME_BOOKING,
+  DEFAULT_FORMAT_DATE_3,
+} from '~/config/constants';
 import {
   checkEmpty,
   IS_ANDROID,
   moderateScale,
   verticalScale,
 } from '~/utils/helper';
-import {Booking} from '~/utils/mockup';
 /* REDUX */
 import * as Actions from '~/redux/actions';
-import {showMessage} from 'react-native-flash-message';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -91,7 +95,7 @@ const RowSelect = React.memo(
               error && {borderColor: customColors.red},
               styles.row_select,
             ]}>
-            {!loading ? (
+            {!loading && findRow ? (
               keyToShow ? (
                 <View style={[cStyles.row, cStyles.itemsCenter]}>
                   <View
@@ -149,71 +153,102 @@ const RowSelectTags = React.memo(
     customColors = {},
     dataActive = [],
     onPress = () => null,
+    onPressRemove = () => null,
   }) => {
     return (
-      <CTouchable
-        containerStyle={cStyles.mt6}
-        disabled={disabled}
-        onPress={onPress}>
-        <View
-          style={[
-            cStyles.row,
-            cStyles.itemsCenter,
-            cStyles.justifyBetween,
-            cStyles.px10,
-            cStyles.pb10,
-            cStyles.borderDashed,
-            cStyles.rounded1,
-            cStyles.borderAll,
-            isDark && cStyles.borderAllDark,
-            disabled && {backgroundColor: customColors.cardDisable},
-          ]}>
-          {!loading ? (
-            <View style={[cStyles.flexWrap, cStyles.row]}>
-              {dataActive.length > 0 &&
-                dataActive.map((item, index) => {
-                  return (
-                    <View
-                      key={item.empID + index}
-                      style={[
-                        cStyles.row,
-                        cStyles.itemsCenter,
-                        cStyles.rounded1,
-                        cStyles.px6,
-                        cStyles.py6,
-                        cStyles.mr6,
-                        cStyles.mt10,
-                        {backgroundColor: colors.STATUS_SCHEDULE_OPACITY},
-                      ]}>
+      <View
+        style={[
+          cStyles.row,
+          cStyles.itemsCenter,
+          cStyles.justifyBetween,
+          cStyles.px10,
+          cStyles.pb10,
+          cStyles.mt10,
+          cStyles.borderDashed,
+          cStyles.rounded1,
+          cStyles.borderAll,
+          isDark && cStyles.borderAllDark,
+          disabled && {backgroundColor: customColors.cardDisable},
+        ]}>
+        {!loading ? (
+          <View style={[cStyles.flexWrap, cStyles.row]}>
+            {dataActive.length > 0 &&
+              dataActive.map((item, index) => {
+                return (
+                  <View
+                    key={item.empID + index}
+                    style={[
+                      cStyles.row,
+                      cStyles.itemsCenter,
+                      cStyles.justifyBetween,
+                      cStyles.rounded1,
+                      cStyles.pl6,
+                      cStyles.mr6,
+                      cStyles.mt10,
+                      {backgroundColor: colors.STATUS_SCHEDULE_OPACITY},
+                    ]}>
+                    <View style={[cStyles.row, cStyles.itemsCenter]}>
                       <CAvatar size={'vsmall'} label={item.empName} />
                       <CText
                         styles={'textCaption1 fontRegular pl6'}
                         customLabel={item.empName}
                       />
                     </View>
-                  );
-                })}
 
-              {dataActive.length === 0 && (
+                    <CIconButton
+                      iconName={Icons.remove}
+                      iconColor={'red'}
+                      onPress={() => onPressRemove(item.empID)}
+                    />
+                  </View>
+                );
+              })}
+            {dataActive.length > 0 && (
+              <CTouchable containerStyle={cStyles.mt10} onPress={onPress}>
+                <View
+                  style={[
+                    cStyles.row,
+                    cStyles.itemsCenter,
+                    cStyles.justifyBetween,
+                    cStyles.rounded1,
+                    cStyles.pr10,
+                    cStyles.mr6,
+                    {backgroundColor: colors.STATUS_SCHEDULE_OPACITY},
+                  ]}>
+                  <CIconButton
+                    iconName={Icons.addNew}
+                    iconColor={'green'}
+                    disabled
+                  />
+                  <CText
+                    styles={'textCaption1 fontRegular'}
+                    label={'add_booking:add_participant'}
+                  />
+                </View>
+              </CTouchable>
+            )}
+
+            {dataActive.length === 0 && (
+              <CTouchable containerStyle={cStyles.mt10} onPress={onPress}>
                 <View
                   style={[
                     cStyles.flex1,
                     cStyles.row,
                     cStyles.center,
-                    cStyles.pt10,
+                    cStyles.py3,
                   ]}>
                   <CText
-                    styles={'textCaption1 fontRegular pl6 colorGreen'}
+                    styles={'textCaption1 fontRegular colorGreen'}
                     label={'add_booking:no_participants'}
                   />
                 </View>
-              )}
-            </View>
-          ) : (
-            <CActivityIndicator />
-          )}
-        </View>
-      </CTouchable>
+              </CTouchable>
+            )}
+          </View>
+        ) : (
+          <CActivityIndicator />
+        )}
+      </View>
     );
   },
 );
@@ -228,13 +263,16 @@ let noteRef = createRef();
 /** All init */
 const INPUT_NAME = {
   DATE_REQUEST: 'dateRequest',
-  USER_REQUEST: 'createdUser',
   NAME_BOOKING: 'label',
   NOTE_BOOKING: 'note',
   PARTICIPANT: 'participants',
   FROM_DATE_TIME: 'fromDate',
   TO_DATE_TIME: 'toDate',
   RESOURCE: 'resource',
+};
+const TYPE = {
+  ADD: 'ADD',
+  UPDATE: 'UDPATE',
 };
 const TXT_AS_SIZE = moderateScale(18);
 
@@ -273,7 +311,6 @@ function AddBooking(props) {
   const [isDetail] = useState(route.params?.data ? true : false);
   const [dataBooking, setDataBooking] = useState({
     id: '',
-    createdUser: authState.getIn(['login', 'fullName']),
     label: '',
     resource: '',
     note: '',
@@ -283,9 +320,9 @@ function AddBooking(props) {
     fromTime: DATA_TIME_BOOKING[0],
     toTime: DATA_TIME_BOOKING[1],
     status: true,
+    isUpdated: false,
   });
   const [dataResources, setDataResources] = useState([]);
-  const [dataResourceColors, setDataResourceColors] = useState([]);
   const [findResource, setFindResource] = useState('');
   const [resource, setResource] = useState(0);
   const [dataFromTime, setDataFromTime] = useState([]);
@@ -293,6 +330,7 @@ function AddBooking(props) {
   const [dataToTime, setDataToTime] = useState([]);
   const [toTime, setToTime] = useState(0);
   const [dataParticipants, setDataParticipants] = useState([]);
+  const [findParticipant, setFindParticipant] = useState('');
   const [participant, setParticipant] = useState(0);
 
   /*****************
@@ -314,7 +352,7 @@ function AddBooking(props) {
   const handleChangeResource = () => {
     let tmpResource = null;
     if (findResource === '') {
-      tmpResource = Booking.Resources[resource];
+      tmpResource = dataResources[resource];
     } else {
       if (dataResources.length > 0) {
         tmpResource = dataResources[resource];
@@ -323,17 +361,18 @@ function AddBooking(props) {
     if (tmpResource) {
       setDataBooking({
         ...dataBooking,
-        resource: tmpResource.id,
+        resource: tmpResource.resourceID,
       });
     }
     asResourceRef.current?.hide();
   };
 
   const handleChangeFromTime = () => {
-    setDataBooking({
+    let tmp = {
       ...dataBooking,
       fromTime: DATA_TIME_BOOKING[fromTime],
-    });
+    };
+    setDataBooking(tmp);
     asFromTimeRef.current?.hide();
   };
 
@@ -352,7 +391,7 @@ function AddBooking(props) {
       f => f.empID === chooseUser.empID,
     );
     if (findUserOnActive !== -1) {
-      newParticipants.splice(findUserOnActive, 1);
+      // do nothing
     } else {
       newParticipants.push(chooseUser);
     }
@@ -362,6 +401,17 @@ function AddBooking(props) {
 
   const handleRemoveAllParti = () => {
     setDataBooking({...dataBooking, participants: []});
+  };
+
+  const handleRemoveParti = id => {
+    let tmpDataBooking = {...dataBooking};
+    let fParticipant = tmpDataBooking.participants.findIndex(
+      f => f.empID === id,
+    );
+    if (fParticipant !== -1) {
+      tmpDataBooking.participants.splice(fParticipant, 1);
+      setDataBooking(tmpDataBooking);
+    }
   };
 
   /**********
@@ -376,19 +426,61 @@ function AddBooking(props) {
   const onChangeParticipant = index => setParticipant(index);
 
   const onPrepareDetail = () => {
+    let detail = route.params.data;
+    /** Find participants */
+    if (detail.lstUserJoined.length > 0) {
+      let i;
+      for (i = 0; i < detail.lstUserJoined.length; i++) {
+        detail.lstUserJoined[i].empID = detail.lstUserJoined[i].userID;
+        detail.lstUserJoined[i].empName = detail.lstUserJoined[i].fullName;
+      }
+    }
+
+    /** Find idx resource */
+    let tmpDataResources = masterState.get('bkReSource');
+    let idxResource = tmpDataResources.findIndex(
+      f => f.resourceID === detail.resourceID,
+    );
+    if (idxResource !== -1) {
+      setResource(idxResource);
+    }
+
+    /** Find time start, end */
+    let idxTime = DATA_TIME_BOOKING.findIndex(f => f === detail.strStartTime);
+    if (idxTime !== -1) {
+      setFromTime(idxTime);
+    }
+    idxTime = DATA_TIME_BOOKING.findIndex(f => f === detail.strEndTime);
+    if (idxTime !== -1) {
+      setToTime(idxTime);
+    }
+
+    let tmpParamsDetail = {
+      id: detail.bookID,
+      label: detail.purpose,
+      resource: detail.resourceID,
+      note: detail.remarks,
+      participants: detail.lstUserJoined,
+      fromDate: detail.startDate.split('T')[0],
+      toDate: detail.endDate.split('T')[0],
+      fromTime: detail.strStartTime,
+      toTime: detail.strEndTime,
+      status: true,
+      isUpdated: detail.isUpdated,
+    };
+    setDataBooking(tmpParamsDetail);
     setLoading({...loading, main: false});
   };
 
   const onPrepareData = () => {
+    let tmpDataResources = masterState.get('bkReSource');
+    setDataResources(tmpDataResources);
+    setDataFromTime(DATA_TIME_BOOKING);
+    setDataToTime(DATA_TIME_BOOKING);
+    setDataParticipants(masterState.get('users'));
     if (isDetail) {
       onPrepareDetail();
     } else {
-      setDataFromTime(DATA_TIME_BOOKING);
-      setDataToTime(DATA_TIME_BOOKING);
-      setDataParticipants(masterState.get('users'));
-      setDataResourceColors(masterState.get('bkColor'));
-      let tmpDataResources = masterState.get('bkReSource');
-      setDataResources(tmpDataResources);
       let tmpDataBooking = {
         ...dataBooking,
         resource:
@@ -405,14 +497,23 @@ function AddBooking(props) {
     if (!isValid) {
       return setLoading({...loading, submitAdd: false});
     }
-    onSendRequest();
+    onSendRequest(TYPE.ADD);
+  };
+
+  const onSubmitUpdate = () => {
+    setLoading({...loading, submitAdd: true});
+    let isValid = onValidate();
+    if (!isValid) {
+      return setLoading({...loading, submitAdd: false});
+    }
+    onSendRequest(TYPE.UPDATE);
   };
 
   const onSearchResources = text => {
     if (text) {
       const newData = dataResources.filter(function (item) {
-        const itemData = item.label
-          ? item.label.toUpperCase()
+        const itemData = item.resourceName
+          ? item.resourceName.toUpperCase()
           : ''.toUpperCase();
         const textData = text.toUpperCase();
         return itemData.indexOf(textData) > -1;
@@ -423,9 +524,30 @@ function AddBooking(props) {
         setResource(0);
       }
     } else {
-      setDataResources(Booking.Resources);
+      setDataResources(masterState.get('bkReSource'));
       setFindResource(text);
       setResource(0);
+    }
+  };
+
+  const onSearchParticipant = text => {
+    if (text) {
+      const newData = dataParticipants.filter(function (item) {
+        const itemData = item.empName
+          ? item.empName.toUpperCase()
+          : ''.toUpperCase();
+        const textData = text.toUpperCase();
+        return itemData.indexOf(textData) > -1;
+      });
+      setDataParticipants(newData);
+      setFindParticipant(text);
+      if (newData.length > 0) {
+        setParticipant(0);
+      }
+    } else {
+      setDataParticipants(masterState.get('users'));
+      setFindParticipant(text);
+      setParticipant(0);
     }
   };
 
@@ -489,7 +611,7 @@ function AddBooking(props) {
     }
   };
 
-  const onSendRequest = () => {
+  const onSendRequest = typeSubmit => {
     let tmpParti = [];
     if (dataBooking.participants.length > 0) {
       tmpParti = dataBooking.participants.map(i => i.empID);
@@ -497,20 +619,18 @@ function AddBooking(props) {
 
     /** prepare data */
     let params = {
-      BookID: isDetail ? dataBooking.id : 0,
+      BookID: typeSubmit === TYPE.UPDATE ? dataBooking.id : 0,
       ResourceID: dataBooking.resource,
       Purpose: dataBooking.label,
       Remarks: dataBooking.note,
-      StartDate: moment(dataBooking.fromDate).format('YYYY/MM/DD'),
+      StartDate: moment(dataBooking.fromDate).format(DEFAULT_FORMAT_DATE_3),
       StartTime: Number(dataBooking.fromTime.replace(':', '')),
-      EndDate: moment(dataBooking.toDate).format('YYYY/MM/DD'),
+      EndDate: moment(dataBooking.toDate).format(DEFAULT_FORMAT_DATE_3),
       EndTime: Number(dataBooking.toTime.replace(':', '')),
       ListParticipant: tmpParti.join(),
       Lang: language,
       RefreshToken: refreshToken,
     };
-    // setLoading({...loading, submitAdd: false});
-    // console.log('[LOG] === onSendRequest ===> ', params);
     dispatch(Actions.fetchAddBooking(params, navigation));
   };
 
@@ -570,6 +690,17 @@ function AddBooking(props) {
     bookingState.get('errorAdd'),
   ]);
 
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title:
+        isDetail && dataBooking.isUpdated
+          ? t('add_booking:title_update')
+          : !isDetail
+          ? t('add_booking:title_add')
+          : '',
+    });
+  }, [navigation, isDetail, dataBooking.isUpdated]);
+
   /************
    ** RENDER **
    ************/
@@ -593,7 +724,11 @@ function AddBooking(props) {
                   <CLabel bold label={'add_booking:resource'} />
                   <RowSelect
                     loading={loading.main}
-                    disabled={loading.main || loading.submitAdd || isDetail}
+                    disabled={
+                      loading.main ||
+                      loading.submitAdd ||
+                      (isDetail && !dataBooking.isUpdated)
+                    }
                     isDark={isDark}
                     customColors={customColors}
                     data={dataResources}
@@ -614,7 +749,11 @@ function AddBooking(props) {
                   label={'add_booking:label'}
                   holder={'add_booking:holder_label'}
                   value={dataBooking.label}
-                  disabled={loading.main || loading.submitAdd || isDetail}
+                  disabled={
+                    loading.main ||
+                    loading.submitAdd ||
+                    (isDetail && !dataBooking.isUpdated)
+                  }
                   error={warning.label.status}
                   errorHelper={warning.label.helper}
                   onChangeInput={() => handleChangeInput(noteRef)}
@@ -626,15 +765,21 @@ function AddBooking(props) {
                   inputRef={ref => (noteRef = ref)}
                   containerStyle={cStyles.mt16}
                   style={[cStyles.itemsStart, styles.input_multiline]}
+                  styleInput={cStyles.py3}
                   styleFocus={styles.input_focus}
                   name={INPUT_NAME.NOTE_BOOKING}
                   label={'add_booking:note'}
                   caption={'common:optional'}
                   holder={'add_booking:holder_note'}
-                  returnKey={'done'}
+                  returnKey={'default'}
+                  blurOnSubmit={false}
                   value={dataBooking.note}
                   multiline
-                  disabled={loading.main || loading.submitAdd || isDetail}
+                  disabled={
+                    loading.main ||
+                    loading.submitAdd ||
+                    (isDetail && !dataBooking.isUpdated)
+                  }
                   onChangeValue={handleChangeText}
                 />
 
@@ -652,6 +797,7 @@ function AddBooking(props) {
                     label={'add_booking:from_date_time'}
                     value={moment(dataBooking.fromDate).format(formatDateView)}
                     dateTimePicker
+                    disabled={isDetail && !dataBooking.isUpdated}
                     error={warning.fromDate.status}
                     iconLast={Icons.calendar}
                     iconLastColor={customColors.icon}
@@ -660,7 +806,11 @@ function AddBooking(props) {
                   <View style={[cStyles.ml5, styles.right]}>
                     <RowSelect
                       loading={loading.main}
-                      disabled={loading.main || loading.submitAdd || isDetail}
+                      disabled={
+                        loading.main ||
+                        loading.submitAdd ||
+                        (isDetail && !dataBooking.isUpdated)
+                      }
                       isDark={isDark}
                       customColors={customColors}
                       data={DATA_TIME_BOOKING}
@@ -720,6 +870,7 @@ function AddBooking(props) {
                     label={'add_booking:to_date_time'}
                     value={moment(dataBooking.toDate).format(formatDateView)}
                     dateTimePicker
+                    disabled={isDetail && !dataBooking.isUpdated}
                     iconLast={Icons.calendar}
                     iconLastColor={customColors.icon}
                     onPressIconLast={handleDateInput}
@@ -727,7 +878,11 @@ function AddBooking(props) {
                   <View style={[cStyles.ml5, styles.right]}>
                     <RowSelect
                       loading={loading.main}
-                      disabled={loading.main || loading.submitAdd || isDetail}
+                      disabled={
+                        loading.main ||
+                        loading.submitAdd ||
+                        (isDetail && !dataBooking.isUpdated)
+                      }
                       isDark={isDark}
                       customColors={customColors}
                       data={DATA_TIME_BOOKING}
@@ -751,24 +906,33 @@ function AddBooking(props) {
                     <CText
                       styles={'textCaption1 colorRed'}
                       label={'common:remove_all'}
-                      disable={dataBooking.participants.length === 0}
-                      onPress={handleRemoveAllParti}
+                      disabled={dataBooking.participants.length === 0}
+                      onPress={
+                        isDetail && !dataBooking.isUpdated
+                          ? null
+                          : handleRemoveAllParti
+                      }
                     />
                   </View>
                   <RowSelectTags
                     loading={loading.main}
-                    disabled={loading.main || loading.submitAdd || isDetail}
+                    disabled={
+                      loading.main ||
+                      loading.submitAdd ||
+                      (isDetail && !dataBooking.isUpdated)
+                    }
                     isDark={isDark}
                     customColors={customColors}
                     dataActive={dataBooking.participants}
                     onPress={() => asParticipantRef.current?.show()}
+                    onPressRemove={handleRemoveParti}
                   />
                 </View>
               </>
             }
           />
 
-          {!isDetail && (
+          {((isDetail && dataBooking.isUpdated) || !isDetail) && (
             <CActionSheet
               headerChoose
               actionRef={asResourceRef}
@@ -813,7 +977,7 @@ function AddBooking(props) {
             </CActionSheet>
           )}
 
-          {!isDetail && (
+          {((isDetail && dataBooking.isUpdated) || !isDetail) && (
             <CActionSheet
               headerChoose
               actionRef={asFromTimeRef}
@@ -836,7 +1000,7 @@ function AddBooking(props) {
             </CActionSheet>
           )}
 
-          {!isDetail && (
+          {((isDetail && dataBooking.isUpdated) || !isDetail) && (
             <CActionSheet
               headerChoose
               actionRef={asToTimeRef}
@@ -859,13 +1023,23 @@ function AddBooking(props) {
             </CActionSheet>
           )}
 
-          {!isDetail && (
+          {((isDetail && dataBooking.isUpdated) || !isDetail) && (
             <CActionSheet
               headerChoose
               headerChooseTitle={'add_booking:holder_participants'}
               actionRef={asParticipantRef}
               onConfirm={handleChangeParticipant}>
               <View style={cStyles.px16}>
+                <CInput
+                  containerStyle={cStyles.my10}
+                  styleFocus={styles.input_focus}
+                  holder={'add_booking:holder_find_participant'}
+                  returnKey={'search'}
+                  icon={Icons.search}
+                  value={findParticipant}
+                  disabled={loading.main || loading.submitAdd || isDetail}
+                  onChangeValue={onSearchParticipant}
+                />
                 <Picker
                   style={[styles.action, cStyles.justifyCenter]}
                   itemStyle={{
@@ -909,15 +1083,27 @@ function AddBooking(props) {
         </KeyboardAwareScrollView>
       }
       footer={
-        <View style={[cStyles.px16, cStyles.pb5]}>
-          <CButton
-            block
-            disabled={loading.main || loading.submitAdd}
-            icon={Icons.addNew}
-            label={'add_booking:create_booking'}
-            onPress={onSubmitAdd}
-          />
-        </View>
+        isDetail && dataBooking.isUpdated ? (
+          <View style={[cStyles.px16, cStyles.pb5]}>
+            <CButton
+              block
+              disabled={loading.main || loading.submitAdd}
+              icon={Icons.save}
+              label={'add_booking:update_booking'}
+              onPress={onSubmitUpdate}
+            />
+          </View>
+        ) : !isDetail ? (
+          <View style={[cStyles.px16, cStyles.pb5]}>
+            <CButton
+              block
+              disabled={loading.main || loading.submitAdd}
+              icon={Icons.addNew}
+              label={'add_booking:create_booking'}
+              onPress={onSubmitAdd}
+            />
+          </View>
+        ) : null
       }
     />
   );

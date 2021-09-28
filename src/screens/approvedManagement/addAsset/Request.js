@@ -885,6 +885,7 @@ function AddRequest(props) {
                   holder={'add_approved_assets:holder_reason'}
                   value={form.reason}
                   multiline
+                  blurOnSubmit={false}
                   disabled={
                     loading.main ||
                     loading.submitAdd ||

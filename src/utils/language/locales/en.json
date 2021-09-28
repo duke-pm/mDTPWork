@@ -530,10 +530,12 @@
     "to_date": "To date"
   },
   "my_bookings": {
-    "title": "My Bookings"
+    "title": "My Bookings",
+    "see_as": "See as: "
   },
   "add_booking": {
-    "title": "Add New",
+    "title_add": "New Booking",
+    "title_update": "Update Booking",
     "info": "Basic Information",
     "info_booking": "Booking Information",
     "create_date": "Day",
@@ -548,11 +550,14 @@
     "participants": "Participants",
     "holder_participants": "Choose participants",
     "no_participants": "Select participants here",
+    "holder_find_participant": "Find participant...",
+    "add_participant": "Add",
     "choosed": " [Choosed]",
     "date_time": "Time",
     "from_date_time": "From",
     "to_date_time": "To",
     "create_booking": "Add Booking",
+    "update_booking": "Update Booking",
     "warning_dischange": "Are you sure you want to leave this page?",
     "agree_dischange": "Go back",
     "close_dischange": "Close",

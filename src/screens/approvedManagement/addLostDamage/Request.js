@@ -840,6 +840,7 @@ function AddRequest(props) {
                   multiline
                   error={error.reason.status}
                   errorHelper={error.reason.helper}
+                  blurOnSubmit={false}
                   disabled={
                     loading.main ||
                     loading.submitAdd ||
