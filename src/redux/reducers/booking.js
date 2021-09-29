@@ -12,14 +12,22 @@ import * as types from '../actions/types';
 export const initialState = fromJS({
   submittingList: false,
   submittingAdd: false,
+  submittingRemove: false,
+  submittingDetail: false,
 
   successList: false,
   successAdd: false,
+  successRemove: false,
+  successDetail: false,
 
   errorList: false,
   errorHelperList: '',
   errorAdd: false,
   errorHelperAdd: '',
+  errorRemove: false,
+  errorHelperRemove: '',
+  errorDetail: false,
+  errorHelperDetail: '',
 
   bookings: [],
   bookingDetail: null,
@@ -71,8 +79,7 @@ export default function (state = initialState, action = {}) {
         .set('submittingAdd', false)
         .set('successAdd', true)
         .set('errorAdd', false)
-        .set('errorHelperAdd', '')
-        .set('bookingDetail', payload);
+        .set('errorHelperAdd', '');
 
     case types.ERROR_FETCH_ADD_BOOKING:
       return state
@@ -80,6 +87,51 @@ export default function (state = initialState, action = {}) {
         .set('successAdd', false)
         .set('errorAdd', true)
         .set('errorHelperAdd', payload);
+
+    /** For remove booking **/
+    case types.START_FETCH_REMOVE_BOOKING:
+      return state
+        .set('submittingRemove', true)
+        .set('successRemove', false)
+        .set('errorRemove', false)
+        .set('errorHelperRemove', '');
+
+    case types.SUCCESS_FETCH_REMOVE_BOOKING:
+      return state
+        .set('submittingRemove', false)
+        .set('successRemove', true)
+        .set('errorRemove', false)
+        .set('errorHelperRemove', '');
+
+    case types.ERROR_FETCH_REMOVE_BOOKING:
+      return state
+        .set('submittingRemove', false)
+        .set('successRemove', false)
+        .set('errorRemove', true)
+        .set('errorHelperRemove', payload);
+
+    /** For remove booking **/
+    case types.START_FETCH_BOOKING_DETAIL:
+      return state
+        .set('submittingDetail', true)
+        .set('successDetail', false)
+        .set('errorDetail', false)
+        .set('errorHelperDetail', '');
+
+    case types.SUCCESS_FETCH_BOOKING_DETAIL:
+      return state
+        .set('submittingDetail', false)
+        .set('successDetail', true)
+        .set('errorDetail', false)
+        .set('errorHelperDetail', '')
+        .set('bookingDetail', payload[0] || null);
+
+    case types.ERROR_FETCH_BOOKING_DETAIL:
+      return state
+        .set('submittingDetail', false)
+        .set('successDetail', false)
+        .set('errorDetail', true)
+        .set('errorHelperDetail', payload);
     default:
       return state;
   }

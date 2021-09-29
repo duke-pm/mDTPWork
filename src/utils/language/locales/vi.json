@@ -68,7 +68,8 @@
     "change_percent": "Cập nhật tiến độ thành công!",
     "change_follow": "Theo dõi thành công!",
     "change_unfollow": "Bỏ theo dõi thành công!",
-    "send_request_booking": "Tạo booking thành công!"
+    "send_request_booking": "Tạo booking thành công!",
+    "send_remove_booking": "Hủy booking thành công!"
   },
   "error": {
     "title": "Lỗi",
@@ -531,9 +532,13 @@
   },
   "my_bookings": {
     "title": "Bookings của tôi",
-    "see_as": "Xem theo: "
+    "see_as": "Xem theo: ",
+    "at": " tại ",
+    "notes": "Ghi chú: ",
+    "live": " [Đang diễn ra]"
   },
   "add_booking": {
+    "title": "Chi tiết",
     "title_add": "Thêm Mới",
     "title_update": "Cập nhật",
     "info": "Thông tin cơ bản",
@@ -556,8 +561,8 @@
     "date_time": "Thời gian",
     "from_date_time": "Từ",
     "to_date_time": "Đến",
-    "create_booking": "Thêm Booking",
-    "update_booking": "Cập nhật Booking",
+    "create_booking": "Thêm",
+    "update_booking": "Cập nhật",
     "warning_dischange": "Bạn có chắc chắn muốn rời khỏi trang này?",
     "agree_dischange": "Rời khỏi",
     "close_dischange": "Huỷ bỏ",
@@ -565,6 +570,9 @@
     "warning_label_empty": "Tiêu đề không thể trống!",
     "warning_start_date_bigger": "Ngày bắt đầu không lớn hơn ngày kết thúc!",
     "warning_start_time_bigger": "Cùng 1 ngày không lớn hơn thời gian kết thúc!",
-    "warning_end_time_smaller": "Cùng 1 ngày không nhỏ hơn thời gian bắt đầu!"
+    "warning_end_time_smaller": "Cùng 1 ngày không nhỏ hơn thời gian bắt đầu!",
+    "remove_booking": "Hủy bỏ",
+    "holder_remove_booking": "Bạn muốn hủy booking này?",
+    "live": "ĐANG DIỄN RA"
   }
 }

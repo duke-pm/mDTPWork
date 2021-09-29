@@ -166,12 +166,12 @@ const Commons = {
     NOT_HAPPEND: {
       value: 'Not happen',
       label: '',
-      color: 'orange',
+      color: 'green',
     },
     HAPPENNING: {
       value: 'Happenning',
       label: 'bookings:resume',
-      color: 'green',
+      color: 'red',
     },
     HAPPENED: {
       value: 'Happened',

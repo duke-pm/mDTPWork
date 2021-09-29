@@ -39,6 +39,7 @@ const Routes = {
     ADD_BOOKING: '/TransBooking/Modify',
     UPDATE_BOOKING: '/TransBooking/Modify',
     REMOVE_BOOKING: '/TransBooking/Remove',
+    BOOKING_DETAIL: '/TransBooking/GetByID',
   },
 };
 

@@ -27,9 +27,10 @@ function BookingList(props) {
   /*****************
    ** HANDLE FUNC **
    *****************/
-  const handleBookingItem = index => {
+  const handleBookingItem = (index, isLive) => {
     navigation.navigate(Routes.MAIN.ADD_BOOKING.name, {
       data: data[index],
+      isLive,
       onRefresh: () => onRefresh(),
     });
   };

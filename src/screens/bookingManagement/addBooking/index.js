@@ -5,6 +5,7 @@
  ** CreateAt: 2021
  ** Description: Description of AddBooking.js
  **/
+import {fromJS} from 'immutable';
 import React, {createRef, useState, useEffect, useLayoutEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
@@ -32,21 +33,27 @@ import CDateTimePicker from '~/components/CDateTimePicker';
 import CActivityIndicator from '~/components/CActivityIndicator';
 /* COMMON */
 import Configs from '~/config';
+import Routes from '~/navigation/Routes';
 import {Icons} from '~/utils/common';
 import {colors, cStyles} from '~/utils/style';
 import {
   THEME_DARK,
   DATA_TIME_BOOKING,
   DEFAULT_FORMAT_DATE_3,
+  LOGIN,
 } from '~/config/constants';
 import {
+  alert,
   checkEmpty,
+  getSecretInfo,
   IS_ANDROID,
   moderateScale,
+  resetRoute,
   verticalScale,
 } from '~/utils/helper';
 /* REDUX */
 import * as Actions from '~/redux/actions';
+import FieldsAuth from '~/config/fieldsAuth';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -198,13 +205,17 @@ const RowSelectTags = React.memo(
                     <CIconButton
                       iconName={Icons.remove}
                       iconColor={'red'}
+                      disabled={disabled}
                       onPress={() => onPressRemove(item.empID)}
                     />
                   </View>
                 );
               })}
             {dataActive.length > 0 && (
-              <CTouchable containerStyle={cStyles.mt10} onPress={onPress}>
+              <CTouchable
+                containerStyle={cStyles.mt10}
+                onPress={onPress}
+                disabled={disabled}>
                 <View
                   style={[
                     cStyles.row,
@@ -229,7 +240,10 @@ const RowSelectTags = React.memo(
             )}
 
             {dataActive.length === 0 && (
-              <CTouchable containerStyle={cStyles.mt10} onPress={onPress}>
+              <CTouchable
+                containerStyle={cStyles.mt10}
+                onPress={onPress}
+                disabled={disabled}>
                 <View
                   style={[
                     cStyles.flex1,
@@ -281,6 +295,10 @@ function AddBooking(props) {
   const {customColors} = useTheme();
   const isDark = useColorScheme() === THEME_DARK;
   const {navigation, route} = props;
+  let bookingParam = route.params?.data || -1;
+  if (bookingParam === -1) {
+    bookingParam = route.params?.bookingID || -1;
+  }
 
   /** Use redux */
   const dispatch = useDispatch();
@@ -296,7 +314,10 @@ function AddBooking(props) {
   /** use states */
   const [loading, setLoading] = useState({
     main: true,
+    startFetch: false,
+    startFetchLogin: false,
     submitAdd: false,
+    submitRemove: false,
   });
   const [showPickerDate, setShowPickerDate] = useState({
     status: false,
@@ -308,7 +329,10 @@ function AddBooking(props) {
     fromDate: {status: false, helper: ''},
     fromTime: {status: false, helper: ''},
   });
-  const [isDetail] = useState(route.params?.data ? true : false);
+  const [isDetail] = useState(
+    route.params?.data || bookingParam !== -1 ? true : false,
+  );
+  const [isLive] = useState(route.params?.isLive);
   const [dataBooking, setDataBooking] = useState({
     id: '',
     label: '',
@@ -414,6 +438,10 @@ function AddBooking(props) {
     }
   };
 
+  const handleConfirmRemove = () => {
+    alert(t, 'add_booking:holder_remove_booking', onSubmitRemove);
+  };
+
   /**********
    ** FUNC **
    **********/
@@ -425,8 +453,14 @@ function AddBooking(props) {
 
   const onChangeParticipant = index => setParticipant(index);
 
+  const onGoToSignIn = () =>
+    resetRoute(navigation, Routes.AUTHENTICATION.SIGN_IN.name);
+
   const onPrepareDetail = () => {
-    let detail = route.params.data;
+    let detail = route.params?.data;
+    if (!detail) {
+      detail = bookingState.get('bookingDetail');
+    }
     /** Find participants */
     if (detail.lstUserJoined.length > 0) {
       let i;
@@ -474,20 +508,29 @@ function AddBooking(props) {
 
   const onPrepareData = () => {
     let tmpDataResources = masterState.get('bkReSource');
-    setDataResources(tmpDataResources);
-    setDataFromTime(DATA_TIME_BOOKING);
-    setDataToTime(DATA_TIME_BOOKING);
-    setDataParticipants(masterState.get('users'));
-    if (isDetail) {
-      onPrepareDetail();
+    if (tmpDataResources.length > 0) {
+      setDataResources(tmpDataResources);
+      setDataFromTime(DATA_TIME_BOOKING);
+      setDataToTime(DATA_TIME_BOOKING);
+      setDataParticipants(masterState.get('users'));
+      if (isDetail) {
+        onPrepareDetail();
+      } else {
+        let tmpDataBooking = {
+          ...dataBooking,
+          resource:
+            tmpDataResources.length > 0 ? tmpDataResources[0].resourceID : '',
+        };
+        setDataBooking(tmpDataBooking);
+        setLoading({...loading, main: false, startFetchLogin: false});
+      }
     } else {
-      let tmpDataBooking = {
-        ...dataBooking,
-        resource:
-          tmpDataResources.length > 0 ? tmpDataResources[0].resourceID : '',
+      let params = {
+        listType: 'BKIcon, BKColor, BKResource, Users',
+        RefreshToken: refreshToken,
+        Lang: language,
       };
-      setDataBooking(tmpDataBooking);
-      setLoading({...loading, main: false});
+      dispatch(Actions.fetchMasterData(params, navigation));
     }
   };
 
@@ -634,7 +677,7 @@ function AddBooking(props) {
     dispatch(Actions.fetchAddBooking(params, navigation));
   };
 
-  const onErrorAdd = helper => {
+  const onError = helper => {
     setLoading({...loading, submitAdd: false});
     if (typeof helper === 'object' && helper.message) {
       showMessage({
@@ -653,13 +696,111 @@ function AddBooking(props) {
     }
   };
 
+  const onSubmitRemove = () => {
+    setLoading({...loading, submitRemove: true});
+    let params = fromJS({
+      BookID: isDetail ? dataBooking.id : -1,
+    });
+    dispatch(Actions.fetchRemoveBooking(params, navigation));
+  };
+
+  const onCheckLocalLogin = async () => {
+    /** Check Data Login */
+    let dataLogin = await getSecretInfo(LOGIN);
+    if (dataLogin) {
+      console.log('[LOG] === SignIn Local === ', dataLogin);
+      let i,
+        tmpDataLogin = {tokenInfo: {}, lstMenu: {}};
+      for (i = 0; i < FieldsAuth.length; i++) {
+        if (i === 0) {
+          tmpDataLogin[FieldsAuth[i].key] = dataLogin[FieldsAuth[i].key];
+        } else {
+          tmpDataLogin.tokenInfo[FieldsAuth[i].key] =
+            dataLogin[FieldsAuth[i].value];
+        }
+      }
+      dispatch(Actions.loginSuccess(tmpDataLogin));
+    } else {
+      onGoToSignIn();
+    }
+  };
+
+  const onFetchBookingDetail = bookingID => {
+    let params = fromJS({
+      BookID: bookingID,
+      Lang: language,
+      RefreshToken: refreshToken,
+    });
+    dispatch(Actions.fetchBookingDetail(params, navigation));
+    return setLoading({...loading, startFetch: true});
+  };
+
+  const onCheckDeeplink = () => {
+    if (typeof bookingParam === 'object' || bookingParam === -1) {
+      dispatch(Actions.resetAllBooking());
+      onPrepareData();
+    } else {
+      onFetchBookingDetail(bookingParam);
+    }
+  };
+
   /****************
    ** LIFE CYCLE **
    ****************/
   useEffect(() => {
-    dispatch(Actions.resetAllBooking());
-    onPrepareData();
+    let isLogin = authState.get('successLogin');
+    if (isLogin) {
+      onCheckDeeplink();
+    } else {
+      setLoading({...loading, startFetchLogin: true});
+      onCheckLocalLogin();
+    }
   }, []);
+
+  useEffect(() => {
+    if (loading.startFetchLogin) {
+      if (!authState.get('submitting')) {
+        if (authState.get('successLogin')) {
+          return onCheckDeeplink();
+        }
+        if (authState.get('errorLogin')) {
+          return onGoToSignIn();
+        }
+      }
+    }
+  }, [
+    loading.startFetchLogin,
+    authState.get('submitting'),
+    authState.get('successLogin'),
+    authState.get('errorLogin'),
+  ]);
+
+  useEffect(() => {
+    if (loading.startFetch) {
+      if (!bookingState.get('submittingDetail')) {
+        if (bookingState.get('successDetail')) {
+          return onPrepareData();
+        }
+
+        if (bookingState.get('errorDetail')) {
+          return onGoToSignIn();
+        }
+      }
+    }
+  }, [
+    loading.startFetch,
+    bookingState.get('submittingDetail'),
+    bookingState.get('successDetail'),
+    bookingState.get('errorDetail'),
+  ]);
+
+  useEffect(() => {
+    if (loading.main) {
+      if (!masterState.get('submitting')) {
+        return onPrepareData();
+      }
+    }
+  }, [loading.main, masterState.get('submitting')]);
 
   useEffect(() => {
     if (loading.submitAdd) {
@@ -679,7 +820,7 @@ function AddBooking(props) {
         }
 
         if (bookingState.get('errorAdd')) {
-          onErrorAdd(bookingState.get('errorHelperAdd'));
+          onError(bookingState.get('errorHelperAdd'));
         }
       }
     }
@@ -690,23 +831,52 @@ function AddBooking(props) {
     bookingState.get('errorAdd'),
   ]);
 
+  useEffect(() => {
+    if (loading.submitRemove) {
+      if (!bookingState.get('submittingRemove')) {
+        if (bookingState.get('successRemove')) {
+          setLoading({...loading, submitRemove: false});
+          showMessage({
+            message: t('common:app_name'),
+            description: t('success:send_remove_booking'),
+            type: 'success',
+            icon: 'success',
+          });
+          navigation.goBack();
+          if (route.params.onRefresh) {
+            route.params.onRefresh();
+          }
+        }
+
+        if (bookingState.get('errorRemove')) {
+          onError(bookingState.get('errorHelperRemove'));
+        }
+      }
+    }
+  }, [
+    loading.submitRemove,
+    bookingState.get('submittingRemove'),
+    bookingState.get('successRemove'),
+    bookingState.get('errorRemove'),
+  ]);
+
   useLayoutEffect(() => {
     navigation.setOptions({
       title:
-        isDetail && dataBooking.isUpdated
+        isDetail && dataBooking.isUpdated && !isLive
           ? t('add_booking:title_update')
           : !isDetail
           ? t('add_booking:title_add')
-          : '',
+          : t('add_booking:title'),
     });
-  }, [navigation, isDetail, dataBooking.isUpdated]);
+  }, [navigation, isDetail, dataBooking.isUpdated, isLive]);
 
   /************
    ** RENDER **
    ************/
   return (
     <CContainer
-      loading={loading.main || loading.submitAdd}
+      loading={loading.main || loading.submitAdd || loading.submitRemove}
       hasShapes
       figuresShapes={[]}
       primaryColorShapes={colors.BG_HEADER_BOOKING}
@@ -726,8 +896,8 @@ function AddBooking(props) {
                     loading={loading.main}
                     disabled={
                       loading.main ||
-                      loading.submitAdd ||
-                      (isDetail && !dataBooking.isUpdated)
+                      (isDetail && !dataBooking.isUpdated) ||
+                      isLive
                     }
                     isDark={isDark}
                     customColors={customColors}
@@ -751,8 +921,8 @@ function AddBooking(props) {
                   value={dataBooking.label}
                   disabled={
                     loading.main ||
-                    loading.submitAdd ||
-                    (isDetail && !dataBooking.isUpdated)
+                    (isDetail && !dataBooking.isUpdated) ||
+                    isLive
                   }
                   error={warning.label.status}
                   errorHelper={warning.label.helper}
@@ -777,8 +947,8 @@ function AddBooking(props) {
                   multiline
                   disabled={
                     loading.main ||
-                    loading.submitAdd ||
-                    (isDetail && !dataBooking.isUpdated)
+                    (isDetail && !dataBooking.isUpdated) ||
+                    isLive
                   }
                   onChangeValue={handleChangeText}
                 />
@@ -797,7 +967,11 @@ function AddBooking(props) {
                     label={'add_booking:from_date_time'}
                     value={moment(dataBooking.fromDate).format(formatDateView)}
                     dateTimePicker
-                    disabled={isDetail && !dataBooking.isUpdated}
+                    disabled={
+                      loading.main ||
+                      (isDetail && !dataBooking.isUpdated) ||
+                      isLive
+                    }
                     error={warning.fromDate.status}
                     iconLast={Icons.calendar}
                     iconLastColor={customColors.icon}
@@ -808,8 +982,8 @@ function AddBooking(props) {
                       loading={loading.main}
                       disabled={
                         loading.main ||
-                        loading.submitAdd ||
-                        (isDetail && !dataBooking.isUpdated)
+                        (isDetail && !dataBooking.isUpdated) ||
+                        isLive
                       }
                       isDark={isDark}
                       customColors={customColors}
@@ -870,7 +1044,11 @@ function AddBooking(props) {
                     label={'add_booking:to_date_time'}
                     value={moment(dataBooking.toDate).format(formatDateView)}
                     dateTimePicker
-                    disabled={isDetail && !dataBooking.isUpdated}
+                    disabled={
+                      loading.main ||
+                      (isDetail && !dataBooking.isUpdated) ||
+                      isLive
+                    }
                     iconLast={Icons.calendar}
                     iconLastColor={customColors.icon}
                     onPressIconLast={handleDateInput}
@@ -880,8 +1058,8 @@ function AddBooking(props) {
                       loading={loading.main}
                       disabled={
                         loading.main ||
-                        loading.submitAdd ||
-                        (isDetail && !dataBooking.isUpdated)
+                        (isDetail && !dataBooking.isUpdated) ||
+                        isLive
                       }
                       isDark={isDark}
                       customColors={customColors}
@@ -908,7 +1086,7 @@ function AddBooking(props) {
                       label={'common:remove_all'}
                       disabled={dataBooking.participants.length === 0}
                       onPress={
-                        isDetail && !dataBooking.isUpdated
+                        (isDetail && !dataBooking.isUpdated) || isLive
                           ? null
                           : handleRemoveAllParti
                       }
@@ -918,8 +1096,8 @@ function AddBooking(props) {
                     loading={loading.main}
                     disabled={
                       loading.main ||
-                      loading.submitAdd ||
-                      (isDetail && !dataBooking.isUpdated)
+                      (isDetail && !dataBooking.isUpdated) ||
+                      isLive
                     }
                     isDark={isDark}
                     customColors={customColors}
@@ -1083,11 +1261,28 @@ function AddBooking(props) {
         </KeyboardAwareScrollView>
       }
       footer={
-        isDetail && dataBooking.isUpdated ? (
-          <View style={[cStyles.px16, cStyles.pb5]}>
+        isDetail && dataBooking.isUpdated && !isLive ? (
+          <View
+            style={[
+              cStyles.row,
+              cStyles.itemsCenter,
+              cStyles.justifyEvenly,
+              cStyles.px16,
+            ]}>
             <CButton
+              style={styles.button}
               block
               disabled={loading.main || loading.submitAdd}
+              color={customColors.red}
+              icon={Icons.remove}
+              label={'add_booking:remove_booking'}
+              onPress={handleConfirmRemove}
+            />
+            <CButton
+              style={styles.button}
+              block
+              disabled={loading.main || loading.submitAdd}
+              color={customColors.green}
               icon={Icons.save}
               label={'add_booking:update_booking'}
               onPress={onSubmitUpdate}
@@ -1101,6 +1296,15 @@ function AddBooking(props) {
               icon={Icons.addNew}
               label={'add_booking:create_booking'}
               onPress={onSubmitAdd}
+            />
+          </View>
+        ) : isLive ? (
+          <View style={[cStyles.px16, cStyles.pb5]}>
+            <CButton
+              block
+              icon={Icons.informations}
+              color={customColors.red}
+              label={'add_booking:live'}
             />
           </View>
         ) : null
@@ -1126,6 +1330,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   input_multiline: {height: verticalScale(100)},
+  button: {width: moderateScale(150)},
 });
 
 export default AddBooking;

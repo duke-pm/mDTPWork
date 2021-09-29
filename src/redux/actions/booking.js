@@ -100,3 +100,90 @@ export const fetchAddBooking = (params, navigation) => {
   };
 };
 /*****************************/
+
+/** For remove booking */
+export const removeBookingError = error => ({
+  type: types.ERROR_FETCH_REMOVE_BOOKING,
+  payload: error,
+});
+
+export const removeBookingSuccess = () => ({
+  type: types.SUCCESS_FETCH_REMOVE_BOOKING,
+});
+
+export const fetchRemoveBooking = (params, navigation) => {
+  return dispatch => {
+    dispatch({type: types.START_FETCH_REMOVE_BOOKING});
+
+    Services.booking
+      .removeBooking(params)
+      .then(res => {
+        if (!res.isError) {
+          return dispatch(removeBookingSuccess());
+        } else {
+          return dispatch(removeBookingError(res.errorMessage));
+        }
+      })
+      .catch(error => {
+        dispatch(removeBookingError(error));
+        if (error.message && error.message.search('Authorization') !== -1) {
+          let tmp = {
+            RefreshToken: params.RefreshToken,
+            Lang: params.Lang,
+          };
+          return dispatch(
+            Actions.fetchRefreshToken(
+              tmp,
+              () => fetchRemoveBooking(params),
+              navigation,
+            ),
+          );
+        }
+      });
+  };
+};
+/*****************************/
+
+/** For get booking detail */
+export const bookingDetailError = error => ({
+  type: types.ERROR_FETCH_BOOKING_DETAIL,
+  payload: error,
+});
+
+export const bookingDetailSuccess = data => ({
+  type: types.SUCCESS_FETCH_BOOKING_DETAIL,
+  payload: data,
+});
+
+export const fetchBookingDetail = (params, navigation) => {
+  return dispatch => {
+    dispatch({type: types.START_FETCH_BOOKING_DETAIL});
+
+    Services.booking
+      .bookingDetail(params)
+      .then(res => {
+        if (!res.isError) {
+          return dispatch(bookingDetailSuccess(res.data));
+        } else {
+          return dispatch(bookingDetailError(res.errorMessage));
+        }
+      })
+      .catch(error => {
+        dispatch(bookingDetailError(error));
+        if (error.message && error.message.search('Authorization') !== -1) {
+          let tmp = {
+            RefreshToken: params.get('RefreshToken'),
+            Lang: params.get('Lang'),
+          };
+          return dispatch(
+            Actions.fetchRefreshToken(
+              tmp,
+              () => fetchBookingDetail(params),
+              navigation,
+            ),
+          );
+        }
+      });
+  };
+};
+/*****************************/

@@ -100,9 +100,6 @@ function BookingManagement(props) {
   useEffect(() => {
     if (loading) {
       if (!masterState.get('submitting')) {
-        if (!masterState.get('success') && masterState.get('error')) {
-          onError();
-        }
         onPrepareData();
       }
     }

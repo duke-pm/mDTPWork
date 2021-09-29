@@ -17,7 +17,7 @@ import CLabel from '~/components/CLabel';
 import Configs from '~/config';
 import {colors, cStyles} from '~/utils/style';
 import {Commons, Icons} from '~/utils/common';
-import {moderateScale} from '~/utils/helper';
+import {moderateScale, isTimeBetween} from '~/utils/helper';
 
 function BookingItem(props) {
   const {
@@ -26,11 +26,12 @@ function BookingItem(props) {
     data = null,
     onPress = () => null,
   } = props;
+  let isLive = false;
 
   /*****************
    ** HANDLE FUNC **
    *****************/
-  const handleItem = () => onPress(index);
+  const handleItem = () => onPress(index, isLive);
 
   /************
    ** RENDER **
@@ -42,19 +43,17 @@ function BookingItem(props) {
     startDate: data.strStartDateTime.split(' - ')[0],
     endDate: data.strEndDateTime.split(' - ')[0],
   };
-  let isLive = false;
   isLive = Configs.toDay.isBetween(
     moment(timeDate.startDate, 'DD/MM/YYYY').format('YYYY-MM-DD'),
     moment(timeDate.endDate, 'DD/MM/YYYY').format('YYYY-MM-DD'),
-    undefined,
+    'dates',
     '[]',
   );
   if (isLive) {
-    isLive = Configs.toDay.isBetween(
-      moment(data.strStartTime, 'HH:mm'),
-      moment(data.strEndTime, 'HH:mm'),
-      undefined,
-      '[]',
+    isLive = isTimeBetween(
+      data.strStartTime,
+      data.strEndTime,
+      moment().format('HH:mm'),
     );
   }
   let colorTime = isLive
@@ -112,7 +111,7 @@ function BookingItem(props) {
                         styles.live,
                       ]}>
                       <CText
-                        styles={'textCaption2 colorGreen fontBold'}
+                        styles={'textCaption2 colorRed fontBold'}
                         label={'bookings:resume'}
                       />
                     </View>
@@ -159,7 +158,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
     marginTop: 17,
   },
-  live: {backgroundColor: colors.STATUS_SCHEDULE_OPACITY},
+  live: {backgroundColor: colors.STATUS_REJECT_OPACITY},
 });
 
 BookingItem.propTypes = {

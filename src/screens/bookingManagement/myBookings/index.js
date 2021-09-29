@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 /* eslint-disable react-hooks/exhaustive-deps */
 /**
  ** Name: MyBookings
@@ -32,7 +33,7 @@ import Configs from '~/config';
 import Routes from '~/navigation/Routes';
 import {colors, cStyles} from '~/utils/style';
 import {Commons, Icons} from '~/utils/common';
-import {IS_ANDROID, moderateScale} from '~/utils/helper';
+import {IS_ANDROID, moderateScale, isTimeBetween} from '~/utils/helper';
 import {THEME_DARK, REFRESH, LOAD_MORE} from '~/config/constants';
 import {usePrevious} from '~/utils/hook';
 /* REDUX */
@@ -82,7 +83,6 @@ function MyBookings(props) {
   const authState = useSelector(({auth}) => auth);
   const bookingState = useSelector(({booking}) => booking);
   const perPage = commonState.get('perPage');
-  const perPageCalendar = 100;
   const formatDate = commonState.get('formatDate');
   const refreshToken = authState.getIn(['login', 'refreshToken']);
   const language = commonState.get('language');
@@ -90,6 +90,7 @@ function MyBookings(props) {
   /** All state */
   const [marked, setMarked] = useState({});
   const [date, setDate] = useState({
+    prevDate: null,
     currentDate: moment().format(formatDate),
   });
   const [typeShow, setTypeShow] = useState(
@@ -132,12 +133,37 @@ function MyBookings(props) {
     }
   };
 
+  const handleBookingItem = booking => {
+    navigation.navigate(Routes.MAIN.ADD_BOOKING.name, {
+      data: booking.dataFull,
+      isLive: booking.isLive,
+      onRefresh: () => onRefresh(),
+    });
+  };
+
   /**********
    ** FUNC **
    **********/
   const onDone = stateloading => setLoading(stateloading);
 
-  const onDateChanged = newDate => setDate({currentDate: newDate});
+  const onDateChanged = newDate => {
+    let prevDate = date.currentDate;
+    setDate({prevDate, currentDate: newDate});
+  };
+
+  const onMonthChanged = newMonth => {
+    let tmpFromDate = moment(newMonth.dateString)
+      .clone()
+      .startOf('month')
+      .format(formatDate);
+    let tmpEndDate = moment(newMonth.dateString)
+      .clone()
+      .endOf('month')
+      .format(formatDate);
+
+    onFetchData(tmpFromDate, tmpEndDate, 1, form.search);
+    return onDone({...loading, startFetch: true});
+  };
 
   const onFetchData = (
     fromDate = form.fromDate,
@@ -151,9 +177,7 @@ function MyBookings(props) {
       PageNum: page,
       Search: search,
       PageSize:
-        typeShow === Commons.TYPE_SHOW_BOOKING.LIST.value
-          ? perPage
-          : perPageCalendar,
+        typeShow === Commons.TYPE_SHOW_BOOKING.LIST.value ? perPage : -1,
       IsMyBooking: true,
       RefreshToken: refreshToken,
       Lang: language,
@@ -211,11 +235,12 @@ function MyBookings(props) {
         startDate = '',
         endDate = '',
         startTime = '',
-        endTime = '';
+        endTime = '',
+        isLive = '';
 
       for (itemBooking of dataBookings) {
         startDate = itemBooking.startDate.split('T')[0];
-        endDate = itemBooking.startDate.split('T')[0];
+        endDate = itemBooking.endDate.split('T')[0];
         startTime = itemBooking.strStartTime + ':00';
         endTime = itemBooking.strEndTime + ':00';
 
@@ -229,10 +254,28 @@ function MyBookings(props) {
           color: itemBooking.color,
         });
 
+        isLive = false;
+        isLive = Configs.toDay.isBetween(startDate, endDate, 'dates', '[]');
+        if (isLive) {
+          isLive = isTimeBetween(
+            itemBooking.strStartTime,
+            itemBooking.strEndTime,
+            moment().format('HH:mm'),
+          );
+        }
+
+        itemCalendar.dataFull = itemBooking;
+        itemCalendar.isLive = isLive;
         itemCalendar.start = startDate + ' ' + startTime;
         itemCalendar.end = endDate + ' ' + endTime;
-        itemCalendar.title = itemBooking.purpose;
-        itemCalendar.summary = itemBooking.remarks;
+        itemCalendar.title =
+          itemBooking.purpose +
+          t('my_bookings:at') +
+          itemBooking.resourceName +
+          (isLive ? t('my_bookings:live') : '');
+        itemCalendar.summary =
+          t('my_bookings:notes') +
+          `\n${itemBooking.remarks !== '' ? itemBooking.remarks : '-'}`;
         itemCalendar.color = itemBooking.color;
         tmpData.push(itemCalendar);
       }
@@ -354,22 +397,6 @@ function MyBookings(props) {
       headerRight: () => (
         <CIconHeader
           icons={[
-            // {
-            //   show: true,
-            //   showRedDot: false,
-            //   active: typeShow === Commons.TYPE_SHOW_BOOKING.CALENDAR.value,
-            //   icon: Icons.calendarBooking,
-            //   onPress: () =>
-            //     handleChangeType(Commons.TYPE_SHOW_BOOKING.CALENDAR.value),
-            // },
-            // {
-            //   show: true,
-            //   showRedDot: false,
-            //   active: typeShow === Commons.TYPE_SHOW_BOOKING.LIST.value,
-            //   icon: Icons.listBooking,
-            //   onPress: () =>
-            //     handleChangeType(Commons.TYPE_SHOW_BOOKING.LIST.value),
-            // },
             {
               show: isPermissionWrite,
               showRedDot: false,
@@ -446,16 +473,17 @@ function MyBookings(props) {
                 date={date.currentDate}
                 showTodayButton
                 disabledOpacity={0.6}
-                onDateChanged={onDateChanged}>
+                onDateChanged={onDateChanged}
+                onMonthChange={onMonthChanged}>
                 <ExpandableCalendar
                   headerStyle={{backgroundColor: customColors.card}}
                   displayLoadingIndicator={loading.changeType}
-                  disableAllTouchEventsForDisabledDays={true}
+                  disableAllTouchEventsForDisabledDays
                   firstDay={1}
                   markingType={'multi-dot'}
                   markedDates={marked}
                   monthFormat={'MMMM - yyyy'}
-                  enableSwipeMonths={true}
+                  enableSwipeMonths={false}
                   theme={{
                     ...THEME_CALENDAR,
                     backgroundColor: customColors.card,
@@ -469,7 +497,8 @@ function MyBookings(props) {
                 />
                 <Timeline
                   style={{backgroundColor: customColors.card}}
-                  format24h={true}
+                  format24h
+                  eventTapped={handleBookingItem}
                   events={dataCalendar.filter(event =>
                     sameDate(
                       new XDate(event.start),

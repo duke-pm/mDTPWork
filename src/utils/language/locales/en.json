@@ -68,7 +68,8 @@
     "change_percent": "Update percentage successfully!",
     "change_follow": "Update follow successfully!",
     "change_unfollow": "Update unfollow successfully!",
-    "send_request_booking": "Add booking successfully!"
+    "send_request_booking": "Add booking successfully!",
+    "send_remove_booking": "Remove booking successfully!"
   },
   "error": {
     "title": "Error!",
@@ -531,9 +532,13 @@
   },
   "my_bookings": {
     "title": "My Bookings",
-    "see_as": "See as: "
+    "see_as": "See as: ",
+    "at": " at ",
+    "notes": "Notes: ",
+    "live": " [Live]"
   },
   "add_booking": {
+    "title": "Detail",
     "title_add": "New Booking",
     "title_update": "Update Booking",
     "info": "Basic Information",
@@ -556,8 +561,8 @@
     "date_time": "Time",
     "from_date_time": "From",
     "to_date_time": "To",
-    "create_booking": "Add Booking",
-    "update_booking": "Update Booking",
+    "create_booking": "Add",
+    "update_booking": "Update",
     "warning_dischange": "Are you sure you want to leave this page?",
     "agree_dischange": "Go back",
     "close_dischange": "Close",
@@ -565,6 +570,9 @@
     "warning_label_empty": "Tiêu đề cannot empty!",
     "warning_start_date_bigger": "The start date is not greater than the end date!",
     "warning_start_time_bigger": "Same 1 day no greater than the end time!",
-    "warning_end_time_smaller": "Same day no less than the start time!"
+    "warning_end_time_smaller": "Same day no less than the start time!",
+    "remove_booking": "Remove",
+    "holder_remove_booking": "Do you want to remove this booking?",
+    "live": "LIVE"
   }
 }
