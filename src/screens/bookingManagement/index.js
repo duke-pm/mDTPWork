@@ -48,7 +48,7 @@ function BookingManagement(props) {
 
   const onGetMasterData = () => {
     let params = {
-      listType: 'BKIcon, BKColor, BKResource, Users',
+      listType: 'BKColor, BKResource, Users',
       RefreshToken: refreshToken,
       Lang: language,
     };
