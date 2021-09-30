@@ -166,7 +166,6 @@ const RowSelectTags = React.memo(
     loading = false,
     disabled = false,
     isDark = false,
-    customColors = {},
     dataActive = [],
     onPress = () => null,
     onPressRemove = () => null,
@@ -1109,7 +1108,6 @@ function AddBooking(props) {
                       isLive
                     }
                     isDark={isDark}
-                    customColors={customColors}
                     dataActive={dataBooking.participants}
                     onPressRemove={handleRemoveParti}
                     onPress={() => asParticipantRef.current?.show()}
