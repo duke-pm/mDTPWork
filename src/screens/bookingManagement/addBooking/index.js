@@ -33,6 +33,7 @@ import CLabel from '~/components/CLabel';
 import CAvatar from '~/components/CAvatar';
 import CInput from '~/components/CInput';
 import CButton from '~/components/CButton';
+import CCheckbox from '~/components/CCheckbox';
 import CTouchable from '~/components/CTouchable';
 import CIconButton from '~/components/CIconButton';
 import CActionSheet from '~/components/CActionSheet';
@@ -350,6 +351,7 @@ function AddBooking(props) {
     toTime: DATA_TIME_BOOKING[1],
     status: true,
     isUpdated: false,
+    oneTime: true,
   });
   const [dataResources, setDataResources] = useState([]);
   const [findResource, setFindResource] = useState('');
@@ -360,7 +362,6 @@ function AddBooking(props) {
   const [toTime, setToTime] = useState(0);
   const [dataParticipants, setDataParticipants] = useState([]);
   const [findParticipant, setFindParticipant] = useState('');
-  const [participant, setParticipant] = useState(0);
 
   /*****************
    ** HANDLE FUNC **
@@ -380,6 +381,10 @@ function AddBooking(props) {
 
   const handleConfirmRemove = () => {
     alert(t, 'add_booking:holder_remove_booking', onSubmitRemove);
+  };
+
+  const handleOneTime = () => {
+    setDataBooking({...dataBooking, oneTime: !dataBooking.oneTime});
   };
 
   const handleChangeResource = () => {
@@ -450,8 +455,6 @@ function AddBooking(props) {
 
   const onChangeToTime = index => setToTime(index);
 
-  const onChangeParticipant = index => setParticipant(index);
-
   const onGoToSignIn = () =>
     resetRoute(navigation, Routes.AUTHENTICATION.SIGN_IN.name);
 
@@ -495,6 +498,7 @@ function AddBooking(props) {
         resource: detail.resourceID,
         note: detail.remarks,
         participants: detail.lstUserJoined,
+        oneTime: detail.isOneTimeBooking,
         fromDate: detail.startDate.split('T')[0],
         toDate: detail.endDate.split('T')[0],
         fromTime: detail.strStartTime,
@@ -585,13 +589,9 @@ function AddBooking(props) {
       });
       setDataParticipants(newData);
       setFindParticipant(text);
-      if (newData.length > 0) {
-        setParticipant(0);
-      }
     } else {
       setDataParticipants(masterState.get('users'));
       setFindParticipant(text);
-      setParticipant(0);
     }
   };
 
@@ -667,6 +667,7 @@ function AddBooking(props) {
       ResourceID: dataBooking.resource,
       Purpose: dataBooking.label,
       Remarks: dataBooking.note,
+      IsOneTimeBooking: dataBooking.oneTime,
       StartDate: moment(dataBooking.fromDate).format(DEFAULT_FORMAT_DATE_3),
       StartTime: Number(dataBooking.fromTime.replace(':', '')),
       EndDate: moment(dataBooking.toDate).format(DEFAULT_FORMAT_DATE_3),
@@ -915,7 +916,7 @@ function AddBooking(props) {
                   />
                 </View>
 
-                {/** Label */}
+                {/** Purpose */}
                 <CInput
                   containerStyle={cStyles.mt16}
                   styleFocus={styles.input_focus}
@@ -956,6 +957,27 @@ function AddBooking(props) {
                   }
                   onChangeValue={handleChangeText}
                 />
+              </>
+            }
+          />
+
+          {/** Other info booking */}
+          <CGroupInfo
+            style={cStyles.pt16}
+            label={'add_booking:other_info'}
+            content={
+              <>
+                {/** Book one time */}
+                <CCheckbox
+                  containerStyle={cStyles.pt0}
+                  textStyle={[cStyles.textBody, {color: customColors.text}]}
+                  customColor={
+                    dataBooking.oneTime ? customColors.green : customColors.icon
+                  }
+                  labelRight={'add_booking:one_time'}
+                  value={dataBooking.oneTime}
+                  onChange={handleOneTime}
+                />
 
                 {/** From date time */}
                 <View
@@ -963,7 +985,7 @@ function AddBooking(props) {
                     cStyles.row,
                     cStyles.itemsEnd,
                     cStyles.justifyBetween,
-                    cStyles.mt16,
+                    cStyles.mt4,
                   ]}>
                   <CInput
                     containerStyle={[cStyles.mr5, styles.left]}

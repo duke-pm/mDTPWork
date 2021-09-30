@@ -548,8 +548,8 @@
     "resource": "Resource",
     "holder_find_resource": "Find resource...",
     "holder_empty_resource": "Resource empty!",
-    "label": "Name",
-    "holder_label": "Booking name...",
+    "label": "Purpose",
+    "holder_label": "Purpose...",
     "note": "Notes",
     "holder_note": "Booking notes...",
     "participants": "Participants",
@@ -572,6 +572,8 @@
     "remove_booking": "Remove",
     "holder_remove_booking": "Do you want to remove this booking?",
     "live": "LIVE",
-    "holder_no_participants": "No participants join this!"
+    "holder_no_participants": "No participants join this!",
+    "other_info": "Time - Join",
+    "one_time": "One-time booking"
   }
 }

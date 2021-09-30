@@ -7,17 +7,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {StyleSheet, View, Text} from 'react-native';
-import moment from 'moment';
 /* COMPONENTS */
-import CText from '~/components/CText';
 import CCard from '~/components/CCard';
 import CIcon from '~/components/CIcon';
 import CLabel from '~/components/CLabel';
 /* COMMON */
-import Configs from '~/config';
 import {colors, cStyles} from '~/utils/style';
-import {Commons, Icons} from '~/utils/common';
-import {moderateScale, isTimeBetween} from '~/utils/helper';
+import {Icons} from '~/utils/common';
+import {moderateScale} from '~/utils/helper';
 
 function BookingItem(props) {
   const {
@@ -26,12 +23,12 @@ function BookingItem(props) {
     data = null,
     onPress = () => null,
   } = props;
-  let isLive = false;
+  // let isLive = false;
 
   /*****************
    ** HANDLE FUNC **
    *****************/
-  const handleItem = () => onPress(index, isLive);
+  const handleItem = () => onPress(index);
 
   /************
    ** RENDER **
@@ -43,24 +40,24 @@ function BookingItem(props) {
     startDate: data.strStartDateTime.split(' - ')[0],
     endDate: data.strEndDateTime.split(' - ')[0],
   };
-  isLive = Configs.toDay.isBetween(
-    moment(timeDate.startDate, 'DD/MM/YYYY').format('YYYY-MM-DD'),
-    moment(timeDate.endDate, 'DD/MM/YYYY').format('YYYY-MM-DD'),
-    'dates',
-    '[]',
-  );
-  if (isLive) {
-    isLive = isTimeBetween(
-      data.strStartTime,
-      data.strEndTime,
-      moment().format('HH:mm'),
-    );
-  }
-  let colorTime = isLive
-    ? Commons.BOOKING_STATUS_HAPPEND.HAPPENNING.color
-    : data.statusHappend === Commons.BOOKING_STATUS_HAPPEND.NOT_HAPPEND.value
-    ? Commons.BOOKING_STATUS_HAPPEND.NOT_HAPPEND.color
-    : Commons.BOOKING_STATUS_HAPPEND.HAPPENED.color;
+  // isLive = Configs.toDay.isBetween(
+  //   moment(timeDate.startDate, 'DD/MM/YYYY').format('YYYY-MM-DD'),
+  //   moment(timeDate.endDate, 'DD/MM/YYYY').format('YYYY-MM-DD'),
+  //   'dates',
+  //   '[]',
+  // );
+  // if (isLive) {
+  //   isLive = isTimeBetween(
+  //     data.strStartTime,
+  //     data.strEndTime,
+  //     moment().format('HH:mm'),
+  //   );
+  // }
+  // let colorTime = isLive
+  //   ? Commons.BOOKING_STATUS_HAPPEND.HAPPENNING.color
+  //   : data.statusHappend === Commons.BOOKING_STATUS_HAPPEND.NOT_HAPPEND.value
+  //   ? Commons.BOOKING_STATUS_HAPPEND.NOT_HAPPEND.color
+  //   : Commons.BOOKING_STATUS_HAPPEND.HAPPENED.color;
 
   return (
     <CCard
@@ -72,11 +69,7 @@ function BookingItem(props) {
           <View style={[cStyles.row, cStyles.itemsStart]}>
             <View style={styles.left}>
               <View style={[cStyles.row, cStyles.itemsCenter]}>
-                <CIcon
-                  name={Icons.timeTask}
-                  size={'smaller'}
-                  color={colorTime}
-                />
+                <CIcon name={Icons.timeTask} size={'smaller'} color={'icon'} />
                 <View>
                   <View style={[cStyles.row, cStyles.itemsCenter]}>
                     <Text
@@ -101,7 +94,7 @@ function BookingItem(props) {
                       </Text>
                     </Text>
                   </View>
-                  {isLive && (
+                  {/* {isLive && (
                     <View
                       style={[
                         cStyles.itemsCenter,
@@ -115,7 +108,7 @@ function BookingItem(props) {
                         label={'bookings:resume'}
                       />
                     </View>
-                  )}
+                  )} */}
                 </View>
               </View>
             </View>

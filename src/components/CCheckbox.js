@@ -28,6 +28,7 @@ function CCheckbox(props) {
     labelRight = undefined,
     disabled = false,
     value = true,
+    customColor = null,
     onChange = () => null,
   } = props;
 
@@ -46,7 +47,7 @@ function CCheckbox(props) {
     <TouchableOpacity disabled={disabled} onPress={handleCheck}>
       <Animatable.View
         ref={ref => (handleRef = ref)}
-        useNativeDriver={true}
+        useNativeDriver
         style={[
           cStyles.row,
           cStyles.itemsCenter,
@@ -69,7 +70,7 @@ function CCheckbox(props) {
         <CIcon
           name={value ? Icons.checkSquare : Icons.square}
           size={'medium'}
-          customColor={value ? colors.SECONDARY : colors.WHITE}
+          customColor={customColor || (value ? colors.SECONDARY : colors.WHITE)}
         />
 
         {labelRight && (
@@ -95,6 +96,7 @@ CCheckbox.propTypes = {
   labelRight: PropTypes.string,
   disabled: PropTypes.bool,
   value: PropTypes.bool,
+  customColor: PropTypes.any,
   onChange: PropTypes.func,
 };
 

@@ -548,8 +548,8 @@
     "resource": "Tài nguyên",
     "holder_find_resource": "Tìm tài nguyên...",
     "holder_empty_resource": "Tài nguyên rỗng",
-    "label": "Tiêu đề",
-    "holder_label": "Tiêu đề booking...",
+    "label": "Mục đích",
+    "holder_label": "Mục đích...",
     "note": "Ghi chú",
     "holder_note": "Ghi chú thông tin booking...",
     "participants": "Người tham gia",
@@ -572,6 +572,8 @@
     "remove_booking": "Hủy bỏ",
     "holder_remove_booking": "Bạn muốn hủy booking này?",
     "live": "ĐANG DIỄN RA",
-    "holder_no_participants": "Không có người tham gia!"
+    "holder_no_participants": "Không có người tham gia!",
+    "other_info": "Thời gian - Tham gia",
+    "one_time": "Book một lần"
   }
 }

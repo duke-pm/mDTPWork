@@ -136,7 +136,6 @@ function MyBookings(props) {
   const handleBookingItem = booking => {
     navigation.navigate(Routes.MAIN.ADD_BOOKING.name, {
       data: booking.dataFull,
-      isLive: booking.isLive,
       onRefresh: () => onRefresh(),
     });
   };
@@ -233,8 +232,7 @@ function MyBookings(props) {
         startDate = '',
         endDate = '',
         startTime = '',
-        endTime = '',
-        isLive = '';
+        endTime = '';
 
       for (itemBooking of dataBookings) {
         startDate = itemBooking.startDate.split('T')[0];
@@ -252,25 +250,11 @@ function MyBookings(props) {
           color: itemBooking.color,
         });
 
-        isLive = false;
-        isLive = Configs.toDay.isBetween(startDate, endDate, 'dates', '[]');
-        if (isLive) {
-          isLive = isTimeBetween(
-            itemBooking.strStartTime,
-            itemBooking.strEndTime,
-            moment().format('HH:mm'),
-          );
-        }
-
         itemCalendar.dataFull = itemBooking;
-        itemCalendar.isLive = isLive;
         itemCalendar.start = startDate + ' ' + startTime;
         itemCalendar.end = endDate + ' ' + endTime;
         itemCalendar.title =
-          itemBooking.purpose +
-          t('my_bookings:at') +
-          itemBooking.resourceName +
-          (isLive ? t('my_bookings:live') : '');
+          itemBooking.purpose + t('my_bookings:at') + itemBooking.resourceName;
         itemCalendar.summary =
           t('my_bookings:notes') +
           `\n${itemBooking.remarks !== '' ? itemBooking.remarks : '-'}`;
