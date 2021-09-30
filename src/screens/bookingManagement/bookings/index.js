@@ -65,8 +65,8 @@ function Bookings(props) {
   });
   const [showSearchBar, setShowSearch] = useState(false);
   const [form, setForm] = useState({
-    fromDate: Configs.toDay.clone().startOf('month').format(formatDate),
-    toDate: Configs.toDay.clone().endOf('month').format(formatDate),
+    fromDate: Configs.toDay.startOf('month').format(formatDate),
+    toDate: Configs.toDay.endOf('month').format(formatDate),
     page: 1,
     search: '',
   });
@@ -290,7 +290,7 @@ function Bookings(props) {
           )}
 
           <CActionSheet actionRef={asFilterRef}>
-            <View style={cStyles.p16}>
+            <View style={cStyles.p10}>
               <Filter
                 data={form}
                 onFilter={handleFilter}

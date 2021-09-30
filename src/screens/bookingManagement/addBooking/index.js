@@ -12,7 +12,14 @@ import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {StyleSheet, View, UIManager, LayoutAnimation} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  ScrollView,
+  UIManager,
+  LayoutAnimation,
+  Text,
+} from 'react-native';
 import Picker from '@gregfrench/react-native-wheel-picker';
 import {showMessage} from 'react-native-flash-message';
 import {ifIphoneX} from 'react-native-iphone-x-helper';
@@ -33,6 +40,7 @@ import CDateTimePicker from '~/components/CDateTimePicker';
 import CActivityIndicator from '~/components/CActivityIndicator';
 /* COMMON */
 import Configs from '~/config';
+import FieldsAuth from '~/config/fieldsAuth';
 import Routes from '~/navigation/Routes';
 import {Icons} from '~/utils/common';
 import {colors, cStyles} from '~/utils/style';
@@ -49,11 +57,11 @@ import {
   IS_ANDROID,
   moderateScale,
   resetRoute,
+  sW,
   verticalScale,
 } from '~/utils/helper';
 /* REDUX */
 import * as Actions from '~/redux/actions';
-import FieldsAuth from '~/config/fieldsAuth';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -86,7 +94,7 @@ const RowSelect = React.memo(
     return (
       <>
         <CTouchable
-          containerStyle={[cStyles.mt6]}
+          containerStyle={cStyles.mt6}
           disabled={disabled}
           onPress={onPress}>
           <View
@@ -168,17 +176,15 @@ const RowSelectTags = React.memo(
           cStyles.row,
           cStyles.itemsCenter,
           cStyles.justifyBetween,
-          cStyles.px10,
-          cStyles.pb10,
+          cStyles.p6,
           cStyles.mt10,
           cStyles.borderDashed,
           cStyles.rounded1,
           cStyles.borderAll,
           isDark && cStyles.borderAllDark,
-          disabled && {backgroundColor: customColors.cardDisable},
         ]}>
         {!loading ? (
-          <View style={[cStyles.flexWrap, cStyles.row]}>
+          <View style={[cStyles.flexWrap, cStyles.itemsCenter, cStyles.row]}>
             {dataActive.length > 0 &&
               dataActive.map((item, index) => {
                 return (
@@ -189,9 +195,11 @@ const RowSelectTags = React.memo(
                       cStyles.itemsCenter,
                       cStyles.justifyBetween,
                       cStyles.rounded1,
-                      cStyles.pl6,
-                      cStyles.mr6,
-                      cStyles.mt10,
+                      cStyles.pl4,
+                      cStyles.mr4,
+                      cStyles.mt4,
+                      disabled && cStyles.py6,
+                      disabled && cStyles.px8,
                       {backgroundColor: colors.STATUS_SCHEDULE_OPACITY},
                     ]}>
                     <View style={[cStyles.row, cStyles.itemsCenter]}>
@@ -202,38 +210,32 @@ const RowSelectTags = React.memo(
                       />
                     </View>
 
-                    <CIconButton
-                      iconName={Icons.remove}
-                      iconColor={'red'}
-                      disabled={disabled}
-                      onPress={() => onPressRemove(item.empID)}
-                    />
+                    {!disabled && (
+                      <CIconButton
+                        iconName={Icons.remove}
+                        iconColor={'red'}
+                        disabled={disabled}
+                        onPress={() => onPressRemove(item.empID)}
+                      />
+                    )}
                   </View>
                 );
               })}
-            {dataActive.length > 0 && (
+            {dataActive.length > 0 && !disabled && (
               <CTouchable
                 containerStyle={cStyles.mt10}
                 onPress={onPress}
                 disabled={disabled}>
                 <View
                   style={[
-                    cStyles.row,
-                    cStyles.itemsCenter,
-                    cStyles.justifyBetween,
+                    cStyles.center,
                     cStyles.rounded1,
-                    cStyles.pr10,
-                    cStyles.mr6,
                     {backgroundColor: colors.STATUS_SCHEDULE_OPACITY},
                   ]}>
                   <CIconButton
                     iconName={Icons.addNew}
                     iconColor={'green'}
                     disabled
-                  />
-                  <CText
-                    styles={'textCaption1 fontRegular'}
-                    label={'add_booking:add_participant'}
                   />
                 </View>
               </CTouchable>
@@ -244,17 +246,20 @@ const RowSelectTags = React.memo(
                 containerStyle={cStyles.mt10}
                 onPress={onPress}
                 disabled={disabled}>
-                <View
-                  style={[
-                    cStyles.flex1,
-                    cStyles.row,
-                    cStyles.center,
-                    cStyles.py3,
-                  ]}>
-                  <CText
-                    styles={'textCaption1 fontRegular colorGreen'}
-                    label={'add_booking:no_participants'}
-                  />
+                <View style={[cStyles.py3]}>
+                  {!disabled ? (
+                    <CText
+                      styles={
+                        'textCaption1 colorGreen textItalic textUnderline'
+                      }
+                      label={'add_booking:no_participants'}
+                    />
+                  ) : (
+                    <CText
+                      styles={'textCaption1'}
+                      label={'add_booking:holder_no_participants'}
+                    />
+                  )}
                 </View>
               </CTouchable>
             )}
@@ -308,8 +313,8 @@ function AddBooking(props) {
   const bookingState = useSelector(({booking}) => booking);
   const formatDate = commonState.get('formatDate');
   const formatDateView = commonState.get('formatDateView');
-  const language = commonState.get('language');
   const refreshToken = authState.getIn(['login', 'refreshToken']);
+  const language = commonState.get('language');
 
   /** use states */
   const [loading, setLoading] = useState({
@@ -373,6 +378,10 @@ function AddBooking(props) {
     setDataBooking({...dataBooking, [nameInput]: value});
   };
 
+  const handleConfirmRemove = () => {
+    alert(t, 'add_booking:holder_remove_booking', onSubmitRemove);
+  };
+
   const handleChangeResource = () => {
     let tmpResource = null;
     if (findResource === '') {
@@ -392,11 +401,10 @@ function AddBooking(props) {
   };
 
   const handleChangeFromTime = () => {
-    let tmp = {
+    setDataBooking({
       ...dataBooking,
       fromTime: DATA_TIME_BOOKING[fromTime],
-    };
-    setDataBooking(tmp);
+    });
     asFromTimeRef.current?.hide();
   };
 
@@ -408,23 +416,18 @@ function AddBooking(props) {
     asToTimeRef.current?.hide();
   };
 
-  const handleChangeParticipant = () => {
-    let chooseUser = dataParticipants[participant],
-      newParticipants = [...dataBooking.participants];
+  const handleChangeParticipant = indexEmp => {
+    let newParticipants = [...dataBooking.participants];
     let findUserOnActive = dataBooking.participants.findIndex(
-      f => f.empID === chooseUser.empID,
+      f => f.empID === dataParticipants[indexEmp].empID,
     );
     if (findUserOnActive !== -1) {
-      // do nothing
+      newParticipants.splice(findUserOnActive, 1);
     } else {
-      newParticipants.push(chooseUser);
+      newParticipants.push(dataParticipants[indexEmp]);
     }
     setDataBooking({...dataBooking, participants: newParticipants});
-    asParticipantRef.current?.hide();
-  };
-
-  const handleRemoveAllParti = () => {
-    setDataBooking({...dataBooking, participants: []});
+    // asParticipantRef.current?.hide();
   };
 
   const handleRemoveParti = id => {
@@ -436,10 +439,6 @@ function AddBooking(props) {
       tmpDataBooking.participants.splice(fParticipant, 1);
       setDataBooking(tmpDataBooking);
     }
-  };
-
-  const handleConfirmRemove = () => {
-    alert(t, 'add_booking:holder_remove_booking', onSubmitRemove);
   };
 
   /**********
@@ -461,48 +460,50 @@ function AddBooking(props) {
     if (!detail) {
       detail = bookingState.get('bookingDetail');
     }
-    /** Find participants */
-    if (detail.lstUserJoined.length > 0) {
-      let i;
-      for (i = 0; i < detail.lstUserJoined.length; i++) {
-        detail.lstUserJoined[i].empID = detail.lstUserJoined[i].userID;
-        detail.lstUserJoined[i].empName = detail.lstUserJoined[i].fullName;
+    if (detail) {
+      /** Find participants */
+      if (detail.lstUserJoined.length > 0) {
+        let i;
+        for (i = 0; i < detail.lstUserJoined.length; i++) {
+          detail.lstUserJoined[i].empID = detail.lstUserJoined[i].userID;
+          detail.lstUserJoined[i].empName = detail.lstUserJoined[i].fullName;
+        }
       }
-    }
 
-    /** Find idx resource */
-    let tmpDataResources = masterState.get('bkReSource');
-    let idxResource = tmpDataResources.findIndex(
-      f => f.resourceID === detail.resourceID,
-    );
-    if (idxResource !== -1) {
-      setResource(idxResource);
-    }
+      /** Find idx resource */
+      let tmpDataResources = masterState.get('bkReSource');
+      let idxResource = tmpDataResources.findIndex(
+        f => f.resourceID === detail.resourceID,
+      );
+      if (idxResource !== -1) {
+        setResource(idxResource);
+      }
 
-    /** Find time start, end */
-    let idxTime = DATA_TIME_BOOKING.findIndex(f => f === detail.strStartTime);
-    if (idxTime !== -1) {
-      setFromTime(idxTime);
-    }
-    idxTime = DATA_TIME_BOOKING.findIndex(f => f === detail.strEndTime);
-    if (idxTime !== -1) {
-      setToTime(idxTime);
-    }
+      /** Find time start, end */
+      let idxTime = DATA_TIME_BOOKING.findIndex(f => f === detail.strStartTime);
+      if (idxTime !== -1) {
+        setFromTime(idxTime);
+      }
+      idxTime = DATA_TIME_BOOKING.findIndex(f => f === detail.strEndTime);
+      if (idxTime !== -1) {
+        setToTime(idxTime);
+      }
 
-    let tmpParamsDetail = {
-      id: detail.bookID,
-      label: detail.purpose,
-      resource: detail.resourceID,
-      note: detail.remarks,
-      participants: detail.lstUserJoined,
-      fromDate: detail.startDate.split('T')[0],
-      toDate: detail.endDate.split('T')[0],
-      fromTime: detail.strStartTime,
-      toTime: detail.strEndTime,
-      status: true,
-      isUpdated: detail.isUpdated,
-    };
-    setDataBooking(tmpParamsDetail);
+      let tmpParamsDetail = {
+        id: detail.bookID,
+        label: detail.purpose,
+        resource: detail.resourceID,
+        note: detail.remarks,
+        participants: detail.lstUserJoined,
+        fromDate: detail.startDate.split('T')[0],
+        toDate: detail.endDate.split('T')[0],
+        fromTime: detail.strStartTime,
+        toTime: detail.strEndTime,
+        status: true,
+        isUpdated: detail.isUpdated,
+      };
+      setDataBooking(tmpParamsDetail);
+    }
     setLoading({...loading, main: false});
   };
 
@@ -671,8 +672,8 @@ function AddBooking(props) {
       EndDate: moment(dataBooking.toDate).format(DEFAULT_FORMAT_DATE_3),
       EndTime: Number(dataBooking.toTime.replace(':', '')),
       ListParticipant: tmpParti.join(),
-      Lang: language,
       RefreshToken: refreshToken,
+      Lang: language,
     };
     dispatch(Actions.fetchAddBooking(params, navigation));
   };
@@ -710,7 +711,10 @@ function AddBooking(props) {
     if (dataLogin) {
       console.log('[LOG] === SignIn Local === ', dataLogin);
       let i,
-        tmpDataLogin = {tokenInfo: {}, lstMenu: {}};
+        tmpDataLogin = {
+          tokenInfo: {},
+          lstMenu: {},
+        };
       for (i = 0; i < FieldsAuth.length; i++) {
         if (i === 0) {
           tmpDataLogin[FieldsAuth[i].key] = dataLogin[FieldsAuth[i].key];
@@ -1074,24 +1078,7 @@ function AddBooking(props) {
 
                 {/** Participants */}
                 <View style={cStyles.mt16}>
-                  <View
-                    style={[
-                      cStyles.row,
-                      cStyles.itemsCenter,
-                      cStyles.justifyBetween,
-                    ]}>
-                    <CLabel bold label={'add_booking:participants'} />
-                    <CText
-                      styles={'textCaption1 colorRed'}
-                      label={'common:remove_all'}
-                      disabled={dataBooking.participants.length === 0}
-                      onPress={
-                        (isDetail && !dataBooking.isUpdated) || isLive
-                          ? null
-                          : handleRemoveAllParti
-                      }
-                    />
-                  </View>
+                  <CLabel bold label={'add_booking:participants'} />
                   <RowSelectTags
                     loading={loading.main}
                     disabled={
@@ -1102,8 +1089,8 @@ function AddBooking(props) {
                     isDark={isDark}
                     customColors={customColors}
                     dataActive={dataBooking.participants}
-                    onPress={() => asParticipantRef.current?.show()}
                     onPressRemove={handleRemoveParti}
+                    onPress={() => asParticipantRef.current?.show()}
                   />
                 </View>
               </>
@@ -1206,7 +1193,7 @@ function AddBooking(props) {
               headerChoose
               headerChooseTitle={'add_booking:holder_participants'}
               actionRef={asParticipantRef}
-              onConfirm={handleChangeParticipant}>
+              onConfirm={() => asParticipantRef.current?.hide()}>
               <View style={cStyles.px16}>
                 <CInput
                   containerStyle={cStyles.my10}
@@ -1218,32 +1205,53 @@ function AddBooking(props) {
                   disabled={loading.main || loading.submitAdd || isDetail}
                   onChangeValue={onSearchParticipant}
                 />
-                <Picker
-                  style={[styles.action, cStyles.justifyCenter]}
-                  itemStyle={{
-                    fontSize: TXT_AS_SIZE,
-                    color: customColors.text,
-                  }}
-                  selectedValue={participant}
-                  onValueChange={onChangeParticipant}>
-                  {dataParticipants.length > 0 &&
-                    dataParticipants.map((value, i) => {
-                      let find = dataBooking.participants.find(
-                        f => f.empID === value.empID,
-                      );
-                      return (
-                        <Picker.Item
-                          label={
-                            find
-                              ? value.empName + t('add_booking:choosed')
-                              : value.empName
-                          }
-                          value={i}
-                          key={value.empID}
-                        />
-                      );
-                    })}
-                </Picker>
+
+                <View style={[cStyles.pb36, styles.con_parti_select]}>
+                  <ScrollView style={cStyles.flex1}>
+                    {dataParticipants.length > 0 &&
+                      dataParticipants.map((value, i) => {
+                        let find = dataBooking.participants.find(
+                          f => f.empID === value.empID,
+                        );
+                        return (
+                          <CTouchable
+                            key={value.empID}
+                            onPress={() => handleChangeParticipant(i)}>
+                            <View
+                              style={[
+                                cStyles.row,
+                                cStyles.itemsCenter,
+                                cStyles.justifyBetween,
+                                cStyles.px10,
+                                styles.row_parti_select,
+                              ]}>
+                              <Text>
+                                <Text
+                                  style={[
+                                    cStyles.textBody,
+                                    {color: customColors.text},
+                                  ]}>
+                                  {value.empName}
+                                </Text>
+                                <Text
+                                  style={[
+                                    cStyles.textCaption1,
+                                    {color: customColors.text},
+                                  ]}>{` {${value.userName}}`}</Text>
+                              </Text>
+                              {find && (
+                                <CIcon
+                                  name={Icons.check}
+                                  size={'smaller'}
+                                  color={'blue'}
+                                />
+                              )}
+                            </View>
+                          </CTouchable>
+                        );
+                      })}
+                  </ScrollView>
+                </View>
               </View>
             </CActionSheet>
           )}
@@ -1331,6 +1339,8 @@ const styles = StyleSheet.create({
   },
   input_multiline: {height: verticalScale(100)},
   button: {width: moderateScale(150)},
+  con_parti_select: {height: sW('100%')},
+  row_parti_select: {height: moderateScale(40)},
 });
 
 export default AddBooking;

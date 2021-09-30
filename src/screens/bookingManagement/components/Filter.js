@@ -114,7 +114,7 @@ function Filter(props) {
    ** RENDER **
    ************/
   return (
-    <View style={cStyles.pb20}>
+    <View style={cStyles.pb40}>
       <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween]}>
         <CIconButton
           style={styles.icon}
@@ -140,6 +140,7 @@ function Filter(props) {
             cStyles.itemsCenter,
             cStyles.justifyBetween,
             cStyles.mt20,
+            cStyles.px10,
           ]}>
           <View style={styles.text_date}>
             <CLabel
@@ -167,7 +168,12 @@ function Filter(props) {
         </View>
 
         <View
-          style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween]}>
+          style={[
+            cStyles.row,
+            cStyles.itemsCenter,
+            cStyles.justifyBetween,
+            cStyles.px10,
+          ]}>
           <View style={styles.text_date}>
             <CLabel
               style={[cStyles.pt6, cStyles.textLeft]}

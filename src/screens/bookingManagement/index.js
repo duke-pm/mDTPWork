@@ -7,7 +7,6 @@
  **/
 import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import {useTranslation} from 'react-i18next';
 /** COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContentSubMenu from '~/components/CContentSubMenu';
@@ -17,10 +16,8 @@ import {Animations} from '~/utils/asset';
 import {colors} from '~/utils/style';
 /* REDUX */
 import * as Actions from '~/redux/actions';
-import {showMessage} from 'react-native-flash-message';
 
 function BookingManagement(props) {
-  const {t} = useTranslation();
   const {navigation, route} = props;
 
   /** Use redux */
@@ -78,15 +75,6 @@ function BookingManagement(props) {
       }
     }
     onStart();
-  };
-
-  const onError = () => {
-    showMessage({
-      message: t('common:app_name'),
-      description: t('error:cannot_get_master_booking'),
-      type: 'danger',
-      icon: 'danger',
-    });
   };
 
   /****************

@@ -70,8 +70,8 @@ function ListRequestAll(props) {
     {
       key: Commons.APPROVED_TYPE.ASSETS.value + '',
       title: t('list_request_assets:title_add'),
-      fromDate: Configs.toDay.clone().startOf('month').format(formatDate),
-      toDate: Configs.toDay.clone().endOf('month').format(formatDate),
+      fromDate: Configs.toDay.startOf('month').format(formatDate),
+      toDate: Configs.toDay.endOf('month').format(formatDate),
       status: '1,2,3,4',
       type: Commons.APPROVED_TYPE.ASSETS.value + '',
       search: '',
@@ -80,8 +80,8 @@ function ListRequestAll(props) {
     {
       key: Commons.APPROVED_TYPE.DAMAGED.value + '',
       title: t('list_request_assets:title_damaged'),
-      fromDate: Configs.toDay.clone().startOf('month').format(formatDate),
-      toDate: Configs.toDay.clone().endOf('month').format(formatDate),
+      fromDate: Configs.toDay.startOf('month').format(formatDate),
+      toDate: Configs.toDay.endOf('month').format(formatDate),
       status: '1,2,3,4',
       type: Commons.APPROVED_TYPE.DAMAGED.value + '',
       search: '',
@@ -90,8 +90,8 @@ function ListRequestAll(props) {
     {
       key: Commons.APPROVED_TYPE.LOST.value + '',
       title: t('list_request_assets:title_lost'),
-      fromDate: Configs.toDay.clone().startOf('month').format(formatDate),
-      toDate: Configs.toDay.clone().endOf('month').format(formatDate),
+      fromDate: Configs.toDay.startOf('month').format(formatDate),
+      toDate: Configs.toDay.endOf('month').format(formatDate),
       status: '1,2,3,4',
       type: Commons.APPROVED_TYPE.LOST.value + '',
       search: '',

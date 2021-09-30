@@ -573,6 +573,7 @@
     "warning_end_time_smaller": "Same day no less than the start time!",
     "remove_booking": "Remove",
     "holder_remove_booking": "Do you want to remove this booking?",
-    "live": "LIVE"
+    "live": "LIVE",
+    "holder_no_participants": "No participants join this!"
   }
 }

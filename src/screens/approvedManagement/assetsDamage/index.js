@@ -50,8 +50,8 @@ function ApprovedAssetsDamage(props) {
     isLoadmore: true,
   });
   const [data, setData] = useState({
-    fromDate: Configs.toDay.clone().startOf('month').format(formatDate),
-    toDate: Configs.toDay.clone().endOf('month').format(formatDate),
+    fromDate: Configs.toDay.startOf('month').format(formatDate),
+    toDate: Configs.toDay.endOf('month').format(formatDate),
     status: '1,2,3,4',
     requests: [],
     requestsDetail: [],

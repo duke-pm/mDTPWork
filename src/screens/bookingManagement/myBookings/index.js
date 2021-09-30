@@ -105,8 +105,8 @@ function MyBookings(props) {
     isLoadmore: true,
   });
   const [form, setForm] = useState({
-    fromDate: Configs.toDay.clone().startOf('month').format(formatDate),
-    toDate: Configs.toDay.clone().endOf('month').format(formatDate),
+    fromDate: Configs.toDay.startOf('month').format(formatDate),
+    toDate: Configs.toDay.endOf('month').format(formatDate),
     page: 1,
     search: '',
   });
@@ -153,11 +153,9 @@ function MyBookings(props) {
 
   const onMonthChanged = newMonth => {
     let tmpFromDate = moment(newMonth.dateString)
-      .clone()
       .startOf('month')
       .format(formatDate);
     let tmpEndDate = moment(newMonth.dateString)
-      .clone()
       .endOf('month')
       .format(formatDate);
 
