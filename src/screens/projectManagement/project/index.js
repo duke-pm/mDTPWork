@@ -12,6 +12,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {showMessage} from 'react-native-flash-message';
 import {LayoutAnimation, UIManager} from 'react-native';
+import moment from 'moment';
 /** COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
@@ -65,7 +66,7 @@ function Project(props) {
     activeStatus: [],
   });
   const [data, setData] = useState({
-    year: Configs.toDay.year(),
+    year: moment().year(),
     statusID: null,
     ownerID: null,
     page: 1,
@@ -106,7 +107,7 @@ function Project(props) {
   };
 
   const handleFilter = (
-    year = Configs.toDay.year(),
+    year = moment().year(),
     activeOwner = [],
     activeStatus = [],
   ) => {
@@ -160,14 +161,14 @@ function Project(props) {
     });
     dispatch(Actions.fetchListProject(params, navigation));
     if (
-      (statusID !== null || ownerID !== null || year != Configs.toDay.year()) &&
+      (statusID !== null || ownerID !== null || year != moment().year()) &&
       !isFiltering
     ) {
       setIsFiltering(true);
     } else if (
       statusID === null &&
       ownerID === null &&
-      year == Configs.toDay.year() &&
+      year == moment().year() &&
       isFiltering
     ) {
       setIsFiltering(false);

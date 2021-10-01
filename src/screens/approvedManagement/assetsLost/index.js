@@ -13,11 +13,11 @@ import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
 import {showMessage} from 'react-native-flash-message';
 import {View} from 'react-native';
+import moment from 'moment';
 /* COMPONENTS */
 import CLoading from '~/components/CLoading';
 import ListRequest from '../components/ListRequest';
 /* COMMON */
-import Configs from '~/config';
 import Routes from '~/navigation/Routes';
 import {Commons} from '~/utils/common';
 import {cStyles} from '~/utils/style';
@@ -50,8 +50,8 @@ function ApprovedAssetsLost(props) {
     isLoadmore: true,
   });
   const [data, setData] = useState({
-    fromDate: Configs.toDay.startOf('month').format(formatDate),
-    toDate: Configs.toDay.endOf('month').format(formatDate),
+    fromDate: moment().clone().startOf('month').format(formatDate),
+    toDate: moment().clone().endOf('month').format(formatDate),
     status: '1,2,3,4',
     requests: [],
     requestsDetail: [],

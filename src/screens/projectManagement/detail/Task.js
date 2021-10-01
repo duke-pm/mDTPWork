@@ -44,7 +44,6 @@ import FileAttach from '../components/FileAttach';
 import Reminder from '../components/Reminder';
 import InvitedDetails from '../components/InvitedDetails';
 /* COMMON */
-import Configs from '~/config';
 import Routes from '~/navigation/Routes';
 import FieldsAuth from '~/config/fieldsAuth';
 import {Commons, Icons} from '~/utils/common';
@@ -527,7 +526,7 @@ function Task(props) {
     data.taskDetail.statusID < Commons.STATUS_TASK.CLOSED.value
   ) {
     if (data.taskDetail.endDate && data.taskDetail.endDate !== '') {
-      isDelay = Configs.toDay.isAfter(
+      isDelay = moment().isAfter(
         moment(data.taskDetail.endDate, DEFAULT_FORMAT_DATE_4),
         'days',
       );

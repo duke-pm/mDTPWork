@@ -41,7 +41,6 @@ import CheckOption from '../components/CheckOption';
 import Process from '../components/Process';
 import FooterFormRequest from '../components/FooterFormRequest';
 /* COMMON */
-import Configs from '~/config';
 import Routes from '~/navigation/Routes';
 import FieldsAuth from '~/config/fieldsAuth';
 import {Commons, Icons} from '~/utils/common';
@@ -215,7 +214,7 @@ function AddRequest(props) {
   const [form, setForm] = useState({
     id: '',
     name: '',
-    dateRequest: Configs.toDay.format(formatDate),
+    dateRequest: moment().format(formatDate),
     typeUpdate: Commons.APPROVED_TYPE.DAMAGED.value, // 2: Damage, 3: Lost
     assetID: '',
     file: null,
@@ -354,7 +353,7 @@ function AddRequest(props) {
         ? moment(dataRequest?.requestDate, DEFAULT_FORMAT_DATE_4).format(
             formatDate,
           )
-        : Configs.toDay.format(formatDate),
+        : moment().format(formatDate),
       department: dataRequest ? dataRequest?.deptCode : '',
       region: dataRequest ? dataRequest?.regionCode : '',
       assetID: dataRequest ? dataRequest?.assetID : '',

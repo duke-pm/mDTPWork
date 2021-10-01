@@ -12,6 +12,7 @@ import {useColorScheme} from 'react-native-appearance';
 import {StyleSheet, View, Text, Linking} from 'react-native';
 import VersionCheck from 'react-native-version-check';
 import DeviceInfo from 'react-native-device-info';
+import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
@@ -191,7 +192,7 @@ const Socials = React.memo(
           <>
             <View style={cStyles.itemsStart}>
               <Text style={[cStyles.textCaption1, {color: customColors.text}]}>
-                &#169; {`${Configs.toDay.year()} ${Configs.nameOfApp}`}
+                &#169; {`${moment().year()} ${Configs.nameOfApp}`}
               </Text>
             </View>
 

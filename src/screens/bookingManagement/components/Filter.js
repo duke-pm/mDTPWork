@@ -19,7 +19,6 @@ import CText from '~/components/CText';
 import CDateTimePicker from '~/components/CDateTimePicker';
 import CIconButton from '~/components/CIconButton';
 /* COMMON */
-import Configs from '~/config';
 import {Icons} from '~/utils/common';
 import {cStyles} from '~/utils/style';
 import {IS_ANDROID, moderateScale} from '~/utils/helper';
@@ -142,7 +141,7 @@ function Filter(props) {
             cStyles.mt20,
             cStyles.px10,
           ]}>
-          <View style={styles.text_date}>
+          <View style={styles.left}>
             <CLabel
               style={[cStyles.pt6, cStyles.textLeft]}
               bold
@@ -150,7 +149,7 @@ function Filter(props) {
             />
           </View>
           <CInput
-            containerStyle={[cStyles.justifyEnd, styles.input_date]}
+            containerStyle={[cStyles.justifyEnd, styles.right]}
             style={styles.con_input_date}
             name={INPUT_NAME.FROM_DATE}
             hasRemove
@@ -174,7 +173,7 @@ function Filter(props) {
             cStyles.justifyBetween,
             cStyles.px10,
           ]}>
-          <View style={styles.text_date}>
+          <View style={styles.left}>
             <CLabel
               style={[cStyles.pt6, cStyles.textLeft]}
               bold
@@ -182,7 +181,7 @@ function Filter(props) {
             />
           </View>
           <CInput
-            containerStyle={[cStyles.justifyEnd, styles.input_date]}
+            containerStyle={[cStyles.justifyEnd, styles.right]}
             style={styles.con_input_date}
             name={INPUT_NAME.TO_DATE}
             hasRemove
@@ -198,6 +197,31 @@ function Filter(props) {
             onPressRemoveValue={() => setData({...data, toDate: ''})}
           />
         </View>
+
+        {/* <View
+          style={[
+            cStyles.row,
+            cStyles.itemsCenter,
+            cStyles.justifyBetween,
+            cStyles.px10,
+            cStyles.mt10,
+          ]}>
+          <View style={styles.left}>
+            <CLabel
+              style={[cStyles.pt6, cStyles.textLeft]}
+              bold
+              label={'bookings:to_date'}
+            />
+          </View>
+
+          <View style={styles.right}>
+            <CLabel
+              style={[cStyles.pt6, cStyles.textRight]}
+              bold
+              label={'bookings:to_date'}
+            />
+          </View>
+        </View> */}
       </>
 
       {/** Date Picker */}
@@ -205,7 +229,7 @@ function Filter(props) {
         show={showPickerDate.status}
         value={
           data[showPickerDate.active] === ''
-            ? Configs.toDay.format(formatDate)
+            ? moment().format(formatDate)
             : data[showPickerDate.active]
         }
         onChangeDate={onChangeDateRequest}
@@ -215,8 +239,8 @@ function Filter(props) {
 }
 
 const styles = StyleSheet.create({
-  text_date: {flex: 0.3},
-  input_date: {flex: 0.7},
+  left: {flex: 0.3},
+  right: {flex: 0.7},
   icon: {height: moderateScale(45), width: moderateScale(45)},
 });
 

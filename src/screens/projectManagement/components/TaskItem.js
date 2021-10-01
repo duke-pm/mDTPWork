@@ -26,7 +26,6 @@ import CAvatar from '~/components/CAvatar';
 import CIcon from '~/components/CIcon';
 import ListTask from '../list/Task';
 /* COMMON */
-import Configs from '~/config';
 import {DEFAULT_FORMAT_DATE_2} from '~/config/constants';
 import {Commons, Icons} from '~/utils/common';
 import {IS_ANDROID, moderateScale} from '~/utils/helper';
@@ -108,7 +107,7 @@ function TaskItem(props) {
     data.statusID < Commons.STATUS_TASK.CLOSED.value
   ) {
     if (data.endDate && data.endDate !== '') {
-      delay = Configs.toDay.diff(data.endDate, 'days');
+      delay = moment().diff(data.endDate, 'days');
     }
   }
   const rotateData = valueAnim.interpolate({

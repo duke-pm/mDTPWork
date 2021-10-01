@@ -12,6 +12,7 @@ import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
 import {View, LayoutAnimation, UIManager} from 'react-native';
 import {showMessage} from 'react-native-flash-message';
+import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
@@ -21,7 +22,6 @@ import CActionSheet from '~/components/CActionSheet';
 import Filter from '../components/Filter';
 import BookingList from '../components/BookingList';
 /* COMMON */
-import Configs from '~/config';
 import Routes from '~/navigation/Routes';
 import {Icons} from '~/utils/common';
 import {colors, cStyles} from '~/utils/style';
@@ -64,13 +64,13 @@ function Bookings(props) {
     isLoadmore: true,
   });
   const [showSearchBar, setShowSearch] = useState(false);
+  const [data, setData] = useState([]);
   const [form, setForm] = useState({
-    fromDate: Configs.toDay.startOf('month').format(formatDate),
-    toDate: Configs.toDay.endOf('month').format(formatDate),
+    fromDate: moment().clone().startOf('month').format(formatDate),
+    toDate: moment().clone().endOf('month').format(formatDate),
     page: 1,
     search: '',
   });
-  const [data, setData] = useState([]);
 
   /*****************
    ** HANDLE FUNC **
@@ -135,9 +135,9 @@ function Bookings(props) {
   };
 
   const onPrepareData = type => {
-    let isLoadmore = true;
-    let cBookings = [...data];
-    let nBookings = bookingState.get('bookings');
+    let isLoadmore = true,
+      cBookings = [...data],
+      nBookings = bookingState.get('bookings');
 
     // If count result < perPage => loadmore is unavailable
     if (nBookings.length < perPage) {

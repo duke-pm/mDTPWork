@@ -13,7 +13,6 @@ import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
 import {showMessage} from 'react-native-flash-message';
-import {View} from 'react-native';
 import {
   ExpandableCalendar,
   Timeline,
@@ -24,16 +23,14 @@ import XDate from 'xdate';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
-import CText from '~/components/CText';
-import CIconButton from '~/components/CIconButton';
 import CIconHeader from '~/components/CIconHeader';
 import BookingList from '../components/BookingList';
+import GroupTypeShow from '../components/GroupTypeShow';
 /* COMMON */
-import Configs from '~/config';
 import Routes from '~/navigation/Routes';
 import {colors, cStyles} from '~/utils/style';
 import {Commons, Icons} from '~/utils/common';
-import {IS_ANDROID, moderateScale, isTimeBetween} from '~/utils/helper';
+import {IS_ANDROID, moderateScale} from '~/utils/helper';
 import {THEME_DARK, REFRESH, LOAD_MORE} from '~/config/constants';
 import {usePrevious} from '~/utils/hook';
 /* REDUX */
@@ -105,8 +102,8 @@ function MyBookings(props) {
     isLoadmore: true,
   });
   const [form, setForm] = useState({
-    fromDate: Configs.toDay.startOf('month').format(formatDate),
-    toDate: Configs.toDay.endOf('month').format(formatDate),
+    fromDate: moment().clone().startOf('month').format(formatDate),
+    toDate: moment().clone().endOf('month').format(formatDate),
     page: 1,
     search: '',
   });
@@ -183,9 +180,9 @@ function MyBookings(props) {
   };
 
   const onPrepareData = type => {
-    let isLoadmore = true;
-    let cBookings = [...data];
-    let nBookings = bookingState.get('bookings');
+    let isLoadmore = true,
+      cBookings = [...data],
+      nBookings = bookingState.get('bookings');
 
     // If count result < perPage => loadmore is unavailable
     if (typeShow === Commons.TYPE_SHOW_BOOKING.LIST.value) {
@@ -202,6 +199,7 @@ function MyBookings(props) {
       cBookings = [...cBookings, ...nBookings];
     }
     setData(cBookings);
+
     if (typeShow === Commons.TYPE_SHOW_BOOKING.LIST.value) {
       return onDone({
         main: false,
@@ -261,9 +259,11 @@ function MyBookings(props) {
         itemCalendar.color = itemBooking.color;
         tmpData.push(itemCalendar);
       }
+
       setMarked(tmpMarker);
       setDataCalendar(tmpData);
     }
+
     return onDone({
       main: false,
       startFetch: false,
@@ -403,51 +403,11 @@ function MyBookings(props) {
       primaryColorShapesDark={colors.BG_HEADER_BOOKING_DARK}
       content={
         <CContent scrollEnabled={false}>
-          <View
-            style={[
-              cStyles.row,
-              cStyles.itemsCenter,
-              cStyles.justifyEnd,
-              cStyles.py6,
-              cStyles.px16,
-            ]}>
-            <CText styles={'textCaption1'} label={'my_bookings:see_as'} />
-            <View
-              style={[
-                cStyles.rounded1,
-                cStyles.mr6,
-                {
-                  backgroundColor:
-                    typeShow === Commons.TYPE_SHOW_BOOKING.CALENDAR.value
-                      ? customColors.cardDisable
-                      : colors.TRANSPARENT,
-                },
-              ]}>
-              <CIconButton
-                iconName={Icons.calendarBooking}
-                onPress={() =>
-                  handleChangeType(Commons.TYPE_SHOW_BOOKING.CALENDAR.value)
-                }
-              />
-            </View>
-            <View
-              style={[
-                cStyles.rounded1,
-                {
-                  backgroundColor:
-                    typeShow === Commons.TYPE_SHOW_BOOKING.LIST.value
-                      ? customColors.cardDisable
-                      : colors.TRANSPARENT,
-                },
-              ]}>
-              <CIconButton
-                iconName={Icons.listBooking}
-                onPress={() =>
-                  handleChangeType(Commons.TYPE_SHOW_BOOKING.LIST.value)
-                }
-              />
-            </View>
-          </View>
+          <GroupTypeShow
+            customColors={customColors}
+            type={typeShow}
+            onChange={handleChangeType}
+          />
 
           {!loading.main &&
             typeShow === Commons.TYPE_SHOW_BOOKING.CALENDAR.value && (

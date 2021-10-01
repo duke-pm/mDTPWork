@@ -40,9 +40,8 @@ import CActionSheet from '~/components/CActionSheet';
 import CDateTimePicker from '~/components/CDateTimePicker';
 import CActivityIndicator from '~/components/CActivityIndicator';
 /* COMMON */
-import Configs from '~/config';
-import FieldsAuth from '~/config/fieldsAuth';
 import Routes from '~/navigation/Routes';
+import FieldsAuth from '~/config/fieldsAuth';
 import {Icons} from '~/utils/common';
 import {colors, cStyles} from '~/utils/style';
 import {
@@ -344,8 +343,8 @@ function AddBooking(props) {
     resource: '',
     note: '',
     participants: [],
-    fromDate: Configs.toDay.format(formatDate),
-    toDate: Configs.toDay.format(formatDate),
+    fromDate: moment().format(formatDate),
+    toDate: moment().format(formatDate),
     fromTime: DATA_TIME_BOOKING[0],
     toTime: DATA_TIME_BOOKING[1],
     status: true,
@@ -947,8 +946,8 @@ function AddBooking(props) {
                   holder={'add_booking:holder_note'}
                   returnKey={'default'}
                   blurOnSubmit={false}
-                  value={dataBooking.note}
                   multiline
+                  value={dataBooking.note}
                   disabled={
                     loading.main ||
                     (isDetail && !dataBooking.isUpdated) ||
@@ -1279,9 +1278,12 @@ function AddBooking(props) {
           {/** Date Picker */}
           <CDateTimePicker
             show={showPickerDate.status}
+            minimumDate={
+              new Date(moment().year(), moment().month(), moment().date())
+            }
             value={
               dataBooking[showPickerDate.active] === ''
-                ? Configs.toDay.format(formatDate)
+                ? moment().format(formatDate)
                 : dataBooking[showPickerDate.active]
             }
             onChangeDate={onChangeDateRequest}

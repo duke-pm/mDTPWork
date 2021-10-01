@@ -12,6 +12,7 @@ import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
 import {showMessage} from 'react-native-flash-message';
 import {View, LayoutAnimation, UIManager} from 'react-native';
+import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CSearchBar from '~/components/CSearchBar';
@@ -21,7 +22,6 @@ import ListRequest from '../components/ListRequest';
 import FilterTags from '../components/FilterTags';
 import Filter from '../components/Filter';
 /* COMMON */
-import Configs from '~/config';
 import {Commons, Icons} from '~/utils/common';
 import {LOAD_MORE, REFRESH} from '~/config/constants';
 import {IS_ANDROID} from '~/utils/helper';
@@ -65,8 +65,8 @@ function ListRequestHandling(props) {
   });
   const [showSearchBar, setShowSearch] = useState(false);
   const [data, setData] = useState({
-    fromDate: Configs.toDay.startOf('month').format(formatDate),
-    toDate: Configs.toDay.endOf('month').format(formatDate),
+    fromDate: moment().clone().startOf('month').format(formatDate),
+    toDate: moment().clone().endOf('month').format(formatDate),
     type: '1,2,3',
     requests: [],
     requestsDetail: [],

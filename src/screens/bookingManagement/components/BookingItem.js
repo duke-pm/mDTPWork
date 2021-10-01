@@ -40,7 +40,7 @@ function BookingItem(props) {
     startDate: data.strStartDateTime.split(' - ')[0],
     endDate: data.strEndDateTime.split(' - ')[0],
   };
-  // isLive = Configs.toDay.isBetween(
+  // isLive = moment().isBetween(
   //   moment(timeDate.startDate, 'DD/MM/YYYY').format('YYYY-MM-DD'),
   //   moment(timeDate.endDate, 'DD/MM/YYYY').format('YYYY-MM-DD'),
   //   'dates',

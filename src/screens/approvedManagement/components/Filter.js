@@ -21,7 +21,6 @@ import CDateTimePicker from '~/components/CDateTimePicker';
 import CIconButton from '~/components/CIconButton';
 import CText from '~/components/CText';
 /* COMMON */
-import Configs from '~/config';
 import {Commons, Icons} from '~/utils/common';
 import {cStyles} from '~/utils/style';
 import {IS_ANDROID, moderateScale} from '~/utils/helper';
@@ -276,7 +275,7 @@ function Filter(props) {
         show={showPickerDate.status}
         value={
           data[showPickerDate.active] === ''
-            ? Configs.toDay.format(formatDate)
+            ? moment().format(formatDate)
             : data[showPickerDate.active]
         }
         onChangeDate={onChangeDateRequest}

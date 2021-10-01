@@ -16,7 +16,6 @@ import CText from './CText';
 import CIcon from './CIcon';
 import Icons from '~/utils/common/Icons';
 /* COMMON */
-import Configs from '~/config';
 import {colors, cStyles} from '~/utils/style';
 import {
   IS_IOS,
@@ -79,9 +78,7 @@ function CUploadImage(props) {
           onChange({
             file: {
               type: result.mime,
-              name: IS_ANDROID
-                ? 'image' + Configs.toDay.valueOf()
-                : result.filename,
+              name: IS_ANDROID ? 'image' + moment().valueOf() : result.filename,
               path: result.path,
             },
             fileBase64: `data:${result.mime};base64,${result.data}`,
@@ -108,9 +105,7 @@ function CUploadImage(props) {
           onChange({
             file: {
               type: result.mime,
-              name: IS_ANDROID
-                ? 'image' + Configs.toDay.valueOf()
-                : result.filename,
+              name: IS_ANDROID ? 'image' + moment().valueOf() : result.filename,
               path: result.path,
             },
             fileBase64: `data:${result.mime};base64,${result.data}`,
