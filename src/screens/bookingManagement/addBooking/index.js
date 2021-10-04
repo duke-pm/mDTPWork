@@ -22,7 +22,6 @@ import {
 } from 'react-native';
 import Picker from '@gregfrench/react-native-wheel-picker';
 import {showMessage} from 'react-native-flash-message';
-import {ifIphoneX} from 'react-native-iphone-x-helper';
 import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
@@ -30,15 +29,14 @@ import CGroupInfo from '~/components/CGroupInfo';
 import CText from '~/components/CText';
 import CIcon from '~/components/CIcon';
 import CLabel from '~/components/CLabel';
-import CAvatar from '~/components/CAvatar';
 import CInput from '~/components/CInput';
 import CButton from '~/components/CButton';
 import CCheckbox from '~/components/CCheckbox';
 import CTouchable from '~/components/CTouchable';
-import CIconButton from '~/components/CIconButton';
 import CActionSheet from '~/components/CActionSheet';
 import CDateTimePicker from '~/components/CDateTimePicker';
-import CActivityIndicator from '~/components/CActivityIndicator';
+import RowSelect from '../components/RowSelect';
+import RowSelectTags from '../components/RowSelectTags';
 /* COMMON */
 import Routes from '~/navigation/Routes';
 import FieldsAuth from '~/config/fieldsAuth';
@@ -52,7 +50,6 @@ import {
 } from '~/config/constants';
 import {
   alert,
-  checkEmpty,
   getSecretInfo,
   IS_ANDROID,
   moderateScale,
@@ -68,208 +65,6 @@ if (IS_ANDROID) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
   }
 }
-
-const RowSelect = React.memo(
-  ({
-    loading = false,
-    disabled = false,
-    isDark = false,
-    customColors = {},
-    data = [],
-    activeIndex = -1,
-    error = false,
-    errorHelper = undefined,
-    keyToShow = undefined,
-    keyToCompare = undefined,
-    onPress = () => null,
-  }) => {
-    let findRow = null;
-    if (data && data.length > 0) {
-      if (keyToCompare) {
-        findRow = data.find(f => f[keyToCompare] === activeIndex);
-      } else {
-        findRow = data.find(f => f === activeIndex);
-      }
-    }
-    return (
-      <>
-        <CTouchable
-          containerStyle={cStyles.mt6}
-          disabled={disabled}
-          onPress={onPress}>
-          <View
-            style={[
-              cStyles.row,
-              cStyles.itemsCenter,
-              cStyles.justifyBetween,
-              cStyles.px10,
-              cStyles.rounded1,
-              cStyles.borderAll,
-              isDark && cStyles.borderAllDark,
-              disabled && {backgroundColor: customColors.cardDisable},
-              error && {borderColor: customColors.red},
-              styles.row_select,
-            ]}>
-            {!loading && findRow ? (
-              keyToShow ? (
-                <View style={[cStyles.row, cStyles.itemsCenter]}>
-                  <View
-                    style={[
-                      styles.color_resource,
-                      {backgroundColor: findRow.colorName},
-                    ]}
-                  />
-                  <CText
-                    styles={'pl10'}
-                    customLabel={findRow ? checkEmpty(findRow[keyToShow]) : '-'}
-                  />
-                </View>
-              ) : (
-                <CText customLabel={findRow ? checkEmpty(findRow) : '-'} />
-              )
-            ) : (
-              <CActivityIndicator />
-            )}
-            {!disabled && (
-              <CIcon
-                name={Icons.down}
-                size={'medium'}
-                customColor={
-                  disabled ? customColors.textDisable : customColors.icon
-                }
-              />
-            )}
-          </View>
-        </CTouchable>
-        {error && errorHelper && (
-          <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pt6]}>
-            <CIcon name={Icons.alert} size={'smaller'} color={'red'} />
-            <CText
-              customStyles={[
-                cStyles.pl6,
-                cStyles.textCaption1,
-                cStyles.fontRegular,
-                {color: customColors.red},
-              ]}
-              label={errorHelper}
-            />
-          </View>
-        )}
-      </>
-    );
-  },
-);
-
-const RowSelectTags = React.memo(
-  ({
-    loading = false,
-    disabled = false,
-    isDark = false,
-    dataActive = [],
-    onPress = () => null,
-    onPressRemove = () => null,
-  }) => {
-    return (
-      <View
-        style={[
-          cStyles.row,
-          cStyles.itemsCenter,
-          cStyles.justifyBetween,
-          cStyles.p6,
-          cStyles.mt10,
-          cStyles.borderDashed,
-          cStyles.rounded1,
-          cStyles.borderAll,
-          isDark && cStyles.borderAllDark,
-        ]}>
-        {!loading ? (
-          <View style={[cStyles.flexWrap, cStyles.itemsCenter, cStyles.row]}>
-            {dataActive.length > 0 &&
-              dataActive.map((item, index) => {
-                return (
-                  <View
-                    key={item.empID + index}
-                    style={[
-                      cStyles.row,
-                      cStyles.itemsCenter,
-                      cStyles.justifyBetween,
-                      cStyles.rounded1,
-                      cStyles.pl4,
-                      cStyles.mr4,
-                      cStyles.mt4,
-                      disabled && cStyles.py6,
-                      disabled && cStyles.px8,
-                      {backgroundColor: colors.STATUS_SCHEDULE_OPACITY},
-                    ]}>
-                    <View style={[cStyles.row, cStyles.itemsCenter]}>
-                      <CAvatar size={'vsmall'} label={item.empName} />
-                      <CText
-                        styles={'textCaption1 fontRegular pl6'}
-                        customLabel={item.empName}
-                      />
-                    </View>
-
-                    {!disabled && (
-                      <CIconButton
-                        iconName={Icons.remove}
-                        iconColor={'red'}
-                        disabled={disabled}
-                        onPress={() => onPressRemove(item.empID)}
-                      />
-                    )}
-                  </View>
-                );
-              })}
-            {dataActive.length > 0 && !disabled && (
-              <CTouchable
-                containerStyle={cStyles.mt10}
-                onPress={onPress}
-                disabled={disabled}>
-                <View
-                  style={[
-                    cStyles.center,
-                    cStyles.rounded1,
-                    {backgroundColor: colors.STATUS_SCHEDULE_OPACITY},
-                  ]}>
-                  <CIconButton
-                    iconName={Icons.addNew}
-                    iconColor={'green'}
-                    disabled
-                  />
-                </View>
-              </CTouchable>
-            )}
-
-            {dataActive.length === 0 && (
-              <CTouchable
-                containerStyle={cStyles.mt10}
-                onPress={onPress}
-                disabled={disabled}>
-                <View style={[cStyles.py3]}>
-                  {!disabled ? (
-                    <CText
-                      styles={
-                        'textCaption1 colorGreen textItalic textUnderline'
-                      }
-                      label={'add_booking:no_participants'}
-                    />
-                  ) : (
-                    <CText
-                      styles={'textCaption1'}
-                      label={'add_booking:holder_no_participants'}
-                    />
-                  )}
-                </View>
-              </CTouchable>
-            )}
-          </View>
-        ) : (
-          <CActivityIndicator />
-        )}
-      </View>
-    );
-  },
-);
 
 /** All ref */
 const asResourceRef = createRef();
@@ -1349,16 +1144,6 @@ const styles = StyleSheet.create({
   right: {flex: 0.4},
   action: {width: '100%', height: verticalScale(180)},
   content_picker: {height: '40%'},
-  row_select: {
-    height: IS_ANDROID
-      ? verticalScale(38)
-      : ifIphoneX(verticalScale(30), verticalScale(36)),
-  },
-  color_resource: {
-    height: moderateScale(20),
-    width: moderateScale(20),
-    borderRadius: 4,
-  },
   input_multiline: {height: verticalScale(100)},
   button: {width: moderateScale(150)},
   con_parti_select: {height: sW('100%')},
