@@ -69,7 +69,8 @@
     "change_follow": "Update follow successfully!",
     "change_unfollow": "Update unfollow successfully!",
     "send_request_booking": "Add booking successfully!",
-    "send_remove_booking": "Remove booking successfully!"
+    "send_remove_booking": "Remove booking successfully!",
+    "update_request_booking": "Update booking successfully!"
   },
   "error": {
     "title": "Error!",

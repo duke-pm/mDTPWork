@@ -83,7 +83,7 @@ function RowSelectTags(props) {
             })}
           {dataActive.length > 0 && !disabled && (
             <CTouchable
-              containerStyle={cStyles.mt10}
+              containerStyle={cStyles.mt4}
               onPress={onPress}
               disabled={disabled}>
               <View

@@ -200,7 +200,7 @@ function Bookings(props) {
    ****************/
   useEffect(() => {
     onFetchData(form.fromDate, form.toDate, form.page, form.search);
-    onDone({...loading, startFetch: true});
+    return onDone({...loading, startFetch: true});
   }, []);
 
   useEffect(() => {

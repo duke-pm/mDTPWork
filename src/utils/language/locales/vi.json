@@ -69,7 +69,8 @@
     "change_follow": "Theo dõi thành công!",
     "change_unfollow": "Bỏ theo dõi thành công!",
     "send_request_booking": "Tạo booking thành công!",
-    "send_remove_booking": "Hủy booking thành công!"
+    "send_remove_booking": "Hủy booking thành công!",
+    "update_request_booking": "Cập nhật booking thành công!"
   },
   "error": {
     "title": "Lỗi",

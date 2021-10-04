@@ -301,7 +301,7 @@ function AddBooking(props) {
       };
       setDataBooking(tmpParamsDetail);
     }
-    setLoading({...loading, main: false});
+    return setLoading({...loading, main: false});
   };
 
   const onPrepareData = () => {
@@ -312,7 +312,7 @@ function AddBooking(props) {
       setDataToTime(DATA_TIME_BOOKING);
       setDataParticipants(masterState.get('users'));
       if (isDetail) {
-        onPrepareDetail();
+        return onPrepareDetail();
       } else {
         let tmpDataBooking = {
           ...dataBooking,
@@ -320,7 +320,7 @@ function AddBooking(props) {
             tmpDataResources.length > 0 ? tmpDataResources[0].resourceID : '',
         };
         setDataBooking(tmpDataBooking);
-        setLoading({...loading, main: false, startFetchLogin: false});
+        return setLoading({...loading, main: false, startFetchLogin: false});
       }
     } else {
       let params = {
@@ -328,7 +328,7 @@ function AddBooking(props) {
         RefreshToken: refreshToken,
         Lang: language,
       };
-      dispatch(Actions.fetchMasterData(params, navigation));
+      return dispatch(Actions.fetchMasterData(params, navigation));
     }
   };
 
@@ -475,14 +475,14 @@ function AddBooking(props) {
   const onError = helper => {
     setLoading({...loading, submitAdd: false});
     if (typeof helper === 'object' && helper.message) {
-      showMessage({
+      return showMessage({
         message: t('common:app_name'),
         description: helper.message,
         type: 'danger',
         icon: 'danger',
       });
     } else {
-      showMessage({
+      return showMessage({
         message: t('common:app_name'),
         description: helper,
         type: 'danger',
@@ -496,7 +496,7 @@ function AddBooking(props) {
     let params = fromJS({
       BookID: isDetail ? dataBooking.id : -1,
     });
-    dispatch(Actions.fetchRemoveBooking(params, navigation));
+    return dispatch(Actions.fetchRemoveBooking(params, navigation));
   };
 
   const onCheckLocalLogin = async () => {
@@ -517,9 +517,9 @@ function AddBooking(props) {
             dataLogin[FieldsAuth[i].value];
         }
       }
-      dispatch(Actions.loginSuccess(tmpDataLogin));
+      return dispatch(Actions.loginSuccess(tmpDataLogin));
     } else {
-      onGoToSignIn();
+      return onGoToSignIn();
     }
   };
 
@@ -536,9 +536,9 @@ function AddBooking(props) {
   const onCheckDeeplink = () => {
     if (typeof bookingParam === 'object' || bookingParam === -1) {
       dispatch(Actions.resetAllBooking());
-      onPrepareData();
+      return onPrepareData();
     } else {
-      onFetchBookingDetail(bookingParam);
+      return onFetchBookingDetail(bookingParam);
     }
   };
 
@@ -548,10 +548,10 @@ function AddBooking(props) {
   useEffect(() => {
     let isLogin = authState.get('successLogin');
     if (isLogin) {
-      onCheckDeeplink();
+      return onCheckDeeplink();
     } else {
       setLoading({...loading, startFetchLogin: true});
-      onCheckLocalLogin();
+      return onCheckLocalLogin();
     }
   }, []);
 
@@ -605,9 +605,13 @@ function AddBooking(props) {
       if (!bookingState.get('submittingAdd')) {
         if (bookingState.get('successAdd')) {
           setLoading({...loading, submitAdd: false});
+          let msg = 'success:send_request_booking';
+          if (isDetail) {
+            msg = 'success:update_request_booking';
+          }
           showMessage({
             message: t('common:app_name'),
-            description: t('success:send_request_booking'),
+            description: t(msg),
             type: 'success',
             icon: 'success',
           });
