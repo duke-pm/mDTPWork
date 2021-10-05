@@ -7,7 +7,7 @@
  ** Description: Description of MyBookings.js
  **/
 import {fromJS} from 'immutable';
-import React, {useState, useEffect, useLayoutEffect} from 'react';
+import React, {createRef, useState, useEffect, useLayoutEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
@@ -18,14 +18,18 @@ import {
   Timeline,
   CalendarProvider,
 } from 'react-native-calendars';
+import {View, LayoutAnimation, UIManager} from 'react-native';
 import moment from 'moment';
 import XDate from 'xdate';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
 import CIconHeader from '~/components/CIconHeader';
+import CSearchBar from '~/components/CSearchBar';
 import BookingList from '../components/BookingList';
 import GroupTypeShow from '../components/GroupTypeShow';
+import FilterTags from '../components/FilterTags';
+import Filter from '../components/Filter';
 /* COMMON */
 import Routes from '~/navigation/Routes';
 import {colors, cStyles} from '~/utils/style';
@@ -35,6 +39,13 @@ import {THEME_DARK, REFRESH, LOAD_MORE} from '~/config/constants';
 import {usePrevious} from '~/utils/hook';
 /* REDUX */
 import * as Actions from '~/redux/actions';
+import CActionSheet from '~/components/CActionSheet';
+
+if (IS_ANDROID) {
+  if (UIManager.setLayoutAnimationEnabledExperimental) {
+    UIManager.setLayoutAnimationEnabledExperimental(true);
+  }
+}
 
 /** All init */
 const THEME_CALENDAR = {
@@ -67,6 +78,9 @@ const THEME_CALENDAR = {
   dotStyle: {marginTop: -2},
 };
 
+/** All refs */
+const asFilterRef = createRef();
+
 function MyBookings(props) {
   const {t} = useTranslation();
   const {customColors} = useTheme();
@@ -81,18 +95,11 @@ function MyBookings(props) {
   const bookingState = useSelector(({booking}) => booking);
   const perPage = commonState.get('perPage');
   const formatDate = commonState.get('formatDate');
+  const formatDateView = commonState.get('formatDateView');
   const refreshToken = authState.getIn(['login', 'refreshToken']);
   const language = commonState.get('language');
 
   /** All state */
-  const [marked, setMarked] = useState({});
-  const [date, setDate] = useState({
-    prevDate: null,
-    currentDate: moment().format(formatDate),
-  });
-  const [typeShow, setTypeShow] = useState(
-    Commons.TYPE_SHOW_BOOKING.CALENDAR.value,
-  );
   const [loading, setLoading] = useState({
     main: true,
     startFetch: false,
@@ -101,14 +108,23 @@ function MyBookings(props) {
     loadmore: false,
     isLoadmore: true,
   });
+  const [showSearchBar, setShowSearch] = useState(false);
+  const [marked, setMarked] = useState({});
+  const [data, setData] = useState([]);
+  const [dataCalendar, setDataCalendar] = useState([]);
+  const [date, setDate] = useState({
+    prevDate: null,
+    currentDate: moment().format(formatDate),
+  });
+  const [typeShow, setTypeShow] = useState(
+    Commons.TYPE_SHOW_BOOKING.CALENDAR.value,
+  );
   const [form, setForm] = useState({
     fromDate: moment().clone().startOf('month').format(formatDate),
     toDate: moment().clone().endOf('month').format(formatDate),
     page: 1,
     search: '',
   });
-  const [data, setData] = useState([]);
-  const [dataCalendar, setDataCalendar] = useState([]);
 
   /** All prev */
   const prevType = usePrevious(typeShow);
@@ -117,6 +133,10 @@ function MyBookings(props) {
   /*****************
    ** HANDLE FUNC **
    *****************/
+  const handleOpenFilter = () => asFilterRef.current?.show();
+
+  const handleHideFilter = () => asFilterRef.current?.hide();
+
   const handleAddNew = () => {
     navigation.navigate(Routes.MAIN.ADD_BOOKING.name, {
       onRefresh: () => onRefresh(),
@@ -135,6 +155,31 @@ function MyBookings(props) {
       data: booking.dataFull,
       onRefresh: () => onRefresh(),
     });
+  };
+
+  const handleFilter = (fromDate, toDate) => {
+    asFilterRef.current?.hide();
+    setForm({...form, page: 1, fromDate, toDate});
+    onFetchData(fromDate, toDate, 1, form.search);
+    return setLoading({...loading, startFetch: true});
+  };
+
+  const handleSearch = value => {
+    setForm({...form, search: value, page: 1});
+    onFetchData(form.fromDate, form.toDate, 1, value);
+    return setLoading({...loading, startFetch: true});
+  };
+
+  const handleOpenSearch = () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    return setShowSearch(true);
+  };
+
+  const handleCloseSearch = () => {
+    setShowSearch(false);
+    if (form.search !== '') {
+      handleSearch('');
+    }
   };
 
   /**********
@@ -375,21 +420,36 @@ function MyBookings(props) {
   }, [loading.changeType, prevType, typeShow]);
 
   useLayoutEffect(() => {
+    let iconsHeader = [
+      {
+        show: true,
+        showRedDot: form.search !== '',
+        icon: Icons.search,
+        onPress: handleOpenSearch,
+      },
+      {
+        show: true,
+        showRedDot: false,
+        icon: Icons.filter,
+        onPress: handleOpenFilter,
+      },
+      {
+        show: isPermissionWrite,
+        showRedDot: false,
+        icon: Icons.addNew,
+        onPress: handleAddNew,
+      },
+    ];
+    if (typeShow === Commons.TYPE_SHOW_BOOKING.LIST.value) {
+      iconsHeader[1].show = true;
+    } else {
+      iconsHeader[1].show = false;
+    }
+
     navigation.setOptions({
-      headerRight: () => (
-        <CIconHeader
-          icons={[
-            {
-              show: isPermissionWrite,
-              showRedDot: false,
-              icon: Icons.addNew,
-              onPress: handleAddNew,
-            },
-          ]}
-        />
-      ),
+      headerRight: () => <CIconHeader icons={iconsHeader} />,
     });
-  }, [navigation, isPermissionWrite, typeShow]);
+  }, [navigation, isPermissionWrite, form.search, typeShow]);
 
   /************
    ** RENDER **
@@ -403,11 +463,45 @@ function MyBookings(props) {
       primaryColorShapesDark={colors.BG_HEADER_BOOKING_DARK}
       content={
         <CContent scrollEnabled={false}>
-          <GroupTypeShow
-            customColors={customColors}
-            type={typeShow}
-            onChange={handleChangeType}
+          <CSearchBar
+            loading={loading.startFetch}
+            isVisible={showSearchBar}
+            valueSearch={form.search}
+            onSearch={handleSearch}
+            onClose={handleCloseSearch}
           />
+
+          <View
+            style={[
+              cStyles.row,
+              cStyles.itemsCenter,
+              typeShow === Commons.TYPE_SHOW_BOOKING.CALENDAR.value &&
+                cStyles.justifyEnd,
+              typeShow === Commons.TYPE_SHOW_BOOKING.LIST.value &&
+                cStyles.justifyBetween,
+            ]}>
+            {/** All filter tag for current approved type */}
+            {typeShow === Commons.TYPE_SHOW_BOOKING.LIST.value && (
+              <View style={{flex: 0.7}}>
+                <FilterTags
+                  translation={t}
+                  formatDateView={formatDateView}
+                  fromDate={form.fromDate}
+                  toDate={form.toDate}
+                  search={form.search}
+                  primaryColor={colors.BG_MY_BOOKINGS}
+                />
+              </View>
+            )}
+
+            <View style={{flex: 0.3}}>
+              <GroupTypeShow
+                customColors={customColors}
+                type={typeShow}
+                onChange={handleChangeType}
+              />
+            </View>
+          </View>
 
           {!loading.main &&
             typeShow === Commons.TYPE_SHOW_BOOKING.CALENDAR.value && (
@@ -464,6 +558,16 @@ function MyBookings(props) {
                 onLoadmore={onLoadmore}
               />
             )}
+
+          <CActionSheet actionRef={asFilterRef}>
+            <View style={cStyles.p10}>
+              <Filter
+                data={form}
+                onFilter={handleFilter}
+                onClose={handleHideFilter}
+              />
+            </View>
+          </CActionSheet>
         </CContent>
       }
     />

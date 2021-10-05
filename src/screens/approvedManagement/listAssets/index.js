@@ -232,8 +232,9 @@ function ListRequestAll(props) {
             formatDateView={formatDateView}
             fromDate={routes[index].fromDate}
             toDate={routes[index].toDate}
+            search={routes[index].search}
             arrStatus={statusObj}
-            primaryColor={customColors.yellow2}
+            primaryColor={colors.BG_APPROVED_ASSETS}
           />
 
           {/** Tab aprroved type */}

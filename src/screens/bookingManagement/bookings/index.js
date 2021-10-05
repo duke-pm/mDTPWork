@@ -21,6 +21,7 @@ import CIconHeader from '~/components/CIconHeader';
 import CActionSheet from '~/components/CActionSheet';
 import Filter from '../components/Filter';
 import BookingList from '../components/BookingList';
+import FilterTags from '../components/FilterTags';
 /* COMMON */
 import Routes from '~/navigation/Routes';
 import {Icons} from '~/utils/common';
@@ -52,6 +53,7 @@ function Bookings(props) {
   const bookingState = useSelector(({booking}) => booking);
   const perPage = commonState.get('perPage');
   const formatDate = commonState.get('formatDate');
+  const formatDateView = commonState.get('formatDateView');
   const refreshToken = authState.getIn(['login', 'refreshToken']);
   const language = commonState.get('language');
 
@@ -277,6 +279,17 @@ function Bookings(props) {
             onSearch={handleSearch}
             onClose={handleCloseSearch}
           />
+
+          {/** All filter tag for current approved type */}
+          <FilterTags
+            translation={t}
+            formatDateView={formatDateView}
+            fromDate={form.fromDate}
+            toDate={form.toDate}
+            search={form.search}
+            primaryColor={colors.BG_MY_BOOKINGS}
+          />
+
           {!loading.main && !loading.startFetch && (
             <BookingList
               navigation={navigation}

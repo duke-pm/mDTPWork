@@ -24,11 +24,6 @@ function GroupTypeShow(props) {
   /************
    ** RENDER **
    ************/
-  let active = {
-    background: colors.BG_BOOKING,
-    icon: colors.WHITE,
-  };
-
   return (
     <View
       style={[
@@ -38,7 +33,7 @@ function GroupTypeShow(props) {
         cStyles.py6,
         cStyles.px16,
       ]}>
-      <CText styles={'textCaption1'} label={'my_bookings:see_as'} />
+      {/* <CText styles={'textCaption1'} label={'my_bookings:see_as'} /> */}
       <View
         style={[
           cStyles.rounded1,
@@ -46,17 +41,13 @@ function GroupTypeShow(props) {
           {
             backgroundColor:
               type === Commons.TYPE_SHOW_BOOKING.CALENDAR.value
-                ? active.background
+                ? colors.BG_MY_BOOKINGS
                 : colors.TRANSPARENT,
           },
         ]}>
         <CIconButton
           iconName={Icons.calendarBooking}
-          iconColor={
-            type === Commons.TYPE_SHOW_BOOKING.CALENDAR.value
-              ? active.icon
-              : customColors.icon
-          }
+          iconColor={customColors.icon}
           onPress={() => onChange(Commons.TYPE_SHOW_BOOKING.CALENDAR.value)}
         />
       </View>
@@ -66,17 +57,13 @@ function GroupTypeShow(props) {
           {
             backgroundColor:
               type === Commons.TYPE_SHOW_BOOKING.LIST.value
-                ? active.background
+                ? colors.BG_MY_BOOKINGS
                 : colors.TRANSPARENT,
           },
         ]}>
         <CIconButton
           iconName={Icons.listBooking}
-          iconColor={
-            type === Commons.TYPE_SHOW_BOOKING.LIST.value
-              ? active.icon
-              : customColors.icon
-          }
+          iconColor={customColors.icon}
           onPress={() => onChange(Commons.TYPE_SHOW_BOOKING.LIST.value)}
         />
       </View>

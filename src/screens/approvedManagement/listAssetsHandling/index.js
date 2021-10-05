@@ -299,8 +299,9 @@ function ListRequestHandling(props) {
             formatDateView={formatDateView}
             fromDate={data.fromDate}
             toDate={data.toDate}
+            search={data.search}
             types={typesObj}
-            primaryColor={customColors.yellow2}
+            primaryColor={colors.BG_APPROVED_ASSETS}
           />
 
           {/** List all approved */}
