@@ -18,7 +18,7 @@ import {
   Timeline,
   CalendarProvider,
 } from 'react-native-calendars';
-import {View, LayoutAnimation, UIManager} from 'react-native';
+import {StyleSheet, View, LayoutAnimation, UIManager} from 'react-native';
 import moment from 'moment';
 import XDate from 'xdate';
 /* COMPONENTS */
@@ -40,6 +40,7 @@ import {usePrevious} from '~/utils/hook';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 import CActionSheet from '~/components/CActionSheet';
+import Styles from '~/utils/style/Styles';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -145,7 +146,7 @@ function MyBookings(props) {
 
   const handleChangeType = type => {
     if (typeShow !== type) {
-      setLoading({...loading, changeType: true, startFetch: true, main: true});
+      setLoading({...loading, changeType: true});
       setTypeShow(type);
     }
   };
@@ -200,6 +201,7 @@ function MyBookings(props) {
       .endOf('month')
       .format(formatDate);
 
+    setForm({...form, fromDate: tmpFromDate, toDate: tmpEndDate});
     onFetchData(tmpFromDate, tmpEndDate, 1, form.search);
     return onDone({...loading, startFetch: true});
   };
@@ -413,11 +415,18 @@ function MyBookings(props) {
   useEffect(() => {
     if (loading.changeType) {
       if (prevType && prevType !== typeShow) {
-        onFetchData(form.fromDate, form.toDate, 1, form.search);
-        return onDone({...loading, startFetch: true});
+        if (
+          typeShow === Commons.TYPE_SHOW_BOOKING.LIST.value &&
+          data.length === 0
+        ) {
+          onFetchData(form.fromDate, form.toDate, 1, form.search);
+          return onDone({...loading, startFetch: true, main: true});
+        } else {
+          return onDone({...loading, changeType: false});
+        }
       }
     }
-  }, [loading.changeType, prevType, typeShow]);
+  }, [loading.changeType, prevType, typeShow, data]);
 
   useLayoutEffect(() => {
     let iconsHeader = [
@@ -482,7 +491,7 @@ function MyBookings(props) {
             ]}>
             {/** All filter tag for current approved type */}
             {typeShow === Commons.TYPE_SHOW_BOOKING.LIST.value && (
-              <View style={{flex: 0.7}}>
+              <View style={styles.left}>
                 <FilterTags
                   translation={t}
                   formatDateView={formatDateView}
@@ -494,7 +503,7 @@ function MyBookings(props) {
               </View>
             )}
 
-            <View style={{flex: 0.3}}>
+            <View style={styles.right}>
               <GroupTypeShow
                 customColors={customColors}
                 type={typeShow}
@@ -513,7 +522,9 @@ function MyBookings(props) {
                 onMonthChange={onMonthChanged}>
                 <ExpandableCalendar
                   headerStyle={{backgroundColor: customColors.card}}
-                  displayLoadingIndicator={loading.changeType}
+                  displayLoadingIndicator={
+                    loading.changeType || loading.startFetch
+                  }
                   disableAllTouchEventsForDisabledDays
                   firstDay={1}
                   markingType={'multi-dot'}
@@ -573,5 +584,10 @@ function MyBookings(props) {
     />
   );
 }
+
+const styles = StyleSheet.create({
+  left: {flex: 0.7},
+  right: {flex: 0.3},
+});
 
 export default MyBookings;

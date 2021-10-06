@@ -21,6 +21,8 @@ function CContentSubMenu(props) {
     loading = false,
     animTypeImage = '',
     routes = [],
+    title = '',
+    holder = '',
     colorsItem = [],
     onPressItem = () => null,
   } = props;
@@ -38,11 +40,8 @@ function CContentSubMenu(props) {
           cStyles.mt6,
         ]}>
         <View style={styles.description_left}>
-          <CText styles={'textHeadline'} label={'approved:approved_services'} />
-          <CText
-            styles={'textCaption1 mt6'}
-            label={'approved:approved_services_holder'}
-          />
+          <CText styles={'textHeadline'} label={title} />
+          <CText styles={'textCaption1 mt6'} label={holder} />
         </View>
 
         <View style={styles.description_right}>
@@ -99,6 +98,8 @@ CContentSubMenu.propTypes = {
   loading: PropTypes.bool,
   animTypeImage: PropTypes.string,
   routes: PropTypes.array,
+  title: PropTypes.string,
+  holder: PropTypes.string,
   colorsItem: PropTypes.array,
   onPressItem: PropTypes.func,
 };

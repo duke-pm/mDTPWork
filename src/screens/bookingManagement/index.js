@@ -113,6 +113,8 @@ function BookingManagement(props) {
           loading={loading}
           animTypeImage={Animations.bookingHolder}
           routes={routes}
+          title={'booking_management:booking_services'}
+          holder={'booking_management:booking_services_holder'}
           colorsItem={Configs.colorsSubMenu.booking}
           onPressItem={handleItem}
         />

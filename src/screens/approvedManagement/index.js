@@ -79,6 +79,8 @@ function Approved(props) {
         <CContentSubMenu
           loading={loading}
           routes={routes}
+          title={'approved:approved_services'}
+          holder={'approved:approved_services_holder'}
           animTypeImage={Animations.approvedHolder}
           colorsItem={Configs.colorsSubMenu.approved}
           onPressItem={handleItem}
