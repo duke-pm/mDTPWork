@@ -6,7 +6,7 @@
  ** Description: Description of BookingManagement.js
  **/
 import React, {useState, useEffect} from 'react';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 /** COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContentSubMenu from '~/components/CContentSubMenu';
@@ -14,12 +14,19 @@ import CContentSubMenu from '~/components/CContentSubMenu';
 import Configs from '~/config';
 import {Animations} from '~/utils/asset';
 import {colors} from '~/utils/style';
+/* REDUX */
+import * as Actions from '~/redux/actions';
 
 function BookingManagement(props) {
   const {navigation, route} = props;
 
   /** Use redux */
+  const dispatch = useDispatch();
+  const masterState = useSelector(({masterData}) => masterData);
+  const commonState = useSelector(({common}) => common);
   const authState = useSelector(({auth}) => auth);
+  const language = commonState.get('language');
+  const refreshToken = authState.getIn(['login', 'refreshToken']);
 
   /** Use State */
   const [loading, setLoading] = useState(true);
@@ -38,6 +45,15 @@ function BookingManagement(props) {
    ** FUNC **
    **********/
   const onStart = () => setLoading(false);
+
+  const onGetMasterData = () => {
+    let params = {
+      listType: 'BKColor, BKResource, Users',
+      RefreshToken: refreshToken,
+      Lang: language,
+    };
+    dispatch(Actions.fetchMasterData(params, navigation));
+  };
 
   const onPrepareData = () => {
     let tmpListMenu = authState.getIn(['login', 'lstMenu']);
@@ -64,7 +80,23 @@ function BookingManagement(props) {
   /****************
    ** LIFE CYCLE **
    ****************/
-  useEffect(() => onPrepareData(), []);
+  useEffect(() => {
+    dispatch(Actions.resetStatusMasterData());
+    onGetMasterData();
+  }, []);
+
+  useEffect(() => {
+    if (loading) {
+      if (!masterState.get('submitting')) {
+        onPrepareData();
+      }
+    }
+  }, [
+    loading,
+    masterState.get('submitting'),
+    masterState.get('success'),
+    masterState.get('error'),
+  ]);
 
   /************
    ** RENDER **
@@ -81,6 +113,8 @@ function BookingManagement(props) {
           loading={loading}
           animTypeImage={Animations.bookingHolder}
           routes={routes}
+          title={'booking_management:booking_services'}
+          holder={'booking_management:booking_services_holder'}
           colorsItem={Configs.colorsSubMenu.booking}
           onPressItem={handleItem}
         />

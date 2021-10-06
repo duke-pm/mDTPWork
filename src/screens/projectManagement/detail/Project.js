@@ -110,12 +110,11 @@ function ProjectDetail(props) {
       activeStatus: showFilter.activeStatus,
       activeSector: showFilter.activeSector,
       onFilter: (y, actOwn, actSta, actSec) =>
-        handleFilter(y, actOwn, actSta, actSec),
+        handleFilter(actOwn, actSta, actSec),
     });
   };
 
   const handleFilter = (
-    year = Configs.toDay.year(),
     activeOwner = [],
     activeStatus = [],
     activeSector = [],

@@ -276,8 +276,8 @@ function FilterOverview(props) {
   });
   const [dateFilter, setDateFilter] = useState({
     active: null,
-    from: Configs.toDay.clone().startOf('year').format(formatDate),
-    to: Configs.toDay.clone().endOf('year').format(formatDate),
+    from: moment().clone().startOf('year').format(formatDate),
+    to: moment().clone().endOf('year').format(formatDate),
   });
   const [owner, setOwner] = useState({
     data: masterState.get('users'),
@@ -306,11 +306,9 @@ function FilterOverview(props) {
     setYear({...year, status: false});
     setDateFilter({
       from: moment(Number(year.data[year.active]?.value), 'yyyy')
-        .clone()
         .startOf('year')
         .format(formatDate),
       to: moment(Number(year.data[year.active]?.value), 'yyyy')
-        .clone()
         .endOf('year')
         .format(formatDate),
     });
@@ -483,7 +481,7 @@ function FilterOverview(props) {
               headerCenter: () => (
                 <CText
                   customStyles={[cStyles.colorWhite, cStyles.textHeadline]}
-                  label={'project_management:filter'}
+                  label={'common:filter'}
                 />
               ),
             }

@@ -109,6 +109,8 @@ const Configs = {
     ProjectDetail: 'ProjectDetail/:projectID',
     // Config params for route Task Detail
     TaskDetail: 'TaskDetail/:taskID',
+    // Config params for route Booking Detail
+    AddBooking: 'AddBooking/:bookingID',
   },
   // for name of app in account page
   nameOfApp: Config.APP_NAME,

@@ -276,3 +276,16 @@ export async function previewFile(url = '', name = null) {
     return false;
   }
 }
+
+export const isTimeBetween = (startTime, endTime, serverTime) => {
+  let start = moment(startTime, 'HH:mm');
+  let end = moment(endTime, 'HH:mm');
+  let server = moment(serverTime, 'HH:mm');
+  if (end < start) {
+    return (
+      (server >= start && server <= moment('23:59:59', 'h:mm:ss')) ||
+      (server >= moment('0:00:00', 'h:mm:ss') && server < end)
+    );
+  }
+  return server >= start && server < end;
+};

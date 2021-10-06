@@ -21,7 +21,7 @@ import ListProject from '../list/Project';
 import Icons from '~/utils/common/Icons';
 import {cStyles} from '~/utils/style';
 import {moderateScale, IS_ANDROID} from '~/utils/helper';
-import {DEFAULT_FORMAT_DATE_4} from '~/config/constants';
+import {DEFAULT_FORMAT_DATE_4, DEFAULT_FORMAT_DATE_1} from '~/config/constants';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -85,6 +85,13 @@ function ProjectItem(props) {
   /************
    ** RENDER **
    ************/
+  let appraisalTime = null;
+  if (data.appraisalTime) {
+    appraisalTime = data.appraisalTime.split('T')[0];
+    appraisalTime = moment(appraisalTime, DEFAULT_FORMAT_DATE_1).format(
+      formatDateView,
+    );
+  }
   return (
     <View style={[cStyles.flex1, data.prjParentID > 0 ? cStyles.ml12 : {}]}>
       <CCard
@@ -125,22 +132,42 @@ function ProjectItem(props) {
                 cStyles.itemsCenter,
                 cStyles.mt10,
               ]}>
-              {/** Date start */}
+              {/** Date start - end */}
               <View
                 style={[
-                  cStyles.row,
-                  cStyles.itemsCenter,
                   data.priorityLevel > 0 && styles.row_left_1,
                   data.priorityLevel === 0 && styles.row_left,
                 ]}>
-                <CIcon size={'smaller'} name={Icons.dateCreateProj} />
-                <CLabel
-                  style={cStyles.pl5}
-                  customLabel={moment(
-                    data.crtdDate,
-                    DEFAULT_FORMAT_DATE_4,
-                  ).format(formatDateView)}
-                />
+                <View style={[cStyles.row, cStyles.itemsCenter]}>
+                  <CLabel label={'project_management:start_date'} />
+                  <CLabel
+                    customLabel={
+                      data.startDate
+                        ? moment(data.startDate, DEFAULT_FORMAT_DATE_4).format(
+                            formatDateView,
+                          )
+                        : '-'
+                    }
+                  />
+                </View>
+                <View style={[cStyles.row, cStyles.itemsCenter]}>
+                  <CLabel label={'project_management:end_date'} />
+                  <CLabel
+                    customLabel={
+                      data.endDate
+                        ? moment(data.endDate, DEFAULT_FORMAT_DATE_4).format(
+                            formatDateView,
+                          )
+                        : '-'
+                    }
+                  />
+                </View>
+                {appraisalTime && (
+                  <View style={[cStyles.row, cStyles.itemsCenter]}>
+                    <CLabel label={'project_management:appraisal_time'} />
+                    <CLabel customLabel={appraisalTime} />
+                  </View>
+                )}
               </View>
 
               {/** Is piority */}

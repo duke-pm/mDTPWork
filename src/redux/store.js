@@ -1,6 +1,6 @@
 /**
  ** Name: Stores
- ** Author: DTP-Education 
+ ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of Stores.js
  **/

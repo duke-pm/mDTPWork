@@ -1,6 +1,6 @@
 {
   "common": {
-    "app_name": "DTP-Education",
+    "app_name": "DTP-Work",
     "cancel": "Hủy bỏ",
     "ok": "OK",
     "close": "Đóng",
@@ -51,19 +51,12 @@
     "days": "ngày",
     "at": "-",
     "from_date": "Từ ",
-    "to_date": "Đến "
+    "to_date": "Đến ",
+    "filter": "Bộ Lọc",
+    "remove_all": "Xoá hết"
   },
   "status": {
-    "title": "Trạng thái",
-    "any": "Bất kỳ",
-    "new": "Mới",
-    "scheduled": "Đã lên kế hoạch",
-    "to_be_scheduled": "Đã lên lịch",
-    "in_progress": "Đang diễn ra",
-    "rejected": "Đã từ chối",
-    "closed": "Đã đóng",
-    "on_hold": "Tạm dừng",
-    "completed": "Hoàn thành"
+    "title": "Trạng thái"
   },
   "success": {
     "title": "Thành Công",
@@ -74,7 +67,10 @@
     "change_info": "Cập nhật thông tin thành công!",
     "change_percent": "Cập nhật tiến độ thành công!",
     "change_follow": "Theo dõi thành công!",
-    "change_unfollow": "Bỏ theo dõi thành công!"
+    "change_unfollow": "Bỏ theo dõi thành công!",
+    "send_request_booking": "Tạo booking thành công!",
+    "send_remove_booking": "Hủy booking thành công!",
+    "update_request_booking": "Cập nhật booking thành công!"
   },
   "error": {
     "title": "Lỗi",
@@ -108,7 +104,8 @@
     "send_follow": "Không thể thực thi. Vui lòng thử lại sau!",
     "change_status": "Không thê cập nhật trạng thái. Vui lòng thử lại sau!",
     "change_percent": "Không thê cập nhật tiến độ. Vui lòng thử lại sau!",
-    "cannot_auth_with_biometrics": "Không thể xác nhận sinh trắc học! Vui lòng cài đặt TouchID hoặc FaceID (nếu có)."
+    "cannot_auth_with_biometrics": "Không thể xác nhận sinh trắc học! Vui lòng cài đặt TouchID hoặc FaceID (nếu có).",
+    "cannot_get_master_booking": "Không thể cập nhật thông tin booking, vui lòng thử lại sau!"
   },
   "sign_in": {
     "title": "Đăng Nhập",
@@ -240,8 +237,6 @@
   "approved_assets": {
     "title": "Cấp Phát Tài Sản",
     "title_assets": "Tài Sản",
-    "filter": "Bộ lọc:",
-    "holder_filter": "Bộ Lọc",
     "status": "Trạng thái",
     "user_request": "Người gửi: ",
     "department_request": "Bộ phận ",
@@ -259,7 +254,6 @@
     "search_request": "Tìm kiếm...",
     "from_date": "Từ ngày ",
     "to_date": "Đến ngày ",
-    "filter_start": "Lọc",
     "show_timeline": "Thông tin trạng thái",
     "person_approved": "Người duyệt: ",
     "reason_reject": "Lý do ",
@@ -314,7 +308,6 @@
   "approved_lost_damaged": {
     "title": "Báo Hỏng | Báo Mất",
     "title_assets": "Tài Sản",
-    "filter": "Bộ lọc:",
     "status": "Trạng thái",
     "user_request": "Người gửi: ",
     "department_request": "Bộ phận: ",
@@ -332,7 +325,6 @@
     "search_request": "Tìm kiếm...",
     "from_date": "Từ ngày ",
     "to_date": "Đến ngày ",
-    "filter_start": "Lọc",
     "show_timeline": "Thông tin trạng thái",
     "person_approved": "Người duyệt: ",
     "reason_reject": "Lý do: ",
@@ -354,7 +346,7 @@
     "holder_assets": "Chọn tài sản...",
     "search_assets": "Tìm tài sản",
     "reason": "Lý do đề xuất",
-    "holder_reason": "Lý do...",
+    "holder_reason": "Điền lý do...",
     "type_update": "Tài sản cần",
     "lost_assets": "Báo mất",
     "damage_assets": "Báo hỏng",
@@ -413,11 +405,7 @@
     "holder_change_status": "Vui lòng chọn trạng thái",
     "from_date": "Từ ",
     "to_date": "Đến ",
-    "filter": "Bộ lọc",
-    "date_filter": "Ngày",
-    "assigned_filter": "Người phụ trách",
     "status_filter": "Trạng thái",
-    "author_filter": "Tác giả",
     "assign_to_me": "Công việc của tôi",
     "assign_to": "Đến",
     "assign_to_any": "Bất kì người dùng",
@@ -490,7 +478,8 @@
     "info_participant": "Thông tin người cùng tham gia",
     "piority_item": "Piority:",
     "project_services": "Project Services",
-    "project_services_holder": "Quản lý công việc trong nội bộ doanh nghiệp. Hỗ trợ theo dõi từ xa trên các thiết bị theo đặc thù công việc."
+    "project_services_holder": "Quản lý công việc trong nội bộ doanh nghiệp. Hỗ trợ theo dõi từ xa trên các thiết bị theo đặc thù công việc.",
+    "appraisal_time": "Inspection: "
   },
   "project_overview": {
     "title": "Tổng Quan",
@@ -543,10 +532,16 @@
     "to_date": "Đến ngày"
   },
   "my_bookings": {
-    "title": "Bookings của tôi"
+    "title": "Bookings của tôi",
+    "see_as": "Xem theo: ",
+    "at": " tại ",
+    "notes": "Ghi chú: ",
+    "live": " [Đang diễn ra]"
   },
   "add_booking": {
-    "title": "Thêm Mới Booking",
+    "title": "Chi tiết",
+    "title_add": "Thêm Mới Booking",
+    "title_update": "Cập nhật",
     "info": "Thông tin cơ bản",
     "info_booking": "Thông tin Booking",
     "create_date": "Ngày",
@@ -554,19 +549,32 @@
     "resource": "Tài nguyên",
     "holder_find_resource": "Tìm tài nguyên...",
     "holder_empty_resource": "Tài nguyên rỗng",
-    "label": "Tên *",
-    "holder_label": "Tên booking...",
+    "label": "Mục đích",
+    "holder_label": "Mục đích...",
     "note": "Ghi chú",
     "holder_note": "Ghi chú thông tin booking...",
     "participants": "Người tham gia",
-    "no_participants": "Chọn người tham gia tại đây...",
-    "choosed": " [Đã chọn]",
+    "holder_participants": "Chọn người tham gia",
+    "no_participants": "Chọn người tham gia tại đây",
+    "holder_find_participant": "Tìm người tham gia...",
     "date_time": "Thời gian",
     "from_date_time": "Từ",
     "to_date_time": "Đến",
-    "create_booking": "Thêm Booking",
+    "create_booking": "Thêm",
+    "update_booking": "Cập nhật",
     "warning_dischange": "Bạn có chắc chắn muốn rời khỏi trang này?",
     "agree_dischange": "Rời khỏi",
-    "close_dischange": "Huỷ bỏ"
+    "close_dischange": "Huỷ bỏ",
+    "warning_resource_empty": "Resource không thể trống!",
+    "warning_label_empty": "Tiêu đề không thể trống!",
+    "warning_start_date_bigger": "Ngày bắt đầu không lớn hơn ngày kết thúc!",
+    "warning_start_time_bigger": "Cùng 1 ngày không lớn hơn thời gian kết thúc!",
+    "warning_end_time_smaller": "Cùng 1 ngày không nhỏ hơn thời gian bắt đầu!",
+    "remove_booking": "Hủy bỏ",
+    "holder_remove_booking": "Bạn muốn hủy booking này?",
+    "live": "ĐANG DIỄN RA",
+    "holder_no_participants": "Không có người tham gia!",
+    "other_info": "Thời gian - Tham gia",
+    "one_time": "Book một lần"
   }
 }

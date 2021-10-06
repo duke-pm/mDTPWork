@@ -38,13 +38,12 @@ import CReadMore from '~/components/CReadMore';
 import CTouchable from '~/components/CTouchable';
 import CIcon from '~/components/CIcon';
 import CLoading from '~/components/CLoading';
+import CInvitedDetails from '~/components/CInvitedDetails';
 import Status from '../components/Status';
 import Percentage from '../components/Percentage';
 import FileAttach from '../components/FileAttach';
 import Reminder from '../components/Reminder';
-import InvitedDetails from '../components/InvitedDetails';
 /* COMMON */
-import Configs from '~/config';
 import Routes from '~/navigation/Routes';
 import FieldsAuth from '~/config/fieldsAuth';
 import {Commons, Icons} from '~/utils/common';
@@ -527,7 +526,7 @@ function Task(props) {
     data.taskDetail.statusID < Commons.STATUS_TASK.CLOSED.value
   ) {
     if (data.taskDetail.endDate && data.taskDetail.endDate !== '') {
-      isDelay = Configs.toDay.isAfter(
+      isDelay = moment().isAfter(
         moment(data.taskDetail.endDate, DEFAULT_FORMAT_DATE_4),
         'days',
       );
@@ -925,8 +924,13 @@ function Task(props) {
                               cStyles.flexWrap,
                               cStyles.row,
                               cStyles.itemsCenter,
-                              cStyles.p16,
-                              cStyles.pt10,
+                              cStyles.p4,
+                              cStyles.pt4,
+                              cStyles.m16,
+                              cStyles.rounded1,
+                              cStyles.borderDashed,
+                              cStyles.borderAll,
+                              isDark && cStyles.borderAllDark,
                             ]}>
                             {usersInvited.map((item, index) => {
                               return (
@@ -949,15 +953,10 @@ function Task(props) {
                                           cStyles.itemsCenter,
                                           cStyles.rounded1,
                                           cStyles.py6,
-                                          cStyles.px10,
-                                          IS_ANDROID && cStyles.borderAll,
-                                          IS_ANDROID &&
-                                            isDark &&
-                                            cStyles.borderAllDark,
+                                          cStyles.px8,
                                           {
-                                            backgroundColor: isDark
-                                              ? customColors.cardDisable
-                                              : customColors.card,
+                                            backgroundColor:
+                                              colors.STATUS_NEW_OPACITY,
                                           },
                                         ]}>
                                         <View style={cStyles.pr6}>
@@ -975,7 +974,7 @@ function Task(props) {
                                       </View>
                                     </CTouchable>
                                   </View>
-                                  <View style={cStyles.mx5} />
+                                  <View style={cStyles.mx2} />
                                 </View>
                               );
                             })}
@@ -1014,7 +1013,7 @@ function Task(props) {
               contentStyle={cStyles.mt0}
               title={''}
               customContent={
-                <InvitedDetails participant={data.participantChoose} />
+                <CInvitedDetails participant={data.participantChoose} />
               }
               onClose={handleParticipant}
             />

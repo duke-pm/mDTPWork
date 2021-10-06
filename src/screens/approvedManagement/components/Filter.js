@@ -19,8 +19,8 @@ import CInput from '~/components/CInput';
 import CGroupFilter from '~/components/CGroupFilter';
 import CDateTimePicker from '~/components/CDateTimePicker';
 import CIconButton from '~/components/CIconButton';
+import CText from '~/components/CText';
 /* COMMON */
-import Configs from '~/config';
 import {Commons, Icons} from '~/utils/common';
 import {cStyles} from '~/utils/style';
 import {IS_ANDROID, moderateScale} from '~/utils/helper';
@@ -181,6 +181,7 @@ function Filter(props) {
           iconColor={customColors.red}
           onPress={onClose}
         />
+        <CText styles={'textSubheadline'} label={'common:filter'} />
         <CIconButton
           style={styles.icon}
           iconProps={PROPS_ICON}
@@ -207,7 +208,7 @@ function Filter(props) {
           </View>
           <CInput
             containerStyle={[cStyles.justifyEnd, styles.input_date]}
-            style={styles.con_input_date}
+            name={INPUT_NAME.FROM_DATE}
             hasRemove
             dateTimePicker
             value={
@@ -217,7 +218,7 @@ function Filter(props) {
             }
             iconLast={Icons.calendar}
             iconLastColor={customColors.icon}
-            onPressIconLast={() => handleDateInput(INPUT_NAME.FROM_DATE)}
+            onPressIconLast={handleDateInput}
             onPressRemoveValue={() => setData({...data, fromDate: ''})}
           />
         </View>
@@ -233,7 +234,7 @@ function Filter(props) {
           </View>
           <CInput
             containerStyle={[cStyles.justifyEnd, styles.input_date]}
-            style={styles.con_input_date}
+            name={INPUT_NAME.TO_DATE}
             hasRemove
             dateTimePicker
             value={
@@ -243,7 +244,7 @@ function Filter(props) {
             }
             iconLast={Icons.calendar}
             iconLastColor={customColors.icon}
-            onPressIconLast={() => handleDateInput(INPUT_NAME.TO_DATE)}
+            onPressIconLast={handleDateInput}
             onPressRemoveValue={() => setData({...data, toDate: ''})}
           />
         </View>
@@ -274,7 +275,7 @@ function Filter(props) {
         show={showPickerDate.status}
         value={
           data[showPickerDate.active] === ''
-            ? Configs.toDay.format(formatDate)
+            ? moment().format(formatDate)
             : data[showPickerDate.active]
         }
         onChangeDate={onChangeDateRequest}

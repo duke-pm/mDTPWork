@@ -80,6 +80,8 @@ function ProjectManagement(props) {
         <CContentSubMenu
           loading={loading}
           routes={routes}
+          title={'project_management:project_services'}
+          holder={'project_management:project_services_holder'}
           animTypeImage={Animations.projectHolder}
           colorsItem={Configs.colorsSubMenu.project}
           onPressItem={handleItem}

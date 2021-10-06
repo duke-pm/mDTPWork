@@ -40,6 +40,7 @@ function CInput(props) {
 
     disabled = false,
     row = false,
+    name = '',
 
     icon = null,
     iconColor = customColors.icon,
@@ -57,6 +58,7 @@ function CInput(props) {
     returnKey = 'next',
     numberOfLines = undefined,
 
+    blurOnSubmit = true,
     multiline = false,
     password = false,
     autoFocus = false,
@@ -87,17 +89,17 @@ function CInput(props) {
 
   const handleChangeValue = value => {
     if (onChangeValue) {
-      onChangeValue(value, props.name);
+      onChangeValue(value, name);
     }
   };
 
   const handleFocusInput = e => {
-    setFocus(props.name);
+    setFocus(name);
   };
 
   const handleIconLast = () => {
     if (onPressIconLast) {
-      onPressIconLast();
+      onPressIconLast(name);
     }
   };
 
@@ -151,7 +153,7 @@ function CInput(props) {
             !disabled && isDark && {backgroundColor: colors.TRANSPARENT},
             disabled && isDark && {backgroundColor: customColors.cardDisable},
             style,
-            focus === props.name && [styles.input_focus, styleFocus],
+            focus === name && [styles.input_focus, styleFocus],
           ]}>
           {icon && (
             <TouchableOpacity onPress={onPressIconFirst}>
@@ -210,9 +212,9 @@ function CInput(props) {
                 autoCapitalize
                 autoCorrect={false}
                 secureTextEntry={password && !showPassword}
-                enablesReturnKeyAutomatically={true}
-                blurOnSubmit={true}
-                selectTextOnFocus={true}
+                enablesReturnKeyAutomatically
+                blurOnSubmit={blurOnSubmit}
+                selectTextOnFocus
                 textAlign={textAlign}
                 allowFontScaling={false}
                 removeClippedSubviews={IS_ANDROID}
@@ -275,7 +277,7 @@ function CInput(props) {
             </Component>
           )}
         </View>
-        {props.error && (
+        {props.error && (props.errorHelper || props.errorHelperCustom) && (
           <View style={[cStyles.row, cStyles.itemsCenter, cStyles.pt6]}>
             <CIcon name={Icons.alert} size={'smaller'} color={'red'} />
             <CText

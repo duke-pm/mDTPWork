@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 /* eslint-disable react-hooks/exhaustive-deps */
 /**
  ** Name: MyBookings
@@ -5,38 +6,47 @@
  ** CreateAt: 2021
  ** Description: Description of MyBookings.js
  **/
-import React, {useState, useEffect, useLayoutEffect} from 'react';
+import {fromJS} from 'immutable';
+import React, {createRef, useState, useEffect, useLayoutEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
+import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
-import {StyleSheet, View, Text} from 'react-native';
+import {showMessage} from 'react-native-flash-message';
 import {
   ExpandableCalendar,
   Timeline,
   CalendarProvider,
 } from 'react-native-calendars';
+import {StyleSheet, View, LayoutAnimation, UIManager} from 'react-native';
 import moment from 'moment';
 import XDate from 'xdate';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
-import CList from '~/components/CList';
-import CText from '~/components/CText';
-import CCard from '~/components/CCard';
-import CIcon from '~/components/CIcon';
-import CLabel from '~/components/CLabel';
 import CIconHeader from '~/components/CIconHeader';
+import CSearchBar from '~/components/CSearchBar';
+import BookingList from '../components/BookingList';
+import GroupTypeShow from '../components/GroupTypeShow';
+import FilterTags from '../components/FilterTags';
+import Filter from '../components/Filter';
 /* COMMON */
-import Configs from '~/config';
 import Routes from '~/navigation/Routes';
-import {Booking} from '~/utils/mockup';
 import {colors, cStyles} from '~/utils/style';
 import {Commons, Icons} from '~/utils/common';
 import {IS_ANDROID, moderateScale} from '~/utils/helper';
-import {THEME_DARK, DEFAULT_FORMAT_DATE_6} from '~/config/constants';
+import {THEME_DARK, REFRESH, LOAD_MORE} from '~/config/constants';
 import {usePrevious} from '~/utils/hook';
 /* REDUX */
 import * as Actions from '~/redux/actions';
+import CActionSheet from '~/components/CActionSheet';
+import Styles from '~/utils/style/Styles';
+
+if (IS_ANDROID) {
+  if (UIManager.setLayoutAnimationEnabledExperimental) {
+    UIManager.setLayoutAnimationEnabledExperimental(true);
+  }
+}
 
 /** All init */
 const THEME_CALENDAR = {
@@ -69,7 +79,11 @@ const THEME_CALENDAR = {
   dotStyle: {marginTop: -2},
 };
 
+/** All refs */
+const asFilterRef = createRef();
+
 function MyBookings(props) {
+  const {t} = useTranslation();
   const {customColors} = useTheme();
   const isDark = useColorScheme() === THEME_DARK;
   const {navigation, route} = props;
@@ -79,6 +93,7 @@ function MyBookings(props) {
   const dispatch = useDispatch();
   const commonState = useSelector(({common}) => common);
   const authState = useSelector(({auth}) => auth);
+  const bookingState = useSelector(({booking}) => booking);
   const perPage = commonState.get('perPage');
   const formatDate = commonState.get('formatDate');
   const formatDateView = commonState.get('formatDateView');
@@ -86,39 +101,47 @@ function MyBookings(props) {
   const language = commonState.get('language');
 
   /** All state */
-  const [marked, setMarked] = useState({});
-  const [date, setDate] = useState({
-    currentDate: moment().format('YYYY-MM-DD'),
-  });
-  const [typeShow, setTypeShow] = useState(
-    Commons.TYPE_SHOW_BOOKING.CALENDAR.value,
-  );
   const [loading, setLoading] = useState({
     main: true,
-    startFetch: true,
+    startFetch: false,
     changeType: false,
     refreshing: false,
     loadmore: false,
     isLoadmore: true,
   });
-  const [params, setParams] = useState({
-    fromDate: Configs.toDay.clone().startOf('month').format(formatDate),
-    toDate: Configs.toDay.clone().endOf('month').format(formatDate),
+  const [showSearchBar, setShowSearch] = useState(false);
+  const [marked, setMarked] = useState({});
+  const [data, setData] = useState([]);
+  const [dataCalendar, setDataCalendar] = useState([]);
+  const [date, setDate] = useState({
+    prevDate: null,
+    currentDate: moment().format(formatDate),
+  });
+  const [typeShow, setTypeShow] = useState(
+    Commons.TYPE_SHOW_BOOKING.CALENDAR.value,
+  );
+  const [form, setForm] = useState({
+    fromDate: moment().clone().startOf('month').format(formatDate),
+    toDate: moment().clone().endOf('month').format(formatDate),
     page: 1,
     search: '',
   });
-  const [data, setData] = useState([]);
 
   /** All prev */
   const prevType = usePrevious(typeShow);
+  const prevData = usePrevious(data);
 
   /*****************
    ** HANDLE FUNC **
    *****************/
-  const handleBookingItem = () => {};
+  const handleOpenFilter = () => asFilterRef.current?.show();
+
+  const handleHideFilter = () => asFilterRef.current?.hide();
 
   const handleAddNew = () => {
-    navigation.navigate(Routes.MAIN.ADD_BOOKING.name);
+    navigation.navigate(Routes.MAIN.ADD_BOOKING.name, {
+      onRefresh: () => onRefresh(),
+    });
   };
 
   const handleChangeType = type => {
@@ -128,64 +151,173 @@ function MyBookings(props) {
     }
   };
 
+  const handleBookingItem = booking => {
+    navigation.navigate(Routes.MAIN.ADD_BOOKING.name, {
+      data: booking.dataFull,
+      onRefresh: () => onRefresh(),
+    });
+  };
+
+  const handleFilter = (fromDate, toDate) => {
+    asFilterRef.current?.hide();
+    setForm({...form, page: 1, fromDate, toDate});
+    onFetchData(fromDate, toDate, 1, form.search);
+    return setLoading({...loading, startFetch: true});
+  };
+
+  const handleSearch = value => {
+    setForm({...form, search: value, page: 1});
+    onFetchData(form.fromDate, form.toDate, 1, value);
+    return setLoading({...loading, startFetch: true});
+  };
+
+  const handleOpenSearch = () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    return setShowSearch(true);
+  };
+
+  const handleCloseSearch = () => {
+    setShowSearch(false);
+    if (form.search !== '') {
+      handleSearch('');
+    }
+  };
+
   /**********
    ** FUNC **
    **********/
-  const onDateChanged = newDate => setDate({currentDate: newDate});
+  const onDone = stateloading => setLoading(stateloading);
 
-  const onFetchData = () => {
-    let params = {};
-
-    setData(Booking.Bookings);
-    onDone(false);
+  const onDateChanged = newDate => {
+    let prevDate = date.currentDate;
+    setDate({prevDate, currentDate: newDate});
   };
 
-  const prepareCalendarData = () => {
-    let dateDot = '',
-      tmpData = [],
-      tmpMarker = {},
-      itemBooking = null,
-      itemCalendar = {};
+  const onMonthChanged = newMonth => {
+    let tmpFromDate = moment(newMonth.dateString)
+      .startOf('month')
+      .format(formatDate);
+    let tmpEndDate = moment(newMonth.dateString)
+      .endOf('month')
+      .format(formatDate);
 
-    for (itemBooking of Booking.Bookings) {
-      itemCalendar = {};
-      dateDot = moment(itemBooking.fromDate, DEFAULT_FORMAT_DATE_6).format(
-        formatDate,
-      );
-      if (!tmpMarker[dateDot]) {
-        tmpMarker[dateDot] = {dots: []};
+    setForm({...form, fromDate: tmpFromDate, toDate: tmpEndDate});
+    onFetchData(tmpFromDate, tmpEndDate, 1, form.search);
+    return onDone({...loading, startFetch: true});
+  };
+
+  const onFetchData = (
+    fromDate = form.fromDate,
+    toDate = form.toDate,
+    page = 1,
+    search = '',
+  ) => {
+    let params = fromJS({
+      FromDate: fromDate,
+      ToDate: toDate,
+      PageNum: page,
+      Search: search,
+      PageSize:
+        typeShow === Commons.TYPE_SHOW_BOOKING.LIST.value ? perPage : -1,
+      IsMyBooking: true,
+      RefreshToken: refreshToken,
+      Lang: language,
+    });
+    dispatch(Actions.fetchListBooking(params, navigation));
+  };
+
+  const onPrepareData = type => {
+    let isLoadmore = true,
+      cBookings = [...data],
+      nBookings = bookingState.get('bookings');
+
+    // If count result < perPage => loadmore is unavailable
+    if (typeShow === Commons.TYPE_SHOW_BOOKING.LIST.value) {
+      if (nBookings.length < perPage) {
+        isLoadmore = false;
       }
-      tmpMarker[dateDot].dots.push({
-        key: itemBooking.id,
-        color: itemBooking.color,
-      });
-
-      itemCalendar.start = itemBooking.fromDate;
-      itemCalendar.end = itemBooking.toDate;
-      itemCalendar.title = itemBooking.label;
-      itemCalendar.summary = itemBooking.note;
-      itemCalendar.color = itemBooking.color;
-      tmpData.push(itemCalendar);
     }
 
-    setMarked(tmpMarker);
-    setData(tmpData);
-    onDone(false);
+    if (type === REFRESH) {
+      // Fetch is refresh
+      cBookings = nBookings;
+    } else if (type === LOAD_MORE) {
+      // Fetch is loadmore
+      cBookings = [...cBookings, ...nBookings];
+    }
+    setData(cBookings);
+
+    if (typeShow === Commons.TYPE_SHOW_BOOKING.LIST.value) {
+      return onDone({
+        main: false,
+        startFetch: false,
+        refreshing: false,
+        loadmore: false,
+        isLoadmore,
+        changeType: false,
+      });
+    } else {
+      return onDone({
+        ...loading,
+        main: true,
+        startFetch: false,
+        refreshing: false,
+        loadmore: false,
+        isLoadmore: false,
+      });
+    }
   };
 
-  const prepareListData = () => {
-    setData(Booking.Bookings);
-    onDone(false);
-  };
+  const onPrepareCalendarData = dataBookings => {
+    if (dataBookings.length > 0) {
+      let tmpData = [],
+        tmpMarker = {},
+        itemBooking = null,
+        itemCalendar = {},
+        startDate = '',
+        endDate = '',
+        startTime = '',
+        endTime = '';
 
-  const onDone = isLoadmore => {
-    return setLoading({
+      for (itemBooking of dataBookings) {
+        startDate = itemBooking.startDate.split('T')[0];
+        endDate = itemBooking.endDate.split('T')[0];
+        startTime = itemBooking.strStartTime + ':00';
+        endTime = itemBooking.strEndTime + ':00';
+
+        itemCalendar = {};
+
+        if (!tmpMarker[startDate]) {
+          tmpMarker[startDate] = {dots: []};
+        }
+        tmpMarker[startDate].dots.push({
+          key: itemBooking.bookID,
+          color: itemBooking.color,
+        });
+
+        itemCalendar.dataFull = itemBooking;
+        itemCalendar.start = startDate + ' ' + startTime;
+        itemCalendar.end = endDate + ' ' + endTime;
+        itemCalendar.title =
+          itemBooking.purpose + t('my_bookings:at') + itemBooking.resourceName;
+        itemCalendar.summary =
+          t('my_bookings:notes') +
+          `\n${itemBooking.remarks !== '' ? itemBooking.remarks : '-'}`;
+        itemCalendar.color = itemBooking.color;
+        tmpData.push(itemCalendar);
+      }
+
+      setMarked(tmpMarker);
+      setDataCalendar(tmpData);
+    }
+
+    return onDone({
       main: false,
       startFetch: false,
-      changeType: false,
       refreshing: false,
       loadmore: false,
-      isLoadmore,
+      isLoadmore: false,
+      changeType: false,
     });
   };
 
@@ -202,92 +334,203 @@ function MyBookings(props) {
     );
   };
 
+  const onRefresh = () => {
+    if (!loading.refreshing) {
+      setForm({...form, page: 1});
+      onFetchData(form.fromDate, form.toDate, 1, form.search);
+      return onDone({...loading, refreshing: true, isLoadmore: true});
+    }
+  };
+
+  const onLoadmore = () => {
+    if (!loading.loadmore && loading.isLoadmore) {
+      let newPage = form.page + 1;
+      setForm({...form, page: newPage});
+      onFetchData(form.fromDate, form.toDate, newPage, form.search);
+      return onDone({...loading, loadmore: true});
+    }
+  };
+
+  const onError = () => {
+    showMessage({
+      message: t('common:app_name'),
+      description: t('error:list_request'),
+      type: 'danger',
+      icon: 'danger',
+    });
+    return onDone({
+      ...loading,
+      main: false,
+      startFetch: false,
+      refreshing: false,
+      loadmore: false,
+      isLoadmore: false,
+    });
+  };
+
   /****************
    ** LIFE CYCLE **
    ****************/
   useEffect(() => {
-    if (typeShow === Commons.TYPE_SHOW_BOOKING.CALENDAR.value) {
-      return prepareCalendarData();
-    }
-    if (typeShow === Commons.TYPE_SHOW_BOOKING.LIST.value) {
-      return prepareListData();
-    }
+    onFetchData(form.fromDate, form.toDate, 1, form.search);
+    return onDone({...loading, startFetch: true});
   }, []);
+
+  useEffect(() => {
+    if (loading.startFetch || loading.refreshing || loading.loadmore) {
+      if (!bookingState.get('submittingList')) {
+        let type = REFRESH;
+        if (loading.loadmore) {
+          type = LOAD_MORE;
+        }
+
+        if (bookingState.get('successList')) {
+          return onPrepareData(type);
+        }
+
+        if (bookingState.get('errorList')) {
+          return onError();
+        }
+      }
+    }
+  }, [
+    loading.startFetch,
+    loading.refreshing,
+    loading.loadmore,
+    bookingState.get('submittingList'),
+    bookingState.get('successList'),
+    bookingState.get('errorList'),
+  ]);
+
+  useEffect(() => {
+    if (loading.main && !loading.startFetch) {
+      if (prevData && prevData != data) {
+        if (typeShow === Commons.TYPE_SHOW_BOOKING.CALENDAR.value) {
+          onPrepareCalendarData(data);
+        }
+      }
+    }
+  }, [loading, typeShow, prevData, data]);
 
   useEffect(() => {
     if (loading.changeType) {
       if (prevType && prevType !== typeShow) {
-        if (typeShow === Commons.TYPE_SHOW_BOOKING.CALENDAR.value) {
-          return prepareCalendarData();
-        }
-        if (typeShow === Commons.TYPE_SHOW_BOOKING.LIST.value) {
-          return prepareListData();
+        if (
+          typeShow === Commons.TYPE_SHOW_BOOKING.LIST.value &&
+          data.length === 0
+        ) {
+          onFetchData(form.fromDate, form.toDate, 1, form.search);
+          return onDone({...loading, startFetch: true, main: true});
+        } else {
+          return onDone({...loading, changeType: false});
         }
       }
     }
-  }, [loading.changeType, prevType, typeShow]);
+  }, [loading.changeType, prevType, typeShow, data]);
 
   useLayoutEffect(() => {
+    let iconsHeader = [
+      {
+        show: true,
+        showRedDot: form.search !== '',
+        icon: Icons.search,
+        onPress: handleOpenSearch,
+      },
+      {
+        show: true,
+        showRedDot: false,
+        icon: Icons.filter,
+        onPress: handleOpenFilter,
+      },
+      {
+        show: isPermissionWrite,
+        showRedDot: false,
+        icon: Icons.addNew,
+        onPress: handleAddNew,
+      },
+    ];
+    if (typeShow === Commons.TYPE_SHOW_BOOKING.LIST.value) {
+      iconsHeader[1].show = true;
+    } else {
+      iconsHeader[1].show = false;
+    }
+
     navigation.setOptions({
-      headerRight: () => (
-        <CIconHeader
-          icons={[
-            {
-              show: true,
-              showRedDot: false,
-              active: typeShow === Commons.TYPE_SHOW_BOOKING.CALENDAR.value,
-              icon: Icons.calendarBooking,
-              onPress: () =>
-                handleChangeType(Commons.TYPE_SHOW_BOOKING.CALENDAR.value),
-            },
-            {
-              show: true,
-              showRedDot: false,
-              active: typeShow === Commons.TYPE_SHOW_BOOKING.LIST.value,
-              icon: Icons.listBooking,
-              onPress: () =>
-                handleChangeType(Commons.TYPE_SHOW_BOOKING.LIST.value),
-            },
-            {
-              show: isPermissionWrite,
-              showRedDot: false,
-              icon: Icons.addNew,
-              onPress: handleAddNew,
-            },
-          ]}
-        />
-      ),
+      headerRight: () => <CIconHeader icons={iconsHeader} />,
     });
-  }, [navigation, isPermissionWrite, typeShow]);
+  }, [navigation, isPermissionWrite, form.search, typeShow]);
 
   /************
    ** RENDER **
    ************/
   return (
     <CContainer
-      loading={loading.main}
+      loading={loading.main || loading.startFetch}
       hasShapes
       figuresShapes={[]}
       primaryColorShapes={colors.BG_HEADER_BOOKING}
       primaryColorShapesDark={colors.BG_HEADER_BOOKING_DARK}
       content={
         <CContent scrollEnabled={false}>
+          <CSearchBar
+            loading={loading.startFetch}
+            isVisible={showSearchBar}
+            valueSearch={form.search}
+            onSearch={handleSearch}
+            onClose={handleCloseSearch}
+          />
+
+          <View
+            style={[
+              cStyles.row,
+              cStyles.itemsCenter,
+              typeShow === Commons.TYPE_SHOW_BOOKING.CALENDAR.value &&
+                cStyles.justifyEnd,
+              typeShow === Commons.TYPE_SHOW_BOOKING.LIST.value &&
+                cStyles.justifyBetween,
+            ]}>
+            {/** All filter tag for current approved type */}
+            {typeShow === Commons.TYPE_SHOW_BOOKING.LIST.value && (
+              <View style={styles.left}>
+                <FilterTags
+                  translation={t}
+                  formatDateView={formatDateView}
+                  fromDate={form.fromDate}
+                  toDate={form.toDate}
+                  search={form.search}
+                  primaryColor={colors.BG_MY_BOOKINGS}
+                />
+              </View>
+            )}
+
+            <View style={styles.right}>
+              <GroupTypeShow
+                customColors={customColors}
+                type={typeShow}
+                onChange={handleChangeType}
+              />
+            </View>
+          </View>
+
           {!loading.main &&
             typeShow === Commons.TYPE_SHOW_BOOKING.CALENDAR.value && (
               <CalendarProvider
                 date={date.currentDate}
                 showTodayButton
                 disabledOpacity={0.6}
-                onDateChanged={onDateChanged}>
+                onDateChanged={onDateChanged}
+                onMonthChange={onMonthChanged}>
                 <ExpandableCalendar
                   headerStyle={{backgroundColor: customColors.card}}
-                  displayLoadingIndicator={loading.changeType}
-                  disableAllTouchEventsForDisabledDays={true}
+                  displayLoadingIndicator={
+                    loading.changeType || loading.startFetch
+                  }
+                  disableAllTouchEventsForDisabledDays
                   firstDay={1}
                   markingType={'multi-dot'}
                   markedDates={marked}
                   monthFormat={'MMMM - yyyy'}
-                  enableSwipeMonths={true}
+                  enableSwipeMonths={false}
                   theme={{
                     ...THEME_CALENDAR,
                     backgroundColor: customColors.card,
@@ -301,11 +544,9 @@ function MyBookings(props) {
                 />
                 <Timeline
                   style={{backgroundColor: customColors.card}}
-                  format24h={true}
-                  eventTapped={e =>
-                    console.log('[LOG] === eventTapped ===> ', e)
-                  }
-                  events={data.filter(event =>
+                  format24h
+                  eventTapped={handleBookingItem}
+                  events={dataCalendar.filter(event =>
                     sameDate(
                       new XDate(event.start),
                       new XDate(date.currentDate),
@@ -318,129 +559,26 @@ function MyBookings(props) {
           {!loading.main &&
             !loading.startFetch &&
             typeShow === Commons.TYPE_SHOW_BOOKING.LIST.value && (
-              <CList
-                contentStyle={cStyles.pt10}
+              <BookingList
+                navigation={navigation}
+                customColors={customColors}
+                refreshing={loading.refreshing}
+                loadmore={loading.loadmore}
                 data={data}
-                item={({item, index}) => {
-                  let between = false;
-                  between = Configs.toDay.isBetween(
-                    moment(item.fromDate, DEFAULT_FORMAT_DATE_6),
-                    moment(item.toDate, DEFAULT_FORMAT_DATE_6),
-                  );
-
-                  return (
-                    <CCard
-                      key={index}
-                      customLabel={`#${item.id} ${item.label}`}
-                      onPress={handleBookingItem}
-                      content={
-                        <View style={cStyles.flex1}>
-                          <View style={[cStyles.row, cStyles.itemsStart]}>
-                            <View style={styles.left}>
-                              <View style={[cStyles.row, cStyles.itemsCenter]}>
-                                <CIcon
-                                  name={Icons.timeTask}
-                                  size={'smaller'}
-                                  color={between ? 'green' : 'icon'}
-                                />
-                                <View>
-                                  <View
-                                    style={[cStyles.row, cStyles.itemsCenter]}>
-                                    <Text
-                                      style={[cStyles.textCenter, cStyles.pl4]}
-                                      numberOfLines={2}>
-                                      <Text
-                                        style={[
-                                          cStyles.textCaption2,
-                                          {color: customColors.text},
-                                        ]}>
-                                        {`${moment(
-                                          item.fromDate,
-                                          DEFAULT_FORMAT_DATE_6,
-                                        ).format(formatDateView)}\n${moment(
-                                          item.fromDate,
-                                          DEFAULT_FORMAT_DATE_6,
-                                        ).format('HH:mm')}`}
-                                      </Text>
-                                    </Text>
-                                    <CIcon
-                                      name={Icons.nextStep}
-                                      size={'minimum'}
-                                    />
-                                    <Text
-                                      style={cStyles.textCenter}
-                                      numberOfLines={2}>
-                                      <Text
-                                        style={[
-                                          cStyles.textCaption2,
-                                          {color: customColors.text},
-                                        ]}>
-                                        {`${moment(
-                                          item.toDate,
-                                          DEFAULT_FORMAT_DATE_6,
-                                        ).format(formatDateView)}\n${moment(
-                                          item.toDate,
-                                          DEFAULT_FORMAT_DATE_6,
-                                        ).format('HH:mm')}`}
-                                      </Text>
-                                    </Text>
-                                  </View>
-                                  {between && (
-                                    <View
-                                      style={[
-                                        cStyles.itemsCenter,
-                                        cStyles.rounded5,
-                                        cStyles.py2,
-                                        cStyles.px2,
-                                        {
-                                          backgroundColor:
-                                            colors.STATUS_SCHEDULE_OPACITY,
-                                        },
-                                      ]}>
-                                      <CText
-                                        styles={
-                                          'textCaption2 colorGreen fontBold'
-                                        }
-                                        label={'bookings:resume'}
-                                      />
-                                    </View>
-                                  )}
-                                </View>
-                              </View>
-                            </View>
-
-                            <View style={styles.right}>
-                              <View style={[cStyles.row, cStyles.itemsCenter]}>
-                                <CIcon name={Icons.resource} size={'smaller'} />
-                                <CLabel
-                                  style={cStyles.pl3}
-                                  customLabel={item.resource.label}
-                                />
-                              </View>
-                              <View
-                                style={[
-                                  cStyles.row,
-                                  cStyles.itemsCenter,
-                                  cStyles.mt6,
-                                ]}>
-                                <CIcon
-                                  name={Icons.userCreated}
-                                  size={'smaller'}
-                                />
-                                <CLabel
-                                  style={cStyles.pl5}
-                                  customLabel={item.cretaedUser}
-                                />
-                              </View>
-                            </View>
-                          </View>
-                        </View>
-                      }
-                    />
-                  );
-                }}
+                onRefresh={onRefresh}
+                onLoadmore={onLoadmore}
               />
             )}
+
+          <CActionSheet actionRef={asFilterRef}>
+            <View style={cStyles.p10}>
+              <Filter
+                data={form}
+                onFilter={handleFilter}
+                onClose={handleHideFilter}
+              />
+            </View>
+          </CActionSheet>
         </CContent>
       }
     />
@@ -448,22 +586,8 @@ function MyBookings(props) {
 }
 
 const styles = StyleSheet.create({
-  left: {flex: 0.5},
-  right: {flex: 0.5},
-  con_user_invite: {
-    top: -moderateScale(10),
-    height: moderateScale(20),
-    width: moderateScale(20),
-    zIndex: 0,
-  },
-  item: {
-    backgroundColor: 'white',
-    flex: 1,
-    borderRadius: 5,
-    padding: 10,
-    marginRight: 10,
-    marginTop: 17,
-  },
+  left: {flex: 0.7},
+  right: {flex: 0.3},
 });
 
 export default MyBookings;

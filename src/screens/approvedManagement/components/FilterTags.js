@@ -14,12 +14,14 @@ import CText from '~/components/CText';
 /* COMMON */
 import Icons from '~/utils/common/Icons';
 import {cStyles} from '~/utils/style';
+import {DEFAULT_FORMAT_DATE_2} from '~/config/constants';
 
 function FilterTags(props) {
   const {
-    formatDateView = 'DD/MM/YYYY',
+    formatDateView = DEFAULT_FORMAT_DATE_2,
     fromDate = '',
     toDate = '',
+    search = '',
     types = [],
     arrStatus = [],
     primaryColor = undefined,
@@ -49,17 +51,11 @@ function FilterTags(props) {
         ]}>
         <CText
           styles={'textCaption2 colorBlack'}
-          customLabel={
-            (fromDate !== ''
-              ? translation('common:from_date') +
-                moment(fromDate).format(formatDateView)
-              : '#') +
-            '\n' +
-            (toDate !== ''
-              ? translation('common:to_date') +
-                moment(toDate).format(formatDateView)
-              : '#')
-          }
+          customLabel={`${translation('common:from_date')}${
+            fromDate !== '' ? moment(fromDate).format(formatDateView) : '#'
+          }\n${translation('common:to_date')}${
+            toDate !== '' ? moment(toDate).format(formatDateView) : '#'
+          }`}
         />
       </View>
 
@@ -99,6 +95,22 @@ function FilterTags(props) {
             </View>
           );
         })}
+
+      {search !== '' && (
+        <View
+          style={[
+            cStyles.px6,
+            cStyles.py2,
+            cStyles.mx4,
+            cStyles.rounded1,
+            {backgroundColor: primaryColor},
+          ]}>
+          <CText
+            styles={'textCaption2 colorBlack'}
+            customLabel={`${translation('common:find')}: "${search}"`}
+          />
+        </View>
+      )}
     </View>
   );
 }
@@ -109,6 +121,7 @@ FilterTags.propTypes = {
   toDate: PropTypes.string,
   types: PropTypes.array,
   arrStatus: PropTypes.array,
+  search: PropTypes.string,
   primaryColor: PropTypes.string,
   translation: PropTypes.func,
 };

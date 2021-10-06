@@ -18,14 +18,14 @@ import HelpAndInfo from '~/screens/account/helpAndInfo';
 import ContactUs from '~/screens/account/contactUs';
 import Settings from '~/screens/account/settings';
 /** APPROVED */
-import Approved from '~/screens/approved';
-import ListRequest from '~/screens/approved/listAssets';
-import ListRequestHandling from '~/screens/approved/listAssetsHandling';
-import ApprovedAssets from '~/screens/approved/assets';
-import ApprovedAssetsDamage from '~/screens/approved/assetsDamage';
-import ApprovedAssetsLost from '~/screens/approved/assetsLost';
-import AddRequestAsset from '~/screens/approved/addAsset/Request';
-import AddRequestLostDamage from '~/screens/approved/addLostDamage/Request';
+import Approved from '~/screens/approvedManagement';
+import ListRequest from '~/screens/approvedManagement/listAssets';
+import ListRequestHandling from '~/screens/approvedManagement/listAssetsHandling';
+import ApprovedAssets from '~/screens/approvedManagement/assets';
+import ApprovedAssetsDamage from '~/screens/approvedManagement/assetsDamage';
+import ApprovedAssetsLost from '~/screens/approvedManagement/assetsLost';
+import AddRequestAsset from '~/screens/approvedManagement/addAsset/Request';
+import AddRequestLostDamage from '~/screens/approvedManagement/addLostDamage/Request';
 /** PROJECT MANAGEMENT */
 import ProjectManagement from '~/screens/projectManagement';
 import Project from '~/screens/projectManagement/project';

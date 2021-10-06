@@ -249,7 +249,7 @@ export function RootMain(props) {
         name={Routes.MAIN.PROJECT_OVERVIEW_FILTER.name}
         component={Routes.MAIN.PROJECT_OVERVIEW_FILTER.path}
         options={{
-          title: t('project_management:filter'),
+          title: t('common:filter'),
           stackPresentation: 'modal',
           headerStyle: {backgroundColor: customColors.projectHeader},
           headerTintColor: customColors.text,
@@ -259,7 +259,7 @@ export function RootMain(props) {
         name={Routes.MAIN.PROJECT_FILTER.name}
         component={Routes.MAIN.PROJECT_FILTER.path}
         options={{
-          title: t('project_management:filter'),
+          title: t('common:filter'),
           stackPresentation: 'modal',
           headerStyle: {backgroundColor: customColors.projectHeader},
           headerTintColor: customColors.text,
@@ -394,7 +394,6 @@ export function RootMain(props) {
         name={Routes.MAIN.ADD_BOOKING.name}
         component={Routes.MAIN.ADD_BOOKING.path}
         options={{
-          title: t('add_booking:title'),
           headerStyle: {backgroundColor: customColors.bookingHeader},
           headerTintColor: customColors.text,
         }}

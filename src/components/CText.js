@@ -19,6 +19,7 @@ function CText(props) {
     styles = '',
     customStyles = {},
     label = '',
+    disabled = true,
     customLabel = null,
     onPress = null,
   } = props;
@@ -34,7 +35,7 @@ function CText(props) {
   }
   const Component = onPress ? TouchableOpacity : View;
   return (
-    <Component onPress={onPress}>
+    <Component onPress={onPress} disabled={disabled}>
       <Text
         style={[
           cStyles.textBody,
@@ -55,6 +56,7 @@ CText.propTypes = {
   styles: PropTypes.string,
   customStyles: PropTypes.object,
   label: PropTypes.string,
+  disabled: PropTypes.bool,
   customLabel: PropTypes.string,
   onPress: PropTypes.func,
 };

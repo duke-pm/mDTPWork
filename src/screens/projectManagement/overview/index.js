@@ -198,7 +198,7 @@ function ProjectOverview(props) {
   const [params, setParams] = useState({
     fromDate: null,
     toDate: null,
-    year: Configs.toDay.year(),
+    year: moment().year(),
     ownerID: null,
     sectorID: null,
     statusID: null,
@@ -227,7 +227,7 @@ function ProjectOverview(props) {
   };
 
   const handleFilter = (
-    year = Configs.toDay.year(),
+    year = moment().year(),
     fromDate = '',
     toDate = '',
     activeOwner = [],
@@ -324,7 +324,7 @@ function ProjectOverview(props) {
       (ownerID !== null ||
         statusID !== null ||
         sectorID !== null ||
-        year != Configs.toDay.year()) &&
+        year != moment().year()) &&
       !isFiltering
     ) {
       setIsFiltering(true);
@@ -332,7 +332,7 @@ function ProjectOverview(props) {
       ownerID === null &&
       statusID === null &&
       sectorID === null &&
-      year == Configs.toDay.year() &&
+      year == moment().year() &&
       isFiltering
     ) {
       setIsFiltering(false);
@@ -574,7 +574,7 @@ function ProjectOverview(props) {
           show={showPicker.status}
           value={
             params[showPicker.active] === ''
-              ? Configs.toDay.format(formatDate)
+              ? moment().format(formatDate)
               : params[showPicker.active]
           }
           onChangeDate={onChangeDateRequest}

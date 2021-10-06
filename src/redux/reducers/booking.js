@@ -10,16 +10,24 @@ import {fromJS} from 'immutable';
 import * as types from '../actions/types';
 
 export const initialState = fromJS({
-  submittingListBooking: false,
-  submittingAddBooking: false,
+  submittingList: false,
+  submittingAdd: false,
+  submittingRemove: false,
+  submittingDetail: false,
 
-  successListBooking: false,
-  successAddBooking: false,
+  successList: false,
+  successAdd: false,
+  successRemove: false,
+  successDetail: false,
 
-  errorListBooking: false,
-  errorHelperListBooking: '',
-  errorAddBooking: false,
-  errorHelperAddBooking: '',
+  errorList: false,
+  errorHelperList: '',
+  errorAdd: false,
+  errorHelperAdd: '',
+  errorRemove: false,
+  errorHelperRemove: '',
+  errorDetail: false,
+  errorHelperDetail: '',
 
   bookings: [],
   bookingDetail: null,
@@ -28,51 +36,102 @@ export const initialState = fromJS({
 export default function (state = initialState, action = {}) {
   const {type, payload} = action;
   switch (type) {
+    case types.RESET_REQUEST_BOOKING:
+      return state
+        .set('submittingAdd', false)
+        .set('successAdd', false)
+        .set('errorAdd', false)
+        .set('errorHelperAdd', '');
+
     /** For list booking **/
     case types.START_FETCH_LIST_BOOKING:
       return state
-        .set('submittingListBooking', true)
-        .set('successListBooking', false)
-        .set('errorListBooking', false)
-        .set('errorHelperListBooking', '');
+        .set('submittingList', true)
+        .set('successList', false)
+        .set('errorList', false)
+        .set('errorHelperList', '');
 
-    case types.SUCCESS_FETCH_LIST_PROJECT:
+    case types.SUCCESS_FETCH_LIST_BOOKING:
       return state
-        .set('submittingListBooking', false)
-        .set('successListBooking', true)
-        .set('errorListBooking', false)
-        .set('errorHelperListBooking', '')
+        .set('submittingList', false)
+        .set('successList', true)
+        .set('errorList', false)
+        .set('errorHelperList', '')
         .set('bookings', payload);
 
-    case types.ERROR_FETCH_LIST_PROJECT:
+    case types.ERROR_FETCH_LIST_BOOKING:
       return state
-        .set('submittingListBooking', false)
-        .set('successListBooking', false)
-        .set('errorListBooking', true)
-        .set('errorHelperListBooking', payload);
+        .set('submittingList', false)
+        .set('successList', false)
+        .set('errorList', true)
+        .set('errorHelperList', payload);
 
     /** For add booking **/
     case types.START_FETCH_ADD_BOOKING:
       return state
-        .set('submittingAddBooking', true)
-        .set('successListBooking', false)
-        .set('errorAddBooking', false)
-        .set('errorHelperAddBooking', '');
+        .set('submittingAdd', true)
+        .set('successAdd', false)
+        .set('errorAdd', false)
+        .set('errorHelperAdd', '');
 
     case types.SUCCESS_FETCH_ADD_BOOKING:
       return state
-        .set('submittingAddBooking', false)
-        .set('successListBooking', true)
-        .set('errorAddBooking', false)
-        .set('errorHelperAddBooking', '')
-        .set('bookingDetail', payload);
+        .set('submittingAdd', false)
+        .set('successAdd', true)
+        .set('errorAdd', false)
+        .set('errorHelperAdd', '');
 
     case types.ERROR_FETCH_ADD_BOOKING:
       return state
-        .set('submittingAddBooking', false)
-        .set('successListBooking', false)
-        .set('errorAddBooking', true)
-        .set('errorHelperAddBooking', payload);
+        .set('submittingAdd', false)
+        .set('successAdd', false)
+        .set('errorAdd', true)
+        .set('errorHelperAdd', payload);
+
+    /** For remove booking **/
+    case types.START_FETCH_REMOVE_BOOKING:
+      return state
+        .set('submittingRemove', true)
+        .set('successRemove', false)
+        .set('errorRemove', false)
+        .set('errorHelperRemove', '');
+
+    case types.SUCCESS_FETCH_REMOVE_BOOKING:
+      return state
+        .set('submittingRemove', false)
+        .set('successRemove', true)
+        .set('errorRemove', false)
+        .set('errorHelperRemove', '');
+
+    case types.ERROR_FETCH_REMOVE_BOOKING:
+      return state
+        .set('submittingRemove', false)
+        .set('successRemove', false)
+        .set('errorRemove', true)
+        .set('errorHelperRemove', payload);
+
+    /** For remove booking **/
+    case types.START_FETCH_BOOKING_DETAIL:
+      return state
+        .set('submittingDetail', true)
+        .set('successDetail', false)
+        .set('errorDetail', false)
+        .set('errorHelperDetail', '');
+
+    case types.SUCCESS_FETCH_BOOKING_DETAIL:
+      return state
+        .set('submittingDetail', false)
+        .set('successDetail', true)
+        .set('errorDetail', false)
+        .set('errorHelperDetail', '')
+        .set('bookingDetail', payload[0] || null);
+
+    case types.ERROR_FETCH_BOOKING_DETAIL:
+      return state
+        .set('submittingDetail', false)
+        .set('successDetail', false)
+        .set('errorDetail', true)
+        .set('errorHelperDetail', payload);
     default:
       return state;
   }
