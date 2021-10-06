@@ -25,6 +25,7 @@ function RowSelectTags(props) {
     dataActive = [],
     onPress = () => null,
     onPressRemove = () => null,
+    onPressItem = () => null,
   } = props;
 
   /************
@@ -36,7 +37,7 @@ function RowSelectTags(props) {
         cStyles.row,
         cStyles.itemsCenter,
         cStyles.justifyBetween,
-        cStyles.p6,
+        cStyles.p4,
         cStyles.mt10,
         cStyles.borderDashed,
         cStyles.rounded1,
@@ -48,37 +49,39 @@ function RowSelectTags(props) {
           {dataActive.length > 0 &&
             dataActive.map((item, index) => {
               return (
-                <View
-                  key={item.empID + index}
-                  style={[
-                    cStyles.row,
-                    cStyles.itemsCenter,
-                    cStyles.justifyBetween,
-                    cStyles.rounded1,
-                    cStyles.pl4,
-                    cStyles.mr4,
-                    cStyles.mt4,
-                    disabled && cStyles.py6,
-                    disabled && cStyles.px8,
-                    {backgroundColor: colors.STATUS_SCHEDULE_OPACITY},
-                  ]}>
-                  <View style={[cStyles.row, cStyles.itemsCenter]}>
-                    <CAvatar size={'vsmall'} label={item.empName} />
-                    <CText
-                      styles={'textCaption1 fontRegular pl6'}
-                      customLabel={item.empName}
-                    />
-                  </View>
+                <CTouchable onPress={() => onPressItem(item, true)}>
+                  <View
+                    key={item.empID + index}
+                    style={[
+                      cStyles.row,
+                      cStyles.itemsCenter,
+                      cStyles.justifyBetween,
+                      cStyles.rounded1,
+                      cStyles.pl4,
+                      cStyles.mr4,
+                      cStyles.mt4,
+                      disabled && cStyles.py6,
+                      disabled && cStyles.px8,
+                      {backgroundColor: colors.STATUS_SCHEDULE_OPACITY},
+                    ]}>
+                    <View style={[cStyles.row, cStyles.itemsCenter]}>
+                      <CAvatar size={'vsmall'} label={item.empName} />
+                      <CText
+                        styles={'textCaption1 fontRegular pl6'}
+                        customLabel={item.empName}
+                      />
+                    </View>
 
-                  {!disabled && (
-                    <CIconButton
-                      iconName={Icons.remove}
-                      iconColor={'red'}
-                      disabled={disabled}
-                      onPress={() => onPressRemove(item.empID)}
-                    />
-                  )}
-                </View>
+                    {!disabled && (
+                      <CIconButton
+                        iconName={Icons.remove}
+                        iconColor={'red'}
+                        disabled={disabled}
+                        onPress={() => onPressRemove(item.empID)}
+                      />
+                    )}
+                  </View>
+                </CTouchable>
               );
             })}
           {dataActive.length > 0 && !disabled && (
@@ -136,6 +139,7 @@ RowSelectTags.propTypes = {
   dataActive: PropTypes.array,
   onPress: PropTypes.func,
   onPressRemove: PropTypes.func,
+  onPressItem: PropTypes.func,
 };
 
 export default RowSelectTags;

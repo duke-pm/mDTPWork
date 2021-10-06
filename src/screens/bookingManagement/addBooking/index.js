@@ -35,6 +35,8 @@ import CCheckbox from '~/components/CCheckbox';
 import CTouchable from '~/components/CTouchable';
 import CActionSheet from '~/components/CActionSheet';
 import CDateTimePicker from '~/components/CDateTimePicker';
+import CAlert from '~/components/CAlert';
+import CInvitedDetails from '~/components/CInvitedDetails';
 import RowSelect from '../components/RowSelect';
 import RowSelectTags from '../components/RowSelectTags';
 /* COMMON */
@@ -118,6 +120,7 @@ function AddBooking(props) {
     submitAdd: false,
     submitRemove: false,
   });
+  const [participantInfo, setParticipantInfo] = useState(false);
   const [showPickerDate, setShowPickerDate] = useState({
     status: false,
     active: null,
@@ -131,7 +134,7 @@ function AddBooking(props) {
   const [isDetail] = useState(
     route.params?.data || bookingParam !== -1 ? true : false,
   );
-  const [isLive] = useState(route.params?.isLive);
+  const [participantChoose, setParticipantChoose] = useState(null);
   const [dataBooking, setDataBooking] = useState({
     id: '',
     label: '',
@@ -237,6 +240,11 @@ function AddBooking(props) {
       tmpDataBooking.participants.splice(fParticipant, 1);
       setDataBooking(tmpDataBooking);
     }
+  };
+
+  const handleParticipant = (participant = null, showAlert = false) => {
+    setParticipantChoose(participant);
+    return setParticipantInfo(showAlert);
   };
 
   /**********
@@ -665,13 +673,13 @@ function AddBooking(props) {
   useLayoutEffect(() => {
     navigation.setOptions({
       title:
-        isDetail && dataBooking.isUpdated && !isLive
+        isDetail && dataBooking.isUpdated
           ? t('add_booking:title_update')
           : !isDetail
           ? t('add_booking:title_add')
           : t('add_booking:title'),
     });
-  }, [navigation, isDetail, dataBooking.isUpdated, isLive]);
+  }, [navigation, isDetail, dataBooking.isUpdated]);
 
   /************
    ** RENDER **
@@ -697,9 +705,7 @@ function AddBooking(props) {
                   <RowSelect
                     loading={loading.main}
                     disabled={
-                      loading.main ||
-                      (isDetail && !dataBooking.isUpdated) ||
-                      isLive
+                      loading.main || (isDetail && !dataBooking.isUpdated)
                     }
                     isDark={isDark}
                     customColors={customColors}
@@ -722,9 +728,7 @@ function AddBooking(props) {
                   holder={'add_booking:holder_label'}
                   value={dataBooking.label}
                   disabled={
-                    loading.main ||
-                    (isDetail && !dataBooking.isUpdated) ||
-                    isLive
+                    loading.main || (isDetail && !dataBooking.isUpdated)
                   }
                   error={warning.label.status}
                   errorHelper={warning.label.helper}
@@ -748,9 +752,7 @@ function AddBooking(props) {
                   multiline
                   value={dataBooking.note}
                   disabled={
-                    loading.main ||
-                    (isDetail && !dataBooking.isUpdated) ||
-                    isLive
+                    loading.main || (isDetail && !dataBooking.isUpdated)
                   }
                   onChangeValue={handleChangeText}
                 />
@@ -791,9 +793,7 @@ function AddBooking(props) {
                     value={moment(dataBooking.fromDate).format(formatDateView)}
                     dateTimePicker
                     disabled={
-                      loading.main ||
-                      (isDetail && !dataBooking.isUpdated) ||
-                      isLive
+                      loading.main || (isDetail && !dataBooking.isUpdated)
                     }
                     error={warning.fromDate.status}
                     iconLast={Icons.calendar}
@@ -804,9 +804,7 @@ function AddBooking(props) {
                     <RowSelect
                       loading={loading.main}
                       disabled={
-                        loading.main ||
-                        (isDetail && !dataBooking.isUpdated) ||
-                        isLive
+                        loading.main || (isDetail && !dataBooking.isUpdated)
                       }
                       isDark={isDark}
                       customColors={customColors}
@@ -868,9 +866,7 @@ function AddBooking(props) {
                     value={moment(dataBooking.toDate).format(formatDateView)}
                     dateTimePicker
                     disabled={
-                      loading.main ||
-                      (isDetail && !dataBooking.isUpdated) ||
-                      isLive
+                      loading.main || (isDetail && !dataBooking.isUpdated)
                     }
                     iconLast={Icons.calendar}
                     iconLastColor={customColors.icon}
@@ -880,9 +876,7 @@ function AddBooking(props) {
                     <RowSelect
                       loading={loading.main}
                       disabled={
-                        loading.main ||
-                        (isDetail && !dataBooking.isUpdated) ||
-                        isLive
+                        loading.main || (isDetail && !dataBooking.isUpdated)
                       }
                       isDark={isDark}
                       customColors={customColors}
@@ -901,12 +895,11 @@ function AddBooking(props) {
                   <RowSelectTags
                     loading={loading.main}
                     disabled={
-                      loading.main ||
-                      (isDetail && !dataBooking.isUpdated) ||
-                      isLive
+                      loading.main || (isDetail && !dataBooking.isUpdated)
                     }
                     isDark={isDark}
                     dataActive={dataBooking.participants}
+                    onPressItem={isDetail ? handleParticipant : () => null}
                     onPressRemove={handleRemoveParti}
                     onPress={() => asParticipantRef.current?.show()}
                   />
@@ -1087,10 +1080,20 @@ function AddBooking(props) {
             }
             onChangeDate={onChangeDateRequest}
           />
+
+          {/** Participant Info */}
+          <CAlert
+            loading={participantChoose === null}
+            show={participantInfo}
+            contentStyle={cStyles.mt0}
+            title={''}
+            customContent={<CInvitedDetails participant={participantChoose} />}
+            onClose={handleParticipant}
+          />
         </KeyboardAwareScrollView>
       }
       footer={
-        isDetail && dataBooking.isUpdated && !isLive ? (
+        isDetail && dataBooking.isUpdated ? (
           <View
             style={[
               cStyles.row,
@@ -1125,15 +1128,6 @@ function AddBooking(props) {
               icon={Icons.addNew}
               label={'add_booking:create_booking'}
               onPress={onSubmitAdd}
-            />
-          </View>
-        ) : isLive ? (
-          <View style={[cStyles.px16, cStyles.pb5]}>
-            <CButton
-              block
-              icon={Icons.informations}
-              color={customColors.red}
-              label={'add_booking:live'}
             />
           </View>
         ) : null

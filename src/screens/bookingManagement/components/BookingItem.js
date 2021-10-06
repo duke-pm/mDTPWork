@@ -14,7 +14,6 @@ import CLabel from '~/components/CLabel';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
 import {Icons} from '~/utils/common';
-import {moderateScale} from '~/utils/helper';
 
 function BookingItem(props) {
   const {
@@ -137,20 +136,6 @@ function BookingItem(props) {
 const styles = StyleSheet.create({
   left: {flex: 0.5},
   right: {flex: 0.5},
-  con_user_invite: {
-    top: -moderateScale(10),
-    height: moderateScale(20),
-    width: moderateScale(20),
-    zIndex: 0,
-  },
-  item: {
-    backgroundColor: 'white',
-    flex: 1,
-    borderRadius: 5,
-    padding: 10,
-    marginRight: 10,
-    marginTop: 17,
-  },
   live: {backgroundColor: colors.STATUS_REJECT_OPACITY},
 });
 
