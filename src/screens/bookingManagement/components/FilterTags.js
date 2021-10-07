@@ -52,7 +52,7 @@ function FilterTags(props) {
           styles={'textCaption2 colorBlack'}
           customLabel={`${translation('common:from_date')}${
             fromDate !== '' ? moment(fromDate).format(formatDateView) : '#'
-          } ${translation('common:to_date')}${
+          }\n${translation('common:to_date')}${
             toDate !== '' ? moment(toDate).format(formatDateView) : '#'
           }`}
         />
