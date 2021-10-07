@@ -8,7 +8,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {View} from 'react-native';
 /* COMPONENTS */
-import CText from '~/components/CText';
 import CIconButton from '~/components/CIconButton';
 /* COMMON */
 import {Commons, Icons} from '~/utils/common';

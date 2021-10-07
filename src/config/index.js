@@ -89,7 +89,6 @@ LocaleConfig.locales.vi = {
 LocaleConfig.defaultLocale = 'vi';
 
 const Configs = {
-  toDay: moment(),
   // for Host APIs
   hostAPI: Config.API_URL,
   prefixAPI: Config.API_PREFIX,
