@@ -6,7 +6,6 @@
  **/
 import {LocaleConfig} from 'react-native-calendars';
 import Config from 'react-native-config';
-import moment from 'moment';
 /** COMMON */
 import {Assets} from '~/utils/asset';
 import {colors} from '~/utils/style';

@@ -9,7 +9,7 @@ import React, {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {ifIphoneX} from 'react-native-iphone-x-helper';
-import {StyleSheet, View, Text} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import moment from 'moment';
 /** COMPONENTS */
 import CContainer from '~/components/CContainer';
@@ -20,7 +20,7 @@ import CText from '~/components/CText';
 /** COMMON */
 import Configs from '~/config';
 import {cStyles} from '~/utils/style';
-import {LOCALE_VI, LOCALE_EN} from '~/utils/language/comment';
+import {DEFAULT_FORMAT_DATE_8} from '~/config/constants';
 
 function Dashboard(props) {
   const {t} = useTranslation();
@@ -28,14 +28,7 @@ function Dashboard(props) {
 
   /** Use redux */
   const authState = useSelector(({auth}) => auth);
-  // const commonState = useSelector(({common}) => common);
   const fullName = authState.getIn(['login', 'fullName']);
-  // const language = commonState.get('language');
-  // if (language === 'vi') {
-  //   moment.updateLocale('vi', LOCALE_VI);
-  // } else {
-  //   moment.updateLocale('en', LOCALE_EN);
-  // }
 
   /** Use State */
   const [loading, setLoading] = useState(true);
@@ -97,7 +90,7 @@ function Dashboard(props) {
             <View>
               <CText
                 styles={'textCaption1 colorWhite'}
-                customLabel={`${moment().format('dddd DD/MM/YYYY')}`}
+                customLabel={`${moment().format(DEFAULT_FORMAT_DATE_8)}`}
               />
               <CText
                 styles={'textHeadline colorWhite'}

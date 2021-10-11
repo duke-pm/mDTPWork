@@ -105,11 +105,11 @@ function RequestProcess(props) {
                     styles.con_time_process,
                   ]}>
                   <CText
-                    styles={'textCaption1 fontMedium colorWhite'}
+                    styles={'textCaption1 fontMedium'}
                     customLabel={item.approveDate}
                   />
                   <CText
-                    styles={'textCaption1 fontMedium colorWhite'}
+                    styles={'textCaption1 fontMedium'}
                     customLabel={item.approveTime}
                   />
                 </View>
@@ -274,7 +274,7 @@ function RequestProcess(props) {
 }
 
 const styles = StyleSheet.create({
-  con_time_process: {backgroundColor: colors.SECONDARY, flex: 0.3},
+  con_time_process: {backgroundColor: colors.BG_APPROVED, flex: 0.3},
   line: {height: moderateScale(30)},
   con_date: {flex: 0.3},
   con_icon: {flex: 0.1},
