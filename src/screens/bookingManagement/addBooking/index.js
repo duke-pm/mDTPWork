@@ -787,6 +787,9 @@ function AddBooking(props) {
                     dataBooking.oneTime ? customColors.green : customColors.icon
                   }
                   labelRight={'add_booking:one_time'}
+                  disabled={
+                    loading.main || (isDetail && !dataBooking.isUpdated)
+                  }
                   value={dataBooking.oneTime}
                   onChange={handleOneTime}
                 />

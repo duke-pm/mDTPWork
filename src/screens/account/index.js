@@ -190,10 +190,25 @@ const Socials = React.memo(
         ]}
         content={
           <>
-            <View style={cStyles.itemsStart}>
+            <View
+              style={[
+                cStyles.row,
+                cStyles.itemsCenter,
+                cStyles.justifyBetween,
+              ]}>
               <Text style={[cStyles.textCaption1, {color: customColors.text}]}>
                 &#169; {`${moment().year()} ${Configs.nameOfApp}`}
               </Text>
+              <View style={[cStyles.row, cStyles.itemsCenter]}>
+                {Configs.socialsNetwork.map((item, index) => (
+                  <SocialItem
+                    key={item.id}
+                    index={index}
+                    data={item}
+                    isDark={isDark}
+                  />
+                ))}
+              </View>
             </View>
 
             <View style={[cStyles.mt6, cStyles.row, cStyles.itemsCenter]}>
@@ -215,20 +230,6 @@ const Socials = React.memo(
                   onPress={onUpdate}
                 />
               )}
-            </View>
-
-            <View style={[cStyles.itemsStart, cStyles.mt10]}>
-              <View style={[cStyles.row, cStyles.itemsCenter]}>
-                {Configs.socialsNetwork.map((item, index) => (
-                  <SocialItem
-                    key={item.id}
-                    index={index}
-                    data={item}
-                    customColors={customColors}
-                    isDark={isDark}
-                  />
-                ))}
-              </View>
             </View>
           </>
         }

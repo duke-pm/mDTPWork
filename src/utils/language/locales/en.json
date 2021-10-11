@@ -146,7 +146,8 @@
     "title": "Dashboard",
     "feature": "Feature",
     "welcome": "Hello! ",
-    "welcome_1": "Wishing you a productive new day!"
+    "welcome_1": "Wishing you a productive new day!",
+    "to_day": "To Day"
   },
   "account": {
     "title": "Account",
@@ -554,7 +555,7 @@
     "holder_note": "Booking notes...",
     "participants": "Participants",
     "holder_participants": "Choose participants",
-    "no_participants": "Select participants here",
+    "no_participants": "Select participants",
     "holder_find_participant": "Find participant...",
     "date_time": "Time",
     "from_date_time": "From",

@@ -47,11 +47,13 @@ const Icons = {
   mailTask: 'mail',
   jobTask: 'hammer',
   departmentTask: 'people',
+
   // Booking
   resource: 'location',
   userCreated: 'person',
   calendarBooking: 'calendar-outline',
   listBooking: 'list-outline',
+  addUser: 'person-add-outline',
 
   // Common
   barChart: 'stats-chart-outline',

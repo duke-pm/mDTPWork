@@ -146,7 +146,8 @@
     "title": "Trang chủ",
     "feature": "Tính năng",
     "welcome": "Xin chào! ",
-    "welcome_1": "Chúc bạn ngày mới làm việc hiệu quả!"
+    "welcome_1": "Chúc bạn ngày mới làm việc hiệu quả!",
+    "to_day": "Hôm nay"
   },
   "account": {
     "title": "Tài Khoản",
@@ -554,7 +555,7 @@
     "holder_note": "Ghi chú thông tin booking...",
     "participants": "Người tham gia",
     "holder_participants": "Chọn người tham gia",
-    "no_participants": "Chọn người tham gia tại đây",
+    "no_participants": "Chọn người tham gia",
     "holder_find_participant": "Tìm người tham gia...",
     "date_time": "Thời gian",
     "from_date_time": "Từ",

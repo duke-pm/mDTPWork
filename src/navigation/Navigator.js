@@ -23,7 +23,11 @@ function Navigator(props) {
   /************
    ** FUNC **
    ************/
-  const onStartApp = () => SplashScreen.hide();
+  const onStartApp = () => {
+    setTimeout(() => {
+      SplashScreen.hide();
+    }, 1500);
+  };
 
   /******************
    ** LIFE CYCLE **
