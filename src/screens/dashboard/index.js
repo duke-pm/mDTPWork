@@ -28,14 +28,14 @@ function Dashboard(props) {
 
   /** Use redux */
   const authState = useSelector(({auth}) => auth);
-  const commonState = useSelector(({common}) => common);
+  // const commonState = useSelector(({common}) => common);
   const fullName = authState.getIn(['login', 'fullName']);
-  const language = commonState.get('language');
-  if (language === 'vi') {
-    moment.updateLocale('vi', LOCALE_VI);
-  } else {
-    moment.updateLocale('en', LOCALE_EN);
-  }
+  // const language = commonState.get('language');
+  // if (language === 'vi') {
+  //   moment.updateLocale('vi', LOCALE_VI);
+  // } else {
+  //   moment.updateLocale('en', LOCALE_EN);
+  // }
 
   /** Use State */
   const [loading, setLoading] = useState(true);
@@ -97,9 +97,7 @@ function Dashboard(props) {
             <View>
               <CText
                 styles={'textCaption1 colorWhite'}
-                customLabel={`${t('dashboard:to_day')} ${moment().format(
-                  'dddd DD/MM/YYYY',
-                )}`}
+                customLabel={`${moment().format('dddd DD/MM/YYYY')}`}
               />
               <CText
                 styles={'textHeadline colorWhite'}
