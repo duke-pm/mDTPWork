@@ -32,7 +32,6 @@ function GroupTypeShow(props) {
         cStyles.py6,
         cStyles.px16,
       ]}>
-      {/* <CText styles={'textCaption1'} label={'my_bookings:see_as'} /> */}
       <View
         style={[
           cStyles.rounded1,

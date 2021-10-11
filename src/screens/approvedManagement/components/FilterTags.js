@@ -50,7 +50,7 @@ function FilterTags(props) {
           {backgroundColor: primaryColor},
         ]}>
         <CText
-          styles={'textCaption2 colorBlack'}
+          styles={'textCaption2'}
           customLabel={`${translation('common:from_date')}${
             fromDate !== '' ? moment(fromDate).format(formatDateView) : '#'
           }\n${translation('common:to_date')}${

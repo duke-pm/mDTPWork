@@ -533,7 +533,6 @@
   },
   "my_bookings": {
     "title": "My Bookings",
-    "see_as": "See as: ",
     "at": " at ",
     "notes": "Notes: ",
     "live": " [Live]"
