@@ -98,6 +98,7 @@ const Icons = {
   login: 'log-in-outline',
   save: 'save-outline',
   nextStep: 'arrow-forward-outline',
+  downStep: 'arrow-down-outline',
   downItem: 'chevron-down-circle-outline',
   upItem: 'chevron-up-circle-outline',
   dot: 'ellipse',

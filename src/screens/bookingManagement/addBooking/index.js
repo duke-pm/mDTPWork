@@ -753,7 +753,12 @@ function AddBooking(props) {
                 <CInput
                   inputRef={ref => (noteRef = ref)}
                   containerStyle={cStyles.mt16}
-                  style={[cStyles.itemsStart, styles.input_multiline]}
+                  style={[
+                    cStyles.flex1,
+                    cStyles.itemsStart,
+                    cStyles.fullHeight,
+                    styles.input_multiline,
+                  ]}
                   styleInput={cStyles.py3}
                   styleFocus={styles.input_focus}
                   name={INPUT_NAME.NOTE_BOOKING}
@@ -763,6 +768,7 @@ function AddBooking(props) {
                   returnKey={'default'}
                   blurOnSubmit={false}
                   multiline
+                  scrollEnabled={true}
                   value={dataBooking.note}
                   disabled={
                     loading.main || (isDetail && !dataBooking.isUpdated)
@@ -941,7 +947,11 @@ function AddBooking(props) {
                   onChangeValue={onSearchResources}
                 />
                 <Picker
-                  style={[styles.action, cStyles.justifyCenter]}
+                  style={[
+                    styles.action,
+                    cStyles.fullWidth,
+                    cStyles.justifyCenter,
+                  ]}
                   itemStyle={{
                     fontSize: TXT_AS_SIZE,
                     color: customColors.text,
@@ -976,7 +986,11 @@ function AddBooking(props) {
               onConfirm={handleChangeFromTime}>
               <View style={cStyles.px16}>
                 <Picker
-                  style={[styles.action, cStyles.justifyCenter]}
+                  style={[
+                    styles.action,
+                    cStyles.fullWidth,
+                    cStyles.justifyCenter,
+                  ]}
                   itemStyle={{
                     fontSize: TXT_AS_SIZE,
                     color: customColors.text,
@@ -999,7 +1013,11 @@ function AddBooking(props) {
               onConfirm={handleChangeToTime}>
               <View style={cStyles.px16}>
                 <Picker
-                  style={[styles.action, cStyles.justifyCenter]}
+                  style={[
+                    styles.action,
+                    cStyles.fullWidth,
+                    cStyles.justifyCenter,
+                  ]}
                   itemStyle={{
                     fontSize: TXT_AS_SIZE,
                     color: customColors.text,
@@ -1154,12 +1172,12 @@ const styles = StyleSheet.create({
   input_focus: {borderColor: colors.SECONDARY},
   left: {flex: 0.6},
   right: {flex: 0.4},
-  action: {width: '100%', height: verticalScale(180)},
+  action: {height: verticalScale(180)},
   content_picker: {height: '40%'},
-  input_multiline: {height: verticalScale(100)},
   button: {width: moderateScale(150)},
   con_parti_select: {height: sW('100%')},
   row_parti_select: {height: moderateScale(40)},
+  input_multiline: {minHeight: verticalScale(100)},
 });
 
 export default AddBooking;

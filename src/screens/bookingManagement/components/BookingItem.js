@@ -70,7 +70,7 @@ function BookingItem(props) {
               <View style={[cStyles.row, cStyles.itemsCenter]}>
                 <CIcon name={Icons.timeTask} size={'smaller'} color={'icon'} />
                 <View>
-                  <View style={[cStyles.row, cStyles.itemsCenter]}>
+                  <View>
                     <Text
                       style={[cStyles.textCenter, cStyles.pl4]}
                       numberOfLines={2}>
@@ -79,17 +79,19 @@ function BookingItem(props) {
                           cStyles.textCaption2,
                           {color: customColors.text},
                         ]}>
-                        {`${timeDate.startDate}\n${data.strStartTime}`}
+                        {`${timeDate.startDate} - ${data.strStartTime}`}
                       </Text>
                     </Text>
-                    <CIcon name={Icons.nextStep} size={'minimum'} />
+                    <View style={cStyles.itemsCenter}>
+                      <CIcon name={Icons.downStep} size={'minimum'} />
+                    </View>
                     <Text style={cStyles.textCenter} numberOfLines={2}>
                       <Text
                         style={[
                           cStyles.textCaption2,
                           {color: customColors.text},
                         ]}>
-                        {`${timeDate.endDate}\n${data.strEndTime}`}
+                        {`${timeDate.endDate} - ${data.strEndTime}`}
                       </Text>
                     </Text>
                   </View>
@@ -119,7 +121,7 @@ function BookingItem(props) {
                   size={'smaller'}
                   customColor={data.color}
                 />
-                <CLabel style={cStyles.pl3} customLabel={data.resourceName} />
+                <CLabel style={cStyles.pl5} customLabel={data.resourceName} />
               </View>
               <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt6]}>
                 <CIcon name={Icons.userCreated} size={'smaller'} />
