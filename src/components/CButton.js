@@ -15,9 +15,12 @@ import CIcon from './CIcon';
 /** COMMON */
 import {colors, cStyles} from '~/utils/style';
 import {verticalScale} from '~/utils/helper';
+import { useColorScheme } from 'react-native-appearance';
+import { THEME_DARK } from '~/config/constants';
 
 function CButton(props) {
   const {t} = useTranslation();
+  const isDark = useColorScheme() === THEME_DARK;
   const {
     touchStyle = {},
     style = {},
@@ -51,6 +54,7 @@ function CButton(props) {
           block && cStyles.fullWidth,
           {backgroundColor: color},
           variant === 'text' && styles.con_variant_text,
+          isDark && styles.con_dark,
           style,
         ]}>
         {icon && (
@@ -85,6 +89,7 @@ function CButton(props) {
 
 const styles = StyleSheet.create({
   container: {paddingVertical: verticalScale(1)},
+  con_dark: {backgroundColor: colors.BACKGROUND_BTN_DARK},
   con_variant_text: {backgroundColor: colors.TRANSPARENT},
   textDisabled: Platform.select({
     ios: {color: '#cdcdcd'},

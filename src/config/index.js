@@ -6,7 +6,6 @@
  **/
 import {LocaleConfig} from 'react-native-calendars';
 import Config from 'react-native-config';
-import moment from 'moment';
 /** COMMON */
 import {Assets} from '~/utils/asset';
 import {colors} from '~/utils/style';
@@ -89,7 +88,6 @@ LocaleConfig.locales.vi = {
 LocaleConfig.defaultLocale = 'vi';
 
 const Configs = {
-  toDay: moment(),
   // for Host APIs
   hostAPI: Config.API_URL,
   prefixAPI: Config.API_PREFIX,

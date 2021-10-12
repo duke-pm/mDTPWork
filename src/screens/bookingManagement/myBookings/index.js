@@ -30,6 +30,7 @@ import BookingList from '../components/BookingList';
 import GroupTypeShow from '../components/GroupTypeShow';
 import FilterTags from '../components/FilterTags';
 import Filter from '../components/Filter';
+import CActionSheet from '~/components/CActionSheet';
 /* COMMON */
 import Routes from '~/navigation/Routes';
 import {colors, cStyles} from '~/utils/style';
@@ -39,8 +40,6 @@ import {THEME_DARK, REFRESH, LOAD_MORE} from '~/config/constants';
 import {usePrevious} from '~/utils/hook';
 /* REDUX */
 import * as Actions from '~/redux/actions';
-import CActionSheet from '~/components/CActionSheet';
-import Styles from '~/utils/style/Styles';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -78,6 +77,7 @@ const THEME_CALENDAR = {
   disabledDotColor: 'grey',
   dotStyle: {marginTop: -2},
 };
+const MONTH_FORMAT = 'MMMM - yyyy';
 
 /** All refs */
 const asFilterRef = createRef();
@@ -529,7 +529,7 @@ function MyBookings(props) {
                   firstDay={1}
                   markingType={'multi-dot'}
                   markedDates={marked}
-                  monthFormat={'MMMM - yyyy'}
+                  monthFormat={MONTH_FORMAT}
                   enableSwipeMonths={false}
                   theme={{
                     ...THEME_CALENDAR,

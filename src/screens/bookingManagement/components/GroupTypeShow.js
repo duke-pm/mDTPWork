@@ -8,7 +8,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {View} from 'react-native';
 /* COMPONENTS */
-import CText from '~/components/CText';
 import CIconButton from '~/components/CIconButton';
 /* COMMON */
 import {Commons, Icons} from '~/utils/common';
@@ -33,7 +32,6 @@ function GroupTypeShow(props) {
         cStyles.py6,
         cStyles.px16,
       ]}>
-      {/* <CText styles={'textCaption1'} label={'my_bookings:see_as'} /> */}
       <View
         style={[
           cStyles.rounded1,

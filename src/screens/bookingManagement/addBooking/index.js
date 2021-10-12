@@ -90,6 +90,11 @@ const TYPE = {
   UPDATE: 'UDPATE',
 };
 const TXT_AS_SIZE = moderateScale(18);
+const MINIMUM_DATE = new Date(
+  moment().year(),
+  moment().month(),
+  moment().date(),
+);
 
 function AddBooking(props) {
   const {t} = useTranslation();
@@ -162,6 +167,14 @@ function AddBooking(props) {
   /*****************
    ** HANDLE FUNC **
    *****************/
+  const handleResource = () => asResourceRef.current?.show();
+
+  const handleFromTime = () => asFromTimeRef.current?.show();
+
+  const handleToTime = () => asToTimeRef.current?.show();
+
+  const handleParticipants = () => asParticipantRef.current?.show();
+
   const handleDateInput = iName =>
     setShowPickerDate({active: iName, status: true});
 
@@ -715,7 +728,7 @@ function AddBooking(props) {
                     activeIndex={dataBooking.resource}
                     keyToShow={'resourceName'}
                     keyToCompare={'resourceID'}
-                    onPress={() => asResourceRef.current?.show()}
+                    onPress={handleResource}
                   />
                 </View>
 
@@ -774,6 +787,9 @@ function AddBooking(props) {
                     dataBooking.oneTime ? customColors.green : customColors.icon
                   }
                   labelRight={'add_booking:one_time'}
+                  disabled={
+                    loading.main || (isDetail && !dataBooking.isUpdated)
+                  }
                   value={dataBooking.oneTime}
                   onChange={handleOneTime}
                 />
@@ -813,7 +829,7 @@ function AddBooking(props) {
                       activeIndex={dataBooking.fromTime}
                       keyToShow={null}
                       keyToCompare={null}
-                      onPress={() => asFromTimeRef.current?.show()}
+                      onPress={handleFromTime}
                     />
                   </View>
                 </View>
@@ -884,7 +900,7 @@ function AddBooking(props) {
                       activeIndex={dataBooking.toTime}
                       keyToShow={null}
                       keyToCompare={null}
-                      onPress={() => asToTimeRef.current?.show()}
+                      onPress={handleToTime}
                     />
                   </View>
                 </View>
@@ -901,7 +917,7 @@ function AddBooking(props) {
                     dataActive={dataBooking.participants}
                     onPressItem={isDetail ? handleParticipant : () => null}
                     onPressRemove={handleRemoveParti}
-                    onPress={() => asParticipantRef.current?.show()}
+                    onPress={handleParticipants}
                   />
                 </View>
               </>
@@ -1070,9 +1086,7 @@ function AddBooking(props) {
           {/** Date Picker */}
           <CDateTimePicker
             show={showPickerDate.status}
-            minimumDate={
-              new Date(moment().year(), moment().month(), moment().date())
-            }
+            minimumDate={MINIMUM_DATE}
             value={
               dataBooking[showPickerDate.active] === ''
                 ? moment().format(formatDate)

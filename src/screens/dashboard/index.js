@@ -9,7 +9,8 @@ import React, {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {ifIphoneX} from 'react-native-iphone-x-helper';
-import {StyleSheet, View, Text} from 'react-native';
+import {StyleSheet, View} from 'react-native';
+import moment from 'moment';
 /** COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
@@ -19,18 +20,19 @@ import CText from '~/components/CText';
 /** COMMON */
 import Configs from '~/config';
 import {cStyles} from '~/utils/style';
+import {DEFAULT_FORMAT_DATE_8} from '~/config/constants';
 
 function Dashboard(props) {
   const {t} = useTranslation();
   const {navigation} = props;
 
-  /** Use State */
-  const [loading, setLoading] = useState(true);
-  const [routes, setRoutes] = useState([]);
-
   /** Use redux */
   const authState = useSelector(({auth}) => auth);
   const fullName = authState.getIn(['login', 'fullName']);
+
+  /** Use State */
+  const [loading, setLoading] = useState(true);
+  const [routes, setRoutes] = useState([]);
 
   /*****************
    ** HANDLE FUNC **
@@ -86,14 +88,14 @@ function Dashboard(props) {
               styles.welcome,
             ]}>
             <View>
-              <Text>
-                <Text style={[cStyles.textHeadline, cStyles.colorWhite]}>
-                  {t('dashboard:welcome')}
-                </Text>
-                <Text style={[cStyles.textHeadline, cStyles.colorWhite]}>
-                  {` ${fullName}`},
-                </Text>
-              </Text>
+              <CText
+                styles={'textCaption1 colorWhite'}
+                customLabel={`${moment().format(DEFAULT_FORMAT_DATE_8)}`}
+              />
+              <CText
+                styles={'textHeadline colorWhite'}
+                customLabel={`${t('dashboard:welcome')} ${fullName}`}
+              />
               <CText
                 styles={'textCaption1 colorWhite'}
                 label={'dashboard:welcome_1'}

@@ -197,31 +197,6 @@ function Filter(props) {
             onPressRemoveValue={() => setData({...data, toDate: ''})}
           />
         </View>
-
-        {/* <View
-          style={[
-            cStyles.row,
-            cStyles.itemsCenter,
-            cStyles.justifyBetween,
-            cStyles.px10,
-            cStyles.mt10,
-          ]}>
-          <View style={styles.left}>
-            <CLabel
-              style={[cStyles.pt6, cStyles.textLeft]}
-              bold
-              label={'bookings:to_date'}
-            />
-          </View>
-
-          <View style={styles.right}>
-            <CLabel
-              style={[cStyles.pt6, cStyles.textRight]}
-              bold
-              label={'bookings:to_date'}
-            />
-          </View>
-        </View> */}
       </>
 
       {/** Date Picker */}

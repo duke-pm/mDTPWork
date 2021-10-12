@@ -14,7 +14,7 @@ import {cStyles} from '~/utils/style';
 import {moderateScale} from '~/utils/helper';
 
 function SocialItem(props) {
-  const {key = '', customColors = {}, index = 0, data = null} = props;
+  const {key = '', index = 0, data = null} = props;
 
   /*****************
    ** HANDLE FUNC **
@@ -27,15 +27,9 @@ function SocialItem(props) {
   return (
     <CTouchable
       key={key}
-      containerStyle={[index !== 0 && cStyles.ml16, {}]}
+      containerStyle={[index !== 0 && cStyles.ml10, {}]}
       onPress={handleSocial}>
-      <View
-        style={[
-          cStyles.rounded1,
-          cStyles.center,
-          cStyles.p8,
-          {backgroundColor: customColors.cardDisable},
-        ]}>
+      <View style={[cStyles.rounded1, cStyles.center, cStyles.p6]}>
         <Image
           style={styles.social}
           source={data.icon}

@@ -19,8 +19,8 @@ import CContent from '~/components/CContent';
 import CSearchBar from '~/components/CSearchBar';
 import CIconHeader from '~/components/CIconHeader';
 import CActionSheet from '~/components/CActionSheet';
-import Filter from '../components/Filter';
 import BookingList from '../components/BookingList';
+import Filter from '../components/Filter';
 import FilterTags from '../components/FilterTags';
 /* COMMON */
 import Routes from '~/navigation/Routes';

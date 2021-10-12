@@ -10,6 +10,7 @@ import {View} from 'react-native';
 /* COMPONENTS */
 import CActivityIndicator from '~/components/CActivityIndicator';
 import CAvatar from '~/components/CAvatar';
+import CIcon from '~/components/CIcon';
 import CIconButton from '~/components/CIconButton';
 import CText from '~/components/CText';
 import CTouchable from '~/components/CTouchable';
@@ -109,12 +110,21 @@ function RowSelectTags(props) {
               containerStyle={cStyles.mt10}
               onPress={onPress}
               disabled={disabled}>
-              <View style={[cStyles.py3]}>
+              <View style={cStyles.py3}>
                 {!disabled ? (
-                  <CText
-                    styles={'textCaption1 colorGreen textItalic textUnderline'}
-                    label={'add_booking:no_participants'}
-                  />
+                  <View style={[cStyles.row, cStyles.itemsCenter]}>
+                    <CIcon
+                      name={Icons.addUser}
+                      size={'smaller'}
+                      color={'green'}
+                    />
+                    <CText
+                      styles={
+                        'textCaption1 colorGreen textItalic textUnderline pl6'
+                      }
+                      label={'add_booking:no_participants'}
+                    />
+                  </View>
                 ) : (
                   <CText
                     styles={'textCaption1'}
