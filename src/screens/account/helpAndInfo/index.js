@@ -5,6 +5,7 @@
  ** Description: Description of HelpAndInfo.js
  **/
 import React from 'react';
+import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
 import DeviceInfo from 'react-native-device-info';
 /* COMPONENTS */
@@ -84,7 +85,9 @@ const HELP_AND_INFO_2 = [
 ];
 
 function HelpAndInfo(props) {
+  const {t} = useTranslation();
   const {customColors} = useTheme();
+  const {navigation} = props;
 
   /************
    ** RENDER **
@@ -103,6 +106,8 @@ function HelpAndInfo(props) {
               <ListItem
                 key={item.id}
                 index={index}
+                translate={t}
+                navigation={navigation}
                 lastIndex={HELP_AND_INFO.length - 1}
                 data={item}
                 customColors={customColors}
@@ -119,6 +124,8 @@ function HelpAndInfo(props) {
               <ListItem
                 key={item.id}
                 index={index}
+                translate={t}
+                navigation={navigation}
                 lastIndex={HELP_AND_INFO_1.length - 1}
                 data={item}
                 customColors={customColors}
@@ -132,6 +139,8 @@ function HelpAndInfo(props) {
               <ListItem
                 key={item.id}
                 index={index}
+                translate={t}
+                navigation={navigation}
                 lastIndex={HELP_AND_INFO_2.length - 1}
                 data={item}
                 customColors={customColors}

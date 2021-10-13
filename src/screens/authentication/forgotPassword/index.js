@@ -187,7 +187,7 @@ function ForgotPassword(props) {
                       style={[
                         cStyles.itemsCenter,
                         cStyles.justifyEnd,
-                        styles.container_title,
+                        styles.title,
                       ]}>
                       <CText
                         customStyles={[
@@ -199,7 +199,7 @@ function ForgotPassword(props) {
                       />
                     </View>
 
-                    <View style={[styles.container_input, cStyles.fullWidth]}>
+                    <View style={[styles.con_input, cStyles.fullWidth]}>
                       <CInput
                         id={INPUT_NAME.EMAIL}
                         style={styles.input}
@@ -311,8 +311,8 @@ function ForgotPassword(props) {
 }
 
 const styles = StyleSheet.create({
-  container_title: {flex: 0.35},
-  container_input: {flex: 0.65},
+  title: {flex: 0.35},
+  con_input: {flex: 0.65},
   input: {backgroundColor: colors.TRANSPARENT, color: colors.WHITE},
   input_focus: {backgroundColor: colors.BACKGROUND_INPUT_FOCUS},
   box: {

@@ -111,18 +111,8 @@ function ChangePassword(props) {
 
   const handleChangePassword = () => {
     let isValid = onValidate();
-    if (!isValid.status) {
+    if (!isValid) {
       onSubmit();
-    } else {
-      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-      setError({
-        currentPassword: isValid.errCur.status,
-        currentPasswordHelper: isValid.errCur.helper,
-        newPassword: isValid.errNew.status,
-        newPasswordHelper: isValid.errNew.helper,
-        confirmPassword: isValid.errCon.status,
-        confirmPasswordHelper: isValid.errCon.helper,
-      });
     }
   };
 
@@ -148,7 +138,7 @@ function ChangePassword(props) {
     if (!errNew.status && form.newPassword.trim() === '') {
       status = true;
       errNew.status = true;
-      errNew.helper = t('change_password:error_new_pass_not_fill');
+      errNew.helper = 'change_password:error_new_pass_not_fill';
     }
     if (!errCon.status && form.confirmPassword.trim() === '') {
       status = true;
@@ -159,7 +149,7 @@ function ChangePassword(props) {
     if (!status && form.currentPassword.trim() === form.newPassword.trim()) {
       status = true;
       errNew.status = true;
-      errNew.helper = t('change_password:error_cur_not_like_new');
+      errNew.helper = 'change_password:error_cur_not_like_new';
     }
     /** Check con password not like new password */
     if (!status && form.newPassword.trim() !== form.confirmPassword.trim()) {
@@ -167,7 +157,16 @@ function ChangePassword(props) {
       errCon.status = true;
       errCon.helper = 'change_password:error_new_not_like_confirm';
     }
-    return {status, errCur, errNew, errCon};
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    setError({
+      currentPassword: errCur.status,
+      currentPasswordHelper: errCur.helper,
+      newPassword: errNew.status,
+      newPasswordHelper: errNew.helper,
+      confirmPassword: errCon.status,
+      confirmPasswordHelper: errCon.helper,
+    });
+    return status;
   };
 
   const onSubmit = () => {
@@ -290,7 +289,7 @@ function ChangePassword(props) {
                         value={form.newPassword}
                         password
                         error={error.newPassword}
-                        errorHelperCustom={error.newPasswordHelper}
+                        errorHelper={error.newPasswordHelper}
                         onChangeInput={() =>
                           handleChangeInput(confirmPasswordRef)
                         }

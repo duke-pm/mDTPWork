@@ -7,7 +7,7 @@
  **/
 import React from 'react';
 import {useColorScheme} from 'react-native-appearance';
-import {Linking, View} from 'react-native';
+import {Linking, StyleSheet, View} from 'react-native';
 /* COMPONENTS */
 import CCard from '~/components/CCard';
 import CContainer from '~/components/CContainer';
@@ -56,11 +56,7 @@ function ContactUs(props) {
                   content={
                     <View>
                       <View
-                        style={[
-                          cStyles.row,
-                          cStyles.itemsStart,
-                          {width: '88%'},
-                        ]}>
+                        style={[cStyles.row, cStyles.itemsStart, styles.con]}>
                         <CText
                           styles={'textCaption1'}
                           label={'contact_us:address'}
@@ -87,7 +83,7 @@ function ContactUs(props) {
                               cStyles.row,
                               cStyles.itemsCenter,
                               cStyles.flexWrap,
-                              {width: '95%'},
+                              styles.item,
                             ]}>
                             {item.phone.map((itemPhone, indexPhone) => (
                               <CText
@@ -152,5 +148,10 @@ function ContactUs(props) {
     />
   );
 }
+
+const styles = StyleSheet.create({
+  con: {width: '88%'},
+  item: {width: '95%'},
+});
 
 export default React.memo(ContactUs);

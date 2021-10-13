@@ -242,6 +242,7 @@ function Account(props) {
   const {t} = useTranslation();
   const {customColors} = useTheme();
   const isDark = useColorScheme() === THEME_DARK;
+  const {navigation} = props;
 
   /** Use redux */
   const dispatch = useDispatch();
@@ -306,7 +307,7 @@ function Account(props) {
                 ? [cStyles.row, cStyles.itemsStart, cStyles.justifyCenter]
                 : []
             }>
-            <View style={isTablet ? styles.container_left : {}}>
+            <View style={isTablet ? styles.left : {}}>
               {isTablet && (
                 <Information isTablet={isTablet} authState={authState} />
               )}
@@ -321,7 +322,7 @@ function Account(props) {
               )}
             </View>
 
-            <View style={isTablet ? styles.container_right : cStyles.flex1}>
+            <View style={isTablet ? styles.right : cStyles.flex1}>
               {!isTablet && (
                 <Information isTablet={isTablet} authState={authState} />
               )}
@@ -338,9 +339,11 @@ function Account(props) {
                   <ListItem
                     key={item.id}
                     index={index}
+                    translate={t}
+                    navigation={navigation}
+                    customColors={customColors}
                     lastIndex={ACCOUNT.INFORMATION.childrens.length - 1}
                     data={item}
-                    customColors={customColors}
                   />
                 ))}
               />
@@ -357,9 +360,11 @@ function Account(props) {
                   <ListItem
                     key={item.id}
                     index={index}
+                    translate={t}
+                    navigation={navigation}
+                    customColors={customColors}
                     lastIndex={ACCOUNT.SETTINGS.childrens.length - 1}
                     data={item}
-                    customColors={customColors}
                     onSignOut={handleSignOut}
                   />
                 ))}
@@ -384,8 +389,8 @@ function Account(props) {
 }
 
 const styles = StyleSheet.create({
-  container_left: {flex: 0.4},
-  container_right: {flex: 0.6},
+  left: {flex: 0.4},
+  right: {flex: 0.6},
 });
 
 export default Account;

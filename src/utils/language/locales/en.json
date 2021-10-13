@@ -181,7 +181,7 @@
     "error_cur_pass_not_fill": "The current password is not empty!",
     "error_new_pass_not_fill": "The new password is not empty!",
     "error_con_pass_not_fill": "Confirm the password is not empty!",
-    "error_cur_not_like_new": "The new password cannot match the current password!",
+    "error_cur_not_like_new": "The new password match the current password!",
     "error_length_new_lager": "Minimum new password length is",
     "error_new_not_like_confirm": "Confirm password incorrectly!",
     "success_change": "Change password successfully! Please login with a new password to continue using application.",
