@@ -384,22 +384,21 @@ function AddRequest(props) {
   };
 
   const onSearchFilter = text => {
+    let newData = [];
     if (text) {
-      const newData = dataWhereUse.filter(function (item) {
+      newData = dataWhereUse.filter(function (item) {
         const itemData = item[Commons.SCHEMA_DROPDOWN.DEPARTMENT.label]
           ? item[Commons.SCHEMA_DROPDOWN.DEPARTMENT.label].toUpperCase()
           : ''.toUpperCase();
         const textData = text.toUpperCase();
         return itemData.indexOf(textData) > -1;
       });
-      setDataWhereUse(newData);
-      setFindWhereUse(text);
-      if (newData.length > 0) {
-        setWhereUse(0);
-      }
     } else {
-      setDataWhereUse(masterState.get('department'));
-      setFindWhereUse(text);
+      newData = masterState.get('department');
+    }
+    setDataWhereUse(newData);
+    setFindWhereUse(text || '');
+    if (newData.length > 0) {
       setWhereUse(0);
     }
   };

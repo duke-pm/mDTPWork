@@ -97,12 +97,14 @@ function CCard(props) {
               />
             </View>
             {customIconHeader.length > 0 &&
-              customIconHeader.map(item => (
-                <CIconButton
-                  iconName={item.icon}
-                  iconColor={customColors.orange}
-                  onPress={item.onPress}
-                />
+              customIconHeader.map((item, index) => (
+                <View key={index + '_icon_header'}>
+                  <CIconButton
+                    iconName={item.icon}
+                    iconColor={customColors.orange}
+                    onPress={item.onPress}
+                  />
+                </View>
               ))}
             {detail && (
               <View style={styles.con_header_right}>

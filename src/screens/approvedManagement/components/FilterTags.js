@@ -63,6 +63,7 @@ function FilterTags(props) {
         arrStatus.map(itemStatus => {
           return (
             <View
+              key={itemStatus}
               style={[
                 cStyles.px6,
                 cStyles.py2,
@@ -80,6 +81,7 @@ function FilterTags(props) {
         types.map(itemType => {
           return (
             <View
+              key={itemType.label}
               style={[
                 cStyles.px6,
                 cStyles.py2,

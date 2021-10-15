@@ -107,11 +107,11 @@ const RowSelect = React.memo(
             cStyles.row,
             cStyles.itemsCenter,
             styles.row_header,
+            {backgroundColor: customColors.card},
             first && isDark && cStyles.borderTopDark,
             first && !isDark && cStyles.borderTop,
             last && isDark && cStyles.borderBottomDark,
             last && !isDark && cStyles.borderBottom,
-            {backgroundColor: customColors.card},
           ]}>
           {user ? (
             <View style={cStyles.px16}>

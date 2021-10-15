@@ -65,15 +65,16 @@ function CContentSubMenu(props) {
           {routes.map((item, index) => {
             if (item.isAccess) {
               return (
-                <CItem
-                  key={index.toString()}
-                  itemStyle={styles.item}
-                  index={index}
-                  data={item}
-                  colors={colorsItem[index].colors}
-                  bgColor={colorsItem[index].bgColor}
-                  onPress={onPressItem}
-                />
+                <View key={index + '_sub_menu'}>
+                  <CItem
+                    itemStyle={styles.item}
+                    index={index}
+                    data={item}
+                    colors={colorsItem[index].colors}
+                    bgColor={colorsItem[index].bgColor}
+                    onPress={onPressItem}
+                  />
+                </View>
               );
             }
             return null;

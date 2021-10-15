@@ -21,7 +21,11 @@ import ListProject from '../list/Project';
 import Icons from '~/utils/common/Icons';
 import {cStyles} from '~/utils/style';
 import {moderateScale, IS_ANDROID} from '~/utils/helper';
-import {DEFAULT_FORMAT_DATE_4, DEFAULT_FORMAT_DATE_1} from '~/config/constants';
+import {
+  DEFAULT_FORMAT_DATE_4,
+  DEFAULT_FORMAT_DATE_1,
+  DEFAULT_FORMAT_DATE_2,
+} from '~/config/constants';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -48,14 +52,14 @@ const BOTTOM_CHILDREN = moderateScale(10);
 
 function ProjectItem(props) {
   const {
-    index,
-    data,
-    formatDateView,
-    customColors,
-    isDark,
-    onPress,
-    onPressDetail,
-    onPressPlan,
+    index = -1,
+    data = null,
+    formatDateView = DEFAULT_FORMAT_DATE_2,
+    customColors = {},
+    isDark = false,
+    onPress = () => null,
+    onPressDetail = () => null,
+    onPressPlan = () => null,
   } = props;
 
   /** Use state */
@@ -98,8 +102,8 @@ function ProjectItem(props) {
         key={index}
         index={index}
         containerStyle={styles.card}
+        detail
         customLabel={`#${data.prjID} ${data.prjName}`}
-        detail={true}
         onLayout={onLayoutCard}
         onPress={handleItem}
         onDetailPress={handleHeaderItem}
@@ -239,11 +243,8 @@ function ProjectItem(props) {
             cStyles.abs,
             styles.card_children,
             {
-              right: PADDING_2_CHILDREN,
-              bottom: -BOTTOM_CHILDREN,
               width: widthCard,
               backgroundColor: customColors.cardDisable,
-              zIndex: 1,
             },
           ]}
         />
@@ -284,7 +285,12 @@ const styles = StyleSheet.create({
   row_right_1: {flex: 0.2},
   line_child: {height: '100%', borderRadius: 1},
   card: {zIndex: 100},
-  card_children: {height: moderateScale(50)},
+  card_children: {
+    height: moderateScale(50),
+    right: PADDING_2_CHILDREN,
+    bottom: -BOTTOM_CHILDREN,
+    zIndex: 1,
+  },
   owner: {width: '65%'},
   status: {
     height: moderateScale(8),

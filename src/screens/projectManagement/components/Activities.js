@@ -417,10 +417,6 @@ function Activity(props) {
   return (
     <CContainer
       loading={loading.main || loading.send}
-      // hasShapes
-      // figuresShapes={[]}
-      // primaryColorShapes={colors.BG_HEADER_PROJECT}
-      // primaryColorShapesDark={colors.BG_HEADER_PROJECT_DARK}
       content={
         <View style={cStyles.flex1}>
           {showSearch && (
@@ -429,7 +425,7 @@ function Activity(props) {
                 cStyles.itemsCenter,
                 cStyles.borderBottom,
                 dataSearch.data.length === 0 && cStyles.pb10,
-                dataSearch.data.length > 0 && {height: moderateScale(110)},
+                dataSearch.data.length > 0 && styles.con_search,
               ]}>
               <CSearchBar
                 containerStyle={IS_ANDROID ? cStyles.mx20 : {}}
@@ -578,6 +574,7 @@ function Activity(props) {
 }
 
 const styles = StyleSheet.create({
+  con_search: {height: moderateScale(110)},
   input_focus: {borderColor: colors.PRIMARY},
   input: {width: '85%'},
   container_chat: {flex: 0.1},

@@ -26,8 +26,8 @@ const INPUT_NAME = {REASON_REJECT: 'reasonReject'};
 function RejectModal(props) {
   const {
     description = 'add_approved_assets:message_confirm_reject',
-    onCloseReject,
-    onReject,
+    onCloseReject = () => null,
+    onReject = () => null,
   } = props;
 
   /** Use state */
@@ -86,10 +86,9 @@ function RejectModal(props) {
           disabled={loading}
           holder={'add_approved_assets:reason'}
           value={reasonReject}
-          keyboard={'default'}
           returnKey={'done'}
-          autoFocus={true}
-          multiline={true}
+          autoFocus
+          multiline
           error={error.reasonReject.status}
           errorHelper={error.reasonReject.helper}
           textAlignVertical={'top'}

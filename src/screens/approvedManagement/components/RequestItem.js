@@ -23,7 +23,14 @@ import {DEFAULT_FORMAT_DATE_4} from '~/config/constants';
 
 function RequestItem(props) {
   const {t} = useTranslation();
-  const {customColors, index, data, dataProcess, dataDetail, onPress} = props;
+  const {
+    customColors = {},
+    index = -1,
+    data = null,
+    dataProcess = [],
+    dataDetail = [],
+    onPress = () => null,
+  } = props;
 
   /** Use redux */
   const commonState = useSelector(({common}) => common);

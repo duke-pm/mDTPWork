@@ -60,7 +60,14 @@ const CUSTOM_ANIM = {
 };
 
 function TaskItem(props) {
-  const {data, translation, isDark, customColors, onPress, onRefresh} = props;
+  const {
+    data = null,
+    translation = null,
+    isDark = false,
+    customColors = {},
+    onPress = () => null,
+    onRefresh = () => null,
+  } = props;
 
   /** Use ref */
   const valueAnim = useRef(new Animated.Value(0)).current;
@@ -282,6 +289,7 @@ function TaskItem(props) {
                     if (index === 3) {
                       return (
                         <View
+                          key={index + ''}
                           style={[
                             cStyles.rounded10,
                             cStyles.p1,
@@ -301,6 +309,7 @@ function TaskItem(props) {
                     if (index < 3) {
                       return (
                         <View
+                          key={index + ''}
                           style={[
                             cStyles.rounded10,
                             cStyles.p1,
