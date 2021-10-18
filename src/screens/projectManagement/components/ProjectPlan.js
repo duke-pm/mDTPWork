@@ -237,7 +237,9 @@ function ProjectPlan(props) {
           <CText styles={'textCaption2 fontBold'} label={'common:note_chart'} />
           {chart.dataTask.map(item => {
             return (
-              <View style={[cStyles.row, cStyles.itemsStart, cStyles.mt6]}>
+              <View
+                key={item.id}
+                style={[cStyles.row, cStyles.itemsStart, cStyles.mt6]}>
                 <View
                   style={[
                     cStyles.center,

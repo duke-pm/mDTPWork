@@ -70,6 +70,7 @@ function Settings(props) {
   const {t} = useTranslation();
   const {customColors} = useTheme();
   const isDark = useColorScheme() === THEME_DARK;
+  const {navigation} = props;
 
   /** Use redux */
   const dispatch = useDispatch();
@@ -192,9 +193,11 @@ function Settings(props) {
                 item={({item, index}) => {
                   return (
                     <ListItem
-                      isDark={isDark}
-                      customColors={customColors}
                       index={index}
+                      isDark={isDark}
+                      translate={t}
+                      navigation={navigation}
+                      customColors={customColors}
                       lastIndex={initSettings.length - 1}
                       data={item}
                       dataActiveLang={

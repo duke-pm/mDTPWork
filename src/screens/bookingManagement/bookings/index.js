@@ -41,8 +41,8 @@ if (IS_ANDROID) {
 const asFilterRef = createRef();
 
 function Bookings(props) {
-  const {customColors} = useTheme();
   const {t} = useTranslation();
+  const {customColors} = useTheme();
   const {navigation, route} = props;
   const isPermissionWrite = route.params?.permission?.write || false;
 

@@ -410,19 +410,19 @@ function AddRequest(props) {
   };
 
   const onSearchFilter = text => {
+    let newData = [];
     if (text) {
-      const newData = dataAssets.filter(function (item) {
+      newData = dataAssets.filter(function (item) {
         const itemData = item[Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.label]
           ? item[Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.label].toUpperCase()
           : ''.toUpperCase();
         const textData = text.toUpperCase();
         return itemData.indexOf(textData) > -1;
       });
-      onSetDataAsset(newData, text);
     } else {
-      let tmp = masterState.get('assetByUser');
-      onSetDataAsset(tmp, text);
+      newData = masterState.get('assetByUser');
     }
+    onSetDataAsset(newData, text || '');
   };
 
   const onSetDataAsset = (data, searchKey) => {

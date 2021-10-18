@@ -37,7 +37,7 @@ function CIconHeader(props) {
         }
         return (
           <CTouchable
-            key={index.toString()}
+            key={index + '_icon_header'}
             containerStyle={[
               cStyles.rounded10,
               index !== icons.length - 1 ? cStyles.mr16 : {},

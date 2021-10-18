@@ -57,7 +57,6 @@ function Dashboard(props) {
           tmpRoutes.push(item);
         }
       }
-      // tmpRoutes.push(tmpListMenu.lstPermissionItem[0]);
       setRoutes(tmpRoutes);
     }
   };

@@ -6,8 +6,6 @@
  **/
 import PropTypes from 'prop-types';
 import React from 'react';
-import {useTranslation} from 'react-i18next';
-import {useNavigation} from '@react-navigation/native';
 import {
   StyleSheet,
   View,
@@ -23,21 +21,21 @@ import CIcon from '~/components/CIcon';
 /* COMMON */
 import Configs from '~/config';
 import Icons from '~/utils/common/Icons';
-import {alert, moderateScale} from '~/utils/helper';
-import {colors, cStyles} from '~/utils/style';
 import {Assets} from '~/utils/asset';
+import {colors, cStyles} from '~/utils/style';
+import {alert, moderateScale} from '~/utils/helper';
 
 function ListItem(props) {
-  const navigation = useNavigation();
-  const {t} = useTranslation();
   const {
     key = '',
     index = 0,
     lastIndex = 0,
+    translate = null,
+    customColors = {},
+    navigation = null,
     data = null,
     dataActiveLang = null,
     dataToggle = null,
-    customColors = {},
     onSignOut = () => null,
     onToggle = () => null,
   } = props;
@@ -51,12 +49,13 @@ function ListItem(props) {
       Linking.openURL(`tel:${data.value}`);
     } else if (data.nextRoute) {
       if (data.nextRoute !== 'NotReady') {
-        navigation.navigate(data.nextRoute, {
-          data: data.data || null,
-          isChooseDarkMode: data.isChooseDarkMode || false,
-        });
+        navigation &&
+          navigation.navigate(data.nextRoute, {
+            data: data.data || null,
+            isChooseDarkMode: data.isChooseDarkMode || false,
+          });
       } else {
-        alert(t, 'common:holder_warning_option_prepare', () => null);
+        alert(translate, 'common:holder_warning_option_prepare', () => null);
       }
     } else if (data.isURL) {
       Linking.openURL(data.value);
@@ -210,6 +209,8 @@ ListItem.propTypes = {
   dataActiveLang: PropTypes.object,
   dataToggle: PropTypes.object,
   customColors: PropTypes.object,
+  navigation: PropTypes.object,
+  translate: PropTypes.func,
   onSignOut: PropTypes.func,
   onToggle: PropTypes.func,
 };

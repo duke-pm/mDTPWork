@@ -82,7 +82,7 @@ function ChangePassword(props) {
     resetRoute(navigation, Routes.AUTHENTICATION.SIGN_IN.name);
 
   const handleSend = () => {
-    let isValid = onCheckValid();
+    let isValid = onValidate();
     if (isValid) {
       onSubmit();
     }
@@ -107,7 +107,7 @@ function ChangePassword(props) {
     dispatch(Actions.fetchCheckTokenPassword(params));
   };
 
-  const onCheckValid = () => {
+  const onValidate = () => {
     if (!error.password) {
       if (form.password.trim() === '') {
         LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);

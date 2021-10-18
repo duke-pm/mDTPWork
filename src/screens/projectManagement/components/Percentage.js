@@ -233,11 +233,11 @@ function Percentage(props) {
                 cStyles.abs,
                 cStyles.roundedTopLeft5,
                 cStyles.roundedBottomLeft5,
-                percent.value === 100 && cStyles.roundedTopRight5,
-                percent.value === 100 && cStyles.roundedBottomRight5,
                 cStyles.itemsEnd,
                 cStyles.justifyCenter,
                 styles.percent_body,
+                percent.value === 100 && cStyles.roundedTopRight5,
+                percent.value === 100 && cStyles.roundedBottomRight5,
                 {
                   width: `${percent.value}%`,
                   backgroundColor:
@@ -262,12 +262,12 @@ function Percentage(props) {
                 cStyles.right0,
                 cStyles.roundedTopRight5,
                 cStyles.roundedBottomRight5,
-                percent.value === 0 && cStyles.roundedTopLeft5,
-                percent.value === 0 && cStyles.roundedBottomLeft5,
                 cStyles.itemsStart,
                 cStyles.justifyCenter,
                 styles.con_percent,
                 {width: `${100 - percent.value}%`},
+                percent.value === 0 && cStyles.roundedTopLeft5,
+                percent.value === 0 && cStyles.roundedBottomLeft5,
               ]}>
               {percent.value <= 25 && (
                 <Text

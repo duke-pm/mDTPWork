@@ -8,7 +8,6 @@
 import React, {createRef, useState, useLayoutEffect} from 'react';
 import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-import {useTheme} from '@react-navigation/native';
 import {StyleSheet, View, LayoutAnimation, UIManager} from 'react-native';
 import {TabView} from 'react-native-tab-view';
 import moment from 'moment';
@@ -54,7 +53,6 @@ const RenderScene = ({route}, navigation) => {
 
 function ListRequestAll(props) {
   const {t} = useTranslation();
-  const {customColors} = useTheme();
   const {route, navigation} = props;
   const isPermissionWrite = route.params?.permission?.write || false;
 

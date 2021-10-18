@@ -48,7 +48,6 @@ SocialItem.propTypes = {
   key: PropTypes.string,
   index: PropTypes.number,
   data: PropTypes.object,
-  customColors: PropTypes.object,
 };
 
 export default SocialItem;

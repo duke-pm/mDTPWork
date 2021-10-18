@@ -42,11 +42,11 @@ const FormatCell = React.memo(
           cStyles[align],
           cStyles.borderLeft,
           cStyles.borderBottom,
+          styles.con_cell,
+          styles.cell,
           isDark && cStyles.borderLeftDark,
           isDark && cStyles.borderBottomDark,
           bgColor && {backgroundColor: bgColor},
-          styles.cell,
-          {width: CELL_WIDTH},
         ]}>
         {typeof value === 'string' ? (
           <CText
@@ -83,10 +83,10 @@ const FormatCompactCell = React.memo(
           cStyles.borderLeft,
           cStyles.borderBottom,
           cStyles.borderRight,
+          styles.cell_small,
           isDark && cStyles.borderLeftDark,
           isDark && cStyles.borderBottomDark,
           isDark && cStyles.borderRightDark,
-          styles.cell_small,
         ]}>
         <View style={cStyles.itemsStart}>
           {isProject && !taskType && (
@@ -145,9 +145,9 @@ const FormatFirstCell = React.memo(
           cStyles.itemsCenter,
           cStyles.borderLeft,
           cStyles.borderBottom,
+          styles.cell,
           isDark && cStyles.borderLeftDark,
           isDark && cStyles.borderBottomDark,
-          styles.cell,
           pChild > 2 ? {paddingLeft: PLEFT_COMMON * pChild} : {},
         ]}>
         {pChild > 1 && (
@@ -456,6 +456,7 @@ const styles = StyleSheet.create({
   identity_large: {width: FIRST_CELL_WIDTH_LARGE},
   identity_small: {width: FIRST_CELL_WIDTH_SMALL},
   body: {paddingLeft: FIRST_CELL_WIDTH_LARGE},
+  con_cell: {width: CELL_WIDTH},
   cell: {height: CELL_HEIGHT},
   cell_small: {height: CELL_HEIGHT},
 });
