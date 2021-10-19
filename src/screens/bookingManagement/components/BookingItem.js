@@ -6,14 +6,16 @@
  **/
 import PropTypes from 'prop-types';
 import React from 'react';
-import {StyleSheet, View, Text} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 /* COMPONENTS */
 import CCard from '~/components/CCard';
 import CIcon from '~/components/CIcon';
 import CLabel from '~/components/CLabel';
+import CStatusTag from '~/components/CStatusTag';
+import CUser from '~/components/CUser';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
-import {Icons} from '~/utils/common';
+import {Commons, Icons} from '~/utils/common';
 
 function BookingItem(props) {
   const {
@@ -22,7 +24,6 @@ function BookingItem(props) {
     data = null,
     onPress = () => null,
   } = props;
-  // let isLive = false;
 
   /*****************
    ** HANDLE FUNC **
@@ -39,24 +40,12 @@ function BookingItem(props) {
     startDate: data.strStartDateTime.split(' - ')[0],
     endDate: data.strEndDateTime.split(' - ')[0],
   };
-  // isLive = moment().isBetween(
-  //   moment(timeDate.startDate, 'DD/MM/YYYY').format('YYYY-MM-DD'),
-  //   moment(timeDate.endDate, 'DD/MM/YYYY').format('YYYY-MM-DD'),
-  //   'dates',
-  //   '[]',
-  // );
-  // if (isLive) {
-  //   isLive = isTimeBetween(
-  //     data.strStartTime,
-  //     data.strEndTime,
-  //     moment().format('HH:mm'),
-  //   );
-  // }
-  // let colorTime = isLive
-  //   ? Commons.BOOKING_STATUS_HAPPEND.HAPPENNING.color
-  //   : data.statusHappend === Commons.BOOKING_STATUS_HAPPEND.NOT_HAPPEND.value
-  //   ? Commons.BOOKING_STATUS_HAPPEND.NOT_HAPPEND.color
-  //   : Commons.BOOKING_STATUS_HAPPEND.HAPPENED.color;
+  let colorStatus = Commons.BOOKING_STATUS.NOT_HAPPEND.color;
+  if (data.statusID === Commons.BOOKING_STATUS.HAPPENNING.value) {
+    colorStatus = Commons.BOOKING_STATUS.HAPPENNING.color;
+  } else if (data.statusID === Commons.BOOKING_STATUS.HAPPENED.value) {
+    colorStatus = Commons.BOOKING_STATUS.HAPPENED.color;
+  }
 
   return (
     <CCard
@@ -65,57 +54,34 @@ function BookingItem(props) {
       onPress={handleItem}
       content={
         <View style={cStyles.flex1}>
-          <View style={[cStyles.row, cStyles.itemsStart]}>
+          <View style={[cStyles.row, cStyles.itemsCenter]}>
             <View style={styles.left}>
               <View style={[cStyles.row, cStyles.itemsCenter]}>
                 <CIcon name={Icons.timeTask} size={'smaller'} color={'icon'} />
                 <View>
-                  <View>
-                    <Text
-                      style={[cStyles.textCenter, cStyles.pl4]}
-                      numberOfLines={2}>
-                      <Text
-                        style={[
-                          cStyles.textCaption2,
-                          {color: customColors.text},
-                        ]}>
-                        {`${timeDate.startDate} - ${data.strStartTime}`}
-                      </Text>
-                    </Text>
-                    <View style={cStyles.itemsCenter}>
-                      <CIcon name={Icons.downStep} size={'minimum'} />
-                    </View>
-                    <Text style={cStyles.textCenter} numberOfLines={2}>
-                      <Text
-                        style={[
-                          cStyles.textCaption2,
-                          {color: customColors.text},
-                        ]}>
-                        {`${timeDate.endDate} - ${data.strEndTime}`}
-                      </Text>
-                    </Text>
+                  <CLabel
+                    style={cStyles.pl4}
+                    customLabel={`${timeDate.startDate} - ${data.strStartTime}`}
+                  />
+                  <View style={[cStyles.itemsCenter, cStyles.py4]}>
+                    <CIcon name={Icons.downStep} size={'minimum'} />
                   </View>
-                  {/* {isLive && (
-                    <View
-                      style={[
-                        cStyles.itemsCenter,
-                        cStyles.rounded5,
-                        cStyles.py2,
-                        cStyles.px2,
-                        styles.live,
-                      ]}>
-                      <CText
-                        styles={'textCaption2 colorRed fontBold'}
-                        label={'bookings:resume'}
-                      />
-                    </View>
-                  )} */}
+                  <CLabel
+                    style={cStyles.pl4}
+                    customLabel={`${timeDate.endDate} - ${data.strEndTime}`}
+                  />
                 </View>
               </View>
             </View>
 
             <View style={styles.right}>
-              <View style={[cStyles.row, cStyles.itemsCenter]}>
+              <View style={cStyles.itemsStart}>
+                <CStatusTag
+                  customLabel={data.statusName}
+                  color={customColors[colorStatus]}
+                />
+              </View>
+              <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt6]}>
                 <CIcon
                   name={Icons.resource}
                   size={'smaller'}
@@ -124,8 +90,7 @@ function BookingItem(props) {
                 <CLabel style={cStyles.pl5} customLabel={data.resourceName} />
               </View>
               <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt6]}>
-                <CIcon name={Icons.userCreated} size={'smaller'} />
-                <CLabel style={cStyles.pl5} customLabel={data.ownerName} />
+                <CUser label={data.ownerName} />
               </View>
             </View>
           </View>

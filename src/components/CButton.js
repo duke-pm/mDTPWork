@@ -7,6 +7,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {useTranslation} from 'react-i18next';
+import {useColorScheme} from 'react-native-appearance';
 import {StyleSheet, View, Platform} from 'react-native';
 /** COMPONENTS */
 import CText from './CText';
@@ -15,8 +16,7 @@ import CIcon from './CIcon';
 /** COMMON */
 import {colors, cStyles} from '~/utils/style';
 import {verticalScale} from '~/utils/helper';
-import { useColorScheme } from 'react-native-appearance';
-import { THEME_DARK } from '~/config/constants';
+import {THEME_DARK} from '~/config/constants';
 
 function CButton(props) {
   const {t} = useTranslation();
@@ -73,7 +73,8 @@ function CButton(props) {
 
         <CText
           customStyles={[
-            cStyles.textSubheadline,
+            cStyles.textCallout,
+            cStyles.textBold,
             cStyles.textCenter,
             cStyles.m6,
             {color: variant === 'contained' ? colors.WHITE : color},

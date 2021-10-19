@@ -152,7 +152,7 @@ function AddBooking(props) {
     toTime: DATA_TIME_BOOKING[1],
     status: true,
     isUpdated: false,
-    oneTime: true,
+    oneTime: false,
   });
   const [dataResources, setDataResources] = useState([]);
   const [findResource, setFindResource] = useState('');
@@ -768,7 +768,6 @@ function AddBooking(props) {
                   returnKey={'default'}
                   blurOnSubmit={false}
                   multiline
-                  scrollEnabled={true}
                   value={dataBooking.note}
                   disabled={
                     loading.main || (isDetail && !dataBooking.isUpdated)
@@ -786,7 +785,7 @@ function AddBooking(props) {
             content={
               <>
                 {/** Book one time */}
-                <CCheckbox
+                {/* <CCheckbox
                   containerStyle={cStyles.pt0}
                   textStyle={[cStyles.textBody, {color: customColors.text}]}
                   customColor={
@@ -798,7 +797,7 @@ function AddBooking(props) {
                   }
                   value={dataBooking.oneTime}
                   onChange={handleOneTime}
-                />
+                /> */}
 
                 {/** From date time */}
                 <View
@@ -921,7 +920,7 @@ function AddBooking(props) {
                     }
                     isDark={isDark}
                     dataActive={dataBooking.participants}
-                    onPressItem={isDetail ? handleParticipant : () => null}
+                    onPressItem={isDetail ? handleParticipant : undefined}
                     onPressRemove={handleRemoveParti}
                     onPress={handleParticipants}
                   />

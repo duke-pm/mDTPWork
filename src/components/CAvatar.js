@@ -148,7 +148,7 @@ function CAvatar(props) {
             style={cStyles.rounded10}
             start={{x: 0.0, y: 0.25}}
             end={{x: 0.5, y: 1.0}}
-            colors={['#EAECC6', '#2BC0E4']}>
+            colors={['#EAECC6', '#e5e5ea']}>
             <View
               style={[
                 cStyles.rounded10,

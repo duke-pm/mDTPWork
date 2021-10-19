@@ -162,21 +162,18 @@ const Commons = {
     },
   },
 
-  BOOKING_STATUS_HAPPEND: {
+  BOOKING_STATUS: {
     NOT_HAPPEND: {
-      value: 'Not happen',
-      label: '',
-      color: 'green',
+      value: 1,
+      color: 'statusOnHold',
     },
     HAPPENNING: {
-      value: 'Happenning',
-      label: 'bookings:resume',
-      color: 'red',
+      value: 2,
+      color: 'green',
     },
     HAPPENED: {
-      value: 'Happened',
-      label: '',
-      color: 'icon',
+      value: 3,
+      color: 'statusClosed',
     },
   },
 };

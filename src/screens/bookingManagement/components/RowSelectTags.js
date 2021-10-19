@@ -60,7 +60,6 @@ function RowSelectTags(props) {
                       cStyles.rounded1,
                       cStyles.pl4,
                       cStyles.mr4,
-                      cStyles.mt4,
                       disabled && cStyles.py6,
                       disabled && cStyles.px8,
                       {backgroundColor: colors.STATUS_SCHEDULE_OPACITY},
