@@ -57,6 +57,16 @@ function Dashboard(props) {
           tmpRoutes.push(item);
         }
       }
+      tmpRoutes.sort((a, b) => {
+        if (a.menuID > b.menuID) {
+          return 1;
+        } else if (a.menuID < b.menuID) {
+          return -1;
+        } else {
+          return 0;
+        }
+      });
+      console.log('[LOG] === tmpRoutes ===> ', tmpRoutes);
       setRoutes(tmpRoutes);
     }
   };

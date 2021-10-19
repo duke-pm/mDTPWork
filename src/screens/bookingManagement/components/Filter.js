@@ -139,7 +139,6 @@ function Filter(props) {
             cStyles.itemsCenter,
             cStyles.justifyBetween,
             cStyles.mt20,
-            cStyles.px10,
           ]}>
           <View style={styles.left}>
             <CLabel
@@ -156,7 +155,7 @@ function Filter(props) {
             dateTimePicker
             value={
               data.fromDate === ''
-                ? ''
+                ? data.fromDate
                 : moment(data.fromDate).format(formatDateView)
             }
             iconLast={Icons.calendar}
@@ -167,12 +166,7 @@ function Filter(props) {
         </View>
 
         <View
-          style={[
-            cStyles.row,
-            cStyles.itemsCenter,
-            cStyles.justifyBetween,
-            cStyles.px10,
-          ]}>
+          style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween]}>
           <View style={styles.left}>
             <CLabel
               style={[cStyles.pt6, cStyles.textLeft]}
@@ -188,7 +182,7 @@ function Filter(props) {
             dateTimePicker
             value={
               data.toDate === ''
-                ? ''
+                ? data.toDate
                 : moment(data.toDate).format(formatDateView)
             }
             iconLast={Icons.calendar}

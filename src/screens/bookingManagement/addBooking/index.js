@@ -31,7 +31,7 @@ import CIcon from '~/components/CIcon';
 import CLabel from '~/components/CLabel';
 import CInput from '~/components/CInput';
 import CButton from '~/components/CButton';
-import CCheckbox from '~/components/CCheckbox';
+// import CCheckbox from '~/components/CCheckbox';
 import CTouchable from '~/components/CTouchable';
 import CActionSheet from '~/components/CActionSheet';
 import CDateTimePicker from '~/components/CDateTimePicker';
@@ -56,7 +56,7 @@ import {
   IS_ANDROID,
   moderateScale,
   resetRoute,
-  sW,
+  SCREEN_WIDTH,
   verticalScale,
 } from '~/utils/helper';
 /* REDUX */
@@ -192,9 +192,9 @@ function AddBooking(props) {
     alert(t, 'add_booking:holder_remove_booking', onSubmitRemove);
   };
 
-  const handleOneTime = () => {
-    setDataBooking({...dataBooking, oneTime: !dataBooking.oneTime});
-  };
+  // const handleOneTime = () => {
+  //   setDataBooking({...dataBooking, oneTime: !dataBooking.oneTime});
+  // };
 
   const handleChangeResource = () => {
     let tmpResource = null;
@@ -257,7 +257,7 @@ function AddBooking(props) {
 
   const handleParticipant = (participant = null, showAlert = false) => {
     setParticipantChoose(participant);
-    return setParticipantInfo(showAlert);
+    setParticipantInfo(showAlert);
   };
 
   /**********
@@ -1174,7 +1174,7 @@ const styles = StyleSheet.create({
   action: {height: verticalScale(180)},
   content_picker: {height: '40%'},
   button: {width: moderateScale(150)},
-  con_parti_select: {height: sW('100%')},
+  con_parti_select: {height: SCREEN_WIDTH},
   row_parti_select: {height: moderateScale(40)},
   input_multiline: {minHeight: verticalScale(100)},
 });
