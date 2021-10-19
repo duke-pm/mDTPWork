@@ -322,7 +322,7 @@ function ListRequestHandling(props) {
 
           {/** Actionsheet for filter */}
           <CActionSheet actionRef={asFilterRef}>
-            <View style={cStyles.p16}>
+            <View style={[cStyles.px16, cStyles.pb16]}>
               <Filter
                 isResolve={true}
                 data={data}

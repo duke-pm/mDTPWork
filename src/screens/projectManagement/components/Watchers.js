@@ -263,11 +263,6 @@ function Watchers(props) {
                                 cStyles.itemsCenter,
                                 cStyles.justifyBetween,
                                 cStyles.ml10,
-                                index !== watchers.length - 1 &&
-                                  cStyles.borderBottom,
-                                index !== watchers.length - 1 &&
-                                  isDark &&
-                                  cStyles.borderBottomDark,
                                 index !== -1 && cStyles.py6,
                               ]}>
                               <View style={styles.con_left}>

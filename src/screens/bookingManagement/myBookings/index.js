@@ -415,15 +415,8 @@ function MyBookings(props) {
   useEffect(() => {
     if (loading.changeType) {
       if (prevType && prevType !== typeShow) {
-        if (
-          typeShow === Commons.TYPE_SHOW_BOOKING.LIST.value &&
-          data.length === 0
-        ) {
-          onFetchData(form.fromDate, form.toDate, 1, form.search);
-          return onDone({...loading, startFetch: true, main: true});
-        } else {
-          return onDone({...loading, changeType: false});
-        }
+        onFetchData(form.fromDate, form.toDate, 1, form.search);
+        return onDone({...loading, startFetch: true, main: true});
       }
     }
   }, [loading.changeType, prevType, typeShow, data]);
