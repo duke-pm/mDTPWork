@@ -303,7 +303,7 @@ function Bookings(props) {
           )}
 
           <CActionSheet actionRef={asFilterRef}>
-            <View style={cStyles.p10}>
+            <View style={[cStyles.px16, cStyles.pb16]}>
               <Filter
                 data={form}
                 onFilter={handleFilter}
