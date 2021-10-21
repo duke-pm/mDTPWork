@@ -24,6 +24,7 @@ function FilterTags(props) {
     toDate = '',
     search = '',
     resource = null,
+    resources = [],
     primaryColor = undefined,
     translation = () => null,
     onPressRemoveReSrc = () => null,
@@ -96,6 +97,48 @@ function FilterTags(props) {
           <CIconButton iconName={Icons.remove} onPress={onPressRemoveReSrc} />
         </View>
       )}
+
+      {!resource &&
+        resources &&
+        resources !== 'all' &&
+        resources.map((itemResrc, index) => {
+          return (
+            <View
+              key={itemResrc.label + index}
+              style={[
+                cStyles.px6,
+                cStyles.py2,
+                cStyles.mr4,
+                cStyles.mt8,
+                cStyles.rounded1,
+                {backgroundColor: primaryColor},
+              ]}>
+              <CText
+                styles={'textCaption2 colorBlack'}
+                customLabel={itemResrc.label}
+              />
+            </View>
+          );
+        })}
+
+      {!resource && resources && resources === 'all' && (
+        <View
+          style={[
+            cStyles.px6,
+            cStyles.py2,
+            cStyles.mr4,
+            cStyles.mt8,
+            cStyles.rounded1,
+            {backgroundColor: primaryColor},
+          ]}>
+          <CText
+            styles={'textCaption2 colorBlack'}
+            customLabel={`${translation('bookings:resource')}: ${translation(
+              'common:all',
+            )}`}
+          />
+        </View>
+      )}
     </View>
   );
 }
@@ -106,6 +149,7 @@ FilterTags.propTypes = {
   toDate: PropTypes.string,
   search: PropTypes.string,
   resource: PropTypes.any,
+  resources: PropTypes.array,
   primaryColor: PropTypes.string,
   translation: PropTypes.func,
   onPressRemoveReSrc: PropTypes.func,

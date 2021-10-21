@@ -53,7 +53,8 @@
     "from_date": "Từ ",
     "to_date": "Đến ",
     "filter": "Bộ Lọc",
-    "remove_all": "Xoá hết"
+    "remove_all": "Xoá hết",
+    "all": "Tất cả"
   },
   "status": {
     "title": "Trạng thái"

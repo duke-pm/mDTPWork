@@ -94,6 +94,8 @@ function MyBookings(props) {
   const commonState = useSelector(({common}) => common);
   const authState = useSelector(({auth}) => auth);
   const bookingState = useSelector(({booking}) => booking);
+  const masterState = useSelector(({masterData}) => masterData);
+  const resourcesMaster = masterState.get('bkReSource');
   const perPage = commonState.get('perPage');
   const formatDate = commonState.get('formatDate');
   const formatDateView = commonState.get('formatDateView');
@@ -125,6 +127,8 @@ function MyBookings(props) {
     toDate: moment().clone().endOf('month').format(formatDate),
     page: 1,
     search: '',
+    resources: '',
+    resourcesORG: [],
   });
 
   /** All prev */
@@ -158,10 +162,10 @@ function MyBookings(props) {
     });
   };
 
-  const handleFilter = (fromDate, toDate) => {
+  const handleFilter = (fromDate, toDate, resources, resourcesORG) => {
     asFilterRef.current?.hide();
-    setForm({...form, page: 1, fromDate, toDate});
-    onFetchData(fromDate, toDate, 1, form.search);
+    setForm({...form, page: 1, fromDate, toDate, resources, resourcesORG});
+    onFetchData(fromDate, toDate, 1, form.search, resources);
     return setLoading({...loading, startFetch: true});
   };
 
@@ -211,12 +215,14 @@ function MyBookings(props) {
     toDate = form.toDate,
     page = 1,
     search = '',
+    resources = '',
   ) => {
     let params = fromJS({
       FromDate: fromDate,
       ToDate: toDate,
       PageNum: page,
       Search: search,
+      ResourceID: resources,
       PageSize:
         typeShow === Commons.TYPE_SHOW_BOOKING.LIST.value ? perPage : -1,
       IsMyBooking: true,
@@ -372,7 +378,20 @@ function MyBookings(props) {
    ** LIFE CYCLE **
    ****************/
   useEffect(() => {
-    onFetchData(form.fromDate, form.toDate, 1, form.search);
+    if (resourcesMaster.length > 0) {
+      let i,
+        objResource = {},
+        tmpDataResources = [];
+      for (i = 0; i < resourcesMaster.length; i++) {
+        objResource = {};
+        objResource.value = resourcesMaster[i].resourceID;
+        objResource.label = resourcesMaster[i].resourceName;
+        tmpDataResources.push(objResource);
+      }
+      setForm({...form, resourcesORG: tmpDataResources});
+    }
+
+    onFetchData();
     return onDone({...loading, startFetch: true});
   }, []);
 
@@ -476,7 +495,7 @@ function MyBookings(props) {
           <View
             style={[
               cStyles.row,
-              cStyles.itemsCenter,
+              cStyles.itemsStart,
               typeShow === Commons.TYPE_SHOW_BOOKING.CALENDAR.value &&
                 cStyles.justifyEnd,
               typeShow === Commons.TYPE_SHOW_BOOKING.LIST.value &&
@@ -491,6 +510,11 @@ function MyBookings(props) {
                   fromDate={form.fromDate}
                   toDate={form.toDate}
                   search={form.search}
+                  resources={
+                    resourcesMaster.length === form.resourcesORG.length
+                      ? 'all'
+                      : form.resourcesORG
+                  }
                   primaryColor={colors.BG_MY_BOOKINGS}
                 />
               </View>

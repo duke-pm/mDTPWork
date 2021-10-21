@@ -139,10 +139,8 @@ function CGroupFilter(props) {
                       isDark && {backgroundColor: colors.TRANSPARENT},
                     ]}>
                     <CText
-                      styles={'textCaption1 fontMedium pr4'}
+                      styles={'textCaption1 pr4'}
                       customStyles={[
-                        cStyles.textCaption1,
-                        cStyles.fontMedium,
                         cStyles.pr4,
                         isDark && isCheck && {color: primaryColor},
                       ]}

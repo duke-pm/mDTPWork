@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /**
  ** Name: Filter request
  ** Author: DTP-Education
@@ -22,6 +23,7 @@ import CIconButton from '~/components/CIconButton';
 import {Icons} from '~/utils/common';
 import {cStyles} from '~/utils/style';
 import {IS_ANDROID, moderateScale} from '~/utils/helper';
+import CGroupFilter from '~/components/CGroupFilter';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -43,22 +45,30 @@ function Filter(props) {
 
   /** Use redux */
   const commonState = useSelector(({common}) => common);
+  const masterState = useSelector(({masterData}) => masterData);
   const formatDate = commonState.get('formatDate');
   const formatDateView = commonState.get('formatDateView');
+  const resourcesMaster = masterState.get('bkReSource');
 
   /** Use State */
+  const [loading, setLoading] = useState(true);
   const [showPickerDate, setShowPickerDate] = useState({
     status: false,
     active: null,
   });
+  const [dataResources, setDataResources] = useState([]);
   const [data, setData] = useState({
     fromDate: props.data.fromDate,
     toDate: props.data.toDate,
+    resources: [],
   });
 
   /*****************
    ** HANDLE FUNC **
    *****************/
+  const handleChangeResource = resourceChoosed =>
+    setData({...data, resources: resourceChoosed});
+
   const handleDateInput = iName =>
     setShowPickerDate({active: iName, status: true});
 
@@ -70,7 +80,19 @@ function Filter(props) {
     if (tmpFromDate && tmpToDate && tmpFromDate > tmpToDate) {
       return onErrorValidation('error:from_date_larger_than_to_date');
     }
-    return onFilter(data.fromDate, data.toDate);
+    if (data.resources.length === 0) {
+      return onErrorValidation('error:resource_not_found');
+    }
+    let tmpResourceORG = dataResources.filter(item =>
+      data.resources.includes(item.value),
+    );
+
+    return onFilter(
+      data.fromDate,
+      data.toDate,
+      data.resources.join(),
+      tmpResourceORG,
+    );
   };
 
   /**********
@@ -99,10 +121,30 @@ function Filter(props) {
    ** LIFE CYCLE **
    ****************/
   useEffect(() => {
+    if (resourcesMaster.length > 0) {
+      let i,
+        objResource = {},
+        tmpResurces = [],
+        tmpDataResources = [];
+      for (i = 0; i < resourcesMaster.length; i++) {
+        tmpResurces.push(resourcesMaster[i].resourceID);
+        objResource = {};
+        objResource.value = resourcesMaster[i].resourceID;
+        objResource.label = resourcesMaster[i].resourceName;
+        tmpDataResources.push(objResource);
+      }
+      setDataResources(tmpDataResources);
+      setData({...data, resources: tmpResurces});
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
     if (props.data) {
       let tmp = {
         fromDate: props.data.fromDate,
         toDate: props.data.toDate,
+        resources: JSON.parse('[' + props.data.resources + ']'),
       };
       setData(tmp);
     }
@@ -190,6 +232,18 @@ function Filter(props) {
             onPressRemoveValue={() => setData({...data, toDate: ''})}
           />
         </View>
+
+        {!loading && (
+          <View style={cStyles.mt4}>
+            <CGroupFilter
+              label={'common:type'}
+              items={dataResources}
+              itemsChoose={data.resources}
+              primaryColor={customColors.green2}
+              onChange={handleChangeResource}
+            />
+          </View>
+        )}
       </>
 
       {/** Date Picker */}

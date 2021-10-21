@@ -53,7 +53,8 @@
     "from_date": "From ",
     "to_date": "To ",
     "filter": "Filter",
-    "remove_all": "Remove all"
+    "remove_all": "Remove all",
+    "all": "All"
   },
   "status": {
     "title": "Status"

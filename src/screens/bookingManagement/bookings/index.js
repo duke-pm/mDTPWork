@@ -91,6 +91,8 @@ function Bookings(props) {
   const commonState = useSelector(({common}) => common);
   const authState = useSelector(({auth}) => auth);
   const bookingState = useSelector(({booking}) => booking);
+  const masterState = useSelector(({masterData}) => masterData);
+  const resourcesMaster = masterState.get('bkReSource');
   const perPage = commonState.get('perPage');
   const formatDate = commonState.get('formatDate');
   const formatDateView = commonState.get('formatDateView');
@@ -124,6 +126,7 @@ function Bookings(props) {
     page: 1,
     search: '',
     resources: '',
+    resourcesORG: [],
   });
 
   /*****************
@@ -145,10 +148,10 @@ function Bookings(props) {
     return setLoading({...loading, startFetch: true});
   };
 
-  const handleFilter = (fromDate, toDate) => {
+  const handleFilter = (fromDate, toDate, resources, resourcesORG) => {
     asFilterRef.current?.hide();
-    setForm({...form, page: 1, fromDate, toDate});
-    onFetchData(fromDate, toDate, 1, form.search);
+    setForm({...form, page: 1, fromDate, toDate, resources, resourcesORG});
+    onFetchData(fromDate, toDate, 1, form.search, resources);
     return setLoading({...loading, startFetch: true});
   };
 
@@ -387,6 +390,19 @@ function Bookings(props) {
    ** LIFE CYCLE **
    ****************/
   useEffect(() => {
+    if (resourcesMaster.length > 0) {
+      let i,
+        objResource = {},
+        tmpDataResources = [];
+      for (i = 0; i < resourcesMaster.length; i++) {
+        objResource = {};
+        objResource.value = resourcesMaster[i].resourceID;
+        objResource.label = resourcesMaster[i].resourceName;
+        tmpDataResources.push(objResource);
+      }
+      setForm({...form, resourcesORG: tmpDataResources});
+    }
+
     onFetchData();
     return onDone({...loading, startFetch: true});
   }, []);
@@ -479,6 +495,11 @@ function Bookings(props) {
             toDate={form.toDate}
             search={form.search}
             resource={choosedReSrc.reSrc.name}
+            resources={
+              resourcesMaster.length === form.resourcesORG.length
+                ? 'all'
+                : form.resourcesORG
+            }
             primaryColor={colors.BG_MY_BOOKINGS}
             onPressRemoveReSrc={handleRemoveReSrc}
           />
