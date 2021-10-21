@@ -10,8 +10,7 @@ import PropTypes from 'prop-types';
 import React, {createRef, useState, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useColorScheme} from 'react-native-appearance';
-import {THEME_DARK} from '~/config/constants';
-import {StyleSheet, FlatList, View} from 'react-native';
+import {FlatList, View} from 'react-native';
 import * as Animatable from 'react-native-animatable';
 /* COMPONENTS */
 import CText from './CText';
@@ -22,6 +21,7 @@ import CTouchable from './CTouchable';
 import Icons from '~/utils/common/Icons';
 import {IS_ANDROID} from '~/utils/helper';
 import {colors, cStyles} from '~/utils/style';
+import {THEME_DARK} from '~/config/constants';
 
 let isCheck = null;
 
@@ -101,19 +101,19 @@ function CGroupFilter(props) {
    ** RENDER **
    ************/
   return (
-    <View style={[cStyles.pt8, containerStyle]}>
-      <View style={cStyles.pt10}>
+    <View style={[cStyles.pt6, containerStyle]}>
+      <View style={cStyles.pt6}>
         <CLabel bold label={t(label)} />
       </View>
 
       <FlatList
-        style={cStyles.mt10}
+        style={cStyles.mt6}
         contentContainerStyle={cStyles.row}
         data={values}
         renderItem={({item, index}) => {
           isCheck = valuesChoose.find(f => f.value == item.value);
           return (
-            <View style={[cStyles.row, cStyles.itemsCenter]}>
+            <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt4]}>
               <CTouchable
                 onPress={() => handleItem(index, item)}
                 containerStyle={cStyles.rounded1}
@@ -139,10 +139,8 @@ function CGroupFilter(props) {
                       isDark && {backgroundColor: colors.TRANSPARENT},
                     ]}>
                     <CText
-                      styles={'textCaption1 fontMedium pr4'}
+                      styles={'textCaption1 pr4'}
                       customStyles={[
-                        cStyles.textCaption1,
-                        cStyles.fontMedium,
                         cStyles.pr4,
                         isDark && isCheck && {color: primaryColor},
                       ]}
@@ -156,7 +154,7 @@ function CGroupFilter(props) {
                   </View>
                 </Animatable.View>
               </CTouchable>
-              <View style={cStyles.mx5} />
+              <View style={cStyles.mx2} />
             </View>
           );
         }}
@@ -169,10 +167,6 @@ function CGroupFilter(props) {
     </View>
   );
 }
-
-// const styles = StyleSheet.create({
-//   active_dark: {borderColor: }
-// });
 
 CGroupFilter.propTypes = {
   containerStyle: PropTypes.object,

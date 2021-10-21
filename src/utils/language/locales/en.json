@@ -53,7 +53,8 @@
     "from_date": "From ",
     "to_date": "To ",
     "filter": "Filter",
-    "remove_all": "Remove all"
+    "remove_all": "Remove all",
+    "all": "All"
   },
   "status": {
     "title": "Status"
@@ -105,7 +106,8 @@
     "change_status": "Unable to update status. Please try again later!",
     "change_percent": "Unable to update percentage. Please try again later!",
     "cannot_auth_with_biometrics": "Cannot confirm biometrics! Please install TouchID or FaceID (if any).",
-    "cannot_get_master_booking": "Cannot update booking information, please try again later!"
+    "cannot_get_master_booking": "Cannot update booking information, please try again later!",
+    "resource_not_found": "Resource cannot be empty!"
   },
   "sign_in": {
     "title": "Login",
@@ -530,7 +532,8 @@
     "title": "All Bookings",
     "resume": "Live",
     "from_date": "From date",
-    "to_date": "To date"
+    "to_date": "To date",
+    "resource": "Resource"
   },
   "my_bookings": {
     "title": "My Bookings",

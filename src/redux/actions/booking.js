@@ -14,6 +14,10 @@ export const resetAllBooking = () => ({
   type: types.RESET_REQUEST_BOOKING,
 });
 
+export const resetBookingDetail = () => ({
+  type: types.RESET_BOOKING_DETAIL,
+});
+
 /** For get list booking */
 export const listBookingError = error => ({
   type: types.ERROR_FETCH_LIST_BOOKING,
@@ -179,6 +183,50 @@ export const fetchBookingDetail = (params, navigation) => {
             Actions.fetchRefreshToken(
               tmp,
               () => fetchBookingDetail(params),
+              navigation,
+            ),
+          );
+        }
+      });
+  };
+};
+/*****************************/
+
+/** For get list booking by resource */
+export const listBookingByReSrcError = error => ({
+  type: types.ERROR_FETCH_LIST_BOOKING_BY_RESRC,
+  payload: error,
+});
+
+export const listBookingByReSrcSuccess = bookings => ({
+  type: types.SUCCESS_FETCH_LIST_BOOKING_BY_RESRC,
+  payload: bookings,
+});
+
+export const fetchListBookingByReSrc = (params, navigation) => {
+  return dispatch => {
+    dispatch({type: types.START_FETCH_LIST_BOOKING_BY_RESRC});
+
+    Services.booking
+      .listBookingByResource(params)
+      .then(res => {
+        if (!res.isError) {
+          return dispatch(listBookingByReSrcSuccess(res.data.lstBooking));
+        } else {
+          return dispatch(listBookingByReSrcError(res.errorMessage));
+        }
+      })
+      .catch(error => {
+        dispatch(listBookingByReSrcError(error));
+        if (error.message && error.message.search('Authorization') !== -1) {
+          let tmp = {
+            RefreshToken: params.get('RefreshToken'),
+            Lang: params.get('Lang'),
+          };
+          return dispatch(
+            Actions.fetchRefreshToken(
+              tmp,
+              () => fetchListBookingByReSrc(params),
               navigation,
             ),
           );

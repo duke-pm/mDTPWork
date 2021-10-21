@@ -53,7 +53,8 @@
     "from_date": "Từ ",
     "to_date": "Đến ",
     "filter": "Bộ Lọc",
-    "remove_all": "Xoá hết"
+    "remove_all": "Xoá hết",
+    "all": "Tất cả"
   },
   "status": {
     "title": "Trạng thái"
@@ -105,7 +106,8 @@
     "change_status": "Không thê cập nhật trạng thái. Vui lòng thử lại sau!",
     "change_percent": "Không thê cập nhật tiến độ. Vui lòng thử lại sau!",
     "cannot_auth_with_biometrics": "Không thể xác nhận sinh trắc học! Vui lòng cài đặt TouchID hoặc FaceID (nếu có).",
-    "cannot_get_master_booking": "Không thể cập nhật thông tin booking, vui lòng thử lại sau!"
+    "cannot_get_master_booking": "Không thể cập nhật thông tin booking, vui lòng thử lại sau!",
+    "resource_not_found": "Tài nguyên không được rỗng!"
   },
   "sign_in": {
     "title": "Đăng Nhập",
@@ -530,7 +532,8 @@
     "title": "Bookings",
     "resume": "Đang diễn ra",
     "from_date": "Từ ngày",
-    "to_date": "Đến ngày"
+    "to_date": "Đến ngày",
+    "resource": "Tài nguyên"
   },
   "my_bookings": {
     "title": "Bookings của tôi",
