@@ -69,18 +69,8 @@ function Filter(props) {
       data.toDate !== '' ? moment(data.toDate, formatDate).valueOf() : null;
     if (tmpFromDate && tmpToDate && tmpFromDate > tmpToDate) {
       return onErrorValidation('error:from_date_larger_than_to_date');
-    } else {
-      return onFilter(data.fromDate, data.toDate);
     }
-  };
-
-  const onErrorValidation = messageKey => {
-    return showMessage({
-      message: t('common:app_name'),
-      description: t(messageKey),
-      type: 'warning',
-      icon: 'warning',
-    });
+    return onFilter(data.fromDate, data.toDate);
   };
 
   /**********
@@ -94,6 +84,15 @@ function Filter(props) {
         [showPickerDate.active]: moment(newDate).format(formatDate),
       });
     }
+  };
+
+  const onErrorValidation = messageKey => {
+    return showMessage({
+      message: t('common:app_name'),
+      description: t(messageKey),
+      type: 'warning',
+      icon: 'warning',
+    });
   };
 
   /****************

@@ -22,6 +22,7 @@ function BookingList(props) {
     data = [],
     onRefresh = undefined,
     onLoadmore = undefined,
+    onPressResource = () => null,
   } = props;
 
   /*****************
@@ -43,10 +44,11 @@ function BookingList(props) {
       data={data}
       item={({item, index}) => (
         <BookingItem
-          customColors={customColors}
           index={index}
           data={item}
+          customColors={customColors}
           onPress={handleBookingItem}
+          onPressResource={onPressResource}
         />
       )}
       refreshing={refreshing}
@@ -65,6 +67,7 @@ BookingList.propTypes = {
   data: PropTypes.array,
   onRefresh: PropTypes.func,
   onLoadmore: PropTypes.func,
+  onPressResource: PropTypes.func,
 };
 
 export default BookingList;

@@ -40,6 +40,7 @@ const Routes = {
     UPDATE_BOOKING: '/TransBooking/Modify',
     REMOVE_BOOKING: '/TransBooking/Remove',
     BOOKING_DETAIL: '/TransBooking/GetByID',
+    BOOKING_RESOURCE: '/TransBooking/GetListResource',
   },
 };
 

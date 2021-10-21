@@ -12,6 +12,13 @@ import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
 import {View, LayoutAnimation, UIManager} from 'react-native';
 import {showMessage} from 'react-native-flash-message';
+import {useColorScheme} from 'react-native-appearance';
+import {
+  ExpandableCalendar,
+  Timeline,
+  CalendarProvider,
+} from 'react-native-calendars';
+import XDate from 'xdate';
 import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
@@ -26,8 +33,8 @@ import FilterTags from '../components/FilterTags';
 import Routes from '~/navigation/Routes';
 import {Icons} from '~/utils/common';
 import {colors, cStyles} from '~/utils/style';
-import {IS_ANDROID} from '~/utils/helper';
-import {LOAD_MORE, REFRESH} from '~/config/constants';
+import {IS_ANDROID, moderateScale} from '~/utils/helper';
+import {LOAD_MORE, REFRESH, THEME_DARK} from '~/config/constants';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 
@@ -40,9 +47,42 @@ if (IS_ANDROID) {
 /** All refs */
 const asFilterRef = createRef();
 
+/** All init */
+const THEME_CALENDAR = {
+  textDayFontSize: cStyles.textCallout.fontSize,
+  textMonthFontSize: cStyles.textCallout.fontSize,
+  textDayHeaderFontSize: cStyles.textCallout.fontSize,
+  textMonthFontWeight: 'bold',
+  textDayHeaderFontWeight: 'bold',
+  arrowColor: colors.ORANGE,
+  selectedDotColor: colors.WHITE,
+  selectedDayBackgroundColor: colors.GREEN,
+  selectedDayTextColor: colors.WHITE,
+  todayTextColor: colors.GREEN,
+  'stylesheet.calendar.header': {
+    dayTextAtIndex6: {
+      color: colors.RED,
+    },
+  },
+  // arrows
+  arrowStyle: {padding: 0},
+  // day names
+  textSectionTitleColor: colors.GRAY_600,
+  textDayFontWeight: cStyles.textBody.fontWeight,
+  textDayStyle: {marginTop: IS_ANDROID ? moderateScale(2) : moderateScale(7)},
+  // disabled date
+  textDisabledColor: 'grey',
+  // dot (marked date)
+  dotColor: colors.PRIMARY,
+  disabledDotColor: 'grey',
+  dotStyle: {marginTop: -2},
+};
+const MONTH_FORMAT = 'MMMM - yyyy';
+
 function Bookings(props) {
   const {t} = useTranslation();
   const {customColors} = useTheme();
+  const isDark = useColorScheme() === THEME_DARK;
   const {navigation, route} = props;
   const isPermissionWrite = route.params?.permission?.write || false;
 
@@ -67,11 +107,23 @@ function Bookings(props) {
   });
   const [showSearchBar, setShowSearch] = useState(false);
   const [data, setData] = useState([]);
+  const [dataCalendar, setDataCalendar] = useState([]);
+  const [date, setDate] = useState({
+    prevDate: null,
+    currentDate: moment().format(formatDate),
+  });
+  const [marked, setMarked] = useState({});
+  const [choosedReSrc, setChoosedReSrc] = useState({
+    reSrc: {id: null, name: null},
+    fromDate: moment().clone().startOf('month').format(formatDate),
+    toDate: moment().clone().endOf('month').format(formatDate),
+  });
   const [form, setForm] = useState({
     fromDate: moment().clone().startOf('month').format(formatDate),
     toDate: moment().clone().endOf('month').format(formatDate),
     page: 1,
     search: '',
+    resources: '',
   });
 
   /*****************
@@ -112,6 +164,48 @@ function Bookings(props) {
     }
   };
 
+  const handleResource = (
+    resourceID = -1,
+    resourceName = '',
+    fromDate = choosedReSrc.fromDate,
+    toDate = choosedReSrc.toDate,
+  ) => {
+    onDone({...loading, startFetch: true});
+    if (!choosedReSrc.reSrc.id) {
+      setChoosedReSrc({
+        ...choosedReSrc,
+        reSrc: {id: resourceID, name: resourceName},
+      });
+    }
+    let params = fromJS({
+      FromDate: fromDate,
+      ToDate: toDate,
+      ResourceID: resourceID,
+      PageNum: 1,
+      PageSize: -1,
+      RefreshToken: refreshToken,
+      Lang: language,
+    });
+    dispatch(Actions.fetchListBookingByReSrc(params, navigation));
+  };
+
+  const handleRemoveReSrc = () => {
+    setChoosedReSrc({
+      fromDate: moment().clone().startOf('month').format(formatDate),
+      toDate: moment().clone().endOf('month').format(formatDate),
+      reSrc: {id: null, name: null},
+    });
+    onFetchData();
+  };
+
+  const handleBookingItem = booking => {
+    dispatch(Actions.resetBookingDetail());
+    navigation.navigate(Routes.MAIN.ADD_BOOKING.name, {
+      bookingID: booking.dataFull.bookID,
+      onRefresh: () => onRefresh(),
+    });
+  };
+
   /**********
    ** FUNC **
    **********/
@@ -122,12 +216,14 @@ function Bookings(props) {
     toDate = form.toDate,
     page = 1,
     search = '',
+    resources = '',
   ) => {
     let params = fromJS({
       FromDate: fromDate,
       ToDate: toDate,
       PageNum: page,
       Search: search,
+      ResourceID: resources,
       PageSize: perPage,
       IsMyBooking: false,
       RefreshToken: refreshToken,
@@ -164,6 +260,56 @@ function Bookings(props) {
     });
   };
 
+  const onPrepareCalendarData = dataBookings => {
+    if (dataBookings.length > 0) {
+      let tmpData = [],
+        tmpMarker = {},
+        itemBooking = null,
+        itemCalendar = {},
+        startDate = '',
+        endDate = '',
+        startTime = '',
+        endTime = '';
+
+      for (itemBooking of dataBookings) {
+        startDate = itemBooking.startDate.split('T')[0];
+        endDate = itemBooking.endDate.split('T')[0];
+        startTime = itemBooking.strStartTime + ':00';
+        endTime = itemBooking.strEndTime + ':00';
+
+        itemCalendar = {};
+
+        if (!tmpMarker[startDate]) {
+          tmpMarker[startDate] = {dots: []};
+        }
+        tmpMarker[startDate].dots.push({
+          key: itemBooking.bookID,
+          color: itemBooking.color,
+        });
+
+        itemCalendar.dataFull = itemBooking;
+        itemCalendar.start = startDate + ' ' + startTime;
+        itemCalendar.end = endDate + ' ' + endTime;
+        itemCalendar.title =
+          itemBooking.purpose + t('my_bookings:at') + itemBooking.resourceName;
+        itemCalendar.summary = '-';
+        itemCalendar.color = itemBooking.color;
+        tmpData.push(itemCalendar);
+      }
+
+      setMarked(tmpMarker);
+      setDataCalendar(tmpData);
+    }
+
+    return onDone({
+      main: false,
+      startFetch: false,
+      refreshing: false,
+      loadmore: false,
+      isLoadmore: true,
+    });
+  };
+
   const onRefresh = () => {
     if (!loading.refreshing) {
       setForm({...form, page: 1});
@@ -197,11 +343,51 @@ function Bookings(props) {
     });
   };
 
+  const sameDate = (a, b) => {
+    if (!a || !b) {
+      return false;
+    }
+    return (
+      a instanceof XDate &&
+      b instanceof XDate &&
+      a.getFullYear() === b.getFullYear() &&
+      a.getMonth() === b.getMonth() &&
+      a.getDate() === b.getDate()
+    );
+  };
+
+  const onDateChanged = newDate => {
+    let prevDate = date.currentDate;
+    setDate({prevDate, currentDate: newDate});
+  };
+
+  const onMonthChanged = newMonth => {
+    let tmpFromDate = moment(newMonth.dateString)
+      .startOf('month')
+      .format(formatDate);
+    let tmpEndDate = moment(newMonth.dateString)
+      .endOf('month')
+      .format(formatDate);
+
+    setChoosedReSrc({
+      ...choosedReSrc,
+      fromDate: tmpFromDate,
+      toDate: tmpEndDate,
+    });
+    handleResource(
+      choosedReSrc.reSrc.id,
+      choosedReSrc.reSrc.name,
+      tmpFromDate,
+      tmpEndDate,
+    );
+    return onDone({...loading, startFetch: true});
+  };
+
   /****************
    ** LIFE CYCLE **
    ****************/
   useEffect(() => {
-    onFetchData(form.fromDate, form.toDate, form.page, form.search);
+    onFetchData();
     return onDone({...loading, startFetch: true});
   }, []);
 
@@ -214,7 +400,12 @@ function Bookings(props) {
         }
 
         if (bookingState.get('successList')) {
-          return onPrepareData(type);
+          if (choosedReSrc.reSrc.id) {
+            let dataBookings = bookingState.get('bookings');
+            return onPrepareCalendarData(dataBookings);
+          } else {
+            return onPrepareData(type);
+          }
         }
 
         if (bookingState.get('errorList')) {
@@ -237,13 +428,13 @@ function Bookings(props) {
         <CIconHeader
           icons={[
             {
-              show: true,
+              show: !choosedReSrc.reSrc.id,
               showRedDot: form.search !== '',
               icon: Icons.search,
               onPress: handleOpenSearch,
             },
             {
-              show: true,
+              show: !choosedReSrc.reSrc.id,
               showRedDot: false,
               icon: Icons.filter,
               onPress: handleOpenFilter,
@@ -258,7 +449,7 @@ function Bookings(props) {
         />
       ),
     });
-  }, [navigation, form.search, isPermissionWrite]);
+  }, [navigation, choosedReSrc.reSrc.id, form.search, isPermissionWrite]);
 
   /************
    ** RENDER **
@@ -287,10 +478,12 @@ function Bookings(props) {
             fromDate={form.fromDate}
             toDate={form.toDate}
             search={form.search}
+            resource={choosedReSrc.reSrc.name}
             primaryColor={colors.BG_MY_BOOKINGS}
+            onPressRemoveReSrc={handleRemoveReSrc}
           />
 
-          {!loading.main && !loading.startFetch && (
+          {!loading.main && !loading.startFetch && !choosedReSrc.reSrc.id && (
             <BookingList
               navigation={navigation}
               customColors={customColors}
@@ -299,7 +492,48 @@ function Bookings(props) {
               data={data}
               onRefresh={onRefresh}
               onLoadmore={onLoadmore}
+              onPressResource={handleResource}
             />
+          )}
+
+          {!loading.main && !loading.startFetch && choosedReSrc.reSrc.id && (
+            <CalendarProvider
+              date={date.currentDate}
+              showTodayButton
+              disabledOpacity={0.6}
+              onDateChanged={onDateChanged}
+              onMonthChange={onMonthChanged}>
+              <ExpandableCalendar
+                headerStyle={{backgroundColor: customColors.card}}
+                displayLoadingIndicator={
+                  loading.changeType || loading.startFetch
+                }
+                disableAllTouchEventsForDisabledDays
+                firstDay={1}
+                markingType={'multi-dot'}
+                markedDates={marked}
+                monthFormat={MONTH_FORMAT}
+                enableSwipeMonths={false}
+                theme={{
+                  ...THEME_CALENDAR,
+                  backgroundColor: customColors.card,
+                  calendarBackground: customColors.card,
+                  textDayStyle: {color: customColors.text},
+                  monthTextColor: customColors.text,
+                  selectedDayBackgroundColor: isDark
+                    ? colors.BG_BOOKING
+                    : customColors.green,
+                }}
+              />
+              <Timeline
+                style={{backgroundColor: customColors.card}}
+                format24h
+                eventTapped={handleBookingItem}
+                events={dataCalendar.filter(event =>
+                  sameDate(new XDate(event.start), new XDate(date.currentDate)),
+                )}
+              />
+            </CalendarProvider>
           )}
 
           <CActionSheet actionRef={asFilterRef}>

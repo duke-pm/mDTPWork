@@ -15,6 +15,7 @@ import CText from '~/components/CText';
 import Icons from '~/utils/common/Icons';
 import {cStyles} from '~/utils/style';
 import {DEFAULT_FORMAT_DATE_2} from '~/config/constants';
+import CIconButton from '~/components/CIconButton';
 
 function FilterTags(props) {
   const {
@@ -22,8 +23,10 @@ function FilterTags(props) {
     fromDate = '',
     toDate = '',
     search = '',
+    resource = null,
     primaryColor = undefined,
     translation = () => null,
+    onPressRemoveReSrc = () => null,
   } = props;
 
   /************
@@ -74,6 +77,25 @@ function FilterTags(props) {
           />
         </View>
       )}
+
+      {resource && (
+        <View
+          style={[
+            cStyles.px6,
+            cStyles.mx4,
+            cStyles.mt3,
+            cStyles.rounded1,
+            cStyles.row,
+            cStyles.itemsCenter,
+            {backgroundColor: primaryColor},
+          ]}>
+          <CText
+            styles={'textCaption2 colorBlack pr4'}
+            customLabel={`${translation('bookings:resource')}: ${resource}`}
+          />
+          <CIconButton iconName={Icons.remove} onPress={onPressRemoveReSrc} />
+        </View>
+      )}
     </View>
   );
 }
@@ -83,8 +105,10 @@ FilterTags.propTypes = {
   fromDate: PropTypes.string,
   toDate: PropTypes.string,
   search: PropTypes.string,
+  resource: PropTypes.any,
   primaryColor: PropTypes.string,
   translation: PropTypes.func,
+  onPressRemoveReSrc: PropTypes.func,
 };
 
 export default FilterTags;

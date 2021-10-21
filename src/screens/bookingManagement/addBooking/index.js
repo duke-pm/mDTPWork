@@ -613,13 +613,13 @@ function AddBooking(props) {
     bookingState.get('errorDetail'),
   ]);
 
-  useEffect(() => {
-    if (loading.main) {
-      if (!masterState.get('submitting')) {
-        return onPrepareData();
-      }
-    }
-  }, [loading.main, masterState.get('submitting')]);
+  // useEffect(() => {
+  //   if (loading.main) {
+  //     if (!masterState.get('submitting')) {
+  //       return onPrepareData();
+  //     }
+  //   }
+  // }, [loading.main, masterState.get('submitting')]);
 
   useEffect(() => {
     if (loading.submitAdd) {

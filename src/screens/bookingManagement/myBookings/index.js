@@ -19,8 +19,8 @@ import {
   CalendarProvider,
 } from 'react-native-calendars';
 import {StyleSheet, View, LayoutAnimation, UIManager} from 'react-native';
-import moment from 'moment';
 import XDate from 'xdate';
+import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';

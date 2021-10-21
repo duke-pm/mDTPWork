@@ -13,6 +13,7 @@ import CIcon from '~/components/CIcon';
 import CLabel from '~/components/CLabel';
 import CStatusTag from '~/components/CStatusTag';
 import CUser from '~/components/CUser';
+import CTouchable from '~/components/CTouchable';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
 import {Commons, Icons} from '~/utils/common';
@@ -23,12 +24,16 @@ function BookingItem(props) {
     index = -1,
     data = null,
     onPress = () => null,
+    onPressResource = () => null,
   } = props;
 
   /*****************
    ** HANDLE FUNC **
    *****************/
   const handleItem = () => onPress(index);
+
+  const handleResource = () =>
+    onPressResource(data.resourceID, data.resourceName);
 
   /************
    ** RENDER **
@@ -81,14 +86,20 @@ function BookingItem(props) {
                   color={customColors[colorStatus]}
                 />
               </View>
-              <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt6]}>
-                <CIcon
-                  name={Icons.resource}
-                  size={'smaller'}
-                  customColor={data.color}
-                />
-                <CLabel style={cStyles.pl5} customLabel={data.resourceName} />
-              </View>
+              <CTouchable style={cStyles.py4} onPress={handleResource}>
+                <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt6]}>
+                  <CIcon
+                    name={Icons.resource}
+                    size={'smaller'}
+                    customColor={data.color}
+                  />
+                  <CLabel
+                    style={[cStyles.pl5, cStyles.textUnderline]}
+                    color={'green'}
+                    customLabel={data.resourceName}
+                  />
+                </View>
+              </CTouchable>
               <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt6]}>
                 <CUser label={data.ownerName} />
               </View>
@@ -111,6 +122,7 @@ BookingItem.propTypes = {
   index: PropTypes.number,
   data: PropTypes.object,
   onPress: PropTypes.func,
+  onPressResource: PropTypes.func,
 };
 
 export default BookingItem;
