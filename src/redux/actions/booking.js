@@ -82,7 +82,8 @@ export const fetchAddBooking = (params, navigation) => {
         if (!res.isError) {
           return dispatch(addBookingSuccess());
         } else {
-          return dispatch(addBookingError(res.errorMessage));
+          let msgErr = res.systemErrorMessage || res.errorMessage;
+          return dispatch(addBookingError(msgErr));
         }
       })
       .catch(error => {

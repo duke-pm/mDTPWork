@@ -44,25 +44,27 @@ function FilterTags(props) {
         cStyles.pb6,
       ]}>
       <CIcon name={Icons.tags} />
-      <View
-        style={[
-          cStyles.px6,
-          cStyles.py2,
-          cStyles.mx4,
-          cStyles.rounded1,
-          {backgroundColor: primaryColor},
-        ]}>
-        <CText
-          styles={'textCaption2'}
-          customLabel={`${translation('common:from_date')}${
-            fromDate !== '' ? moment(fromDate).format(formatDateView) : '#'
-          }\n${translation('common:to_date')}${
-            toDate !== '' ? moment(toDate).format(formatDateView) : '#'
-          }`}
-        />
-      </View>
+      {!resource && (
+        <View
+          style={[
+            cStyles.px6,
+            cStyles.py2,
+            cStyles.mx4,
+            cStyles.rounded1,
+            {backgroundColor: primaryColor},
+          ]}>
+          <CText
+            styles={'textCaption2'}
+            customLabel={`${translation('common:from_date')}${
+              fromDate !== '' ? moment(fromDate).format(formatDateView) : '#'
+            }\n${translation('common:to_date')}${
+              toDate !== '' ? moment(toDate).format(formatDateView) : '#'
+            }`}
+          />
+        </View>
+      )}
 
-      {search !== '' && (
+      {!resource && search !== '' && (
         <View
           style={[
             cStyles.px6,
