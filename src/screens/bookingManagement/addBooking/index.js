@@ -448,6 +448,15 @@ function AddBooking(props) {
     }
     if (
       tmpStartDate.isSame(tmpEndDate, 'date') &&
+      dataBooking.fromTime === dataBooking.toTime
+    ) {
+      tmpWarning.fromTime = {
+        status: true,
+        helper: 'add_booking:warning_least_time',
+      };
+    }
+    if (
+      tmpStartDate.isSame(tmpEndDate, 'date') &&
       dataBooking.fromTime > dataBooking.toTime
     ) {
       tmpWarning.fromTime = {

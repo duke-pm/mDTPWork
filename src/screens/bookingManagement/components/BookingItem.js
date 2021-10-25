@@ -6,7 +6,7 @@
  **/
 import PropTypes from 'prop-types';
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View, Text} from 'react-native';
 /* COMPONENTS */
 import CCard from '~/components/CCard';
 import CIcon from '~/components/CIcon';
@@ -63,19 +63,35 @@ function BookingItem(props) {
           <View style={[cStyles.row, cStyles.itemsCenter]}>
             <View style={styles.left}>
               <View style={[cStyles.row, cStyles.itemsCenter]}>
-                <CIcon name={Icons.timeTask} size={'smaller'} color={'icon'} />
+                <CIcon
+                  name={Icons.timeTask}
+                  size={'smaller'}
+                  color={
+                    colorStatus === Commons.BOOKING_STATUS.HAPPENNING.color
+                      ? colorStatus
+                      : 'icon'
+                  }
+                />
                 <View>
-                  <CLabel
-                    style={cStyles.pl4}
-                    customLabel={`${timeDate.startDate} - ${data.strStartTime}`}
-                  />
+                  <Text style={[cStyles.textCaption1, cStyles.pl4]}>
+                    <Text style={cStyles.textCaption1}>
+                      {timeDate.startDate} -{' '}
+                    </Text>
+                    <Text style={[cStyles.textCaption1, cStyles.fontBold]}>
+                      {data.strStartTime}
+                    </Text>
+                  </Text>
                   <View style={[cStyles.itemsCenter, cStyles.py4]}>
                     <CIcon name={Icons.downStep} size={'minimum'} />
                   </View>
-                  <CLabel
-                    style={cStyles.pl4}
-                    customLabel={`${timeDate.endDate} - ${data.strEndTime}`}
-                  />
+                  <Text style={[cStyles.textCaption1, cStyles.pl4]}>
+                    <Text style={cStyles.textCaption1}>
+                      {timeDate.endDate} -{' '}
+                    </Text>
+                    <Text style={[cStyles.textCaption1, cStyles.fontBold]}>
+                      {data.strEndTime}
+                    </Text>
+                  </Text>
                 </View>
               </View>
             </View>

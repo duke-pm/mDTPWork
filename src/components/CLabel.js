@@ -14,7 +14,6 @@ import {cStyles} from '~/utils/style';
 function CLabel(props) {
   const {
     style = {},
-    medium = false,
     bold = false,
     color = null,
     label = null,
@@ -27,7 +26,6 @@ function CLabel(props) {
       <CText
         customStyles={[
           cStyles.textCaption1,
-          medium && cStyles.fontBold,
           bold && cStyles.fontBold,
           color && {color},
           style,
@@ -42,7 +40,6 @@ function CLabel(props) {
       <CText
         customStyles={[
           cStyles.textCaption1,
-          medium && cStyles.fontBold,
           bold && cStyles.fontBold,
           color && {color},
           style,
@@ -57,7 +54,6 @@ function CLabel(props) {
 
 CLabel.propTypes = {
   style: PropTypes.object,
-  medium: PropTypes.bool,
   bold: PropTypes.bool,
   color: PropTypes.string,
   label: PropTypes.string,
