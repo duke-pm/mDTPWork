@@ -23,6 +23,7 @@ function BookingItem(props) {
     customColors = {},
     index = -1,
     data = null,
+    isMyBooking = false,
     onPress = () => null,
     onPressResource = () => null,
   } = props;
@@ -86,20 +87,32 @@ function BookingItem(props) {
                   color={customColors[colorStatus]}
                 />
               </View>
-              <CTouchable style={cStyles.py4} onPress={handleResource}>
+              {!isMyBooking && (
+                <CTouchable style={cStyles.py4} onPress={handleResource}>
+                  <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt6]}>
+                    <CIcon
+                      name={Icons.resource}
+                      size={'smaller'}
+                      customColor={data.color}
+                    />
+                    <CLabel
+                      style={[cStyles.pl5, cStyles.textUnderline]}
+                      color={'green'}
+                      customLabel={data.resourceName}
+                    />
+                  </View>
+                </CTouchable>
+              )}
+              {isMyBooking && (
                 <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt6]}>
                   <CIcon
                     name={Icons.resource}
                     size={'smaller'}
                     customColor={data.color}
                   />
-                  <CLabel
-                    style={[cStyles.pl5, cStyles.textUnderline]}
-                    color={'green'}
-                    customLabel={data.resourceName}
-                  />
+                  <CLabel style={cStyles.pl5} customLabel={data.resourceName} />
                 </View>
-              </CTouchable>
+              )}
               <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt6]}>
                 <CUser label={data.ownerName} />
               </View>
@@ -121,6 +134,7 @@ BookingItem.propTypes = {
   customColors: PropTypes.object,
   index: PropTypes.number,
   data: PropTypes.object,
+  isMyBooking: PropTypes.bool,
   onPress: PropTypes.func,
   onPressResource: PropTypes.func,
 };
