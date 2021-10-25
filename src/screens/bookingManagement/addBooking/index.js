@@ -105,6 +105,7 @@ function AddBooking(props) {
   if (bookingParam === -1) {
     bookingParam = route.params?.bookingID || -1;
   }
+  let isFilterResourceParam = route.params?.isFilterByResource || false;
 
   /** Use redux */
   const dispatch = useDispatch();
@@ -340,6 +341,9 @@ function AddBooking(props) {
           resource:
             tmpDataResources.length > 0 ? tmpDataResources[0].resourceID : '',
         };
+        if (isFilterResourceParam) {
+          tmpDataBooking.resource = isFilterResourceParam;
+        }
         setDataBooking(tmpDataBooking);
         return setLoading({...loading, main: false, startFetchLogin: false});
       }
@@ -727,7 +731,9 @@ function AddBooking(props) {
                   <RowSelect
                     loading={loading.main}
                     disabled={
-                      loading.main || (isDetail && !dataBooking.isUpdated)
+                      loading.main ||
+                      (isDetail && !dataBooking.isUpdated) ||
+                      isFilterResourceParam
                     }
                     isDark={isDark}
                     customColors={customColors}
