@@ -54,7 +54,7 @@ function CButton(props) {
           block && cStyles.fullWidth,
           {backgroundColor: color},
           variant === 'text' && styles.con_variant_text,
-          isDark && styles.con_dark,
+          // isDark && styles.con_dark,
           style,
         ]}>
         {icon && (

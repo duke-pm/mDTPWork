@@ -97,7 +97,6 @@ function CAlert(props) {
                   content && styles.con_button_small,
                   content && onClose && !onOK && styles.btn_alone_small,
                 ]}
-                textStyle={[styles.text_button, {color: customColors.red}]}
                 disabled={loading}
                 block
                 variant={'text'}
@@ -125,11 +124,6 @@ function CAlert(props) {
                   !onClose && onOK && styles.btn_alone,
                   content && styles.con_button_small,
                   content && !onClose && onOK && styles.btn_alone_small,
-                ]}
-                textStyle={[
-                  cStyles.fontRegular,
-                  styles.text_button,
-                  {color: customColors.blue},
                 ]}
                 disabled={loading}
                 block
