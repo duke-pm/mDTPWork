@@ -590,9 +590,14 @@ function AddRequest(props) {
         }
 
         if (approvedState.get('errorAddRequest')) {
+          let tmpMsg = approvedState.get('errorHelperAddRequest');
+          if (typeof tmpMsg !== 'string') {
+            tmpMsg = t('error:add_request_lost_damage');
+          }
           setLoading({...loading, submitAdd: false});
           showMessage({
-            message: t('error:add_request_lost_damage'),
+            message: t('common:app_name'),
+            description: tmpMsg,
             type: 'danger',
             icon: 'danger',
           });
@@ -624,11 +629,15 @@ function AddRequest(props) {
         }
 
         if (approvedState.get('errorApprovedRequest')) {
+          let tmpMsg = approvedState.get('errorHelperApprovedRequest');
+          if (typeof tmpMsg !== 'string') {
+            tmpMsg = t('error:approved_request_lost_damage');
+          }
           handleApproved();
           setLoading({...loading, submitApproved: false});
           showMessage({
             message: t('common:app_name'),
-            description: t('error:approved_request_lost_damage'),
+            description: tmpMsg,
             type: 'danger',
             icon: 'danger',
           });
@@ -661,11 +670,15 @@ function AddRequest(props) {
         }
 
         if (approvedState.get('errorRejectRequest')) {
+          let tmpMsg = approvedState.get('errorHelperRejectRequest');
+          if (typeof tmpMsg !== 'string') {
+            tmpMsg = t('error:reject_request_lost_damage');
+          }
           handleReject();
           setLoading({...loading, submitReject: false});
           showMessage({
             message: t('common:app_name'),
-            description: t('error:reject_request_lost_damage'),
+            description: tmpMsg,
             type: 'danger',
             icon: 'danger',
           });

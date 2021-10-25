@@ -138,6 +138,7 @@ function Bookings(props) {
 
   const handleAddNew = () => {
     navigation.navigate(Routes.MAIN.ADD_BOOKING.name, {
+      isFilterByResource: choosedReSrc.reSrc.id,
       onRefresh: () => onRefresh(),
     });
   };
