@@ -510,6 +510,7 @@ function Bookings(props) {
               customColors={customColors}
               refreshing={loading.refreshing}
               loadmore={loading.loadmore}
+              isMyBooking={false}
               data={data}
               onRefresh={onRefresh}
               onLoadmore={onLoadmore}
