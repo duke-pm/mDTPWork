@@ -72,7 +72,7 @@ function FilterTags(props) {
                 cStyles.rounded1,
                 {backgroundColor: primaryColor},
               ]}>
-              <CText styles={'textCaption2 colorBlack'} label={itemStatus} />
+              <CText styles={'textCaption2'} label={itemStatus} />
             </View>
           );
         })}
@@ -91,7 +91,7 @@ function FilterTags(props) {
                 {backgroundColor: primaryColor},
               ]}>
               <CText
-                styles={'textCaption2 colorBlack'}
+                styles={'textCaption2'}
                 label={'list_request_assets_handling:title_' + itemType.label}
               />
             </View>
@@ -108,7 +108,7 @@ function FilterTags(props) {
             {backgroundColor: primaryColor},
           ]}>
           <CText
-            styles={'textCaption2 colorBlack'}
+            styles={'textCaption2'}
             customLabel={`${translation('common:find')}: "${search}"`}
           />
         </View>
