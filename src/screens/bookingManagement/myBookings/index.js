@@ -305,10 +305,10 @@ function MyBookings(props) {
         itemCalendar.start = startDate + ' ' + startTime;
         itemCalendar.end = endDate + ' ' + endTime;
         itemCalendar.title =
-          itemBooking.purpose + t('my_bookings:at') + itemBooking.resourceName;
+          itemBooking.purpose + ' | ' + itemBooking.resourceName;
         itemCalendar.summary =
           t('my_bookings:notes') +
-          `\n${itemBooking.remarks !== '' ? itemBooking.remarks : '-'}`;
+          `${itemBooking.remarks !== '' ? itemBooking.remarks : '-'}`;
         itemCalendar.color = itemBooking.color;
         tmpData.push(itemCalendar);
       }

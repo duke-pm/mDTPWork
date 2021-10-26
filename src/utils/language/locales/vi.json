@@ -539,7 +539,8 @@
     "title": "Bookings của tôi",
     "at": " tại ",
     "notes": "Ghi chú: ",
-    "live": " [Đang diễn ra]"
+    "live": " [Đang diễn ra]",
+    "resource": "Tài nguyên: "
   },
   "add_booking": {
     "title": "Chi tiết",
