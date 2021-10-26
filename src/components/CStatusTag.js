@@ -6,7 +6,7 @@
  **/
 import PropTypes from 'prop-types';
 import React from 'react';
-import {View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 /* COMPONENTS */
 import CText from './CText';
 import CIcon from './CIcon';
@@ -25,8 +25,8 @@ function CStatusTag(props) {
       style={[
         cStyles.row,
         cStyles.itemsCenter,
-        cStyles.py2,
-        cStyles.px8,
+        cStyles.py1,
+        cStyles.px6,
         cStyles.rounded5,
         {backgroundColor: color},
         style,
@@ -34,17 +34,22 @@ function CStatusTag(props) {
       <CIcon name={Icons.dot} customColor={colors.WHITE} size={'minium'} />
       <CText
         customStyles={[
-          cStyles.textCaption2,
-          cStyles.fontBold,
+          cStyles.textCaption1,
+          cStyles.fontMedium,
           cStyles.pl2,
           {color: colors.WHITE},
         ]}
         label={label || undefined}
         customLabel={customLabel || undefined}
       />
+      <View style={[cStyles.abs, cStyles.inset0, cStyles.flex1, styles.abs]} />
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  abs: {backgroundColor: 'rgba(255,255,255,.4)'},
+});
 
 CStatusTag.propTypes = {
   style: PropTypes.object,

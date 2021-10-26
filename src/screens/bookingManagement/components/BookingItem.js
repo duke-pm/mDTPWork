@@ -103,16 +103,23 @@ function BookingItem(props) {
                   color={customColors[colorStatus]}
                 />
               </View>
+              <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt10]}>
+                <CUser label={data.ownerName} />
+              </View>
               {!isMyBooking && (
                 <CTouchable style={cStyles.py4} onPress={handleResource}>
-                  <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt6]}>
+                  <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt4]}>
                     <CIcon
                       name={Icons.resource}
                       size={'smaller'}
                       customColor={data.color}
                     />
                     <CLabel
-                      style={[cStyles.pl5, cStyles.textUnderline]}
+                      style={[
+                        cStyles.pl5,
+                        cStyles.textUnderline,
+                        cStyles.textItalic,
+                      ]}
                       color={'green'}
                       customLabel={data.resourceName}
                     />
@@ -120,7 +127,7 @@ function BookingItem(props) {
                 </CTouchable>
               )}
               {isMyBooking && (
-                <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt6]}>
+                <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt4]}>
                   <CIcon
                     name={Icons.resource}
                     size={'smaller'}
@@ -129,9 +136,6 @@ function BookingItem(props) {
                   <CLabel style={cStyles.pl5} customLabel={data.resourceName} />
                 </View>
               )}
-              <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt6]}>
-                <CUser label={data.ownerName} />
-              </View>
             </View>
           </View>
         </View>
