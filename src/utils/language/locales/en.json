@@ -539,7 +539,8 @@
     "title": "My Bookings",
     "at": " at ",
     "notes": "Notes: ",
-    "live": " [Live]"
+    "live": " [Live]",
+    "resource": "Resource: "
   },
   "add_booking": {
     "title": "Detail",
