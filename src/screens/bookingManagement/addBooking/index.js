@@ -700,10 +700,15 @@ function AddBooking(props) {
     navigation.setOptions({
       title:
         isDetail && dataBooking.isUpdated
-          ? t('add_booking:title_update')
+          ? t('add_booking:title_update') + ` #${dataBooking.id}`
           : !isDetail
           ? t('add_booking:title_add')
-          : t('add_booking:title'),
+          : t('add_booking:title') +
+            ` #${
+              typeof bookingParam === 'object'
+                ? bookingParam.bookID
+                : bookingParam
+            }`,
     });
   }, [navigation, isDetail, dataBooking.isUpdated]);
 

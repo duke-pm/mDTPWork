@@ -543,9 +543,9 @@
     "resource": "Tài nguyên: "
   },
   "add_booking": {
-    "title": "Chi tiết",
+    "title": "Chi tiết Booking",
     "title_add": "Thêm Mới Booking",
-    "title_update": "Cập nhật",
+    "title_update": "Cập nhật Booking",
     "info": "Thông tin cơ bản",
     "info_booking": "Thông tin Booking",
     "create_date": "Ngày",

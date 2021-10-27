@@ -543,7 +543,7 @@
     "resource": "Resource: "
   },
   "add_booking": {
-    "title": "Detail",
+    "title": "Detail Booking",
     "title_add": "New Booking",
     "title_update": "Update Booking",
     "info": "Basic Information",

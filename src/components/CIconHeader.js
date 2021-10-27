@@ -40,7 +40,7 @@ function CIconHeader(props) {
             key={index + '_icon_header'}
             containerStyle={[
               cStyles.rounded10,
-              index !== icons.length - 1 ? cStyles.mr16 : {},
+              index !== icons.length - 1 ? cStyles.mr10 : {},
             ]}
             onPress={item.onPress}>
             <View style={cStyles.p3}>
