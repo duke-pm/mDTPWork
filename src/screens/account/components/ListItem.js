@@ -109,13 +109,13 @@ function ListItem(props) {
           <View
             style={[
               cStyles.rounded1,
-              cStyles.p8,
+              cStyles.p6,
               {backgroundColor: data.iconColor || colors.TRANSPARENT},
             ]}>
             {data.icon && !data.iconFaceID && (
               <CIcon
                 name={data.icon}
-                size={'medium'}
+                size={'large'}
                 customColor={data.iconColor ? colors.WHITE : customColors.text}
               />
             )}

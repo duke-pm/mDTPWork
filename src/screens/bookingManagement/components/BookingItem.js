@@ -55,8 +55,10 @@ function BookingItem(props) {
 
   return (
     <CCard
-      key={index}
-      customLabel={`#${data.bookID} ${data.purpose}`}
+      key={index + 'item_bk_' + data.bookID}
+      customLabel={`${data.purpose}`}
+      idx={data.bookID}
+      color={colors.BG_BOOKINGS}
       onPress={handleItem}
       content={
         <View style={cStyles.flex1}>
@@ -107,8 +109,14 @@ function BookingItem(props) {
                 <CUser label={data.ownerName} />
               </View>
               {!isMyBooking && (
-                <CTouchable style={cStyles.py4} onPress={handleResource}>
-                  <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt4]}>
+                <CTouchable onPress={handleResource}>
+                  <View
+                    style={[
+                      cStyles.row,
+                      cStyles.itemsCenter,
+                      cStyles.mt6,
+                      cStyles.py5,
+                    ]}>
                     <CIcon
                       name={Icons.resource}
                       size={'smaller'}

@@ -52,6 +52,7 @@ const Icons = {
   resource: 'location',
   userCreated: 'person',
   calendarBooking: 'calendar-outline',
+  calendarBookingClear: 'calendar-clear-outline',
   listBooking: 'list-outline',
   addUser: 'person-add-outline',
 

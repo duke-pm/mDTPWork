@@ -195,7 +195,9 @@
     "privacy_policies": "Privacy Policy",
     "term_conditions": "Terms & Conditions",
     "about_us": "About us",
-    "rate_app": "Rate app"
+    "rate_app": "Rate app",
+    "version": "Version",
+    "update": "Update"
   },
   "contact_us": {
     "title": "Contact us",
@@ -540,7 +542,8 @@
     "at": " at ",
     "notes": "Notes: ",
     "live": " [Live]",
-    "resource": "Resource: "
+    "resource": "Resource: ",
+    "owner": "Owner: "
   },
   "add_booking": {
     "title": "Detail Booking",

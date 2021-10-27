@@ -9,22 +9,18 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
 import {useColorScheme} from 'react-native-appearance';
-import {StyleSheet, View, Text, Linking} from 'react-native';
-import VersionCheck from 'react-native-version-check';
+import {StyleSheet, View} from 'react-native';
 import DeviceInfo from 'react-native-device-info';
-import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
 import CAvatar from '~/components/CAvatar';
 import CText from '~/components/CText';
-import CButton from '~/components/CButton';
 import CGroupInfo from '~/components/CGroupInfo';
 import ListItem from './components/ListItem';
 import SocialItem from './components/SocialItem';
 /* COMMON */
 import Configs from '~/config';
-import Icons from '~/utils/common/Icons';
 import Routes from '~/navigation/Routes';
 import {colors, cStyles} from '~/utils/style';
 import {LOGIN, THEME_DARK} from '~/config/constants';
@@ -46,7 +42,7 @@ const ACCOUNT = {
     childrens: [
       {
         id: 'myAccount',
-        icon: 'person-outline',
+        icon: 'person',
         iconColor: colors.BLUE,
         label: 'account:my_account',
         value: null,
@@ -58,7 +54,7 @@ const ACCOUNT = {
       },
       {
         id: 'changePassword',
-        icon: 'lock-open-outline',
+        icon: 'lock-open',
         iconColor: colors.PURPLE,
         label: 'account:change_password',
         value: null,
@@ -76,7 +72,7 @@ const ACCOUNT = {
     childrens: [
       {
         id: 'settingsApp',
-        icon: IS_IOS ? 'cog-outline' : 'settings-outline',
+        icon: IS_IOS ? 'cog' : 'settings',
         iconColor: colors.GRAY_500,
         label: 'account:app_settings',
         value: null,
@@ -88,7 +84,7 @@ const ACCOUNT = {
       },
       {
         id: 'helpAndInfo',
-        icon: 'information-circle-outline',
+        icon: 'information-circle',
         iconColor: colors.ORANGE,
         label: 'account:help_and_info',
         value: null,
@@ -100,7 +96,7 @@ const ACCOUNT = {
       },
       {
         id: 'hotline',
-        icon: 'call-outline',
+        icon: 'call',
         iconColor: colors.TEAL,
         label: 'account:hotline',
         value: '1800 6242',
@@ -112,7 +108,7 @@ const ACCOUNT = {
       },
       {
         id: 'signout',
-        icon: 'log-out-outline',
+        icon: 'log-out',
         iconColor: colors.RED,
         label: 'common:sign_out',
         value: null,
@@ -173,70 +169,29 @@ const Information = React.memo(({isTablet = false, authState = {}}) => {
   );
 });
 
-const Socials = React.memo(
-  ({
-    customColors = {},
-    isDark = false,
-    isTablet = false,
-    needUpdate = {},
-    onUpdate = () => null,
-  }) => {
-    return (
-      <CGroupInfo
-        contentStyle={[
-          cStyles.mb10,
-          cStyles.px10,
-          isTablet ? cStyles.mx10 : cStyles.mx16,
-        ]}
-        content={
-          <>
-            <View
-              style={[
-                cStyles.row,
-                cStyles.itemsCenter,
-                cStyles.justifyBetween,
-              ]}>
-              <Text style={[cStyles.textCaption1, {color: customColors.text}]}>
-                &#169; {`${moment().year()} ${Configs.nameOfApp}`}
-              </Text>
-              <View style={[cStyles.row, cStyles.itemsCenter]}>
-                {Configs.socialsNetwork.map((item, index) => (
-                  <SocialItem
-                    key={item.id}
-                    index={index}
-                    data={item}
-                    isDark={isDark}
-                  />
-                ))}
-              </View>
-            </View>
-
-            <View style={[cStyles.mt6, cStyles.row, cStyles.itemsCenter]}>
-              <Text
-                style={[
-                  cStyles.textCaption1,
-                  cStyles.mt5,
-                  {color: customColors.text},
-                ]}>
-                {`v${VersionCheck.getCurrentVersion()}`}
-              </Text>
-              {needUpdate.status && (
-                <CButton
-                  style={[cStyles.ml10, cStyles.px6]}
-                  textStyle={cStyles.textCaption1}
-                  variant={'text'}
-                  icon={Icons.download}
-                  label={'common:download'}
-                  onPress={onUpdate}
-                />
-              )}
-            </View>
-          </>
-        }
-      />
-    );
-  },
-);
+const Socials = React.memo(({isDark = false, isTablet = false}) => {
+  return (
+    <CGroupInfo
+      contentStyle={[
+        cStyles.mb10,
+        cStyles.px10,
+        isTablet ? cStyles.mx10 : cStyles.mx16,
+      ]}
+      content={
+        <View style={[cStyles.row, cStyles.itemsCenter]}>
+          {Configs.socialsNetwork.map((item, index) => (
+            <SocialItem
+              key={item.id}
+              index={index}
+              data={item}
+              isDark={isDark}
+            />
+          ))}
+        </View>
+      }
+    />
+  );
+});
 
 function Account(props) {
   const {t} = useTranslation();
@@ -251,16 +206,10 @@ function Account(props) {
   /** Use state */
   const [loading, setLoading] = useState(false);
   const [isTablet, setIsTablet] = useState(false);
-  const [needUpdate, setNeedUpdate] = useState({
-    status: false,
-    linkUpdate: '',
-  });
 
   /*****************
    ** HANDLE FUNC **
    *****************/
-  const handleUpdate = () => Linking.openURL(needUpdate.linkUpdate);
-
   const handleSignOut = () => alert(t, 'common:warning_sign_out', handleOk);
 
   const handleOk = async () => {
@@ -277,17 +226,6 @@ function Account(props) {
   useEffect(() => {
     let checkTablet = DeviceInfo.isTablet();
     setIsTablet(checkTablet);
-  }, []);
-
-  useEffect(() => {
-    VersionCheck.needUpdate().then(async res => {
-      if (res && res.isNeeded) {
-        setNeedUpdate({
-          status: true,
-          linkUpdate: res.storeUrl,
-        });
-      }
-    });
   }, []);
 
   /************
@@ -311,15 +249,7 @@ function Account(props) {
               {isTablet && (
                 <Information isTablet={isTablet} authState={authState} />
               )}
-              {isTablet && (
-                <Socials
-                  isDark={isDark}
-                  isTablet={isTablet}
-                  customColors={customColors}
-                  needUpdate={needUpdate}
-                  onUpdate={handleUpdate}
-                />
-              )}
+              {isTablet && <Socials isDark={isDark} isTablet={isTablet} />}
             </View>
 
             <View style={isTablet ? styles.right : cStyles.flex1}>
@@ -371,15 +301,7 @@ function Account(props) {
               />
 
               {/** SOCIALS */}
-              {!isTablet && (
-                <Socials
-                  isDark={isDark}
-                  isTablet={isTablet}
-                  customColors={customColors}
-                  needUpdate={needUpdate}
-                  onUpdate={handleUpdate}
-                />
-              )}
+              {!isTablet && <Socials isDark={isDark} isTablet={isTablet} />}
             </View>
           </View>
         </CContent>

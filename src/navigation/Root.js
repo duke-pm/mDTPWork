@@ -120,6 +120,7 @@ export function RootTab(props) {
 export function RootMain(props) {
   const {t} = useTranslation();
   const {customColors} = useTheme();
+  const isDark = useColorScheme() === THEME_DARK;
 
   return (
     <StackMain.Navigator
@@ -175,7 +176,15 @@ export function RootMain(props) {
         name={Routes.MAIN.HELP_AND_INFO.name}
         component={Routes.MAIN.HELP_AND_INFO.path}
         options={{
-          title: t('help_and_info:title'),
+          title: '',
+          headerTintColor: colors.WHITE,
+          headerTranslucent: true,
+          headerHideShadow: true,
+          headerStyle: {
+            backgroundColor: isDark
+              ? colors.STATUS_NEW_OPACITY
+              : colors.PRIMARY,
+          },
         }}
       />
       <StackMain.Screen

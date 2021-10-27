@@ -4,23 +4,32 @@
  ** CreateAt: 2021
  ** Description: Description of HelpAndInfo.js
  **/
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
+import {StyleSheet, Image, View, Linking, Text} from 'react-native';
+import VersionCheck from 'react-native-version-check';
 import DeviceInfo from 'react-native-device-info';
+import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CContent from '~/components/CContent';
 import ListItem from '../components/ListItem';
 import CGroupInfo from '~/components/CGroupInfo';
+import CText from '~/components/CText';
+import CButton from '~/components/CButton';
 /** COMMON */
+import Configs from '~/config';
 import {colors, cStyles} from '~/utils/style';
+import {moderateScale, sH} from '~/utils/helper';
+import {Assets} from '~/utils/asset';
+import {Icons} from '~/utils/common';
 
 /** All init */
 const HELP_AND_INFO = [
   {
     id: 'contactUs',
-    icon: 'people-outline',
+    icon: 'people',
     iconColor: colors.BLUE,
     label: 'help_and_info:contact_us',
     value: null,
@@ -34,7 +43,7 @@ const HELP_AND_INFO = [
 const HELP_AND_INFO_1 = [
   {
     id: 'privacyPolicies',
-    icon: 'shield-checkmark-outline',
+    icon: 'shield-checkmark',
     iconColor: colors.GREEN,
     label: 'help_and_info:privacy_policies',
     value: 'https://www.dtp-education.com/gioi-thieu/',
@@ -46,7 +55,7 @@ const HELP_AND_INFO_1 = [
   },
   {
     id: 'termAndConditions',
-    icon: 'clipboard-outline',
+    icon: 'clipboard',
     iconColor: colors.ORANGE,
     label: 'help_and_info:term_conditions',
     value: 'https://www.dtp-education.com/gioi-thieu/tam-nhin-su-menh/',
@@ -58,7 +67,7 @@ const HELP_AND_INFO_1 = [
   },
   {
     id: 'aboutUs',
-    icon: 'people-circle-outline',
+    icon: 'people-circle',
     iconColor: colors.TEAL,
     label: 'help_and_info:about_us',
     value: 'https://www.dtp-education.com/?v=1',
@@ -72,7 +81,7 @@ const HELP_AND_INFO_1 = [
 const HELP_AND_INFO_2 = [
   {
     id: 'rateApp',
-    icon: 'star-outline',
+    icon: 'star',
     iconColor: colors.YELLOW,
     label: 'help_and_info:rate_app',
     value: null,
@@ -89,6 +98,31 @@ function HelpAndInfo(props) {
   const {customColors} = useTheme();
   const {navigation} = props;
 
+  /** Use state */
+  const [needUpdate, setNeedUpdate] = useState({
+    status: false,
+    linkUpdate: '',
+  });
+
+  /*****************
+   ** HANDLE FUNC **
+   *****************/
+  const handleUpdate = () => Linking.openURL(needUpdate.linkUpdate);
+
+  /****************
+   ** LIFE CYCLE **
+   ****************/
+  useEffect(() => {
+    VersionCheck.needUpdate().then(async res => {
+      if (res && res.isNeeded) {
+        setNeedUpdate({
+          status: true,
+          linkUpdate: res.storeUrl,
+        });
+      }
+    });
+  }, []);
+
   /************
    ** RENDER **
    ************/
@@ -97,6 +131,55 @@ function HelpAndInfo(props) {
       loading={false}
       content={
         <CContent>
+          <View style={[cStyles.itemsCenter, styles.con_info_app]}>
+            <View
+              style={[cStyles.center, cStyles.rounded10, styles.con_circle_1]}>
+              <View
+                style={[
+                  cStyles.center,
+                  cStyles.rounded10,
+                  styles.con_circle_2,
+                ]}>
+                <View
+                  style={[
+                    cStyles.center,
+                    cStyles.rounded10,
+                    styles.con_circle_logo,
+                  ]}>
+                  <Image
+                    style={styles.logo}
+                    source={Assets.imgLogoSimple}
+                    resizeMode={'contain'}
+                  />
+                </View>
+              </View>
+            </View>
+
+            <View style={cStyles.mt10}>
+              <Text style={[cStyles.textBody, cStyles.colorWhite]}>
+                &#169; {`${Configs.nameOfApp} ${moment().year()}`}
+              </Text>
+            </View>
+
+            <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt5]}>
+              <CText
+                styles={'colorWhite'}
+                customLabel={`${t(
+                  'help_and_info:version',
+                )} ${VersionCheck.getCurrentVersion()}`}
+              />
+              {needUpdate.status && (
+                <CButton
+                  style={[cStyles.ml10, cStyles.px6]}
+                  textStyle={cStyles.textCaption1}
+                  icon={Icons.download}
+                  label={'help_and_info:update'}
+                  onPress={handleUpdate}
+                />
+              )}
+            </View>
+          </View>
+
           <CGroupInfo
             contentStyle={[
               cStyles.px10,
@@ -152,5 +235,29 @@ function HelpAndInfo(props) {
     />
   );
 }
+
+const styles = StyleSheet.create({
+  con_info_app: {
+    height: sH('25%'),
+    width: '100%',
+    backgroundColor: colors.PRIMARY,
+  },
+  con_circle_1: {
+    backgroundColor: colors.BACKGROUND_INFO_APP_1,
+    height: moderateScale(100),
+    width: moderateScale(100),
+  },
+  con_circle_2: {
+    backgroundColor: colors.BACKGROUND_INFO_APP_2,
+    height: moderateScale(80),
+    width: moderateScale(80),
+  },
+  con_circle_logo: {
+    backgroundColor: colors.WHITE,
+    height: moderateScale(60),
+    width: moderateScale(60),
+  },
+  logo: {height: moderateScale(50), width: moderateScale(50)},
+});
 
 export default React.memo(HelpAndInfo);
