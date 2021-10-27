@@ -6,6 +6,7 @@
  **/
 const Assets = {
   imgLogo: require('../../../assets/images/photo/logo.png'),
+  imgLogoSimple: require('../../../assets/images/photo/logoSimple.png'),
   imgFacebook: require('../../../assets/images/photo/facebook.png'),
   imgYoutube: require('../../../assets/images/photo/youtube.png'),
 

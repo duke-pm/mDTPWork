@@ -55,8 +55,10 @@ function BookingItem(props) {
 
   return (
     <CCard
-      key={index}
-      customLabel={`#${data.bookID} ${data.purpose}`}
+      key={index + 'item_bk_' + data.bookID}
+      customLabel={`${data.purpose}`}
+      idx={data.bookID}
+      color={colors.BG_BOOKINGS}
       onPress={handleItem}
       content={
         <View style={cStyles.flex1}>

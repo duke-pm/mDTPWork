@@ -37,6 +37,8 @@ function CCard(props) {
     gradientColor = undefined,
     detail = false,
     customIconHeader = [],
+    idx = undefined,
+    color = undefined,
     label = undefined,
     customLabel = undefined,
     content = null,
@@ -89,9 +91,25 @@ function CCard(props) {
               isDark && cStyles.borderBottomDark,
               contentLabelStyle,
             ]}>
-            <View style={detail ? styles.con_header_left : cStyles.flex1}>
+            <View
+              style={[
+                cStyles.row,
+                cStyles.itemsCenter,
+                detail ? styles.con_header_left : cStyles.flex1,
+              ]}>
+              {idx && color && (
+                <View
+                  style={[
+                    cStyles.p4,
+                    cStyles.center,
+                    cStyles.rounded1,
+                    {backgroundColor: color},
+                  ]}>
+                  <CText styles={'textCaption1 fontBold'} customLabel={idx} />
+                </View>
+              )}
               <CText
-                customStyles={[cStyles.textBody, cStyles.fontBold]}
+                customStyles={[cStyles.textBody, cStyles.fontBold, cStyles.ml8]}
                 label={label}
                 customLabel={customLabel}
               />
