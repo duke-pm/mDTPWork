@@ -294,11 +294,14 @@ function Bookings(props) {
         itemCalendar.dataFull = itemBooking;
         itemCalendar.start = startDate + ' ' + startTime;
         itemCalendar.end = endDate + ' ' + endTime;
-        itemCalendar.title =
-          itemBooking.purpose + ' | ' + itemBooking.resourceName;
+        itemCalendar.title = itemBooking.purpose;
         itemCalendar.summary =
           t('my_bookings:notes') +
-          `${itemBooking.remarks !== '' ? itemBooking.remarks : '-'}`;
+          `${itemBooking.remarks !== '' ? itemBooking.remarks : '-'}\n${t(
+            'my_bookings:owner',
+          )}${itemBooking.ownerName}\n${t('my_bookings:resource')}${
+            itemBooking.resourceName
+          }`;
         itemCalendar.color = itemBooking.color;
         tmpData.push(itemCalendar);
       }
@@ -475,7 +478,7 @@ function Bookings(props) {
    ************/
   return (
     <CContainer
-      loading={loading.main}
+      loading={loading.main || loading.startFetch}
       hasShapes
       figuresShapes={[]}
       primaryColorShapes={colors.BG_HEADER_BOOKING}

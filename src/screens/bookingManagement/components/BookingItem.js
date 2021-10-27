@@ -107,8 +107,14 @@ function BookingItem(props) {
                 <CUser label={data.ownerName} />
               </View>
               {!isMyBooking && (
-                <CTouchable style={cStyles.py4} onPress={handleResource}>
-                  <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt4]}>
+                <CTouchable onPress={handleResource}>
+                  <View
+                    style={[
+                      cStyles.row,
+                      cStyles.itemsCenter,
+                      cStyles.mt6,
+                      cStyles.py5,
+                    ]}>
                     <CIcon
                       name={Icons.resource}
                       size={'smaller'}

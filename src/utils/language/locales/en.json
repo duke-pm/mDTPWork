@@ -540,7 +540,8 @@
     "at": " at ",
     "notes": "Notes: ",
     "live": " [Live]",
-    "resource": "Resource: "
+    "resource": "Resource: ",
+    "owner": "Owner: "
   },
   "add_booking": {
     "title": "Detail Booking",
