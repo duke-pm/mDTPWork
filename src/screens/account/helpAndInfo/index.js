@@ -20,10 +20,10 @@ import CText from '~/components/CText';
 import CButton from '~/components/CButton';
 /** COMMON */
 import Configs from '~/config';
-import {colors, cStyles} from '~/utils/style';
-import {moderateScale, sH} from '~/utils/helper';
 import {Assets} from '~/utils/asset';
 import {Icons} from '~/utils/common';
+import {colors, cStyles} from '~/utils/style';
+import {moderateScale, sH} from '~/utils/helper';
 
 /** All init */
 const HELP_AND_INFO = [
@@ -130,7 +130,7 @@ function HelpAndInfo(props) {
     <CContainer
       loading={false}
       content={
-        <CContent>
+        <View style={cStyles.flex1}>
           <View style={[cStyles.itemsCenter, styles.con_info_app]}>
             <View
               style={[cStyles.center, cStyles.rounded10, styles.con_circle_1]}>
@@ -179,58 +179,59 @@ function HelpAndInfo(props) {
               )}
             </View>
           </View>
+          <CContent>
+            <CGroupInfo
+              contentStyle={[
+                cStyles.px10,
+                DeviceInfo.isTablet() ? cStyles.mb10 : cStyles.mb0,
+              ]}
+              content={HELP_AND_INFO.map((item, index) => (
+                <ListItem
+                  key={item.id}
+                  index={index}
+                  translate={t}
+                  navigation={navigation}
+                  lastIndex={HELP_AND_INFO.length - 1}
+                  data={item}
+                  customColors={customColors}
+                />
+              ))}
+            />
 
-          <CGroupInfo
-            contentStyle={[
-              cStyles.px10,
-              DeviceInfo.isTablet() ? cStyles.mb10 : cStyles.mb0,
-            ]}
-            content={HELP_AND_INFO.map((item, index) => (
-              <ListItem
-                key={item.id}
-                index={index}
-                translate={t}
-                navigation={navigation}
-                lastIndex={HELP_AND_INFO.length - 1}
-                data={item}
-                customColors={customColors}
-              />
-            ))}
-          />
+            <CGroupInfo
+              contentStyle={[
+                cStyles.px10,
+                DeviceInfo.isTablet() ? cStyles.mb10 : cStyles.mb0,
+              ]}
+              content={HELP_AND_INFO_1.map((item, index) => (
+                <ListItem
+                  key={item.id}
+                  index={index}
+                  translate={t}
+                  navigation={navigation}
+                  lastIndex={HELP_AND_INFO_1.length - 1}
+                  data={item}
+                  customColors={customColors}
+                />
+              ))}
+            />
 
-          <CGroupInfo
-            contentStyle={[
-              cStyles.px10,
-              DeviceInfo.isTablet() ? cStyles.mb10 : cStyles.mb0,
-            ]}
-            content={HELP_AND_INFO_1.map((item, index) => (
-              <ListItem
-                key={item.id}
-                index={index}
-                translate={t}
-                navigation={navigation}
-                lastIndex={HELP_AND_INFO_1.length - 1}
-                data={item}
-                customColors={customColors}
-              />
-            ))}
-          />
-
-          <CGroupInfo
-            contentStyle={[cStyles.px10, cStyles.mb10]}
-            content={HELP_AND_INFO_2.map((item, index) => (
-              <ListItem
-                key={item.id}
-                index={index}
-                translate={t}
-                navigation={navigation}
-                lastIndex={HELP_AND_INFO_2.length - 1}
-                data={item}
-                customColors={customColors}
-              />
-            ))}
-          />
-        </CContent>
+            <CGroupInfo
+              contentStyle={[cStyles.px10, cStyles.mb10]}
+              content={HELP_AND_INFO_2.map((item, index) => (
+                <ListItem
+                  key={item.id}
+                  index={index}
+                  translate={t}
+                  navigation={navigation}
+                  lastIndex={HELP_AND_INFO_2.length - 1}
+                  data={item}
+                  customColors={customColors}
+                />
+              ))}
+            />
+          </CContent>
+        </View>
       }
     />
   );
@@ -238,9 +239,10 @@ function HelpAndInfo(props) {
 
 const styles = StyleSheet.create({
   con_info_app: {
-    height: sH('25%'),
+    height: sH('38%'),
     width: '100%',
     backgroundColor: colors.PRIMARY,
+    paddingTop: sH('12%'),
   },
   con_circle_1: {
     backgroundColor: colors.BACKGROUND_INFO_APP_1,
@@ -260,4 +262,4 @@ const styles = StyleSheet.create({
   logo: {height: moderateScale(50), width: moderateScale(50)},
 });
 
-export default React.memo(HelpAndInfo);
+export default HelpAndInfo;

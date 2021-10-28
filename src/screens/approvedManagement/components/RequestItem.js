@@ -18,7 +18,7 @@ import CUser from '~/components/CUser';
 import CIcon from '~/components/CIcon';
 /* COMMON */
 import {Commons, Icons} from '~/utils/common';
-import {cStyles} from '~/utils/style';
+import {colors, cStyles} from '~/utils/style';
 import {DEFAULT_FORMAT_DATE_4} from '~/config/constants';
 
 function RequestItem(props) {
@@ -50,14 +50,14 @@ function RequestItem(props) {
   /************
    ** RENDER **
    ************/
-  let title = `#${data.requestID} ${t('approved_assets:title_request_item')}`;
+  let title = `${t('approved_assets:title_request_item')}`;
   let statusIcon = Icons.request;
   let colorText = 'colorOrange';
   let statusColor = 'orange';
   if (data.requestTypeID !== Commons.APPROVED_TYPE.ASSETS.value) {
-    title = `#${data.requestID} ${t(
-      'approved_lost_damaged:title_request_item_1',
-    )}${data.requestTypeName}`;
+    title = `${t('approved_lost_damaged:title_request_item_1')}${
+      data.requestTypeName
+    }`;
   }
   if (data.statusID === Commons.STATUS_REQUEST.APPROVED.value) {
     statusIcon = Icons.requestApproved_1;
@@ -76,6 +76,8 @@ function RequestItem(props) {
     <CCard
       key={index}
       customLabel={title}
+      idx={data.requestID}
+      color={colors.BG_APPROVED}
       onPress={handleRequestItem}
       content={
         <View

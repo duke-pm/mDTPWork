@@ -134,7 +134,7 @@ function FilterTags(props) {
             {backgroundColor: primaryColor},
           ]}>
           <CText
-            styles={'textCaption2 colorBlack'}
+            styles={'textCaption2'}
             customLabel={`${translation('bookings:resource')}: ${translation(
               'common:all',
             )}`}

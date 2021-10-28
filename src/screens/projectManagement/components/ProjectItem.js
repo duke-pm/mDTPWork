@@ -19,7 +19,7 @@ import CStatusTag from '~/components/CStatusTag';
 import ListProject from '../list/Project';
 /* COMMON */
 import Icons from '~/utils/common/Icons';
-import {cStyles} from '~/utils/style';
+import {colors, cStyles} from '~/utils/style';
 import {moderateScale, IS_ANDROID} from '~/utils/helper';
 import {
   DEFAULT_FORMAT_DATE_4,
@@ -103,7 +103,9 @@ function ProjectItem(props) {
         index={index}
         containerStyle={styles.card}
         detail
-        customLabel={`#${data.prjID} ${data.prjName}`}
+        customLabel={`${data.prjName}`}
+        idx={data.prjID}
+        color={colors.BG_PROJECT}
         onLayout={onLayoutCard}
         onPress={handleItem}
         onDetailPress={handleHeaderItem}

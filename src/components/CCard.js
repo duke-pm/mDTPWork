@@ -105,14 +105,21 @@ function CCard(props) {
                     cStyles.rounded1,
                     {backgroundColor: color},
                   ]}>
-                  <CText styles={'textCaption1 fontBold'} customLabel={idx} />
+                  <CText styles={'textBody fontBold'} customLabel={idx} />
                 </View>
               )}
-              <CText
-                customStyles={[cStyles.textBody, cStyles.fontBold, cStyles.ml8]}
-                label={label}
-                customLabel={customLabel}
-              />
+              <View style={cStyles.flex1}>
+                <CText
+                  customStyles={[
+                    cStyles.textBody,
+                    cStyles.fontBold,
+                    cStyles.pl6,
+                  ]}
+                  numberOfLines={2}
+                  label={label}
+                  customLabel={customLabel}
+                />
+              </View>
             </View>
             {customIconHeader.length > 0 &&
               customIconHeader.map((item, index) => (

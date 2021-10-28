@@ -76,10 +76,19 @@ function BookingItem(props) {
                 />
                 <View>
                   <Text style={[cStyles.textCaption1, cStyles.pl4]}>
-                    <Text style={cStyles.textCaption1}>
+                    <Text
+                      style={[
+                        cStyles.textCaption1,
+                        {color: customColors.text},
+                      ]}>
                       {timeDate.startDate} -{' '}
                     </Text>
-                    <Text style={[cStyles.textCaption1, cStyles.fontBold]}>
+                    <Text
+                      style={[
+                        cStyles.textCaption1,
+                        cStyles.fontBold,
+                        {color: customColors.text},
+                      ]}>
                       {data.strStartTime}
                     </Text>
                   </Text>
@@ -87,10 +96,19 @@ function BookingItem(props) {
                     <CIcon name={Icons.downStep} size={'minimum'} />
                   </View>
                   <Text style={[cStyles.textCaption1, cStyles.pl4]}>
-                    <Text style={cStyles.textCaption1}>
+                    <Text
+                      style={[
+                        cStyles.textCaption1,
+                        {color: customColors.text},
+                      ]}>
                       {timeDate.endDate} -{' '}
                     </Text>
-                    <Text style={[cStyles.textCaption1, cStyles.fontBold]}>
+                    <Text
+                      style={[
+                        cStyles.textCaption1,
+                        cStyles.fontBold,
+                        {color: customColors.text},
+                      ]}>
                       {data.strEndTime}
                     </Text>
                   </Text>

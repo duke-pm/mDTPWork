@@ -140,11 +140,23 @@ function TaskItem(props) {
             <View
               style={[
                 cStyles.row,
-                cStyles.itemsStart,
+                cStyles.itemsCenter,
                 data.taskTypeID !== Commons.TYPE_TASK.MILESTONE.value &&
                   styles.con_label_left,
               ]}>
-              <Text numberOfLines={2}>
+              <View
+                style={[
+                  cStyles.p4,
+                  cStyles.center,
+                  cStyles.rounded1,
+                  {backgroundColor: bgTaskType},
+                ]}>
+                <CText
+                  styles={'textBody fontBold'}
+                  customLabel={data?.taskID}
+                />
+              </View>
+              <Text style={cStyles.pl6} numberOfLines={2}>
                 <Text
                   style={[
                     cStyles.textBody,
@@ -158,7 +170,7 @@ function TaskItem(props) {
                     cStyles.textBody,
                     cStyles.fontBold,
                     {color: customColors.text},
-                  ]}>{`  #${data?.taskID} ${data?.taskName}`}</Text>
+                  ]}>{` ${data?.taskName}`}</Text>
               </Text>
             </View>
 
