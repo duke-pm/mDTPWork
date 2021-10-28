@@ -9,7 +9,7 @@
     "test": "jest",
     "lint": "eslint .",
     "ios-dev-ip8": "react-native run-ios --scheme mDTPWorkDev --configuration DebugDev --simulator='iPhone 8 Plus'",
-    "ios-dev": "react-native run-ios --scheme mDTPWorkDev --configuration DebugDev",
+    "ios-dev": "react-native run-ios --scheme mDTPWorkDev --configuration DebugDev --simulator='iPhone 13'",
     "ios-prod": "react-native run-ios --scheme mDTPWorkProd --configuration DebugDev",
     "android-dev": "react-native run-android --no-jetifier --variant=devDebug --appId 'com.dtpwork.dev'",
     "android-prod": "react-native run-android --no-jetifier --variant=productDebug --appId 'com.dtpwork'"
@@ -67,7 +67,7 @@
     "react-native-rate": "^1.2.6",
     "react-native-reanimated": "^2.1.0",
     "react-native-safe-area-context": "^3.2.0",
-    "react-native-screens": "^3.4.0",
+    "react-native-screens": "^3.8.0",
     "react-native-splash-screen": "^3.2.0",
     "react-native-svg": "^12.1.1",
     "react-native-tab-view": "^3.0.1",

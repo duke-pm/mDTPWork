@@ -40,7 +40,6 @@
 		00E356EE1AD99517003FC87E /* mDTPWorkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = mDTPWorkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* mDTPWorkTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = mDTPWorkTests.m; sourceTree = "<group>"; };
-		05BD7E3F3FC9A87303BA440D /* Pods-mDTPWork.debugprod.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mDTPWork.debugprod.xcconfig"; path = "Target Support Files/Pods-mDTPWork/Pods-mDTPWork.debugprod.xcconfig"; sourceTree = "<group>"; };
 		0C0DD1172D6B4B918AEA4FA4 /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; };
 		120F05AA269F4191B8C595B6 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* DTP Work Dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DTP Work Dev.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -50,6 +49,8 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = mDTPWork/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = mDTPWork/main.m; sourceTree = "<group>"; };
 		158D0D04B34D48FB893C8ACF /* Montserrat-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Light.ttf"; path = "../assets/fonts/Montserrat-Light.ttf"; sourceTree = "<group>"; };
+		227F99CD6C58A8C3ADA0A604 /* Pods-mDTPWork.releasedev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mDTPWork.releasedev.xcconfig"; path = "Target Support Files/Pods-mDTPWork/Pods-mDTPWork.releasedev.xcconfig"; sourceTree = "<group>"; };
+		49E77109BECB751EE6F683D6 /* Pods-mDTPWork.debugprod.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mDTPWork.debugprod.xcconfig"; path = "Target Support Files/Pods-mDTPWork/Pods-mDTPWork.debugprod.xcconfig"; sourceTree = "<group>"; };
 		547E54D1841548B28CDBBB4D /* Roboto-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Bold.ttf"; path = "../assets/fonts/Roboto-Bold.ttf"; sourceTree = "<group>"; };
 		60D6519F7C8443D8A8938A1B /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Regular.ttf"; path = "../assets/fonts/Montserrat-Regular.ttf"; sourceTree = "<group>"; };
 		69BC8FED07054EA88413A3AA /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
@@ -58,13 +59,11 @@
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = mDTPWork/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		84B390B72B9949C9B62F384B /* AntDesign.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = AntDesign.ttf; path = "../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"; sourceTree = "<group>"; };
 		8792E3B35EAA463781C4903E /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
+		89E206000EDAD17F1DB51D87 /* Pods-mDTPWork.debugdev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mDTPWork.debugdev.xcconfig"; path = "Target Support Files/Pods-mDTPWork/Pods-mDTPWork.debugdev.xcconfig"; sourceTree = "<group>"; };
 		8C6B794865F71EB2CE1FD9C7 /* libPods-mDTPWork.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-mDTPWork.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9DA4DD2463AC4D4EAB4039EC /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		A3AB38FBA7CF447184C66779 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Regular.ttf"; path = "../assets/fonts/Roboto-Regular.ttf"; sourceTree = "<group>"; };
-		B47DD11E3BD9B8EBE43B8A04 /* Pods-mDTPWork.releaseprod.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mDTPWork.releaseprod.xcconfig"; path = "Target Support Files/Pods-mDTPWork/Pods-mDTPWork.releaseprod.xcconfig"; sourceTree = "<group>"; };
-		B50492DA22C3D485443C2DEF /* Pods-mDTPWork.debugdev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mDTPWork.debugdev.xcconfig"; path = "Target Support Files/Pods-mDTPWork/Pods-mDTPWork.debugdev.xcconfig"; sourceTree = "<group>"; };
 		B70DE0C9D9B4492E96D7C32A /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
-		B9954FCEB05E6041926F8979 /* Pods-mDTPWork.releasedev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mDTPWork.releasedev.xcconfig"; path = "Target Support Files/Pods-mDTPWork/Pods-mDTPWork.releasedev.xcconfig"; sourceTree = "<group>"; };
 		C2B0101BEFA74CFE94B0C120 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Medium.ttf"; path = "../assets/fonts/Roboto-Medium.ttf"; sourceTree = "<group>"; };
 		D337611226E6FBDE00C678E5 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		D399057526CE153B0022FDCD /* BridgeHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BridgeHeader.swift; sourceTree = "<group>"; };
@@ -80,6 +79,7 @@
 		FA3F59D805C14C31959E9CB8 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
 		FEA9C9DAC6574AA5BF80E4D3 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		FFB7A699D0024D94BA1DB182 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
+		FFEFF8812B9DD94BDB0837EC /* Pods-mDTPWork.releaseprod.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mDTPWork.releaseprod.xcconfig"; path = "Target Support Files/Pods-mDTPWork/Pods-mDTPWork.releaseprod.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,10 +145,10 @@
 		4761143DEF3A2D1817C5EB6E /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				B50492DA22C3D485443C2DEF /* Pods-mDTPWork.debugdev.xcconfig */,
-				05BD7E3F3FC9A87303BA440D /* Pods-mDTPWork.debugprod.xcconfig */,
-				B9954FCEB05E6041926F8979 /* Pods-mDTPWork.releasedev.xcconfig */,
-				B47DD11E3BD9B8EBE43B8A04 /* Pods-mDTPWork.releaseprod.xcconfig */,
+				89E206000EDAD17F1DB51D87 /* Pods-mDTPWork.debugdev.xcconfig */,
+				49E77109BECB751EE6F683D6 /* Pods-mDTPWork.debugprod.xcconfig */,
+				227F99CD6C58A8C3ADA0A604 /* Pods-mDTPWork.releasedev.xcconfig */,
+				FFEFF8812B9DD94BDB0837EC /* Pods-mDTPWork.releaseprod.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -515,7 +515,7 @@
 		};
 		D35FC09E26E618BE001A0AFA /* DebugDev */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B50492DA22C3D485443C2DEF /* Pods-mDTPWork.debugdev.xcconfig */;
+			baseConfigurationReference = 89E206000EDAD17F1DB51D87 /* Pods-mDTPWork.debugdev.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -603,7 +603,6 @@
 		};
 		D35FC09F26E618BE001A0AFA /* DebugDev */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B50492DA22C3D485443C2DEF /* Pods-mDTPWork.debugdev.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -697,7 +696,7 @@
 		};
 		D35FC0A126E618C9001A0AFA /* DebugProd */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 05BD7E3F3FC9A87303BA440D /* Pods-mDTPWork.debugprod.xcconfig */;
+			baseConfigurationReference = 49E77109BECB751EE6F683D6 /* Pods-mDTPWork.debugprod.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -785,7 +784,6 @@
 		};
 		D35FC0A226E618C9001A0AFA /* DebugProd */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 05BD7E3F3FC9A87303BA440D /* Pods-mDTPWork.debugprod.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -872,7 +870,7 @@
 		};
 		D35FC0A726E61948001A0AFA /* ReleaseDev */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B9954FCEB05E6041926F8979 /* Pods-mDTPWork.releasedev.xcconfig */;
+			baseConfigurationReference = 227F99CD6C58A8C3ADA0A604 /* Pods-mDTPWork.releasedev.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -958,7 +956,6 @@
 		};
 		D35FC0A826E61948001A0AFA /* ReleaseDev */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B9954FCEB05E6041926F8979 /* Pods-mDTPWork.releasedev.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1042,7 +1039,7 @@
 		};
 		D35FC0AD26E6195D001A0AFA /* ReleaseProd */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B47DD11E3BD9B8EBE43B8A04 /* Pods-mDTPWork.releaseprod.xcconfig */;
+			baseConfigurationReference = FFEFF8812B9DD94BDB0837EC /* Pods-mDTPWork.releaseprod.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -1128,7 +1125,6 @@
 		};
 		D35FC0AE26E6195D001A0AFA /* ReleaseProd */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B47DD11E3BD9B8EBE43B8A04 /* Pods-mDTPWork.releaseprod.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
