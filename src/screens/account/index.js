@@ -234,11 +234,10 @@ function Account(props) {
   return (
     <CContainer
       loading={loading}
+      safeArea={{top: true, bottom: false}}
       hasShapes
       content={
-        <CContent
-          contentStyle={IS_ANDROID ? cStyles.mt24 : {}}
-          showsVerticalScrollIndicator={false}>
+        <CContent showsVerticalScrollIndicator={false}>
           <View
             style={
               isTablet

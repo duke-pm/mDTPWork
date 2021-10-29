@@ -953,6 +953,7 @@ function AddBooking(props) {
             <CActionSheet
               headerChoose
               actionRef={asResourceRef}
+              headerChooseTitle={'bookings:choose_resource'}
               onConfirm={handleChangeResource}>
               <View style={cStyles.px16}>
                 <CInput
@@ -1001,6 +1002,7 @@ function AddBooking(props) {
           {((isDetail && dataBooking.isUpdated) || !isDetail) && (
             <CActionSheet
               headerChoose
+              headerChooseTitle={'add_booking:choose_from_time'}
               actionRef={asFromTimeRef}
               onConfirm={handleChangeFromTime}>
               <View style={cStyles.px16}>
@@ -1028,6 +1030,7 @@ function AddBooking(props) {
           {((isDetail && dataBooking.isUpdated) || !isDetail) && (
             <CActionSheet
               headerChoose
+              headerChooseTitle={'add_booking:choose_to_time'}
               actionRef={asToTimeRef}
               onConfirm={handleChangeToTime}>
               <View style={cStyles.px16}>

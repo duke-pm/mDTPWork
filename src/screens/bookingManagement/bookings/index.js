@@ -168,7 +168,7 @@ function Bookings(props) {
     }
   };
 
-  const handleResource = (
+  const handleChangeResource = (
     resourceID = -1,
     resourceName = '',
     fromDate = choosedReSrc.fromDate,
@@ -383,13 +383,26 @@ function Bookings(props) {
       fromDate: tmpFromDate,
       toDate: tmpEndDate,
     });
-    handleResource(
+    handleChangeResource(
       choosedReSrc.reSrc.id,
       choosedReSrc.reSrc.name,
       tmpFromDate,
       tmpEndDate,
     );
     return onDone({...loading, startFetch: true});
+  };
+
+  const onChangeReSrc = resource => {
+    setChoosedReSrc({
+      ...choosedReSrc,
+      reSrc: {id: resource.resourceID, name: resource.resourceName},
+    });
+    handleChangeResource(
+      resource.resourceID,
+      resource.resourceName,
+      choosedReSrc.fromDate,
+      choosedReSrc.toDate,
+    );
   };
 
   /****************
@@ -495,18 +508,21 @@ function Bookings(props) {
 
           {/** All filter tag for current approved type */}
           <FilterTags
+            customColors={customColors}
             translation={t}
             formatDateView={formatDateView}
             fromDate={form.fromDate}
             toDate={form.toDate}
             search={form.search}
-            resource={choosedReSrc.reSrc.name}
+            resourcesMaster={resourcesMaster}
+            resource={choosedReSrc.reSrc}
             resources={
               resourcesMaster.length === form.resourcesORG.length
                 ? 'all'
                 : form.resourcesORG
             }
             primaryColor={colors.BG_MY_BOOKINGS}
+            onChangeReSrc={onChangeReSrc}
             onPressRemoveReSrc={handleRemoveReSrc}
           />
 
@@ -520,7 +536,7 @@ function Bookings(props) {
               data={data}
               onRefresh={onRefresh}
               onLoadmore={onLoadmore}
-              onPressResource={handleResource}
+              onPressResource={handleChangeResource}
             />
           )}
 
