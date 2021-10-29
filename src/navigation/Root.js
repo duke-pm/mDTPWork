@@ -181,9 +181,7 @@ export function RootMain(props) {
           headerTranslucent: true,
           headerHideShadow: true,
           headerStyle: {
-            backgroundColor: isDark
-              ? colors.STATUS_NEW_OPACITY
-              : colors.PRIMARY,
+            backgroundColor: isDark ? colors.TRANSPARENT : colors.PRIMARY,
           },
         }}
       />

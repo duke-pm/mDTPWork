@@ -1,3 +1,4 @@
+/* eslint-disable no-sparse-arrays */
 /**
  ** Name: Help and info page
  ** Author: DTP-Education
@@ -6,6 +7,7 @@
  **/
 import React, {useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
+import {useColorScheme} from 'react-native-appearance';
 import {useTheme} from '@react-navigation/native';
 import {StyleSheet, Image, View, Linking, Text} from 'react-native';
 import VersionCheck from 'react-native-version-check';
@@ -24,6 +26,7 @@ import {Assets} from '~/utils/asset';
 import {Icons} from '~/utils/common';
 import {colors, cStyles} from '~/utils/style';
 import {moderateScale, sH} from '~/utils/helper';
+import {THEME_DARK} from '~/config/constants';
 
 /** All init */
 const HELP_AND_INFO = [
@@ -96,6 +99,7 @@ const HELP_AND_INFO_2 = [
 function HelpAndInfo(props) {
   const {t} = useTranslation();
   const {customColors} = useTheme();
+  const isDark = useColorScheme() === THEME_DARK;
   const {navigation} = props;
 
   /** Use state */
@@ -131,7 +135,17 @@ function HelpAndInfo(props) {
       loading={false}
       content={
         <View style={cStyles.flex1}>
-          <View style={[cStyles.itemsCenter, styles.con_info_app]}>
+          <View
+            style={[
+              cStyles.itemsCenter,
+              styles.con_info_app,
+              {
+                backgroundColor: isDark
+                  ? colors.STATUS_NEW_OPACITY
+                  : colors.PRIMARY,
+              },
+              ,
+            ]}>
             <View
               style={[cStyles.center, cStyles.rounded10, styles.con_circle_1]}>
               <View
@@ -241,7 +255,6 @@ const styles = StyleSheet.create({
   con_info_app: {
     height: sH('38%'),
     width: '100%',
-    backgroundColor: colors.PRIMARY,
     paddingTop: sH('12%'),
   },
   con_circle_1: {

@@ -535,7 +535,8 @@
     "resume": "Đang diễn ra",
     "from_date": "Từ ngày",
     "to_date": "Đến ngày",
-    "resource": "Tài nguyên"
+    "resource": "Tài nguyên",
+    "choose_resource": "Tài nguyên"
   },
   "my_bookings": {
     "title": "Bookings của tôi",
@@ -557,12 +558,12 @@
     "holder_find_resource": "Tìm tài nguyên...",
     "holder_empty_resource": "Tài nguyên rỗng",
     "label": "Mục đích",
-    "holder_label": "Mục đích...",
+    "holder_label": "Mục đích booking...",
     "note": "Ghi chú",
     "holder_note": "Ghi chú thông tin booking...",
     "participants": "Người tham gia",
-    "holder_participants": "Chọn người tham gia",
-    "no_participants": "Chọn người tham gia",
+    "holder_participants": "Người tham gia",
+    "no_participants": "Thêm người tham gia...",
     "holder_find_participant": "Tìm người tham gia...",
     "date_time": "Thời gian",
     "from_date_time": "Từ",
@@ -573,7 +574,7 @@
     "agree_dischange": "Rời khỏi",
     "close_dischange": "Huỷ bỏ",
     "warning_resource_empty": "Resource không thể trống!",
-    "warning_label_empty": "Tiêu đề không thể trống!",
+    "warning_label_empty": "Mục đích không thể trống!",
     "warning_start_date_bigger": "Ngày bắt đầu không lớn hơn ngày kết thúc!",
     "warning_start_time_bigger": "Trong ngày không lớn hơn thời gian kết thúc!",
     "warning_end_time_smaller": "Trong ngày không nhỏ hơn thời gian bắt đầu!",
@@ -583,6 +584,8 @@
     "live": "ĐANG DIỄN RA",
     "holder_no_participants": "Không có người tham gia!",
     "other_info": "Thời gian - Tham gia",
-    "one_time": "Book một lần"
+    "one_time": "Book một lần",
+    "choose_from_time": "Bắt đầu",
+    "choose_to_time": "Kết thúc"
   }
 }

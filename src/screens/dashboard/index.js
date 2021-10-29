@@ -8,7 +8,6 @@
 import React, {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-import {ifIphoneX} from 'react-native-iphone-x-helper';
 import {StyleSheet, View} from 'react-native';
 import moment from 'moment';
 /** COMPONENTS */
@@ -84,6 +83,7 @@ function Dashboard(props) {
   return (
     <CContainer
       loading={loading}
+      safeArea={{top: true, bottom: false}}
       hasShapes
       content={
         <CContent padder>
@@ -93,7 +93,6 @@ function Dashboard(props) {
               cStyles.itemsEnd,
               cStyles.justifyBetween,
               cStyles.fullWidth,
-              ifIphoneX(cStyles.pt60, cStyles.pt40),
               styles.welcome,
             ]}>
             <View>

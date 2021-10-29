@@ -535,7 +535,8 @@
     "resume": "Live",
     "from_date": "From date",
     "to_date": "To date",
-    "resource": "Resource"
+    "resource": "Resource",
+    "choose_resource": "Resources"
   },
   "my_bookings": {
     "title": "My Bookings",
@@ -561,7 +562,7 @@
     "note": "Notes",
     "holder_note": "Booking notes...",
     "participants": "Participants",
-    "holder_participants": "Choose participants",
+    "holder_participants": "Participants",
     "no_participants": "Select participants",
     "holder_find_participant": "Find participant...",
     "date_time": "Time",
@@ -583,6 +584,8 @@
     "live": "LIVE",
     "holder_no_participants": "No participants join this!",
     "other_info": "Time - Join",
-    "one_time": "One-time booking"
+    "one_time": "One-time booking",
+    "choose_from_time": "Start Time",
+    "choose_to_time": "End Time"
   }
 }

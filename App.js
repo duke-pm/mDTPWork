@@ -204,7 +204,6 @@ const App = () => {
   return (
     <AppearanceProvider>
       <NavigationContainer
-        independent
         theme={isDark ? MyDarkTheme : MyDefaultTheme}
         linking={linking}
         fallback={<Text>Loading</Text>}>

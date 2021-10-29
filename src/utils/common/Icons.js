@@ -55,6 +55,7 @@ const Icons = {
   calendarBookingClear: 'calendar-clear-outline',
   listBooking: 'list-outline',
   addUser: 'person-add-outline',
+  change: 'sync-outline',
 
   // Common
   barChart: 'stats-chart-outline',

@@ -86,7 +86,7 @@ function CCard(props) {
               cStyles.itemsCenter,
               cStyles.justifyBetween,
               cStyles.px10,
-              cStyles.py8,
+              cStyles.py6,
               cStyles.borderBottom,
               isDark && cStyles.borderBottomDark,
               contentLabelStyle,
@@ -105,13 +105,13 @@ function CCard(props) {
                     cStyles.rounded1,
                     {backgroundColor: color},
                   ]}>
-                  <CText styles={'textBody fontBold'} customLabel={idx} />
+                  <CText styles={'textCallout fontBold'} customLabel={idx} />
                 </View>
               )}
               <View style={cStyles.flex1}>
                 <CText
                   customStyles={[
-                    cStyles.textBody,
+                    cStyles.textCallout,
                     cStyles.fontBold,
                     cStyles.pl6,
                   ]}
