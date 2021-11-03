@@ -121,7 +121,7 @@ function Filter(props) {
    ** LIFE CYCLE **
    ****************/
   useEffect(() => {
-    if (resourcesMaster.length > 0) {
+    if (loading && resourcesMaster.length > 0) {
       let i,
         objResource = {},
         tmpResurces = [],
