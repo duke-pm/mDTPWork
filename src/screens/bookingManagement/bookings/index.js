@@ -412,14 +412,20 @@ function Bookings(props) {
     if (resourcesMaster.length > 0) {
       let i,
         objResource = {},
+        tmpDataResourcesID = [],
         tmpDataResources = [];
       for (i = 0; i < resourcesMaster.length; i++) {
         objResource = {};
         objResource.value = resourcesMaster[i].resourceID;
         objResource.label = resourcesMaster[i].resourceName;
         tmpDataResources.push(objResource);
+        tmpDataResourcesID.push(resourcesMaster[i].resourceID);
       }
-      setForm({...form, resourcesORG: tmpDataResources});
+      setForm({
+        ...form,
+        resourcesORG: tmpDataResources,
+        resources: tmpDataResourcesID,
+      });
     }
 
     onFetchData();
