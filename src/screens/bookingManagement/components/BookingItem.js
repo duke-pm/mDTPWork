@@ -146,7 +146,6 @@ function BookingItem(props) {
                         cStyles.textUnderline,
                         cStyles.textItalic,
                       ]}
-                      color={'green'}
                       customLabel={data.resourceName}
                     />
                   </View>

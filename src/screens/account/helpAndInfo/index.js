@@ -171,7 +171,7 @@ function HelpAndInfo(props) {
 
             <View style={cStyles.mt10}>
               <Text style={[cStyles.textBody, cStyles.colorWhite]}>
-                &#169; {`${Configs.nameOfApp} ${moment().year()}`}
+                Copyright &#169; {`${Configs.nameOfApp} ${moment().year()}`}
               </Text>
             </View>
 

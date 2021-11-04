@@ -83,6 +83,7 @@ const MyDarkTheme = {
     bookingHeader: colors.BG_HEADER_BOOKING_DARK,
     projectHeader: colors.BG_HEADER_PROJECT_DARK,
     approvedHeader: colors.BG_HEADER_APPROVED_DARK,
+    bgLoading: colors.BACKGROUND_LOADING_APP_DARK,
   },
 };
 const MyDefaultTheme = {
@@ -135,6 +136,7 @@ const MyDefaultTheme = {
     bookingHeader: colors.BG_HEADER_BOOKING,
     projectHeader: colors.BG_HEADER_PROJECT,
     approvedHeader: colors.BG_HEADER_APPROVED,
+    bgLoading: colors.BACKGROUND_LOADING_APP_LIGHT,
   },
 };
 const linking = {

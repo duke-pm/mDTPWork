@@ -7,7 +7,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {useColorScheme} from 'react-native-appearance';
-import {View} from 'react-native';
+import {useTheme} from '@react-navigation/native';
+import {StyleSheet, View} from 'react-native';
 import Modal from 'react-native-modal';
 /** COMPONENTS */
 import CActivityIndicator from './CActivityIndicator';
@@ -17,6 +18,7 @@ import {THEME_DARK} from '~/config/constants';
 
 function CLoading(props) {
   const isDark = useColorScheme() === THEME_DARK;
+  const {customColors} = useTheme();
   /**************
    ** RENDER **
    **************/
@@ -32,11 +34,23 @@ function CLoading(props) {
       onBackButtonPress={null}
       onBackdropPress={null}>
       <View style={cStyles.flexCenter}>
-        <CActivityIndicator />
+        <View
+          style={[
+            cStyles.center,
+            cStyles.rounded2,
+            styles.con_activity,
+            {backgroundColor: customColors.bgLoading},
+          ]}>
+          <CActivityIndicator />
+        </View>
       </View>
     </Modal>
   );
 }
+
+const styles = StyleSheet.create({
+  con_activity: {height: 50, width: 50},
+});
 
 CLoading.propTypes = {
   visible: PropTypes.bool.isRequired,
