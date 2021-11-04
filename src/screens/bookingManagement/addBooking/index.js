@@ -252,6 +252,7 @@ function AddBooking(props) {
     );
     if (fParticipant !== -1) {
       tmpDataBooking.participants.splice(fParticipant, 1);
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
       setDataBooking(tmpDataBooking);
     }
   };

@@ -15,13 +15,14 @@ import CTouchable from '~/components/CTouchable';
 import CActivityIndicator from '~/components/CActivityIndicator';
 /* COMMON */
 import {Icons} from '~/utils/common';
-import {cStyles} from '~/utils/style';
+import {colors, cStyles} from '~/utils/style';
 import {
   checkEmpty,
   IS_ANDROID,
   moderateScale,
   verticalScale,
 } from '~/utils/helper';
+import Colors from '~/utils/style/Colors';
 
 function RowSelect(props) {
   const {
@@ -74,10 +75,16 @@ function RowSelect(props) {
               <View style={[cStyles.row, cStyles.itemsCenter]}>
                 <View
                   style={[
+                    cStyles.center,
                     styles.color_resource,
                     {backgroundColor: findRow.colorName},
-                  ]}
-                />
+                  ]}>
+                  <CIcon
+                    name={Icons.resource}
+                    customColor={Colors.WHITE}
+                    size={'smaller'}
+                  />
+                </View>
                 <CText
                   styles={'pl10'}
                   customLabel={findRow ? checkEmpty(findRow[keyToShow]) : '-'}
