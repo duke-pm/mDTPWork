@@ -194,6 +194,8 @@ function Bookings(props) {
   };
 
   const handleRemoveReSrc = () => {
+    setLoading({...loading, startFetch: true});
+    setData([]);
     setChoosedReSrc({
       fromDate: moment().clone().startOf('month').format(formatDate),
       toDate: moment().clone().endOf('month').format(formatDate),
