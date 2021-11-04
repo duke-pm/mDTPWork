@@ -393,6 +393,8 @@ function Bookings(props) {
   };
 
   const onChangeReSrc = resource => {
+    setMarked({});
+    setDataCalendar([]);
     setChoosedReSrc({
       ...choosedReSrc,
       reSrc: {id: resource.resourceID, name: resource.resourceName},

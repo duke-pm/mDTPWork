@@ -153,7 +153,7 @@ function BookingItem(props) {
                 </CTouchable>
               )}
               {isMyBooking && (
-                <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt4]}>
+                <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt10]}>
                   <CIcon
                     name={Icons.resource}
                     size={'smaller'}

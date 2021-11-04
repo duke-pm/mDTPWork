@@ -60,6 +60,7 @@ function RowSelectTags(props) {
                       cStyles.rounded1,
                       cStyles.pl4,
                       cStyles.mr4,
+                      cStyles.mt4,
                       disabled && cStyles.py6,
                       disabled && cStyles.px8,
                       {backgroundColor: colors.STATUS_SCHEDULE_OPACITY},
@@ -85,12 +86,10 @@ function RowSelectTags(props) {
               );
             })}
           {dataActive.length > 0 && !disabled && (
-            <CTouchable
-              containerStyle={cStyles.mt4}
-              onPress={onPress}
-              disabled={disabled}>
+            <CTouchable onPress={onPress} disabled={disabled}>
               <View
                 style={[
+                  cStyles.mt4,
                   cStyles.center,
                   cStyles.rounded1,
                   {backgroundColor: colors.STATUS_SCHEDULE_OPACITY},
