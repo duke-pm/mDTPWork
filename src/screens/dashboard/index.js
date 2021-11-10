@@ -116,8 +116,8 @@ function Dashboard(props) {
           <View
             style={[
               cStyles.row,
-              cStyles.itemscenter,
-              cStyles.justifyStart,
+              cStyles.itemsCenter,
+              cStyles.justifyBetween,
               cStyles.flexWrap,
               cStyles.pt16,
               styles.list_item,

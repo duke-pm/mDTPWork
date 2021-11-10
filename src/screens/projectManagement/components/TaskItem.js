@@ -246,6 +246,7 @@ function TaskItem(props) {
                 <CStatusTag
                   customLabel={data.statusName}
                   color={isDark ? data.colorDarkCode : data.colorCode}
+                  bgColor={data.colorOpacityCode}
                 />
               )}
             </View>

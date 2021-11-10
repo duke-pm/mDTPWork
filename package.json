@@ -9,7 +9,7 @@
     "test": "jest",
     "lint": "eslint .",
     "ios-dev-ip8": "react-native run-ios --scheme mDTPWorkDev --configuration DebugDev --simulator='iPhone 8 Plus'",
-    "ios-dev": "react-native run-ios --scheme mDTPWorkDev --configuration DebugDev --simulator='iPhone 13 Pro'",
+    "ios-dev": "react-native run-ios --scheme mDTPWorkDev --configuration DebugDev --simulator='iPhone 13'",
     "ios-prod": "react-native run-ios --scheme mDTPWorkProd --configuration DebugDev",
     "android-dev": "react-native run-android --no-jetifier --variant=devDebug --appId 'com.dtpwork.dev'",
     "android-prod": "react-native run-android --no-jetifier --variant=productDebug --appId 'com.dtpwork'"

@@ -61,7 +61,7 @@ function CItem(props) {
             <Icon
               name={data.mIcon}
               color={colors.WHITE}
-              size={moderateScale(30)}
+              size={moderateScale(32)}
             />
           </LinearGradient>
         </View>
@@ -83,9 +83,8 @@ function CItem(props) {
 }
 
 const styles = StyleSheet.create({
-  item: {width: sW('22.5%')},
-  con_icon: {height: moderateScale(60), width: moderateScale(60)},
-  icon: {width: moderateScale(40), height: moderateScale(40)},
+  item: {width: sW('29%')},
+  con_icon: {height: moderateScale(70), width: moderateScale(70)},
 });
 
 CItem.propTypes = {

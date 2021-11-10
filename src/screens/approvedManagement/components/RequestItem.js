@@ -50,10 +50,11 @@ function RequestItem(props) {
   /************
    ** RENDER **
    ************/
-  let title = `${t('approved_assets:title_request_item')}`;
-  let statusIcon = Icons.request;
-  let colorText = 'colorOrange';
-  let statusColor = 'orange';
+  let title = `${t('approved_assets:title_request_item')}`,
+    statusIcon = Icons.request,
+    colorText = 'colorOrange',
+    statusColor = Commons.STATUS_REQUEST.WAIT.color,
+    bgColor = Commons.STATUS_REQUEST.WAIT.bgColor;
   if (data.requestTypeID !== Commons.APPROVED_TYPE.ASSETS.value) {
     title = `${t('approved_lost_damaged:title_request_item_1')}${
       data.requestTypeName
@@ -62,15 +63,18 @@ function RequestItem(props) {
   if (data.statusID === Commons.STATUS_REQUEST.APPROVED.value) {
     statusIcon = Icons.requestApproved_1;
     colorText = 'colorBlue';
-    statusColor = 'blue';
+    statusColor = Commons.STATUS_REQUEST.APPROVED.color;
+    bgColor = Commons.STATUS_REQUEST.APPROVED.bgColor;
   } else if (data.statusID === Commons.STATUS_REQUEST.REJECT.value) {
     statusIcon = Icons.requestRejected;
     colorText = 'colorRed';
-    statusColor = 'red';
+    statusColor = Commons.STATUS_REQUEST.REJECT.color;
+    bgColor = Commons.STATUS_REQUEST.REJECT.bgColor;
   } else if (data.statusID === Commons.STATUS_REQUEST.DONE.value) {
     statusIcon = Icons.requestApproved_2;
     colorText = 'colorGreen';
-    statusColor = 'green';
+    statusColor = Commons.STATUS_REQUEST.DONE.color;
+    bgColor = Commons.STATUS_REQUEST.DONE.bgColor;
   }
   return (
     <CCard
@@ -91,6 +95,7 @@ function RequestItem(props) {
                 <CStatusTag
                   customLabel={data.statusName}
                   color={customColors[statusColor]}
+                  bgColor={bgColor}
                 />
               </View>
             </View>

@@ -71,6 +71,7 @@ function RequestProcess(props) {
   /************
    ** RENDER **
    ************/
+  isReject = false;
   return anims.length > 0 ? (
     <View style={[cStyles.p16, cStyles.pb32]}>
       <CText
@@ -134,7 +135,7 @@ function RequestProcess(props) {
                 <CIcon
                   name={
                     !item.approveDate
-                      ? Icons.alert
+                      ? Icons.alertOutline
                       : item.statusID === 0
                       ? Icons.remove
                       : Icons.checkCircle

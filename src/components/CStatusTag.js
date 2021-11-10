@@ -15,7 +15,7 @@ import Icons from '~/utils/common/Icons';
 import {colors, cStyles} from '~/utils/style';
 
 function CStatusTag(props) {
-  const {style, label, customLabel, color} = props;
+  const {style = {}, label = '', customLabel = null, color = '', bgColor = ''} = props;
 
   /************
    ** RENDER **
@@ -28,7 +28,7 @@ function CStatusTag(props) {
         cStyles.py1,
         cStyles.px6,
         cStyles.rounded5,
-        {backgroundColor: color},
+        {backgroundColor: bgColor},
         style,
       ]}>
       <CIcon name={Icons.dot} customColor={colors.WHITE} size={'minium'} />
@@ -38,6 +38,7 @@ function CStatusTag(props) {
           cStyles.fontMedium,
           cStyles.colorWhite,
           cStyles.pl2,
+          {color},
         ]}
         label={label || undefined}
         customLabel={customLabel || undefined}
@@ -49,8 +50,9 @@ function CStatusTag(props) {
 CStatusTag.propTypes = {
   style: PropTypes.object,
   label: PropTypes.string,
-  customLabel: PropTypes.string,
+  customLabel: PropTypes.any,
   color: PropTypes.string,
+  bgColor: PropTypes.string,
 };
 
 export default React.memo(CStatusTag);
