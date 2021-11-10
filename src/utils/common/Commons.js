@@ -51,22 +51,32 @@ const Commons = {
     ALL: {
       value: 0,
       label: 'All',
+      color: '',
+      bgColor: '',
     },
     WAIT: {
       value: 1,
       label: 'Wait',
+      color: 'orange',
+      bgColor: 'rgba(246,153,63,0.2)',
     },
     APPROVED: {
       value: 2,
       label: 'Approved',
+      color: 'blue',
+      bgColor: 'rgba(10,132,255, 0.2)',
     },
     DONE: {
       value: 3,
       label: 'Done',
+      color: 'green',
+      bgColor: 'rgba(50,215,75, 0.2)',
     },
     REJECT: {
       value: 4,
       label: 'Reject',
+      color: 'red',
+      bgColor: 'rgba(227,52,47,0.2)',
     },
   },
 
@@ -166,14 +176,17 @@ const Commons = {
     NOT_HAPPEND: {
       value: 1,
       color: 'statusOnHold',
+      bgColor: 'rgba(246,153,63,0.2)',
     },
     HAPPENNING: {
       value: 2,
       color: 'green',
+      bgColor: 'rgba(50,215,75, 0.2)',
     },
     HAPPENED: {
       value: 3,
       color: 'statusClosed',
+      bgColor: 'rgba(160,174,192,0.2)',
     },
   },
 };

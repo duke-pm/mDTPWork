@@ -384,8 +384,8 @@ function Reminder(props) {
                 />
               )}
               {dataAlarmAndroid.length > 0 &&
-                dataAlarmAndroid.map(item => {
-                  return <CText label={item.label} />;
+                dataAlarmAndroid.map((item, index) => {
+                  return <CText key={index.toString()} label={item.label} />;
                 })}
             </View>
           )
@@ -449,8 +449,8 @@ function Reminder(props) {
               )}
               {IS_ANDROID &&
                 alarmsAndroid.length > 0 &&
-                alarmsAndroid.map(item => {
-                  return <CText label={item.label} />;
+                alarmsAndroid.map((item, index) => {
+                  return <CText key={index.toString()} label={item.label} />;
                 })}
               {IS_ANDROID && (
                 <CText

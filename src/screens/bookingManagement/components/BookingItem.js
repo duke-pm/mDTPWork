@@ -46,11 +46,14 @@ function BookingItem(props) {
     startDate: data.strStartDateTime.split(' - ')[0],
     endDate: data.strEndDateTime.split(' - ')[0],
   };
-  let colorStatus = Commons.BOOKING_STATUS.NOT_HAPPEND.color;
+  let colorStatus = Commons.BOOKING_STATUS.NOT_HAPPEND.color,
+    bgColor = Commons.BOOKING_STATUS.NOT_HAPPEND.bgColor;
   if (data.statusID === Commons.BOOKING_STATUS.HAPPENNING.value) {
     colorStatus = Commons.BOOKING_STATUS.HAPPENNING.color;
+    bgColor = Commons.BOOKING_STATUS.HAPPENNING.bgColor;
   } else if (data.statusID === Commons.BOOKING_STATUS.HAPPENED.value) {
     colorStatus = Commons.BOOKING_STATUS.HAPPENED.color;
+    bgColor = Commons.BOOKING_STATUS.HAPPENED.bgColor;
   }
 
   return (
@@ -121,6 +124,7 @@ function BookingItem(props) {
                 <CStatusTag
                   customLabel={data.statusName}
                   color={customColors[colorStatus]}
+                  bgColor={bgColor}
                 />
               </View>
               <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt10]}>

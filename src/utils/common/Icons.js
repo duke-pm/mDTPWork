@@ -78,6 +78,7 @@ const Icons = {
   eye: 'eye',
   eyeOff: 'eye-off',
   alert: 'alert-circle',
+  alertOutline: 'alert-circle-outline',
   backAndroid: 'arrow-back-outline',
   backiOS: 'chevron-back-outline',
   camera: 'camera-outline',
