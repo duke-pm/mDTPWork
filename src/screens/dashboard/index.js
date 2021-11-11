@@ -117,7 +117,7 @@ function Dashboard(props) {
             style={[
               cStyles.row,
               cStyles.itemsCenter,
-              cStyles.justifyBetween,
+              cStyles.justifyEvenly,
               cStyles.flexWrap,
               cStyles.pt16,
               styles.list_item,

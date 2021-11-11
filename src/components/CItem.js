@@ -83,7 +83,7 @@ function CItem(props) {
 }
 
 const styles = StyleSheet.create({
-  item: {width: sW('29%')},
+  item: {width: sW('30%')},
   con_icon: {height: moderateScale(70), width: moderateScale(70)},
 });
 

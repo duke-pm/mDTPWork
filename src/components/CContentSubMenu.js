@@ -59,7 +59,7 @@ function CContentSubMenu(props) {
           style={[
             cStyles.row,
             cStyles.itemscenter,
-            cStyles.justifyStart,
+            cStyles.justifyEvenly,
             cStyles.flexWrap,
           ]}>
           {routes.map((item, index) => {

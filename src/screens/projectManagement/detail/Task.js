@@ -689,7 +689,7 @@ function Task(props) {
                   data.taskDetail ? (
                     <>
                       {/** Reminder */}
-                      {data.taskDetail.owner == userId &&
+                      {/* {data.taskDetail.owner == userId &&
                         data.taskDetail.taskTypeID ===
                           Commons.TYPE_TASK.TASK.value &&
                         data.taskDetail.statusID < 5 && (
@@ -699,7 +699,7 @@ function Task(props) {
                             isDark={isDark}
                             customColors={customColors}
                           />
-                        )}
+                        )} */}
 
                       {/** Time */}
                       <RowInfoBasic
