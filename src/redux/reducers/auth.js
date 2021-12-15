@@ -222,6 +222,16 @@ export default function (state = initialState, action = {}) {
     /*****************************/
 
     /** For check token password **/
+    case types.RESET_CHECK_TOKEN_PASSWORD:
+      return state
+        .set('submittingCheckTokenPass', false)
+        .set('successCheckTokenPass', false)
+        .set('errorCheckTokenPass', false)
+        .set('errorHelperCheckTokenPass', '')
+        .set('submittingUpdatePass', false)
+        .set('successUpdatePass', false)
+        .set('errorUpdatePass', false)
+        .set('errorHelperUpdatePass', '');
     case types.START_CHECK_TOKEN_PASSWORD:
       return state
         .set('submittingCheckTokenPass', true)

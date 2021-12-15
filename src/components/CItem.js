@@ -6,22 +6,19 @@
  **/
 import PropTypes from 'prop-types';
 import React from 'react';
+import {Button} from '@ui-kitten/components';
 import {StyleSheet, View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import LinearGradient from 'react-native-linear-gradient';
 /* COMPONENTS */
 import CText from './CText';
-import CTouchable from './CTouchable';
 /** COMMON */
 import {colors, cStyles} from '~/utils/style';
 import {moderateScale, sW} from '~/utils/helper';
 
 function CItem(props) {
   const {
-    itemStyle = {},
     iconStyle = {},
-    textStyle = {},
-    key = '',
     index = 0,
     data = null,
     bgColor = [],
@@ -40,45 +37,37 @@ function CItem(props) {
     return null;
   }
   return (
-    <CTouchable
-      key={key}
-      containerStyle={[cStyles.rounded1, cStyles.mt16, styles.item, itemStyle]}
-      style={cStyles.rounded1}
-      onPress={handleItem}>
-      <View style={[cStyles.itemsCenter, cStyles.py10]}>
-        <View
-          style={[
-            cStyles.rounded1,
-            cStyles.center,
-            {backgroundColor: bgColor},
-            styles.con_icon,
-          ]}>
-          <LinearGradient
-            style={[cStyles.center, cStyles.rounded5, cStyles.p8, iconStyle]}
-            start={{x: 0.0, y: 0.25}}
-            end={{x: 0.5, y: 1.0}}
-            colors={props.colors}>
-            <Icon
-              name={data.mIcon}
-              color={colors.WHITE}
-              size={moderateScale(32)}
-            />
-          </LinearGradient>
-        </View>
+    <Button
+      appearance={'ghost'}
+      status={'basic'}
+      onPress={handleItem}
+    >
+      {propsB => (
+        <View style={[cStyles.itemsCenter, cStyles.py10]}>
+          <View
+            style={[
+              cStyles.rounded1,
+              cStyles.center,
+              {backgroundColor: bgColor},
+              styles.con_icon,
+            ]}>
+            <LinearGradient
+              style={[cStyles.center, cStyles.rounded5, cStyles.p8, iconStyle]}
+              start={{x: 0.0, y: 0.25}}
+              end={{x: 0.5, y: 1.0}}
+              colors={props.colors}>
+              <Icon
+                name={data.mIcon}
+                color={colors.WHITE}
+                size={moderateScale(32)}
+              />
+            </LinearGradient>
+          </View>
 
-        <CText
-          customStyles={[
-            cStyles.textCaption2,
-            cStyles.fontBold,
-            cStyles.textCenter,
-            cStyles.pt10,
-            textStyle,
-          ]}
-          label={data.menuName}
-          numberOfLines={3}
-        />
-      </View>
-    </CTouchable>
+          <CText style={cStyles.mt10} category='label'>{data.menuName}</CText>
+        </View>
+      )}
+    </Button>
   );
 }
 
@@ -88,13 +77,9 @@ const styles = StyleSheet.create({
 });
 
 CItem.propTypes = {
-  itemStyle: PropTypes.object,
   iconStyle: PropTypes.object,
-  textStyle: PropTypes.object,
-  key: PropTypes.string,
   index: PropTypes.number,
   data: PropTypes.object,
-  colors: PropTypes.array,
   bgColor: PropTypes.string,
   onPress: PropTypes.func,
 };

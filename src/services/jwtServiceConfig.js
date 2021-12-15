@@ -5,7 +5,7 @@
  ** Description: Description of JWTServiceConfig.js
  **/
 /* COMMON */
-import Configs from '~/config';
+import Configs from '~/configs';
 
 export const jwtServiceConfig = {
   baseURL: Configs.hostAPI + '/' + Configs.prefixAPI,

@@ -8,11 +8,11 @@
 import {showMessage} from 'react-native-flash-message';
 /* COMMON */
 import Services from '~/services';
-import Routes from '~/navigation/Routes';
+import Routes from '~/navigator/Routes';
 import API from '~/services/axios';
-import FieldsAuth from '~/config/fieldsAuth';
+import FieldsAuth from '~/configs/fieldsAuth';
 import {removeSecretInfo, resetRoute} from '~/utils/helper';
-import {LOGIN} from '~/config/constants';
+import {AST_LOGIN} from '~/configs/constants';
 /** REDUX */
 import * as types from './types';
 import * as Actions from '~/redux/actions';
@@ -95,7 +95,7 @@ export const fetchRefreshToken = (params, callback, navigation) => {
           dispatch(loginSuccess(res.data, true));
           return dispatch(callback());
         } else {
-          removeSecretInfo(LOGIN);
+          removeSecretInfo(AST_LOGIN);
           dispatch(loginError('error'));
           dispatch(Actions.logout());
           showMessage({
@@ -237,6 +237,13 @@ export const checkTokenPasswordSuccess = () => {
     type: types.SUCCESS_CHECK_TOKEN_PASSWORD,
   };
 };
+
+export const resetCheckTokenPassword = () => {
+  return dispatch => {
+    dispatch({type: types.RESET_CHECK_TOKEN_PASSWORD});
+  };
+};
+
 export const fetchCheckTokenPassword = params => {
   return dispatch => {
     dispatch({type: types.START_CHECK_TOKEN_PASSWORD});

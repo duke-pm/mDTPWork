@@ -5,7 +5,8 @@
  ** Description: Description of colors.js
  **/
 export default {
-  PRIMARY: '#007AFF',
+  PRIMARY: '#3D5CFF',
+  PRIMARY_DARK: '#1A2138',
   SECONDARY: '#ff9910',
   TRANSPARENT: 'transparent',
   TABLE_LINE: '#ccd0d0',
@@ -68,7 +69,7 @@ export default {
 
   BACKGROUND_MAIN: '#f2f2f7',
   BACKGROUND_HEADER_IOS: 'rgba(255,255,255,0.1)',
-  BACKGROUND_MODAL: 'rgba(0, 0, 0, 0.3)',
+  BACKGROUND_MODAL: 'rgba(0, 0, 0, 0.5)',
   BACKGROUND_DOWNLOAD: 'rgba(0, 0, 0, 0.2)',
   BACKGROUND_INPUT_FOCUS: 'rgba(255,255,255,0.1)',
   BACKGROUND_CARD: '#FFF',

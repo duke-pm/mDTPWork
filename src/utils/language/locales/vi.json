@@ -54,7 +54,9 @@
     "to_date": "Đến ",
     "filter": "Bộ Lọc",
     "remove_all": "Xoá hết",
-    "all": "Tất cả"
+    "all": "Tất cả",
+    "dark_mode": "Chế độ tối",
+    "go_back": "Trở về"
   },
   "status": {
     "title": "Trạng thái"
@@ -107,29 +109,38 @@
     "change_percent": "Không thê cập nhật tiến độ. Vui lòng thử lại sau!",
     "cannot_auth_with_biometrics": "Không thể xác nhận sinh trắc học! Vui lòng cài đặt TouchID hoặc FaceID (nếu có).",
     "cannot_get_master_booking": "Không thể cập nhật thông tin booking, vui lòng thử lại sau!",
-    "resource_not_found": "Tài nguyên không được rỗng!"
+    "resource_not_found": "Tài nguyên không được rỗng!",
+    "format_email": "Định dạng e-mail! chưa chính xác!",
+    "empty_length": "Mục này không thể trống!",
+    "min_length": "Độ dài tối thiểu là",
+    "not_like": "Xác nhận lại mục trên không chính xác!"
   },
   "sign_in": {
     "title": "Đăng Nhập",
     "input_username": "Tên đăng nhập",
+    "input_holder_username": "Tên đăng nhập...",
     "input_password": "Mật khẩu",
+    "input_holder_password": "Mật khẩu...",
     "save_account": "Lưu tài khoản",
     "forgot_password": "Quên mật khẩu?",
     "success_login": "Đăng nhập thành công!",
     "error_login": "Đăng nhập không thành công. Vui lòng thử lại sau!",
     "login_with_biometrics": "Đăng nhập bằng",
     "touch_sensor": "Quét vân tay",
-    "login_by_password": "Nhập mật khẩu"
+    "login_by_password": "Nhập mật khẩu",
+    "fast_login_with": "hoặc Đăng nhập nhanh với"
   },
   "forgot_password": {
     "title": "Quên Mật Khẩu",
+    "caption": "Nhập địa chỉ e-mail của bạn vào bên dưới và chúng tôi sẽ gửi một liên kết để bạn đặt lại mật khẩu mới",
     "input_email": "E-mail",
+    "input_holder_email": "E-mail...",
     "sub_title": "Nhập e-mail để chúng tôi có thể gửi link cập nhật mật khẩu mới cho bạn.",
     "error_email_not_fill": "E-mail không thể trống!",
     "error_email_format": "E-mail không đúng định dạng!",
     "error_title": "Phục hồi không thành công!",
     "error_content_1": "Không thể phục hồi mật khẩu từ e-mail",
-    "error_content_2": "Chắc chắn rằng bạn đã nhập đúng e-mail hoặc e-mail bạn nhập không có trong hệ thống. Hãy liên hệ bộ phận IT để biết thêm chi tiết.",
+    "error_content_2": "Chắc chắn rằng bạn đã nhập đúng hoặc E-mail bạn nhập không có trong hệ thống. Hãy liên hệ bộ phận IT để biết thêm chi tiết.",
     "success_title": "Xác nhận địa chỉ e-mail",
     "success_content_1": "Một e-mail xác nhận đã được gửi đến",
     "success_content_2": "Vui lòng kiểm tra hộp thư đến của bạn và chọn",
@@ -143,6 +154,17 @@
     "error_cannot_change_password": "Không thể đổi mật khẩu!",
     "error_holder_cannot_change_password_1": "Đường dẫn truy cập này đã quá thời hạn 60 phút kể từ khi gửi E-mail xác nhận quên mật khẩu.",
     "error_change_password": "Đổi mật khẩu thất bại!"
+  },
+  "reset_password": {
+    "title": "Cập nhật mật khẩu",
+    "caption": "Nhập mật khẩu mới vào bên dưới",
+    "input_label_password": "Mật khẩu mới",
+    "input_holder_password": "Mật khẩu mới...",
+    "save": "Lưu",
+    "success_sub_title": "Thay đổi thành công",
+    "success_caption": "Chúng tôi đã thay đổi thành công, vui lòng đăng nhập với mật khẩu mới",
+    "error_sub_title": "Thay đổi không thành công",
+    "error_send": "Đã xảy ra lỗi! Vui lòng thử lại sau!"
   },
   "dashboard": {
     "title": "Trang chủ",
@@ -163,7 +185,15 @@
     "app_settings": "Cài đặt ứng dụng",
     "help_and_info": "Thông tin & Trợ giúp",
     "hotline": "Hotline",
-    "sign_out": "Đăng xuất"
+    "sign_out": "Đăng xuất",
+    "alert_log_out": "Đăng xuất",
+    "alert_msg_log_out": "Bạn thực sự muốn đăng xuất khỏi ứng dụng?",
+    "holder_edit_account": "Cập nhật tên, e-mail, ảnh đại diện",
+    "holder_change_password": "Thay đổi mật khẩu",
+    "holder_notification": "Thông báo, tin nhắn, nhắc nhở",
+    "holder_information": "Thông tin và Điều khỏan, đánh giá ứng dụng",
+    "holder_favourite": "Sở thích cá nhân hóa",
+    "holder_settings": "Giao diện, ngôn ngữ, đăng nhập nhanh"
   },
   "my_account": {
     "title": "Tài Khoản Của Tôi",
@@ -176,10 +206,11 @@
   },
   "change_password": {
     "title": "Đổi mật khẩu",
-    "sub_title": "(*) Điền thông tin cần thiết dưới đây",
+    "sub_title": "Điền thông tin cần thiết dưới đây",
     "current_password": "Mật khẩu hiện tại",
     "new_password": "Mật khẩu mới",
     "confirm_password": "Xác nhận lại mật khẩu",
+    "warning_logout": "Sau khi thay đổi thành công, cần phải đăng nhập lại với mật khẩu mới",
     "error_cur_pass_not_fill": "Mật khẩu hiện tại không đuợc rỗng!",
     "error_new_pass_not_fill": "Mật khẩu mới không đuợc rỗng!",
     "error_con_pass_not_fill": "Xác nhận lại mật khẩu không đuợc rỗng!",

@@ -1,122 +1,135 @@
 /**
- ** Name:CSearchBar
- ** Author: DTP-Education
+ ** Name: Custom search bar
+ ** Author: IT-Team
  ** CreateAt: 2021
  ** Description: Description of CSearchBar.js
  **/
 import PropTypes from 'prop-types';
-import React, {useState, useEffect} from 'react';
+import React, {useContext, useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {useColorScheme} from 'react-native-appearance';
-import {LayoutAnimation, UIManager, Platform, View} from 'react-native';
-import SearchBar from 'react-native-platform-searchbar';
-/** COMPONENTS */
-import CText from './CText';
-import CTouchable from './CTouchable';
-import CActivityIndicator from './CActivityIndicator';
+import {Input, Button, Icon, Spinner} from '@ui-kitten/components';
+import {Platform, View} from 'react-native';
 /* COMMON */
-import {IS_ANDROID} from '~/utils/helper';
-import {colors, cStyles} from '~/utils/style';
+import {cStyles} from '~/utils/style';
+import {moderateScale} from '~/utils/helper';
+import {ThemeContext} from '~/configs/theme-context';
 
-if (IS_ANDROID) {
-  if (UIManager.setLayoutAnimationEnabledExperimental) {
-    UIManager.setLayoutAnimationEnabledExperimental(true);
+/** All init */
+const ICON = {
+  CLOSE: {
+    ios: 'close-circle',
+    android: 'close',
   }
+};
+const HEIGHT = moderateScale(33);
+
+/*********************
+ ** OTHER COMPONENT **
+ *********************/
+const RenderSearchIcon = props => {
+  return (
+    <Icon {...props} name={'search'} />
+  );
 }
 
+const RenderRemoveIcon = props => {
+  return (
+    <Icon {...props} name={ICON.CLOSE[Platform.OS]} />
+  );
+}
+
+const RenderLeftIcon = (props, loading, handleSearch) => {
+  if (loading) {
+    return (
+      <View style={[props.style, cStyles.center, {height: HEIGHT, width: HEIGHT}]}>
+        <Spinner size={'tiny'} />
+      </View>
+    )
+  }
+  return (
+    <Button
+      size={'small'}
+      appearance={'ghost'}
+      accessoryLeft={RenderSearchIcon}
+      onPress={handleSearch}
+    />
+  )
+}
+
+const RenderRightIcon = (loading, handleRemove) => {
+  if (loading) return null;
+  return (
+    <Button
+      size={'small'}
+      appearance={'ghost'}
+      accessoryLeft={RenderRemoveIcon}
+      status={'danger'}
+      onPress={handleRemove}
+    />
+  )
+}
+
+/********************
+ ** MAIN COMPONENT **
+ ********************/
 function CSearchBar(props) {
   const {t} = useTranslation();
-  const theme = useColorScheme();
+  const themeContext = useContext(ThemeContext);
   const {
-    containerStyle = {},
-    style = {},
-    loading = false,
-    isVisible = false,
-    valueSearch = '',
+    autoFocus = false,
     onSearch = () => null,
-    onClose = () => null,
+    onCallbackSearch = () => null,
   } = props;
 
   /** Use state */
-  const [value, setValue] = useState(valueSearch);
+  const [loading, setLoading] = useState(false);
+  const [value, setValue] = useState('');
 
   /*****************
    ** HANDLE FUNC **
    *****************/
-  const handleSearch = () => onSearch(value);
+  const handleRemove = () => setValue('');
 
-  const handleClearInput = () => setValue('');
-
-  const handleCancelInput = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    onClose();
+  const handleSearch = () => {
+    setLoading(true);
+    onSearch(value);
+    setTimeout(() => {
+      setLoading(false);
+      onCallbackSearch();
+    }, 2000);
   };
 
   /**********
    ** FUNC **
    **********/
-  const onChangeText = valueInput => setValue(valueInput);
-
-  /****************
-   ** LIFE CYCLE **
-   ****************/
-  useEffect(() => setValue(valueSearch), [valueSearch]);
+  const onChangeValue = newValue => setValue(newValue);
 
   /************
    ** RENDER **
    ************/
-  if (!isVisible) {
-    return null;
-  }
   return (
-    <View
-      style={[
-        cStyles.row,
-        cStyles.itemsCenter,
-        cStyles.justifyBetween,
-        cStyles.my10,
-        IS_ANDROID && cStyles.mr40,
-        containerStyle,
-      ]}>
-      {IS_ANDROID && (
-        <CTouchable disabled={loading} onPress={handleCancelInput}>
-          <CText
-            styles={'textCaption1 pl12 colorOrange'}
-            label={'common:close'}
-          />
-        </CTouchable>
-      )}
-      <SearchBar
-        style={[cStyles.mx16, style]}
-        platform={Platform.OS}
-        theme={theme}
-        iconColor={theme === 'dark' ? colors.GRAY_300 : colors.GRAY_700}
-        leftIcon={IS_ANDROID ? () => <View /> : undefined}
-        cancelText={t('common:cancel')}
-        placeholder={t('common:holder_search')}
+      <Input
+        disabled={loading}
         value={value}
-        autoFocus={true}
-        keyboardType={'default'}
+        keyboardAppearance={themeContext.themeApp}
+        placeholder={t('common:write_something_to_search')}
         returnKeyType={'search'}
-        returnKeyLabel={t('common:find')}
+        autoFocus={autoFocus}
+        accessoryLeft={propsLeft => RenderLeftIcon(propsLeft, loading, value !== ''  ? handleSearch : null)}
+        accessoryRight={value !== '' 
+          ? () => RenderRightIcon(loading, handleRemove)
+          : undefined
+        }
+        onChangeText={onChangeValue}
         onSubmitEditing={handleSearch}
-        onChangeText={onChangeText}
-        onCancel={handleCancelInput}
-        onClear={handleClearInput}>
-        {loading ? <CActivityIndicator style={cStyles.mr10} /> : undefined}
-      </SearchBar>
-    </View>
+      />
   );
 }
 
 CSearchBar.propTypes = {
-  containerStyle: PropTypes.object,
-  style: PropTypes.object,
-  loading: PropTypes.bool,
-  isVisible: PropTypes.bool.isRequired,
-  valueSearch: PropTypes.string,
+  autoFocus: PropTypes.bool,
   onSearch: PropTypes.func.isRequired,
-  onClose: PropTypes.func.isRequired,
+  onCallbackSearch: PropTypes.func.isRequired,
 };
 
 export default CSearchBar;

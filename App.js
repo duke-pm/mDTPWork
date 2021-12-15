@@ -13,132 +13,35 @@ import {
   SafeAreaProvider,
   initialWindowMetrics,
 } from 'react-native-safe-area-context';
+import {NavigationContainer} from '@react-navigation/native';
 import {
-  NavigationContainer,
-  DarkTheme,
-  DefaultTheme,
-} from '@react-navigation/native';
-import {AppearanceProvider, useColorScheme} from 'react-native-appearance';
-import {StatusBar, Text} from 'react-native';
+  ApplicationProvider,
+  IconRegistry,
+  Text,
+  ModalService,
+} from '@ui-kitten/components';
+import {EvaIconsPack} from '@ui-kitten/eva-icons';
+import * as eva from '@eva-design/eva';
+import {StatusBar} from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
 import FlashMessage from 'react-native-flash-message';
 import axios from 'axios';
 /** COMPONENTS */
-import Navigator from '~/navigation/Navigator';
-import Unconnected from '~/screens/connection/Unconnected';
+import Navigator from '~/navigator/Navigator';
+// import Unconnected from '~/screens/connection/Unconnected';
 /** COMMON */
-import Configs from '~/config';
+import Configs from '~/configs';
+import {ThemeContext} from '~/configs/theme-context';
 import {colors} from '~/utils/style';
 import jwtServiceConfig from '~/services/jwtServiceConfig';
-import {IS_ANDROID, IS_IOS} from '~/utils/helper';
+import {getLocalInfo, IS_ANDROID} from '~/utils/helper';
+import {AST_DARK_MODE, DARK} from '~/configs/constants';
+import {default as mapping} from './assets/themes/mapping.json';
 /** REDUX */
 import Store from './src/redux/store';
 
-const MyDarkTheme = {
-  dark: true,
-  colors: {
-    ...DarkTheme.colors,
-  },
-  customColors: {
-    ...DarkTheme.colors,
-    backgroundActivity: colors.BLACK,
-    primary: IS_IOS ? colors.BLUE_DARK : colors.SECONDARY,
-    secondary: colors.SECONDARY,
-    group: colors.GRAY_900,
-    header: colors.BACKGROUND_HEADER_DARK,
-    combobox: colors.TRANSPARENT,
-    icon: colors.WHITE,
-    textInput: colors.GRAY_860,
-    text: colors.WHITE,
-    textDisable: colors.GRAY_700,
-    card: colors.GRAY_900,
-    cardDisable: colors.BACKGROUND_INPUT_FOCUS,
-    cardHolder: colors.GRAY_900,
-    tab: colors.GRAY_900,
-    tabActive: colors.GRAY_700,
-    listItem: colors.GRAY_900,
-    tag: colors.GREEN_2_DARK,
-    statusNew: colors.STATUS_NEW_DARK,
-    stausToBeSchedule: colors.STATUS_TO_BE_SCHEDULE_DARK,
-    statusScheduled: colors.STATUS_SCHEDULE_DARK,
-    statusInProgress: colors.STATUS_IN_PROGRESS_DARK,
-    statusClosed: colors.STATUS_CLOSE_DARK,
-    statusOnHold: colors.STATUS_ON_HOLD_DARK,
-    statusRejected: colors.STATUS_REJECT_DARK,
-    typeMilestone: colors.TYPE_MILESTONE_DARK,
-    typePhase: colors.TYPE_PHASE_DARK,
-    typeTask: colors.TYPE_TASK_DARK,
-    red: colors.RED_DARK,
-    orange: colors.ORANGE_DARK,
-    yellow: colors.YELLOW_DARK,
-    yellow2: colors.YELLOW_DARK_2,
-    green: colors.GREEN_DARK,
-    green2: colors.GREEN_2_DARK,
-    teal: colors.TEAL_DARK,
-    blue: colors.BLUE_DARK,
-    blue2: colors.BLUE_DARK_2,
-    indigo: colors.INDIGO_DARK,
-    purple: colors.PURPLE_DARK,
-    pink: colors.PINK_DARK,
-    bookingHeader: colors.BG_HEADER_BOOKING_DARK,
-    projectHeader: colors.BG_HEADER_PROJECT_DARK,
-    approvedHeader: colors.BG_HEADER_APPROVED_DARK,
-    bgLoading: colors.BACKGROUND_LOADING_APP_DARK,
-  },
-};
-const MyDefaultTheme = {
-  dark: false,
-  colors: {
-    ...DefaultTheme.colors,
-  },
-  customColors: {
-    ...DefaultTheme.colors,
-    backgroundActivity: colors.WHITE,
-    header: colors.PRIMARY,
-    primary: IS_IOS ? colors.BLUE : colors.PRIMARY,
-    secondary: colors.SECONDARY,
-    background: colors.BACKGROUND_MAIN,
-    group: colors.BACKGROUND_CARD,
-    combobox: colors.WHITE,
-    icon: colors.ICON_BASE,
-    textInput: colors.GRAY_100,
-    text: colors.TEXT_BASE,
-    textDisable: colors.GRAY_700,
-    card: colors.BACKGROUND_CARD,
-    cardDisable: colors.GRAY_200,
-    cardHolder: colors.GRAY_100,
-    tab: colors.GRAY_600,
-    tabActive: colors.WHITE,
-    listItem: colors.WHITE,
-    tag: colors.GREEN_2,
-    statusNew: colors.STATUS_NEW,
-    stausToBeSchedule: colors.STATUS_TO_BE_SCHEDULE,
-    statusScheduled: colors.STATUS_SCHEDULE,
-    statusInProgress: colors.STATUS_IN_PROGRESS,
-    statusClosed: colors.STATUS_CLOSE,
-    statusOnHold: colors.STATUS_ON_HOLD,
-    statusRejected: colors.STATUS_REJECT,
-    typeMilestone: colors.TYPE_MILESTONE,
-    typePhase: colors.TYPE_PHASE,
-    typeTask: colors.TYPE_TASK,
-    red: colors.RED,
-    orange: colors.ORANGE,
-    yellow: colors.YELLOW,
-    yellow2: colors.YELLOW_2,
-    green: colors.GREEN,
-    green2: colors.GREEN_2,
-    teal: colors.TEAL,
-    blue: colors.BLUE,
-    blue2: colors.BLUE_2,
-    indigo: colors.INDIGO,
-    purple: colors.PURPLE,
-    pink: colors.PINK,
-    bookingHeader: colors.BG_HEADER_BOOKING,
-    projectHeader: colors.BG_HEADER_PROJECT,
-    approvedHeader: colors.BG_HEADER_APPROVED,
-    bgLoading: colors.BACKGROUND_LOADING_APP_LIGHT,
-  },
-};
+ModalService.setShouldUseTopInsets = true;
+
 const linking = {
   prefixes: Configs.prefixesDeepLink,
   config: {screens: Configs.routePath},
@@ -150,12 +53,18 @@ const App = () => {
     checked: false,
     connected: true,
   });
+  const [themeApp, setThemeApp] = useState('light');
 
   /*****************
    ** HANDLE FUNC **
    *****************/
   const handleNetInfo = obj => {
     obj.isConnected ? onReverseAnimate() : onAnimate();
+  };
+
+  const toggleTheme = () => {
+    const nextTheme = themeApp === 'light' ? 'dark' : 'light';
+    setThemeApp(nextTheme);
   };
 
   /**********
@@ -182,42 +91,58 @@ const App = () => {
   /****************
    ** LIFE CYCLE **
    ****************/
-  useEffect(() => {
+  useEffect(async () => {
+    /** Check config network */
     setDefaultAxios();
     NetInfo.addEventListener(handleNetInfo);
-    if (IS_ANDROID) {
-      StatusBar.setTranslucent(true);
-      StatusBar.setBackgroundColor(colors.TRANSPARENT, true);
+
+    /** Check dark mode */
+    let astDarkMode = await getLocalInfo(AST_DARK_MODE);
+    if (astDarkMode) {
+      if (astDarkMode === DARK) {
+        toggleTheme();
+        /** Set status bar */
+        if (IS_ANDROID) {
+          StatusBar.setTranslucent(true);
+          StatusBar.setBackgroundColor(colors.PRIMARY_DARK, true);
+        }
+      }
     }
   }, []);
 
-  const isDark = useColorScheme() === 'dark';
   useEffect(() => {
-    if (isDark) {
+    if (themeApp === DARK) {
       StatusBar.setBarStyle('light-content', true);
     } else {
       StatusBar.setBarStyle('dark-content', true);
     }
-  }, [isDark]);
+  }, [themeApp]);
 
   /************
    ** RENDER **
    ************/
   return (
-    <AppearanceProvider>
-      <NavigationContainer
-        theme={isDark ? MyDarkTheme : MyDefaultTheme}
-        linking={linking}
-        fallback={<Text>Loading</Text>}>
-        <Provider store={Store}>
-          <SafeAreaProvider initialMetrics={initialWindowMetrics}>
-            <Navigator />
-            <FlashMessage position={'top'} />
-            <Unconnected connected={state.connected} />
-          </SafeAreaProvider>
-        </Provider>
-      </NavigationContainer>
-    </AppearanceProvider>
+    <>
+      <IconRegistry icons={EvaIconsPack} />
+      <ThemeContext.Provider value={{themeApp, toggleTheme}}>
+        <ApplicationProvider
+          {...eva}
+          theme={{...eva[themeApp]}}
+          customMapping={mapping}>
+          <NavigationContainer
+            linking={linking}
+            fallback={<Text>Loading</Text>}>
+            <Provider store={Store}>
+              <SafeAreaProvider initialMetrics={initialWindowMetrics}>
+                <Navigator />
+                <FlashMessage position={'top'} floating />
+                {/* <Unconnected connected={state.connected} /> */}
+              </SafeAreaProvider>
+            </Provider>
+          </NavigationContainer>
+        </ApplicationProvider>
+      </ThemeContext.Provider>
+    </>
   );
 };
 

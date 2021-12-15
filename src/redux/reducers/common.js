@@ -12,7 +12,7 @@ import {
   DEFAULT_FORMAT_DATE_2,
   DEFAULT_FORMAT_DATE_3,
   DEFAULT_PER_PAGE,
-} from '~/config/constants';
+} from '~/configs/constants';
 /** REDUX */
 import * as types from '../actions/types';
 

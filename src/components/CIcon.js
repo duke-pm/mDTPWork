@@ -1,73 +1,42 @@
 /**
- ** Name: CIcon
- ** Author: DTP-Education
+ ** Name: Custom Icon
+ ** Author: IT-Team
  ** CreateAt: 2021
- ** Description: Description of CIcon.js
+ ** Description: Description of index.js
  **/
 import PropTypes from 'prop-types';
 import React from 'react';
-import {useTheme} from '@react-navigation/native';
-import {View} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
-/* COMPONENTS */
-import CTouchable from './CTouchable';
+import {Icon, useTheme} from '@ui-kitten/components';
+import IoniIcon from 'react-native-vector-icons/Ionicons';
 /* COMMON */
 import {moderateScale} from '~/utils/helper';
 
-const INITIALS = {
-  minium: moderateScale(9),
-  smaller: moderateScale(14),
-  small: moderateScale(18),
-  medium: moderateScale(21),
-  large: moderateScale(23),
-  larger: moderateScale(28),
-};
-
-function CIcon(props) {
-  const {customColors} = useTheme();
-  const {
-    style = {},
-    iconStyle = {},
-    name = '',
-    size = 'medium',
-    customSize = undefined,
-    color = 'icon',
-    customColor = undefined,
-    onPress = undefined,
-  } = props;
-  const Touchable = onPress ? CTouchable : View;
-
-  /************
-   ** RENDER **
-   ************/
-  return (
-    <Touchable style={style} onPress={onPress}>
-      <Icon
-        style={iconStyle}
-        name={name}
-        size={customSize || INITIALS[size]}
-        color={customColor || customColors[color]}
+const CIcon = (propsI, type = 'eva', name = '', fill = undefined, size = undefined) => {
+  const theme = useTheme();
+  if (type === 'eva') {
+    return (
+      <Icon {...propsI}
+        name={name + '-outline'}
+        fill={fill || theme['color-basic-600']}
       />
-    </Touchable>
-  );
-}
+    );
+  }
+  if (type === 'ioni') {
+    return (
+      <IoniIcon
+        name={name + '-outline'}
+        color={fill || theme['color-basic-600']}
+        size={size || moderateScale(18)}
+      />
+    );
+  }
+  return null;
+};
 
 CIcon.propTypes = {
-  style: PropTypes.object,
-  iconStyle: PropTypes.object,
+  type: PropTypes.oneOf(['eva', 'ioni']),
   name: PropTypes.string,
-  size: PropTypes.oneOf([
-    'minium',
-    'smaller',
-    'small',
-    'medium',
-    'large',
-    'larger',
-  ]),
-  customSize: PropTypes.number,
-  color: PropTypes.string,
-  customColor: PropTypes.string,
-  onPress: PropTypes.func,
+  fill: PropTypes.string,
 };
 
-export default React.memo(CIcon);
+export default CIcon;
