@@ -8,9 +8,7 @@ import React, {useRef, useState, useEffect, useContext} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {usePrevious} from '~/utils/hook';
-import {
-  useTheme, Layout, CheckBox, Divider, Button,
-} from '@ui-kitten/components';
+import {useTheme, Layout, CheckBox} from '@ui-kitten/components';
 import {
   View, TouchableWithoutFeedback, StatusBar, ScrollView, StyleSheet,
 } from 'react-native';
@@ -27,7 +25,7 @@ import {ThemeContext} from '~/configs/theme-context';
 import {AST_LANGUAGE, AST_LOGIN} from '~/configs/constants';
 import {cStyles} from '~/utils/style';
 import {
-  getLocalInfo, getSecretInfo, IS_ANDROID, IS_IOS, moderateScale,
+  getLocalInfo, getSecretInfo, IS_ANDROID, moderateScale,
   removeSecretInfo, resetRoute, saveSecretInfo,
 } from '~/utils/helper';
 /* REDUX */

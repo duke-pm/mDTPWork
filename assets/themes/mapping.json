@@ -78,6 +78,16 @@
           }
         }
       }
+    },
+    "List": {
+      "meta": {},
+      "appearances": {
+        "default": {
+            "mapping": {
+                "backgroundColor": "background-basic-color-3"
+            }
+        }
+      }
     }
   }
 }

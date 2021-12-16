@@ -193,10 +193,13 @@
     "holder_notification": "Notifications, messages, reminders",
     "holder_information": "Information and Privacy, rating app",
     "holder_favourite": "Personalized preferences",
-    "holder_settings": "Interface, language, evaluation"
+    "holder_settings": "Interface, language, evaluation",
+    "version": "Version"
   },
   "my_account": {
     "title": "Profile",
+    "edit_avatar": "Change avatar",
+    "info_basic": "Basic information",
     "employee_code": "Employee Code",
     "user_name": "User Name",
     "full_name": "Full Name",
@@ -231,7 +234,7 @@
     "update": "Update"
   },
   "contact_us": {
-    "title": "Contact us",
+    "title": "Contact Us",
     "address": "Address: ",
     "phone": "Phone: ",
     "email": "E-mail: ",

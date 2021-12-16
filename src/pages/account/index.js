@@ -6,67 +6,33 @@
  **/
 import React, {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {useTranslation} from 'react-i18next';
-import {Spinner, useTheme} from '@ui-kitten/components';
-import {StyleSheet, View, ImageBackground, StatusBar, ScrollView} from 'react-native';
-import DeviceInfo from 'react-native-device-info';
+import {useTheme} from '@ui-kitten/components';
+import {
+  StyleSheet, View, ImageBackground, StatusBar, ScrollView,
+  Linking,
+} from 'react-native';
+import VersionCheck from 'react-native-version-check';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CMenuAccount from '~/components/CMenuAccount';
 import CAlert from '~/components/CAlert';
 import CText from '~/components/CText';
-// import CContent from '~/components/CContent';
-// import CAvatar from '~/components/CAvatar';
-// import CText from '~/components/CText';
-// import CGroupInfo from '~/components/CGroupInfo';
-// import ListItem from './components/ListItem';
-// import SocialItem from './components/SocialItem';
+import CLoading from '~/components/CLoading';
 /* COMMON */
-import Configs from '~/configs';
 import Routes from '~/navigator/Routes';
-import { Assets } from '~/utils/asset';
-import {colors, cStyles} from '~/utils/style';
+import {Assets} from '~/utils/asset';
+import {cStyles} from '~/utils/style';
 import {AST_LOGIN} from '~/configs/constants';
 import {
-  alert,
   IS_ANDROID,
-  IS_IOS,
   moderateScale,
   removeSecretInfo,
   resetRoute,
 } from '~/utils/helper';
 /* REDUX */
 import * as Actions from '~/redux/actions';
-import CLoading from '~/components/CLoading';
-
-/** all init */
-
-// const Socials = React.memo(({isDark = false, isTablet = false}) => {
-//   return (
-//     <CGroupInfo
-//       contentStyle={[
-//         cStyles.mb10,
-//         cStyles.px10,
-//         isTablet ? cStyles.mx10 : cStyles.mx16,
-//       ]}
-//       content={
-//         <View style={[cStyles.row, cStyles.itemsCenter]}>
-//           {Configs.socialsNetwork.map((item, index) => (
-//             <SocialItem
-//               key={item.id}
-//               index={index}
-//               data={item}
-//               isDark={isDark}
-//             />
-//           ))}
-//         </View>
-//       }
-//     />
-//   );
-// });
 
 function Account(props) {
-  const {t} = useTranslation();
   const theme = useTheme();
   const {navigation} = props;
 
@@ -75,7 +41,7 @@ function Account(props) {
   const authState = useSelector(({auth}) => auth);
 
   /** Use state */
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [alertLogout, setAlertLogout] = useState({
     status: false,
     isSignout: false,
@@ -142,6 +108,19 @@ function Account(props) {
       nextRoute: null,
       value: '1800 6242',
       alert: null,
+      onPress: () => handleCallPhone('1800 6242'),
+    },
+    {
+      id: 'version',
+      title: 'account:version',
+      subtitle: null,
+      icon: 'message-square-outline',
+      color: 'color-primary-600',
+      bgColor: 'color-primary-transparent-500',
+      renderNext: false,
+      nextRoute: null,
+      value: '1.0.0',
+      alert: null,
     },
     {
       id: 'signout',
@@ -152,11 +131,15 @@ function Account(props) {
       bgColor: 'color-danger-transparent-500',
       renderNext: false,
       nextRoute: null,
-      value: '1800 6242',
+      value: null,
       alert: null,
       onPress: () => toggleAlertLogout(true, false),
     },
   ]);
+  const [versionApp, setVersionApp] = useState({
+    needUpdate: false,
+    number: '1.0.0',
+  });
 
   /*****************
    ** HANDLE FUNC **
@@ -165,7 +148,14 @@ function Account(props) {
     setAlertLogout({status, isSignout});
   };
 
-  const handleOk = (isSignout) => {
+  const handleCallPhone = phoneNumber => {
+    Linking.openURL(`tel:${phoneNumber}`).catch(reason => {
+      console.log('[LOG] === ERROR Call Phone ===> ', reason);
+      if (reason) alert(reason);
+    });
+  };
+
+  const handleOk = isSignout => {
     setLoading(true);
     toggleAlertLogout(false, isSignout);
   };
@@ -178,9 +168,36 @@ function Account(props) {
     resetRoute(navigation, Routes.LOGIN_IN.name);
   };
 
+  const onCheckVersionApp = async () => {
+    /** Get version app from store */
+    let tmpVersionCheck = {...versionApp},
+      latestVersion = await VersionCheck.getLatestVersion(),
+      needUpdate = await VersionCheck.needUpdate();
+    if (latestVersion)
+      tmpVersionCheck.number = latestVersion;
+    if (needUpdate && needUpdate.isNeeded)
+      tmpVersionCheck.needUpdate = needUpdate;
+    setVersionApp(tmpVersionCheck);
+
+    /** Set value for menu */
+    let tmpMenu2 = [...menu2];
+    let fMenu = tmpMenu2.findIndex(f => f.id === 'version');
+    if (fMenu !== -1) {
+      tmpMenu2[fMenu].value = tmpVersionCheck.number;
+      setMenu2(tmpMenu2);
+    }
+
+    setLoading(false);
+  };
+
   /****************
    ** LIFE CYCLE **
    ****************/
+  useEffect(() => {
+    /** Check version app */
+    onCheckVersionApp();
+  }, []);
+
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       StatusBar.setBarStyle('light-content', true);
@@ -246,13 +263,13 @@ function Account(props) {
         cancel={true}
         label={'common:app_name'}
         message={'account:alert_msg_log_out'}
+        textCancel={'common:close'}
         textOk={'account:alert_log_out'}
         statusOk={'danger'}
         onBackdrop={toggleAlertLogout}
         onCancel={toggleAlertLogout}
         onOk={() => handleOk(true)}
       />
-
       <CLoading show={loading} />
     </CContainer>
   )

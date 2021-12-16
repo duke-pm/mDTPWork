@@ -15,7 +15,10 @@ import ResetPasswordPage from '~/pages/authentication/reset_password';
 import DashboardPage from '~/pages/dashboard';
 import AccountPage from '~/pages/account';
 /** ACCOUNT FLOW */
+import MyAccountPage from '~/pages/account/myAccount';
 import UpdatePasswordPage from '~/pages/account/changePassword';
+import HelpAndInfoPage from '~/pages/account/helpAndInfo';
+import ContactUsPage from '~/pages/account/contactUs';
 
 const Routes = {
   INTRO: {
@@ -49,10 +52,26 @@ const Routes = {
       path: AccountPage,
     },
   },
+  MY_ACCOUNT: {
+    name: 'MyAccount',
+    path: MyAccountPage,
+  },
   CHANGE_PASSWORD: {
     name: 'UpdatePassword',
     path: UpdatePasswordPage,
   },
+  HELP_AND_INFO: {
+    name: 'HelpAndInfo',
+    path: HelpAndInfoPage,
+  },
+  CONTACT_US: {
+    name: 'ContactUs',
+    path: ContactUsPage,
+  },
+  // SETTINGS: {
+  //   name: 'Settings',
+  //   path: Settings,
+  // },
 };
 
 export default Routes;

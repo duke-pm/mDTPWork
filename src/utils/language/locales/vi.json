@@ -193,10 +193,13 @@
     "holder_notification": "Thông báo, tin nhắn, nhắc nhở",
     "holder_information": "Thông tin và Điều khỏan, đánh giá ứng dụng",
     "holder_favourite": "Sở thích cá nhân hóa",
-    "holder_settings": "Giao diện, ngôn ngữ, đăng nhập nhanh"
+    "holder_settings": "Giao diện, ngôn ngữ, đăng nhập nhanh",
+    "version": "Phiên bản"
   },
   "my_account": {
     "title": "Tài Khoản Của Tôi",
+    "edit_avatar": "Đổi ảnh đại diện",
+    "info_basic": "Thông tin cơ bản",
     "employee_code": "Employee Code",
     "user_name": "User Name",
     "full_name": "Họ và Tên",
@@ -222,7 +225,7 @@
   },
   "help_and_info": {
     "title": "Thông Tin & Trợ Giúp",
-    "contact_us": "Liên hệ",
+    "contact_us": "Thông tin Liên hệ",
     "privacy_policies": "Chính sách bảo mật",
     "term_conditions": "Điều khoản & Điều kiện",
     "about_us": "Về chúng tôi",
@@ -231,7 +234,7 @@
     "update": "Cập nhật"
   },
   "contact_us": {
-    "title": "Liên Hệ",
+    "title": "Thông Tin Liên Hệ",
     "address": "Địa chỉ: ",
     "phone": "Điện thoại: ",
     "email": "E-mail: ",

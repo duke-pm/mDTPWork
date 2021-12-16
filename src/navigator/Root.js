@@ -105,8 +105,20 @@ export function RootMain(props) {
       />
       <StackMain.Screen name={Routes.TAB.name} component={BottomTabMain} />
       <StackMain.Screen
+        name={Routes.MY_ACCOUNT.name}
+        component={Routes.MY_ACCOUNT.path}
+      />
+      <StackMain.Screen
         name={Routes.CHANGE_PASSWORD.name}
         component={Routes.CHANGE_PASSWORD.path}
+      />
+      <StackMain.Screen
+        name={Routes.HELP_AND_INFO.name}
+        component={Routes.HELP_AND_INFO.path}
+      />
+      <StackMain.Screen
+        name={Routes.CONTACT_US.name}
+        component={Routes.CONTACT_US.path}
       />
     </StackMain.Navigator>
   );

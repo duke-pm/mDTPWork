@@ -30,12 +30,14 @@ import {moderateScale} from '~/utils/helper';
           {backgroundColor: theme['color-danger-500']},
           styles.con_holder_row,
         ]}>
-        <Text category={'c1'} status={'control'}>{info.alert}</Text>
+        <Text category="c1" status="control">{info.alert}</Text>
       </View>
     )}
-    <Icon {...props} name='arrow-ios-forward' />
+    <Icon {...props} name="arrow-ios-forward" />
   </View>
 );
+
+const RenderRightValue = info => <CText appearance="hint">{info.value}</CText>;
 
 const RenderLeftIcon = (props, theme, name, color, bgColor) => (
   <View
@@ -87,10 +89,6 @@ function CMenuAccount(props) {
     ],
   } = props;
 
-  /*****************
-   ** HANDLE FUNC **
-   *****************/
-
   /**********
    ** FUNC **
    **********/
@@ -123,9 +121,19 @@ function CMenuAccount(props) {
                 <CText style={propsD.style}>{t(item.subtitle)}</CText>
                : undefined
               }
-              accessoryLeft={propsIc => RenderLeftIcon(propsIc, theme, item.icon, item.color, item.bgColor)}
-              accessoryRight={item.renderNext ? propsR => RenderForwardIcon(propsR, theme, item) : undefined}
-              onPress={item.renderNext ? () => handleGoMenuItem(item.nextRoute) : item.onPress}
+              accessoryLeft={propsIc =>
+                RenderLeftIcon(propsIc, theme, item.icon, item.color, item.bgColor)
+              }
+              accessoryRight={item.renderNext
+                ? propsR => RenderForwardIcon(propsR, theme, item)
+                : item.value
+                  ? propsR => RenderRightValue(item)
+                  : undefined
+              }
+              onPress={item.renderNext
+                ? () => handleGoMenuItem(item.nextRoute)
+                : item.onPress
+              }
             />
           )
         })}
