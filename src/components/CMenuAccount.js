@@ -8,7 +8,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {useTranslation} from 'react-i18next';
 import {useNavigation} from '@react-navigation/native';
-import {Layout, ListItem, Menu, Text, Icon, useTheme} from '@ui-kitten/components';
+import {
+  Layout, ListItem, Menu, Text, Icon, useTheme,
+} from '@ui-kitten/components';
 import {StyleSheet, View} from 'react-native';
 /** COMPONENTS */
 import CText from './CText';
@@ -32,6 +34,9 @@ import {moderateScale} from '~/utils/helper';
         ]}>
         <Text category="c1" status="control">{info.alert}</Text>
       </View>
+    )}
+    {info.value && (
+      <CText appearance="hint">{info.value}</CText>
     )}
     <Icon {...props} name="arrow-ios-forward" />
   </View>

@@ -56,7 +56,7 @@ const RenderLeftIcon = (props, loading, handleSearch) => {
   )
 }
 
-const RenderRightIcon = (loading, handleRemove) => {
+const RenderRightIcon = (props, loading, handleRemove) => {
   if (loading) return null;
   return (
     <Button
@@ -76,13 +76,12 @@ function CSearchBar(props) {
   const {t} = useTranslation();
   const themeContext = useContext(ThemeContext);
   const {
+    loading = false,
     autoFocus = false,
     onSearch = () => null,
-    onCallbackSearch = () => null,
   } = props;
 
   /** Use state */
-  const [loading, setLoading] = useState(false);
   const [value, setValue] = useState('');
 
   /*****************
@@ -91,12 +90,7 @@ function CSearchBar(props) {
   const handleRemove = () => setValue('');
 
   const handleSearch = () => {
-    setLoading(true);
     onSearch(value);
-    setTimeout(() => {
-      setLoading(false);
-      onCallbackSearch();
-    }, 2000);
   };
 
   /**********
@@ -108,28 +102,28 @@ function CSearchBar(props) {
    ** RENDER **
    ************/
   return (
-      <Input
-        disabled={loading}
-        value={value}
-        keyboardAppearance={themeContext.themeApp}
-        placeholder={t('common:write_something_to_search')}
-        returnKeyType={'search'}
-        autoFocus={autoFocus}
-        accessoryLeft={propsLeft => RenderLeftIcon(propsLeft, loading, value !== ''  ? handleSearch : null)}
-        accessoryRight={value !== '' 
-          ? () => RenderRightIcon(loading, handleRemove)
-          : undefined
-        }
-        onChangeText={onChangeValue}
-        onSubmitEditing={handleSearch}
-      />
+    <Input
+      disabled={loading}
+      value={value}
+      keyboardAppearance={themeContext.themeApp}
+      placeholder={t('common:write_something_to_search')}
+      returnKeyType={'search'}
+      autoFocus={autoFocus}
+      accessoryLeft={propsL =>
+        RenderLeftIcon(propsL, loading, value !== ''  ? handleSearch : null)}
+      accessoryRight={value !== '' 
+        ? propsR => RenderRightIcon(propsR, loading, handleRemove)
+        : undefined
+      }
+      onChangeText={onChangeValue}
+      onSubmitEditing={handleSearch}
+    />
   );
 }
 
 CSearchBar.propTypes = {
   autoFocus: PropTypes.bool,
   onSearch: PropTypes.func.isRequired,
-  onCallbackSearch: PropTypes.func.isRequired,
 };
 
 export default CSearchBar;

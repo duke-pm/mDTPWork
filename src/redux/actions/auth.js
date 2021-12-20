@@ -103,12 +103,12 @@ export const fetchRefreshToken = (params, callback, navigation) => {
             type: 'warning',
             icon: 'warning',
           });
-          return resetRoute(navigation, Routes.AUTHENTICATION.SIGN_IN.name);
+          return resetRoute(navigation, Routes.LOGIN_IN.name);
         }
       })
       .catch(error => {
         dispatch(loginError(error));
-        return resetRoute(navigation, Routes.AUTHENTICATION.SIGN_IN.name);
+        return resetRoute(navigation, Routes.LOGIN_IN.name);
       });
   };
 };

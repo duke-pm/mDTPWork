@@ -7,9 +7,12 @@
  **/
 import PropTypes from 'prop-types';
 import React, {useContext, useEffect} from 'react';
+import {useTranslation} from 'react-i18next';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {Layout, useTheme} from '@ui-kitten/components';
-import {StatusBar} from 'react-native';
+import {Layout, Spinner, useTheme} from '@ui-kitten/components';
+import {StatusBar, View} from 'react-native';
+/** COMPONENTS */
+import CText from './CText';
 /* COMMON */
 import {cStyles} from '~/utils/style';
 import {IS_ANDROID} from '~/utils/helper';
@@ -18,10 +21,12 @@ import {DARK, LIGHT} from '~/configs/constants';
 
 function CContainer(props) {
   const theme = useTheme();
+  const {t} = useTranslation();
   const themeContext = useContext(ThemeContext);
   const {
     safeArea = [],
     backgroundColor = null,
+    loading = false,
     padder = false,
     headerComponent = null,
     children = null,
@@ -59,7 +64,13 @@ function CContainer(props) {
       <Layout
         style={[cStyles.flex1, padder && cStyles.px16, padder && cStyles.py10]}
         level="3">
-        {children}
+        {!loading && children}
+        {loading && (
+          <View style={cStyles.flexCenter}>
+            <Spinner />
+            <CText style={cStyles.mt10} category="c1" appearance="hint">{t('common:loading')}</CText>
+          </View>
+        )}
       </Layout>
     </SafeAreaView>
   );
@@ -68,6 +79,7 @@ function CContainer(props) {
 CContainer.propTypes = {
   safeArea: PropTypes.array,
   backgroundColor: PropTypes.string,
+  loading: PropTypes.bool,
   padder: PropTypes.bool,
   headerComponent: PropTypes.element,
   children: PropTypes.element,

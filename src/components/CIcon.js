@@ -17,7 +17,7 @@ const CIcon = (propsI, type = 'eva', name = '', fill = undefined, size = undefin
     return (
       <Icon {...propsI}
         name={name + '-outline'}
-        fill={fill || theme['color-basic-600']}
+        fill={fill}
       />
     );
   }

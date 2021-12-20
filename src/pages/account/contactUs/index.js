@@ -75,4 +75,4 @@ function ContactUs(props) {
   );
 }
 
-export default React.memo(ContactUs);
+export default ContactUs;

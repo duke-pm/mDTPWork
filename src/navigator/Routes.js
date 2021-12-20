@@ -19,6 +19,20 @@ import MyAccountPage from '~/pages/account/myAccount';
 import UpdatePasswordPage from '~/pages/account/changePassword';
 import HelpAndInfoPage from '~/pages/account/helpAndInfo';
 import ContactUsPage from '~/pages/account/contactUs';
+import SettingsPage from '~/pages/account/settings';
+import AppearancePage from '~/pages/account/appearance';
+import LanguagesPage from '~/pages/account/languages';
+/** APPROVED */
+import ApprovedPage from '~/pages/approved';
+import ListRequestPage from '~/pages/approved/listAssets';
+import AddRequestAssetPage from '~/pages/approved/addAsset/Request';
+import AddRequestLostDamagePage from '~/pages/approved/addLostDamage/Request';
+import ListRequestHandlingPage from '~/pages/approved/listAssetsHandling'
+/** PROJECT */
+import ProjectPage from '~/pages/project';
+/** BOOKING */
+import BookingPage from '~/pages/booking';
+import BookingsPage from '~/pages/booking/bookings';
 
 const Routes = {
   INTRO: {
@@ -52,6 +66,7 @@ const Routes = {
       path: AccountPage,
     },
   },
+  /** Account flow */
   MY_ACCOUNT: {
     name: 'MyAccount',
     path: MyAccountPage,
@@ -68,10 +83,53 @@ const Routes = {
     name: 'ContactUs',
     path: ContactUsPage,
   },
-  // SETTINGS: {
-  //   name: 'Settings',
-  //   path: Settings,
-  // },
+  SETTINGS: {
+    name: 'Settings',
+    path: SettingsPage,
+  },
+  APPEARANCE: {
+    name: 'Appearance',
+    path: AppearancePage,
+  },
+  LANGUAGES: {
+    name: 'Languages',
+    path: LanguagesPage,
+  },
+  /** Approved flow */
+  APPROVED: {
+    name: 'Approved',
+    path: ApprovedPage,
+  },
+  LIST_REQUEST_ASSETS: {
+    name: 'ListApprovedAssets',
+    path: ListRequestPage,
+  },
+  ADD_APPROVED_ASSETS: {
+    name: 'AddRequestAsset',
+    path: AddRequestAssetPage,
+  },
+  ADD_APPROVED_LOST_DAMAGED: {
+    name: 'AddRequestLostDamage',
+    path: AddRequestLostDamagePage,
+  },
+  LIST_REQUEST_HANDLING: {
+    name: 'ListApprovedAssetsHandling',
+    path: ListRequestHandlingPage,
+  },
+  /** Project flow */
+  PROJECT: {
+    name: 'ProjectManagement',
+    path: ProjectPage,
+  },
+  /** Booking flow */
+  BOOKING: {
+    name: 'BookingManagement',
+    path: BookingPage,
+  },
+  BOOKINGS: {
+    name: 'Bookings',
+    path: BookingsPage,
+  },
 };
 
 export default Routes;

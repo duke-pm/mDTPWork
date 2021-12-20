@@ -12,6 +12,11 @@ export const changeLanguage = language => ({
   payload: language,
 });
 
+export const changeTheme = theme => ({
+  type: types.CHANGE_THEME,
+  payload: theme,
+});
+
 export const changeNetStatus = connection => ({
   type: types.CHANGE_CONNECTION_STATUS,
   payload: connection,

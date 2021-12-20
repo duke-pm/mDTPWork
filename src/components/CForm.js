@@ -20,7 +20,6 @@ import {
   Button,
   Icon,
   Spinner,
-  Text,
   Select,
   SelectItem,
   Toggle,
@@ -28,13 +27,19 @@ import {
   Radio,
   useTheme,
   Datepicker,
+  IndexPath,
 } from '@ui-kitten/components';
+import {MomentDateService} from '@ui-kitten/moment';
 import {
   TouchableWithoutFeedback,
   View,
   UIManager,
   LayoutAnimation,
 } from 'react-native';
+import moment from 'moment';
+import 'moment';
+import 'moment/locale/vi';
+import 'moment/locale/en-sg';
 /** COMPONENTS */
 import CText from './CText';
 /* COMMON */
@@ -177,6 +182,12 @@ const CForm = forwardRef((props, ref) => {
 
   const handleSelectedIndex = (idxInput, newIndex) => {
     let tmpValues = [...values];
+    tmpValues[idxInput].value = newIndex - 1;
+    setValues(tmpValues);
+  };
+
+  const handleChangeRadioIndex = (idxInput, newIndex) => {
+    let tmpValues = [...values];
     tmpValues[idxInput].value = newIndex;
     setValues(tmpValues);
   };
@@ -203,7 +214,7 @@ const CForm = forwardRef((props, ref) => {
 
     for (i = 0; i < values.length; i++) {
       /** Check required */
-      if (values[i].required) {
+      if (values[i].required && values[i].type === 'text') {
         if (values[i].value.trim() === '') {
           tmpIsError = true;
           tmpErrors[i].status = true;
@@ -211,6 +222,24 @@ const CForm = forwardRef((props, ref) => {
           tmpErrors[i].helper = t('error:empty_length');
         } else if (
           values[i].value.trim() !== '' &&
+          tmpErrors[i].type === 'required'
+        ) {
+          tmpIsError = false;
+          tmpErrors[i].status = false;
+          tmpErrors[i].type = '';
+          tmpErrors[i].helper = '';
+        } else if (tmpErrors[i].status) {
+          tmpIsError = true;
+        }
+      }
+      if (values[i].required && values[i].type === 'select') {
+        if (values[i].value === '') {
+          tmpIsError = true;
+          tmpErrors[i].status = true;
+          tmpErrors[i].type = 'required';
+          tmpErrors[i].helper = t('error:empty_length');
+        } else if (
+          values[i].value !== '' &&
           tmpErrors[i].type === 'required'
         ) {
           tmpIsError = false;
@@ -309,13 +338,18 @@ const CForm = forwardRef((props, ref) => {
         tmpErrors = [];
       for (tmpInput of inputs) {
         let tmpInputRef = createRef();
-        tmpValue = {};
-        tmpError = {};
-
+          tmpValue = {};
+          tmpError = {};
+        let fValue = -1;
+        if (tmpInput.values) {
+          fValue = tmpInput.values.findIndex(f => f[tmpInput.keyToCompare] === tmpInput.value);
+        }
+        
         tmpValue = {
           ref: tmpInputRef,
           id: tmpInput.id,
-          value: tmpInput.value,
+          type: tmpInput.type,
+          value: fValue !== -1 ? fValue : tmpInput.value,
           values: tmpInput.values,
           required: tmpInput.required,
           validate: tmpInput.validate ? tmpInput.validate.type : '',
@@ -375,9 +409,10 @@ const CForm = forwardRef((props, ref) => {
             <Input
               key={item.type + item.id + '_' + index}
               ref={values[index].ref}
-              style={[cStyles.mt24, item.style]}
+              style={[cStyles.mt16, item.style]}
+              selectionColor={theme['color-primary-500']}
               nativeID={item.id}
-              disabled={loading}
+              disabled={loading || item.disabled}
               value={values[index].value}
               label={t(item.label)}
               placeholder={t(item.holder)}
@@ -410,22 +445,26 @@ const CForm = forwardRef((props, ref) => {
         if (item.type === 'select') {
           return (
             <Select
-              style={[cStyles.mt24, item.style]}
-              label={item.label}
+              style={[cStyles.mt16, item.style]}
+              label={t(item.label)}
+              status={errors && errors[index].status ? 'danger' : 'basic'}
               caption={
-                errors && errors[index].status
+                errors && errors[index] && errors[index].status
                   ? errors[index].helper
                   : undefined
               }
               placeholder="Select one of below..."
-              disabled={loading}
-              selectedIndex={values[index].value}
+              disabled={loading || item.disabled}
+              value={(item.values && values[index].value > -1 && item.values[values[index].value])
+                ? item.values[values[index].value][item.keyToShow]
+                : '-'}
+              selectedIndex={new IndexPath(values[index].value)}
               onSelect={idxSelect => handleSelectedIndex(index, idxSelect)}>
-              {item.values.map((itemSelect, indexSelect) => {
+              {item.values && item.values.map((itemSelect, indexSelect) => {
                 return (
                   <SelectItem
-                    key={itemSelect + indexSelect}
-                    title={itemSelect}
+                    key={itemSelect[item.keyToShow] + indexSelect}
+                    title={itemSelect[item.keyToShow]}
                   />
                 );
               })}
@@ -439,12 +478,12 @@ const CForm = forwardRef((props, ref) => {
                 item.position === 'left' && cStyles.itemsStart,
                 item.position === 'right' && cStyles.itemsEnd,
                 item.position === 'center' && cStyles.itemsCenter,
-                cStyles.mt24,
+                cStyles.mt16,
                 item.style,
                 ,
               ]}>
               <Toggle
-                disabled={loading}
+                disabled={loading || item.disabled}
                 checked={values[index].value}
                 onChange={() => handleToggle(index)}>
                 {item.label}
@@ -454,7 +493,7 @@ const CForm = forwardRef((props, ref) => {
         }
         if (item.type === 'radio') {
           return (
-            <View style={[cStyles.mt24, item.style]}>
+            <View style={[cStyles.mt16, item.style]}>
               <CText
                 style={{color: theme['color-basic-600']}}
                 category={'label'}>
@@ -465,11 +504,11 @@ const CForm = forwardRef((props, ref) => {
                   item.horizontal ? [cStyles.row, cStyles.itemsCenter] : {}
                 }
                 selectedIndex={values[index].value}
-                onChange={indexRadio => handleSelectedIndex(index, indexRadio)}>
-                {item.values.map((itemRadio, indexRadio) => {
+                onChange={indexRadio => handleChangeRadioIndex(index, indexRadio)}>
+                {item.values && item.values.map((itemRadio, indexRadio) => {
                   return (
-                    <Radio disabled={loading} key={itemRadio + indexRadio}>
-                      {itemRadio}
+                    <Radio disabled={loading || item.disabled} key={itemRadio + indexRadio}>
+                      {t(itemRadio[item.keyToShow])}
                     </Radio>
                   );
                 })}
@@ -479,8 +518,9 @@ const CForm = forwardRef((props, ref) => {
         }
         if (item.type === 'datePicker') {
           return (
-            <View style={[cStyles.mt24, item.style]}>
+            <View style={[cStyles.mt16, item.style]}>
               <Datepicker
+                dateService={new MomentDateService('vi')}
                 label={t(item.label)}
                 placeholder={t(item.holder)}
                 status={errors && errors[index].status ? 'danger' : 'basic'}
@@ -489,10 +529,10 @@ const CForm = forwardRef((props, ref) => {
                     ? errors[index].helper
                     : undefined
                 }
-                disabled={loading}
-                date={values[index].value}
-                min={new Date(1900, 1, 1)}
-                max={new Date()}
+                disabled={loading || item.disabled}
+                date={moment(values[index].value)}
+                min={moment('2010-01-01')}
+                max={moment('2030-12-31')}
                 onSelect={newDate => handleChangeDatePicker(index, newDate)}
                 accessoryRight={RenderCalendarIcon}
               />

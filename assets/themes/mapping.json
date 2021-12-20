@@ -88,6 +88,103 @@
             }
         }
       }
+    },
+    "Card": {
+      "meta": {},
+      "appearances": {
+        "outline": {
+          "mapping": {
+            "bodyPaddingHorizontal": 16,
+            "bodyPaddingVertical": 10,
+            "headerPaddingHorizontal": 16,
+            "headerPaddingVertical": 10,
+            "footerPaddingHorizontal": 16,
+            "footerPaddingVertical": 10
+          }
+        }
+      }
+    },
+    "Input": {
+      "meta": {},
+      "appearances": {
+        "default": {
+          "variantGroups": {
+            "status": {
+              "basic": {
+                "state": {
+                  "disabled": {
+                    "labelColor": "text-hint-color"
+                  }
+                }
+              },
+              "primary": {
+                "state": {
+                  "disabled": {
+                    "labelColor": "text-hint-color"
+                  }
+                }
+              },
+              "success": {
+                "state": {
+                  "disabled": {
+                    "labelColor": "text-hint-color"
+                  }
+                }
+              },
+              "info": {
+                "state": {
+                  "disabled": {
+                    "labelColor": "text-hint-color"
+                  }
+                }
+              },
+              "warning": {
+                "state": {
+                  "disabled": {
+                    "labelColor": "text-hint-color"
+                  }
+                }
+              },
+              "danger": {
+                "state": {
+                  "disabled": {
+                    "labelColor": "text-hint-color"
+                  }
+                }
+              },
+              "control": {
+                "state": {
+                  "disabled": {
+                    "labelColor": "text-hint-color"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Datepicker": {
+      "meta": {},
+      "appearances": {
+        "default": {
+          "mapping": {
+            "paddingHorizontal": 0
+          }
+        }
+      }
+    },
+    "Radio": {
+      "meta": {},
+      "appearances": {
+        "default": {
+          "mapping": {
+            "textFontSize": "text-paragraph-1-font-size",
+            "textFontWeight": "text-paragraph-1-font-weight",
+            "textFontFamily": "text-paragraph-1-font-family"
+          }
+        }
+      }
     }
   }
 }

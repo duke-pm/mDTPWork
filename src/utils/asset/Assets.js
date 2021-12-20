@@ -14,7 +14,7 @@ const Assets = {
   iconUser: require('../../../assets/images/photo/user.png'),
   iconImageDefault: require('../../../assets/images/icon/imageDefault.png'),
   iconVietnamFlag: require('../../../assets/images/icon/flags/vietnam.png'),
-  iconEnglandFlag: require('../../../assets/images/icon/flags/england.png'),
+  iconEnglishFlag: require('../../../assets/images/icon/flags/english.png'),
   iconFaceID: require('../../../assets/images/icon/faceId.png'),
   iconFaceIDDark: require('../../../assets/images/icon/faceId_dark.png'),
   iconFinger: require('../../../assets/images/icon/fingerprint.png'),

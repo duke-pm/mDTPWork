@@ -12,19 +12,12 @@ import {StyleSheet, View} from 'react-native';
 import IoniIcon from 'react-native-vector-icons/Ionicons';
 /* COMPONENTS */
 import CText from './CText';
-import CIcon from './CIcon';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
-import {moderateScale} from '~/utils/helper';
+import {moderateScale, sW} from '~/utils/helper';
 
 /** All init */
 const sIconStatus = moderateScale(60);
-
-const RenderLoadingIndicator = (props) => (
-  <View style={[props.style, cStyles.center]}>
-    <Spinner size='small' status='control' />
-  </View>
-);
 
 function CAlert(props) {
   const theme = useTheme();
@@ -72,7 +65,7 @@ function CAlert(props) {
       backdropStyle={{backgroundColor: colors.BACKGROUND_MODAL}}
       visible={show}
       onBackdropPress={handleBackdrop}>
-      <Card disabled style={[cStyles.mx16, contentStyle]}>
+      <Card disabled style={[styles.card, contentStyle]}>
         {(success || error || label) && (
           <View style={cStyles.itemsCenter}>
             {success && (
@@ -146,7 +139,7 @@ function CAlert(props) {
                 status={statusOk}
                 appearance={'filled'}
                 disabled={loading}
-                accessoryLeft={loading ? RenderLoadingIndicator : undefined}
+                // accessoryLeft={loading ? RenderLoadingIndicator : undefined}
                 onPress={handleOk}>
                 {t(textOk)}
               </Button>
@@ -159,6 +152,7 @@ function CAlert(props) {
 }
 
 const styles = StyleSheet.create({
+  card: {width: sW('90%')},
   header: {
     
   },

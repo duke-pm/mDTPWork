@@ -10,17 +10,11 @@ import React, {useContext, useState, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useNavigation} from '@react-navigation/native';
 import {
-  TopNavigation,
-  TopNavigationAction,
-  Toggle,
-  useTheme,
-  Icon,
+  TopNavigation, TopNavigationAction, Toggle, useTheme,
+  Icon, Button, Tooltip,
 } from '@ui-kitten/components';
 import {
-  TouchableOpacity,
-  View,
-  LayoutAnimation,
-  UIManager,
+  TouchableOpacity, View, LayoutAnimation, UIManager,
   StyleSheet,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
@@ -30,31 +24,47 @@ import CSearchBar from './CSearchBar';
 import CText from './CText';
 /* COMMON */
 import Routes from '~/navigator/Routes';
-import {ThemeContext} from '~/configs/theme-context';
-import {cStyles} from '~/utils/style';
-import {
-  getLocalInfo,
-  IS_ANDROID,
-  moderateScale,
-  saveLocalInfo,
-} from '~/utils/helper';
-import {AST_DARK_MODE, DARK, LIGHT} from '~/configs/constants';
 import {Assets} from '~/utils/asset';
+import {ThemeContext} from '~/configs/theme-context';
+import {colors, cStyles} from '~/utils/style';
+import {AST_DARK_MODE, DARK, LIGHT} from '~/configs/constants';
+import {
+  getLocalInfo, IS_ANDROID, moderateScale, saveLocalInfo,
+} from '~/utils/helper';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
   }
 }
+const initSizeIcon = moderateScale(20);
+const initColorText = 'text-basic-color';
+const initColorDanger = 'color-danger-500';
+const initBorder = 'border-basic-color-3';
 
 /*********************
  ** OTHER COMPONENT **
  *********************/
+const RenderFilterIcon = (theme, toggleFilter) => (
+  <Button
+    appearance="ghost"
+    status="basic"
+    accessoryLeft={propsL =>
+      <Icon {...propsL}
+        style={[propsL.style, cStyles.mx0]}
+        name="options-2-outline"
+        fill={theme[initColorText]}
+      />
+    }
+    onPress={toggleFilter}
+  />
+);
+
 const BackIcon = (theme, iconStyle, iconBack) => (
   <IoniIcon
     name={iconBack || 'arrow-back'}
-    color={iconStyle.color || theme['text-basic-color']}
-    size={moderateScale(20)}
+    color={iconStyle.color || theme[initColorText]}
+    size={initSizeIcon}
   />
 );
 
@@ -82,7 +92,7 @@ const RenderTopLeft = (
       <View>
         <CText category="h4">{t(title)}</CText>
         {subtitle && (
-          <CText category="c1" appearance={'hint'}>
+          <CText category="c1" appearance="hint">
             {t(subtitle)}
           </CText>
         )}
@@ -91,7 +101,7 @@ const RenderTopLeft = (
   );
 };
 
-const RenderTopRight = (type, theme, iconStyle, t, onPress, onPress2) => {
+const RenderTopRight = (type, theme, iconStyle, t, onPress, onPress2, showFilter, renderFilter) => {
   if (type === 'darkmode') {
     return <Toggle {...onPress}>{t('common:dark_mode')}</Toggle>;
   }
@@ -100,42 +110,62 @@ const RenderTopRight = (type, theme, iconStyle, t, onPress, onPress2) => {
       <TouchableOpacity style={[cStyles.px10, cStyles.py6]} onPress={onPress}>
         <IoniIcon
           name={'search-outline'}
-          size={iconStyle.size || moderateScale(20)}
-          color={iconStyle.color || theme['text-basic-color']}
+          size={iconStyle.size || initSizeIcon}
+          color={iconStyle.color || theme[initColorText]}
         />
       </TouchableOpacity>
     );
   }
-  if (type === 'add') {
+  if (type === 'filter') {
     return (
-      <TouchableOpacity style={[cStyles.px10, cStyles.py6]} onPress={onPress}>
-        <IoniIcon
-          name={'add-outline'}
-          size={iconStyle.size || moderateScale(20)}
-          color={iconStyle.color || theme['text-basic-color']}
-        />
-      </TouchableOpacity>
+      <View>
+        <Tooltip
+          backdropStyle={styles.con_backdrop}
+          visible={showFilter}
+          anchor={() => RenderFilterIcon(theme, onPress2)}
+          onBackdropPress={onPress2}>
+          {propsC => renderFilter(propsC, onPress2)}
+        </Tooltip>
+        <View
+          style={[
+            cStyles.abs,
+            cStyles.right0,
+            cStyles.top0,
+            cStyles.rounded2,
+            styles.con_alert_filter,
+            {backgroundColor: theme[initColorDanger]}]}
+          />
+      </View>
     );
   }
-  if (type === 'searchAdd') {
+  if (type === 'searchFilter') {
     return (
       <View style={[cStyles.row, cStyles.itemsCenter]}>
         <TouchableOpacity style={[cStyles.px10, cStyles.py6]} onPress={onPress}>
           <IoniIcon
             name={'search-outline'}
-            size={iconStyle.size || moderateScale(20)}
-            color={iconStyle.color || theme['text-basic-color']}
+            size={iconStyle.size || initSizeIcon}
+            color={iconStyle.color || theme[initColorText]}
           />
         </TouchableOpacity>
-        <TouchableOpacity
-          style={[cStyles.px10, cStyles.py6]}
-          onPress={onPress2}>
-          <IoniIcon
-            name={'add-outline'}
-            size={iconStyle.size || moderateScale(20)}
-            color={iconStyle.color || theme['text-basic-color']}
-          />
-        </TouchableOpacity>
+        <View>
+          <Tooltip
+            backdropStyle={styles.con_backdrop}
+            visible={showFilter}
+            anchor={() => RenderFilterIcon(theme, onPress2)}
+            onBackdropPress={onPress2}>
+            {propsC => renderFilter(propsC, onPress2)}
+          </Tooltip>
+          <View
+            style={[
+              cStyles.abs,
+              cStyles.right0,
+              cStyles.top0,
+              cStyles.rounded2,
+              styles.con_alert_filter,
+              {backgroundColor: theme[initColorDanger]}]}
+            />
+        </View>
       </View>
     );
   }
@@ -144,8 +174,8 @@ const RenderTopRight = (type, theme, iconStyle, t, onPress, onPress2) => {
       <TouchableOpacity style={[cStyles.px10, cStyles.py6]} onPress={onPress}>
         <IoniIcon
           name={'notifications-outline'}
-          size={iconStyle.size || moderateScale(20)}
-          color={iconStyle.color || theme['text-basic-color']}
+          size={iconStyle.size || initSizeIcon}
+          color={iconStyle.color || theme[initColorText]}
         />
       </TouchableOpacity>
     );
@@ -185,6 +215,9 @@ const useToggleState = (initialState = false) => {
   return {checked, onChange: onCheckedChange};
 };
 
+/********************
+ ** MAIN COMPONENT **
+ ********************/
 function CTopNavigation(props) {
   const {t} = useTranslation();
   const theme = useTheme();
@@ -195,13 +228,14 @@ function CTopNavigation(props) {
     titleStyle = {},
     subtitleStyle = {},
     iconStyle = {},
+    loading = false,
     logo = false,
     borderBottom = false,
     translution = false,
     notification = false,
-    add = false,
+    filter = false,
     search = false,
-    searchAdd = false,
+    searchFilter = false,
     back = false,
     darkmode = false,
     iconBack = null,
@@ -213,13 +247,16 @@ function CTopNavigation(props) {
     customTitle = null,
     customLeftComponent = null,
     customRightComponent = null,
-    onPressAdd = () => null,
     onPressCustomBack = null,
+    onSearch = () => null,
+
+    renderFilter = null,
   } = props;
 
   /** Use state */
   const darkmodeToggle = useToggleState();
   const [showSearch, setShowSearch] = useState(false);
+  const [showFilter, setShowFilter] = useState(false);
 
   /*****************
    ** HANDLE FUNC **
@@ -236,6 +273,8 @@ function CTopNavigation(props) {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setShowSearch(!showSearch);
   };
+
+  const toggleShowFilter = () => setShowFilter(!showFilter);
 
   /************
    ** RENDER **
@@ -270,17 +309,28 @@ function CTopNavigation(props) {
       toggleShowSearch,
     );
   }
-  if (add) {
-    rightComponent = RenderTopRight('add', theme, iconStyle, t, onPressAdd);
-  }
-  if (searchAdd) {
+  if (filter) {
     rightComponent = RenderTopRight(
-      'searchAdd',
+      'filter',
+      theme,
+      iconStyle,
+      t,
+      null,
+      toggleShowFilter,
+      showFilter,
+      renderFilter,
+    );
+  }
+  if (searchFilter) {
+    rightComponent = RenderTopRight(
+      'searchFilter',
       theme,
       iconStyle,
       t,
       toggleShowSearch,
-      onPressAdd,
+      toggleShowFilter,
+      showFilter,
+      renderFilter,
     );
   }
   if (notification) {
@@ -310,7 +360,7 @@ function CTopNavigation(props) {
         style={[
           !showSearch && borderBottom && cStyles.borderBottom,
           !showSearch &&
-            borderBottom && {borderColor: theme['border-basic-color-3']},
+            borderBottom && {borderBottomColor: theme[initBorder]},
           style,
         ]}
         title={evaProps =>
@@ -318,7 +368,7 @@ function CTopNavigation(props) {
             <CText
               {...evaProps}
               style={[cStyles.textCenter, titleStyle]}
-              category={'s1'}>
+              category="s1">
               {title !== '' ? t(title) : ''}
             </CText>
           )
@@ -326,13 +376,13 @@ function CTopNavigation(props) {
         subtitle={
           subtitle
             ? evaProps => (
-                <CText
-                  style={[cStyles.textCenter, subtitleStyle]}
-                  category={'c1'}
-                  appearance="hint">
-                  {t(subtitle)}
-                </CText>
-              )
+              <CText
+                style={[cStyles.textCenter, subtitleStyle]}
+                category="c1"
+                appearance="hint">
+                {t(subtitle)}
+              </CText>
+            )
             : undefined
         }
         alignment={alignment}
@@ -341,7 +391,7 @@ function CTopNavigation(props) {
       />
       {showSearch && (
         <View style={[cStyles.mx16, cStyles.mb16]}>
-          <CSearchBar autoFocus />
+          <CSearchBar loading={loading} autoFocus onSearch={onSearch} />
         </View>
       )}
     </View>
@@ -349,7 +399,19 @@ function CTopNavigation(props) {
 }
 
 const styles = StyleSheet.create({
-  img_logo: {height: moderateScale(50), width: moderateScale(50)},
+  img_logo: {
+    height: moderateScale(50),
+    width: moderateScale(50),
+  },
+  con_alert_filter: {
+    height: moderateScale(10),
+    width: moderateScale(10),
+    top: moderateScale(5),
+    right: moderateScale(5),
+  },
+  con_backdrop: {
+    backgroundColor: colors.BACKGROUND_MODAL,
+  },
 });
 
 CTopNavigation.propTypes = {
@@ -358,13 +420,14 @@ CTopNavigation.propTypes = {
   titleStyle: PropTypes.object,
   subtitleStyle: PropTypes.object,
   iconStyle: PropTypes.object,
+  loading: PropTypes.bool,
   logo: PropTypes.bool,
   borderBottom: PropTypes.bool,
   translution: PropTypes.bool,
   notification: PropTypes.bool,
-  add: PropTypes.bool,
+  filter: PropTypes.bool,
   search: PropTypes.bool,
-  searchAdd: PropTypes.bool,
+  searchFilter: PropTypes.bool,
   back: PropTypes.bool,
   darkmode: PropTypes.bool,
   iconBack: PropTypes.any,
@@ -376,8 +439,11 @@ CTopNavigation.propTypes = {
   customTitle: PropTypes.element,
   customLeftComponent: PropTypes.element,
   customRightComponent: PropTypes.element,
-  onPressAdd: PropTypes.func,
+
   onPressCustomBack: PropTypes.func,
+  onSearch: PropTypes.func,
+
+  renderFilter: PropTypes.element,
 };
 
 export default CTopNavigation;

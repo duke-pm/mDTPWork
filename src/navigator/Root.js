@@ -104,6 +104,7 @@ export function RootMain(props) {
         component={Routes.RESET_PASSWORD.path}
       />
       <StackMain.Screen name={Routes.TAB.name} component={BottomTabMain} />
+      {/** Account flow */}
       <StackMain.Screen
         name={Routes.MY_ACCOUNT.name}
         component={Routes.MY_ACCOUNT.path}
@@ -119,6 +120,53 @@ export function RootMain(props) {
       <StackMain.Screen
         name={Routes.CONTACT_US.name}
         component={Routes.CONTACT_US.path}
+      />
+      <StackMain.Screen
+        name={Routes.SETTINGS.name}
+        component={Routes.SETTINGS.path}
+      />
+      <StackMain.Screen
+        name={Routes.APPEARANCE.name}
+        component={Routes.APPEARANCE.path}
+      />
+      <StackMain.Screen
+        name={Routes.LANGUAGES.name}
+        component={Routes.LANGUAGES.path}
+      />
+      {/** Approved flow */}
+      <StackMain.Screen
+        name={Routes.APPROVED.name}
+        component={Routes.APPROVED.path}
+      />
+      <StackMain.Screen
+        name={Routes.LIST_REQUEST_ASSETS.name}
+        component={Routes.LIST_REQUEST_ASSETS.path}
+      />
+      <StackMain.Screen
+        name={Routes.ADD_APPROVED_ASSETS.name}
+        component={Routes.ADD_APPROVED_ASSETS.path}
+      />
+      <StackMain.Screen
+        name={Routes.ADD_APPROVED_LOST_DAMAGED.name}
+        component={Routes.ADD_APPROVED_LOST_DAMAGED.path}
+      />
+      <StackMain.Screen
+        name={Routes.LIST_REQUEST_HANDLING.name}
+        component={Routes.LIST_REQUEST_HANDLING.path}
+      />
+      {/** Project flow */}
+      <StackMain.Screen
+        name={Routes.PROJECT.name}
+        component={Routes.PROJECT.path}
+      />
+      {/** Booking flow */}
+      <StackMain.Screen
+        name={Routes.BOOKING.name}
+        component={Routes.BOOKING.path}
+      />
+      <StackMain.Screen
+        name={Routes.BOOKINGS.name}
+        component={Routes.BOOKINGS.path}
       />
     </StackMain.Navigator>
   );

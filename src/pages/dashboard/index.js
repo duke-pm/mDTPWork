@@ -10,7 +10,7 @@ import 'moment/locale/en-sg';
 import React, {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-import {useTheme, Avatar, Layout} from '@ui-kitten/components';
+import {useTheme, Avatar, Layout, Spinner} from '@ui-kitten/components';
 import {StatusBar, StyleSheet, View} from 'react-native';
 import moment from 'moment';
 /** COMPONENTS */
@@ -22,7 +22,7 @@ import Configs from '~/configs';
 import {Assets} from '~/utils/asset';
 import {cStyles} from '~/utils/style';
 import {DEFAULT_FORMAT_DATE_8} from '~/configs/constants';
-import { IS_ANDROID } from '~/utils/helper';
+import {IS_ANDROID} from '~/utils/helper';
 
 function Dashboard(props) {
   const {t} = useTranslation();
@@ -69,7 +69,6 @@ function Dashboard(props) {
           return 0;
         }
       });
-      console.log('[LOG] === tmpRoutes ===> ', tmpRoutes);
       setRoutes(tmpRoutes);
     }
   };
@@ -96,8 +95,7 @@ function Dashboard(props) {
   return (
     <CContainer
       safeArea={['top']}
-      backgroundColor={theme['background-basic-color-3']}
-    >
+      backgroundColor={theme['background-basic-color-3']}>
       <Layout
         style={[
           cStyles.row,
@@ -114,40 +112,59 @@ function Dashboard(props) {
         <Avatar size={'large'} source={Assets.iconUser} />
       </Layout>
 
-      <Layout style={[cStyles.flex1, cStyles.roundedTopLeft8, cStyles.roundedTopRight8]}>
-        <View
+      {!loading && (
+        <Layout
           style={[
-            cStyles.row,
-            cStyles.itemsCenter,
-            cStyles.justifyEvenly,
-            cStyles.flexWrap,
-            cStyles.pt16,
-            styles.list_item,
+            cStyles.flex1,
+            cStyles.roundedTopLeft8,
+            cStyles.roundedTopRight8,
+            cStyles.shadowListItem,
           ]}>
-          {routes.map((item, index) => {
-            if (item.isAccess) {
-              return (
-                <View key={item.menuID + '_' + index.toString()}>
-                  <CItem
-                    index={index}
-                    data={item}
-                    colors={Configs.colorsSubMenu.main[index].colors}
-                    bgColor={Configs.colorsSubMenu.main[index].bgColor}
-                    onPress={handleItem}
-                  />
-                </View>
-              );
-            }
-            return null;
-          })}
-        </View>
-      </Layout>
+          <View
+            style={[
+              cStyles.row,
+              cStyles.justifyEvenly,
+              cStyles.flexWrap,
+              cStyles.pt16,
+              styles.list_item,
+            ]}>
+            {routes.map((item, index) => {
+              if (item.isAccess) {
+                return (
+                  <View key={item.menuID + '_' + index}>
+                    <CItem
+                      index={index}
+                      data={item}
+                      colors={Configs.colorsSubMenu.main[index].colors}
+                      bgColor={Configs.colorsSubMenu.main[index].bgColor}
+                      onPress={handleItem}
+                    />
+                  </View>
+                );
+              }
+              return null;
+            })}
+          </View>
+        </Layout>
+      )}
+
+      {loading && (
+        <Layout
+          style={[
+            cStyles.flex1,
+            cStyles.center,
+            cStyles.roundedTopLeft8,
+            cStyles.roundedTopRight8,
+            cStyles.shadowListItem,
+          ]}>
+          <Spinner />
+        </Layout>
+      )}
     </CContainer>
   );
 }
 
 const styles = StyleSheet.create({
-  welcome: {flex: 0.5},
   list_item: {flex: 0.5},
 });
 
