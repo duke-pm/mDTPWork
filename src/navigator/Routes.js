@@ -30,9 +30,15 @@ import AddRequestLostDamagePage from '~/pages/approved/addLostDamage/Request';
 import ListRequestHandlingPage from '~/pages/approved/listAssetsHandling'
 /** PROJECT */
 import ProjectPage from '~/pages/project';
+import ProjectOverviewPage from '~/pages/project/overview';
+import ProjectsPage from '~/pages/project/project';
+import TasksPage from '~/pages/project/detail/Project';
+import TaskDetailPage from '~/pages/project/detail/Task';
 /** BOOKING */
 import BookingPage from '~/pages/booking';
 import BookingsPage from '~/pages/booking/bookings';
+import AddBookingPage from '~/pages/booking/add';
+import MyBookingsPage from '~/pages/booking/myBookings';
 
 const Routes = {
   INTRO: {
@@ -121,6 +127,22 @@ const Routes = {
     name: 'ProjectManagement',
     path: ProjectPage,
   },
+  PROJECT_OVERVIEW: {
+    name: 'ProjectOverview',
+    path: ProjectOverviewPage,
+  },
+  PROJECTS: {
+    name: 'Project',
+    path: ProjectsPage,
+  },
+  TASKS: {
+    name: 'ProjectDetail',
+    path: TasksPage,
+  },
+  TASK_DETAILS: {
+    name: 'TaskDetail',
+    path: TaskDetailPage,
+  },
   /** Booking flow */
   BOOKING: {
     name: 'BookingManagement',
@@ -129,6 +151,14 @@ const Routes = {
   BOOKINGS: {
     name: 'Bookings',
     path: BookingsPage,
+  },
+  MY_BOOKINGS: {
+    name: 'MyBookings',
+    path: MyBookingsPage,
+  },
+  ADD_BOOKING: {
+    name: 'AddBooking',
+    path: AddBookingPage,
   },
 };
 

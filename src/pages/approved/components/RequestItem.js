@@ -75,7 +75,7 @@ function RequestItem(props) {
             cStyles.py10,
           ]}>
           <View style={styles.con_left}>
-            <CText category="label">{`${data.requestID} | ${title}`}</CText>
+            <CText category="s1">{`${data.requestID} | ${title}`}</CText>
             <CText category="c1" appearance="hint">{
               moment(
                 data.requestDate,

@@ -6,6 +6,7 @@
  **/
 import PropTypes from 'prop-types';
 import React from 'react';
+import {useTranslation} from 'react-i18next';
 import {StyleSheet, View} from 'react-native';
 import LottieView from 'lottie-react-native';
 /* COMPONENTS */
@@ -14,11 +15,14 @@ import CText from './CText';
 import {cStyles} from '~/utils/style';
 import {Animations} from '~/utils/asset';
 import {moderateScale} from '~/utils/helper';
-import { useTranslation } from 'react-i18next';
 
 function CEmpty(props) {
   const {t} = useTranslation();
-  const {style = {}} = props;
+  const {
+    style = {},
+    label = 'common:empty_data',
+    description = 'common:cannot_find_data_filter',
+  } = props;
   /************
    ** RENDER **
    ************/
@@ -28,11 +32,11 @@ function CEmpty(props) {
         style={styles.img_empty}
         source={Animations.empty}
         autoPlay
-        loop
+        loop={false}
       />
 
-      <CText category="label">{t(props.label)}</CText>
-      <CText category='c1'>{t(props.description)}</CText>
+      <CText style={cStyles.mt10} category="s1">{t(label)}</CText>
+      <CText style={cStyles.mt5} category='c1'>{t(description)}</CText>
     </View>
   );
 }

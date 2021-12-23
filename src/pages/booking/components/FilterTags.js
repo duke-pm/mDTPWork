@@ -7,9 +7,9 @@
  **/
 import PropTypes from 'prop-types';
 import React, {createRef, useState, useEffect} from 'react';
+import {Button, Icon, Layout, useTheme} from '@ui-kitten/components';
 import {StyleSheet, View} from 'react-native';
 import Picker from '@gregfrench/react-native-wheel-picker';
-import IoniIcon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 /* COMPONENTS */
 import CText from '~/components/CText';
@@ -21,7 +21,6 @@ import CText from '~/components/CText';
 import Icons from '~/utils/common/Icons';
 import {colors, cStyles} from '~/utils/style';
 import {moderateScale, verticalScale} from '~/utils/helper';
-import { Button, Icon, Layout, useTheme } from '@ui-kitten/components';
 
 /** All ref */
 const asResourceRef = createRef();
@@ -140,14 +139,14 @@ function FilterTags(props) {
           <Button
             style={cStyles.ml5}
             appearance="ghost"
-            size="tiny"
+            size="small"
             status="primary"
             accessoryLeft={RenderChangeIcon}
             onPress={handleResource}
           />
           <Button
             appearance="ghost"
-            size="tiny"
+            size="small"
             status="danger"
             accessoryLeft={RenderCloseIcon}
             onPress={onPressRemoveReSrc}

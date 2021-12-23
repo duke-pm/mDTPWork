@@ -104,10 +104,7 @@ function BookingManagement(props) {
     <CContainer
       safeArea={['top']}
       headerComponent={
-        <CTopNavigation
-          title="booking_management:title"
-          back
-        />
+        <CTopNavigation title="booking_management:title" back />
       }>
       <CContentSubMenu
         loading={loading}

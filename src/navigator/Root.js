@@ -31,6 +31,7 @@ export function BottomTabMain(props) {
       screenOptions={({route}) => ({
         tabBarStyle: {
           backgroundColor: theme['background-basic-color-1'],
+          borderTopColor: theme['border-basic-color-5']
         },
         tabBarActiveTintColor: theme['color-primary-500'],
         headerShown: false,
@@ -159,6 +160,22 @@ export function RootMain(props) {
         name={Routes.PROJECT.name}
         component={Routes.PROJECT.path}
       />
+      <StackMain.Screen
+        name={Routes.PROJECT_OVERVIEW.name}
+        component={Routes.PROJECT_OVERVIEW.path}
+      />
+      <StackMain.Screen
+        name={Routes.PROJECTS.name}
+        component={Routes.PROJECTS.path}
+      />
+      <StackMain.Screen
+        name={Routes.TASKS.name}
+        component={Routes.TASKS.path}
+      />
+      <StackMain.Screen
+        name={Routes.TASK_DETAILS.name}
+        component={Routes.TASK_DETAILS.path}
+      />
       {/** Booking flow */}
       <StackMain.Screen
         name={Routes.BOOKING.name}
@@ -167,6 +184,14 @@ export function RootMain(props) {
       <StackMain.Screen
         name={Routes.BOOKINGS.name}
         component={Routes.BOOKINGS.path}
+      />
+      <StackMain.Screen
+        name={Routes.MY_BOOKINGS.name}
+        component={Routes.MY_BOOKINGS.path}
+      />
+      <StackMain.Screen
+        name={Routes.ADD_BOOKING.name}
+        component={Routes.ADD_BOOKING.path}
       />
     </StackMain.Navigator>
   );

@@ -78,7 +78,7 @@ let noteRef = createRef();
 /** All init */
 const INPUT_NAME = {
   DATE_REQUEST: 'dateRequest',
-  NAME_BOOKING: 'label',
+  NAME_BOOKING: "s1",
   NOTE_BOOKING: 'note',
   PARTICIPANT: 'participants',
   FROM_DATE_TIME: 'fromDate',

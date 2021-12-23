@@ -1,34 +1,36 @@
+/* eslint-disable eqeqeq */
 /* eslint-disable react-hooks/exhaustive-deps */
 /**
- ** Name: Bookings
+ ** Name: MyBookings
  ** Author: DTP-Education
  ** CreateAt: 2021
- ** Description: Description of Bookings.js
+ ** Description: Description of MyBookings.js
  **/
 import {fromJS} from 'immutable';
 import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-import {View} from 'react-native';
 import {showMessage} from 'react-native-flash-message';
-import {
-  ExpandableCalendar, Timeline, CalendarProvider,
-} from 'react-native-calendars';
-import {useTheme} from '@ui-kitten/components';
+import {ExpandableCalendar, Timeline, CalendarProvider} from 'react-native-calendars';
+import {Layout, useTheme} from '@ui-kitten/components';
+import {StyleSheet, View} from 'react-native';
 import XDate from 'xdate';
 import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CTopNavigation from '~/components/CTopNavigation';
-import CLoading from '~/components/CLoading';
 import CButtonAdd from '~/components/CButtonAdd';
+import CLoading from '~/components/CLoading';
 import BookingList from '../components/BookingList';
+import GroupTypeShow from '../components/GroupTypeShow';
 import Filter from '../components/Filter';
 /* COMMON */
 import Routes from '~/navigator/Routes';
 import {colors, cStyles} from '~/utils/style';
+import {Commons} from '~/utils/common';
 import {IS_ANDROID, moderateScale} from '~/utils/helper';
-import {LOAD_MORE, REFRESH} from '~/configs/constants';
+import {REFRESH, LOAD_MORE} from '~/configs/constants';
+import {usePrevious} from '~/utils/hook';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 
@@ -66,7 +68,7 @@ const THEME_CALENDAR = {
 };
 const MONTH_FORMAT = 'MMMM - yyyy';
 
-function Bookings(props) {
+function MyBookings(props) {
   const {t} = useTranslation();
   const theme = useTheme();
   const {navigation, route} = props;
@@ -88,18 +90,21 @@ function Bookings(props) {
   const [loading, setLoading] = useState({
     main: true,
     startFetch: false,
+    changeType: false,
     refreshing: false,
     loadmore: false,
     isLoadmore: true,
   });
+  const [marked, setMarked] = useState({});
+  const [dataList, setDataList] = useState([]);
+  const [dataCalendar, setDataCalendar] = useState([]);
   const [date, setDate] = useState({
     prevDate: null,
     currentDate: moment().format(formatDate),
   });
-  const [dataList, setDataList] = useState([]);
-  const [dataCalendar, setDataCalendar] = useState([]);
-  const [choosedReSrc, setChoosedReSrc] = useState(null);
-  const [marked, setMarked] = useState({});
+  const [typeShow, setTypeShow] = useState(
+    Commons.TYPE_SHOW_BOOKING.CALENDAR.value,
+  );
   const [form, setForm] = useState({
     fromDate: moment().clone().startOf('month').format(formatDate),
     toDate: moment().clone().endOf('month').format(formatDate),
@@ -109,15 +114,40 @@ function Bookings(props) {
     resourcesORG: [],
   });
 
+  /** All prev */
+  const prevType = usePrevious(typeShow);
+  const prevData = usePrevious(dataList);
+
   /*****************
    ** HANDLE FUNC **
    *****************/
   const handleAddNew = () => {
     navigation.navigate(Routes.ADD_BOOKING.name, {
       type: 'ADD',
-      isFilterByResource: choosedReSrc,
       onRefresh: () => onRefresh(),
     });
+  };
+
+  const handleBookingItem = booking => {
+    navigation.navigate(Routes.ADD_BOOKING.name, {
+      type: 'UPDATE',
+      data: booking.dataFull,
+      onRefresh: () => onRefresh(),
+    });
+  };
+
+  const handleChangeType = type => {
+    if (typeShow !== type) {
+      setLoading({...loading, changeType: true});
+      setTypeShow(type);
+    }
+  };
+
+  const handleFilter = (fromDate, toDate, resources, resourcesORG, toogle) => {
+    toogle();
+    setForm({...form, page: 1, fromDate, toDate, resources, resourcesORG});
+    onFetchData(fromDate, toDate, 1, form.search, resources);
+    return setLoading({...loading, startFetch: true});
   };
 
   const handleSearch = value => {
@@ -126,58 +156,28 @@ function Bookings(props) {
     return setLoading({...loading, startFetch: true});
   };
 
-  const handleFilter = (fromDate, toDate, resources, resourcesORG, toggle) => {
-    setChoosedReSrc(null);
-    toggle();
-    setForm({...form, page: 1, fromDate, toDate, resources, resourcesORG});
-    onFetchData(fromDate, toDate, 1, form.search, resources);
-    return setLoading({...loading, startFetch: true});
-  };
-
-  const handleChangeResource = (
-    resourceID = -1,
-    resourceName = '',
-    fromDate = form.fromDate,
-    toDate = form.toDate,
-  ) => {
-    onDone({...loading, startFetch: true});
-    if (resourceID !== -1) {
-      setChoosedReSrc(resourceID);
-      setForm({
-        ...form,
-        resources: resourceID.toString(),
-        fromDate: fromDate,
-        toDate: toDate,
-      });
-    } else {
-      setChoosedReSrc(null);
-      setForm({...form, resources: ''});
-    }
-    let params = fromJS({
-      FromDate: fromDate,
-      ToDate: toDate,
-      ResourceID: resourceID,
-      PageNum: 1,
-      PageSize: -1,
-      RefreshToken: refreshToken,
-      Lang: language,
-    });
-    dispatch(Actions.fetchListBookingByReSrc(params, navigation));
-  };
-
-  const handleBookingItem = booking => {
-    dispatch(Actions.resetBookingDetail());
-    navigation.navigate(Routes.ADD_BOOKING.name, {
-      type: 'UPDATE',
-      bookingID: booking.dataFull.bookID,
-      onRefresh: () => onRefresh(),
-    });
-  };
-
   /**********
    ** FUNC **
    **********/
   const onDone = stateloading => setLoading(stateloading);
+
+  const onDateChanged = newDate => {
+    let prevDate = date.currentDate;
+    setDate({prevDate, currentDate: newDate});
+  };
+
+  const onMonthChanged = newMonth => {
+    let tmpFromDate = moment(newMonth.dateString)
+      .startOf('month')
+      .format(formatDate);
+    let tmpEndDate = moment(newMonth.dateString)
+      .endOf('month')
+      .format(formatDate);
+
+    setForm({...form, fromDate: tmpFromDate, toDate: tmpEndDate});
+    onFetchData(tmpFromDate, tmpEndDate, 1, form.search);
+    return onDone({...loading, startFetch: true});
+  };
 
   const onFetchData = (
     fromDate = form.fromDate,
@@ -192,8 +192,9 @@ function Bookings(props) {
       PageNum: page,
       Search: search,
       ResourceID: resources,
-      PageSize: perPage,
-      IsMyBooking: false,
+      PageSize:
+        typeShow === Commons.TYPE_SHOW_BOOKING.LIST.value ? perPage : -1,
+      IsMyBooking: true,
       RefreshToken: refreshToken,
       Lang: language,
     });
@@ -206,8 +207,10 @@ function Bookings(props) {
       nBookings = bookingState.get('bookings');
 
     // If count result < perPage => loadmore is unavailable
-    if (nBookings.length < perPage) {
-      isLoadmore = false;
+    if (typeShow === Commons.TYPE_SHOW_BOOKING.LIST.value) {
+      if (nBookings.length < perPage) {
+        isLoadmore = false;
+      }
     }
 
     if (type === REFRESH) {
@@ -219,13 +222,25 @@ function Bookings(props) {
     }
     setDataList(cBookings);
 
-    return onDone({
-      main: false,
-      startFetch: false,
-      refreshing: false,
-      loadmore: false,
-      isLoadmore,
-    });
+    if (typeShow === Commons.TYPE_SHOW_BOOKING.LIST.value) {
+      return onDone({
+        main: false,
+        startFetch: false,
+        refreshing: false,
+        loadmore: false,
+        isLoadmore,
+        changeType: false,
+      });
+    } else {
+      return onDone({
+        ...loading,
+        main: true,
+        startFetch: false,
+        refreshing: false,
+        loadmore: false,
+        isLoadmore: false,
+      });
+    }
   };
 
   const onPrepareCalendarData = dataBookings => {
@@ -279,8 +294,22 @@ function Bookings(props) {
       startFetch: false,
       refreshing: false,
       loadmore: false,
-      isLoadmore: true,
+      isLoadmore: false,
+      changeType: false,
     });
+  };
+
+  const sameDate = (a, b) => {
+    if (!a || !b) {
+      return false;
+    }
+    return (
+      a instanceof XDate &&
+      b instanceof XDate &&
+      a.getFullYear() === b.getFullYear() &&
+      a.getMonth() === b.getMonth() &&
+      a.getDate() === b.getDate()
+    );
   };
 
   const onRefresh = () => {
@@ -308,52 +337,13 @@ function Bookings(props) {
       icon: 'danger',
     });
     return onDone({
+      ...loading,
       main: false,
       startFetch: false,
       refreshing: false,
       loadmore: false,
       isLoadmore: false,
     });
-  };
-
-  const sameDate = (a, b) => {
-    if (!a || !b) {
-      return false;
-    }
-    return (
-      a instanceof XDate &&
-      b instanceof XDate &&
-      a.getFullYear() === b.getFullYear() &&
-      a.getMonth() === b.getMonth() &&
-      a.getDate() === b.getDate()
-    );
-  };
-
-  const onDateChanged = newDate => {
-    let prevDate = date.currentDate;
-    setDate({prevDate, currentDate: newDate});
-  };
-
-  const onMonthChanged = newMonth => {
-    let tmpFromDate = moment(newMonth.dateString)
-      .startOf('month')
-      .format(formatDate);
-    let tmpEndDate = moment(newMonth.dateString)
-      .endOf('month')
-      .format(formatDate);
-
-    setForm({
-      ...form,
-      fromDate: tmpFromDate,
-      toDate: tmpEndDate,
-    });
-    handleChangeResource(
-      choosedReSrc,
-      '',
-      tmpFromDate,
-      tmpEndDate,
-    );
-    return onDone({...loading, startFetch: true});
   };
 
   /****************
@@ -363,19 +353,14 @@ function Bookings(props) {
     if (resourcesMaster.length > 0) {
       let i,
         objResource = {},
-        tmpDataResources = [],
-        tmpDataResourcesID = resourcesMaster.map(item => item.resourceID);
+        tmpDataResources = [];
       for (i = 0; i < resourcesMaster.length; i++) {
         objResource = {};
         objResource.value = resourcesMaster[i].resourceID;
         objResource.label = resourcesMaster[i].resourceName;
         tmpDataResources.push(objResource);
       }
-      setForm({
-        ...form,
-        resourcesORG: tmpDataResources,
-        resources: tmpDataResourcesID,
-      });
+      setForm({...form, resourcesORG: tmpDataResources});
     }
 
     onFetchData();
@@ -391,12 +376,7 @@ function Bookings(props) {
         }
 
         if (bookingState.get('successList')) {
-          if (choosedReSrc) {
-            let dataBookings = bookingState.get('bookings');
-            return onPrepareCalendarData(dataBookings);
-          } else {
-            return onPrepareData(type);
-          }
+          return onPrepareData(type);
         }
 
         if (bookingState.get('errorList')) {
@@ -413,17 +393,34 @@ function Bookings(props) {
     bookingState.get('errorList'),
   ]);
 
+  useEffect(() => {
+    if (loading.main && !loading.startFetch) {
+      if (prevData && prevData != dataList) {
+        if (typeShow === Commons.TYPE_SHOW_BOOKING.CALENDAR.value) {
+          onPrepareCalendarData(dataList);
+        }
+      }
+    }
+  }, [loading, typeShow, prevData, dataList]);
+
+  useEffect(() => {
+    if (loading.changeType) {
+      if (prevType && prevType !== typeShow) {
+        onFetchData(form.fromDate, form.toDate, 1, form.search);
+        return onDone({...loading, startFetch: true, main: true});
+      }
+    }
+  }, [loading.changeType, prevType, typeShow, dataList]);
+
   /************
    ** RENDER **
    ************/
   return (
     <CContainer
       safeArea={['top', 'bottom']}
-      loading={loading.main}
       headerComponent={
         <CTopNavigation
-          loading={loading.startFetch}
-          title={'bookings:title'}
+          title="my_bookings:title"
           back
           searchFilter
           onSearch={handleSearch}
@@ -441,66 +438,89 @@ function Bookings(props) {
           }
         />
       }>
-      {!loading.main && !loading.startFetch && !choosedReSrc && (
-        <BookingList
-          navigation={navigation}
-          refreshing={loading.refreshing}
-          loadmore={loading.loadmore}
-          isMyBooking={false}
-          data={dataList}
-          onRefresh={onRefresh}
-          onLoadmore={onLoadmore}
-          onPressResource={handleChangeResource}
-        />
-      )}
-      {!loading.main && !loading.startFetch && choosedReSrc && (
-        <CalendarProvider
-          date={date.currentDate}
-          showTodayButton
-          onDateChanged={onDateChanged}
-          onMonthChange={onMonthChanged}>
-          <ExpandableCalendar
-            style={[cStyles.borderBottom, {borderBottomColor: theme['border-basic-color-3']}]}
-            displayLoadingIndicator={
-              loading.changeType || loading.startFetch
-            }
-            disableAllTouchEventsForDisabledDays
-            allowShadow={false}
-            firstDay={1}
-            markingType={'multi-dot'}
-            markedDates={marked}
-            monthFormat={MONTH_FORMAT}
-            enableSwipeMonths={false}
-            theme={{
-              ...THEME_CALENDAR,
-              arrowColor: theme['text-hint-color'],
-              calendarBackground: theme['background-basic-color-1'],
-              textDayStyle: {color: theme['text-basic-color']},
-              monthTextColor: theme['text-basic-color'],
-              selectedDayBackgroundColor: theme['color-primary-500']
-            }}
+      <Layout
+        style={[
+          cStyles.row,
+          cStyles.itemsCenter,
+        ]}>
+        <View style={styles.left} />
+        <View style={styles.right}>
+          <GroupTypeShow
+            type={typeShow}
+            onChange={handleChangeType}
           />
-          <Timeline
-            styles={{
-              contentStyle: {
-                backgroundColor: theme['background-basic-color-3'],
-              },
-              line: {
-                backgroundColor: theme['outline-color'],
-              },
-            }}
-            format24h
-            eventTapped={handleBookingItem}
-            events={dataCalendar.filter(event =>
-              sameDate(new XDate(event.start), new XDate(date.currentDate)),
-            )}
+        </View>
+      </Layout>
+      {!loading.main &&
+        typeShow === Commons.TYPE_SHOW_BOOKING.CALENDAR.value && (
+          <CalendarProvider
+            date={date.currentDate}
+            showTodayButton
+            onDateChanged={onDateChanged}
+            onMonthChange={onMonthChanged}>
+            <ExpandableCalendar
+              style={[cStyles.borderBottom, {borderBottomColor: theme['border-basic-color-3']}]}
+              displayLoadingIndicator={
+                loading.changeType || loading.startFetch
+              }
+              disableAllTouchEventsForDisabledDays
+              firstDay={1}
+              allowShadow={false}
+              markingType={'multi-dot'}
+              markedDates={marked}
+              monthFormat={MONTH_FORMAT}
+              enableSwipeMonths={false}
+              theme={{
+                ...THEME_CALENDAR,
+                arrowColor: theme['text-hint-color'],
+                calendarBackground: theme['background-basic-color-1'],
+                textDayStyle: {color: theme['text-basic-color']},
+                monthTextColor: theme['text-basic-color'],
+                selectedDayBackgroundColor: theme['color-primary-500'],
+              }}
+            />
+            <Timeline
+              styles={{
+                contentStyle: {
+                  backgroundColor: theme['background-basic-color-3'],
+                },
+                line: {
+                  backgroundColor: theme['outline-color'],
+                },
+              }}
+              format24h
+              scrollToFirst
+              eventTapped={handleBookingItem}
+              events={dataCalendar.filter(event =>
+                sameDate(new XDate(event.start), new XDate(date.currentDate)),
+              )}
+            />
+          </CalendarProvider>
+        )}
+
+      {!loading.main &&
+        !loading.startFetch &&
+        typeShow === Commons.TYPE_SHOW_BOOKING.LIST.value && (
+          <BookingList
+            navigation={navigation}
+            refreshing={loading.refreshing}
+            loadmore={loading.loadmore}
+            isMyBooking
+            data={dataList}
+            onRefresh={onRefresh}
+            onLoadmore={onLoadmore}
           />
-        </CalendarProvider>
-      )}
+        )}
+
       <CButtonAdd show={isPermissionWrite} onPress={handleAddNew} />
       <CLoading show={loading.main || loading.startFetch} />
     </CContainer>
   );
 }
 
-export default Bookings;
+const styles = StyleSheet.create({
+  left: {flex: 0.7},
+  right: {flex: 0.3},
+});
+
+export default MyBookings;

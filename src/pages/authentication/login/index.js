@@ -8,10 +8,8 @@ import React, {useRef, useState, useEffect, useContext} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {usePrevious} from '~/utils/hook';
-import {useTheme, Layout, CheckBox} from '@ui-kitten/components';
-import {
-  View, TouchableWithoutFeedback, StatusBar, ScrollView, StyleSheet,
-} from 'react-native';
+import {useTheme, Layout, CheckBox, Button} from '@ui-kitten/components';
+import {View, StatusBar, ScrollView, TouchableOpacity} from 'react-native';
 import {showMessage} from 'react-native-flash-message';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
@@ -25,11 +23,12 @@ import {ThemeContext} from '~/configs/theme-context';
 import {AST_LANGUAGE, AST_LOGIN} from '~/configs/constants';
 import {cStyles} from '~/utils/style';
 import {
-  getLocalInfo, getSecretInfo, IS_ANDROID, moderateScale,
-  removeSecretInfo, resetRoute, saveSecretInfo,
+  getLocalInfo, getSecretInfo, IS_ANDROID, removeSecretInfo,
+  resetRoute, saveSecretInfo,
 } from '~/utils/helper';
 /* REDUX */
 import * as Actions from '~/redux/actions';
+import CLoading from '~/components/CLoading';
 
 /** All init */
 const INPUT_NAME = {
@@ -71,7 +70,6 @@ function Login(props) {
   };
 
   const handleGoForgotPassword = () => {
-    console.log('[LOG] ===  ===> Go to forgot password');
     navigation.navigate(Routes.FORGOT_PASSWORD.name);
   };
 
@@ -262,18 +260,16 @@ function Login(props) {
                   onChange={handleSaveAccount}>
                   {t('sign_in:save_account')}
                 </CheckBox>
-
-                <TouchableWithoutFeedback
+                <Button
                   disabled={loading.main || loading.submit}
+                  appearance="ghost"
                   onPress={handleGoForgotPassword}>
-                  <CText
-                    style={cStyles.textUnderline}
-                    status={
-                      loading.main || loading.submit ? 'basic' : 'primary'
-                    }>
-                    {t('sign_in:forgot_password')}
-                  </CText>
-                </TouchableWithoutFeedback>
+                  {propsB =>
+                    <CText style={cStyles.textUnderline} status="primary">
+                      {t('sign_in:forgot_password')}
+                    </CText>
+                  }
+                </Button>
               </View>
             }
             disabledButton={loading.main || loading.submit}
@@ -282,12 +278,9 @@ function Login(props) {
           />
         </Layout>
       </ScrollView>
+      <CLoading show={loading.submit} />
     </CContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  img_biometrics: {height: moderateScale(80), width: moderateScale(50)},
-});
 
 export default Login;

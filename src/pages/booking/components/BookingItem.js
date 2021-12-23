@@ -50,6 +50,7 @@ function BookingItem(props) {
   }
   return (
     <Card
+      onPress={handleItem}
       header={propsH =>
         <View
           style={[
@@ -61,7 +62,7 @@ function BookingItem(props) {
             cStyles.py10,
           ]}>
           <View style={styles.con_left}>
-            <CText category="label">{`${data.bookID} | ${data.purpose}`}</CText>
+            <CText category="s1">{`${data.bookID} | ${data.purpose}`}</CText>
             <CText category="c1" appearance="hint">{
               moment(
                 data.crtdDate,
@@ -86,7 +87,7 @@ function BookingItem(props) {
             {trans('bookings:start_time')}
           </CText>
         </View>
-        {data.lstUserJoined.length > 0 && (
+        {isMyBooking && data.lstUserJoined.length > 0 && (
           <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyEnd]}>
             {data.lstUserJoined.map((itemU, indexU) => {
               if (indexU === 3) return (
@@ -99,8 +100,25 @@ function BookingItem(props) {
             })}
           </View>
         )}
+        {!isMyBooking && (
+          <View style={cStyles.itemsEnd}>
+            <View style={[cStyles.row, cStyles.itemsCenter]}>
+              <CText style={cStyles.mr10}>{data.ownerName}</CText>
+              <Avatar size="tiny" source={Assets.iconUser} />
+            </View>
+            <CText category="c1" appearance="hint" style={cStyles.mt5}>
+              {trans('bookings:owner')}
+            </CText>
+          </View>
+        )}
       </View>
-      <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween]}>
+      <View
+        style={[
+          cStyles.row,
+          cStyles.itemsCenter,
+          cStyles.justifyBetween,
+          isMyBooking && cStyles.mt10,
+        ]}>
         <View>
           <CText>{data.strEndDateTime}</CText>
           <CText category="c1" appearance="hint">
@@ -110,7 +128,7 @@ function BookingItem(props) {
         {!isMyBooking && (
           <View style={cStyles.itemsEnd}>
             <Button appearance="ghost" size="tiny" onPress={handleResource}>
-              {propsB => <CText style={cStyles.textUnderline}>{data.resourceName}</CText>}
+              {propsB => <CText style={cStyles.textUnderline} status="primary">{data.resourceName}</CText>}
             </Button>
             <CText category="c1" appearance="hint">
               {trans('bookings:resource')}
@@ -119,7 +137,7 @@ function BookingItem(props) {
         )}
         {isMyBooking && (
           <View style={cStyles.itemsEnd}>
-            <CText style={cStyles.textUnderline}>{data.resourceName}</CText>
+            <CText>{data.resourceName}</CText>
             <CText category="c1" appearance="hint">
               {trans('bookings:resource')}
             </CText>
@@ -133,6 +151,7 @@ function BookingItem(props) {
 const styles = StyleSheet.create({
   con_left: {flex: 0.7},
   con_right: {flex: 0.3},
+  con_num_user: {height: 24, width: 24},
 });
 
 BookingItem.propTypes = {

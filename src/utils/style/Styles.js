@@ -526,7 +526,7 @@ const text = {
     lineHeight: moderateScale(15),
   },
 
-  fontBold: {fontWeight: '700'},
+  fontBold: {fontWeight: 'bold'},
   fontMedium: {fontWeight: '600'},
   fontRegular: {fontWeight: '400'},
   fontLight: {fontWeight: '300'},

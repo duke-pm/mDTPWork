@@ -62,7 +62,7 @@ function CText(props) {
     lineHeight = 17;
   } else if (category === 'c2') {
     lineHeight = 15;
-  } else if (category === 'label') {
+  } else if (category === "s1") {
     lineHeight = 20;
   }
 

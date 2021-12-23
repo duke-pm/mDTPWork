@@ -28,6 +28,10 @@ import {DEFAULT_FORMAT_DATE_1} from '~/configs/constants';
 const minDate = '2010-01-01';
 const maxDate = '2030-12-31';
 
+const RenderCheckIcon = props => (
+  <Icon {...props} name="done-all-outline" />
+);
+
 function Filter(props) {
   const {t} = useTranslation();
   const theme = useTheme();
@@ -127,18 +131,17 @@ function Filter(props) {
       setData(tmp);
     }
   }, [props.data]);
-  console.log('[LOG] === resourcesMaster ===> ', dataResources);
+  
   /************
    ** RENDER **
    ************/
   return (
     <View style={[cStyles.pb20, {width: sW('80%')}]}>
-      <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween, cStyles.pb10]}>
-        <CText category="label" status="control">{t('common:filter').toUpperCase()}</CText>
+      <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween, cStyles.pb5]}>
+        <CText category="s1">{t('common:filter').toUpperCase()}</CText>
         <Button
           appearance="ghost"
-          accessoryLeft={propsI =>
-            CIcon(propsI, 'eva', 'checkmark', theme['text-control-color'])}
+          accessoryLeft={RenderCheckIcon}
           onPress={handleFilter}
         />
       </View>

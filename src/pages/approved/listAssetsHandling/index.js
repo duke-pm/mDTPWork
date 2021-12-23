@@ -34,6 +34,7 @@ function ListRequestHandling(props) {
   const dispatch = useDispatch();
   const commonState = useSelector(({common}) => common);
   const approvedState = useSelector(({approved}) => approved);
+  const masterState = useSelector(({masterData}) => masterData);
   const authState = useSelector(({auth}) => auth);
   const perPage = commonState.get('perPage');
   const formatDate = commonState.get('formatDate');
@@ -81,10 +82,10 @@ function ListRequestHandling(props) {
   const onDone = curLoading => setLoading(curLoading);
 
   const onFetchData = (
-    fromDate = null,
-    toDate = null,
-    pageNum = 1,
-    search = '',
+    fromDate = data.fromDate,
+    toDate = data.toDate,
+    pageNum = data.page,
+    search = data.search,
     requestTypeID = '1,2,3',
   ) => {
     let params = fromJS({
@@ -99,6 +100,15 @@ function ListRequestHandling(props) {
       Lang: language,
     });
     return dispatch(Actions.fetchListRequestApproved(params, navigation));
+  };
+
+  const onPrepareMasterData = () => {
+    let params = {
+      listType: 'Department, Region',
+      RefreshToken: refreshToken,
+      Lang: language,
+    };
+    dispatch(Actions.fetchMasterData(params, navigation));
   };
 
   const onPrepareData = type => {
@@ -176,12 +186,22 @@ function ListRequestHandling(props) {
    ** LIFE CYCLE **
    ****************/
   useEffect(() => {
-    onFetchData(data.fromDate, data.toDate, data.page, data.search, data.type);
-    return setLoading({...loading, startFetch: true});
+    onPrepareMasterData();
   }, []);
 
   useEffect(() => {
-    if (loading.startFetch || loading.refreshing || loading.loadmore) {
+    if (loading.main) {
+      if (!masterState.get('submitting')) {
+        onFetchData();
+      }
+    }
+  }, [
+    loading.main,
+    masterState.get('submitting'),
+  ]);
+
+  useEffect(() => {
+    if (loading.main || loading.startFetch || loading.refreshing || loading.loadmore) {
       if (!approvedState.get('submittingList')) {
         let type = REFRESH;
         if (loading.loadmore) {

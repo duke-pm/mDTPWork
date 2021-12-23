@@ -67,7 +67,7 @@ function CItem(props) {
             </LinearGradient>
           </View>
 
-          <CText customLabel='label'>{data.menuName}</CText>
+          <CText customLabel="s1">{data.menuName}</CText>
         </View>
       )}
     </Button>

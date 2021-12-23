@@ -4,7 +4,7 @@
  ** CreateAt: 2021
  ** Description: Description of Account.js
  **/
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTheme} from '@ui-kitten/components';
 import {
@@ -22,18 +22,20 @@ import CLoading from '~/components/CLoading';
 import Routes from '~/navigator/Routes';
 import {Assets} from '~/utils/asset';
 import {cStyles} from '~/utils/style';
-import {AST_LOGIN} from '~/configs/constants';
+import {AST_LOGIN, LIGHT} from '~/configs/constants';
 import {
   IS_ANDROID,
   moderateScale,
   removeSecretInfo,
   resetRoute,
 } from '~/utils/helper';
+import {ThemeContext} from '~/configs/theme-context';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 
 function Account(props) {
   const theme = useTheme();
+  const themeContext = useContext(ThemeContext);
   const {navigation} = props;
 
   /** Use redux */
@@ -199,13 +201,15 @@ function Account(props) {
   }, []);
 
   useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      StatusBar.setBarStyle('light-content', true);
-      IS_ANDROID &&
-        StatusBar.setBackgroundColor(theme['color-primary-400'], true);
-    });
-    return unsubscribe;
-  }, [navigation]);
+    if (themeContext.themeApp === LIGHT) {
+      const unsubscribe = navigation.addListener('focus', () => {
+        StatusBar.setBarStyle('dark-content', true);
+        IS_ANDROID &&
+          StatusBar.setBackgroundColor('white', true);
+      });
+      return unsubscribe;
+    }
+  }, [themeContext.themeApp, navigation]);
 
   useEffect(() => {
     if (!alertLogout.status) {

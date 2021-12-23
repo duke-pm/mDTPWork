@@ -86,7 +86,7 @@ function CGroupFilter(props) {
    ************/
   return (
     <View style={[cStyles.mt16, containerStyle]}>
-      <CText category="label" appearance="hint">{t(label)}</CText>
+      <CText category="s1" appearance="hint">{t(label)}</CText>
 
       <FlatList
         style={cStyles.mt6}

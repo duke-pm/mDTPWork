@@ -191,7 +191,7 @@ function ForgotPassword(props) {
                 {`${t('forgot_password:success_content_1')}`}
               </CText>
 
-              <CText style={cStyles.mt5} category="label">
+              <CText style={cStyles.mt5} category="s1">
                 {values.email}
               </CText>
 
@@ -229,7 +229,7 @@ function ForgotPassword(props) {
                 {`${t('forgot_password:error_content_1')}`}
               </CText>
 
-              <CText style={cStyles.mt5} category="label">
+              <CText style={cStyles.mt5} category="s1">
                 {values.email}
               </CText>
 

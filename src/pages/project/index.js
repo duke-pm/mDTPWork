@@ -74,7 +74,7 @@ function ProjectManagement(props) {
       safeArea={['top']}
       headerComponent={
         <CTopNavigation
-          title="project_management:title"
+          title="project_management:main_title"
           back
         />
       }>

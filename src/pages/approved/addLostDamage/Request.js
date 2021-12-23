@@ -638,12 +638,12 @@ function AddRequest(props) {
       <KeyboardAwareScrollView contentContainerStyle={[cStyles.px16, cStyles.py10]}>
         <Card disabled
           status="primary"
-          header={<CText category="label">{t('add_approved_lost_damaged:request_user')}</CText>}>
+          header={<CText category="s1">{t('add_approved_lost_damaged:request_user')}</CText>}>
           <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween]}>
             <View style={[cStyles.row, cStyles.itemsCenter]}>
               <Avatar size="small" source={Assets.iconUser} />
               <View style={cStyles.ml10}>
-                <CText category="label">{form.name}</CText>
+                <CText category="s1">{form.name}</CText>
                 <CText category="c1" appearance="hint">{userDepartment ? userDepartment.deptName : ''}</CText>
               </View>
             </View>
@@ -658,9 +658,9 @@ function AddRequest(props) {
         {(isDetail || requestDetail) && (
           <Card disabled
             style={cStyles.mt10}
-            header={<CText category="label">{t('add_approved_lost_damaged:request_asset')}</CText>}>
+            header={<CText category="s1">{t('add_approved_lost_damaged:request_asset')}</CText>}>
             <View>
-              <CText category="label">{isDetail
+              <CText category="s1">{isDetail
                 ? route.params?.data?.assetName
                 : requestDetail.assetName}
               </CText>
@@ -727,7 +727,7 @@ function AddRequest(props) {
         )}
         <Card disabled
           style={cStyles.mt10}
-          header={<CText category="label">{t('add_approved_lost_damaged:request_info')}</CText>}>
+          header={<CText category="s1">{t('add_approved_lost_damaged:request_info')}</CText>}>
           <CForm
             ref={formRef}
             loading={
@@ -794,7 +794,7 @@ function AddRequest(props) {
                 value: form.typeUpdate,
                 values: DATA_TYPE,
                 keyToCompare: 'value',
-                keyToShow: 'label',
+                keyToShow: "s1",
                 disabled: isDetail,
                 required: false,
                 password: false,

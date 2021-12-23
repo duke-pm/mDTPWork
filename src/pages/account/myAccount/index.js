@@ -139,7 +139,7 @@ function MyAccount(props) {
         <Card
           disabled
           header={
-            <CText category="label">{t('my_account:info_basic')}</CText>
+            <CText category="s1">{t('my_account:info_basic')}</CText>
           }>
           <CForm
             ref={formRef}

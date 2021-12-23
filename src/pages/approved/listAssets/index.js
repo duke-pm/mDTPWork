@@ -136,9 +136,7 @@ function ListRequestAll(props) {
   /****************
    ** LIFE CYCLE **
    ****************/
-  useEffect(() => {
-    onPrepareData();
-  }, []);
+  useEffect(() => onPrepareData(), []);
 
   /************
    ** RENDER **

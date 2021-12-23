@@ -34,7 +34,7 @@ function CAlert(props) {
     message = '',
     customMessage = null,
     textOk = 'common:ok',
-    textCancel = 'common:cancel',
+    textCancel = 'common:close',
     statusOk = undefined,
     onBackdrop = () => null,
     onOk = undefined,

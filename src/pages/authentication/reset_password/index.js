@@ -119,7 +119,6 @@ function ResetPassword(props) {
    ****************/
   useEffect(async () => {
     dispatch(Actions.resetCheckTokenPassword());
-    await saveLocalInfo({key: AST_BIOMETRICS, value: '0'});
     onCheckTokenExpired();
   }, []);
 

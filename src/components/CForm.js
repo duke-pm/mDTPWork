@@ -150,9 +150,13 @@ const CForm = forwardRef((props, ref) => {
     ],
     customAddingForm = null,
     disabledButton = false,
+    statusButton2 = 'primary',
     labelButton = '',
+    labelButton2 = undefined,
     typeButton = 'filled',
+    typeButton2 = 'filled',
     onSubmit = () => {},
+    onSubmit2 = undefined,
   } = props;
 
   /** Use state */
@@ -180,9 +184,10 @@ const CForm = forwardRef((props, ref) => {
     }
   };
 
-  const handleSelectedIndex = (idxInput, newIndex) => {
+  const handleSelectedIndex = (idxInput, newIndex, isChooseTime) => {
     let tmpValues = [...values];
-    tmpValues[idxInput].value = newIndex - 1;
+    if (!isChooseTime) tmpValues[idxInput].value = newIndex - 1;
+    else tmpValues[idxInput].value.time = newIndex - 1;
     setValues(tmpValues);
   };
 
@@ -198,9 +203,10 @@ const CForm = forwardRef((props, ref) => {
     setValues(tmpValues);
   };
 
-  const handleChangeDatePicker = (idxInput, newDate) => {
+  const handleChangeDatePicker = (idxInput, newDate, isChooseTime) => {
     let tmpValues = [...values];
-    tmpValues[idxInput].value = newDate;
+    if (!isChooseTime) tmpValues[idxInput].value = newDate;
+    else tmpValues[idxInput].value.date = newDate;
     setValues(tmpValues);
   };
 
@@ -240,6 +246,26 @@ const CForm = forwardRef((props, ref) => {
           tmpErrors[i].helper = t('error:empty_length');
         } else if (
           values[i].value !== '' &&
+          tmpErrors[i].type === 'required'
+        ) {
+          tmpIsError = false;
+          tmpErrors[i].status = false;
+          tmpErrors[i].type = '';
+          tmpErrors[i].helper = '';
+        } else if (tmpErrors[i].status) {
+          tmpIsError = true;
+        }
+      }
+      if (values[i].required
+        && values[i].type === 'datePicker'
+        && typeof values[i].value === 'object') {
+        if (values[i].value.time === '') {
+          tmpIsError = true;
+          tmpErrors[i].status = true;
+          tmpErrors[i].type = 'required';
+          tmpErrors[i].helper = t('error:empty_length');
+        } else if (
+          values[i].value.time !== '' &&
           tmpErrors[i].type === 'required'
         ) {
           tmpIsError = false;
@@ -320,6 +346,7 @@ const CForm = forwardRef((props, ref) => {
       }
     }
     if (!tmpIsError) {
+      setErrors(tmpErrors);
       return onSubmit(values);
     } else {
       return setErrors(tmpErrors);
@@ -336,13 +363,21 @@ const CForm = forwardRef((props, ref) => {
         tmpValues = [];
       let tmpError = {},
         tmpErrors = [];
+
       for (tmpInput of inputs) {
         let tmpInputRef = createRef();
           tmpValue = {};
           tmpError = {};
         let fValue = -1;
-        if (tmpInput.values) {
-          fValue = tmpInput.values.findIndex(f => f[tmpInput.keyToCompare] === tmpInput.value);
+        if (tmpInput.values && tmpInput.type !== 'datePicker') {
+          fValue = tmpInput.values.findIndex(f =>
+            f[tmpInput.keyToCompare] === tmpInput.value
+          );
+        }
+        if (tmpInput.values && tmpInput.type === 'datePicker' && tmpInput.chooseTime) {
+          fValue = tmpInput.values.findIndex(f =>
+            f[tmpInput.keyToCompare] === tmpInput.valueTime
+          );
         }
         
         tmpValue = {
@@ -356,6 +391,10 @@ const CForm = forwardRef((props, ref) => {
           validateHelper: tmpInput.validate ? tmpInput.validate.helper : '',
           secureTextEntry: tmpInput.password,
         };
+        if (tmpInput.type === 'datePicker' && tmpInput.chooseTime) {
+          tmpValue.value = {date: tmpValue.value, time: tmpInput.timeValue};
+        }
+
         tmpError = {
           status: false,
           type: tmpInput.required
@@ -414,7 +453,12 @@ const CForm = forwardRef((props, ref) => {
               nativeID={item.id}
               disabled={loading || item.disabled}
               value={values[index].value}
-              label={t(item.label)}
+              label={propsL => (
+                <View style={[propsL.style, cStyles.row, cStyles.itemsStart]}>
+                  <CText {...propsL}>{t(item.label)}</CText>
+                  {item.required && <CText status="danger">{' *'}</CText>}
+                </View>
+              )}
               placeholder={t(item.holder)}
               keyboardAppearance={themeContext.themeApp}
               keyboardType={kbType}
@@ -446,7 +490,12 @@ const CForm = forwardRef((props, ref) => {
           return (
             <Select
               style={[cStyles.mt16, item.style]}
-              label={t(item.label)}
+              label={propsL => (
+                <View style={[propsL.style, cStyles.row, cStyles.itemsStart]}>
+                  <CText {...propsL}>{t(item.label)}</CText>
+                  {item.required && <CText status="danger">{' *'}</CText>}
+                </View>
+              )}
               status={errors && errors[index].status ? 'danger' : 'basic'}
               caption={
                 errors && errors[index] && errors[index].status
@@ -496,7 +545,7 @@ const CForm = forwardRef((props, ref) => {
             <View style={[cStyles.mt16, item.style]}>
               <CText
                 style={{color: theme['color-basic-600']}}
-                category={'label'}>
+                category={"s1"}>
                 {t(item.label)}
               </CText>
               <RadioGroup
@@ -518,24 +567,78 @@ const CForm = forwardRef((props, ref) => {
         }
         if (item.type === 'datePicker') {
           return (
-            <View style={[cStyles.mt16, item.style]}>
+            <View
+              style={[
+                cStyles.mt16,
+                item.chooseTime && cStyles.row,
+                item.chooseTime && cStyles.itemsCenter,
+                item.chooseTime && cStyles.justifyBetween,
+                item.style,
+              ]}>
+              <View style={{flex: 0.55}}>
               <Datepicker
                 dateService={new MomentDateService('vi')}
-                label={t(item.label)}
+                label={propsL => (
+                  <View style={[propsL.style, cStyles.row, cStyles.itemsStart]}>
+                    <CText {...propsL}>{t(item.label)}</CText>
+                    {item.required && <CText status="danger">{' *'}</CText>}
+                  </View>
+                )}
                 placeholder={t(item.holder)}
-                status={errors && errors[index].status ? 'danger' : 'basic'}
-                caption={
-                  errors && errors[index].status
+                status={!item.chooseTime
+                  ? errors && errors[index].status ? 'danger' : 'basic'
+                  : 'basic'}
+                caption={!item.chooseTime
+                  ?  errors && errors[index].status
                     ? errors[index].helper
                     : undefined
-                }
+                  : undefined}
                 disabled={loading || item.disabled}
-                date={moment(values[index].value)}
-                min={moment('2010-01-01')}
-                max={moment('2030-12-31')}
-                onSelect={newDate => handleChangeDatePicker(index, newDate)}
+                date={!item.chooseTime
+                  ? moment(values[index].value)
+                  : moment(values[index].value.date)
+                }
+                min={item.min || moment('2010-01-01')}
+                max={item.max || moment('2030-12-31')}
+                onSelect={newDate => handleChangeDatePicker(index, newDate, item.chooseTime)}
                 accessoryRight={RenderCalendarIcon}
               />
+              </View>
+              {item.chooseTime && (
+                <View style={{flex: 0.4}}>
+                  <Select
+                    label={propsL => (
+                      <View style={[propsL.style, cStyles.row, cStyles.itemsStart]}>
+                        <CText {...propsL}>{t(item.timeLabel)}</CText>
+                        {item.required && <CText status="danger">{' *'}</CText>}
+                      </View>
+                    )}
+                    caption={item.chooseTime
+                      ?  errors && errors[index].status
+                        ? errors[index].helper
+                        : undefined
+                      : undefined}
+                    status={errors && errors[index].status ? 'danger' : 'basic'}
+                    placeholder="Select one of below..."
+                    disabled={loading || item.disabled}
+                    value={(item.values &&
+                      values[index].value.time > -1 &&
+                      item.values[values[index].value.time])
+                      ? item.values[values[index].value.time][item.keyToShow]
+                      : '-'}
+                    selectedIndex={new IndexPath(values[index].value.time)}
+                    onSelect={idxSelect => handleSelectedIndex(index, idxSelect, item.chooseTime)}>
+                    {item.values && item.values.map((itemSelect, indexSelect) => {
+                      return (
+                        <SelectItem
+                          key={itemSelect[item.keyToShow] + indexSelect}
+                          title={itemSelect[item.keyToShow]}
+                        />
+                      );
+                    })}
+                  </Select>
+                </View>
+              )}
             </View>
           );
         }
@@ -545,16 +648,36 @@ const CForm = forwardRef((props, ref) => {
       {/** Custom adding for form */}
       {customAddingForm}
 
-      {/** Button */}
-      {labelButton !== '' && (
+      {/** Buttons */}
+      {labelButton !== '' && !labelButton2 && (
         <Button
           style={cStyles.mt24}
           appearance={typeButton}
-          accessoryLeft={loading && RenderLoadingIndicator}
+          // accessoryLeft={loading && RenderLoadingIndicator}
           disabled={disabledButton}
           onPress={onCheckValidate}>
           {t(labelButton)}
         </Button>
+      )}
+      {labelButton !== '' && labelButton2 && (
+        <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween, cStyles.mt24]}>
+          <Button
+            style={{flex: 0.45}}
+            appearance={typeButton2}
+            status={statusButton2}
+            disabled={disabledButton}
+            onPress={onSubmit2}>
+            {t(labelButton2)}
+          </Button>
+          <Button
+            style={{flex: 0.45}}
+            appearance={typeButton}
+            // accessoryLeft={loading && RenderLoadingIndicator}
+            disabled={disabledButton}
+            onPress={onCheckValidate}>
+            {t(labelButton)}
+          </Button>
+        </View>
       )}
     </View>
   );
@@ -568,8 +691,11 @@ CForm.propTypes = {
   customAddingForm: PropTypes.any,
   disabledButton: PropTypes.bool,
   labelButton: PropTypes.string,
+  labelButton2: PropTypes.string,
   typeButton: PropTypes.oneOf(['filled', 'outline', 'ghost']),
+  typeButton2: PropTypes.oneOf(['filled', 'outline', 'ghost']),
   onSubmit: PropTypes.func.isRequired,
+  onSubmit2: PropTypes.func,
 };
 
 export default CForm;

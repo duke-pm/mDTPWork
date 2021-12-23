@@ -55,7 +55,7 @@ function RequestProcess(props) {
         styles={'textHeadline textCenter pb16'}
         label={'add_approved_assets:table_process'}
       />
-      <CText style={[cStyles.textCenter, cStyles.pb16]} category="label">
+      <CText style={[cStyles.textCenter, cStyles.pb16]} category="s1">
         {t('add_approved_assets:table_process')}
       </CText>
       {loading && (
@@ -160,7 +160,7 @@ function RequestProcess(props) {
                   <CText
                     style={[isReject && !item.approveDate && cStyles.textThrough]}
                     category={
-                      item.approveDate ? "label" : "p1"
+                      item.approveDate ? "s1" : "p1"
                     }>
                     {item.personApproveName}
                   </CText>

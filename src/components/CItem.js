@@ -64,7 +64,7 @@ function CItem(props) {
             </LinearGradient>
           </View>
 
-          <CText style={cStyles.mt10} category='label'>{data.menuName}</CText>
+          <CText style={cStyles.mt10} category="s1">{data.menuName}</CText>
         </View>
       )}
     </Button>

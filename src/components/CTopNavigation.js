@@ -120,6 +120,7 @@ const RenderTopRight = (type, theme, iconStyle, t, onPress, onPress2, showFilter
     return (
       <View>
         <Tooltip
+          style={{backgroundColor: theme['background-basic-color-1']}}
           backdropStyle={styles.con_backdrop}
           visible={showFilter}
           anchor={() => RenderFilterIcon(theme, onPress2)}
@@ -129,8 +130,6 @@ const RenderTopRight = (type, theme, iconStyle, t, onPress, onPress2, showFilter
         <View
           style={[
             cStyles.abs,
-            cStyles.right0,
-            cStyles.top0,
             cStyles.rounded2,
             styles.con_alert_filter,
             {backgroundColor: theme[initColorDanger]}]}
@@ -150,6 +149,7 @@ const RenderTopRight = (type, theme, iconStyle, t, onPress, onPress2, showFilter
         </TouchableOpacity>
         <View>
           <Tooltip
+            style={{backgroundColor: theme['background-basic-color-1']}}
             backdropStyle={styles.con_backdrop}
             visible={showFilter}
             anchor={() => RenderFilterIcon(theme, onPress2)}
@@ -159,8 +159,6 @@ const RenderTopRight = (type, theme, iconStyle, t, onPress, onPress2, showFilter
           <View
             style={[
               cStyles.abs,
-              cStyles.right0,
-              cStyles.top0,
               cStyles.rounded2,
               styles.con_alert_filter,
               {backgroundColor: theme[initColorDanger]}]}
@@ -406,7 +404,7 @@ const styles = StyleSheet.create({
   con_alert_filter: {
     height: moderateScale(10),
     width: moderateScale(10),
-    top: moderateScale(5),
+    top: moderateScale(10),
     right: moderateScale(5),
   },
   con_backdrop: {

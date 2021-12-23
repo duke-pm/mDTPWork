@@ -35,6 +35,7 @@ function BookingList(props) {
    *****************/
   const handleBookingItem = index => {
     navigation.navigate(Routes.ADD_BOOKING.name, {
+      type: 'UPDATE',
       data: data[index],
       onRefresh: () => onRefresh(),
     });

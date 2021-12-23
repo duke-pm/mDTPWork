@@ -13,6 +13,9 @@ export default {
   listProject: params => {
     return new Promise((resolve, reject) => {
       let tmpConfigs = {params: {}};
+      if (params.get('ProjectID')) {
+        tmpConfigs.params.PrjParentID = params.get('ProjectID');
+      }
       if (params.get('StatusID')) {
         tmpConfigs.params.StatusID = params.get('StatusID');
       }
@@ -60,6 +63,9 @@ export default {
   listTask: params => {
     return new Promise((resolve, reject) => {
       let tmpConfigs = {params: {}};
+      if (params.get('TaskParentID')) {
+        tmpConfigs.params.TaskParentID = params.get('TaskParentID');
+      }
       if (params.get('PrjID')) {
         tmpConfigs.params.PrjID = params.get('PrjID');
       }

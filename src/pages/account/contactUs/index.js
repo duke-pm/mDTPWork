@@ -48,7 +48,7 @@ function ContactUs(props) {
             <Card
               disabled
               header={
-                <CText category="label">{info.item.label}</CText>
+                <CText category="s1">{info.item.label}</CText>
               }
             >
               <View>

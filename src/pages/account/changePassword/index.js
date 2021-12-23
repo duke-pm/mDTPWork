@@ -159,7 +159,7 @@ function ChangePassword(props) {
           disabled
           header={
             <View>
-              <CText category='label'>{t('change_password:sub_title')}</CText>
+              <CText category="s1">{t('change_password:sub_title')}</CText>
               <CText style={cStyles.mt5} category='c1' appearance={'hint'}>
                 {t('change_password:warning_logout')}
               </CText>

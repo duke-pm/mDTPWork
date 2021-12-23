@@ -8,7 +8,9 @@
 import PropTypes from 'prop-types';
 import React, {useState, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
-import {useTheme, Datepicker, Button, Icon, Divider} from '@ui-kitten/components';
+import {
+  useTheme, Datepicker, Button, Icon, Divider, Layout,
+} from '@ui-kitten/components';
 import {MomentDateService} from '@ui-kitten/moment';
 import {View} from 'react-native';
 import {showMessage} from 'react-native-flash-message';
@@ -55,6 +57,10 @@ const STATUS_REQUEST = [
     label: 'approved_assets:status_reject',
   },
 ];
+
+const RenderCheckIcon = props => (
+  <Icon {...props} name="done-all-outline" />
+);
 
 function Filter(props) {
   const {t} = useTranslation();
@@ -148,13 +154,12 @@ function Filter(props) {
    ** RENDER **
    ************/
   return (
-    <View style={[cStyles.pb20, {width: sW('80%')}]}>
-      <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween, cStyles.pb10]}>
-        <CText category="label" status="control">{t('common:filter').toUpperCase()}</CText>
+    <Layout style={[cStyles.pb20, {width: sW('80%')}]}>
+      <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween, cStyles.pb5]}>
+        <CText category="s1">{t('common:filter').toUpperCase()}</CText>
         <Button
           appearance="ghost"
-          accessoryLeft={propsI =>
-            CIcon(propsI, 'eva', 'checkmark', theme['text-control-color'])}
+          accessoryLeft={RenderCheckIcon}
           onPress={handleFilter}
         />
       </View>
@@ -209,7 +214,7 @@ function Filter(props) {
           />
         )}
       </>
-    </View>
+    </Layout>
   );
 }
 

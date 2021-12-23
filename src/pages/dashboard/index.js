@@ -7,7 +7,7 @@
  **/
 import 'moment/locale/vi';
 import 'moment/locale/en-sg';
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {useTheme, Avatar, Layout, Spinner} from '@ui-kitten/components';
@@ -21,12 +21,14 @@ import CItem from '~/components/CItem';
 import Configs from '~/configs';
 import {Assets} from '~/utils/asset';
 import {cStyles} from '~/utils/style';
-import {DEFAULT_FORMAT_DATE_8} from '~/configs/constants';
+import {DEFAULT_FORMAT_DATE_8, LIGHT} from '~/configs/constants';
 import {IS_ANDROID} from '~/utils/helper';
+import {ThemeContext} from '~/configs/theme-context';
 
 function Dashboard(props) {
   const {t} = useTranslation();
   const theme = useTheme();
+  const themeContext = useContext(ThemeContext);
   const {navigation} = props;
 
   /** Use redux */
@@ -81,13 +83,15 @@ function Dashboard(props) {
   useEffect(() => setLoading(false), [routes]);
 
   useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      StatusBar.setBarStyle('dark-content', true);
-      IS_ANDROID &&
-        StatusBar.setBackgroundColor('white', true);
-    });
-    return unsubscribe;
-  }, [navigation]);
+    if (themeContext.themeApp === LIGHT) {
+      const unsubscribe = navigation.addListener('focus', () => {
+        StatusBar.setBarStyle('dark-content', true);
+        IS_ANDROID &&
+          StatusBar.setBackgroundColor('white', true);
+      });
+      return unsubscribe;
+    }
+  }, [themeContext.themeApp, navigation]);
 
   /************
    ** RENDER **

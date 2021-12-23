@@ -9,7 +9,6 @@ import {fromJS} from 'immutable';
 import React, {createRef, useEffect, useState, useRef} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-import {useTheme} from '@react-navigation/native';
 import {Avatar, Card, Icon, TopNavigationAction} from '@ui-kitten/components';
 import {View} from 'react-native';
 import {showMessage} from 'react-native-flash-message';
@@ -83,7 +82,6 @@ const RenderProcessIcon = props => (
 
 function AddRequest(props) {
   const {t} = useTranslation();
-  const {customColors} = useTheme();
   const {navigation, route} = props;
   let requestParam = route.params?.data || -1;
   if (requestParam === -1) {
@@ -154,35 +152,15 @@ function AddRequest(props) {
    *****************/
   const handleShowProcess = () => asProcessRef.current?.show();
 
-  const handleBack = () => resetRoute(navigation, Routes.ROOT_TAB.name);
+  const handleBack = () => resetRoute(navigation, Routes.TAB.name);
 
   const handleReject = () => setShowReject(!showReject);
 
   const toggleApproved = () => setShowConfirm(!showConfirm);
 
-  const handleChangeWhereUse = () => {
-    let department = null;
-    if (findWhereUse === '') {
-      let tmp = masterState.get('department');
-      department = tmp[whereUse];
-    } else {
-      if (dataWhereUse.length > 0) {
-        department = dataWhereUse[whereUse];
-      }
-    }
-    if (department) {
-      setForm({
-        ...form,
-        whereUse: department[Commons.SCHEMA_DROPDOWN.DEPARTMENT.value],
-      });
-    }
-  };
-
   /**********
    ** FUNC **
    **********/
-  const onChangeWhereUse = index => setWhereUse(index);
-
   const onSendRequest = () => setLoading({...loading, submitAdd: true});
 
   const onGoToSignIn = () =>
@@ -317,7 +295,6 @@ function AddRequest(props) {
     if (!data.status) {
       /** Set values for input */
       let tmpCallback = formRef.current?.onCallbackValue();
-      console.log('[LOG] ===  ===> ', tmpCallback.valuesAll);
       /** prepare assets */
       let assets = [],
         item = null;
@@ -708,12 +685,12 @@ function AddRequest(props) {
       <KeyboardAwareScrollView contentContainerStyle={[cStyles.px16, cStyles.py10]}>
         <Card disabled
           status="primary"
-          header={<CText category="label">{t('add_approved_assets:request_user')}</CText>}>
+          header={<CText category="s1">{t('add_approved_assets:request_user')}</CText>}>
           <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween]}>
             <View style={[cStyles.row, cStyles.itemsCenter]}>
               <Avatar size="small" source={Assets.iconUser} />
               <View style={cStyles.ml10}>
-                <CText category="label">{form.name}</CText>
+                <CText category="s1">{form.name}</CText>
                 <CText category="c1" appearance="hint">{userDepartment ? userDepartment.deptName : ''}</CText>
               </View>
             </View>
@@ -728,8 +705,7 @@ function AddRequest(props) {
 
         <Card disabled
           style={cStyles.mt10}
-          status="basic"
-          header={<CText category="label">{t('add_approved_assets:request_info')}</CText>}>
+          header={<CText category="s1">{t('add_approved_assets:request_info')}</CText>}>
           <CForm
             ref={formRef}
             loading={
@@ -811,7 +787,7 @@ function AddRequest(props) {
                 value: form.typeAssets,
                 values: DATA_TYPE_ASSET,
                 keyToCompare: 'value',
-                keyToShow: 'label',
+                keyToShow: "s1",
                 disabled: isDetail,
                 required: false,
                 password: false,
@@ -829,7 +805,7 @@ function AddRequest(props) {
                 value: form.inPlanning,
                 values: DATA_IN_PLANNING,
                 keyToCompare: 'value',
-                keyToShow: 'label',
+                keyToShow: "s1",
                 disabled: isDetail,
                 required: false,
                 password: false,
