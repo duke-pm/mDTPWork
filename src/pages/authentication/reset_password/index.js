@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /**
  ** Name: Reset password screen
- ** Author: IT-Team
+ ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of index.js
  **/

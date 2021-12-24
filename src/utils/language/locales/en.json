@@ -496,7 +496,7 @@
     "empty_watchers": "Currently no tracking this job!",
     "empty_tasks": "Currently no job in this project!",
     "empty_comment": "Currently no comment in this project!",
-    "files_attach": "Attach files: ",
+    "files_attach": "Attach file",
     "created_by": "created by",
     "last_updated_at": "updated at",
     "task_percentage": "Percentage: ",

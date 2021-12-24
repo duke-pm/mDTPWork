@@ -1,6 +1,6 @@
 /**
  ** Name: Custom text
- ** Author: IT-Team
+ ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of CText.js
  **/
@@ -93,7 +93,6 @@ function CText(props) {
     <View>
       <Text {...props}
         style={[style, {lineHeight}]}
-        ellipsizeMode={'tail'}
         numberOfLines={props.numberOfLines || (showMore ? maxLines : 0)}
         onLayout={onLayout}
       >

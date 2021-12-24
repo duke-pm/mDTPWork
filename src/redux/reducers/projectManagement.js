@@ -57,6 +57,21 @@ export const initialState = fromJS({
 export default function (state = initialState, action = {}) {
   const {type, payload} = action;
   switch (type) {
+    case types.RESET_REQUEST_PROJECT:
+      return state
+        .set('submittingTaskComment', false)
+        .set('submittingTaskWatcher', false)
+        .set('submittingTaskUpdate', false)
+        .set('successTaskComment', false)
+        .set('successTaskWatcher', false)
+        .set('successTaskUpdate', false)
+        .set('errorTaskComment', false)
+        .set('errorTaskWatcher', false)
+        .set('errorTaskUpdate', false)
+        .set('errorHelperTaskComment', false)
+        .set('errorHelperTaskWatcher', false)
+        .set('errorHelperTaskUpdate', false);
+        
     /** For list project **/
     case types.START_FETCH_LIST_PROJECT:
       return state

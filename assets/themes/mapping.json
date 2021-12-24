@@ -3,35 +3,35 @@
     "text-font-family": "Roboto-Regular",
 
     "text-heading-1-font-size": 36,
-    "text-heading-1-font-weight": "800",
+    "text-heading-1-font-weight": "bold",
     "text-heading-1-font-family": "$text-font-family",
 
     "text-heading-2-font-size": 32,
-    "text-heading-2-font-weight": "800",
+    "text-heading-2-font-weight": "bold",
     "text-heading-2-font-family": "$text-font-family",
 
     "text-heading-3-font-size": 30,
-    "text-heading-3-font-weight": "800",
+    "text-heading-3-font-weight": "bold",
     "text-heading-3-font-family": "$text-font-family",
 
     "text-heading-4-font-size": 26,
-    "text-heading-4-font-weight": "800",
+    "text-heading-4-font-weight": "bold",
     "text-heading-4-font-family": "$text-font-family",
 
     "text-heading-5-font-size": 22,
-    "text-heading-5-font-weight": "800",
+    "text-heading-5-font-weight": "bold",
     "text-heading-5-font-family": "$text-font-family",
 
     "text-heading-6-font-size": 18,
-    "text-heading-6-font-weight": "800",
+    "text-heading-6-font-weight": "bold",
     "text-heading-6-font-family": "$text-font-family",
 
     "text-subtitle-1-font-size": 15,
-    "text-subtitle-1-font-weight": "600",
+    "text-subtitle-1-font-weight": "bold",
     "text-subtitle-1-font-family": "$text-font-family",
 
     "text-subtitle-2-font-size": 13,
-    "text-subtitle-2-font-weight": "600",
+    "text-subtitle-2-font-weight": "bold",
     "text-subtitle-2-font-family": "$text-font-family",
 
     "text-paragraph-1-font-size": 15,
@@ -47,11 +47,11 @@
     "text-caption-1-font-family": "$text-font-family",
 
     "text-caption-2-font-size": 12,
-    "text-caption-2-font-weight": "600",
+    "text-caption-2-font-weight": "300",
     "text-caption-2-font-family": "$text-font-family",
 
     "text-label-font-size": 12,
-    "text-label-font-weight": "800",
+    "text-label-font-weight": "bold",
     "text-label-font-family": "$text-font-family"
   },
   "components": {
@@ -60,9 +60,9 @@
       "appearances": {
         "default": {
           "mapping": {
-            "textFontSize": "text-label-font-size",
-            "textFontWeight": "text-label-font-weight",
-            "textFontFamily": "text-label-font-family"
+            "textFontSize": "text-paragraph-1-font-size",
+            "textFontWeight": "text-paragraph-1-font-weight",
+            "textFontFamily": "text-paragraph-1-font-family"
           }
         }
       }

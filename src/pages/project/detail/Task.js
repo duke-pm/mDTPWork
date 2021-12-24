@@ -7,137 +7,103 @@
  ** Description: Description of Task.js
  **/
 import {fromJS} from 'immutable';
-import React, {useState, useEffect, useLayoutEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {showMessage} from 'react-native-flash-message';
 import {
-  StyleSheet,
-  View,
-  ScrollView,
-  LayoutAnimation,
-  UIManager,
-  TouchableOpacity,
-} from 'react-native';
-import LottieView from 'lottie-react-native';
+  useTheme, Layout, Text, Avatar, Tooltip, Icon,
+  ListItem, Tab , TabView,
+} from '@ui-kitten/components';
+import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
+import CTopNavigation from '~/components/CTopNavigation';
 import CText from '~/components/CText';
+import CLoading from '~/components/CLoading';
+import FileAttach from '../components/FileAttach';
+import Status from '../components/Status';
 import Percentage from '../components/Percentage';
-// import CAvatar from '~/components/CAvatar';
-// import CLabel from '~/components/CLabel';
-// import CGroupInfo from '~/components/CGroupInfo';
-// import CIconHeader from '~/components/CIconHeader';
-// import CAlert from '~/components/CAlert';
-// import CUser from '~/components/CUser';
-// import CReadMore from '~/components/CReadMore';
-// import CTouchable from '~/components/CTouchable';
-// import CIcon from '~/components/CIcon';
-// import CLoading from '~/components/CLoading';
-// import CInvitedDetails from '~/components/CInvitedDetails';
-// import Status from '../components/Status';
-// import FileAttach from '../components/FileAttach';
-// import Reminder from '../components/Reminder';
 /* COMMON */
 import Routes from '~/navigator/Routes';
 import FieldsAuth from '~/configs/fieldsAuth';
-import {Commons, Icons} from '~/utils/common';
-import {Animations, Assets} from '~/utils/asset';
+import {Commons} from '~/utils/common';
+import {Assets} from '~/utils/asset';
 import {usePrevious} from '~/utils/hook';
 import {colors, cStyles} from '~/utils/style';
 import {
-  DEFAULT_FORMAT_DATE_4,
-  AST_LAST_COMMENT_TASK,
-  AST_LOGIN,
+  DEFAULT_FORMAT_DATE_4, AST_LAST_COMMENT_TASK, AST_LOGIN,
   DEFAULT_FORMAT_DATE_9,
 } from '~/configs/constants';
 import {
-  IS_IOS,
-  IS_ANDROID,
-  getLocalInfo,
-  checkEmpty,
-  getSecretInfo,
-  resetRoute,
-  moderateScale,
+  getLocalInfo, checkEmpty, getSecretInfo, resetRoute,
 } from '~/utils/helper';
 /** REDUX */
 import * as Actions from '~/redux/actions';
-import CTopNavigation from '~/components/CTopNavigation';
-import {useTheme, Layout, Text, Avatar, Tooltip} from '@ui-kitten/components';
-import CLoading from '~/components/CLoading';
+import Watchers from '../components/Watchers';
 
-if (IS_ANDROID) {
-  if (UIManager.setLayoutAnimationEnabledExperimental) {
-    UIManager.setLayoutAnimationEnabledExperimental(true);
-  }
-}
 
-const CustomLayoutAnimated = {
-  duration: 500,
-  create: {
-    type: LayoutAnimation.Types.spring,
-    property: LayoutAnimation.Properties.scaleXY,
-    springDamping: 1,
-  },
-  update: {
-    type: LayoutAnimation.Types.spring,
-    springDamping: 0.7,
-  },
-};
+const RenderDescriptionIcon = props => (
+  <Icon {...props} name="menu-2-outline" />
+);
 
-// export const RowInfoBasic = React.memo(
-//   ({
-//     style = {},
-//     isDark = false,
-//     left = null,
-//     right = null,
-//     iconOnPress = undefined,
-//     onPress = undefined,
-//   }) => {
-//     const Touchable = onPress ? TouchableOpacity : View;
-//     return (
-//       <Touchable
-//         style={[
-//           cStyles.row,
-//           cStyles.itemsCenter,
-//           cStyles.justifyBetween,
-//           cStyles.py12,
-//           cStyles.borderBottom,
-//           isDark && cStyles.borderBottomDark,
-//           style,
-//         ]}
-//         onPress={onPress}>
-//         <View style={[cStyles.itemsStart, styles.row_info_basic_left]}>
-//           {left}
-//         </View>
-//         {onPress ? (
-//           <View
-//             style={[
-//               cStyles.row,
-//               cStyles.itemsCenter,
-//               cStyles.justifyEnd,
-//               styles.row_info_basic_right,
-//             ]}>
-//             <View>{right}</View>
-//             {iconOnPress || (
-//               <CIcon
-//                 name={Icons.next}
-//                 size={'small'}
-//                 customColor={colors.GRAY_500}
-//               />
-//             )}
-//           </View>
-//         ) : (
-//           <View style={[cStyles.itemsEnd, styles.row_info_basic_right]}>
-//             {right}
-//           </View>
-//         )}
-//       </Touchable>
-//     );
-//   },
-// );
+const RenderStatusIcon = props => (
+  <Icon {...props} name="flash-outline" />
+);
+
+const RenderProjectIcon = props => (
+  <Icon {...props} name="file-text-outline" />
+);
+
+const RenderTimeIcon = props => (
+  <Icon {...props} name="clock-outline" />
+);
+
+const RenderPercentIcon = props => (
+  <Icon {...props} name="navigation-2-outline" />
+);
+
+const RenderPersonIcon = props => (
+  <Icon {...props} name="person-outline" />
+);
+
+const RenderPeopleIcon = props => (
+  <Icon {...props} name="people-outline" />
+);
+
+const RenderPiorityIcon = props => (
+  <Icon {...props} name="heart-outline" />
+);
+
+const RenderSectorIcon = props => (
+  <Icon {...props} name="file-outline" />
+);
+
+const RenderGradeIcon = props => (
+  <Icon {...props} name="file-outline" />
+);
+
+const RenderComponentIcon = props => (
+  <Icon {...props} name="file-outline" />
+);
+
+const RenderPushlisherIcon = props => (
+  <Icon {...props} name="file-outline" />
+);
+
+const RenderOwnershipIcon = props => (
+  <Icon {...props} name="file-outline" />
+);
+
+const RenderFileIcon = props => (
+  <Icon {...props} name="file-outline" />
+);
+
+const RenderAuthorIcon = props => (
+  <Icon {...props} name="person-outline" />
+);
 
 function Task(props) {
   const {t} = useTranslation();
@@ -170,6 +136,8 @@ function Task(props) {
     fastWatch: false,
     preview: false,
   });
+  const [selectedIndexTab, setSelectedIndexTab] = useState(0);
+  
   const [tooltipDelay, setTooltipDelay] = useState(false);
   const [participantInfo, setParticipantInfo] = useState(false);
   const [newComment, setNewComment] = useState(false);
@@ -181,6 +149,7 @@ function Task(props) {
   });
   const [data, setData] = useState({
     taskDetail: null,
+    watchers: [],
     participantChoose: null,
   });
 
@@ -230,11 +199,6 @@ function Task(props) {
     );
   };
 
-  const handleParticipant = (participant = null, showAlert = false) => {
-    setData({...data, participantChoose: participant});
-    return setParticipantInfo(showAlert);
-  };
-
   /**********
    ** FUNC **
    **********/
@@ -260,6 +224,7 @@ function Task(props) {
   const onPrepareData = async () => {
     let taskDetail = projectState.get('taskDetail');
     let activities = projectState.get('activities');
+    let watchers = projectState.get('watchers');
     let isWatched = projectState.get('isWatched');
     if (activities.length > 0) {
       let lastComment = await getLocalInfo(AST_LAST_COMMENT_TASK);
@@ -278,7 +243,7 @@ function Task(props) {
         setNewComment(true);
       }
     }
-    setData({taskDetail});
+    setData({...data, taskDetail, watchers});
     /** Find watcher */
     setIsFastWatch(!isWatched);
     return onDone();
@@ -302,7 +267,8 @@ function Task(props) {
         setNeedRefresh(true);
       }
       let taskDetail = projectState.get('taskDetail');
-      setData({taskDetail});
+      let watchers = projectState.get('watchers');
+      setData({...data, taskDetail, watchers});
       setLoading({...loading, update: false});
       return showMessage({
         message: t('common:app_name'),
@@ -355,6 +321,8 @@ function Task(props) {
       return onGoToSignIn();
     }
   };
+
+  const shouldLoadComponent = (index) => index === selectedIndexTab;
 
   /****************
    ** LIFE CYCLE **
@@ -503,24 +471,6 @@ function Task(props) {
   /************
    ** RENDER **
    ************/
-  let bgPriority = Commons.PRIORITY_TASK["L"]['color']; // default is Low;
-  if (data.taskDetail) {
-    if (!data.taskDetail.priorityColor) {
-      if (data.taskDetail.priority === Commons.PRIORITY_TASK["N"]["value"]) {
-        bgPriority = Commons.PRIORITY_TASK["N"]['color'];
-      } else if (
-        data.taskDetail.priority === Commons.PRIORITY_TASK["H"]["value"]
-      ) {
-        bgPriority = Commons.PRIORITY_TASK["H"]['color'];
-      } else if (
-        data.taskDetail.priority === Commons.PRIORITY_TASK["I"]["value"]
-      ) {
-        bgPriority = Commons.PRIORITY_TASK["I"]['color'];
-      }
-    } else {
-      bgPriority = data.taskDetail.priorityColor;
-    }
-  }
   let delay = 0,
     showPercentage = data.taskDetail?.taskTypeID === Commons.TYPE_TASK.TASK.value;
   if (
@@ -532,193 +482,298 @@ function Task(props) {
       delay = moment().diff(data.taskDetail.endDate, 'days');
     }
   }
-  const usersInvited =
-    (data.taskDetail && data.taskDetail.lstUserInvited) || [];
   return (
     <CContainer
       safeArea={['top']}
+      loading={loading.main}
       headerComponent={
         <CTopNavigation
           title={`${t('project_management:detail_task')} #${taskID}`}
           back
-          borderBottom
         />
       }>
-      <KeyboardAwareScrollView contentInsetAdjustmentBehavior={'automatic'}>
-        {!loading.main && (
-          <Layout style={[cStyles.px16, cStyles.py10]}>
-            {/** Title & Type */}
-            <View>
-              <Text>
-                <Text category="h6" status={Commons.TYPE_TASK[data.taskDetail.typeName]['color']}>
-                  {data.taskDetail.typeName}
+      {/** Title & Type */}
+      {!loading.main && data.taskDetail && (
+        <Layout style={cStyles.px16}>
+          <Text>
+            <Text category="h6" status={Commons.TYPE_TASK[data.taskDetail.typeName]['color']}>
+              {data.taskDetail.typeName}
+            </Text>
+            <Text category="h6">{`  ${data.taskDetail.taskName}`}</Text>
+          </Text>
+        </Layout>
+      )}
+
+      {/** Author & Updated at */}
+      {!loading.main && data.taskDetail && (
+        <Layout style={[cStyles.px16, cStyles.pb20]}>
+          <Text style={cStyles.mt10}>
+            {(!data.taskDetail.crtdUser ||
+              data.taskDetail.crtdUser === '') && (
+              <Text category="c1">{`#${data.taskDetail.taskID} `}</Text>
+            )}
+            {data.taskDetail.crtdUser &&
+              data.taskDetail.crtdUser !== '' && (
+                <Text>
+                  <Text category="label">
+                    {`#${data.taskDetail.taskID} `}
+                  </Text>
+                  <Text category="c1">{`${t(
+                    'project_management:created_by',
+                  )}`}</Text>
+                  <Text category="label" status="primary">
+                    {` ${data.taskDetail.crtdUser}`}
+                  </Text>
                 </Text>
-                <Text category="h6">{`  ${data.taskDetail.taskName}`}</Text>
-              </Text>
-            </View>
+              )}
+            <Text category="c1">
+              {`, ${t(
+              'project_management:last_updated_at',
+            )} ${moment(
+              data.taskDetail.lUpdDate,
+              DEFAULT_FORMAT_DATE_4,
+            ).format(DEFAULT_FORMAT_DATE_9)}`}</Text>
+          </Text>
+        </Layout>
+      )}
 
-            {/** Author & Updated at */}
-            <View>
-              <Text style={cStyles.mt10}>
-                {(!data.taskDetail.crtdUser ||
-                  data.taskDetail.crtdUser === '') && (
-                  <Text category="c1">{`#${data.taskDetail.taskID} `}</Text>
-                )}
-                {data.taskDetail.crtdUser &&
-                  data.taskDetail.crtdUser !== '' && (
-                    <Text>
-                      <Text category="label">
-                        {`#${data.taskDetail.taskID} `}
-                      </Text>
-                      <Text category="c1">{`${t(
-                        'project_management:created_by',
-                      )}`}</Text>
-                      <Text category="label" status="primary">
-                        {` ${data.taskDetail.crtdUser}`}
-                      </Text>
-                    </Text>
+      <TabView
+        style={cStyles.flex1}
+        selectedIndex={selectedIndexTab}
+        onSelect={index => setSelectedIndexTab(index)}
+        shouldLoadComponent={shouldLoadComponent}
+      >
+        <Tab title={t('project_management:info_basic')}>
+          <Layout>
+            <KeyboardAwareScrollView
+              contentInsetAdjustmentBehavior={'automatic'}>
+              {!loading.main && (
+                <Layout style={[cStyles.flex1, cStyles.py10, cStyles.pr10]}>
+                  {data.taskDetail.taskTypeID !==
+                    Commons.TYPE_TASK.MILESTONE.value && (
+                    <ListItem
+                      title={propsT =>
+                        <Text appearance="hint">{t('project_management:status')}</Text>}
+                      accessoryLeft={RenderStatusIcon}
+                      accessoryRight={propsR =>
+                        <Status
+                          loading={loading.update}
+                          disabled={loading.preview}
+                          isUpdate={perChangeStatus}
+                          language={language}
+                          refreshToken={refreshToken}
+                          navigation={navigation}
+                          task={data.taskDetail}
+                          onStartUpdate={onStartUpdate}
+                          onEndUpdate={onPrepareUpdate}
+                          onNeedUpdate={setNeedRefresh}
+                        />
+                      }
+                    />
                   )}
-                <Text category="c1">
-                  {`, ${t(
-                  'project_management:last_updated_at',
-                )} ${moment(
-                  data.taskDetail.lUpdDate,
-                  DEFAULT_FORMAT_DATE_4,
-                ).format(DEFAULT_FORMAT_DATE_9)}`}</Text>
-              </Text>
-            </View>
-            
-            {/** Project name */}
-            <Layout
-              style={[
-                cStyles.rounded5,
-                cStyles.center,
-                cStyles.mt12,
-                cStyles.py10,
-              ]}
-              level="3">
-              <Text category="label">{data.taskDetail.prjName}</Text>
-            </Layout>
-
-            {/** Description */}
-            <View style={cStyles.mt16}>
-              <CText>{checkEmpty(data.taskDetail.descr, t('project_management:empty_description'))}</CText>
-            </View>
-
-            {/** Info basic */}
-            <View style={[cStyles.flex1, cStyles.row, cStyles.itemsCenter, cStyles.mt24]}>
-              <CText category='c1' appearance="hint" style={cStyles.mr10}>
-                {t('project_management:holder_task_percentage')}
-              </CText>
-              <Percentage
-                disabled={loading.preview}
-                navigation={navigation}
-                language={language}
-                refreshToken={refreshToken}
-                task={data.taskDetail}
-                onStartUpdate={onStartUpdate}
-                onEndUpdate={onPrepareUpdate}
-              />
-            </View>
-
-            <View style={[cStyles.row, cStyles.itemsStart, cStyles.justifyBetween, cStyles.mt16]}>
-              <View style={[cStyles.itemsStart, styles.con_flex]}>
-                <View style={[cStyles.row, cStyles.itemsCenter]}>
-                  <CText>{moment(data.taskDetail.startDate, DEFAULT_FORMAT_DATE_4).format(DEFAULT_FORMAT_DATE_9)}</CText>
-                  <CText style={cStyles.px5}>&#8594;</CText>
-                  <Tooltip
-                    backdropStyle={styles.con_backdrop}
-                    visible={tooltipDelay}
-                    onBackdropPress={toggleTooltipDelay}
-                    anchor={() =>
-                      <TouchableOpacity disabled={delay === 0} onPress={toggleTooltipDelay}>
-                        <CText status={delay > 0 ? 'danger' : 'basic'}>
-                          {moment(data.taskDetail.endDate, DEFAULT_FORMAT_DATE_4).format(DEFAULT_FORMAT_DATE_9)}
+                  
+                  <ListItem
+                    title={propsT =>
+                      <Text appearance="hint">{t('project_management:main_title')}</Text>}
+                    accessoryLeft={RenderProjectIcon}
+                    accessoryRight={propsR =>
+                      <View>
+                        <Text>{data.taskDetail.prjName}</Text>
+                      </View>
+                    }
+                  />
+                  <ListItem
+                    title={propsT =>
+                      <Text appearance="hint">{t('project_management:estimated_time')}</Text>}
+                    accessoryLeft={RenderTimeIcon}
+                    accessoryRight={propsR =>
+                      <View style={[cStyles.row, cStyles.itemsCenter]}>
+                        <CText>{moment(data.taskDetail.startDate, DEFAULT_FORMAT_DATE_4).format(DEFAULT_FORMAT_DATE_9)}</CText>
+                        <Text>  &#8594;  </Text>
+                        <Tooltip
+                          backdropStyle={styles.con_backdrop}
+                          visible={tooltipDelay}
+                          onBackdropPress={toggleTooltipDelay}
+                          anchor={() =>
+                            <TouchableOpacity disabled={delay === 0} onPress={toggleTooltipDelay}>
+                              <CText status={delay > 0 ? 'danger' : 'basic'}>
+                                {moment(data.taskDetail.endDate, DEFAULT_FORMAT_DATE_4).format(DEFAULT_FORMAT_DATE_9)}
+                              </CText>
+                            </TouchableOpacity>
+                          }>
+                          {`${t('project_management:delay_date_1')} ${delay} ${t('project_management:delay_date_2')}`}
+                        </Tooltip>
+                      </View>
+                    }
+                  />
+                  <ListItem
+                    title={propsT =>
+                      <Text appearance="hint">{t('project_management:holder_task_percentage')}</Text>}
+                    accessoryLeft={RenderPercentIcon}
+                    accessoryRight={propsR =>
+                      <Percentage
+                        disabled={loading.preview}
+                        navigation={navigation}
+                        language={language}
+                        refreshToken={refreshToken}
+                        task={data.taskDetail}
+                        onStartUpdate={onStartUpdate}
+                        onEndUpdate={onPrepareUpdate}
+                      />
+                    }
+                  />
+                  <ListItem
+                    title={propsT =>
+                      <Text appearance="hint">{t('project_management:assignee')}</Text>}
+                    accessoryLeft={RenderPersonIcon}
+                    accessoryRight={propsR =>
+                      <View style={[cStyles.row, cStyles.itemsCenter]}>
+                        <Avatar size="tiny" source={Assets.iconUser} />
+                        <CText style={cStyles.ml10}>{data.taskDetail.ownerName}</CText>
+                      </View>
+                    }
+                  />
+                  {data.taskDetail.lstUserInvited.length > 0 && (
+                    <ListItem
+                      title={propsT =>
+                        <Text appearance="hint">{t('project_management:user_invited')}</Text>}
+                      accessoryLeft={RenderPeopleIcon}
+                      accessoryRight={propsR =>
+                        <View style={[cStyles.row, cStyles.itemsCenter]}>
+                          {data.taskDetail.lstUserInvited.map((itemU, indexU) => {
+                            if (indexU > 3) return null;
+                            if (indexU == 3) {
+                              return (
+                                <Layout style={[cStyles.rounded5, cStyles.center, {height: 25, width: 25}]} level="3">
+                                  <Text>{data.taskDetail.lstUserInvited.length - 3}</Text>
+                                </Layout>
+                              )
+                            }
+                            return <Avatar size="tiny" source={Assets.iconUser} />
+                          })}
+                        </View>
+                      }
+                    />
+                  )}
+                  <ListItem
+                    title={propsT =>
+                      <Text appearance="hint">{t('project_management:piority')}</Text>}
+                    accessoryLeft={RenderPiorityIcon}
+                    accessoryRight={propsR =>
+                      <View>
+                        <CText status={Commons.PRIORITY_TASK[data.taskDetail.priority]['color']}>
+                          {checkEmpty(data.taskDetail.priorityName)}
                         </CText>
-                      </TouchableOpacity>
-                    }>
-                    {`${t('project_management:delay_date_1')} ${delay} ${t('project_management:delay_date_2')}`}
-                  </Tooltip>
-                </View>
-
-                <CText category='c1' appearance="hint">
-                  {t('project_management:estimated_time')}
-                </CText>
-              </View>
-              <View style={[cStyles.itemsStart, styles.con_flex]}>
-                <View style={[cStyles.row, cStyles.itemsCenter]}>
-                  <Avatar size="tiny" source={Assets.iconUser} />
-                  <CText style={cStyles.ml5}>{data.taskDetail.ownerName}</CText>
-                </View>
-                <CText category='c1' appearance="hint">
-                  {t('project_management:assignee')}
-                </CText>
-              </View>
-            </View>
-
-            <View style={[cStyles.row, cStyles.itemsStart, cStyles.justifyBetween, cStyles.mt16]}>
-              <View style={[cStyles.itemsStart, styles.con_flex]}>
-                <CText status={Commons.PRIORITY_TASK[data.taskDetail.priority]['color']}>
-                  {checkEmpty(data.taskDetail.priorityName)}
-                </CText>
-                <CText category='c1' appearance="hint">
-                  {t('project_management:piority')}
-                </CText>
-              </View>
-              <View style={[cStyles.itemsStart, styles.con_flex]}>
-                <CText>{checkEmpty(data.taskDetail.sectorName)}</CText>
-                <CText category='c1' appearance="hint">
-                  {t('project_management:sector')}
-                </CText>
-              </View>
-            </View>
-
-            <View style={[cStyles.row, cStyles.itemsStart, cStyles.justifyBetween, cStyles.mt16]}>
-              <View style={[cStyles.itemsStart, styles.con_flex]}>
-                <CText>{checkEmpty(data.taskDetail.gradeName)}</CText>
-                <CText category='c1' appearance="hint">
-                  {t('project_management:grade')}
-                </CText>
-              </View>
-              <View style={[cStyles.itemsStart, styles.con_flex]}>
-                <CText>{checkEmpty(data.taskDetail.componentName)}</CText>
-                <CText category='c1' appearance="hint">
-                  {t('project_management:component')}
-                </CText>
-              </View>
-            </View>
-
-            <View style={[cStyles.row, cStyles.itemsStart, cStyles.justifyBetween, cStyles.mt16]}>
-              <View style={[cStyles.itemsStart, styles.con_flex]}>
-                <CText>{checkEmpty(data.taskDetail.originPublisher)}</CText>
-                <CText category='c1' appearance="hint">
-                  {t('project_management:origin_publisher')}
-                </CText>
-              </View>
-              <View style={[cStyles.itemsStart, styles.con_flex]}>
-                <CText>{checkEmpty(data.taskDetail.ownershipDTP)}</CText>
-                <CText category='c1' appearance="hint">
-                  {t('project_management:owner_ship_dtp')}
-                </CText>
-              </View>
-            </View>
-
-            <View style={[cStyles.row, cStyles.itemsStart, cStyles.justifyBetween, cStyles.mt16]}>
-              <View style={[cStyles.itemsStart, styles.con_flex]}>
-                <CText>{checkEmpty(data.taskDetail.author)}</CText>
-                <CText category='c1' appearance="hint">
-                  {t('project_management:author')}
-                </CText>
-              </View>
-            </View>
-
-
+                      </View>
+                    }
+                  />
+                  <ListItem
+                    title={propsT =>
+                      <Text appearance="hint">{t('project_management:sector')}</Text>}
+                    accessoryLeft={RenderSectorIcon}
+                    accessoryRight={propsR =>
+                      <View>
+                        <CText>{checkEmpty(data.taskDetail.sectorName)}</CText>
+                      </View>
+                    }
+                  />
+                  <ListItem
+                    title={propsT =>
+                      <Text appearance="hint">{t('project_management:grade')}</Text>}
+                    accessoryLeft={RenderGradeIcon}
+                    accessoryRight={propsR =>
+                      <View>
+                        <CText>{checkEmpty(data.taskDetail.gradeName)}</CText>
+                      </View>
+                    }
+                  />
+                  <ListItem
+                    title={propsT =>
+                      <Text appearance="hint">{t('project_management:component')}</Text>}
+                    accessoryLeft={RenderComponentIcon}
+                    accessoryRight={propsR =>
+                      <View>
+                        <CText>{checkEmpty(data.taskDetail.componentName)}</CText>
+                      </View>
+                    }
+                  />
+                  <ListItem
+                    title={propsT =>
+                      <Text appearance="hint">{t('project_management:origin_publisher')}</Text>}
+                    accessoryLeft={RenderPushlisherIcon}
+                    accessoryRight={propsR =>
+                      <View>
+                        <CText>{checkEmpty(data.taskDetail.originPublisher)}</CText>
+                      </View>
+                    }
+                  />
+                  <ListItem
+                    title={propsT =>
+                      <Text appearance="hint">{t('project_management:owner_ship_dtp')}</Text>}
+                    accessoryLeft={RenderOwnershipIcon}
+                    accessoryRight={propsR =>
+                      <View>
+                        <CText>{checkEmpty(data.taskDetail.ownershipDTP)}</CText>
+                      </View>
+                    }
+                  />
+                  <ListItem
+                    title={propsT =>
+                      <Text appearance="hint">{t('project_management:author')}</Text>}
+                    accessoryLeft={RenderAuthorIcon}
+                    accessoryRight={propsR =>
+                      <View>
+                        <CText>{checkEmpty(data.taskDetail.author)}</CText>
+                      </View>
+                    }
+                  />
+                  {data.taskDetail.attachFiles !== '' && (
+                    <ListItem
+                      title={propsT =>
+                        <Text appearance="hint">{t('project_management:files_attach')}</Text>}
+                      accessoryLeft={RenderFileIcon}
+                      accessoryRight={propsR =>
+                        <View style={cStyles.flex1}>
+                          <FileAttach file={data.taskDetail.attachFiles} />
+                        </View>
+                      }
+                    />
+                  )}
+                  <ListItem
+                    style={cStyles.itemsStart}
+                    title={propsT =>
+                      <Text style={cStyles.mt5} appearance="hint">{t('project_management:description')}</Text>}
+                    description={propsD =>
+                      <View style={cStyles.mt10}>
+                        <CText>
+                          {checkEmpty(data.taskDetail.descr, t('project_management:empty_description'))}
+                        </CText>
+                      </View>
+                    }
+                    accessoryLeft={RenderDescriptionIcon}
+                  />
+                </Layout>
+              )}
+            </KeyboardAwareScrollView>
           </Layout>
-        )}
-      </KeyboardAwareScrollView>
+        </Tab>
+
+        <Tab title={t('project_management:title_activity')}>
+          <Layout style={cStyles.flex1}></Layout>
+        </Tab>
+
+        <Tab title={t('project_management:title_watcher')}>
+          <Layout style={cStyles.flex1}>
+            <Watchers
+              taskID={data.taskDetail ? data.taskDetail.taskID : -1}
+              watchers={data.watchers}
+            />
+          </Layout>
+        </Tab>
+      </TabView>
+
       <CLoading
         show={
-          loading.main ||
           loading.startFetch ||
           loading.startFetchLogin ||
           loading.fastWatch ||
@@ -726,183 +781,12 @@ function Task(props) {
         }
       />
     </CContainer>
-  )
-  return (
-    <CContainer
-      loading={loading.main}
-      hasShapes
-      figuresShapes={[]}
-      primaryColorShapes={colors.BG_HEADER_PROJECT}
-      primaryColorShapesDark={colors.BG_HEADER_PROJECT_DARK}
-      content={
-        !loading.main ? (
-          <>
-            <KeyboardAwareScrollView
-              contentInsetAdjustmentBehavior={'automatic'}>
-              {!loading.main &&
-                data.taskDetail &&
-                data.taskDetail.taskTypeID !==
-                  Commons.TYPE_TASK.MILESTONE.value && (
-                  <Status
-                    disabled={loading.preview}
-                    isUpdate={perChangeStatus}
-                    isDark={isDark}
-                    customColors={customColors}
-                    language={language}
-                    refreshToken={refreshToken}
-                    navigation={navigation}
-                    task={data.taskDetail}
-                    onStartUpdate={onStartUpdate}
-                    onEndUpdate={onPrepareUpdate}
-                    onNeedUpdate={setNeedRefresh}
-                  />
-                )}
-
-              {/** Other info */}
-              <CGroupInfo
-                loading={loading.main || !data.taskDetail}
-                contentStyle={cStyles.p0}
-                label={'project_management:info_basic_3'}
-                empty={
-                  data.taskDetail &&
-                  data.taskDetail.attachFiles === '' &&
-                  usersInvited.length === 0
-                }
-                content={
-                  data.taskDetail ? (
-                    <>
-                      {/** Files attach */}
-                      {data.taskDetail.attachFiles !== '' && (
-                        <View
-                          style={[cStyles.flex1, cStyles.px16, cStyles.py10]}>
-                          <CLabel label={'project_management:files_attach'} />
-                          <FileAttach file={data.taskDetail.attachFiles} />
-                        </View>
-                      )}
-
-                      {/** Users invited */}
-                      {usersInvited.length > 0 && (
-                        <View style={[cStyles.flex1, cStyles.mt10]}>
-                          <CLabel
-                            style={cStyles.px16}
-                            label={'project_management:user_invited'}
-                          />
-                          <ScrollView
-                            contentContainerStyle={[
-                              cStyles.flexWrap,
-                              cStyles.row,
-                              cStyles.itemsCenter,
-                              cStyles.p4,
-                              cStyles.mx16,
-                              cStyles.mb16,
-                              cStyles.mt10,
-                              cStyles.rounded1,
-                              cStyles.borderDashed,
-                              cStyles.borderAll,
-                              isDark && cStyles.borderAllDark,
-                            ]}>
-                            {usersInvited.map((item, index) => {
-                              return (
-                                <View
-                                  style={[
-                                    cStyles.row,
-                                    cStyles.itemsCenter,
-                                    cStyles.mt6,
-                                  ]}>
-                                  <View
-                                    key={item.userName}
-                                    style={cStyles.shadowListItem}>
-                                    <CTouchable
-                                      onPress={() =>
-                                        handleParticipant(item, true)
-                                      }>
-                                      <View
-                                        style={[
-                                          cStyles.row,
-                                          cStyles.itemsCenter,
-                                          cStyles.rounded1,
-                                          cStyles.py6,
-                                          cStyles.px8,
-                                          {
-                                            backgroundColor:
-                                              colors.STATUS_NEW_OPACITY,
-                                          },
-                                        ]}>
-                                        <View style={cStyles.pr6}>
-                                          <CAvatar
-                                            label={item.fullName}
-                                            size={'vsmall'}
-                                          />
-                                        </View>
-                                        <CText
-                                          styles={'textCallout'}
-                                          customLabel={checkEmpty(
-                                            item.fullName,
-                                          )}
-                                        />
-                                      </View>
-                                    </CTouchable>
-                                  </View>
-                                  <View style={cStyles.mx2} />
-                                </View>
-                              );
-                            })}
-                          </ScrollView>
-                        </View>
-                      )}
-                    </>
-                  ) : null
-                }
-              />
-            </KeyboardAwareScrollView>
-
-            <CAlert
-              show={completed.show}
-              title={t('common:congratulations')}
-              customContent={
-                <View style={cStyles.center}>
-                  <CText
-                    styles={'textCaption1 mt16'}
-                    label={'project_management:completed_task'}
-                  />
-                  <LottieView
-                    style={styles.icon_completed}
-                    source={Animations.taskCompleted}
-                    autoPlay
-                    loop
-                  />
-                </View>
-              }
-              onClose={() => setCompleted({...completed, show: false})}
-            />
-
-            <CAlert
-              loading={data.participantChoose === null}
-              show={participantInfo}
-              contentStyle={cStyles.mt0}
-              title={''}
-              customContent={
-                <CInvitedDetails participant={data.participantChoose} />
-              }
-              onClose={handleParticipant}
-            />
-
-            <CLoading visible={loading.update} />
-          </>
-        ) : null
-      }
-    />
   );
 }
 
 const styles = StyleSheet.create({
   con_flex: {flex: 0.48},
   con_backdrop: {backgroundColor: colors.BACKGROUND_MODAL},
-
-  row_info_basic_left: {flex: 0.4},
-  row_info_basic_right: {flex: 0.6},
-  last_row_info_basic: {borderBottomWidth: 0},
-  icon_completed: {height: moderateScale(300), width: '100%'},
 });
 
 export default Task;

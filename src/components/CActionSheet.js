@@ -6,20 +6,29 @@
  **/
 import PropTypes from 'prop-types';
 import React, {useContext} from 'react';
-import {Button, useTheme} from '@ui-kitten/components';
+import {useTranslation} from 'react-i18next';
+import {Button, Icon, useTheme} from '@ui-kitten/components';
 import {StyleSheet, View} from 'react-native';
 import ActionSheet from 'react-native-actions-sheet';
 import {BlurView} from '@react-native-community/blur';
 /** COMPONENTS */
 import CText from './CText';
-import CIcon from './CIcon';
 /** COMMON */
 import {colors, cStyles} from '~/utils/style';
 import {IS_IOS, moderateScale} from '~/utils/helper';
 import {ThemeContext} from '~/configs/theme-context';
 import {DARK, LIGHT} from '~/configs/constants';
 
+const RenderCloseIcon = props => (
+  <Icon {...props} name="close-outline" />
+);
+
+const RenderCheckIcon = props => (
+  <Icon {...props} name="checkmark-outline" />
+);
+
 function CActionSheet(props) {
+  const {t} = useTranslation();
   const themeContext = useContext(ThemeContext);
   const theme = useTheme();
   const {
@@ -106,21 +115,19 @@ function CActionSheet(props) {
           ]}>
           <Button
             appearance="ghost"
-            size="tiny"
             status="danger"
-            accessoryLeft={propsI => CIcon(propsI, 'eva', 'close')}
+            accessoryLeft={RenderCloseIcon}
             onPress={handleClose}
           />
           <View style={[cStyles.flexCenter]}>
             {headerChooseTitle && (
-              <CText style={cStyles.mt10}>{headerChooseTitle}</CText>
+              <CText style={cStyles.mt10}>{t(headerChooseTitle)}</CText>
             )}
           </View>
           <Button
             appearance="ghost"
-            size="tiny"
             status="primary"
-            accessoryLeft={propsI => CIcon(propsI, 'eva', 'checkmark')}
+            accessoryLeft={RenderCheckIcon}
             onPress={handleConfirm}
           />
         </View>

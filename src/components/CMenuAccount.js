@@ -1,6 +1,6 @@
 /**
  ** Name: Custom Menu Account
- ** Author: IT-Team
+ ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of CMenuAccount.js
  **/

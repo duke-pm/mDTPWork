@@ -1,6 +1,6 @@
 /**
  ** Name: Sign Up screen
- ** Author: IT-Team
+ ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of index.js
  **/

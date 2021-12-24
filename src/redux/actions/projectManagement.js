@@ -10,6 +10,10 @@ import Services from '~/services';
 import * as types from './types';
 import * as Actions from '~/redux/actions';
 
+export const resetAllProject = () => ({
+  type: types.RESET_REQUEST_PROJECT,
+});
+
 /** For get list project */
 export const listProjectError = error => ({
   type: types.ERROR_FETCH_LIST_PROJECT,

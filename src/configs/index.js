@@ -115,7 +115,7 @@ const Configs = {
   versionOfApp: IS_IOS
     ? Config.IOS_APP_VERSION_NAME
     : Config.ANDROID_APP_VERSION_NAME,
-  developBy: 'IT-Team',
+  developBy: 'DTP-Education',
   // for rating app
   appStoreID: Config.IOS_APPSTORE_ID,
   googlePlayPackage: Config.ANDROID_APP_ID,

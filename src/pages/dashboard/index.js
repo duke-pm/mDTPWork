@@ -109,9 +109,9 @@ function Dashboard(props) {
           cStyles.py24
         ]} level={'3'}>
         <View>
-          <CText category='p1'>{`${moment().format(DEFAULT_FORMAT_DATE_8)}`}</CText>
-          <CText style={cStyles.mt5} category='h5'>{`${t('dashboard:welcome')} ${fullName}`}</CText>
-          <CText category='c1'>{t('dashboard:welcome_1')}</CText>
+          <CText>{`${moment().format(DEFAULT_FORMAT_DATE_8)}`}</CText>
+          <CText style={cStyles.mt5} category='h6'>{`${t('dashboard:welcome')} ${fullName}`}</CText>
+          <CText style={cStyles.mt5} category='c1'>{t('dashboard:welcome_1')}</CText>
         </View>
         <Avatar size={'large'} source={Assets.iconUser} />
       </Layout>
