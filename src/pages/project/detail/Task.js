@@ -21,11 +21,14 @@ import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CTopNavigation from '~/components/CTopNavigation';
-import CText from '~/components/CText';
+import CAvatar from '~/components/CAvatar';
 import CLoading from '~/components/CLoading';
+import CText from '~/components/CText';
 import FileAttach from '../components/FileAttach';
 import Status from '../components/Status';
 import Percentage from '../components/Percentage';
+import Activities from '../components/Activities';
+import Watchers from '../components/Watchers';
 /* COMMON */
 import Routes from '~/navigator/Routes';
 import FieldsAuth from '~/configs/fieldsAuth';
@@ -42,7 +45,6 @@ import {
 } from '~/utils/helper';
 /** REDUX */
 import * as Actions from '~/redux/actions';
-import Watchers from '../components/Watchers';
 
 
 const RenderDescriptionIcon = props => (
@@ -472,7 +474,8 @@ function Task(props) {
    ** RENDER **
    ************/
   let delay = 0,
-    showPercentage = data.taskDetail?.taskTypeID === Commons.TYPE_TASK.TASK.value;
+    showPercentage = data.taskDetail?.taskTypeID === Commons.TYPE_TASK.TASK.value,
+    arrAvatarParticipant = [];
   if (
     data.taskDetail &&
     showPercentage &&
@@ -481,6 +484,12 @@ function Task(props) {
     if (data.taskDetail.endDate && data.taskDetail.endDate !== '') {
       delay = moment().diff(data.taskDetail.endDate, 'days');
     }
+  }
+  if (data.taskDetail &&
+      data.taskDetail.lstUserInvited.length > 0) {
+    arrAvatarParticipant = data.taskDetail.lstUserInvited.map(itemA =>
+      Assets.iconUser
+    );
   }
   return (
     <CContainer
@@ -526,25 +535,29 @@ function Task(props) {
                   </Text>
                 </Text>
               )}
-            <Text category="c1">
-              {`, ${t(
+          </Text>
+          <Text  style={cStyles.mt10} category="c1">
+            {`${t(
               'project_management:last_updated_at',
             )} ${moment(
               data.taskDetail.lUpdDate,
               DEFAULT_FORMAT_DATE_4,
-            ).format(DEFAULT_FORMAT_DATE_9)}`}</Text>
+            ).format(DEFAULT_FORMAT_DATE_9)} ${t(
+              'project_management:assignee_by',
+            )} `}
+            <Text category="label" status="primary">{`${data.taskDetail.lUpdUser}`}</Text>
           </Text>
         </Layout>
       )}
 
       <TabView
         style={cStyles.flex1}
+        swipeEnabled={false}
         selectedIndex={selectedIndexTab}
         onSelect={index => setSelectedIndexTab(index)}
-        shouldLoadComponent={shouldLoadComponent}
-      >
+        shouldLoadComponent={shouldLoadComponent}>
         <Tab title={t('project_management:info_basic')}>
-          <Layout>
+          <Layout style={cStyles.flex1}>
             <KeyboardAwareScrollView
               contentInsetAdjustmentBehavior={'automatic'}>
               {!loading.main && (
@@ -557,8 +570,7 @@ function Task(props) {
                       accessoryLeft={RenderStatusIcon}
                       accessoryRight={propsR =>
                         <Status
-                          loading={loading.update}
-                          disabled={loading.preview}
+                          disabled={loading.preview || loading.update}
                           isUpdate={perChangeStatus}
                           language={language}
                           refreshToken={refreshToken}
@@ -633,25 +645,18 @@ function Task(props) {
                       </View>
                     }
                   />
-                  {data.taskDetail.lstUserInvited.length > 0 && (
+                  {arrAvatarParticipant.length > 0 && (
                     <ListItem
                       title={propsT =>
                         <Text appearance="hint">{t('project_management:user_invited')}</Text>}
                       accessoryLeft={RenderPeopleIcon}
                       accessoryRight={propsR =>
-                        <View style={[cStyles.row, cStyles.itemsCenter]}>
-                          {data.taskDetail.lstUserInvited.map((itemU, indexU) => {
-                            if (indexU > 3) return null;
-                            if (indexU == 3) {
-                              return (
-                                <Layout style={[cStyles.rounded5, cStyles.center, {height: 25, width: 25}]} level="3">
-                                  <Text>{data.taskDetail.lstUserInvited.length - 3}</Text>
-                                </Layout>
-                              )
-                            }
-                            return <Avatar size="tiny" source={Assets.iconUser} />
-                          })}
-                        </View>
+                        <CAvatar
+                          style={cStyles.justifyEnd}
+                          absolute={false}
+                          sources={arrAvatarParticipant}
+                          size="tiny"
+                        />
                       }
                     />
                   )}
@@ -759,7 +764,11 @@ function Task(props) {
         </Tab>
 
         <Tab title={t('project_management:title_activity')}>
-          <Layout style={cStyles.flex1}></Layout>
+          <Layout style={cStyles.flex1}>
+            <Activities
+              taskID={data.taskDetail ? data.taskDetail.taskID : -1}
+            />
+          </Layout>
         </Tab>
 
         <Tab title={t('project_management:title_watcher')}>

@@ -12,6 +12,7 @@ import {useTranslation} from 'react-i18next';
 import {useTheme, Layout} from '@ui-kitten/components';
 import {View} from 'react-native';
 import IoniIcon from 'react-native-vector-icons/Ionicons';
+import * as Animatable from 'react-native-animatable';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CTopNavigation from '~/components/CTopNavigation';
@@ -19,11 +20,13 @@ import CForm from '~/components/CForm';
 import CText from '~/components/CText';
 /* COMMON */
 import Routes from '~/navigator/Routes';
-import {AST_BIOMETRICS} from '~/configs/constants';
 import {cStyles} from '~/utils/style';
-import {moderateScale, resetRoute, saveLocalInfo} from '~/utils/helper';
+import {moderateScale, resetRoute} from '~/utils/helper';
 /* REDUX */
 import * as Actions from '~/redux/actions';
+
+const MyIconAnim = Animatable.createAnimatableComponent(IoniIcon);
+const sIconStatus = moderateScale(120);
 
 /** All init */
 const INPUT_NAME = {
@@ -35,6 +38,9 @@ function ResetPassword(props) {
   const theme = useTheme();
   const {navigation, route} = props;
   const tokenData = route.params?.tokenData || 'not_token';
+  const bgHeader = theme['background-basic-color-3'];
+  const colorSuccess = theme['color-success-500'];
+  const colorError = theme['color-danger-500'];
 
   /** use ref */
   const formRef = useRef();
@@ -90,8 +96,6 @@ function ResetPassword(props) {
   };
 
   const onCompleteCheck = (status, message) => {
-    console.log('[LOG] === onCompleteCheck ===> ', status);
-    console.log('[LOG] === onCompleteCheck ===> ', message);
     setValues({
       ...values,
       error: false,
@@ -171,10 +175,10 @@ function ResetPassword(props) {
   return (
     <CContainer
       safeArea={['top']}
-      backgroundColor={theme['background-basic-color-3']}>
+      backgroundColor={bgHeader}>
       {/** Header */}
       <CTopNavigation
-        style={{backgroundColor: theme['background-basic-color-3']}}
+        style={{backgroundColor: bgHeader}}
         leftTitle={'reset_password:title'}
         back
         onPressCustomBack={handleGoBack}
@@ -185,7 +189,7 @@ function ResetPassword(props) {
         <Layout
           style={[
             cStyles.flex1,
-            cStyles.mt16,
+            cStyles.mt32,
             cStyles.roundedTopLeft5,
             cStyles.roundedTopRight5,
             cStyles.py16,
@@ -230,17 +234,19 @@ function ResetPassword(props) {
         <Layout
           style={[
             cStyles.flex1,
-            cStyles.mt16,
+            cStyles.mt32,
             cStyles.roundedTopLeft5,
             cStyles.roundedTopRight5,
             cStyles.py16,
             cStyles.px32,
           ]}>
-          <View style={[cStyles.itemsCenter, cStyles.mt60]}>
-            <IoniIcon
+          <View style={cStyles.itemsCenter}>
+            <MyIconAnim
               name={'checkmark-circle-outline'}
-              size={moderateScale(150)}
-              color={theme['color-success-500']}
+              size={sIconStatus}
+              color={colorSuccess}
+              animation="pulse"
+              easing="ease-out"
             />
           </View>
 
@@ -249,7 +255,7 @@ function ResetPassword(props) {
             <CText style={cStyles.textCenter} category="s1">
               {t('reset_password:success_sub_title')}
             </CText>
-            <CText style={[cStyles.mt16, cStyles.textCenter]} category="p1">
+            <CText style={[cStyles.mt16, cStyles.textCenter]}>
               {t('reset_password:success_caption')}
             </CText>
           </View>
@@ -260,17 +266,19 @@ function ResetPassword(props) {
         <Layout
           style={[
             cStyles.flex1,
-            cStyles.mt16,
+            cStyles.mt32,
             cStyles.roundedTopLeft5,
             cStyles.roundedTopRight5,
             cStyles.py16,
             cStyles.px32,
           ]}>
-          <View style={[cStyles.itemsCenter, cStyles.mt60]}>
-            <IoniIcon
+          <View style={cStyles.itemsCenter}>
+            <MyIconAnim
               name={'close-circle-outline'}
-              size={moderateScale(150)}
-              color={theme['color-danger-500']}
+              size={sIconStatus}
+              color={colorError}
+              animation="pulse"
+              easing="ease-out"
             />
           </View>
 
@@ -279,7 +287,7 @@ function ResetPassword(props) {
             <CText style={cStyles.textCenter} category="s1">
               {t('reset_password:error_sub_title')}
             </CText>
-            <CText style={[cStyles.mt16, cStyles.textCenter]} category="p1">
+            <CText style={[cStyles.mt16, cStyles.textCenter]}>
               {values.errorExpired !== ''
                 ? t(values.errorExpired)
                 : t(values.error)}

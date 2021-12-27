@@ -22,8 +22,6 @@ import {Commons} from '~/utils/common';
 import {LOAD_MORE, REFRESH} from '~/configs/constants';
 /* REDUX */
 import * as Actions from '~/redux/actions';
-import { Layout, Spinner } from '@ui-kitten/components';
-import { cStyles } from '~/utils/style';
 
 function ListRequestHandling(props) {
   const {t} = useTranslation();
@@ -80,6 +78,10 @@ function ListRequestHandling(props) {
    ** FUNC **
    **********/
   const onDone = curLoading => setLoading(curLoading);
+
+  const resetAllRequests = () => {
+    dispatch(Actions.resetAllApproved());
+  };
 
   const onFetchData = (
     fromDate = data.fromDate,
@@ -186,22 +188,25 @@ function ListRequestHandling(props) {
    ** LIFE CYCLE **
    ****************/
   useEffect(() => {
+    resetAllRequests();
     onPrepareMasterData();
   }, []);
 
   useEffect(() => {
-    if (loading.main) {
+    if (loading.main && !loading.startFetch) {
       if (!masterState.get('submitting')) {
+        setLoading({...loading, startFetch: true});
         onFetchData();
       }
     }
   }, [
     loading.main,
+    loading.startFetch,
     masterState.get('submitting'),
   ]);
 
   useEffect(() => {
-    if (loading.main || loading.startFetch || loading.refreshing || loading.loadmore) {
+    if (loading.startFetch || loading.refreshing || loading.loadmore) {
       if (!approvedState.get('submittingList')) {
         let type = REFRESH;
         if (loading.loadmore) {
@@ -241,8 +246,6 @@ function ListRequestHandling(props) {
       typesObj.push(Commons.APPROVED_TYPE.DAMAGED);
     }
   }
-
-  
 
   return (
     <CContainer

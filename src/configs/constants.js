@@ -25,7 +25,7 @@ export const DEFAULT_FORMAT_DATE_9 = 'DD MMM YY';
 export const DEFAULT_HEIGHT_UPLOAD = 250;
 export const DEFAULT_WIDTH_UPLOAD = 250;
 export const FIRST_CELL_WIDTH_LARGE = moderateScale(300);
-export const FIRST_CELL_WIDTH_SMALL = moderateScale(150);
+export const FIRST_CELL_WIDTH_SMALL = moderateScale(120);
 export const FIRST_CELL_WIDTH_DISTANCE =
   FIRST_CELL_WIDTH_LARGE - FIRST_CELL_WIDTH_SMALL;
 export const CELL_HEIGHT = moderateScale(45);

@@ -99,7 +99,12 @@
             "headerPaddingHorizontal": 16,
             "headerPaddingVertical": 10,
             "footerPaddingHorizontal": 16,
-            "footerPaddingVertical": 10
+            "footerPaddingVertical": 10,
+            "state": {
+              "active": {
+                  "backgroundColor": "background-basic-color-1"
+              }
+          }
           }
         }
       }
@@ -211,6 +216,36 @@
         "default": {
           "mapping": {
             "width": 220
+          }
+        }
+      }
+    },
+    "Select": {
+      "meta": {},
+      "appearances": {
+        "default": {
+          "mapping": {
+            "textFontFamily": "text-paragraph-1-font-family"
+          },
+          "variantGroups": {
+            "size": {
+              "medium": {
+                "textFontSize": "text-paragraph-1-font-size",
+                "textFontWeight": "text-paragraph-1-font-weight"
+              }
+            }
+          }
+        }
+      }
+    },
+    "SelectOption": {
+      "meta": {},
+      "appearances": {
+        "default": {
+          "mapping": {
+            "textFontSize": "text-paragraph-1-font-size",
+            "textFontWeight": "text-paragraph-1-font-weight",
+            "textFontFamily": "text-paragraph-1-font-family"
           }
         }
       }

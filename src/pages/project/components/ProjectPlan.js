@@ -241,7 +241,7 @@ function ProjectPlan(props) {
                 key={itemT.id + '_' + indexT}
                 style={[cStyles.row, cStyles.itemsStart, cStyles.mt6]}>
                 <Button
-                  appearance="outline"
+                  // appearance="outline"
                   size="tiny"
                   status={Commons.TYPE_TASK[itemT.type]['color']}>
                   {'#' + itemT.id}

@@ -87,7 +87,10 @@ function CSearchBar(props) {
   /*****************
    ** HANDLE FUNC **
    *****************/
-  const handleRemove = () => setValue('');
+  const handleRemove = () => {
+    setValue('');
+    onSearch('');
+  };
 
   const handleSearch = () => {
     onSearch(value);

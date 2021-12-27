@@ -9,12 +9,8 @@
 import PropTypes from 'prop-types';
 import React, {useState, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
-import {Button} from '@ui-kitten/components';
-import {FlatList, View} from 'react-native';
-/* COMPONENTS */
-import CText from './CText';
+import {Button, Layout, Text} from '@ui-kitten/components';
 /* COMMON */
-import {IS_ANDROID} from '~/utils/helper';
 import {cStyles} from '~/utils/style';
 
 let isCheck = null;
@@ -56,7 +52,6 @@ function CGroupFilter(props) {
   useEffect(() => {
     if (itemsChoose.length > 0) {
       let chooses = [],
-        choosesRef = [],
         i = null,
         find = null;
       for (i of itemsChoose) {
@@ -85,17 +80,15 @@ function CGroupFilter(props) {
    ** RENDER **
    ************/
   return (
-    <View style={[cStyles.mt16, containerStyle]}>
-      <CText category="s1" appearance="hint">{t(label)}</CText>
-
-      <FlatList
-        style={cStyles.mt6}
-        contentContainerStyle={cStyles.flexWrap}
-        data={values}
-        renderItem={({item, index}) => {
+    <Layout style={[cStyles.mt16, containerStyle]}>
+      <Text category="label" appearance="hint">{t(label)}</Text>
+      <Layout style={[cStyles.row, cStyles.itemsCenter, cStyles.flexWrap, cStyles.mt6]}>
+        {values.map((item, index) => {
           isCheck = valuesChoose.find(f => f.value == item.value);
           return (
-            <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt4]}>
+            <Layout
+              key={item.value + '_' + item.index}
+              style={[cStyles.row, cStyles.itemsCenter, cStyles.mt4, cStyles.pr5]}>
               <Button
                 style={cStyles.mr4}
                 appearance={isCheck ? 'filled' : 'outline'}
@@ -105,16 +98,11 @@ function CGroupFilter(props) {
               >
                 {t(item.label)}
               </Button>
-            </View>
+            </Layout>
           );
-        }}
-        numColumns={3}
-        keyExtractor={(item, index) => index.toString()}
-        ItemSeparatorComponent={() => <View style={cStyles.pr10} />}
-        removeClippedSubviews={IS_ANDROID}
-        scrollEnabled={false}
-      />
-    </View>
+        })}
+      </Layout>
+    </Layout>
   );
 }
 

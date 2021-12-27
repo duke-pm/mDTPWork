@@ -8,25 +8,25 @@
 import PropTypes from 'prop-types';
 import React, {useState, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
-import {
-  useTheme, Datepicker, Button, Icon, Divider, Layout,
-} from '@ui-kitten/components';
 import {MomentDateService} from '@ui-kitten/moment';
-import {View} from 'react-native';
+import {
+  Datepicker, Button, Icon, Divider, Layout
+} from '@ui-kitten/components';
+import {StyleSheet, View} from 'react-native';
 import {showMessage} from 'react-native-flash-message';
 import moment from 'moment';
-import 'moment';
-import 'moment/locale/vi';
+import 'moment/locale/en-sg';
 /* COMPONENTS */
 import CText from '~/components/CText';
-import CIcon from '~/components/CIcon';
 import CGroupFilter from '~/components/CGroupFilter';
 /* COMMON */
 import {Commons} from '~/utils/common';
 import {cStyles} from '~/utils/style';
 import {sW} from '~/utils/helper';
+import {DEFAULT_FORMAT_DATE_1} from '~/configs/constants';
 
 /** All init */
+const formatDateService = new MomentDateService('en-sg');
 const minDate = '2010-01-01';
 const maxDate = '2030-12-31';
 const TYPES_ASSETS = [
@@ -62,10 +62,16 @@ const RenderCheckIcon = props => (
   <Icon {...props} name="done-all-outline" />
 );
 
+const RenderCalendarIcon = props => (
+  <Icon {...props} name="calendar" />
+);
+
 function Filter(props) {
   const {t} = useTranslation();
-  const theme = useTheme();
-  const {isResolve = false, onFilter = () => {}} = props;
+  const {
+    isResolve = false,
+    onFilter = () => null,
+  } = props;
 
   /** Use State */
   const [data, setData] = useState({
@@ -91,10 +97,12 @@ function Filter(props) {
   };
 
   const handleFilter = () => {
-    let tmpFromDate =
-      data.fromDate !== '' ? moment(data.fromDate, 'YYYY-MM-DD').valueOf() : null;
-    let tmpToDate =
-      data.toDate !== '' ? moment(data.toDate, 'YYYY-MM-DD').valueOf() : null;
+    let tmpFromDate = data.fromDate !== ''
+      ? moment(data.fromDate, DEFAULT_FORMAT_DATE_1).valueOf()
+      : null;
+    let tmpToDate = data.toDate !== ''
+      ? moment(data.toDate, DEFAULT_FORMAT_DATE_1).valueOf()
+      : null;
     if (tmpFromDate && tmpToDate && tmpFromDate > tmpToDate) {
       return onErrorValidation('error:from_date_larger_than_to_date');
     } else if (!isResolve && data.status.length === 0) {
@@ -154,7 +162,7 @@ function Filter(props) {
    ** RENDER **
    ************/
   return (
-    <Layout style={[cStyles.pb20, {width: sW('80%')}]}>
+    <Layout style={[cStyles.pb20, styles.content]}>
       <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween, cStyles.pb5]}>
         <CText category="s1">{t('common:filter').toUpperCase()}</CText>
         <Button
@@ -169,8 +177,8 @@ function Filter(props) {
           <Datepicker
             style={cStyles.mt16}
             label={t('approved_assets:from_date')}
-            accessoryRight={propsR => <Icon {...propsR} name="calendar" />}
-            dateService={new MomentDateService('vi')}
+            accessoryRight={RenderCalendarIcon}
+            dateService={formatDateService}
             placeholder={t('approved_assets:from_date')}
             date={data.fromDate === ''
               ? ''
@@ -182,14 +190,14 @@ function Filter(props) {
           <Datepicker
             style={cStyles.mt16}
             label={t('approved_assets:to_date')}
-            accessoryRight={propsR => <Icon {...propsR} name="calendar" />}
-            dateService={new MomentDateService('vi')}
+            accessoryRight={RenderCalendarIcon}
+            dateService={formatDateService}
             placeholder={t('approved_assets:to_date')}
             date={data.toDate === ''
               ? ''
               : moment(data.toDate)}
-              min={moment(minDate)}
-              max={moment(maxDate)}
+            min={moment(minDate)}
+            max={moment(maxDate)}
             onSelect={onChangeToDate}
           />
         </View>
@@ -199,7 +207,7 @@ function Filter(props) {
             label={'common:type'}
             items={TYPES_ASSETS}
             itemsChoose={data.type}
-            primaryColor={'primary'}
+            primaryColor="primary"
             onChange={handleChangeType}
           />
         )}
@@ -209,7 +217,7 @@ function Filter(props) {
             label={'common:status'}
             items={STATUS_REQUEST}
             itemsChoose={data.status}
-            primaryColor={'primary'}
+            primaryColor="primary"
             onChange={handleChangeStatus}
           />
         )}
@@ -217,6 +225,10 @@ function Filter(props) {
     </Layout>
   );
 }
+
+const styles = StyleSheet.create({
+  content: {width: sW('85%')},
+});
 
 Filter.propTypes = {
   isResolve: PropTypes.bool.isRequired,

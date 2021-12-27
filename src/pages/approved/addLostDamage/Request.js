@@ -9,12 +9,11 @@ import {fromJS} from 'immutable';
 import React, {createRef, useRef, useEffect, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-import {TopNavigationAction, Avatar, Card, Icon} from '@ui-kitten/components';
+import {TopNavigationAction, Avatar, Card, Icon, Button} from '@ui-kitten/components';
 import {StyleSheet, View} from 'react-native';
 import {showMessage} from 'react-native-flash-message';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import moment from 'moment';
-import 'moment/locale/vi';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CTopNavigation from '~/components/CTopNavigation';
@@ -33,7 +32,9 @@ import {Assets} from '~/utils/asset';
 import {Commons, Icons} from '~/utils/common';
 import {cStyles} from '~/utils/style';
 import {
-  DEFAULT_FORMAT_DATE_4, DEFAULT_FORMAT_DATE_9, AST_LOGIN,
+  DEFAULT_FORMAT_DATE_4,
+  DEFAULT_FORMAT_DATE_9,
+  AST_LOGIN,
 } from '~/configs/constants';
 import {
   getSecretInfo, checkEmpty, resetRoute,
@@ -390,8 +391,8 @@ function AddRequest(props) {
               statusIcon = Icons.requestApproved_2;
               statusColor = 'green';
             }
-            setCurrentProcess({statusIcon, statusColor});
             setRequestDetail(tmp);
+            setCurrentProcess({statusIcon, statusColor, statusName: tmp.statusName});
             onPrepareDetail(
               approvedState.get('requestDetail'),
               approvedState.get('requestProcessDetail'),
@@ -399,6 +400,11 @@ function AddRequest(props) {
           } else {
             if (isDetail) {
               onPrepareDetail(route.params?.data, route.params?.dataProcess);
+              setCurrentProcess({
+                statusIcon: route.params?.currentProcess?.statusIcon,
+                statusColor: route.params?.currentProcess?.statusColor,
+                statusName: route.params?.currentProcess?.statusName,
+              });
             } else {
               setDataAssets(masterState.get('assetByUser'));
               let data = masterState.get('assetByUser');
@@ -655,6 +661,7 @@ function AddRequest(props) {
             </View>
           </View>
         </Card>
+        {/** Asset information */}
         {(isDetail || requestDetail) && (
           <Card disabled
             style={cStyles.mt10}
@@ -665,8 +672,16 @@ function AddRequest(props) {
                 : requestDetail.assetName}
               </CText>
               <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween, cStyles.mt10]}>
-                <View style={[cStyles.itemsStart, styles.left]}>
+                <View style={[cStyles.itemsStart, styles.con_asset_left]}>
                   <View>
+                    <CText>{isDetail
+                      ? route.params?.data?.assetCode
+                      : requestDetail.assetCode}</CText>
+                    <CText category="c1" appearance="hint">
+                      {t('add_approved_lost_damaged:code_asset')}
+                    </CText>
+                  </View>
+                  <View style={cStyles.mt10}>
                     <CText>{moment(
                         isDetail
                           ? route.params?.data?.purchaseDate
@@ -675,6 +690,25 @@ function AddRequest(props) {
                       ).format(DEFAULT_FORMAT_DATE_9)}</CText>
                     <CText category="c1" appearance="hint">
                       {t('add_approved_lost_damaged:purchase_date_asset')}
+                    </CText>
+                  </View>
+                  <View style={cStyles.mt10}>
+                    <CText>{isDetail
+                      ? route.params?.data?.assetGroupName
+                      : requestDetail.assetGroupName}</CText>
+                    <CText category="c1" appearance="hint">
+                      {t('add_approved_lost_damaged:group_asset')}
+                    </CText>
+                  </View>
+                </View>
+
+                <View style={[cStyles.itemsStart, styles.con_asset_right]}>
+                  <View>
+                    <CText>{isDetail
+                      ? route.params?.data?.assetStatusName
+                      : requestDetail.assetStatusName}</CText>
+                    <CText category="c1" appearance="hint">
+                      {t('add_approved_lost_damaged:status_asset')}
                     </CText>
                   </View>
                   <View style={cStyles.mt10}>
@@ -689,10 +723,7 @@ function AddRequest(props) {
                       {t('add_approved_lost_damaged:price_asset')}
                     </CText>
                   </View>
-                </View>
-
-                <View style={[cStyles.itemsStart, styles.right]}>
-                  <View>
+                  <View style={cStyles.mt10}>
                     <CText>{isDetail
                       ? route.params?.data?.assetTypeName
                       : requestDetail.assetTypeName}</CText>
@@ -700,34 +731,41 @@ function AddRequest(props) {
                       {t('add_approved_lost_damaged:type_asset')}
                     </CText>
                   </View>
-                  <View style={cStyles.mt10}>
-                    <CText>{isDetail
-                      ? route.params?.data?.assetStatusName
-                      : requestDetail.assetStatusName}</CText>
-                    <CText category="c1" appearance="hint">
-                      {t('add_approved_lost_damaged:status_asset')}
-                    </CText>
-                  </View>
                 </View>
               </View>
               {(isDetail && (route.params?.data?.descr || requestDetail?.descr)) && (
-                <View style={[cStyles.row, cStyles.itemsEnd, cStyles.mt5]}>
-                  <CText>
-                    {isDetail
-                      ? route.params?.data?.descr
-                      : requestDetail?.descr}
-                  </CText>
+                <View style={[cStyles.row, cStyles.itemsEnd, cStyles.mt10]}>
                   <CText category="c1" appearance="hint">
-                    {t('add_approved_lost_damaged:desc_asset')}
+                    {`${t('add_approved_lost_damaged:desc_asset')}: `}
+                  </CText>
+                  <CText>{isDetail
+                    ? route.params?.data?.descr
+                    : requestDetail?.descr}
                   </CText>
                 </View>
               )}
             </View>
           </Card>
         )}
+        {/** Form request */}
         <Card disabled
           style={cStyles.mt10}
-          header={<CText category="s1">{t('add_approved_lost_damaged:request_info')}</CText>}>
+          header={propsH =>
+            <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween, propsH.style]}>
+              <View style={currentProcess ? styles.con_header_left : {}}>
+                <CText category="s1">{t('add_approved_lost_damaged:request_info')}</CText>
+              </View>
+              {currentProcess && (
+                <View style={[cStyles.itemsEnd, styles.con_header_right]}>
+                  <Button
+                    size="tiny"
+                    status={currentProcess.statusColor}>
+                    {currentProcess.statusName}
+                  </Button>
+                </View>
+              )}
+            </View>
+          }>
           <CForm
             ref={formRef}
             loading={
@@ -794,7 +832,7 @@ function AddRequest(props) {
                 value: form.typeUpdate,
                 values: DATA_TYPE,
                 keyToCompare: 'value',
-                keyToShow: "s1",
+                keyToShow: "label",
                 disabled: isDetail,
                 required: false,
                 password: false,
@@ -831,7 +869,7 @@ function AddRequest(props) {
       )}
 
       {/** Actions show process of request */}
-      {isDetail && !currentProcess && (
+      {isDetail && (
         <CActionSheet actionRef={asProcessRef}>
           <RequestProcess data={process} />
         </CActionSheet>
@@ -887,8 +925,10 @@ function AddRequest(props) {
 }
 
 const styles = StyleSheet.create({
-  left: {flex: 0.33},
-  right: {flex: 0.33},
+  con_asset_left: {flex: 0.5},
+  con_asset_right: {flex: 0.5},
+  con_header_left: {flex: 0.7},
+  con_header_right: {flex: 0.3},
 });
 
 export default AddRequest;

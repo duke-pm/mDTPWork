@@ -10,7 +10,7 @@ import React, {createRef, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {showMessage} from 'react-native-flash-message';
-import {Button, Spinner, useTheme} from '@ui-kitten/components';
+import {Button, useTheme} from '@ui-kitten/components';
 import {StyleSheet, View} from 'react-native';
 import Picker from '@gregfrench/react-native-wheel-picker';
 /* COMPONENTS */
@@ -24,10 +24,6 @@ import * as Actions from '~/redux/actions';
 
 /** All ref */
 const asStatusRef = createRef();
-
-const RenderLoading = () => (
-  <Spinner size="small" />
-);
 
 function Status(props) {
   const {t} = useTranslation();
@@ -51,7 +47,7 @@ function Status(props) {
   const statusMaster = masterState.get('projectStatus');
 
   /** Use state */
-  const [loading, setLoading] = useState(false);
+  const [submitComment, setSubmitComment] = useState(false);
   const [isEdit, setIsEdit] = useState(true);
   const [status, setStatus] = useState({
     data: statusMaster,
@@ -81,6 +77,7 @@ function Status(props) {
   const onCloseActionSheet = (needUpdate, isFinished) => {
     if (needUpdate) {
       if (status.data[status.active].statusID !== props.task.statusID) {
+        onStartUpdate();
         let params = {
           TaskID: props.task.taskID,
           StatusID: status.data[status.active].statusID,
@@ -89,8 +86,6 @@ function Status(props) {
           RefreshToken: refreshToken,
         };
         dispatch(Actions.fetchUpdateTask(params, navigation));
-        setLoading(true);
-        onStartUpdate();
       }
     } else {
       let find = status.data.findIndex(f => f.statusID === props.task.statusID);
@@ -129,26 +124,25 @@ function Status(props) {
       RefreshToken: refreshToken,
     };
     dispatch(Actions.fetchTaskComment(paramsActivities, navigation));
+    setSubmitComment(false);
     curStatus = taskDetail.statusName;
     if (taskDetail.statusID === Commons.STATUS_TASK["7"]["value"]) {
       setIsEdit(false);
     }
-    return;
   };
 
   const onChangeStatus = index => {
     setStatus({...status, active: index});
   };
 
-  const onPrepareUpdate = isSuccess => {
+  const onNotification = isSuccess => {
     let des = isSuccess
       ? 'success:change_status'
       : projectState.get('errorHelperTaskUpdate');
     let type = isSuccess ? 'success' : 'danger';
     onEndUpdate(isSuccess);
-    setLoading(false);
     return showMessage({
-      message: t('common:app_name'),
+      message: t(isSuccess ? 'success:title' : 'error:title'),
       description: isSuccess ? t(des) : des,
       type,
       icon: type,
@@ -156,36 +150,52 @@ function Status(props) {
   };
 
   const onPrepareStatus = () => {
-    let moderateScaletatus = status.data.findIndex(
+    let tmpStatus = status.data.findIndex(
       f => f.statusID === props.task.statusID,
     );
-    if (moderateScaletatus !== -1) {
-      setStatus({...status, active: moderateScaletatus});
-      curStatus = status.data[moderateScaletatus].statusName;
+    if (tmpStatus !== -1) {
+      setStatus({...status, active: tmpStatus});
+      curStatus = status.data[tmpStatus].statusName;
+      if (status.data[tmpStatus].statusID === Commons.STATUS_TASK["7"]["value"]) {
+        setIsEdit(false);
+      }
+    }
+  };
+
+  const onCheckStatus = () => {
+    dispatch(Actions.resetAllProject());
+    let taskDetail = projectState.get('taskDetail');
+    if (taskDetail.statusID === Commons.STATUS_TASK["7"]["value"]) {
+      setIsEdit(false);
     }
   };
 
   /****************
    ** LIFE CYCLE **
    ****************/
+  useEffect(() => onCheckStatus(), []);
+
   useEffect(() => onPrepareStatus(), [props.task.statusID]);
 
   useEffect(() => {
-    if (loading) {
-      if (!projectState.get('submittingTaskUpdate')) {
-        if (projectState.get('successTaskUpdate')) {
+    if (!projectState.get('submittingTaskUpdate')) {
+      if (projectState.get('successTaskUpdate')) {
+        dispatch(Actions.resetAllProject());
+        if (!submitComment) {
+          setSubmitComment(true);
           onUpdateActivities();
-          return onPrepareUpdate(true);
         }
+        return onNotification(true);
+      }
 
-        if (projectState.get('errorTaskUpdate')) {
-          onPrepareStatus();
-          return onPrepareUpdate(false);
-        }
+      if (projectState.get('errorTaskUpdate')) {
+        onPrepareStatus();
+        return onNotification(false);
       }
     }
   }, [
-    loading,
+    submitComment,
+    Actions.resetAllProject,
     projectState.get('submittingTaskUpdate'),
     projectState.get('successTaskUpdate'),
     projectState.get('errorTaskUpdate'),
@@ -197,11 +207,12 @@ function Status(props) {
   return (
     <View>
       <Button
-        disabled={!isUpdate || disabled || !isEdit}
+        disabled={disabled}
         status={Commons.STATUS_TASK[props.task.statusID + '']['color']}
-        accessoryLeft={loading ? RenderLoading : undefined}
-        onPress={handleShowChangeStatus}
-      >
+        onPress={(isUpdate && isEdit)
+          ? handleShowChangeStatus
+          : undefined
+        }>
         {props.task.statusName}
       </Button>
 

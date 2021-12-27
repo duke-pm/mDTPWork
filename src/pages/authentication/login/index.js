@@ -9,11 +9,12 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {usePrevious} from '~/utils/hook';
 import {useTheme, Layout, CheckBox, Button} from '@ui-kitten/components';
-import {View, StatusBar, ScrollView, TouchableOpacity} from 'react-native';
+import {View, StatusBar, ScrollView} from 'react-native';
 import {showMessage} from 'react-native-flash-message';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CTopNavigation from '~/components/CTopNavigation';
+import CLoading from '~/components/CLoading';
 import CForm from '~/components/CForm';
 import CText from '~/components/CText';
 /* COMMON */
@@ -23,12 +24,15 @@ import {ThemeContext} from '~/configs/theme-context';
 import {AST_LANGUAGE, AST_LOGIN} from '~/configs/constants';
 import {cStyles} from '~/utils/style';
 import {
-  getLocalInfo, getSecretInfo, IS_ANDROID, removeSecretInfo,
-  resetRoute, saveSecretInfo,
+  getLocalInfo,
+  getSecretInfo,
+  saveSecretInfo,
+  removeSecretInfo,
+  resetRoute,
+  IS_ANDROID,
 } from '~/utils/helper';
 /* REDUX */
 import * as Actions from '~/redux/actions';
-import CLoading from '~/components/CLoading';
 
 /** All init */
 const INPUT_NAME = {
@@ -41,6 +45,7 @@ function Login(props) {
   const theme = useTheme();
   const themeContext = useContext(ThemeContext);
   const {navigation} = props;
+  const bgHeader = theme['background-basic-color-3'];
   let prevTheme = usePrevious(themeContext.themeApp);
 
   /** use ref */
@@ -109,7 +114,7 @@ function Login(props) {
     resetRoute(navigation, Routes.TAB.name);
   };
 
-  const onCheckDataLogin = async () => {
+  const onCheckLocalLogin = async () => {
     /** Check Data Language */
     let dataLanguage = await getLocalInfo(AST_LANGUAGE);
     if (dataLanguage) {
@@ -121,7 +126,7 @@ function Login(props) {
     if (dataLogin) {
       console.log('[LOG] === SignIn Local === ', dataLogin);
       setLoading({main: false, submit: true});
-      let i,
+      let i = 0,
         tmpDataLogin = {tokenInfo: {}, lstMenu: {}};
       for (i = 0; i < FieldsAuth.length; i++) {
         if (i === 0) {
@@ -158,7 +163,7 @@ function Login(props) {
    ****************/
   useEffect(() => {
     /** Check has save data login */
-    onCheckDataLogin();
+    onCheckLocalLogin();
   }, []);
 
   useEffect(() => {
@@ -183,20 +188,21 @@ function Login(props) {
   useEffect(() => {
     if (themeContext.themeApp !== prevTheme) {
       IS_ANDROID &&
-        StatusBar.setBackgroundColor(theme['background-basic-color-3'], true);
+        StatusBar.setBackgroundColor(bgHeader, true);
     }
   }, [prevTheme, themeContext.themeApp]);
 
   /************
    ** RENDER **
    ************/
+  
   return (
     <CContainer
       safeArea={['top']}
-      backgroundColor={theme['background-basic-color-3']}>
+      backgroundColor={bgHeader}>
       {/** Header */}
       <CTopNavigation
-        style={{backgroundColor: theme['background-basic-color-3']}}
+        style={{backgroundColor: bgHeader}}
         leftTitle={'sign_in:title'}
         logo
         darkmode
@@ -206,7 +212,7 @@ function Login(props) {
         <Layout
           style={[
             cStyles.flex1,
-            cStyles.mt16,
+            cStyles.mt32,
             cStyles.roundedTopLeft5,
             cStyles.roundedTopRight5,
             cStyles.py16,
@@ -278,6 +284,7 @@ function Login(props) {
           />
         </Layout>
       </ScrollView>
+      {/** Loading */}
       <CLoading show={loading.submit} />
     </CContainer>
   );

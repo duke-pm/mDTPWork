@@ -18,6 +18,7 @@ import CContainer from '~/components/CContainer';
 import CTopNavigation from '~/components/CTopNavigation';
 import CForm from '~/components/CForm';
 import CText from '~/components/CText';
+import CLoading from '~/components/CLoading';
 /* COMMON */
 import {cStyles} from '~/utils/style';
 import {moderateScale} from '~/utils/helper';
@@ -25,6 +26,7 @@ import {moderateScale} from '~/utils/helper';
 import * as Actions from '~/redux/actions';
 
 const MyIconAnim = Animatable.createAnimatableComponent(IoniIcon);
+const sIconStatus = moderateScale(120);
 
 /** All init */
 const INPUT_NAME = {
@@ -34,7 +36,9 @@ const INPUT_NAME = {
 function ForgotPassword(props) {
   const {t} = useTranslation();
   const theme = useTheme();
-  const {navigation} = props;
+  const bgHeader = theme['background-basic-color-3'];
+  const colorSuccess = theme['color-success-500'];
+  const colorError = theme['color-danger-500'];
 
   /** use ref */
   const formRef = useRef();
@@ -55,13 +59,6 @@ function ForgotPassword(props) {
     success: false,
   });
 
-  /*****************
-   ** HANDLE FUNC **
-   *****************/
-  const handleGoBack = () => {
-    navigation.goBack();
-  };
-
   /**********
    ** FUNC **
    **********/
@@ -69,6 +66,7 @@ function ForgotPassword(props) {
     setLoading(true);
     /** Set value for email */
     let tmpCallback = formRef.current?.onCallbackValue();
+    setValues({email: tmpCallback.valuesAll[0].value});
     /** Submit */
     let params = fromJS({
       Lang: language,
@@ -110,10 +108,10 @@ function ForgotPassword(props) {
   return (
     <CContainer
       safeArea={['top']}
-      backgroundColor={theme['background-basic-color-3']}>
+      backgroundColor={bgHeader}>
       {/** Header */}
       <CTopNavigation
-        style={{backgroundColor: theme['background-basic-color-3']}}
+        style={{backgroundColor: bgHeader}}
         back
         leftTitle={'forgot_password:title'}
       />
@@ -123,7 +121,7 @@ function ForgotPassword(props) {
           <Layout
             style={[
               cStyles.flex1,
-              cStyles.mt16,
+              cStyles.mt32,
               cStyles.roundedTopLeft5,
               cStyles.roundedTopRight5,
               cStyles.py16,
@@ -131,7 +129,7 @@ function ForgotPassword(props) {
             ]}>
             {/** Caption */}
             <View style={cStyles.mt16}>
-              <CText style={cStyles.textCenter} category="p1">
+              <CText style={cStyles.textCenter}>
                 {t('forgot_password:caption')}
               </CText>
             </View>
@@ -163,13 +161,12 @@ function ForgotPassword(props) {
             />
           </Layout>
         )}
-
         {/** Content when success */}
         {showAlert.status && showAlert.success && (
           <Layout
             style={[
               cStyles.flex1,
-              cStyles.mt16,
+              cStyles.mt32,
               cStyles.roundedTopLeft5,
               cStyles.roundedTopRight5,
               cStyles.py16,
@@ -178,13 +175,12 @@ function ForgotPassword(props) {
             <View style={cStyles.itemsCenter}>
               <MyIconAnim
                 name={'checkmark-circle-outline'}
-                size={moderateScale(150)}
-                color={theme['color-success-500']}
+                size={sIconStatus}
+                color={colorSuccess}
                 animation="pulse"
                 easing="ease-out"
               />
             </View>
-
             {/** Sub-title & Caption */}
             <View style={[cStyles.itemsCenter, cStyles.mt16]}>
               <CText style={cStyles.textCenter}>
@@ -203,11 +199,12 @@ function ForgotPassword(props) {
             </View>
           </Layout>
         )}
+        {/** Content when error */}
         {showAlert.status && !showAlert.success && (
           <Layout
             style={[
               cStyles.flex1,
-              cStyles.mt16,
+              cStyles.mt32,
               cStyles.roundedTopLeft5,
               cStyles.roundedTopRight5,
               cStyles.py16,
@@ -216,8 +213,8 @@ function ForgotPassword(props) {
             <View style={cStyles.itemsCenter}>
               <MyIconAnim
                 name={'close-circle-outline'}
-                size={moderateScale(150)}
-                color={theme['color-danger-500']}
+                size={sIconStatus}
+                color={colorError}
                 animation="pulse"
                 easing="ease-out"
               />
@@ -240,6 +237,8 @@ function ForgotPassword(props) {
           </Layout>
         )}
       </ScrollView>
+      {/** Loading */}
+      <CLoading show={loading} />
     </CContainer>
   );
 }

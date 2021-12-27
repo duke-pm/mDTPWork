@@ -13,7 +13,7 @@ import {useTranslation} from 'react-i18next';
 import {showMessage} from 'react-native-flash-message';
 import {useTheme, List} from '@ui-kitten/components';
 import {StyleSheet, ScrollView, View} from 'react-native';
-import Orientation from 'react-native-orientation-locker';
+// import Orientation from 'react-native-orientation-locker';
 import moment from 'moment';
 /** COMPONENTS */
 import CContainer from '~/components/CContainer';
@@ -21,12 +21,11 @@ import CTopNavigation from '~/components/CTopNavigation';
 import CText from '~/components/CText';
 import CLoading from '~/components/CLoading';
 import BodyOverview from '../components/BodyOverview';
+import Filter from '../components/Filter';
 /** COMMON */
 import Configs from '~/configs';
-import Routes from '~/navigator/Routes';
 import {IS_ANDROID} from '~/utils/helper';
 import {cStyles} from '~/utils/style';
-import {usePrevious} from '~/utils/hook';
 import {
   FIRST_CELL_WIDTH_LARGE,
   CELL_HEIGHT,
@@ -147,30 +146,20 @@ function ProjectOverview(props) {
   /** Use redux */
   const dispatch = useDispatch();
   const projectState = useSelector(({projectManagement}) => projectManagement);
+  const masterState = useSelector(({masterData}) => masterData);
   const commonState = useSelector(({common}) => common);
   const authState = useSelector(({auth}) => auth);
   const language = commonState.get('language');
-  const formatDate = commonState.get('formatDate');
   const formatDateView = commonState.get('formatDateView');
   const refreshToken = authState.getIn(['login', 'refreshToken']);
   const perPageMaster = Configs.perPageProjectOverview;
 
   /** Use state */
-  const [isFiltering, setIsFiltering] = useState(false);
   const [loading, setLoading] = useState({
     startFetch: false,
     refreshing: false,
     loadmore: false,
     isLoadmore: true,
-  });
-  const [showPicker, setShowPicker] = useState({
-    status: false,
-    active: null,
-  });
-  const [showFilter, setShowFilter] = useState({
-    activeOwner: [],
-    activeStatus: [],
-    activeSector: [],
   });
   const [data, setData] = useState({
     overview: [],
@@ -187,57 +176,47 @@ function ProjectOverview(props) {
     page: 1,
   });
 
-  /** Use prev */
-  let prevShowFilter = usePrevious(showFilter);
-  let prevYear = usePrevious(params.year);
-  let prevFromDate = usePrevious(params.fromDate);
-  let prevToDate = usePrevious(params.toDate);
-
   /*****************
    ** HANDLE FUNC **
    *****************/
-  const handleShowFilter = () => {
-    navigation.navigate(Routes.MAIN.PROJECT_OVERVIEW_FILTER.name, {
-      activeYear: params.year,
-      activeOwner: showFilter.activeOwner,
-      activeStatus: showFilter.activeStatus,
-      activeSector: showFilter.activeSector,
-      onFilter: (year, from, to, actOwn, actSta, actSec) =>
-        handleFilter(year, from, to, actOwn, actSta, actSec),
-    });
-  };
-
   const handleFilter = (
     year = moment().year(),
-    fromDate = '',
-    toDate = '',
+    // fromDate = '',
+    // toDate = '',
+    activeSector = [],
     activeOwner = [],
     activeStatus = [],
-    activeSector = [],
+    toggle = () => null,
   ) => {
+    toggle();
     setParams({
       ...params,
-      fromDate: fromDate !== '' ? year + '/' + fromDate : null,
-      toDate: toDate !== '' ? year + '/' + toDate : null,
+      // fromDate: fromDate !== '' ? year + '/' + fromDate : null,
+      // toDate: toDate !== '' ? year + '/' + toDate : null,
       year,
+      sectorID: activeSector,
+      ownerID: activeOwner,
+      statusID: activeStatus,
+      page: 1,
     });
-    setShowFilter({activeOwner, activeStatus, activeSector});
+    onFetchData(
+      year,
+      null,
+      null,
+      activeSector,
+      activeOwner,
+      activeStatus,
+      perPageMaster,
+      1,
+      '',
+    );
+    return setLoading({...loading, startFetch: true});
   };
 
   /**********
    ** FUNC **
    **********/
   const formatRowForSheet = section => section.item.render;
-
-  const onChangeDateRequest = (newDate, show) => {
-    setShowPicker({...showPicker, status: show});
-    if (newDate && showPicker.active) {
-      setParams({
-        ...params,
-        [showPicker.active]: moment(newDate).format(formatDate),
-      });
-    }
-  };
 
   const onRecursiveData = (currentData = [], newData = []) => {
     if (currentData.length > 0) {
@@ -282,42 +261,25 @@ function ProjectOverview(props) {
     year = params.year,
     fromDate = null,
     toDate = null,
+    sectorID = null,
     ownerID = null,
     statusID = null,
-    sectorID = null,
     perPage = params.perPage,
     page = params.page,
   ) => {
     let paramsFetch = fromJS({
       Year: year,
-      FromDate: fromDate || null,
-      ToDate: toDate || null,
+      FromDate: fromDate,
+      ToDate: toDate,
+      SectorID: sectorID,
       OwnerID: ownerID,
       StatusID: statusID,
-      SectorID: sectorID,
       PageSize: perPage,
       PageNum: page,
       Lang: language,
       RefreshToken: refreshToken,
     });
     dispatch(Actions.fetchProjectOverview(paramsFetch, navigation));
-    if (
-      (ownerID !== null ||
-        statusID !== null ||
-        sectorID !== null ||
-        year != moment().year()) &&
-      !isFiltering
-    ) {
-      setIsFiltering(true);
-    } else if (
-      ownerID === null &&
-      statusID === null &&
-      sectorID === null &&
-      year == moment().year() &&
-      isFiltering
-    ) {
-      setIsFiltering(false);
-    }
   };
 
   const onPrepareData = () => {
@@ -409,7 +371,7 @@ function ProjectOverview(props) {
    ****************/
   useEffect(() => {
     /** Force to Horizontal to see more fields */
-    Orientation.lockToLandscapeLeft();
+    // Orientation.lockToLandscapeLeft();
 
     /** Prepare data body */
     onFetchMasterData();
@@ -417,9 +379,9 @@ function ProjectOverview(props) {
     setLoading({...loading, startFetch: true});
 
     /** After done and quit this page => Force to Vertical */
-    return () => {
-      Orientation.lockToPortrait();
-    };
+    // return () => {
+    //   Orientation.lockToPortrait();
+    // };
   }, []);
 
   useEffect(() => {
@@ -442,85 +404,6 @@ function ProjectOverview(props) {
     projectState.get('errorOverview'),
   ]);
 
-  useEffect(() => {
-    if (prevShowFilter && prevYear) {
-      if (!loading.startFetch) {
-        if (
-          prevShowFilter.activeOwner.join() === showFilter.activeOwner.join() &&
-          prevShowFilter.activeStatus.join() ===
-            showFilter.activeStatus.join() &&
-          prevShowFilter.activeSector.join() ===
-            showFilter.activeSector.join() &&
-          prevYear === params.year &&
-          prevFromDate === params.fromDate &&
-          prevToDate === params.toDate
-        ) {
-          return;
-        }
-        if (params.year) {
-          setData({overview: [], render: []});
-          let tmp = {ownerID: null, statusID: null, sectorID: null};
-          if (showFilter.activeOwner.length > 0) {
-            tmp.ownerID = showFilter.activeOwner.join();
-          }
-          if (showFilter.activeStatus.length > 0) {
-            tmp.statusID = showFilter.activeStatus.join();
-          }
-          if (showFilter.activeSector.length > 0) {
-            tmp.sectorID = showFilter.activeSector.join();
-          }
-          onFetchData(
-            params.year,
-            params.fromDate,
-            params.toDate,
-            tmp.ownerID,
-            tmp.statusID,
-            tmp.sectorID,
-            perPageMaster,
-            1,
-          );
-          setLoading({...loading, startFetch: true});
-          return setParams({
-            ...params,
-            ownerID: tmp.ownerID,
-            statusID: tmp.statusID,
-            sectorID: tmp.sectorID,
-            page: 1,
-          });
-        }
-      }
-    }
-  }, [
-    loading.startFetch,
-    prevYear,
-    prevFromDate,
-    prevToDate,
-    prevShowFilter,
-    params.year,
-    params.fromDate,
-    params.toDate,
-    showFilter.activeOwner,
-    showFilter.activeStatus,
-    showFilter.activeSector,
-  ]);
-
-  // useLayoutEffect(() => {
-  //   navigation.setOptions({
-  //     headerRight: () => (
-  //       <CIconHeader
-  //         icons={[
-  //           {
-  //             show: true,
-  //             showRedDot: isFiltering,
-  //             icon: Icons.filter,
-  //             onPress: handleShowFilter,
-  //           },
-  //         ]}
-  //       />
-  //     ),
-  //   });
-  // }, [navigation, isFiltering, params.year, showFilter]);
-
   /************
    ** RENDER **
    ************/
@@ -532,6 +415,24 @@ function ProjectOverview(props) {
           title="project_overview:title"
           back
           borderBottom
+          filter
+          renderFilter={(propsF, toggleFilter) => 
+            <View style={propsF.style}>
+              <Filter
+                isYear={true}
+                isSector={true}
+                data={params}
+                masterData={{
+                  users: masterState.get('users'),
+                  status: masterState.get('projectStatus'),
+                  sectors: masterState.get('projectSector')
+                }}
+                onFilter={(year, activeSector, activeOwner, activeStatus) =>
+                  handleFilter(year, activeSector, activeOwner, activeStatus, toggleFilter)
+                }
+              />
+            </View>
+          }
         />
       }>
       <FormatHeader

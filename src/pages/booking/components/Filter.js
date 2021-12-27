@@ -13,8 +13,6 @@ import {useTheme, Button, Datepicker, Divider, Icon} from '@ui-kitten/components
 import {MomentDateService} from '@ui-kitten/moment';
 import {View} from 'react-native';
 import moment from 'moment';
-import 'moment';
-import 'moment/locale/vi';
 /* COMPONENTS */
 import CText from '~/components/CText';
 import CIcon from '~/components/CIcon';

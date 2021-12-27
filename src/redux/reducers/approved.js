@@ -79,7 +79,16 @@ export default function (state = initialState, action = {}) {
         .set('errorHelperApprovedRequest', '')
         .set('successRejectRequest', false)
         .set('errorRejectRequest', false)
-        .set('errorHelperRejectRequest', '');
+        .set('errorHelperRejectRequest', '')
+        .set('requests', [])
+        .set('requestsDetail', [])
+        .set('processApproved', [])
+        .set('requestsDamage', [])
+        .set('requestsDamageDetail', [])
+        .set('processDamageApproved', [])
+        .set('requestsLost', [])
+        .set('requestsLostDetail', [])
+        .set('processLostApproved', []);
 
     /** For list request **/
     case types.START_FETCH_LIST_REQUEST_APPROVED:

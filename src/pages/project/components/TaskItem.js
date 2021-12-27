@@ -7,10 +7,11 @@
  **/
 import PropTypes from 'prop-types';
 import React, {useState} from 'react';
-import {Avatar, Button, Card, Layout, Text, Tooltip} from '@ui-kitten/components';
+import {Avatar, Button, Card, Text, Tooltip} from '@ui-kitten/components';
 import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import moment from 'moment';
 /* COMPONENTS */
+import CAvatar from '~/components/CAvatar';
 import CText from '~/components/CText';
 /* COMMON */
 import {DEFAULT_FORMAT_DATE_4, DEFAULT_FORMAT_DATE_9} from '~/configs/constants';
@@ -46,7 +47,8 @@ function TaskItem(props) {
    ************/
   let showPercentage = data.taskTypeID === Commons.TYPE_TASK.TASK.value,
     bgTaskType = colors.STATUS_NEW_OPACITY, // Default is TASK
-    delay = 0;
+    delay = 0,
+    arrAvatarParticipant = [];
   if (data) {
     if (data.taskTypeID === Commons.TYPE_TASK.PHASE.value) {
       bgTaskType = colors.STATUS_ON_HOLD_OPACITY;
@@ -63,11 +65,11 @@ function TaskItem(props) {
       delay = moment().diff(data.endDate, 'days');
     }
   }
+  if (data.lstUserInvited.length > 0) {
+    arrAvatarParticipant = data.lstUserInvited.map(itemU => Assets.iconUser);
+  }
   return (
     <Card
-      style={data.statusID > 4
-        ? {backgroundColor: theme['background-basic-color-2']}
-        : {}}
       onPress={handleItem}
       header={propsH =>
         <View
@@ -105,7 +107,6 @@ function TaskItem(props) {
           </View>
           <View style={cStyles.itemsEnd}>
             <Button
-              appearance="outline"
               size="tiny"
               status={Commons.STATUS_TASK[data.statusID.toString()].color}>
               {propsB =>
@@ -165,31 +166,12 @@ function TaskItem(props) {
 
         {data.lstUserInvited.length > 0 && (
           <View style={[cStyles.justifyStart, styles.con_flex]}>
-            <View style={[cStyles.row, cStyles.itemsCenter]}>
-              {data.lstUserInvited.map((itemP, indexP) => {
-                if (indexP > 3) return null;
-                if (indexP === 3) {
-                  return (
-                    <Layout
-                      style={[
-                        cStyles.abs,
-                        cStyles.center,
-                        cStyles.rounded5,
-                        styles.con_avatar_number,
-                        {left: indexP * 15}]}
-                      level="4">
-                      <Text category="c2">{`+${data.lstUserInvited.length - 3}`}</Text>
-                    </Layout>
-                  );
-                }
-                return (
-                  <Avatar
-                    style={[cStyles.abs, {left: indexP * 15}]}
-                    size="tiny"
-                    source={Assets.iconUser} />
-                );
-              })}
-            </View>
+            <CAvatar
+              numberShow={2}
+              absolute={false}
+              sources={arrAvatarParticipant}
+              size="tiny"
+            />
           </View>
         )}
       </View>

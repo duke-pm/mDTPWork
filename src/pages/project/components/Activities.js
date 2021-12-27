@@ -14,35 +14,22 @@ import {
   StyleSheet,
   View,
   Keyboard,
-  Text,
   KeyboardAvoidingView,
   LayoutAnimation,
   UIManager,
-  TouchableOpacity,
+  SectionList,
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
-import DeviceInfo from 'react-native-device-info';
 import * as Animatable from 'react-native-animatable';
 import moment from 'moment';
 /* COMPONENTS */
-import CContainer from '~/components/CContainer';
 import CText from '~/components/CText';
-// import CInput from '~/components/CInput';
-// import CIconButton from '~/components/CIconButton';
-// import CList from '~/components/CList';
-// import CIcon from '~/components/CIcon';
-// import CAvatar from '~/components/CAvatar';
-// import CIconHeader from '~/components/CIconHeader';
-// import CSearchBar from '~/components/CSearchBar';
 /* COMMON */
-import Icons from '~/utils/common/Icons';
 import {colors, cStyles} from '~/utils/style';
 import {
   AST_LAST_COMMENT_TASK,
   DEFAULT_FORMAT_DATE_7,
   DEFAULT_FORMAT_DATE_8,
 } from '~/configs/constants';
-import {LOCALE_VI, LOCALE_EN} from '~/utils/language/comment';
 import {
   saveLocalInfo,
   getLocalInfo,
@@ -52,7 +39,10 @@ import {
 } from '~/utils/helper';
 /** REDUX */
 import * as Actions from '~/redux/actions';
-import {useTheme, Button, Input, Icon} from '@ui-kitten/components';
+import {useTheme, Button, Input, Icon, Layout, Text, Divider} from '@ui-kitten/components';
+import CEmpty from '~/components/CEmpty';
+import CAvatar from '~/components/CAvatar';
+import { Assets } from '~/utils/asset';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -65,78 +55,59 @@ let listRef = createRef();
 
 /** All init */
 const INPUT_NAME = {MESSAGE: 'message'};
-const HEIGHT_INPUT_1 = moderateScale(40);
-const HEIGHT_INPUT_2 = moderateScale(10);
 
 const RenderSendIcon = props => (
   <Icon {...props} name="paper-plane-outline" />
 );
 
-const RenderInputMessage = React.memo(
-  ({
-    theme = {},
+const RenderInputMessage = ({
+    loading = false,
+    trans = {},
     value = '',
-    heightInput = 0,
     onSend = () => {},
-    onSizeInputChange = () => {},
     handleChangeText = () => {},
   }) => {
     return (
-      <View
+      <Layout
         style={[
           ifIphoneX(cStyles.pb24, cStyles.pb6),
-          cStyles.fullWidth,
-          {backgroundColor: theme['text-hint-color']},
-        ]}>
-        <View style={[cStyles.px16, cStyles.row, cStyles.itemsCenter]}>
+          cStyles.fullWidth,,
+        ]}
+        level="3">
+        <View
+          style={[
+            cStyles.px16,
+            cStyles.row,
+            cStyles.itemsCenter,
+            cStyles.justifyBetween,
+            cStyles.mt5,
+          ]}>
           <Input
+            style={[cStyles.flex1, cStyles.mr5]}
             testID={INPUT_NAME.MESSAGE}
-            style={[
-              cStyles.py4,
-              cStyles.rounded5,
-              {
-                height: Math.max(HEIGHT_INPUT_1, heightInput + HEIGHT_INPUT_2),
-              },
-            ]}
-            placeholder={t('project_management:holder_input_your_comment')}
+            placeholder={trans('project_management:holder_input_your_comment')}
             value={value}
-            onBlur={Keyboard.dismiss}
             blurOnSubmit={false}
+            editable={!loading}
             multiline
+            onBlur={Keyboard.dismiss}
             onChangeText={handleChangeText}
-            onContentSizeChange={onSizeInputChange}
           />
-          <LinearGradient
-            style={[
-              cStyles.center,
-              cStyles.rounded10,
-              cStyles.mt6,
-              cStyles.ml8,
-              {backgroundColor: theme['background-basic-color-2']},
-            ]}
-            colors={
-              value === ''
-                ? [colors.GRAY_500, theme['text-hint-color']]
-                : colors.BACKGROUND_GRADIENT_SEND
-            }>
-            <Button
-              size="small"
-              disabled={value === ''}
-              accessoryLeft={RenderSendIcon}
-              onPress={onSend}
-            />
-          </LinearGradient>
+          <Button
+            size="small"
+            disabled={value === '' || loading}
+            accessoryLeft={RenderSendIcon}
+            onPress={onSend}
+          />
         </View>
-      </View>
+      </Layout>
     );
-  },
-);
+};
 
 function Activity(props) {
   const {t} = useTranslation();
   const theme = useTheme();
-  const {route, navigation} = props;
-  const taskID = route.params.data.taskID;
+  const {taskID, navigation} = props;
 
   /** Use redux */
   const dispatch = useDispatch();
@@ -146,11 +117,6 @@ function Activity(props) {
   const userName = authState.getIn(['login', 'userName']);
   const refreshToken = authState.getIn(['login', 'refreshToken']);
   const language = commonState.get('language');
-  if (language === 'vi') {
-    moment.updateLocale('vi', LOCALE_VI);
-  } else {
-    moment.updateLocale('en', LOCALE_EN);
-  }
 
   /** Use state */
   const [loading, setLoading] = useState({
@@ -162,7 +128,6 @@ function Activity(props) {
     data: [],
     active: 0,
   });
-  const [heightInput, setHeightInput] = useState(0);
   const [valueMessage, setValueMessage] = useState('');
   const [messages, setMessages] = useState([]);
 
@@ -241,9 +206,6 @@ function Activity(props) {
    **********/
   const done = () => setLoading({main: false, send: false});
 
-  const onSizeInputChange = event =>
-    setHeightInput(event.nativeEvent.contentSize.height);
-
   const onPrepareData = async isUpdate => {
     let array = [];
     let activities = projectState.get('activities');
@@ -296,7 +258,6 @@ function Activity(props) {
   const onSendMessage = () => {
     if (valueMessage.trim() !== '') {
       setLoading({...loading, send: true});
-      Keyboard.dismiss();
       setValueMessage('');
       let params = {
         LineNum: 0,
@@ -391,30 +352,30 @@ function Activity(props) {
     projectState.get('errorTaskComment'),
   ]);
 
-  useLayoutEffect(() => {
-    if (messages.length > 0) {
-      navigation.setOptions({
-        headerRight: () => (
-          <CIconHeader
-            icons={[
-              {
-                show: true,
-                showRedDot: false,
-                icon: 'search',
-                onPress: handleOpenSearch,
-              },
-            ]}
-          />
-        ),
-      });
-    }
-  }, [navigation, messages.length]);
+  // useLayoutEffect(() => {
+  //   if (messages.length > 0) {
+  //     navigation.setOptions({
+  //       headerRight: () => (
+  //         <CIconHeader
+  //           icons={[
+  //             {
+  //               show: true,
+  //               showRedDot: false,
+  //               icon: 'search',
+  //               onPress: handleOpenSearch,
+  //             },
+  //           ]}
+  //         />
+  //       ),
+  //     });
+  //   }
+  // }, [navigation, messages.length]);
 
   /************
    ** RENDER **
    ************/
   return (
-    <Layout>
+    <Layout style={cStyles.flex1}>
       {showSearch && (
         <View
           style={[
@@ -460,20 +421,113 @@ function Activity(props) {
       <KeyboardAvoidingView
         style={cStyles.flex1}
         behavior={IS_IOS ? 'padding' : undefined}
-        keyboardVerticalOffset={
-          isIphoneX()
-            ? moderateScale(68)
-            : DeviceInfo.isTablet()
-            ? moderateScale(46)
-            : moderateScale(58)
-        }>
+        keyboardVerticalOffset={ifIphoneX(230, 200)}>
+        {!loading.main && (
+          <SectionList
+            viewRef={ref => (listRef = ref)}
+            style={cStyles.flex1}
+            contentContainerStyle={[cStyles.py16, cStyles.flexGrow]}
+            inverted={messages.length > 0}
+            sections={messages}
+            renderSectionFooter={({section: {title}}) => {
+              return (
+                <View style={[cStyles.row, cStyles.itemsCenter, cStyles.center, cStyles.py16]}>
+                  <CText category="c2" appearance="hint">{title.toUpperCase()}</CText>
+                </View>
+              )
+            }}
+            renderItem={info => {
+              if (info.item.userName === userName) {
+                return (
+                  <View
+                    style={[
+                      cStyles.itemsEnd,
+                      cStyles.ml16,
+                      cStyles.mt2,
+                      cStyles.pr16,
+                    ]}>
+                    <Animatable.View
+                      ref={ref => onCheckRef(info.index, ref)}
+                      style={[
+                        cStyles.rounded1,
+                        cStyles.p10,
+                        {backgroundColor: theme['color-primary-500']},
+                      ]}>
+                      <CText style={cStyles.textRight} category="p2" status="control" maxLines={1000}>
+                        {info.item.comments}
+                      </CText>
+                      <Text style={[cStyles.textRight, cStyles.mt5]} category="c2" status="control">
+                        {`${info.item.timeUpdate.split(' - ')[1]}`}
+                      </Text>
+                    </Animatable.View>
+                  </View>
+                );
+              }
+              return (
+                <View
+                  style={[
+                    cStyles.row,
+                    cStyles.mt2,
+                    cStyles.pr16,
+                    cStyles.pl10,
+                  ]}>
+                  {info.item.showAvatar && (
+                    <View style={[cStyles.itemsCenter, styles.container_chat]}>
+                      <CAvatar size={'small'} source={Assets.iconUser} />
+                    </View>
+                  )}
+                  {!info.item.showAvatar && (
+                    <View style={styles.container_chat} />
+                  )}
+                  <View style={cStyles.flex1}>
+                    {info.item.showAvatar && (
+                      <View style={cStyles.my6}>
+                        <Text
+                          category="c1"
+                          appearance="hint">
+                          {info.item.fullName}
+                        </Text>
+                      </View>
+                    )}
+                    <Animatable.View
+                      ref={ref => onCheckRef(info.index, ref)}
+                      style={[
+                        cStyles.row,
+                        cStyles.rounded1,
+                        cStyles.p10,
+                        {backgroundColor: theme['background-basic-color-3']},
+                      ]}>
+                      <View style={{flex: 0.85}}>
+                        <CText category="p2" maxLines={1000}>{info.item.comments}</CText>
+                      </View>
+                      <View style={{flex: 0.15}}>
+                        <Text style={cStyles.textRight} category="c2" appearance="hint">
+                          {`${info.item.timeUpdate.split('-')[1]}`}
+                        </Text>
+                      </View>
+                    </Animatable.View>
+                  </View>
+                </View>
+              );
+            }}
+            extraData={messages}
+            keyExtractor={(item, index) => item.userName + '_' + index}
+            ListEmptyComponent={
+              <View style={cStyles.center}>
+                <CEmpty
+                  style={{flex: undefined}}
+                  description="project_management:empty_comment"
+                />
+              </View>
+            }
+          />
+        )}
         
         {!showSearch && (
           <RenderInputMessage
-            theme={theme}
+            loading={loading.send}
+            trans={t}
             value={valueMessage}
-            heightInput={heightInput}
-            onSizeInputChange={onSizeInputChange}
             onSend={onSendMessage}
             handleChangeText={setValueMessage}
           />
@@ -481,172 +535,14 @@ function Activity(props) {
       </KeyboardAvoidingView>
     </Layout>
   );
-
-  return (
-    <CContainer
-      loading={loading.main || loading.send}
-      content={
-        <View style={cStyles.flex1}>
-          {showSearch && (
-            <View
-              style={[
-                cStyles.itemsCenter,
-                cStyles.borderBottom,
-                dataSearch.data.length === 0 && cStyles.pb10,
-                dataSearch.data.length > 0 && styles.con_search,
-              ]}>
-              <CSearchBar
-                containerStyle={IS_ANDROID ? cStyles.mx20 : {}}
-                isVisible={showSearch}
-                onSearch={handleSearch}
-                onClose={handleCloseSearch}
-              />
-
-              {dataSearch.data.length > 0 ? (
-                <View style={[cStyles.row, cStyles.itemsCenter]}>
-                  <TouchableOpacity
-                    disabled={
-                      dataSearch.data.length < 2 || dataSearch.active === 0
-                    }
-                    onPress={handleDownSearch}>
-                    <CIcon
-                      style={cStyles.p10}
-                      name={Icons.downItem}
-                      size={'medium'}
-                    />
-                  </TouchableOpacity>
-
-                  <Text
-                    style={[cStyles.textCaption1, {color: customColors.text}]}>
-                    {dataSearch.active + 1}/{dataSearch.data.length}
-                  </Text>
-
-                  <TouchableOpacity
-                    disabled={
-                      dataSearch.data.length < 2 ||
-                      dataSearch.active === dataSearch.data.length - 1
-                    }
-                    onPress={handleUpSearch}>
-                    <CIcon
-                      style={cStyles.p10}
-                      name={Icons.downItem}
-                      size={'medium'}
-                    />
-                  </TouchableOpacity>
-                </View>
-              ) : (
-                <View style={[cStyles.center, cStyles.my10]}>
-                  <CText styles={'textCaption1'} label={'common:empty_info'} />
-                </View>
-              )}
-            </View>
-          )}
-          <KeyboardAvoidingView
-            style={cStyles.flex1}
-            behavior={IS_IOS ? 'padding' : undefined}
-            keyboardVerticalOffset={
-              isIphoneX()
-                ? moderateScale(68)
-                : DeviceInfo.isTablet()
-                ? moderateScale(46)
-                : moderateScale(58)
-            }>
-            <CList
-              contentStyle={[cStyles.pt10, cStyles.flexGrow]}
-              viewRef={ref => (listRef = ref)}
-              customColors={customColors}
-              sectionList={true}
-              inverted={messages.length > 0}
-              textEmpty={t('project_management:empty_comment')}
-              data={messages}
-              item={({item, index}) => {
-                if (item.userName === userName) {
-                  return (
-                    <View style={[cStyles.itemsEnd, cStyles.ml32]}>
-                      <Animatable.View
-                        ref={ref => onCheckRef(index, ref)}
-                        style={[
-                          cStyles.roundedTopLeft1,
-                          cStyles.roundedTopRight1,
-                          cStyles.roundedBottomLeft1,
-                          cStyles.p10,
-                          styles.con_me,
-                        ]}>
-                        <CText
-                          styles={'colorWhite textRight'}
-                          customLabel={item.comments}
-                        />
-                        <CText
-                          styles={
-                            'colorWhite textRight textCaption2 fontLight mt4'
-                          }
-                          customLabel={`${item.timeUpdate.split(' - ')[1]}`}
-                        />
-                      </Animatable.View>
-                    </View>
-                  );
-                }
-                return (
-                  <View
-                    style={[cStyles.flex1, cStyles.row, cStyles.itemsStart]}>
-                    {item.showAvatar && (
-                      <View style={styles.container_chat}>
-                        <CAvatar size={'small'} label={item.fullName} />
-                      </View>
-                    )}
-                    {!item.showAvatar && <View style={styles.container_chat} />}
-                    <View style={styles.container_cmt}>
-                      {item.showAvatar && (
-                        <View style={cStyles.mb3}>
-                          <CText
-                            styles={'fontBold colorPrimary'}
-                            customLabel={item.fullName}
-                          />
-                        </View>
-                      )}
-                      <Animatable.View
-                        ref={ref => onCheckRef(index, ref)}
-                        style={[
-                          cStyles.roundedTopRight1,
-                          cStyles.roundedBottomRight1,
-                          cStyles.roundedBottomLeft1,
-                          cStyles.p10,
-                          {backgroundColor: customColors.cardHolder},
-                        ]}>
-                        <CText customLabel={item.comments} />
-                        <CText
-                          styles={'textCaption2 textRight fontLight mt4'}
-                          customLabel={`${item.timeUpdate.split('-')[1]}`}
-                        />
-                      </Animatable.View>
-                    </View>
-                  </View>
-                );
-              }}
-            />
-            {!showSearch && (
-              <RenderInputMessage
-                customColors={customColors}
-                value={valueMessage}
-                heightInput={heightInput}
-                onSizeInputChange={onSizeInputChange}
-                onSend={onSendMessage}
-                handleChangeText={setValueMessage}
-              />
-            )}
-          </KeyboardAvoidingView>
-        </View>
-      }
-    />
-  );
 }
 
 const styles = StyleSheet.create({
   con_search: {height: moderateScale(110)},
   input_focus: {borderColor: colors.PRIMARY},
   input: {width: '85%'},
-  container_chat: {flex: 0.1},
-  container_cmt: {flex: 0.9},
+  container_chat: {flex: 0.15},
+  container_cmt: {flex: 0.85},
   con_me: {backgroundColor: colors.BLUE},
 });
 

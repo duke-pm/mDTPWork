@@ -16,9 +16,9 @@ import {Assets} from '~/utils/asset';
 import {Commons, Icons} from '~/utils/common';
 import {cStyles} from '~/utils/style';
 import {
-  DEFAULT_FORMAT_DATE_4, DEFAULT_FORMAT_DATE_9,
+  DEFAULT_FORMAT_DATE_4,
+  DEFAULT_FORMAT_DATE_9,
 } from '~/configs/constants';
-import {moderateScale} from '~/utils/helper';
 
 function RequestItem(props) {
   const {
@@ -37,6 +37,7 @@ function RequestItem(props) {
     onPress(data, dataProcess, dataDetail, {
       statusIcon,
       statusColor,
+      statusName: data.statusName,
     });
   };
 
@@ -83,9 +84,8 @@ function RequestItem(props) {
               ).format(DEFAULT_FORMAT_DATE_9)
             }</CText>
           </View>
-          <View style={styles.con_right}>
+          <View style={[cStyles.itemsEnd, styles.con_right]}>
             <Button
-              appearance="outline"
               size="tiny"
               status={statusColor}>
               {data.statusName}

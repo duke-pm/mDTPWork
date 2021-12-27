@@ -57,7 +57,8 @@
     "all": "All",
     "dark_mode": "Dark mode",
     "go_back": "Go Back",
-    "write_something_to_search": "Write something to search..."
+    "write_something_to_search": "Write something to search...",
+    "created_at": "Created at"
   },
   "status": {
     "title": "Status"
@@ -141,7 +142,7 @@
     "error_email_format": "Email invalidate!",
     "error_title": "Recovery failed!",
     "error_content_1": "Unable to recover password from e-mail",
-    "error_content_2": "Make sure you have entered the correct or the E-mail you entered is not in the system. Please contact IT department for more details.",
+    "error_content_2": "Make sure you have entered the correct or the e-mail you entered is not in the system. Please contact IT department for more details.",
     "success_title": "Verify email address",
     "success_content_1": "A confirmation e-mail has been sent to",
     "success_content_2": "Please check your inbox and choose",
@@ -427,10 +428,12 @@
     "search_department": "Search department...",
     "process_assets": "Assets",
     "detail_asset": "Details",
+    "code_asset": "Code",
     "status_asset": "Status",
     "type_asset": "Type",
     "purchase_date_asset": "Purchase date",
     "price_asset": "Purchase price",
+    "group_asset": "Group",
     "desc_asset": "Information",
     "info_asset": "Asset Information",
     "file_upload": "Attached file",
@@ -498,7 +501,7 @@
     "empty_comment": "Currently no comment in this project!",
     "files_attach": "Attach file",
     "created_by": "created by",
-    "last_updated_at": "updated at",
+    "last_updated_at": "Last updated at",
     "task_percentage": "Percentage: ",
     "task_version": "Version: ",
     "warning_input_percent": "Required progress is in the range of 0 to 100",
@@ -554,7 +557,7 @@
     "empty_description": "No description for this task."
   },
   "project_overview": {
-    "title": "Preview",
+    "title": "Project Overview",
     "task_name": "Task Name",
     "durations": "Durations",
     "start": "Start",
@@ -605,6 +608,7 @@
     "from_date": "From date",
     "to_date": "To date",
     "owner": "Owner",
+    "participants": "Participants",
     "resource": "Resource",
     "choose_resource": "Resources"
   },
@@ -618,8 +622,8 @@
   },
   "add_booking": {
     "title": "Detail Booking",
-    "title_add": "New Booking",
-    "title_update": "Update Booking",
+    "title_add": "Add",
+    "title_update": "Update",
     "info": "Basic Information",
     "info_booking": "Booking Information",
     "create_date": "Day",
@@ -658,6 +662,7 @@
     "other_info": "Time - Join",
     "one_time": "One-time booking",
     "choose_from_time": "Start Time",
-    "choose_to_time": "End Time"
+    "choose_to_time": "End Time",
+    "group": "Group"
   }
 }

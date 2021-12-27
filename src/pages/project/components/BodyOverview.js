@@ -101,7 +101,7 @@ const FormatCompactCell = React.memo(
               {taskTypeName + ' #' + value}
             </CText>
           )}
-          <CText numberOfLines={1} category="c1">{name}</CText>
+          <CText numberOfLines={1} category="c1" appearance="hint">{name}</CText>
         </View>
       </View>
     );

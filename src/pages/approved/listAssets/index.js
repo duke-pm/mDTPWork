@@ -28,7 +28,8 @@ import * as Actions from '~/redux/actions';
 function ListRequestAll(props) {
   const {t} = useTranslation();
   const {route, navigation} = props;
-  const isPermissionWrite = route.params?.permission?.write || false;
+  const isPermissionWrite =
+    route.params?.permission?.write || false;
 
   /** Use redux */
   const dispatch = useDispatch();
@@ -122,6 +123,10 @@ function ListRequestAll(props) {
   /**********
    ** FUNC **
    **********/
+  const resetAllRequests = () => {
+    dispatch(Actions.resetAllApproved());
+  };
+
   const onPrepareData = () => {
     let params = {
       listType: 'Department, Region',
@@ -136,7 +141,10 @@ function ListRequestAll(props) {
   /****************
    ** LIFE CYCLE **
    ****************/
-  useEffect(() => onPrepareData(), []);
+  useEffect(() => {
+    resetAllRequests();
+    onPrepareData();
+  }, []);
 
   /************
    ** RENDER **
@@ -163,6 +171,7 @@ function ListRequestAll(props) {
           }
         />
       }>
+      {/** Content */}
       <TabView
         shouldLoadComponent={shouldLoadComponent}
         selectedIndex={index}

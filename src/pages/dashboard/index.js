@@ -5,8 +5,6 @@
  ** CreateAt: 2021
  ** Description: Description of Dashboard.js
  **/
-import 'moment/locale/vi';
-import 'moment/locale/en-sg';
 import React, {useContext, useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';

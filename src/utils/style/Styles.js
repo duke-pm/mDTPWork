@@ -546,7 +546,7 @@ const text = {
 
 const border = {
   rounded0: {borderRadius: 0},
-  rounded1: {borderRadius: moderateScale(7)},
+  rounded1: {borderRadius: moderateScale(5)},
   rounded2: {borderRadius: moderateScale(10)},
   rounded3: {borderRadius: moderateScale(15)},
   rounded4: {borderRadius: moderateScale(20)},
@@ -557,7 +557,7 @@ const border = {
   rounded9: {borderRadius: moderateScale(45)},
   rounded10: {borderRadius: moderateScale(50)},
 
-  roundedTopLeft1: {borderTopLeftRadius: moderateScale(7)},
+  roundedTopLeft1: {borderTopLeftRadius: moderateScale(5)},
   roundedTopLeft2: {borderTopLeftRadius: moderateScale(10)},
   roundedTopLeft3: {borderTopLeftRadius: moderateScale(15)},
   roundedTopLeft4: {borderTopLeftRadius: moderateScale(20)},
@@ -568,7 +568,7 @@ const border = {
   roundedTopLeft9: {borderTopLeftRadius: moderateScale(45)},
   roundedTopLeft10: {borderTopLeftRadius: moderateScale(50)},
 
-  roundedTopRight1: {borderTopRightRadius: moderateScale(7)},
+  roundedTopRight1: {borderTopRightRadius: moderateScale(5)},
   roundedTopRight2: {borderTopRightRadius: moderateScale(10)},
   roundedTopRight3: {borderTopRightRadius: moderateScale(15)},
   roundedTopRight4: {borderTopRightRadius: moderateScale(20)},
@@ -579,7 +579,7 @@ const border = {
   roundedTopRight9: {borderTopRightRadius: moderateScale(45)},
   roundedTopRight10: {borderTopRightRadius: moderateScale(50)},
 
-  roundedBottomLeft1: {borderBottomLeftRadius: moderateScale(7)},
+  roundedBottomLeft1: {borderBottomLeftRadius: moderateScale(5)},
   roundedBottomLeft2: {borderBottomLeftRadius: moderateScale(10)},
   roundedBottomLeft3: {borderBottomLeftRadius: moderateScale(15)},
   roundedBottomLeft4: {borderBottomLeftRadius: moderateScale(20)},
@@ -590,7 +590,7 @@ const border = {
   roundedBottomLeft9: {borderBottomLeftRadius: moderateScale(45)},
   roundedBottomLeft10: {borderBottomLeftRadius: moderateScale(50)},
 
-  roundedBottomRight1: {borderBottomRightRadius: moderateScale(7)},
+  roundedBottomRight1: {borderBottomRightRadius: moderateScale(5)},
   roundedBottomRight2: {borderBottomRightRadius: moderateScale(10)},
   roundedBottomRight3: {borderBottomRightRadius: moderateScale(15)},
   roundedBottomRight4: {borderBottomRightRadius: moderateScale(20)},

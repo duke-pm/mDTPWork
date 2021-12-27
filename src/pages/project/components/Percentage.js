@@ -153,14 +153,11 @@ function Percentage(props) {
     let type = isSuccess ? 'success' : 'danger';
     if (!isSuccess) {
       setPercent({...percent, value: props.task.percentage});
-      onEndUpdate(false);
-    } else {
-      onEndUpdate(true);
     }
-    onEndUpdate(false);
+    onEndUpdate(isSuccess);
     return showMessage({
-      message: isSuccess ? t('common:app_name') : des,
-      description: t(des),
+      message: t(isSuccess ? 'success:title' : 'error:title'),
+      description: isSuccess ? t(des) : des,
       type,
       icon: type,
     });

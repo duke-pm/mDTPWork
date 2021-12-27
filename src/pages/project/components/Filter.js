@@ -228,7 +228,7 @@ function Filter(props) {
           </View>
         )}
         {!loading && isSector && masterData.sectors.length > 0 && (
-          <View style={[cStyles.row, cStyles.itemsCenter]}>
+          <View style={[cStyles.row, cStyles.itemsCenter, isYear && cStyles.mt16]}>
             <Select
               style={cStyles.flex1}
               label={t('project_management:sector')}

@@ -5,19 +5,15 @@
  ** Description: Description of CActionSheet.js
  **/
 import PropTypes from 'prop-types';
-import React, {useContext} from 'react';
+import React from 'react';
 import {useTranslation} from 'react-i18next';
 import {Button, Icon, useTheme} from '@ui-kitten/components';
-import {StyleSheet, View} from 'react-native';
+import {View} from 'react-native';
 import ActionSheet from 'react-native-actions-sheet';
-import {BlurView} from '@react-native-community/blur';
 /** COMPONENTS */
 import CText from './CText';
 /** COMMON */
-import {colors, cStyles} from '~/utils/style';
-import {IS_IOS, moderateScale} from '~/utils/helper';
-import {ThemeContext} from '~/configs/theme-context';
-import {DARK, LIGHT} from '~/configs/constants';
+import {cStyles} from '~/utils/style';
 
 const RenderCloseIcon = props => (
   <Icon {...props} name="close-outline" />
@@ -29,7 +25,6 @@ const RenderCheckIcon = props => (
 
 function CActionSheet(props) {
   const {t} = useTranslation();
-  const themeContext = useContext(ThemeContext);
   const theme = useTheme();
   const {
     customHeader = null,
@@ -80,7 +75,7 @@ function CActionSheet(props) {
       containerStyle={[
         cStyles.roundedTopLeft3,
         cStyles.roundedTopRight3,
-        styles.container,
+        {backgroundColor: theme['background-basic-color-1']}
       ]}
       elevation={5}
       nestedScrollEnabled={true}
@@ -91,18 +86,6 @@ function CActionSheet(props) {
       onOpen={onOpenAS}
       CustomHeaderComponent={undefined}
       {...props}>
-      <BlurView
-        style={[cStyles.abs, cStyles.inset0, cStyles.rounded3]}
-        blurAmount={50}
-        blurType={themeContext.themeApp === DARK
-          ? DARK
-          : IS_IOS
-            ? 'materialLight'
-            : LIGHT
-        }
-        overlayColor={colors.TRANSPARENT}
-        reducedTransparencyFallbackColor="white"
-      />
       {headerChoose ? (
         <View
           style={[
@@ -126,7 +109,6 @@ function CActionSheet(props) {
           </View>
           <Button
             appearance="ghost"
-            status="primary"
             accessoryLeft={RenderCheckIcon}
             onPress={handleConfirm}
           />
@@ -138,12 +120,6 @@ function CActionSheet(props) {
     </ActionSheet>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {backgroundColor: colors.TRANSPARENT},
-  indicator: {width: '100%'},
-  icon: {height: moderateScale(45), width: moderateScale(45)},
-});
 
 CActionSheet.propTypes = {
   actionRef: PropTypes.any,

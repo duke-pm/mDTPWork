@@ -117,7 +117,7 @@ function RequestProcess(props) {
                   }
                   color={
                     !item.approveDate
-                      ? theme['color-warning-500']
+                      ? theme['color-basic-500']
                       : item.statusID === 0
                       ? theme['color-danger-500']
                       : theme['color-success-500']
@@ -158,10 +158,11 @@ function RequestProcess(props) {
                       (index === 0 ? 'user_request' : 'person_approved'))}`}
                   </CText>
                   <CText
-                    style={[isReject && !item.approveDate && cStyles.textThrough]}
-                    category={
-                      item.approveDate ? "s1" : "p1"
-                    }>
+                    style={[
+                      cStyles.fontBold,
+                      isReject && !item.approveDate && cStyles.textThrough,
+                    ]}
+                    category="c1">
                     {item.personApproveName}
                   </CText>
                 </View>
@@ -169,8 +170,7 @@ function RequestProcess(props) {
                 <View
                   style={[
                     cStyles.row,
-                    cStyles.itemsEnd,
-                    cStyles.justifyStart,
+                    cStyles.itemsStart,
                     cStyles.mt4,
                   ]}>
                   <CText
@@ -198,7 +198,6 @@ function RequestProcess(props) {
                     style={[
                       cStyles.row,
                       cStyles.itemsStart,
-                      cStyles.justifyStart,
                       cStyles.mt4,
                       styles.con_reason,
                     ]}>

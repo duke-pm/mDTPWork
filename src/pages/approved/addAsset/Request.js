@@ -9,12 +9,11 @@ import {fromJS} from 'immutable';
 import React, {createRef, useEffect, useState, useRef} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-import {Avatar, Card, Icon, TopNavigationAction} from '@ui-kitten/components';
-import {View} from 'react-native';
+import {Avatar, Button, Card, Icon, TopNavigationAction} from '@ui-kitten/components';
+import {StyleSheet, View} from 'react-native';
 import {showMessage} from 'react-native-flash-message';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import moment from 'moment';
-import 'moment/locale/vi';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CTopNavigation from '~/components/CTopNavigation';
@@ -33,13 +32,15 @@ import FieldsAuth from '~/configs/fieldsAuth';
 import {Assets} from '~/utils/asset';
 import {Commons, Icons} from '~/utils/common';
 import {cStyles} from '~/utils/style';
-import {DEFAULT_FORMAT_DATE_4, AST_LOGIN} from '~/configs/constants';
+import {
+  DEFAULT_FORMAT_DATE_4,
+  AST_LOGIN,
+} from '~/configs/constants';
 import {getSecretInfo, resetRoute} from '~/utils/helper';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 
 /** All ref */
-const asDepartmentRef = createRef();
 const asProcessRef = createRef();
 
 /** All init */
@@ -117,8 +118,6 @@ function AddRequest(props) {
   const [currentProcess, setCurrentProcess] = useState(null); // NOTE: just use for deep linking
   const [process, setProcess] = useState([]);
   const [whereUse, setWhereUse] = useState(0);
-  const [findWhereUse, setFindWhereUse] = useState('');
-  const [dataWhereUse, setDataWhereUse] = useState([]);
   const [form, setForm] = useState({
     id: '',
     personRequestId: '',
@@ -271,26 +270,6 @@ function AddRequest(props) {
     return setLoading({...loading, submitReject: true});
   };
 
-  const onSearchFilter = text => {
-    let newData = [];
-    if (text) {
-      newData = dataWhereUse.filter(function (item) {
-        const itemData = item[Commons.SCHEMA_DROPDOWN.DEPARTMENT.label]
-          ? item[Commons.SCHEMA_DROPDOWN.DEPARTMENT.label].toUpperCase()
-          : ''.toUpperCase();
-        const textData = text.toUpperCase();
-        return itemData.indexOf(textData) > -1;
-      });
-    } else {
-      newData = masterState.get('department');
-    }
-    setDataWhereUse(newData);
-    setFindWhereUse(text || '');
-    if (newData.length > 0) {
-      setWhereUse(0);
-    }
-  };
-
   const onCallbackValidate = data => {
     if (!data.status) {
       /** Set values for input */
@@ -420,7 +399,6 @@ function AddRequest(props) {
     if (loading.main) {
       if (!masterState.get('submitting')) {
         if (masterState.get('department').length > 0) {
-          setDataWhereUse(masterState.get('department'));
           if (approvedState.get('requestDetail')) {
             let statusIcon = Icons.request;
             let statusColor = 'orange';
@@ -435,8 +413,8 @@ function AddRequest(props) {
               statusIcon = Icons.requestApproved_2;
               statusColor = 'green';
             }
-            setCurrentProcess({statusIcon, statusColor});
             setRequestDetail(tmp);
+            setCurrentProcess({statusIcon, statusColor, statusName: tmp.statusName});
             onPrepareDetail(
               approvedState.get('requestDetail'),
               approvedState.get('requestAssetsDetail'),
@@ -449,6 +427,11 @@ function AddRequest(props) {
                 route.params?.dataDetail,
                 route.params?.dataProcess,
               );
+              setCurrentProcess({
+                statusIcon: route.params?.currentProcess?.statusIcon,
+                statusColor: route.params?.currentProcess?.statusColor,
+                statusName: route.params?.currentProcess?.statusName,
+              });
             } else {
               let data = masterState.get('department');
               let find = data.findIndex(f => f.deptCode === form.department);
@@ -691,7 +674,9 @@ function AddRequest(props) {
               <Avatar size="small" source={Assets.iconUser} />
               <View style={cStyles.ml10}>
                 <CText category="s1">{form.name}</CText>
-                <CText category="c1" appearance="hint">{userDepartment ? userDepartment.deptName : ''}</CText>
+                <CText category="c1" appearance="hint">
+                  {userDepartment ? userDepartment.deptName : ''}
+                </CText>
               </View>
             </View>
             <View style={cStyles.itemsEnd}>
@@ -705,7 +690,22 @@ function AddRequest(props) {
 
         <Card disabled
           style={cStyles.mt10}
-          header={<CText category="s1">{t('add_approved_assets:request_info')}</CText>}>
+          header={propsH =>
+            <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween, propsH.style]}>
+              <View style={currentProcess ? styles.con_left : {}}>
+                <CText category="s1">{t('add_approved_assets:request_info')}</CText>
+              </View>
+              {currentProcess && (
+                <View style={[cStyles.itemsEnd, styles.con_right]}>
+                  <Button
+                    size="tiny"
+                    status={currentProcess.statusColor}>
+                    {currentProcess.statusName}
+                  </Button>
+                </View>
+              )}
+            </View>
+          }>
           <CForm
             ref={formRef}
             loading={
@@ -787,7 +787,7 @@ function AddRequest(props) {
                 value: form.typeAssets,
                 values: DATA_TYPE_ASSET,
                 keyToCompare: 'value',
-                keyToShow: "s1",
+                keyToShow: "label",
                 disabled: isDetail,
                 required: false,
                 password: false,
@@ -805,7 +805,7 @@ function AddRequest(props) {
                 value: form.inPlanning,
                 values: DATA_IN_PLANNING,
                 keyToCompare: 'value',
-                keyToShow: "s1",
+                keyToShow: "label",
                 disabled: isDetail,
                 required: false,
                 password: false,
@@ -879,7 +879,7 @@ function AddRequest(props) {
       )}
 
       {/** Actions show process of request */}
-      {isDetail && !currentProcess && (
+      {isDetail && (
         <CActionSheet actionRef={asProcessRef}>
           <RequestProcess data={process} />
         </CActionSheet>
@@ -903,5 +903,10 @@ function AddRequest(props) {
     </CContainer>
   );
 }
+
+const styles = StyleSheet.create({
+  con_left: {flex: 0.7},
+  con_right: {flex: 0.3},
+});
 
 export default AddRequest;

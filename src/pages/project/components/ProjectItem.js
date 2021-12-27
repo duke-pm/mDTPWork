@@ -73,9 +73,6 @@ function ProjectItem(props) {
    ************/
   return (
     <Card
-      style={data.statusID > 4
-        ? {backgroundColor: theme['background-basic-color-2']}
-        : {}}
       onPress={handleItem}
       status={!data.isPublic ? 'warning' : undefined}
       header={propsH =>
@@ -119,7 +116,6 @@ function ProjectItem(props) {
           <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyEnd]}>
             <Button
               style={cStyles.mr10}
-              appearance="outline"
               size="tiny"
               status={Commons.STATUS_TASK[data.statusID.toString()].color}>
               {data.statusName}

@@ -276,16 +276,15 @@ function Project(props) {
           }
         />
       }>
-      {!loading.main && (
-        <ListProject
-          data={data.projects}
-          loadmore={loading.loadmore}
-          refreshing={loading.refreshing}
-          onRefresh={onRefreshProjects}
-          onLoadmore={onLoadmoreProjects}
-        />
-      )}
-
+      {/** Content */}
+      <ListProject
+        data={data.projects}
+        loadmore={loading.loadmore}
+        refreshing={loading.refreshing}
+        onRefresh={onRefreshProjects}
+        onLoadmore={onLoadmoreProjects}
+      />
+      {/** Loading */}
       <CLoading show={loading.startFetch} />
     </CContainer>
   );

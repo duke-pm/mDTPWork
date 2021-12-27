@@ -6,14 +6,12 @@
  **/
 import PropTypes from 'prop-types';
 import React from 'react';
-import {useTheme, Layout} from '@ui-kitten/components';
+import {useTheme, Layout, Avatar} from '@ui-kitten/components';
 import {StyleSheet, View} from 'react-native';
-import FastImage from 'react-native-fast-image';
 /** COMPONENTS */
 import CText from './CText';
 /* COMMON */
 import {cStyles} from '~/utils/style';
-import {moderateScale} from '~/utils/helper';
 
 /** All init */
 const SIZE = {
@@ -22,164 +20,142 @@ const SIZE = {
   SMALL: 'small',
   MEDIUM: 'medium',
   LARGE: 'large',
-  LARGEST: 'largest',
-};
-const APPEARANCE = {
-  ROUNDED: 'rounded',
-  SQUARED: 'squared',
+  GIANT: 'giant',
 };
 
 function CAvatar(props) {
   const theme = useTheme();
   const {
-    containerStyle = {},
-    imageStyle = {},
+    style = {},
+    numberShow = 3,
+    absolute = true,
     size = 'large',
-    appearance = 'rounded',
+    shape = 'round', // round | rounded | square
     sources = [],
-    source = {},
-    resizeMode = 'contain',
+    source = null,
   } = props;
 
   /************
    ** RENDER **
    ************/
-  let styleWithSize = {};
-  let borRadWithAppearance = {};
-  let holderSize = {};
+  let holderSize = {},
+    borderRadiusHolder = {};
   switch (size) {
-    case SIZE.THIN:
-      styleWithSize = styles.img_thin;
-      holderSize = styles.img_thin;
-      borRadWithAppearance = cStyles.rounded4;
-      break;
     case SIZE.TINY:
-      styleWithSize = styles.img_tiny;
-      holderSize = styles.img_thin;
-      borRadWithAppearance = cStyles.rounded4;
+      holderSize = styles.img_tiny;
+      borderRadiusHolder = cStyles.rounded5;
       break;
     case SIZE.SMALL:
-      styleWithSize = styles.img_small;
-      holderSize = styles.img_thin;
-      borRadWithAppearance = cStyles.rounded6;
+      holderSize = styles.img_small;
+      borderRadiusHolder = cStyles.rounded6;
       break;
     case SIZE.LARGE:
-      styleWithSize = styles.img_large;
-      holderSize = styles.img_tiny;
-      borRadWithAppearance = cStyles.rounded10;
+      holderSize = styles.img_large;
+      borderRadiusHolder = cStyles.rounded10;
       break;
-    case SIZE.LARGEST:
-      styleWithSize = styles.img_largest;
-      holderSize = styles.img_small;
-      borRadWithAppearance = cStyles.rounded12;
+    case SIZE.GIANT:
+      holderSize = styles.img_giant;
+      borderRadiusHolder = cStyles.rounded10;
       break;
     default:
-      styleWithSize = styles.img_medium;
-      holderSize = styles.img_thin;
-      borRadWithAppearance = cStyles.rounded8;
+      holderSize = styles.img_medium;
       break;
   }
-  if (appearance === APPEARANCE.SQUARED) {
-    borRadWithAppearance = cStyles.rounded1;
-  }
   
-  if (sources.length === 0) {
+  if (sources.length === 0 && source) {
     return (
-      <View style={containerStyle}>
-        <View
-          style={[
-            cStyles.center,
-            cStyles.p1,
-            borRadWithAppearance,
-            {backgroundColor: theme['border-basic-color-5']}
-          ]}>
-          <FastImage
-            style={[styleWithSize, borRadWithAppearance, imageStyle]}
-            source={{
-              priority: FastImage.priority.high,
-              cache: FastImage.cacheControl.immutable,
-              ...source,
-            }}
-            resizeMode={resizeMode}
-          />
-        </View>
-      </View>
+      <Avatar
+        style={[
+          cStyles.borderAll,
+          {
+            borderColor: theme['border-basic-color-3'],
+          },
+        ]}
+        size={size}
+        shape={shape}
+        source={typeof source === 'string'
+          ? {uri: source}
+          : source
+        }
+      />
     );
   }
   if (sources.length > 0) {
     return (
       <View
         style={[
-          cStyles.flexWrap,
-          cStyles.ofHidden,
-          cStyles.borderAll,
-          cStyles.rounded8,
-          cStyles.center,
+          cStyles.flex1,
           cStyles.row,
-          styleWithSize,
+          cStyles.itemsCenter,
+          style,
         ]}>
         {sources.map((itemA, indexA) => {
-          if (indexA > 3) return null;
-          if (indexA === 3) {
+          if (indexA > numberShow) return null;
+          if (indexA === numberShow) {
             return (
               <Layout
                 style={[
-                  cStyles.rounded3,
                   cStyles.center,
                   cStyles.borderAll,
-                  cStyles.ml1,
+                  absolute && cStyles.abs,
                   holderSize,
+                  borderRadiusHolder,
+                  absolute && {left: indexA * 15},
+                  {borderColor: theme['border-basic-color-3']},
                 ]}
-                level={'3'}>
-                <CText category={'c2'} numberOfLines={1}>+{sources.length - 3}</CText>
+                level="3">
+                <CText category="c1" numberOfLines={1}>{`+${sources.length - numberShow}`}</CText>
               </Layout>
             )
           }
           return (
-            <FastImage
-              style={[cStyles.rounded4, styleWithSize, holderSize]}
-              source={{
-                priority: FastImage.priority.high,
-                cache: FastImage.cacheControl.immutable,
-                uri: itemA,
-              }}
-              resizeMode={resizeMode}
+            <Avatar
+              style={[
+                cStyles.borderAll,
+                absolute && cStyles.abs,
+                absolute && {left: indexA * 15},
+                {borderColor: theme['border-basic-color-3']},
+              ]}
+              size={size}
+              shape={shape}
+              source={typeof itemA === 'string'
+                ? {uri: itemA}
+                : itemA
+              }
             />
           )
         })}
       </View>
     )
   }
-
   return null;
 }
 
 const styles = StyleSheet.create({
-  img_thin: {height: moderateScale(18), width: moderateScale(18)},
-  img_tiny: {height: moderateScale(23), width: moderateScale(23)},
-  img_small: {height: moderateScale(28), width: moderateScale(28)},
-  img_medium: {height: moderateScale(40), width: moderateScale(40)},
-  img_large: {height: moderateScale(50), width: moderateScale(50)},
-  img_largest: {height: moderateScale(60), width: moderateScale(60)},
+  img_tiny: {height: 24, width: 24},
+  img_small: {height: 32, width: 32},
+  img_medium: {height: 40, width: 40},
+  img_large: {height: 48, width: 48},
+  img_giant: {height: 56, width: 56},
 
   con_group_avatar: {
-    height: moderateScale(42),
-    width: moderateScale(42),
+    height: 42,
+    width: 42,
   },
   con_holder_avatar: {
-    height: moderateScale(17),
-    width: moderateScale(17),
+    height: 18,
+    width: 18,
   },
 });
 
 CAvatar.propTypes = {
-  containerStyle: PropTypes.object,
-  imageStyle: PropTypes.object, 
-  size: PropTypes.oneOf(['thin', 'tiny', 'small', 'medium', 'large', 'largest']),
-  appearance: PropTypes.oneOf(['rounded', 'squared']),
+  style: PropTypes.object,
+  numberShow: PropTypes.number,
+  absolute: PropTypes.bool,
+  size: PropTypes.oneOf(['tiny', 'small', 'medium', 'large', 'giant']),
+  shape: PropTypes.oneOf(['round', 'rounded', 'square']),
   sources: PropTypes.array,
   source: PropTypes.object,
-  resizeMode: PropTypes.oneOf(['contain', 'cover']),
 };
 
 export default CAvatar;

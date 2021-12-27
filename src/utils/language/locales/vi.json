@@ -57,7 +57,8 @@
     "all": "Tất cả",
     "dark_mode": "Chế độ tối",
     "go_back": "Trở về",
-    "write_something_to_search": "Nhập thông tin tìm kiếm..."
+    "write_something_to_search": "Nhập thông tin tìm kiếm...",
+    "created_at": "Tạo ngày"
   },
   "status": {
     "title": "Trạng thái"
@@ -141,7 +142,7 @@
     "error_email_format": "E-mail không đúng định dạng!",
     "error_title": "Phục hồi không thành công!",
     "error_content_1": "Không thể phục hồi mật khẩu từ e-mail",
-    "error_content_2": "Chắc chắn rằng bạn đã nhập đúng hoặc E-mail bạn nhập không có trong hệ thống. Hãy liên hệ bộ phận IT để biết thêm chi tiết.",
+    "error_content_2": "Chắc chắn rằng bạn đã nhập đúng hoặc e-mail bạn nhập không có trong hệ thống. Hãy liên hệ bộ phận IT để biết thêm chi tiết.",
     "success_title": "Xác nhận địa chỉ e-mail",
     "success_content_1": "Một e-mail xác nhận đã được gửi đến",
     "success_content_2": "Vui lòng kiểm tra hộp thư đến của bạn và chọn",
@@ -153,7 +154,7 @@
     "success_change_password": "Đổi mật khẩu thành công!",
     "sub_title_success_update_password": "Vui lòng đăng nhập với mật khẩu đã lưu.",
     "error_cannot_change_password": "Không thể đổi mật khẩu!",
-    "error_holder_cannot_change_password_1": "Đường dẫn truy cập này đã quá thời hạn 60 phút kể từ khi gửi E-mail xác nhận quên mật khẩu.",
+    "error_holder_cannot_change_password_1": "Đường dẫn truy cập này đã quá thời hạn 60 phút kể từ khi gửi e-mail xác nhận quên mật khẩu.",
     "error_change_password": "Đổi mật khẩu thất bại!"
   },
   "reset_password": {
@@ -427,10 +428,12 @@
     "search_department": "Tìm bộ phận...",
     "process_assets": "Tài sản",
     "detail_asset": "Chi tiết",
+    "code_asset": "Mã",
     "status_asset": "Tình trạng",
     "type_asset": "Loại",
     "purchase_date_asset": "Ngày mua",
     "price_asset": "Giá mua",
+    "group_asset": "Nhóm",
     "desc_asset": "Thông tin",
     "info_asset": "Thông tin tài sản",
     "file_upload": "File đính kèm",
@@ -497,8 +500,8 @@
     "empty_tasks": "Hiện tại chưa có công việc cho dự án này!",
     "empty_comment": "Hiện tại chưa có nhận xét cho dự án này!",
     "files_attach": "Tệp tin đính kèm",
-    "created_by": "thêm bởi",
-    "last_updated_at": "cập nhật ngày",
+    "created_by": "đã được thêm bởi",
+    "last_updated_at": "Lần cập nhật mới nhất ngày",
     "task_percentage": "Tiến độ: ",
     "task_version": "Phiên bản: ",
     "warning_input_percent": "Tiến độ công việc phải từ 0 đến 100",
@@ -510,7 +513,7 @@
     "holder_year": "Chọn năm cần lọc...",
     "holder_change_from": "được thay đổi từ",
     "holder_change_to": "đến",
-    "user_invited": "Những người tham gia",
+    "user_invited": "Người tham gia",
     "delay_date_1": "Trễ",
     "delay_date_2": "ngày",
     "info_basic": "Thông tin",
@@ -554,7 +557,7 @@
     "empty_description": "Không có mô tả cho công việc này."
   },
   "project_overview": {
-    "title": "Tổng Quan",
+    "title": "Tổng Quan Dự Án",
     "task_name": "Task Name",
     "durations": "Durations",
     "start": "Start",
@@ -604,7 +607,8 @@
     "end_time": "Kết thúc",
     "from_date": "Từ ngày",
     "to_date": "Đến ngày",
-    "owner": "Người tạo",
+    "owner": "Owner",
+    "participants": "Tham gia",
     "resource": "Tài nguyên",
     "choose_resource": "Tài nguyên"
   },
@@ -618,8 +622,8 @@
   },
   "add_booking": {
     "title": "Chi tiết Booking",
-    "title_add": "Thêm Mới Booking",
-    "title_update": "Cập nhật Booking",
+    "title_add": "Thêm",
+    "title_update": "Cập nhật",
     "info": "Thông tin cơ bản",
     "info_booking": "Thông tin Booking",
     "create_date": "Ngày",
@@ -658,6 +662,7 @@
     "other_info": "Thời gian - Tham gia",
     "one_time": "Book một lần",
     "choose_from_time": "Bắt đầu",
-    "choose_to_time": "Kết thúc"
+    "choose_to_time": "Kết thúc",
+    "group": "Nhóm"
   }
 }

@@ -110,9 +110,13 @@ function ProjectDetails(props) {
       </View>
 
       {/** Description */}
-      <View style={[cStyles.mt10]}>
-        <CText category="s1">{trans('project_management:description')}</CText>
-        <CText style={cStyles.py10}>{checkEmpty(project.descr)}</CText>
+      <View style={[cStyles.row, cStyles.itemsStart, cStyles.mt10]}>
+        <View style={{flex: 0.3}}>
+          <CText category="s1">{trans('project_management:description')}</CText>
+        </View>
+        <View style={{flex: 0.7}}>
+          <CText>{checkEmpty(project.descr)}</CText>
+        </View>
       </View>
 
       {/** Users invited */}

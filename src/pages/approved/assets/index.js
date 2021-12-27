@@ -11,6 +11,7 @@ import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {showMessage} from 'react-native-flash-message';
+import {Layout, Spinner} from '@ui-kitten/components';
 import moment from 'moment';
 /* COMPONENTS */
 import ListRequest from '../components/ListRequest';
@@ -21,8 +22,6 @@ import {usePrevious} from '~/utils/hook';
 import {LOAD_MORE, REFRESH} from '~/configs/constants';
 /* REDUX */
 import * as Actions from '~/redux/actions';
-import { Layout, Spinner } from '@ui-kitten/components';
-import { View } from 'react-native';
 
 function ApprovedAssets(props) {
   const {t} = useTranslation();
@@ -241,7 +240,7 @@ function ApprovedAssets(props) {
    ** RENDER **
    ************/
   return (
-    <View style={cStyles.fullHeight}>
+    <Layout style={cStyles.fullHeight}>
       {!loading.main && !loading.startFetch && (
         <ListRequest
           loadmore={loading.loadmore}
@@ -259,7 +258,7 @@ function ApprovedAssets(props) {
           <Spinner />
         </Layout>
       }
-    </View>
+    </Layout>
   );
 }
 

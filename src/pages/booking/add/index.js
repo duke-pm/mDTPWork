@@ -10,13 +10,12 @@ import React, {useState, useEffect, useRef} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {
-  Card, Select, SelectGroup, SelectItem, Avatar, IndexPath,
+  Card, Select, SelectGroup, SelectItem, Avatar, IndexPath, Button,
 } from '@ui-kitten/components';
-import {View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {showMessage} from 'react-native-flash-message';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import moment from 'moment';
-import 'moment/locale/vi';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CTopNavigation from '~/components/CTopNavigation';
@@ -35,6 +34,7 @@ import {
 } from '~/configs/constants';
 /* REDUX */
 import * as Actions from '~/redux/actions';
+import { Commons } from '~/utils/common';
 
 const groupBy = function(xs, key) {
   return xs.reduce(function(rv, x) {
@@ -109,7 +109,8 @@ function AddBooking(props) {
     toDate: moment().format(formatDate),
     fromTime: '',
     toTime: '',
-    status: true,
+    statusID: -1,
+    statusName: '',
     isUpdated: false,
     oneTime: false,
   });
@@ -164,7 +165,8 @@ function AddBooking(props) {
         toDate: detail.endDate.split('T')[0],
         fromTime: idxFromTime !== -1 ? idxFromTime : '',
         toTime: idxToTime !== -1 ? idxToTime : '',
-        status: true,
+        statusID: detail.statusID,
+        statusName: detail.statusName,
         isUpdated: detail.isUpdated,
       };
       setDataBooking(tmpParamsDetail);
@@ -191,6 +193,8 @@ function AddBooking(props) {
           resource: tmpDataResources.length > 0
               ? tmpDataResources[0].resourceID
               : '',
+          statusID: bookingParam.statusID,
+          statusName: bookingParam.statusName,
         };
         if (isFilterResourceParam) {
           tmpDataBooking.resource = isFilterResourceParam;
@@ -455,6 +459,12 @@ function AddBooking(props) {
       return groupTitle.values[index.row]['empName'];
     });
   }
+  let colorStatus = 'warning';
+  if (dataBooking.statusID === Commons.BOOKING_STATUS.HAPPENNING.value) {
+    colorStatus = 'success';
+  } else if (dataBooking.statusID === Commons.BOOKING_STATUS.HAPPENED.value) {
+    colorStatus = 'basic';
+  }
   return (
     <CContainer
       safeArea={['top']}
@@ -462,7 +472,22 @@ function AddBooking(props) {
       <KeyboardAwareScrollView contentContainerStyle={[cStyles.px16, cStyles.py10]}>
         {!loading.main && (
           <Card disabled
-            header={<CText category="s1">{t('add_booking:info_booking')}</CText>}>
+            header={propsH =>
+              <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween, propsH.style]}>
+                <View style={dataBooking ? styles.con_left : {}}>
+                  <CText category="s1">{t('add_booking:info_booking')}</CText>
+                </View>
+                {isDetail && dataBooking && (
+                  <View style={[cStyles.itemsEnd, styles.con_right]}>
+                    <Button
+                      size="tiny"
+                      status={colorStatus}>
+                      {dataBooking.statusName}
+                    </Button>
+                  </View>
+                )}
+              </View>
+            }>
             <CForm
               ref={formRef}
               loading={
@@ -534,7 +559,7 @@ function AddBooking(props) {
                   values: DATA_TIME_BOOKING,
                   timeValue: dataBooking.fromTime,
                   keyToCompare: 'value',
-                  keyToShow: "s1",
+                  keyToShow: "label",
                   disabled: loading.main || (isDetail && !dataBooking.isUpdated),
                   chooseTime: true,
                   required: true,
@@ -556,7 +581,7 @@ function AddBooking(props) {
                   values: DATA_TIME_BOOKING,
                   timeValue: dataBooking.toTime,
                   keyToCompare: 'value',
-                  keyToShow: "s1",
+                  keyToShow: "label",
                   disabled: loading.main || (isDetail && !dataBooking.isUpdated),
                   chooseTime: true,
                   required: true,
@@ -581,10 +606,12 @@ function AddBooking(props) {
                   placeholder={t('add_booking:no_participants')}
                   value={groupDisplayValues.join(', ')}
                   selectedIndex={selectedParticipants}
-                  onSelect={index => setSelectedParticipants(index)}>
+                  onSelect={index => !isDetail ? setSelectedParticipants(index) : null}>
                   {dataParticipants.map((itemG, indexG) => {
                     return (
-                      <SelectGroup key={itemG.label + '_' + indexG} title={itemG.label}>
+                      <SelectGroup key={itemG.label + '_' + indexG}
+                        title={`${t('add_booking:group')} ${itemG.label}`}
+                        disabled={isDetail}>
                         {itemG.values.map((itemI, indexI) => {
                           return (
                             <SelectItem key={itemI.userName + '_' + indexI}
@@ -594,6 +621,7 @@ function AddBooking(props) {
                                   <CText {...propsT}>{itemI.empName}</CText>
                                 </View>
                               )}
+                              disabled={isDetail}
                             />
                           );
                         })}
@@ -643,5 +671,10 @@ function AddBooking(props) {
     </CContainer>
   );
 }
+
+const styles = StyleSheet.create({
+  con_left: {flex: 0.7},
+  con_right: {flex: 0.3},
+});
 
 export default AddBooking;

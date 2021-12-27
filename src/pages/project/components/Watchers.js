@@ -34,6 +34,8 @@ if (IS_ANDROID) {
   }
 }
 
+const sIconEmail = moderateScale(12);
+
 const RenderWatchNowIcon = props => (
   <Icon {...props} name="eye-outline" />
 );
@@ -168,15 +170,15 @@ function Watchers(props) {
           onPress={handleFollow}>
           {t(!watched.status ? 'project_management:you_not_watch' : 'project_management:you_watched')}
         </Button>
+        {watched.status && (
         <View style={[cStyles.itemsStart, cStyles.mt16]}>
-          {watched.status && (
-            <CheckBox
-              checked={watched.email}
-              onChange={handleGetEmail}>
-              {t('project_management:title_get_watcher')}
-            </CheckBox>
-          )}
+          <CheckBox
+            checked={watched.email}
+            onChange={handleGetEmail}>
+            {t('project_management:title_get_watcher')}
+          </CheckBox>
         </View>
+        )}
       </View>
 
       {!loading.main && (
@@ -213,8 +215,8 @@ function Watchers(props) {
                           ]} level="3">
                           <IoniIcon
                             name={Icons.mailTask}
-                            color={'green'}
-                            size={moderateScale(12)}
+                            color="green"
+                            size={sIconEmail}
                           />
                         </Layout>
                       )}

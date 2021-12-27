@@ -37,9 +37,6 @@ import {
   LayoutAnimation,
 } from 'react-native';
 import moment from 'moment';
-import 'moment';
-import 'moment/locale/vi';
-import 'moment/locale/en-sg';
 /** COMPONENTS */
 import CText from './CText';
 /* COMMON */
