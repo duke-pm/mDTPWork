@@ -9,7 +9,9 @@ import {fromJS} from 'immutable';
 import React, {createRef, useEffect, useState, useRef} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-import {Avatar, Button, Card, Icon, TopNavigationAction} from '@ui-kitten/components';
+import {
+  Avatar, Button, Card, Icon, TopNavigationAction,
+} from '@ui-kitten/components';
 import {StyleSheet, View} from 'react-native';
 import {showMessage} from 'react-native-flash-message';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
@@ -30,13 +32,13 @@ import FooterFormRequest from '../components/FooterFormRequest';
 import Routes from '~/navigator/Routes';
 import FieldsAuth from '~/configs/fieldsAuth';
 import {Assets} from '~/utils/asset';
-import {Commons, Icons} from '~/utils/common';
 import {cStyles} from '~/utils/style';
+import {Commons, Icons} from '~/utils/common';
+import {getSecretInfo, resetRoute} from '~/utils/helper';
 import {
   DEFAULT_FORMAT_DATE_4,
   AST_LOGIN,
 } from '~/configs/constants';
-import {getSecretInfo, resetRoute} from '~/utils/helper';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 
@@ -117,7 +119,6 @@ function AddRequest(props) {
   const [requestDetail, setRequestDetail] = useState(null); // NOTE: just use for deep linking
   const [currentProcess, setCurrentProcess] = useState(null); // NOTE: just use for deep linking
   const [process, setProcess] = useState([]);
-  const [whereUse, setWhereUse] = useState(0);
   const [form, setForm] = useState({
     id: '',
     personRequestId: '',
@@ -151,8 +152,6 @@ function AddRequest(props) {
    *****************/
   const handleShowProcess = () => asProcessRef.current?.show();
 
-  const handleBack = () => resetRoute(navigation, Routes.TAB.name);
-
   const handleReject = () => setShowReject(!showReject);
 
   const toggleApproved = () => setShowConfirm(!showConfirm);
@@ -160,12 +159,20 @@ function AddRequest(props) {
   /**********
    ** FUNC **
    **********/
+  const onBackToHome = () => resetRoute(navigation, Routes.TAB.name);
+
   const onSendRequest = () => setLoading({...loading, submitAdd: true});
 
   const onGoToSignIn = () =>
     resetRoute(navigation, Routes.LOGIN_IN.name);
 
   const onPrepareData = () => {
+    let params = {
+      listType: 'Department, Region',
+      RefreshToken: refreshToken,
+      Lang: language,
+    };
+    dispatch(Actions.fetchMasterData(params, navigation));
     dispatch(Actions.resetAllApproved());
   };
 
@@ -225,16 +232,9 @@ function AddRequest(props) {
       setProcess(dataProcess);
     }
 
-    // Find where use assets
-    let data = masterState.get('department');
-    let find = data.findIndex(f => f.deptCode === dataRequest.locationCode);
-    if (find !== -1) {
-      setWhereUse(find);
-    }
-
     // Apply to form
     setForm(tmp);
-    setLoading({
+    return setLoading({
       ...loading,
       main: false,
       startFetchLogin: false,
@@ -401,17 +401,17 @@ function AddRequest(props) {
         if (masterState.get('department').length > 0) {
           if (approvedState.get('requestDetail')) {
             let statusIcon = Icons.request;
-            let statusColor = 'orange';
+            let statusColor = 'warning';
             let tmp = approvedState.get('requestDetail');
             if (tmp.statusID === Commons.STATUS_REQUEST.APPROVED.value) {
               statusIcon = Icons.requestApproved_1;
-              statusColor = 'blue';
+              statusColor = 'info';
             } else if (tmp.statusID === Commons.STATUS_REQUEST.REJECT.value) {
               statusIcon = Icons.requestRejected;
-              statusColor = 'red';
+              statusColor = 'danger';
             } else if (tmp.statusID === Commons.STATUS_REQUEST.DONE.value) {
               statusIcon = Icons.requestApproved_2;
-              statusColor = 'green';
+              statusColor = 'success';
             }
             setRequestDetail(tmp);
             setCurrentProcess({statusIcon, statusColor, statusName: tmp.statusName});
@@ -433,12 +433,7 @@ function AddRequest(props) {
                 statusName: route.params?.currentProcess?.statusName,
               });
             } else {
-              let data = masterState.get('department');
-              let find = data.findIndex(f => f.deptCode === form.department);
-              if (find !== -1) {
-                setWhereUse(find);
-              }
-              setLoading({...loading, main: false, startFetchLogin: false});
+              onBackToHome();
             }
           }
         }
@@ -571,57 +566,6 @@ function AddRequest(props) {
     approvedState.get('errorRejectRequest'),
   ]);
 
-  // useLayoutEffect(() => {
-  //   let title = '';
-  //   if (!isDetail && !requestDetail) {
-  //     title = t('add_approved_assets:title');
-  //   } else {
-  //     if (isDetail && !requestDetail) {
-  //       title =
-  //         t('add_approved_assets:detail') +
-  //         ' #' +
-  //         route.params?.data?.requestID;
-  //     }
-  //     if (!isDetail && requestDetail) {
-  //       title = t('add_approved_assets:detail') + ' #' + requestParam;
-  //     }
-  //   }
-
-  //   navigation.setOptions(
-  //     Object.assign(
-  //       {
-  //         title,
-  //         backButtonInCustomView: true,
-  //         headerLeft: () =>
-  //           (route.params?.requestID !== null ||
-  //             route.params?.requestID !== undefined) && (
-  //             <CIconHeader
-  //               icons={[
-  //                 {
-  //                   show: !navigation.canGoBack(),
-  //                   showRedDot: false,
-  //                   icon: IS_IOS ? Icons.backiOS : Icons.backAndroid,
-  //                   iconColor: customColors.icon,
-  //                   onPress: handleBack,
-  //                 },
-  //               ]}
-  //             />
-  //           ),
-  //       },
-  //       IS_ANDROID
-  //         ? {
-  //             headerCenter: () => (
-  //               <CText
-  //                 customStyles={cStyles.textHeadline}
-  //                 label={'add_approved_assets:detail'}
-  //               />
-  //             ),
-  //           }
-  //         : {},
-  //     ),
-  //   );
-  // }, [navigation, isDetail, requestDetail]);
-
   /************
    ** RENDER **
    ************/
@@ -740,7 +684,7 @@ function AddRequest(props) {
                 values: masterState.get('department'),
                 keyToCompare: 'deptCode',
                 keyToShow: 'deptName',
-                disabled: isDetail,
+                disabled: isDetail || requestDetail,
                 required: true,
                 password: false,
                 email: false,
@@ -755,7 +699,7 @@ function AddRequest(props) {
                 label: 'add_approved_assets:reason',
                 holder: 'add_approved_assets:holder_reason',
                 value: form.reason,
-                disabled: isDetail,
+                disabled: isDetail || requestDetail,
                 required: false,
                 password: false,
                 email: false,
@@ -770,7 +714,7 @@ function AddRequest(props) {
                 label: 'add_approved_assets:supplier',
                 holder: 'add_approved_assets:holder_supplier',
                 value: form.supplier,
-                disabled: isDetail,
+                disabled: isDetail || requestDetail,
                 required: false,
                 password: false,
                 email: false,
@@ -788,7 +732,8 @@ function AddRequest(props) {
                 values: DATA_TYPE_ASSET,
                 keyToCompare: 'value',
                 keyToShow: "label",
-                disabled: isDetail,
+                horizontal: true,
+                disabled: isDetail || requestDetail,
                 required: false,
                 password: false,
                 email: false,
@@ -806,7 +751,8 @@ function AddRequest(props) {
                 values: DATA_IN_PLANNING,
                 keyToCompare: 'value',
                 keyToShow: "label",
-                disabled: isDetail,
+                horizontal: true,
+                disabled: isDetail || requestDetail,
                 required: false,
                 password: false,
                 email: false,
@@ -826,7 +772,7 @@ function AddRequest(props) {
                   loading.submitReject
                 }
                 checking={loading.submitAdd}
-                isDetail={isDetail || requestDetail}
+                isDetail={isDetail || requestDetail !== null}
                 assets={form.assets}
                 onCallbackValidate={onCallbackValidate}
               />
@@ -837,7 +783,7 @@ function AddRequest(props) {
               loading.submitApproved ||
               loading.submitReject
             }
-            labelButton={isDetail ? '' : 'common:send'}
+            labelButton={(isDetail || requestDetail) ? '' : 'common:send'}
             onSubmit={onSendRequest}
           />
         </Card>
@@ -872,7 +818,7 @@ function AddRequest(props) {
           cancel
           label={'add_approved_assets:label_confirm'}
           message={'add_approved_assets:message_confirm_approved'}
-          statusOk='success'
+          statusOk="primary"
           onCancel={toggleApproved}
           onOk={onApproved}
         />

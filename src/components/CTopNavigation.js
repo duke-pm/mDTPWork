@@ -197,7 +197,10 @@ const useToggleState = (initialState = false) => {
     themeContext.toggleTheme();
     setChecked(isChecked);
     /** Save to async storage */
-    saveLocalInfo({key: AST_DARK_MODE, value: isChecked ? DARK : LIGHT});
+    saveLocalInfo({
+      key: AST_DARK_MODE,
+      value: isChecked ? DARK : LIGHT,
+    });
   };
 
   /****************
@@ -205,6 +208,7 @@ const useToggleState = (initialState = false) => {
    ****************/
   useEffect(async () => {
     let astDarkMode = await getLocalInfo(AST_DARK_MODE);
+    console.log('[LOG] === astDarkMode ===> ', astDarkMode);
     if (astDarkMode && astDarkMode === DARK && !checked) {
       setChecked(true);
     }

@@ -5,9 +5,11 @@
  ** Description: Description of index.js
  **/
 import React, {useState, useEffect, useContext} from 'react';
-import { useDispatch } from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-import {useTheme, Divider, CheckBox, Toggle, Layout} from '@ui-kitten/components';
+import {
+  useTheme, Divider, CheckBox, Toggle, Layout,
+} from '@ui-kitten/components';
 import {StatusBar, StyleSheet, View, useColorScheme} from 'react-native';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
@@ -15,65 +17,22 @@ import CTopNavigation from '~/components/CTopNavigation';
 import CText from '~/components/CText';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
-import {
-  moderateScale, getLocalInfo, saveLocalInfo, IS_ANDROID,
-} from '~/utils/helper';
 import {ThemeContext} from '~/configs/theme-context';
-import {AST_DARK_MODE, AST_SETTINGS, DARK, LIGHT} from '~/configs/constants';
+import {
+  getLocalInfo,
+  saveLocalInfo,
+  moderateScale,
+  IS_ANDROID,
+} from '~/utils/helper';
+import {
+  AST_DARK_MODE,
+  AST_SETTINGS,
+  DARK,
+  LIGHT,
+} from '~/configs/constants';
 import {usePrevious} from '~/utils/hook';
 /* REDUX */
 import * as Actions from '~/redux/actions';
-
-const RenderHolderAppearance = ({
-  label = 'appearance:light_mode',
-  disabled = false,
-  typeAppearance = LIGHT,
-  curAppearance = LIGHT,
-  onChange = () => null,
-}) => {
-  const {t} = useTranslation();
-  const theme = useTheme();
-  return (
-    <View style={cStyles.itemsCenter}>
-      <View
-        style={[
-          cStyles.rounded1,
-          cStyles.borderAll,
-          cStyles.p4,
-          curAppearance === typeAppearance && styles.active
-        ]}>
-        <View
-          style={[
-            cStyles.rounded1,
-            cStyles.itemsEnd,
-            styles.con_group,
-            typeAppearance === LIGHT ? styles.con_group_light : styles.con_group_dark
-          ]}>
-          <View
-            style={[
-              cStyles.roundedTopRight1,
-              cStyles.roundedTopLeft1,
-              cStyles.fullWidth,
-              styles.con_group_header,
-              typeAppearance === LIGHT ? styles.con_group_light : styles.con_group_dark,
-              {borderBottomColor: theme['color-basic-500']}
-            ]} />
-          <View style={[cStyles.rounded1, cStyles.mx10, cStyles.mt10, styles.con_view_1]} />
-          <View style={[cStyles.rounded1, cStyles.mx10, cStyles.mt6, styles.con_view_2]} />
-          <View style={[cStyles.rounded10, cStyles.mx10, cStyles.mt6, styles.con_view_3,
-            {backgroundColor: theme['color-basic-500']}]} />
-        </View>
-      </View>
-
-      <CheckBox
-        style={cStyles.mt20}
-        checked={curAppearance === typeAppearance}
-        onChange={nextChecked => disabled ? null : onChange(typeAppearance)}>
-        {t(label)}
-      </CheckBox>
-    </View>
-  )
-};
 
 const useToggleState = (initialState = false) => {
   const themeContext = useContext(ThemeContext);
@@ -108,15 +67,84 @@ const useAutoToggleState = (initialState = false) => {
 
    /** Use state */
   const [checked, setChecked] = useState(initialState);
+  return { checked, onChange: setChecked };
+};
 
-  /*****************
-   ** HANDLE FUNC **
-   *****************/
-  const onCheckedChange = isChecked => {
-    setChecked(isChecked);
-  };
+const RenderHolderAppearance = ({
+  theme = {},
+  label = 'appearance:light_mode',
+  disabled = false,
+  typeAppearance = LIGHT,
+  curAppearance = LIGHT,
+  onChange = () => null,
+}) => {
+  return (
+    <View style={cStyles.itemsCenter}>
+      <View
+        style={[
+          cStyles.rounded1,
+          cStyles.borderAll,
+          cStyles.p4,
+          curAppearance === typeAppearance && styles.active,
+        ]}>
+        <View
+          style={[
+            cStyles.rounded1,
+            cStyles.itemsEnd,
+            styles.con_group,
+            typeAppearance === LIGHT
+              ? styles.con_group_light
+              : styles.con_group_dark,
+          ]}>
+          <View
+            style={[
+              cStyles.roundedTopRight1,
+              cStyles.roundedTopLeft1,
+              cStyles.fullWidth,
+              styles.con_group_header,
+              typeAppearance === LIGHT
+                ? styles.con_group_light
+                : styles.con_group_dark,
+              {borderBottomColor: theme['color-basic-500']},
+            ]}
+          />
+          <View
+            style={[
+              cStyles.rounded1,
+              cStyles.mx10,
+              cStyles.mt10,
+              styles.con_view_1,
+            ]}
+          />
+          <View
+            style={[
+              cStyles.rounded1,
+              cStyles.mx10,
+              cStyles.mt6,
+              styles.con_view_2,
+            ]}
+          />
+          <View
+            style={[
+              cStyles.rounded10,
+              cStyles.mx10,
+              cStyles.mt6,
+              styles.con_view_3,
+              {backgroundColor: theme['color-basic-500']},
+            ]}
+          />
+        </View>
+      </View>
 
-  return { checked, onChange: onCheckedChange };
+      <CheckBox
+        style={cStyles.mt20}
+        checked={curAppearance === typeAppearance}
+        onChange={nextChecked =>
+          disabled ? null : onChange(typeAppearance)}>
+        {label}
+      </CheckBox>
+    </View>
+  )
 };
 
 function Appearance(props) {
@@ -124,7 +152,6 @@ function Appearance(props) {
   const theme = useTheme();
   const themeContext = useContext(ThemeContext);
   const systemTheme = useColorScheme();
-  const {navigation} = props;
   let prevTheme = usePrevious(themeContext.themeApp);
 
   /** Use redux */
@@ -138,10 +165,16 @@ function Appearance(props) {
   /*****************
    ** HANDLE FUNC **
    *****************/
-  const handleChangeAppearance = newTheme => {
+  const handleChangeAppearance = async newTheme => {
     darkmodeToggle.onChange();
     setAppearance(newTheme);
     dispatch(Actions.changeTheme(newTheme));
+
+    /** Save to async storage */
+    await saveLocalInfo({
+      key: AST_DARK_MODE,
+      value: newTheme,
+    });
   };
 
   /**********
@@ -161,7 +194,6 @@ function Appearance(props) {
     let astSettings = await getLocalInfo(AST_SETTINGS);
     if (astSettings) {
       astSettings = JSON.parse(astSettings);
-      console.log('[LOG] === onCheckSystemTheme ===> ', astSettings);
       if (astSettings.theme === 'system') {
         darkmodeAutoToggle.onChange(true);
       }
@@ -176,7 +208,6 @@ function Appearance(props) {
       astSettings = JSON.parse(astSettings);
       astSettings.theme = theme;
     }
-    console.log('[LOG] === onSaveSettings ===> ', astSettings);
     await saveLocalInfo({key: AST_SETTINGS, value: JSON.stringify(astSettings)});
   };
 
@@ -229,13 +260,15 @@ function Appearance(props) {
             cStyles.rounded1,
           ]}>
           <RenderHolderAppearance
-            label={'appearance:light_mode'}
+            theme={theme}
+            label={t('appearance:light_mode')}
             disabled={appearance === LIGHT || darkmodeAutoToggle.checked}
             typeAppearance={LIGHT}
             curAppearance={appearance}
             onChange={handleChangeAppearance} />
           <RenderHolderAppearance
-            label={'appearance:dark_mode'}
+            theme={theme}
+            label={t('appearance:dark_mode')}
             disabled={appearance === DARK || darkmodeAutoToggle.checked}
             typeAppearance={DARK}
             curAppearance={appearance}

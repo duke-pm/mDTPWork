@@ -9,7 +9,9 @@ import {fromJS} from 'immutable';
 import React, {createRef, useRef, useEffect, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-import {TopNavigationAction, Avatar, Card, Icon, Button} from '@ui-kitten/components';
+import {
+  TopNavigationAction, Avatar, Card, Icon, Button,
+} from '@ui-kitten/components';
 import {StyleSheet, View} from 'react-native';
 import {showMessage} from 'react-native-flash-message';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
@@ -29,16 +31,14 @@ import FooterFormRequest from '../components/FooterFormRequest';
 import Routes from '~/navigator/Routes';
 import FieldsAuth from '~/configs/fieldsAuth';
 import {Assets} from '~/utils/asset';
-import {Commons, Icons} from '~/utils/common';
 import {cStyles} from '~/utils/style';
+import {Commons, Icons} from '~/utils/common';
+import {getSecretInfo, checkEmpty, resetRoute} from '~/utils/helper';
 import {
   DEFAULT_FORMAT_DATE_4,
   DEFAULT_FORMAT_DATE_9,
   AST_LOGIN,
 } from '~/configs/constants';
-import {
-  getSecretInfo, checkEmpty, resetRoute,
-} from '~/utils/helper';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 
@@ -104,14 +104,7 @@ function AddRequest(props) {
   const [isDetail] = useState(route.params?.data ? true : false);
   const [requestDetail, setRequestDetail] = useState(null); // NOTE: just use for deep linking
   const [currentProcess, setCurrentProcess] = useState(null); // NOTE: just use for deep linking
-  const [assets, setAssets] = useState(0);
-  const [findAssets, setFindAssets] = useState('');
-  const [dataAssets, setDataAssets] = useState([]);
   const [process, setProcess] = useState([]);
-  const [error, setError] = useState({
-    assets: {status: false, helper: ''},
-    reason: {status: false, helper: ''},
-  });
   const [form, setForm] = useState({
     id: '',
     name: authState.getIn(['login', 'fullName']),
@@ -140,7 +133,7 @@ function AddRequest(props) {
   /**********
    ** FUNC **
    **********/
-  const handleBack = () => resetRoute(navigation, Routes.TAB.name);
+  const onBackToHome = () => resetRoute(navigation, Routes.TAB.name);
 
   const onGoToSignIn = () =>
     resetRoute(navigation, Routes.LOGIN_IN.name);
@@ -259,30 +252,6 @@ function AddRequest(props) {
     return setLoading({...loading, submitReject: true});
   };
 
-  const onSearchFilter = text => {
-    let newData = [];
-    if (text) {
-      newData = dataAssets.filter(function (item) {
-        const itemData = item[Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.label]
-          ? item[Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.label].toUpperCase()
-          : ''.toUpperCase();
-        const textData = text.toUpperCase();
-        return itemData.indexOf(textData) > -1;
-      });
-    } else {
-      newData = masterState.get('assetByUser');
-    }
-    onSetDataAsset(newData, text || '');
-  };
-
-  const onSetDataAsset = (data, searchKey) => {
-    setDataAssets(data);
-    setFindAssets(searchKey);
-    if (data.length > 0) {
-      setAssets(0);
-    }
-  };
-
   const onCheckLocalLogin = async () => {
     /** Check Data Login */
     let dataLogin = await getSecretInfo(AST_LOGIN);
@@ -379,17 +348,17 @@ function AddRequest(props) {
         if (masterState.get('success')) {
           if (approvedState.get('requestDetail')) {
             let statusIcon = Icons.request;
-            let statusColor = 'orange';
+            let statusColor = 'warning';
             let tmp = approvedState.get('requestDetail');
             if (tmp.statusID === Commons.STATUS_REQUEST.APPROVED.value) {
               statusIcon = Icons.requestApproved_1;
-              statusColor = 'blue';
+              statusColor = 'info';
             } else if (tmp.statusID === Commons.STATUS_REQUEST.REJECT.value) {
               statusIcon = Icons.requestRejected;
-              statusColor = 'red';
+              statusColor = 'danger';
             } else if (tmp.statusID === Commons.STATUS_REQUEST.DONE.value) {
               statusIcon = Icons.requestApproved_2;
-              statusColor = 'green';
+              statusColor = 'success';
             }
             setRequestDetail(tmp);
             setCurrentProcess({statusIcon, statusColor, statusName: tmp.statusName});
@@ -406,16 +375,7 @@ function AddRequest(props) {
                 statusName: route.params?.currentProcess?.statusName,
               });
             } else {
-              setDataAssets(masterState.get('assetByUser'));
-              let data = masterState.get('assetByUser');
-              if (data && data.length > 0) {
-                setForm({
-                  ...form,
-                  assetID:
-                    data[0][Commons.SCHEMA_DROPDOWN.ASSETS_OF_USER.value],
-                });
-              }
-              setLoading({...loading, main: false, startFetchLogin: false});
+              onBackToHome();
             }
           }
         }
@@ -547,57 +507,6 @@ function AddRequest(props) {
     approvedState.get('errorRejectRequest'),
   ]);
 
-  // useLayoutEffect(() => {
-  //   let title = '';
-  //   if (!isDetail && !requestDetail) {
-  //     title = t('add_approved_lost_damaged:title');
-  //   } else {
-  //     let tmpID =
-  //       isDetail && !requestDetail
-  //         ? route.params?.data?.requestID
-  //         : requestParam;
-  //     if (form.typeUpdate === Commons.APPROVED_TYPE.DAMAGED.value) {
-  //       title = t('add_approved_lost_damaged:detail_damage') + ' #' + tmpID;
-  //     } else {
-  //       title = t('add_approved_lost_damaged:detail_lost') + ' #' + tmpID;
-  //     }
-  //   }
-
-  //   navigation.setOptions(
-  //     Object.assign(
-  //       {
-  //         title,
-  //         backButtonInCustomView: true,
-  //         headerLeft: () =>
-  //           (route.params?.requestID !== null ||
-  //             route.params?.requestID !== undefined) && (
-  //             <CIconHeader
-  //               icons={[
-  //                 {
-  //                   show: !navigation.canGoBack(),
-  //                   showRedDot: false,
-  //                   icon: IS_IOS ? Icons.backiOS : Icons.backAndroid,
-  //                   iconColor: customColors.icon,
-  //                   onPress: handleBack,
-  //                 },
-  //               ]}
-  //             />
-  //           ),
-  //       },
-  //       IS_ANDROID
-  //         ? {
-  //             headerCenter: () => (
-  //               <CText
-  //                 customStyles={cStyles.textHeadline}
-  //                 label={'add_approved_lost_damaged:detail'}
-  //               />
-  //             ),
-  //           }
-  //         : {},
-  //     ),
-  //   );
-  // }, [navigation, isDetail, form.typeUpdate, requestDetail]);
-
   /************
    ** RENDER **
    ************/
@@ -671,17 +580,21 @@ function AddRequest(props) {
                 ? route.params?.data?.assetName
                 : requestDetail.assetName}
               </CText>
-              <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween, cStyles.mt10]}>
+              <View style={[cStyles.row, cStyles.itemsStart, cStyles.justifyBetween, cStyles.mt10]}>
                 <View style={[cStyles.itemsStart, styles.con_asset_left]}>
-                  <View>
-                    <CText>{isDetail
-                      ? route.params?.data?.assetCode
-                      : requestDetail.assetCode}</CText>
-                    <CText category="c1" appearance="hint">
-                      {t('add_approved_lost_damaged:code_asset')}
-                    </CText>
-                  </View>
-                  <View style={cStyles.mt10}>
+                  {((isDetail && route.params?.data?.assetCode)
+                    || requestDetail?.assetCode) && (
+                      <View>
+                        <CText>{isDetail
+                          ? route.params?.data?.assetCode
+                          : requestDetail?.assetCode}</CText>
+                        <CText category="c1" appearance="hint">
+                          {t('add_approved_lost_damaged:code_asset')}
+                        </CText>
+                      </View>
+                    )}
+                  <View style={((isDetail && route.params?.data?.assetCode)
+                    || requestDetail?.assetCode) ? cStyles.mt10 : {}}>
                     <CText>{moment(
                         isDetail
                           ? route.params?.data?.purchaseDate
@@ -692,14 +605,17 @@ function AddRequest(props) {
                       {t('add_approved_lost_damaged:purchase_date_asset')}
                     </CText>
                   </View>
-                  <View style={cStyles.mt10}>
-                    <CText>{isDetail
-                      ? route.params?.data?.assetGroupName
-                      : requestDetail.assetGroupName}</CText>
-                    <CText category="c1" appearance="hint">
-                      {t('add_approved_lost_damaged:group_asset')}
-                    </CText>
-                  </View>
+                  {((isDetail && route.params?.data?.assetGroupName) 
+                    || requestDetail.assetGroupName) && (
+                    <View style={cStyles.mt10}>
+                      <CText>{isDetail
+                        ? route.params?.data?.assetGroupName
+                        : requestDetail.assetGroupName}</CText>
+                      <CText category="c1" appearance="hint">
+                        {t('add_approved_lost_damaged:group_asset')}
+                      </CText>
+                    </View>
+                  )}
                 </View>
 
                 <View style={[cStyles.itemsStart, styles.con_asset_right]}>
@@ -733,14 +649,14 @@ function AddRequest(props) {
                   </View>
                 </View>
               </View>
-              {(isDetail && (route.params?.data?.descr || requestDetail?.descr)) && (
-                <View style={[cStyles.row, cStyles.itemsEnd, cStyles.mt10]}>
-                  <CText category="c1" appearance="hint">
-                    {`${t('add_approved_lost_damaged:desc_asset')}: `}
-                  </CText>
+              {((isDetail && route.params?.data?.descr !== '') || requestDetail?.descr !== '') && (
+                <View style={cStyles.mt10}>
                   <CText>{isDetail
                     ? route.params?.data?.descr
                     : requestDetail?.descr}
+                  </CText>
+                  <CText category="c1" appearance="hint">
+                    {`${t('add_approved_lost_damaged:desc_asset')}`}
                   </CText>
                 </View>
               )}
@@ -800,7 +716,8 @@ function AddRequest(props) {
                 values: masterState.get('assetByUser'),
                 keyToCompare: 'assetID',
                 keyToShow: 'assetName',
-                disabled: isDetail,
+                disabled: isDetail || requestDetail,
+                hide: isDetail || requestDetail,
                 required: true,
                 password: false,
                 email: false,
@@ -815,7 +732,7 @@ function AddRequest(props) {
                 label: 'add_approved_lost_damaged:reason',
                 holder: 'add_approved_lost_damaged:holder_reason',
                 value: form.reason,
-                disabled: isDetail,
+                disabled: isDetail || requestDetail,
                 required: true,
                 password: false,
                 email: false,
@@ -833,7 +750,8 @@ function AddRequest(props) {
                 values: DATA_TYPE,
                 keyToCompare: 'value',
                 keyToShow: "label",
-                disabled: isDetail,
+                horizontal: true,
+                disabled: isDetail || requestDetail,
                 required: false,
                 password: false,
                 email: false,
@@ -849,7 +767,7 @@ function AddRequest(props) {
               loading.submitApproved ||
               loading.submitReject
             }
-            labelButton={isDetail ? '' : 'common:send'}
+            labelButton={(isDetail || requestDetail) ? '' : 'common:send'}
             onSubmit={onSendRequest}
           />
         </Card>
@@ -908,7 +826,7 @@ function AddRequest(props) {
               ? 'add_approved_lost_damaged:message_confirm_approved_damage'
               : 'add_approved_lost_damaged:message_confirm_approved_lost'
           }
-          statusOk='success'
+          statusOk="primary"
           onCancel={toggleApproved}
           onOk={onApproved}
         />

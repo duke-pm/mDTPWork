@@ -58,10 +58,6 @@ const STATUS_REQUEST = [
   },
 ];
 
-const RenderCheckIcon = props => (
-  <Icon {...props} name="done-all-outline" />
-);
-
 const RenderCalendarIcon = props => (
   <Icon {...props} name="calendar" />
 );
@@ -94,6 +90,16 @@ function Filter(props) {
       tmp.push(3);
     }
     return setData({...data, status: tmp});
+  };
+
+  const handleReset = () => {
+    setData({
+      ...data,
+      fromDate: props.data.fromDate,
+      toDate: props.data.toDate,
+      status: [1, 2, 3, 4],
+      type: [1, 2, 3],
+    });
   };
 
   const handleFilter = () => {
@@ -162,14 +168,21 @@ function Filter(props) {
    ** RENDER **
    ************/
   return (
-    <Layout style={[cStyles.pb20, styles.content]}>
+    <Layout style={[cStyles.pb20, styles.con_filter]}>
       <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween, cStyles.pb5]}>
         <CText category="s1">{t('common:filter').toUpperCase()}</CText>
-        <Button
-          appearance="ghost"
-          accessoryLeft={RenderCheckIcon}
-          onPress={handleFilter}
-        />
+        <View style={[cStyles.row, cStyles.itemsCenter]}>
+          <Button
+            size="small"
+            status="basic"
+            onPress={handleReset}
+          >{t('common:reset')}</Button>
+          <Button
+            style={cStyles.ml5}
+            size="small"
+            onPress={handleFilter}
+          >{t('common:apply')}</Button>
+        </View>
       </View>
       <Divider />
       <>
@@ -227,7 +240,7 @@ function Filter(props) {
 }
 
 const styles = StyleSheet.create({
-  content: {width: sW('85%')},
+  con_filter: {width: sW('85%')},
 });
 
 Filter.propTypes = {

@@ -62,14 +62,12 @@ function ApprovedAssetsLost(props) {
   /**********
    ** FUNC **
    **********/
-  const onDone = curLoading => setLoading(curLoading);
-
   const onFetchData = (
-    fromDate = null,
-    toDate = null,
-    statusId = '1,2,3,4',
-    page = 1,
-    search = '',
+    page = data.page,
+    fromDate = data.fromDate,
+    toDate = data.toDate,
+    statusId = data.status,
+    search = data.search,
   ) => {
     let params = fromJS({
       FromDate: fromDate,
@@ -95,18 +93,22 @@ function ApprovedAssetsLost(props) {
       nRequestsLostDetail = approvedState.get('requestsLostDetail'),
       nProcessLostApproved = approvedState.get('processLostApproved');
 
-    // If count result < perPage => loadmore is unavailable
+    /* *
+     * If data result from server have
+     * count < perPage => close loadmore
+     * */
     if (nRequestsLost.length < perPage) {
       isLoadmore = false;
     }
 
+    /* * 
+     * Check fetch is refresh or loadmore data
+     * */
     if (type === REFRESH) {
-      // Fetch is refresh
       cRequests = nRequestsLost;
       cRequestDetail = nRequestsLostDetail;
       cProcessApproveds = nProcessLostApproved;
     } else if (type === LOAD_MORE) {
-      // Fetch is loadmore
       cRequests = [...cRequests, ...nRequestsLost];
       cRequestDetail = [...cRequestDetail, ...nRequestsLostDetail];
       cProcessApproveds = [...cProcessApproveds, ...nProcessLostApproved];
@@ -117,7 +119,7 @@ function ApprovedAssetsLost(props) {
       requestsDetail: cRequestDetail,
       processApproveds: cProcessApproveds,
     });
-    return onDone({
+    return setLoading({
       main: false,
       startFetch: false,
       refreshing: false,
@@ -129,8 +131,8 @@ function ApprovedAssetsLost(props) {
   const onRefresh = () => {
     if (!loading.refreshing) {
       setData({...data, page: 1});
-      onFetchData(data.fromDate, data.toDate, data.status, 1, data.search);
-      return onDone({...loading, refreshing: true, isLoadmore: true});
+      onFetchData(1);
+      return setLoading({...loading, refreshing: true, isLoadmore: true});
     }
   };
 
@@ -138,14 +140,8 @@ function ApprovedAssetsLost(props) {
     if (!loading.loadmore && loading.isLoadmore) {
       let newPage = data.page + 1;
       setData({...data, page: newPage});
-      onFetchData(
-        data.fromDate,
-        data.toDate,
-        data.status,
-        newPage,
-        data.search,
-      );
-      return onDone({...loading, loadmore: true});
+      onFetchData(newPage);
+      return setLoading({...loading, loadmore: true});
     }
   };
 
@@ -156,7 +152,7 @@ function ApprovedAssetsLost(props) {
       type: 'danger',
       icon: 'danger',
     });
-    return onDone({
+    return setLoading({
       main: false,
       startFetch: false,
       refreshing: false,
@@ -169,14 +165,8 @@ function ApprovedAssetsLost(props) {
    ** LIFE CYCLE **
    ****************/
   useEffect(() => {
-    onFetchData(
-      data.fromDate,
-      data.toDate,
-      data.status,
-      data.page,
-      data.search,
-    );
-    return onDone({...loading, startFetch: true});
+    onFetchData();
+    return setLoading({...loading, startFetch: true});
   }, []);
 
   useEffect(() => {
@@ -199,13 +189,13 @@ function ApprovedAssetsLost(props) {
           search: curData.search,
         });
         onFetchData(
+          1,
           curData.fromDate,
           curData.toDate,
           curData.status,
-          curData.page,
           curData.search,
         );
-        return onDone({...loading, startFetch: true});
+        return setLoading({...loading, startFetch: true});
       }
     }
   }, [setLoading, prevDataRoute, props.dataRoute]);

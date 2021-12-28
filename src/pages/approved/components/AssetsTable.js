@@ -8,22 +8,21 @@
 import PropTypes from 'prop-types';
 import React, {useState, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
+import {useTheme, Button, Icon} from '@ui-kitten/components';
 import {
-  StyleSheet,
-  ScrollView,
-  View,
-  UIManager,
-  LayoutAnimation,
+  StyleSheet, ScrollView, View, UIManager, LayoutAnimation,
 } from 'react-native';
-import {Table, Row, TableWrapper, Cell} from 'react-native-table-component';
+import {
+  Table, Row, TableWrapper, Cell,
+} from 'react-native-table-component';
 /* COMPONENTS */
 import CText from '~/components/CText';
-import CIcon from '~/components/CIcon';
 import AssetItem from './AssetItem';
 /* COMMON */
-import {colors, cStyles} from '~/utils/style';
-import {moderateScale, IS_ANDROID, verticalScale} from '~/utils/helper';
-import { useTheme, Button, Icon } from '@ui-kitten/components';
+import {cStyles} from '~/utils/style';
+import {
+  moderateScale, IS_ANDROID, verticalScale,
+} from '~/utils/helper';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -32,7 +31,9 @@ if (IS_ANDROID) {
 }
 
 /** All init */
-const HEIGHT_ITEM_TABLE = IS_ANDROID ? verticalScale(38) : verticalScale(30);
+const HEIGHT_ITEM_TABLE = IS_ANDROID 
+  ? verticalScale(38)
+  : verticalScale(30);
 export const WIDTH_ITEM_TABLE = [
   moderateScale(35),
   moderateScale(220),
@@ -87,38 +88,38 @@ function AssetsTable(props) {
     let newData = [...form.assets.data];
     newData.push([null, '', '', '', '']);
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    setForm({...form, assets: {...form.assets, data: newData}});
+    return setForm({...form, assets: {...form.assets, data: newData}});
   };
 
   /**********
   ** FUNC **
   **********/
-  const onChangeCellItem = (value, rowIndex, cellIndex) => {
+  const onChangeCellItem = (value, rowIdx, cellIdx) => {
     let newData = form.assets.data;
-    newData[rowIndex][cellIndex] = value;
-    if (newData[rowIndex][2] !== '') {
-      if (newData[rowIndex][3] !== '') {
-        newData[rowIndex][4] = JSON.stringify(
-          Number(newData[rowIndex][2]) * Number(newData[rowIndex][3]),
+    newData[rowIdx][cellIdx] = value;
+    if (newData[rowIdx][2] !== '') {
+      if (newData[rowIdx][3] !== '') {
+        newData[rowIdx][4] = JSON.stringify(
+          Number(newData[rowIdx][2]) * Number(newData[rowIdx][3]),
         );
       } else {
-        newData[rowIndex][4] = '';
+        newData[rowIdx][4] = '';
       }
     } else {
-      newData[rowIndex][4] = '';
+      newData[rowIdx][4] = '';
     }
     setForm({...form, assets: {...form.assets, data: newData}});
     if (error.status) {
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-      setError({status: false, helper: ''});
+      return setError({status: false, helper: ''});
     }
   };
 
-  const onRemoveRow = rowIndex => {
+  const onRemoveRow = rowIdx => {
     let newData = [...form.assets.data];
-    newData.splice(rowIndex, 1);
+    newData.splice(rowIdx, 1);
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    setForm({...form, assets: {...form.assets, data: newData}});
+    return setForm({...form, assets: {...form.assets, data: newData}});
   };
 
   const onValidate = () => {
@@ -143,22 +144,18 @@ function AssetsTable(props) {
     }
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setError(tmpError);
-    onCallbackValidate({status: tmpError.status, data: form.assets.data});
+    return onCallbackValidate({status: tmpError.status, data: form.assets.data});
   };
 
   /****************
   ** LIFE CYCLE **
   ****************/
   useEffect(() => {
-    if (assets) {
-      setForm({...form, assets: assets});
-    }
+    if (assets) setForm({...form, assets: assets});
   }, [assets, setForm]);
 
   useEffect(() => {
-    if (checking) {
-      onValidate();
-    }
+    if (checking) onValidate();
   }, [checking]);
 
   /************
@@ -170,7 +167,7 @@ function AssetsTable(props) {
         {!isDetail && form.assets.data.length === 0 && (
           <View style={cStyles.mt10}>
             <Button
-              appearance={'ghost'}
+              appearance="ghost"
               size="small"
               accessoryLeft={RenderAddIcon}
               onPress={handleAddAssets}>
@@ -185,7 +182,7 @@ function AssetsTable(props) {
       </View>
 
       {form.assets.data.length > 0 && (
-        <ScrollView horizontal keyboardShouldPersistTaps={'handled'}>
+        <ScrollView horizontal keyboardShouldPersistTaps="handled">
           <Table
             borderStyle={{
               borderWidth: 1,
@@ -204,24 +201,24 @@ function AssetsTable(props) {
               widthArr={form.assets.width}
               data={form.assets.header}
             />
-            {form.assets.data.map((rowData, rowIndex) => {
+            {form.assets.data.map((rowData, rowIdx) => {
               return (
                 <TableWrapper
-                  key={rowIndex.toString()}
+                  key={'row_' + rowIdx.toString()}
                   style={[cStyles.flex1, cStyles.row]}>
-                  {rowData.map((cellData, cellIndex) => {
-                    let disabled = loading || cellIndex === 4 || isDetail;
+                  {rowData.map((cellData, cellIdx) => {
+                    let disabled = loading || cellIdx === 4 || isDetail;
                     return (
                       <Cell
-                        key={cellIndex.toString()}
-                        width={form.assets.width[cellIndex]}
+                        key={'cell_' + cellIdx.toString()}
+                        width={form.assets.width[cellIdx]}
                         data={
                           <AssetItem
                             isDetail={isDetail}
                             disabled={disabled}
                             cellData={cellData}
-                            rowIndex={rowIndex}
-                            cellIndex={cellIndex}
+                            rowIndex={rowIdx}
+                            cellIndex={cellIdx}
                             onChangeCellItem={onChangeCellItem}
                             onRemoveRow={onRemoveRow}
                           />
@@ -253,13 +250,13 @@ function AssetsTable(props) {
           ]}>
           {error.status && (
             <Icon
-              style={{height: moderateScale(10), width: moderateScale(10)}}
+              style={styles.icon_error}
               name={'alert-circle-outline'}
               fill={theme['color-danger-500']}
             />
           )}
           {error.status && (
-            <CText style={cStyles.pl5} category='c1' status="danger">
+            <CText style={cStyles.pl5} category="c1" status="danger">
               {t(error.helper)}
             </CText>
           )}
@@ -268,7 +265,7 @@ function AssetsTable(props) {
         {!isDetail && form.assets.data.length > 0 && (
           <View style={cStyles.mt10}>
             <Button
-              appearance={'ghost'}
+              appearance="ghost"
               size="small"
               accessoryLeft={RenderAddIcon}
               onPress={handleAddAssets}>
@@ -291,6 +288,10 @@ const styles = StyleSheet.create({
   },
   con_left: {flex: 0.4},
   con_right: {flex: 0.6},
+  icon_error: {
+    height: moderateScale(10),
+    width: moderateScale(10),
+  },
 });
 
 AssetsTable.propTypes = {

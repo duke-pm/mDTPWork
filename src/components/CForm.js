@@ -89,6 +89,7 @@ const CForm = forwardRef((props, ref) => {
         values: [],
         multiline: false,
         horizontal: false, // for Radio type
+        hide: false,
         required: true,
         email: false,
         phone: false,
@@ -106,6 +107,7 @@ const CForm = forwardRef((props, ref) => {
         holder: 'Select one of below',
         value: '',
         values: ['Option 1', 'Option 2', 'Option 3'],
+        hide: false,
         required: false,
         password: false,
         email: false,
@@ -121,6 +123,7 @@ const CForm = forwardRef((props, ref) => {
         position: 'left',
         label: 'Toggle',
         value: '',
+        hide: false,
         required: false,
         password: false,
         email: false,
@@ -136,6 +139,7 @@ const CForm = forwardRef((props, ref) => {
         label: 'Radio button',
         value: '',
         values: ['Option 1', 'Option 2', 'Option 3'],
+        hide: false,
         required: false,
         password: false,
         email: false,
@@ -441,6 +445,7 @@ const CForm = forwardRef((props, ref) => {
         }
 
         if (item.type === 'text') {
+          if (item.hide) return <View />;
           return (
             <Input
               key={item.type + item.id + '_' + index}
@@ -484,6 +489,7 @@ const CForm = forwardRef((props, ref) => {
           );
         }
         if (item.type === 'select') {
+          if (item.hide) return <View />;
           return (
             <Select
               style={[cStyles.mt16, item.style]}
@@ -518,6 +524,7 @@ const CForm = forwardRef((props, ref) => {
           );
         }
         if (item.type === 'toggle') {
+          if (item.hide) return <View />;
           return (
             <View
               style={[
@@ -538,6 +545,7 @@ const CForm = forwardRef((props, ref) => {
           );
         }
         if (item.type === 'radio') {
+          if (item.hide) return <View />;
           return (
             <View style={[cStyles.mt16, item.style]}>
               <CText
@@ -553,7 +561,8 @@ const CForm = forwardRef((props, ref) => {
                 onChange={indexRadio => handleChangeRadioIndex(index, indexRadio)}>
                 {item.values && item.values.map((itemRadio, indexRadio) => {
                   return (
-                    <Radio disabled={loading || item.disabled} key={itemRadio + indexRadio}>
+                    <Radio key={itemRadio + indexRadio}
+                      disabled={loading || item.disabled}>
                       {t(itemRadio[item.keyToShow])}
                     </Radio>
                   );
@@ -563,6 +572,7 @@ const CForm = forwardRef((props, ref) => {
           );
         }
         if (item.type === 'datePicker') {
+          if (item.hide) return <View />;
           return (
             <View
               style={[

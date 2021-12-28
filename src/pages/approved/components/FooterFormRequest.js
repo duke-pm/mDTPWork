@@ -10,6 +10,7 @@ import {useTranslation} from 'react-i18next';
 import {Button, Layout, Icon, useTheme} from '@ui-kitten/components';
 /* COMMON */
 import {cStyles} from '~/utils/style';
+import { StyleSheet } from 'react-native';
 
 const RenderRejectIcon = props => (
   <Icon {...props} name="close-outline" />
@@ -42,7 +43,7 @@ function FooterFormRequest(props) {
         {borderTopColor: theme['border-basic-color-3']}
       ]}>
       <Button
-        style={{flex: 0.45}}
+        style={styles.con_half}
         status="danger"
         disabled={loading.main}
         accessoryLeft={RenderRejectIcon}
@@ -50,8 +51,7 @@ function FooterFormRequest(props) {
         {t('common:reject')}
       </Button>
       <Button
-        style={{flex: 0.45}}
-        status="success"
+        style={styles.con_half}
         disabled={loading.main}
         accessoryLeft={RenderApprovedIcon}
         onPress={onApproved}>
@@ -60,6 +60,10 @@ function FooterFormRequest(props) {
     </Layout>
   );
 }
+
+const styles = StyleSheet.create({
+  con_half: {flex: 0.45},
+})
 
 FooterFormRequest.propTypes = {
   loading: PropTypes.bool,

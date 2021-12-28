@@ -9,8 +9,8 @@ import PropTypes from 'prop-types';
 import React, {useState, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
 import {
-  Select, SelectItem, Button, Icon, Divider,
-  Layout, IndexPath, Spinner, Avatar,
+  Select, SelectItem, Button, Divider, Layout,
+  IndexPath, Spinner, Avatar,
 } from '@ui-kitten/components';
 import {StyleSheet, View} from 'react-native';
 import moment from 'moment';
@@ -21,10 +21,6 @@ import {Assets } from '~/utils/asset';
 import {cStyles} from '~/utils/style';
 import {sW} from '~/utils/helper';
 import {DATA_YEAR_FILTER} from '~/configs/constants';
-
-const RenderCheckIcon = props => (
-  <Icon {...props} name="done-all-outline" />
-);
 
 const RenderAvatar = props => (
   <Avatar size="tiny" source={Assets.iconUser} />
@@ -64,6 +60,14 @@ function Filter(props) {
   /*****************
    ** HANDLE FUNC **
    *****************/
+  const handleReset = () => {
+    let fYear = DATA_YEAR_FILTER.findIndex(f => f == moment().year());
+    setYear(new IndexPath(fYear));
+    setSelectedSector([]);
+    setSelectedOwner([]);
+    setSelectedStatus([]);
+  };
+
   const handleFilter = () => {
     let tmpSectorsID = [], tmpOwnersID = [], tmpStatusID = [];
     if (isSector && selectedSector.length > 0) {
@@ -199,11 +203,18 @@ function Filter(props) {
     <Layout style={[cStyles.pb20, styles.con_filter]}>
       <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween, cStyles.pb5]}>
         <CText category="s1">{t('common:filter').toUpperCase()}</CText>
-        <Button
-          appearance="ghost"
-          accessoryLeft={RenderCheckIcon}
-          onPress={handleFilter}
-        />
+        <View style={[cStyles.row, cStyles.itemsCenter]}>
+          <Button
+            size="small"
+            status="basic"
+            onPress={handleReset}
+          >{t('common:reset')}</Button>
+          <Button
+            style={cStyles.ml5}
+            size="small"
+            onPress={handleFilter}
+          >{t('common:apply')}</Button>
+        </View>
       </View>
       <Divider />
       <View style={[cStyles.flex1, cStyles.mt16]}>
@@ -301,7 +312,7 @@ function Filter(props) {
 }
 
 const styles = StyleSheet.create({
-  con_filter: {width: sW('80%')},
+  con_filter: {width: sW('85%')},
 });
 
 Filter.propTypes = {

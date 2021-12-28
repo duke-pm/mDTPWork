@@ -11,11 +11,10 @@ import {useTranslation} from 'react-i18next';
 import {showMessage} from 'react-native-flash-message';
 import {useTheme, Button, Datepicker, Divider, Icon} from '@ui-kitten/components';
 import {MomentDateService} from '@ui-kitten/moment';
-import {View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import moment from 'moment';
 /* COMPONENTS */
 import CText from '~/components/CText';
-import CIcon from '~/components/CIcon';
 import CGroupFilter from '~/components/CGroupFilter';
 /* COMMON */
 import {cStyles} from '~/utils/style';
@@ -23,11 +22,12 @@ import {sW} from '~/utils/helper';
 import {DEFAULT_FORMAT_DATE_1} from '~/configs/constants';
 
 /** All init avriables */
+const formatDateService = new MomentDateService('en-sg');
 const minDate = '2010-01-01';
 const maxDate = '2030-12-31';
 
-const RenderCheckIcon = props => (
-  <Icon {...props} name="done-all-outline" />
+const RenderCalendarIcon = props => (
+  <Icon {...props} name="calendar" />
 );
 
 function Filter(props) {
@@ -53,6 +53,14 @@ function Filter(props) {
    *****************/
   const handleChangeResource = resourceChoosed =>
     setData({...data, resources: resourceChoosed});
+
+  const handleReset = () => {
+    setData({
+      fromDate: props.data.fromDate,
+      toDate: props.data.toDate,
+      resources: [],
+    });
+  };
 
   const handleFilter = () => {
     let tmpFromDate =
@@ -134,14 +142,21 @@ function Filter(props) {
    ** RENDER **
    ************/
   return (
-    <View style={[cStyles.pb20, {width: sW('80%')}]}>
+    <View style={[cStyles.pb20, styles.con_filter]}>
       <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween, cStyles.pb5]}>
         <CText category="s1">{t('common:filter').toUpperCase()}</CText>
-        <Button
-          appearance="ghost"
-          accessoryLeft={RenderCheckIcon}
-          onPress={handleFilter}
-        />
+        <View style={[cStyles.row, cStyles.itemsCenter]}>
+          <Button
+            size="small"
+            status="basic"
+            onPress={handleReset}
+          >{t('common:reset')}</Button>
+          <Button
+            style={cStyles.ml5}
+            size="small"
+            onPress={handleFilter}
+          >{t('common:apply')}</Button>
+        </View>
       </View>
       <Divider />
       <>
@@ -149,8 +164,8 @@ function Filter(props) {
           <Datepicker
             style={cStyles.mt16}
             label={t('bookings:from_date')}
-            accessoryRight={propsR => <Icon {...propsR} name="calendar" />}
-            dateService={new MomentDateService('vi')}
+            accessoryRight={RenderCalendarIcon}
+            dateService={formatDateService}
             placeholder={t('bookings:from_date')}
             date={data.fromDate === ''
               ? ''
@@ -162,8 +177,8 @@ function Filter(props) {
           <Datepicker
             style={cStyles.mt16}
             label={t('bookings:to_date')}
-            accessoryRight={propsR => <Icon {...propsR} name="calendar" />}
-            dateService={new MomentDateService('vi')}
+            accessoryRight={RenderCalendarIcon}
+            dateService={formatDateService}
             placeholder={t('bookings:to_date')}
             date={data.toDate === ''
               ? ''
@@ -187,6 +202,10 @@ function Filter(props) {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  con_filter: {width: sW('85%')},
+});
 
 Filter.propTypes = {
   data: PropTypes.object.isRequired,

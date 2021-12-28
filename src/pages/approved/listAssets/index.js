@@ -28,7 +28,7 @@ import * as Actions from '~/redux/actions';
 function ListRequestAll(props) {
   const {t} = useTranslation();
   const {route, navigation} = props;
-  const isPermissionWrite =
+  const havePermission =
     route.params?.permission?.write || false;
 
   /** Use redux */
@@ -39,7 +39,7 @@ function ListRequestAll(props) {
   const language = commonState.get('language');
   const refreshToken = authState.getIn(['login', 'refreshToken']);
 
-  /** use state */
+  /** Use state */
   const [index, setIndex] = useState(0);
   const [routes, setRoutes] = useState([
     {
@@ -79,52 +79,38 @@ function ListRequestAll(props) {
    *****************/
   const handleAddNew = () => {
     if (index === 1) {
-      navigation.navigate(Routes.ADD_APPROVED_LOST_DAMAGED.name, {
-        type: Commons.APPROVED_TYPE.DAMAGED.value,
-        onRefresh: () => handleRefresh(index),
-      });
+      return navigation.navigate(
+        Routes.ADD_APPROVED_LOST_DAMAGED.name,
+        {
+          type: Commons.APPROVED_TYPE.DAMAGED.value,
+          onRefresh: () => onRefresh(index),
+        });
     } else if (index === 2) {
-      navigation.navigate(Routes.ADD_APPROVED_LOST_DAMAGED.name, {
-        type: Commons.APPROVED_TYPE.LOST.value,
-        onRefresh: () => handleRefresh(index),
-      });
+      return navigation.navigate(
+        Routes.ADD_APPROVED_LOST_DAMAGED.name,
+        {
+          type: Commons.APPROVED_TYPE.LOST.value,
+          onRefresh: () => onRefresh(index),
+        });
     } else {
-      navigation.navigate(Routes.ADD_APPROVED_ASSETS.name, {
-        type: Commons.APPROVED_TYPE.ASSETS.value,
-        onRefresh: () => handleRefresh(index),
-      });
+      return navigation.navigate(
+        Routes.ADD_APPROVED_ASSETS.name,
+        {
+          type: Commons.APPROVED_TYPE.ASSETS.value,
+          onRefresh: () => onRefresh(index),
+        });
     }
-  };
-
-  const handleRefresh = idxRoute => {
-    let tmpRoutes = [...routes];
-    tmpRoutes[idxRoute] = {
-      ...tmpRoutes[idxRoute],
-      isRefresh: !tmpRoutes[idxRoute].isRefresh,
-    };
-    return setRoutes(tmpRoutes);
-  };
-
-  const handleSearch = value => {
-    let tmp = {search: value};
-    let tmpRoutes = [...routes];
-    tmpRoutes[index] = {...tmpRoutes[index], ...tmp};
-    return setRoutes(tmpRoutes);
-  };
-
-  const handleFilter = (fromDate, toDate, status, type, toggle) => {
-    toggle();
-    let tmp = {fromDate, toDate, status, type};
-    let tmpRoutes = [...routes];
-    tmpRoutes[index] = {...tmpRoutes[index], ...tmp};
-    return setRoutes(tmpRoutes);
   };
 
   /**********
    ** FUNC **
    **********/
   const resetAllRequests = () => {
-    dispatch(Actions.resetAllApproved());
+    return dispatch(Actions.resetAllApproved());
+  };
+
+  const shouldLoadComponent = (newIndex) => {
+    return newIndex === index;
   };
 
   const onPrepareData = () => {
@@ -133,10 +119,32 @@ function ListRequestAll(props) {
       RefreshToken: refreshToken,
       Lang: language,
     };
-    dispatch(Actions.fetchMasterData(params, navigation));
+    return dispatch(Actions.fetchMasterData(params, navigation));
   };
 
-  const shouldLoadComponent = (newIndex) => newIndex === index;
+  const onRefresh = idxRoute => {
+    let tmpRoutes = [...routes];
+    tmpRoutes[idxRoute] = {
+      ...tmpRoutes[idxRoute],
+      isRefresh: !tmpRoutes[idxRoute].isRefresh,
+    };
+    return setRoutes(tmpRoutes);
+  };
+
+  const onSearch = value => {
+    let tmp = {search: value};
+    let tmpRoutes = [...routes];
+    tmpRoutes[index] = {...tmpRoutes[index], ...tmp};
+    return setRoutes(tmpRoutes);
+  };
+
+  const onFilter = (fromDate, toDate, status, type, toggle) => {
+    toggle();
+    let tmp = {fromDate, toDate, status, type};
+    let tmpRoutes = [...routes];
+    tmpRoutes[index] = {...tmpRoutes[index], ...tmp};
+    return setRoutes(tmpRoutes);
+  };
 
   /****************
    ** LIFE CYCLE **
@@ -157,14 +165,14 @@ function ListRequestAll(props) {
           title="list_request_assets:title"
           back
           searchFilter
-          onSearch={handleSearch}
+          onSearch={onSearch}
           renderFilter={(propsF, toggleFilter) => 
             <View style={propsF.style}>
               <Filter
                 isResolve={false}
                 data={routes[index]}
                 onFilter={(fromDate, toDate, status, type) =>
-                  handleFilter(fromDate, toDate, status, type, toggleFilter)
+                  onFilter(fromDate, toDate, status, type, toggleFilter)
                 }
               />
             </View>
@@ -188,7 +196,7 @@ function ListRequestAll(props) {
       </TabView>
 
       {/** If have permission => Add action will show */}
-      <CButtonAdd show={isPermissionWrite} onPress={handleAddNew} />
+      <CButtonAdd show={havePermission} onPress={handleAddNew} />
     </CContainer>
   );
 }

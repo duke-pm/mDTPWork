@@ -140,7 +140,7 @@ const Commons = {
     "I": {
       value: 'I',
       label: 'Immediate',
-      color: 'primary',
+      color: 'success',
     },
     "H": {
       value: 'H',
@@ -150,7 +150,7 @@ const Commons = {
     "N": {
       value: 'N',
       label: 'Normal',
-      color: 'success',
+      color: 'primary',
     },
     "L": {
       value: 'L',

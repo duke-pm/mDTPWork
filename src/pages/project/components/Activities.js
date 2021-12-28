@@ -5,11 +5,14 @@
  ** CreateAt: 2021
  ** Description: Description of Activity.js
  **/
-import React, {createRef, useState, useEffect, useLayoutEffect} from 'react';
+import React, {createRef, useState, useEffect, useContext} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {showMessage} from 'react-native-flash-message';
-import {ifIphoneX, isIphoneX} from 'react-native-iphone-x-helper';
+import {ifIphoneX} from 'react-native-iphone-x-helper';
+import {
+  useTheme, Button, Input, Icon, Layout, Text,
+} from '@ui-kitten/components';
 import {
   StyleSheet,
   View,
@@ -23,12 +26,17 @@ import * as Animatable from 'react-native-animatable';
 import moment from 'moment';
 /* COMPONENTS */
 import CText from '~/components/CText';
+import CEmpty from '~/components/CEmpty';
+import CAvatar from '~/components/CAvatar';
 /* COMMON */
+import {Assets} from '~/utils/asset';
 import {colors, cStyles} from '~/utils/style';
+import {ThemeContext} from '~/configs/theme-context';
 import {
   AST_LAST_COMMENT_TASK,
   DEFAULT_FORMAT_DATE_7,
   DEFAULT_FORMAT_DATE_8,
+  LIGHT,
 } from '~/configs/constants';
 import {
   saveLocalInfo,
@@ -39,10 +47,6 @@ import {
 } from '~/utils/helper';
 /** REDUX */
 import * as Actions from '~/redux/actions';
-import {useTheme, Button, Input, Icon, Layout, Text, Divider} from '@ui-kitten/components';
-import CEmpty from '~/components/CEmpty';
-import CAvatar from '~/components/CAvatar';
-import { Assets } from '~/utils/asset';
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -64,6 +68,7 @@ const RenderInputMessage = ({
     loading = false,
     trans = {},
     value = '',
+    themeApp = LIGHT,
     onSend = () => {},
     handleChangeText = () => {},
   }) => {
@@ -85,6 +90,7 @@ const RenderInputMessage = ({
           <Input
             style={[cStyles.flex1, cStyles.mr5]}
             testID={INPUT_NAME.MESSAGE}
+            keyboardAppearance={themeApp}
             placeholder={trans('project_management:holder_input_your_comment')}
             value={value}
             blurOnSubmit={false}
@@ -107,6 +113,7 @@ const RenderInputMessage = ({
 function Activity(props) {
   const {t} = useTranslation();
   const theme = useTheme();
+  const themeContext = useContext(ThemeContext);
   const {taskID, navigation} = props;
 
   /** Use redux */
@@ -432,7 +439,7 @@ function Activity(props) {
             renderSectionFooter={({section: {title}}) => {
               return (
                 <View style={[cStyles.row, cStyles.itemsCenter, cStyles.center, cStyles.py16]}>
-                  <CText category="c2" appearance="hint">{title.toUpperCase()}</CText>
+                  <CText category="c2">{title.toUpperCase()}</CText>
                 </View>
               )
             }}
@@ -453,7 +460,7 @@ function Activity(props) {
                         cStyles.p10,
                         {backgroundColor: theme['color-primary-500']},
                       ]}>
-                      <CText style={cStyles.textRight} category="p2" status="control" maxLines={1000}>
+                      <CText style={cStyles.textRight} status="control" maxLines={1000}>
                         {info.item.comments}
                       </CText>
                       <Text style={[cStyles.textRight, cStyles.mt5]} category="c2" status="control">
@@ -479,9 +486,9 @@ function Activity(props) {
                   {!info.item.showAvatar && (
                     <View style={styles.container_chat} />
                   )}
-                  <View style={cStyles.flex1}>
+                  <View>
                     {info.item.showAvatar && (
-                      <View style={cStyles.my6}>
+                      <View style={cStyles.mb5}>
                         <Text
                           category="c1"
                           appearance="hint">
@@ -492,19 +499,14 @@ function Activity(props) {
                     <Animatable.View
                       ref={ref => onCheckRef(info.index, ref)}
                       style={[
-                        cStyles.row,
                         cStyles.rounded1,
                         cStyles.p10,
                         {backgroundColor: theme['background-basic-color-3']},
                       ]}>
-                      <View style={{flex: 0.85}}>
-                        <CText category="p2" maxLines={1000}>{info.item.comments}</CText>
-                      </View>
-                      <View style={{flex: 0.15}}>
-                        <Text style={cStyles.textRight} category="c2" appearance="hint">
-                          {`${info.item.timeUpdate.split('-')[1]}`}
-                        </Text>
-                      </View>
+                      <CText maxLines={1000}>{info.item.comments}</CText>
+                      <Text style={cStyles.mt5} category="c2">
+                        {`${info.item.timeUpdate.split('- ')[1]}`}
+                      </Text>
                     </Animatable.View>
                   </View>
                 </View>
@@ -527,6 +529,7 @@ function Activity(props) {
           <RenderInputMessage
             loading={loading.send}
             trans={t}
+            themeApp={themeContext.themeApp}
             value={valueMessage}
             onSend={onSendMessage}
             handleChangeText={setValueMessage}

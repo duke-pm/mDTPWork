@@ -21,7 +21,7 @@ function Approved(props) {
   /** Use redux */
   const authState = useSelector(({auth}) => auth);
 
-  /** Use State */
+  /** Use state */
   const [loading, setLoading] = useState(true);
   const [routes, setRoutes] = useState([]);
 

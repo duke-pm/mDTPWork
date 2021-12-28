@@ -58,29 +58,24 @@ function ListRequestHandling(props) {
     page: 1,
   });
 
-  /*****************
-   ** HANDLE FUNC **
-   *****************/
-  const handleSearch = value => {
-    setData({...data, search: value, page: 1});
-    onFetchData(data.fromDate, data.toDate, 1, value, data.type);
-    return setLoading({...loading, startFetch: true});
-  };
-
-  const handleFilter = (fromDate, toDate, status, type, toggle) => {
-    toggle();
-    setData({...data, page: 1, type, fromDate, toDate});
-    onFetchData(fromDate, toDate, 1, data.search, type);
-    return setLoading({...loading, startFetch: true});
-  };
-
   /**********
    ** FUNC **
    **********/
-  const onDone = curLoading => setLoading(curLoading);
-
   const resetAllRequests = () => {
-    dispatch(Actions.resetAllApproved());
+    return dispatch(Actions.resetAllApproved());
+  };
+
+  const onSearch = valueSearch => {
+    onFetchData(data.fromDate, data.toDate, 1, valueSearch, data.type);
+    setLoading({...loading, startFetch: true});
+    return setData({...data, search: valueSearch, page: 1});
+  };
+
+  const onFilter = (fromDate, toDate, status, type, toggle) => {
+    toggle();
+    onFetchData(fromDate, toDate, 1, data.search, type);
+    setLoading({...loading, startFetch: true});
+    return setData({...data, type, fromDate, toDate, page: 1});
   };
 
   const onFetchData = (
@@ -91,13 +86,13 @@ function ListRequestHandling(props) {
     requestTypeID = '1,2,3',
   ) => {
     let params = fromJS({
+      IsResolveRequest: true,
       FromDate: fromDate,
       ToDate: toDate,
-      PageSize: perPage,
-      PageNum: pageNum,
       Search: search,
       RequestTypeID: requestTypeID,
-      IsResolveRequest: true,
+      PageSize: perPage,
+      PageNum: pageNum,
       RefreshToken: refreshToken,
       Lang: language,
     });
@@ -110,31 +105,35 @@ function ListRequestHandling(props) {
       RefreshToken: refreshToken,
       Lang: language,
     };
-    dispatch(Actions.fetchMasterData(params, navigation));
+    return dispatch(Actions.fetchMasterData(params, navigation));
   };
 
   const onPrepareData = type => {
-    let tmpRequests = [...data.requests];
-    let tmpRequestDetail = [...data.requestsDetail];
-    let tmpProcessApproveds = [...data.processApproveds];
-    let isLoadmore = true;
-    if (approvedState.get('requests').length < perPage) {
-      isLoadmore = false;
-    }
+    let tmpRequests = [...data.requests],
+      tmpRequestDetail = [...data.requestsDetail],
+      tmpProcessApproveds = [...data.processApproveds],
+      tmpLastRequests = approvedState.get('requests'),
+      tmpLastRequestsDetail = approvedState.get('requestsDetail'),
+      tmpLastProcessApproved = approvedState.get('processApproved'),
+      isLoadmore = true;
+
+    /* *
+     * If data result from server have
+     * count < perPage => close loadmore
+     * */
+    if (tmpLastRequests.length < perPage) isLoadmore = false;
+
+    /* * 
+     * Check fetch is refresh or loadmore data
+     * */
     if (type === REFRESH) {
-      tmpRequests = approvedState.get('requests');
-      tmpRequestDetail = approvedState.get('requestsDetail');
-      tmpProcessApproveds = approvedState.get('processApproved');
+      tmpRequests = tmpLastRequests;
+      tmpRequestDetail = tmpLastRequestsDetail;
+      tmpProcessApproveds = tmpLastProcessApproved;
     } else if (type === LOAD_MORE) {
-      tmpRequests = [...tmpRequests, ...approvedState.get('requests')];
-      tmpRequestDetail = [
-        ...tmpRequestDetail,
-        ...approvedState.get('requestsDetail'),
-      ];
-      tmpProcessApproveds = [
-        ...tmpProcessApproveds,
-        ...approvedState.get('processApproved'),
-      ];
+      tmpRequests = [...tmpRequests, ...tmpLastRequests];
+      tmpRequestDetail = [...tmpRequestDetail, ...tmpLastRequestsDetail];
+      tmpProcessApproveds = [...tmpProcessApproveds, ...tmpLastProcessApproved];
     }
     setData({
       ...data,
@@ -142,7 +141,7 @@ function ListRequestHandling(props) {
       requestsDetail: tmpRequestDetail,
       processApproveds: tmpProcessApproveds,
     });
-    return onDone({
+    return setLoading({
       main: false,
       startFetch: false,
       refreshing: false,
@@ -155,7 +154,7 @@ function ListRequestHandling(props) {
     if (!loading.refreshing) {
       setData({...data, page: 1});
       onFetchData(data.fromDate, data.toDate, 1, data.search, data.type);
-      return onDone({...loading, refreshing: true, isLoadmore: true});
+      return setLoading({...loading, refreshing: true, isLoadmore: true});
     }
   };
 
@@ -164,7 +163,7 @@ function ListRequestHandling(props) {
       let newPage = data.page + 1;
       setData({...data, page: newPage});
       onFetchData(data.fromDate, data.toDate, newPage, data.search, data.type);
-      return onDone({...loading, loadmore: true});
+      return setLoading({...loading, loadmore: true});
     }
   };
 
@@ -257,21 +256,21 @@ function ListRequestHandling(props) {
           title="list_request_assets_handling:title"
           back
           searchFilter
-          onSearch={handleSearch}
+          onSearch={onSearch}
           renderFilter={(propsF, toggleFilter) => 
             <View style={propsF.style}>
               <Filter
                 isResolve={true}
                 data={data}
                 onFilter={(fromDate, toDate, status, type) =>
-                  handleFilter(fromDate, toDate, status, type, toggleFilter)
+                  onFilter(fromDate, toDate, status, type, toggleFilter)
                 }
               />
             </View>
           }
         />
       }>
-      {/** List all approved */}
+      {/** Content */}
       {!loading.main && !loading.startFetch && (
         <ListRequest
           permissionWrite={isPermissionWrite}

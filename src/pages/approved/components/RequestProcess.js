@@ -14,12 +14,13 @@ import IoniIcon from 'react-native-vector-icons/Ionicons';
 /* COMPONENTS */
 import CText from '~/components/CText';
 /* COMMON */
-import {colors, cStyles} from '~/utils/style';
+import {cStyles} from '~/utils/style';
 import {moderateScale} from '~/utils/helper';
 
 /** All init */
 let isReject = false;
 let isLastProcess = false;
+const sGlobalIcon = moderateScale(20);
 
 function RequestProcess(props) {
   const {t} = useTranslation();
@@ -37,9 +38,7 @@ function RequestProcess(props) {
     let tmp2 = [],
       i = null;
     for (i of data) {
-      if (i.personApproveID !== -1) {
-        tmp2.push(i);
-      }
+      if (i.personApproveID !== -1) tmp2.push(i);
     }
     setDataProcess(tmp2);
     setLoading(false);
@@ -71,7 +70,7 @@ function RequestProcess(props) {
           }
           return (
             <View
-              key={index.toString()}
+              key={item.personApproveName + '_' +index.toString()}
               style={[cStyles.fullWidth, cStyles.row, cStyles.itemsStart]}>
               {item.approveDate ? (
                 <Button
@@ -122,7 +121,7 @@ function RequestProcess(props) {
                       ? theme['color-danger-500']
                       : theme['color-success-500']
                   }
-                  size={moderateScale(20)}
+                  size={sGlobalIcon}
                 />
 
                 {index !== dataProcess.length - 1 && (
@@ -222,7 +221,6 @@ function RequestProcess(props) {
 }
 
 const styles = StyleSheet.create({
-  con_time_process: {backgroundColor: colors.BG_APPROVED, flex: 0.3},
   line: {height: moderateScale(30)},
   con_date: {flex: 0.2},
   con_icon: {flex: 0.1},

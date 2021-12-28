@@ -5,7 +5,7 @@
  ** Description: Description of RejectModal.js
  **/
 import PropTypes from 'prop-types';
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {Input} from '@ui-kitten/components';
 import {StyleSheet, Keyboard} from 'react-native';
@@ -14,10 +14,11 @@ import CAlert from '~/components/CAlert';
 /* COMMON */
 import {cStyles} from '~/utils/style';
 import {moderateScale} from '~/utils/helper';
-
+import {ThemeContext} from '~/configs/theme-context';
 
 function RejectModal(props) {
   const {t} = useTranslation();
+  const themeContext = useContext(ThemeContext);
   const {
     showReject = false,
     description = 'add_approved_assets:message_confirm_reject',
@@ -41,18 +42,19 @@ function RejectModal(props) {
   const handleChangeReasonReject = value => {
     setReasonReject(value);
     if (error.reasonReject.status) {
-      setError({reasonReject: {status: false, helper: ''}});
+      return setError({reasonReject: {status: false, helper: ''}});
     }
+    return;
   };
 
   const handleReject = () => {
     if (reasonReject.trim() === '') {
-      setError({
+      return setError({
         reasonReject: {status: true, helper: 'error:reason_reject_empty'},
       });
     } else {
       setLoading(true);
-      onReject(reasonReject);
+      return onReject(reasonReject);
     }
   };
 
@@ -61,7 +63,7 @@ function RejectModal(props) {
       setError({reasonReject: {status: false, helper: ''}});
     }
     setReasonReject('');
-    onCloseReject();
+    return onCloseReject();
   };
 
   /************
@@ -78,6 +80,7 @@ function RejectModal(props) {
           style={[cStyles.my10, styles.input]}
           autoFocus
           multiline
+          keyboardAppearance={themeContext.themeApp}
           status={error.reasonReject.status ? 'danger' : 'basic'}
           label={t('add_approved_lost_damaged:reason_reject')}
           caption={t(error.reasonReject.helper)}
@@ -86,8 +89,8 @@ function RejectModal(props) {
           onChangeText={handleChangeReasonReject}
         />
       }
-      statusOk='danger'
-      textCancel='common:close'
+      statusOk="danger"
+      textCancel="common:close"
       onBackdrop={Keyboard.dismiss}
       onCancel={handleClose}
       onOk={handleReject}

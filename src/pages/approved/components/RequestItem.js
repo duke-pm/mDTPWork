@@ -75,8 +75,8 @@ function RequestItem(props) {
             cStyles.px16,
             cStyles.py10,
           ]}>
-          <View style={styles.con_left}>
-            <CText category="s1">{`${data.requestID} | ${title}`}</CText>
+          <View style={styles.con_header_left}>
+            <CText category="s1">{`${title}`}</CText>
             <CText category="c1" appearance="hint">{
               moment(
                 data.requestDate,
@@ -84,10 +84,8 @@ function RequestItem(props) {
               ).format(DEFAULT_FORMAT_DATE_9)
             }</CText>
           </View>
-          <View style={[cStyles.itemsEnd, styles.con_right]}>
-            <Button
-              size="tiny"
-              status={statusColor}>
+          <View style={[cStyles.itemsEnd, styles.con_header_right]}>
+            <Button size="tiny" status={statusColor}>
               {data.statusName}
             </Button>
           </View>
@@ -114,8 +112,8 @@ function RequestItem(props) {
 }
 
 const styles = StyleSheet.create({
-  con_left: {flex: 0.7},
-  con_right: {flex: 0.3},
+  con_header_left: {flex: 0.7},
+  con_header_right: {flex: 0.3},
 });
 
 RequestItem.propTypes = {

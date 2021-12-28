@@ -62,14 +62,12 @@ function ApprovedAssetsDamage(props) {
   /**********
    ** FUNC **
    **********/
-  const onDone = curLoading => setLoading(curLoading);
-
   const onFetchData = (
-    fromDate = null,
-    toDate = null,
-    statusId = '1,2,3,4',
-    page = 1,
-    search = '',
+    page = data.page,
+    fromDate = data.fromDate,
+    toDate = data.toDate,
+    statusId = data.status,
+    search = data.search,
   ) => {
     let params = fromJS({
       FromDate: fromDate,
@@ -87,37 +85,39 @@ function ApprovedAssetsDamage(props) {
   };
 
   const onPrepareData = (type = REFRESH) => {
-    let isLoadmore = true;
-    let cRequests = [...data.requests],
-      cRequestDetail = [...data.requestsDetail],
-      cProcessApproveds = [...data.processApproveds];
-    let nRequestsDamage = approvedState.get('requestsDamage'),
-      nRequestsDamageDetail = approvedState.get('requestsDamageDetail'),
-      nProcessDamageApproved = approvedState.get('processDamageApproved');
+    let isLoadmore = true,
+      tmpRequests = [...data.requests],
+      tmpRequestDetail = [...data.requestsDetail],
+      tmpProcessApproveds = [...data.processApproveds],
+      tmpLastRequestsDamage = approvedState.get('requestsDamage'),
+      tmpLastRequestsDamageDetail = approvedState.get('requestsDamageDetail'),
+      tmpLastProcessDamageApproved = approvedState.get('processDamageApproved');
 
-    // If count result < perPage => loadmore is unavailable
-    if (nRequestsDamage.length < perPage) {
-      isLoadmore = false;
-    }
+    /* *
+     * If data result from server have
+     * count < perPage => close loadmore
+     * */
+    if (tmpLastRequestsDamage.length < perPage) isLoadmore = false;
 
+    /* * 
+     * Check fetch is refresh or loadmore data
+     * */
     if (type === REFRESH) {
-      // Fetch is refresh
-      cRequests = nRequestsDamage;
-      cRequestDetail = nRequestsDamageDetail;
-      cProcessApproveds = nProcessDamageApproved;
+      tmpRequests = tmpLastRequestsDamage;
+      tmpRequestDetail = tmpLastRequestsDamageDetail;
+      tmpProcessApproveds = tmpLastProcessDamageApproved;
     } else if (type === LOAD_MORE) {
-      // Fetch is loadmore
-      cRequests = [...cRequests, ...nRequestsDamage];
-      cRequestDetail = [...cRequestDetail, ...nRequestsDamageDetail];
-      cProcessApproveds = [...cProcessApproveds, ...nProcessDamageApproved];
+      tmpRequests = [...tmpRequests, ...tmpLastRequestsDamage];
+      tmpRequestDetail = [...tmpRequestDetail, ...tmpLastRequestsDamageDetail];
+      tmpProcessApproveds = [...tmpProcessApproveds, ...tmpLastProcessDamageApproved];
     }
     setData({
       ...data,
-      requests: cRequests,
-      requestsDetail: cRequestDetail,
-      processApproveds: cProcessApproveds,
+      requests: tmpRequests,
+      requestsDetail: tmpRequestDetail,
+      processApproveds: tmpProcessApproveds,
     });
-    return onDone({
+    return setLoading({
       main: false,
       startFetch: false,
       refreshing: false,
@@ -128,24 +128,18 @@ function ApprovedAssetsDamage(props) {
 
   const onRefresh = () => {
     if (!loading.refreshing) {
-      setData({...data, page: 1});
-      onFetchData(data.fromDate, data.toDate, data.status, 1, data.search);
-      return onDone({...loading, refreshing: true, isLoadmore: true});
+      onFetchData(1);
+      setLoading({...loading, refreshing: true, isLoadmore: true});
+      return setData({...data, page: 1});
     }
   };
 
   const onLoadmore = () => {
     if (!loading.loadmore && loading.isLoadmore) {
       let newPage = data.page + 1;
-      setData({...data, page: newPage});
-      onFetchData(
-        data.fromDate,
-        data.toDate,
-        data.status,
-        newPage,
-        data.search,
-      );
-      return onDone({...loading, loadmore: true});
+      onFetchData(newPage);
+      setLoading({...loading, loadmore: true});
+      return setData({...data, page: newPage});
     }
   };
 
@@ -156,7 +150,7 @@ function ApprovedAssetsDamage(props) {
       type: 'danger',
       icon: 'danger',
     });
-    return onDone({
+    return setLoading({
       main: false,
       startFetch: false,
       refreshing: false,
@@ -169,8 +163,8 @@ function ApprovedAssetsDamage(props) {
    ** LIFE CYCLE **
    ****************/
   useEffect(() => {
-    onFetchData(data.fromDate, data.toDate, data.status, 1, data.search);
-    return onDone({...loading, startFetch: true});
+    onFetchData();
+    return setLoading({...loading, startFetch: true});
   }, []);
 
   useEffect(() => {
@@ -184,7 +178,15 @@ function ApprovedAssetsDamage(props) {
         prevDataRoute.search !== curData.search ||
         prevDataRoute.isRefresh !== curData.isRefresh
       ) {
-        setData({
+        onFetchData(
+          1,
+          curData.fromDate,
+          curData.toDate,
+          curData.status,
+          curData.search,
+        );
+        setLoading({...loading, startFetch: true});
+        return setData({
           ...data,
           fromDate: curData.fromDate,
           toDate: curData.toDate,
@@ -192,14 +194,6 @@ function ApprovedAssetsDamage(props) {
           page: 1,
           search: curData.search,
         });
-        onFetchData(
-          curData.fromDate,
-          curData.toDate,
-          curData.status,
-          curData.page,
-          curData.search,
-        );
-        return onDone({...loading, startFetch: true});
       }
     }
   }, [setLoading, prevDataRoute, props.dataRoute]);

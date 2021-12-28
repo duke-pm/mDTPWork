@@ -6,17 +6,17 @@
  **/
 import PropTypes from 'prop-types';
 import React from 'react';
-import {Avatar, Button, Card, Text} from '@ui-kitten/components';
+import {Avatar, Button, Card} from '@ui-kitten/components';
 import {StyleSheet, View} from 'react-native';
 import moment from 'moment';
 /* COMPONENTS */
+import CAvatar from '~/components/CAvatar';
 import CText from '~/components/CText';
 /* COMMON */
 import {Assets} from '~/utils/asset';
 import {cStyles} from '~/utils/style';
 import {Commons} from '~/utils/common';
 import {DEFAULT_FORMAT_DATE_4, DEFAULT_FORMAT_DATE_9} from '~/configs/constants';
-import CAvatar from '~/components/CAvatar';
 
 function BookingItem(props) {
   const {
@@ -39,9 +39,8 @@ function BookingItem(props) {
   /************
    ** RENDER **
    ************/
-  if (!data) {
-    return null;
-  }
+  if (!data) return null;
+
   let colorStatus = 'warning',
     arrAvatarParticipant = [];
   if (data.statusID === Commons.BOOKING_STATUS.HAPPENNING.value) {
