@@ -10,7 +10,7 @@ import React, {createRef, useEffect, useState, useRef} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {
-  Avatar, Button, Card, Icon, TopNavigationAction,
+  Avatar, Card, Icon, TopNavigationAction, Text,
 } from '@ui-kitten/components';
 import {StyleSheet, View} from 'react-native';
 import {showMessage} from 'react-native-flash-message';
@@ -19,10 +19,10 @@ import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CTopNavigation from '~/components/CTopNavigation';
-import CText from '~/components/CText';
 import CForm from '~/components/CForm';
 import CLoading from '~/components/CLoading';
 import CAlert from '~/components/CAlert';
+import CStatus from '~/components/CStatus';
 import CActionSheet from '~/components/CActionSheet';
 import RequestProcess from '../components/RequestProcess';
 import AssetsTable, {WIDTH_ITEM_TABLE} from '../components/AssetsTable';
@@ -33,8 +33,11 @@ import Routes from '~/navigator/Routes';
 import FieldsAuth from '~/configs/fieldsAuth';
 import {Assets} from '~/utils/asset';
 import {cStyles} from '~/utils/style';
-import {Commons, Icons} from '~/utils/common';
-import {getSecretInfo, resetRoute} from '~/utils/helper';
+import {Commons} from '~/utils/common';
+import {
+  getSecretInfo,
+  resetRoute,
+} from '~/utils/helper';
 import {
   DEFAULT_FORMAT_DATE_4,
   AST_LOGIN,
@@ -400,21 +403,9 @@ function AddRequest(props) {
       if (!masterState.get('submitting')) {
         if (masterState.get('department').length > 0) {
           if (approvedState.get('requestDetail')) {
-            let statusIcon = Icons.request;
-            let statusColor = 'warning';
             let tmp = approvedState.get('requestDetail');
-            if (tmp.statusID === Commons.STATUS_REQUEST.APPROVED.value) {
-              statusIcon = Icons.requestApproved_1;
-              statusColor = 'info';
-            } else if (tmp.statusID === Commons.STATUS_REQUEST.REJECT.value) {
-              statusIcon = Icons.requestRejected;
-              statusColor = 'danger';
-            } else if (tmp.statusID === Commons.STATUS_REQUEST.DONE.value) {
-              statusIcon = Icons.requestApproved_2;
-              statusColor = 'success';
-            }
             setRequestDetail(tmp);
-            setCurrentProcess({statusIcon, statusColor, statusName: tmp.statusName});
+            setCurrentProcess({statusID: tmp.statusID, statusName: tmp.statusName});
             onPrepareDetail(
               approvedState.get('requestDetail'),
               approvedState.get('requestAssetsDetail'),
@@ -428,12 +419,11 @@ function AddRequest(props) {
                 route.params?.dataProcess,
               );
               setCurrentProcess({
-                statusIcon: route.params?.currentProcess?.statusIcon,
-                statusColor: route.params?.currentProcess?.statusColor,
+                statusID: route.params?.currentProcess?.statusID,
                 statusName: route.params?.currentProcess?.statusName,
               });
             } else {
-              onBackToHome();
+              setLoading({...loading, main: false, startFetchLogin: false});
             }
           }
         }
@@ -612,22 +602,22 @@ function AddRequest(props) {
       <KeyboardAwareScrollView contentContainerStyle={[cStyles.px16, cStyles.py10]}>
         <Card disabled
           status="primary"
-          header={<CText category="s1">{t('add_approved_assets:request_user')}</CText>}>
+          header={<Text category="s1">{t('add_approved_assets:request_user')}</Text>}>
           <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween]}>
             <View style={[cStyles.row, cStyles.itemsCenter]}>
               <Avatar size="small" source={Assets.iconUser} />
               <View style={cStyles.ml10}>
-                <CText category="s1">{form.name}</CText>
-                <CText category="c1" appearance="hint">
+                <Text>{form.name}</Text>
+                <Text style={cStyles.mt5} category="c1" appearance="hint">
                   {userDepartment ? userDepartment.deptName : ''}
-                </CText>
+                </Text>
               </View>
             </View>
             <View style={cStyles.itemsEnd}>
-              <CText style={cStyles.textRight}>{userRegion ? userRegion.regionName : ''}</CText>
-              <CText style={cStyles.textRight} category="c1" appearance="hint">
+              <Text>{userRegion ? userRegion.regionName : ''}</Text>
+              <Text style={cStyles.mt5} category="c1" appearance="hint">
                 {t('add_approved_assets:region')}
-              </CText>
+              </Text>
             </View>
           </View>
         </Card>
@@ -637,155 +627,157 @@ function AddRequest(props) {
           header={propsH =>
             <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween, propsH.style]}>
               <View style={currentProcess ? styles.con_left : {}}>
-                <CText category="s1">{t('add_approved_assets:request_info')}</CText>
+                <Text category="s1">{t('add_approved_assets:request_info')}</Text>
               </View>
               {currentProcess && (
-                <View style={[cStyles.itemsEnd, styles.con_right]}>
-                  <Button
-                    size="tiny"
-                    status={currentProcess.statusColor}>
-                    {currentProcess.statusName}
-                  </Button>
+                <View style={styles.con_right}>
+                  <CStatus
+                    type="approved"
+                    value={currentProcess.statusID}
+                    label={currentProcess.statusName}
+                  />
                 </View>
               )}
             </View>
           }>
-          <CForm
-            ref={formRef}
-            loading={
-              loading.main ||
-              loading.startFetch ||
-              loading.startFetchLogin ||
-              loading.submitAdd
-            }
-            inputs={[
-              {
-                id: INPUT_NAME.DATE_REQUEST,
-                style: cStyles.mt5,
-                type: 'datePicker',
-                label: 'add_approved_assets:date_request',
-                holder: 'add_approved_assets:date_request',
-                value: form.dateRequest,
-                disabled: true,
-                required: false,
-                password: false,
-                email: false,
-                phone: false,
-                number: false,
-                next: true,
-                return: 'next',
-              },
-              {
-                id: INPUT_NAME.WHERE_USE,
-                type: 'select',
-                label: 'add_approved_assets:where_use',
-                holder: 'add_approved_assets:where_use',
-                value: form.whereUse,
-                values: masterState.get('department'),
-                keyToCompare: 'deptCode',
-                keyToShow: 'deptName',
-                disabled: isDetail || requestDetail,
-                required: true,
-                password: false,
-                email: false,
-                phone: false,
-                number: false,
-                next: false,
-                return: 'done',
-              },
-              {
-                id: INPUT_NAME.REASON,
-                type: 'text',
-                label: 'add_approved_assets:reason',
-                holder: 'add_approved_assets:holder_reason',
-                value: form.reason,
-                disabled: isDetail || requestDetail,
-                required: false,
-                password: false,
-                email: false,
-                phone: false,
-                number: false,
-                next: false,
-                return: 'done',
-              },
-              {
-                id: INPUT_NAME.SUPPLIER,
-                type: 'text',
-                label: 'add_approved_assets:supplier',
-                holder: 'add_approved_assets:holder_supplier',
-                value: form.supplier,
-                disabled: isDetail || requestDetail,
-                required: false,
-                password: false,
-                email: false,
-                phone: false,
-                number: false,
-                next: false,
-                return: 'done',
-              },
-              {
-                id: INPUT_NAME.TYPE_ASSETS,
-                type: 'radio',
-                label: 'add_approved_assets:type_assets',
-                holder: null,
-                value: form.typeAssets,
-                values: DATA_TYPE_ASSET,
-                keyToCompare: 'value',
-                keyToShow: "label",
-                horizontal: true,
-                disabled: isDetail || requestDetail,
-                required: false,
-                password: false,
-                email: false,
-                phone: false,
-                number: false,
-                next: false,
-                return: 'done',
-              },
-              {
-                id: INPUT_NAME.IN_PLANNING,
-                type: 'radio',
-                label: 'add_approved_assets:in_planning',
-                holder: null,
-                value: form.inPlanning,
-                values: DATA_IN_PLANNING,
-                keyToCompare: 'value',
-                keyToShow: "label",
-                horizontal: true,
-                disabled: isDetail || requestDetail,
-                required: false,
-                password: false,
-                email: false,
-                phone: false,
-                number: false,
-                next: false,
-                return: 'done',
-              },
-            ]}
-            customAddingForm={
-              <AssetsTable
-                style={cStyles.mt16}
-                loading={
-                  loading.main ||
-                  loading.submitAdd ||
-                  loading.submitApproved ||
-                  loading.submitReject
-                }
-                checking={loading.submitAdd}
-                isDetail={isDetail || requestDetail !== null}
-                assets={form.assets}
-                onCallbackValidate={onCallbackValidate}
-              />
-            }
-            disabledButton={
-              loading.main ||
-              loading.submitAdd ||
-              loading.submitApproved ||
-              loading.submitReject
-            }
-            labelButton={(isDetail || requestDetail) ? '' : 'common:send'}
-            onSubmit={onSendRequest}
-          />
+          {!loading.main && (
+            <CForm
+              ref={formRef}
+              loading={
+                loading.main ||
+                loading.startFetch ||
+                loading.startFetchLogin ||
+                loading.submitAdd
+              }
+              inputs={[
+                {
+                  id: INPUT_NAME.DATE_REQUEST,
+                  style: cStyles.mt5,
+                  type: 'datePicker',
+                  label: 'add_approved_assets:date_request',
+                  holder: 'add_approved_assets:date_request',
+                  value: form.dateRequest,
+                  disabled: true,
+                  required: false,
+                  password: false,
+                  email: false,
+                  phone: false,
+                  number: false,
+                  next: true,
+                  return: 'next',
+                },
+                {
+                  id: INPUT_NAME.WHERE_USE,
+                  type: 'select',
+                  label: 'add_approved_assets:where_use',
+                  holder: 'add_approved_assets:where_use',
+                  value: form.whereUse,
+                  values: masterState.get('department'),
+                  keyToCompare: 'deptCode',
+                  keyToShow: 'deptName',
+                  disabled: isDetail || requestDetail,
+                  required: true,
+                  password: false,
+                  email: false,
+                  phone: false,
+                  number: false,
+                  next: false,
+                  return: 'done',
+                },
+                {
+                  id: INPUT_NAME.REASON,
+                  type: 'text',
+                  label: 'add_approved_assets:reason',
+                  holder: 'add_approved_assets:holder_reason',
+                  value: form.reason,
+                  disabled: isDetail || requestDetail,
+                  required: false,
+                  password: false,
+                  email: false,
+                  phone: false,
+                  number: false,
+                  next: false,
+                  return: 'done',
+                },
+                {
+                  id: INPUT_NAME.SUPPLIER,
+                  type: 'text',
+                  label: 'add_approved_assets:supplier',
+                  holder: 'add_approved_assets:holder_supplier',
+                  value: form.supplier,
+                  disabled: isDetail || requestDetail,
+                  required: false,
+                  password: false,
+                  email: false,
+                  phone: false,
+                  number: false,
+                  next: false,
+                  return: 'done',
+                },
+                {
+                  id: INPUT_NAME.TYPE_ASSETS,
+                  type: 'radio',
+                  label: 'add_approved_assets:type_assets',
+                  holder: null,
+                  value: form.typeAssets,
+                  values: DATA_TYPE_ASSET,
+                  keyToCompare: 'value',
+                  keyToShow: "label",
+                  horizontal: true,
+                  disabled: isDetail || requestDetail,
+                  required: false,
+                  password: false,
+                  email: false,
+                  phone: false,
+                  number: false,
+                  next: false,
+                  return: 'done',
+                },
+                {
+                  id: INPUT_NAME.IN_PLANNING,
+                  type: 'radio',
+                  label: 'add_approved_assets:in_planning',
+                  holder: null,
+                  value: form.inPlanning,
+                  values: DATA_IN_PLANNING,
+                  keyToCompare: 'value',
+                  keyToShow: "label",
+                  horizontal: true,
+                  disabled: isDetail || requestDetail,
+                  required: false,
+                  password: false,
+                  email: false,
+                  phone: false,
+                  number: false,
+                  next: false,
+                  return: 'done',
+                },
+              ]}
+              customAddingForm={
+                <AssetsTable
+                  style={cStyles.mt16}
+                  loading={
+                    loading.main ||
+                    loading.submitAdd ||
+                    loading.submitApproved ||
+                    loading.submitReject
+                  }
+                  checking={loading.submitAdd}
+                  isDetail={isDetail || requestDetail !== null}
+                  assets={form.assets}
+                  onCallbackValidate={onCallbackValidate}
+                />
+              }
+              disabledButton={
+                loading.main ||
+                loading.submitAdd ||
+                loading.submitApproved ||
+                loading.submitReject
+              }
+              labelButton={(isDetail || requestDetail) ? '' : 'common:send'}
+              onSubmit={onSendRequest}
+            />
+          )}
         </Card>
       </KeyboardAwareScrollView>
 

@@ -8,7 +8,7 @@
 import PropTypes from 'prop-types';
 import React, {useState, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
-import {useTheme, Button, Icon} from '@ui-kitten/components';
+import {useTheme, Button, Icon, Text} from '@ui-kitten/components';
 import {
   StyleSheet, ScrollView, View, UIManager, LayoutAnimation,
 } from 'react-native';
@@ -16,7 +16,6 @@ import {
   Table, Row, TableWrapper, Cell,
 } from 'react-native-table-component';
 /* COMPONENTS */
-import CText from '~/components/CText';
 import AssetItem from './AssetItem';
 /* COMMON */
 import {cStyles} from '~/utils/style';
@@ -172,9 +171,9 @@ function AssetsTable(props) {
               accessoryLeft={RenderAddIcon}
               onPress={handleAddAssets}>
               {propsB => (
-                <CText style={cStyles.textUnderline} category="c1" status="primary">
+                <Text style={cStyles.textUnderline} category="c1" status="primary">
                   {t('add_approved_assets:add_assets')}
-                </CText>
+                </Text>
               )}
             </Button>
           </View>
@@ -256,9 +255,9 @@ function AssetsTable(props) {
             />
           )}
           {error.status && (
-            <CText style={cStyles.pl5} category="c1" status="danger">
+            <Text style={cStyles.pl5} category="c1" status="danger">
               {t(error.helper)}
-            </CText>
+            </Text>
           )}
         </View>
 
@@ -270,9 +269,9 @@ function AssetsTable(props) {
               accessoryLeft={RenderAddIcon}
               onPress={handleAddAssets}>
               {propsB => (
-                <CText style={cStyles.textUnderline} category="c1" status="primary">
+                <Text style={cStyles.textUnderline} category="c1" status="primary">
                   {t('add_approved_assets:add_assets')}
-                </CText>
+                </Text>
               )}
             </Button>
           </View>

@@ -9,10 +9,8 @@ import PropTypes from 'prop-types';
 import React, {useContext, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {Layout, Spinner, useTheme} from '@ui-kitten/components';
+import {Layout, Spinner, useTheme, Text} from '@ui-kitten/components';
 import {StatusBar, View} from 'react-native';
-/** COMPONENTS */
-import CText from './CText';
 /* COMMON */
 import {cStyles} from '~/utils/style';
 import {IS_ANDROID} from '~/utils/helper';
@@ -31,6 +29,7 @@ function CContainer(props) {
     headerComponent = null,
     children = null,
   } = props;
+  const bgHeader = theme['background-basic-color-1'];
 
   /****************
    ** LIFE CYCLE **
@@ -39,12 +38,12 @@ function CContainer(props) {
     if (themeContext.themeApp === LIGHT) {
       StatusBar.setBarStyle('dark-content', true);
       IS_ANDROID &&
-        StatusBar.setBackgroundColor(theme['background-basic-color-1'], true);
+        StatusBar.setBackgroundColor(backgroundColor || bgHeader, true);
     }
     if (themeContext.themeApp === DARK) {
       StatusBar.setBarStyle('light-content', true);
       IS_ANDROID &&
-        StatusBar.setBackgroundColor(theme['background-basic-color-1'], true);
+        StatusBar.setBackgroundColor(backgroundColor || bgHeader, true);
     }
   }, [themeContext.themeApp]);
 
@@ -57,7 +56,7 @@ function CContainer(props) {
     <SafeAreaView
       style={[
         cStyles.flex1,
-        {backgroundColor: backgroundColor || theme['background-basic-color-1']},
+        {backgroundColor: backgroundColor || bgHeader},
       ]}
       edges={safeAreaScreen}>
       {headerComponent}
@@ -68,7 +67,7 @@ function CContainer(props) {
         {loading && (
           <View style={cStyles.flexCenter}>
             <Spinner />
-            <CText style={cStyles.mt10} category="c1" appearance="hint">{t('common:loading')}</CText>
+            <Text style={cStyles.mt10} category="c1" appearance="hint">{t('common:loading')}</Text>
           </View>
         )}
       </Layout>

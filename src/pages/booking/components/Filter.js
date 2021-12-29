@@ -9,12 +9,11 @@ import PropTypes from 'prop-types';
 import React, {useState, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
 import {showMessage} from 'react-native-flash-message';
-import {useTheme, Button, Datepicker, Divider, Icon} from '@ui-kitten/components';
+import {useTheme, Button, Datepicker, Divider, Icon, Text,} from '@ui-kitten/components';
 import {MomentDateService} from '@ui-kitten/moment';
 import {StyleSheet, View} from 'react-native';
 import moment from 'moment';
 /* COMPONENTS */
-import CText from '~/components/CText';
 import CGroupFilter from '~/components/CGroupFilter';
 /* COMMON */
 import {cStyles} from '~/utils/style';
@@ -144,7 +143,7 @@ function Filter(props) {
   return (
     <View style={[cStyles.pb20, styles.con_filter]}>
       <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween, cStyles.pb5]}>
-        <CText category="s1">{t('common:filter').toUpperCase()}</CText>
+        <Text category="s1">{t('common:filter').toUpperCase()}</Text>
         <View style={[cStyles.row, cStyles.itemsCenter]}>
           <Button
             size="small"

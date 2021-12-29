@@ -8,7 +8,7 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-import {useTheme, Card, Button} from '@ui-kitten/components';
+import {useTheme, Card, Button, Text} from '@ui-kitten/components';
 import {StyleSheet, View} from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import FastImage from 'react-native-fast-image';
@@ -16,7 +16,6 @@ import FastImage from 'react-native-fast-image';
 import CContainer from '~/components/CContainer';
 import CTopNavigation from '~/components/CTopNavigation';
 import CForm from '~/components/CForm';
-import CText from '~/components/CText';
 /* COMMON */
 import {Assets} from '~/utils/asset';
 import {cStyles} from '~/utils/style';
@@ -130,16 +129,16 @@ function MyAccount(props) {
           </View>
           <Button style={cStyles.mt5} size="tiny" appearance="ghost" onPress={handleChangeAvatar}>
             {propsB =>
-              <CText style={cStyles.textUnderline} status="primary">
+              <Text style={cStyles.textUnderline} status="primary">
                 {t('my_account:edit_avatar')}
-              </CText>}
+              </Text>}
           </Button>
         </View>
 
         <Card
           disabled
           header={
-            <CText category="s1">{t('my_account:info_basic')}</CText>
+            <Text category="s1">{t('my_account:info_basic')}</Text>
           }>
           <CForm
             ref={formRef}

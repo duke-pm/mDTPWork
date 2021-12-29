@@ -16,15 +16,17 @@ import {StyleSheet, View, UIManager, LayoutAnimation} from 'react-native';
 import IoniIcon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 /* COMPONENTS */
-import CText from '~/components/CText';
 import CLoading from '~/components/CLoading';
 import CEmpty from '~/components/CEmpty';
 /* COMMON */
 import Icons from '~/utils/common/Icons';
-import {DEFAULT_FORMAT_DATE_7, DEFAULT_FORMAT_DATE_9} from '~/configs/constants';
+import {Assets} from '~/utils/asset';
 import {cStyles} from '~/utils/style';
 import {moderateScale, IS_ANDROID} from '~/utils/helper';
-import {Assets} from '~/utils/asset';
+import {
+  DEFAULT_FORMAT_DATE_7,
+  DEFAULT_FORMAT_DATE_9,
+} from '~/configs/constants';
 /** REDUX */
 import * as Actions from '~/redux/actions';
 
@@ -34,7 +36,8 @@ if (IS_ANDROID) {
   }
 }
 
-const sIconEmail = moderateScale(12);
+/** All init */
+const sIconEmail = moderateScale(10);
 
 const RenderWatchNowIcon = props => (
   <Icon {...props} name="eye-outline" />
@@ -161,23 +164,30 @@ function Watchers(props) {
    ************/
   return (
     <Layout>
-      <View style={[cStyles.mt16, cStyles.mx16]}>
-        <Button
-          status={!watched.status ? 'primary' : 'danger'}
-          accessoryLeft={!watched.status
-            ? RenderWatchNowIcon
-            : RenderUnwatchIcon}
-          onPress={handleFollow}>
-          {t(!watched.status ? 'project_management:you_not_watch' : 'project_management:you_watched')}
-        </Button>
-        {watched.status && (
-        <View style={[cStyles.itemsStart, cStyles.mt16]}>
-          <CheckBox
-            checked={watched.email}
-            onChange={handleGetEmail}>
-            {t('project_management:title_get_watcher')}
-          </CheckBox>
+      <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt16, cStyles.mx16]}>
+        <View style={styles.con_watch_left}>
+          <Button
+            status={!watched.status
+              ? 'primary'
+              : 'danger'}
+            size="small"
+            accessoryLeft={!watched.status
+              ? RenderWatchNowIcon
+              : RenderUnwatchIcon}
+            onPress={handleFollow}>
+            {t(!watched.status
+              ? 'project_management:you_not_watch'
+              : 'project_management:you_watched')}
+          </Button>
         </View>
+        {watched.status && (
+          <View style={[cStyles.ml10, styles.con_watch_right]}>
+            <CheckBox
+              checked={watched.email}
+              onChange={handleGetEmail}>
+              {t('project_management:title_get_watcher')}
+            </CheckBox>
+          </View>
         )}
       </View>
 
@@ -185,9 +195,7 @@ function Watchers(props) {
         <Card
           style={[cStyles.m16]}
           disabled
-          header={
-            <CText category="s1">{t('project_management:list_watchers')}</CText>
-          }>
+          header={<Text category="s1">{t('project_management:list_watchers')}</Text>}>
           {watchers.length > 0
             ?
               watchers.map((item, index) => {
@@ -211,6 +219,7 @@ function Watchers(props) {
                             cStyles.center,
                             cStyles.rounded5,
                             cStyles.abs,
+                            cStyles.right0,
                             styles.con_icon,
                           ]} level="3">
                           <IoniIcon
@@ -227,7 +236,7 @@ function Watchers(props) {
                         cStyles.row,
                         cStyles.itemsCenter,
                         cStyles.justifyBetween,
-                        cStyles.ml16,
+                        cStyles.ml10,
                         index !== -1 && cStyles.py6,
                       ]}>
                       <View style={styles.con_left}>
@@ -239,7 +248,7 @@ function Watchers(props) {
                               : ''}
                           </Text>
                         </Text>
-                        <CText category="c1" appearance="hint">{item.userName}</CText>
+                        <Text category="c1" appearance="hint">{item.userName}</Text>
                       </View>
                       <View
                         style={[
@@ -249,8 +258,8 @@ function Watchers(props) {
                           styles.con_right,
                         ]}>
                         <View style={cStyles.itemsEnd}>
-                          <CText category="c1" appearance="hint">{date}</CText>
-                          <CText category="c1" appearance="hint">{time}</CText>
+                          <Text category="c1" appearance="hint">{date}</Text>
+                          <Text category="c1" appearance="hint">{time}</Text>
                         </View>
                       </View>
                     </View>
@@ -274,12 +283,13 @@ function Watchers(props) {
 }
 
 const styles = StyleSheet.create({
+  con_watch_left: {flex: 0.4},
+  con_watch_right: {flex: 0.6}, 
   con_left: {flex: 0.65},
   con_right: {flex: 0.35},
   con_icon: {
     height: moderateScale(14),
     width: moderateScale(14),
-    right: -moderateScale(4),
     bottom: -moderateScale(4),
   },
 });

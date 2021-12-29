@@ -6,7 +6,7 @@
  **/
 import React, {useRef, useState, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
-import {Layout, useTheme, CheckBox} from '@ui-kitten/components';
+import {Layout, useTheme, CheckBox, Text} from '@ui-kitten/components';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CTopNavigation from '~/components/CTopNavigation';
@@ -14,9 +14,6 @@ import CForm from '~/components/CForm';
 import CAlert from '~/components/CAlert';
 /* COMMON */
 import {cStyles} from '~/utils/style';
-import CText from '~/components/CText';
-/* REDUX */
-
 
 /** All init */
 const INPUT_NAME = {
@@ -197,7 +194,7 @@ function SignUp(props) {
                 status='basic'
                 disabled={loading}
                 {...policyCheckbox}>
-                {propsCb => <CText style={cStyles.mx10} >{t('sign_up:policy')}</CText>}
+                {propsCb => <Text style={cStyles.mx10} >{t('sign_up:policy')}</Text>}
               </CheckBox>
             }
             disabledButton={!policyCheckbox.checked || loading}

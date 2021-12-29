@@ -18,6 +18,7 @@ import RequestItem from './RequestItem';
 import Routes from '~/navigator/Routes';
 import {Commons} from '~/utils/common';
 import {cStyles} from '~/utils/style';
+import {IS_ANDROID} from '~/utils/helper';
 
 function ListRequest(props) {
   const {t} = useTranslation();
@@ -57,7 +58,7 @@ function ListRequest(props) {
     process = null;
   return (
     <List
-      contentContainerStyle={[cStyles.px16, cStyles.py10]}
+      contentContainerStyle={cStyles.p10}
       data={props.data}
       renderItem={info => {
         detail = props.dataDetail.filter(f => f.requestID === info.item.requestID);
@@ -75,6 +76,7 @@ function ListRequest(props) {
         )
       }}
       keyExtractor={(item, index) => 'listApprovedHanding_' + index.toString()}
+      removeClippedSubviews={IS_ANDROID}
       refreshing={props.refreshing}
       onEndReachedThreshold={0.1}
       onRefresh={onRefresh}

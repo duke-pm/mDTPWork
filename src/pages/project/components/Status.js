@@ -21,6 +21,7 @@ import {cStyles} from '~/utils/style';
 import {alert, moderateScale} from '~/utils/helper';
 /* REDUX */
 import * as Actions from '~/redux/actions';
+import CStatus from '~/components/CStatus';
 
 /** All ref */
 const asStatusRef = createRef();
@@ -61,7 +62,7 @@ function Status(props) {
 
   const handleChangeStatus = needUpdate => {
     if (
-      status.data[status.active].statusID === Commons.STATUS_TASK["5"]["value"]
+      status.data[status.active].statusID === Commons.STATUS_PROJECT[4]["value"]
     ) {
       return alert(t, 'project_management:confirm_change_to_finished', () =>
         onCloseActionSheet(needUpdate, true),
@@ -98,7 +99,7 @@ function Status(props) {
   const onUpdateActivities = () => {
     let taskDetail = projectState.get('taskDetail');
     let comment = '';
-    if (taskDetail.statusID === Commons.STATUS_TASK["5"]["value"]) {
+    if (taskDetail.statusID === Commons.STATUS_PROJECT[4]["value"]) {
       comment = `* ${t('project_management:status_filter').toUpperCase()} ${t(
         'project_management:holder_change_from',
       )} ${curStatus} ${t('project_management:holder_change_to')} ${
@@ -126,7 +127,7 @@ function Status(props) {
     dispatch(Actions.fetchTaskComment(paramsActivities, navigation));
     setSubmitComment(false);
     curStatus = taskDetail.statusName;
-    if (taskDetail.statusID === Commons.STATUS_TASK["7"]["value"]) {
+    if (taskDetail.statusID === Commons.STATUS_PROJECT[6]["value"]) {
       setIsEdit(false);
     }
   };
@@ -156,7 +157,7 @@ function Status(props) {
     if (tmpStatus !== -1) {
       setStatus({...status, active: tmpStatus});
       curStatus = status.data[tmpStatus].statusName;
-      if (status.data[tmpStatus].statusID === Commons.STATUS_TASK["7"]["value"]) {
+      if (status.data[tmpStatus].statusID === Commons.STATUS_PROJECT[6]["value"]) {
         setIsEdit(false);
       }
     }
@@ -165,7 +166,7 @@ function Status(props) {
   const onCheckStatus = () => {
     dispatch(Actions.resetAllProject());
     let taskDetail = projectState.get('taskDetail');
-    if (taskDetail.statusID === Commons.STATUS_TASK["7"]["value"]) {
+    if (taskDetail.statusID === Commons.STATUS_PROJECT[6]["value"]) {
       setIsEdit(false);
     }
   };
@@ -206,15 +207,16 @@ function Status(props) {
    ************/
   return (
     <View>
-      <Button
+      <CStatus
+        type="project"
         disabled={disabled}
-        status={Commons.STATUS_TASK[props.task.statusID + '']['color']}
+        value={props.task.statusID}
+        label={props.task.statusName}
         onPress={(isUpdate && isEdit)
           ? handleShowChangeStatus
           : undefined
-        }>
-        {props.task.statusName}
-      </Button>
+        }
+      />
 
       <CActionSheet
         actionRef={asStatusRef}

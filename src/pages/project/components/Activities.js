@@ -5,7 +5,7 @@
  ** CreateAt: 2021
  ** Description: Description of Activity.js
  **/
-import React, {createRef, useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {showMessage} from 'react-native-flash-message';
@@ -14,18 +14,11 @@ import {
   useTheme, Button, Input, Icon, Layout, Text,
 } from '@ui-kitten/components';
 import {
-  StyleSheet,
-  View,
-  Keyboard,
-  KeyboardAvoidingView,
-  LayoutAnimation,
-  UIManager,
+  StyleSheet, View, Keyboard, KeyboardAvoidingView,
   SectionList,
 } from 'react-native';
-import * as Animatable from 'react-native-animatable';
 import moment from 'moment';
 /* COMPONENTS */
-import CText from '~/components/CText';
 import CEmpty from '~/components/CEmpty';
 import CAvatar from '~/components/CAvatar';
 /* COMMON */
@@ -48,21 +41,88 @@ import {
 /** REDUX */
 import * as Actions from '~/redux/actions';
 
-if (IS_ANDROID) {
-  if (UIManager.setLayoutAnimationEnabledExperimental) {
-    UIManager.setLayoutAnimationEnabledExperimental(true);
-  }
-}
-
-/** All ref */
-let listRef = createRef();
-
 /** All init */
 const INPUT_NAME = {MESSAGE: 'message'};
 
 const RenderSendIcon = props => (
   <Icon {...props} name="paper-plane-outline" />
 );
+
+const RenderSectionFooter = ({section: {title}}) => {
+  return (
+    <View style={[cStyles.row, cStyles.itemsCenter, cStyles.center, cStyles.py16]}>
+      <Text category="c1" appearance="hint">{title.toUpperCase()}</Text>
+    </View>
+  );
+}
+
+const RenderCommentItem = (info, theme, userName) => {
+  if (info.item.userName === userName) {
+    return (
+      <View
+        style={[
+          cStyles.itemsEnd,
+          cStyles.ml16,
+          cStyles.mt2,
+          cStyles.pr16,
+        ]}>
+        <View
+          style={[
+            cStyles.rounded1,
+            cStyles.p10,
+            {backgroundColor: theme['color-primary-500']},
+          ]}>
+          <Text style={cStyles.textRight} status="control">
+            {info.item.comments}
+          </Text>
+          <Text style={[cStyles.textRight, cStyles.mt5]} category="c2" status="control">
+            {`${info.item.timeUpdate.split(' - ')[1]}`}
+          </Text>
+        </View>
+      </View>
+    );
+  }
+  return (
+    <View
+      style={[
+        cStyles.row,
+        cStyles.mt2,
+        cStyles.pr16,
+        cStyles.pl10,
+      ]}>
+      {info.item.showAvatar && (
+        <View style={[cStyles.itemsCenter, styles.container_chat]}>
+          <CAvatar size={'small'} source={Assets.iconUser} />
+        </View>
+      )}
+      {!info.item.showAvatar && (
+        <View style={styles.container_chat} />
+      )}
+      <View style={cStyles.flex1}>
+        {info.item.showAvatar && (
+          <View style={cStyles.mb5}>
+            <Text
+              category="c1"
+              appearance="hint">
+              {info.item.fullName}
+            </Text>
+          </View>
+        )}
+        <View
+          style={[
+            cStyles.rounded1,
+            cStyles.p10,
+            {backgroundColor: theme['background-basic-color-3']},
+          ]}>
+          <Text>{info.item.comments}</Text>
+          <Text style={cStyles.mt5} category="c2">
+            {`${info.item.timeUpdate.split('- ')[1]}`}
+          </Text>
+        </View>
+      </View>
+    </View>
+  );
+}
 
 const RenderInputMessage = ({
     loading = false,
@@ -114,7 +174,10 @@ function Activity(props) {
   const {t} = useTranslation();
   const theme = useTheme();
   const themeContext = useContext(ThemeContext);
-  const {taskID, navigation} = props;
+  const {
+    taskID = -1,
+    navigation = null,
+  } = props;
 
   /** Use redux */
   const dispatch = useDispatch();
@@ -130,83 +193,8 @@ function Activity(props) {
     main: true,
     send: false,
   });
-  const [showSearch, setShowSearch] = useState(false);
-  const [dataSearch, setDataSearch] = useState({
-    data: [],
-    active: 0,
-  });
   const [valueMessage, setValueMessage] = useState('');
   const [messages, setMessages] = useState([]);
-
-  let arrayRef = [];
-
-  /*****************
-   ** HANDLE FUNC **
-   *****************/
-  const handleOpenSearch = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    setShowSearch(true);
-  };
-
-  const handleCloseSearch = () => {
-    setDataSearch({data: [], active: 0});
-    setShowSearch(false);
-  };
-
-  const handleSearch = value => {
-    let dataPos = [],
-      i,
-      j;
-    for (i = 0; i < messages.length; i++) {
-      for (j = 0; j < messages[i].data.length; j++) {
-        if (
-          messages[i].data[j].comments
-            .toLowerCase()
-            .indexOf(value.toLowerCase()) > -1
-        ) {
-          dataPos.push({section: i, item: j + 1});
-        }
-      }
-    }
-    if (dataPos.length > 0) {
-      setDataSearch({data: dataPos, active: 0});
-      listRef.scrollToLocation({
-        animated: true,
-        viewPosition: 0,
-        itemIndex: dataPos[0].item,
-        sectionIndex: dataPos[0].section,
-      });
-      arrayRef[dataPos[0].section].item[dataPos[0].item - 1].ref.rubberBand(
-        1000,
-      );
-    }
-  };
-
-  const handleDownSearch = () => {
-    listRef.scrollToLocation({
-      animated: true,
-      viewPosition: 0,
-      itemIndex: dataSearch.data[dataSearch.active - 1].item,
-      sectionIndex: dataSearch.data[dataSearch.active - 1].section,
-    });
-    setDataSearch({...dataSearch, active: dataSearch.active - 1});
-    arrayRef[dataSearch.data[dataSearch.active - 1].section].item[
-      dataSearch.data[dataSearch.active - 1].item - 1
-    ].ref.pulse(1000);
-  };
-
-  const handleUpSearch = () => {
-    listRef.scrollToLocation({
-      animated: true,
-      viewPosition: 0,
-      itemIndex: dataSearch.data[dataSearch.active + 1].item,
-      sectionIndex: dataSearch.data[dataSearch.active + 1].section,
-    });
-    setDataSearch({...dataSearch, active: dataSearch.active + 1});
-    arrayRef[dataSearch.data[dataSearch.active + 1].section].item[
-      dataSearch.data[dataSearch.active + 1].item - 1
-    ].ref.pulse(1000);
-  };
 
   /**********
    ** FUNC **
@@ -315,22 +303,6 @@ function Activity(props) {
     }
   };
 
-  const onCheckRef = (index, ref) => {
-    if (index === 0 && arrayRef.length !== 0) {
-      arrayRef.push({
-        section: arrayRef.length,
-        item: [{idx: index, ref}],
-      });
-    } else if (arrayRef.length === 0) {
-      arrayRef.push({
-        section: arrayRef.length,
-        item: [{idx: index, ref}],
-      });
-    } else {
-      arrayRef[arrayRef.length - 1].item.push({idx: index, ref});
-    }
-  };
-
   /****************
    ** LIFE CYCLE **
    ****************/
@@ -359,161 +331,26 @@ function Activity(props) {
     projectState.get('errorTaskComment'),
   ]);
 
-  // useLayoutEffect(() => {
-  //   if (messages.length > 0) {
-  //     navigation.setOptions({
-  //       headerRight: () => (
-  //         <CIconHeader
-  //           icons={[
-  //             {
-  //               show: true,
-  //               showRedDot: false,
-  //               icon: 'search',
-  //               onPress: handleOpenSearch,
-  //             },
-  //           ]}
-  //         />
-  //       ),
-  //     });
-  //   }
-  // }, [navigation, messages.length]);
-
   /************
    ** RENDER **
    ************/
   return (
     <Layout style={cStyles.flex1}>
-      {showSearch && (
-        <View
-          style={[
-            cStyles.itemsCenter,
-            cStyles.borderBottom,
-            dataSearch.data.length === 0 && cStyles.pb10,
-            dataSearch.data.length > 0 && styles.con_search,
-          ]}>
-          <CSearchBar loading={loading.main} autoFocus onSearch={handleSearch} />
-
-          {dataSearch.data.length > 0 ? (
-            <View style={[cStyles.row, cStyles.itemsCenter]}>
-              <Button
-                size="tiny"
-                disabled={
-                  dataSearch.data.length < 2 || dataSearch.active === 0
-                }
-                accessoryLeft={RenderDownIcon}
-                onPress={handleDownSearch}
-              />
-
-              <CText category="c1">
-                {dataSearch.active + 1}/{dataSearch.data.length}
-              </CText>
-
-              <Button
-                size="tiny"
-                disabled={
-                  dataSearch.data.length < 2 ||
-                  dataSearch.active === dataSearch.data.length - 1
-                }
-                accessoryLeft={RenderDownIcon}
-                onPress={handleUpSearch}
-              />
-            </View>
-          ) : (
-            <View style={[cStyles.center, cStyles.my10]}>
-              <CText category="c1">{t('common:empty_info')}</CText>
-            </View>
-          )}
-        </View>
-      )}
       <KeyboardAvoidingView
         style={cStyles.flex1}
         behavior={IS_IOS ? 'padding' : undefined}
         keyboardVerticalOffset={ifIphoneX(230, 200)}>
         {!loading.main && (
           <SectionList
-            viewRef={ref => (listRef = ref)}
             style={cStyles.flex1}
             contentContainerStyle={[cStyles.py16, cStyles.flexGrow]}
             inverted={messages.length > 0}
             sections={messages}
-            renderSectionFooter={({section: {title}}) => {
-              return (
-                <View style={[cStyles.row, cStyles.itemsCenter, cStyles.center, cStyles.py16]}>
-                  <CText category="c2">{title.toUpperCase()}</CText>
-                </View>
-              )
-            }}
-            renderItem={info => {
-              if (info.item.userName === userName) {
-                return (
-                  <View
-                    style={[
-                      cStyles.itemsEnd,
-                      cStyles.ml16,
-                      cStyles.mt2,
-                      cStyles.pr16,
-                    ]}>
-                    <Animatable.View
-                      ref={ref => onCheckRef(info.index, ref)}
-                      style={[
-                        cStyles.rounded1,
-                        cStyles.p10,
-                        {backgroundColor: theme['color-primary-500']},
-                      ]}>
-                      <CText style={cStyles.textRight} status="control" maxLines={1000}>
-                        {info.item.comments}
-                      </CText>
-                      <Text style={[cStyles.textRight, cStyles.mt5]} category="c2" status="control">
-                        {`${info.item.timeUpdate.split(' - ')[1]}`}
-                      </Text>
-                    </Animatable.View>
-                  </View>
-                );
-              }
-              return (
-                <View
-                  style={[
-                    cStyles.row,
-                    cStyles.mt2,
-                    cStyles.pr16,
-                    cStyles.pl10,
-                  ]}>
-                  {info.item.showAvatar && (
-                    <View style={[cStyles.itemsCenter, styles.container_chat]}>
-                      <CAvatar size={'small'} source={Assets.iconUser} />
-                    </View>
-                  )}
-                  {!info.item.showAvatar && (
-                    <View style={styles.container_chat} />
-                  )}
-                  <View>
-                    {info.item.showAvatar && (
-                      <View style={cStyles.mb5}>
-                        <Text
-                          category="c1"
-                          appearance="hint">
-                          {info.item.fullName}
-                        </Text>
-                      </View>
-                    )}
-                    <Animatable.View
-                      ref={ref => onCheckRef(info.index, ref)}
-                      style={[
-                        cStyles.rounded1,
-                        cStyles.p10,
-                        {backgroundColor: theme['background-basic-color-3']},
-                      ]}>
-                      <CText maxLines={1000}>{info.item.comments}</CText>
-                      <Text style={cStyles.mt5} category="c2">
-                        {`${info.item.timeUpdate.split('- ')[1]}`}
-                      </Text>
-                    </Animatable.View>
-                  </View>
-                </View>
-              );
-            }}
+            renderSectionFooter={RenderSectionFooter}
+            renderItem={info => RenderCommentItem(info, theme, userName)}
             extraData={messages}
             keyExtractor={(item, index) => item.userName + '_' + index}
+            removeClippedSubviews={IS_ANDROID}
             ListEmptyComponent={
               <View style={cStyles.center}>
                 <CEmpty
@@ -524,29 +361,21 @@ function Activity(props) {
             }
           />
         )}
-        
-        {!showSearch && (
-          <RenderInputMessage
-            loading={loading.send}
-            trans={t}
-            themeApp={themeContext.themeApp}
-            value={valueMessage}
-            onSend={onSendMessage}
-            handleChangeText={setValueMessage}
-          />
-        )}
+        <RenderInputMessage
+          loading={loading.send}
+          trans={t}
+          themeApp={themeContext.themeApp}
+          value={valueMessage}
+          onSend={onSendMessage}
+          handleChangeText={setValueMessage}
+        />
       </KeyboardAvoidingView>
     </Layout>
   );
 }
 
 const styles = StyleSheet.create({
-  con_search: {height: moderateScale(110)},
-  input_focus: {borderColor: colors.PRIMARY},
-  input: {width: '85%'},
   container_chat: {flex: 0.15},
-  container_cmt: {flex: 0.85},
-  con_me: {backgroundColor: colors.BLUE},
 });
 
 export default Activity;

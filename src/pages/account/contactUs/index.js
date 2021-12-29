@@ -6,12 +6,11 @@
  ** Description: Description of ContactUs.js
  **/
 import React from 'react';
-import {Card, List} from '@ui-kitten/components';
+import {Card, List, Text} from '@ui-kitten/components';
 import {Linking, View} from 'react-native';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CTopNavigation from '~/components/CTopNavigation';
-import CText from '~/components/CText';
 /* COMMON */
 import {cStyles} from '~/utils/style';
 import {DATA_CONTACT_US} from '~/configs/constants';
@@ -48,21 +47,21 @@ function ContactUs(props) {
             <Card
               disabled
               header={
-                <CText category="s1">{info.item.label}</CText>
+                <Text category="s1">{info.item.label}</Text>
               }
             >
               <View>
-                <CText> &#9906;   {`${info.item.address}`}</CText>
-                <CText style={cStyles.mt5} onPress={() => handleURL(info.item.website)}>
+                <Text> &#9906;   {`${info.item.address}`}</Text>
+                <Text style={cStyles.mt5} onPress={() => handleURL(info.item.website)}>
                   &#9881;   {`${info.item.website}`}
-                </CText>
-                <CText style={cStyles.mt5} onPress={() => handleEmail(info.item.email)}>
+                </Text>
+                <Text style={cStyles.mt5} onPress={() => handleEmail(info.item.email)}>
                   &#9993;   {`${info.item.email}`}
-                </CText>
+                </Text>
                 {info.item.phone.map((itemP, indexP) =>
-                  <CText style={cStyles.mt5} onPress={() => handlePhone(itemP)}>
+                  <Text style={cStyles.mt5} onPress={() => handlePhone(itemP)}>
                     &#9742;   {`${itemP}`}
-                  </CText>
+                  </Text>
                 )}
               </View>
             </Card>

@@ -76,7 +76,7 @@ function ListProject(props) {
       navigation.push(Routes.PROJECTS.name, {
         projectID: data.prjID,
       });
-    } else {
+    } else if (data.countTask > 0) {
       navigation.navigate(Routes.TASKS.name, {
         data: {
           projectID: data.prjID,
@@ -84,7 +84,7 @@ function ListProject(props) {
           projectStatus: data.statusName,
         },
       });
-    }
+    } else return;
   };
 
   /**********
@@ -108,25 +108,29 @@ function ListProject(props) {
   /************
    ** RENDER **
    ************/
+  const RenderProjectItem = info => {
+    return (
+      <ProjectItem
+        trans={t}
+        theme={theme}
+        index={info.index}
+        data={info.item}
+        onPress={handleItem}
+        onPressDetail={handleDetails}
+        onPressOverview={handleOverview}
+      />
+    );
+  };
+
   return (
     <View style={cStyles.flex1}>
       {/** List of project */}
       <List
-        contentContainerStyle={[cStyles.py10, cStyles.px16]}
+        contentContainerStyle={cStyles.p10}
         data={props.data}
-        renderItem={info => {
-          return (
-            <ProjectItem
-              trans={t}
-              theme={theme}
-              index={info.index}
-              data={info.item}
-              onPress={handleItem}
-              onPressDetail={handleDetails}
-              onPressOverview={handleOverview}
-            />
-          );
-        }}
+        renderItem={RenderProjectItem}
+        keyExtractor={(item, index) => item.prjID + '_' + index}
+        removeClippedSubviews={IS_ANDROID}
         refreshing={props.refreshing}
         onRefresh={onRefresh}
         onEndReachedThreshold={0.1}

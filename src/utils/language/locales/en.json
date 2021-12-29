@@ -58,7 +58,8 @@
     "dark_mode": "Dark mode",
     "go_back": "Go Back",
     "write_something_to_search": "Write something to search...",
-    "created_at": "Created at"
+    "created_at": "Created at",
+    "new": "N"
   },
   "status": {
     "title": "Status"
@@ -191,11 +192,11 @@
     "alert_log_out": "Sign Out",
     "alert_msg_log_out": "Are you really want to sign out of the app?",
     "holder_edit_account": "Update full name, e-mail, profile picture",
-    "holder_change_password": "Update new password",
+    "holder_change_password": "Fast Update new password",
     "holder_notification": "Notifications, messages, reminders",
-    "holder_information": "Information and Privacy, rating app",
+    "holder_information": "Term & Conditions, privacy, rating",
     "holder_favourite": "Personalized preferences",
-    "holder_settings": "Interface, language, evaluation",
+    "holder_settings": "Interface, language",
     "version": "Version"
   },
   "my_account": {
@@ -489,7 +490,7 @@
     "holder_need_litte_one_owner": "Need at least 1 owner",
     "title_activity": "Activities",
     "title_watcher": "Watchers",
-    "title_get_watcher": "Get E-mail when have change",
+    "title_get_watcher": "Get e-mail when change",
     "holder_input_your_comment": "Input your comment...",
     "origin_publisher": "Origin Publisher",
     "owner_ship_dtp": "Ownership DTP",
@@ -516,13 +517,10 @@
     "user_invited": "Participants",
     "delay_date_1": "Delay",
     "delay_date_2": "days",
-    "info_basic": "Basic information",
-    "info_basic_2": "Progress Manager",
-    "info_basic_3": "Other information",
-    "info_basic_4": "Description",
+    "info_basic": "Overview",
     "list_task": "Tasks's #",
     "estimated_time": "Estimated",
-    "detail_task": "Detail",
+    "detail_task": "Details Task",
     "find": "Find",
     "confirm_change_to_finished": "When you choose Finished Status, the progress will be 100%. Do you agree to do it?",
     "confirm_change_to_100": "When you choose a progress of 100%, the status will be finished. Do you agree to do it?",
@@ -622,7 +620,7 @@
   },
   "add_booking": {
     "title": "Detail Booking",
-    "title_add": "Add",
+    "title_add": "Add Booking",
     "title_update": "Update",
     "info": "Basic Information",
     "info_booking": "Booking Information",

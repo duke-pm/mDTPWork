@@ -16,6 +16,7 @@ import {
 import {
   TouchableOpacity, View, LayoutAnimation, UIManager,
   StyleSheet,
+  StatusBar,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import IoniIcon from 'react-native-vector-icons/Ionicons';
@@ -29,7 +30,7 @@ import {ThemeContext} from '~/configs/theme-context';
 import {colors, cStyles} from '~/utils/style';
 import {AST_DARK_MODE, DARK, LIGHT} from '~/configs/constants';
 import {
-  getLocalInfo, IS_ANDROID, moderateScale, saveLocalInfo,
+  getLocalInfo, IS_ANDROID, moderateScale, saveLocalInfo, SCREEN_HEIGHT, sH,
 } from '~/utils/helper';
 
 if (IS_ANDROID) {
@@ -150,7 +151,7 @@ const RenderTopRight = (type, theme, iconStyle, t, onPress, onPress2, showFilter
         <View>
           <Tooltip
             style={{backgroundColor: theme['background-basic-color-1']}}
-            backdropStyle={styles.con_backdrop}
+            backdropStyle={[cStyles.abs, cStyles.inset0, styles.con_backdrop]}
             visible={showFilter}
             anchor={() => RenderFilterIcon(theme, onPress2)}
             onBackdropPress={onPress2}>
@@ -208,7 +209,6 @@ const useToggleState = (initialState = false) => {
    ****************/
   useEffect(async () => {
     let astDarkMode = await getLocalInfo(AST_DARK_MODE);
-    console.log('[LOG] === astDarkMode ===> ', astDarkMode);
     if (astDarkMode && astDarkMode === DARK && !checked) {
       setChecked(true);
     }
@@ -276,7 +276,9 @@ function CTopNavigation(props) {
     setShowSearch(!showSearch);
   };
 
-  const toggleShowFilter = () => setShowFilter(!showFilter);
+  const toggleShowFilter = () => {
+    setShowFilter(!showFilter);
+  };
 
   /************
    ** RENDER **

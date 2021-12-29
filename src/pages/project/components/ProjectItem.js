@@ -8,15 +8,15 @@
 import PropTypes from 'prop-types';
 import React, {useState} from 'react';
 import {
-  Avatar, Button, MenuItem, OverflowMenu, Card, Icon,
+  Avatar, MenuItem, OverflowMenu, Card, Icon,
+  Text,
 } from '@ui-kitten/components';
 import {StyleSheet, View} from 'react-native';
 import IoniIcon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
-/* COMPONENTS */
-import CText from '~/components/CText';
+/** COMPONENTS */
+import CStatus from '~/components/CStatus';
 /* COMMON */
-import Commons from '~/utils/common/Commons';
 import {Assets} from '~/utils/asset';
 import {colors, cStyles} from '~/utils/style';
 import {moderateScale} from '~/utils/helper';
@@ -25,6 +25,7 @@ import {
   DEFAULT_FORMAT_DATE_9,
 } from '~/configs/constants';
 
+/** All init */
 const initSizeIconMore = moderateScale(16);
 
 const RenderChartIcon = props => (
@@ -85,20 +86,20 @@ function ProjectItem(props) {
             cStyles.px16,
             cStyles.py10,
           ]}>
-          <View style={[cStyles.flex1, cStyles.itemsStart, cStyles.pr10]}>
-            <CText category="s1">{`${data.prjName}`}</CText>
-            <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt10]}>
+          <View style={[cStyles.flex1, cStyles.itemsStart, styles.con_header_left]}>
+            <Text category="s1" numberOfLines={2}>{`${data.prjID} | ${data.prjName}`}</Text>
+            <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt5]}>
               <View style={[cStyles.row, cStyles.itemsCenter]}>
                 <Avatar size="tiny" source={Assets.iconUser} />
-                <View style={cStyles.ml5}>
-                  <CText category="c1">{data.ownerName}</CText>
+                <View style={cStyles.ml10}>
+                  <Text>{data.ownerName}</Text>
                 </View>
               </View>
               {data.priorityLevel > 0 && (
                 <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyEnd]}>
-                  <CText category="c1" appearance="hint">
+                  <Text category="c1" appearance="hint">
                     {` | ${trans('project_management:piority')}`}
-                  </CText>
+                  </Text>
                   <View
                     style={[
                       cStyles.center,
@@ -107,22 +108,24 @@ function ProjectItem(props) {
                       cStyles.px3,
                       {backgroundColor: theme['color-danger-500']},
                     ]}>
-                    <CText category="c1" status="control">{data.priorityLevel}</CText>
+                    <Text category="c1" status="control">{data.priorityLevel}</Text>
                   </View>
                 </View>
               )}
             </View>
           </View>
-          <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyEnd]}>
-            <Button
-              style={cStyles.mr10}
-              size="tiny"
-              status={Commons.STATUS_TASK[data.statusID.toString()].color}>
-              {data.statusName}
-            </Button>
+          <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyEnd, styles.con_header_right]}>
+            <View style={cStyles.flex1}>
+              <CStatus
+                type="project"
+                value={data.statusID}
+                label={data.statusName}
+              />
+            </View>
             <OverflowMenu
               anchor={() => 
                 <IoniIcon
+                  style={cStyles.ml5}
                   name="ellipsis-vertical"
                   size={initSizeIconMore}
                   color={theme['text-hint-color']}
@@ -150,45 +153,51 @@ function ProjectItem(props) {
       <View style={[cStyles.row, cStyles.itemsCenter]}>
         {data.startDate && (
           <View style={[cStyles.itemsStart, styles.con_flex]}>
-            <CText>{moment(data.startDate, DEFAULT_FORMAT_DATE_4).format(DEFAULT_FORMAT_DATE_9)}</CText>
-            <CText category="c1" appearance="hint">
+            <Text>
+              {moment(data.startDate, DEFAULT_FORMAT_DATE_4).format(DEFAULT_FORMAT_DATE_9)}
+            </Text>
+            <Text style={cStyles.mt5} category="c1" appearance="hint">
               {trans('project_management:start_date')}
-            </CText>
+            </Text>
           </View>
         )}
 
         {data.endDate && (
           <View style={[cStyles.itemsStart, styles.con_flex]}>
-            <CText>{moment(data.endDate, DEFAULT_FORMAT_DATE_4).format(DEFAULT_FORMAT_DATE_9)}</CText>
-            <CText category="c1" appearance="hint">
+            <Text>
+              {moment(data.endDate, DEFAULT_FORMAT_DATE_4).format(DEFAULT_FORMAT_DATE_9)}
+            </Text>
+            <Text style={cStyles.mt5} category="c1" appearance="hint">
               {trans('project_management:end_date')}
-            </CText>
+            </Text>
           </View>
         )}
 
         {data.appraisalTime && (
           <View style={[cStyles.itemsStart, styles.con_flex]}>
-            <CText>{moment(data.appraisalTime, DEFAULT_FORMAT_DATE_4).format(DEFAULT_FORMAT_DATE_9)}</CText>
-            <CText category="c1" appearance="hint">
+            <Text>
+              {moment(data.appraisalTime, DEFAULT_FORMAT_DATE_4).format(DEFAULT_FORMAT_DATE_9)}
+            </Text>
+            <Text style={cStyles.mt5} category="c1" appearance="hint">
               {trans('project_management:appraisal_time')}
-            </CText>
+            </Text>
           </View>
         )}
 
         {data.countChild > 0 && (
           <View style={[cStyles.itemsStart, styles.con_flex]}>
-            <CText>{data.countChild}</CText>
-            <CText category="c1" appearance="hint">
+            <Text>{data.countChild}</Text>
+            <Text style={cStyles.mt5} category="c1" appearance="hint">
               {trans('project_management:child_projects')}
-            </CText>
+            </Text>
           </View>
         )}
         {data.countTask > 0 && (
           <View style={[cStyles.itemsStart, styles.con_flex]}>
-            <CText>{data.countTask}</CText>
-            <CText category="c1" appearance="hint">
+            <Text>{data.countTask}</Text>
+            <Text style={cStyles.mt5} category="c1" appearance="hint">
               {trans('project_management:child_tasks')}
-            </CText>
+            </Text>
           </View>
         )}
       </View>
@@ -197,6 +206,8 @@ function ProjectItem(props) {
 }
 
 const styles = StyleSheet.create({
+  con_header_left: {flex: 0.63},
+  con_header_right: {flex: 0.35},
   con_flex: {flex: 0.25},
   backdrop: {backgroundColor: colors.BACKGROUND_MODAL},
 });
@@ -211,4 +222,4 @@ ProjectItem.propTypes = {
   onPressOverview: PropTypes.func,
 };
 
-export default React.memo(ProjectItem);
+export default ProjectItem;

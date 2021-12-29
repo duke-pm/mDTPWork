@@ -7,13 +7,11 @@
  **/
 import PropTypes from 'prop-types';
 import React, {useState, useEffect} from 'react';
-import {useTheme, Button, Icon, Layout, Spinner} from '@ui-kitten/components';
+import {useTheme, Button, Icon, Text, Spinner} from '@ui-kitten/components';
 import {StyleSheet, View, Image} from 'react-native';
 import RNFS from 'react-native-fs';
 import FileViewer from 'react-native-file-viewer';
 import * as Progress from 'react-native-progress';
-/** COMPONENTS */
-import CText from '~/components/CText';
 /* COMMON */
 import API from '~/services/axios';
 import {Extensions} from '~/utils/asset';
@@ -99,9 +97,9 @@ function FileAttach(props) {
       />
       <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween, cStyles.ml10]}>
         <View style={{flex: 0.8}}>
-          <CText category="c1" ellipsizeMode="middle" numberOfLines={2}>
+          <Text category="c1" ellipsizeMode="middle" numberOfLines={2}>
             {shortFileName}
-          </CText>
+          </Text>
           {loading && (
             <View style={cStyles.mt10}>
               <Progress.Bar

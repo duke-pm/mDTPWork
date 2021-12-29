@@ -7,16 +7,10 @@
  **/
 import PropTypes from 'prop-types';
 import React, {createRef, useState, useEffect} from 'react';
-import {Button, Icon, Layout, useTheme} from '@ui-kitten/components';
+import {Button, Icon, Layout, useTheme, Text} from '@ui-kitten/components';
 import {StyleSheet, View} from 'react-native';
 import Picker from '@gregfrench/react-native-wheel-picker';
 import moment from 'moment';
-/* COMPONENTS */
-import CText from '~/components/CText';
-// import CIcon from '~/components/CIcon';
-// import CIconButton from '~/components/CIconButton';
-// import CActionSheet from '~/components/CActionSheet';
-// import CInput from '~/components/CInput';
 /* COMMON */
 import Icons from '~/utils/common/Icons';
 import {colors, cStyles} from '~/utils/style';
@@ -135,7 +129,7 @@ function FilterTags(props) {
             cStyles.row,
             cStyles.itemsCenter,
           ]}>
-          <CText style={cStyles.ml5}>{resource.name}</CText>
+          <Text style={cStyles.ml5}>{resource.name}</Text>
           <Button
             style={cStyles.ml5}
             appearance="ghost"
@@ -175,7 +169,7 @@ function FilterTags(props) {
             cStyles.rounded1,
             {backgroundColor: primaryColor},
           ]}>
-          <CText
+          <Text
             styles={'textCaption2'}
             customLabel={`${trans('common:from_date')}${
               fromDate !== '' ? moment(fromDate).format(formatDateView) : '#'
@@ -196,7 +190,7 @@ function FilterTags(props) {
             cStyles.rounded1,
             {backgroundColor: primaryColor},
           ]}>
-          <CText
+          <Text
             styles={'textCaption2 colorBlack'}
             customLabel={`${trans('common:find')}: "${search}"`}
           />
@@ -214,7 +208,7 @@ function FilterTags(props) {
             cStyles.itemsCenter,
             {backgroundColor: primaryColor},
           ]}>
-          <CText
+          <Text
             styles={'textCaption2 colorBlack pr4'}
             customLabel={`${trans('bookings:resource')}: ${
               resource.name
@@ -240,7 +234,7 @@ function FilterTags(props) {
                 cStyles.rounded1,
                 {backgroundColor: primaryColor},
               ]}>
-              <CText
+              <Text
                 styles={'textCaption2 colorBlack'}
                 customLabel={itemResrc.label}
               />
@@ -258,7 +252,7 @@ function FilterTags(props) {
             cStyles.rounded1,
             {backgroundColor: primaryColor},
           ]}>
-          <CText
+          <Text
             styles={'textCaption2'}
             customLabel={`${trans('bookings:resource')}: ${trans(
               'common:all',
@@ -301,7 +295,7 @@ function FilterTags(props) {
                 ))
               ) : (
                 <View style={[cStyles.center, styles.content_picker]}>
-                  <CText
+                  <Text
                     styles={'textCaption1'}
                     label={'add_booking:holder_empty_resource'}
                   />

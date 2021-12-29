@@ -7,21 +7,40 @@
  **/
 import PropTypes from 'prop-types';
 import React, {useState} from 'react';
-import {Avatar, Button, Card, Text, Tooltip} from '@ui-kitten/components';
+import {Avatar, Card, Text, Tooltip} from '@ui-kitten/components';
 import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import moment from 'moment';
-/* COMPONENTS */
-import CAvatar from '~/components/CAvatar';
-import CText from '~/components/CText';
+/** COMPONENTS */
+import CStatus from '~/components/CStatus';
 /* COMMON */
-import {DEFAULT_FORMAT_DATE_4, DEFAULT_FORMAT_DATE_9} from '~/configs/constants';
+import {Assets} from '~/utils/asset';
 import {Commons} from '~/utils/common';
 import {colors, cStyles} from '~/utils/style';
-import {Assets} from '~/utils/asset';
+import {
+  DEFAULT_FORMAT_DATE_4,
+  DEFAULT_FORMAT_DATE_9,
+} from '~/configs/constants';
+
+const RenderToDate = (trans, data, delay, onPress) => {
+  return (
+    <TouchableOpacity
+      style={[cStyles.itemsStart, styles.con_flex]}
+      disabled={delay === 0}
+      onPress={onPress}>
+      <View>
+        <Text status={delay > 0 ? "danger" : "basic"}>
+          {moment(data, DEFAULT_FORMAT_DATE_4).format(DEFAULT_FORMAT_DATE_9)}
+        </Text>
+        <Text style={cStyles.mt5} category="c1" appearance="hint">
+          {trans('project_management:end_date')}
+        </Text>
+      </View>
+    </TouchableOpacity>
+  );
+}
 
 function TaskItem(props) {
   const {
-    theme = {},
     data = null,
     trans = null,
     onPress = () => null,
@@ -36,7 +55,7 @@ function TaskItem(props) {
   const toggleTooltipDelay = () => setTooltipDelay(!tooltipDelay);
 
   const handleItem = () => {
-    if (data.statusID === Commons.STATUS_TASK["7"].value) {
+    if (data.statusID === Commons.STATUS_PROJECT[6]["value"]) {
       data.isUpdated = false;
     }
     onPress(data);
@@ -46,27 +65,15 @@ function TaskItem(props) {
    ** RENDER **
    ************/
   let showPercentage = data.taskTypeID === Commons.TYPE_TASK.TASK.value,
-    bgTaskType = colors.STATUS_NEW_OPACITY, // Default is TASK
-    delay = 0,
-    arrAvatarParticipant = [];
-  if (data) {
-    if (data.taskTypeID === Commons.TYPE_TASK.PHASE.value) {
-      bgTaskType = colors.STATUS_ON_HOLD_OPACITY;
-    } else if (data.taskTypeID === Commons.TYPE_TASK.MILESTONE.value) {
-      bgTaskType = colors.STATUS_SCHEDULE_OPACITY;
-    }
-  }
+    delay = 0;
   if (
     data &&
     showPercentage &&
-    data.statusID < Commons.STATUS_TASK["5"].value
+    data.statusID < Commons.STATUS_PROJECT[4]["value"]
   ) {
     if (data.endDate && data.endDate !== '') {
       delay = moment().diff(data.endDate, 'days');
     }
-  }
-  if (data.lstUserInvited.length > 0) {
-    arrAvatarParticipant = data.lstUserInvited.map(itemU => Assets.iconUser);
   }
   return (
     <Card
@@ -81,53 +88,39 @@ function TaskItem(props) {
             cStyles.px16,
             cStyles.py10,
           ]}>
-          <View style={[cStyles.flex1, cStyles.itemsStart, cStyles.pr10]}>
+          <View style={[cStyles.flex1, cStyles.itemsStart, styles.con_header_left]}>
             <Text numberOfLines={2}>
+              <Text category="s1">{`${data?.taskID} | `}</Text>
               <Text category="s1" status={Commons.TYPE_TASK[data.typeName]['color']}>
                 {data.typeName}
               </Text>
-              <Text style={cStyles.pl5} category="s1">{`  ${data?.taskName}`}</Text>
+              <Text category="s1">{` ${data?.taskName}`}</Text>
             </Text>
-            <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt10]}>
-              <View style={[cStyles.row, cStyles.itemsCenter]}>
-                <Avatar size="tiny" source={Assets.iconUser} />
-                <View style={cStyles.ml5}>
-                  <CText category="c1">{`${data.ownerName} | `}</CText>
-                </View>
-              </View>
-              <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyEnd]}>
-                <CText category="c1" appearance="hint">
-                    {`${trans('project_management:piority')}`}
-                  </CText>
-                <CText category="c1" status={Commons.PRIORITY_TASK[data.priority]['color']}>
-                  {` ${data.priorityName}`}
-                </CText>
+            <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt5]}>
+              <Avatar size="tiny" source={Assets.iconUser} />
+              <View style={cStyles.ml10}>
+                <Text>{`${data.ownerName}`}</Text>
               </View>
             </View>
           </View>
-          <View style={cStyles.itemsEnd}>
-            <Button
-              size="tiny"
-              status={Commons.STATUS_TASK[data.statusID.toString()].color}>
-              {propsB =>
-                <View style={cStyles.center}>
-                  <Text style={propsB.style}>{data.statusName}</Text>
-                  {data.typeName === 'TASK' && (
-                    <Text style={[propsB.style, cStyles.mt3]}>{`${data.percentage}%`}</Text>
-                  )}
-                </View>
-              }
-            </Button>
+          <View style={styles.con_header_right}>
+            <CStatus
+              type="project"
+              value={data.statusID}
+              label={data.statusName}
+            />
           </View>
         </View>
       }>
       <View style={[cStyles.row, cStyles.itemsCenter]}>
         {data.startDate && (
           <View style={[cStyles.itemsStart, styles.con_flex]}>
-            <CText>{moment(data.startDate, DEFAULT_FORMAT_DATE_4).format(DEFAULT_FORMAT_DATE_9)}</CText>
-            <CText category="c1" appearance="hint">
+            <Text>
+              {moment(data.startDate, DEFAULT_FORMAT_DATE_4).format(DEFAULT_FORMAT_DATE_9)}
+            </Text>
+            <Text style={cStyles.mt5} category="c1" appearance="hint">
               {trans('project_management:start_date')}
-            </CText>
+            </Text>
           </View>
         )}
 
@@ -136,42 +129,28 @@ function TaskItem(props) {
             backdropStyle={styles.con_backdrop}
             visible={tooltipDelay}
             onBackdropPress={toggleTooltipDelay}
-            anchor={() =>
-              <TouchableOpacity
-                style={[cStyles.itemsStart, styles.con_flex]}
-                disabled={delay === 0}
-                onPress={toggleTooltipDelay}>
-                <View>
-                  <CText status={delay > 0 ? "danger" : "basic"}>
-                    {moment(data.endDate, DEFAULT_FORMAT_DATE_4).format(DEFAULT_FORMAT_DATE_9)}
-                  </CText>
-                  <CText category="c1" appearance="hint">
-                    {trans('project_management:end_date')}
-                  </CText>
-                </View>
-              </TouchableOpacity>
-            }>
-            {`${trans('project_management:delay_date_1')} ${delay} ${trans('project_management:delay_date_2')}`}
+            anchor={() => RenderToDate(trans, data.endDate, delay, toggleTooltipDelay)}>
+            {`${trans(
+              'project_management:delay_date_1'
+              )} ${delay} ${trans(
+                'project_management:delay_date_2'
+              )}`}
           </Tooltip>
         )}
 
+        <View style={[cStyles.itemsStart, styles.con_flex]}>
+          <Text>{`${data.percentage}%`}</Text>
+          <Text style={cStyles.mt5} category="c1" appearance="hint">
+            {trans('project_management:holder_task_percentage')}
+          </Text>
+        </View>
+
         {data.countChild > 0 && (
           <View style={[cStyles.itemsStart, styles.con_flex]}>
-            <CText>{data.countChild}</CText>
-            <CText category="c1" appearance="hint">
+            <Text>{data.countChild}</Text>
+            <Text style={cStyles.mt5} category="c1" appearance="hint">
               {trans('project_management:child_tasks')}
-            </CText>
-          </View>
-        )}
-
-        {data.lstUserInvited.length > 0 && (
-          <View style={[cStyles.justifyStart, styles.con_flex]}>
-            <CAvatar
-              numberShow={2}
-              absolute={false}
-              sources={arrAvatarParticipant}
-              size="tiny"
-            />
+            </Text>
           </View>
         )}
       </View>
@@ -180,9 +159,10 @@ function TaskItem(props) {
 }
 
 const styles = StyleSheet.create({
+  con_header_left: {flex: 0.68},
+  con_header_right: {flex: 0.3},
   con_flex: {flex: 0.25},
   con_backdrop: {backgroundColor: colors.BACKGROUND_MODAL},
-  con_avatar_number: {height: 24, width: 24},
 });
 
 TaskItem.propTypes = {

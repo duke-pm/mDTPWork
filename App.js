@@ -92,6 +92,8 @@ const App = () => {
    ** LIFE CYCLE **
    ****************/
   useEffect(async () => {
+    IS_ANDROID && StatusBar.setTranslucent(true);
+
     /** Check config network */
     setDefaultAxios();
     NetInfo.addEventListener(handleNetInfo);

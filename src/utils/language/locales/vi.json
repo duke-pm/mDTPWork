@@ -58,7 +58,8 @@
     "dark_mode": "Chế độ tối",
     "go_back": "Trở về",
     "write_something_to_search": "Nhập thông tin tìm kiếm...",
-    "created_at": "Tạo ngày"
+    "created_at": "Created at",
+    "new": "N"
   },
   "status": {
     "title": "Trạng thái"
@@ -191,11 +192,11 @@
     "alert_log_out": "Đăng xuất",
     "alert_msg_log_out": "Bạn thực sự muốn đăng xuất khỏi ứng dụng?",
     "holder_edit_account": "Cập nhật tên, e-mail, ảnh đại diện",
-    "holder_change_password": "Thay đổi mật khẩu",
+    "holder_change_password": "Thay đổi mật khẩu nhanh",
     "holder_notification": "Thông báo, tin nhắn, nhắc nhở",
-    "holder_information": "Thông tin và Điều khỏan, đánh giá ứng dụng",
+    "holder_information": "Thông tin, điều khoản, đánh giá",
     "holder_favourite": "Sở thích cá nhân hóa",
-    "holder_settings": "Giao diện, ngôn ngữ, đăng nhập nhanh",
+    "holder_settings": "Giao diện, ngôn ngữ",
     "version": "Phiên bản"
   },
   "my_account": {
@@ -489,7 +490,7 @@
     "holder_need_litte_one_owner": "Cần ít nhất 1 người phụ trách",
     "title_activity": "Hoạt Động",
     "title_watcher": "Theo Dõi",
-    "title_get_watcher": "Nhận E-mail khi có ai thay đổi",
+    "title_get_watcher": "Nhận e-mail khi thay đổi",
     "holder_input_your_comment": "Điền nhận xét của bạn...",
     "origin_publisher": "Origin Publisher",
     "owner_ship_dtp": "Ownership DTP",
@@ -516,13 +517,10 @@
     "user_invited": "Người tham gia",
     "delay_date_1": "Trễ",
     "delay_date_2": "ngày",
-    "info_basic": "Thông tin",
-    "info_basic_2": "Quản lý tiến độ",
-    "info_basic_3": "Thông tin khác",
-    "info_basic_4": "Mô tả",
+    "info_basic": "Tổng quan",
     "list_task": "Tasks's #",
     "estimated_time": "Estimated",
-    "detail_task": "Chi tiết",
+    "detail_task": "Chi tiết Task",
     "find": "Tìm",
     "confirm_change_to_finished": "Khi Bạn chọn status Finished thì Tiến Độ sẽ là 100%.\nBạn có đồng ý thực hiện?",
     "confirm_change_to_100": "Khi Bạn chọn Tiến Độ là 100% thì Status sẽ là Finished.\nBạn có đồng ý thực hiện?",
@@ -622,7 +620,7 @@
   },
   "add_booking": {
     "title": "Chi tiết Booking",
-    "title_add": "Thêm",
+    "title_add": "Thêm Booking",
     "title_update": "Cập nhật",
     "info": "Thông tin cơ bản",
     "info_booking": "Thông tin Booking",

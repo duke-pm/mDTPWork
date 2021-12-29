@@ -8,7 +8,7 @@
 import React, {useRef, useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-import {Card} from '@ui-kitten/components';
+import {Card, Text} from '@ui-kitten/components';
 import {View, Keyboard} from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {showMessage} from 'react-native-flash-message';
@@ -16,7 +16,6 @@ import {showMessage} from 'react-native-flash-message';
 import CContainer from '~/components/CContainer';
 import CTopNavigation from '~/components/CTopNavigation';
 import CForm from '~/components/CForm';
-import CText from '~/components/CText';
 /* COMMON */
 import Routes from '~/navigator/Routes';
 import {cStyles} from '~/utils/style';
@@ -159,10 +158,10 @@ function ChangePassword(props) {
           disabled
           header={
             <View>
-              <CText category="s1">{t('change_password:sub_title')}</CText>
-              <CText style={cStyles.mt5} category='c1' appearance={'hint'}>
+              <Text category="s1">{t('change_password:sub_title')}</Text>
+              <Text style={cStyles.mt5} category='c1' appearance={'hint'}>
                 {t('change_password:warning_logout')}
-              </CText>
+              </Text>
             </View>
           }>
           <CForm

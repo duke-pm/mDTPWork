@@ -228,7 +228,7 @@ function ApprovedAssetsDamage(props) {
    ** RENDER **
    ************/
   return (
-    <Layout style={cStyles.fullHeight}>
+    <Layout style={cStyles.flex1}>
       {!loading.main && !loading.startFetch && (
         <ListRequest
           loadmore={loading.loadmore}

@@ -14,15 +14,18 @@ import {View} from 'react-native';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CTopNavigation from '~/components/CTopNavigation';
-import CLoading from '~/components/CLoading';
 import Filter from '../components/Filter';
 import ListTask from '../list/Task';
 /** COMMON */
 import Configs from '~/configs';
 import Routes from '~/navigator/Routes';
 import FieldsAuth from '~/configs/fieldsAuth';
-import {LOAD_MORE, AST_LOGIN, REFRESH} from '~/configs/constants';
 import {getSecretInfo, resetRoute} from '~/utils/helper';
+import {
+  REFRESH,
+  LOAD_MORE,
+  AST_LOGIN,
+} from '~/configs/constants';
 /** REDUX */
 import * as Actions from '~/redux/actions';
 
@@ -324,72 +327,6 @@ function ProjectDetail(props) {
     projectState.get('errorListTask'),
   ]);
 
-  // useLayoutEffect(() => {
-  //   navigation.setOptions(
-  //     Object.assign(
-  //       {
-  //         title: `${t('project_management:list_task')}${projectID}`,
-  //         backButtonInCustomView: true,
-  //         headerLeft: () =>
-  //           (route.params?.projectID !== null ||
-  //             route.params?.projectID !== undefined) && (
-  //             <CIconHeader
-  //               icons={[
-  //                 {
-  //                   show: !navigation.canGoBack(),
-  //                   showRedDot: false,
-  //                   icon: IS_IOS ? Icons.backiOS : Icons.backAndroid,
-  //                   iconColor: customColors.icon,
-  //                   onPress: handleBack,
-  //                 },
-  //               ]}
-  //             />
-  //           ),
-  //         headerRight: () => (
-  //           <CIconHeader
-  //             icons={[
-  //               {
-  //                 show: true,
-  //                 showRedDot: data.search !== '',
-  //                 icon: Icons.search,
-  //                 onPress: handleOpenSearch,
-  //               },
-  //               {
-  //                 show: true,
-  //                 showRedDot: isFiltering,
-  //                 icon: Icons.filter,
-  //                 onPress: handleShowFilter,
-  //               },
-  //             ]}
-  //           />
-  //         ),
-  //       },
-  //       IS_ANDROID
-  //         ? {
-  //             headerCenter: () => (
-  //               <CText
-  //                 customStyles={cStyles.textHeadline}
-  //                 customLabel={`${t(
-  //                   'project_management:list_task',
-  //                 )}${projectID}`}
-  //               />
-  //             ),
-  //           }
-  //         : {},
-  //     ),
-  //   );
-  // }, [
-  //   navigation,
-  //   data.search,
-  //   showFilter.activeOwner,
-  //   showFilter.activeStatus,
-  //   showFilter.activeSector,
-  //   isFiltering,
-  //   navigation.canGoBack,
-  //   route.params?.projectID,
-  //   projectID,
-  // ]);
-
   /************
    ** RENDER **
    ************/
@@ -400,7 +337,7 @@ function ProjectDetail(props) {
   return (
     <CContainer
       safeArea={['top', 'bottom']}
-      loading={loading.main}
+      loading={loading.main || loading.startFetch}
       headerComponent={
         <CTopNavigation
           loading={loading.startFetch}
@@ -428,7 +365,8 @@ function ProjectDetail(props) {
           }
         />
       }>
-      {!loading.main && (
+      {/** Content */}
+      {!loading.main && !loading.startFetch && (
         <ListTask
           data={data.tasks}
           loadmore={loading.loadmore}
@@ -437,8 +375,6 @@ function ProjectDetail(props) {
           onLoadmore={onLoadmoreTasks}
         />
       )}
-
-      <CLoading show={loading.startFetch} />
     </CContainer>
   );
 }

@@ -9,7 +9,7 @@ import {fromJS} from 'immutable';
 import React, {useRef, useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-import {Layout, useTheme} from '@ui-kitten/components';
+import {Layout, useTheme, Text} from '@ui-kitten/components';
 import {ScrollView, View} from 'react-native';
 import IoniIcon from 'react-native-vector-icons/Ionicons';
 import * as Animatable from 'react-native-animatable';
@@ -17,7 +17,6 @@ import * as Animatable from 'react-native-animatable';
 import CContainer from '~/components/CContainer';
 import CTopNavigation from '~/components/CTopNavigation';
 import CForm from '~/components/CForm';
-import CText from '~/components/CText';
 import CLoading from '~/components/CLoading';
 /* COMMON */
 import {cStyles} from '~/utils/style';
@@ -129,9 +128,9 @@ function ForgotPassword(props) {
             ]}>
             {/** Caption */}
             <View style={cStyles.mt16}>
-              <CText style={cStyles.textCenter}>
+              <Text style={cStyles.textCenter}>
                 {t('forgot_password:caption')}
-              </CText>
+              </Text>
             </View>
 
             <CForm
@@ -183,19 +182,19 @@ function ForgotPassword(props) {
             </View>
             {/** Sub-title & Caption */}
             <View style={[cStyles.itemsCenter, cStyles.mt16]}>
-              <CText style={cStyles.textCenter}>
+              <Text style={cStyles.textCenter}>
                 {`${t('forgot_password:success_content_1')}`}
-              </CText>
+              </Text>
 
-              <CText style={cStyles.mt5} category="s1">
+              <Text style={cStyles.mt5} category="s1">
                 {values.email}
-              </CText>
+              </Text>
 
-              <CText style={[cStyles.textCenter, cStyles.mt20]}>
-                <CText>{`${t('forgot_password:success_content_2')} `}</CText>
-                <CText>{`"${t('forgot_password:success_content_3')}" `}</CText>
-                <CText>{`${t('forgot_password:success_content_4')}`}</CText>
-              </CText>
+              <Text style={[cStyles.textCenter, cStyles.mt20]}>
+                <Text>{`${t('forgot_password:success_content_2')} `}</Text>
+                <Text>{`"${t('forgot_password:success_content_3')}" `}</Text>
+                <Text>{`${t('forgot_password:success_content_4')}`}</Text>
+              </Text>
             </View>
           </Layout>
         )}
@@ -222,17 +221,17 @@ function ForgotPassword(props) {
 
             {/** Sub-title & Caption */}
             <View style={[cStyles.itemsCenter, cStyles.mt16]}>
-              <CText style={cStyles.textCenter}>
+              <Text style={cStyles.textCenter}>
                 {`${t('forgot_password:error_content_1')}`}
-              </CText>
+              </Text>
 
-              <CText style={cStyles.mt5} category="s1">
+              <Text style={cStyles.mt5} category="s1">
                 {values.email}
-              </CText>
+              </Text>
 
-              <CText style={[cStyles.textCenter, cStyles.mt20]}>
+              <Text style={[cStyles.textCenter, cStyles.mt20]}>
                 {`${t('forgot_password:error_content_2')}`}
-              </CText>
+              </Text>
             </View>
           </Layout>
         )}

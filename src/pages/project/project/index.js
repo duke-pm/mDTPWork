@@ -16,12 +16,14 @@ import moment from 'moment';
 /** COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CTopNavigation from '~/components/CTopNavigation';
-import CLoading from '~/components/CLoading';
 import ListProject from '../list/Project';
 import Filter from '../components/Filter';
 /** COMMON */
 import Configs from '~/configs';
-import {LOAD_MORE, REFRESH} from '~/configs/constants';
+import {
+  LOAD_MORE,
+  REFRESH,
+} from '~/configs/constants';
 /** REDUX */
 import * as Actions from '~/redux/actions';
 
@@ -60,19 +62,6 @@ function Project(props) {
   /*****************
    ** HANDLE FUNC **
    *****************/
-  const handleSearch = value => {
-    setData({...data, page: 1});
-    onFetchData(
-      data.year,
-      data.ownerID,
-      data.statusID,
-      perPageMaster,
-      1,
-      value,
-    );
-    setLoading({...loading, startFetch: true});
-  };
-
   const handleFilter = (
     year = moment().year(),
     activeOwner = null,
@@ -80,12 +69,6 @@ function Project(props) {
     toggle = () => null,
   ) => {
     toggle();
-    setData({
-      ...data,
-      year,
-      ownerID: activeOwner,
-      statusID: activeStatus,
-    });
     onFetchData(
       year,
       activeOwner,
@@ -94,21 +77,18 @@ function Project(props) {
       1,
       '',
     );
-    return setLoading({...loading, startFetch: true});
+    setLoading({...loading, startFetch: true});
+    return setData({
+      ...data,
+      year,
+      ownerID: activeOwner,
+      statusID: activeStatus,
+    });
   };
 
   /**********
    ** FUNC **
    **********/
-  const onFetchMasterData = () => {
-    let paramsMaster = {
-      ListType: 'Users, PrjSector, PrjStatus',
-      RefreshToken: refreshToken,
-      Lang: language,
-    };
-    dispatch(Actions.fetchMasterData(paramsMaster, navigation));
-  };
-
   const onFetchData = (
     year = data.year,
     ownerID = null,
@@ -128,7 +108,7 @@ function Project(props) {
       RefreshToken: refreshToken,
       Lang: language,
     });
-    dispatch(Actions.fetchListProject(params, navigation));
+    return dispatch(Actions.fetchListProject(params, navigation));
   };
 
   const onPrepareData = (type = REFRESH) => {
@@ -148,20 +128,6 @@ function Project(props) {
       tmpProjects = [...tmpProjects, ...projects];
     }
     setData({...data, projects: tmpProjects});
-    return onDone(isLoadmore);
-  };
-
-  const onError = () => {
-    showMessage({
-      message: t('common:app_name'),
-      description: t('error:list_request'),
-      type: 'danger',
-      icon: 'danger',
-    });
-    return onDone(false);
-  };
-
-  const onDone = isLoadmore => {
     return setLoading({
       main: false,
       refreshing: false,
@@ -171,9 +137,25 @@ function Project(props) {
     });
   };
 
+  const onError = () => {
+    showMessage({
+      message: t('common:app_name'),
+      description: t('error:list_request'),
+      type: 'danger',
+      icon: 'danger',
+    });
+    return setLoading({
+      main: false,
+      refreshing: false,
+      startFetch: false,
+      loadmore: false,
+      isLoadmore: false,
+    });
+  };
+
   const onRefreshProjects = () => {
     if (!loading.refreshing) {
-      setData({...data, page: 1});
+      
       onFetchData(
         data.year,
         data.ownerID,
@@ -182,14 +164,18 @@ function Project(props) {
         1,
         data.search,
       );
-      setLoading({...loading, refreshing: true, isLoadmore: true});
+      setLoading({
+        ...loading,
+        refreshing: true,
+        isLoadmore: true,
+      });
+      return setData({...data, page: 1});
     }
   };
 
   const onLoadmoreProjects = () => {
     if (!loading.loadmore && loading.isLoadmore) {
       let newPage = data.page + 1;
-      setData({...data, page: newPage});
       onFetchData(
         data.year,
         data.ownerID,
@@ -199,14 +185,27 @@ function Project(props) {
         data.search,
       );
       setLoading({...loading, loadmore: true});
+      return setData({...data, page: newPage});
     }
+  };
+
+  const onSearch = value => {
+    onFetchData(
+      data.year,
+      data.ownerID,
+      data.statusID,
+      perPageMaster,
+      1,
+      value,
+    );
+    setLoading({...loading, startFetch: true});
+    return setData({...data, page: 1});
   };
 
   /****************
    ** LIFE CYCLE **
    ****************/
   useEffect(() => {
-    onFetchMasterData();
     onFetchData();
     setLoading({...loading, startFetch: true});
   }, []);
@@ -215,13 +214,11 @@ function Project(props) {
     if (loading.startFetch || loading.refreshing || loading.loadmore) {
       if (!projectState.get('submittingListProject')) {
         if (projectState.get('successListProject')) {
-          if (masterState.get('users').length > 0) {
-            let type = REFRESH;
-            if (loading.loadmore) {
-              type = LOAD_MORE;
-            }
-            return onPrepareData(type);
+          let type = REFRESH;
+          if (loading.loadmore) {
+            type = LOAD_MORE;
           }
+          return onPrepareData(type);
         }
         if (projectState.get('errorListProject')) {
           return onError();
@@ -235,7 +232,6 @@ function Project(props) {
     projectState.get('submittingListProject'),
     projectState.get('successListProject'),
     projectState.get('errorListProject'),
-    masterState.get('users'),
   ]);
 
   /************
@@ -248,7 +244,7 @@ function Project(props) {
   return (
     <CContainer
       safeArea={['top', 'bottom']}
-      loading={loading.main}
+      loading={loading.main || loading.startFetch}
       headerComponent={
         <CTopNavigation
           loading={loading.startFetch}
@@ -256,7 +252,7 @@ function Project(props) {
           back
           borderBottom
           searchFilter
-          onSearch={handleSearch}
+          onSearch={onSearch}
           renderFilter={(propsF, toggleFilter) => 
             <View style={propsF.style}>
               <Filter
@@ -277,15 +273,15 @@ function Project(props) {
         />
       }>
       {/** Content */}
-      <ListProject
-        data={data.projects}
-        loadmore={loading.loadmore}
-        refreshing={loading.refreshing}
-        onRefresh={onRefreshProjects}
-        onLoadmore={onLoadmoreProjects}
-      />
-      {/** Loading */}
-      <CLoading show={loading.startFetch} />
+      {!loading.main && !loading.startFetch && (
+        <ListProject
+          data={data.projects}
+          loadmore={loading.loadmore}
+          refreshing={loading.refreshing}
+          onRefresh={onRefreshProjects}
+          onLoadmore={onLoadmoreProjects}
+        />
+      )}
     </CContainer>
   );
 }

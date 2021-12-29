@@ -10,7 +10,8 @@ import React, {useState, useEffect, useRef} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {
-  Card, Select, SelectGroup, SelectItem, Avatar, IndexPath, Button,
+  Card, Select, SelectGroup, SelectItem, Avatar, IndexPath,
+  Text,
 } from '@ui-kitten/components';
 import {StyleSheet, View} from 'react-native';
 import {showMessage} from 'react-native-flash-message';
@@ -20,8 +21,8 @@ import moment from 'moment';
 import CContainer from '~/components/CContainer';
 import CTopNavigation from '~/components/CTopNavigation';
 import CForm from '~/components/CForm';
-import CText from '~/components/CText';
 import CAlert from '~/components/CAlert';
+import CStatus from '~/components/CStatus';
 import CLoading from '~/components/CLoading';
 /* COMMON */
 import Routes from '~/navigator/Routes';
@@ -30,11 +31,12 @@ import {Assets} from '~/utils/asset';
 import {cStyles} from '~/utils/style';
 import {getSecretInfo, resetRoute} from '~/utils/helper';
 import {
-  DATA_TIME_BOOKING, DEFAULT_FORMAT_DATE_3, AST_LOGIN,
+  DATA_TIME_BOOKING,
+  DEFAULT_FORMAT_DATE_3,
+  AST_LOGIN,
 } from '~/configs/constants';
 /* REDUX */
 import * as Actions from '~/redux/actions';
-import { Commons } from '~/utils/common';
 
 const groupBy = function(xs, key) {
   return xs.reduce(function(rv, x) {
@@ -459,12 +461,6 @@ function AddBooking(props) {
       return groupTitle.values[index.row]['empName'];
     });
   }
-  let colorStatus = 'warning';
-  if (dataBooking.statusID === Commons.BOOKING_STATUS.HAPPENNING.value) {
-    colorStatus = 'success';
-  } else if (dataBooking.statusID === Commons.BOOKING_STATUS.HAPPENED.value) {
-    colorStatus = 'basic';
-  }
   return (
     <CContainer
       safeArea={['top']}
@@ -475,15 +471,15 @@ function AddBooking(props) {
             header={propsH =>
               <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween, propsH.style]}>
                 <View style={dataBooking ? styles.con_left : {}}>
-                  <CText category="s1">{t('add_booking:info_booking')}</CText>
+                  <Text category="s1">{t('add_booking:info_booking')}</Text>
                 </View>
                 {isDetail && dataBooking && (
-                  <View style={[cStyles.itemsEnd, styles.con_right]}>
-                    <Button
-                      size="tiny"
-                      status={colorStatus}>
-                      {dataBooking.statusName}
-                    </Button>
+                  <View style={styles.con_right}>
+                    <CStatus
+                      type="booking"
+                      value={dataBooking.statusID}
+                      label={dataBooking.statusName}
+                    />
                   </View>
                 )}
               </View>
@@ -618,7 +614,7 @@ function AddBooking(props) {
                               title={propsT => (
                                 <View style={[propsT.style, cStyles.row, cStyles.itemsCenter]}>
                                   {RenderAvatar()}
-                                  <CText {...propsT}>{itemI.empName}</CText>
+                                  <Text {...propsT}>{itemI.empName}</Text>
                                 </View>
                               )}
                               disabled={isDetail}
@@ -639,7 +635,7 @@ function AddBooking(props) {
               labelButton={(isDetail && dataBooking.isUpdated)
                 ? 'add_booking:update_booking'
                 : route.params?.type === TYPE.ADD
-                  ? 'add_booking:title_add'
+                  ? 'common:send'
                   : undefined}
               labelButton2={(isDetail && dataBooking.isUpdated)
                 ? 'add_booking:remove_booking'

@@ -8,12 +8,11 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-import {useTheme, Avatar, Layout, Spinner} from '@ui-kitten/components';
+import {useTheme, Avatar, Layout, Spinner, Text} from '@ui-kitten/components';
 import {StatusBar, StyleSheet, View} from 'react-native';
 import moment from 'moment';
 /** COMPONENTS */
 import CContainer from '~/components/CContainer';
-import CText from '~/components/CText';
 import CItem from '~/components/CItem';
 /** COMMON */
 import Configs from '~/configs';
@@ -28,6 +27,7 @@ function Dashboard(props) {
   const theme = useTheme();
   const themeContext = useContext(ThemeContext);
   const {navigation} = props;
+  const bgHeader = theme['background-basic-color-3'];
 
   /** Use redux */
   const authState = useSelector(({auth}) => auth);
@@ -85,7 +85,7 @@ function Dashboard(props) {
       const unsubscribe = navigation.addListener('focus', () => {
         StatusBar.setBarStyle('dark-content', true);
         IS_ANDROID &&
-          StatusBar.setBackgroundColor('white', true);
+          StatusBar.setBackgroundColor(bgHeader, true);
       });
       return unsubscribe;
     }
@@ -97,7 +97,7 @@ function Dashboard(props) {
   return (
     <CContainer
       safeArea={['top']}
-      backgroundColor={theme['background-basic-color-3']}>
+      backgroundColor={bgHeader}>
       <Layout
         style={[
           cStyles.row,
@@ -107,9 +107,13 @@ function Dashboard(props) {
           cStyles.py24
         ]} level={'3'}>
         <View>
-          <CText>{`${moment().format(DEFAULT_FORMAT_DATE_8)}`}</CText>
-          <CText style={cStyles.mt5} category='h6'>{`${t('dashboard:welcome')} ${fullName}`}</CText>
-          <CText style={cStyles.mt5} category='c1'>{t('dashboard:welcome_1')}</CText>
+          <Text>{`${moment().format(DEFAULT_FORMAT_DATE_8)}`}</Text>
+          <Text style={cStyles.mt5} category='h6'>
+            {`${t('dashboard:welcome')} ${fullName}`}
+          </Text>
+          <Text style={cStyles.mt5} category='c1'>
+            {t('dashboard:welcome_1')}
+          </Text>
         </View>
         <Avatar size={'large'} source={Assets.iconUser} />
       </Layout>

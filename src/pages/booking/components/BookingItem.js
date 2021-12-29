@@ -6,17 +6,20 @@
  **/
 import PropTypes from 'prop-types';
 import React from 'react';
-import {Avatar, Button, Card} from '@ui-kitten/components';
+import {Avatar, Button, Card, Text} from '@ui-kitten/components';
 import {StyleSheet, View} from 'react-native';
 import moment from 'moment';
 /* COMPONENTS */
+import CStatus from '~/components/CStatus';
 import CAvatar from '~/components/CAvatar';
-import CText from '~/components/CText';
 /* COMMON */
 import {Assets} from '~/utils/asset';
 import {cStyles} from '~/utils/style';
 import {Commons} from '~/utils/common';
-import {DEFAULT_FORMAT_DATE_4, DEFAULT_FORMAT_DATE_9} from '~/configs/constants';
+import {
+  DEFAULT_FORMAT_DATE_4,
+  DEFAULT_FORMAT_DATE_9,
+} from '~/configs/constants';
 
 function BookingItem(props) {
   const {
@@ -60,38 +63,39 @@ function BookingItem(props) {
           style={[
             cStyles.flex1,
             cStyles.row,
-            cStyles.itemsCenter,
+            cStyles.itemsStart,
             cStyles.justifyBetween,
             cStyles.px16,
             cStyles.py10,
           ]}>
           <View style={styles.con_left}>
-            <CText category="s1">{`${data.purpose}`}</CText>
-            <CText category="c1" appearance="hint">
+            <Text category="s1">{`${data.purpose}`}</Text>
+            <Text style={cStyles.mt5} category="c1" appearance="hint">
               {`${trans('common:created_at')} ${moment(
                 data.crtdDate,
                 DEFAULT_FORMAT_DATE_4,
               ).format(DEFAULT_FORMAT_DATE_9)}`}
-            </CText>
+            </Text>
           </View>
-          <View style={[cStyles.itemsEnd, styles.con_right]}>
-            <Button
-              size="tiny"
-              status={colorStatus}>
-              {data.statusName}
-            </Button>
+          <View style={styles.con_right}>
+            <CStatus
+              type="booking"
+              value={data.statusID}
+              label={data.statusName}
+            />
           </View>
         </View>
       }>
       <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween]}>
         <View>
-          <CText>{`${moment(
+          <Text>{`${moment(
               data.startDate,
               DEFAULT_FORMAT_DATE_4,
-            ).format(DEFAULT_FORMAT_DATE_9)} - ${data.strStartTime}`}</CText>
-          <CText category="c1" appearance="hint">
+            ).format(DEFAULT_FORMAT_DATE_9)} - ${data.strStartTime}`}
+          </Text>
+          <Text style={cStyles.mt5} category="c1" appearance="hint">
             {trans('bookings:start_time')}
-          </CText>
+          </Text>
         </View>
         {isMyBooking && arrAvatarParticipant.length > 0 && (
           <View style={cStyles.itemsEnd}>
@@ -100,20 +104,20 @@ function BookingItem(props) {
               size="tiny"
               sources={arrAvatarParticipant}
             />
-            <CText category="c1" appearance="hint" style={cStyles.mt5}>
+            <Text style={cStyles.mt5} category="c1" appearance="hint">
               {trans('bookings:participants')}
-            </CText>
+            </Text>
           </View>
         )}
         {!isMyBooking && (
           <View style={cStyles.itemsEnd}>
             <View style={[cStyles.row, cStyles.itemsCenter]}>
               <Avatar size="tiny" source={Assets.iconUser} />
-              <CText style={cStyles.ml5}>{data.ownerName}</CText>
+              <Text style={cStyles.ml10}>{data.ownerName}</Text>
             </View>
-            <CText category="c1" appearance="hint" style={cStyles.mt5}>
+            <Text style={cStyles.mt5} category="c1" appearance="hint">
               {trans('bookings:owner')}
-            </CText>
+            </Text>
           </View>
         )}
       </View>
@@ -125,30 +129,35 @@ function BookingItem(props) {
           isMyBooking && cStyles.mt10,
         ]}>
         <View>
-          <CText>{`${moment(
+          <Text>{`${moment(
               data.endDate,
               DEFAULT_FORMAT_DATE_4,
-            ).format(DEFAULT_FORMAT_DATE_9)} - ${data.strEndTime}`}</CText>
-          <CText category="c1" appearance="hint">
+            ).format(DEFAULT_FORMAT_DATE_9)} - ${data.strEndTime}`}
+          </Text>
+          <Text style={cStyles.mt5} category="c1" appearance="hint">
             {trans('bookings:end_time')}
-          </CText>
+          </Text>
         </View>
         {!isMyBooking && (
           <View style={cStyles.itemsEnd}>
             <Button appearance="ghost" size="tiny" onPress={handleResource}>
-              {propsB => <CText style={cStyles.textUnderline} status="primary">{data.resourceName}</CText>}
+              {propsB =>
+                <Text style={cStyles.textUnderline} status="primary">
+                  {data.resourceName}
+                </Text>
+              }
             </Button>
-            <CText category="c1" appearance="hint">
+            <Text category="c1" appearance="hint">
               {trans('bookings:resource')}
-            </CText>
+            </Text>
           </View>
         )}
         {isMyBooking && (
           <View style={cStyles.itemsEnd}>
-            <CText>{data.resourceName}</CText>
-            <CText category="c1" appearance="hint">
+            <Text>{data.resourceName}</Text>
+            <Text style={cStyles.mt5} category="c1" appearance="hint">
               {trans('bookings:resource')}
-            </CText>
+            </Text>
           </View>
         )}
       </View>
@@ -157,7 +166,7 @@ function BookingItem(props) {
 }
 
 const styles = StyleSheet.create({
-  con_left: {flex: 0.7},
+  con_left: {flex: 0.68},
   con_right: {flex: 0.3},
   con_num_user: {height: 24, width: 24},
 });

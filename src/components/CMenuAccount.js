@@ -98,9 +98,7 @@ function CMenuAccount(props) {
    ** FUNC **
    **********/
   const handleGoMenuItem = nextRoute => {
-    if (nextRoute) {
-      navigation.navigate(nextRoute);
-    }
+    if (nextRoute) navigation.navigate(nextRoute);
   };
 
   /************
@@ -108,7 +106,7 @@ function CMenuAccount(props) {
    ************/
   return (
     <Layout style={[cStyles.rounded2, cStyles.mx16, cStyles.mt16, containerStyle]}>
-      <Menu scrollEnabled={false} style={[cStyles.rounded2, {backgroundColor: colors.TRANSPARENT}]}>
+      <Menu scrollEnabled={false} style={[cStyles.rounded2, styles.con_menu]}>
         {data.map((item, index) => {
           return (
             <ListItem
@@ -120,10 +118,12 @@ function CMenuAccount(props) {
                 index === data.length - 1 && cStyles.roundedBottomRight2,
               ]}
               title={propsT =>
-                <CText style={propsT.style}>{t(item.title)}</CText>
+                <CText style={cStyles.ml8} category='s1'>{t(item.title)}</CText>
               }
               description={item.subtitle ? propsD =>
-                <CText style={propsD.style}>{t(item.subtitle)}</CText>
+                <CText style={cStyles.ml8} category="c1" appearance="hint">
+                  {t(item.subtitle)}
+                </CText>
                : undefined
               }
               accessoryLeft={propsIc =>
@@ -156,6 +156,7 @@ const styles = StyleSheet.create({
     height: moderateScale(16),
     width: moderateScale(16),
   },
+  con_menu: {backgroundColor: colors.TRANSPARENT},
 });
 
 CMenuAccount.propTypes = {

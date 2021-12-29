@@ -7,15 +7,15 @@
  **/
 import PropTypes, {any} from 'prop-types';
 import React, {useRef, useState, useEffect, useContext} from 'react';
+import {useTheme, Text} from '@ui-kitten/components';
 import {StyleSheet, View, Animated} from 'react-native';
 import IoniIcon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
-/* COMPONENTS */
-import CText from '~/components/CText';
 /* COMMON */
 import {Commons} from '~/utils/common';
+import {ThemeContext} from '~/configs/theme-context';
 import {IS_ANDROID, moderateScale} from '~/utils/helper';
-import {colors, cStyles} from '~/utils/style';
+import {cStyles} from '~/utils/style';
 import {
   FIRST_CELL_WIDTH_LARGE,
   FIRST_CELL_WIDTH_SMALL,
@@ -24,13 +24,13 @@ import {
   CELL_WIDTH,
   DARK,
 } from '~/configs/constants';
-import { useTheme, Text } from '@ui-kitten/components';
-import { ThemeContext } from '~/configs/theme-context';
+import { useTranslation } from 'react-i18next';
 
 /** All init */
 let listener = null;
 let child = 0;
 const PLEFT_COMMON = moderateScale(4);
+const sIcon = moderateScale(12);
 
 const FormatCell = React.memo(
   ({theme = {}, bgColor = undefined, align = 'center', value = any}) => {
@@ -51,7 +51,7 @@ const FormatCell = React.memo(
           bgColor && {backgroundColor: bgColor},
         ]}>
         {typeof value === 'string' ? (
-          <CText>{value}</CText>
+          <Text>{value}</Text>
         ) : (
           value
         )}
@@ -62,6 +62,7 @@ const FormatCell = React.memo(
 
 const FormatCompactCell = React.memo(
   ({
+    trans = {},
     theme = {},
     value = '',
     name = '',
@@ -89,19 +90,19 @@ const FormatCompactCell = React.memo(
         ]}>
         <View style={cStyles.itemsStart}>
           {isProject && !taskType && (
-            <CText style={cStyles.textCenter} category="s1">
-              {'Project #' + value}
-            </CText>
+            <Text style={cStyles.textCenter} category="label">
+              {`${trans('project_management:main_title')} #`.toUpperCase() + value}
+            </Text>
           )}
           {!isProject && taskType && (
-            <CText
+            <Text
               style={taskTypeColor ? {color: taskTypeColor} : undefined}
               status={taskType ? onCheckTaskType(taskType) : undefined}
-              category="s1">
+              category="label">
               {taskTypeName + ' #' + value}
-            </CText>
+            </Text>
           )}
-          <CText numberOfLines={1} category="c1" appearance="hint">{name}</CText>
+          <Text numberOfLines={1} category="c1" appearance="hint">{name}</Text>
         </View>
       </View>
     );
@@ -141,25 +142,24 @@ const FormatFirstCell = React.memo(
             style={[!isProject ? {paddingLeft: PLEFT_COMMON * pChild} : {}]}>
             <IoniIcon
               name={'caret-forward'}
-              size={moderateScale(12)}
+              size={sIcon}
               color={theme['text-hint-color']}
             />
           </View>
         )}
         <Text
           style={[pChild > 1 && cStyles.pl5, cStyles.flex1]}
+          category="p2"
           numberOfLines={2}>
           {!isProject && (
             <Text
-              style={{color: taskTypeColor, fontWeight: 'bold'}}
+              style={{color: taskTypeColor}}
               status={taskType ? onCheckTaskType(taskType) : undefined}
-              category="c1">
+              category="label">
               {`${taskTypeName}  `}
             </Text>
           )}
-          <Text category={isProject ? 'p1' : 'c1'}>
-            {value}
-          </Text>
+          <Text category="p2">{value}</Text>
         </Text>
       </View>
     );
@@ -189,6 +189,7 @@ const FormatColumn = React.memo(
 
 const FormatIdentityColumn = React.memo(
   ({
+    trans = {},
     theme = {},
     isDark = false,
     data = {},
@@ -216,6 +217,7 @@ const FormatIdentityColumn = React.memo(
       } else {
         cells.push(
           <FormatCompactCell
+            trans={trans}
             theme={theme}
             isProject={data[i].isProject}
             value={data[i].itemID}
@@ -230,6 +232,7 @@ const FormatIdentityColumn = React.memo(
       if (data[i].lstItemChild.length > 0) {
         cellsChild = (
           <FormatIdentityColumn
+            trans={trans}
             isIcon={isIcon}
             theme={theme}
             data={data[i].lstItemChild}
@@ -246,6 +249,7 @@ const FormatIdentityColumn = React.memo(
 );
 
 function BodyOverview(props) {
+  const {t} = useTranslation();
   const theme = useTheme();
   const themeContext = useContext(ThemeContext);
   const {formatDateView, dataHeader, dataBody, headerScroll} = props;
@@ -278,9 +282,10 @@ function BodyOverview(props) {
           result.push('');
         } else {
           result.push(
-            <CText style={{color: themeContext.themeApp === DARK
+            <Text style={[cStyles.fontBold,
+              {color: themeContext.themeApp === DARK
               ? item.colorDarkCode
-              : item.colorCode}} category="s1">{item[key]}</CText>
+              : item.colorCode}]} category="p1">{item[key]}</Text>
           );
         }
       } else if (key === 'completedPercent') {
@@ -369,6 +374,7 @@ function BodyOverview(props) {
             },
           ]}>
           <FormatIdentityColumn
+            trans={t}
             theme={theme}
             isDark={themeContext.themeApp === DARK}
             isIcon={false}
@@ -409,6 +415,7 @@ function BodyOverview(props) {
             },
           ]}>
           <FormatIdentityColumn
+            trans={t}
             theme={theme}
             isDark={themeContext.themeApp === DARK}
             isIcon={true}

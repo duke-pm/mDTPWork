@@ -8,11 +8,9 @@
 import PropTypes from 'prop-types';
 import React, {useState, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
-import {Button, Spinner, useTheme} from '@ui-kitten/components';
+import {Button, Spinner, useTheme, Text} from '@ui-kitten/components';
 import {StyleSheet, View} from 'react-native';
 import IoniIcon from 'react-native-vector-icons/Ionicons';
-/* COMPONENTS */
-import CText from '~/components/CText';
 /* COMMON */
 import {cStyles} from '~/utils/style';
 import {moderateScale} from '~/utils/helper';
@@ -50,13 +48,9 @@ function RequestProcess(props) {
   isReject = false;
   return (
     <View style={[cStyles.px16, cStyles.pb32]}>
-      <CText
-        styles={'textHeadline textCenter pb16'}
-        label={'add_approved_assets:table_process'}
-      />
-      <CText style={[cStyles.textCenter, cStyles.pb16]} category="s1">
+      <Text style={[cStyles.textCenter, cStyles.py16]} category="s1">
         {t('add_approved_assets:table_process')}
-      </CText>
+      </Text>
       {loading && (
         <View style={cStyles.flexCenter}>
           <Spinner />
@@ -86,8 +80,8 @@ function RequestProcess(props) {
                   }>
                   {propsB => (
                     <View style={cStyles.center}>
-                      <CText category="c1">{item.approveDate}</CText>
-                      <CText category="c1">{item.approveTime}</CText>
+                      <Text category="c1">{item.approveDate}</Text>
+                      <Text style={cStyles.mt5} category="c1">{item.approveTime}</Text>
                     </View>
                   )}
                 </Button>
@@ -150,45 +144,45 @@ function RequestProcess(props) {
                     cStyles.pt10,
                     styles.con_user,
                   ]}>
-                  <CText
+                  <Text
                     style={[isReject && !item.approveDate && cStyles.textThrough]}
                     category="c1">
                     {`${t('add_approved_lost_damaged:' +
                       (index === 0 ? 'user_request' : 'person_approved'))}`}
-                  </CText>
-                  <CText
+                  </Text>
+                  <Text
                     style={[
                       cStyles.fontBold,
                       isReject && !item.approveDate && cStyles.textThrough,
                     ]}
                     category="c1">
                     {item.personApproveName}
-                  </CText>
+                  </Text>
                 </View>
 
                 <View
                   style={[
                     cStyles.row,
                     cStyles.itemsStart,
-                    cStyles.mt4,
+                    cStyles.mt5,
                   ]}>
-                  <CText
+                  <Text
                     style={[isReject && !item.approveDate && cStyles.textThrough]}
                     category="c1">
                     {t('add_approved_assets:status_approved')}
-                  </CText>
+                  </Text>
                   {item.approveDate ? (
-                    <CText
+                    <Text
                       style={[isReject && !item.approveDate && cStyles.textThrough]}
                       category="c1">
                       {item.statusName}
-                    </CText>
+                    </Text>
                   ) : (
-                    <CText
+                    <Text
                       style={[isReject && !item.approveDate && cStyles.textThrough]}
                       category="c1">
                       {t('add_approved_assets:wait')}
-                    </CText>
+                    </Text>
                   )}
                 </View>
 
@@ -197,19 +191,19 @@ function RequestProcess(props) {
                     style={[
                       cStyles.row,
                       cStyles.itemsStart,
-                      cStyles.mt4,
+                      cStyles.mt5,
                       styles.con_reason,
                     ]}>
-                    <CText
+                    <Text
                       style={[isReject && !item.approveDate && cStyles.textThrough]}
                       category="c1">
                       {t('add_approved_assets:reason_reject')}
-                    </CText>
-                    <CText
+                    </Text>
+                    <Text
                       style={[isReject && !item.approveDate && cStyles.textThrough]}
                       category="c1">
                       {item.reason}
-                    </CText>
+                    </Text>
                   </View>
                 )}
               </View>

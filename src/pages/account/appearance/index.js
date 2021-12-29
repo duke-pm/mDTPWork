@@ -8,13 +8,12 @@ import React, {useState, useEffect, useContext} from 'react';
 import {useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {
-  useTheme, Divider, CheckBox, Toggle, Layout,
+  useTheme, Divider, CheckBox, Toggle, Layout, Text,
 } from '@ui-kitten/components';
 import {StatusBar, StyleSheet, View, useColorScheme} from 'react-native';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CTopNavigation from '~/components/CTopNavigation';
-import CText from '~/components/CText';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
 import {ThemeContext} from '~/configs/theme-context';
@@ -284,10 +283,10 @@ function Appearance(props) {
             cStyles.py8,
           ]}>
           <View>
-            <CText category={'s2'}>{t('appearance:auto_change_appearance')}</CText>
-            <CText style={cStyles.mt5} category={'c1'}>
+            <Text>{t('appearance:auto_change_appearance')}</Text>
+            <Text style={cStyles.mt5} category="c1" appearance="hint">
               {t('appearance:holder_auto_change_appearance')}
-            </CText>
+            </Text>
           </View>
           <Toggle
             checked={darkmodeAutoToggle.checked}

@@ -10,12 +10,10 @@ import React, {useState, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
 import {
   Select, SelectItem, Button, Divider, Layout,
-  IndexPath, Spinner, Avatar,
+  IndexPath, Spinner, Avatar, Text,
 } from '@ui-kitten/components';
 import {StyleSheet, View} from 'react-native';
 import moment from 'moment';
-/* COMPONENTS */
-import CText from '~/components/CText';
 /* COMMON */
 import {Assets } from '~/utils/asset';
 import {cStyles} from '~/utils/style';
@@ -202,7 +200,7 @@ function Filter(props) {
   return (
     <Layout style={[cStyles.pb20, styles.con_filter]}>
       <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween, cStyles.pb5]}>
-        <CText category="s1">{t('common:filter').toUpperCase()}</CText>
+        <Text category="s1">{t('common:filter').toUpperCase()}</Text>
         <View style={[cStyles.row, cStyles.itemsCenter]}>
           <Button
             size="small"
@@ -271,7 +269,7 @@ function Filter(props) {
                   title={propsT => 
                     <View style={[cStyles.row, cStyles.itemsCenter, propsT.style]}>
                       {RenderAvatar()}
-                      <CText style={[propsT.style]}>{itemO.empName}</CText>
+                      <Text style={[propsT.style]}>{itemO.empName}</Text>
                     </View>
                   }
                 />
@@ -294,11 +292,11 @@ function Filter(props) {
                 <SelectItem key={itemS.statusID + '_' + indexS}
                   title={propsT =>
                     <View style={propsT.style}>
-                      <CText
+                      <Text
                         style={{color: itemS.colorCode}}
                         category="s1">
                         {itemS.statusName}
-                      </CText>
+                      </Text>
                     </View>
                   }
                 />

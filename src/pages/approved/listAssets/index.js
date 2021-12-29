@@ -21,6 +21,7 @@ import AssetsLost from '../assetsLost';
 import Filter from '../components/Filter';
 /* COMMON */
 import Routes from '~/navigator/Routes';
+import {cStyles} from '~/utils/style';
 import {Commons} from '~/utils/common';
 /* REDUX */
 import * as Actions from '~/redux/actions';
@@ -171,7 +172,7 @@ function ListRequestAll(props) {
               <Filter
                 isResolve={false}
                 data={routes[index]}
-                onFilter={(fromDate, toDate, status, type) =>
+                onFilter={(fromDate, toDate, status, type, isResolve) =>
                   onFilter(fromDate, toDate, status, type, toggleFilter)
                 }
               />
@@ -181,6 +182,7 @@ function ListRequestAll(props) {
       }>
       {/** Content */}
       <TabView
+        style={cStyles.flex1}
         shouldLoadComponent={shouldLoadComponent}
         selectedIndex={index}
         onSelect={setIndex}>

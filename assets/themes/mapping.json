@@ -5,56 +5,127 @@
     "text-heading-1-font-size": 36,
     "text-heading-1-font-weight": "bold",
     "text-heading-1-font-family": "$text-font-family",
+    "text-heading-1-line-height": 36,
 
     "text-heading-2-font-size": 32,
     "text-heading-2-font-weight": "bold",
     "text-heading-2-font-family": "$text-font-family",
+    "text-heading-2-line-height": 34,
 
     "text-heading-3-font-size": 30,
     "text-heading-3-font-weight": "bold",
     "text-heading-3-font-family": "$text-font-family",
+    "text-heading-3-line-height": 32,
 
     "text-heading-4-font-size": 26,
     "text-heading-4-font-weight": "bold",
     "text-heading-4-font-family": "$text-font-family",
+    "text-heading-4-line-height": 30,
 
     "text-heading-5-font-size": 22,
     "text-heading-5-font-weight": "bold",
     "text-heading-5-font-family": "$text-font-family",
+    "text-heading-5-line-height": 28,
 
     "text-heading-6-font-size": 18,
     "text-heading-6-font-weight": "bold",
     "text-heading-6-font-family": "$text-font-family",
+    "text-heading-6-line-height": 25,
 
     "text-subtitle-1-font-size": 15,
     "text-subtitle-1-font-weight": "bold",
     "text-subtitle-1-font-family": "$text-font-family",
+    "text-subtitle-1-line-height": 22,
 
     "text-subtitle-2-font-size": 13,
     "text-subtitle-2-font-weight": "bold",
     "text-subtitle-2-font-family": "$text-font-family",
+    "text-subtitle-2-line-height": 18,
 
     "text-paragraph-1-font-size": 15,
     "text-paragraph-1-font-weight": "400",
     "text-paragraph-1-font-family": "$text-font-family",
+    "text-paragraph-1-line-height": 22,
 
     "text-paragraph-2-font-size": 13,
     "text-paragraph-2-font-weight": "400",
     "text-paragraph-2-font-family": "$text-font-family",
+    "text-paragraph-2-line-height": 18,
 
     "text-caption-1-font-size": 12,
     "text-caption-1-font-weight": "400",
     "text-caption-1-font-family": "$text-font-family",
+    "text-caption-1-line-height": 16,
 
     "text-caption-2-font-size": 12,
     "text-caption-2-font-weight": "300",
     "text-caption-2-font-family": "$text-font-family",
+    "text-caption-2-line-height": 16,
 
     "text-label-font-size": 12,
     "text-label-font-weight": "bold",
-    "text-label-font-family": "$text-font-family"
+    "text-label-font-family": "$text-font-family",
+    "text-label-line-height": 16
   },
   "components": {
+    "Text": {
+      "meta": {
+        "scope": "all",
+        "parameters": {
+          "lineHeight": {
+            "type": "number"
+          }
+        }
+      },
+      "appearances": {
+        "default": {
+          "mapping": {},
+          "variantGroups": {
+            "category": {
+              "h1": {
+                "lineHeight": "text-heading-1-line-height"
+              },
+              "h2": {
+                "lineHeight": "text-heading-2-line-height"
+              },
+              "h3": {
+                "lineHeight": "text-heading-3-line-height"
+              },
+              "h4": {
+                "lineHeight": "text-heading-4-line-height"
+              },
+              "h5": {
+                "lineHeight": "text-heading-5-line-height"
+              },
+              "h6": {
+                "lineHeight": "text-heading-6-line-height"
+              },
+              "s1": {
+                "lineHeight": "text-subtitle-1-line-height"
+              },
+              "s2": {
+                "lineHeight": "text-subtitle-2-line-height"
+              },
+              "p1": {
+                "lineHeight": "text-paragraph-1-line-height"
+              },
+              "p2": {
+                "lineHeight": "text-paragraph-2-line-height"
+              },
+              "c1": {
+                "lineHeight": "text-caption-1-line-height"
+              },
+              "c2": {
+                "lineHeight": "text-caption-2-line-height"
+              },
+              "label": {
+                "lineHeight": "text-label-line-height"
+              }
+            }
+          }
+        }
+      },
+    },
     "CheckBox": {
       "meta": {},
       "appearances": {

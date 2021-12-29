@@ -180,14 +180,6 @@ function ApprovedAssetsLost(props) {
         prevDataRoute.search !== curData.search ||
         prevDataRoute.isRefresh !== curData.isRefresh
       ) {
-        setData({
-          ...data,
-          fromDate: curData.fromDate,
-          toDate: curData.toDate,
-          status: curData.status,
-          page: 1,
-          search: curData.search,
-        });
         onFetchData(
           1,
           curData.fromDate,
@@ -195,7 +187,15 @@ function ApprovedAssetsLost(props) {
           curData.status,
           curData.search,
         );
-        return setLoading({...loading, startFetch: true});
+        setLoading({...loading, startFetch: true});
+        return setData({
+          ...data,
+          fromDate: curData.fromDate,
+          toDate: curData.toDate,
+          status: curData.status,
+          page: 1,
+          search: curData.search,
+        });
       }
     }
   }, [setLoading, prevDataRoute, props.dataRoute]);
@@ -230,7 +230,7 @@ function ApprovedAssetsLost(props) {
    ** RENDER **
    ************/
   return (
-    <Layout style={cStyles.fullHeight}>
+    <Layout style={cStyles.flex1}>
       {!loading.main && !loading.startFetch && (
         <ListRequest
           loadmore={loading.loadmore}

@@ -8,7 +8,7 @@ import React, {useRef, useState, useEffect, useContext} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {usePrevious} from '~/utils/hook';
-import {useTheme, Layout, CheckBox, Button} from '@ui-kitten/components';
+import {useTheme, Layout, CheckBox, Button, Text} from '@ui-kitten/components';
 import {View, StatusBar, ScrollView} from 'react-native';
 import {showMessage} from 'react-native-flash-message';
 /* COMPONENTS */
@@ -271,9 +271,9 @@ function Login(props) {
                   appearance="ghost"
                   onPress={handleGoForgotPassword}>
                   {propsB =>
-                    <CText style={cStyles.textUnderline} status="primary">
+                    <Text style={cStyles.textUnderline} status="primary">
                       {t('sign_in:forgot_password')}
-                    </CText>
+                    </Text>
                   }
                 </Button>
               </View>

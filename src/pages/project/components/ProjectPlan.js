@@ -13,7 +13,6 @@ import {StyleSheet, View, ScrollView, processColor} from 'react-native';
 import {HorizontalBarChart} from 'react-native-charts-wrapper';
 import moment from 'moment';
 /* COMPONENTS */
-import CText from '~/components/CText';
 import CEmpty from '~/components/CEmpty';
 /* COMMON */
 import Configs from '~/configs';
@@ -21,7 +20,7 @@ import Services from '~/services';
 import {cStyles} from '~/utils/style';
 import {moderateScale, verticalScale} from '~/utils/helper';
 import {ThemeContext} from '~/configs/theme-context';
-import {DARK} from '~/configs/constants';
+import {DARK, DEFAULT_FORMAT_DATE_4} from '~/configs/constants';
 import Commons from '~/utils/common/Commons';
 
 /** All init */
@@ -30,7 +29,6 @@ const ANIM_CHART = {
   durationY: 1000,
   easingY: 'EaseInOutQuart',
 };
-const FORMAT_DATE_TIME = 'YYYY-MM-DDT00:00:00';
 
 function ProjectPlan(props) {
   const themeContext = useContext(ThemeContext);
@@ -145,8 +143,8 @@ function ProjectPlan(props) {
         durations = 0;
       for (item of tasks) {
         if (item.parentID === 0) {
-          durations = moment(item.endDate, FORMAT_DATE_TIME).diff(
-            moment(item.startDate, FORMAT_DATE_TIME),
+          durations = moment(item.endDate, DEFAULT_FORMAT_DATE_4).diff(
+            moment(item.startDate, DEFAULT_FORMAT_DATE_4),
             'days',
           );
           dataChart[0].values.unshift({
@@ -234,7 +232,7 @@ function ProjectPlan(props) {
           drawValueAboveBar={false}
         />
         <View style={[cStyles.flex1, cStyles.mt10]}>
-          <CText category="s1">{trans('common:note_chart')}</CText>
+          <Text category="label">{trans('common:note_chart')}</Text>
           {chart.dataTask.map((itemT, indexT) => {
             return (
               <View

@@ -9,7 +9,7 @@ import {fromJS} from 'immutable';
 import React, {useRef, useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-import {useTheme, Layout} from '@ui-kitten/components';
+import {useTheme, Layout, Text} from '@ui-kitten/components';
 import {View} from 'react-native';
 import IoniIcon from 'react-native-vector-icons/Ionicons';
 import * as Animatable from 'react-native-animatable';
@@ -17,7 +17,6 @@ import * as Animatable from 'react-native-animatable';
 import CContainer from '~/components/CContainer';
 import CTopNavigation from '~/components/CTopNavigation';
 import CForm from '~/components/CForm';
-import CText from '~/components/CText';
 /* COMMON */
 import Routes from '~/navigator/Routes';
 import {cStyles} from '~/utils/style';
@@ -197,9 +196,9 @@ function ResetPassword(props) {
           ]}>
           {/** Caption */}
           <View style={cStyles.mt16}>
-            <CText style={cStyles.textCenter} category="p1">
+            <Text style={cStyles.textCenter} category="p1">
               {t('reset_password:caption')}
-            </CText>
+            </Text>
           </View>
 
           {/** Form input */}
@@ -252,12 +251,12 @@ function ResetPassword(props) {
 
           {/** Sub-title & Caption */}
           <View style={cStyles.mt16}>
-            <CText style={cStyles.textCenter} category="s1">
+            <Text style={cStyles.textCenter} category="s1">
               {t('reset_password:success_sub_title')}
-            </CText>
-            <CText style={[cStyles.mt16, cStyles.textCenter]}>
+            </Text>
+            <Text style={[cStyles.mt16, cStyles.textCenter]}>
               {t('reset_password:success_caption')}
-            </CText>
+            </Text>
           </View>
         </Layout>
       )}
@@ -284,14 +283,14 @@ function ResetPassword(props) {
 
           {/** Sub-title & Caption */}
           <View style={cStyles.mt16}>
-            <CText style={cStyles.textCenter} category="s1">
+            <Text style={cStyles.textCenter} category="s1">
               {t('reset_password:error_sub_title')}
-            </CText>
-            <CText style={[cStyles.mt16, cStyles.textCenter]}>
+            </Text>
+            <Text style={[cStyles.mt16, cStyles.textCenter]}>
               {values.errorExpired !== ''
                 ? t(values.errorExpired)
                 : t(values.error)}
-            </CText>
+            </Text>
           </View>
         </Layout>
       )}

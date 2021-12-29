@@ -11,14 +11,13 @@ import React, {useEffect, useRef, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {showMessage} from 'react-native-flash-message';
-import {useTheme, List} from '@ui-kitten/components';
+import {useTheme, List, Text} from '@ui-kitten/components';
 import {StyleSheet, ScrollView, View} from 'react-native';
 // import Orientation from 'react-native-orientation-locker';
 import moment from 'moment';
 /** COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CTopNavigation from '~/components/CTopNavigation';
-import CText from '~/components/CText';
 import CLoading from '~/components/CLoading';
 import BodyOverview from '../components/BodyOverview';
 import Filter from '../components/Filter';
@@ -85,9 +84,9 @@ const FormatCell = React.memo(
             borderBottomColor: theme['border-basic-color-5'],
           },
         ]}>
-        <CText style={cStyles.textCenter} category="s1">
+        <Text style={cStyles.textCenter} category="s1">
           {value}
-        </CText>
+        </Text>
       </View>
     );
   },
@@ -116,9 +115,9 @@ const FormatHeader = React.memo(({t = {}, theme = {}, headerScroll = undefined})
               borderBottomColor: theme['border-basic-color-5'],
             },
           ]}>
-          <CText style={cStyles.textCenter} category="s1">
+          <Text style={cStyles.textCenter} category="s1">
             {t('project_overview:task_name')}
-          </CText>
+          </Text>
         </View>
         <ScrollView
           ref={headerScroll}

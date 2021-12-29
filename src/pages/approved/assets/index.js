@@ -11,7 +11,7 @@ import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {showMessage} from 'react-native-flash-message';
-import {Layout, Spinner} from '@ui-kitten/components';
+import {Layout, Spinner, Text} from '@ui-kitten/components';
 import moment from 'moment';
 /* COMPONENTS */
 import ListRequest from '../components/ListRequest';
@@ -178,7 +178,13 @@ function ApprovedAssets(props) {
         prevDataRoute.search !== curData.search ||
         prevDataRoute.isRefresh !== curData.isRefresh
       ) {
-        onFetchData(1);
+        onFetchData(
+          1,
+          curData.fromDate,
+          curData.toDate,
+          curData.status,
+          curData.search,
+        );
         setLoading({...loading, startFetch: true});
         return setData({
           ...data,
@@ -222,7 +228,7 @@ function ApprovedAssets(props) {
    ** RENDER **
    ************/
   return (
-    <Layout style={cStyles.fullHeight}>
+    <Layout style={cStyles.flex1}>
       {!loading.main && !loading.startFetch && (
         <ListRequest
           loadmore={loading.loadmore}

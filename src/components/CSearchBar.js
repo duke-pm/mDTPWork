@@ -106,6 +106,7 @@ function CSearchBar(props) {
    ************/
   return (
     <Input
+      style={cStyles.flex1}
       disabled={loading}
       value={value}
       keyboardAppearance={themeContext.themeApp}

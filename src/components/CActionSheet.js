@@ -7,11 +7,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {useTranslation} from 'react-i18next';
-import {Button, Icon, useTheme} from '@ui-kitten/components';
+import {Button, Icon, useTheme, Text} from '@ui-kitten/components';
 import {View} from 'react-native';
 import ActionSheet from 'react-native-actions-sheet';
-/** COMPONENTS */
-import CText from './CText';
 /** COMMON */
 import {cStyles} from '~/utils/style';
 
@@ -104,7 +102,9 @@ function CActionSheet(props) {
           />
           <View style={[cStyles.flexCenter]}>
             {headerChooseTitle && (
-              <CText style={cStyles.mt10}>{t(headerChooseTitle)}</CText>
+              <Text style={cStyles.mt10} category="label">
+                {t(headerChooseTitle)}
+              </Text>
             )}
           </View>
           <Button

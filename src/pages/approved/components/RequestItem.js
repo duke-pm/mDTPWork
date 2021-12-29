@@ -6,14 +6,14 @@
  **/
 import PropTypes from 'prop-types';
 import React from 'react';
-import {Avatar, Button, Card} from '@ui-kitten/components';
+import {Avatar, Card, Text} from '@ui-kitten/components';
 import {StyleSheet, View} from 'react-native';
 import moment from 'moment';
-/* COMPONENTS */
-import CText from '~/components/CText';
+/** COMPONENTS */
+import CStatus from '~/components/CStatus';
 /* COMMON */
 import {Assets} from '~/utils/asset';
-import {Commons, Icons} from '~/utils/common';
+import {Commons} from '~/utils/common';
 import {cStyles} from '~/utils/style';
 import {
   DEFAULT_FORMAT_DATE_4,
@@ -35,8 +35,7 @@ function RequestItem(props) {
    *****************/
   const handleRequestItem = () => {
     onPress(data, dataProcess, dataDetail, {
-      statusIcon,
-      statusColor,
+      statusID: data.statusID,
       statusName: data.statusName,
     });
   };
@@ -44,23 +43,12 @@ function RequestItem(props) {
   /************
    ** RENDER **
    ************/
-  let title = `${trans('approved_assets:title_request_item')}`,
-    statusIcon = Icons.request,
-    statusColor = 'warning';
+  let title =
+    `${data.requestID} | ${trans('approved_assets:title_request_item')}`;
   if (data.requestTypeID !== Commons.APPROVED_TYPE.ASSETS.value) {
     title = `${trans('approved_lost_damaged:title_request_item_1')}${
       data.requestTypeName
     }`;
-  }
-  if (data.statusID === Commons.STATUS_REQUEST.APPROVED.value) {
-    statusIcon = 'checkmark';
-    statusColor = 'info';
-  } else if (data.statusID === Commons.STATUS_REQUEST.REJECT.value) {
-    statusIcon = 'close';
-    statusColor = 'danger';
-  } else if (data.statusID === Commons.STATUS_REQUEST.DONE.value) {
-    statusIcon = 'done-all';
-    statusColor = 'success';
   }
   return (
     <Card
@@ -70,24 +58,26 @@ function RequestItem(props) {
           style={[
             cStyles.flex1,
             cStyles.row,
-            cStyles.itemsCenter,
+            cStyles.itemsStart,
             cStyles.justifyBetween,
             cStyles.px16,
             cStyles.py10,
           ]}>
           <View style={styles.con_header_left}>
-            <CText category="s1">{`${title}`}</CText>
-            <CText category="c1" appearance="hint">{
-              moment(
+            <Text category="s1">{title}</Text>
+            <Text style={cStyles.mt5} category="c1" appearance="hint">
+              {`${trans('common:created_at')} ${moment(
                 data.requestDate,
                 DEFAULT_FORMAT_DATE_4,
-              ).format(DEFAULT_FORMAT_DATE_9)
-            }</CText>
+              ).format(DEFAULT_FORMAT_DATE_9)}`}
+            </Text>
           </View>
-          <View style={[cStyles.itemsEnd, styles.con_header_right]}>
-            <Button size="tiny" status={statusColor}>
-              {data.statusName}
-            </Button>
+          <View style={styles.con_header_right}>
+            <CStatus
+              type="approved"
+              value={data.statusID}
+              label={data.statusName}
+            />
           </View>
         </View>
       }>
@@ -95,16 +85,18 @@ function RequestItem(props) {
         <View style={[cStyles.row, cStyles.itemsCenter]}>
           <Avatar size="tiny" source={Assets.iconUser} />
           <View style={cStyles.ml10}>
-            <CText>{data.personRequest}</CText>
-            <CText category='c1' appearance="hint">{data.deptName}</CText>
+            <Text>{data.personRequest}</Text>
+            <Text style={cStyles.mt5} category="c1" appearance="hint">
+              {data.deptName}
+            </Text>
           </View>
         </View>
 
         <View style={cStyles.itemsEnd}>
-          <CText>{data.regionName}</CText>
-          <CText category="c1" appearance="hint">
+          <Text>{data.regionName}</Text>
+          <Text style={cStyles.mt5} category="c1" appearance="hint">
             {trans('list_request_assets_handling:region')}
-          </CText>
+          </Text>
         </View>
       </View>
     </Card>
@@ -112,7 +104,7 @@ function RequestItem(props) {
 }
 
 const styles = StyleSheet.create({
-  con_header_left: {flex: 0.7},
+  con_header_left: {flex: 0.68},
   con_header_right: {flex: 0.3},
 });
 

@@ -91,7 +91,7 @@ function Percentage(props) {
     let params = {
       TaskID: props.task.taskID,
       StatusID: isFinished
-      ? Commons.STATUS_TASK["5"]["value"]
+      ? Commons.STATUS_PROJECT[4]["value"]
       : props.task.statusID,
       Percentage: percent.value,
       Lang: language,
@@ -203,9 +203,9 @@ function Percentage(props) {
    ** RENDER **
    ************/
   const isDisable =
-    props.task.statusID == Commons.STATUS_TASK["5"]["value"] ||
-    props.task.statusID == Commons.STATUS_TASK["6"]["value"] ||
-    props.task.statusID == Commons.STATUS_TASK["7"]["value"];
+    props.task.statusID == Commons.STATUS_PROJECT[4]["value"] ||
+    props.task.statusID == Commons.STATUS_PROJECT[5]["value"] ||
+    props.task.statusID == Commons.STATUS_PROJECT[6]["value"];
   return (
     <View style={[cStyles.flex1, cStyles.row, cStyles.itemsCenter, cStyles.justifyEnd]}>
       {!percent.visible ? (
@@ -316,7 +316,6 @@ function Percentage(props) {
           <Button
             style={cStyles.mx5}
             size="tiny"
-            status="success"
             accessoryLeft={RenderCheckIcon}
             onPress={handleChangePercent}
           />

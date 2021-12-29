@@ -47,76 +47,84 @@ const Commons = {
     },
   },
 
-  STATUS_REQUEST: {
-    ALL: {
-      value: 0,
-      label: 'All',
-      color: '',
-      bgColor: '',
-    },
-    WAIT: {
+  STATUS_APPROVED: [
+    {
       value: 1,
-      label: 'Wait',
-      color: 'orange',
-      bgColor: 'rgba(246,153,63,0.2)',
+      label: 'approved_assets:status_wait',
+      color: 'basic',
     },
-    APPROVED: {
+    {
       value: 2,
-      label: 'Approved',
-      color: 'blue',
-      bgColor: 'rgba(10,132,255, 0.2)',
+      label: 'approved_assets:status_approved_done',
+      color: 'warning',
     },
-    DONE: {
+    {
       value: 3,
-      label: 'Done',
-      color: 'green',
-      bgColor: 'rgba(50,215,75, 0.2)',
+      label: 'approved_assets:status_approved_done',
+      color: 'success',
     },
-    REJECT: {
+    {
       value: 4,
-      label: 'Reject',
-      color: 'red',
-      bgColor: 'rgba(227,52,47,0.2)',
+      label: 'approved_assets:status_reject',
+      color: 'danger',
     },
-  },
+  ],
 
-  STATUS_TASK: {
-    "1": {
+  STATUS_PROJECT: [
+    {
       value: 1,
       label: 'New',
       color: 'info',
     },
-    "2": {
+    {
       value: 2,
       label: 'To Be Schedule',
       color: 'warning',
     },
-    "3": {
+    {
       value: 3,
       label: 'Scheduled',
       color: 'success',
     },
-    "4": {
+    {
       value: 4,
       label: 'In Progress',
       color: 'primary',
     },
-    "5": {
+    {
       value: 5,
       label: 'Closed',
       color: 'basic',
     },
-    "6": {
+    {
       value: 6,
       label: 'On Hold',
       color: 'warning',
     },
-    "7": {
+    {
       value: 7,
       label: 'Rejected',
       color: 'danger',
     },
-  },
+  ],
+
+  STATUS_BOOKING: [
+    {
+      value: 1,
+      label: 'Not happend',
+      color: 'warning',
+    },
+    {
+      value: 2,
+      label: 'Happening',
+      color: 'success',
+    },
+    {
+      value: 3,
+      label: 'Happend',
+      color: 'basic',
+    },
+  ],
 
   TYPE_TASK: {
     MILESTONE: {

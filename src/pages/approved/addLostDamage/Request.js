@@ -10,7 +10,7 @@ import React, {createRef, useRef, useEffect, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {
-  TopNavigationAction, Avatar, Card, Icon, Button,
+  TopNavigationAction, Avatar, Card, Icon, Text,
 } from '@ui-kitten/components';
 import {StyleSheet, View} from 'react-native';
 import {showMessage} from 'react-native-flash-message';
@@ -19,10 +19,10 @@ import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CTopNavigation from '~/components/CTopNavigation';
-import CText from '~/components/CText';
 import CForm from '~/components/CForm';
 import CLoading from '~/components/CLoading';
 import CAlert from '~/components/CAlert';
+import CStatus from '~/components/CStatus';
 import CActionSheet from '~/components/CActionSheet';
 import RequestProcess from '../components/RequestProcess';
 import RejectModal from '../components/RejectModal';
@@ -32,7 +32,7 @@ import Routes from '~/navigator/Routes';
 import FieldsAuth from '~/configs/fieldsAuth';
 import {Assets} from '~/utils/asset';
 import {cStyles} from '~/utils/style';
-import {Commons, Icons} from '~/utils/common';
+import {Commons} from '~/utils/common';
 import {getSecretInfo, checkEmpty, resetRoute} from '~/utils/helper';
 import {
   DEFAULT_FORMAT_DATE_4,
@@ -347,21 +347,9 @@ function AddRequest(props) {
       if (!masterState.get('submitting')) {
         if (masterState.get('success')) {
           if (approvedState.get('requestDetail')) {
-            let statusIcon = Icons.request;
-            let statusColor = 'warning';
             let tmp = approvedState.get('requestDetail');
-            if (tmp.statusID === Commons.STATUS_REQUEST.APPROVED.value) {
-              statusIcon = Icons.requestApproved_1;
-              statusColor = 'info';
-            } else if (tmp.statusID === Commons.STATUS_REQUEST.REJECT.value) {
-              statusIcon = Icons.requestRejected;
-              statusColor = 'danger';
-            } else if (tmp.statusID === Commons.STATUS_REQUEST.DONE.value) {
-              statusIcon = Icons.requestApproved_2;
-              statusColor = 'success';
-            }
             setRequestDetail(tmp);
-            setCurrentProcess({statusIcon, statusColor, statusName: tmp.statusName});
+            setCurrentProcess({statusID: tmp.statusID, statusName: tmp.statusName});
             onPrepareDetail(
               approvedState.get('requestDetail'),
               approvedState.get('requestProcessDetail'),
@@ -370,12 +358,11 @@ function AddRequest(props) {
             if (isDetail) {
               onPrepareDetail(route.params?.data, route.params?.dataProcess);
               setCurrentProcess({
-                statusIcon: route.params?.currentProcess?.statusIcon,
-                statusColor: route.params?.currentProcess?.statusColor,
+                statusID: route.params?.currentProcess?.statusID,
                 statusName: route.params?.currentProcess?.statusName,
               });
             } else {
-              onBackToHome();
+              setLoading({...loading, main: false, startFetchLogin: false});
             }
           }
         }
@@ -550,23 +537,25 @@ function AddRequest(props) {
           }
         />
       }>
-      <KeyboardAwareScrollView contentContainerStyle={[cStyles.px16, cStyles.py10]}>
+      <KeyboardAwareScrollView contentContainerStyle={cStyles.p10}>
         <Card disabled
           status="primary"
-          header={<CText category="s1">{t('add_approved_lost_damaged:request_user')}</CText>}>
+          header={<Text category="s1">{t('add_approved_lost_damaged:request_user')}</Text>}>
           <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween]}>
             <View style={[cStyles.row, cStyles.itemsCenter]}>
               <Avatar size="small" source={Assets.iconUser} />
               <View style={cStyles.ml10}>
-                <CText category="s1">{form.name}</CText>
-                <CText category="c1" appearance="hint">{userDepartment ? userDepartment.deptName : ''}</CText>
+                <Text>{form.name}</Text>
+                <Text style={cStyles.mt5} category="c1" appearance="hint">
+                  {userDepartment ? userDepartment.deptName : ''}
+                </Text>
               </View>
             </View>
             <View style={cStyles.itemsEnd}>
-              <CText style={cStyles.textRight}>{userRegion ? userRegion.regionName : ''}</CText>
-              <CText style={cStyles.textRight} category="c1" appearance="hint">
+              <Text>{userRegion ? userRegion.regionName : ''}</Text>
+              <Text style={cStyles.mt5} category="c1" appearance="hint">
                 {t('add_approved_lost_damaged:region')}
-              </CText>
+              </Text>
             </View>
           </View>
         </Card>
@@ -574,92 +563,86 @@ function AddRequest(props) {
         {(isDetail || requestDetail) && (
           <Card disabled
             style={cStyles.mt10}
-            header={<CText category="s1">{t('add_approved_lost_damaged:request_asset')}</CText>}>
+            header={<Text category="s1">{t('add_approved_lost_damaged:request_asset')}</Text>}>
             <View>
-              <CText category="s1">{isDetail
+              <Text style={cStyles.fontBold}>{isDetail
                 ? route.params?.data?.assetName
                 : requestDetail.assetName}
-              </CText>
+              </Text>
               <View style={[cStyles.row, cStyles.itemsStart, cStyles.justifyBetween, cStyles.mt10]}>
                 <View style={[cStyles.itemsStart, styles.con_asset_left]}>
                   {((isDetail && route.params?.data?.assetCode)
                     || requestDetail?.assetCode) && (
                       <View>
-                        <CText>{isDetail
+                        <Text>{isDetail
                           ? route.params?.data?.assetCode
-                          : requestDetail?.assetCode}</CText>
-                        <CText category="c1" appearance="hint">
+                          : requestDetail?.assetCode}
+                        </Text>
+                        <Text style={cStyles.mt5} category="c1" appearance="hint">
                           {t('add_approved_lost_damaged:code_asset')}
-                        </CText>
+                        </Text>
                       </View>
                     )}
                   <View style={((isDetail && route.params?.data?.assetCode)
                     || requestDetail?.assetCode) ? cStyles.mt10 : {}}>
-                    <CText>{moment(
+                    <Text>{moment(
                         isDetail
                           ? route.params?.data?.purchaseDate
                           : requestDetail.purchaseDate,
                         DEFAULT_FORMAT_DATE_4,
-                      ).format(DEFAULT_FORMAT_DATE_9)}</CText>
-                    <CText category="c1" appearance="hint">
+                      ).format(DEFAULT_FORMAT_DATE_9)}
+                    </Text>
+                    <Text style={cStyles.mt5} category="c1" appearance="hint">
                       {t('add_approved_lost_damaged:purchase_date_asset')}
-                    </CText>
+                    </Text>
                   </View>
                   {((isDetail && route.params?.data?.assetGroupName) 
                     || requestDetail.assetGroupName) && (
                     <View style={cStyles.mt10}>
-                      <CText>{isDetail
+                      <Text>{isDetail
                         ? route.params?.data?.assetGroupName
-                        : requestDetail.assetGroupName}</CText>
-                      <CText category="c1" appearance="hint">
+                        : requestDetail.assetGroupName}
+                      </Text>
+                      <Text style={cStyles.mt5} category="c1" appearance="hint">
                         {t('add_approved_lost_damaged:group_asset')}
-                      </CText>
+                      </Text>
                     </View>
                   )}
                 </View>
 
                 <View style={[cStyles.itemsStart, styles.con_asset_right]}>
                   <View>
-                    <CText>{isDetail
+                    <Text>{isDetail
                       ? route.params?.data?.assetStatusName
-                      : requestDetail.assetStatusName}</CText>
-                    <CText category="c1" appearance="hint">
+                      : requestDetail.assetStatusName}
+                    </Text>
+                    <Text style={cStyles.mt5} category="c1" appearance="hint">
                       {t('add_approved_lost_damaged:status_asset')}
-                    </CText>
+                    </Text>
                   </View>
                   <View style={cStyles.mt10}>
-                    <CText>{checkEmpty(
+                    <Text>{checkEmpty(
                       isDetail
                         ? route.params?.data?.originalPrice
                         : requestDetail.originalPrice,
                       null,
-                      true,
-                    )}</CText>
-                    <CText category="c1" appearance="hint">
+                      true)}
+                    </Text>
+                    <Text style={cStyles.mt5} category="c1" appearance="hint">
                       {t('add_approved_lost_damaged:price_asset')}
-                    </CText>
+                    </Text>
                   </View>
                   <View style={cStyles.mt10}>
-                    <CText>{isDetail
+                    <Text>{isDetail
                       ? route.params?.data?.assetTypeName
-                      : requestDetail.assetTypeName}</CText>
-                    <CText category="c1" appearance="hint">
+                      : requestDetail.assetTypeName}
+                    </Text>
+                    <Text style={cStyles.mt5} category="c1" appearance="hint">
                       {t('add_approved_lost_damaged:type_asset')}
-                    </CText>
+                    </Text>
                   </View>
                 </View>
               </View>
-              {((isDetail && route.params?.data?.descr !== '') || requestDetail?.descr !== '') && (
-                <View style={cStyles.mt10}>
-                  <CText>{isDetail
-                    ? route.params?.data?.descr
-                    : requestDetail?.descr}
-                  </CText>
-                  <CText category="c1" appearance="hint">
-                    {`${t('add_approved_lost_damaged:desc_asset')}`}
-                  </CText>
-                </View>
-              )}
             </View>
           </Card>
         )}
@@ -669,107 +652,109 @@ function AddRequest(props) {
           header={propsH =>
             <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween, propsH.style]}>
               <View style={currentProcess ? styles.con_header_left : {}}>
-                <CText category="s1">{t('add_approved_lost_damaged:request_info')}</CText>
+                <Text category="s1">{t('add_approved_lost_damaged:request_info')}</Text>
               </View>
               {currentProcess && (
-                <View style={[cStyles.itemsEnd, styles.con_header_right]}>
-                  <Button
-                    size="tiny"
-                    status={currentProcess.statusColor}>
-                    {currentProcess.statusName}
-                  </Button>
+                <View style={styles.con_header_right}>
+                  <CStatus
+                    type="approved"
+                    value={currentProcess.statusID}
+                    label={currentProcess.statusName}
+                  />
                 </View>
               )}
             </View>
           }>
-          <CForm
-            ref={formRef}
-            loading={
-              loading.main ||
-              loading.startFetch ||
-              loading.startFetchLogin ||
-              loading.submitAdd
-            }
-            inputs={[
-              {
-                id: INPUT_NAME.DATE_REQUEST,
-                style: cStyles.mt5,
-                type: 'datePicker',
-                label: 'add_approved_lost_damaged:date_request',
-                holder: 'add_approved_lost_damaged:date_request',
-                value: form.dateRequest,
-                disabled: true,
-                required: false,
-                password: false,
-                email: false,
-                phone: false,
-                number: false,
-                next: true,
-                return: 'next',
-              },
-              {
-                id: INPUT_NAME.ASSETID,
-                type: !isDetail ? 'select' : 'none',
-                label: 'add_approved_assets:assets',
-                holder: 'add_approved_assets:holder_assets',
-                value: form.assetID,
-                values: masterState.get('assetByUser'),
-                keyToCompare: 'assetID',
-                keyToShow: 'assetName',
-                disabled: isDetail || requestDetail,
-                hide: isDetail || requestDetail,
-                required: true,
-                password: false,
-                email: false,
-                phone: false,
-                number: false,
-                next: false,
-                return: 'done',
-              },
-              {
-                id: INPUT_NAME.REASON,
-                type: 'text',
-                label: 'add_approved_lost_damaged:reason',
-                holder: 'add_approved_lost_damaged:holder_reason',
-                value: form.reason,
-                disabled: isDetail || requestDetail,
-                required: true,
-                password: false,
-                email: false,
-                phone: false,
-                number: false,
-                next: false,
-                return: 'done',
-              },
-              {
-                id: INPUT_NAME.TYPE_UPDATE,
-                type: 'radio',
-                label: 'add_approved_lost_damaged:type_update',
-                holder: null,
-                value: form.typeUpdate,
-                values: DATA_TYPE,
-                keyToCompare: 'value',
-                keyToShow: "label",
-                horizontal: true,
-                disabled: isDetail || requestDetail,
-                required: false,
-                password: false,
-                email: false,
-                phone: false,
-                number: false,
-                next: false,
-                return: 'done',
-              },
-            ]}
-            disabledButton={
-              loading.main ||
-              loading.submitAdd ||
-              loading.submitApproved ||
-              loading.submitReject
-            }
-            labelButton={(isDetail || requestDetail) ? '' : 'common:send'}
-            onSubmit={onSendRequest}
-          />
+          {!loading.main && (
+            <CForm
+              ref={formRef}
+              loading={
+                loading.main ||
+                loading.startFetch ||
+                loading.startFetchLogin ||
+                loading.submitAdd
+              }
+              inputs={[
+                {
+                  id: INPUT_NAME.DATE_REQUEST,
+                  style: cStyles.mt5,
+                  type: 'datePicker',
+                  label: 'add_approved_lost_damaged:date_request',
+                  holder: 'add_approved_lost_damaged:date_request',
+                  value: form.dateRequest,
+                  disabled: true,
+                  required: false,
+                  password: false,
+                  email: false,
+                  phone: false,
+                  number: false,
+                  next: true,
+                  return: 'next',
+                },
+                {
+                  id: INPUT_NAME.ASSETID,
+                  type: !isDetail ? 'select' : 'none',
+                  label: 'add_approved_assets:assets',
+                  holder: 'add_approved_assets:holder_assets',
+                  value: form.assetID,
+                  values: masterState.get('assetByUser'),
+                  keyToCompare: 'assetID',
+                  keyToShow: 'assetName',
+                  disabled: isDetail || requestDetail,
+                  hide: isDetail || requestDetail,
+                  required: true,
+                  password: false,
+                  email: false,
+                  phone: false,
+                  number: false,
+                  next: false,
+                  return: 'done',
+                },
+                {
+                  id: INPUT_NAME.REASON,
+                  type: 'text',
+                  label: 'add_approved_lost_damaged:reason',
+                  holder: 'add_approved_lost_damaged:holder_reason',
+                  value: form.reason,
+                  disabled: isDetail || requestDetail,
+                  required: true,
+                  password: false,
+                  email: false,
+                  phone: false,
+                  number: false,
+                  next: false,
+                  return: 'done',
+                },
+                {
+                  id: INPUT_NAME.TYPE_UPDATE,
+                  type: 'radio',
+                  label: 'add_approved_lost_damaged:type_update',
+                  holder: null,
+                  value: form.typeUpdate,
+                  values: DATA_TYPE,
+                  keyToCompare: 'value',
+                  keyToShow: "label",
+                  horizontal: true,
+                  disabled: isDetail || requestDetail,
+                  required: false,
+                  password: false,
+                  email: false,
+                  phone: false,
+                  number: false,
+                  next: false,
+                  return: 'done',
+                },
+              ]}
+              disabledButton={
+                loading.main ||
+                loading.submitAdd ||
+                loading.submitApproved ||
+                loading.submitReject
+              }
+              labelButton={(isDetail || requestDetail) ? '' : 'common:send'}
+              onSubmit={onSendRequest}
+            />
+          )}
         </Card>
       </KeyboardAwareScrollView>
 

@@ -6,7 +6,7 @@
  **/
 import React, {useState, useEffect, useContext} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {useTheme} from '@ui-kitten/components';
+import {useTheme, Text} from '@ui-kitten/components';
 import {
   StyleSheet, View, ImageBackground, StatusBar, ScrollView,
   Linking,
@@ -16,7 +16,6 @@ import VersionCheck from 'react-native-version-check';
 import CContainer from '~/components/CContainer';
 import CMenuAccount from '~/components/CMenuAccount';
 import CAlert from '~/components/CAlert';
-import CText from '~/components/CText';
 import CLoading from '~/components/CLoading';
 /* COMMON */
 import Routes from '~/navigator/Routes';
@@ -33,17 +32,20 @@ import {ThemeContext} from '~/configs/theme-context';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 
+const brAvatar = moderateScale(50);
+
 function Account(props) {
   const theme = useTheme();
   const themeContext = useContext(ThemeContext);
   const {navigation} = props;
+  const bgHeader = theme['color-primary-400'];
 
   /** Use redux */
   const dispatch = useDispatch();
   const authState = useSelector(({auth}) => auth);
 
   /** Use state */
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!__DEV__);
   const [alertLogout, setAlertLogout] = useState({
     status: false,
     isSignout: false,
@@ -197,7 +199,9 @@ function Account(props) {
    ****************/
   useEffect(() => {
     /** Check version app */
-    onCheckVersionApp();
+    if (!__DEV__) {
+      onCheckVersionApp();
+    }
   }, []);
 
   useEffect(() => {
@@ -205,7 +209,7 @@ function Account(props) {
       const unsubscribe = navigation.addListener('focus', () => {
         StatusBar.setBarStyle('dark-content', true);
         IS_ANDROID &&
-          StatusBar.setBackgroundColor('white', true);
+          StatusBar.setBackgroundColor(bgHeader, true);
       });
       return unsubscribe;
     }
@@ -226,7 +230,7 @@ function Account(props) {
    ** RENDER **
    ************/
   return (
-    <CContainer safeArea={['top']} backgroundColor={theme['color-primary-400']}>
+    <CContainer safeArea={['top']} backgroundColor={bgHeader}>
       {/** Avatar + Name */}
       <View
         style={[
@@ -235,22 +239,22 @@ function Account(props) {
           cStyles.pt10,
           cStyles.roundedBottomLeft8,
           cStyles.roundedBottomRight8,
-          {backgroundColor: theme['color-primary-400']}
+          {backgroundColor: bgHeader}
         ]}>
         <View style={[styles.con_avatar, cStyles.center]}>
           <ImageBackground
             style={styles.img_avatar}
-            borderRadius={moderateScale(50)}
+            borderRadius={brAvatar}
             resizeMode={'cover'}
             source={Assets.iconUser}>
           </ImageBackground>
         </View>
-        <CText style={cStyles.mt16} category='h6' status='control'>
+        <Text style={cStyles.mt16} category="h6" status="control">
           {`${authState.getIn(['login', 'fullName'])}`}
-        </CText>
-        <CText category='c1' status='control'>
+        </Text>
+        <Text category="c1" status="control">
           {authState.getIn(['login', 'jobTitle'])}
-        </CText>
+        </Text>
       </View>
 
       {/** Actions */}

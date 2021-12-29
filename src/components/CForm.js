@@ -7,41 +7,24 @@
  **/
 import PropTypes from 'prop-types';
 import React, {
-  createRef,
-  forwardRef,
-  useContext,
-  useState,
-  useEffect,
+  createRef, forwardRef, useContext, useState, useEffect,
   useImperativeHandle,
 } from 'react';
 import {useTranslation} from 'react-i18next';
 import {
-  Input,
-  Button,
-  Icon,
-  Spinner,
-  Select,
-  SelectItem,
-  Toggle,
-  RadioGroup,
-  Radio,
-  useTheme,
-  Datepicker,
-  IndexPath,
+  Text, Input, Button, Icon, Spinner, Select, SelectItem,
+  Toggle, RadioGroup, Radio, useTheme, Datepicker, IndexPath,
 } from '@ui-kitten/components';
 import {MomentDateService} from '@ui-kitten/moment';
 import {
-  TouchableWithoutFeedback,
-  View,
-  UIManager,
-  LayoutAnimation,
+  TouchableWithoutFeedback, View, UIManager, LayoutAnimation,
 } from 'react-native';
 import moment from 'moment';
 /** COMPONENTS */
 import CText from './CText';
 /* COMMON */
-import {ThemeContext} from '~/configs/theme-context';
 import {cStyles} from '~/utils/style';
+import {ThemeContext} from '~/configs/theme-context';
 import {IS_ANDROID, validatEemail} from '~/utils/helper';
 
 if (IS_ANDROID) {
@@ -57,12 +40,6 @@ const RenderIconPassword = (props, secureTextEntry, onToggleSecureEntry) => (
   <TouchableWithoutFeedback onPress={onToggleSecureEntry}>
     <Icon {...props} name={secureTextEntry ? 'eye-off' : 'eye'} />
   </TouchableWithoutFeedback>
-);
-
-const RenderLoadingIndicator = props => (
-  <View style={[props.style, cStyles.center]}>
-    <Spinner size="small" status="control" />
-  </View>
 );
 
 const RenderCalendarIcon = props => <Icon {...props} name="calendar" />;
@@ -548,11 +525,11 @@ const CForm = forwardRef((props, ref) => {
           if (item.hide) return <View />;
           return (
             <View style={[cStyles.mt16, item.style]}>
-              <CText
+              <Text
                 style={{color: theme['color-basic-600']}}
-                category={"s1"}>
+                category={"label"}>
                 {t(item.label)}
-              </CText>
+              </Text>
               <RadioGroup
                 style={
                   item.horizontal ? [cStyles.row, cStyles.itemsCenter] : {}

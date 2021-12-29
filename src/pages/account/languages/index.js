@@ -4,26 +4,24 @@
  ** CreateAt: 2021
  ** Description: Description of index.js
  **/
-import React, {useRef, useState, useEffect} from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Layout, RadioGroup, Radio } from '@ui-kitten/components';
+import React, {useState, useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {Layout, RadioGroup, Radio, Text} from '@ui-kitten/components';
 import {View, Image} from 'react-native';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CTopNavigation from '~/components/CTopNavigation';
 import CAlert from '~/components/CAlert';
-import CText from '~/components/CText';
 /* COMMON */
-import { cStyles } from '~/utils/style';
-import { useTranslation } from 'react-i18next';
-import { moderateScale } from '~/utils/helper';
+import {cStyles} from '~/utils/style';
+import {useTranslation } from 'react-i18next';
+import {moderateScale } from '~/utils/helper';
+import {Assets} from '~/utils/asset';
 /* REDUX */
 import * as Actions from '~/redux/actions';
-import { Assets } from '~/utils/asset';
 
 function Languages(props) {
   const {t} = useTranslation();
-  const {navigation} = props;
 
   /** Use redux */
   const dispatch = useDispatch();
@@ -75,14 +73,14 @@ function Languages(props) {
       safeArea={['top']}
       headerComponent={<CTopNavigation title={'languages:title'} back />}>
       <Layout style={cStyles.p16} >
-        <CText >{t('languages:holder_choose')}</CText>
+        <Text >{t('languages:holder_choose')}</Text>
         <RadioGroup style={cStyles.mt16} selectedIndex={language.active} onChange={handleChange}>
           {language.languages.map((item, index) => {
             return (
               <Radio key={item.id + '_' + index}>
                 {evaProps => (
                   <View style={[cStyles.row, cStyles.itemsCenter]}>
-                    <CText {...evaProps}>{t(item.name)}</CText>
+                    <Text {...evaProps}>{t(item.name)}</Text>
                     <Image
                       style={[cStyles.mr16, {height: moderateScale(20), width: moderateScale(20)}]}
                       resizeMode={'contain'}

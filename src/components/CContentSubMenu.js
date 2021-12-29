@@ -7,12 +7,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {useTranslation} from 'react-i18next';
-import {Card, Layout, Spinner} from '@ui-kitten/components';
+import {Card, Layout, Spinner, Text} from '@ui-kitten/components';
 import {StyleSheet, View} from 'react-native';
 import LottieView from 'lottie-react-native';
 /* COMPONENTS */
 import CItem from '~/components/CItem';
-import CText from '~/components/CText';
 /* COMMON */
 import {cStyles} from '~/utils/style';
 import {moderateScale} from '~/utils/helper';
@@ -35,16 +34,16 @@ function CContentSubMenu(props) {
   return (
     <Layout style={cStyles.flex1} level={'3'}>
       <Card
-        style={[cStyles.mx16, cStyles.my10]}
+        style={cStyles.m10}
         disabled
-        header={<CText category='h6'>{t(title).toUpperCase()}</CText>}>
+        header={<Text category='h6'>{t(title).toUpperCase()}</Text>}>
         <View style={[
           cStyles.row,
           cStyles.itemsStart,
           cStyles.justifyBetween,
         ]}>
           <View style={styles.description_left}>
-            <CText style={cStyles.mt10} maxLines={10}>{t(holder)}</CText>
+            <Text style={cStyles.mt10}>{t(holder)}</Text>
           </View>
           <View style={styles.description_right}>
             <LottieView
@@ -58,8 +57,13 @@ function CContentSubMenu(props) {
       </Card>
 
       {!loading && (
-        <Layout style={[
-          cStyles.flex1, cStyles.roundedTopLeft8, cStyles.roundedTopRight8, cStyles.shadowListItem]}>
+        <Layout
+          style={[
+            cStyles.flex1,
+            cStyles.roundedTopLeft8,
+            cStyles.roundedTopRight8,
+            cStyles.shadowListItem,
+          ]}>
           <View
             style={[
               cStyles.row,

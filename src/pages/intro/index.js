@@ -6,7 +6,7 @@
  **/
 import React, {useState, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
-import {Layout, ViewPager, Button, useTheme} from '@ui-kitten/components';
+import {Text, Layout, ViewPager, Button, useTheme} from '@ui-kitten/components';
 import {
   StyleSheet, StatusBar, LayoutAnimation, UIManager, View,
 } from 'react-native';
@@ -14,7 +14,6 @@ import FastImage from 'react-native-fast-image';
 /** COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CTopNavigation from '~/components/CTopNavigation';
-import CText from '~/components/CText';
 /* COMMON */
 import Routes from '~/navigator/Routes';
 import Assets from '~/utils/asset/Assets';
@@ -38,8 +37,8 @@ const RenderPageIntro = (t, image, title, caption) => (
         source={image}
         resizeMode={FastImage.resizeMode.contain}
       />
-      <CText style={[cStyles.textCenter, cStyles.mt36]} category='s1'>{t(title)}</CText>
-      <CText style={[cStyles.textCenter, cStyles.mt24]} category='p1'>{t(caption)}</CText>
+      <Text style={[cStyles.textCenter, cStyles.mt36]} category='s1'>{t(title)}</Text>
+      <Text style={[cStyles.textCenter, cStyles.mt24]} category='p1'>{t(caption)}</Text>
     </View>
   </View>
 );

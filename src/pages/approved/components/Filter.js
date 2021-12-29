@@ -10,14 +10,13 @@ import React, {useState, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
 import {MomentDateService} from '@ui-kitten/moment';
 import {
-  Datepicker, Button, Icon, Divider, Layout
+  Datepicker, Button, Icon, Divider, Layout, Text,
 } from '@ui-kitten/components';
 import {StyleSheet, View} from 'react-native';
 import {showMessage} from 'react-native-flash-message';
 import moment from 'moment';
 import 'moment/locale/en-sg';
 /* COMPONENTS */
-import CText from '~/components/CText';
 import CGroupFilter from '~/components/CGroupFilter';
 /* COMMON */
 import {Commons} from '~/utils/common';
@@ -43,17 +42,17 @@ const TYPES_ASSETS = [
     label: 'list_request_assets_handling:title_lost',
   },
 ];
-const STATUS_REQUEST = [
+const STATUS_APPROVED = [
   {
-    value: Commons.STATUS_REQUEST.WAIT.value,
+    value: Commons.STATUS_APPROVED[0]["value"],
     label: 'approved_assets:status_wait',
   },
   {
-    value: Commons.STATUS_REQUEST.APPROVED.value,
+    value: Commons.STATUS_APPROVED[1]["value"],
     label: 'approved_assets:status_approved_done',
   },
   {
-    value: Commons.STATUS_REQUEST.REJECT.value,
+    value: Commons.STATUS_APPROVED[3]["value"],
     label: 'approved_assets:status_reject',
   },
 ];
@@ -170,7 +169,7 @@ function Filter(props) {
   return (
     <Layout style={[cStyles.pb20, styles.con_filter]}>
       <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween, cStyles.pb5]}>
-        <CText category="s1">{t('common:filter').toUpperCase()}</CText>
+        <Text category="s1">{t('common:filter').toUpperCase()}</Text>
         <View style={[cStyles.row, cStyles.itemsCenter]}>
           <Button
             size="small"
@@ -228,7 +227,7 @@ function Filter(props) {
         {!isResolve && (
           <CGroupFilter
             label={'common:status'}
-            items={STATUS_REQUEST}
+            items={STATUS_APPROVED}
             itemsChoose={data.status}
             primaryColor="primary"
             onChange={handleChangeStatus}
