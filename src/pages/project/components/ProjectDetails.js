@@ -10,6 +10,7 @@ import {Avatar, Divider, Text} from '@ui-kitten/components';
 import {StyleSheet, View, ScrollView} from 'react-native';
 import IoniIcon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
+import 'moment/locale/en-sg';
 /* COMPONENTS */
 import CStatus from '~/components/CStatus';
 /* COMMON */

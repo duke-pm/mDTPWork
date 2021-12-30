@@ -12,6 +12,7 @@ import {useTranslation} from 'react-i18next';
 import {View} from 'react-native';
 import {showMessage} from 'react-native-flash-message';
 import moment from 'moment';
+import 'moment/locale/en-sg';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CTopNavigation from '~/components/CTopNavigation';

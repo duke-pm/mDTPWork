@@ -15,6 +15,7 @@ import {
 import {StyleSheet, View, UIManager, LayoutAnimation} from 'react-native';
 import IoniIcon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
+import 'moment/locale/en-sg';
 /* COMPONENTS */
 import CLoading from '~/components/CLoading';
 import CEmpty from '~/components/CEmpty';
@@ -210,7 +211,7 @@ function Watchers(props) {
                 return (
                   <View
                     key={index + item.userName}
-                    style={[cStyles.row, cStyles.itemsCenter]}>
+                    style={[cStyles.row, cStyles.itemsCenter, index !== 0 && cStyles.mt10]}>
                     <View>
                       <Avatar source={Assets.iconUser} />
                       {item.isReceiveEmail && (

@@ -13,6 +13,8 @@ import {Button, Datepicker, Divider, Icon, Text} from '@ui-kitten/components';
 import {MomentDateService} from '@ui-kitten/moment';
 import {StyleSheet, View} from 'react-native';
 import moment from 'moment';
+import 'moment/locale/en-sg';
+import 'moment/locale/en-sg';
 /* COMPONENTS */
 import CGroupFilter from '~/components/CGroupFilter';
 /* COMMON */

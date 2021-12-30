@@ -14,6 +14,7 @@ import CTopNavigation from '~/components/CTopNavigation';
 /* COMMON */
 import {cStyles} from '~/utils/style';
 import {DATA_CONTACT_US} from '~/configs/constants';
+import {IS_ANDROID} from '~/utils/helper';
 
 function ContactUs(props) {
 
@@ -40,7 +41,7 @@ function ContactUs(props) {
         />
       }>
       <List
-        contentContainerStyle={[cStyles.px16, cStyles.py10]}
+        contentContainerStyle={cStyles.p10}
         data={DATA_CONTACT_US}
         renderItem={info => {
           return (
@@ -52,14 +53,14 @@ function ContactUs(props) {
             >
               <View>
                 <Text> &#9906;   {`${info.item.address}`}</Text>
-                <Text style={cStyles.mt5} onPress={() => handleURL(info.item.website)}>
+                <Text style={cStyles.mt5} status="primary" onPress={() => handleURL(info.item.website)}>
                   &#9881;   {`${info.item.website}`}
                 </Text>
-                <Text style={cStyles.mt5} onPress={() => handleEmail(info.item.email)}>
+                <Text style={cStyles.mt5} status="primary" onPress={() => handleEmail(info.item.email)}>
                   &#9993;   {`${info.item.email}`}
                 </Text>
                 {info.item.phone.map((itemP, indexP) =>
-                  <Text style={cStyles.mt5} onPress={() => handlePhone(itemP)}>
+                  <Text style={cStyles.mt5} status="primary" onPress={() => handlePhone(itemP)}>
                     &#9742;   {`${itemP}`}
                   </Text>
                 )}
@@ -68,6 +69,7 @@ function ContactUs(props) {
           )
         }}
         keyExtractor={(item, index) => item.id + '_' + index}
+        removeClippedSubviews={IS_ANDROID}
         ItemSeparatorComponent={() => <View style={cStyles.my5} />}
       />
     </CContainer>

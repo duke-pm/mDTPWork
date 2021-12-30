@@ -14,6 +14,7 @@ import {
 } from '@ui-kitten/components';
 import {StyleSheet, View} from 'react-native';
 import moment from 'moment';
+import 'moment/locale/en-sg';
 /* COMMON */
 import {Assets } from '~/utils/asset';
 import {cStyles} from '~/utils/style';

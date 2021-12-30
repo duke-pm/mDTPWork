@@ -115,7 +115,7 @@ function MyAccount(props) {
           borderBottom
         />
       }>
-      <KeyboardAwareScrollView contentContainerStyle={cStyles.p16}>
+      <KeyboardAwareScrollView contentContainerStyle={cStyles.p10}>
         <View
           style={[
             cStyles.itemsCenter,

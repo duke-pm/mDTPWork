@@ -16,6 +16,7 @@ import {StyleSheet, View} from 'react-native';
 import {showMessage} from 'react-native-flash-message';
 import moment from 'moment';
 import 'moment/locale/en-sg';
+import 'moment/locale/en-sg';
 /* COMPONENTS */
 import CGroupFilter from '~/components/CGroupFilter';
 /* COMMON */

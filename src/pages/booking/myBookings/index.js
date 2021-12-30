@@ -16,6 +16,7 @@ import {Layout, useTheme} from '@ui-kitten/components';
 import {StyleSheet, View} from 'react-native';
 import XDate from 'xdate';
 import moment from 'moment';
+import 'moment/locale/en-sg';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CTopNavigation from '~/components/CTopNavigation';

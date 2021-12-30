@@ -17,6 +17,7 @@ import CTopNavigation from '~/components/CTopNavigation';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
 import {ThemeContext} from '~/configs/theme-context';
+import {usePrevious} from '~/utils/hook';
 import {
   getLocalInfo,
   saveLocalInfo,
@@ -29,7 +30,6 @@ import {
   DARK,
   LIGHT,
 } from '~/configs/constants';
-import {usePrevious} from '~/utils/hook';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 
@@ -248,53 +248,51 @@ function Appearance(props) {
     <CContainer
       safeArea={['top']}
       headerComponent={<CTopNavigation title={'appearance:title'} back />}>
-      <Layout>
-        <Layout
-          style={[
-            cStyles.row,
-            cStyles.itemsCenter,
-            cStyles.justifyBetween,
-            cStyles.p16,
-            cStyles.m16,
-            cStyles.rounded1,
-          ]}>
-          <RenderHolderAppearance
-            theme={theme}
-            label={t('appearance:light_mode')}
-            disabled={appearance === LIGHT || darkmodeAutoToggle.checked}
-            typeAppearance={LIGHT}
-            curAppearance={appearance}
-            onChange={handleChangeAppearance} />
-          <RenderHolderAppearance
-            theme={theme}
-            label={t('appearance:dark_mode')}
-            disabled={appearance === DARK || darkmodeAutoToggle.checked}
-            typeAppearance={DARK}
-            curAppearance={appearance}
-            onChange={handleChangeAppearance} />
-        </Layout>
-        <Divider />
-        <Layout
-          style={[
-            cStyles.row,
-            cStyles.itemsCenter,
-            cStyles.justifyBetween,
-            cStyles.mx12,
-            cStyles.py8,
-          ]}>
-          <View>
-            <Text>{t('appearance:auto_change_appearance')}</Text>
-            <Text style={cStyles.mt5} category="c1" appearance="hint">
-              {t('appearance:holder_auto_change_appearance')}
-            </Text>
-          </View>
-          <Toggle
-            checked={darkmodeAutoToggle.checked}
-            onChange={onChangeSystemTheme}
-          />
-        </Layout>
-        <Divider />
+      <Layout
+        style={[
+          cStyles.row,
+          cStyles.itemsCenter,
+          cStyles.justifyBetween,
+          cStyles.p16,
+          cStyles.m10,
+          cStyles.rounded1,
+        ]}>
+        <RenderHolderAppearance
+          theme={theme}
+          label={t('appearance:light_mode')}
+          disabled={appearance === LIGHT || darkmodeAutoToggle.checked}
+          typeAppearance={LIGHT}
+          curAppearance={appearance}
+          onChange={handleChangeAppearance} />
+        <RenderHolderAppearance
+          theme={theme}
+          label={t('appearance:dark_mode')}
+          disabled={appearance === DARK || darkmodeAutoToggle.checked}
+          typeAppearance={DARK}
+          curAppearance={appearance}
+          onChange={handleChangeAppearance} />
       </Layout>
+      <Divider />
+      <Layout
+        style={[
+          cStyles.row,
+          cStyles.itemsCenter,
+          cStyles.justifyBetween,
+          cStyles.px16,
+          cStyles.py10,
+        ]}>
+        <View>
+          <Text>{t('appearance:auto_change_appearance')}</Text>
+          <Text style={cStyles.mt5} category="c1" appearance="hint">
+            {t('appearance:holder_auto_change_appearance')}
+          </Text>
+        </View>
+        <Toggle
+          checked={darkmodeAutoToggle.checked}
+          onChange={onChangeSystemTheme}
+        />
+      </Layout>
+      <Divider />
     </CContainer>
   );
 }

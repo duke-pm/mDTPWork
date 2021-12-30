@@ -153,7 +153,7 @@ function ChangePassword(props) {
           borderBottom
         />
       }>
-      <KeyboardAwareScrollView contentContainerStyle={cStyles.p16}>
+      <KeyboardAwareScrollView contentContainerStyle={cStyles.p10}>
         <Card
           disabled
           header={

@@ -12,6 +12,7 @@ import {
 } from '@ui-kitten/components';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import moment from 'moment';
+import 'moment/locale/en-sg';
 /* COMPONENTS */
 import CAvatar from '~/components/CAvatar';
 import CText from '~/components/CText';

@@ -15,6 +15,7 @@ import {useTheme, List, Text} from '@ui-kitten/components';
 import {StyleSheet, ScrollView, View} from 'react-native';
 // import Orientation from 'react-native-orientation-locker';
 import moment from 'moment';
+import 'moment/locale/en-sg';
 /** COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CTopNavigation from '~/components/CTopNavigation';

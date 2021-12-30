@@ -261,7 +261,7 @@ function Account(props) {
       <ScrollView style={cStyles.flex1}>
         <>
           <CMenuAccount data={menu1} />
-          <CMenuAccount containerStyle={cStyles.mb16} data={menu2} />
+          <CMenuAccount containerStyle={cStyles.mb10} data={menu2} />
         </>
       </ScrollView>
 

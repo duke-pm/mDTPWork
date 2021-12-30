@@ -12,7 +12,7 @@ import React, {
 } from 'react';
 import {useTranslation} from 'react-i18next';
 import {
-  Text, Input, Button, Icon, Spinner, Select, SelectItem,
+  Text, Input, Button, Icon, Select, SelectItem,
   Toggle, RadioGroup, Radio, useTheme, Datepicker, IndexPath,
 } from '@ui-kitten/components';
 import {MomentDateService} from '@ui-kitten/moment';
@@ -20,9 +20,11 @@ import {
   TouchableWithoutFeedback, View, UIManager, LayoutAnimation,
 } from 'react-native';
 import moment from 'moment';
+import 'moment/locale/en-sg';
 /** COMPONENTS */
 import CText from './CText';
 /* COMMON */
+import Configs from '~/configs';
 import {cStyles} from '~/utils/style';
 import {ThemeContext} from '~/configs/theme-context';
 import {IS_ANDROID, validatEemail} from '~/utils/helper';
@@ -32,6 +34,8 @@ if (IS_ANDROID) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
   }
 }
+
+const formatDateService = new MomentDateService('en-sg');
 
 /*********************
  ** OTHER COMPONENT **
@@ -561,7 +565,7 @@ const CForm = forwardRef((props, ref) => {
               ]}>
               <View style={{flex: 0.55}}>
               <Datepicker
-                dateService={new MomentDateService('vi')}
+                dateService={formatDateService}
                 label={propsL => (
                   <View style={[propsL.style, cStyles.row, cStyles.itemsStart]}>
                     <CText {...propsL}>{t(item.label)}</CText>
@@ -582,8 +586,8 @@ const CForm = forwardRef((props, ref) => {
                   ? moment(values[index].value)
                   : moment(values[index].value.date)
                 }
-                min={item.min || moment('2010-01-01')}
-                max={item.max || moment('2030-12-31')}
+                min={item.min || moment(Configs.minDate)}
+                max={item.max || moment(Configs.maxDate)}
                 onSelect={newDate => handleChangeDatePicker(index, newDate, item.chooseTime)}
                 accessoryRight={RenderCalendarIcon}
               />

@@ -137,7 +137,11 @@ const App = () => {
             <Provider store={Store}>
               <SafeAreaProvider initialMetrics={initialWindowMetrics}>
                 <Navigator />
-                <FlashMessage position={'top'} floating />
+                <FlashMessage
+                  position="top"
+                  statusBarHeight={IS_ANDROID ? StatusBar.currentHeight : 50}
+                  floating
+                />
                 {/* <Unconnected connected={state.connected} /> */}
               </SafeAreaProvider>
             </Provider>

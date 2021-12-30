@@ -18,6 +18,7 @@ import {
   SectionList,
 } from 'react-native';
 import moment from 'moment';
+import 'moment/locale/en-sg';
 /* COMPONENTS */
 import CEmpty from '~/components/CEmpty';
 import CAvatar from '~/components/CAvatar';
@@ -63,7 +64,7 @@ const RenderCommentItem = (info, theme, userName) => {
         style={[
           cStyles.itemsEnd,
           cStyles.ml16,
-          cStyles.mt2,
+          cStyles.mt5,
           cStyles.pr16,
         ]}>
         <View
@@ -86,7 +87,7 @@ const RenderCommentItem = (info, theme, userName) => {
     <View
       style={[
         cStyles.row,
-        cStyles.mt2,
+        cStyles.mt5,
         cStyles.pr16,
         cStyles.pl10,
       ]}>

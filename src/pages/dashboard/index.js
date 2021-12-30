@@ -11,6 +11,7 @@ import {useTranslation} from 'react-i18next';
 import {useTheme, Avatar, Layout, Spinner, Text} from '@ui-kitten/components';
 import {StatusBar, StyleSheet, View} from 'react-native';
 import moment from 'moment';
+import 'moment/locale/en-sg';
 /** COMPONENTS */
 import CContainer from '~/components/CContainer';
 import CItem from '~/components/CItem';

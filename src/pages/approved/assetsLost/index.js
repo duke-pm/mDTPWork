@@ -13,6 +13,7 @@ import {useTranslation} from 'react-i18next';
 import {showMessage} from 'react-native-flash-message';
 import {Layout, Spinner, Text} from '@ui-kitten/components';
 import moment from 'moment';
+import 'moment/locale/en-sg';
 /* COMPONENTS */
 import ListRequest from '../components/ListRequest';
 /* COMMON */

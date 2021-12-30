@@ -105,17 +105,17 @@ function CMenuAccount(props) {
    ** RENDER **
    ************/
   return (
-    <Layout style={[cStyles.rounded2, cStyles.mx16, cStyles.mt16, containerStyle]}>
+    <Layout style={[cStyles.rounded1, cStyles.mx10, cStyles.mt10, containerStyle]}>
       <Menu scrollEnabled={false} style={[cStyles.rounded2, styles.con_menu]}>
         {data.map((item, index) => {
           return (
             <ListItem
               key={item.id + '_' + index}
               style={[
-                index === 0 && cStyles.roundedTopLeft2,
-                index === 0 && cStyles.roundedTopRight2,
-                index === data.length - 1 && cStyles.roundedBottomLeft2,
-                index === data.length - 1 && cStyles.roundedBottomRight2,
+                index === 0 && cStyles.roundedTopLeft1,
+                index === 0 && cStyles.roundedTopRight1,
+                index === data.length - 1 && cStyles.roundedBottomLeft1,
+                index === data.length - 1 && cStyles.roundedBottomRight1,
               ]}
               title={propsT =>
                 <CText style={cStyles.ml8} category='s1'>{t(item.title)}</CText>

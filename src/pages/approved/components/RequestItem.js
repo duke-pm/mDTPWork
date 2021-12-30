@@ -9,6 +9,7 @@ import React from 'react';
 import {Avatar, Card, Text} from '@ui-kitten/components';
 import {StyleSheet, View} from 'react-native';
 import moment from 'moment';
+import 'moment/locale/en-sg';
 /** COMPONENTS */
 import CStatus from '~/components/CStatus';
 /* COMMON */

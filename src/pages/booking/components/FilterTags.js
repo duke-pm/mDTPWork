@@ -11,6 +11,7 @@ import {Button, Icon, Layout, useTheme, Text} from '@ui-kitten/components';
 import {StyleSheet, View} from 'react-native';
 import Picker from '@gregfrench/react-native-wheel-picker';
 import moment from 'moment';
+import 'moment/locale/en-sg';
 /* COMMON */
 import Icons from '~/utils/common/Icons';
 import {colors, cStyles} from '~/utils/style';

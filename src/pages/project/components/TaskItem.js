@@ -10,6 +10,7 @@ import React, {useState} from 'react';
 import {Avatar, Card, Text, Tooltip} from '@ui-kitten/components';
 import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import moment from 'moment';
+import 'moment/locale/en-sg';
 /** COMPONENTS */
 import CStatus from '~/components/CStatus';
 /* COMMON */

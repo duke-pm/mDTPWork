@@ -12,6 +12,7 @@ import {Button, Divider, Spinner, Text} from '@ui-kitten/components';
 import {StyleSheet, View, ScrollView, processColor} from 'react-native';
 import {HorizontalBarChart} from 'react-native-charts-wrapper';
 import moment from 'moment';
+import 'moment/locale/en-sg';
 /* COMPONENTS */
 import CEmpty from '~/components/CEmpty';
 /* COMMON */

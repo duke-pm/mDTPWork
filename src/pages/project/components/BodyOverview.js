@@ -11,6 +11,7 @@ import {useTheme, Text} from '@ui-kitten/components';
 import {StyleSheet, View, Animated} from 'react-native';
 import IoniIcon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
+import 'moment/locale/en-sg';
 /* COMMON */
 import {Commons} from '~/utils/common';
 import {ThemeContext} from '~/configs/theme-context';
