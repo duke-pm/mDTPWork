@@ -99,15 +99,6 @@ function ListRequestHandling(props) {
     return dispatch(Actions.fetchListRequestApproved(params, navigation));
   };
 
-  const onPrepareMasterData = () => {
-    let params = {
-      listType: 'Department, Region',
-      RefreshToken: refreshToken,
-      Lang: language,
-    };
-    return dispatch(Actions.fetchMasterData(params, navigation));
-  };
-
   const onPrepareData = type => {
     let tmpRequests = [...data.requests],
       tmpRequestDetail = [...data.requestsDetail],
@@ -188,7 +179,6 @@ function ListRequestHandling(props) {
    ****************/
   useEffect(() => {
     resetAllRequests();
-    onPrepareMasterData();
   }, []);
 
   useEffect(() => {

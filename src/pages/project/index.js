@@ -43,7 +43,7 @@ function ProjectManagement(props) {
   /**********
    ** FUNC **
    **********/
-  const onFetchMasterData = () => {
+  const onPrepareMasterData = () => {
     let paramsMaster = {
       ListType: 'Users, PrjSector, PrjStatus',
       RefreshToken: refreshToken,
@@ -54,10 +54,9 @@ function ProjectManagement(props) {
 
   const onPrepareData = () => {
     let tmpListMenu = authState.getIn(['login', 'lstMenu']);
-    let idRouteParent = route.params.idRouteParent;
-    if (idRouteParent && tmpListMenu) {
+    if (route.params.idRouteParent && tmpListMenu) {
       let findChildren = tmpListMenu.lstPermissionItem.find(
-        f => f.menuID === idRouteParent,
+        f => f.menuID === route.params.idRouteParent,
       );
       if (findChildren) {
         /** Check permission user can access */
@@ -77,7 +76,7 @@ function ProjectManagement(props) {
    ** LIFE CYCLE **
    ****************/
   useEffect(() => {
-    onFetchMasterData();
+    onPrepareMasterData();
     onPrepareData();
   },[]);
 

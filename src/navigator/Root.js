@@ -83,6 +83,7 @@ export function RootMain(props) {
       initialRouteName={Routes.LOGIN_IN.name}
       screenOptions={{
         headerShown: false,
+        animation: "slide_from_right",
       }}>
       <StackMain.Screen
         name={Routes.INTRO.name}

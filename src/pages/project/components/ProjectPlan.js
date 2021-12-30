@@ -237,9 +237,8 @@ function ProjectPlan(props) {
             return (
               <View
                 key={itemT.id + '_' + indexT}
-                style={[cStyles.row, cStyles.itemsStart, cStyles.mt6]}>
+                style={[cStyles.row, cStyles.itemsCenter, cStyles.mt5]}>
                 <Button
-                  // appearance="outline"
                   size="tiny"
                   status={Commons.TYPE_TASK[itemT.type]['color']}>
                   {'#' + itemT.id}
@@ -248,11 +247,10 @@ function ProjectPlan(props) {
                   <Text style={cStyles.ml10}>
                     <Text
                       style={cStyles.fontBold}
-                      category="c1"
                       status={Commons.TYPE_TASK[itemT.type]['color']}>
                       {itemT.type}
                     </Text>
-                    <Text category="c1">{'  ' + itemT.name}</Text>
+                    <Text>{'  ' + itemT.name}</Text>
                   </Text>
                 </View>
               </View>

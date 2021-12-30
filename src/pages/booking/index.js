@@ -44,7 +44,7 @@ function BookingManagement(props) {
   /**********
    ** FUNC **
    **********/
-  const onGetMasterData = () => {
+  const onPrepareMasterData = () => {
     let params = {
       listType: 'BKColor, BKResource, Users',
       RefreshToken: refreshToken,
@@ -55,10 +55,9 @@ function BookingManagement(props) {
 
   const onPrepareData = () => {
     let tmpListMenu = authState.getIn(['login', 'lstMenu']);
-    let idRouteParent = route.params.idRouteParent;
-    if (idRouteParent && tmpListMenu) {
+    if (route.params.idRouteParent && tmpListMenu) {
       let findChildren = tmpListMenu.lstPermissionItem.find(
-        f => f.menuID === idRouteParent,
+        f => f.menuID === route.params.idRouteParent,
       );
       if (findChildren) {
         /** Check permission user can access */
@@ -78,8 +77,7 @@ function BookingManagement(props) {
    ** LIFE CYCLE **
    ****************/
   useEffect(() => {
-    dispatch(Actions.resetStatusMasterData());
-    onGetMasterData();
+    onPrepareMasterData();
   }, []);
 
   useEffect(() => {

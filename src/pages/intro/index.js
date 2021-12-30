@@ -37,8 +37,8 @@ const RenderPageIntro = (t, image, title, caption) => (
         source={image}
         resizeMode={FastImage.resizeMode.contain}
       />
-      <Text style={[cStyles.textCenter, cStyles.mt36]} category='s1'>{t(title)}</Text>
-      <Text style={[cStyles.textCenter, cStyles.mt24]} category='p1'>{t(caption)}</Text>
+      <Text style={[cStyles.textCenter, cStyles.mt36]} category="s1">{t(title)}</Text>
+      <Text style={[cStyles.textCenter, cStyles.mt24]}>{t(caption)}</Text>
     </View>
   </View>
 );

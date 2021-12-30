@@ -159,7 +159,7 @@ function ChangePassword(props) {
           header={
             <View>
               <Text category="s1">{t('change_password:sub_title')}</Text>
-              <Text style={cStyles.mt5} category='c1' appearance={'hint'}>
+              <Text style={cStyles.mt5} category="c1" appearance={'hint'}>
                 {t('change_password:warning_logout')}
               </Text>
             </View>

@@ -93,28 +93,36 @@ function ProjectItem(props) {
                 <Avatar size="tiny" source={Assets.iconUser} />
                 <View style={cStyles.ml10}>
                   <Text>{data.ownerName}</Text>
+                  {data.priorityLevel > 0 && (
+                    <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt5]}>
+                      <Text category="c1" appearance="hint">
+                        {`${trans('project_management:piority')}`}
+                      </Text>
+                      <View
+                        style={[
+                          cStyles.center,
+                          cStyles.rounded5,
+                          cStyles.ml5,
+                          cStyles.px3,
+                          {backgroundColor: theme['color-danger-500']},
+                        ]}>
+                        <Text category="c1" status="control">
+                          {data.priorityLevel}
+                        </Text>
+                      </View>
+                    </View>
+                  )}
                 </View>
               </View>
-              {data.priorityLevel > 0 && (
-                <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyEnd]}>
-                  <Text category="c1" appearance="hint">
-                    {` | ${trans('project_management:piority')}`}
-                  </Text>
-                  <View
-                    style={[
-                      cStyles.center,
-                      cStyles.rounded5,
-                      cStyles.ml5,
-                      cStyles.px3,
-                      {backgroundColor: theme['color-danger-500']},
-                    ]}>
-                    <Text category="c1" status="control">{data.priorityLevel}</Text>
-                  </View>
-                </View>
-              )}
             </View>
           </View>
-          <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyEnd, styles.con_header_right]}>
+          <View
+            style={[
+              cStyles.row,
+              cStyles.itemsCenter,
+              cStyles.justifyEnd,
+              styles.con_header_right,
+            ]}>
             <View style={cStyles.flex1}>
               <CStatus
                 type="project"
@@ -135,11 +143,13 @@ function ProjectItem(props) {
               backdropStyle={styles.backdrop}
               visible={visibleMore}
               onBackdropPress={toggleMore}>
-              <MenuItem
-                title={trans('project_management:project_plan')}
-                accessoryLeft={RenderChartIcon}
-                onPress={handleOverview}
-              />
+              {data.countTask > 0 && (
+                <MenuItem
+                  title={trans('project_management:project_plan')}
+                  accessoryLeft={RenderChartIcon}
+                  onPress={handleOverview}
+                />
+              )}
               <MenuItem
                 title={trans('project_management:project_details')}
                 accessoryLeft={RenderDetailsIcon}

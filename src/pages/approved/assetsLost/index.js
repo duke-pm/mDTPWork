@@ -11,7 +11,7 @@ import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {showMessage} from 'react-native-flash-message';
-import {Layout, Spinner} from '@ui-kitten/components';
+import {Layout, Spinner, Text} from '@ui-kitten/components';
 import moment from 'moment';
 /* COMPONENTS */
 import ListRequest from '../components/ListRequest';
@@ -246,6 +246,9 @@ function ApprovedAssetsLost(props) {
       {(loading.main || loading.startFetch) &&
         <Layout style={cStyles.flexCenter} level="3">
           <Spinner />
+          <Text style={cStyles.mt10} category="c1" appearance="hint">
+            {t('common:loading')}
+          </Text>
         </Layout>
       }
     </Layout>

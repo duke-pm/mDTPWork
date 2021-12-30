@@ -244,6 +244,9 @@ function ApprovedAssets(props) {
       {(loading.main || loading.startFetch) &&
         <Layout style={cStyles.flexCenter} level="3">
           <Spinner />
+          <Text style={cStyles.mt10} category="c1" appearance="hint">
+            {t('common:loading')}
+          </Text>
         </Layout>
       }
     </Layout>

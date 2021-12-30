@@ -95,9 +95,7 @@ function Dashboard(props) {
    ** RENDER **
    ************/
   return (
-    <CContainer
-      safeArea={['top']}
-      backgroundColor={bgHeader}>
+    <CContainer safeArea={['top']} backgroundColor={bgHeader}>
       <Layout
         style={[
           cStyles.row,
@@ -105,13 +103,14 @@ function Dashboard(props) {
           cStyles.justifyBetween,
           cStyles.px16,
           cStyles.py24
-        ]} level={'3'}>
+        ]}
+        level={'3'}>
         <View>
           <Text>{`${moment().format(DEFAULT_FORMAT_DATE_8)}`}</Text>
-          <Text style={cStyles.mt5} category='h6'>
+          <Text style={cStyles.mt5} category="h6">
             {`${t('dashboard:welcome')} ${fullName}`}
           </Text>
-          <Text style={cStyles.mt5} category='c1'>
+          <Text style={cStyles.mt5} category="c1">
             {t('dashboard:welcome_1')}
           </Text>
         </View>

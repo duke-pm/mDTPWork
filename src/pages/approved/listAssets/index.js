@@ -114,15 +114,6 @@ function ListRequestAll(props) {
     return newIndex === index;
   };
 
-  const onPrepareData = () => {
-    let params = {
-      listType: 'Department, Region',
-      RefreshToken: refreshToken,
-      Lang: language,
-    };
-    return dispatch(Actions.fetchMasterData(params, navigation));
-  };
-
   const onRefresh = idxRoute => {
     let tmpRoutes = [...routes];
     tmpRoutes[idxRoute] = {
@@ -152,7 +143,6 @@ function ListRequestAll(props) {
    ****************/
   useEffect(() => {
     resetAllRequests();
-    onPrepareData();
   }, []);
 
   /************

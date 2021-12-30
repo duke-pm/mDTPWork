@@ -67,7 +67,9 @@ function CContainer(props) {
         {loading && (
           <View style={cStyles.flexCenter}>
             <Spinner />
-            <Text style={cStyles.mt10} category="c1" appearance="hint">{t('common:loading')}</Text>
+            <Text style={cStyles.mt10} category="c1" appearance="hint">
+              {t('common:loading')}
+            </Text>
           </View>
         )}
       </Layout>
