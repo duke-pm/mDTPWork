@@ -118,6 +118,7 @@ function CAlert(props) {
           <View
             style={[
               cStyles.mt16,
+              cStyles.mb5,
               cStyles.row,
               cStyles.itemsCenter,
               cStyles.justifyBetween,
@@ -166,7 +167,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   btn_cancel: {
-    width: '45%',
+    width: '47%',
   },
 });
 

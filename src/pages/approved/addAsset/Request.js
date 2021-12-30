@@ -40,8 +40,8 @@ import {
   resetRoute,
 } from '~/utils/helper';
 import {
-  DEFAULT_FORMAT_DATE_4,
   AST_LOGIN,
+  DEFAULT_FORMAT_DATE_4,
 } from '~/configs/constants';
 /* REDUX */
 import * as Actions from '~/redux/actions';
@@ -51,35 +51,35 @@ const asProcessRef = createRef();
 
 /** All init */
 const INPUT_NAME = {
-  DATE_REQUEST: 'dateRequest',
-  NAME: 'name',
-  DEPARTMENT: 'department',
-  REGION: 'region',
-  ASEETS: 'assets',
-  WHERE_USE: 'whereUse',
-  REASON: 'reason',
-  TYPE_ASSETS: 'typeAssets',
-  IN_PLANNING: 'inPlanning',
-  SUPPLIER: 'supplier',
+  DATE_REQUEST: "dateRequest",
+  NAME: "name",
+  DEPARTMENT: "department",
+  REGION: "region",
+  ASEETS: "assets",
+  WHERE_USE: "whereUse",
+  REASON: "reason",
+  TYPE_ASSETS: "typeAssets",
+  IN_PLANNING: "inPlanning",
+  SUPPLIER: "supplier",
 };
 const DATA_TYPE_ASSET = [
   {
-    value: 'N',
-    label: 'add_approved_assets:buy_new',
+    value: "N",
+    label: "add_approved_assets:buy_new",
   },
   {
-    value: 'A',
-    label: 'add_approved_assets:additional',
+    value: "A",
+    label: "add_approved_assets:additional",
   },
 ];
 const DATA_IN_PLANNING = [
   {
     value: true,
-    label: 'add_approved_assets:yes',
+    label: "add_approved_assets:yes",
   },
   {
     value: false,
-    label: 'add_approved_assets:no',
+    label: "add_approved_assets:no",
   },
 ];
 
@@ -163,8 +163,6 @@ function AddRequest(props) {
   /**********
    ** FUNC **
    **********/
-  const onBackToHome = () => resetRoute(navigation, Routes.TAB.name);
-
   const onSendRequest = () => setLoading({...loading, submitAdd: true});
 
   const onGoToSignIn = () =>

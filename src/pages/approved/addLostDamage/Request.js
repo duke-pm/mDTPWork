@@ -50,19 +50,19 @@ const asProcessRef = createRef();
 const DATA_TYPE = [
   {
     value: Commons.APPROVED_TYPE.DAMAGED.value,
-    label: 'add_approved_lost_damaged:damage_assets',
+    label: "add_approved_lost_damaged:damage_assets'",
   },
   {
     value: Commons.APPROVED_TYPE.LOST.value,
-    label: 'add_approved_lost_damaged:lost_assets',
+    label: "add_approved_lost_damaged:lost_assets",
   },
 ];
 const INPUT_NAME = {
-  DATE_REQUEST: 'dateRequest',
-  ASSETID: 'assetID',
-  REASON: 'reason',
-  TYPE_UPDATE: 'typeUpdate',
-  FILE: 'file',
+  DATE_REQUEST: "dateRequest",
+  ASSETID: "assetID",
+  REASON: "reason",
+  TYPE_UPDATE: "typeUpdate",
+  FILE: "file",
 };
 
 const RenderProcessIcon = props => (

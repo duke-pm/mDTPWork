@@ -32,18 +32,18 @@ function CContentSubMenu(props) {
    ** RENDER **
    ************/
   return (
-    <Layout style={cStyles.flex1} level={'3'}>
+    <Layout style={cStyles.flex1} level="3">
       <Card
         style={cStyles.m10}
         disabled
-        header={<Text category='h6'>{t(title).toUpperCase()}</Text>}>
+        header={<Text category="h6">{t(title).toUpperCase()}</Text>}>
         <View style={[
           cStyles.row,
           cStyles.itemsStart,
           cStyles.justifyBetween,
         ]}>
           <View style={styles.description_left}>
-            <Text style={cStyles.mt10}>{t(holder)}</Text>
+            <Text style={cStyles.mt5}>{t(holder)}</Text>
           </View>
           <View style={styles.description_right}>
             <LottieView

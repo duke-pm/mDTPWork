@@ -21,17 +21,21 @@ import CLoading from '~/components/CLoading';
 import Routes from '~/navigator/Routes';
 import {Assets} from '~/utils/asset';
 import {cStyles} from '~/utils/style';
-import {AST_LOGIN, LIGHT} from '~/configs/constants';
+import {ThemeContext} from '~/configs/theme-context';
+import {
+  AST_LOGIN,
+  LIGHT,
+} from '~/configs/constants';
 import {
   IS_ANDROID,
   moderateScale,
   removeSecretInfo,
   resetRoute,
 } from '~/utils/helper';
-import {ThemeContext} from '~/configs/theme-context';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 
+/** All init */
 const brAvatar = moderateScale(50);
 
 function Account(props) {
@@ -149,19 +153,18 @@ function Account(props) {
    ** HANDLE FUNC **
    *****************/
   const toggleAlertLogout = (status = false, isSignout = false) => {
-    setAlertLogout({status, isSignout});
+    return setAlertLogout({status, isSignout});
   };
 
   const handleCallPhone = phoneNumber => {
-    Linking.openURL(`tel:${phoneNumber}`).catch(reason => {
-      console.log('[LOG] === ERROR Call Phone ===> ', reason);
+    return Linking.openURL(`tel:${phoneNumber}`).catch(reason => {
       if (reason) alert(reason);
     });
   };
 
   const handleOk = isSignout => {
     setLoading(true);
-    toggleAlertLogout(false, isSignout);
+    return toggleAlertLogout(false, isSignout);
   };
 
   const onSignOut = async () => {
@@ -169,7 +172,7 @@ function Account(props) {
     await removeSecretInfo(AST_LOGIN);
     dispatch(Actions.logout());
     setLoading(false);
-    resetRoute(navigation, Routes.LOGIN_IN.name);
+    return resetRoute(navigation, Routes.LOGIN_IN.name);
   };
 
   const onCheckVersionApp = async () => {
@@ -191,7 +194,7 @@ function Account(props) {
       setMenu2(tmpMenu2);
     }
 
-    setLoading(false);
+    return setLoading(false);
   };
 
   /****************
@@ -218,7 +221,7 @@ function Account(props) {
   useEffect(() => {
     if (!alertLogout.status) {
       if (alertLogout.isSignout) {
-        onSignOut();
+        return onSignOut();
       }
     }
   }, [
@@ -268,7 +271,7 @@ function Account(props) {
       <CAlert
         contentStyle={cStyles.m0}
         show={alertLogout.status}
-        cancel={true}
+        cancel
         label={'common:app_name'}
         message={'account:alert_msg_log_out'}
         textCancel={'common:close'}

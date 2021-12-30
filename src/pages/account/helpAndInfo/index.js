@@ -19,7 +19,6 @@ import {cStyles} from '~/utils/style';
 /** All init */
 
 function HelpAndInfo(props) {
-  const {navigation} = props;
 
   /** Use state */
   const [menu1, setMenu1] = useState([
@@ -126,10 +125,7 @@ function HelpAndInfo(props) {
     <CContainer
       safeArea={['top']}
       headerComponent={
-        <CTopNavigation
-          title="help_and_info:title"
-          back
-        />
+        <CTopNavigation title="help_and_info:title" back/>
       }>
       {/** Actions */}
       <ScrollView style={cStyles.flex1}>

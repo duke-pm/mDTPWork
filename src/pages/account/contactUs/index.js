@@ -45,12 +45,8 @@ function ContactUs(props) {
         data={DATA_CONTACT_US}
         renderItem={info => {
           return (
-            <Card
-              disabled
-              header={
-                <Text category="s1">{info.item.label}</Text>
-              }
-            >
+            <Card disabled
+              header={<Text category="s1">{info.item.label}</Text>}>
               <View>
                 <Text> &#9906;   {`${info.item.address}`}</Text>
                 <Text style={cStyles.mt5} status="primary" onPress={() => handleURL(info.item.website)}>

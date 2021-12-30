@@ -25,8 +25,8 @@ import {
   IS_ANDROID,
 } from '~/utils/helper';
 import {
-  AST_DARK_MODE,
   AST_SETTINGS,
+  AST_DARK_MODE,
   DARK,
   LIGHT,
 } from '~/configs/constants';
@@ -247,7 +247,9 @@ function Appearance(props) {
   return (
     <CContainer
       safeArea={['top']}
-      headerComponent={<CTopNavigation title={'appearance:title'} back />}>
+      headerComponent={
+        <CTopNavigation title="appearance:title" back />
+      }>
       <Layout
         style={[
           cStyles.row,

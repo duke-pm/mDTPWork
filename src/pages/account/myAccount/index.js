@@ -42,7 +42,6 @@ function MyAccount(props) {
 
   /** Use state */
   const [loading, setLoading] = useState(true);
-  const [isEdit, setIsEdit] = useState(false);
   const [department, setDepartment] = useState(null);
   const [region, setRegion] = useState(null);
 
@@ -109,11 +108,7 @@ function MyAccount(props) {
     <CContainer
       safeArea={['top']}
       headerComponent={
-        <CTopNavigation
-          title="my_account:title"
-          back
-          borderBottom
-        />
+        <CTopNavigation title="my_account:title" back borderBottom />
       }>
       <KeyboardAwareScrollView contentContainerStyle={cStyles.p10}>
         <View
@@ -124,10 +119,14 @@ function MyAccount(props) {
           <View style={[styles.con_avatar, cStyles.center]}>
             <FastImage
               style={[styles.img_avatar, cStyles.rounded10]}
-              resizeMode={'cover'}
+              resizeMode={FastImage.resizeMode.cover}
               source={Assets.iconUser} />
           </View>
-          <Button style={cStyles.mt5} size="tiny" appearance="ghost" onPress={handleChangeAvatar}>
+          <Button
+            style={cStyles.mt5}
+            size="tiny"
+            appearance="ghost"
+            onPress={handleChangeAvatar}>
             {propsB =>
               <Text style={cStyles.textUnderline} status="primary">
                 {t('my_account:edit_avatar')}
@@ -233,16 +232,6 @@ const styles = StyleSheet.create({
   img_avatar: {
     height: moderateScale(80),
     width: moderateScale(80)
-  },
-  con_camera: {
-    height: moderateScale(20),
-    width: moderateScale(20),
-    right: -moderateScale(2),
-    bottom: -moderateScale(2)
-  },
-  icon_camera: {
-    height: moderateScale(13),
-    width: moderateScale(13),
   },
 });
 

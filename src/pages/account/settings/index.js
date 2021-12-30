@@ -51,10 +51,7 @@ function Settings(props) {
     <CContainer
       safeArea={['top']}
       headerComponent={
-        <CTopNavigation
-          title="settings:title"
-          back
-        />
+        <CTopNavigation title="settings:title" back/>
       }>
       {/** Actions */}
       <ScrollView style={cStyles.flex1}>

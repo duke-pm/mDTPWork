@@ -19,8 +19,13 @@ import CForm from '~/components/CForm';
 /* COMMON */
 import Routes from '~/navigator/Routes';
 import {cStyles} from '~/utils/style';
-import {AST_LOGIN} from '~/configs/constants';
-import {removeSecretInfo, resetRoute} from '~/utils/helper';
+import {
+  AST_LOGIN,
+} from '~/configs/constants';
+import {
+  removeSecretInfo,
+  resetRoute,
+} from '~/utils/helper';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 
@@ -52,14 +57,6 @@ function ChangePassword(props) {
     newPassword: '',
     confirmPassword: '',
   });
-  const [error, setError] = useState({
-    currentPassword: false,
-    currentPasswordHelper: '',
-    newPassword: false,
-    newPasswordHelper: '',
-    confirmPassword: false,
-    confirmPasswordHelper: '',
-  });
 
   /**********
    ** FUNC **
@@ -87,7 +84,7 @@ function ChangePassword(props) {
         confirmPassword: '',
       });
     }
-    done(status, message);
+    return done(status, message);
   };
 
   const done = async (isSuccess, message) => {
@@ -108,8 +105,9 @@ function ChangePassword(props) {
       });
       dispatch(Actions.logout());
       await removeSecretInfo(AST_LOGIN);
-      resetRoute(navigation, Routes.LOGIN_IN.name);
+      return resetRoute(navigation, Routes.LOGIN_IN.name);
     }
+    return ;
   };
 
   /****************
@@ -154,12 +152,11 @@ function ChangePassword(props) {
         />
       }>
       <KeyboardAwareScrollView contentContainerStyle={cStyles.p10}>
-        <Card
-          disabled
+        <Card disabled
           header={
             <View>
-              <Text category="s1">{t('change_password:sub_title')}</Text>
-              <Text style={cStyles.mt5} category="c1" appearance={'hint'}>
+              <Text category="label">{t('change_password:sub_title')}</Text>
+              <Text style={cStyles.mt5} category="c1" appearance="hint">
                 {t('change_password:warning_logout')}
               </Text>
             </View>
