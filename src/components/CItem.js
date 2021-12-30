@@ -1,5 +1,5 @@
 /**
- ** Name: CItem
+ ** Name: Custom Item SubMenu
  ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of CItem.js

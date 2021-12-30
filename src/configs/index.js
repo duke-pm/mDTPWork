@@ -51,7 +51,6 @@ LocaleConfig.locales['en-SG'] = {
   dayNamesShort: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
   today: 'Today',
 };
-
 LocaleConfig.locales.vi = {
   monthNames: [
     'Tháng 1',
@@ -123,6 +122,9 @@ const Configs = {
   numberYearToFilter: 10,
   perPageProjects: 25,
   perPageProjectOverview: 50,
+  // for min date and max date to filter
+  minDate: '2010-01-01',
+  maxDate: '2030-12-31',
   // for link to socials
   socialsNetwork: [
     {
@@ -169,6 +171,7 @@ const Configs = {
       label: 'project_management:one_week',
     },
   ],
+  // for sub menu
   colorsSubMenu: {
     main: [
       {

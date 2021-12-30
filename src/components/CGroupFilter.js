@@ -1,7 +1,7 @@
 /* eslint-disable eqeqeq */
 /* eslint-disable react-hooks/exhaustive-deps */
 /**
- ** Name: CGroupFilter
+ ** Name: Custom Group Filter
  ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of CGroupFilter.js
@@ -82,13 +82,13 @@ function CGroupFilter(props) {
   return (
     <Layout style={[cStyles.mt16, containerStyle]}>
       <Text category="label" appearance="hint">{t(label)}</Text>
-      <Layout style={[cStyles.row, cStyles.itemsCenter, cStyles.flexWrap, cStyles.mt6]}>
+      <Layout style={[cStyles.row, cStyles.itemsCenter, cStyles.flexWrap, cStyles.mt5]}>
         {values.map((item, index) => {
           isCheck = valuesChoose.find(f => f.value == item.value);
           return (
             <Layout
               key={item.value + '_' + item.index}
-              style={[cStyles.row, cStyles.itemsCenter, cStyles.mt4, cStyles.pr5]}>
+              style={[cStyles.row, cStyles.itemsCenter, cStyles.mt5]}>
               <Button
                 style={cStyles.mr4}
                 appearance={isCheck ? 'filled' : 'outline'}

@@ -599,7 +599,7 @@ function AddRequest(props) {
           }
         />
       }>
-      <KeyboardAwareScrollView contentContainerStyle={[cStyles.px16, cStyles.py10]}>
+      <KeyboardAwareScrollView contentContainerStyle={cStyles.p10}>
         <Card disabled
           status="primary"
           header={<Text category="s1">{t('add_approved_assets:request_user')}</Text>}>

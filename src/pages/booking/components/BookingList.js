@@ -46,7 +46,7 @@ function BookingList(props) {
    ************/
   return (
     <List
-      contentContainerStyle={[cStyles.px16, cStyles.py10]}
+      contentContainerStyle={cStyles.p10}
       data={data}
       renderItem={info => {
         return (

@@ -1,22 +1,20 @@
 /**
- ** Name: Custom status
+ ** Name: Custom Status
  ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of CStatus.js
  **/
-import React, {useContext} from 'react';
+import PropTypes from 'prop-types';
+import React from 'react';
 import {useTranslation} from 'react-i18next';
 import {Button} from '@ui-kitten/components';
 /* COMMON */
 import {Commons} from '~/utils/common';
-import {LIGHT} from '~/configs/constants';
-import {ThemeContext} from '~/configs/theme-context';
 
 function CStatus(props) {
   const {t} = useTranslation();
-  const themeContext = useContext(ThemeContext);
   const {
-    type = 'approved', // approved | project | booking
+    type = 'approved',
     disabled = false,
     value = null,
     label = '',
@@ -50,6 +48,23 @@ function CStatus(props) {
         : t(label)}
     </Button>
   );
+}
+
+CStatus.propTypes = {
+  type: PropTypes.oneOf([
+    'approved',
+    'project',
+    'booking',
+  ]),
+  disabled: PropTypes.bool,
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+    PropTypes.any,
+  ]),
+  label: PropTypes.string,
+  customLabel: PropTypes.any,
+  onPress: PropTypes.func,
 }
 
 export default React.memo(CStatus);

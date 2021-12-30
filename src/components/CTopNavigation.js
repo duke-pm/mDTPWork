@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /**
- ** Name: Custom top navigation
+ ** Name: Custom Top Navigation
  ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of CTopNavigation.js

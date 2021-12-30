@@ -16,11 +16,14 @@ import CContainer from '~/components/CContainer';
 import CItem from '~/components/CItem';
 /** COMMON */
 import Configs from '~/configs';
+import {ThemeContext} from '~/configs/theme-context';
 import {Assets} from '~/utils/asset';
 import {cStyles} from '~/utils/style';
-import {DEFAULT_FORMAT_DATE_8, LIGHT} from '~/configs/constants';
 import {IS_ANDROID} from '~/utils/helper';
-import {ThemeContext} from '~/configs/theme-context';
+import {
+  DEFAULT_FORMAT_DATE_10,
+  LIGHT,
+} from '~/configs/constants';
 
 function Dashboard(props) {
   const {t} = useTranslation();
@@ -106,7 +109,7 @@ function Dashboard(props) {
         ]}
         level={'3'}>
         <View>
-          <Text>{`${moment().format(DEFAULT_FORMAT_DATE_8)}`}</Text>
+          <Text>{`${moment().format(DEFAULT_FORMAT_DATE_10)}`}</Text>
           <Text style={cStyles.mt5} category="h6">
             {`${t('dashboard:welcome')} ${fullName}`}
           </Text>

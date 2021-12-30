@@ -9,21 +9,22 @@ import PropTypes from 'prop-types';
 import React, {useState, useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
 import {showMessage} from 'react-native-flash-message';
-import {useTheme, Button, Datepicker, Divider, Icon, Text,} from '@ui-kitten/components';
+import {Button, Datepicker, Divider, Icon, Text} from '@ui-kitten/components';
 import {MomentDateService} from '@ui-kitten/moment';
 import {StyleSheet, View} from 'react-native';
 import moment from 'moment';
 /* COMPONENTS */
 import CGroupFilter from '~/components/CGroupFilter';
 /* COMMON */
+import Configs from '~/configs';
 import {cStyles} from '~/utils/style';
 import {sW} from '~/utils/helper';
-import {DEFAULT_FORMAT_DATE_1} from '~/configs/constants';
+import {
+  DEFAULT_FORMAT_DATE_1,
+} from '~/configs/constants';
 
 /** All init avriables */
 const formatDateService = new MomentDateService('en-sg');
-const minDate = '2010-01-01';
-const maxDate = '2030-12-31';
 
 const RenderCalendarIcon = props => (
   <Icon {...props} name="calendar" />
@@ -31,7 +32,6 @@ const RenderCalendarIcon = props => (
 
 function Filter(props) {
   const {t} = useTranslation();
-  const theme = useTheme();
   const {
     formatDate = DEFAULT_FORMAT_DATE_1,
     resourcesMaster = {},
@@ -53,13 +53,7 @@ function Filter(props) {
   const handleChangeResource = resourceChoosed =>
     setData({...data, resources: resourceChoosed});
 
-  const handleReset = () => {
-    setData({
-      fromDate: props.data.fromDate,
-      toDate: props.data.toDate,
-      resources: [],
-    });
-  };
+  const handleReset = () => onPrepareData();
 
   const handleFilter = () => {
     let tmpFromDate =
@@ -87,6 +81,27 @@ function Filter(props) {
   /**********
    ** FUNC **
    **********/
+  const onPrepareData = (fromDate = null, toDate = null) => {
+    let i,
+      objResource = {},
+      tmpResurces = [],
+      tmpDataResources = [];
+    for (i = 0; i < resourcesMaster.length; i++) {
+      tmpResurces.push(resourcesMaster[i].resourceID);
+      objResource = {};
+      objResource.value = resourcesMaster[i].resourceID;
+      objResource.label = resourcesMaster[i].resourceName;
+      tmpDataResources.push(objResource);
+    }
+    setDataResources(tmpDataResources);
+    setData({
+      fromDate: fromDate || props.data.fromDate,
+      toDate: toDate || props.data.toDate,
+      resources: tmpResurces,
+    });
+    setLoading(false);
+  };
+
   const onErrorValidation = messageKey => {
     return showMessage({
       message: t('common:app_name'),
@@ -109,20 +124,7 @@ function Filter(props) {
    ****************/
   useEffect(() => {
     if (loading && resourcesMaster.length > 0) {
-      let i,
-        objResource = {},
-        tmpResurces = [],
-        tmpDataResources = [];
-      for (i = 0; i < resourcesMaster.length; i++) {
-        tmpResurces.push(resourcesMaster[i].resourceID);
-        objResource = {};
-        objResource.value = resourcesMaster[i].resourceID;
-        objResource.label = resourcesMaster[i].resourceName;
-        tmpDataResources.push(objResource);
-      }
-      setDataResources(tmpDataResources);
-      setData({...data, resources: tmpResurces});
-      setLoading(false);
+      onPrepareData();
     }
   }, []);
 
@@ -169,8 +171,8 @@ function Filter(props) {
             date={data.fromDate === ''
               ? ''
               : moment(data.fromDate)}
-            min={moment(minDate)}
-            max={moment(maxDate)}
+            min={moment(Configs.minDate)}
+            max={moment(Configs.maxDate)}
             onSelect={onChangeFromDate}
           />
           <Datepicker
@@ -182,8 +184,8 @@ function Filter(props) {
             date={data.toDate === ''
               ? ''
               : moment(data.toDate)}
-              min={moment(minDate)}
-              max={moment(maxDate)}
+              min={moment(Configs.minDate)}
+              max={moment(Configs.maxDate)}
             onSelect={onChangeToDate}
           />
         </View>

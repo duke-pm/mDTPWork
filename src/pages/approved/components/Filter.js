@@ -19,6 +19,7 @@ import 'moment/locale/en-sg';
 /* COMPONENTS */
 import CGroupFilter from '~/components/CGroupFilter';
 /* COMMON */
+import Configs from '~/configs';
 import {Commons} from '~/utils/common';
 import {cStyles} from '~/utils/style';
 import {sW} from '~/utils/helper';
@@ -26,8 +27,6 @@ import {DEFAULT_FORMAT_DATE_1} from '~/configs/constants';
 
 /** All init */
 const formatDateService = new MomentDateService('en-sg');
-const minDate = '2010-01-01';
-const maxDate = '2030-12-31';
 const TYPES_ASSETS = [
   {
     value: Commons.APPROVED_TYPE.ASSETS.value,
@@ -195,8 +194,8 @@ function Filter(props) {
             date={data.fromDate === ''
               ? ''
               : moment(data.fromDate)}
-            min={moment(minDate)}
-            max={moment(maxDate)}
+            min={moment(Configs.minDate)}
+            max={moment(Configs.maxDate)}
             onSelect={onChangeFromDate}
           />
           <Datepicker
@@ -208,8 +207,8 @@ function Filter(props) {
             date={data.toDate === ''
               ? ''
               : moment(data.toDate)}
-            min={moment(minDate)}
-            max={moment(maxDate)}
+            min={moment(Configs.minDate)}
+            max={moment(Configs.maxDate)}
             onSelect={onChangeToDate}
           />
         </View>

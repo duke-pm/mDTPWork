@@ -1,5 +1,5 @@
 /**
- ** Name: CActionSheet
+ ** Name: Custom Actions Sheet
  ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of CActionSheet.js
@@ -13,6 +13,9 @@ import ActionSheet from 'react-native-actions-sheet';
 /** COMMON */
 import {cStyles} from '~/utils/style';
 
+/*********************
+ ** OTHER COMPONENT **
+ *********************/
 const RenderCloseIcon = props => (
   <Icon {...props} name="close-outline" />
 );
@@ -21,10 +24,14 @@ const RenderCheckIcon = props => (
   <Icon {...props} name="checkmark-outline" />
 );
 
+/********************
+ ** MAIN COMPONENT **
+ ********************/
 function CActionSheet(props) {
   const {t} = useTranslation();
   const theme = useTheme();
   const {
+    actionRef = null,
     customHeader = null,
     headerChoose = false,
     headerChooseTitle = null,
@@ -38,12 +45,12 @@ function CActionSheet(props) {
    *****************/
   const handleClose = () => {
     needUpdate = false;
-    props.actionRef.current?.hide();
+    actionRef.current?.hide();
   };
 
   const handleConfirm = () => {
     needUpdate = true;
-    props.actionRef.current?.hide();
+    actionRef.current?.hide();
     if (onConfirm) {
       onConfirm(needUpdate);
     }
@@ -69,7 +76,7 @@ function CActionSheet(props) {
    ************/
   return (
     <ActionSheet
-      ref={props.actionRef}
+      ref={actionRef}
       containerStyle={[
         cStyles.roundedTopLeft3,
         cStyles.roundedTopRight3,

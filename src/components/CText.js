@@ -1,5 +1,5 @@
 /**
- ** Name: Custom text
+ ** Name: Custom Text
  ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of CText.js
@@ -21,6 +21,9 @@ const COLORS = {
   BG_LESS: ['transparent']
 }
 
+/*********************
+ ** OTHER COMPONENT **
+ *********************/
 const RanderShowMoreIcon = props => (
   <Icon {...props} name={'arrowhead-down-outline'} />
 );
@@ -29,6 +32,9 @@ const RanderShowLessIcon = props => (
   <Icon {...props} name={'arrowhead-up-outline'} />
 );
 
+/********************
+ ** MAIN COMPONENT **
+ ********************/
 function CText(props) {
   const {t} = useTranslation();
   const themeContext = useContext(ThemeContext);

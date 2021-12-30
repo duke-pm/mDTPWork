@@ -22,6 +22,7 @@ export const DEFAULT_FORMAT_DATE_6 = 'YYYY-MM-DD HH:mm:ss';
 export const DEFAULT_FORMAT_DATE_7 = 'DD/MM/YYYY - HH:mm';
 export const DEFAULT_FORMAT_DATE_8 = 'dddd - DD/MM/YYYY';
 export const DEFAULT_FORMAT_DATE_9 = 'DD MMM YY';
+export const DEFAULT_FORMAT_DATE_10 = 'dddd - DD MMMM YYYY';
 export const DEFAULT_HEIGHT_UPLOAD = 250;
 export const DEFAULT_WIDTH_UPLOAD = 250;
 export const FIRST_CELL_WIDTH_LARGE = moderateScale(300);

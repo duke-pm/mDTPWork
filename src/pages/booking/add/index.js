@@ -465,7 +465,7 @@ function AddBooking(props) {
     <CContainer
       safeArea={['top']}
       headerComponent={<CTopNavigation title={title} back />}>
-      <KeyboardAwareScrollView contentContainerStyle={[cStyles.px16, cStyles.py10]}>
+      <KeyboardAwareScrollView contentContainerStyle={cStyles.p10}>
         {!loading.main && (
           <Card disabled
             header={propsH =>

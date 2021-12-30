@@ -1,5 +1,5 @@
 /**
- ** Name: CEmpty
+ ** Name: Custom Empty
  ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of CEmpty.js

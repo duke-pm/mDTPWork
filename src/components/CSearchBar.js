@@ -1,5 +1,5 @@
 /**
- ** Name: Custom search bar
+ ** Name: Custom Search Bar
  ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of CSearchBar.js

@@ -1,5 +1,5 @@
 /**
- ** Name: Custom alert
+ ** Name: Custom Alert
  ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of CAlert.js

@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /**
- ** Name: Custom container
+ ** Name: Custom Container
  ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of CContainer.js

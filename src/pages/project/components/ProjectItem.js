@@ -94,7 +94,7 @@ function ProjectItem(props) {
                 <View style={cStyles.ml10}>
                   <Text>{data.ownerName}</Text>
                   {data.priorityLevel > 0 && (
-                    <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt5]}>
+                    <View style={[cStyles.row, cStyles.itemsCenter]}>
                       <Text category="c1" appearance="hint">
                         {`${trans('project_management:piority')}`}
                       </Text>

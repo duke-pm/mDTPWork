@@ -1,5 +1,5 @@
 /**
- ** Name: CContentSubMenu
+ ** Name: Custom Content SubMenu
  ** Author: DTP-Education
  ** CreateAt: 2021
  ** Description: Description of CContentSubMenu.js
