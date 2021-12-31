@@ -6,12 +6,10 @@
  **/
 import PropTypes from 'prop-types';
 import React from 'react';
-import {Button} from '@ui-kitten/components';
+import {Button, Text} from '@ui-kitten/components';
 import {StyleSheet, View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import LinearGradient from 'react-native-linear-gradient';
-/* COMPONENTS */
-import CText from './CText';
 /** COMMON */
 import {colors, cStyles} from '~/utils/style';
 import {moderateScale, sW} from '~/utils/helper';
@@ -38,8 +36,8 @@ function CItem(props) {
   }
   return (
     <Button
-      appearance={'ghost'}
-      status={'basic'}
+      appearance="ghost"
+      status="basic"
       onPress={handleItem}
     >
       {propsB => (
@@ -64,7 +62,7 @@ function CItem(props) {
             </LinearGradient>
           </View>
 
-          <CText style={cStyles.mt10} category="s1">{data.menuName}</CText>
+          <Text style={cStyles.mt10} category="s1">{data.menuName}</Text>
         </View>
       )}
     </Button>

@@ -94,7 +94,7 @@ function AddRequest(props) {
   if (requestParam === -1) {
     requestParam = route.params?.requestID || -1;
   }
-
+  console.log('[LOG] === requestParam ===> ', requestParam);
   /** Use ref */
   const formRef = useRef();
 
@@ -176,6 +176,7 @@ function AddRequest(props) {
     };
     dispatch(Actions.fetchMasterData(params, navigation));
     dispatch(Actions.resetAllApproved());
+    setLoading({...loading, startFetch: true});
   };
 
   const onPrepareDetail = (dataRequest, dataAssets, dataProcess) => {
@@ -287,17 +288,18 @@ function AddRequest(props) {
           TotalAmt: item[4] === '' ? 0 : Number(item[4]),
         });
       }
+      console.log('[LOG] ===  ===> ', tmpCallback.valuesAll);
       let params = {
         EmpCode: authState.getIn(['login', 'empCode']),
         DeptCode: authState.getIn(['login', 'deptCode']),
         RegionCode: authState.getIn(['login', 'regionCode']),
         JobTitle: authState.getIn(['login', 'jobTitle']),
         RequestDate: tmpCallback.valuesAll[0].value,
-        Location: tmpCallback.valuesAll[4].values[tmpCallback.valuesAll[4].value]['deptCode'],
-        Reason: tmpCallback.valuesAll[5].value.trim(),
-        DocType: tmpCallback.valuesAll[7].values[tmpCallback.valuesAll[7].value]['value'],
-        IsBudget: tmpCallback.valuesAll[8].values[tmpCallback.valuesAll[8].value]['value'],
-        SupplierName: tmpCallback.valuesAll[6].value.trim(),
+        Location: tmpCallback.valuesAll[1].values[tmpCallback.valuesAll[1].value]['deptCode'],
+        Reason: tmpCallback.valuesAll[2].value.trim(),
+        DocType: tmpCallback.valuesAll[4].values[tmpCallback.valuesAll[4].value]['value'],
+        IsBudget: tmpCallback.valuesAll[5].values[tmpCallback.valuesAll[5].value]['value'],
+        SupplierName: tmpCallback.valuesAll[3].value.trim(),
         ListAssets: assets,
         RefreshToken: refreshToken,
         Lang: language,
@@ -341,8 +343,17 @@ function AddRequest(props) {
 
   const onCheckDeeplink = () => {
     if (typeof requestParam === 'object' || requestParam === -1) {
-      onPrepareData();
+      onPrepareDetail(
+        route.params?.data,
+        route.params?.dataDetail,
+        route.params?.dataProcess,
+      );
+      setCurrentProcess({
+        statusID: route.params?.currentProcess?.statusID,
+        statusName: route.params?.currentProcess?.statusName,
+      });
     } else {
+      onPrepareData();
       onFetchRequestDetail(requestParam);
     }
   };
@@ -379,26 +390,7 @@ function AddRequest(props) {
   ]);
 
   useEffect(() => {
-    if (loading.startFetch) {
-      if (!approvedState.get('submittingRequestDetail')) {
-        if (approvedState.get('successRequestDetail')) {
-          return onPrepareData();
-        }
-
-        if (approvedState.get('errorRequestDetail')) {
-          return onGoToSignIn();
-        }
-      }
-    }
-  }, [
-    loading.startFetch,
-    approvedState.get('submittingRequestDetail'),
-    approvedState.get('successRequestDetail'),
-    approvedState.get('errorRequestDetail'),
-  ]);
-
-  useEffect(() => {
-    if (loading.main) {
+    if (loading.main && loading.startFetch) {
       if (!masterState.get('submitting')) {
         if (masterState.get('department').length > 0) {
           if (approvedState.get('requestDetail')) {
@@ -422,7 +414,7 @@ function AddRequest(props) {
                 statusName: route.params?.currentProcess?.statusName,
               });
             } else {
-              setLoading({...loading, main: false, startFetchLogin: false});
+              // do nothing
             }
           }
         }
@@ -430,6 +422,7 @@ function AddRequest(props) {
     }
   }, [
     loading.main,
+    loading.startFetch,
     masterState.get('submitting'),
     masterState.get('department'),
     approvedState.get('requestDetail'),
@@ -558,6 +551,8 @@ function AddRequest(props) {
   /************
    ** RENDER **
    ************/
+  console.log('[LOG] === RENDER isDetail ===> ', isDetail);
+  console.log('[LOG] === RENDER requestDetail ===> ', requestDetail);
   const isShowApprovedReject =
     isDetail && form.isAllowApproved && route.params?.permissionWrite;
   let userRegion = '', userDepartment = '',

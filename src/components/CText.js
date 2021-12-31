@@ -6,18 +6,27 @@
  **/
 import PropTypes from 'prop-types';
 import React, {useContext, useState} from 'react';
+import {useTranslation} from 'react-i18next';
 import {Button, Text, Icon} from '@ui-kitten/components';
 import {View} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 /** COMMON */
-import { cStyles } from '~/utils/style';
-import { ThemeContext } from '~/configs/theme-context';
-import { LIGHT } from '~/configs/constants';
-import { useTranslation } from 'react-i18next';
+import {cStyles} from '~/utils/style';
+import {LIGHT} from '~/configs/constants';
+import {ThemeContext} from '~/configs/theme-context';
 
 const COLORS = {
-  BG_SHOW_LIGHT: ['rgba(255,255,255,0)', 'rgba(255,255,255,0.08)', 'rgba(255,255,255,0.8)', 'rgba(255,255,255,1)'],
-  BG_SHOW_DARK: ['rgba(0,0,0,0)', 'rgba(34,43,69,0.08)', 'rgba(34,43,69,0.8)', 'rgba(34,43,69,1)'],
+  BG_SHOW_LIGHT: [
+    'rgba(255,255,255,0)',
+    'rgba(255,255,255,0.08)',
+    'rgba(255,255,255,0.8)',
+    'rgba(255,255,255,1)'],
+  BG_SHOW_DARK: [
+    'rgba(0,0,0,0)',
+    'rgba(34,43,69,0.08)',
+    'rgba(34,43,69,0.8)',
+    'rgba(34,43,69,1)',
+  ],
   BG_LESS: ['transparent']
 }
 
@@ -100,23 +109,33 @@ function CText(props) {
       <Text {...props}
         style={[style, {lineHeight}]}
         numberOfLines={props.numberOfLines || (showMore ? maxLines : 0)}
-        onLayout={onLayout}
-      >
+        onLayout={onLayout}>
         {props.children}
       </Text>
       {showMore && hasShowMore && (
-        <LinearGradient colors={showMore ? themeContext.themeApp === LIGHT
-        ? COLORS.BG_SHOW_LIGHT
-        : COLORS.BG_SHOW_DARK
-        : COLORS.BG_LESS} style={[cStyles.justifyEnd, cStyles.abs, cStyles.fullWidth, cStyles.fullHeight]}>
+        <LinearGradient
+          colors={showMore
+            ? themeContext.themeApp === LIGHT
+              ? COLORS.BG_SHOW_LIGHT
+              :  COLORS.BG_SHOW_DARK
+            : COLORS.BG_LESS}
+          style={[
+            cStyles.justifyEnd,
+            cStyles.abs,
+            cStyles.fullWidth,
+            cStyles.fullHeight,
+          ]}>
           <Button
-            appearance={'ghost'}
-            size={'small'}
-            status={'primary'}
-            accessoryRight={showMore ? RanderShowMoreIcon : RanderShowLessIcon}
+            appearance="ghost"
+            size="small"
+            accessoryRight={showMore
+              ? RanderShowMoreIcon
+              : RanderShowLessIcon}
             onPress={handleShowMore}>
             {evaProps => (
-              <CText style={cStyles.fontBold} category={'c1'} status={'primary'}>{t('common:show_more')}</CText>
+              <Text category="c1" status="primary">
+                {t('common:show_more')}
+              </Text>
             )}
           </Button>
         </LinearGradient>

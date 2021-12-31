@@ -50,7 +50,7 @@ const asProcessRef = createRef();
 const DATA_TYPE = [
   {
     value: Commons.APPROVED_TYPE.DAMAGED.value,
-    label: "add_approved_lost_damaged:damage_assets'",
+    label: "add_approved_lost_damaged:damage_assets",
   },
   {
     value: Commons.APPROVED_TYPE.LOST.value,
@@ -93,7 +93,7 @@ function AddRequest(props) {
 
   /** Use state */
   const [loading, setLoading] = useState({
-    main: false,
+    main: true,
     startFetch: false,
     startFetchLogin: false,
     submitAdd: false,
@@ -148,7 +148,8 @@ function AddRequest(props) {
       Lang: language,
     };
     dispatch(Actions.fetchAssetByUser(params));
-    setLoading({...loading, main: true});
+    dispatch(Actions.resetAllApproved());
+    setLoading({...loading, startFetch: true});
   };
 
   const onSendRequest = () => {
@@ -286,8 +287,16 @@ function AddRequest(props) {
 
   const onCheckDeeplink = () => {
     if (typeof requestParam === 'object' || requestParam === -1) {
-      onPrepareData();
+      onPrepareDetail(
+        route.params?.data,
+        route.params?.dataProcess,
+      );
+      setCurrentProcess({
+        statusID: route.params?.currentProcess?.statusID,
+        statusName: route.params?.currentProcess?.statusName,
+      });
     } else {
+      onPrepareData();
       onFetchRequestDetail(requestParam);
     }
   };
@@ -296,7 +305,6 @@ function AddRequest(props) {
    ** LIFE CYCLE **
    ****************/
   useEffect(() => {
-    dispatch(Actions.resetStatusMasterData());
     let isLogin = authState.get('successLogin');
     if (isLogin) {
       onCheckDeeplink();
@@ -344,7 +352,7 @@ function AddRequest(props) {
   ]);
 
   useEffect(() => {
-    if (loading.main) {
+    if (loading.main && loading.startFetch) {
       if (!masterState.get('submitting')) {
         if (masterState.get('success')) {
           if (approvedState.get('requestDetail')) {
@@ -363,7 +371,7 @@ function AddRequest(props) {
                 statusName: route.params?.currentProcess?.statusName,
               });
             } else {
-              setLoading({...loading, main: false, startFetchLogin: false});
+              // do nothing
             }
           }
         }
@@ -371,6 +379,7 @@ function AddRequest(props) {
     }
   }, [
     loading.main,
+    loading.startFetch,
     masterState.get('assetByUser'),
     masterState.get('submitting'),
     approvedState.get('requestDetail'),

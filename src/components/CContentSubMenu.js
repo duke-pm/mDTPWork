@@ -75,7 +75,7 @@ function CContentSubMenu(props) {
             {routes.map((itemS, indexS) => {
               if (itemS.isAccess) {
                 return (
-                  <View key={indexS + '_sub_menu' + indexS}>
+                  <View key={indexS + '_sub_menu_' + indexS}>
                     <CItem
                       index={indexS}
                       data={itemS}

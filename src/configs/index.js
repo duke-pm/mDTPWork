@@ -6,11 +6,12 @@
  **/
 import {LocaleConfig} from 'react-native-calendars';
 import Config from 'react-native-config';
+/** COMMON */
 import {IS_IOS} from '~/utils/helper';
 import {colors} from '~/utils/style';
 import {Assets} from '~/utils/asset';
 
-LocaleConfig.locales['en-SG'] = {
+LocaleConfig.locales['en-sg'] = {
   monthNames: [
     'January',
     'February',
@@ -87,6 +88,8 @@ LocaleConfig.locales.vi = {
 LocaleConfig.defaultLocale = 'vi';
 
 const Configs = {
+  // for name of company
+  nameOfCompany: 'DTP Education Solutions Việt Nam',
   // for name of app in account page
   nameOfApp: Config.APP_NAME,
   // for Host APIs

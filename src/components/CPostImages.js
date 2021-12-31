@@ -7,13 +7,11 @@
 import PropTypes from 'prop-types';
 import React, {useState, useEffect} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {Layout, Button, List} from '@ui-kitten/components';
+import {Layout, Button, List, Text} from '@ui-kitten/components';
 import {StyleSheet, LayoutAnimation, UIManager, View} from 'react-native';
 import ImageView from 'react-native-image-view';
 import FastImage from 'react-native-fast-image';
 import IoniIcon from 'react-native-vector-icons/Ionicons';
-/** COMPONENTS */
-import CText from './CText';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
 import {IS_ANDROID, moderateScale, SCREEN_WIDTH} from '~/utils/helper';
@@ -444,7 +442,9 @@ function CPostImages(props) {
                       styles.backdrop,
                       cStyles.roundedBottomRight1,
                     ]}>
-                    <CText style={styles.txt_white} category={'h5'}>+{images.length - 4}</CText>
+                    <Text style={styles.txt_white} category="h6">
+                      {`+${images.length - 4}`}
+                    </Text>
                   </View>
                 </View>
               )}

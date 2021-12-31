@@ -116,10 +116,12 @@
     "format_email": "E-mail format incorrect!",
     "empty_length": "This field cannot be empty!",
     "min_length": "Min length character is",
-    "not_like": "Reconfirm the above item is not correct!"
+    "not_like": "Reconfirm the new password is not correct!"
   },
   "sign_in": {
-    "title": "Login",
+    "title": "Welcome,",
+    "button_sign_in": "Sign in",
+    "sub_title": "Sign in to continue!",
     "input_username": "Username",
     "input_holder_username": "Username...",
     "input_password": "Password",
@@ -131,10 +133,13 @@
     "login_with_biometrics": "Login by",
     "touch_sensor": "Touch Sensor",
     "login_by_password": "Input my password",
-    "fast_login_with": "or Fast sign in with"
+    "fast_login_with": "or Fast sign in with",
+    "version": "Version application:",
+    "copyright_by": "Copyright by",
+    "holder_update_now": "New version is available!"
   },
   "forgot_password": {
-    "title": "Forgot Password",
+    "title": "Forgot Password,",
     "caption": "Enter your e-mail address below and we will send you a link to reset your password.",
     "input_email": "E-mail",
     "input_holder_email": "E-mail...",
@@ -159,11 +164,10 @@
     "error_change_password": "Update password failed. Please try again later!"
   },
   "reset_password": {
-    "title": "Reset Password",
+    "title": "Reset Password,",
     "caption": "Enter your new password below",
     "input_label_password": "New Password",
     "input_holder_password": "New password...",
-    "save": "Save",
     "success_sub_title": "Change successfully",
     "success_caption": "We changed successfully, please login with new password",
     "error_sub_title": "Change not successfully",
@@ -197,7 +201,7 @@
     "holder_information": "Term & Conditions, privacy, rating",
     "holder_favourite": "Personalized preferences",
     "holder_settings": "Interface, language",
-    "version": "Version"
+    "version": "Version application"
   },
   "my_account": {
     "title": "Profile",

@@ -12,8 +12,6 @@ import {
   Layout, ListItem, Menu, Text, Icon, useTheme,
 } from '@ui-kitten/components';
 import {StyleSheet, View} from 'react-native';
-/** COMPONENTS */
-import CText from './CText';
 /* COMMON */
 import Routes from '~/navigator/Routes';
 import {colors, cStyles} from '~/utils/style';
@@ -22,7 +20,9 @@ import {moderateScale} from '~/utils/helper';
 /*********************
  ** OTHER COMPONENT **
  *********************/
- const RenderForwardIcon = (props, theme, info) => (
+const RenderRightValue = info => <Text appearance="hint">{info.value}</Text>;
+
+const RenderForwardIcon = (props, theme, info) => (
   <View style={[cStyles.row, cStyles.itemsCenter]}>
     {info.alert && (
       <View
@@ -36,13 +36,11 @@ import {moderateScale} from '~/utils/helper';
       </View>
     )}
     {info.value && (
-      <CText appearance="hint">{info.value}</CText>
+      <Text appearance="hint">{info.value}</Text>
     )}
     <Icon {...props} name="arrow-ios-forward" />
   </View>
 );
-
-const RenderRightValue = info => <CText appearance="hint">{info.value}</CText>;
 
 const RenderLeftIcon = (props, theme, name, color, bgColor) => (
   <View
@@ -118,12 +116,12 @@ function CMenuAccount(props) {
                 index === data.length - 1 && cStyles.roundedBottomRight1,
               ]}
               title={propsT =>
-                <CText style={cStyles.ml8} category='s1'>{t(item.title)}</CText>
+                <Text style={cStyles.ml8} category="s1">{t(item.title)}</Text>
               }
               description={item.subtitle ? propsD =>
-                <CText style={cStyles.ml8} category="c1" appearance="hint">
+                <Text style={cStyles.ml8} category="c1" appearance="hint">
                   {t(item.subtitle)}
-                </CText>
+                </Text>
                : undefined
               }
               accessoryLeft={propsIc =>

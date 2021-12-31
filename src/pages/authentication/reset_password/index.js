@@ -222,7 +222,7 @@ function ResetPassword(props) {
               },
             ]}
             leftButton={loading.check || loading.update}
-            labelButton={'reset_password:save'}
+            labelButton={'common:save'}
             onSubmit={onSubmitSave}
           />
         </Layout>

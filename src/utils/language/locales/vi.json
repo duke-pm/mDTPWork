@@ -116,10 +116,12 @@
     "format_email": "Định dạng e-mail! chưa chính xác!",
     "empty_length": "Mục này không thể trống!",
     "min_length": "Độ dài tối thiểu là",
-    "not_like": "Xác nhận lại mục trên không chính xác!"
+    "not_like": "Xác nhận lại mật khẩu không chính xác!"
   },
   "sign_in": {
-    "title": "Đăng Nhập",
+    "title": "Welcome,",
+    "button_sign_in": "Đăng nhập",
+    "sub_title": "Đăng nhập để tiếp tục",
     "input_username": "Tên đăng nhập",
     "input_holder_username": "Tên đăng nhập...",
     "input_password": "Mật khẩu",
@@ -131,10 +133,13 @@
     "login_with_biometrics": "Đăng nhập bằng",
     "touch_sensor": "Quét vân tay",
     "login_by_password": "Nhập mật khẩu",
-    "fast_login_with": "hoặc Đăng nhập nhanh với"
+    "fast_login_with": "hoặc Đăng nhập nhanh với",
+    "version": "Phiên bản ứng dụng:",
+    "copyright_by": "Bản quyền thuộc về",
+    "holder_update_now": "Đã có phiên bản mới!"
   },
   "forgot_password": {
-    "title": "Quên Mật Khẩu",
+    "title": "Quên Mật Khẩu,",
     "caption": "Nhập địa chỉ e-mail của bạn vào bên dưới và chúng tôi sẽ gửi một liên kết để bạn đặt lại mật khẩu mới",
     "input_email": "E-mail",
     "input_holder_email": "E-mail...",
@@ -159,11 +164,10 @@
     "error_change_password": "Đổi mật khẩu thất bại!"
   },
   "reset_password": {
-    "title": "Cập nhật mật khẩu",
+    "title": "Cập Nhật Mật Khẩu,",
     "caption": "Nhập mật khẩu mới vào bên dưới",
     "input_label_password": "Mật khẩu mới",
     "input_holder_password": "Mật khẩu mới...",
-    "save": "Lưu",
     "success_sub_title": "Thay đổi thành công",
     "success_caption": "Chúng tôi đã thay đổi thành công, vui lòng đăng nhập với mật khẩu mới",
     "error_sub_title": "Thay đổi không thành công",
@@ -197,7 +201,7 @@
     "holder_information": "Thông tin, điều khoản, đánh giá",
     "holder_favourite": "Sở thích cá nhân hóa",
     "holder_settings": "Giao diện, ngôn ngữ",
-    "version": "Phiên bản"
+    "version": "Phiên bản ứng dụng"
   },
   "my_account": {
     "title": "Tài Khoản Của Tôi",

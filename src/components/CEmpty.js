@@ -7,10 +7,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {useTranslation} from 'react-i18next';
+import {Text} from '@ui-kitten/components';
 import {StyleSheet, View} from 'react-native';
 import LottieView from 'lottie-react-native';
-/* COMPONENTS */
-import CText from './CText';
 /* COMMON */
 import {cStyles} from '~/utils/style';
 import {Animations} from '~/utils/asset';
@@ -35,8 +34,8 @@ function CEmpty(props) {
         loop={false}
       />
 
-      <CText style={cStyles.mt10} category="s1">{t(label)}</CText>
-      <CText style={cStyles.mt5} category='c1'>{t(description)}</CText>
+      <Text style={cStyles.mt10} category="s1">{t(label)}</Text>
+      <Text style={cStyles.mt5} category="c1">{t(description)}</Text>
     </View>
   );
 }

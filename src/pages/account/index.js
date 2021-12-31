@@ -27,10 +27,10 @@ import {
   LIGHT,
 } from '~/configs/constants';
 import {
-  IS_ANDROID,
-  moderateScale,
   removeSecretInfo,
   resetRoute,
+  moderateScale,
+  IS_ANDROID,
 } from '~/utils/helper';
 /* REDUX */
 import * as Actions from '~/redux/actions';

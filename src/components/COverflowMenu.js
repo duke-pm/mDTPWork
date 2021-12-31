@@ -8,11 +8,10 @@ import PropTypes from 'prop-types';
 import React, {useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {
-  TopNavigationAction, Icon, MenuItem, OverflowMenu, useTheme,
+  TopNavigationAction, Icon, MenuItem, OverflowMenu,
+  useTheme, Text,
 } from '@ui-kitten/components';
 import {StyleSheet} from 'react-native';
-/** COMPONENTS */
-import CText from './CText';
 /* COMMON */
 import {colors} from '~/utils/style';
 
@@ -29,8 +28,9 @@ const RenderIcon = (props, name, fill) => (
 function COverflowMenu(props) {
   const {t} = useTranslation();
   const theme = useTheme();
+  const txtBasicColor = theme['text-basic-color'];
   const {
-    iconFill = theme['text-basic-color'],
+    iconFill = txtBasicColor,
     menus = [],
   } = props;
 
@@ -50,9 +50,6 @@ function COverflowMenu(props) {
   /************
    ** RENDER **
    ************/
-  //
-  //  If menus is empty => not render anything
-  //
   if (menus.length === 0) return null;
 
   const RenderMenuAction = () => (
@@ -72,8 +69,10 @@ function COverflowMenu(props) {
         return (
           <MenuItem
             key={itemM.id + '_' + indexM}
-            title={propsT => <CText category='p1'>{itemM.customLabel || t(itemM.label)}</CText>}
-            accessoryLeft={propsI => RenderIcon(propsI, itemM.icon, theme['text-basic-color'])}
+            title={propsT =>
+              <Text>{itemM.customLabel || t(itemM.label)}</Text>}
+            accessoryLeft={propsI =>
+              RenderIcon(propsI, itemM.icon, txtBasicColor)}
             onPress={() => handleMenuItem(itemM.onPress)}
           />
         )

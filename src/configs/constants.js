@@ -31,7 +31,6 @@ export const FIRST_CELL_WIDTH_DISTANCE =
   FIRST_CELL_WIDTH_LARGE - FIRST_CELL_WIDTH_SMALL;
 export const CELL_HEIGHT = moderateScale(45);
 export const CELL_WIDTH = moderateScale(150);
-
 export const DATA_YEAR_FILTER = [
   '2015',
   '2016',

@@ -7,11 +7,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {useTranslation} from 'react-i18next';
-import {Card, Button, Spinner, useTheme, Modal} from '@ui-kitten/components';
+import {Card, Button, Text, useTheme, Modal} from '@ui-kitten/components';
 import {StyleSheet, View} from 'react-native';
 import IoniIcon from 'react-native-vector-icons/Ionicons';
-/* COMPONENTS */
-import CText from './CText';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
 import {moderateScale, sW} from '~/utils/helper';
@@ -74,9 +72,9 @@ function CAlert(props) {
                   name={'checkmark-circle-outline'}
                   size={sIconStatus}
                   color={theme['color-success-500']} />
-                <CText style={[cStyles.mt10, cStyles.textCenter]} category={'h6'}>
+                <Text style={[cStyles.mt10, cStyles.textCenter]} category="h6">
                   {t(label !== '' ? label : 'common:success')}
-                </CText>
+                </Text>
               </View>
             )}
             {error && (
@@ -85,14 +83,14 @@ function CAlert(props) {
                   name={'close-circle-outline'}
                   size={sIconStatus}
                   color={theme['color-danger-500']} />
-                <CText style={[cStyles.mt10, cStyles.textCenter]} category={'h6'}>
+                <Text style={[cStyles.mt10, cStyles.textCenter]} category="h6">
                   {t(label !== '' ? label : 'common:error')}
-                </CText>
+                </Text>
               </View>
             )}
             {!success && !error && !customLabel && (
               <View style={cStyles.itemsCenter}>
-                <CText style={cStyles.textCenter} category={'s1'}>{t(label)}</CText>
+                <Text style={cStyles.textCenter} category="s1">{t(label)}</Text>
               </View>
             )}
             {!success && !error && customLabel && (
@@ -104,12 +102,12 @@ function CAlert(props) {
         )}
 
         {message !== '' && !customMessage && (
-          <View style={[cStyles.my16, styles.content]}>
-            <CText style={cStyles.textCenter} >{t(message)}</CText>
+          <View style={cStyles.my16}>
+            <Text style={cStyles.textCenter} >{t(message)}</Text>
           </View>
         )}
         {customMessage && (
-          <View style={[cStyles.my16, styles.content]}>
+          <View style={cStyles.my16}>
             {customMessage}
           </View>
         )}
@@ -122,7 +120,6 @@ function CAlert(props) {
               cStyles.row,
               cStyles.itemsCenter,
               cStyles.justifyBetween,
-              styles.footer
             ]}>
             {cancel && (
               <Button
@@ -154,21 +151,8 @@ function CAlert(props) {
 
 const styles = StyleSheet.create({
   card: {width: sW('90%')},
-  header: {
-    
-  },
-  content: {
-
-  },
-  footer: {
-
-  },
-  btn_main: {
-    width: '100%',
-  },
-  btn_cancel: {
-    width: '47%',
-  },
+  btn_main: {width: '100%'},
+  btn_cancel: {width: '47%'},
 });
 
 CAlert.propTypes = {

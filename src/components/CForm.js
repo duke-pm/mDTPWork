@@ -11,18 +11,18 @@ import React, {
   useImperativeHandle,
 } from 'react';
 import {useTranslation} from 'react-i18next';
-import {
-  Text, Input, Button, Icon, Select, SelectItem,
-  Toggle, RadioGroup, Radio, useTheme, Datepicker, IndexPath,
-} from '@ui-kitten/components';
 import {MomentDateService} from '@ui-kitten/moment';
 import {
+  Text, Input, Button, Icon, Select, SelectItem,
+  Toggle, RadioGroup, Radio, useTheme, Datepicker,
+  IndexPath,
+} from '@ui-kitten/components';
+import {
   TouchableWithoutFeedback, View, UIManager, LayoutAnimation,
+  StyleSheet,
 } from 'react-native';
 import moment from 'moment';
 import 'moment/locale/en-sg';
-/** COMPONENTS */
-import CText from './CText';
 /* COMMON */
 import Configs from '~/configs';
 import {cStyles} from '~/utils/style';
@@ -40,13 +40,22 @@ const formatDateService = new MomentDateService('en-sg');
 /*********************
  ** OTHER COMPONENT **
  *********************/
-const RenderIconPassword = (props, secureTextEntry, onToggleSecureEntry) => (
+const RenderPasswordIcon = (props, secureTextEntry, onToggleSecureEntry) => (
   <TouchableWithoutFeedback onPress={onToggleSecureEntry}>
     <Icon {...props} name={secureTextEntry ? 'eye-off' : 'eye'} />
   </TouchableWithoutFeedback>
 );
 
-const RenderCalendarIcon = props => <Icon {...props} name="calendar" />;
+const RenderCalendarIcon = props => (
+  <Icon {...props} name="calendar" />
+);
+
+const RenderLabel = (props, trans, required, label) => (
+  <View style={[props.style, cStyles.row, cStyles.itemsStart]}>
+    <Text {...props}>{trans(label)}</Text>
+    {required && <Text category="label" status="danger">{' *'}</Text>}
+  </View>
+);
 
 /********************
  ** MAIN COMPONENT **
@@ -196,8 +205,8 @@ const CForm = forwardRef((props, ref) => {
    ** FUNC **
    **********/
   const onCheckValidate = () => {
-    let tmpIsError = false;
-    let i,
+    let i = 0,
+      tmpIsError = false,
       tmpErrors = [...errors];
 
     for (i = 0; i < values.length; i++) {
@@ -342,8 +351,8 @@ const CForm = forwardRef((props, ref) => {
     if (inputs.length > 0) {
       let tmpInput = null,
         tmpValue = {},
-        tmpValues = [];
-      let tmpError = {},
+        tmpValues = [],
+        tmpError = {},
         tmpErrors = [];
 
       for (tmpInput of inputs) {
@@ -436,12 +445,7 @@ const CForm = forwardRef((props, ref) => {
               nativeID={item.id}
               disabled={loading || item.disabled}
               value={values[index].value}
-              label={propsL => (
-                <View style={[propsL.style, cStyles.row, cStyles.itemsStart]}>
-                  <CText {...propsL}>{t(item.label)}</CText>
-                  {item.required && <CText status="danger">{' *'}</CText>}
-                </View>
-              )}
+              label={propsL => RenderLabel(propsL, t, item.required, item.label)}
               placeholder={t(item.holder)}
               keyboardAppearance={themeContext.themeApp}
               keyboardType={kbType}
@@ -451,7 +455,7 @@ const CForm = forwardRef((props, ref) => {
               accessoryRight={
                 item.password
                   ? propsR =>
-                      RenderIconPassword(
+                      RenderPasswordIcon(
                         propsR,
                         values[index].secureTextEntry,
                         () => onToggleSecureEntry(index),
@@ -474,12 +478,7 @@ const CForm = forwardRef((props, ref) => {
           return (
             <Select
               style={[cStyles.mt16, item.style]}
-              label={propsL => (
-                <View style={[propsL.style, cStyles.row, cStyles.itemsStart]}>
-                  <CText {...propsL}>{t(item.label)}</CText>
-                  {item.required && <CText status="danger">{' *'}</CText>}
-                </View>
-              )}
+              label={propsL => RenderLabel(propsL, t, item.required, item.label)}
               status={errors && errors[index].status ? 'danger' : 'basic'}
               caption={
                 errors && errors[index] && errors[index].status
@@ -529,15 +528,13 @@ const CForm = forwardRef((props, ref) => {
           if (item.hide) return <View />;
           return (
             <View style={[cStyles.mt16, item.style]}>
-              <Text
-                style={{color: theme['color-basic-600']}}
-                category={"label"}>
+              <Text category="label" appearance="hint">
                 {t(item.label)}
               </Text>
               <RadioGroup
-                style={
-                  item.horizontal ? [cStyles.row, cStyles.itemsCenter] : {}
-                }
+                style={item.horizontal
+                  ? [cStyles.row, cStyles.itemsCenter]
+                  : {}}
                 selectedIndex={values[index].value}
                 onChange={indexRadio => handleChangeRadioIndex(index, indexRadio)}>
                 {item.values && item.values.map((itemRadio, indexRadio) => {
@@ -563,15 +560,10 @@ const CForm = forwardRef((props, ref) => {
                 item.chooseTime && cStyles.justifyBetween,
                 item.style,
               ]}>
-              <View style={{flex: 0.55}}>
+              <View style={styles.con_calendar_left}>
               <Datepicker
                 dateService={formatDateService}
-                label={propsL => (
-                  <View style={[propsL.style, cStyles.row, cStyles.itemsStart]}>
-                    <CText {...propsL}>{t(item.label)}</CText>
-                    {item.required && <CText status="danger">{' *'}</CText>}
-                  </View>
-                )}
+                label={propsL => RenderLabel(propsL, t, item.required, item.label)}
                 placeholder={t(item.holder)}
                 status={!item.chooseTime
                   ? errors && errors[index].status ? 'danger' : 'basic'
@@ -593,14 +585,9 @@ const CForm = forwardRef((props, ref) => {
               />
               </View>
               {item.chooseTime && (
-                <View style={{flex: 0.4}}>
+                <View style={styles.con_calendar_right}>
                   <Select
-                    label={propsL => (
-                      <View style={[propsL.style, cStyles.row, cStyles.itemsStart]}>
-                        <CText {...propsL}>{t(item.timeLabel)}</CText>
-                        {item.required && <CText status="danger">{' *'}</CText>}
-                      </View>
-                    )}
+                    label={propsL => RenderLabel(propsL, t, item.required, item.label)}
                     caption={item.chooseTime
                       ?  errors && errors[index].status
                         ? errors[index].helper
@@ -615,7 +602,8 @@ const CForm = forwardRef((props, ref) => {
                       ? item.values[values[index].value.time][item.keyToShow]
                       : '-'}
                     selectedIndex={new IndexPath(values[index].value.time)}
-                    onSelect={idxSelect => handleSelectedIndex(index, idxSelect, item.chooseTime)}>
+                    onSelect={idxSelect =>
+                      handleSelectedIndex(index, idxSelect, item.chooseTime)}>
                     {item.values && item.values.map((itemSelect, indexSelect) => {
                       return (
                         <SelectItem
@@ -650,7 +638,7 @@ const CForm = forwardRef((props, ref) => {
       {labelButton !== '' && labelButton2 && (
         <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween, cStyles.mt24]}>
           <Button
-            style={{flex: 0.45}}
+            style={styles.con_button_left}
             appearance={typeButton2}
             status={statusButton2}
             disabled={disabledButton}
@@ -658,7 +646,7 @@ const CForm = forwardRef((props, ref) => {
             {t(labelButton2)}
           </Button>
           <Button
-            style={{flex: 0.45}}
+            style={styles.con_button_right}
             appearance={typeButton}
             // accessoryLeft={loading && RenderLoadingIndicator}
             disabled={disabledButton}
@@ -669,6 +657,13 @@ const CForm = forwardRef((props, ref) => {
       )}
     </View>
   );
+});
+
+const styles = StyleSheet.create({
+  con_calendar_left: {flex: 0.55},
+  con_calendar_right: {flex: 0.4},
+  con_button_left: {flex: 0.45},
+  con_button_right: {flex: 0.45},
 });
 
 CForm.propTypes = {

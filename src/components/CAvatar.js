@@ -6,10 +6,8 @@
  **/
 import PropTypes from 'prop-types';
 import React from 'react';
-import {useTheme, Layout, Avatar} from '@ui-kitten/components';
+import {useTheme, Layout, Avatar, Text} from '@ui-kitten/components';
 import {StyleSheet, View} from 'react-native';
-/** COMPONENTS */
-import CText from './CText';
 /* COMMON */
 import {cStyles} from '~/utils/style';
 
@@ -34,6 +32,7 @@ function CAvatar(props) {
     sources = [],
     source = null,
   } = props;
+  const bodColor = theme['border-basic-color-3'];
 
   /************
    ** RENDER **
@@ -65,12 +64,7 @@ function CAvatar(props) {
   if (sources.length === 0 && source) {
     return (
       <Avatar
-        style={[
-          cStyles.borderAll,
-          {
-            borderColor: theme['border-basic-color-3'],
-          },
-        ]}
+        style={[cStyles.borderAll, {borderColor: bodColor}]}
         size={size}
         shape={shape}
         source={typeof source === 'string'
@@ -94,27 +88,31 @@ function CAvatar(props) {
           if (indexA === numberShow) {
             return (
               <Layout
+                key={'avatar_holder_' + indexA}
                 style={[
                   cStyles.center,
                   cStyles.borderAll,
-                  absolute && cStyles.abs,
                   holderSize,
                   borderRadiusHolder,
+                  {borderColor: bodColor},
+                  absolute && cStyles.abs,
                   absolute && {left: indexA * 15},
-                  {borderColor: theme['border-basic-color-3']},
                 ]}
                 level="3">
-                <CText category="c1" numberOfLines={1}>{`+${sources.length - numberShow}`}</CText>
+                <Text category="c1" numberOfLines={1}>
+                  {`+${sources.length - numberShow}`}
+                </Text>
               </Layout>
             )
           }
           return (
             <Avatar
+              key={'avatar_' + indexA}
               style={[
                 cStyles.borderAll,
                 absolute && cStyles.abs,
                 absolute && {left: indexA * 15},
-                {borderColor: theme['border-basic-color-3']},
+                {borderColor: bodColor},
               ]}
               size={size}
               shape={shape}
@@ -138,14 +136,8 @@ const styles = StyleSheet.create({
   img_large: {height: 48, width: 48},
   img_giant: {height: 56, width: 56},
 
-  con_group_avatar: {
-    height: 42,
-    width: 42,
-  },
-  con_holder_avatar: {
-    height: 18,
-    width: 18,
-  },
+  con_group_avatar: {height: 42, width: 42},
+  con_holder_avatar: {height: 18, width: 18},
 });
 
 CAvatar.propTypes = {

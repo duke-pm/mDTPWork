@@ -11,26 +11,31 @@ import {useTranslation} from 'react-i18next';
 import {useNavigation} from '@react-navigation/native';
 import {
   TopNavigation, TopNavigationAction, Toggle, useTheme,
-  Icon, Button, Tooltip,
+  Icon, Button, Tooltip, Text,
 } from '@ui-kitten/components';
 import {
   TouchableOpacity, View, LayoutAnimation, UIManager,
   StyleSheet,
-  StatusBar,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import IoniIcon from 'react-native-vector-icons/Ionicons';
 /** COMPONENTS */
 import CSearchBar from './CSearchBar';
-import CText from './CText';
 /* COMMON */
 import Routes from '~/navigator/Routes';
 import {Assets} from '~/utils/asset';
 import {ThemeContext} from '~/configs/theme-context';
 import {colors, cStyles} from '~/utils/style';
-import {AST_DARK_MODE, DARK, LIGHT} from '~/configs/constants';
 import {
-  getLocalInfo, IS_ANDROID, moderateScale, saveLocalInfo, SCREEN_HEIGHT, sH,
+  AST_DARK_MODE,
+  DARK,
+  LIGHT,
+} from '~/configs/constants';
+import {
+  getLocalInfo,
+  saveLocalInfo,
+  moderateScale,
+  IS_ANDROID,
 } from '~/utils/helper';
 
 if (IS_ANDROID) {
@@ -42,6 +47,7 @@ const initSizeIcon = moderateScale(20);
 const initColorText = 'text-basic-color';
 const initColorDanger = 'color-danger-500';
 const initBorder = 'border-basic-color-3';
+const initBGColor1 = 'background-basic-color-1';
 
 /*********************
  ** OTHER COMPONENT **
@@ -69,6 +75,23 @@ const BackIcon = (theme, iconStyle, iconBack) => (
   />
 );
 
+
+const RenderGlobalIcon = (
+  theme,
+  name,
+  size,
+  color,
+  onPress,
+) => (
+  <TouchableOpacity style={[cStyles.px10, cStyles.py6]} onPress={onPress}>
+    <IoniIcon
+      name={name}
+      size={size|| initSizeIcon}
+      color={color || theme[initColorText]}
+    />
+  </TouchableOpacity>
+);
+
 const RenderTopLeft = (
   theme,
   iconStyle,
@@ -88,40 +111,57 @@ const RenderTopLeft = (
         />
       )}
       {logo && (
-        <FastImage style={styles.img_logo} source={Assets.imgLogoSimple} />
+        <FastImage
+          style={styles.img_logo}
+          source={Assets.imgLogoSimple}
+        />
       )}
       <View>
-        <CText category="h4">{t(title)}</CText>
+        <Text category="h5">{t(title)}</Text>
         {subtitle && (
-          <CText category="c1" appearance="hint">
+          <Text category="c1" appearance="hint">
             {t(subtitle)}
-          </CText>
+          </Text>
         )}
       </View>
     </View>
   );
 };
 
-const RenderTopRight = (type, theme, iconStyle, t, onPress, onPress2, showFilter, renderFilter) => {
+const RenderTopRight = (
+  type,
+  theme,
+  iconStyle,
+  t,
+  onPress,
+  onPress2,
+  showFilter,
+  renderFilter,
+) => {
   if (type === 'darkmode') {
     return <Toggle {...onPress}>{t('common:dark_mode')}</Toggle>;
   }
+  if (type === 'notification') {
+    return RenderGlobalIcon(
+      theme,
+      'notifications-outline',
+      iconStyle.size,
+      iconStyle.color,
+      onPress);
+  }
   if (type === 'search') {
-    return (
-      <TouchableOpacity style={[cStyles.px10, cStyles.py6]} onPress={onPress}>
-        <IoniIcon
-          name={'search-outline'}
-          size={iconStyle.size || initSizeIcon}
-          color={iconStyle.color || theme[initColorText]}
-        />
-      </TouchableOpacity>
-    );
+    return RenderGlobalIcon(
+      theme,
+      'search-outline',
+      iconStyle.size,
+      iconStyle.color,
+      onPress);
   }
   if (type === 'filter') {
     return (
       <View>
         <Tooltip
-          style={{backgroundColor: theme['background-basic-color-1']}}
+          style={{backgroundColor: theme[initBGColor1]}}
           backdropStyle={styles.con_backdrop}
           visible={showFilter}
           anchor={() => RenderFilterIcon(theme, onPress2)}
@@ -141,16 +181,10 @@ const RenderTopRight = (type, theme, iconStyle, t, onPress, onPress2, showFilter
   if (type === 'searchFilter') {
     return (
       <View style={[cStyles.row, cStyles.itemsCenter]}>
-        <TouchableOpacity style={[cStyles.px10, cStyles.py6]} onPress={onPress}>
-          <IoniIcon
-            name={'search-outline'}
-            size={iconStyle.size || initSizeIcon}
-            color={iconStyle.color || theme[initColorText]}
-          />
-        </TouchableOpacity>
+        {RenderGlobalIcon(theme, 'search-outline', iconStyle.size, iconStyle.color, onPress)}
         <View>
           <Tooltip
-            style={{backgroundColor: theme['background-basic-color-1']}}
+            style={{backgroundColor: theme[initBGColor1]}}
             backdropStyle={[cStyles.abs, cStyles.inset0, styles.con_backdrop]}
             visible={showFilter}
             anchor={() => RenderFilterIcon(theme, onPress2)}
@@ -166,17 +200,6 @@ const RenderTopRight = (type, theme, iconStyle, t, onPress, onPress2, showFilter
             />
         </View>
       </View>
-    );
-  }
-  if (type === 'notification') {
-    return (
-      <TouchableOpacity style={[cStyles.px10, cStyles.py6]} onPress={onPress}>
-        <IoniIcon
-          name={'notifications-outline'}
-          size={iconStyle.size || initSizeIcon}
-          color={iconStyle.color || theme[initColorText]}
-        />
-      </TouchableOpacity>
     );
   }
   return null;
@@ -369,23 +392,23 @@ function CTopNavigation(props) {
         ]}
         title={evaProps =>
           customTitle || (
-            <CText
+            <Text
               {...evaProps}
               style={[cStyles.textCenter, titleStyle]}
               category="s1">
               {title !== '' ? t(title) : ''}
-            </CText>
+            </Text>
           )
         }
         subtitle={
           subtitle
             ? evaProps => (
-              <CText
+              <Text
                 style={[cStyles.textCenter, subtitleStyle]}
                 category="c1"
                 appearance="hint">
                 {t(subtitle)}
-              </CText>
+              </Text>
             )
             : undefined
         }
