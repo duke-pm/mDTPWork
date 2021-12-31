@@ -23,6 +23,7 @@ import {usePrevious} from '~/utils/hook';
 import {LOAD_MORE, REFRESH} from '~/configs/constants';
 /* REDUX */
 import * as Actions from '~/redux/actions';
+import Routes from '~/navigator/Routes';
 
 function ApprovedAssets(props) {
   const {t} = useTranslation();
@@ -237,7 +238,7 @@ function ApprovedAssets(props) {
           data={data.requests}
           dataDetail={data.requestsDetail}
           dataProcess={data.processApproveds}
-          routeDetail={'auto'}
+          routeDetail={Routes.ADD_APPROVED_ASSETS.name}
           onRefresh={onRefresh}
           onLoadmore={onLoadmore}
         />

@@ -10,7 +10,7 @@ import React, {useRef, useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {Layout, useTheme, Text} from '@ui-kitten/components';
-import {View} from 'react-native';
+import {ScrollView, View} from 'react-native';
 import IoniIcon from 'react-native-vector-icons/Ionicons';
 import * as Animatable from 'react-native-animatable';
 /* COMPONENTS */
@@ -114,126 +114,130 @@ function ForgotPassword(props) {
         back
         leftTitle={'forgot_password:title'}
       />
-      {/** Content prepare send */}
-      {!showAlert.status && (
-        <Layout
-          style={[
-            cStyles.flex1,
-            cStyles.mt32,
-            cStyles.roundedTopLeft5,
-            cStyles.roundedTopRight5,
-            cStyles.py16,
-            cStyles.px32,
-          ]}>
-          {/** Caption */}
-          <View style={cStyles.mt16}>
-            <Text style={cStyles.textCenter}>
-              {t('forgot_password:caption')}
-            </Text>
-          </View>
+      <ScrollView
+        contentContainerStyle={cStyles.flex1}
+        keyboardShouldPersistTaps="handled">
+        {/** Content prepare send */}
+        {!showAlert.status && (
+          <Layout
+            style={[
+              cStyles.flex1,
+              cStyles.mt32,
+              cStyles.roundedTopLeft5,
+              cStyles.roundedTopRight5,
+              cStyles.py16,
+              cStyles.px32,
+            ]}>
+            {/** Caption */}
+            <View style={cStyles.mt16}>
+              <Text style={cStyles.textCenter}>
+                {t('forgot_password:caption')}
+              </Text>
+            </View>
 
-          <CForm
-            ref={formRef}
-            loading={loading}
-            inputs={[
-              {
-                id: INPUT_NAME.EMAIL,
-                type: 'text',
-                label: 'forgot_password:input_email',
-                holder: 'forgot_password:input_holder_email',
-                value: values.email,
-                required: true,
-                password: false,
-                email: true,
-                phone: false,
-                number: false,
-                next: false,
-                return: 'send',
-                validate: {type: 'format_email', helper: ''},
-              },
-            ]}
-            leftButton={loading}
-            labelButton={'common:send'}
-            disabledButton={loading}
-            onSubmit={onSubmitSend}
-          />
-        </Layout>
-      )}
-      {/** Content when success */}
-      {showAlert.status && showAlert.success && (
-        <Layout
-          style={[
-            cStyles.flex1,
-            cStyles.mt32,
-            cStyles.roundedTopLeft5,
-            cStyles.roundedTopRight5,
-            cStyles.py16,
-            cStyles.px32,
-          ]}>
-          <View style={cStyles.itemsCenter}>
-            <MyIconAnim
-              name={'checkmark-circle-outline'}
-              size={sIconStatus}
-              color={colorSuccess}
-              animation="pulse"
-              easing="ease-out"
+            <CForm
+              ref={formRef}
+              loading={loading}
+              inputs={[
+                {
+                  id: INPUT_NAME.EMAIL,
+                  type: 'text',
+                  label: 'forgot_password:input_email',
+                  holder: 'forgot_password:input_holder_email',
+                  value: values.email,
+                  required: true,
+                  password: false,
+                  email: true,
+                  phone: false,
+                  number: false,
+                  next: false,
+                  return: 'send',
+                  validate: {type: 'format_email', helper: ''},
+                },
+              ]}
+              leftButton={loading}
+              labelButton={'common:send'}
+              disabledButton={loading}
+              onSubmit={onSubmitSend}
             />
-          </View>
-          {/** Sub-title & Caption */}
-          <View style={[cStyles.itemsCenter, cStyles.mt16]}>
-            <Text style={cStyles.textCenter}>
-              {`${t('forgot_password:success_content_1')}`}
-            </Text>
+          </Layout>
+        )}
+        {/** Content when success */}
+        {showAlert.status && showAlert.success && (
+          <Layout
+            style={[
+              cStyles.flex1,
+              cStyles.mt32,
+              cStyles.roundedTopLeft5,
+              cStyles.roundedTopRight5,
+              cStyles.py16,
+              cStyles.px32,
+            ]}>
+            <View style={cStyles.itemsCenter}>
+              <MyIconAnim
+                name={'checkmark-circle-outline'}
+                size={sIconStatus}
+                color={colorSuccess}
+                animation="pulse"
+                easing="ease-out"
+              />
+            </View>
+            {/** Sub-title & Caption */}
+            <View style={[cStyles.itemsCenter, cStyles.mt16]}>
+              <Text style={cStyles.textCenter}>
+                {`${t('forgot_password:success_content_1')}`}
+              </Text>
 
-            <Text style={cStyles.mt5} category="s1">
-              {values.email}
-            </Text>
+              <Text style={cStyles.mt5} category="s1">
+                {values.email}
+              </Text>
 
-            <Text style={[cStyles.textCenter, cStyles.mt20]}>
-              <Text>{`${t('forgot_password:success_content_2')} `}</Text>
-              <Text>{`"${t('forgot_password:success_content_3')}" `}</Text>
-              <Text>{`${t('forgot_password:success_content_4')}`}</Text>
-            </Text>
-          </View>
-        </Layout>
-      )}
-      {/** Content when error */}
-      {showAlert.status && !showAlert.success && (
-        <Layout
-          style={[
-            cStyles.flex1,
-            cStyles.mt32,
-            cStyles.roundedTopLeft5,
-            cStyles.roundedTopRight5,
-            cStyles.py16,
-            cStyles.px32,
-          ]}>
-          <View style={cStyles.itemsCenter}>
-            <MyIconAnim
-              name={'close-circle-outline'}
-              size={sIconStatus}
-              color={colorError}
-              animation="pulse"
-              easing="ease-out"
-            />
-          </View>
+              <Text style={[cStyles.textCenter, cStyles.mt20]}>
+                <Text>{`${t('forgot_password:success_content_2')} `}</Text>
+                <Text>{`"${t('forgot_password:success_content_3')}" `}</Text>
+                <Text>{`${t('forgot_password:success_content_4')}`}</Text>
+              </Text>
+            </View>
+          </Layout>
+        )}
+        {/** Content when error */}
+        {showAlert.status && !showAlert.success && (
+          <Layout
+            style={[
+              cStyles.flex1,
+              cStyles.mt32,
+              cStyles.roundedTopLeft5,
+              cStyles.roundedTopRight5,
+              cStyles.py16,
+              cStyles.px32,
+            ]}>
+            <View style={cStyles.itemsCenter}>
+              <MyIconAnim
+                name={'close-circle-outline'}
+                size={sIconStatus}
+                color={colorError}
+                animation="pulse"
+                easing="ease-out"
+              />
+            </View>
 
-          {/** Sub-title & Caption */}
-          <View style={[cStyles.itemsCenter, cStyles.mt16]}>
-            <Text style={cStyles.textCenter}>
-              {`${t('forgot_password:error_content_1')}`}
-            </Text>
+            {/** Sub-title & Caption */}
+            <View style={[cStyles.itemsCenter, cStyles.mt16]}>
+              <Text style={cStyles.textCenter}>
+                {`${t('forgot_password:error_content_1')}`}
+              </Text>
 
-            <Text style={cStyles.mt5} category="s1">
-              {values.email}
-            </Text>
+              <Text style={cStyles.mt5} category="s1">
+                {values.email}
+              </Text>
 
-            <Text style={[cStyles.textCenter, cStyles.mt20]}>
-              {`${t('forgot_password:error_content_2')}`}
-            </Text>
-          </View>
-        </Layout>
-      )}
+              <Text style={[cStyles.textCenter, cStyles.mt20]}>
+                {`${t('forgot_password:error_content_2')}`}
+              </Text>
+            </View>
+          </Layout>
+        )}
+      </ScrollView>
       {/** Loading */}
       <CLoading show={loading} />
     </CContainer>

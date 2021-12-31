@@ -95,6 +95,7 @@ function AddRequest(props) {
   const [loading, setLoading] = useState({
     main: true,
     startFetch: false,
+    startFetchDetails: false,
     startFetchLogin: false,
     submitAdd: false,
     submitApproved: false,
@@ -134,29 +135,31 @@ function AddRequest(props) {
   /**********
    ** FUNC **
    **********/
-  const onBackToHome = () => resetRoute(navigation, Routes.TAB.name);
-
   const onGoToSignIn = () =>
     resetRoute(navigation, Routes.LOGIN_IN.name);
 
   const onPrepareData = () => {
-    let type = route.params?.type;
-    if (type) setForm({...form, typeUpdate: type});
+    let params2 = {
+      listType: 'Department, Region',
+      RefreshToken: refreshToken,
+      Lang: language,
+    };
+    dispatch(Actions.fetchMasterData(params2, navigation));
+  };
+
+  const onGetAssetsByUser = () => {
     let params = {
       EmpCode: authState.getIn(['login', 'empCode']),
       RefreshToken: refreshToken,
       Lang: language,
     };
-    dispatch(Actions.fetchAssetByUser(params));
-    dispatch(Actions.resetAllApproved());
-    setLoading({...loading, startFetch: true});
+    dispatch(Actions.fetchAssetByUser(params, navigation));
   };
 
   const onSendRequest = () => {
     setLoading({...loading, submitAdd: true});
     /** Set values for input */
     let tmpCallback = formRef.current?.onCallbackValue();
-    console.log('[LOG] ===  ===> ', tmpCallback.valuesAll);
     /** prepare assets */
     let formData = new FormData();
     formData.append('EmpCode', authState.getIn(['login', 'empCode']));
@@ -167,7 +170,7 @@ function AddRequest(props) {
     formData.append('Reasons', tmpCallback.valuesAll[2].value);
     formData.append(
       'TypeUpdate',
-      form.typeUpdate === Commons.APPROVED_TYPE.DAMAGED.value
+      tmpCallback.valuesAll[3].values[tmpCallback.valuesAll[3].value].value === Commons.APPROVED_TYPE.DAMAGED.value
         ? 'Damage'
         : 'Lost',
     );
@@ -185,22 +188,27 @@ function AddRequest(props) {
       });
     }
     let params = {RefreshToken: refreshToken, Lang: language};
-    console.log('[LOG] === formData ===> ', formData);
     dispatch(Actions.fetchAddRequestLostDamage(params, formData, navigation));
   };
 
   const onPrepareDetail = (dataRequest, dataProcess) => {
     let tmp = {
       id: dataRequest ? dataRequest?.requestID : '',
-      personRequestId: dataRequest ? dataRequest?.personRequestID : '',
-      name: dataRequest ? dataRequest?.personRequest : '',
+      personRequestId: dataRequest
+        ? dataRequest?.personRequestID
+        : Number(authState.getIn(['login', 'userId'])),
+      name: dataRequest
+        ? dataRequest?.personRequest
+        : authState.getIn(['login', 'fullName']),
       dateRequest: dataRequest
-        ? moment(dataRequest?.requestDate, DEFAULT_FORMAT_DATE_4).format(
-            formatDate,
-          )
+        ? moment(dataRequest?.requestDate, DEFAULT_FORMAT_DATE_4).format(formatDate)
         : moment().format(formatDate),
-      department: dataRequest ? dataRequest?.deptCode : '',
-      region: dataRequest ? dataRequest?.regionCode : '',
+      department: dataRequest
+        ? dataRequest?.deptCode
+        : authState.getIn(['login', 'deptCode']),
+      region: dataRequest
+        ? dataRequest?.regionCode
+        : authState.getIn(['login', 'regionCode']),
       assetID: dataRequest ? dataRequest?.assetID : '',
       reason: dataRequest ? dataRequest?.reason : '',
       typeUpdate: dataRequest
@@ -215,15 +223,17 @@ function AddRequest(props) {
     if (dataProcess && dataProcess.length > 0) {
       setProcess(dataProcess);
     }
-
     // Apply to form
     setForm(tmp);
-    setLoading({
-      ...loading,
-      main: false,
-      startFetchLogin: false,
-      startFetch: false,
-    });
+    if (dataRequest) {
+      setLoading({
+        ...loading,
+        main: false,
+        startFetchLogin: false,
+        startFetch: false,
+        startFetchDetails: false,
+      });
+    }
   };
 
   const onApproved = () => {
@@ -282,22 +292,19 @@ function AddRequest(props) {
       RefreshToken: refreshToken,
     });
     dispatch(Actions.fetchRequestDetail(params, navigation));
-    return setLoading({...loading, startFetch: true});
   };
 
   const onCheckDeeplink = () => {
+    onPrepareData();
     if (typeof requestParam === 'object' || requestParam === -1) {
-      onPrepareDetail(
-        route.params?.data,
-        route.params?.dataProcess,
-      );
       setCurrentProcess({
         statusID: route.params?.currentProcess?.statusID,
         statusName: route.params?.currentProcess?.statusName,
       });
-    } else {
-      onPrepareData();
-      onFetchRequestDetail(requestParam);
+      onPrepareDetail(
+        route.params?.data,
+        route.params?.dataProcess,
+      );
     }
   };
 
@@ -305,6 +312,7 @@ function AddRequest(props) {
    ** LIFE CYCLE **
    ****************/
   useEffect(() => {
+    dispatch(Actions.resetStatusMasterData());
     let isLogin = authState.get('successLogin');
     if (isLogin) {
       onCheckDeeplink();
@@ -333,55 +341,70 @@ function AddRequest(props) {
   ]);
 
   useEffect(() => {
-    if (loading.startFetch) {
-      if (!approvedState.get('submittingRequestDetail')) {
-        if (approvedState.get('successRequestDetail')) {
-          return onPrepareData();
-        }
-
-        if (approvedState.get('errorRequestDetail')) {
-          return onGoToSignIn();
+    if (loading.main) {
+      if (!masterState.get('submitting')) {
+        if (masterState.get('department').length > 0) {
+          dispatch(Actions.resetStatusMasterData());
+          setLoading({...loading, main: false, startFetch: true});
+          onGetAssetsByUser();
         }
       }
     }
   }, [
-    loading.startFetch,
-    approvedState.get('submittingRequestDetail'),
-    approvedState.get('successRequestDetail'),
-    approvedState.get('errorRequestDetail'),
+    loading.main,
+    masterState.get('submitting'),
+    masterState.get('department'),
   ]);
 
   useEffect(() => {
-    if (loading.main && loading.startFetch) {
+    if (loading.startFetch && !loading.startFetchDetails) {
       if (!masterState.get('submitting')) {
-        if (masterState.get('success')) {
-          if (approvedState.get('requestDetail')) {
-            let tmp = approvedState.get('requestDetail');
-            setRequestDetail(tmp);
-            setCurrentProcess({statusID: tmp.statusID, statusName: tmp.statusName});
-            onPrepareDetail(
-              approvedState.get('requestDetail'),
-              approvedState.get('requestProcessDetail'),
-            );
+        if (masterState.get('success') && !masterState.get('error')) {
+          if (isDetail) {
+            onPrepareDetail(route.params?.data, route.params?.dataProcess);
+            setCurrentProcess({
+              statusID: route.params?.currentProcess?.statusID,
+              statusName: route.params?.currentProcess?.statusName,
+            });
           } else {
-            if (isDetail) {
-              onPrepareDetail(route.params?.data, route.params?.dataProcess);
-              setCurrentProcess({
-                statusID: route.params?.currentProcess?.statusID,
-                statusName: route.params?.currentProcess?.statusName,
-              });
+            if (requestParam === -1) {
+              setLoading({...loading, startFetch: false, startFetchLogin: false});
             } else {
-              // do nothing
+              onFetchRequestDetail(requestParam);
+              setLoading({...loading, startFetchDetails: true});
             }
           }
         }
       }
     }
   }, [
-    loading.main,
     loading.startFetch,
-    masterState.get('assetByUser'),
     masterState.get('submitting'),
+    masterState.get('success'),
+    masterState.get('error'),
+    approvedState.get('requestDetail'),
+  ]);
+
+  useEffect(() => {
+    if (loading.startFetchDetails) {
+      if (!approvedState.get('submittingRequestDetail')) {
+        if (approvedState.get('successRequestDetail')) {
+          let tmp = approvedState.get('requestDetail');
+          if (tmp) {
+            setRequestDetail(tmp);
+            setCurrentProcess({statusID: tmp.statusID, statusName: tmp.statusName});
+            onPrepareDetail(
+              tmp,
+              approvedState.get('requestProcessDetail'),
+            );
+          }
+        }
+      }
+    }
+  }, [
+    loading.startFetchDetails,
+    approvedState.get('submittingRequestDetail'),
+    approvedState.get('successRequestDetail'),
     approvedState.get('requestDetail'),
   ]);
 
@@ -512,16 +535,16 @@ function AddRequest(props) {
   let userRegion = '', userDepartment = '',
     masterRegion = masterState.get('region'),
     masterDepartment = masterState.get('department');
-  userRegion = masterRegion.find(f => f.regionCode === form.region);
-  userDepartment = masterDepartment.find(f => f.deptCode === form.department);
+  userRegion = masterRegion.find(f => f.regionCode == form.region);
+  userDepartment = masterDepartment.find(f => f.deptCode == form.department);
   let title = '';
   if (!isDetail && !requestDetail) {
     title = t('add_approved_lost_damaged:title');
   } else {
     let tmpID =
-      isDetail && !requestDetail
-        ? route.params?.data?.requestID
-        : requestParam;
+    isDetail && !requestDetail
+    ? route.params?.data?.requestID
+    : requestParam;
     if (form.typeUpdate === Commons.APPROVED_TYPE.DAMAGED.value) {
       title = t('add_approved_lost_damaged:detail_damage') + ' #' + tmpID;
     } else {
@@ -675,15 +698,12 @@ function AddRequest(props) {
               )}
             </View>
           }>
-          {!loading.main && (
+          {!loading.main &&
+            !loading.startFetch &&
+            !loading.startFetchLogin && (
             <CForm
               ref={formRef}
-              loading={
-                loading.main ||
-                loading.startFetch ||
-                loading.startFetchLogin ||
-                loading.submitAdd
-              }
+              loading={loading.submitAdd}
               inputs={[
                 {
                   id: INPUT_NAME.DATE_REQUEST,
@@ -829,6 +849,10 @@ function AddRequest(props) {
 
       {/** Loading of page */}
       <CLoading show={
+        loading.main ||
+        loading.startFetch ||
+        loading.startFetchDetails ||
+        loading.startFetchLogin ||
         loading.submitAdd ||
         loading.submitApproved ||
         loading.submitReject

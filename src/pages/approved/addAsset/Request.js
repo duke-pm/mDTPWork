@@ -94,7 +94,7 @@ function AddRequest(props) {
   if (requestParam === -1) {
     requestParam = route.params?.requestID || -1;
   }
-  console.log('[LOG] === requestParam ===> ', requestParam);
+
   /** Use ref */
   const formRef = useRef();
 
@@ -182,15 +182,23 @@ function AddRequest(props) {
   const onPrepareDetail = (dataRequest, dataAssets, dataProcess) => {
     let tmp = {
       id: dataRequest ? dataRequest?.requestID : '',
-      personRequestId: dataRequest ? dataRequest?.personRequestID : '',
+      personRequestId: dataRequest
+        ? dataRequest?.personRequestID
+        : Number(authState.getIn(['login', 'userId'])),
       dateRequest: dataRequest
         ? moment(dataRequest?.requestDate, DEFAULT_FORMAT_DATE_4).format(
             formatDate,
           )
         : moment().format(formatDate),
-      name: dataRequest ? dataRequest?.personRequest : '',
-      department: dataRequest ? dataRequest?.deptCode : '',
-      region: dataRequest ? dataRequest?.regionCode : '',
+      name: dataRequest
+        ? dataRequest?.personRequest
+        : authState.getIn(['login', 'fullName']),
+      department: dataRequest
+        ? dataRequest?.deptCode
+        : authState.getIn(['login', 'deptCode']),
+      region: dataRequest
+        ? dataRequest?.regionCode
+        : authState.getIn(['login', 'regionCode']),
       assets: {
         width: WIDTH_ITEM_TABLE,
         header: [
@@ -342,6 +350,7 @@ function AddRequest(props) {
   };
 
   const onCheckDeeplink = () => {
+    onPrepareData();
     if (typeof requestParam === 'object' || requestParam === -1) {
       onPrepareDetail(
         route.params?.data,
@@ -353,7 +362,6 @@ function AddRequest(props) {
         statusName: route.params?.currentProcess?.statusName,
       });
     } else {
-      onPrepareData();
       onFetchRequestDetail(requestParam);
     }
   };
@@ -362,6 +370,7 @@ function AddRequest(props) {
    ** LIFE CYCLE **
    ****************/
   useEffect(() => {
+    dispatch(Actions.resetStatusMasterData());
     let isLogin = authState.get('successLogin');
     if (isLogin) {
       onCheckDeeplink();
@@ -551,15 +560,13 @@ function AddRequest(props) {
   /************
    ** RENDER **
    ************/
-  console.log('[LOG] === RENDER isDetail ===> ', isDetail);
-  console.log('[LOG] === RENDER requestDetail ===> ', requestDetail);
   const isShowApprovedReject =
     isDetail && form.isAllowApproved && route.params?.permissionWrite;
   let userRegion = '', userDepartment = '',
     masterRegion = masterState.get('region'),
     masterDepartment = masterState.get('department');
-  userRegion = masterRegion.find(f => f.regionCode === form.region);
-  userDepartment = masterDepartment.find(f => f.deptCode === form.department);
+  userRegion = masterRegion.find(f => f.regionCode == form.region);
+  userDepartment = masterDepartment.find(f => f.deptCode == form.department);
   let title = '';
   if (!isDetail && !requestDetail) {
     title = t('add_approved_assets:title');
@@ -634,15 +641,10 @@ function AddRequest(props) {
               )}
             </View>
           }>
-          {!loading.main && (
+          {!loading.main && !loading.startFetch && !loading.startFetchLogin && (
             <CForm
               ref={formRef}
-              loading={
-                loading.main ||
-                loading.startFetch ||
-                loading.startFetchLogin ||
-                loading.submitAdd
-              }
+              loading={loading.submitAdd}
               inputs={[
                 {
                   id: INPUT_NAME.DATE_REQUEST,
@@ -828,6 +830,9 @@ function AddRequest(props) {
 
       {/** Loading of page */}
       <CLoading show={
+        loading.main ||
+        loading.startFetch ||
+        loading.startFetchLogin ||
         loading.submitAdd ||
         loading.submitApproved ||
         loading.submitReject

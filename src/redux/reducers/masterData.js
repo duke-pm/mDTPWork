@@ -74,11 +74,11 @@ export default function (state = initialState, action = {}) {
         .set('assetType', payload.assetType || state.get('assetType'))
         .set('assetGroup', payload.assetGroup || state.get('assetGroup'))
         .set('users', tmpUsers || state.get('users'))
+        .set('assetByUser', payload.assetByUser || [])
         .set(
           'assetGroupDetail',
           payload.assetGroupDetail || state.get('assetGroupDetail'),
         )
-        .set('assetByUser', payload.assetByUser || [])
         .set(
           'projectStatus',
           payload.projectStatus || state.get('projectStatus'),

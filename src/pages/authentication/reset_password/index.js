@@ -10,7 +10,7 @@ import React, {useRef, useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {useTheme, Layout, Text} from '@ui-kitten/components';
-import {View} from 'react-native';
+import {ScrollView, View} from 'react-native';
 import IoniIcon from 'react-native-vector-icons/Ionicons';
 import * as Animatable from 'react-native-animatable';
 /* COMPONENTS */
@@ -182,118 +182,121 @@ function ResetPassword(props) {
         back
         onPressCustomBack={handleGoBack}
       />
+      <ScrollView
+        contentContainerStyle={cStyles.flex1}
+        keyboardShouldPersistTaps="handled">
+        {/** Content prepare send */}
+        {!showAlert && (
+          <Layout
+            style={[
+              cStyles.flex1,
+              cStyles.mt32,
+              cStyles.roundedTopLeft5,
+              cStyles.roundedTopRight5,
+              cStyles.py16,
+              cStyles.px32,
+            ]}>
+            {/** Caption */}
+            <View style={cStyles.mt16}>
+              <Text style={cStyles.textCenter} category="p1">
+                {t('reset_password:caption')}
+              </Text>
+            </View>
 
-      {/** Content prepare send */}
-      {!showAlert && (
-        <Layout
-          style={[
-            cStyles.flex1,
-            cStyles.mt32,
-            cStyles.roundedTopLeft5,
-            cStyles.roundedTopRight5,
-            cStyles.py16,
-            cStyles.px32,
-          ]}>
-          {/** Caption */}
-          <View style={cStyles.mt16}>
-            <Text style={cStyles.textCenter} category="p1">
-              {t('reset_password:caption')}
-            </Text>
-          </View>
-
-          {/** Form input */}
-          <CForm
-            ref={formRef}
-            loading={loading.check || loading.update}
-            inputs={[
-              {
-                id: INPUT_NAME.PASSWORD,
-                type: 'text',
-                label: 'reset_password:input_label_password',
-                holder: 'reset_password:input_holder_password',
-                value: values.password,
-                required: true,
-                password: true,
-                email: false,
-                phone: false,
-                number: false,
-                next: false,
-                return: 'done',
-              },
-            ]}
-            leftButton={loading.check || loading.update}
-            labelButton={'common:save'}
-            onSubmit={onSubmitSave}
-          />
-        </Layout>
-      )}
-
-      {/** Content when success */}
-      {showAlert && values.success && (
-        <Layout
-          style={[
-            cStyles.flex1,
-            cStyles.mt32,
-            cStyles.roundedTopLeft5,
-            cStyles.roundedTopRight5,
-            cStyles.py16,
-            cStyles.px32,
-          ]}>
-          <View style={cStyles.itemsCenter}>
-            <MyIconAnim
-              name={'checkmark-circle-outline'}
-              size={sIconStatus}
-              color={colorSuccess}
-              animation="pulse"
-              easing="ease-out"
+            {/** Form input */}
+            <CForm
+              ref={formRef}
+              loading={loading.check || loading.update}
+              inputs={[
+                {
+                  id: INPUT_NAME.PASSWORD,
+                  type: 'text',
+                  label: 'reset_password:input_label_password',
+                  holder: 'reset_password:input_holder_password',
+                  value: values.password,
+                  required: true,
+                  password: true,
+                  email: false,
+                  phone: false,
+                  number: false,
+                  next: false,
+                  return: 'done',
+                },
+              ]}
+              leftButton={loading.check || loading.update}
+              labelButton={'common:save'}
+              onSubmit={onSubmitSave}
             />
-          </View>
+          </Layout>
+        )}
 
-          {/** Sub-title & Caption */}
-          <View style={cStyles.mt16}>
-            <Text style={cStyles.textCenter} category="s1">
-              {t('reset_password:success_sub_title')}
-            </Text>
-            <Text style={[cStyles.mt16, cStyles.textCenter]}>
-              {t('reset_password:success_caption')}
-            </Text>
-          </View>
-        </Layout>
-      )}
+        {/** Content when success */}
+        {showAlert && values.success && (
+          <Layout
+            style={[
+              cStyles.flex1,
+              cStyles.mt32,
+              cStyles.roundedTopLeft5,
+              cStyles.roundedTopRight5,
+              cStyles.py16,
+              cStyles.px32,
+            ]}>
+            <View style={cStyles.itemsCenter}>
+              <MyIconAnim
+                name={'checkmark-circle-outline'}
+                size={sIconStatus}
+                color={colorSuccess}
+                animation="pulse"
+                easing="ease-out"
+              />
+            </View>
 
-      {showAlert && !values.success && (
-        <Layout
-          style={[
-            cStyles.flex1,
-            cStyles.mt32,
-            cStyles.roundedTopLeft5,
-            cStyles.roundedTopRight5,
-            cStyles.py16,
-            cStyles.px32,
-          ]}>
-          <View style={cStyles.itemsCenter}>
-            <MyIconAnim
-              name={'close-circle-outline'}
-              size={sIconStatus}
-              color={colorError}
-              animation="pulse"
-              easing="ease-out"
-            />
-          </View>
+            {/** Sub-title & Caption */}
+            <View style={cStyles.mt16}>
+              <Text style={cStyles.textCenter} category="s1">
+                {t('reset_password:success_sub_title')}
+              </Text>
+              <Text style={[cStyles.mt16, cStyles.textCenter]}>
+                {t('reset_password:success_caption')}
+              </Text>
+            </View>
+          </Layout>
+        )}
 
-          {/** Sub-title & Caption */}
-          <View style={cStyles.mt16}>
-            <Text style={cStyles.textCenter} category="s1">
-              {t('reset_password:error_sub_title')}
-            </Text>
-            <Text style={[cStyles.mt16, cStyles.textCenter]}>
-              {values.errorExpired !== ''
-                ? t(values.errorExpired)
-                : t(values.error)}
-            </Text>
-          </View>
-        </Layout>
-      )}
+        {showAlert && !values.success && (
+          <Layout
+            style={[
+              cStyles.flex1,
+              cStyles.mt32,
+              cStyles.roundedTopLeft5,
+              cStyles.roundedTopRight5,
+              cStyles.py16,
+              cStyles.px32,
+            ]}>
+            <View style={cStyles.itemsCenter}>
+              <MyIconAnim
+                name={'close-circle-outline'}
+                size={sIconStatus}
+                color={colorError}
+                animation="pulse"
+                easing="ease-out"
+              />
+            </View>
+
+            {/** Sub-title & Caption */}
+            <View style={cStyles.mt16}>
+              <Text style={cStyles.textCenter} category="s1">
+                {t('reset_password:error_sub_title')}
+              </Text>
+              <Text style={[cStyles.mt16, cStyles.textCenter]}>
+                {values.errorExpired !== ''
+                  ? t(values.errorExpired)
+                  : t(values.error)}
+              </Text>
+            </View>
+          </Layout>
+        )}
+      </ScrollView>
     </CContainer>
   );
 }

@@ -9,7 +9,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {usePrevious} from '~/utils/hook';
 import {useTheme, Layout, CheckBox, Button, Text} from '@ui-kitten/components';
-import {View, StatusBar, Linking} from 'react-native';
+import {View, StatusBar, Linking, ScrollView} from 'react-native';
 import {showMessage} from 'react-native-flash-message';
 import VersionCheck from 'react-native-version-check';
 import moment from 'moment';
@@ -240,100 +240,104 @@ function Login(props) {
         darkmode
       />
       {/** Content */}
-      <Layout
-        style={[
-          cStyles.flex1,
-          cStyles.mt32,
-          cStyles.roundedTopLeft5,
-          cStyles.roundedTopRight5,
-          cStyles.py16,
-          cStyles.px32,
-        ]}>
-        {/** Form input */}
-        <CForm
-          ref={formRef}
-          loading={loading.main || loading.submit}
-          inputs={[
-            {
-              id: INPUT_NAME.USER_NAME,
-              type: 'text',
-              label: 'sign_in:input_username',
-              holder: 'sign_in:input_holder_username',
-              value: values.userName,
-              required: true,
-              password: false,
-              email: false,
-              phone: false,
-              number: false,
-              next: true,
-              return: 'next',
-            },
-            {
-              id: INPUT_NAME.PASSWORD,
-              type: 'text',
-              label: 'sign_in:input_password',
-              holder: 'sign_in:input_holder_password',
-              value: values.password,
-              required: true,
-              password: true,
-              email: false,
-              phone: false,
-              number: false,
-              next: false,
-              return: 'done',
-            },
-          ]}
-          customAddingForm={
-            <View
-              style={[
-                cStyles.row,
-                cStyles.itemsCenter,
-                cStyles.justifyBetween,
-                cStyles.mt20,
-              ]}>
-              <CheckBox
-                disabled={loading.main || loading.submit}
-                checked={values.saveAccount}
-                onChange={handleSaveAccount}>
-                {t('sign_in:save_account')}
-              </CheckBox>
+      <ScrollView
+        contentContainerStyle={cStyles.flex1}
+        keyboardShouldPersistTaps="handled">
+        <Layout
+          style={[
+            cStyles.flex1,
+            cStyles.mt32,
+            cStyles.roundedTopLeft5,
+            cStyles.roundedTopRight5,
+            cStyles.py16,
+            cStyles.px32,
+          ]}>
+          {/** Form input */}
+          <CForm
+            ref={formRef}
+            loading={loading.main || loading.submit}
+            inputs={[
+              {
+                id: INPUT_NAME.USER_NAME,
+                type: 'text',
+                label: 'sign_in:input_username',
+                holder: 'sign_in:input_holder_username',
+                value: values.userName,
+                required: true,
+                password: false,
+                email: false,
+                phone: false,
+                number: false,
+                next: true,
+                return: 'next',
+              },
+              {
+                id: INPUT_NAME.PASSWORD,
+                type: 'text',
+                label: 'sign_in:input_password',
+                holder: 'sign_in:input_holder_password',
+                value: values.password,
+                required: true,
+                password: true,
+                email: false,
+                phone: false,
+                number: false,
+                next: false,
+                return: 'done',
+              },
+            ]}
+            customAddingForm={
+              <View
+                style={[
+                  cStyles.row,
+                  cStyles.itemsCenter,
+                  cStyles.justifyBetween,
+                  cStyles.mt20,
+                ]}>
+                <CheckBox
+                  disabled={loading.main || loading.submit}
+                  checked={values.saveAccount}
+                  onChange={handleSaveAccount}>
+                  {t('sign_in:save_account')}
+                </CheckBox>
+                <Button
+                  disabled={loading.main || loading.submit}
+                  appearance="ghost"
+                  onPress={handleGoForgotPassword}>
+                  {propsB =>
+                    <Text style={cStyles.textUnderline} status="primary">
+                      {t('sign_in:forgot_password')}
+                    </Text>
+                  }
+                </Button>
+              </View>
+            }
+            disabledButton={loading.main || loading.submit}
+            labelButton={'sign_in:button_sign_in'}
+            onSubmit={handleSignIn}
+          />
+        </Layout>
+        <Layout style={[cStyles.center, cStyles.justifyEnd, cStyles.pb36]}>
+          <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyCenter]}>
+            <Text category="c1" appearance="hint">
+              {`${t('sign_in:version')} ${versionApp.number}`}
+            </Text>
+            {versionApp.needUpdate && (
               <Button
-                disabled={loading.main || loading.submit}
-                appearance="ghost"
-                onPress={handleGoForgotPassword}>
-                {propsB =>
-                  <Text style={cStyles.textUnderline} status="primary">
-                    {t('sign_in:forgot_password')}
-                  </Text>
-                }
+                style={cStyles.ml10}
+                size="tiny"
+                status="warning"
+                appearance="outline"
+                onPress={handleUpdateAppNow}>
+                {`${t('sign_in:holder_update_now')}`}
               </Button>
-            </View>
-          }
-          disabledButton={loading.main || loading.submit}
-          labelButton={'sign_in:button_sign_in'}
-          onSubmit={handleSignIn}
-        />
-      </Layout>
-      <Layout style={[cStyles.center, cStyles.justifyEnd, cStyles.pb36]}>
-        <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyCenter]}>
-          <Text category="c1" appearance="hint">
-            {`${t('sign_in:version')} ${versionApp.number}`}
+            )}
+          </View>
+          <Text style={[cStyles.mt10, cStyles.textCenter]} category="c1" appearance="hint">
+            &#169; {`${moment().year()} ${t('sign_in:copyright_by')}\n${Configs.nameOfCompany}`}
           </Text>
-          {versionApp.needUpdate && (
-            <Button
-              style={cStyles.ml10}
-              size="tiny"
-              status="warning"
-              appearance="outline"
-              onPress={handleUpdateAppNow}>
-              {`${t('sign_in:holder_update_now')}`}
-            </Button>
-          )}
-        </View>
-        <Text style={[cStyles.mt10, cStyles.textCenter]} category="c1" appearance="hint">
-          &#169; {`${moment().year()} ${t('sign_in:copyright_by')}\n${Configs.nameOfCompany}`}
-        </Text>
-      </Layout>
+        </Layout>
+      </ScrollView>
       {/** Loading */}
       <CLoading show={loading.submit} />
     </CContainer>

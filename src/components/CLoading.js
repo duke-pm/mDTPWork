@@ -25,7 +25,7 @@ function CLoading(props) {
       backdropStyle={styles.con_backdrop}
       onBackdropPress={() => null}>
       <View style={cStyles.flexCenter}>
-        <Spinner status="control" />
+        <Spinner />
         <Text
           style={cStyles.mt10}
           category="c1"

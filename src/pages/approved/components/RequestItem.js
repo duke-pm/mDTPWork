@@ -47,7 +47,7 @@ function RequestItem(props) {
   let title =
     `${data.requestID} | ${trans('approved_assets:title_request_item')}`;
   if (data.requestTypeID !== Commons.APPROVED_TYPE.ASSETS.value) {
-    title = `${trans('approved_lost_damaged:title_request_item_1')}${
+    title = `${data.requestID} | ${trans('approved_lost_damaged:title_request_item_1')}${
       data.requestTypeName
     }`;
   }

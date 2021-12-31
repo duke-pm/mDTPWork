@@ -191,10 +191,9 @@ function AssetsTable(props) {
             }}
             style={cStyles.mt6}>
             <Row
-              style={[styles.table_header, {backgroundColor: theme['background-basic-color-2']}]}
+              style={[styles.table_header, {backgroundColor: theme['color-basic-400']}]}
               textStyle={[
                 cStyles.textCenter,
-                cStyles.textCallout,
                 {color: theme['text-basic-color']},
               ]}
               widthArr={form.assets.width}
@@ -203,13 +202,13 @@ function AssetsTable(props) {
             {form.assets.data.map((rowData, rowIdx) => {
               return (
                 <TableWrapper
-                  key={'row_' + rowIdx.toString()}
+                  key={'row_' + rowIdx}
                   style={[cStyles.flex1, cStyles.row]}>
                   {rowData.map((cellData, cellIdx) => {
                     let disabled = loading || cellIdx === 4 || isDetail;
                     return (
                       <Cell
-                        key={'cell_' + cellIdx.toString()}
+                        key={'cell_' + cellIdx}
                         width={form.assets.width[cellIdx]}
                         data={
                           <AssetItem

@@ -27,7 +27,7 @@ function ListRequest(props) {
     permissionWrite = false,
     onLoadmore = undefined,
     onRefresh = undefined,
-    routeDetail = Routes.MAIN.ADD_APPROVED_ASSETS.name,
+    routeDetail = Routes.ADD_APPROVED_ASSETS.name,
   } = props;
 
   /*****************
