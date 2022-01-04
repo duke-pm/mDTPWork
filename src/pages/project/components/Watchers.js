@@ -12,7 +12,9 @@ import {showMessage} from 'react-native-flash-message';
 import {
   Avatar, Button, Card, CheckBox, Icon, Layout, Text,
 } from '@ui-kitten/components';
-import {StyleSheet, View, UIManager, LayoutAnimation} from 'react-native';
+import {
+  StyleSheet, View, UIManager, LayoutAnimation,
+} from 'react-native';
 import IoniIcon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 import 'moment/locale/en-sg';
@@ -23,7 +25,10 @@ import CEmpty from '~/components/CEmpty';
 import Icons from '~/utils/common/Icons';
 import {Assets} from '~/utils/asset';
 import {cStyles} from '~/utils/style';
-import {moderateScale, IS_ANDROID} from '~/utils/helper';
+import {
+  moderateScale,
+  IS_ANDROID,
+} from '~/utils/helper';
 import {
   DEFAULT_FORMAT_DATE_7,
   DEFAULT_FORMAT_DATE_9,

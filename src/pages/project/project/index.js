@@ -32,6 +32,7 @@ function Project(props) {
   const {t} = useTranslation();
   const {navigation, route} = props;
   const projectID = route.params?.projectID || null;
+  const yearFilter = route.params?.year || moment().year();
 
   /** Use redux */
   const dispatch = useDispatch();
@@ -52,7 +53,7 @@ function Project(props) {
     isLoadmore: true,
   });
   const [data, setData] = useState({
-    year: moment().year(),
+    year: yearFilter,
     statusID: null,
     ownerID: null,
     page: 1,
@@ -156,7 +157,6 @@ function Project(props) {
 
   const onRefreshProjects = () => {
     if (!loading.refreshing) {
-      
       onFetchData(
         data.year,
         data.ownerID,
@@ -251,6 +251,7 @@ function Project(props) {
           loading={loading.startFetch}
           title={title}
           back
+          arrayBackProject={projectID !== null}
           borderBottom
           searchFilter
           onSearch={onSearch}
@@ -276,6 +277,7 @@ function Project(props) {
       {/** Content */}
       {!loading.main && !loading.startFetch && (
         <ListProject
+          year={data.year}
           data={data.projects}
           loadmore={loading.loadmore}
           refreshing={loading.refreshing}

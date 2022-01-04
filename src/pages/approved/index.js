@@ -76,6 +76,7 @@ function Approved(props) {
         <CTopNavigation
           title="approved:title"
           back
+          borderBottom
         />
       }>
       <CContentSubMenu

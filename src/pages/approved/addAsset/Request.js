@@ -10,11 +10,13 @@ import React, {createRef, useEffect, useState, useRef} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {
-  Avatar, Card, Icon, TopNavigationAction, Text,
+  KeyboardAwareScrollView
+} from 'react-native-keyboard-aware-scroll-view';
+import {
+  Card, Icon, TopNavigationAction, Text,
 } from '@ui-kitten/components';
 import {StyleSheet, View} from 'react-native';
 import {showMessage} from 'react-native-flash-message';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import moment from 'moment';
 import 'moment/locale/en-sg';
 /* COMPONENTS */
@@ -29,10 +31,10 @@ import RequestProcess from '../components/RequestProcess';
 import AssetsTable, {WIDTH_ITEM_TABLE} from '../components/AssetsTable';
 import RejectModal from '../components/RejectModal';
 import FooterFormRequest from '../components/FooterFormRequest';
+import UserRequest from '../components/UserRequest';
 /* COMMON */
 import Routes from '~/navigator/Routes';
 import FieldsAuth from '~/configs/fieldsAuth';
-import {Assets} from '~/utils/asset';
 import {cStyles} from '~/utils/style';
 import {Commons} from '~/utils/common';
 import {
@@ -601,30 +603,17 @@ function AddRequest(props) {
         />
       }>
       <KeyboardAwareScrollView contentContainerStyle={cStyles.p10}>
-        <Card disabled
-          status="primary"
-          header={<Text category="s1">{t('add_approved_assets:request_user')}</Text>}>
-          <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween]}>
-            <View style={[cStyles.row, cStyles.itemsCenter]}>
-              <Avatar size="small" source={Assets.iconUser} />
-              <View style={cStyles.ml10}>
-                <Text>{form.name}</Text>
-                <Text style={cStyles.mt5} category="c1" appearance="hint">
-                  {userDepartment ? userDepartment.deptName : ''}
-                </Text>
-              </View>
-            </View>
-            <View style={cStyles.itemsEnd}>
-              <Text>{userRegion ? userRegion.regionName : ''}</Text>
-              <Text style={cStyles.mt5} category="c1" appearance="hint">
-                {t('add_approved_assets:region')}
-              </Text>
-            </View>
-          </View>
-        </Card>
+        <UserRequest
+          avatar={null}
+          fullName={form.name}
+          job={authState.getIn(['login', 'jobTitle'])}
+          region={userRegion ? userRegion.regionName : ''}
+          department={userDepartment ? userDepartment.deptName : ''}
+        />
 
         <Card disabled
           style={cStyles.mt10}
+          status="warning"
           header={propsH =>
             <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween, propsH.style]}>
               <View style={currentProcess ? styles.con_left : {}}>
@@ -666,7 +655,7 @@ function AddRequest(props) {
                   id: INPUT_NAME.WHERE_USE,
                   type: 'select',
                   label: 'add_approved_assets:where_use',
-                  holder: 'add_approved_assets:where_use',
+                  holder: 'add_approved_assets:holder_where_use',
                   value: form.whereUse,
                   values: masterState.get('department'),
                   keyToCompare: 'deptCode',

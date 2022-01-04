@@ -12,6 +12,7 @@ import {useTheme, Layout, CheckBox, Button, Text} from '@ui-kitten/components';
 import {View, StatusBar, Linking, ScrollView} from 'react-native';
 import {showMessage} from 'react-native-flash-message';
 import VersionCheck from 'react-native-version-check';
+import * as Animatable from 'react-native-animatable';
 import moment from 'moment';
 /* COMPONENTS */
 import CContainer from '~/components/CContainer';
@@ -36,6 +37,8 @@ import {
 /* REDUX */
 import * as Actions from '~/redux/actions';
 
+const MyContent = Animatable.createAnimatableComponent(Layout);
+
 /** All init */
 const INPUT_NAME = {
   USER_NAME: 'userName',
@@ -47,11 +50,12 @@ function Login(props) {
   const theme = useTheme();
   const themeContext = useContext(ThemeContext);
   const {navigation} = props;
-  const bgHeader = theme['background-basic-color-3'];
+  const bgHeader = theme['background-basic-color-2'];
   let prevTheme = usePrevious(themeContext.themeApp);
 
   /** use ref */
   const formRef = useRef();
+  const contentRef = useRef();
 
   /** Use redux */
   const dispatch = useDispatch();
@@ -201,7 +205,11 @@ function Login(props) {
     if (loading.submit && !loading.main) {
       if (!authState.get('submitting')) {
         if (authState.get('successLogin')) {
-          return onPrepareData();
+          return contentRef.current.fadeOutDown(1000).then(endState => {
+            if (endState.finished) {
+              onPrepareData();
+            }
+          });
         }
         if (authState.get('errorLogin')) {
           return onLoginError();
@@ -243,15 +251,19 @@ function Login(props) {
       <ScrollView
         contentContainerStyle={cStyles.flex1}
         keyboardShouldPersistTaps="handled">
-        <Layout
+        <MyContent
+          ref={contentRef}
           style={[
             cStyles.flex1,
-            cStyles.mt32,
+            cStyles.justifyBetween,
             cStyles.roundedTopLeft5,
             cStyles.roundedTopRight5,
+            cStyles.shadowListItem,
+            cStyles.mt32,
             cStyles.py16,
             cStyles.px32,
-          ]}>
+          ]}
+          animation="fadeInUp">
           {/** Form input */}
           <CForm
             ref={formRef}
@@ -316,30 +328,33 @@ function Login(props) {
             labelButton={'sign_in:button_sign_in'}
             onSubmit={handleSignIn}
           />
-        </Layout>
-        <Layout style={[cStyles.center, cStyles.justifyEnd, cStyles.pb36]}>
-          <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyCenter]}>
-            <Text category="c1" appearance="hint">
-              {`${t('sign_in:version')} ${versionApp.number}`}
+          <View style={[cStyles.center, cStyles.justifyEnd, cStyles.pb36]}>
+            <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyCenter]}>
+              <Text category="c1" appearance="hint">
+                {`${t('sign_in:version')} ${versionApp.number}`}
+              </Text>
+              {versionApp.needUpdate && (
+                <Button
+                  style={cStyles.ml10}
+                  size="tiny"
+                  status="warning"
+                  appearance="outline"
+                  onPress={handleUpdateAppNow}>
+                  {`${t('sign_in:holder_update_now')}`}
+                </Button>
+              )}
+            </View>
+            <Text style={[cStyles.mt10, cStyles.textCenter]} category="c1" appearance="hint">
+              &#169; {`${moment().year()} ${t('sign_in:copyright_by')}\n${Configs.nameOfCompany}`}
             </Text>
-            {versionApp.needUpdate && (
-              <Button
-                style={cStyles.ml10}
-                size="tiny"
-                status="warning"
-                appearance="outline"
-                onPress={handleUpdateAppNow}>
-                {`${t('sign_in:holder_update_now')}`}
-              </Button>
-            )}
           </View>
-          <Text style={[cStyles.mt10, cStyles.textCenter]} category="c1" appearance="hint">
-            &#169; {`${moment().year()} ${t('sign_in:copyright_by')}\n${Configs.nameOfCompany}`}
-          </Text>
-        </Layout>
+        </MyContent>
       </ScrollView>
       {/** Loading */}
-      <CLoading show={loading.submit} />
+      <CLoading
+        show={loading.submit}
+        description='common:doing_signin'
+      />
     </CContainer>
   );
 }

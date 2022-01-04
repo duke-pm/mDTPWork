@@ -20,7 +20,9 @@ import AssetItem from './AssetItem';
 /* COMMON */
 import {cStyles} from '~/utils/style';
 import {
-  moderateScale, IS_ANDROID, verticalScale,
+  moderateScale,
+  verticalScale,
+  IS_ANDROID,
 } from '~/utils/helper';
 
 if (IS_ANDROID) {
@@ -84,6 +86,9 @@ function AssetsTable(props) {
   ** HANDLE FUNC **
   *****************/
   const handleAddAssets = () => {
+    if (error.status) {
+      setError({status: false, helper: ''});
+    }
     let newData = [...form.assets.data];
     newData.push([null, '', '', '', '']);
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
@@ -115,9 +120,12 @@ function AssetsTable(props) {
   };
 
   const onRemoveRow = rowIdx => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    if (error.status) {
+      setError({status: false, helper: ''});
+    }
     let newData = [...form.assets.data];
     newData.splice(rowIdx, 1);
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     return setForm({...form, assets: {...form.assets, data: newData}});
   };
 
@@ -249,7 +257,7 @@ function AssetsTable(props) {
           {error.status && (
             <Icon
               style={styles.icon_error}
-              name={'alert-circle-outline'}
+              name={'alert-circle'}
               fill={theme['color-danger-500']}
             />
           )}
@@ -287,8 +295,8 @@ const styles = StyleSheet.create({
   con_left: {flex: 0.4},
   con_right: {flex: 0.6},
   icon_error: {
-    height: moderateScale(10),
-    width: moderateScale(10),
+    height: moderateScale(16),
+    width: moderateScale(16),
   },
 });
 

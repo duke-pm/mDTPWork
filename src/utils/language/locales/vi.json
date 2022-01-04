@@ -59,7 +59,9 @@
     "go_back": "Trở về",
     "write_something_to_search": "Nhập thông tin tìm kiếm...",
     "created_at": "Created at",
-    "new": "N"
+    "new": "N",
+    "doing_signin": "Đang đăng nhập...\nVui lòng chờ giây lát!",
+    "doing_send": "Đang gửi...\nVui lòng chờ giây lát!"
   },
   "status": {
     "title": "Trạng thái"
@@ -119,7 +121,7 @@
     "not_like": "Xác nhận lại mật khẩu không chính xác!"
   },
   "sign_in": {
-    "title": "Welcome,",
+    "title": "Xin Chào,",
     "button_sign_in": "Đăng nhập",
     "sub_title": "Đăng nhập để tiếp tục",
     "input_username": "Tên đăng nhập",
@@ -338,7 +340,7 @@
     "price": "Đơn giá",
     "total": "Thành tiền",
     "where_use": "Nơi sử dụng",
-    "holder_where_use": "Tìm nơi sử dụng...",
+    "holder_where_use": "Chọn nơi sử dụng...",
     "reason": "Lý do",
     "holder_reason": "Lý do cấp tài sản...",
     "type_assets": "Loại tài sản",
@@ -409,7 +411,7 @@
     "request_asset": "Thông tin tài sản",
     "region": "Khu vực",
     "date_request": "Ngày gửi",
-    "assets": "Tài sản",
+    "assets": "Tài sản cần báo",
     "holder_assets": "Chọn tài sản...",
     "search_assets": "Tìm tài sản",
     "reason": "Lý do đề xuất",
@@ -505,7 +507,8 @@
     "empty_tasks": "Hiện tại chưa có công việc cho dự án này!",
     "empty_comment": "Hiện tại chưa có nhận xét cho dự án này!",
     "files_attach": "Tệp tin đính kèm",
-    "created_by": "đã được thêm bởi",
+    "created_by": "đã được thêm ngày",
+    "created_by_2": "bởi",
     "last_updated_at": "Lần cập nhật mới nhất ngày",
     "task_percentage": "Tiến độ: ",
     "task_version": "Phiên bản: ",
@@ -522,7 +525,7 @@
     "delay_date_1": "Trễ",
     "delay_date_2": "ngày",
     "info_basic": "Tổng quan",
-    "list_task": "Tasks's #",
+    "list_task": "Tasks's dự án",
     "estimated_time": "Estimated",
     "detail_task": "Chi tiết Task",
     "find": "Tìm",
@@ -554,8 +557,8 @@
     "child_tasks": "Tasks",
     "project_plan": "Tổng quát Tasks",
     "project_details": "Chi tiết Dự án",
-    "project_parent": "Dự án con của",
-    "task_parent": "Tasks con của",
+    "project_parent": "Child Project's",
+    "task_parent": "Child Tasks's",
     "empty_description": "Không có mô tả cho công việc này."
   },
   "project_overview": {

@@ -7,14 +7,17 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {useTranslation} from 'react-i18next';
-import {Spinner, Modal, Text} from '@ui-kitten/components';
+import {Spinner, Modal, Text, Layout} from '@ui-kitten/components';
 import {StyleSheet, View} from 'react-native';
 /* COMMON */
 import {colors, cStyles} from '~/utils/style';
 
 function CLoading(props) {
   const {t} = useTranslation();
-  const {show = false} = props;
+  const {
+    show = false,
+    description = 'common:loading'
+  } = props;
 
   /************
    ** RENDER **
@@ -25,13 +28,13 @@ function CLoading(props) {
       backdropStyle={styles.con_backdrop}
       onBackdropPress={() => null}>
       <View style={cStyles.flexCenter}>
-        <Spinner />
+        <Layout style={[cStyles.center, cStyles.rounded1, cStyles.p10]}>
+          <Spinner />
+        </Layout>
         <Text
-          style={cStyles.mt10}
-          category="c1"
-          appearance="hint"
+          style={[cStyles.textCenter, cStyles.mt10]}
           status="control">
-          {t('common:loading')}
+          {t(description)}
         </Text>
       </View>
     </Modal>
@@ -44,6 +47,7 @@ const styles = StyleSheet.create({
 
 CLoading.propTypes = {
   show: PropTypes.bool,
+  description: PropTypes.string,
 };
 
-export default CLoading;
+export default React.memo(CLoading);

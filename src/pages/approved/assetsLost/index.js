@@ -17,13 +17,13 @@ import 'moment/locale/en-sg';
 /* COMPONENTS */
 import ListRequest from '../components/ListRequest';
 /* COMMON */
+import Routes from '~/navigator/Routes';
 import {Commons} from '~/utils/common';
 import {cStyles} from '~/utils/style';
 import {usePrevious} from '~/utils/hook';
 import {LOAD_MORE, REFRESH} from '~/configs/constants';
 /* REDUX */
 import * as Actions from '~/redux/actions';
-import Routes from '~/navigator/Routes';
 
 function ApprovedAssetsLost(props) {
   const {t} = useTranslation();
@@ -167,8 +167,16 @@ function ApprovedAssetsLost(props) {
    ** LIFE CYCLE **
    ****************/
   useEffect(() => {
-    onFetchData();
-    return setLoading({...loading, startFetch: true});
+    if (data.requests.length === 0) {
+      onFetchData(
+        data.page,
+        props.dataRoute.fromDate,
+        props.dataRoute.toDate,
+        props.dataRoute.status,
+        props.dataRoute.search,
+      );
+      return setLoading({...loading, startFetch: true});
+    }
   }, []);
 
   useEffect(() => {

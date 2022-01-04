@@ -330,7 +330,7 @@ function ProjectDetail(props) {
   /************
    ** RENDER **
    ************/
-  let title = `${t('project_management:list_task')}${projectID}`;
+  let title = `${t('project_management:list_task')} #${projectID}`;
   if (taskID) {
     title = `${t('project_management:task_parent')} #${taskID}`;
   }
@@ -343,6 +343,7 @@ function ProjectDetail(props) {
           loading={loading.startFetch}
           title={title}
           back
+          arrayBackTask={taskID !== null}
           borderBottom
           searchFilter
           onSearch={handleSearch}

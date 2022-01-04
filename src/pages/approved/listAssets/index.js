@@ -8,7 +8,7 @@
 import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-import {TabView, Tab} from '@ui-kitten/components';
+import {TabView, Tab, Icon} from '@ui-kitten/components';
 import {View} from 'react-native';
 import moment from 'moment';
 import 'moment/locale/en-sg';
@@ -27,6 +27,18 @@ import {Commons} from '~/utils/common';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 
+const RenderAddIcon = props => (
+  <Icon {...props} name="monitor-outline" />
+);
+
+const RenderDamageIcon = props => (
+  <Icon {...props} name="flash-off-outline" />
+);
+
+const RenderLostIcon = props => (
+  <Icon {...props} name="alert-triangle-outline" />
+);
+
 function ListRequestAll(props) {
   const {t} = useTranslation();
   const {route, navigation} = props;
@@ -36,10 +48,7 @@ function ListRequestAll(props) {
   /** Use redux */
   const dispatch = useDispatch();
   const commonState = useSelector(({common}) => common);
-  const authState = useSelector(({auth}) => auth);
   const formatDate = commonState.get('formatDate');
-  const language = commonState.get('language');
-  const refreshToken = authState.getIn(['login', 'refreshToken']);
 
   /** Use state */
   const [index, setIndex] = useState(0);
@@ -162,6 +171,7 @@ function ListRequestAll(props) {
             <View style={propsF.style}>
               <Filter
                 isResolve={false}
+                formatDate={formatDate}
                 data={routes[index]}
                 onFilter={(fromDate, toDate, status, type, isResolve) =>
                   onFilter(fromDate, toDate, status, type, toggleFilter)
@@ -177,13 +187,13 @@ function ListRequestAll(props) {
         shouldLoadComponent={shouldLoadComponent}
         selectedIndex={index}
         onSelect={setIndex}>
-        <Tab title={t('list_request_assets:title_add')}>
+        <Tab title={t('list_request_assets:title_add')} icon={RenderAddIcon}>
           <Assets dataRoute={routes[index]} navigation={navigation} />
         </Tab>
-        <Tab title={t('list_request_assets:title_damaged')}>
+        <Tab title={t('list_request_assets:title_damaged')} icon={RenderDamageIcon}>
           <AssetsDamage dataRoute={routes[index]} navigation={navigation} />
         </Tab>
-        <Tab title={t('list_request_assets:title_lost')}>
+        <Tab title={t('list_request_assets:title_lost')} icon={RenderLostIcon}>
           <AssetsLost dataRoute={routes[index]} navigation={navigation} />
         </Tab>
       </TabView>

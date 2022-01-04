@@ -32,9 +32,10 @@ function CContentSubMenu(props) {
    ** RENDER **
    ************/
   return (
-    <Layout style={cStyles.flex1} level="3">
+    <Layout style={cStyles.flex1} level="2">
       <Card
         style={cStyles.m10}
+        appearance="filled"
         disabled
         header={<Text category="h6">{t(title).toUpperCase()}</Text>}>
         <View style={[

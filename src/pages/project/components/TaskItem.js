@@ -42,8 +42,9 @@ const RenderToDate = (trans, data, delay, onPress) => {
 
 function TaskItem(props) {
   const {
-    data = null,
+    theme = {},
     trans = null,
+    data = null,
     onPress = () => null,
   } = props;
 
@@ -78,6 +79,9 @@ function TaskItem(props) {
   }
   return (
     <Card
+      style={data.statusID > Commons.STATUS_PROJECT[3]["value"]
+        ? {backgroundColor: theme['background-basic-color-4']}
+        : {}}
       onPress={handleItem}
       header={propsH =>
         <View

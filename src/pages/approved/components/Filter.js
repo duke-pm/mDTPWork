@@ -16,7 +16,6 @@ import {StyleSheet, View} from 'react-native';
 import {showMessage} from 'react-native-flash-message';
 import moment from 'moment';
 import 'moment/locale/en-sg';
-import 'moment/locale/en-sg';
 /* COMPONENTS */
 import CGroupFilter from '~/components/CGroupFilter';
 /* COMMON */
@@ -24,7 +23,6 @@ import Configs from '~/configs';
 import {Commons} from '~/utils/common';
 import {cStyles} from '~/utils/style';
 import {sW} from '~/utils/helper';
-import {DEFAULT_FORMAT_DATE_1} from '~/configs/constants';
 
 /** All init */
 const formatDateService = new MomentDateService('en-sg');
@@ -65,13 +63,14 @@ function Filter(props) {
   const {t} = useTranslation();
   const {
     isResolve = false,
+    formatDate = 'YYYY-MM-DD',
     onFilter = () => null,
   } = props;
 
   /** Use State */
   const [data, setData] = useState({
-    fromDate: props.data.fromDate,
-    toDate: props.data.toDate,
+    fromDate: moment(props.data.fromDate),
+    toDate: moment(props.data.toDate),
     status: [1, 2, 3, 4],
     type: [1, 2, 3],
     resolveRequest: isResolve,
@@ -94,8 +93,8 @@ function Filter(props) {
   const handleReset = () => {
     setData({
       ...data,
-      fromDate: props.data.fromDate,
-      toDate: props.data.toDate,
+      fromDate: moment(props.data.fromDate),
+      toDate: moment(props.data.toDate),
       status: [1, 2, 3, 4],
       type: [1, 2, 3],
     });
@@ -103,10 +102,10 @@ function Filter(props) {
 
   const handleFilter = () => {
     let tmpFromDate = data.fromDate !== ''
-      ? moment(data.fromDate, DEFAULT_FORMAT_DATE_1).valueOf()
+      ? data.fromDate.valueOf()
       : null;
     let tmpToDate = data.toDate !== ''
-      ? moment(data.toDate, DEFAULT_FORMAT_DATE_1).valueOf()
+      ? data.toDate.valueOf()
       : null;
     if (tmpFromDate && tmpToDate && tmpFromDate > tmpToDate) {
       return onErrorValidation('error:from_date_larger_than_to_date');
@@ -116,8 +115,8 @@ function Filter(props) {
       return onErrorValidation('error:type_not_found');
     } else {
       return onFilter(
-        data.fromDate,
-        data.toDate,
+        data.fromDate.format(formatDate),
+        data.toDate.format(formatDate),
         data.status.join(),
         data.type.join(),
         data.resolveRequest,
@@ -152,8 +151,8 @@ function Filter(props) {
     if (props.data) {
       let tmp = {
         ...data,
-        fromDate: props.data.fromDate,
-        toDate: props.data.toDate,
+        fromDate: moment(props.data.fromDate),
+        toDate: moment(props.data.toDate),
         type: JSON.parse('[' + props.data.type + ']'),
       };
       if (props.data.status) {
@@ -172,15 +171,20 @@ function Filter(props) {
         <Text category="s1">{t('common:filter').toUpperCase()}</Text>
         <View style={[cStyles.row, cStyles.itemsCenter]}>
           <Button
+            appearance="ghost"
             size="small"
             status="basic"
             onPress={handleReset}
-          >{t('common:reset')}</Button>
+          >{propsT =>
+            <Text category="label">{t('common:reset')}</Text>
+          }</Button>
           <Button
             style={cStyles.ml5}
             size="small"
             onPress={handleFilter}
-          >{t('common:apply')}</Button>
+          >{propsT =>
+            <Text category="label" status="control">{t('common:apply')}</Text>
+          }</Button>
         </View>
       </View>
       <Divider />

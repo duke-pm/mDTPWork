@@ -150,15 +150,20 @@ function Filter(props) {
         <Text category="s1">{t('common:filter').toUpperCase()}</Text>
         <View style={[cStyles.row, cStyles.itemsCenter]}>
           <Button
+            appearance="ghost"
             size="small"
             status="basic"
             onPress={handleReset}
-          >{t('common:reset')}</Button>
+          >{propsT =>
+            <Text category="label">{t('common:reset')}</Text>
+          }</Button>
           <Button
             style={cStyles.ml5}
             size="small"
             onPress={handleFilter}
-          >{t('common:apply')}</Button>
+          >{propsT =>
+            <Text category="label" status="control">{t('common:apply')}</Text>
+          }</Button>
         </View>
       </View>
       <Divider />

@@ -252,6 +252,7 @@ function ListRequestHandling(props) {
             <View style={propsF.style}>
               <Filter
                 isResolve={true}
+                formatDate={formatDate}
                 data={data}
                 onFilter={(fromDate, toDate, status, type) =>
                   onFilter(fromDate, toDate, status, type, toggleFilter)

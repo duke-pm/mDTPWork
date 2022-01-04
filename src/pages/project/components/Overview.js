@@ -6,7 +6,9 @@
  **/
 import React, {useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {
+  KeyboardAwareScrollView,
+} from 'react-native-keyboard-aware-scroll-view';
 import {
   Layout, Text, Avatar, Tooltip, Icon, ListItem
 } from '@ui-kitten/components';
@@ -21,8 +23,8 @@ import Percentage from './Percentage';
 import FileAttach from './FileAttach';
 /* COMMON */
 import {Commons} from '~/utils/common';
-import {cStyles, colors} from '~/utils/style';
 import {Assets} from '~/utils/asset';
+import {cStyles, colors} from '~/utils/style';
 import {checkEmpty} from '~/utils/helper';
 import {
   DEFAULT_FORMAT_DATE_4,

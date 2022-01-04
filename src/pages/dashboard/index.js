@@ -31,7 +31,7 @@ function Dashboard(props) {
   const theme = useTheme();
   const themeContext = useContext(ThemeContext);
   const {navigation} = props;
-  const bgHeader = theme['background-basic-color-3'];
+  const bgHeader = theme['background-basic-color-2'];
 
   /** Use redux */
   const authState = useSelector(({auth}) => auth);
@@ -108,7 +108,7 @@ function Dashboard(props) {
           cStyles.px16,
           cStyles.py24
         ]}
-        level={'3'}>
+        level="2">
         <View>
           <Text>{`${moment().format(DEFAULT_FORMAT_DATE_10)}`}</Text>
           <Text style={cStyles.mt5} category="h6">

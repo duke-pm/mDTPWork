@@ -11,9 +11,7 @@ import React, {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {showMessage} from 'react-native-flash-message';
-import {
-  Layout, Text, Tab , TabView,
-} from '@ui-kitten/components';
+import {Layout, Text, Tab , TabView} from '@ui-kitten/components';
 import {View} from 'react-native';
 import moment from 'moment';
 import 'moment/locale/en-sg';
@@ -232,7 +230,7 @@ function Task(props) {
     }
   };
 
-  const shouldLoadComponent = (index) => index === selectedIndexTab;
+  const shouldLoadComponent = index => index === selectedIndexTab;
 
   /****************
    ** LIFE CYCLE **
@@ -330,10 +328,14 @@ function Task(props) {
       {!loading.main && data.taskDetail && (
         <Layout style={cStyles.px16}>
           <Text>
-            <Text category="h6" status={Commons.TYPE_TASK[data.taskDetail.typeName]['color']}>
+            <Text
+              category="h6"
+              status={Commons.TYPE_TASK[data.taskDetail.typeName]['color']}>
               {data.taskDetail.typeName}
             </Text>
-            <Text category="h6">{`  ${data.taskDetail.taskName}`}</Text>
+            <Text category="h6">
+              {`  ${data.taskDetail.taskName}`}
+            </Text>
           </Text>
         </Layout>
       )}
@@ -350,7 +352,12 @@ function Task(props) {
               data.taskDetail.crtdUser !== '' && (
                 <Text>
                   <Text category="label">{`#${data.taskDetail.taskID} `}</Text>
-                  <Text category="c1">{t('project_management:created_by',)}</Text>
+                  <Text category="c1">{t('project_management:created_by')}</Text>
+                  <Text category="c1">{` ${moment(
+                    data.taskDetail.crtdDate,
+                    DEFAULT_FORMAT_DATE_4,
+                  ).format(DEFAULT_FORMAT_DATE_9)} `}</Text>
+                  <Text category="c1">{t('project_management:created_by_2')}</Text>
                   <Text category="label" status="primary">
                     {` ${data.taskDetail.crtdUser}`}
                   </Text>

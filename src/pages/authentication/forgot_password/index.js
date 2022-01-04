@@ -24,6 +24,7 @@ import {moderateScale} from '~/utils/helper';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 
+const MyContent = Animatable.createAnimatableComponent(Layout);
 const MyIconAnim = Animatable.createAnimatableComponent(IoniIcon);
 const sIconStatus = moderateScale(120);
 
@@ -35,12 +36,13 @@ const INPUT_NAME = {
 function ForgotPassword(props) {
   const {t} = useTranslation();
   const theme = useTheme();
-  const bgHeader = theme['background-basic-color-3'];
+  const bgHeader = theme['background-basic-color-2'];
   const colorSuccess = theme['color-success-500'];
   const colorError = theme['color-danger-500'];
 
   /** use ref */
   const formRef = useRef();
+  const contentRef = useRef();
 
   /** Use redux */
   const dispatch = useDispatch();
@@ -86,7 +88,11 @@ function ForgotPassword(props) {
     if (loading) {
       if (!authState.get('submittingForgotPass')) {
         if (authState.get('successForgotPass')) {
-          return onCompleteSend(true);
+          return contentRef.current.fadeOutDown(1000).then(endState => {
+            if (endState.finished) {
+              onCompleteSend(true);
+            }
+          });
         }
 
         if (authState.get('errorForgotPass')) {
@@ -119,15 +125,18 @@ function ForgotPassword(props) {
         keyboardShouldPersistTaps="handled">
         {/** Content prepare send */}
         {!showAlert.status && (
-          <Layout
+          <MyContent
+            ref={contentRef}
             style={[
               cStyles.flex1,
-              cStyles.mt32,
               cStyles.roundedTopLeft5,
               cStyles.roundedTopRight5,
+              cStyles.shadowListItem,
+              cStyles.mt32,
               cStyles.py16,
               cStyles.px32,
-            ]}>
+            ]}
+            animation="fadeInUp">
             {/** Caption */}
             <View style={cStyles.mt16}>
               <Text style={cStyles.textCenter}>
@@ -160,19 +169,21 @@ function ForgotPassword(props) {
               disabledButton={loading}
               onSubmit={onSubmitSend}
             />
-          </Layout>
+          </MyContent>
         )}
         {/** Content when success */}
         {showAlert.status && showAlert.success && (
-          <Layout
+          <MyContent
             style={[
               cStyles.flex1,
-              cStyles.mt32,
               cStyles.roundedTopLeft5,
               cStyles.roundedTopRight5,
+              cStyles.shadowListItem,
+              cStyles.mt32,
               cStyles.py16,
               cStyles.px32,
-            ]}>
+            ]}
+            animation="fadeInUp">
             <View style={cStyles.itemsCenter}>
               <MyIconAnim
                 name={'checkmark-circle-outline'}
@@ -198,19 +209,21 @@ function ForgotPassword(props) {
                 <Text>{`${t('forgot_password:success_content_4')}`}</Text>
               </Text>
             </View>
-          </Layout>
+          </MyContent>
         )}
         {/** Content when error */}
         {showAlert.status && !showAlert.success && (
-          <Layout
+          <MyContent
             style={[
               cStyles.flex1,
-              cStyles.mt32,
               cStyles.roundedTopLeft5,
               cStyles.roundedTopRight5,
+              cStyles.shadowListItem,
+              cStyles.mt32,
               cStyles.py16,
               cStyles.px32,
-            ]}>
+            ]}
+            animation="fadeInUp">
             <View style={cStyles.itemsCenter}>
               <MyIconAnim
                 name={'close-circle-outline'}
@@ -235,11 +248,14 @@ function ForgotPassword(props) {
                 {`${t('forgot_password:error_content_2')}`}
               </Text>
             </View>
-          </Layout>
+          </MyContent>
         )}
       </ScrollView>
       {/** Loading */}
-      <CLoading show={loading} />
+      <CLoading
+        show={loading}
+        description='common:doing_send'
+      />
     </CContainer>
   );
 }

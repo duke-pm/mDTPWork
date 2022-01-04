@@ -62,7 +62,7 @@ function CContainer(props) {
       {headerComponent}
       <Layout
         style={[cStyles.flex1, padder && cStyles.px16, padder && cStyles.py10]}
-        level="3">
+        level="2">
         {!loading && children}
         {loading && (
           <View style={cStyles.flexCenter}>

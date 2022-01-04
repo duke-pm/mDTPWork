@@ -10,7 +10,7 @@ import React, {createRef, useRef, useEffect, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {
-  TopNavigationAction, Avatar, Card, Icon, Text,
+  TopNavigationAction, Card, Icon, Text,
 } from '@ui-kitten/components';
 import {StyleSheet, View} from 'react-native';
 import {showMessage} from 'react-native-flash-message';
@@ -28,10 +28,10 @@ import CActionSheet from '~/components/CActionSheet';
 import RequestProcess from '../components/RequestProcess';
 import RejectModal from '../components/RejectModal';
 import FooterFormRequest from '../components/FooterFormRequest';
+import UserRequest from '../components/UserRequest';
 /* COMMON */
 import Routes from '~/navigator/Routes';
 import FieldsAuth from '~/configs/fieldsAuth';
-import {Assets} from '~/utils/asset';
 import {cStyles} from '~/utils/style';
 import {Commons} from '~/utils/common';
 import {getSecretInfo, checkEmpty, resetRoute} from '~/utils/helper';
@@ -571,27 +571,14 @@ function AddRequest(props) {
         />
       }>
       <KeyboardAwareScrollView contentContainerStyle={cStyles.p10}>
-        <Card disabled
-          status="primary"
-          header={<Text category="s1">{t('add_approved_lost_damaged:request_user')}</Text>}>
-          <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween]}>
-            <View style={[cStyles.row, cStyles.itemsCenter]}>
-              <Avatar size="small" source={Assets.iconUser} />
-              <View style={cStyles.ml10}>
-                <Text>{form.name}</Text>
-                <Text style={cStyles.mt5} category="c1" appearance="hint">
-                  {userDepartment ? userDepartment.deptName : ''}
-                </Text>
-              </View>
-            </View>
-            <View style={cStyles.itemsEnd}>
-              <Text>{userRegion ? userRegion.regionName : ''}</Text>
-              <Text style={cStyles.mt5} category="c1" appearance="hint">
-                {t('add_approved_lost_damaged:region')}
-              </Text>
-            </View>
-          </View>
-        </Card>
+        <UserRequest
+          avatar={null}
+          fullName={form.name}
+          job={authState.getIn(['login', 'jobTitle'])}
+          region={userRegion ? userRegion.regionName : ''}
+          department={userDepartment ? userDepartment.deptName : ''}
+        />
+
         {/** Asset information */}
         {(isDetail || requestDetail) && (
           <Card disabled
@@ -724,8 +711,8 @@ function AddRequest(props) {
                 {
                   id: INPUT_NAME.ASSETID,
                   type: !isDetail ? 'select' : 'none',
-                  label: 'add_approved_assets:assets',
-                  holder: 'add_approved_assets:holder_assets',
+                  label: 'add_approved_lost_damaged:assets',
+                  holder: 'add_approved_lost_damaged:holder_assets',
                   value: form.assetID,
                   values: masterState.get('assetByUser'),
                   keyToCompare: 'assetID',

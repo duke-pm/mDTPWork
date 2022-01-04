@@ -24,6 +24,7 @@ import {moderateScale, resetRoute} from '~/utils/helper';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 
+const MyContent = Animatable.createAnimatableComponent(Layout);
 const MyIconAnim = Animatable.createAnimatableComponent(IoniIcon);
 const sIconStatus = moderateScale(120);
 
@@ -37,12 +38,13 @@ function ResetPassword(props) {
   const theme = useTheme();
   const {navigation, route} = props;
   const tokenData = route.params?.tokenData || 'not_token';
-  const bgHeader = theme['background-basic-color-3'];
+  const bgHeader = theme['background-basic-color-2'];
   const colorSuccess = theme['color-success-500'];
   const colorError = theme['color-danger-500'];
 
   /** use ref */
   const formRef = useRef();
+  const contentRef = useRef();
 
   /** Use redux */
   const dispatch = useDispatch();
@@ -129,7 +131,11 @@ function ResetPassword(props) {
     if (loading.check) {
       if (!authState.get('submittingCheckTokenPass')) {
         if (authState.get('successCheckTokenPass')) {
-          return onCompleteCheck(true);
+          return contentRef.current.fadeOutDown(1000).then(endState => {
+            if (endState.finished) {
+              onCompleteCheck(true);
+            }
+          });
         }
 
         if (authState.get('errorCheckTokenPass')) {
@@ -187,15 +193,18 @@ function ResetPassword(props) {
         keyboardShouldPersistTaps="handled">
         {/** Content prepare send */}
         {!showAlert && (
-          <Layout
+          <MyContent
+            ref={contentRef}
             style={[
               cStyles.flex1,
-              cStyles.mt32,
               cStyles.roundedTopLeft5,
               cStyles.roundedTopRight5,
+              cStyles.shadowListItem,
+              cStyles.mt32,
               cStyles.py16,
               cStyles.px32,
-            ]}>
+            ]}
+            animation="fadeInUp">
             {/** Caption */}
             <View style={cStyles.mt16}>
               <Text style={cStyles.textCenter} category="p1">
@@ -227,20 +236,22 @@ function ResetPassword(props) {
               labelButton={'common:save'}
               onSubmit={onSubmitSave}
             />
-          </Layout>
+          </MyContent>
         )}
 
         {/** Content when success */}
         {showAlert && values.success && (
-          <Layout
+          <MyContent
             style={[
               cStyles.flex1,
-              cStyles.mt32,
               cStyles.roundedTopLeft5,
               cStyles.roundedTopRight5,
+              cStyles.shadowListItem,
+              cStyles.mt32,
               cStyles.py16,
               cStyles.px32,
-            ]}>
+            ]}
+            animation="fadeInUp">
             <View style={cStyles.itemsCenter}>
               <MyIconAnim
                 name={'checkmark-circle-outline'}
@@ -260,19 +271,21 @@ function ResetPassword(props) {
                 {t('reset_password:success_caption')}
               </Text>
             </View>
-          </Layout>
+          </MyContent>
         )}
 
         {showAlert && !values.success && (
-          <Layout
+          <MyContent
             style={[
               cStyles.flex1,
-              cStyles.mt32,
               cStyles.roundedTopLeft5,
               cStyles.roundedTopRight5,
+              cStyles.shadowListItem,
+              cStyles.mt32,
               cStyles.py16,
               cStyles.px32,
-            ]}>
+            ]}
+            animation="fadeInUp">
             <View style={cStyles.itemsCenter}>
               <MyIconAnim
                 name={'close-circle-outline'}
@@ -294,7 +307,7 @@ function ResetPassword(props) {
                   : t(values.error)}
               </Text>
             </View>
-          </Layout>
+          </MyContent>
         )}
       </ScrollView>
     </CContainer>

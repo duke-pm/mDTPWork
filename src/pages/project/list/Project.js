@@ -10,6 +10,7 @@ import {useTranslation} from 'react-i18next';
 import {useNavigation} from '@react-navigation/native';
 import {useTheme, List, Spinner} from '@ui-kitten/components';
 import {View, LayoutAnimation, UIManager} from 'react-native';
+import moment from 'moment';
 /* COMPONENTS */
 import CEmpty from '~/components/CEmpty';
 import CAlert from '~/components/CAlert';
@@ -38,6 +39,7 @@ function ListProject(props) {
   const navigation = useNavigation();
   const theme = useTheme();
   const {
+    year = moment().year(),
     onLoadmore = undefined,
     onRefresh = undefined,
   } = props;
@@ -74,6 +76,7 @@ function ListProject(props) {
   const handleItem = data => {
     if (data.countChild > 0) {
       navigation.push(Routes.PROJECTS.name, {
+        year,
         projectID: data.prjID,
       });
     } else if (data.countTask > 0) {
@@ -179,6 +182,7 @@ function ListProject(props) {
 ListProject.propTypes = {
   refreshing: PropTypes.bool,
   loadmore: PropTypes.bool,
+  year: PropTypes.number,
   data: PropTypes.array,
   onLoadmore: PropTypes.func,
   onRefresh: PropTypes.func,

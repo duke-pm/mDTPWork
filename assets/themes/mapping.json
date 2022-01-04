@@ -124,7 +124,7 @@
             }
           }
         }
-      },
+      }
     },
     "CheckBox": {
       "meta": {},
@@ -155,7 +155,7 @@
       "appearances": {
         "default": {
             "mapping": {
-                "backgroundColor": "background-basic-color-3"
+                "backgroundColor": "background-basic-color-2"
             }
         }
       }

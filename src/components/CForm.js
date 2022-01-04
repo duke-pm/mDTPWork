@@ -485,11 +485,10 @@ const CForm = forwardRef((props, ref) => {
                   ? errors[index].helper
                   : undefined
               }
-              placeholder="Select one of below..."
               disabled={loading || item.disabled}
               value={(item.values && values[index].value > -1 && item.values[values[index].value])
                 ? item.values[values[index].value][item.keyToShow]
-                : '-'}
+                : t(item.holder)}
               selectedIndex={new IndexPath(values[index].value)}
               onSelect={idxSelect => handleSelectedIndex(index, idxSelect)}>
               {item.values && item.values.map((itemSelect, indexSelect) => {

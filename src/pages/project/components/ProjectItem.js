@@ -20,7 +20,10 @@ import CStatus from '~/components/CStatus';
 /* COMMON */
 import {Assets} from '~/utils/asset';
 import {colors, cStyles} from '~/utils/style';
-import {moderateScale} from '~/utils/helper';
+import {Commons} from '~/utils/common';
+import {
+  moderateScale,
+} from '~/utils/helper';
 import {
   DEFAULT_FORMAT_DATE_4,
   DEFAULT_FORMAT_DATE_9,
@@ -75,6 +78,9 @@ function ProjectItem(props) {
    ************/
   return (
     <Card
+      style={data.statusID > Commons.STATUS_PROJECT[3]["value"]
+        ? {backgroundColor: theme['background-basic-color-4']}
+        : {}}
       onPress={handleItem}
       status={!data.isPublic ? 'warning' : undefined}
       header={propsH =>

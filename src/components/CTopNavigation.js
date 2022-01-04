@@ -11,7 +11,7 @@ import {useTranslation} from 'react-i18next';
 import {useNavigation} from '@react-navigation/native';
 import {
   TopNavigation, TopNavigationAction, Toggle, useTheme,
-  Icon, Button, Tooltip, Text,
+  Icon, Button, Tooltip, Text, OverflowMenu, MenuItem,
 } from '@ui-kitten/components';
 import {
   TouchableOpacity, View, LayoutAnimation, UIManager,
@@ -36,6 +36,7 @@ import {
   saveLocalInfo,
   moderateScale,
   IS_ANDROID,
+  IS_IOS,
 } from '~/utils/helper';
 
 if (IS_ANDROID) {
@@ -67,14 +68,14 @@ const RenderFilterIcon = (theme, toggleFilter) => (
   />
 );
 
-const BackIcon = (theme, iconStyle, iconBack) => (
-  <IoniIcon
-    name={iconBack || 'arrow-back'}
-    color={iconStyle.color || theme[initColorText]}
-    size={initSizeIcon}
+const RenderBackicon = props => (
+  <Icon
+    {...props}
+    name={IS_IOS
+      ? 'arrow-ios-back-outline'
+      : 'arrow-back-outline'}
   />
 );
-
 
 const RenderGlobalIcon = (
   theme,
@@ -93,22 +94,76 @@ const RenderGlobalIcon = (
 );
 
 const RenderTopLeft = (
-  theme,
-  iconStyle,
   t,
   title,
   subtitle,
   onPress,
-  iconBack,
   logo,
+  arrRouteProject,
+  arrRouteTask,
+  showArrayBack,
+  onLongPress,
+  handleItemBack,
 ) => {
   return (
     <View style={[cStyles.row, cStyles.itemsCenter]}>
-      {onPress && (
+      {onPress && !arrRouteProject && !arrRouteTask && (
         <TopNavigationAction
-          icon={BackIcon(theme, iconStyle, iconBack)}
+          icon={RenderBackicon}
           onPress={onPress}
         />
+      )}
+      {onPress && arrRouteProject && (
+        <OverflowMenu
+          anchor={() => (
+            <TopNavigationAction
+              icon={RenderBackicon}
+              onPress={onPress}
+              onLongPress={arrRouteProject.length > 1 ? onLongPress : undefined}
+            />
+          )}
+          backdropStyle={styles.con_backdrop}
+          visible={showArrayBack}
+          onBackdropPress={onLongPress}>
+          {arrRouteProject.map((itemB, indexB) => {
+            if (indexB === arrRouteProject.length - 1) return null;
+            return (
+              <MenuItem
+                key={itemB.key}
+                title={!itemB.params.projectID
+                  ? t('project_management:title')
+                  : `${t('project_management:project_parent')} #${itemB.params.projectID}`}
+                onPress={() => handleItemBack(arrRouteProject.length - indexB - 1)}
+              />
+            )
+          })}
+        </OverflowMenu>
+      )}
+      {onPress && arrRouteTask && (
+        <OverflowMenu
+          anchor={() => (
+            <TopNavigationAction
+              icon={RenderBackicon}
+              onPress={onPress}
+              onLongPress={arrRouteTask.length > 1 ? onLongPress : undefined}
+            />
+          )}
+          backdropStyle={styles.con_backdrop}
+          visible={showArrayBack}
+          onBackdropPress={onLongPress}>
+          {arrRouteTask.map((itemB, indexB) => {
+            if (indexB === arrRouteTask.length - 1) return null;
+            return (
+              <MenuItem
+                key={itemB.key}
+                title={itemB.params.data.taskID
+                  ? `${t('project_management:task_parent')} #${itemB.params.data.taskID}`
+                  : `${t('project_management:list_task')} #${itemB.params.data.projectID}`}
+                onPress={() => handleItemBack(arrRouteTask.length - indexB - 1)}
+              />
+            )
+          })}
+        </OverflowMenu>
       )}
       {logo && (
         <FastImage
@@ -262,8 +317,9 @@ function CTopNavigation(props) {
     search = false,
     searchFilter = false,
     back = false,
+    arrayBackProject = false,
+    arrayBackTask = false,
     darkmode = false,
-    iconBack = null,
     title = '',
     subtitle = '',
     leftTitle = null,
@@ -277,11 +333,19 @@ function CTopNavigation(props) {
 
     renderFilter = null,
   } = props;
+  let navigationState = navigation.getState();
+  if (arrayBackProject) {
+    navigationState = navigationState.routes.filter(f => f.name === 'Project');
+  }
+  if (arrayBackTask) {
+    navigationState = navigationState.routes.filter(f => f.name === 'ProjectDetail');
+  }
 
   /** Use state */
   const darkmodeToggle = useToggleState();
   const [showSearch, setShowSearch] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
+  const [showArrayBack, setShowArrayBack] = useState(false);
 
   /*****************
    ** HANDLE FUNC **
@@ -294,6 +358,10 @@ function CTopNavigation(props) {
     navigation.navigate(Routes.NOTIFICATION.name);
   };
 
+  const handleItemBack = newIdx => {
+    navigation.pop(newIdx);
+  };
+
   const toggleShowSearch = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setShowSearch(!showSearch);
@@ -303,19 +371,25 @@ function CTopNavigation(props) {
     setShowFilter(!showFilter);
   };
 
+  const toggleShowArrayBack = () => {
+    setShowArrayBack(!showArrayBack);
+  };
+
   /************
    ** RENDER **
    ************/
   let leftComponent, rightComponent;
   leftComponent = RenderTopLeft(
-    theme,
-    iconStyle,
     t,
     leftTitle,
     leftSubtitle,
     back && handleGoBack,
-    iconBack,
     logo,
+    arrayBackProject && navigationState,
+    arrayBackTask && navigationState,
+    showArrayBack,
+    toggleShowArrayBack,
+    handleItemBack,
   );
 
   if (darkmode) {
@@ -457,7 +531,6 @@ CTopNavigation.propTypes = {
   searchFilter: PropTypes.bool,
   back: PropTypes.bool,
   darkmode: PropTypes.bool,
-  iconBack: PropTypes.any,
   title: PropTypes.string,
   subtitle: PropTypes.string,
   leftTitle: PropTypes.string,

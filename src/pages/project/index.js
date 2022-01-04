@@ -92,6 +92,7 @@ function ProjectManagement(props) {
         <CTopNavigation
           title="project_management:main_title"
           back
+          borderBottom
         />
       }>
       <CContentSubMenu
