@@ -7,7 +7,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {Avatar, Button, Card, Text} from '@ui-kitten/components';
-import {StyleSheet, View} from 'react-native';
+import {View} from 'react-native';
 import moment from 'moment';
 import 'moment/locale/en-sg';
 /* COMPONENTS */
@@ -69,7 +69,7 @@ function BookingItem(props) {
             cStyles.px16,
             cStyles.py10,
           ]}>
-          <View style={styles.con_left}>
+          <View style={cStyles.itemsStart}>
             <Text category="s1">{`${data.purpose}`}</Text>
             <Text style={cStyles.mt5} category="c1" appearance="hint">
               {`${trans('common:created_at')} ${moment(
@@ -78,7 +78,7 @@ function BookingItem(props) {
               ).format(DEFAULT_FORMAT_DATE_9)}`}
             </Text>
           </View>
-          <View style={styles.con_right}>
+          <View style={cStyles.itemsEnd}>
             <CStatus
               type="booking"
               value={data.statusID}
@@ -165,12 +165,6 @@ function BookingItem(props) {
     </Card>
   );
 }
-
-const styles = StyleSheet.create({
-  con_left: {flex: 0.68},
-  con_right: {flex: 0.3},
-  con_num_user: {height: 24, width: 24},
-});
 
 BookingItem.propTypes = {
   trans: PropTypes.object,

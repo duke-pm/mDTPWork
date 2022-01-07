@@ -5,65 +5,71 @@
  ** CreateAt: 2021
  ** Description: Description of Filter.js
  **/
-import PropTypes from 'prop-types';
-import React, {useState, useEffect} from 'react';
-import {useTranslation} from 'react-i18next';
-import {MomentDateService} from '@ui-kitten/moment';
+import PropTypes from "prop-types";
+import React, {useState, useEffect} from "react";
+import {useTranslation} from "react-i18next";
+import {MomentDateService} from "@ui-kitten/moment";
 import {
   Datepicker, Button, Icon, Divider, Layout, Text,
-} from '@ui-kitten/components';
-import {StyleSheet, View} from 'react-native';
-import {showMessage} from 'react-native-flash-message';
-import moment from 'moment';
-import 'moment/locale/en-sg';
+} from "@ui-kitten/components";
+import {StyleSheet, View} from "react-native";
+import {showMessage} from "react-native-flash-message";
+import moment from "moment";
+import "moment/locale/en-sg";
 /* COMPONENTS */
-import CGroupFilter from '~/components/CGroupFilter';
+import CGroupFilter from "~/components/CGroupFilter";
 /* COMMON */
-import Configs from '~/configs';
-import {Commons} from '~/utils/common';
-import {cStyles} from '~/utils/style';
-import {sW} from '~/utils/helper';
+import Configs from "~/configs";
+import {Commons} from "~/utils/common";
+import {cStyles} from "~/utils/style";
+import {sW} from "~/utils/helper";
 
 /** All init */
-const formatDateService = new MomentDateService('en-sg');
+const formatDateService = new MomentDateService("en-sg");
 const TYPES_ASSETS = [
   {
     value: Commons.APPROVED_TYPE.ASSETS.value,
-    label: 'list_request_assets_handling:title_add',
+    label: "list_request_assets_handling:title_add",
   },
   {
     value: Commons.APPROVED_TYPE.DAMAGED.value,
-    label: 'list_request_assets_handling:title_damaged',
+    label: "list_request_assets_handling:title_damaged",
   },
   {
     value: Commons.APPROVED_TYPE.LOST.value,
-    label: 'list_request_assets_handling:title_lost',
+    label: "list_request_assets_handling:title_lost",
   },
 ];
 const STATUS_APPROVED = [
   {
     value: Commons.STATUS_APPROVED[0]["value"],
-    label: 'approved_assets:status_wait',
+    label: "approved_assets:status_wait",
   },
   {
     value: Commons.STATUS_APPROVED[1]["value"],
-    label: 'approved_assets:status_approved_done',
+    label: "approved_assets:status_approved_done",
   },
   {
     value: Commons.STATUS_APPROVED[3]["value"],
-    label: 'approved_assets:status_reject',
+    label: "approved_assets:status_reject",
   },
 ];
 
+/*********************
+ ** OTHER COMPONENT **
+ *********************/
 const RenderCalendarIcon = props => (
   <Icon {...props} name="calendar" />
 );
 
+/********************
+ ** MAIN COMPONENT **
+ ********************/
 function Filter(props) {
   const {t} = useTranslation();
   const {
     isResolve = false,
-    formatDate = 'YYYY-MM-DD',
+    formatDate = "YYYY-MM-DD",
     onFilter = () => null,
   } = props;
 
@@ -101,18 +107,18 @@ function Filter(props) {
   };
 
   const handleFilter = () => {
-    let tmpFromDate = data.fromDate !== ''
+    let tmpFromDate = data.fromDate !== ""
       ? data.fromDate.valueOf()
       : null;
-    let tmpToDate = data.toDate !== ''
+    let tmpToDate = data.toDate !== ""
       ? data.toDate.valueOf()
       : null;
     if (tmpFromDate && tmpToDate && tmpFromDate > tmpToDate) {
-      return onErrorValidation('error:from_date_larger_than_to_date');
+      return onErrorValidation("error:from_date_larger_than_to_date");
     } else if (!isResolve && data.status.length === 0) {
-      return onErrorValidation('error:status_not_found');
+      return onErrorValidation("error:status_not_found");
     } else if (isResolve && data.type.length === 0) {
-      return onErrorValidation('error:type_not_found');
+      return onErrorValidation("error:type_not_found");
     } else {
       return onFilter(
         data.fromDate.format(formatDate),
@@ -126,10 +132,10 @@ function Filter(props) {
 
   const onErrorValidation = messageKey => {
     return showMessage({
-      message: t('common:app_name'),
+      message: t("common:app_name"),
       description: t(messageKey),
-      type: 'warning',
-      icon: 'warning',
+      type: "warning",
+      icon: "warning",
     });
   };
 
@@ -153,10 +159,10 @@ function Filter(props) {
         ...data,
         fromDate: moment(props.data.fromDate),
         toDate: moment(props.data.toDate),
-        type: JSON.parse('[' + props.data.type + ']'),
+        type: JSON.parse("[" + props.data.type + "]"),
       };
       if (props.data.status) {
-        tmp.status = JSON.parse('[' + props.data.status + ']');
+        tmp.status = JSON.parse("[" + props.data.status + "]");
       }
       setData(tmp);
     }
@@ -167,24 +173,33 @@ function Filter(props) {
    ************/
   return (
     <Layout style={[cStyles.pb20, styles.con_filter]}>
-      <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween, cStyles.pb5]}>
-        <Text category="s1">{t('common:filter').toUpperCase()}</Text>
+      <View
+        style={[
+          cStyles.row,
+          cStyles.itemsCenter,
+          cStyles.justifyBetween,
+          cStyles.pb10,
+          cStyles.pt5,
+        ]}>
+        <Text category="s1">{t("common:filter")}</Text>
         <View style={[cStyles.row, cStyles.itemsCenter]}>
           <Button
-            appearance="ghost"
+            appearance="outline"
             size="small"
             status="basic"
-            onPress={handleReset}
-          >{propsT =>
-            <Text category="label">{t('common:reset')}</Text>
-          }</Button>
+            onPress={handleReset}>
+            {propsT =>
+              <Text category="label">{t("common:reset")}</Text>
+            }
+          </Button>
           <Button
             style={cStyles.ml5}
             size="small"
-            onPress={handleFilter}
-          >{propsT =>
-            <Text category="label" status="control">{t('common:apply')}</Text>
-          }</Button>
+            onPress={handleFilter}>
+            {propsT =>
+              <Text category="label" status="control">{t("common:apply")}</Text>
+            }
+          </Button>
         </View>
       </View>
       <Divider />
@@ -192,12 +207,12 @@ function Filter(props) {
         <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween]}>
           <Datepicker
             style={cStyles.mt16}
-            label={t('approved_assets:from_date')}
+            label={t("approved_assets:from_date")}
             accessoryRight={RenderCalendarIcon}
             dateService={formatDateService}
-            placeholder={t('approved_assets:from_date')}
-            date={data.fromDate === ''
-              ? ''
+            placeholder={t("approved_assets:from_date")}
+            date={data.fromDate === ""
+              ? ""
               : moment(data.fromDate)}
             min={moment(Configs.minDate)}
             max={moment(Configs.maxDate)}
@@ -205,12 +220,12 @@ function Filter(props) {
           />
           <Datepicker
             style={cStyles.mt16}
-            label={t('approved_assets:to_date')}
+            label={t("approved_assets:to_date")}
             accessoryRight={RenderCalendarIcon}
             dateService={formatDateService}
-            placeholder={t('approved_assets:to_date')}
-            date={data.toDate === ''
-              ? ''
+            placeholder={t("approved_assets:to_date")}
+            date={data.toDate === ""
+              ? ""
               : moment(data.toDate)}
             min={moment(Configs.minDate)}
             max={moment(Configs.maxDate)}
@@ -220,7 +235,7 @@ function Filter(props) {
 
         {isResolve && (
           <CGroupFilter
-            label={'common:type'}
+            label="common:type"
             items={TYPES_ASSETS}
             itemsChoose={data.type}
             primaryColor="primary"
@@ -230,7 +245,7 @@ function Filter(props) {
 
         {!isResolve && (
           <CGroupFilter
-            label={'common:status'}
+            label="common:status"
             items={STATUS_APPROVED}
             itemsChoose={data.status}
             primaryColor="primary"
@@ -243,7 +258,7 @@ function Filter(props) {
 }
 
 const styles = StyleSheet.create({
-  con_filter: {width: sW('85%')},
+  con_filter: {width: sW("85%")},
 });
 
 Filter.propTypes = {

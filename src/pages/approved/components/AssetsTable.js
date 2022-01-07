@@ -5,25 +5,27 @@
 ** CreateAt: 2021
 ** Description: Description of AssetsTable.js
 **/
-import PropTypes from 'prop-types';
-import React, {useState, useEffect} from 'react';
-import {useTranslation} from 'react-i18next';
-import {useTheme, Button, Icon, Text} from '@ui-kitten/components';
+import PropTypes from "prop-types";
+import React, {useState, useEffect} from "react";
+import {useTranslation} from "react-i18next";
+import {
+  useTheme, Button, Icon, Text,
+} from "@ui-kitten/components";
 import {
   StyleSheet, ScrollView, View, UIManager, LayoutAnimation,
-} from 'react-native';
+} from "react-native";
 import {
   Table, Row, TableWrapper, Cell,
-} from 'react-native-table-component';
+} from "react-native-table-component";
 /* COMPONENTS */
-import AssetItem from './AssetItem';
+import AssetItem from "./AssetItem";
 /* COMMON */
-import {cStyles} from '~/utils/style';
+import {cStyles} from "~/utils/style";
 import {
   moderateScale,
   verticalScale,
   IS_ANDROID,
-} from '~/utils/helper';
+} from "~/utils/helper";
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -42,11 +44,21 @@ export const WIDTH_ITEM_TABLE = [
   moderateScale(120),
   moderateScale(120),
 ];
+const colorBorderError = "border-danger-color-1";
+const colorBorder = "color-basic-400";
+const colorBgHeaderTable = "color-basic-300";
+const colorHint = "text-hint-color";
 
+/*********************
+ ** OTHER COMPONENT **
+ *********************/
 const RenderAddIcon = props => (
   <Icon {...props} name="plus-circle-outline" />
 );
 
+/********************
+ ** MAIN COMPONENT **
+ ********************/
 function AssetsTable(props) {
   const {t} = useTranslation();
   const theme = useTheme();
@@ -57,7 +69,7 @@ function AssetsTable(props) {
     isDetail = false,
     assets = {
       width: WIDTH_ITEM_TABLE,
-      header: ['', '', '', '', ''],
+      header: ["", "", "", "", ""],
       data: [],
     },
     onCallbackValidate = () => {},
@@ -68,18 +80,18 @@ function AssetsTable(props) {
     assets: {
       width: WIDTH_ITEM_TABLE,
       header: [
-        '',
-        t('add_approved_assets:description'),
-        t('add_approved_assets:amount'),
-        t('add_approved_assets:price'),
-        t('add_approved_assets:total'),
+        "",
+        t("add_approved_assets:description"),
+        t("add_approved_assets:amount"),
+        t("add_approved_assets:price"),
+        t("add_approved_assets:total"),
       ],
-      data: [[null, '', '', '', '']],
+      data: [[null, "", "", "", ""]],
     },
   });
   const [error, setError] = useState({
     status: false,
-    helper: '',
+    helper: "",
   });
 
   /*****************
@@ -87,10 +99,10 @@ function AssetsTable(props) {
   *****************/
   const handleAddAssets = () => {
     if (error.status) {
-      setError({status: false, helper: ''});
+      setError({status: false, helper: ""});
     }
     let newData = [...form.assets.data];
-    newData.push([null, '', '', '', '']);
+    newData.push([null, "", "", "", ""]);
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     return setForm({...form, assets: {...form.assets, data: newData}});
   };
@@ -101,28 +113,28 @@ function AssetsTable(props) {
   const onChangeCellItem = (value, rowIdx, cellIdx) => {
     let newData = form.assets.data;
     newData[rowIdx][cellIdx] = value;
-    if (newData[rowIdx][2] !== '') {
-      if (newData[rowIdx][3] !== '') {
+    if (newData[rowIdx][2] !== "") {
+      if (newData[rowIdx][3] !== "") {
         newData[rowIdx][4] = JSON.stringify(
           Number(newData[rowIdx][2]) * Number(newData[rowIdx][3]),
         );
       } else {
-        newData[rowIdx][4] = '';
+        newData[rowIdx][4] = "";
       }
     } else {
-      newData[rowIdx][4] = '';
+      newData[rowIdx][4] = "";
     }
     setForm({...form, assets: {...form.assets, data: newData}});
     if (error.status) {
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-      return setError({status: false, helper: ''});
+      return setError({status: false, helper: ""});
     }
   };
 
   const onRemoveRow = rowIdx => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     if (error.status) {
-      setError({status: false, helper: ''});
+      setError({status: false, helper: ""});
     }
     let newData = [...form.assets.data];
     newData.splice(rowIdx, 1);
@@ -130,24 +142,24 @@ function AssetsTable(props) {
   };
 
   const onValidate = () => {
-    setError({status: false, helper: ''});
-    let tmpError = {status: false, helper: ''},
+    setError({status: false, helper: ""});
+    let tmpError = {status: false, helper: ""},
       item = null;
     if (form.assets.data.length > 0) {
       for (item of form.assets.data) {
-        if (item[1].trim() === '') {
+        if (item[1].trim() === "") {
           tmpError.status = true;
-          tmpError.helper = 'error:not_enough_assets';
+          tmpError.helper = "error:not_enough_assets";
         } else {
-          if (item[2] === '' || (item[2] !== '' && Number(item[2]) < 1)) {
+          if (item[2] === "" || (item[2] !== "" && Number(item[2]) < 1)) {
             tmpError.status = true;
-            tmpError.helper = 'error:assets_need_larger_than_zero';
+            tmpError.helper = "error:assets_need_larger_than_zero";
           }
         }
       }
     } else {
       tmpError.status = true;
-      tmpError.helper = 'error:not_enough_assets';
+      tmpError.helper = "error:not_enough_assets";
     }
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setError(tmpError);
@@ -180,7 +192,7 @@ function AssetsTable(props) {
               onPress={handleAddAssets}>
               {propsB => (
                 <Text style={cStyles.textUnderline} category="c1" status="primary">
-                  {t('add_approved_assets:add_assets')}
+                  {t("add_approved_assets:add_assets")}
                 </Text>
               )}
             </Button>
@@ -194,15 +206,19 @@ function AssetsTable(props) {
             borderStyle={{
               borderWidth: 1,
               borderColor: error.status
-                ? theme['border-danger-color-1']
-                : theme['border-basic-color-3'],
+                ? theme[colorBorderError]
+                : theme[colorBorder],
             }}
             style={cStyles.mt6}>
             <Row
-              style={[styles.table_header, {backgroundColor: theme['color-basic-400']}]}
+              style={[styles.table_header, {backgroundColor: theme[colorBgHeaderTable]}]}
               textStyle={[
                 cStyles.textCenter,
-                {color: theme['text-basic-color']},
+                cStyles.fontBold,
+                {
+                  fontSize: 12,
+                  color: theme[colorHint],
+                },
               ]}
               widthArr={form.assets.width}
               data={form.assets.header}
@@ -210,13 +226,13 @@ function AssetsTable(props) {
             {form.assets.data.map((rowData, rowIdx) => {
               return (
                 <TableWrapper
-                  key={'row_' + rowIdx}
+                  key={"row_" + rowIdx}
                   style={[cStyles.flex1, cStyles.row]}>
                   {rowData.map((cellData, cellIdx) => {
                     let disabled = loading || cellIdx === 4 || isDetail;
                     return (
                       <Cell
-                        key={'cell_' + cellIdx}
+                        key={"cell_" + cellIdx}
                         width={form.assets.width[cellIdx]}
                         data={
                           <AssetItem
@@ -257,8 +273,8 @@ function AssetsTable(props) {
           {error.status && (
             <Icon
               style={styles.icon_error}
-              name={'alert-circle'}
-              fill={theme['color-danger-500']}
+              name={"alert-circle"}
+              fill={theme[colorBorderError]}
             />
           )}
           {error.status && (
@@ -277,7 +293,7 @@ function AssetsTable(props) {
               onPress={handleAddAssets}>
               {propsB => (
                 <Text style={cStyles.textUnderline} category="c1" status="primary">
-                  {t('add_approved_assets:add_assets')}
+                  {t("add_approved_assets:add_assets")}
                 </Text>
               )}
             </Button>

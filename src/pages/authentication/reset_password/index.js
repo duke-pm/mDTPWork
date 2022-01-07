@@ -5,24 +5,24 @@
  ** CreateAt: 2021
  ** Description: Description of index.js
  **/
-import {fromJS} from 'immutable';
-import React, {useRef, useState, useEffect} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {useTranslation} from 'react-i18next';
-import {useTheme, Layout, Text} from '@ui-kitten/components';
-import {ScrollView, View} from 'react-native';
-import IoniIcon from 'react-native-vector-icons/Ionicons';
-import * as Animatable from 'react-native-animatable';
+import {fromJS} from "immutable";
+import React, {useRef, useState, useEffect} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {useTranslation} from "react-i18next";
+import {useTheme, Layout, Text} from "@ui-kitten/components";
+import {ScrollView, View} from "react-native";
+import IoniIcon from "react-native-vector-icons/Ionicons";
+import * as Animatable from "react-native-animatable";
 /* COMPONENTS */
-import CContainer from '~/components/CContainer';
-import CTopNavigation from '~/components/CTopNavigation';
-import CForm from '~/components/CForm';
+import CContainer from "~/components/CContainer";
+import CTopNavigation from "~/components/CTopNavigation";
+import CForm from "~/components/CForm";
 /* COMMON */
-import Routes from '~/navigator/Routes';
-import {cStyles} from '~/utils/style';
-import {moderateScale, resetRoute} from '~/utils/helper';
+import Routes from "~/navigator/Routes";
+import {cStyles} from "~/utils/style";
+import {moderateScale, resetRoute} from "~/utils/helper";
 /* REDUX */
-import * as Actions from '~/redux/actions';
+import * as Actions from "~/redux/actions";
 
 const MyContent = Animatable.createAnimatableComponent(Layout);
 const MyIconAnim = Animatable.createAnimatableComponent(IoniIcon);
@@ -30,17 +30,17 @@ const sIconStatus = moderateScale(120);
 
 /** All init */
 const INPUT_NAME = {
-  PASSWORD: 'password',
+  PASSWORD: "password",
 };
 
 function ResetPassword(props) {
   const {t} = useTranslation();
   const theme = useTheme();
   const {navigation, route} = props;
-  const tokenData = route.params?.tokenData || 'not_token';
-  const bgHeader = theme['background-basic-color-2'];
-  const colorSuccess = theme['color-success-500'];
-  const colorError = theme['color-danger-500'];
+  const tokenData = route.params?.tokenData || "not_token";
+  const bgHeader = theme["background-basic-color-2"];
+  const colorSuccess = theme["color-success-500"];
+  const colorError = theme["color-danger-500"];
 
   /** use ref */
   const formRef = useRef();
@@ -50,7 +50,7 @@ function ResetPassword(props) {
   const dispatch = useDispatch();
   const authState = useSelector(({auth}) => auth);
   const commonState = useSelector(({common}) => common);
-  const language = commonState.get('language');
+  const language = commonState.get("language");
 
   /** Use state */
   const [loading, setLoading] = useState({
@@ -58,7 +58,7 @@ function ResetPassword(props) {
     update: false,
   });
   const [values, setValues] = useState({
-    password: '',
+    password: "",
     success: false,
     error: false,
     errorExpired: false,
@@ -101,7 +101,7 @@ function ResetPassword(props) {
       ...values,
       error: false,
       errorExpired: !status
-        ? message || 'forgot_password:error_holder_cannot_change_password_1'
+        ? message || "forgot_password:error_holder_cannot_change_password_1"
         : false,
     });
     setLoading({check: false, update: false});
@@ -112,7 +112,7 @@ function ResetPassword(props) {
     setValues({
       ...values,
       success: status,
-      error: message || 'forgot_password:error_change_password',
+      error: message || "forgot_password:error_change_password",
       errorExpired: false,
     });
     setLoading({check: false, update: false});
@@ -129,8 +129,8 @@ function ResetPassword(props) {
 
   useEffect(() => {
     if (loading.check) {
-      if (!authState.get('submittingCheckTokenPass')) {
-        if (authState.get('successCheckTokenPass')) {
+      if (!authState.get("submittingCheckTokenPass")) {
+        if (authState.get("successCheckTokenPass")) {
           return contentRef.current.fadeOutDown(1000).then(endState => {
             if (endState.finished) {
               onCompleteCheck(true);
@@ -138,30 +138,30 @@ function ResetPassword(props) {
           });
         }
 
-        if (authState.get('errorCheckTokenPass')) {
+        if (authState.get("errorCheckTokenPass")) {
           return onCompleteCheck(false);
         }
       }
     }
   }, [
     loading.check,
-    authState.get('submittingCheckTokenPass'),
-    authState.get('successCheckTokenPass'),
-    authState.get('errorCheckTokenPass'),
+    authState.get("submittingCheckTokenPass"),
+    authState.get("successCheckTokenPass"),
+    authState.get("errorCheckTokenPass"),
   ]);
 
   useEffect(() => {
     if (loading.update) {
-      if (!authState.get('submittingUpdatePass')) {
-        if (authState.get('successUpdatePass')) {
+      if (!authState.get("submittingUpdatePass")) {
+        if (authState.get("successUpdatePass")) {
           return onCompleteChange(true);
         }
 
-        if (authState.get('errorUpdatePass')) {
+        if (authState.get("errorUpdatePass")) {
           return onCompleteChange(
             false,
-            typeof authState.get('errorHelperUpdatePass') === 'string'
-              ? authState.get('errorHelperUpdatePass')
+            typeof authState.get("errorHelperUpdatePass") === "string"
+              ? authState.get("errorHelperUpdatePass")
               : null,
           );
         }
@@ -169,9 +169,9 @@ function ResetPassword(props) {
     }
   }, [
     loading.update,
-    authState.get('submittingUpdatePass'),
-    authState.get('successUpdatePass'),
-    authState.get('errorUpdatePass'),
+    authState.get("submittingUpdatePass"),
+    authState.get("successUpdatePass"),
+    authState.get("errorUpdatePass"),
   ]);
 
   /************
@@ -179,12 +179,12 @@ function ResetPassword(props) {
    ************/
   return (
     <CContainer
-      safeArea={['top']}
+      safeArea={["top"]}
       backgroundColor={bgHeader}>
       {/** Header */}
       <CTopNavigation
         style={{backgroundColor: bgHeader}}
-        leftTitle={'reset_password:title'}
+        leftTitle={"reset_password:title"}
         back
         onPressCustomBack={handleGoBack}
       />
@@ -208,7 +208,7 @@ function ResetPassword(props) {
             {/** Caption */}
             <View style={cStyles.mt16}>
               <Text style={cStyles.textCenter} category="p1">
-                {t('reset_password:caption')}
+                {t("reset_password:caption")}
               </Text>
             </View>
 
@@ -219,9 +219,9 @@ function ResetPassword(props) {
               inputs={[
                 {
                   id: INPUT_NAME.PASSWORD,
-                  type: 'text',
-                  label: 'reset_password:input_label_password',
-                  holder: 'reset_password:input_holder_password',
+                  type: "text",
+                  label: "reset_password:input_label_password",
+                  holder: "reset_password:input_holder_password",
                   value: values.password,
                   required: true,
                   password: true,
@@ -229,11 +229,11 @@ function ResetPassword(props) {
                   phone: false,
                   number: false,
                   next: false,
-                  return: 'done',
+                  return: "done",
                 },
               ]}
               leftButton={loading.check || loading.update}
-              labelButton={'common:save'}
+              labelButton={"common:save"}
               onSubmit={onSubmitSave}
             />
           </MyContent>
@@ -254,7 +254,7 @@ function ResetPassword(props) {
             animation="fadeInUp">
             <View style={cStyles.itemsCenter}>
               <MyIconAnim
-                name={'checkmark-circle-outline'}
+                name={"checkmark-circle-outline"}
                 size={sIconStatus}
                 color={colorSuccess}
                 animation="pulse"
@@ -265,10 +265,10 @@ function ResetPassword(props) {
             {/** Sub-title & Caption */}
             <View style={cStyles.mt16}>
               <Text style={cStyles.textCenter} category="s1">
-                {t('reset_password:success_sub_title')}
+                {t("reset_password:success_sub_title")}
               </Text>
               <Text style={[cStyles.mt16, cStyles.textCenter]}>
-                {t('reset_password:success_caption')}
+                {t("reset_password:success_caption")}
               </Text>
             </View>
           </MyContent>
@@ -288,7 +288,7 @@ function ResetPassword(props) {
             animation="fadeInUp">
             <View style={cStyles.itemsCenter}>
               <MyIconAnim
-                name={'close-circle-outline'}
+                name={"close-circle-outline"}
                 size={sIconStatus}
                 color={colorError}
                 animation="pulse"
@@ -299,10 +299,10 @@ function ResetPassword(props) {
             {/** Sub-title & Caption */}
             <View style={cStyles.mt16}>
               <Text style={cStyles.textCenter} category="s1">
-                {t('reset_password:error_sub_title')}
+                {t("reset_password:error_sub_title")}
               </Text>
               <Text style={[cStyles.mt16, cStyles.textCenter]}>
-                {values.errorExpired !== ''
+                {values.errorExpired !== ""
                   ? t(values.errorExpired)
                   : t(values.error)}
               </Text>

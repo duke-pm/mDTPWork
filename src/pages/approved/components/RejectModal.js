@@ -4,36 +4,43 @@
  ** CreateAt: 2021
  ** Description: Description of RejectModal.js
  **/
-import PropTypes from 'prop-types';
-import React, {useContext, useState} from 'react';
-import {useTranslation} from 'react-i18next';
-import {Input} from '@ui-kitten/components';
-import {StyleSheet, Keyboard} from 'react-native';
+import PropTypes from "prop-types";
+import React, {useContext, useState} from "react";
+import {useTranslation} from "react-i18next";
+import {Icon, Input, Text} from "@ui-kitten/components";
+import {Keyboard, View} from "react-native";
 /* COMPONENTS */
-import CAlert from '~/components/CAlert';
+import CAlert from "~/components/CAlert";
 /* COMMON */
-import {cStyles} from '~/utils/style';
-import {moderateScale} from '~/utils/helper';
-import {ThemeContext} from '~/configs/theme-context';
+import {cStyles} from "~/utils/style";
+import {ThemeContext} from "~/configs/theme-context";
 
+/*********************
+ ** OTHER COMPONENT **
+ *********************/
+const RenderCloseIcon = props => (
+  <Icon {...props} name="close-outline" />
+);
+
+/********************
+ ** MAIN COMPONENT **
+ ********************/
 function RejectModal(props) {
   const {t} = useTranslation();
   const themeContext = useContext(ThemeContext);
   const {
     showReject = false,
-    description = 'add_approved_assets:message_confirm_reject',
+    description = "add_approved_assets:message_confirm_reject",
     onCloseReject = () => null,
     onReject = () => null,
   } = props;
 
   /** Use state */
   const [loading, setLoading] = useState(false);
-  const [reasonReject, setReasonReject] = useState('');
+  const [reasonReject, setReasonReject] = useState("");
   const [error, setError] = useState({
-    reasonReject: {
-      status: false,
-      helper: '',
-    },
+    status: false,
+    helper: "",
   });
 
   /*****************
@@ -41,28 +48,26 @@ function RejectModal(props) {
    *****************/
   const handleChangeReasonReject = value => {
     setReasonReject(value);
-    if (error.reasonReject.status) {
-      return setError({reasonReject: {status: false, helper: ''}});
+    if (error.status) {
+      return setError({status: false, helper: ""});
     }
-    return;
   };
 
   const handleReject = () => {
-    if (reasonReject.trim() === '') {
-      return setError({
-        reasonReject: {status: true, helper: 'error:reason_reject_empty'},
-      });
-    } else {
-      setLoading(true);
-      return onReject(reasonReject);
+    if (reasonReject.trim() === "") {
+      if (!error.status) {
+        return setError({status: true, helper: "error:reason_reject_empty"});
+      } else return;
     }
+    setLoading(true);
+    return onReject(reasonReject);
   };
 
   const handleClose = () => {
-    if (error.reasonReject.status) {
-      setError({reasonReject: {status: false, helper: ''}});
+    if (error.status) {
+      setError({status: false, helper: ""});
     }
-    setReasonReject('');
+    setReasonReject("");
     return onCloseReject();
   };
 
@@ -74,22 +79,32 @@ function RejectModal(props) {
       show={showReject}
       loading={loading}
       cancel
-      label={t('add_approved_lost_damaged:label_confirm')}
+      label={t("add_approved_lost_damaged:label_confirm")}
       customMessage={
         <Input
-          style={[cStyles.my10, styles.input]}
+          style={cStyles.my10}
           autoFocus
           multiline
+          disabled={loading}
           keyboardAppearance={themeContext.themeApp}
-          status={error.reasonReject.status ? 'danger' : 'basic'}
-          label={t('add_approved_lost_damaged:reason_reject')}
-          caption={t(error.reasonReject.helper)}
+          status={error.status ? "danger" : "basic"}
+          label={propsL =>
+            <View style={[cStyles.row, propsL.style]}>
+              <Text category="label" appearance="hint">
+                {t("add_approved_lost_damaged:reason_reject")}
+              </Text>
+              <Text category="label" status="danger">{" *"}</Text>
+            </View>
+          }
+          caption={t(error.helper)}
           placeholder={t(description)}
           value={reasonReject}
           onChangeText={handleChangeReasonReject}
         />
       }
+      iconOk={RenderCloseIcon}
       statusOk="danger"
+      textOk="add_approved_lost_damaged:reject_now"
       textCancel="common:close"
       onBackdrop={Keyboard.dismiss}
       onCancel={handleClose}
@@ -97,12 +112,6 @@ function RejectModal(props) {
     />
   );
 }
-
-const styles = StyleSheet.create({
-  input: {
-    maxHeight: moderateScale(100),
-  },
-});
 
 RejectModal.propTypes = {
   showReject: PropTypes.bool,

@@ -16,14 +16,24 @@ import {StyleSheet, View} from 'react-native';
 /* COMMON */
 import {Commons} from '~/utils/common';
 import {cStyles} from '~/utils/style';
-import {alert, moderateScale} from '~/utils/helper';
 import {ThemeContext} from '~/configs/theme-context';
+import {
+  alert,
+  moderateScale,
+} from '~/utils/helper';
 /** REDUX */
 import * as Actions from '~/redux/actions';
 
 /** All ref */
+const PERCENT_COMPLETE = 100;
+const PERCENT_HALF = 35;
 let percentRef = createRef();
+let curStatus = '';
+let curPercent = '';
 
+/*********************
+ ** OTHER COMPONENT **
+ *********************/
 const RenderCloseIcon = props => (
   <Icon {...props} name="close-outline" />
 );
@@ -36,6 +46,9 @@ const RenderEditIcon = props => (
   <Icon {...props} name="edit-outline" />
 );
 
+/********************
+ ** MAIN COMPONENT **
+ ********************/
 function Percentage(props) {
   const {t} = useTranslation();
   const themeContext = useContext(ThemeContext);
@@ -48,30 +61,27 @@ function Percentage(props) {
     onStartUpdate = () => null,
     onEndUpdate = () => null,
   } = props;
-  let curStatus = props.task.statusName;
-  let curPercent = props.task.percentage;
 
   /** Use redux */
   const dispatch = useDispatch();
   const projectState = useSelector(({projectManagement}) => projectManagement);
-
+  
   /** Use state */
-  const [submitComment, setSubmitComment] = useState(false);
   const [percent, setPercent] = useState({
     visible: false,
     value: 0,
   });
-
+  
   /*****************
    ** HANDLE FUNC **
    *****************/
   const handleChangePercent = () => {
     if (percent.visible) {
-      if (percent.value < 0 || percent.value > 100) {
+      if (percent.value < 0 || percent.value > PERCENT_COMPLETE) {
         alert(t, 'project_management:warning_input_percent', () =>
           percentRef.focus(),
         );
-      } else if (Number(percent.value) === 100) {
+      } else if (Number(percent.value) === PERCENT_COMPLETE) {
         alert(t, 'project_management:confirm_change_to_100', () =>
           onFetchPercent(true),
         );
@@ -88,6 +98,8 @@ function Percentage(props) {
 
   const onFetchPercent = isFinished => {
     onStartUpdate();
+    curStatus = props.task.statusName;
+    curPercent = props.task.percentage;
     let params = {
       TaskID: props.task.taskID,
       StatusID: isFinished
@@ -97,13 +109,13 @@ function Percentage(props) {
       Lang: language,
       RefreshToken: refreshToken,
     };
-    dispatch(Actions.fetchUpdateTask(params, navigation));
+    return dispatch(Actions.fetchUpdatePerTask(params, navigation));
   };
 
-  const onUpdateActivities = () => {
+  const onUpdateActivities = (isSuccess) => {
     let taskDetail = projectState.get('taskDetail');
     let comment = '';
-    if (taskDetail.percentage === 100) {
+    if (taskDetail.percentage === PERCENT_COMPLETE) {
       comment = `* ${t('project_management:status_filter').toUpperCase()} ${t(
         'project_management:holder_change_from',
       )} ${curStatus} ${t('project_management:holder_change_to')} ${
@@ -122,6 +134,7 @@ function Percentage(props) {
         taskDetail.percentage
       }.`;
     }
+    console.log('[LOG] === onUpdateActivities ===> ', comment);
 
     let paramsActivities = {
       LineNum: 0,
@@ -131,19 +144,25 @@ function Percentage(props) {
       RefreshToken: refreshToken,
     };
     dispatch(Actions.fetchTaskComment(paramsActivities, navigation));
-    setSubmitComment(false);
     curPercent = taskDetail.percentage;
+    return onNotification(isSuccess);
   };
 
   const handleClosePercent = () => {
-    setPercent({visible: !percent.visible, value: props.task.percentage});
+    return setPercent({
+      visible: !percent.visible,
+      value: props.task.percentage,
+    });
   };
 
   /**********
    ** FUNC **
    **********/
   const onChangePercent = value => {
-    setPercent({...percent, value: Number(value) + ''});
+    return setPercent({
+      ...percent,
+      value: Number(value) + '',
+    });
   };
 
   const onNotification = isSuccess => {
@@ -177,26 +196,23 @@ function Percentage(props) {
   }, [percent.visible]);
 
   useEffect(() => {
-    if (!projectState.get('submittingTaskUpdate')) {
-      if (projectState.get('successTaskUpdate')) {
-        dispatch(Actions.resetAllProject());
-        if (!submitComment) {
-          setSubmitComment(true);
-          onUpdateActivities();
+    if (disabled) {
+      if (!projectState.get('submittingTaskUpdatePer')) {
+        if (projectState.get('successTaskUpdatePer')) {
+          dispatch(Actions.resetAllProject());
+          onUpdateActivities(true);
         }
-        return onNotification(true);
-      }
-
-      if (projectState.get('errorTaskUpdate')) {
-        return onNotification(false);
+  
+        if (projectState.get('errorTaskUpdatePer')) {
+          return onNotification(false);
+        }
       }
     }
   }, [
-    submitComment,
-    Actions.resetAllProject,
-    projectState.get('submittingTaskUpdate'),
-    projectState.get('successTaskUpdate'),
-    projectState.get('errorTaskUpdate'),
+    disabled,
+    projectState.get('submittingTaskUpdatePer'),
+    projectState.get('successTaskUpdatePer'),
+    projectState.get('errorTaskUpdatePer'),
   ]);
   
   /************
@@ -207,7 +223,13 @@ function Percentage(props) {
     props.task.statusID == Commons.STATUS_PROJECT[5]["value"] ||
     props.task.statusID == Commons.STATUS_PROJECT[6]["value"];
   return (
-    <View style={[cStyles.flex1, cStyles.row, cStyles.itemsCenter, cStyles.justifyEnd]}>
+    <View
+      style={[
+        cStyles.flex1,
+        cStyles.row,
+        cStyles.itemsCenter,
+        cStyles.justifyEnd,
+      ]}>
       {!percent.visible ? (
         <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyEnd]}>
           <View
@@ -225,19 +247,18 @@ function Percentage(props) {
                 cStyles.rounded1,
                 cStyles.borderAll,
                 styles.percent_active,
-                {borderColor: 'grey'}
               ]}
             />
             <View
               style={[
                 cStyles.abs,
-                cStyles.roundedTopLeft5,
-                cStyles.roundedBottomLeft5,
+                cStyles.roundedTopLeft1,
+                cStyles.roundedBottomLeft1,
                 cStyles.itemsEnd,
                 cStyles.justifyCenter,
                 styles.percent_body,
-                percent.value === 100 && cStyles.roundedTopRight5,
-                percent.value === 100 && cStyles.roundedBottomRight5,
+                percent.value === PERCENT_COMPLETE && cStyles.roundedTopRight1,
+                percent.value === PERCENT_COMPLETE && cStyles.roundedBottomRight1,
                 {
                   width: `${percent.value}%`,
                   backgroundColor:
@@ -246,24 +267,26 @@ function Percentage(props) {
                       : theme['color-primary-500'],
                 },
               ]}>
-              {percent.value > 35 && (
-                <Text category="c1" status="control" style={cStyles.mr5}>{`${percent.value}%`}</Text>
+              {percent.value > PERCENT_HALF && (
+                <Text category="c1" status="control" style={cStyles.mr5}>
+                  {`${percent.value}%`}
+                </Text>
               )}
             </View>
             <View
               style={[
                 cStyles.abs,
                 cStyles.right0,
-                cStyles.roundedTopRight5,
-                cStyles.roundedBottomRight5,
+                cStyles.roundedTopRight1,
+                cStyles.roundedBottomRight1,
                 cStyles.itemsStart,
                 cStyles.justifyCenter,
                 styles.con_percent,
-                {width: `${100 - percent.value}%`},
-                percent.value === 0 && cStyles.roundedTopLeft5,
-                percent.value === 0 && cStyles.roundedBottomLeft5,
+                {width: `${PERCENT_COMPLETE - percent.value}%`},
+                percent.value === 0 && cStyles.roundedTopLeft1,
+                percent.value === 0 && cStyles.roundedBottomLeft1,
               ]}>
-              {percent.value <= 35 && (
+              {percent.value <= PERCENT_HALF && (
                 <Text
                   category="c1"
                   style={[
@@ -304,6 +327,7 @@ function Percentage(props) {
               autoFocus
               selectTextOnFocus
               blurOnSubmit
+              disabled={disabled}
               placeholder={t('project_management:holder_task_percentage')}
               value={percent.value + ''}
               keyboardAppearance={themeContext.themeApp}
@@ -315,11 +339,13 @@ function Percentage(props) {
           </View>
           <Button
             style={cStyles.mx5}
+            disabled={disabled}
             size="tiny"
             accessoryLeft={RenderCheckIcon}
             onPress={handleChangePercent}
           />
           <Button
+            disabled={disabled}
             size="tiny"
             status="danger"
             accessoryLeft={RenderCloseIcon}

@@ -244,20 +244,20 @@ export const fetchTaskWatcher = (params, navigation) => {
 };
 /*****************************/
 
-/** For update task */
-export const updateTaskError = error => ({
-  type: types.ERROR_FETCH_TASK_UPDATE,
+/** For update per task */
+export const updatePerTaskError = error => ({
+  type: types.ERROR_FETCH_TASK_UPDATE_PER,
   payload: error,
 });
 
-export const updateTaskSuccess = data => ({
-  type: types.SUCCESS_FETCH_TASK_UPDATE,
+export const updatePerTaskSuccess = data => ({
+  type: types.SUCCESS_FETCH_TASK_UPDATE_PER,
   payload: data,
 });
 
-export const fetchUpdateTask = (params, navigation) => {
+export const fetchUpdatePerTask = (params, navigation) => {
   return dispatch => {
-    dispatch({type: types.START_FETCH_TASK_UPDATE});
+    dispatch({type: types.START_FETCH_TASK_UPDATE_PER});
 
     Services.projectManagement
       .taskUpdate(params)
@@ -287,13 +287,13 @@ export const fetchUpdateTask = (params, navigation) => {
               percentage: res.data.percentage,
             };
           }
-          return dispatch(updateTaskSuccess(dataTask));
+          return dispatch(updatePerTaskSuccess(dataTask));
         } else {
-          return dispatch(updateTaskError(res.errorMessage));
+          return dispatch(updatePerTaskError(res.errorMessage));
         }
       })
       .catch(error => {
-        dispatch(updateTaskError(error));
+        dispatch(updatePerTaskError(error));
         if (error.message && error.message.search('Authorization') !== -1) {
           let tmp = {
             RefreshToken: params.get('RefreshToken'),
@@ -302,7 +302,75 @@ export const fetchUpdateTask = (params, navigation) => {
           return dispatch(
             Actions.fetchRefreshToken(
               tmp,
-              () => fetchUpdateTask(params),
+              () => fetchUpdatePerTask(params),
+              navigation,
+            ),
+          );
+        }
+      });
+  };
+};
+/*****************************/
+
+/** For update sta task */
+export const updateStaTaskError = error => ({
+  type: types.ERROR_FETCH_TASK_UPDATE_STA,
+  payload: error,
+});
+
+export const updateStaTaskSuccess = data => ({
+  type: types.SUCCESS_FETCH_TASK_UPDATE_STA,
+  payload: data,
+});
+
+export const fetchUpdateStaTask = (params, navigation) => {
+  return dispatch => {
+    dispatch({type: types.START_FETCH_TASK_UPDATE_STA});
+
+    Services.projectManagement
+      .taskUpdate(params)
+      .then(res => {
+        if (!res.isError) {
+          let dataTask = null;
+          if (res.data.length > 0) {
+            dataTask = {
+              status: {
+                statusID: res.data[0].statusID,
+                statusName: res.data[0].statusName,
+                colorCode: res.data[0].colorCode,
+                colorDarkCode: res.data[0].colorDarkCode,
+                colorOpacityCode: res.data[0].colorOpacityCode,
+              },
+              percentage: res.data[0].percentage,
+            };
+          } else {
+            dataTask = {
+              status: {
+                statusID: res.data.statusID,
+                statusName: res.data.statusName,
+                colorCode: res.data.colorCode,
+                colorDarkCode: res.data.colorDarkCode,
+                colorOpacityCode: res.data.colorOpacityCode,
+              },
+              percentage: res.data.percentage,
+            };
+          }
+          return dispatch(updateStaTaskSuccess(dataTask));
+        } else {
+          return dispatch(updateStaTaskError(res.errorMessage));
+        }
+      })
+      .catch(error => {
+        dispatch(updateStaTaskError(error));
+        if (error.message && error.message.search('Authorization') !== -1) {
+          let tmp = {
+            RefreshToken: params.get('RefreshToken'),
+            Lang: params.get('Lang'),
+          };
+          return dispatch(
+            Actions.fetchRefreshToken(
+              tmp,
+              () => fetchUpdateStaTask(params),
               navigation,
             ),
           );

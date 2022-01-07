@@ -4,28 +4,28 @@
  ** CreateAt: 2021
  ** Description: Description of index.js
  **/
-import React, {useRef, useState, useEffect, useContext} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {useTranslation} from 'react-i18next';
-import {usePrevious} from '~/utils/hook';
-import {useTheme, Layout, CheckBox, Button, Text} from '@ui-kitten/components';
-import {View, StatusBar, Linking, ScrollView} from 'react-native';
-import {showMessage} from 'react-native-flash-message';
-import VersionCheck from 'react-native-version-check';
-import * as Animatable from 'react-native-animatable';
-import moment from 'moment';
+import React, {useRef, useState, useEffect, useContext} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {useTranslation} from "react-i18next";
+import {usePrevious} from "~/utils/hook";
+import {useTheme, Layout, CheckBox, Button, Text} from "@ui-kitten/components";
+import {View, StatusBar, Linking, ScrollView} from "react-native";
+import {showMessage} from "react-native-flash-message";
+import VersionCheck from "react-native-version-check";
+import * as Animatable from "react-native-animatable";
+import moment from "moment";
 /* COMPONENTS */
-import CContainer from '~/components/CContainer';
-import CTopNavigation from '~/components/CTopNavigation';
-import CLoading from '~/components/CLoading';
-import CForm from '~/components/CForm';
+import CContainer from "~/components/CContainer";
+import CTopNavigation from "~/components/CTopNavigation";
+import CLoading from "~/components/CLoading";
+import CForm from "~/components/CForm";
 /* COMMON */
-import Configs from '~/configs';
-import Routes from '~/navigator/Routes';
-import FieldsAuth from '~/configs/fieldsAuth';
-import {ThemeContext} from '~/configs/theme-context';
-import {AST_LANGUAGE, AST_LOGIN} from '~/configs/constants';
-import {cStyles} from '~/utils/style';
+import Configs from "~/configs";
+import Routes from "~/navigator/Routes";
+import FieldsAuth from "~/configs/fieldsAuth";
+import {ThemeContext} from "~/configs/theme-context";
+import {AST_LANGUAGE, AST_LOGIN} from "~/configs/constants";
+import {cStyles} from "~/utils/style";
 import {
   getLocalInfo,
   getSecretInfo,
@@ -33,16 +33,16 @@ import {
   removeSecretInfo,
   resetRoute,
   IS_ANDROID,
-} from '~/utils/helper';
+} from "~/utils/helper";
 /* REDUX */
-import * as Actions from '~/redux/actions';
+import * as Actions from "~/redux/actions";
 
 const MyContent = Animatable.createAnimatableComponent(Layout);
 
 /** All init */
 const INPUT_NAME = {
-  USER_NAME: 'userName',
-  PASSWORD: 'password',
+  USER_NAME: "userName",
+  PASSWORD: "password",
 };
 
 function Login(props) {
@@ -50,7 +50,7 @@ function Login(props) {
   const theme = useTheme();
   const themeContext = useContext(ThemeContext);
   const {navigation} = props;
-  const bgHeader = theme['background-basic-color-2'];
+  const bgHeader = theme["background-basic-color-2"];
   let prevTheme = usePrevious(themeContext.themeApp);
 
   /** use ref */
@@ -68,13 +68,13 @@ function Login(props) {
     submit: false,
   });
   const [values, setValues] = useState({
-    userName: '',
-    password: '',
+    userName: "",
+    password: "",
     saveAccount: true,
   });
   const [versionApp, setVersionApp] = useState({
     needUpdate: false,
-    number: '1.0.0',
+    number: "1.0.0",
   });
 
   /*****************
@@ -97,7 +97,7 @@ function Login(props) {
       Username: tmpCallback.valuesAll[0].value.trim().toLowerCase(),
       Password: tmpCallback.valuesAll[1].value.trim(),
       TypeLogin: 2,
-      Lang: commonState.get('language'),
+      Lang: commonState.get("language"),
     };
     dispatch(Actions.fetchLogin(params));
   };
@@ -119,7 +119,7 @@ function Login(props) {
       let dataLogin = {},
         item;
       for (item of FieldsAuth) {
-        dataLogin[item.value] = authState.getIn(['login', item.value]);
+        dataLogin[item.value] = authState.getIn(["login", item.value]);
       }
       await saveSecretInfo({key: AST_LOGIN, value: dataLogin});
     } else {
@@ -143,7 +143,7 @@ function Login(props) {
     /** Check Data Login */
     let dataLogin = await getSecretInfo(AST_LOGIN);
     if (dataLogin) {
-      console.log('[LOG] === SignIn Local === ', dataLogin);
+      console.log("[LOG] === SignIn Local === ", dataLogin);
       setLoading({main: false, submit: true});
       let i = 0,
         tmpDataLogin = {tokenInfo: {}, lstMenu: {}};
@@ -157,22 +157,22 @@ function Login(props) {
       }
       dispatch(Actions.loginSuccess(tmpDataLogin));
     } else {
-      console.log('[LOG] === SignIn Server === ');
+      console.log("[LOG] === SignIn Server === ");
       setLoading({main: false, submit: false});
     }
   };
 
   const onLoginError = () => {
-    let eLogin = authState.get('errorHelperLogin');
-    if (typeof eLogin === 'object') {
-      eLogin = t('sign_in:error_login');
+    let eLogin = authState.get("errorHelperLogin");
+    if (typeof eLogin === "object") {
+      eLogin = t("sign_in:error_login");
     }
 
     showMessage({
-      message: t('common:app_name'),
+      message: t("common:app_name"),
       description: eLogin,
-      type: 'danger',
-      icon: 'danger',
+      type: "danger",
+      icon: "danger",
     });
     setLoading({main: false, submit: false});
   };
@@ -203,15 +203,15 @@ function Login(props) {
 
   useEffect(() => {
     if (loading.submit && !loading.main) {
-      if (!authState.get('submitting')) {
-        if (authState.get('successLogin')) {
+      if (!authState.get("submitting")) {
+        if (authState.get("successLogin")) {
           return contentRef.current.fadeOutDown(1000).then(endState => {
             if (endState.finished) {
               onPrepareData();
             }
           });
         }
-        if (authState.get('errorLogin')) {
+        if (authState.get("errorLogin")) {
           return onLoginError();
         }
       }
@@ -219,9 +219,9 @@ function Login(props) {
   }, [
     loading.main,
     loading.submit,
-    authState.get('submitting'),
-    authState.get('successLogin'),
-    authState.get('errorLogin'),
+    authState.get("submitting"),
+    authState.get("successLogin"),
+    authState.get("errorLogin"),
   ]);
 
   useEffect(() => {
@@ -237,7 +237,7 @@ function Login(props) {
   
   return (
     <CContainer
-      safeArea={['top']}
+      safeArea={["top"]}
       backgroundColor={bgHeader}>
       {/** Header */}
       <CTopNavigation
@@ -271,9 +271,9 @@ function Login(props) {
             inputs={[
               {
                 id: INPUT_NAME.USER_NAME,
-                type: 'text',
-                label: 'sign_in:input_username',
-                holder: 'sign_in:input_holder_username',
+                type: "text",
+                label: "sign_in:input_username",
+                holder: "sign_in:input_holder_username",
                 value: values.userName,
                 required: true,
                 password: false,
@@ -281,13 +281,13 @@ function Login(props) {
                 phone: false,
                 number: false,
                 next: true,
-                return: 'next',
+                return: "next",
               },
               {
                 id: INPUT_NAME.PASSWORD,
-                type: 'text',
-                label: 'sign_in:input_password',
-                holder: 'sign_in:input_holder_password',
+                type: "text",
+                label: "sign_in:input_password",
+                holder: "sign_in:input_holder_password",
                 value: values.password,
                 required: true,
                 password: true,
@@ -295,7 +295,7 @@ function Login(props) {
                 phone: false,
                 number: false,
                 next: false,
-                return: 'done',
+                return: "done",
               },
             ]}
             customAddingForm={
@@ -310,7 +310,7 @@ function Login(props) {
                   disabled={loading.main || loading.submit}
                   checked={values.saveAccount}
                   onChange={handleSaveAccount}>
-                  {t('sign_in:save_account')}
+                  {t("sign_in:save_account")}
                 </CheckBox>
                 <Button
                   disabled={loading.main || loading.submit}
@@ -318,20 +318,20 @@ function Login(props) {
                   onPress={handleGoForgotPassword}>
                   {propsB =>
                     <Text style={cStyles.textUnderline} status="primary">
-                      {t('sign_in:forgot_password')}
+                      {t("sign_in:forgot_password")}
                     </Text>
                   }
                 </Button>
               </View>
             }
             disabledButton={loading.main || loading.submit}
-            labelButton={'sign_in:button_sign_in'}
+            labelButton={"sign_in:button_sign_in"}
             onSubmit={handleSignIn}
           />
           <View style={[cStyles.center, cStyles.justifyEnd, cStyles.pb36]}>
             <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyCenter]}>
               <Text category="c1" appearance="hint">
-                {`${t('sign_in:version')} ${versionApp.number}`}
+                {`${t("sign_in:version")} ${versionApp.number}`}
               </Text>
               {versionApp.needUpdate && (
                 <Button
@@ -340,12 +340,12 @@ function Login(props) {
                   status="warning"
                   appearance="outline"
                   onPress={handleUpdateAppNow}>
-                  {`${t('sign_in:holder_update_now')}`}
+                  {`${t("sign_in:holder_update_now")}`}
                 </Button>
               )}
             </View>
             <Text style={[cStyles.mt10, cStyles.textCenter]} category="c1" appearance="hint">
-              &#169; {`${moment().year()} ${t('sign_in:copyright_by')}\n${Configs.nameOfCompany}`}
+              &#169; {`${moment().year()} ${t("sign_in:copyright_by")}\n${Configs.nameOfCompany}`}
             </Text>
           </View>
         </MyContent>
@@ -353,7 +353,7 @@ function Login(props) {
       {/** Loading */}
       <CLoading
         show={loading.submit}
-        description='common:doing_signin'
+        description="common:doing_signin"
       />
     </CContainer>
   );

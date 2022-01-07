@@ -5,18 +5,19 @@
  ** CreateAt: 2021
  ** Description: Description of BodyOverview.js
  **/
-import PropTypes, {any} from 'prop-types';
-import React, {useRef, useState, useEffect, useContext} from 'react';
-import {useTheme, Text} from '@ui-kitten/components';
-import {StyleSheet, View, Animated} from 'react-native';
-import IoniIcon from 'react-native-vector-icons/Ionicons';
-import moment from 'moment';
-import 'moment/locale/en-sg';
+import PropTypes, {any} from "prop-types";
+import React, {useRef, useState, useEffect, useContext} from "react";
+import {useTranslation} from "react-i18next";
+import {useTheme, Text} from "@ui-kitten/components";
+import {StyleSheet, View, Animated} from "react-native";
+import IoniIcon from "react-native-vector-icons/Ionicons";
+import moment from "moment";
+import "moment/locale/en-sg";
 /* COMMON */
-import {Commons} from '~/utils/common';
-import {ThemeContext} from '~/configs/theme-context';
-import {IS_ANDROID, moderateScale} from '~/utils/helper';
-import {cStyles} from '~/utils/style';
+import {Commons} from "~/utils/common";
+import {ThemeContext} from "~/configs/theme-context";
+import {IS_ANDROID, moderateScale} from "~/utils/helper";
+import {cStyles} from "~/utils/style";
 import {
   FIRST_CELL_WIDTH_LARGE,
   FIRST_CELL_WIDTH_SMALL,
@@ -24,8 +25,7 @@ import {
   CELL_HEIGHT,
   CELL_WIDTH,
   DARK,
-} from '~/configs/constants';
-import { useTranslation } from 'react-i18next';
+} from "~/configs/constants";
 
 /** All init */
 let listener = null;
@@ -34,10 +34,10 @@ const PLEFT_COMMON = moderateScale(4);
 const sIcon = moderateScale(12);
 
 const FormatCell = React.memo(
-  ({theme = {}, bgColor = undefined, align = 'center', value = any}) => {
+  ({theme = {}, bgColor = undefined, align = "center", value = any}) => {
     return (
       <View
-        key={value + ''}
+        key={value + ""}
         style={[
           cStyles.center,
           cStyles[align],
@@ -46,12 +46,12 @@ const FormatCell = React.memo(
           styles.con_cell,
           styles.cell,
           {
-            borderLeftColor: theme['border-basic-color-5'],
-            borderBottomColor: theme['border-basic-color-5'],
+            borderLeftColor: theme["outline-color"],
+            borderBottomColor: theme["outline-color"],
           },
           bgColor && {backgroundColor: bgColor},
         ]}>
-        {typeof value === 'string' ? (
+        {typeof value === "string" ? (
           <Text>{value}</Text>
         ) : (
           value
@@ -65,8 +65,8 @@ const FormatCompactCell = React.memo(
   ({
     trans = {},
     theme = {},
-    value = '',
-    name = '',
+    value = "",
+    name = "",
     isProject = false,
     taskType = undefined,
     taskTypeName = undefined,
@@ -84,15 +84,15 @@ const FormatCompactCell = React.memo(
           cStyles.borderRight,
           styles.cell_small,
           {
-            borderLeftColor: theme['border-basic-color-5'],
-            borderBottomColor: theme['border-basic-color-5'],
-            borderRightColor: theme['border-basic-color-5'],
+            borderLeftColor: theme["outline-color"],
+            borderBottomColor: theme["outline-color"],
+            borderRightColor: theme["outline-color"],
           },
         ]}>
         <View style={cStyles.itemsStart}>
           {isProject && !taskType && (
             <Text style={cStyles.textCenter} category="label">
-              {`${trans('project_management:main_title')} #`.toUpperCase() + value}
+              {`${trans("project_management:main_title")} #`.toUpperCase() + value}
             </Text>
           )}
           {!isProject && taskType && (
@@ -100,7 +100,7 @@ const FormatCompactCell = React.memo(
               style={taskTypeColor ? {color: taskTypeColor} : undefined}
               status={taskType ? onCheckTaskType(taskType) : undefined}
               category="label">
-              {taskTypeName + ' #' + value}
+              {taskTypeName + " #" + value}
             </Text>
           )}
           <Text numberOfLines={1} category="c1" appearance="hint">{name}</Text>
@@ -123,7 +123,7 @@ const FormatFirstCell = React.memo(
   }) => {
     return (
       <View
-        key={value + ''}
+        key={value + ""}
         style={[
           cStyles.px4,
           cStyles.flex1,
@@ -133,8 +133,8 @@ const FormatFirstCell = React.memo(
           cStyles.borderBottom,
           styles.cell,
           {
-            borderBottomColor: theme['border-basic-color-5'],
-            borderLeftColor: theme['border-basic-color-5'],
+            borderBottomColor: theme["outline-color"],
+            borderLeftColor: theme["outline-color"],
           },
           pChild > 2 ? {paddingLeft: PLEFT_COMMON * pChild} : {},
         ]}>
@@ -142,9 +142,9 @@ const FormatFirstCell = React.memo(
           <View
             style={[!isProject ? {paddingLeft: PLEFT_COMMON * pChild} : {}]}>
             <IoniIcon
-              name={'caret-forward'}
+              name={"caret-forward"}
               size={sIcon}
-              color={theme['text-hint-color']}
+              color={theme["text-hint-color"]}
             />
           </View>
         )}
@@ -177,9 +177,9 @@ const FormatColumn = React.memo(
         <FormatCell
           theme={theme}
           bgColor={i % 2
-            ? theme['background-basic-color-3']
-            : theme['background-basic-color-1']}
-          align={'center'}
+            ? theme["background-basic-color-2"]
+            : theme["background-basic-color-1"]}
+          align={"center"}
           value={item[i]}
         />,
       ]);
@@ -275,12 +275,12 @@ function BodyOverview(props) {
       resultChild = [];
     for (item of data) {
       if (item[key] === null || item[key] === undefined || item[key] === 0) {
-        result.push('-');
-      } else if (key === 'startDate' || key === 'endDate') {
+        result.push("-");
+      } else if (key === "startDate" || key === "endDate") {
         result.push(moment(item[key]).format(formatDateView));
-      } else if (key === 'statusName') {
+      } else if (key === "statusName") {
         if (item.taskTypeID === Commons.TYPE_TASK.MILESTONE.value) {
-          result.push('');
+          result.push("");
         } else {
           result.push(
             <Text style={[cStyles.fontBold,
@@ -289,12 +289,12 @@ function BodyOverview(props) {
               : item.colorCode}]} category="p1">{item[key]}</Text>
           );
         }
-      } else if (key === 'completedPercent') {
-        result.push(item[key] + '%');
-      } else if (key === 'duration') {
-        result.push(item[key] + ' days');
+      } else if (key === "completedPercent") {
+        result.push(item[key] + "%");
+      } else if (key === "duration") {
+        result.push(item[key] + " days");
       } else {
-        result.push(item[key] + '');
+        result.push(item[key] + "");
       }
       if (item.lstItemChild.length > 0) {
         resultChild = onParseDataView(key, item.lstItemChild);
@@ -320,11 +320,11 @@ function BodyOverview(props) {
 
   const onCheckTaskType = taskType => {
     if (taskType === Commons.TYPE_TASK.PHASE.value) {
-      return 'warning';
+      return "warning";
     } else if (taskType === Commons.TYPE_TASK.MILESTONE.value) {
-      return 'success';
+      return "success";
     } else {
-      return 'primary';
+      return "primary";
     }
   };
 
@@ -355,12 +355,12 @@ function BodyOverview(props) {
     const headerTranslate = scrollX.interpolate({
       inputRange: [0, FIRST_CELL_WIDTH_DISTANCE],
       outputRange: [0, -FIRST_CELL_WIDTH_DISTANCE],
-      extrapolate: 'clamp',
+      extrapolate: "clamp",
     });
     const headerTranslate2 = scrollX.interpolate({
       inputRange: [0, FIRST_CELL_WIDTH_DISTANCE],
       outputRange: [-FIRST_CELL_WIDTH_DISTANCE, 0],
-      extrapolate: 'clamp',
+      extrapolate: "clamp",
     });
     return (
       <View style={[cStyles.flex1, cStyles.row, cStyles.itemsStart]}>
@@ -370,7 +370,7 @@ function BodyOverview(props) {
             cStyles.abs,
             styles.identity_large,
             {
-              backgroundColor: theme['background-basic-color-2'],
+              backgroundColor: theme["background-basic-color-1"],
               transform: [{translateX: headerTranslate}],
             },
           ]}>
@@ -404,14 +404,14 @@ function BodyOverview(props) {
           onScroll={scrollEvent}
         />
         <Animated.View
-          pointerEvents={'none'}
+          pointerEvents={"none"}
           style={[
             cStyles.ofHidden,
             cStyles.abs,
             cStyles.shadowListItem,
             styles.identity_small,
             {
-              backgroundColor: theme['background-basic-color-2'],
+              backgroundColor: theme["background-basic-color-1"],
               transform: [{translateX: headerTranslate2}],
             },
           ]}>

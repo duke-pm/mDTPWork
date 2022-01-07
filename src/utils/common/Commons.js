@@ -148,22 +148,22 @@ const Commons = {
     "I": {
       value: 'I',
       label: 'Immediate',
-      color: 'success',
+      color: 'green',
     },
     "H": {
       value: 'H',
       label: 'High',
-      color: 'danger',
+      color: 'red',
     },
     "N": {
       value: 'N',
       label: 'Normal',
-      color: 'primary',
+      color: 'blue',
     },
     "L": {
       value: 'L',
       label: 'Low',
-      color: 'warning',
+      color: 'gray',
     },
   },
 

@@ -5,19 +5,30 @@
  ** CreateAt: 2021
  ** Description: Description of FileAttach.js
  **/
-import PropTypes from 'prop-types';
-import React, {useState, useEffect} from 'react';
-import {useTheme, Button, Icon, Text, Spinner} from '@ui-kitten/components';
-import {StyleSheet, View, Image} from 'react-native';
-import RNFS from 'react-native-fs';
-import FileViewer from 'react-native-file-viewer';
-import * as Progress from 'react-native-progress';
+import PropTypes from "prop-types";
+import React, {useState, useEffect} from "react";
+import {
+  useTheme, Button, Icon, Text, Spinner,
+} from "@ui-kitten/components";
+import {StyleSheet, View, Image} from "react-native";
+import RNFS from "react-native-fs";
+import FileViewer from "react-native-file-viewer";
+import * as Progress from "react-native-progress";
 /* COMMON */
-import API from '~/services/axios';
-import {Extensions} from '~/utils/asset';
-import {cStyles} from '~/utils/style';
-import {checkExistsFile, moderateScale, sW} from '~/utils/helper';
+import API from "~/services/axios";
+import {Extensions} from "~/utils/asset";
+import {cStyles} from "~/utils/style";
+import {
+  sW,
+  moderateScale,
+  checkExistsFile,
+} from "~/utils/helper";
 
+const colorPrimary = "color-primary-500";
+
+/*********************
+ ** OTHER COMPONENT **
+ *********************/
 const RenderDownloadIcon = props => (
   <Icon {...props} name="download-outline" />
 );
@@ -26,11 +37,14 @@ const RenderPreviewIcon = props => (
   <Icon {...props} name="eye-outline" />
 );
 
+/********************
+ ** MAIN COMPONENT **
+ ********************/
 function FileAttach(props) {
   const theme = useTheme();
   const {file} = props;
-  const fileName = file.substring(file.lastIndexOf('/') + 1, file.length);
-  const extFile = file.substring(file.lastIndexOf('.') + 1, file.length);
+  const fileName = file.substring(file.lastIndexOf("/") + 1, file.length);
+  const extFile = file.substring(file.lastIndexOf(".") + 1, file.length);
   const localFile = `${RNFS.DocumentDirectoryPath}/${fileName}`;
 
   /** Use state */
@@ -47,13 +61,22 @@ function FileAttach(props) {
       let urlDownload = (
         API.defaults.baseURL.substring(0, API.defaults.baseURL.length - 3) +
         file
-      ).replace(' ', '%20');
+      ).replace(" ", "%20");
       let options = {
-        background: true, // Continue the download in the background after the app terminates (iOS only)**
-        discretionary: true, // Allow the OS to control the timing and speed of the download to improve perceived performance  (iOS only)**
+        /*
+         * Continue the download in the background 
+         * after the app terminates (iOS only)
+         */
+        background: true,
+        /*
+         * Allow the OS to control the timing and
+         * speed of the download to improve perceived
+         * performance (iOS only)
+         */
+        discretionary: true,
         fromUrl: urlDownload,
         toFile: localFile,
-        begin: res => console.log('[LOG] === Begin ===> '),
+        begin: res => console.log("[LOG] === Begin ===> "),
         progress: res => {
           setProgress(
             ((res.bytesWritten / res.contentLength) * 100).toFixed(0),
@@ -64,9 +87,7 @@ function FileAttach(props) {
       FileViewer.open(localFile);
       setLoading(false);
       setFileExisted(true);
-    } else {
-      FileViewer.open(localFile);
-    }
+    } else FileViewer.open(localFile);
   };
 
   /**********
@@ -74,9 +95,7 @@ function FileAttach(props) {
    **********/
   const onCheckExisted = async () => {
     let existed = await checkExistsFile(fileName);
-    if (existed) {
-      setFileExisted(true);
-    }
+    if (existed) setFileExisted(true);
   };
 
   /****************
@@ -87,16 +106,24 @@ function FileAttach(props) {
   /************
    ** RENDER **
    ************/
-  let shortFileName = file.substring(file.lastIndexOf('/') + 1, file.length);
+  const shortFileName = file.substring(
+    file.lastIndexOf("/") + 1,
+    file.length);
   return (
     <View style={[cStyles.row, cStyles.itemsCenter]}>
       <Image
         style={styles.file}
         source={Extensions[extFile] || Extensions.file}
-        resizeMode={'contain'}
+        resizeMode="contain"
       />
-      <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween, cStyles.ml10]}>
-        <View style={{flex: 0.8}}>
+      <View
+        style={[
+          cStyles.row,
+          cStyles.itemsCenter,
+          cStyles.justifyBetween,
+          cStyles.ml10,
+        ]}>
+        <View style={styles.con_name}>
           <Text category="c1" ellipsizeMode="middle" numberOfLines={2}>
             {shortFileName}
           </Text>
@@ -104,12 +131,12 @@ function FileAttach(props) {
             <View style={cStyles.mt10}>
               <Progress.Bar
                 animated={false}
+                useNativeDriver={true}
                 width={styles.process_bar.width}
                 height={styles.process_bar.height}
                 borderColor={cStyles.borderAllDark.borderColor}
+                color={theme[colorPrimary]}
                 progress={progress / 100}
-                color={theme['color-primary-500']}
-                useNativeDriver={true}
               />
             </View>
           )}
@@ -133,7 +160,8 @@ function FileAttach(props) {
 
 const styles = StyleSheet.create({
   file: {width: moderateScale(25), height: moderateScale(25)},
-  process_bar: {width: sW('22%'), height: moderateScale(2)},
+  process_bar: {width: sW("22%"), height: moderateScale(2)},
+  con_name: {flex: 0.8},
 });
 
 FileAttach.propTypes = {

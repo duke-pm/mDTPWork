@@ -146,24 +146,33 @@ function Filter(props) {
    ************/
   return (
     <View style={[cStyles.pb20, styles.con_filter]}>
-      <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween, cStyles.pb5]}>
-        <Text category="s1">{t('common:filter').toUpperCase()}</Text>
+      <View
+        style={[
+          cStyles.row,
+          cStyles.itemsCenter,
+          cStyles.justifyBetween,
+          cStyles.pb10,
+          cStyles.pt5,
+        ]}>
+        <Text category="s1">{t('common:filter')}</Text>
         <View style={[cStyles.row, cStyles.itemsCenter]}>
           <Button
-            appearance="ghost"
+            appearance="outline"
             size="small"
             status="basic"
-            onPress={handleReset}
-          >{propsT =>
-            <Text category="label">{t('common:reset')}</Text>
-          }</Button>
+            onPress={handleReset}>
+            {propsT =>
+              <Text category="label">{t('common:reset')}</Text>
+            }
+          </Button>
           <Button
             style={cStyles.ml5}
             size="small"
-            onPress={handleFilter}
-          >{propsT =>
-            <Text category="label" status="control">{t('common:apply')}</Text>
-          }</Button>
+            onPress={handleFilter}>
+            {propsT =>
+              <Text category="label" status="control">{t('common:apply')}</Text>
+            }
+          </Button>
         </View>
       </View>
       <Divider />

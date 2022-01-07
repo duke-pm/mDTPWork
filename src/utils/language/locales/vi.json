@@ -29,7 +29,7 @@
     "show_more": "Xem thêm",
     "show_less": "Thu gọn",
     "choose": "Chọn",
-    "reset": "Reset",
+    "reset": "Đặt lại",
     "save": "Lưu",
     "change": "Thay Đổi",
     "its_you": "Bạn",
@@ -47,12 +47,12 @@
     "connection_again": "Kiểm tra kết nối",
     "note_chart": "Chú thích",
     "approved": "Duyệt",
-    "reject": "Không Duyệt",
+    "reject": "Từ chối",
     "days": "ngày",
     "at": "-",
     "from_date": "Từ ",
     "to_date": "Đến ",
-    "filter": "Bộ Lọc",
+    "filter": "Bộ lọc",
     "remove_all": "Xoá hết",
     "all": "Tất cả",
     "dark_mode": "Chế độ tối",
@@ -61,7 +61,9 @@
     "created_at": "Created at",
     "new": "N",
     "doing_signin": "Đang đăng nhập...\nVui lòng chờ giây lát!",
-    "doing_send": "Đang gửi...\nVui lòng chờ giây lát!"
+    "doing_send": "Đang gửi...\nVui lòng chờ giây lát!",
+    "doing_update": "Đang cập nhật...\nVui lòng chờ giây lát!",
+    "durations": "Đơn vị"
   },
   "status": {
     "title": "Trạng thái"
@@ -183,7 +185,7 @@
     "to_day": "Hôm nay"
   },
   "account": {
-    "title": "Tài Khoản",
+    "title": "Tài khoản",
     "information": "Thông tin",
     "my_account": "Tài khoản của tôi",
     "change_password": "Đổi mật khẩu",
@@ -206,7 +208,7 @@
     "version": "Phiên bản ứng dụng"
   },
   "my_account": {
-    "title": "Tài Khoản Của Tôi",
+    "title": "Tài khoản của tôi",
     "edit_avatar": "Đổi ảnh đại diện",
     "info_basic": "Thông tin cơ bản",
     "employee_code": "Employee Code",
@@ -233,7 +235,7 @@
     "error_change": "Thay đổi mật khẩu thất bại. Vui lòng thử lại sau!"
   },
   "help_and_info": {
-    "title": "Thông Tin & Trợ Giúp",
+    "title": "Thông tin & Trợ giúp",
     "contact_us": "Thông tin Liên hệ",
     "privacy_policies": "Chính sách bảo mật",
     "term_conditions": "Điều khoản & Điều kiện",
@@ -243,14 +245,14 @@
     "update": "Cập nhật"
   },
   "contact_us": {
-    "title": "Thông Tin Liên Hệ",
+    "title": "Thông tin liên hệ",
     "address": "Địa chỉ: ",
     "phone": "Điện thoại: ",
     "email": "E-mail: ",
     "website": "Website: "
   },
   "settings": {
-    "title": "Cài Đặt Ứng Dụng",
+    "title": "Cài đặt ứng dụng",
     "language": "Ngôn ngữ",
     "holder_change_language": "Vui lòng chọn ngôn ngữ dưới đây",
     "vi": "Tiếng việt",
@@ -276,7 +278,7 @@
     "loading": "Đang đặt ngôn ngữ..."
   },
   "approved": {
-    "title": "Tài Sản",
+    "title": "Tài sản",
     "assets": "Tài Sản",
     "list_request": "Yêu cầu của tôi",
     "list_request_handling": "Yêu cầu cần xử lý",
@@ -284,10 +286,10 @@
     "approved_services_holder": "Thiết lập và quản lý đề xuất, đơn từ cá nhân và các phòng ban dễ dàng và nhanh chóng."
   },
   "list_request_assets": {
-    "title": "Đề Xuất",
-    "title_add": "Cấp Phát",
-    "title_damaged": "Báo Hỏng",
-    "title_lost": "Báo Mất"
+    "title": "Đề xuất của tôi",
+    "title_add": "Cấp phát",
+    "title_damaged": "Báo hỏng",
+    "title_lost": "Báo mất"
   },
   "list_request_assets_handling": {
     "title": "Đề xuất cần xử lý",
@@ -297,7 +299,7 @@
     "region": "Khu vực"
   },
   "approved_assets": {
-    "title": "Cấp Phát Tài Sản",
+    "title": "Cấp phát tài sản",
     "title_assets": "Tài Sản",
     "status": "Trạng thái",
     "user_request": "Người gửi: ",
@@ -324,7 +326,7 @@
     "lost": "Tài sản mất"
   },
   "add_approved_assets": {
-    "title": "Thêm Mới Cấp Phát",
+    "title": "Thêm mới cấp phát",
     "request_user": "Người gửi yêu cầu",
     "request_info": "Nội dung yêu cầu",
     "name": "Tên",
@@ -349,9 +351,9 @@
     "in_planning": "Khoản mua sắm này có nằm trong kế hoạch?",
     "yes": "Có",
     "no": "Không",
-    "supplier": "Nhà cung cấp đề nghị",
-    "holder_supplier": "Nhà cung cấp",
-    "send": "Gửi Yêu Cầu",
+    "supplier": "Nhà cung cấp đề nghị (nếu có)",
+    "holder_supplier": "Nhập nhà cung cấp...",
+    "send": "Gửi yêu cầu",
     "wait": "Chờ duyệt",
     "label_confirm": "Xác nhận Yêu cầu",
     "message_confirm_approved": "Bạn đồng ý duyệt đơn cấp phát?",
@@ -368,10 +370,12 @@
     "info_assets": "Thông tin tài sản",
     "info_other": "Thông tin khác",
     "holder_empty_department": "Không có thông tin phòng ban nào",
-    "holder_empty_assets": "Chưa có tài sản nào"
+    "holder_empty_assets": "Chưa có tài sản nào",
+    "approved_now": "Duyệt",
+    "reject_now": "Từ chối"
   },
   "approved_lost_damaged": {
-    "title": "Báo Hỏng | Báo Mất",
+    "title": "Báo hỏng & Báo mất",
     "title_assets": "Tài Sản",
     "status": "Trạng thái",
     "user_request": "Người gửi: ",
@@ -400,7 +404,7 @@
     "title_lost": "Mất"
   },
   "add_approved_lost_damaged": {
-    "title": "Thêm Mới Báo Hỏng/Mất",
+    "title": "Thêm mới báo hỏng/mất",
     "title_lost": "Thêm Mới Báo Mất",
     "title_damage": "Thêm Mới Báo Hỏng",
     "detail": "Chi tiết",
@@ -415,11 +419,11 @@
     "holder_assets": "Chọn tài sản...",
     "search_assets": "Tìm tài sản",
     "reason": "Lý do đề xuất",
-    "holder_reason": "Điền lý do...",
+    "holder_reason": "Nhập lý do...",
     "type_update": "Tài sản cần",
     "lost_assets": "Báo mất",
     "damage_assets": "Báo hỏng",
-    "send": "Gửi Yêu Cầu",
+    "send": "Gửi yêu cầu",
     "wait": "Chờ duyệt",
     "label_confirm": "Xác nhận Yêu cầu",
     "message_confirm_approved_lost": "Bạn đồng ý duyệt đơn báo mất này?",
@@ -449,12 +453,14 @@
     "info_assets": "Thông tin tài sản",
     "info_other": "Thông tin chung",
     "holder_no_asset": "Chưa chọn tài sản",
-    "holder_empty_assets": "Không có tài sản nào"
+    "holder_empty_assets": "Không có tài sản nào",
+    "approved_now": "Duyệt",
+    "reject_now": "Từ chối"
   },
   "project_management": {
     "main_title": "Dự án",
-    "title": "Quản lý Dự án",
-    "back_title": "Dự Án",
+    "title": "Quản lý dự án",
+    "back_title": "Dự án",
     "project": "dự án",
     "sector": "Sector",
     "holder_sector": "Chọn sector cần lọc...",
@@ -556,13 +562,13 @@
     "child_projects": "Projects",
     "child_tasks": "Tasks",
     "project_plan": "Tổng quát Tasks",
-    "project_details": "Chi tiết Dự án",
-    "project_parent": "Child Project's",
-    "task_parent": "Child Tasks's",
+    "project_details": "Chi tiết dự án",
+    "project_parent": "Child's dự án",
+    "task_parent": "Child's tasks",
     "empty_description": "Không có mô tả cho công việc này."
   },
   "project_overview": {
-    "title": "Tổng Quan Dự Án",
+    "title": "Tổng quan dự án",
     "task_name": "Task Name",
     "durations": "Durations",
     "start": "Start",
@@ -580,7 +586,7 @@
     "error_date_empty": "Ngày tháng không thể trống"
   },
   "sales_visit": {
-    "title": "Sales Visit",
+    "title": "Sales visit",
     "title_contact_information": "Thông tin căn bản",
     "first_name": "Tên",
     "last_name": "Họ và Chữ lót",

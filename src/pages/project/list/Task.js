@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {useTranslation} from 'react-i18next';
 import {useNavigation} from '@react-navigation/native';
-import {List, useTheme} from '@ui-kitten/components';
+import {List} from '@ui-kitten/components';
 import {View} from 'react-native';
 /* COMPONENTS */
 import CEmpty from '~/components/CEmpty';
@@ -21,7 +21,6 @@ import {IS_ANDROID} from '~/utils/helper';
 function ListTask(props) {
   const {t} = useTranslation();
   const navigation = useNavigation();
-  const theme = useTheme();
   const {
     onLoadmore = undefined,
     onRefreshTasks = undefined,
@@ -57,7 +56,6 @@ function ListTask(props) {
   const RenderTaskItem = info => {
     return (
       <TaskItem
-        theme={theme}
         trans={t}
         index={info.index}
         data={info.item}

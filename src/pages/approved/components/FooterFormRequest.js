@@ -4,14 +4,19 @@
  ** CreateAt: 2021
  ** Description: Description of FooterFormRequest.js
  **/
-import PropTypes from 'prop-types';
-import React from 'react';
-import {useTranslation} from 'react-i18next';
-import {Button, Layout, Icon, useTheme} from '@ui-kitten/components';
+import PropTypes from "prop-types";
+import React from "react";
+import {useTranslation} from "react-i18next";
+import {Button, Layout, Icon, useTheme} from "@ui-kitten/components";
+import {StyleSheet} from "react-native";
 /* COMMON */
-import {cStyles} from '~/utils/style';
-import { StyleSheet } from 'react-native';
+import {cStyles} from "~/utils/style";
 
+const colorOutline = "outline-color";
+
+/*********************
+ ** OTHER COMPONENT **
+ *********************/
 const RenderRejectIcon = props => (
   <Icon {...props} name="close-outline" />
 );
@@ -20,6 +25,9 @@ const RenderApprovedIcon = props => (
   <Icon {...props} name="checkmark-outline" />
 );
 
+/********************
+ ** MAIN COMPONENT **
+ ********************/
 function FooterFormRequest(props) {
   const {t} = useTranslation();
   const theme = useTheme();
@@ -40,7 +48,7 @@ function FooterFormRequest(props) {
         cStyles.justifyEvenly,
         cStyles.py10,
         cStyles.borderTop,
-        {borderTopColor: theme['border-basic-color-3']}
+        {borderTopColor: theme[colorOutline]}
       ]}>
       <Button
         style={styles.con_half}
@@ -48,14 +56,14 @@ function FooterFormRequest(props) {
         disabled={loading.main}
         accessoryLeft={RenderRejectIcon}
         onPress={onReject}>
-        {t('common:reject')}
+        {t("common:reject")}
       </Button>
       <Button
         style={styles.con_half}
         disabled={loading.main}
         accessoryLeft={RenderApprovedIcon}
         onPress={onApproved}>
-        {t('common:approved')}
+        {t("common:approved")}
       </Button>
     </Layout>
   );

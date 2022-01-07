@@ -23,6 +23,9 @@ export const DEFAULT_FORMAT_DATE_7 = 'DD/MM/YYYY - HH:mm';
 export const DEFAULT_FORMAT_DATE_8 = 'dddd - DD/MM/YYYY';
 export const DEFAULT_FORMAT_DATE_9 = 'DD MMM YY';
 export const DEFAULT_FORMAT_DATE_10 = 'dddd - DD MMMM YYYY';
+export const DEFAULT_FORMAT_TIME_1 = 'HH:mm';
+export const DEFAULT_FORMAT_TIME_2 = 'hh:mm';
+export const DEFAULT_FORMAT_TIME_3 = 'HH:mm:ss';
 export const DEFAULT_HEIGHT_UPLOAD = 250;
 export const DEFAULT_WIDTH_UPLOAD = 250;
 export const FIRST_CELL_WIDTH_LARGE = moderateScale(300);
@@ -32,10 +35,6 @@ export const FIRST_CELL_WIDTH_DISTANCE =
 export const CELL_HEIGHT = moderateScale(45);
 export const CELL_WIDTH = moderateScale(150);
 export const DATA_YEAR_FILTER = [
-  '2015',
-  '2016',
-  '2017',
-  '2018',
   '2019',
   '2020',
   '2021',
@@ -48,16 +47,6 @@ export const DATA_YEAR_FILTER = [
   '2028',
   '2029',
   '2030',
-  '2031',
-  '2032',
-  '2033',
-  '2034',
-  '2035',
-  '2036',
-  '2037',
-  '2038',
-  '2039',
-  '2040',
 ];
 export const DATA_TIME_BOOKING = [
   {value: '00:00', label: '00:00'},

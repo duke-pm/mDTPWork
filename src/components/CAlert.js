@@ -7,12 +7,18 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {useTranslation} from 'react-i18next';
-import {Card, Button, Text, useTheme, Modal} from '@ui-kitten/components';
+import {Card, Button, Text, useTheme} from '@ui-kitten/components';
 import {StyleSheet, View} from 'react-native';
+import Modal from 'react-native-modal';
 import IoniIcon from 'react-native-vector-icons/Ionicons';
 /* COMMON */
-import {colors, cStyles} from '~/utils/style';
-import {moderateScale, sW} from '~/utils/helper';
+import {cStyles} from '~/utils/style';
+import {
+  sW,
+  moderateScale,
+  SCREEN_HEIGHT,
+  SCREEN_WIDTH,
+} from '~/utils/helper';
 
 /** All init */
 const sIconStatus = moderateScale(60);
@@ -31,12 +37,15 @@ function CAlert(props) {
     customLabel = null,
     message = '',
     customMessage = null,
+    iconOk = undefined,
+    iconCancel = undefined,
     textOk = 'common:ok',
     textCancel = 'common:close',
     statusOk = undefined,
     onBackdrop = () => null,
     onOk = undefined,
     onCancel = undefined,
+    onModalHide = undefined,
   } = props;
 
   /*****************
@@ -59,12 +68,23 @@ function CAlert(props) {
    ************/
   return (
     <Modal
-      style={cStyles.m0}
-      backdropStyle={{backgroundColor: colors.BACKGROUND_MODAL}}
-      visible={show}
-      onBackdropPress={handleBackdrop}>
+      style={[cStyles.m0, cStyles.center]}
+      isVisible={show}
+      coverScreen={true}
+      avoidKeyboard={true}
+      useNativeDriver={true}
+      renderToHardwareTextureAndroid={true}
+      hideModalContentWhileAnimating={true}
+      backdropOpacity={0.5}
+      deviceHeight={SCREEN_HEIGHT}
+      deviceWidth={SCREEN_WIDTH}
+      animationIn="fadeInUp"
+      animationOut="fadeOutDown"
+      onBackdropPress={handleBackdrop}
+      onBackButtonPress={handleBackdrop}
+      onModalHide={onModalHide}>
       <Card disabled style={[styles.card, contentStyle]}>
-        {(success || error || label) && (
+        {(success || error) && (
           <View style={cStyles.itemsCenter}>
             {success && (
               <View style={cStyles.itemsCenter}>
@@ -88,22 +108,22 @@ function CAlert(props) {
                 </Text>
               </View>
             )}
-            {!success && !error && !customLabel && (
-              <View style={cStyles.itemsCenter}>
-                <Text style={cStyles.textCenter} category="s1">{t(label)}</Text>
-              </View>
-            )}
-            {!success && !error && customLabel && (
-              <View style={cStyles.itemsCenter}>
-                {customLabel}
-              </View>
-            )}
+          </View>
+        )}
+        {!success && !error && !customLabel && (
+          <View style={cStyles.itemsCenter}>
+            <Text style={cStyles.textCenter} category="s1">{t(label)}</Text>
+          </View>
+        )}
+        {!success && !error && customLabel && (
+          <View style={cStyles.itemsCenter}>
+            {customLabel}
           </View>
         )}
 
         {message !== '' && !customMessage && (
           <View style={cStyles.my16}>
-            <Text style={cStyles.textCenter} >{t(message)}</Text>
+            <Text style={cStyles.textCenter}>{t(message)}</Text>
           </View>
         )}
         {customMessage && (
@@ -123,21 +143,20 @@ function CAlert(props) {
             ]}>
             {cancel && (
               <Button
-                style={[styles.btn_main, cancel && onOk && styles.btn_cancel]}
-                status={'basic'}
-                appearance={'filled'}
+                style={[cStyles.fullWidth, cancel && onOk && styles.btn_cancel]}
+                status="basic"
                 disabled={loading}
+                accessoryLeft={iconCancel}
                 onPress={handleCancel}>
                 {t(textCancel)}
               </Button>
             )}
             {onOk && (
               <Button 
-                style={[styles.btn_main, cancel && styles.btn_cancel]}
+                style={[cStyles.fullWidth, cancel && styles.btn_cancel]}
                 status={statusOk}
-                appearance={'filled'}
                 disabled={loading}
-                // accessoryLeft={loading ? RenderLoadingIndicator : undefined}
+                accessoryLeft={iconOk}
                 onPress={handleOk}>
                 {t(textOk)}
               </Button>
@@ -151,7 +170,6 @@ function CAlert(props) {
 
 const styles = StyleSheet.create({
   card: {width: sW('90%')},
-  btn_main: {width: '100%'},
   btn_cancel: {width: '47%'},
 });
 
@@ -166,12 +184,15 @@ CAlert.propTypes = {
   customLabel: PropTypes.element,
   message: PropTypes.string,
   customMessage: PropTypes.element,
+  iconOk: PropTypes.func,
+  iconCancel: PropTypes.func,
   textOk: PropTypes.string,
   textCancel: PropTypes.string,
   statusOk: PropTypes.string,
   onBackdrop: PropTypes.func,
   onOk: PropTypes.func,
   onCancel: PropTypes.func,
+  onModalHide: PropTypes.func,
 };
 
 export default CAlert;

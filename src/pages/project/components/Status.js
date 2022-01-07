@@ -10,21 +10,27 @@ import React, {createRef, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {showMessage} from 'react-native-flash-message';
-import {Button, useTheme} from '@ui-kitten/components';
+import {Icon, Text, useTheme} from '@ui-kitten/components';
 import {StyleSheet, View} from 'react-native';
 import Picker from '@gregfrench/react-native-wheel-picker';
 /* COMPONENTS */
 import CActionSheet from '~/components/CActionSheet';
+import CStatus from '~/components/CStatus';
 /* COMMON */
 import {Commons} from '~/utils/common';
-import {cStyles} from '~/utils/style';
-import {alert, moderateScale} from '~/utils/helper';
+import {colors, cStyles} from '~/utils/style';
+import {
+  alert,
+  moderateScale,
+} from '~/utils/helper';
 /* REDUX */
 import * as Actions from '~/redux/actions';
-import CStatus from '~/components/CStatus';
 
 /** All ref */
+const PERCENT_COMPLETE = 100;
 const asStatusRef = createRef();
+let curStatus = '';
+let curPercent = '';
 
 function Status(props) {
   const {t} = useTranslation();
@@ -38,8 +44,6 @@ function Status(props) {
     onStartUpdate = () => null,
     onEndUpdate = () => null,
   } = props;
-  let curStatus = props.task.statusName;
-  let curPercent = props.task.percentage;
 
   /** Use redux */
   const dispatch = useDispatch();
@@ -48,7 +52,6 @@ function Status(props) {
   const statusMaster = masterState.get('projectStatus');
 
   /** Use state */
-  const [submitComment, setSubmitComment] = useState(false);
   const [isEdit, setIsEdit] = useState(true);
   const [status, setStatus] = useState({
     data: statusMaster,
@@ -61,9 +64,7 @@ function Status(props) {
   const handleShowChangeStatus = () => asStatusRef.current?.show();
 
   const handleChangeStatus = needUpdate => {
-    if (
-      status.data[status.active].statusID === Commons.STATUS_PROJECT[4]["value"]
-    ) {
+    if (status.data[status.active]["statusID"] === Commons.STATUS_PROJECT[4]["value"]) {
       return alert(t, 'project_management:confirm_change_to_finished', () =>
         onCloseActionSheet(needUpdate, true),
       );
@@ -77,26 +78,31 @@ function Status(props) {
    **********/
   const onCloseActionSheet = (needUpdate, isFinished) => {
     if (needUpdate) {
-      if (status.data[status.active].statusID !== props.task.statusID) {
+      if (status.data[status.active]["statusID"] !== props.task.statusID) {
         onStartUpdate();
+        curStatus = props.task.statusName;
+        curPercent = props.task.percentage;
         let params = {
           TaskID: props.task.taskID,
-          StatusID: status.data[status.active].statusID,
-          Percentage: isFinished ? 100 : props.task.percentage,
+          StatusID: status.data[status.active]["statusID"],
+          Percentage: isFinished
+            ? PERCENT_COMPLETE
+            : props.task.percentage,
           Lang: language,
           RefreshToken: refreshToken,
         };
-        dispatch(Actions.fetchUpdateTask(params, navigation));
+        dispatch(Actions.fetchUpdateStaTask(params, navigation));
       }
     } else {
-      let find = status.data.findIndex(f => f.statusID === props.task.statusID);
+      let find = status.data.findIndex(f =>
+        f.statusID === props.task.statusID);
       if (find !== -1) {
         setStatus({...status, active: find});
       }
     }
   };
 
-  const onUpdateActivities = () => {
+  const onUpdateActivities = isSuccess => {
     let taskDetail = projectState.get('taskDetail');
     let comment = '';
     if (taskDetail.statusID === Commons.STATUS_PROJECT[4]["value"]) {
@@ -116,7 +122,8 @@ function Status(props) {
         taskDetail.statusName
       }.`;
     }
-
+    console.log('[LOG] === onUpdateActivities ===> ', comment);
+    
     let paramsActivities = {
       LineNum: 0,
       TaskID: props.task.taskID,
@@ -125,11 +132,11 @@ function Status(props) {
       RefreshToken: refreshToken,
     };
     dispatch(Actions.fetchTaskComment(paramsActivities, navigation));
-    setSubmitComment(false);
     curStatus = taskDetail.statusName;
     if (taskDetail.statusID === Commons.STATUS_PROJECT[6]["value"]) {
       setIsEdit(false);
     }
+    return onNotification(isSuccess);
   };
 
   const onChangeStatus = index => {
@@ -156,15 +163,13 @@ function Status(props) {
     );
     if (tmpStatus !== -1) {
       setStatus({...status, active: tmpStatus});
-      curStatus = status.data[tmpStatus].statusName;
-      if (status.data[tmpStatus].statusID === Commons.STATUS_PROJECT[6]["value"]) {
+      if (status.data[tmpStatus]["statusID"] === Commons.STATUS_PROJECT[6]["value"]) {
         setIsEdit(false);
       }
     }
   };
 
   const onCheckStatus = () => {
-    dispatch(Actions.resetAllProject());
     let taskDetail = projectState.get('taskDetail');
     if (taskDetail.statusID === Commons.STATUS_PROJECT[6]["value"]) {
       setIsEdit(false);
@@ -179,27 +184,24 @@ function Status(props) {
   useEffect(() => onPrepareStatus(), [props.task.statusID]);
 
   useEffect(() => {
-    if (!projectState.get('submittingTaskUpdate')) {
-      if (projectState.get('successTaskUpdate')) {
-        dispatch(Actions.resetAllProject());
-        if (!submitComment) {
-          setSubmitComment(true);
-          onUpdateActivities();
+    if (disabled) {
+      if (!projectState.get('submittingTaskUpdateSta')) {
+        if (projectState.get('successTaskUpdateSta')) {
+          dispatch(Actions.resetAllProject());
+          return onUpdateActivities(true);
         }
-        return onNotification(true);
-      }
-
-      if (projectState.get('errorTaskUpdate')) {
-        onPrepareStatus();
-        return onNotification(false);
+  
+        if (projectState.get('errorTaskUpdateSta')) {
+          onPrepareStatus();
+          return onNotification(false);
+        }
       }
     }
   }, [
-    submitComment,
-    Actions.resetAllProject,
-    projectState.get('submittingTaskUpdate'),
-    projectState.get('successTaskUpdate'),
-    projectState.get('errorTaskUpdate'),
+    disabled,
+    projectState.get('submittingTaskUpdateSta'),
+    projectState.get('successTaskUpdateSta'),
+    projectState.get('errorTaskUpdateSta'),
   ]);
 
   /************
@@ -211,7 +213,18 @@ function Status(props) {
         type="project"
         disabled={disabled}
         value={props.task.statusID}
-        label={props.task.statusName}
+        customLabel={propsL =>
+          <View style={[cStyles.row, cStyles.itemsCenter]}>
+            <Text style={propsL.style}>{props.task.statusName}</Text>
+            {(isUpdate && isEdit) &&
+              <Icon
+                style={[cStyles.px2, styles.icon_status]}
+                fill={colors.WHITE}
+                name="arrow-ios-downward"
+              />
+            }
+          </View>
+        }
         onPress={(isUpdate && isEdit)
           ? handleShowChangeStatus
           : undefined
@@ -246,6 +259,7 @@ function Status(props) {
 
 const styles = StyleSheet.create({
   con_action: {width: '100%', height: moderateScale(200)},
+  icon_status: {height: moderateScale(14), width: moderateScale(14)},
 });
 
 Status.propTypes = {

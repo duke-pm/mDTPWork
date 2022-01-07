@@ -33,6 +33,7 @@ import {
 } from '~/configs/constants';
 /** REDUX */
 import * as Actions from '~/redux/actions';
+import CEmpty from '~/components/CEmpty';
 
 
 const DATA_HEADER = [
@@ -80,9 +81,9 @@ const FormatCell = React.memo(
           cStyles.borderBottom,
           styles.cell,
           {
-            backgroundColor: theme['background-basic-color-4'],
-            borderLeftColor: theme['border-basic-color-5'],
-            borderBottomColor: theme['border-basic-color-5'],
+            backgroundColor: theme['color-primary-200'],
+            borderLeftColor: theme['outline-color'],
+            borderBottomColor: theme['outline-color'],
           },
         ]}>
         <Text style={cStyles.textCenter} category="s1">
@@ -111,9 +112,9 @@ const FormatHeader = React.memo(({t = {}, theme = {}, headerScroll = undefined})
             cStyles.borderBottom,
             styles.first_cell,
             {
-              backgroundColor: theme['background-basic-color-4'],
-              borderLeftColor: theme['border-basic-color-5'],
-              borderBottomColor: theme['border-basic-color-5'],
+              backgroundColor: theme['color-primary-200'],
+              borderLeftColor: theme['outline-color'],
+              borderBottomColor: theme['outline-color'],
             },
           ]}>
           <Text style={cStyles.textCenter} category="s1">
@@ -435,11 +436,13 @@ function ProjectOverview(props) {
           }
         />
       }>
-      <FormatHeader
-        t={t}
-        theme={theme}
-        headerScroll={headerScroll}
-      />
+      {!loading.startFetch && data.render.length > 0 && (
+        <FormatHeader
+          t={t}
+          theme={theme}
+          headerScroll={headerScroll}
+        />
+      )}
 
       {!loading.startFetch && (
         <List
@@ -453,6 +456,7 @@ function ProjectOverview(props) {
           removeClippedSubviews={IS_ANDROID}
           refreshing={loading.refreshing}
           onRefresh={onRefreshOverview}
+          ListEmptyComponent={<CEmpty />}
         />
       )}
       <CLoading show={loading.startFetch} />

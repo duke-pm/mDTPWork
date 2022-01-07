@@ -4,34 +4,41 @@
  ** CreateAt: 2021
  ** Description: Description of index.js
  **/
-import React, {useState, useEffect, useContext} from 'react';
-import {useDispatch} from 'react-redux';
-import {useTranslation} from 'react-i18next';
+import React, {useState, useEffect, useContext} from "react";
+import {useDispatch} from "react-redux";
+import {useTranslation} from "react-i18next";
 import {
   useTheme, Divider, CheckBox, Toggle, Layout, Text,
-} from '@ui-kitten/components';
-import {StatusBar, StyleSheet, View, useColorScheme} from 'react-native';
+} from "@ui-kitten/components";
+import {
+  StatusBar, StyleSheet, View, useColorScheme,
+} from "react-native";
 /* COMPONENTS */
-import CContainer from '~/components/CContainer';
-import CTopNavigation from '~/components/CTopNavigation';
+import CContainer from "~/components/CContainer";
+import CTopNavigation from "~/components/CTopNavigation";
 /* COMMON */
-import {colors, cStyles} from '~/utils/style';
-import {ThemeContext} from '~/configs/theme-context';
-import {usePrevious} from '~/utils/hook';
+import {usePrevious} from "~/utils/hook";
+import {ThemeContext} from "~/configs/theme-context";
+import {colors, cStyles} from "~/utils/style";
 import {
   getLocalInfo,
   saveLocalInfo,
   moderateScale,
   IS_ANDROID,
-} from '~/utils/helper';
+} from "~/utils/helper";
 import {
   AST_SETTINGS,
   AST_DARK_MODE,
   DARK,
   LIGHT,
-} from '~/configs/constants';
+} from "~/configs/constants";
 /* REDUX */
-import * as Actions from '~/redux/actions';
+import * as Actions from "~/redux/actions";
+
+const colorBgContent = "background-basic-color-2";
+const colorBorder = "outline-color";
+const themeCustom = "custom";
+const themeSystem = "system";
 
 const useToggleState = (initialState = false) => {
   const themeContext = useContext(ThemeContext);
@@ -46,7 +53,10 @@ const useToggleState = (initialState = false) => {
     themeContext.toggleTheme();
     setChecked(isChecked);
     /** Save to async storage */
-    saveLocalInfo({key: AST_DARK_MODE, value: isChecked ? DARK : LIGHT});
+    saveLocalInfo({
+      key: AST_DARK_MODE,
+      value: isChecked ? DARK : LIGHT,
+    });
   };
 
   /****************
@@ -71,7 +81,7 @@ const useAutoToggleState = (initialState = false) => {
 
 const RenderHolderAppearance = ({
   theme = {},
-  label = 'appearance:light_mode',
+  label = "appearance:light_mode",
   disabled = false,
   typeAppearance = LIGHT,
   curAppearance = LIGHT,
@@ -104,7 +114,7 @@ const RenderHolderAppearance = ({
               typeAppearance === LIGHT
                 ? styles.con_group_light
                 : styles.con_group_dark,
-              {borderBottomColor: theme['color-basic-500']},
+              {borderBottomColor: theme[colorBorder]},
             ]}
           />
           <View
@@ -129,7 +139,7 @@ const RenderHolderAppearance = ({
               cStyles.mx10,
               cStyles.mt6,
               styles.con_view_3,
-              {backgroundColor: theme['color-basic-500']},
+              {backgroundColor: theme[colorBgContent]},
             ]}
           />
         </View>
@@ -181,10 +191,10 @@ function Appearance(props) {
    **********/
   const onChangeSystemTheme = () => {
     if (!darkmodeAutoToggle.checked) {
-      onSaveSettings({theme: 'system'});
+      onSaveSettings({theme: themeSystem});
       darkmodeAutoToggle.onChange(true);
     } else {
-      onSaveSettings({theme: 'custom'});
+      onSaveSettings({theme: themeCustom});
       darkmodeAutoToggle.onChange(false);
     }
   };
@@ -193,7 +203,7 @@ function Appearance(props) {
     let astSettings = await getLocalInfo(AST_SETTINGS);
     if (astSettings) {
       astSettings = JSON.parse(astSettings);
-      if (astSettings.theme === 'system') {
+      if (astSettings.theme === themeSystem) {
         darkmodeAutoToggle.onChange(true);
       }
     } 
@@ -207,7 +217,10 @@ function Appearance(props) {
       astSettings = JSON.parse(astSettings);
       astSettings.theme = theme;
     }
-    await saveLocalInfo({key: AST_SETTINGS, value: JSON.stringify(astSettings)});
+    await saveLocalInfo({
+      key: AST_SETTINGS,
+      value: JSON.stringify(astSettings),
+    });
   };
 
   /****************
@@ -220,7 +233,7 @@ function Appearance(props) {
   useEffect(() => {
     if (themeContext.themeApp !== prevTheme) {
       IS_ANDROID &&
-        StatusBar.setBackgroundColor(theme['background-basic-color-3'], true);
+        StatusBar.setBackgroundColor(theme[colorBgContent], true);
     }
   }, [
     prevTheme,
@@ -231,7 +244,7 @@ function Appearance(props) {
     if (darkmodeAutoToggle.checked) {
       if (themeContext.themeApp !== systemTheme) {
         handleChangeAppearance(systemTheme);
-        onSaveSettings({theme: 'system'});
+        onSaveSettings({theme: themeSystem});
       }
     }
   }, [
@@ -246,7 +259,7 @@ function Appearance(props) {
    ************/
   return (
     <CContainer
-      safeArea={['top']}
+      safeArea={["top"]}
       headerComponent={
         <CTopNavigation title="appearance:title" back />
       }>
@@ -261,14 +274,14 @@ function Appearance(props) {
         ]}>
         <RenderHolderAppearance
           theme={theme}
-          label={t('appearance:light_mode')}
+          label={t("appearance:light_mode")}
           disabled={appearance === LIGHT || darkmodeAutoToggle.checked}
           typeAppearance={LIGHT}
           curAppearance={appearance}
           onChange={handleChangeAppearance} />
         <RenderHolderAppearance
           theme={theme}
-          label={t('appearance:dark_mode')}
+          label={t("appearance:dark_mode")}
           disabled={appearance === DARK || darkmodeAutoToggle.checked}
           typeAppearance={DARK}
           curAppearance={appearance}
@@ -284,9 +297,9 @@ function Appearance(props) {
           cStyles.py10,
         ]}>
         <View>
-          <Text>{t('appearance:auto_change_appearance')}</Text>
+          <Text>{t("appearance:auto_change_appearance")}</Text>
           <Text style={cStyles.mt5} category="c1" appearance="hint">
-            {t('appearance:holder_auto_change_appearance')}
+            {t("appearance:holder_auto_change_appearance")}
           </Text>
         </View>
         <Toggle
@@ -308,7 +321,7 @@ const styles = StyleSheet.create({
     width: moderateScale(130)
   },
   con_group_light: {
-    backgroundColor: 'white',
+    backgroundColor: colors.WHITE,
   },
   con_group_dark: {
     backgroundColor: colors.PRIMARY_DARK,
@@ -319,17 +332,17 @@ const styles = StyleSheet.create({
   },
   con_view_1: {
     height: moderateScale(40), 
-    width: '50%',
+    width: "50%",
     backgroundColor: colors.PRIMARY,
   },
   con_view_2: {
     height: moderateScale(40), 
-    width: '70%',
+    width: "70%",
     backgroundColor: colors.PRIMARY,
   },
   con_view_3: {
     height: moderateScale(40), 
-    width: '30%',
+    width: "30%",
   },
 });
 

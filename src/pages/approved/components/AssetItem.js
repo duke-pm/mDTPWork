@@ -5,20 +5,20 @@
  ** CreateAt: 2021
  ** Description: Description of AssetItem.js
  **/
-import PropTypes from 'prop-types';
-import React from 'react';
-import {useTheme, Button, Icon} from '@ui-kitten/components';
-import {Keyboard, TextInput} from 'react-native';
-import CurrencyInput from 'react-native-currency-input';
+import PropTypes from "prop-types";
+import React from "react";
+import {useTheme, Button, Icon} from "@ui-kitten/components";
+import {Keyboard, TextInput} from "react-native";
+import CurrencyInput from "react-native-currency-input";
 /* COMMON */
-import {cStyles} from '~/utils/style';
+import {cStyles} from "~/utils/style";
 
 Number.prototype.format = function (n, x) {
   if (n == 0) {
-    return '';
+    return "";
   }
-  let re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
-  return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
+  let re = "\\d(?=(\\d{" + (x || 3) + "})+" + (n > 0 ? "\\." : "$") + ")";
+  return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, "g"), "$&,");
 };
 
 const RenderErrorIcon = props => (
@@ -54,15 +54,15 @@ function AssetItem(props) {
           cStyles.textRight,
           cStyles.textBody,
           styleText,
-          {color: theme['text-basic-color']}
+          {color: theme["text-basic-color"]}
         ]}
         value={props.cellData}
-        selectionColor={theme['text-basic-color']}
+        selectionColor={theme["text-basic-color"]}
         editable={!props.disabled}
         onChangeValue={value => onChangeCellItem(value, rowIndex, cellIndex)}
         // prefix="đ"
-        delimiter={','}
-        separator={'.'}
+        delimiter={","}
+        separator={"."}
         precision={0}
       />
     );
@@ -78,17 +78,17 @@ function AssetItem(props) {
       style={[
         cStyles.p4,
         cStyles.textBody,
-        {color: theme['text-basic-color']},
+        {color: theme["text-basic-color"]},
         styleText,
       ]}
-      keyboardType={cellIndex !== 1 ? 'number-pad' : 'default'}
-      returnKeyType={'done'}
-      selectionColor={theme['text-basic-color']}
+      keyboardType={cellIndex !== 1 ? "number-pad" : "default"}
+      returnKeyType={"done"}
+      selectionColor={theme["text-basic-color"]}
       multiline
       editable={!props.disabled}
       value={
-        typeof props.cellData === 'number'
-          ? props.cellData + ''
+        typeof props.cellData === "number"
+          ? props.cellData + ""
           : props.cellData
       }
       onSubmitEditing={Keyboard.dismiss}

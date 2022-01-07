@@ -5,15 +5,15 @@
  ** CreateAt: 2021
  ** Description: Description of Approved.js
  **/
-import React, {useState, useEffect} from 'react';
-import {useSelector} from 'react-redux';
+import React, {useState, useEffect} from "react";
+import {useSelector} from "react-redux";
 /** COMPONENTS */
-import CContainer from '~/components/CContainer';
-import CTopNavigation from '~/components/CTopNavigation';
-import CContentSubMenu from '~/components/CContentSubMenu';
+import CContainer from "~/components/CContainer";
+import CTopNavigation from "~/components/CTopNavigation";
+import CContentSubMenu from "~/components/CContentSubMenu";
 /** COMMON */
-import Configs from '~/configs';
-import {Animations} from '~/utils/asset';
+import Configs from "~/configs";
+import {Animations} from "~/utils/asset";
 
 function Approved(props) {
   const {navigation, route} = props;
@@ -38,7 +38,7 @@ function Approved(props) {
    ** FUNC **
    **********/
   const onPrepareData = () => {
-    let tmpListMenu = authState.getIn(['login', 'lstMenu']);
+    let tmpListMenu = authState.getIn(["login", "lstMenu"]);
     if (route.params.idRouteParent && tmpListMenu) {
       let findChildren = tmpListMenu.lstPermissionItem.find(
         f => f.menuID === route.params.idRouteParent,
@@ -71,7 +71,7 @@ function Approved(props) {
    ************/
   return (
     <CContainer
-      safeArea={['top']}
+      safeArea={["top"]}
       headerComponent={
         <CTopNavigation
           title="approved:title"
@@ -82,8 +82,8 @@ function Approved(props) {
       <CContentSubMenu
         loading={loading}
         routes={routes}
-        title={'approved:approved_services'}
-        holder={'approved:approved_services_holder'}
+        title="approved:approved_services"
+        holder="approved:approved_services_holder"
         animTypeImage={Animations.approvedHolder}
         colorsItem={Configs.colorsSubMenu.approved}
         onPressItem={handleItem}

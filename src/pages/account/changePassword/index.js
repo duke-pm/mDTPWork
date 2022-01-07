@@ -5,35 +5,37 @@
  ** CreateAt: 2021
  ** Description: Description of ChangePassword.js
  **/
-import React, {useRef, useState, useEffect} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {useTranslation} from 'react-i18next';
-import {Card, Text} from '@ui-kitten/components';
-import {View, Keyboard} from 'react-native';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {showMessage} from 'react-native-flash-message';
+import React, {useRef, useState, useEffect} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {useTranslation} from "react-i18next";
+import {Card, Text} from "@ui-kitten/components";
+import {View, Keyboard} from "react-native";
+import {
+  KeyboardAwareScrollView,
+} from "react-native-keyboard-aware-scroll-view";
+import {showMessage} from "react-native-flash-message";
 /* COMPONENTS */
-import CContainer from '~/components/CContainer';
-import CTopNavigation from '~/components/CTopNavigation';
-import CForm from '~/components/CForm';
+import CContainer from "~/components/CContainer";
+import CTopNavigation from "~/components/CTopNavigation";
+import CForm from "~/components/CForm";
 /* COMMON */
-import Routes from '~/navigator/Routes';
-import {cStyles} from '~/utils/style';
+import Routes from "~/navigator/Routes";
+import {cStyles} from "~/utils/style";
 import {
   AST_LOGIN,
-} from '~/configs/constants';
+} from "~/configs/constants";
 import {
   removeSecretInfo,
   resetRoute,
-} from '~/utils/helper';
+} from "~/utils/helper";
 /* REDUX */
-import * as Actions from '~/redux/actions';
+import * as Actions from "~/redux/actions";
 
 /** All init */
 const INPUT_NAME = {
-  CUR_PASSWORD: 'currentPassword',
-  NEW_PASSWORD: 'newPassword',
-  CON_PASSWORD: 'confirmPassword',
+  CUR_PASSWORD: "currentPassword",
+  NEW_PASSWORD: "newPassword",
+  CON_PASSWORD: "confirmPassword",
 };
 
 function ChangePassword(props) {
@@ -47,15 +49,15 @@ function ChangePassword(props) {
   const dispatch = useDispatch();
   const authState = useSelector(({auth}) => auth);
   const commonState = useSelector(({common}) => common);
-  const language = commonState.get('language');
-  const refreshToken = authState.getIn(['login', 'refreshToken']);
+  const language = commonState.get("language");
+  const refreshToken = authState.getIn(["login", "refreshToken"]);
 
   /** Use state */
   const [loading, setLoading] = useState(false);
   const [values, setValues] = useState({
-    currentPassword: '',
-    newPassword: '',
-    confirmPassword: '',
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: "",
   });
 
   /**********
@@ -79,9 +81,9 @@ function ChangePassword(props) {
   const onCompleteChange = (status, message, isRemoveValue) => {
     if (isRemoveValue) {
       setValues({
-        currentPassword: '',
-        newPassword: '',
-        confirmPassword: '',
+        currentPassword: "",
+        newPassword: "",
+        confirmPassword: "",
       });
     }
     return done(status, message);
@@ -91,17 +93,17 @@ function ChangePassword(props) {
     setLoading(false);
     !isSuccess &&
       showMessage({
-        message: t('common:app_name'),
-        description: message || t('change_password:error_change'),
-        type: 'danger',
-        icon: 'danger',
+        message: t("common:app_name"),
+        description: message || t("change_password:error_change"),
+        type: "danger",
+        icon: "danger",
       });
     if (isSuccess) {
       showMessage({
-        message: t('common:app_name'),
-        description: t('change_password:success_change'),
-        type: 'success',
-        icon: 'success',
+        message: t("common:app_name"),
+        description: t("change_password:success_change"),
+        type: "success",
+        icon: "success",
       });
       dispatch(Actions.logout());
       await removeSecretInfo(AST_LOGIN);
@@ -115,16 +117,16 @@ function ChangePassword(props) {
    ****************/
   useEffect(() => {
     if (loading) {
-      if (!authState.get('submittingChangePass')) {
-        if (authState.get('successChangePass')) {
+      if (!authState.get("submittingChangePass")) {
+        if (authState.get("successChangePass")) {
           return onCompleteChange(true, null, true);
         }
 
-        if (authState.get('errorChangePass')) {
+        if (authState.get("errorChangePass")) {
           return onCompleteChange(
             false,
-            typeof authState.get('errorHelperChangePass') === 'string'
-              ? authState.get('errorHelperChangePass')
+            typeof authState.get("errorHelperChangePass") === "string"
+              ? authState.get("errorHelperChangePass")
               : null,
             false,
           );
@@ -133,9 +135,9 @@ function ChangePassword(props) {
     }
   }, [
     loading,
-    authState.get('submittingChangePass'),
-    authState.get('successChangePass'),
-    authState.get('errorChangePass'),
+    authState.get("submittingChangePass"),
+    authState.get("successChangePass"),
+    authState.get("errorChangePass"),
   ]);
 
   /************
@@ -143,10 +145,10 @@ function ChangePassword(props) {
    ************/
   return (
     <CContainer
-      safeArea={['top']}
+      safeArea={["top"]}
       headerComponent={
         <CTopNavigation
-          title='change_password:title'
+          title="change_password:title"
           back
           borderBottom
         />
@@ -155,9 +157,9 @@ function ChangePassword(props) {
         <Card disabled
           header={
             <View>
-              <Text category="label">{t('change_password:sub_title')}</Text>
+              <Text category="s1">{t("change_password:sub_title")}</Text>
               <Text style={cStyles.mt5} category="c1" appearance="hint">
-                {t('change_password:warning_logout')}
+                {t("change_password:warning_logout")}
               </Text>
             </View>
           }>
@@ -168,9 +170,9 @@ function ChangePassword(props) {
               {
                 id: INPUT_NAME.CUR_PASSWORD,
                 style: cStyles.mt10,
-                type: 'text',
-                label: 'change_password:current_password',
-                holder: 'change_password:current_password',
+                type: "text",
+                label: "change_password:current_password",
+                holder: "change_password:current_password",
                 value: values.currentPassword,
                 required: true,
                 password: true,
@@ -178,13 +180,13 @@ function ChangePassword(props) {
                 phone: false,
                 number: false,
                 next: true,
-                return: 'next',
+                return: "next",
               },
               {
                 id: INPUT_NAME.NEW_PASSWORD,
-                type: 'text',
-                label: 'change_password:new_password',
-                holder: 'change_password:new_password',
+                type: "text",
+                label: "change_password:new_password",
+                holder: "change_password:new_password",
                 value: values.newPassword,
                 required: true,
                 password: true,
@@ -192,13 +194,13 @@ function ChangePassword(props) {
                 phone: false,
                 number: false,
                 next: true,
-                return: 'next',
+                return: "next",
               },
               {
                 id: INPUT_NAME.CON_PASSWORD,
-                type: 'text',
-                label: 'change_password:confirm_password',
-                holder: 'change_password:confirm_password',
+                type: "text",
+                label: "change_password:confirm_password",
+                holder: "change_password:confirm_password",
                 value: values.confirmPassword,
                 required: true,
                 password: true,
@@ -206,12 +208,12 @@ function ChangePassword(props) {
                 phone: false,
                 number: false,
                 next: false,
-                return: 'done',
-                validate: {type: 'like', helper: ''},
+                return: "done",
+                validate: {type: "like", helper: ""},
               },
             ]}
             disabledButton={loading}
-            labelButton={'common:save'}
+            labelButton="common:save"
             onSubmit={onSubmit}
           />
         </Card>

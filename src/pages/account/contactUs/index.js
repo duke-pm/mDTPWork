@@ -5,16 +5,16 @@
  ** CreateAt: 2021
  ** Description: Description of ContactUs.js
  **/
-import React from 'react';
-import {Card, List, Text} from '@ui-kitten/components';
-import {Linking, View} from 'react-native';
+import React from "react";
+import {Card, List, Text} from "@ui-kitten/components";
+import {Linking, View} from "react-native";
 /* COMPONENTS */
-import CContainer from '~/components/CContainer';
-import CTopNavigation from '~/components/CTopNavigation';
+import CContainer from "~/components/CContainer";
+import CTopNavigation from "~/components/CTopNavigation";
 /* COMMON */
-import {cStyles} from '~/utils/style';
-import {DATA_CONTACT_US} from '~/configs/constants';
-import {IS_ANDROID} from '~/utils/helper';
+import {cStyles} from "~/utils/style";
+import {DATA_CONTACT_US} from "~/configs/constants";
+import {IS_ANDROID} from "~/utils/helper";
 
 function ContactUs(props) {
 
@@ -32,7 +32,7 @@ function ContactUs(props) {
    ************/
   return (
     <CContainer
-      safeArea={['top', 'bottom']}
+      safeArea={["top", "bottom"]}
       headerComponent={
         <CTopNavigation
           title="contact_us:title"
@@ -49,14 +49,24 @@ function ContactUs(props) {
               header={<Text category="s1">{info.item.label}</Text>}>
               <View>
                 <Text> &#9906;   {`${info.item.address}`}</Text>
-                <Text style={cStyles.mt5} status="primary" onPress={() => handleURL(info.item.website)}>
+                <Text
+                  style={cStyles.mt5}
+                  status="primary"
+                  onPress={() => handleURL(info.item.website)}>
                   &#9881;   {`${info.item.website}`}
                 </Text>
-                <Text style={cStyles.mt5} status="primary" onPress={() => handleEmail(info.item.email)}>
+                <Text
+                  style={cStyles.mt5}
+                  status="primary"
+                  onPress={() => handleEmail(info.item.email)}>
                   &#9993;   {`${info.item.email}`}
                 </Text>
                 {info.item.phone.map((itemP, indexP) =>
-                  <Text style={cStyles.mt5} status="primary" onPress={() => handlePhone(itemP)}>
+                  <Text
+                    key={itemP + "_" + indexP}
+                    style={cStyles.mt5}
+                    status="primary"
+                    onPress={() => handlePhone(itemP)}>
                     &#9742;   {`${itemP}`}
                   </Text>
                 )}
@@ -64,7 +74,7 @@ function ContactUs(props) {
             </Card>
           )
         }}
-        keyExtractor={(item, index) => item.id + '_' + index}
+        keyExtractor={(item, index) => item.id + "_" + index}
         removeClippedSubviews={IS_ANDROID}
         ItemSeparatorComponent={() => <View style={cStyles.my5} />}
       />

@@ -5,85 +5,86 @@
  ** CreateAt: 2021
  ** Description: Description of HelpAndInfo.js
  **/
-import React, {useEffect, useState} from 'react';
-import {Linking, ScrollView} from 'react-native';
-import Rate, {AndroidMarket} from 'react-native-rate';
+import React, {useEffect, useState} from "react";
+import {Linking, ScrollView} from "react-native";
+import Rate, {AndroidMarket} from "react-native-rate";
 /* COMPONENTS */
-import CContainer from '~/components/CContainer';
-import CTopNavigation from '~/components/CTopNavigation';
-import CMenuAccount from '~/components/CMenuAccount';
+import CContainer from "~/components/CContainer";
+import CTopNavigation from "~/components/CTopNavigation";
+import CMenuAccount from "~/components/CMenuAccount";
 /** COMMON */
-import Configs from '~/configs';
-import {cStyles} from '~/utils/style';
-
-/** All init */
+import Configs from "~/configs";
+import {cStyles} from "~/utils/style";
 
 function HelpAndInfo(props) {
 
   /** Use state */
   const [menu1, setMenu1] = useState([
     {
-      id: 'contactUs',
-      title: 'help_and_info:contact_us',
+      id: "contactUs",
+      title: "help_and_info:contact_us",
       subtitle: null,
-      icon: 'people-outline',
-      color: 'color-primary-600',
-      bgColor: 'color-primary-transparent-500',
+      icon: "people-outline",
+      color: "color-primary-600",
+      bgColor: "color-primary-transparent-500",
       renderNext: true,
-      nextRoute: 'ContactUs',
+      nextRoute: "ContactUs",
       value: null,
       alert: null,
     },
   ]);
   const [menu2, setMenu2] = useState([
     {
-      id: 'termAndConditions',
-      title: 'help_and_info:privacy_policies',
+      id: "termAndConditions",
+      title: "help_and_info:privacy_policies",
       subtitle: null,
-      icon: 'shield-outline',
-      color: 'color-danger-600',
-      bgColor: 'color-danger-transparent-500',
+      icon: "shield-outline",
+      color: "color-danger-600",
+      bgColor: "color-danger-transparent-500",
       renderNext: false,
       nextRoute: null,
       value: null,
       alert: null,
-      onPress: () => handleGoURL('https://www.dtp-education.com/gioi-thieu/'),
+      onPress: () =>
+        handleGoURL("https://www.dtp-education.com/gioi-thieu/"),
     },
     {
-      id: 'termAndConditions',
-      title: 'help_and_info:term_conditions',
+      id: "termAndConditions",
+      title: "help_and_info:term_conditions",
       subtitle: null,
-      icon: 'checkmark-circle-outline',
-      color: 'color-warning-600',
-      bgColor: 'color-warning-transparent-500',
+      icon: "checkmark-circle-outline",
+      color: "color-warning-600",
+      bgColor: "color-warning-transparent-500",
       renderNext: false,
       nextRoute: null,
       value: null,
       alert: null,
-      onPress: () => handleGoURL('https://www.dtp-education.com/gioi-thieu/tam-nhin-su-menh/'),
+      onPress: () =>
+        handleGoURL("https://www.dtp-education.com/gioi-thieu/tam-nhin-su-menh/"),
     },
     {
-      id: 'aboutUs',
-      title: 'help_and_info:about_us',
+      id: "aboutUs",
+      title: "help_and_info:about_us",
       subtitle: null,
-      icon: 'person-done-outline',
-      color: 'color-info-600',
-      bgColor: 'color-info-transparent-500',
+      icon: "person-done-outline",
+      color: "color-info-600",
+      bgColor: "color-info-transparent-500",
       renderNext: false,
       nextRoute: null,
       value: null,
       alert: null,
-      onPress: () => handleGoURL('https://www.dtp-education.com/?v=1'),
+      onPress: () =>
+        handleGoURL("https://www.dtp-education.com/?v=1"),
     },
   ]);
   const [menu3, setMenu3] = useState([
     {
-      id: 'rateApp',
-      title: 'help_and_info:rate_app',
+      id: "rateApp",
+      title: "help_and_info:rate_app",
       subtitle: null,
-      icon: 'star-outline',
-      color: 'color-warning-600',
-      bgColor: 'color-warning-transparent-500',
+      icon: "star-outline",
+      color: "color-warning-600",
+      bgColor: "color-warning-transparent-500",
       renderNext: false,
       nextRoute: null,
       value: null,
@@ -105,7 +106,7 @@ function HelpAndInfo(props) {
     };
     Rate.rate(options, success => {
       if (success) {
-        console.log('[LOG] === SUCCESS RATE ===> ', success);
+        console.log("[LOG] === SUCCESS RATE ===> ", success);
       }
     });
   };
@@ -123,7 +124,7 @@ function HelpAndInfo(props) {
    ************/
   return (
     <CContainer
-      safeArea={['top']}
+      safeArea={["top"]}
       headerComponent={
         <CTopNavigation title="help_and_info:title" back/>
       }>

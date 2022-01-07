@@ -28,7 +28,7 @@ function UserRequest(props) {
    ************/
   return (
     <Card disabled
-      status="primary"
+      status="info"
       header={propsH =>
         <View
           style={[

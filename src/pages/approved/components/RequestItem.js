@@ -4,22 +4,22 @@
  ** CreateAt: 2021
  ** Description: Description of RequestItem.js
  **/
-import PropTypes from 'prop-types';
-import React from 'react';
-import {Avatar, Card, Text} from '@ui-kitten/components';
-import {StyleSheet, View} from 'react-native';
-import moment from 'moment';
-import 'moment/locale/en-sg';
+import PropTypes from "prop-types";
+import React from "react";
+import {Avatar, Card, Text} from "@ui-kitten/components";
+import {View} from "react-native";
+import moment from "moment";
+import "moment/locale/en-sg";
 /** COMPONENTS */
-import CStatus from '~/components/CStatus';
+import CStatus from "~/components/CStatus";
 /* COMMON */
-import {Assets} from '~/utils/asset';
-import {Commons} from '~/utils/common';
-import {cStyles} from '~/utils/style';
+import {Assets} from "~/utils/asset";
+import {Commons} from "~/utils/common";
+import {cStyles} from "~/utils/style";
 import {
   DEFAULT_FORMAT_DATE_4,
   DEFAULT_FORMAT_DATE_9,
-} from '~/configs/constants';
+} from "~/configs/constants";
 
 function RequestItem(props) {
   const {
@@ -45,9 +45,9 @@ function RequestItem(props) {
    ** RENDER **
    ************/
   let title =
-    `${data.requestID} | ${trans('approved_assets:title_request_item')}`;
+    `${data.requestID} | ${trans("approved_assets:title_request_item")}`;
   if (data.requestTypeID !== Commons.APPROVED_TYPE.ASSETS.value) {
-    title = `${data.requestID} | ${trans('approved_lost_damaged:title_request_item_1')}${
+    title = `${data.requestID} | ${trans("approved_lost_damaged:title_request_item_1")}${
       data.requestTypeName
     }`;
   }
@@ -64,16 +64,16 @@ function RequestItem(props) {
             cStyles.px16,
             cStyles.py10,
           ]}>
-          <View style={styles.con_header_left}>
+          <View style={cStyles.itemsStart}>
             <Text category="s1">{title}</Text>
             <Text style={cStyles.mt5} category="c1" appearance="hint">
-              {`${trans('common:created_at')} ${moment(
+              {`${trans("common:created_at")} ${moment(
                 data.requestDate,
                 DEFAULT_FORMAT_DATE_4,
               ).format(DEFAULT_FORMAT_DATE_9)}`}
             </Text>
           </View>
-          <View style={styles.con_header_right}>
+          <View style={cStyles.itemsEnd}>
             <CStatus
               type="approved"
               value={data.statusID}
@@ -96,18 +96,13 @@ function RequestItem(props) {
         <View style={cStyles.itemsEnd}>
           <Text>{data.regionName}</Text>
           <Text style={cStyles.mt5} category="c1" appearance="hint">
-            {trans('list_request_assets_handling:region')}
+            {trans("list_request_assets_handling:region")}
           </Text>
         </View>
       </View>
     </Card>
   );
 }
-
-const styles = StyleSheet.create({
-  con_header_left: {flex: 0.68},
-  con_header_right: {flex: 0.3},
-});
 
 RequestItem.propTypes = {
   trans: PropTypes.object,

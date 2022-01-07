@@ -5,25 +5,28 @@
  ** CreateAt: 2021
  ** Description: Description of ApprovedAssets.js
  **/
-import PropTypes from 'prop-types';
-import {fromJS} from 'immutable';
-import React, {useState, useEffect} from 'react';
-import {useSelector, useDispatch} from 'react-redux';
-import {useTranslation} from 'react-i18next';
-import {showMessage} from 'react-native-flash-message';
-import {Layout, Spinner, Text} from '@ui-kitten/components';
-import moment from 'moment';
-import 'moment/locale/en-sg';
+import PropTypes from "prop-types";
+import {fromJS} from "immutable";
+import React, {useState, useEffect} from "react";
+import {useSelector, useDispatch} from "react-redux";
+import {useTranslation} from "react-i18next";
+import {showMessage} from "react-native-flash-message";
+import {Layout, Spinner, Text} from "@ui-kitten/components";
+import moment from "moment";
+import "moment/locale/en-sg";
 /* COMPONENTS */
-import ListRequest from '../components/ListRequest';
+import ListRequest from "../components/ListRequest";
 /* COMMON */
-import Routes from '~/navigator/Routes';
-import {Commons} from '~/utils/common';
-import {cStyles} from '~/utils/style';
-import {usePrevious} from '~/utils/hook';
-import {LOAD_MORE, REFRESH} from '~/configs/constants';
+import Routes from "~/navigator/Routes";
+import {Commons} from "~/utils/common";
+import {cStyles} from "~/utils/style";
+import {usePrevious} from "~/utils/hook";
+import {
+  LOAD_MORE,
+  REFRESH,
+} from "~/configs/constants";
 /* REDUX */
-import * as Actions from '~/redux/actions';
+import * as Actions from "~/redux/actions";
 
 function ApprovedAssets(props) {
   const {t} = useTranslation();
@@ -34,10 +37,10 @@ function ApprovedAssets(props) {
   const commonState = useSelector(({common}) => common);
   const approvedState = useSelector(({approved}) => approved);
   const authState = useSelector(({auth}) => auth);
-  const perPage = commonState.get('perPage');
-  const formatDate = commonState.get('formatDate');
-  const refreshToken = authState.getIn(['login', 'refreshToken']);
-  const language = commonState.get('language');
+  const perPage = commonState.get("perPage");
+  const formatDate = commonState.get("formatDate");
+  const refreshToken = authState.getIn(["login", "refreshToken"]);
+  const language = commonState.get("language");
 
   /** Use state */
   const [loading, setLoading] = useState({
@@ -48,14 +51,14 @@ function ApprovedAssets(props) {
     isLoadmore: true,
   });
   const [data, setData] = useState({
-    fromDate: moment().clone().startOf('month').format(formatDate),
-    toDate: moment().clone().endOf('month').format(formatDate),
-    status: '1,2,3,4',
+    fromDate: moment().clone().startOf("month").format(formatDate),
+    toDate: moment().clone().endOf("month").format(formatDate),
+    status: "1,2,3,4",
     requests: [],
     requestsDetail: [],
     processApproveds: [],
     page: 1,
-    search: '',
+    search: "",
   });
 
   /** Use previous */
@@ -78,7 +81,7 @@ function ApprovedAssets(props) {
       PageSize: perPage,
       PageNum: page,
       Search: search,
-      RequestTypeID: Commons.APPROVED_TYPE.ASSETS.value + '',
+      RequestTypeID: Commons.APPROVED_TYPE.ASSETS.value + "",
       IsResolveRequest: false,
       RefreshToken: refreshToken,
       Lang: language,
@@ -91,9 +94,9 @@ function ApprovedAssets(props) {
       tmpRequests = [...data.requests],
       tmpRequestsDetail = [...data.requestsDetail],
       tmpProcessApproveds = [...data.processApproveds],
-      tmpLastRequests = approvedState.get('requests'),
-      tmpLastRequestsDetail = approvedState.get('requestsDetail'),
-      tmpLastProcessApproved = approvedState.get('processApproved');
+      tmpLastRequests = approvedState.get("requests"),
+      tmpLastRequestsDetail = approvedState.get("requestsDetail"),
+      tmpLastProcessApproved = approvedState.get("processApproved");
 
     /* *
      * If data result from server have
@@ -147,10 +150,10 @@ function ApprovedAssets(props) {
 
   const onError = () => {
     showMessage({
-      message: t('common:app_name'),
-      description: t('error:list_request'),
-      type: 'danger',
-      icon: 'danger',
+      message: t("common:app_name"),
+      description: t("error:list_request"),
+      type: "danger",
+      icon: "danger",
     });
     return setLoading({
       main: false,
@@ -210,17 +213,17 @@ function ApprovedAssets(props) {
 
   useEffect(() => {
     if (loading.startFetch || loading.refreshing || loading.loadmore) {
-      if (!approvedState.get('submittingList')) {
+      if (!approvedState.get("submittingList")) {
         let type = REFRESH;
         if (loading.loadmore) {
           type = LOAD_MORE;
         }
 
-        if (approvedState.get('successListRequest')) {
+        if (approvedState.get("successListRequest")) {
           return onPrepareData(type);
         }
 
-        if (approvedState.get('errorListRequest')) {
+        if (approvedState.get("errorListRequest")) {
           return onError();
         }
       }
@@ -229,9 +232,9 @@ function ApprovedAssets(props) {
     loading.startFetch,
     loading.refreshing,
     loading.loadmore,
-    approvedState.get('submittingList'),
-    approvedState.get('successListRequest'),
-    approvedState.get('errorListRequest'),
+    approvedState.get("submittingList"),
+    approvedState.get("successListRequest"),
+    approvedState.get("errorListRequest"),
   ]);
 
   /************
@@ -255,7 +258,7 @@ function ApprovedAssets(props) {
         <Layout style={cStyles.flexCenter} level="3">
           <Spinner />
           <Text style={cStyles.mt10} category="c1" appearance="hint">
-            {t('common:loading')}
+            {t("common:loading")}
           </Text>
         </Layout>
       }

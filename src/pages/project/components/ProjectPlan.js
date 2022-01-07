@@ -18,12 +18,18 @@ import CEmpty from '~/components/CEmpty';
 /* COMMON */
 import Configs from '~/configs';
 import Services from '~/services';
-import {cStyles} from '~/utils/style';
-import {moderateScale, verticalScale} from '~/utils/helper';
-import {ThemeContext} from '~/configs/theme-context';
-import {DARK, DEFAULT_FORMAT_DATE_4} from '~/configs/constants';
 import Commons from '~/utils/common/Commons';
-
+import {cStyles} from '~/utils/style';
+import {ThemeContext} from '~/configs/theme-context';
+import {
+  moderateScale,
+  verticalScale,
+} from '~/utils/helper';
+import {
+  DARK,
+  DEFAULT_FORMAT_DATE_4,
+} from '~/configs/constants';
+  
 /** All init */
 const ANIM_CHART = {
   durationX: 0,
@@ -34,8 +40,8 @@ const ANIM_CHART = {
 function ProjectPlan(props) {
   const themeContext = useContext(ThemeContext);
   const {
-    project = null,
     trans = () => null,
+    project = null,
   } = props;
   let page = 1;
   const isDark = themeContext.themeApp === DARK;
@@ -202,7 +208,7 @@ function ProjectPlan(props) {
 
   if (!loading.main && !loading.main && chart.data.length > 0) {
     return (
-      <ScrollView style={styles.scroll}>
+      <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
         <Divider style={cStyles.flex1} />
         <HorizontalBarChart
           style={[cStyles.mt16, styles.chart]}
@@ -216,7 +222,7 @@ function ProjectPlan(props) {
             textColor: isDark
               ? processColor('white')
               : processColor('black'),
-            text: `Durations (${trans('common:days')})`,
+            text: `${trans('common:durations')} (${trans('common:days')})`,
           }}
           drawGridBackground={false}
           autoScaleMinMaxEnabled={true}
@@ -238,16 +244,18 @@ function ProjectPlan(props) {
             return (
               <View
                 key={itemT.id + '_' + indexT}
-                style={[cStyles.row, cStyles.itemsCenter, cStyles.mt5]}>
+                style={[cStyles.flex1, cStyles.row, cStyles.itemsCenter, cStyles.mt5]}>
                 <Button
-                  size="tiny"
+                  style={styles.con_caption_left}
+                  size="small"
+                  appearance="outline"
                   status={Commons.TYPE_TASK[itemT.type]['color']}>
                   {'#' + itemT.id}
                 </Button>
-                <View style={[cStyles.mt6, styles.caption_right]}>
-                  <Text style={cStyles.ml10}>
+                <View style={[cStyles.flex1, cStyles.ml10, styles.con_caption_right]}>
+                  <Text>
                     <Text
-                      style={cStyles.fontBold}
+                      category="label"
                       status={Commons.TYPE_TASK[itemT.type]['color']}>
                       {itemT.type}
                     </Text>
@@ -278,6 +286,8 @@ const styles = StyleSheet.create({
   empty: {height: verticalScale(150)},
   scroll: {maxHeight: verticalScale(340)},
   chart: {height: verticalScale(230), width: moderateScale(300)},
+  con_caption_left: {flex: 0.15},
+  con_caption_right: {flex: 0.85},
 });
 
 ProjectPlan.propTypes = {

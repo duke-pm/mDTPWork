@@ -14,17 +14,19 @@ export const initialState = fromJS({
   submittingTaskDetail: false,
   submittingTaskComment: false,
   submittingTaskWatcher: false,
-  submittingTaskUpdate: false,
   submittingListTask: false,
   submittingOverview: false,
+  submittingTaskUpdatePer: false,
+  submittingTaskUpdateSta: false,
 
   successListProject: false,
   successListTask: false,
   successTaskDetail: false,
   successTaskComment: false,
   successTaskWatcher: false,
-  successTaskUpdate: false,
   successOverview: false,
+  successTaskUpdatePer: false,
+  successTaskUpdateSta: false,
 
   errorListTask: false,
   errorHelperListTask: '',
@@ -36,10 +38,12 @@ export const initialState = fromJS({
   errorHelperTaskComment: '',
   errorTaskWatcher: false,
   errorHelperTaskWatcher: '',
-  errorTaskUpdate: false,
-  errorHelperTaskUpdate: '',
   errorOverview: false,
   errorHelperOverview: '',
+  errorTaskUpdatePer: false,
+  errorHelperTaskUpdatePer: '',
+  errorTaskUpdateSta: false,
+  errorHelperTaskUpdateSta: '',
 
   isWatched: false,
   isReceivedEmail: false,
@@ -61,16 +65,20 @@ export default function (state = initialState, action = {}) {
       return state
         .set('submittingTaskComment', false)
         .set('submittingTaskWatcher', false)
-        .set('submittingTaskUpdate', false)
+        .set('submittingTaskUpdatePer', false)
+        .set('submittingTaskUpdateSta', false)
         .set('successTaskComment', false)
         .set('successTaskWatcher', false)
-        .set('successTaskUpdate', false)
+        .set('successTaskUpdatePer', false)
+        .set('successTaskUpdateSta', false)
         .set('errorTaskComment', false)
         .set('errorTaskWatcher', false)
-        .set('errorTaskUpdate', false)
+        .set('errorTaskUpdatePer', false)
+        .set('errorTaskUpdateSta', false)
         .set('errorHelperTaskComment', false)
         .set('errorHelperTaskWatcher', false)
-        .set('errorHelperTaskUpdate', false);
+        .set('errorHelperTaskUpdatePer', false)
+        .set('errorHelperTaskUpdateSta', false);
         
     /** For list project **/
     case types.START_FETCH_LIST_PROJECT:
@@ -230,37 +238,69 @@ export default function (state = initialState, action = {}) {
         .set('errorTaskWatcher', true)
         .set('errorHelperTaskWatcher', payload);
 
-    /** For task update task **/
-    case types.START_FETCH_TASK_UPDATE:
+    /** For task update per task **/
+    case types.START_FETCH_TASK_UPDATE_PER:
       return state
-        .set('submittingTaskUpdate', true)
-        .set('successTaskUpdate', false)
-        .set('errorTaskUpdate', false)
-        .set('errorHelperTaskUpdate', '');
+        .set('submittingTaskUpdatePer', true)
+        .set('successTaskUpdatePer', false)
+        .set('errorTaskUpdatePer', false)
+        .set('errorHelperTaskUpdatePer', '');
 
-    case types.SUCCESS_FETCH_TASK_UPDATE:
-      let tmpTask = state.get('taskDetail');
+    case types.SUCCESS_FETCH_TASK_UPDATE_PER:
+      let tmpTaskPer = state.get('taskDetail');
       // Update task detail
-      tmpTask.statusID = payload.status.statusID;
-      tmpTask.statusName = payload.status.statusName;
-      tmpTask.colorCode = payload.status.colorCode;
-      tmpTask.colorDarkCode = payload.status.colorCode;
-      tmpTask.colorOpacityCode = payload.status.colorOpacityCode;
-      tmpTask.percentage = payload.percentage;
+      tmpTaskPer.statusID = payload.status.statusID;
+      tmpTaskPer.statusName = payload.status.statusName;
+      tmpTaskPer.colorCode = payload.status.colorCode;
+      tmpTaskPer.colorDarkCode = payload.status.colorCode;
+      tmpTaskPer.colorOpacityCode = payload.status.colorOpacityCode;
+      tmpTaskPer.percentage = payload.percentage;
 
       return state
-        .set('submittingTaskUpdate', false)
-        .set('successTaskUpdate', true)
-        .set('errorTaskUpdate', false)
-        .set('errorHelperTaskUpdate', '')
-        .set('taskDetail', tmpTask);
+        .set('submittingTaskUpdatePer', false)
+        .set('successTaskUpdatePer', true)
+        .set('errorTaskUpdatePer', false)
+        .set('errorHelperTaskUpdatePer', '')
+        .set('taskDetail', tmpTaskPer);
 
-    case types.ERROR_FETCH_TASK_UPDATE:
+    case types.ERROR_FETCH_TASK_UPDATE_PER:
       return state
-        .set('submittingTaskUpdate', false)
-        .set('successTaskUpdate', false)
-        .set('errorTaskUpdate', true)
-        .set('errorHelperTaskUpdate', payload);
+        .set('submittingTaskUpdatePer', false)
+        .set('successTaskUpdatePer', false)
+        .set('errorTaskUpdatePer', true)
+        .set('errorHelperTaskUpdatePer', payload);
+
+    /** For task update sta task **/
+    case types.START_FETCH_TASK_UPDATE_STA:
+      return state
+        .set('submittingTaskUpdateSta', true)
+        .set('successTaskUpdateSta', false)
+        .set('errorTaskUpdateSta', false)
+        .set('errorHelperTaskUpdateSta', '');
+
+    case types.SUCCESS_FETCH_TASK_UPDATE_STA:
+      let tmpTaskSta = state.get('taskDetail');
+      // Update task detail
+      tmpTaskSta.statusID = payload.status.statusID;
+      tmpTaskSta.statusName = payload.status.statusName;
+      tmpTaskSta.colorCode = payload.status.colorCode;
+      tmpTaskSta.colorDarkCode = payload.status.colorCode;
+      tmpTaskSta.colorOpacityCode = payload.status.colorOpacityCode;
+      tmpTaskSta.percentage = payload.percentage;
+
+      return state
+        .set('submittingTaskUpdateSta', false)
+        .set('successTaskUpdateSta', true)
+        .set('errorTaskUpdateSta', false)
+        .set('errorHelperTaskUpdateSta', '')
+        .set('taskDetail', tmpTaskSta);
+
+    case types.ERROR_FETCH_TASK_UPDATE_STA:
+      return state
+        .set('submittingTaskUpdateSta', false)
+        .set('successTaskUpdateSta', false)
+        .set('errorTaskUpdateSta', true)
+        .set('errorHelperTaskUpdateSta', payload);
 
     /** For overview **/
     case types.START_FETCH_PROJECT_OVERVIEW:

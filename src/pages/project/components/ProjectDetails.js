@@ -41,22 +41,28 @@ function ProjectDetails(props) {
   const usersInvitedLength = (project && project.lstUserInvited.length) || 0;
   return (
     <View>
-      <Divider style={cStyles.flex1} />
+      <Divider style={cStyles.fullWidth} />
       {/** Is public - Status */}
       <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt16]}>
-        <View style={[cStyles.row, cStyles.itemsStart, styles.con_half]}>
+        <View style={[cStyles.row, cStyles.itemsCenter, styles.con_half]}>
           <View style={styles.con_left}>
-            <Text category="label" appearance="hint">{trans('project_management:is_public')}</Text>
+            <Text category="label" appearance="hint">
+              {trans('project_management:is_public')}
+            </Text>
           </View>
           <View style={styles.con_right}>
             <IoniIcon
-              name={project.isPublic ? "checkmark-circle-outline" : "close-circle-outline"}
-              color={project.isPublic ? theme['color-success-500'] : theme['color-danger-500']}
+              name={project.isPublic
+                ? "checkmark-circle-outline"
+                : "close-circle-outline"}
+              color={project.isPublic
+                ? theme['color-success-500']
+                : theme['color-danger-500']}
               size={sIcon}
             />
           </View>
         </View>
-        <View style={[cStyles.row, cStyles.itemsStart, styles.con_half]}>
+        <View style={styles.con_half}>
           <CStatus
             type="project"
             value={project.statusID}
@@ -67,9 +73,11 @@ function ProjectDetails(props) {
 
       {/** Date start - end */}
       <View style={[cStyles.row, cStyles.center, cStyles.mt10]}>
-        <View style={[cStyles.row, cStyles.itemsStart, styles.con_half]}>
+        <View style={[cStyles.row, cStyles.itemsCenter, styles.con_half]}>
           <View style={styles.con_left}>
-            <Text category="label" appearance="hint">{trans('project_management:start_date')}</Text>
+            <Text category="label" appearance="hint">
+              {trans('project_management:start_date')}
+            </Text>
           </View>
           <View style={styles.con_right}>
             <Text>{project.startDate
@@ -78,9 +86,11 @@ function ProjectDetails(props) {
             </Text>
           </View>
         </View>
-        <View style={[cStyles.row, cStyles.itemsStart, styles.con_half]}>
+        <View style={[cStyles.row, cStyles.itemsCenter, styles.con_half]}>
           <View style={styles.con_left}>
-            <Text category="label" appearance="hint">{trans('project_management:end_date')}</Text>
+            <Text category="label" appearance="hint">
+              {trans('project_management:end_date')}
+            </Text>
           </View>
           <View style={styles.con_right}>
             <Text>{project.endDate
@@ -92,9 +102,11 @@ function ProjectDetails(props) {
       </View>
 
       {/** Owner */}
-      <View style={[cStyles.row, cStyles.itemsStart, cStyles.mt10]}>
+      <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt10]}>
         <View style={styles.con_left_2}>
-          <Text category="label" appearance="hint">{trans('project_management:owner')}</Text>
+          <Text category="label" appearance="hint">
+            {trans('project_management:owner')}
+          </Text>
         </View>
         <View style={[cStyles.row, cStyles.itemsCenter, styles.con_right_2]}>
           <Avatar size="tiny" source={Assets.iconUser} />
@@ -104,9 +116,11 @@ function ProjectDetails(props) {
 
       {/** Date appraisal */}
       {project.appraisalTime && (
-        <View style={[cStyles.row, cStyles.itemsStart, cStyles.mt10]}>
+        <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt10]}>
           <View style={styles.con_left_2}>
-            <Text category="label" appearance="hint">{trans('project_management:appraisal_time')}</Text>
+            <Text category="label" appearance="hint">
+              {trans('project_management:appraisal_time')}
+            </Text>
           </View>
           <View style={styles.con_right_2}>
             <Text>
@@ -117,9 +131,11 @@ function ProjectDetails(props) {
       )}
 
       {/** Description */}
-      <View style={[cStyles.row, cStyles.itemsStart, cStyles.mt10]}>
+      <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt10]}>
         <View style={styles.con_left_2}>
-          <Text category="label" appearance="hint">{trans('project_management:description')}</Text>
+          <Text category="label" appearance="hint">
+            {trans('project_management:description')}
+          </Text>
         </View>
         <View style={styles.con_right_2}>
           <Text>{checkEmpty(project.descr)}</Text>
@@ -129,7 +145,9 @@ function ProjectDetails(props) {
       {/** Users invited */}
       {usersInvitedLength > 0 && (
         <View style={cStyles.mt10}>
-          <Text category="label" appearance="hint">{trans('project_management:user_invited')}</Text>
+          <Text category="label" appearance="hint">
+            {trans('project_management:user_invited')}
+          </Text>
           <ScrollView
             style={[
               cStyles.mt10,

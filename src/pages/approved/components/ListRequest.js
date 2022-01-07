@@ -4,21 +4,21 @@
  ** CreateAt: 2021
  ** Description: Description of ListRequest.js
  **/
-import PropTypes from 'prop-types';
-import React from 'react';
-import {useTranslation} from 'react-i18next';
-import {useNavigation} from '@react-navigation/native';
-import {List} from '@ui-kitten/components';
-import {View} from 'react-native';
+import PropTypes from "prop-types";
+import React from "react";
+import {useTranslation} from "react-i18next";
+import {useNavigation} from "@react-navigation/native";
+import {List} from "@ui-kitten/components";
+import {View} from "react-native";
 /* COMPONENTS */
-import CEmpty from '~/components/CEmpty';
-import CFooterList from '~/components/CFooterList';
-import RequestItem from './RequestItem';
+import CEmpty from "~/components/CEmpty";
+import CFooterList from "~/components/CFooterList";
+import RequestItem from "./RequestItem";
 /* COMMON */
-import Routes from '~/navigator/Routes';
-import {Commons} from '~/utils/common';
-import {cStyles} from '~/utils/style';
-import {IS_ANDROID} from '~/utils/helper';
+import Routes from "~/navigator/Routes";
+import {Commons} from "~/utils/common";
+import {cStyles} from "~/utils/style";
+import {IS_ANDROID} from "~/utils/helper";
 
 function ListRequest(props) {
   const {t} = useTranslation();
@@ -35,7 +35,7 @@ function ListRequest(props) {
    *****************/
   const handleRequestItem = (data, dataProcess, dataDetail, currentProcess) => {
     let route = routeDetail;
-    if (routeDetail === 'auto') {
+    if (routeDetail === "auto") {
       route = Routes.ADD_APPROVED_LOST_DAMAGED.name;
       if (data.requestTypeID === Commons.APPROVED_TYPE.ASSETS.value) {
         route = Routes.ADD_APPROVED_ASSETS.name;
@@ -75,7 +75,7 @@ function ListRequest(props) {
           />
         )
       }}
-      keyExtractor={(item, index) => 'listApprovedHanding_' + index.toString()}
+      keyExtractor={(item, index) => "listApprovedHanding_" + index.toString()}
       removeClippedSubviews={IS_ANDROID}
       refreshing={props.refreshing}
       onEndReachedThreshold={0.1}
@@ -84,8 +84,8 @@ function ListRequest(props) {
       ItemSeparatorComponent={() => <View style={cStyles.py5} />}
       ListEmptyComponent={
         <CEmpty
-          label={'common:empty_data'}
-          description={'common:cannot_find_data_filter'}
+          label="common:empty_data"
+          description="common:cannot_find_data_filter"
         />
       }
       ListFooterComponent={props.loadmore ? <CFooterList /> : null}
@@ -99,9 +99,9 @@ ListRequest.propTypes = {
   onRefresh: PropTypes.func,
   onLoadmore: PropTypes.func,
   routeDetail: PropTypes.oneOf([
-    'auto',
-    'AddRequestAsset',
-    'AddRequestLostDamage',
+    "auto",
+    "AddRequestAsset",
+    "AddRequestLostDamage",
   ]).isRequired,
 };
 

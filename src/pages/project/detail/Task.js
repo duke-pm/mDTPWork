@@ -6,48 +6,46 @@
  ** CreateAt: 2021
  ** Description: Description of Task.js
  **/
-import {fromJS} from 'immutable';
-import React, {useState, useEffect} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {useTranslation} from 'react-i18next';
-import {showMessage} from 'react-native-flash-message';
-import {Layout, Text, Tab , TabView} from '@ui-kitten/components';
-import {View} from 'react-native';
-import moment from 'moment';
-import 'moment/locale/en-sg';
+import {fromJS} from "immutable";
+import React, {useState, useEffect} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {useTranslation} from "react-i18next";
+import {showMessage} from "react-native-flash-message";
+import {Layout, Text, Tab , TabView} from "@ui-kitten/components";
+import {View} from "react-native";
+import moment from "moment";
+import "moment/locale/en-sg";
 /* COMPONENTS */
-import CContainer from '~/components/CContainer';
-import CTopNavigation from '~/components/CTopNavigation';
-import CLoading from '~/components/CLoading';
-import Overview from '../components/Overview';
-import Activities from '../components/Activities';
-import Watchers from '../components/Watchers';
+import CContainer from "~/components/CContainer";
+import CTopNavigation from "~/components/CTopNavigation";
+import CLoading from "~/components/CLoading";
+import Overview from "../components/Overview";
+import Activities from "../components/Activities";
+import Watchers from "../components/Watchers";
 /* COMMON */
-import Routes from '~/navigator/Routes';
-import FieldsAuth from '~/configs/fieldsAuth';
-import {Commons} from '~/utils/common';
-import {cStyles} from '~/utils/style';
+import Routes from "~/navigator/Routes";
+import FieldsAuth from "~/configs/fieldsAuth";
+import {Commons} from "~/utils/common";
+import {cStyles} from "~/utils/style";
 import {
   AST_LOGIN,
   AST_LAST_COMMENT_TASK,
   DEFAULT_FORMAT_DATE_4,
   DEFAULT_FORMAT_DATE_9,
-} from '~/configs/constants';
+} from "~/configs/constants";
 import {
   getLocalInfo,
   getSecretInfo,
   resetRoute,
-} from '~/utils/helper';
+} from "~/utils/helper";
 /** REDUX */
-import * as Actions from '~/redux/actions';
+import * as Actions from "~/redux/actions";
 
 function Task(props) {
   const {t} = useTranslation();
   const {route, navigation} = props;
   let taskID = route.params?.data?.taskID || -1;
-  if (taskID === -1) {
-    taskID = route.params?.taskID || -1;
-  }
+  if (taskID === -1) taskID = route.params?.taskID || -1;
   const perChangeStatus = route.params?.data?.isUpdated || false;
   const onRefresh = route.params?.onRefresh || false;
 
@@ -56,9 +54,9 @@ function Task(props) {
   const projectState = useSelector(({projectManagement}) => projectManagement);
   const commonState = useSelector(({common}) => common);
   const authState = useSelector(({auth}) => auth);
-  const language = commonState.get('language');
-  const refreshToken = authState.getIn(['login', 'refreshToken']);
-  const userName = authState.getIn(['login', 'userName']);
+  const language = commonState.get("language");
+  const refreshToken = authState.getIn(["login", "refreshToken"]);
+  const userName = authState.getIn(["login", "userName"]);
 
   /** Use state */
   const [loading, setLoading] = useState({
@@ -108,9 +106,8 @@ function Task(props) {
   /**********
    ** FUNC **
    **********/
-  const onStart = () => onFetchData();
-
-  const onStartUpdate = () => setLoading({...loading, update: true});
+  const onStartUpdate = () =>
+    setLoading({...loading, update: true});
 
   const onGoToSignIn = () =>
     resetRoute(navigation, Routes.LOGIN_IN.name);
@@ -131,41 +128,42 @@ function Task(props) {
   };
 
   const onPrepareData = async () => {
-    let taskDetail = projectState.get('taskDetail');
-    let activities = projectState.get('activities');
-    let watchers = projectState.get('watchers');
-    let isWatched = projectState.get('isWatched');
+    let taskDetail = projectState.get("taskDetail");
+    let activities = projectState.get("activities");
+    let watchers = projectState.get("watchers");
+    let isWatched = projectState.get("isWatched");
+
     if (activities.length > 0) {
       let lastComment = await getLocalInfo(AST_LAST_COMMENT_TASK);
       if (lastComment && lastComment.length > 0) {
         let find = lastComment.findIndex(f => f.taskID === taskID);
         if (find !== -1) {
-          if (
-            lastComment[find].value < activities[activities.length - 1].rowNum
-          ) {
+          if (lastComment[find].value < activities[activities.length - 1]["rowNum"]) {
             setNewComment(true);
           }
-        } else {
-          setNewComment(true);
-        }
-      } else {
-        setNewComment(true);
-      }
+        } else setNewComment(true);
+      } else setNewComment(true);
     }
     setData({...data, taskDetail, watchers});
+
     /** Find watcher */
     setIsFastWatch(!isWatched);
-    return onDone();
-  };
+    return setLoading({
+      ...loading,
+      main: false,
+      startFetch: false,
+      startFetchLogin: false,
+    });
+  }
 
   const onPrepareWatch = () => {
     showMessage({
-      message: t('common:app_name'),
-      description: t(
-        !isFastWatch ? 'success:change_follow' : 'success:change_unfollow',
-      ),
-      type: 'success',
-      icon: 'success',
+      message: t("common:app_name"),
+      description: t(!isFastWatch
+        ? "success:change_follow"
+        : "success:change_unfollow"),
+      type: "success",
+      icon: "success",
     });
     return setLoading({...loading, fastWatch: false});
   };
@@ -174,33 +172,30 @@ function Task(props) {
     if (isSuccess) {
       if (!newComment) setNewComment(true);
       if (!needRefresh) setNeedRefresh(true);
-      let taskDetail = projectState.get('taskDetail');
-      let watchers = projectState.get('watchers');
+      let taskDetail = projectState.get("taskDetail");
+      let watchers = projectState.get("watchers");
       setData({...data, taskDetail, watchers});
       setLoading({...loading, update: false});
       return showMessage({
-        message: t('common:app_name'),
-        description: t('success:change_info'),
-        type: 'success',
-        icon: 'success',
+        message: t("common:app_name"),
+        description: t("success:change_info"),
+        type: "success",
+        icon: "success",
       });
-    } else {
-      setLoading({...loading, update: false});
-    }
+    } else setLoading({...loading, update: false});
   };
 
   const onError = desUpdate => {
-    let des = !desUpdate ? t('error:detail_request') : t(desUpdate);
+    let des = !desUpdate
+      ? t("error:detail_request")
+      : t(desUpdate);
     showMessage({
-      message: t('common:app_name'),
+      message: t("common:app_name"),
       description: des,
-      type: 'danger',
-      icon: 'danger',
+      type: "danger",
+      icon: "danger",
     });
-    return onDone();
-  };
 
-  const onDone = () => {
     return setLoading({
       ...loading,
       main: false,
@@ -213,9 +208,13 @@ function Task(props) {
     /** Check Data Login */
     let dataLogin = await getSecretInfo(AST_LOGIN);
     if (dataLogin) {
-      console.log('[LOG] === SignIn Local === ', dataLogin);
+      console.log("[LOG] === SignIn Local === ", dataLogin);
       let i,
-        tmpDataLogin = {tokenInfo: {}, lstMenu: {}};
+        tmpDataLogin = {
+          tokenInfo: {},
+          lstMenu: {},
+        };
+
       for (i = 0; i < FieldsAuth.length; i++) {
         if (i === 0) {
           tmpDataLogin[FieldsAuth[i].key] = dataLogin[FieldsAuth[i].key];
@@ -236,9 +235,9 @@ function Task(props) {
    ** LIFE CYCLE **
    ****************/
   useEffect(() => {
-    let isLogin = authState.get('successLogin');
+    let isLogin = authState.get("successLogin");
     if (isLogin && !loading.startFetchLogin) {
-      onStart();
+      onFetchData();
     } else {
       setLoading({...loading, startFetchLogin: true});
       onCheckLocalLogin();
@@ -247,62 +246,62 @@ function Task(props) {
 
   useEffect(() => {
     if (loading.startFetchLogin) {
-      if (!authState.get('submitting')) {
-        if (authState.get('successLogin')) {
-          return onStart();
+      if (!authState.get("submitting")) {
+        if (authState.get("successLogin")) {
+          return onFetchData();
         }
-        if (authState.get('errorLogin')) {
+        if (authState.get("errorLogin")) {
           return onGoToSignIn();
         }
       }
     }
   }, [
     loading.startFetchLogin,
-    authState.get('submitting'),
-    authState.get('successLogin'),
-    authState.get('errorLogin'),
+    authState.get("submitting"),
+    authState.get("successLogin"),
+    authState.get("errorLogin"),
   ]);
 
   useEffect(() => {
     if (loading.startFetch) {
-      if (!projectState.get('submittingTaskDetail')) {
-        if (projectState.get('successTaskDetail')) {
+      if (!projectState.get("submittingTaskDetail")) {
+        if (projectState.get("successTaskDetail")) {
           return onPrepareData();
         }
 
-        if (projectState.get('errorTaskDetail')) {
+        if (projectState.get("errorTaskDetail")) {
           return onError();
         }
       }
     }
   }, [
     loading.startFetch,
-    projectState.get('submittingTaskDetail'),
-    projectState.get('successTaskDetail'),
-    projectState.get('errorTaskDetail'),
+    projectState.get("submittingTaskDetail"),
+    projectState.get("successTaskDetail"),
+    projectState.get("errorTaskDetail"),
   ]);
 
   useEffect(() => {
     if (loading.fastWatch) {
-      if (!projectState.get('submittingTaskWatcher')) {
-        if (projectState.get('successTaskWatcher')) {
+      if (!projectState.get("submittingTaskWatcher")) {
+        if (projectState.get("successTaskWatcher")) {
           return onPrepareWatch();
         }
 
-        if (projectState.get('errorTaskWatcher')) {
-          return onError('error:send_follow');
+        if (projectState.get("errorTaskWatcher")) {
+          return onError("error:send_follow");
         }
       }
     }
   }, [
     loading.fastWatch,
-    projectState.get('submittingTaskWatcher'),
-    projectState.get('successTaskWatcher'),
-    projectState.get('errorTaskWatcher'),
+    projectState.get("submittingTaskWatcher"),
+    projectState.get("successTaskWatcher"),
+    projectState.get("errorTaskWatcher"),
   ]);
 
   useEffect(() => {
-    const unsubscribe = navigation.addListener('dismiss', e => {
+    const unsubscribe = navigation.addListener("dismiss", e => {
       if (needRefresh && onRefresh) {
         onRefresh();
       }
@@ -315,11 +314,11 @@ function Task(props) {
    ************/
   return (
     <CContainer
-      safeArea={['top']}
+      safeArea={["top"]}
       loading={loading.main}
       headerComponent={
         <CTopNavigation
-          title={`${t('project_management:detail_task')} #${taskID}`}
+          title={`${t("project_management:detail_task")} #${taskID}`}
           back
           onPressCustomBack={handleBack}
         />
@@ -330,7 +329,7 @@ function Task(props) {
           <Text>
             <Text
               category="h6"
-              status={Commons.TYPE_TASK[data.taskDetail.typeName]['color']}>
+              status={Commons.TYPE_TASK[data.taskDetail.typeName]["color"]}>
               {data.taskDetail.typeName}
             </Text>
             <Text category="h6">
@@ -345,19 +344,19 @@ function Task(props) {
         <Layout style={[cStyles.px16, cStyles.pb10]}>
           <Text style={cStyles.mt10}>
             {(!data.taskDetail.crtdUser ||
-              data.taskDetail.crtdUser === '') && (
+              data.taskDetail.crtdUser === "") && (
               <Text category="label">{`#${data.taskDetail.taskID} `}</Text>
             )}
             {data.taskDetail.crtdUser &&
-              data.taskDetail.crtdUser !== '' && (
+              data.taskDetail.crtdUser !== "" && (
                 <Text>
                   <Text category="label">{`#${data.taskDetail.taskID} `}</Text>
-                  <Text category="c1">{t('project_management:created_by')}</Text>
+                  <Text category="c1">{t("project_management:created_by")}</Text>
                   <Text category="c1">{` ${moment(
                     data.taskDetail.crtdDate,
                     DEFAULT_FORMAT_DATE_4,
                   ).format(DEFAULT_FORMAT_DATE_9)} `}</Text>
-                  <Text category="c1">{t('project_management:created_by_2')}</Text>
+                  <Text category="c1">{t("project_management:created_by_2")}</Text>
                   <Text category="label" status="primary">
                     {` ${data.taskDetail.crtdUser}`}
                   </Text>
@@ -366,12 +365,12 @@ function Task(props) {
           </Text>
           <Text style={cStyles.mt10} category="c1">
             {`${t(
-              'project_management:last_updated_at',
+              "project_management:last_updated_at",
             )} ${moment(
               data.taskDetail.lUpdDate,
               DEFAULT_FORMAT_DATE_4,
             ).format(DEFAULT_FORMAT_DATE_9)} ${t(
-              'project_management:assignee_by',
+              "project_management:assignee_by",
             )} `}
             <Text category="label" status="primary">
               {`${data.taskDetail.lUpdUser}`}
@@ -385,7 +384,7 @@ function Task(props) {
         selectedIndex={selectedIndexTab}
         onSelect={onChangeTab}
         shouldLoadComponent={shouldLoadComponent}>
-        <Tab title={t('project_management:info_basic')}>
+        <Tab title={t("project_management:info_basic")}>
           <Layout style={cStyles.flex1}>
             <Overview
               loading={loading.main}
@@ -402,17 +401,16 @@ function Task(props) {
           </Layout>
         </Tab>
 
-        <Tab
-          title={propsT =>
-            <View style={[cStyles.row, cStyles.itemsCenter]}>
-              <Text style={propsT.style}>{t('project_management:title_activity')}</Text>
-              {newComment && (
-                <View style={[cStyles.ml5, cStyles.px3, cStyles.rounded2, {backgroundColor: 'red'}]}>
-                  <Text category="label" status="control">{t('common:new').toUpperCase()}</Text>
-                </View>
-              )}
-            </View>
-          }>
+        <Tab title={propsT =>
+          <View style={[cStyles.row, cStyles.itemsCenter]}>
+            <Text style={propsT.style}>{t("project_management:title_activity")}</Text>
+            {newComment && (
+              <View style={[cStyles.ml5, cStyles.px3, cStyles.rounded2, {backgroundColor: "red"}]}>
+                <Text category="label" status="control">{t("common:new").toUpperCase()}</Text>
+              </View>
+            )}
+          </View>
+        }>
           <Layout style={cStyles.flex1}>
             <Activities
               navigation={navigation}
@@ -421,8 +419,8 @@ function Task(props) {
           </Layout>
         </Tab>
 
-        <Tab title={t('project_management:title_watcher')}>
-          <Layout style={cStyles.flex1}>
+        <Tab title={t("project_management:title_watcher")}>
+          <Layout style={cStyles.flex1} level="2">
             <Watchers
               taskID={data.taskDetail ? data.taskDetail.taskID : -1}
               watchers={data.watchers}
@@ -435,9 +433,10 @@ function Task(props) {
         show={
           loading.startFetch ||
           loading.startFetchLogin ||
-          loading.fastWatch ||
-          loading.update
+          loading.update ||
+          loading.fastWatch
         }
+        description={loading.update ? "common:doing_update" : undefined}
       />
     </CContainer>
   );

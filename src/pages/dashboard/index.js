@@ -5,37 +5,37 @@
  ** CreateAt: 2021
  ** Description: Description of Dashboard.js
  **/
-import React, {useContext, useEffect, useState} from 'react';
-import {useSelector} from 'react-redux';
-import {useTranslation} from 'react-i18next';
-import {useTheme, Avatar, Layout, Spinner, Text} from '@ui-kitten/components';
-import {StatusBar, StyleSheet, View} from 'react-native';
-import moment from 'moment';
-import 'moment/locale/en-sg';
+import React, {useContext, useEffect, useState} from "react";
+import {useSelector} from "react-redux";
+import {useTranslation} from "react-i18next";
+import {useTheme, Avatar, Layout, Spinner, Text} from "@ui-kitten/components";
+import {StatusBar, StyleSheet, View} from "react-native";
+import moment from "moment";
+import "moment/locale/en-sg";
 /** COMPONENTS */
-import CContainer from '~/components/CContainer';
-import CItem from '~/components/CItem';
+import CContainer from "~/components/CContainer";
+import CItem from "~/components/CItem";
 /** COMMON */
-import Configs from '~/configs';
-import {ThemeContext} from '~/configs/theme-context';
-import {Assets} from '~/utils/asset';
-import {cStyles} from '~/utils/style';
-import {IS_ANDROID} from '~/utils/helper';
+import Configs from "~/configs";
+import {ThemeContext} from "~/configs/theme-context";
+import {Assets} from "~/utils/asset";
+import {cStyles} from "~/utils/style";
+import {IS_ANDROID} from "~/utils/helper";
 import {
   DEFAULT_FORMAT_DATE_10,
   LIGHT,
-} from '~/configs/constants';
+} from "~/configs/constants";
 
 function Dashboard(props) {
   const {t} = useTranslation();
   const theme = useTheme();
   const themeContext = useContext(ThemeContext);
   const {navigation} = props;
-  const bgHeader = theme['background-basic-color-2'];
+  const bgHeader = theme["background-basic-color-2"];
 
   /** Use redux */
   const authState = useSelector(({auth}) => auth);
-  const fullName = authState.getIn(['login', 'fullName']);
+  const fullName = authState.getIn(["login", "fullName"]);
 
   /** Use State */
   const [loading, setLoading] = useState(true);
@@ -54,7 +54,7 @@ function Dashboard(props) {
    ** FUNC **
    **********/
   const onPrepareData = () => {
-    let tmpListMenu = authState.getIn(['login', 'lstMenu']);
+    let tmpListMenu = authState.getIn(["login", "lstMenu"]);
     if (tmpListMenu && tmpListMenu.lstPermissionItem.length > 0) {
       /** Check permission user can access */
       let item = null,
@@ -86,8 +86,8 @@ function Dashboard(props) {
 
   useEffect(() => {
     if (themeContext.themeApp === LIGHT) {
-      const unsubscribe = navigation.addListener('focus', () => {
-        StatusBar.setBarStyle('dark-content', true);
+      const unsubscribe = navigation.addListener("focus", () => {
+        StatusBar.setBarStyle("dark-content", true);
         IS_ANDROID &&
           StatusBar.setBackgroundColor(bgHeader, true);
       });
@@ -99,7 +99,7 @@ function Dashboard(props) {
    ** RENDER **
    ************/
   return (
-    <CContainer safeArea={['top']} backgroundColor={bgHeader}>
+    <CContainer safeArea={["top"]} backgroundColor={bgHeader}>
       <Layout
         style={[
           cStyles.row,
@@ -112,13 +112,13 @@ function Dashboard(props) {
         <View>
           <Text>{`${moment().format(DEFAULT_FORMAT_DATE_10)}`}</Text>
           <Text style={cStyles.mt5} category="h6">
-            {`${t('dashboard:welcome')} ${fullName}`}
+            {`${t("dashboard:welcome")} ${fullName}`}
           </Text>
           <Text style={cStyles.mt5} category="c1">
-            {t('dashboard:welcome_1')}
+            {t("dashboard:welcome_1")}
           </Text>
         </View>
-        <Avatar size={'large'} source={Assets.iconUser} />
+        <Avatar size="giant" source={Assets.iconUser} />
       </Layout>
 
       {!loading && (
@@ -140,7 +140,7 @@ function Dashboard(props) {
             {routes.map((item, index) => {
               if (item.isAccess) {
                 return (
-                  <View key={item.menuID + '_' + index}>
+                  <View key={item.menuID + "_" + index}>
                     <CItem
                       index={index}
                       data={item}

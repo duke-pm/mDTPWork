@@ -59,7 +59,11 @@
     "go_back": "Go Back",
     "write_something_to_search": "Write something to search...",
     "created_at": "Created at",
-    "new": "N"
+    "new": "N",
+    "doing_signin": "Signing...\nPlease wait a moment!",
+    "doing_send": "Sending...\nPlease wait a moment!",
+    "doing_update": "Updating...\nPlease wait a moment!",
+    "durations": "Durations"
   },
   "status": {
     "title": "Status"
@@ -139,7 +143,7 @@
     "holder_update_now": "New version is available!"
   },
   "forgot_password": {
-    "title": "Forgot Password,",
+    "title": "Forgot password,",
     "caption": "Enter your e-mail address below and we will send you a link to reset your password.",
     "input_email": "E-mail",
     "input_holder_email": "E-mail...",
@@ -164,7 +168,7 @@
     "error_change_password": "Update password failed. Please try again later!"
   },
   "reset_password": {
-    "title": "Reset Password,",
+    "title": "Reset password,",
     "caption": "Enter your new password below",
     "input_label_password": "New Password",
     "input_holder_password": "New password...",
@@ -215,7 +219,7 @@
     "region": "Region"
   },
   "change_password": {
-    "title": "Change Password",
+    "title": "Change password",
     "sub_title": "Please fill in the required information below",
     "current_password": "Current password",
     "new_password": "New password",
@@ -241,14 +245,14 @@
     "update": "Update"
   },
   "contact_us": {
-    "title": "Contact Us",
+    "title": "Contact us",
     "address": "Address: ",
     "phone": "Phone: ",
     "email": "E-mail: ",
     "website": "Website: "
   },
   "settings": {
-    "title": "App Settings",
+    "title": "Settings",
     "language": "Language",
     "holder_change_language": "Please select the language below",
     "vi": "Vietnamese",
@@ -282,20 +286,20 @@
     "approved_services_holder": "Set up and manage proposals, applications from individuals and departments easily and quickly."
   },
   "list_request_assets": {
-    "title": "Requests",
-    "title_add": "Allocation",
+    "title": "My requests",
+    "title_add": "Additional",
     "title_damaged": "Damage",
     "title_lost": "Lost"
   },
   "list_request_assets_handling": {
-    "title": "List Processed",
-    "title_add": "Allocation",
+    "title": "Handling request",
+    "title_add": "Additional",
     "title_damaged": "Damage",
     "title_lost": "Lost",
     "region": "Region"
   },
   "approved_assets": {
-    "title": "Asset Allocation",
+    "title": "Asset additional",
     "title_assets": "Asset",
     "status": "Status",
     "user_request": "Sender: ",
@@ -322,7 +326,7 @@
     "lost": "Lost Asset"
   },
   "add_approved_assets": {
-    "title": "Add New Allotment",
+    "title": "New additional",
     "request_user": "Request User",
     "request_info": "Request Informations",
     "name": "Name",
@@ -349,9 +353,9 @@
     "no": "No",
     "supplier": "Suggested supplier",
     "holder_supplier": "Supplier",
-    "send": "Send",
+    "send": "Send request",
     "wait": "Wait approved",
-    "label_confirm": "Confirm Request",
+    "label_confirm": "Confirm request",
     "message_confirm_approved": "Would you like to approved this request?",
     "message_confirm_reject": "The reason for reject this request...",
     "user_request": "Sender: ",
@@ -366,7 +370,9 @@
     "info_assets": "Information of assets",
     "info_other": "Other information",
     "holder_empty_department": "Empty department",
-    "holder_empty_assets": "Empty assets"
+    "holder_empty_assets": "Empty assets",
+    "approved_now": "Approved",
+    "reject_now": "Reject"
   },
   "approved_lost_damaged": {
     "title": "Failure | Lost",
@@ -398,9 +404,9 @@
     "title_lost": "Lost"
   },
   "add_approved_lost_damaged": {
-    "title": "Add New Damage/Lost",
-    "title_lost": "Add New Lost",
-    "title_damage": "Add New Damage",
+    "title": "New Damage/Lost",
+    "title_lost": "New Lost",
+    "title_damage": "New Damage",
     "detail": "Detail Request",
     "detail_lost": "Details lost number",
     "detail_damage": "Details damage number",
@@ -413,13 +419,13 @@
     "holder_assets": "Select asset...",
     "search_assets": "Search asset",
     "reason": "Reason for request",
-    "holder_reason": "Reason...",
+    "holder_reason": "Input reason...",
     "type_update": "Asset needed",
     "lost_assets": "Lost",
     "damage_assets": "Damage",
-    "send": "Send",
-    "wait": "Wait approve",
-    "label_confirm": "Confirm Request",
+    "send": "Send request",
+    "wait": "Wait approved",
+    "label_confirm": "Confirm request",
     "message_confirm_approved_lost": "Would you like to approved this lost?",
     "message_confirm_approved_damage": "Would you like to approved this damage?",
     "message_confirm_reject_lost": "The reason for rejecting this lost..",
@@ -447,7 +453,9 @@
     "info_assets": "Information of assets",
     "info_other": "General information",
     "holder_no_asset": "No asset selected",
-    "holder_empty_assets": "Empty assets"
+    "holder_empty_assets": "Empty assets",
+    "approved_now": "Approved",
+    "reject_now": "Reject"
   },
   "project_management": {
     "main_title": "Project",
@@ -555,12 +563,12 @@
     "child_tasks": "Tasks",
     "project_plan": "Overview Tasks",
     "project_details": "Details",
-    "project_parent": "Child Project's",
-    "task_parent": "Child Tasks's",
+    "project_parent": "Child's project",
+    "task_parent": "Child's tasks",
     "empty_description": "No description for this task."
   },
   "project_overview": {
-    "title": "Project Overview",
+    "title": "Project overview",
     "task_name": "Task Name",
     "durations": "Durations",
     "start": "Start",
@@ -604,7 +612,7 @@
     "booking_services_holder": "Dedicated administrative management for meeting room bookings and internal corporate resources."
   },
   "bookings": {
-    "title": "All Bookings",
+    "title": "All bookings",
     "resume": "Live",
     "start_time": "Start",
     "end_time": "End",
@@ -616,7 +624,7 @@
     "choose_resource": "Resources"
   },
   "my_bookings": {
-    "title": "My Bookings",
+    "title": "My bookings",
     "at": " at ",
     "notes": "Notes: ",
     "live": " [Live]",
@@ -624,7 +632,7 @@
     "owner": "Owner: "
   },
   "add_booking": {
-    "title": "Detail Booking",
+    "title": "Detail booking",
     "title_add": "Add Booking",
     "title_update": "Update",
     "info": "Basic Information",

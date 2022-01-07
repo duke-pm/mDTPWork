@@ -5,24 +5,24 @@
  ** CreateAt: 2021
  ** Description: Description of index.js
  **/
-import {fromJS} from 'immutable';
-import React, {useRef, useState, useEffect} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {useTranslation} from 'react-i18next';
-import {Layout, useTheme, Text} from '@ui-kitten/components';
-import {ScrollView, View} from 'react-native';
-import IoniIcon from 'react-native-vector-icons/Ionicons';
-import * as Animatable from 'react-native-animatable';
+import {fromJS} from "immutable";
+import React, {useRef, useState, useEffect} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {useTranslation} from "react-i18next";
+import {Layout, useTheme, Text} from "@ui-kitten/components";
+import {ScrollView, View} from "react-native";
+import IoniIcon from "react-native-vector-icons/Ionicons";
+import * as Animatable from "react-native-animatable";
 /* COMPONENTS */
-import CContainer from '~/components/CContainer';
-import CTopNavigation from '~/components/CTopNavigation';
-import CForm from '~/components/CForm';
-import CLoading from '~/components/CLoading';
+import CContainer from "~/components/CContainer";
+import CTopNavigation from "~/components/CTopNavigation";
+import CForm from "~/components/CForm";
+import CLoading from "~/components/CLoading";
 /* COMMON */
-import {cStyles} from '~/utils/style';
-import {moderateScale} from '~/utils/helper';
+import {cStyles} from "~/utils/style";
+import {moderateScale} from "~/utils/helper";
 /* REDUX */
-import * as Actions from '~/redux/actions';
+import * as Actions from "~/redux/actions";
 
 const MyContent = Animatable.createAnimatableComponent(Layout);
 const MyIconAnim = Animatable.createAnimatableComponent(IoniIcon);
@@ -30,15 +30,15 @@ const sIconStatus = moderateScale(120);
 
 /** All init */
 const INPUT_NAME = {
-  EMAIL: 'email',
+  EMAIL: "email",
 };
 
 function ForgotPassword(props) {
   const {t} = useTranslation();
   const theme = useTheme();
-  const bgHeader = theme['background-basic-color-2'];
-  const colorSuccess = theme['color-success-500'];
-  const colorError = theme['color-danger-500'];
+  const bgHeader = theme["background-basic-color-2"];
+  const colorSuccess = theme["color-success-500"];
+  const colorError = theme["color-danger-500"];
 
   /** use ref */
   const formRef = useRef();
@@ -48,12 +48,12 @@ function ForgotPassword(props) {
   const dispatch = useDispatch();
   const authState = useSelector(({auth}) => auth);
   const commonState = useSelector(({common}) => common);
-  const language = commonState.get('language');
+  const language = commonState.get("language");
 
   /** Use state */
   const [loading, setLoading] = useState(false);
   const [values, setValues] = useState({
-    email: '',
+    email: "",
   });
   const [showAlert, setShowAlert] = useState({
     status: false,
@@ -86,8 +86,8 @@ function ForgotPassword(props) {
    ****************/
   useEffect(() => {
     if (loading) {
-      if (!authState.get('submittingForgotPass')) {
-        if (authState.get('successForgotPass')) {
+      if (!authState.get("submittingForgotPass")) {
+        if (authState.get("successForgotPass")) {
           return contentRef.current.fadeOutDown(1000).then(endState => {
             if (endState.finished) {
               onCompleteSend(true);
@@ -95,16 +95,16 @@ function ForgotPassword(props) {
           });
         }
 
-        if (authState.get('errorForgotPass')) {
+        if (authState.get("errorForgotPass")) {
           return onCompleteSend(false);
         }
       }
     }
   }, [
     loading,
-    authState.get('submittingForgotPass'),
-    authState.get('successForgotPass'),
-    authState.get('errorForgotPass'),
+    authState.get("submittingForgotPass"),
+    authState.get("successForgotPass"),
+    authState.get("errorForgotPass"),
   ]);
 
   /************
@@ -112,13 +112,13 @@ function ForgotPassword(props) {
    ************/
   return (
     <CContainer
-      safeArea={['top']}
+      safeArea={["top"]}
       backgroundColor={bgHeader}>
       {/** Header */}
       <CTopNavigation
         style={{backgroundColor: bgHeader}}
         back
-        leftTitle={'forgot_password:title'}
+        leftTitle={"forgot_password:title"}
       />
       <ScrollView
         contentContainerStyle={cStyles.flex1}
@@ -140,7 +140,7 @@ function ForgotPassword(props) {
             {/** Caption */}
             <View style={cStyles.mt16}>
               <Text style={cStyles.textCenter}>
-                {t('forgot_password:caption')}
+                {t("forgot_password:caption")}
               </Text>
             </View>
 
@@ -150,9 +150,9 @@ function ForgotPassword(props) {
               inputs={[
                 {
                   id: INPUT_NAME.EMAIL,
-                  type: 'text',
-                  label: 'forgot_password:input_email',
-                  holder: 'forgot_password:input_holder_email',
+                  type: "text",
+                  label: "forgot_password:input_email",
+                  holder: "forgot_password:input_holder_email",
                   value: values.email,
                   required: true,
                   password: false,
@@ -160,12 +160,12 @@ function ForgotPassword(props) {
                   phone: false,
                   number: false,
                   next: false,
-                  return: 'send',
-                  validate: {type: 'format_email', helper: ''},
+                  return: "send",
+                  validate: {type: "format_email", helper: ""},
                 },
               ]}
               leftButton={loading}
-              labelButton={'common:send'}
+              labelButton={"common:send"}
               disabledButton={loading}
               onSubmit={onSubmitSend}
             />
@@ -186,7 +186,7 @@ function ForgotPassword(props) {
             animation="fadeInUp">
             <View style={cStyles.itemsCenter}>
               <MyIconAnim
-                name={'checkmark-circle-outline'}
+                name={"checkmark-circle-outline"}
                 size={sIconStatus}
                 color={colorSuccess}
                 animation="pulse"
@@ -196,7 +196,7 @@ function ForgotPassword(props) {
             {/** Sub-title & Caption */}
             <View style={[cStyles.itemsCenter, cStyles.mt16]}>
               <Text style={cStyles.textCenter}>
-                {`${t('forgot_password:success_content_1')}`}
+                {`${t("forgot_password:success_content_1")}`}
               </Text>
 
               <Text style={cStyles.mt5} category="s1">
@@ -204,9 +204,9 @@ function ForgotPassword(props) {
               </Text>
 
               <Text style={[cStyles.textCenter, cStyles.mt20]}>
-                <Text>{`${t('forgot_password:success_content_2')} `}</Text>
-                <Text>{`"${t('forgot_password:success_content_3')}" `}</Text>
-                <Text>{`${t('forgot_password:success_content_4')}`}</Text>
+                <Text>{`${t("forgot_password:success_content_2")} `}</Text>
+                <Text>{`"${t("forgot_password:success_content_3")}" `}</Text>
+                <Text>{`${t("forgot_password:success_content_4")}`}</Text>
               </Text>
             </View>
           </MyContent>
@@ -226,7 +226,7 @@ function ForgotPassword(props) {
             animation="fadeInUp">
             <View style={cStyles.itemsCenter}>
               <MyIconAnim
-                name={'close-circle-outline'}
+                name={"close-circle-outline"}
                 size={sIconStatus}
                 color={colorError}
                 animation="pulse"
@@ -237,7 +237,7 @@ function ForgotPassword(props) {
             {/** Sub-title & Caption */}
             <View style={[cStyles.itemsCenter, cStyles.mt16]}>
               <Text style={cStyles.textCenter}>
-                {`${t('forgot_password:error_content_1')}`}
+                {`${t("forgot_password:error_content_1")}`}
               </Text>
 
               <Text style={cStyles.mt5} category="s1">
@@ -245,7 +245,7 @@ function ForgotPassword(props) {
               </Text>
 
               <Text style={[cStyles.textCenter, cStyles.mt20]}>
-                {`${t('forgot_password:error_content_2')}`}
+                {`${t("forgot_password:error_content_2")}`}
               </Text>
             </View>
           </MyContent>
@@ -254,7 +254,7 @@ function ForgotPassword(props) {
       {/** Loading */}
       <CLoading
         show={loading}
-        description='common:doing_send'
+        description="common:doing_send"
       />
     </CContainer>
   );

@@ -142,24 +142,23 @@ function ListProject(props) {
         ListEmptyComponent={<CEmpty />}
       />
 
-      {/** Alert show info of project */}
       <CAlert
         show={showModalDetail}
         label={chooseProject ? chooseProject.prjName : ''}
-        customMessage={
-          loadingModal ? RenderLoading() : (
-            <ProjectDetails
-              trans={t}
-              theme={theme}
-              project={chooseProject}
-            />
-          )
+        customMessage={loadingModal
+        ? RenderLoading()
+        :
+          <ProjectDetails
+            trans={t}
+            theme={theme}
+            project={chooseProject}
+          />
         }
         cancel
+        onBackdrop={handleCloseModalDetail}
         onCancel={handleCloseModalDetail}
       />
 
-      {/** Alert show project plan */}
       <CAlert
         show={showModalOverview}
         label={chooseProject ? chooseProject.prjName : ''}
@@ -173,6 +172,7 @@ function ListProject(props) {
           )
         }
         cancel
+        onBackdrop={handleCloseModalOverview}
         onCancel={handleCloseModalOverview}
       />
     </View>
