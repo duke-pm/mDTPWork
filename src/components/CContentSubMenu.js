@@ -10,16 +10,20 @@ import {useTranslation} from 'react-i18next';
 import {Card, Layout, Spinner, Text} from '@ui-kitten/components';
 import {StyleSheet, View} from 'react-native';
 import LottieView from 'lottie-react-native';
+import * as Animatable from "react-native-animatable";
 /* COMPONENTS */
 import CItem from '~/components/CItem';
 /* COMMON */
 import {cStyles} from '~/utils/style';
 import {moderateScale} from '~/utils/helper';
 
+const MyContent = Animatable.createAnimatableComponent(Layout);
+
 function CContentSubMenu(props) {
   const {t} = useTranslation();
   const {
     loading = false,
+    contentRef = null,
     animTypeImage = '',
     routes = [],
     title = '',
@@ -57,53 +61,52 @@ function CContentSubMenu(props) {
         </View>
       </Card>
 
-      {!loading && (
-        <Layout
+      <MyContent
+        ref={contentRef}
+        style={[
+          cStyles.flex1,
+          cStyles.roundedTopLeft8,
+          cStyles.roundedTopRight8,
+          cStyles.shadowListItem,
+        ]}>
+        <View
           style={[
-            cStyles.flex1,
-            cStyles.roundedTopLeft8,
-            cStyles.roundedTopRight8,
-            cStyles.shadowListItem,
+            cStyles.row,
+            cStyles.justifyEvenly,
+            cStyles.flexWrap,
+            cStyles.pt16,
+            styles.list_item,
           ]}>
-          <View
-            style={[
-              cStyles.row,
-              cStyles.justifyEvenly,
-              cStyles.flexWrap,
-              cStyles.pt16,
-              styles.list_item,
-            ]}>
-            {routes.map((itemS, indexS) => {
-              if (itemS.isAccess) {
-                return (
-                  <View key={indexS + '_sub_menu_' + indexS}>
-                    <CItem
-                      index={indexS}
-                      data={itemS}
-                      colors={colorsItem[indexS].colors}
-                      bgColor={colorsItem[indexS].bgColor}
-                      onPress={onPressItem}
-                    />
-                  </View>
-                );
-              }
-              return null;
-            })}
-          </View>
-        </Layout>
-      )}
-      {loading && (
-        <Layout
-          style={[
-            cStyles.flex1,
-            cStyles.center,
-            cStyles.roundedTopLeft8,
-            cStyles.roundedTopRight8,
-            cStyles.shadowListItem,
-          ]}>
-          <Spinner />
-        </Layout>
-      )}
+          {loading && (
+            <View style={cStyles.center}>
+              <View style={cStyles.mt16}>
+                <Spinner />
+              </View>
+            </View>
+          )}
+          
+          {!loading && routes.map((itemS, indexS) => {
+            if (itemS.isAccess) {
+              const timeAnim = (indexS + 1) * 150;
+              return (
+                <Animatable.View
+                  key={indexS + '_sub_menu_' + indexS}
+                  animation="fadeInUp"
+                  duration={timeAnim}>
+                  <CItem
+                    index={indexS}
+                    data={itemS}
+                    colors={colorsItem[indexS].colors}
+                    bgColor={colorsItem[indexS].bgColor}
+                    onPress={onPressItem}
+                  />
+                </Animatable.View>
+              );
+            }
+            return null;
+          })}
+        </View>
+      </MyContent>
     </Layout>
   );
 }

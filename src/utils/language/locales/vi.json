@@ -60,9 +60,9 @@
     "write_something_to_search": "Nhập thông tin tìm kiếm...",
     "created_at": "Created at",
     "new": "N",
-    "doing_signin": "Đang đăng nhập...\nVui lòng chờ giây lát!",
-    "doing_send": "Đang gửi...\nVui lòng chờ giây lát!",
-    "doing_update": "Đang cập nhật...\nVui lòng chờ giây lát!",
+    "doing_signin": "Đang đăng nhập...",
+    "doing_send": "Đang gửi...",
+    "doing_update": "Đang cập nhật...",
     "durations": "Đơn vị"
   },
   "status": {

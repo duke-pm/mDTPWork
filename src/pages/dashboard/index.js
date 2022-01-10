@@ -5,11 +5,12 @@
  ** CreateAt: 2021
  ** Description: Description of Dashboard.js
  **/
-import React, {useContext, useEffect, useState} from "react";
+import React, {useRef, useContext, useEffect, useState} from "react";
 import {useSelector} from "react-redux";
 import {useTranslation} from "react-i18next";
-import {useTheme, Avatar, Layout, Spinner, Text} from "@ui-kitten/components";
+import {useTheme, Avatar, Layout, Text, Spinner} from "@ui-kitten/components";
 import {StatusBar, StyleSheet, View} from "react-native";
+import * as Animatable from "react-native-animatable";
 import moment from "moment";
 import "moment/locale/en-sg";
 /** COMPONENTS */
@@ -20,18 +21,25 @@ import Configs from "~/configs";
 import {ThemeContext} from "~/configs/theme-context";
 import {Assets} from "~/utils/asset";
 import {cStyles} from "~/utils/style";
-import {IS_ANDROID} from "~/utils/helper";
+import {
+  IS_ANDROID,
+} from "~/utils/helper";
 import {
   DEFAULT_FORMAT_DATE_10,
   LIGHT,
 } from "~/configs/constants";
+
+const MyContent = Animatable.createAnimatableComponent(Layout);
+const colorBgHeader = "background-basic-color-2";
 
 function Dashboard(props) {
   const {t} = useTranslation();
   const theme = useTheme();
   const themeContext = useContext(ThemeContext);
   const {navigation} = props;
-  const bgHeader = theme["background-basic-color-2"];
+
+  /** Use ref */
+  const contentRef = useRef();
 
   /** Use redux */
   const authState = useSelector(({auth}) => auth);
@@ -82,14 +90,22 @@ function Dashboard(props) {
    ****************/
   useEffect(() => onPrepareData(), []);
 
-  useEffect(() => setLoading(false), [routes]);
+  useEffect(() => {
+    if (loading) {
+      return contentRef.current.fadeInUp(500).then(endState => {
+        if (endState.finished) {
+          setLoading(false);
+        }
+      });
+    }
+  }, [loading, routes]);
 
   useEffect(() => {
     if (themeContext.themeApp === LIGHT) {
       const unsubscribe = navigation.addListener("focus", () => {
         StatusBar.setBarStyle("dark-content", true);
         IS_ANDROID &&
-          StatusBar.setBackgroundColor(bgHeader, true);
+          StatusBar.setBackgroundColor(theme[colorBgHeader], true);
       });
       return unsubscribe;
     }
@@ -99,7 +115,7 @@ function Dashboard(props) {
    ** RENDER **
    ************/
   return (
-    <CContainer safeArea={["top"]} backgroundColor={bgHeader}>
+    <CContainer safeArea={["top"]} backgroundColor={theme[colorBgHeader]}>
       <Layout
         style={[
           cStyles.row,
@@ -121,54 +137,52 @@ function Dashboard(props) {
         <Avatar size="giant" source={Assets.iconUser} />
       </Layout>
 
-      {!loading && (
-        <Layout
+      <MyContent
+        ref={contentRef}
+        style={[
+          cStyles.flex1,
+          cStyles.roundedTopLeft8,
+          cStyles.roundedTopRight8,
+          cStyles.shadowListItem,
+        ]}>
+        <View
           style={[
-            cStyles.flex1,
-            cStyles.roundedTopLeft8,
-            cStyles.roundedTopRight8,
-            cStyles.shadowListItem,
+            cStyles.row,
+            cStyles.justifyEvenly,
+            cStyles.flexWrap,
+            cStyles.pt16,
+            styles.list_item,
           ]}>
-          <View
-            style={[
-              cStyles.row,
-              cStyles.justifyEvenly,
-              cStyles.flexWrap,
-              cStyles.pt16,
-              styles.list_item,
-            ]}>
-            {routes.map((item, index) => {
-              if (item.isAccess) {
-                return (
-                  <View key={item.menuID + "_" + index}>
-                    <CItem
-                      index={index}
-                      data={item}
-                      colors={Configs.colorsSubMenu.main[index].colors}
-                      bgColor={Configs.colorsSubMenu.main[index].bgColor}
-                      onPress={handleItem}
-                    />
-                  </View>
-                );
-              }
-              return null;
-            })}
-          </View>
-        </Layout>
-      )}
+          {loading && (
+            <View style={cStyles.center}>
+              <View style={cStyles.mt16}>
+                <Spinner />
+              </View>
+            </View>
+          )}
 
-      {loading && (
-        <Layout
-          style={[
-            cStyles.flex1,
-            cStyles.center,
-            cStyles.roundedTopLeft8,
-            cStyles.roundedTopRight8,
-            cStyles.shadowListItem,
-          ]}>
-          <Spinner />
-        </Layout>
-      )}
+          {!loading && routes.map((item, index) => {
+            if (item.isAccess) {
+              const timeAnim = (index + 1) * 150;
+              return (
+                <Animatable.View
+                  key={item.menuID + "_" + index}
+                  animation="fadeInUp"
+                  duration={timeAnim}>
+                  <CItem
+                    index={index}
+                    data={item}
+                    colors={Configs.colorsSubMenu.main[index].colors}
+                    bgColor={Configs.colorsSubMenu.main[index].bgColor}
+                    onPress={handleItem}
+                  />
+                </Animatable.View>
+              );
+            }
+            return null;
+          })}
+        </View>
+      </MyContent>
     </CContainer>
   );
 }

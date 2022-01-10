@@ -5,7 +5,7 @@
  ** CreateAt: 2021
  ** Description: Description of ProjectManagement.js
  **/
-import React, {useState, useEffect} from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 /** COMPONENTS */
 import CContainer from '~/components/CContainer';
@@ -19,6 +19,9 @@ import * as Actions from '~/redux/actions';
 
 function ProjectManagement(props) {
   const {navigation, route} = props;
+
+  /** Use ref */
+  const contentRef = useRef();
 
   /** Use redux */
   const dispatch = useDispatch();
@@ -80,7 +83,15 @@ function ProjectManagement(props) {
     onPrepareData();
   },[]);
 
-  useEffect(() => setLoading(false), [routes]);
+  useEffect(() => {
+    if (loading) {
+      return contentRef.current.fadeInUp(500).then(endState => {
+        if (endState.finished) {
+          setLoading(false);
+        }
+      });
+    }
+  }, [loading, routes]);
 
   /************
    ** RENDER **
@@ -97,6 +108,7 @@ function ProjectManagement(props) {
       }>
       <CContentSubMenu
         loading={loading}
+        contentRef={contentRef}
         routes={routes}
         title={'project_management:project_services'}
         holder={'project_management:project_services_holder'}

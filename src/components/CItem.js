@@ -38,8 +38,7 @@ function CItem(props) {
     <Button
       appearance="ghost"
       status="basic"
-      onPress={handleItem}
-    >
+      onPress={handleItem}>
       {propsB => (
         <View style={[cStyles.itemsCenter, cStyles.py10]}>
           <View

@@ -5,7 +5,7 @@
  ** CreateAt: 2021
  ** Description: Description of Approved.js
  **/
-import React, {useState, useEffect} from "react";
+import React, {useRef, useState, useEffect} from "react";
 import {useSelector} from "react-redux";
 /** COMPONENTS */
 import CContainer from "~/components/CContainer";
@@ -17,6 +17,9 @@ import {Animations} from "~/utils/asset";
 
 function Approved(props) {
   const {navigation, route} = props;
+
+  /** Use ref */
+  const contentRef = useRef();
 
   /** Use redux */
   const authState = useSelector(({auth}) => auth);
@@ -64,7 +67,15 @@ function Approved(props) {
     onPrepareData();
   }, []);
 
-  useEffect(() => setLoading(false), [routes]);
+  useEffect(() => {
+    if (loading) {
+      return contentRef.current.fadeInUp(500).then(endState => {
+        if (endState.finished) {
+          setLoading(false);
+        }
+      });
+    }
+  }, [loading, routes]);
 
   /************
    ** RENDER **
@@ -81,6 +92,7 @@ function Approved(props) {
       }>
       <CContentSubMenu
         loading={loading}
+        contentRef={contentRef}
         routes={routes}
         title="approved:approved_services"
         holder="approved:approved_services_holder"

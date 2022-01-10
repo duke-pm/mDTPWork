@@ -38,7 +38,7 @@ function CButtonAdd(props) {
   if (label) {
     return (
       <Button
-        style={[cStyles.abs, styles.con_button]}
+        style={[cStyles.abs, cStyles.shadow3, styles.con_button]}
         accessoryLeft={RenderAddIcon}
         onPress={onPress}
         {...props}>

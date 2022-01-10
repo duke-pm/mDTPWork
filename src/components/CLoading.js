@@ -31,11 +31,13 @@ function CLoading(props) {
         <Layout style={[cStyles.center, cStyles.rounded1, cStyles.p10]}>
           <Spinner />
         </Layout>
-        <Text
-          style={[cStyles.textCenter, cStyles.mt10]}
-          status="control">
-          {t(description)}
-        </Text>
+        {description && (
+          <Text
+            style={[cStyles.textCenter, cStyles.mt10]}
+            status="control">
+            {t(description)}
+          </Text>
+        )}
       </View>
     </Modal>
   );

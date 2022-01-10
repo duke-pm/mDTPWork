@@ -60,9 +60,9 @@
     "write_something_to_search": "Write something to search...",
     "created_at": "Created at",
     "new": "N",
-    "doing_signin": "Signing...\nPlease wait a moment!",
-    "doing_send": "Sending...\nPlease wait a moment!",
-    "doing_update": "Updating...\nPlease wait a moment!",
+    "doing_signin": "Signing...",
+    "doing_send": "Sending...",
+    "doing_update": "Updating...",
     "durations": "Durations"
   },
   "status": {

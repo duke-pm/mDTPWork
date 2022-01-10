@@ -5,7 +5,7 @@
  ** CreateAt: 2021
  ** Description: Description of BookingManagement.js
  **/
-import React, {useState, useEffect} from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 /** COMPONENTS */
 import CContainer from '~/components/CContainer';
@@ -19,6 +19,9 @@ import * as Actions from '~/redux/actions';
 
 function BookingManagement(props) {
   const {navigation, route} = props;
+
+  /** Use ref */
+  const contentRef = useRef();
 
   /** Use redux */
   const dispatch = useDispatch();
@@ -93,7 +96,15 @@ function BookingManagement(props) {
     masterState.get('error'),
   ]);
 
-  useEffect(() => setLoading(false), [routes]);
+  useEffect(() => {
+    if (loading) {
+      return contentRef.current.fadeInUp(500).then(endState => {
+        if (endState.finished) {
+          setLoading(false);
+        }
+      });
+    }
+  }, [loading, routes]);
 
   /************
    ** RENDER **
@@ -110,6 +121,7 @@ function BookingManagement(props) {
       }>
       <CContentSubMenu
         loading={loading}
+        contentRef={contentRef}
         animTypeImage={Animations.bookingHolder}
         routes={routes}
         title={'booking_management:booking_services'}
