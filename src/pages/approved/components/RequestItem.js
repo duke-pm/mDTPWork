@@ -64,7 +64,7 @@ function RequestItem(props) {
             cStyles.px16,
             cStyles.py10,
           ]}>
-          <View style={cStyles.itemsStart}>
+          <View style={[cStyles.itemsStart, cStyles.pr10]}>
             <Text category="s1">{title}</Text>
             <Text style={cStyles.mt5} category="c1" appearance="hint">
               {`${trans("common:created_at")} ${moment(

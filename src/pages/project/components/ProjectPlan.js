@@ -8,7 +8,7 @@
 import PropTypes from 'prop-types';
 import {fromJS} from 'immutable';
 import React, {useState, useEffect, useContext} from 'react';
-import {Button, Divider, Spinner, Text} from '@ui-kitten/components';
+import {Button, Spinner, Text} from '@ui-kitten/components';
 import {StyleSheet, View, ScrollView, processColor} from 'react-native';
 import {HorizontalBarChart} from 'react-native-charts-wrapper';
 import moment from 'moment';
@@ -16,13 +16,11 @@ import 'moment/locale/en-sg';
 /* COMPONENTS */
 import CEmpty from '~/components/CEmpty';
 /* COMMON */
-import Configs from '~/configs';
 import Services from '~/services';
 import Commons from '~/utils/common/Commons';
 import {cStyles} from '~/utils/style';
 import {ThemeContext} from '~/configs/theme-context';
 import {
-  moderateScale,
   verticalScale,
 } from '~/utils/helper';
 import {
@@ -67,15 +65,16 @@ function ProjectPlan(props) {
       valueFormatter: [],
       position: 'BOTTOM',
       axisLineWidth: 1,
-      granularityEnabled: true,
-      granularity: 1,
-      drawLabels: true,
+      granularityEnabled: false,
+      granularity: 0,
       gridLineWidth: 0,
       gridDashedLine: {
-        lineLength: 1,
-        spaceLength: 1,
+        lineLength: 0,
+        spaceLength: 0,
       },
+      drawLabels: true,
       labelCount: 0,
+      textSize: 12,
       textColor: isDark
         ? processColor('white')
         : processColor('black'),
@@ -89,9 +88,11 @@ function ProjectPlan(props) {
         drawLabels: true,
         gridLineWidth: 1,
         gridDashedLine: {
-          lineLength: 1,
-          spaceLength: 1,
+          lineLength: 2,
+          spaceLength: 5,
+          phase: 1,
         },
+        gridColor: processColor('gainsboro'),
         textColor: isDark
           ? processColor('white')
           : processColor('black'),
@@ -108,7 +109,7 @@ function ProjectPlan(props) {
   const onFetchData = async (newpage = 1) => {
     let paramsListTask = fromJS({
       PrjID: project.prjID,
-      PageSize: Configs.perPageProjects,
+      PageSize: -1,
       PageNum: newpage,
     });
     let res = await Services.projectManagement.listTask(paramsListTask);
@@ -165,6 +166,7 @@ function ProjectPlan(props) {
             type: item.typeName,
             typeColor: item.typeColor,
             typeDarkColor: item.typeColorDark,
+            percentage: item.percentage,
           });
         }
       }
@@ -209,21 +211,14 @@ function ProjectPlan(props) {
   if (!loading.main && !loading.main && chart.data.length > 0) {
     return (
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
-        <Divider style={cStyles.flex1} />
         <HorizontalBarChart
-          style={[cStyles.mt16, styles.chart]}
+          style={styles.chart}
           legend={chart.legend}
           marker={chart.marker}
           data={{dataSets: chart.data}}
           xAxis={chart.xAxis}
           yAxis={chart.yAxis}
           animation={ANIM_CHART}
-          chartDescription={{
-            textColor: isDark
-              ? processColor('white')
-              : processColor('black'),
-            text: `${trans('common:durations')} (${trans('common:days')})`,
-          }}
           drawGridBackground={false}
           autoScaleMinMaxEnabled={true}
           touchEnabled={true}
@@ -237,29 +232,40 @@ function ProjectPlan(props) {
           dragDecelerationEnabled={true}
           keepPositionOnRotation={false}
           drawValueAboveBar={false}
+          chartDescription={{
+            textColor: isDark
+              ? processColor('white')
+              : processColor('black'),
+            text: `${trans('common:durations')} (${trans('common:days')})`,
+          }}
         />
         <View style={[cStyles.flex1, cStyles.mt10]}>
           <Text category="label">{trans('common:note_chart')}</Text>
           {chart.dataTask.map((itemT, indexT) => {
             return (
               <View
-                key={itemT.id + '_' + indexT}
+                key={itemT.id + "_" + indexT}
                 style={[cStyles.flex1, cStyles.row, cStyles.itemsCenter, cStyles.mt5]}>
-                <Button
-                  style={styles.con_caption_left}
-                  size="small"
-                  appearance="outline"
-                  status={Commons.TYPE_TASK[itemT.type]['color']}>
-                  {'#' + itemT.id}
-                </Button>
+                <View style={styles.con_caption_left}>
+                  <Button
+                    size="tiny"
+                    appearance="outline"
+                    status={Commons.TYPE_TASK[itemT.type]["color"]}>
+                    {propsT =>
+                      <Text category="label">
+                        {"#" + itemT.id + " - " + itemT.percentage + "%"}
+                      </Text>
+                    }
+                  </Button>
+                </View>
                 <View style={[cStyles.flex1, cStyles.ml10, styles.con_caption_right]}>
                   <Text>
                     <Text
                       category="label"
-                      status={Commons.TYPE_TASK[itemT.type]['color']}>
+                      status={Commons.TYPE_TASK[itemT.type]["color"]}>
                       {itemT.type}
                     </Text>
-                    <Text>{'  ' + itemT.name}</Text>
+                    <Text category="c1">{"  " + itemT.name}</Text>
                   </Text>
                 </View>
               </View>
@@ -285,9 +291,9 @@ function ProjectPlan(props) {
 const styles = StyleSheet.create({
   empty: {height: verticalScale(150)},
   scroll: {maxHeight: verticalScale(340)},
-  chart: {height: verticalScale(230), width: moderateScale(300)},
-  con_caption_left: {flex: 0.15},
-  con_caption_right: {flex: 0.85},
+  chart: {height: verticalScale(230)},
+  con_caption_left: {flex: 0.25},
+  con_caption_right: {flex: 0.75},
 });
 
 ProjectPlan.propTypes = {

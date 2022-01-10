@@ -89,7 +89,7 @@ function TaskItem(props) {
             cStyles.px16,
             cStyles.py10,
           ]}>
-          <View style={[cStyles.flex1, cStyles.itemsStart]}>
+          <View style={[cStyles.flex1, cStyles.itemsStart, cStyles.pr10]}>
             <Text numberOfLines={2}>
               <Text category="s1">{`${data?.taskID} | `}</Text>
               <Text category="s1" status={Commons.TYPE_TASK[data.typeName]["color"]}>

@@ -19,7 +19,7 @@ import ProjectDetails from '../components/ProjectDetails';
 import ProjectPlan from '../components/ProjectPlan';
 /** COMMON */
 import Routes from '~/navigator/Routes';
-import {IS_ANDROID} from '~/utils/helper';
+import {IS_ANDROID, sW} from '~/utils/helper';
 import {cStyles} from '~/utils/style';
 
 if (IS_ANDROID) {
@@ -160,6 +160,7 @@ function ListProject(props) {
       />
 
       <CAlert
+        contentStyle={{width: sW('96%')}}
         show={showModalOverview}
         label={chooseProject ? chooseProject.prjName : ''}
         customMessage={

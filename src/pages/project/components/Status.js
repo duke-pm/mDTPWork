@@ -218,7 +218,7 @@ function Status(props) {
             <Text style={propsL.style}>{props.task.statusName}</Text>
             {(isUpdate && isEdit) &&
               <Icon
-                style={[cStyles.px2, styles.icon_status]}
+                style={[cStyles.mr5, styles.icon_status]}
                 fill={colors.WHITE}
                 name="arrow-ios-downward"
               />

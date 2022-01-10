@@ -41,9 +41,8 @@ function ProjectDetails(props) {
   const usersInvitedLength = (project && project.lstUserInvited.length) || 0;
   return (
     <View>
-      <Divider style={cStyles.fullWidth} />
       {/** Is public - Status */}
-      <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt16]}>
+      <View style={[cStyles.row, cStyles.itemsCenter]}>
         <View style={[cStyles.row, cStyles.itemsCenter, styles.con_half]}>
           <View style={styles.con_left}>
             <Text category="label" appearance="hint">

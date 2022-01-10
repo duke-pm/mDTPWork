@@ -8,7 +8,6 @@ import PropTypes from "prop-types";
 import React from "react";
 import {useTranslation} from "react-i18next";
 import {Button, Text} from "@ui-kitten/components";
-import {View} from "react-native";
 /* COMMON */
 import {Commons} from "~/utils/common";
 import {cStyles} from "~/utils/style";
@@ -41,18 +40,16 @@ function CStatus(props) {
   if (!status) return null;
   return (
     <Button
-      style={cStyles.rounded5}
+      style={[cStyles.rounded4, cStyles.py0, cStyles.px2]}
       disabled={disabled}
-      size="tiny"
+      size="small"
       status={status.color}
       onPress={onPress}>
       {propsT =>
         customLabel
         ? customLabel(propsT)
         :
-          <View style={cStyles.py0}>
-            <Text style={propsT.style}>{t(label)}</Text>
-          </View>
+          <Text style={propsT.style}>{t(label)}</Text>
       }
     </Button>
   );

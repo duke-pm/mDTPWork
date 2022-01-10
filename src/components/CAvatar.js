@@ -5,11 +5,15 @@
  ** Description: Description of CAvatar.js
  **/
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, {useState} from 'react';
 import {useTheme, Layout, Avatar, Text} from '@ui-kitten/components';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, ScrollView, TouchableOpacity, View} from 'react-native';
+/** COMPONENTS */
+import CAlert from './CAlert';
 /* COMMON */
+import {Assets} from '~/utils/asset';
 import {cStyles} from '~/utils/style';
+import {moderateScale} from '~/utils/helper';
 
 /** All init */
 const SIZE = {
@@ -28,11 +32,22 @@ function CAvatar(props) {
     numberShow = 3,
     absolute = true,
     size = 'large',
-    shape = 'round', // round | rounded | square
+    shape = 'round',
     sources = [],
     source = null,
+    details = [],
   } = props;
   const bodColor = theme['border-basic-color-3'];
+
+  /** Use state */
+  const [showDetails, setShowDetails] = useState(false);
+
+  /*****************
+   ** HANDLE FUNC **
+   *****************/
+  const toggleShowDetails = () => {
+    setShowDetails(!showDetails);
+  };
 
   /************
    ** RENDER **
@@ -76,54 +91,101 @@ function CAvatar(props) {
   }
   if (sources.length > 0) {
     return (
-      <View
-        style={[
-          cStyles.flex1,
-          cStyles.row,
-          cStyles.itemsCenter,
-          style,
-        ]}>
-        {sources.map((itemA, indexA) => {
-          if (indexA > numberShow) return null;
-          if (indexA === numberShow) {
+      <>
+        <TouchableOpacity
+          style={[
+            cStyles.flex1,
+            cStyles.row,
+            cStyles.itemsCenter,
+            style,
+          ]}
+          onPress={toggleShowDetails}>
+          {sources.map((itemA, indexA) => {
+            if (indexA > numberShow) return null;
+            if (indexA === numberShow) {
+              return (
+                <Layout
+                  key={'avatar_holder_' + indexA}
+                  style={[
+                    cStyles.center,
+                    cStyles.borderAll,
+                    holderSize,
+                    borderRadiusHolder,
+                    {borderColor: bodColor},
+                    absolute && cStyles.abs,
+                    absolute && {left: indexA * 15},
+                  ]}
+                  level="3">
+                  <Text category="c1" numberOfLines={1}>
+                    {`+${sources.length - numberShow}`}
+                  </Text>
+                </Layout>
+              )
+            }
             return (
-              <Layout
-                key={'avatar_holder_' + indexA}
+              <Avatar
+                key={'avatar_' + indexA}
                 style={[
-                  cStyles.center,
                   cStyles.borderAll,
-                  holderSize,
-                  borderRadiusHolder,
-                  {borderColor: bodColor},
                   absolute && cStyles.abs,
                   absolute && {left: indexA * 15},
+                  {borderColor: bodColor},
                 ]}
-                level="3">
-                <Text category="c1" numberOfLines={1}>
-                  {`+${sources.length - numberShow}`}
-                </Text>
-              </Layout>
+                size={size}
+                shape={shape}
+                source={typeof itemA === 'string'
+                  ? {uri: itemA}
+                  : itemA
+                }
+              />
             )
-          }
-          return (
-            <Avatar
-              key={'avatar_' + indexA}
+          })}
+        </TouchableOpacity>
+
+        <CAlert
+          show={showDetails}
+          label={'project_management:user_invited'}
+          cancel
+          customMessage={
+            <ScrollView
               style={[
+                cStyles.mt10,
+                cStyles.rounded1,
                 cStyles.borderAll,
-                absolute && cStyles.abs,
-                absolute && {left: indexA * 15},
-                {borderColor: bodColor},
-              ]}
-              size={size}
-              shape={shape}
-              source={typeof itemA === 'string'
-                ? {uri: itemA}
-                : itemA
-              }
-            />
-          )
-        })}
-      </View>
+                {
+                  backgroundColor: theme['background-basic-color-2'],
+                  borderColor: theme['border-basic-color-3'],
+                },
+                styles.list_invited,
+              ]}>
+              {details.map((itemU, indexU) => {
+                return (
+                  <View
+                    key={itemU.userName + '_' + indexU}
+                    style={[cStyles.row, cStyles.itemsCenter, cStyles.ml3]}>
+                    <View style={cStyles.px10}>
+                      <Avatar size="small" source={Assets.iconUser} />
+                    </View>
+                    <View
+                      style={[
+                        cStyles.ml5,
+                        cStyles.py10,
+                        cStyles.flex1,
+                      ]}>
+                      <Text>{itemU.fullName}</Text>
+                      <Text style={cStyles.mt3} category="c1" appearance="hint">
+                        {itemU.email}
+                      </Text>
+                    </View>
+                  </View>
+                );
+              })}
+            </ScrollView>
+          }
+          onCancel={toggleShowDetails}
+          onBackdrop={toggleShowDetails}
+        />
+      </>
     )
   }
   return null;
@@ -138,6 +200,7 @@ const styles = StyleSheet.create({
 
   con_group_avatar: {height: 42, width: 42},
   con_holder_avatar: {height: 18, width: 18},
+  list_invited: {maxHeight: moderateScale(180)},
 });
 
 CAvatar.propTypes = {
@@ -148,6 +211,7 @@ CAvatar.propTypes = {
   shape: PropTypes.oneOf(['round', 'rounded', 'square']),
   sources: PropTypes.array,
   source: PropTypes.object,
+  details: PropTypes.array,
 };
 
 export default CAvatar;

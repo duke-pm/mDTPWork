@@ -120,7 +120,7 @@ function ProjectItem(props) {
             cStyles.px16,
             cStyles.py10,
           ]}>
-          <View style={[cStyles.flex1, cStyles.itemsStart]}>
+          <View style={[cStyles.flex1, cStyles.itemsStart, cStyles.pr10]}>
             <Text category="s1" numberOfLines={2}>
               {`${data.prjID} | ${data.prjName}`}
             </Text>

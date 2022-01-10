@@ -385,7 +385,7 @@ function Task(props) {
         onSelect={onChangeTab}
         shouldLoadComponent={shouldLoadComponent}>
         <Tab title={t("project_management:info_basic")}>
-          <Layout style={cStyles.flex1}>
+          <Layout style={cStyles.flex1} level="2">
             <Overview
               loading={loading.main}
               update={loading.update}

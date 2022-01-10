@@ -122,12 +122,12 @@ function CAlert(props) {
         )}
 
         {message !== '' && !customMessage && (
-          <View style={cStyles.my16}>
+          <View style={cStyles.mt16}>
             <Text style={cStyles.textCenter}>{t(message)}</Text>
           </View>
         )}
         {customMessage && (
-          <View style={cStyles.my16}>
+          <View style={cStyles.mt16}>
             {customMessage}
           </View>
         )}

@@ -10,7 +10,8 @@ import {
   KeyboardAwareScrollView,
 } from "react-native-keyboard-aware-scroll-view";
 import {
-  Layout, Text, Avatar, Tooltip, Icon, ListItem
+  Layout, Text, Avatar, Tooltip, Icon, ListItem,
+  Divider, Card,
 } from "@ui-kitten/components";
 import {StyleSheet, TouchableOpacity, View} from "react-native";
 import moment from "moment";
@@ -37,63 +38,108 @@ import {
  ** OTHER COMPONENT **
  *********************/
 const RenderDescriptionIcon = props => (
-  <Icon {...props} name="list" />
+  <Icon {...props}
+    style={[props.style, cStyles.ml0]}
+    name="list-outline"
+  />
 );
 
 const RenderStatusIcon = props => (
-  <Icon {...props} name="flash" />
+  <Icon {...props}
+    style={[props.style, cStyles.ml0]}
+    name="flash-outline"
+  />
 );
 
 const RenderProjectIcon = props => (
-  <Icon {...props} name="credit-card" />
+  <Icon {...props}
+    style={[props.style, cStyles.ml0]}
+    name="credit-card-outline"
+  />
 );
 
 const RenderTimeIcon = props => (
-  <Icon {...props} name="clock" />
+  <Icon {...props}
+    style={[props.style, cStyles.ml0]}
+    name="clock-outline"
+  />
 );
 
 const RenderPercentIcon = props => (
-  <Icon {...props} name="trending-up" />
+  <Icon {...props}
+    style={[props.style, cStyles.ml0]}
+    name="trending-up-outline"
+  />
 );
 
 const RenderPersonIcon = props => (
-  <Icon {...props} name="person" />
+  <Icon {...props}
+    style={[props.style, cStyles.ml0]}
+    name="person-outline"
+  />
 );
 
 const RenderPeopleIcon = props => (
-  <Icon {...props} name="people" />
+  <Icon {...props}
+    style={[props.style, cStyles.ml0]}
+    name="people-outline"
+  />
 );
 
 const RenderPiorityIcon = props => (
-  <Icon {...props} name="flag" />
+  <Icon {...props}
+    style={[props.style, cStyles.ml0]}
+    name="flag-outline"
+  />
 );
 
 const RenderSectorIcon = props => (
-  <Icon {...props} name="archive" />
+  <Icon {...props}
+    style={[props.style, cStyles.ml0]}
+    name="archive-outline"
+  />
 );
 
 const RenderGradeIcon = props => (
-  <Icon {...props} name="award" />
+  <Icon {...props}
+    style={[props.style, cStyles.ml0]}
+    name="award-outline"
+  />
 );
 
 const RenderComponentIcon = props => (
-  <Icon {...props} name="book" />
+  <Icon {...props}
+    style={[props.style, cStyles.ml0]}
+    name="book-outline"
+  />
 );
 
 const RenderPushlisherIcon = props => (
-  <Icon {...props} name="people" />
+  <Icon {...props}
+    style={[props.style, cStyles.ml0]}
+    name="people-outline"
+  />
 );
 
 const RenderOwnershipIcon = props => (
-  <Icon {...props} name="people" />
+  <Icon {...props}
+    style={[props.style, cStyles.ml0]}
+    name="people-outline"
+  />
 );
 
 const RenderFileIcon = props => (
-  <Icon {...props} name="file" />
+  <Icon {...props}
+    style={[props.style, cStyles.ml0]}
+    name="attach-outline"
+  />
 );
 
 const RenderAuthorIcon = props => (
-  <Icon {...props} name="person" />
+  <Icon {...props}
+    style={[props.style, cStyles.ml0]}
+    name="person-outline"
+  />
 );
 
 const RenderToDate = (delay, data, onPress) => {
@@ -154,211 +200,249 @@ function Overview(props) {
     );
   }
   return (
-    <KeyboardAwareScrollView contentInsetAdjustmentBehavior={"automatic"}>
+    <KeyboardAwareScrollView
+      contentContainerStyle={cStyles.p10}
+      contentInsetAdjustmentBehavior={"automatic"}>
       {!loading && (
-        <Layout style={[cStyles.flex1, cStyles.py10, cStyles.pr10]}>
-          {task.taskTypeID !==
-            Commons.TYPE_TASK.MILESTONE.value && (
+        <Card disabled>
+          <Layout style={[cStyles.flex1, cStyles.rounded1, styles.con_content]}>
             <ListItem
+              disabled={true}
+              style={[cStyles.roundedTopLeft1, cStyles.roundedTopRight1]}
               title={propsT =>
-                <Text appearance="hint">{t("project_management:status")}</Text>}
-              accessoryLeft={RenderStatusIcon}
+                <Text appearance="hint">{t("project_management:piority")}</Text>}
+              accessoryLeft={RenderPiorityIcon}
               accessoryRight={propsR =>
-                <Status
+                <View style={[cStyles.flex1, cStyles.itemsEnd]}>
+                  <View style={[
+                    cStyles.center,
+                    cStyles.px5,
+                    cStyles.py1,
+                    cStyles.rounded1,
+                    {backgroundColor: Commons.PRIORITY_TASK[task.priority]["color"]},
+                  ]}>
+                    <Text status="control" category="label">
+                      {checkEmpty(task.priorityName)}
+                    </Text>
+                  </View>
+                </View>
+              }
+            />
+            <Divider style={cStyles.flex1} />
+            <ListItem
+              disabled={true}
+              title={propsT =>
+                <Text appearance="hint">{t("project_management:main_title")}</Text>}
+              accessoryLeft={RenderProjectIcon}
+              accessoryRight={propsR =>
+                <View style={[cStyles.flex1, cStyles.itemsEnd]}>
+                  <Text style={cStyles.textRight}>{task.prjName}</Text>
+                </View>
+              }
+            />
+            <Divider style={cStyles.flex1} />
+            {task.taskTypeID !==
+              Commons.TYPE_TASK.MILESTONE.value && (
+              <ListItem
+                disabled={true}
+                title={propsT =>
+                  <Text appearance="hint">{t("project_management:status")}</Text>}
+                accessoryLeft={RenderStatusIcon}
+                accessoryRight={propsR =>
+                  <Status
+                    disabled={update}
+                    isUpdate={permissionChangeStatus}
+                    language={language}
+                    refreshToken={refreshToken}
+                    navigation={navigation}
+                    task={task}
+                    onStartUpdate={onStartUpdate}
+                    onEndUpdate={onEndUpdate}
+                    onNeedUpdate={onNeedUpdate}
+                  />
+                }
+              />
+            )}
+            <Divider style={cStyles.flex1} />
+            <ListItem
+              disabled={true}
+              title={propsT =>
+                <Text appearance="hint">{t("project_management:estimated_time")}</Text>}
+              accessoryLeft={RenderTimeIcon}
+              accessoryRight={propsR =>
+                <View style={[cStyles.flex1, cStyles.row, cStyles.itemsCenter, cStyles.justifyEnd]}>
+                  <Text>
+                    {moment(task.startDate, DEFAULT_FORMAT_DATE_4).format(DEFAULT_FORMAT_DATE_9)}
+                  </Text>
+                  <Text>  &#8594;  </Text>
+                  <Tooltip
+                    backdropStyle={styles.con_backdrop}
+                    visible={tooltipDelay}
+                    onBackdropPress={toggleTooltipDelay}
+                    anchor={() => RenderToDate(delay, task.endDate, toggleTooltipDelay)}>
+                    {`${t("project_management:delay_date_1")} ${delay} ${t("project_management:delay_date_2")}`}
+                  </Tooltip>
+                </View>
+              }
+            />
+            <Divider style={cStyles.flex1} />
+            <ListItem
+              disabled={true}
+              title={propsT =>
+                <Text appearance="hint">{t("project_management:holder_task_percentage")}</Text>}
+              accessoryLeft={RenderPercentIcon}
+              accessoryRight={propsR =>
+                <Percentage
                   disabled={update}
-                  isUpdate={permissionChangeStatus}
+                  navigation={navigation}
                   language={language}
                   refreshToken={refreshToken}
-                  navigation={navigation}
                   task={task}
                   onStartUpdate={onStartUpdate}
                   onEndUpdate={onEndUpdate}
-                  onNeedUpdate={onNeedUpdate}
                 />
               }
             />
-          )}
-          
-          <ListItem
-            title={propsT =>
-              <Text appearance="hint">{t("project_management:main_title")}</Text>}
-            accessoryLeft={RenderProjectIcon}
-            accessoryRight={propsR =>
-              <View style={[cStyles.flex1, cStyles.itemsEnd]}>
-                <Text style={cStyles.textRight}>{task.prjName}</Text>
-              </View>
-            }
-          />
-          <ListItem
-            title={propsT =>
-              <Text appearance="hint">{t("project_management:estimated_time")}</Text>}
-            accessoryLeft={RenderTimeIcon}
-            accessoryRight={propsR =>
-              <View style={[cStyles.flex1, cStyles.row, cStyles.itemsCenter, cStyles.justifyEnd]}>
-                <Text>
-                  {moment(task.startDate, DEFAULT_FORMAT_DATE_4).format(DEFAULT_FORMAT_DATE_9)}
-                </Text>
-                <Text>  &#8594;  </Text>
-                <Tooltip
-                  backdropStyle={styles.con_backdrop}
-                  visible={tooltipDelay}
-                  onBackdropPress={toggleTooltipDelay}
-                  anchor={() => RenderToDate(delay, task.endDate, toggleTooltipDelay)}>
-                  {`${t("project_management:delay_date_1")} ${delay} ${t("project_management:delay_date_2")}`}
-                </Tooltip>
-              </View>
-            }
-          />
-          <ListItem
-            title={propsT =>
-              <Text appearance="hint">{t("project_management:holder_task_percentage")}</Text>}
-            accessoryLeft={RenderPercentIcon}
-            accessoryRight={propsR =>
-              <Percentage
-                disabled={update}
-                navigation={navigation}
-                language={language}
-                refreshToken={refreshToken}
-                task={task}
-                onStartUpdate={onStartUpdate}
-                onEndUpdate={onEndUpdate}
-              />
-            }
-          />
-          <ListItem
-            title={propsT =>
-              <Text appearance="hint">{t("project_management:assignee")}</Text>}
-            accessoryLeft={RenderPersonIcon}
-            accessoryRight={propsR =>
-              <View style={[cStyles.flex1, cStyles.row, cStyles.itemsCenter, cStyles.justifyEnd]}>
-                <Avatar size="tiny" source={Assets.iconUser} />
-                <Text style={cStyles.ml10}>{task.ownerName}</Text>
-              </View>
-            }
-          />
-          {arrAvatarParticipant.length > 0 && (
+            <Divider style={cStyles.flex1} />
             <ListItem
+              disabled={true}
               title={propsT =>
-                <Text appearance="hint">{t("project_management:user_invited")}</Text>}
-              accessoryLeft={RenderPeopleIcon}
+                <Text appearance="hint">{t("project_management:assignee")}</Text>}
+              accessoryLeft={RenderPersonIcon}
               accessoryRight={propsR =>
-                <CAvatar
-                  style={cStyles.justifyEnd}
-                  absolute={false}
-                  sources={arrAvatarParticipant}
-                  size="tiny"
-                />
+                <View style={[cStyles.flex1, cStyles.row, cStyles.itemsCenter, cStyles.justifyEnd]}>
+                  <Avatar size="tiny" source={Assets.iconUser} />
+                  <Text style={cStyles.ml10}>{task.ownerName}</Text>
+                </View>
               }
             />
-          )}
-          <ListItem
-            title={propsT =>
-              <Text appearance="hint">{t("project_management:piority")}</Text>}
-            accessoryLeft={RenderPiorityIcon}
-            accessoryRight={propsR =>
-              <View style={[cStyles.flex1, cStyles.itemsEnd]}>
-                <View style={[
-                  cStyles.center,
-                  cStyles.px5,
-                  cStyles.py1,
-                  cStyles.rounded1,
-                  {backgroundColor: Commons.PRIORITY_TASK[task.priority]["color"]},
-                ]}>
-                  <Text status="control">
-                    {checkEmpty(task.priorityName)}
-                  </Text>
-                </View>
-              </View>
-            }
-          />
-          <ListItem
-            title={propsT =>
-              <Text appearance="hint">{t("project_management:sector")}</Text>}
-            accessoryLeft={RenderSectorIcon}
-            accessoryRight={propsR =>
-              <View style={[cStyles.flex1, cStyles.itemsEnd]}>
-                <Text style={cStyles.textRight}>{checkEmpty(task.sectorName)}</Text>
-              </View>
-            }
-          />
-          <ListItem
-            title={propsT =>
-              <Text appearance="hint">{t("project_management:grade")}</Text>}
-            accessoryLeft={RenderGradeIcon}
-            accessoryRight={propsR =>
-              <View style={[cStyles.flex1, cStyles.itemsEnd]}>
-                <Text style={cStyles.textRight}>{checkEmpty(task.gradeName)}</Text>
-              </View>
-            }
-          />
-          <ListItem
-            title={propsT =>
-              <Text appearance="hint">{t("project_management:component")}</Text>}
-            accessoryLeft={RenderComponentIcon}
-            accessoryRight={propsR =>
-              <View style={[cStyles.flex1, cStyles.itemsEnd]}>
-                <Text style={cStyles.textRight}>{checkEmpty(task.componentName)}</Text>
-              </View>
-            }
-          />
-          <ListItem
-            title={propsT =>
-              <Text appearance="hint">{t("project_management:author")}</Text>}
-            accessoryLeft={RenderAuthorIcon}
-            accessoryRight={propsR =>
-              <View style={[cStyles.flex1, cStyles.itemsEnd]}>
-                <Text style={cStyles.textRight}>{checkEmpty(task.author)}</Text>
-              </View>
-            }
-          />
-          <ListItem
-            title={propsT =>
-              <Text appearance="hint">{t("project_management:origin_publisher")}</Text>}
-            accessoryLeft={RenderPushlisherIcon}
-            accessoryRight={propsR =>
-              <View style={[cStyles.flex1, cStyles.itemsEnd]}>
-                <Text style={cStyles.textRight}>{checkEmpty(task.originPublisher)}</Text>
-              </View>
-            }
-          />
-          <ListItem
-            title={propsT =>
-              <Text appearance="hint">{t("project_management:owner_ship_dtp")}</Text>}
-            accessoryLeft={RenderOwnershipIcon}
-            accessoryRight={propsR =>
-              <View style={[cStyles.flex1, cStyles.itemsEnd]}>
-                <Text style={cStyles.textRight}>{checkEmpty(task.ownershipDTP)}</Text>
-              </View>
-            }
-          />
-          {task.attachFiles !== "" && (
+            <Divider style={cStyles.flex1} />
+            {arrAvatarParticipant.length > 0 && (
+              <ListItem
+                disabled={true}
+                title={propsT =>
+                  <Text appearance="hint">{t("project_management:user_invited")}</Text>}
+                accessoryLeft={RenderPeopleIcon}
+                accessoryRight={propsR =>
+                  <CAvatar
+                    style={cStyles.justifyEnd}
+                    absolute={false}
+                    sources={arrAvatarParticipant}
+                    details={task.lstUserInvited}
+                    size="tiny"
+                  />
+                }
+              />
+            )}
+            <Divider style={cStyles.flex1} />
             <ListItem
+              disabled={true}
               title={propsT =>
-                <Text appearance="hint">{t("project_management:files_attach")}</Text>}
-              accessoryLeft={RenderFileIcon}
+                <Text appearance="hint">{t("project_management:sector")}</Text>}
+              accessoryLeft={RenderSectorIcon}
               accessoryRight={propsR =>
                 <View style={[cStyles.flex1, cStyles.itemsEnd]}>
-                  <FileAttach file={task.attachFiles} />
+                  <Text style={cStyles.textRight}>{checkEmpty(task.sectorName)}</Text>
                 </View>
               }
             />
-          )}
-          <ListItem
-            style={cStyles.itemsStart}
-            title={propsT =>
-              <Text appearance="hint">
-                {t("project_management:description")}
-              </Text>}
-            description={propsD =>
-              <View style={cStyles.mt10}>
-                <CText>
-                  {checkEmpty(task.descr, t("project_management:empty_description"))}
-                </CText>
-              </View>
-            }
-            accessoryLeft={RenderDescriptionIcon}
-          />
-        </Layout>
+            <Divider style={cStyles.flex1} />
+            <ListItem
+              disabled={true}
+              title={propsT =>
+                <Text appearance="hint">{t("project_management:grade")}</Text>}
+              accessoryLeft={RenderGradeIcon}
+              accessoryRight={propsR =>
+                <View style={[cStyles.flex1, cStyles.itemsEnd]}>
+                  <Text style={cStyles.textRight}>{checkEmpty(task.gradeName)}</Text>
+                </View>
+              }
+            />
+            <Divider style={cStyles.flex1} />
+            <ListItem
+              disabled={true}
+              title={propsT =>
+                <Text appearance="hint">{t("project_management:component")}</Text>}
+              accessoryLeft={RenderComponentIcon}
+              accessoryRight={propsR =>
+                <View style={[cStyles.flex1, cStyles.itemsEnd]}>
+                  <Text style={cStyles.textRight}>{checkEmpty(task.componentName)}</Text>
+                </View>
+              }
+            />
+            <Divider style={cStyles.flex1} />
+            <ListItem
+              disabled={true}
+              title={propsT =>
+                <Text appearance="hint">{t("project_management:author")}</Text>}
+              accessoryLeft={RenderAuthorIcon}
+              accessoryRight={propsR =>
+                <View style={[cStyles.flex1, cStyles.itemsEnd]}>
+                  <Text style={cStyles.textRight}>{checkEmpty(task.author)}</Text>
+                </View>
+              }
+            />
+            <Divider style={cStyles.flex1} />
+            <ListItem
+              disabled={true}
+              title={propsT =>
+                <Text appearance="hint">{t("project_management:origin_publisher")}</Text>}
+              accessoryLeft={RenderPushlisherIcon}
+              accessoryRight={propsR =>
+                <View style={[cStyles.flex1, cStyles.itemsEnd]}>
+                  <Text style={cStyles.textRight}>{checkEmpty(task.originPublisher)}</Text>
+                </View>
+              }
+            />
+            <Divider style={cStyles.flex1} />
+            <ListItem
+              disabled={true}
+              title={propsT =>
+                <Text appearance="hint">{t("project_management:owner_ship_dtp")}</Text>}
+              accessoryLeft={RenderOwnershipIcon}
+              accessoryRight={propsR =>
+                <View style={[cStyles.flex1, cStyles.itemsEnd]}>
+                  <Text style={cStyles.textRight}>{checkEmpty(task.ownershipDTP)}</Text>
+                </View>
+              }
+            />
+            <Divider style={cStyles.flex1} />
+            {task.attachFiles !== "" && (
+              <ListItem
+                disabled={true}
+                title={propsT =>
+                  <Text appearance="hint">{t("project_management:files_attach")}</Text>}
+                accessoryLeft={RenderFileIcon}
+                accessoryRight={propsR =>
+                  <View style={[cStyles.flex1, cStyles.itemsEnd]}>
+                    <FileAttach file={task.attachFiles} />
+                  </View>
+                }
+              />
+            )}
+            <Divider style={cStyles.flex1} />
+            <ListItem
+              disabled={true}
+              style={[
+                cStyles.itemsStart,
+                cStyles.roundedBottomLeft1,
+                cStyles.roundedBottomRight1,
+              ]}
+              title={propsT =>
+                <Text appearance="hint">
+                  {t("project_management:description")}
+                </Text>}
+              description={propsD =>
+                <View style={cStyles.mt10}>
+                  <CText>
+                    {checkEmpty(task.descr, t("project_management:empty_description"))}
+                  </CText>
+                </View>
+              }
+              accessoryLeft={RenderDescriptionIcon}
+            />
+          </Layout>
+        </Card>
       )}
     </KeyboardAwareScrollView>
   );
@@ -367,6 +451,10 @@ function Overview(props) {
 const styles = StyleSheet.create({
   con_flex: {flex: 0.48},
   con_backdrop: {backgroundColor: colors.BACKGROUND_MODAL},
+  con_content: {
+    marginHorizontal: -14,
+    marginVertical: -6,
+  }
 });
 
 export default Overview;
