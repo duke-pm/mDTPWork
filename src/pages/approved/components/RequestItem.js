@@ -7,19 +7,13 @@
 import PropTypes from "prop-types";
 import React from "react";
 import {Avatar, Card, Text} from "@ui-kitten/components";
-import {View} from "react-native";
-import moment from "moment";
-import "moment/locale/en-sg";
+import {StyleSheet, View} from "react-native";
 /** COMPONENTS */
 import CStatus from "~/components/CStatus";
 /* COMMON */
 import {Assets} from "~/utils/asset";
 import {Commons} from "~/utils/common";
 import {cStyles} from "~/utils/style";
-import {
-  DEFAULT_FORMAT_DATE_4,
-  DEFAULT_FORMAT_DATE_9,
-} from "~/configs/constants";
 
 function RequestItem(props) {
   const {
@@ -59,19 +53,13 @@ function RequestItem(props) {
           style={[
             cStyles.flex1,
             cStyles.row,
-            cStyles.itemsStart,
+            cStyles.itemsCenter,
             cStyles.justifyBetween,
             cStyles.px16,
             cStyles.py10,
           ]}>
           <View style={[cStyles.itemsStart, cStyles.pr10]}>
             <Text category="s1">{title}</Text>
-            <Text style={cStyles.mt5} category="c1" appearance="hint">
-              {`${trans("common:created_at")} ${moment(
-                data.requestDate,
-                DEFAULT_FORMAT_DATE_4,
-              ).format(DEFAULT_FORMAT_DATE_9)}`}
-            </Text>
           </View>
           <View style={cStyles.itemsEnd}>
             <CStatus
@@ -83,17 +71,18 @@ function RequestItem(props) {
         </View>
       }>
       <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween]}>
-        <View style={[cStyles.row, cStyles.itemsCenter]}>
-          <Avatar size="tiny" source={Assets.iconUser} />
-          <View style={cStyles.ml10}>
-            <Text>{data.personRequest}</Text>
-            <Text style={cStyles.mt5} category="c1" appearance="hint">
-              {data.deptName}
-            </Text>
+        <View style={styles.con_left}>
+          <View style={[cStyles.row, cStyles.itemsCenter]}>
+            <Avatar size="tiny" source={Assets.iconUser} />
+            <View style={cStyles.ml10}>
+              <Text>{data.personRequest}</Text>
+              <Text style={cStyles.mt5} category="c1" appearance="hint">
+                {data.jobTitle}
+              </Text>
+            </View>
           </View>
         </View>
-
-        <View style={cStyles.itemsEnd}>
+        <View style={styles.con_right}>
           <Text>{data.regionName}</Text>
           <Text style={cStyles.mt5} category="c1" appearance="hint">
             {trans("list_request_assets_handling:region")}
@@ -103,6 +92,11 @@ function RequestItem(props) {
     </Card>
   );
 }
+
+const styles = StyleSheet.create({
+  con_left: {flex: 0.6},
+  con_right: {flex: 0.4},
+})
 
 RequestItem.propTypes = {
   trans: PropTypes.object,

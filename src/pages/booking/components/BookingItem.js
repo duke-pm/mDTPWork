@@ -88,7 +88,7 @@ function BookingItem(props) {
         </View>
       }>
       <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween]}>
-        <View>
+        <View style={{flex: 0.5}}>
           <Text>{`${moment(
               data.startDate,
               DEFAULT_FORMAT_DATE_4,
@@ -99,7 +99,7 @@ function BookingItem(props) {
           </Text>
         </View>
         {isMyBooking && arrAvatarParticipant.length > 0 && (
-          <View style={cStyles.itemsEnd}>
+          <View style={{flex: 0.5}}>
             <CAvatar
               absolute={false}
               size="tiny"
@@ -111,7 +111,7 @@ function BookingItem(props) {
           </View>
         )}
         {!isMyBooking && (
-          <View style={cStyles.itemsEnd}>
+          <View style={{flex: 0.5}}>
             <View style={[cStyles.row, cStyles.itemsCenter]}>
               <Avatar size="tiny" source={Assets.iconUser} />
               <Text style={cStyles.ml10}>{data.ownerName}</Text>
@@ -122,6 +122,7 @@ function BookingItem(props) {
           </View>
         )}
       </View>
+
       <View
         style={[
           cStyles.row,
@@ -129,7 +130,7 @@ function BookingItem(props) {
           cStyles.justifyBetween,
           isMyBooking && cStyles.mt10,
         ]}>
-        <View>
+        <View style={{flex: 0.5}}>
           <Text>{`${moment(
               data.endDate,
               DEFAULT_FORMAT_DATE_4,
@@ -140,8 +141,12 @@ function BookingItem(props) {
           </Text>
         </View>
         {!isMyBooking && (
-          <View style={cStyles.itemsEnd}>
-            <Button appearance="ghost" size="tiny" onPress={handleResource}>
+          <View style={[cStyles.itemsStart, {flex: 0.5}]}>
+            <Button
+              style={cStyles.pl0}
+              appearance="ghost"
+              size="tiny"
+              onPress={handleResource}>
               {propsB =>
                 <Text style={cStyles.textUnderline} status="primary">
                   {data.resourceName}
@@ -154,7 +159,7 @@ function BookingItem(props) {
           </View>
         )}
         {isMyBooking && (
-          <View style={cStyles.itemsEnd}>
+          <View style={{flex: 0.5}}>
             <Text>{data.resourceName}</Text>
             <Text style={cStyles.mt5} category="c1" appearance="hint">
               {trans('bookings:resource')}

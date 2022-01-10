@@ -296,7 +296,8 @@
     "title_add": "Additional",
     "title_damaged": "Damage",
     "title_lost": "Lost",
-    "region": "Region"
+    "region": "Region",
+    "where_use": "Place of use"
   },
   "approved_assets": {
     "title": "Asset additional",

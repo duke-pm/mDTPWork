@@ -115,7 +115,7 @@ function ProjectItem(props) {
           style={[
             cStyles.flex1,
             cStyles.row,
-            cStyles.itemsStart,
+            cStyles.itemsCenter,
             cStyles.justifyBetween,
             cStyles.px16,
             cStyles.py10,

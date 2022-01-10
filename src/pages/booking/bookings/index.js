@@ -28,8 +28,14 @@ import Filter from '../components/Filter';
 /* COMMON */
 import Routes from '~/navigator/Routes';
 import {colors, cStyles} from '~/utils/style';
-import {IS_ANDROID, moderateScale} from '~/utils/helper';
-import {LOAD_MORE, REFRESH} from '~/configs/constants';
+import {
+  moderateScale,
+  IS_ANDROID,
+} from '~/utils/helper';
+import {
+  REFRESH,
+  LOAD_MORE,
+} from '~/configs/constants';
 /* REDUX */
 import * as Actions from '~/redux/actions';
 
