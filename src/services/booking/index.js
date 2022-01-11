@@ -5,9 +5,9 @@
  ** Description: Description of Booking.js
  **/
 /** COMMON */
-import jwtServiceConfig from '../jwtServiceConfig';
-import Routes from '../routesApi';
-import API from '../axios';
+import jwtServiceConfig from "../jwtServiceConfig";
+import Routes from "../routesApi";
+import API from "../axios";
 
 export default {
   listBooking: params => {
@@ -49,7 +49,7 @@ export default {
         tmpConfigs,
       )
         .then(response => {
-          console.log('FETCH LIST BOOKING => ', response);
+          console.log("FETCH LIST BOOKING => ", response);
           if (response.status === 200 && response.data) {
             resolve(response.data);
           } else {
@@ -57,7 +57,7 @@ export default {
           }
         })
         .catch(error => {
-          console.log('ERROR LIST BOOKING => ', error);
+          console.log("ERROR LIST BOOKING => ", error);
           reject(error.response ? error.response.data : error);
         });
     });
@@ -67,7 +67,7 @@ export default {
     return new Promise((resolve, reject) => {
       API.put(jwtServiceConfig.baseURL + Routes.BOOKING.ADD_BOOKING, params)
         .then(response => {
-          console.log('FETCH ADD/UPDATE BOOKING => ', response);
+          console.log("FETCH ADD/UPDATE BOOKING => ", response);
           if (response.status === 200 && response.data) {
             resolve(response.data);
           } else {
@@ -75,7 +75,7 @@ export default {
           }
         })
         .catch(error => {
-          console.log('ERROR ADD/UPDATE BOOKING => ', error);
+          console.log("ERROR ADD/UPDATE BOOKING => ", error);
           reject(error.response ? error.response.data : error);
         });
     });
@@ -93,7 +93,7 @@ export default {
         tmpConfigs,
       )
         .then(response => {
-          console.log('FETCH REMOVE BOOKING => ', response);
+          console.log("FETCH REMOVE BOOKING => ", response);
           if (response.status === 200 && response.data) {
             resolve(response.data);
           } else {
@@ -101,7 +101,7 @@ export default {
           }
         })
         .catch(error => {
-          console.log('ERROR REMOVE BOOKING => ', error);
+          console.log("ERROR REMOVE BOOKING => ", error);
           reject(error.response ? error.response.data : error);
         });
     });
@@ -122,7 +122,7 @@ export default {
         tmpConfigs,
       )
         .then(response => {
-          console.log('FETCH BOOKING DETAIL => ', response);
+          console.log("FETCH BOOKING DETAIL => ", response);
           if (response.status === 200 && response.data) {
             resolve(response.data);
           } else {
@@ -130,7 +130,7 @@ export default {
           }
         })
         .catch(error => {
-          console.log('ERROR BOOKING DETAIL => ', error);
+          console.log("ERROR BOOKING DETAIL => ", error);
           reject(error.response ? error.response.data : error);
         });
     });
@@ -170,7 +170,7 @@ export default {
         tmpConfigs,
       )
         .then(response => {
-          console.log('FETCH LIST BOOKING BY RESOURCE => ', response);
+          console.log("FETCH LIST BOOKING BY RESOURCE => ", response);
           if (response.status === 200 && response.data) {
             resolve(response.data);
           } else {
@@ -178,7 +178,7 @@ export default {
           }
         })
         .catch(error => {
-          console.log('ERROR LIST BOOKING BY RESOURCE => ', error);
+          console.log("ERROR LIST BOOKING BY RESOURCE => ", error);
           reject(error.response ? error.response.data : error);
         });
     });

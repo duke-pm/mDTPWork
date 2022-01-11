@@ -4,19 +4,19 @@
  ** CreateAt: 2021
  ** Description: Description of styles.js
  **/
-import {isIphoneX} from 'react-native-iphone-x-helper';
-import {Platform, Dimensions} from 'react-native';
+import {isIphoneX} from "react-native-iphone-x-helper";
+import {Platform, Dimensions} from "react-native";
 /** COMMON */
-import {IS_IOS, moderateScale} from '~/utils/helper';
-import Colors from './Colors';
+import {IS_IOS, moderateScale} from "~/utils/helper";
+import Colors from "./Colors";
 
 const PLATFORM = {
-  ANDROID: 'android',
-  IOS: 'ios',
+  ANDROID: "android",
+  IOS: "ios",
 };
 
-const deviceHeight = Dimensions.get('window').height;
-const deviceWidth = Dimensions.get('window').width;
+const deviceHeight = Dimensions.get("window").height;
+const deviceWidth = Dimensions.get("window").width;
 const platform = Platform.OS;
 const toolbarHeight = platform === PLATFORM.IOS ? 52 : 56;
 const toolbarHeight1 = 88;
@@ -24,27 +24,27 @@ const toolbarDefaultBorder = Colors.PRIMARY;
 
 const main = {
   flex1: {flex: 1},
-  flexWrap: {flexWrap: 'wrap'},
-  flexNoWrap: {flexWrap: 'nowrap'},
+  flexWrap: {flexWrap: "wrap"},
+  flexNoWrap: {flexWrap: "nowrap"},
   flexGrow: {flexGrow: 1},
-  flexWrapReverse: {flexWrap: 'wrap-reverse'},
-  row: {flexDirection: 'row'},
-  col: {flexDirection: 'column'},
-  flexCenter: {flex: 1, alignItems: 'center', justifyContent: 'center'},
-  center: {alignItems: 'center', justifyContent: 'center'},
-  itemsStretch: {alignItems: 'stretch'},
-  itemsBaseline: {alignItems: 'baseline'},
-  itemsStart: {alignItems: 'flex-start'},
-  itemsEnd: {alignItems: 'flex-end'},
-  itemsCenter: {alignItems: 'center'},
-  justifyBetween: {justifyContent: 'space-between'},
-  justifyAround: {justifyContent: 'space-around'},
-  justifyEvenly: {justifyContent: 'space-evenly'},
-  justifyStart: {justifyContent: 'flex-start'},
-  justifyEnd: {justifyContent: 'flex-end'},
-  justifyCenter: {justifyContent: 'center'},
-  fullWidth: {width: '100%'},
-  fullHeight: {height: '100%'},
+  flexWrapReverse: {flexWrap: "wrap-reverse"},
+  row: {flexDirection: "row"},
+  col: {flexDirection: "column"},
+  flexCenter: {flex: 1, alignItems: "center", justifyContent: "center"},
+  center: {alignItems: "center", justifyContent: "center"},
+  itemsStretch: {alignItems: "stretch"},
+  itemsBaseline: {alignItems: "baseline"},
+  itemsStart: {alignItems: "flex-start"},
+  itemsEnd: {alignItems: "flex-end"},
+  itemsCenter: {alignItems: "center"},
+  justifyBetween: {justifyContent: "space-between"},
+  justifyAround: {justifyContent: "space-around"},
+  justifyEvenly: {justifyContent: "space-evenly"},
+  justifyStart: {justifyContent: "flex-start"},
+  justifyEnd: {justifyContent: "flex-end"},
+  justifyCenter: {justifyContent: "center"},
+  fullWidth: {width: "100%"},
+  fullHeight: {height: "100%"},
   platform,
   isIphoneX,
   toolbarHeight,
@@ -52,10 +52,10 @@ const main = {
   toolbarDefaultBorder,
   deviceHeight,
   deviceWidth,
-  ofHidden: {overflow: 'hidden'},
-  ofScroll: {overflow: 'scroll'},
-  ofVisible: {overflow: 'visible'},
-  aliSelCenter: {alignSelf: 'center'},
+  ofHidden: {overflow: "hidden"},
+  ofScroll: {overflow: "scroll"},
+  ofVisible: {overflow: "visible"},
+  aliSelCenter: {alignSelf: "center"},
 };
 
 const padding = {
@@ -385,8 +385,8 @@ const margin = {
 };
 
 const position = {
-  abs: {position: 'absolute'},
-  rel: {position: 'relative'},
+  abs: {position: "absolute"},
+  rel: {position: "relative"},
   inset0: {top: 0, bottom: 0, right: 0, left: 0},
   insetY0: {top: 0, bottom: 0},
   insetX0: {right: 0, left: 0},
@@ -398,7 +398,7 @@ const position = {
 
 const shadow = {
   shadow1: {
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 1,
@@ -409,7 +409,7 @@ const shadow = {
     elevation: 3,
   },
   shadow2: {
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -420,7 +420,7 @@ const shadow = {
     elevation: 4,
   },
   shadow3: {
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -431,7 +431,7 @@ const shadow = {
     elevation: 5,
   },
   shadowListItem: {
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 3,
@@ -443,105 +443,105 @@ const shadow = {
 };
 
 const text = {
-  colorPrimary: {color: IS_IOS ? '#3490DC' : '#003737'},
-  colorSecondary: {color: '#ff9910'},
-  colorTransparent: {color: 'transparent'},
-  colorBlack: {color: 'black'},
-  colorWhite: {color: 'white'},
-  colorGray100: {color: '#f7fafc'},
-  colorGray200: {color: '#edf2f7'},
-  colorGray300: {color: '#e2e8f0'},
-  colorGray400: {color: '#cbd5e0'},
-  colorGray500: {color: '#a0aec0'},
-  colorGray600: {color: '#718096'},
-  colorGray700: {color: '#4a5568'},
-  colorGray800: {color: '#2d3748'},
-  colorGray900: {color: '#1a202c'},
-  colorRed: {color: '#E3342F'},
-  colorGreen: {color: '#38C172'},
-  colorOrange: {color: '#F6993F'},
-  colorYellow: {color: '#FFED4A'},
-  colorBlue: {color: '#3490DC'},
-  colorTeal: {color: '#4DC0B5'},
-  colorIndigo: {color: '#6574CD'},
-  colorPurple: {color: '#9561E2'},
-  colorPink: {color: '#F66D9B'},
-  colorText: {color: '#000'},
-  colorIcon: {color: '#000'},
-  colorTextMeta: {color: '#8D94A6'},
+  colorPrimary: {color: IS_IOS ? "#3490DC" : "#003737"},
+  colorSecondary: {color: "#ff9910"},
+  colorTransparent: {color: "transparent"},
+  colorBlack: {color: "black"},
+  colorWhite: {color: "white"},
+  colorGray100: {color: "#f7fafc"},
+  colorGray200: {color: "#edf2f7"},
+  colorGray300: {color: "#e2e8f0"},
+  colorGray400: {color: "#cbd5e0"},
+  colorGray500: {color: "#a0aec0"},
+  colorGray600: {color: "#718096"},
+  colorGray700: {color: "#4a5568"},
+  colorGray800: {color: "#2d3748"},
+  colorGray900: {color: "#1a202c"},
+  colorRed: {color: "#E3342F"},
+  colorGreen: {color: "#38C172"},
+  colorOrange: {color: "#F6993F"},
+  colorYellow: {color: "#FFED4A"},
+  colorBlue: {color: "#3490DC"},
+  colorTeal: {color: "#4DC0B5"},
+  colorIndigo: {color: "#6574CD"},
+  colorPurple: {color: "#9561E2"},
+  colorPink: {color: "#F66D9B"},
+  colorText: {color: "#000"},
+  colorIcon: {color: "#000"},
+  colorTextMeta: {color: "#8D94A6"},
 
   textLargeTitle: {
     fontSize: moderateScale(34),
-    fontWeight: IS_IOS ? '900' : 'bold',
+    fontWeight: IS_IOS ? "900" : "bold",
     lineHeight: moderateScale(41),
   },
   textTitle1: {
     fontSize: moderateScale(28),
-    fontWeight: IS_IOS ? '800' : 'bold',
+    fontWeight: IS_IOS ? "800" : "bold",
     lineHeight: moderateScale(35),
   },
   textTitle2: {
     fontSize: moderateScale(22),
-    fontWeight: IS_IOS ? '800' : 'bold',
+    fontWeight: IS_IOS ? "800" : "bold",
     lineHeight: moderateScale(29),
   },
   textTitle3: {
     fontSize: moderateScale(20),
-    fontWeight: IS_IOS ? '700' : 'bold',
+    fontWeight: IS_IOS ? "700" : "bold",
     lineHeight: moderateScale(27),
   },
   textHeadline: {
     fontSize: moderateScale(17),
-    fontWeight: IS_IOS ? '700' : 'bold',
+    fontWeight: IS_IOS ? "700" : "bold",
     lineHeight: moderateScale(24),
   },
   textSubheadline: {
     fontSize: moderateScale(16),
-    fontWeight: IS_IOS ? '600' : 'bold',
+    fontWeight: IS_IOS ? "600" : "bold",
     lineHeight: moderateScale(23),
   },
   textBody: {
     fontSize: moderateScale(15),
-    fontWeight: 'normal',
+    fontWeight: "normal",
     lineHeight: moderateScale(22),
   },
   textCallout: {
     fontSize: moderateScale(13),
-    fontWeight: 'normal',
+    fontWeight: "normal",
     lineHeight: moderateScale(19),
   },
   textCaption1: {
     fontSize: moderateScale(12),
-    fontWeight: 'normal',
+    fontWeight: "normal",
     lineHeight: moderateScale(18),
   },
   textCaption2: {
     fontSize: moderateScale(11),
-    fontWeight: 'normal',
+    fontWeight: "normal",
     lineHeight: moderateScale(17),
   },
   textBadge: {
     fontSize: moderateScale(9),
-    fontWeight: '500',
+    fontWeight: "500",
     lineHeight: moderateScale(15),
   },
 
-  fontBold: {fontWeight: 'bold'},
-  fontMedium: {fontWeight: '600'},
-  fontRegular: {fontWeight: '400'},
-  fontLight: {fontWeight: '300'},
-  textLeft: {textAlign: 'left'},
-  textRight: {textAlign: 'right'},
-  textCenter: {textAlign: 'center', textAlignVertical: 'center'},
-  textJustify: {textAlign: 'justify'},
-  textUnderline: {textDecorationLine: 'underline'},
+  fontBold: {fontWeight: "bold"},
+  fontMedium: {fontWeight: "600"},
+  fontRegular: {fontWeight: "400"},
+  fontLight: {fontWeight: "300"},
+  textLeft: {textAlign: "left"},
+  textRight: {textAlign: "right"},
+  textCenter: {textAlign: "center", textAlignVertical: "center"},
+  textJustify: {textAlign: "justify"},
+  textUnderline: {textDecorationLine: "underline"},
   textThrough: {
-    textDecorationLine: 'line-through',
-    textDecorationStyle: 'solid',
+    textDecorationLine: "line-through",
+    textDecorationStyle: "solid",
   },
-  textItalic: {fontStyle: 'italic'},
-  textBold: {fontWeight: 'bold'},
-  textAliVerTop: {textAlignVertical: 'top'},
+  textItalic: {fontStyle: "italic"},
+  textBold: {fontWeight: "bold"},
+  textAliVerTop: {textAlignVertical: "top"},
 };
 
 const border = {
@@ -601,7 +601,7 @@ const border = {
   roundedBottomRight9: {borderBottomRightRadius: moderateScale(45)},
   roundedBottomRight10: {borderBottomRightRadius: moderateScale(50)},
 
-  borderDashed: {borderStyle: 'dashed'},
+  borderDashed: {borderStyle: "dashed"},
 
   borderAll: {
     borderColor: IS_IOS ? Colors.BORDER_COLOR_IOS : Colors.BORDER_COLOR_ANDROID,

@@ -5,17 +5,17 @@
  ** Description: Description of Auth.js
  **/
 /** LIBRARY */
-import {showMessage} from 'react-native-flash-message';
+import {showMessage} from "react-native-flash-message";
 /* COMMON */
-import Services from '~/services';
-import Routes from '~/navigator/Routes';
-import API from '~/services/axios';
-import FieldsAuth from '~/configs/fieldsAuth';
-import {removeSecretInfo, resetRoute} from '~/utils/helper';
-import {AST_LOGIN} from '~/configs/constants';
+import Services from "~/services";
+import Routes from "~/navigator/Routes";
+import API from "~/services/axios";
+import FieldsAuth from "~/configs/fieldsAuth";
+import {removeSecretInfo, resetRoute} from "~/utils/helper";
+import {AST_LOGIN} from "~/configs/constants";
 /** REDUX */
-import * as types from './types';
-import * as Actions from '~/redux/actions';
+import * as types from "./types";
+import * as Actions from "~/redux/actions";
 
 /** For logout */
 export const logout = () => ({
@@ -31,10 +31,10 @@ export const loginError = error => ({
 
 export const loginSuccess = (data, isRefresh) => {
   if (isRefresh) {
-    API.defaults.headers.Authorization = 'Bearer ' + data.access_token;
+    API.defaults.headers.Authorization = "Bearer " + data.access_token;
   } else {
     API.defaults.headers.Authorization =
-      'Bearer ' + data.tokenInfo.access_token;
+      "Bearer " + data.tokenInfo.access_token;
   }
   let payload = {},
     item;
@@ -96,12 +96,12 @@ export const fetchRefreshToken = (params, callback, navigation) => {
           return dispatch(callback());
         } else {
           removeSecretInfo(AST_LOGIN);
-          dispatch(loginError('error'));
+          dispatch(loginError("error"));
           dispatch(Actions.logout());
           showMessage({
-            message: 'The session has expired. Please log in again!',
-            type: 'warning',
-            icon: 'warning',
+            message: "The session has expired. Please log in again!",
+            type: "warning",
+            icon: "warning",
           });
           return resetRoute(navigation, Routes.LOGIN_IN.name);
         }
@@ -142,7 +142,7 @@ export const fetchChangePassword = (params, navigation) => {
       })
       .catch(error => {
         dispatch(changePasswordError(error));
-        if (error.message && error.message.search('Authorization') !== -1) {
+        if (error.message && error.message.search("Authorization") !== -1) {
           let tmp = {
             RefreshToken: params.RefreshToken,
             Lang: params.Lang,

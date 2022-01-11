@@ -4,21 +4,21 @@
  ** CreateAt: 2021
  ** Description: Description of Intro.js
  **/
-import React, {useState, useEffect} from 'react';
-import {useTranslation} from 'react-i18next';
-import {Text, Layout, ViewPager, Button, useTheme} from '@ui-kitten/components';
+import React, {useState, useEffect} from "react";
+import {useTranslation} from "react-i18next";
+import {Text, Layout, ViewPager, Button, useTheme} from "@ui-kitten/components";
 import {
   StyleSheet, StatusBar, LayoutAnimation, UIManager, View,
-} from 'react-native';
-import FastImage from 'react-native-fast-image';
+} from "react-native";
+import FastImage from "react-native-fast-image";
 /** COMPONENTS */
-import CContainer from '~/components/CContainer';
-import CTopNavigation from '~/components/CTopNavigation';
+import CContainer from "~/components/CContainer";
+import CTopNavigation from "~/components/CTopNavigation";
 /* COMMON */
-import Routes from '~/navigator/Routes';
-import Assets from '~/utils/asset/Assets';
-import {IS_ANDROID, moderateScale, sW, resetRoute} from '~/utils/helper';
-import {colors, cStyles} from '~/utils/style';
+import Routes from "~/navigator/Routes";
+import Assets from "~/utils/asset/Assets";
+import {IS_ANDROID, moderateScale, sW, resetRoute} from "~/utils/helper";
+import {colors, cStyles} from "~/utils/style";
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -74,22 +74,22 @@ function Intro(props) {
    ** LIFE CYCLE **
    ****************/
   useEffect(() => {
-    StatusBar.setBarStyle('dark-content', true);
+    StatusBar.setBarStyle("dark-content", true);
   }, []);
 
   /************
    ** RENDER **
    ************/
   return (
-    <CContainer safeArea={['top', 'bottom']}>
-      <Layout style={cStyles.flex1} level='1'>
+    <CContainer safeArea={["top", "bottom"]}>
+      <Layout style={cStyles.flex1} level="1">
         {/** Header */}
         <CTopNavigation
           customRightComponent={
             <Button
-              appearance='ghost'
+              appearance="ghost"
               onPress={handleGoLogin}>
-              {t('common:skip')}
+              {t("common:skip")}
             </Button>
           }
         />
@@ -98,9 +98,9 @@ function Intro(props) {
         <ViewPager
           selectedIndex={pageIndex}
           onSelect={handleChangePage}>
-          {RenderPageIntro(t, Assets.imgIntro1, 'intro:intro_1_title', 'intro:intro_1_content')}
-          {RenderPageIntro(t, Assets.imgIntro2, 'intro:intro_2_title', 'intro:intro_2_content')}
-          {RenderPageIntro(t, Assets.imgIntro3,'intro:intro_3_title','intro:intro_3_content')}
+          {RenderPageIntro(t, Assets.imgIntro1, "intro:intro_1_title", "intro:intro_1_content")}
+          {RenderPageIntro(t, Assets.imgIntro2, "intro:intro_2_title", "intro:intro_2_content")}
+          {RenderPageIntro(t, Assets.imgIntro3,"intro:intro_3_title","intro:intro_3_content")}
         </ViewPager>
 
         {/** Dot paging */}
@@ -133,11 +133,11 @@ function Intro(props) {
 
 const styles = StyleSheet.create({
   con_layout: {
-    width: sW('70%'),
+    width: sW("70%"),
   },
   img_intro: {
-    height: sW('50%'),
-    width: sW('50%'),
+    height: sW("50%"),
+    width: sW("50%"),
   },
   con_page_unactive: {
     height: moderateScale(4),
@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.PRIMARY,
   },
   btn_main: {
-    width: sW('28%'),
+    width: sW("28%"),
   }
 });
 

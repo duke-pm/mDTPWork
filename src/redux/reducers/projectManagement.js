@@ -5,7 +5,7 @@
  ** Description: Description of Approved.js
  **/
 /** REDUX */
-import * as types from '../actions/types';
+import * as types from "../actions/types";
 
 export const initialState = {
   submittingListProject: false,
@@ -27,21 +27,21 @@ export const initialState = {
   successTaskUpdateSta: false,
 
   errorListTask: false,
-  errorHelperListTask: '',
+  errorHelperListTask: "",
   errorListProject: false,
-  errorHelperListProject: '',
+  errorHelperListProject: "",
   errorTaskDetail: false,
-  errorHelperTaskDetail: '',
+  errorHelperTaskDetail: "",
   errorTaskComment: false,
-  errorHelperTaskComment: '',
+  errorHelperTaskComment: "",
   errorTaskWatcher: false,
-  errorHelperTaskWatcher: '',
+  errorHelperTaskWatcher: "",
   errorOverview: false,
-  errorHelperOverview: '',
+  errorHelperOverview: "",
   errorTaskUpdatePer: false,
-  errorHelperTaskUpdatePer: '',
+  errorHelperTaskUpdatePer: "",
   errorTaskUpdateSta: false,
-  errorHelperTaskUpdateSta: '',
+  errorHelperTaskUpdateSta: "",
 
   isWatched: false,
   isReceivedEmail: false,

@@ -5,10 +5,10 @@
  ** Description: Description of Booking.js
  **/
 /* COMMON */
-import Services from '~/services';
+import Services from "~/services";
 /** REDUX */
-import * as types from './types';
-import * as Actions from '~/redux/actions';
+import * as types from "./types";
+import * as Actions from "~/redux/actions";
 
 export const resetAllBooking = () => ({
   type: types.RESET_REQUEST_BOOKING,
@@ -44,7 +44,7 @@ export const fetchListBooking = (params, navigation) => {
       })
       .catch(error => {
         dispatch(listBookingError(error));
-        if (error.message && error.message.search('Authorization') !== -1) {
+        if (error.message && error.message.search("Authorization") !== -1) {
           let tmp = {
             RefreshToken: params["RefreshToken"],
             Lang: params["Lang"],
@@ -88,7 +88,7 @@ export const fetchAddBooking = (params, navigation) => {
       })
       .catch(error => {
         dispatch(addBookingError(error));
-        if (error.message && error.message.search('Authorization') !== -1) {
+        if (error.message && error.message.search("Authorization") !== -1) {
           let tmp = {
             RefreshToken: params.RefreshToken,
             Lang: params.Lang,
@@ -131,7 +131,7 @@ export const fetchRemoveBooking = (params, navigation) => {
       })
       .catch(error => {
         dispatch(removeBookingError(error));
-        if (error.message && error.message.search('Authorization') !== -1) {
+        if (error.message && error.message.search("Authorization") !== -1) {
           let tmp = {
             RefreshToken: params.RefreshToken,
             Lang: params.Lang,
@@ -175,7 +175,7 @@ export const fetchBookingDetail = (params, navigation) => {
       })
       .catch(error => {
         dispatch(bookingDetailError(error));
-        if (error.message && error.message.search('Authorization') !== -1) {
+        if (error.message && error.message.search("Authorization") !== -1) {
           let tmp = {
             RefreshToken: params["RefreshToken"],
             Lang: params["Lang"],
@@ -219,7 +219,7 @@ export const fetchListBookingByReSrc = (params, navigation) => {
       })
       .catch(error => {
         dispatch(listBookingByReSrcError(error));
-        if (error.message && error.message.search('Authorization') !== -1) {
+        if (error.message && error.message.search("Authorization") !== -1) {
           let tmp = {
             RefreshToken: params["RefreshToken"],
             Lang: params["Lang"],

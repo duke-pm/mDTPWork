@@ -4,12 +4,12 @@
  ** CreateAt: 2021
  ** Description: Description of GroupTypeShow.js
  **/
-import PropTypes from 'prop-types';
-import React from 'react';
-import {Button, Icon, Layout} from '@ui-kitten/components';
+import PropTypes from "prop-types";
+import React from "react";
+import {Button, Icon, Layout} from "@ui-kitten/components";
 /* COMMON */
-import {Commons} from '~/utils/common';
-import {cStyles} from '~/utils/style';
+import {Commons} from "~/utils/common";
+import {cStyles} from "~/utils/style";
 
 const RenderListIcon = props => (
   <Icon {...props} name="list-outline" />
@@ -41,24 +41,24 @@ function GroupTypeShow(props) {
         style={cStyles.mr10}
         size="tiny"
         appearance={type === Commons.TYPE_SHOW_BOOKING.LIST.value
-          ? 'filled'
-          : 'outline'
+          ? "filled"
+          : "outline"
         }
         status={type === Commons.TYPE_SHOW_BOOKING.LIST.value
-          ? 'primary'
-          : 'basic'}
+          ? "primary"
+          : "basic"}
         accessoryLeft={RenderListIcon}
         onPress={() => onChange(Commons.TYPE_SHOW_BOOKING.LIST.value)}
       />
       <Button
         size="tiny"
         appearance={type === Commons.TYPE_SHOW_BOOKING.CALENDAR.value
-          ? 'filled'
-          : 'outline'
+          ? "filled"
+          : "outline"
         }
         status={type === Commons.TYPE_SHOW_BOOKING.CALENDAR.value
-          ? 'primary'
-          : 'basic'}
+          ? "primary"
+          : "basic"}
         accessoryLeft={RenderCalendarIcon}
         onPress={() => onChange(Commons.TYPE_SHOW_BOOKING.CALENDAR.value)}
       />

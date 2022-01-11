@@ -8,56 +8,56 @@
  **/
 const FieldsAuth = [
   {
-    key: 'lstMenu',
-    value: 'lstMenu',
+    key: "lstMenu",
+    value: "lstMenu",
   },
   {
-    key: 'access_token',
-    value: 'accessToken',
+    key: "access_token",
+    value: "accessToken",
   },
   {
-    key: 'token_type',
-    value: 'tokenType',
+    key: "token_type",
+    value: "tokenType",
   },
   {
-    key: 'refresh_token',
-    value: 'refreshToken',
+    key: "refresh_token",
+    value: "refreshToken",
   },
   {
-    key: 'userName',
-    value: 'userName',
+    key: "userName",
+    value: "userName",
   },
   {
-    key: 'userID',
-    value: 'userID',
+    key: "userID",
+    value: "userID",
   },
   {
-    key: 'userId',
-    value: 'userId',
+    key: "userId",
+    value: "userId",
   },
   {
-    key: 'empCode',
-    value: 'empCode',
+    key: "empCode",
+    value: "empCode",
   },
   {
-    key: 'fullName',
-    value: 'fullName',
+    key: "fullName",
+    value: "fullName",
   },
   {
-    key: 'regionCode',
-    value: 'regionCode',
+    key: "regionCode",
+    value: "regionCode",
   },
   {
-    key: 'deptCode',
-    value: 'deptCode',
+    key: "deptCode",
+    value: "deptCode",
   },
   {
-    key: 'jobTitle',
-    value: 'jobTitle',
+    key: "jobTitle",
+    value: "jobTitle",
   },
   {
-    key: 'groupID',
-    value: 'groupID',
+    key: "groupID",
+    value: "groupID",
   },
 ];
 

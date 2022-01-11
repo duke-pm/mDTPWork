@@ -4,15 +4,24 @@
  ** CreateAt: 2021
  ** Description: Description of CItem.js
  **/
-import PropTypes from 'prop-types';
-import React from 'react';
-import {Button, Text} from '@ui-kitten/components';
-import {StyleSheet, View} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import LinearGradient from 'react-native-linear-gradient';
+import PropTypes from "prop-types";
+import React from "react";
+import {Button, Text} from "@ui-kitten/components";
+import {StyleSheet, View} from "react-native";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import LinearGradient from "react-native-linear-gradient";
 /** COMMON */
-import {colors, cStyles} from '~/utils/style';
-import {moderateScale, sW} from '~/utils/helper';
+import {colors, cStyles} from "~/utils/style";
+import {
+  sW,
+  moderateScale,
+} from "~/utils/helper";
+
+const sizeIcon = moderateScale(32);
+const GRADIENT = {
+  START: {x: 0.0, y: 0.25},
+  END: {x: 0.5, y: 1.0},
+};
 
 function CItem(props) {
   const {
@@ -31,9 +40,7 @@ function CItem(props) {
   /**************
    ** RENDER **
    **************/
-  if (!data) {
-    return null;
-  }
+  if (!data) return null;
   return (
     <Button
       appearance="ghost"
@@ -49,19 +56,26 @@ function CItem(props) {
               styles.con_icon,
             ]}>
             <LinearGradient
-              style={[cStyles.center, cStyles.rounded5, cStyles.p8, iconStyle]}
-              start={{x: 0.0, y: 0.25}}
-              end={{x: 0.5, y: 1.0}}
+              style={[
+                cStyles.center,
+                cStyles.rounded5,
+                cStyles.p8,
+                iconStyle,
+              ]}
+              start={GRADIENT.START}
+              end={GRADIENT.END}
               colors={props.colors}>
               <Icon
                 name={data.mIcon}
                 color={colors.WHITE}
-                size={moderateScale(32)}
+                size={sizeIcon}
               />
             </LinearGradient>
           </View>
 
-          <Text style={cStyles.mt10} category="s1">{data.menuName}</Text>
+          <Text style={cStyles.mt10} category="s1">
+            {data.menuName}
+          </Text>
         </View>
       )}
     </Button>
@@ -69,8 +83,11 @@ function CItem(props) {
 }
 
 const styles = StyleSheet.create({
-  item: {width: sW('30%')},
-  con_icon: {height: moderateScale(70), width: moderateScale(70)},
+  item: {width: sW("30%")},
+  con_icon: {
+    height: moderateScale(70),
+    width: moderateScale(70),
+  },
 });
 
 CItem.propTypes = {

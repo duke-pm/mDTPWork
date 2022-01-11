@@ -6,70 +6,69 @@
  ** CreateAt: 2021
  ** Description: Description of ProjectOverview.js
  **/
-import React, {useEffect, useRef, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {useTranslation} from 'react-i18next';
-import {showMessage} from 'react-native-flash-message';
-import {useTheme, List, Text} from '@ui-kitten/components';
-import {StyleSheet, ScrollView, View} from 'react-native';
-// import Orientation from 'react-native-orientation-locker';
-import moment from 'moment';
-import 'moment/locale/en-sg';
+import React, {useEffect, useRef, useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {useTranslation} from "react-i18next";
+import {showMessage} from "react-native-flash-message";
+import {useTheme, List, Text} from "@ui-kitten/components";
+import {StyleSheet, ScrollView, View} from "react-native";
+import moment from "moment";
+import "moment/locale/en-sg";
 /** COMPONENTS */
-import CContainer from '~/components/CContainer';
-import CTopNavigation from '~/components/CTopNavigation';
-import CLoading from '~/components/CLoading';
-import BodyOverview from '../components/BodyOverview';
-import Filter from '../components/Filter';
+import CContainer from "~/components/CContainer";
+import CTopNavigation from "~/components/CTopNavigation";
+import CLoading from "~/components/CLoading";
+import BodyOverview from "../components/BodyOverview";
+import Filter from "../components/Filter";
 /** COMMON */
-import Configs from '~/configs';
-import {IS_ANDROID} from '~/utils/helper';
-import {cStyles} from '~/utils/style';
+import Configs from "~/configs";
+import {IS_ANDROID} from "~/utils/helper";
+import {cStyles} from "~/utils/style";
 import {
   FIRST_CELL_WIDTH_LARGE,
   CELL_HEIGHT,
   CELL_WIDTH,
-} from '~/configs/constants';
+} from "~/configs/constants";
 /** REDUX */
-import * as Actions from '~/redux/actions';
-import CEmpty from '~/components/CEmpty';
+import * as Actions from "~/redux/actions";
+import CEmpty from "~/components/CEmpty";
 
 
 const DATA_HEADER = [
   {
     width: CELL_WIDTH,
-    name: 'Status',
-    key: 'statusName',
+    name: "Status",
+    key: "statusName",
   },
   {
     width: CELL_WIDTH,
-    name: 'Durations',
-    key: 'duration',
+    name: "Durations",
+    key: "duration",
   },
   {
     width: CELL_WIDTH,
-    name: 'Start Date',
-    key: 'startDate',
+    name: "Start Date",
+    key: "startDate",
   },
   {
     width: CELL_WIDTH,
-    name: 'Finish Date',
-    key: 'endDate',
+    name: "Finish Date",
+    key: "endDate",
   },
   {
     width: CELL_WIDTH,
-    name: "Resource'Owner",
-    key: 'ownerName',
+    name: "Resource Owner",
+    key: "ownerName",
   },
   {
     width: CELL_WIDTH,
-    name: '% Completed',
-    key: 'completedPercent',
+    name: "% Completed",
+    key: "completedPercent",
   },
 ];
 
 const FormatCell = React.memo(
-  ({theme = {}, value = ''}) => {
+  ({theme = {}, value = ""}) => {
     return (
       <View
         key={value}
@@ -80,9 +79,9 @@ const FormatCell = React.memo(
           cStyles.borderBottom,
           styles.cell,
           {
-            backgroundColor: theme['color-primary-200'],
-            borderLeftColor: theme['outline-color'],
-            borderBottomColor: theme['outline-color'],
+            backgroundColor: theme["color-primary-200"],
+            borderLeftColor: theme["outline-color"],
+            borderBottomColor: theme["outline-color"],
           },
         ]}>
         <Text style={cStyles.textCenter} category="s1">
@@ -111,13 +110,13 @@ const FormatHeader = React.memo(({t = {}, theme = {}, headerScroll = undefined})
             cStyles.borderBottom,
             styles.first_cell,
             {
-              backgroundColor: theme['color-primary-200'],
-              borderLeftColor: theme['outline-color'],
-              borderBottomColor: theme['outline-color'],
+              backgroundColor: theme["color-primary-200"],
+              borderLeftColor: theme["outline-color"],
+              borderBottomColor: theme["outline-color"],
             },
           ]}>
           <Text style={cStyles.textCenter} category="s1">
-            {t('project_overview:task_name')}
+            {t("project_overview:task_name")}
           </Text>
         </View>
         <ScrollView
@@ -181,8 +180,8 @@ function ProjectOverview(props) {
    *****************/
   const handleFilter = (
     year = moment().year(),
-    // fromDate = '',
-    // toDate = '',
+    // fromDate = "",
+    // toDate = "",
     activeSector = [],
     activeOwner = [],
     activeStatus = [],
@@ -191,8 +190,8 @@ function ProjectOverview(props) {
     toggle();
     setParams({
       ...params,
-      // fromDate: fromDate !== '' ? year + '/' + fromDate : null,
-      // toDate: toDate !== '' ? year + '/' + toDate : null,
+      // fromDate: fromDate !== "" ? year + "/" + fromDate : null,
+      // toDate: toDate !== "" ? year + "/" + toDate : null,
       year,
       sectorID: activeSector,
       ownerID: activeOwner,
@@ -208,7 +207,7 @@ function ProjectOverview(props) {
       activeStatus,
       perPageMaster,
       1,
-      '',
+      "",
     );
     return setLoading({...loading, startFetch: true});
   };
@@ -227,7 +226,7 @@ function ProjectOverview(props) {
           item2 = null;
         for (item1 of endData) {
           for (item2 of newData) {
-            if (item2.codeParentID !== 'P0') {
+            if (item2.codeParentID !== "P0") {
               if (item1.codeID === item2.codeParentID) {
                 item1.lstItemChild.push(item2);
               } else if (item1.lstItemChild.length > 0) {
@@ -250,7 +249,7 @@ function ProjectOverview(props) {
 
   const onFetchMasterData = () => {
     let paramsMaster = {
-      ListType: 'Users, PrjSector, PrjStatus',
+      ListType: "Users, PrjSector, PrjStatus",
       RefreshToken: refreshToken,
       Lang: language,
     };
@@ -314,7 +313,7 @@ function ProjectOverview(props) {
     }
     if (tmpOverview.length > 0) {
       tmpRender.push({
-        key: 'body',
+        key: "body",
         render: (
           <BodyOverview
             formatDateView={formatDateView}
@@ -349,10 +348,10 @@ function ProjectOverview(props) {
 
   const onError = () => {
     showMessage({
-      message: t('common:app_name'),
-      description: t('error:list_request'),
-      type: 'danger',
-      icon: 'danger',
+      message: t("common:app_name"),
+      description: t("error:list_request"),
+      type: "danger",
+      icon: "danger",
     });
     return onDone(false);
   };
@@ -370,18 +369,10 @@ function ProjectOverview(props) {
    ** LIFE CYCLE **
    ****************/
   useEffect(() => {
-    /** Force to Horizontal to see more fields */
-    // Orientation.lockToLandscapeLeft();
-
     /** Prepare data body */
     onFetchMasterData();
     onFetchData();
     setLoading({...loading, startFetch: true});
-
-    /** After done and quit this page => Force to Vertical */
-    // return () => {
-    //   Orientation.lockToPortrait();
-    // };
   }, []);
 
   useEffect(() => {
@@ -409,7 +400,7 @@ function ProjectOverview(props) {
    ************/
   return (
     <CContainer
-      safeArea={['top', 'bottom']}
+      safeArea={["top", "bottom"]}
       headerComponent={
         <CTopNavigation
           title="project_overview:title"

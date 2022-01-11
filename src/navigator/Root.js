@@ -4,17 +4,17 @@
  ** CreateAt: 2021
  ** Description: Description of Root.js
  **/
-import React from 'react';
-import {useTranslation} from 'react-i18next';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {enableScreens} from 'react-native-screens';
-import {useTheme} from '@ui-kitten/components';
-import IoniIcon from 'react-native-vector-icons/Ionicons';
+import React from "react";
+import {useTranslation} from "react-i18next";
+import {createNativeStackNavigator} from "@react-navigation/native-stack";
+import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
+import {enableScreens} from "react-native-screens";
+import {useTheme} from "@ui-kitten/components";
+import IoniIcon from "react-native-vector-icons/Ionicons";
 /** COMPONENTS */
-import CText from '~/components/CText';
+import CText from "~/components/CText";
 /** COMMON */
-import Routes from './Routes';
+import Routes from "./Routes";
 
 /** INIT NAVIGATOR OF APP */
 enableScreens(true);
@@ -27,39 +27,39 @@ export function BottomTabMain(props) {
   return (
     <TabMain.Navigator
       initialRouteName={Routes.TAB.DASHBOARD.name}
-      backBehavior={'history'}
+      backBehavior={"history"}
       screenOptions={({route}) => ({
         tabBarStyle: {
-          backgroundColor: theme['background-basic-color-1'],
-          borderTopColor: theme['border-basic-color-5']
+          backgroundColor: theme["background-basic-color-1"],
+          borderTopColor: theme["border-basic-color-5"]
         },
-        tabBarActiveTintColor: theme['color-primary-500'],
+        tabBarActiveTintColor: theme["color-primary-500"],
         headerShown: false,
         lazy: true,
         tabBarIcon: ({focused, color, size}) => {
-          let iconName = '';
+          let iconName = "";
           switch (route.name) {
             case Routes.TAB.ACCOUNT.name:
-              iconName = focused ? 'person' : 'person-outline';
+              iconName = focused ? "person" : "person-outline";
               break;
             default:
-              iconName = focused ? 'home' : 'home-outline';
+              iconName = focused ? "home" : "home-outline";
               break;
           }
           return <IoniIcon name={iconName} size={size} color={color} />;
         },
         tabBarLabel: ({focused, color, position}) => {
-          let label = '';
+          let label = "";
           switch (route.name) {
             case Routes.TAB.ACCOUNT.name:
-              label = 'account:title';
+              label = "account:title";
               break;
             default:
-              label = 'dashboard:title';
+              label = "dashboard:title";
               break;
           }
           return (
-            <CText style={{color}} category={'c1'}>
+            <CText style={{color}} category={"c1"}>
               {t(label)}
             </CText>
           );

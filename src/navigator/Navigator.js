@@ -5,17 +5,17 @@
  ** CreateAt: 2021
  ** Description: Description of Navigator.js
  **/
-import React, {useEffect} from 'react';
-import {compose} from 'redux';
-import {useSelector} from 'react-redux';
-import {withTranslation} from 'react-i18next';
-import SplashScreen from 'react-native-splash-screen';
+import React, {useEffect} from "react";
+import {compose} from "redux";
+import {useSelector} from "react-redux";
+import {withTranslation} from "react-i18next";
+import SplashScreen from "react-native-splash-screen";
 /* COMPONENTS */
-import RootMain from './Root';
-import NavigationService from './NavigationService';
+import RootMain from "./Root";
+import NavigationService from "./NavigationService";
 /* COMMON */
-import Configs from '~/configs';
-import '~/utils/language/config-i18n';
+import Configs from "~/configs";
+import "~/utils/language/config-i18n";
 
 function Navigator(props) {
   /** Use redux */

@@ -5,16 +5,16 @@
  ** Description: Description of JWTServiceConfig.js
  **/
 /* COMMON */
-import Configs from '~/configs';
+import Configs from "~/configs";
 
 export const jwtServiceConfig = {
-  baseURL: Configs.hostAPI + '/' + Configs.prefixAPI,
+  baseURL: Configs.hostAPI + "/" + Configs.prefixAPI,
   timeout: 30000,
   headers: {
-    Accept: 'application/json',
+    Accept: "application/json",
   },
-  responseType: 'json',
-  responseEncoding: 'utf8',
+  responseType: "json",
+  responseEncoding: "utf8",
 };
 
 export default jwtServiceConfig;

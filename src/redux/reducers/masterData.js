@@ -5,13 +5,13 @@
  ** Description: Description of masterData.js
  **/
 /** REDUX */
-import * as types from '../actions/types';
+import * as types from "../actions/types";
 
 export const initialState = {
   submitting: false,
   success: false,
   error: false,
-  errorHelper: '',
+  errorHelper: "",
 
   region: [],
   department: [],

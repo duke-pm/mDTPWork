@@ -5,38 +5,38 @@
  ** CreateAt: 2021
  ** Description: Description of AddBooking.js
  **/
-import React, {useState, useEffect, useRef} from 'react';
-import {useSelector, useDispatch} from 'react-redux';
-import {useTranslation} from 'react-i18next';
+import React, {useState, useEffect, useRef} from "react";
+import {useSelector, useDispatch} from "react-redux";
+import {useTranslation} from "react-i18next";
 import {
   Card, Select, SelectGroup, SelectItem, Avatar, IndexPath,
   Text,
-} from '@ui-kitten/components';
-import {StyleSheet, View} from 'react-native';
-import {showMessage} from 'react-native-flash-message';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import moment from 'moment';
-import 'moment/locale/en-sg';
+} from "@ui-kitten/components";
+import {StyleSheet, View} from "react-native";
+import {showMessage} from "react-native-flash-message";
+import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
+import moment from "moment";
+import "moment/locale/en-sg";
 /* COMPONENTS */
-import CContainer from '~/components/CContainer';
-import CTopNavigation from '~/components/CTopNavigation';
-import CForm from '~/components/CForm';
-import CAlert from '~/components/CAlert';
-import CStatus from '~/components/CStatus';
-import CLoading from '~/components/CLoading';
+import CContainer from "~/components/CContainer";
+import CTopNavigation from "~/components/CTopNavigation";
+import CForm from "~/components/CForm";
+import CAlert from "~/components/CAlert";
+import CStatus from "~/components/CStatus";
+import CLoading from "~/components/CLoading";
 /* COMMON */
-import Routes from '~/navigator/Routes';
-import FieldsAuth from '~/configs/fieldsAuth';
-import {Assets} from '~/utils/asset';
-import {cStyles} from '~/utils/style';
-import {getSecretInfo, resetRoute} from '~/utils/helper';
+import Routes from "~/navigator/Routes";
+import FieldsAuth from "~/configs/fieldsAuth";
+import {Assets} from "~/utils/asset";
+import {cStyles} from "~/utils/style";
+import {getSecretInfo, resetRoute} from "~/utils/helper";
 import {
   DATA_TIME_BOOKING,
   DEFAULT_FORMAT_DATE_3,
   AST_LOGIN,
-} from '~/configs/constants';
+} from "~/configs/constants";
 /* REDUX */
-import * as Actions from '~/redux/actions';
+import * as Actions from "~/redux/actions";
 
 const groupBy = function(xs, key) {
   return xs.reduce(function(rv, x) {
@@ -47,17 +47,17 @@ const groupBy = function(xs, key) {
 
 /** All init */
 const INPUT_NAME = {
-  DATE_REQUEST: 'dateRequest',
+  DATE_REQUEST: "dateRequest",
   NAME_BOOKING: "s1",
-  NOTE_BOOKING: 'note',
-  PARTICIPANT: 'participants',
-  FROM_DATE_TIME: 'fromDate',
-  TO_DATE_TIME: 'toDate',
-  RESOURCE: 'resource',
+  NOTE_BOOKING: "note",
+  PARTICIPANT: "participants",
+  FROM_DATE_TIME: "fromDate",
+  TO_DATE_TIME: "toDate",
+  RESOURCE: "resource",
 };
 const TYPE = {
-  ADD: 'ADD',
-  UPDATE: 'UDPATE',
+  ADD: "ADD",
+  UPDATE: "UDPATE",
 };
 
 const RenderAvatar = props => (
@@ -102,17 +102,17 @@ function AddBooking(props) {
   const [dataParticipants, setDataParticipants] = useState([]);
   const [selectedParticipants, setSelectedParticipants] = useState([]);
   const [dataBooking, setDataBooking] = useState({
-    id: '',
-    label: '',
-    resource: '',
-    note: '',
+    id: "",
+    label: "",
+    resource: "",
+    note: "",
     participants: [],
     fromDate: moment().format(formatDate),
     toDate: moment().format(formatDate),
-    fromTime: '',
-    toTime: '',
+    fromTime: "",
+    toTime: "",
     statusID: -1,
-    statusName: '',
+    statusName: "",
     isUpdated: false,
     oneTime: false,
   });
@@ -163,10 +163,10 @@ function AddBooking(props) {
         note: detail.remarks,
         participants: detail.lstUserJoined,
         oneTime: detail.isOneTimeBooking,
-        fromDate: detail.startDate.split('T')[0],
-        toDate: detail.endDate.split('T')[0],
-        fromTime: idxFromTime !== -1 ? idxFromTime : '',
-        toTime: idxToTime !== -1 ? idxToTime : '',
+        fromDate: detail.startDate.split("T")[0],
+        toDate: detail.endDate.split("T")[0],
+        fromTime: idxFromTime !== -1 ? idxFromTime : "",
+        toTime: idxToTime !== -1 ? idxToTime : "",
         statusID: detail.statusID,
         statusName: detail.statusName,
         isUpdated: detail.isUpdated,
@@ -181,7 +181,7 @@ function AddBooking(props) {
       tmpDataUsers = masterState["users"];
     if (tmpDataResources.length > 0 && tmpDataUsers.length > 0) {
       setDataResources(tmpDataResources);
-      tmpDataUsers = groupBy(tmpDataUsers, 'groupName');
+      tmpDataUsers = groupBy(tmpDataUsers, "groupName");
       tmpDataUsers = Object.keys(tmpDataUsers).map((key) => {
         return {label: key, values: tmpDataUsers[key]};
       });
@@ -194,7 +194,7 @@ function AddBooking(props) {
           ...dataBooking,
           resource: tmpDataResources.length > 0
               ? tmpDataResources[0].resourceID
-              : '',
+              : "",
           statusID: bookingParam.statusID,
           statusName: bookingParam.statusName,
         };
@@ -206,7 +206,7 @@ function AddBooking(props) {
       }
     } else {
       let params = {
-        listType: 'BKIcon, BKColor, BKResource, Users',
+        listType: "BKIcon, BKColor, BKResource, Users",
         RefreshToken: refreshToken,
         Lang: language,
       };
@@ -239,24 +239,24 @@ function AddBooking(props) {
     let tmpParti = [], item = null;
     if (selectedParticipants.length > 0) {
       for (item of selectedParticipants) {
-        tmpParti.push(dataParticipants[item.section]['values'][item.row]['empID']);
+        tmpParti.push(dataParticipants[item.section]["values"][item.row]["empID"]);
       }
       tmpParti = tmpParti.join();
     } else {
-      tmpParti = '';
+      tmpParti = "";
     }
 
     /** Prepare data before submit*/
     let params = {
       BookID: typeSubmit === TYPE.UPDATE ? dataBooking.id : 0,
-      ResourceID: tmpCallback.valuesAll[0].values[tmpCallback.valuesAll[0].value]['resourceID'],
+      ResourceID: tmpCallback.valuesAll[0].values[tmpCallback.valuesAll[0].value]["resourceID"],
       Purpose: tmpCallback.valuesAll[1].value.trim(),
       Remarks: tmpCallback.valuesAll[2].value.trim(),
       IsOneTimeBooking: dataBooking.oneTime,
       StartDate: moment(tmpCallback.valuesAll[3].value.date).format(DEFAULT_FORMAT_DATE_3),
-      StartTime: Number((DATA_TIME_BOOKING[tmpCallback.valuesAll[3].value.time])['value'].replace(':', '')),
+      StartTime: Number((DATA_TIME_BOOKING[tmpCallback.valuesAll[3].value.time])["value"].replace(":", "")),
       EndDate: moment(tmpCallback.valuesAll[4].value.date).format(DEFAULT_FORMAT_DATE_3),
-      EndTime: Number((DATA_TIME_BOOKING[tmpCallback.valuesAll[4].value.time])['value'].replace(':', '')),
+      EndTime: Number((DATA_TIME_BOOKING[tmpCallback.valuesAll[4].value.time])["value"].replace(":", "")),
       ListParticipant: tmpParti,
       RefreshToken: refreshToken,
       Lang: language,
@@ -266,19 +266,19 @@ function AddBooking(props) {
 
   const onError = helper => {
     setLoading({...loading, submitAdd: false});
-    if (typeof helper === 'object' && helper.message) {
+    if (typeof helper === "object" && helper.message) {
       return showMessage({
-        message: t('common:app_name'),
+        message: t("common:app_name"),
         description: helper.message,
-        type: 'danger',
-        icon: 'danger',
+        type: "danger",
+        icon: "danger",
       });
     } else {
       return showMessage({
-        message: t('common:app_name'),
+        message: t("common:app_name"),
         description: helper,
-        type: 'danger',
-        icon: 'danger',
+        type: "danger",
+        icon: "danger",
       });
     }
   };
@@ -287,7 +287,7 @@ function AddBooking(props) {
     /** Check Data Login */
     let dataLogin = await getSecretInfo(AST_LOGIN);
     if (dataLogin) {
-      console.log('[LOG] === SignIn Local === ', dataLogin);
+      console.log("[LOG] === SignIn Local === ", dataLogin);
       let i,
         tmpDataLogin = {
           tokenInfo: {},
@@ -318,7 +318,7 @@ function AddBooking(props) {
   };
 
   const onCheckDeeplink = () => {
-    if (typeof bookingParam === 'object' || bookingParam === -1) {
+    if (typeof bookingParam === "object" || bookingParam === -1) {
       dispatch(Actions.resetAllBooking());
       return onPrepareData();
     } else {
@@ -381,15 +381,15 @@ function AddBooking(props) {
       if (!bookingState["submittingAdd"]) {
         if (bookingState["successAdd"]) {
           setLoading({...loading, submitAdd: false});
-          let msg = 'success:send_request_booking';
+          let msg = "success:send_request_booking";
           if (isDetail) {
-            msg = 'success:update_request_booking';
+            msg = "success:update_request_booking";
           }
           showMessage({
-            message: t('common:app_name'),
+            message: t("common:app_name"),
             description: t(msg),
-            type: 'success',
-            icon: 'success',
+            type: "success",
+            icon: "success",
           });
           navigation.goBack();
           if (route.params.onRefresh) {
@@ -415,10 +415,10 @@ function AddBooking(props) {
         if (bookingState["successRemove"]) {
           setLoading({...loading, submitRemove: false});
           showMessage({
-            message: t('common:app_name'),
-            description: t('success:send_remove_booking'),
-            type: 'success',
-            icon: 'success',
+            message: t("common:app_name"),
+            description: t("success:send_remove_booking"),
+            type: "success",
+            icon: "success",
           });
           navigation.goBack();
           if (route.params.onRefresh) {
@@ -441,15 +441,15 @@ function AddBooking(props) {
   /************
    ** RENDER **
    ************/
-  let title = '';
+  let title = "";
   if (isDetail && dataBooking.isUpdated) {
-    title = t('add_booking:title_update') + ` #${dataBooking.id}`;
+    title = t("add_booking:title_update") + ` #${dataBooking.id}`;
   } else if (!isDetail) {
-    title = 'add_booking:title_add';
+    title = "add_booking:title_add";
   } else {
-    title = t('add_booking:title') +
+    title = t("add_booking:title") +
     ` #${
-      typeof bookingParam === 'object'
+      typeof bookingParam === "object"
         ? bookingParam.bookID
         : bookingParam
     }`;
@@ -458,12 +458,12 @@ function AddBooking(props) {
   if (selectedParticipants.length > 0) {
     groupDisplayValues = selectedParticipants.map(index => {
       const groupTitle = dataParticipants[index.section];
-      return groupTitle.values[index.row]['empName'];
+      return groupTitle.values[index.row]["empName"];
     });
   }
   return (
     <CContainer
-      safeArea={['top']}
+      safeArea={["top"]}
       headerComponent={<CTopNavigation title={title} back />}>
       <KeyboardAwareScrollView contentContainerStyle={cStyles.p10}>
         {!loading.main && (
@@ -471,7 +471,7 @@ function AddBooking(props) {
             header={propsH =>
               <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween, propsH.style]}>
                 <View style={dataBooking ? styles.con_left : {}}>
-                  <Text category="s1">{t('add_booking:info_booking')}</Text>
+                  <Text category="s1">{t("add_booking:info_booking")}</Text>
                 </View>
                 {isDetail && dataBooking && (
                   <View style={styles.con_right}>
@@ -494,13 +494,13 @@ function AddBooking(props) {
               inputs={[
                 {
                   id: INPUT_NAME.RESOURCE,
-                  type: 'select',
-                  label: 'add_booking:resource',
-                  holder: 'add_booking:resource',
+                  type: "select",
+                  label: "add_booking:resource",
+                  holder: "add_booking:resource",
                   value: dataBooking.resource,
                   values: dataResources,
-                  keyToCompare: 'resourceID',
-                  keyToShow: 'resourceName',
+                  keyToCompare: "resourceID",
+                  keyToShow: "resourceName",
                   disabled:
                     loading.main ||
                     (isDetail && !dataBooking.isUpdated) ||
@@ -511,13 +511,13 @@ function AddBooking(props) {
                   phone: false,
                   number: false,
                   next: true,
-                  return: 'next',
+                  return: "next",
                 },
                 {
                   id: INPUT_NAME.NAME_BOOKING,
-                  type: 'text',
-                  label: 'add_booking:label',
-                  holder: 'add_booking:holder_label',
+                  type: "text",
+                  label: "add_booking:label",
+                  holder: "add_booking:holder_label",
                   value: dataBooking.label,
                   disabled: loading.main || (isDetail && !dataBooking.isUpdated),
                   required: true,
@@ -526,13 +526,13 @@ function AddBooking(props) {
                   phone: false,
                   number: false,
                   next: true,
-                  return: 'next',
+                  return: "next",
                 },
                 {
                   id: INPUT_NAME.NOTE_BOOKING,
-                  type: 'text',
-                  label: 'add_booking:note',
-                  holder: 'add_booking:holder_note',
+                  type: "text",
+                  label: "add_booking:note",
+                  holder: "add_booking:holder_note",
                   value: dataBooking.note,
                   disabled: loading.main || (isDetail && !dataBooking.isUpdated),
                   required: false,
@@ -542,19 +542,19 @@ function AddBooking(props) {
                   phone: false,
                   number: false,
                   next: true,
-                  return: 'next',
+                  return: "next",
                 },
                 {
                   id: INPUT_NAME.FROM_DATE_TIME,
-                  type: 'datePicker',
-                  label: 'add_booking:from_date_time',
-                  holder: 'add_booking:from_date_time',
-                  timeLabel: 'add_booking:date_time',
+                  type: "datePicker",
+                  label: "add_booking:from_date_time",
+                  holder: "add_booking:from_date_time",
+                  timeLabel: "add_booking:date_time",
                   min: moment(),
                   value: dataBooking.fromDate,
                   values: DATA_TIME_BOOKING,
                   timeValue: dataBooking.fromTime,
-                  keyToCompare: 'value',
+                  keyToCompare: "value",
                   keyToShow: "label",
                   disabled: loading.main || (isDetail && !dataBooking.isUpdated),
                   chooseTime: true,
@@ -564,19 +564,19 @@ function AddBooking(props) {
                   phone: false,
                   number: false,
                   next: true,
-                  return: 'next',
+                  return: "next",
                 },
                 {
                   id: INPUT_NAME.TO_DATE_TIME,
-                  type: 'datePicker',
-                  label: 'add_booking:to_date_time',
-                  holder: 'add_booking:to_date_time',
-                  timeLabel: 'add_booking:date_time',
+                  type: "datePicker",
+                  label: "add_booking:to_date_time",
+                  holder: "add_booking:to_date_time",
+                  timeLabel: "add_booking:date_time",
                   min: moment(),
                   value: dataBooking.toDate,
                   values: DATA_TIME_BOOKING,
                   timeValue: dataBooking.toTime,
-                  keyToCompare: 'value',
+                  keyToCompare: "value",
                   keyToShow: "label",
                   disabled: loading.main || (isDetail && !dataBooking.isUpdated),
                   chooseTime: true,
@@ -586,7 +586,7 @@ function AddBooking(props) {
                   phone: false,
                   number: false,
                   next: true,
-                  return: 'next',
+                  return: "next",
                 },
               ]}
               customAddingForm={
@@ -598,19 +598,19 @@ function AddBooking(props) {
                     loading.submitAdd ||
                     loading.submitRemove
                   }
-                  label={t('add_booking:holder_participants')}
-                  placeholder={t('add_booking:no_participants')}
-                  value={groupDisplayValues.join(', ')}
+                  label={t("add_booking:holder_participants")}
+                  placeholder={t("add_booking:no_participants")}
+                  value={groupDisplayValues.join(", ")}
                   selectedIndex={selectedParticipants}
                   onSelect={index => !isDetail ? setSelectedParticipants(index) : null}>
                   {dataParticipants.map((itemG, indexG) => {
                     return (
-                      <SelectGroup key={itemG.label + '_' + indexG}
-                        title={`${t('add_booking:group')} ${itemG.label}`}
+                      <SelectGroup key={itemG.label + "_" + indexG}
+                        title={`${t("add_booking:group")} ${itemG.label}`}
                         disabled={isDetail}>
                         {itemG.values.map((itemI, indexI) => {
                           return (
-                            <SelectItem key={itemI.userName + '_' + indexI}
+                            <SelectItem key={itemI.userName + "_" + indexI}
                               title={propsT => (
                                 <View style={[propsT.style, cStyles.row, cStyles.itemsCenter]}>
                                   {RenderAvatar()}
@@ -631,14 +631,14 @@ function AddBooking(props) {
                 loading.submitAdd ||
                 loading.submitRemove
               }
-              statusButton2={'danger'}
+              statusButton2={"danger"}
               labelButton={(isDetail && dataBooking.isUpdated)
-                ? 'add_booking:update_booking'
+                ? "add_booking:update_booking"
                 : route.params?.type === TYPE.ADD
-                  ? 'common:send'
+                  ? "common:send"
                   : undefined}
               labelButton2={(isDetail && dataBooking.isUpdated)
-                ? 'add_booking:remove_booking'
+                ? "add_booking:remove_booking"
                 : undefined}
               onSubmit={(isDetail && dataBooking.isUpdated)
                 ? onSubmitUpdate
@@ -656,8 +656,8 @@ function AddBooking(props) {
         label="add_booking:title_remove_booking"
         message="add_booking:holder_remove_booking"
         cancel
-        statusOk='danger'
-        textOk='add_booking:remove_booking_now'
+        statusOk="danger"
+        textOk="add_booking:remove_booking_now"
         onCancel={toggleRemove}
         onBackdrop={toggleRemove}
         onOk={onSubmitRemove}

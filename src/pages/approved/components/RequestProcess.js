@@ -5,15 +5,15 @@
  ** CreateAt: 2021
  ** Description: Description of RequestProcess.js
  **/
-import PropTypes from 'prop-types';
-import React, {useState, useEffect} from 'react';
-import {useTranslation} from 'react-i18next';
-import {Button, Spinner, useTheme, Text} from '@ui-kitten/components';
-import {StyleSheet, View} from 'react-native';
-import IoniIcon from 'react-native-vector-icons/Ionicons';
+import PropTypes from "prop-types";
+import React, {useState, useEffect} from "react";
+import {useTranslation} from "react-i18next";
+import {Button, Spinner, useTheme, Text} from "@ui-kitten/components";
+import {StyleSheet, View} from "react-native";
+import IoniIcon from "react-native-vector-icons/Ionicons";
 /* COMMON */
-import {cStyles} from '~/utils/style';
-import {moderateScale} from '~/utils/helper';
+import {cStyles} from "~/utils/style";
+import {moderateScale} from "~/utils/helper";
 
 /** All init */
 let isReject = false;
@@ -49,7 +49,7 @@ function RequestProcess(props) {
   return (
     <View style={[cStyles.px16, cStyles.pb32]}>
       <Text style={[cStyles.textCenter, cStyles.py16]} category="s1">
-        {t('add_approved_assets:table_process')}
+        {t("add_approved_assets:table_process")}
       </Text>
       {loading && (
         <View style={cStyles.flexCenter}>
@@ -64,7 +64,7 @@ function RequestProcess(props) {
           }
           return (
             <View
-              key={item.personApproveName + '_' +index.toString()}
+              key={item.personApproveName + "_" +index.toString()}
               style={[cStyles.fullWidth, cStyles.row, cStyles.itemsStart]}>
               {item.approveDate ? (
                 <Button
@@ -73,10 +73,10 @@ function RequestProcess(props) {
                   size="small"
                   status={
                     !item.approveDate
-                      ? 'warning'
+                      ? "warning"
                       : item.statusID === 0
-                      ? 'danger'
-                      : 'success'
+                      ? "danger"
+                      : "success"
                   }>
                   {propsB => (
                     <View style={cStyles.center}>
@@ -103,17 +103,17 @@ function RequestProcess(props) {
                 <IoniIcon
                   name={
                     !item.approveDate
-                      ? 'remove-circle'
+                      ? "remove-circle"
                       : item.statusID === 0
-                      ? 'close-circle'
-                      : 'checkmark-circle'
+                      ? "close-circle"
+                      : "checkmark-circle"
                   }
                   color={
                     !item.approveDate
-                      ? theme['color-basic-500']
+                      ? theme["color-basic-500"]
                       : item.statusID === 0
-                      ? theme['color-danger-500']
-                      : theme['color-success-500']
+                      ? theme["color-danger-500"]
+                      : theme["color-success-500"]
                   }
                   size={sGlobalIcon}
                 />
@@ -123,7 +123,7 @@ function RequestProcess(props) {
                     style={[
                       cStyles.mt6,
                       cStyles.borderLeft,
-                      {borderColor: theme['text-hint-color']},
+                      {borderColor: theme["text-hint-color"]},
                       styles.line,
                     ]}
                   />
@@ -147,8 +147,8 @@ function RequestProcess(props) {
                   <Text
                     style={[isReject && !item.approveDate && cStyles.textThrough]}
                     category="c1">
-                    {`${t('add_approved_lost_damaged:' +
-                      (index === 0 ? 'user_request' : 'person_approved'))}`}
+                    {`${t("add_approved_lost_damaged:" +
+                      (index === 0 ? "user_request" : "person_approved"))}`}
                   </Text>
                   <Text
                     style={[
@@ -169,7 +169,7 @@ function RequestProcess(props) {
                   <Text
                     style={[isReject && !item.approveDate && cStyles.textThrough]}
                     category="c1">
-                    {t('add_approved_assets:status_approved')}
+                    {t("add_approved_assets:status_approved")}
                   </Text>
                   {item.approveDate ? (
                     <Text
@@ -181,12 +181,12 @@ function RequestProcess(props) {
                     <Text
                       style={[isReject && !item.approveDate && cStyles.textThrough]}
                       category="c1">
-                      {t('add_approved_assets:wait')}
+                      {t("add_approved_assets:wait")}
                     </Text>
                   )}
                 </View>
 
-                {item.approveDate && item.reason !== '' && (
+                {item.approveDate && item.reason !== "" && (
                   <View
                     style={[
                       cStyles.row,
@@ -197,7 +197,7 @@ function RequestProcess(props) {
                     <Text
                       style={[isReject && !item.approveDate && cStyles.textThrough]}
                       category="c1">
-                      {t('add_approved_assets:reason_reject')}
+                      {t("add_approved_assets:reason_reject")}
                     </Text>
                     <Text
                       style={[isReject && !item.approveDate && cStyles.textThrough]}
@@ -219,8 +219,8 @@ const styles = StyleSheet.create({
   con_date: {flex: 0.2},
   con_icon: {flex: 0.1},
   con_info: {flex: 0.7},
-  con_user: {width: '70%'},
-  con_reason: {width: '80%'},
+  con_user: {width: "70%"},
+  con_reason: {width: "80%"},
 });
 
 RequestProcess.propTypes = {

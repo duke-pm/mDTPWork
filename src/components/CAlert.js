@@ -4,28 +4,32 @@
  ** CreateAt: 2021
  ** Description: Description of CAlert.js
  **/
-import PropTypes from 'prop-types';
-import React from 'react';
-import {useTranslation} from 'react-i18next';
-import {Card, Button, Text, useTheme} from '@ui-kitten/components';
-import {StyleSheet, View} from 'react-native';
-import Modal from 'react-native-modal';
-import IoniIcon from 'react-native-vector-icons/Ionicons';
+import PropTypes from "prop-types";
+import React from "react";
+import {useTranslation} from "react-i18next";
+import {Card, Button, Text, useTheme} from "@ui-kitten/components";
+import {StyleSheet, View} from "react-native";
+import IoniIcon from "react-native-vector-icons/Ionicons";
+import Modal from "react-native-modal";
 /* COMMON */
-import {cStyles} from '~/utils/style';
+import {cStyles} from "~/utils/style";
 import {
   sW,
   moderateScale,
   SCREEN_HEIGHT,
   SCREEN_WIDTH,
-} from '~/utils/helper';
+} from "~/utils/helper";
 
 /** All init */
-const sIconStatus = moderateScale(60);
+const sizeIconStatus = moderateScale(60);
+const iconSuccess = "checkmark-circle-outline";
+const iconError = "close-circle-outline";
+const colorSuccess = "color-success-500";
+const colorError = "color-danger-500";
 
 function CAlert(props) {
-  const theme = useTheme();
   const {t} = useTranslation();
+  const theme = useTheme();
   const {
     contentStyle = {},
     show = false,
@@ -33,14 +37,14 @@ function CAlert(props) {
     success = false,
     error = false,
     cancel = false,
-    label = 'common:alert',
+    label = "common:alert",
     customLabel = null,
-    message = '',
+    message = "",
     customMessage = null,
     iconOk = undefined,
     iconCancel = undefined,
-    textOk = 'common:ok',
-    textCancel = 'common:close',
+    textOk = "common:ok",
+    textCancel = "common:close",
     statusOk = undefined,
     onBackdrop = () => null,
     onOk = undefined,
@@ -70,16 +74,16 @@ function CAlert(props) {
     <Modal
       style={[cStyles.m0, cStyles.center]}
       isVisible={show}
+      animationIn="fadeInUp"
+      animationOut="fadeOutDown"
+      deviceHeight={SCREEN_HEIGHT}
+      deviceWidth={SCREEN_WIDTH}
+      backdropOpacity={0.5}
       coverScreen={true}
       avoidKeyboard={true}
       useNativeDriver={true}
       renderToHardwareTextureAndroid={true}
       hideModalContentWhileAnimating={true}
-      backdropOpacity={0.5}
-      deviceHeight={SCREEN_HEIGHT}
-      deviceWidth={SCREEN_WIDTH}
-      animationIn="fadeInUp"
-      animationOut="fadeOutDown"
       onBackdropPress={handleBackdrop}
       onBackButtonPress={handleBackdrop}
       onModalHide={onModalHide}>
@@ -89,22 +93,22 @@ function CAlert(props) {
             {success && (
               <View style={cStyles.itemsCenter}>
                 <IoniIcon
-                  name={'checkmark-circle-outline'}
-                  size={sIconStatus}
-                  color={theme['color-success-500']} />
+                  name={iconSuccess}
+                  size={sizeIconStatus}
+                  color={theme[colorSuccess]} />
                 <Text style={[cStyles.mt10, cStyles.textCenter]} category="h6">
-                  {t(label !== '' ? label : 'common:success')}
+                  {t(label !== "" ? label : "common:success")}
                 </Text>
               </View>
             )}
             {error && (
               <View style={cStyles.itemsCenter}>
                 <IoniIcon
-                  name={'close-circle-outline'}
-                  size={sIconStatus}
-                  color={theme['color-danger-500']} />
+                  name={iconError}
+                  size={sizeIconStatus}
+                  color={theme[colorError]} />
                 <Text style={[cStyles.mt10, cStyles.textCenter]} category="h6">
-                  {t(label !== '' ? label : 'common:error')}
+                  {t(label !== "" ? label : "common:error")}
                 </Text>
               </View>
             )}
@@ -112,7 +116,9 @@ function CAlert(props) {
         )}
         {!success && !error && !customLabel && (
           <View style={cStyles.itemsCenter}>
-            <Text style={cStyles.textCenter} category="s1">{t(label)}</Text>
+            <Text style={cStyles.textCenter} category="s1">
+              {t(label)}
+            </Text>
           </View>
         )}
         {!success && !error && customLabel && (
@@ -121,9 +127,11 @@ function CAlert(props) {
           </View>
         )}
 
-        {message !== '' && !customMessage && (
+        {message !== "" && !customMessage && (
           <View style={cStyles.mt16}>
-            <Text style={cStyles.textCenter}>{t(message)}</Text>
+            <Text style={cStyles.textCenter}>
+              {t(message)}
+            </Text>
           </View>
         )}
         {customMessage && (
@@ -143,7 +151,10 @@ function CAlert(props) {
             ]}>
             {cancel && (
               <Button
-                style={[cStyles.fullWidth, cancel && onOk && styles.btn_cancel]}
+                style={[
+                  cStyles.fullWidth,
+                  cancel && onOk && styles.btn_cancel,
+                ]}
                 status="basic"
                 disabled={loading}
                 accessoryLeft={iconCancel}
@@ -153,7 +164,10 @@ function CAlert(props) {
             )}
             {onOk && (
               <Button 
-                style={[cStyles.fullWidth, cancel && styles.btn_cancel]}
+                style={[
+                  cStyles.fullWidth,
+                  cancel && styles.btn_cancel,
+                ]}
                 status={statusOk}
                 disabled={loading}
                 accessoryLeft={iconOk}
@@ -169,8 +183,8 @@ function CAlert(props) {
 }
 
 const styles = StyleSheet.create({
-  card: {width: sW('90%')},
-  btn_cancel: {width: '47%'},
+  card: {width: sW("90%")},
+  btn_cancel: {width: "47%"},
 });
 
 CAlert.propTypes = {

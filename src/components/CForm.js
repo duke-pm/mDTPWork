@@ -5,29 +5,32 @@
  ** CreateAt: 2021
  ** Description: Description of CForm.js
  **/
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import React, {
   createRef, forwardRef, useContext, useState, useEffect,
   useImperativeHandle,
-} from 'react';
-import {useTranslation} from 'react-i18next';
-import {MomentDateService} from '@ui-kitten/moment';
+} from "react";
+import {useTranslation} from "react-i18next";
+import {MomentDateService} from "@ui-kitten/moment";
 import {
   Text, Input, Button, Icon, Select, SelectItem,
   Toggle, RadioGroup, Radio, useTheme, Datepicker,
   IndexPath,
-} from '@ui-kitten/components';
+} from "@ui-kitten/components";
 import {
   TouchableWithoutFeedback, View, UIManager, LayoutAnimation,
   StyleSheet,
-} from 'react-native';
-import moment from 'moment';
-import 'moment/locale/en-sg';
+} from "react-native";
+import moment from "moment";
+import "moment/locale/en-sg";
 /* COMMON */
-import Configs from '~/configs';
-import {cStyles} from '~/utils/style';
-import {ThemeContext} from '~/configs/theme-context';
-import {IS_ANDROID, validatEemail} from '~/utils/helper';
+import Configs from "~/configs";
+import {cStyles} from "~/utils/style";
+import {ThemeContext} from "~/configs/theme-context";
+import {
+  IS_ANDROID,
+  validatEemail,
+} from "~/utils/helper";
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -35,25 +38,26 @@ if (IS_ANDROID) {
   }
 }
 
-const formatDateService = new MomentDateService('en-sg');
+const formatDateService = new MomentDateService("en-sg");
+const colorPrimary = "color-primary-500";
 
 /*********************
  ** OTHER COMPONENT **
  *********************/
-const RenderPasswordIcon = (props, secureTextEntry, onToggleSecureEntry) => (
-  <TouchableWithoutFeedback onPress={onToggleSecureEntry}>
-    <Icon {...props} name={secureTextEntry ? 'eye-off' : 'eye'} />
-  </TouchableWithoutFeedback>
-);
-
 const RenderCalendarIcon = props => (
   <Icon {...props} name="calendar" />
+);
+
+const RenderPasswordIcon = (props, secureTextEntry, onToggleSecureEntry) => (
+  <TouchableWithoutFeedback onPress={onToggleSecureEntry}>
+    <Icon {...props} name={secureTextEntry ? "eye-off" : "eye"} />
+  </TouchableWithoutFeedback>
 );
 
 const RenderLabel = (props, trans, required, label) => (
   <View style={[props.style, cStyles.row, cStyles.itemsStart]}>
     <Text {...props}>{trans(label)}</Text>
-    {required && <Text category="label" status="danger">{' *'}</Text>}
+    {required && <Text category="label" status="danger">{" *"}</Text>}
   </View>
 );
 
@@ -70,12 +74,12 @@ const CForm = forwardRef((props, ref) => {
     inputs = [
       {
         style: {},
-        id: 'text',
-        type: '',
-        position: '',
-        label: '',
-        holder: '',
-        value: '',
+        id: "text",
+        type: "",
+        position: "",
+        label: "",
+        holder: "",
+        value: "",
         values: [],
         multiline: false,
         horizontal: false, // for Radio type
@@ -86,17 +90,17 @@ const CForm = forwardRef((props, ref) => {
         password: false,
         number: false,
         next: false,
-        return: 'done',
-        validate: {type: '', helper: ''},
+        return: "done",
+        validate: {type: "", helper: ""},
       },
       {
         style: {},
-        id: 'select',
-        type: 'select',
-        label: 'Select box 1',
-        holder: 'Select one of below',
-        value: '',
-        values: ['Option 1', 'Option 2', 'Option 3'],
+        id: "select",
+        type: "select",
+        label: "Select box 1",
+        holder: "Select one of below",
+        value: "",
+        values: ["Option 1", "Option 2", "Option 3"],
         hide: false,
         required: false,
         password: false,
@@ -104,15 +108,15 @@ const CForm = forwardRef((props, ref) => {
         phone: false,
         number: false,
         next: false,
-        return: 'done',
+        return: "done",
       },
       {
         style: {},
-        id: 'toggle',
-        type: 'toggle',
-        position: 'left',
-        label: 'Toggle',
-        value: '',
+        id: "toggle",
+        type: "toggle",
+        position: "left",
+        label: "Toggle",
+        value: "",
         hide: false,
         required: false,
         password: false,
@@ -120,15 +124,15 @@ const CForm = forwardRef((props, ref) => {
         phone: false,
         number: false,
         next: false,
-        return: 'done',
+        return: "done",
       },
       {
-        id: 'radio',
+        id: "radio",
         style: {},
-        type: 'radio',
-        label: 'Radio button',
-        value: '',
-        values: ['Option 1', 'Option 2', 'Option 3'],
+        type: "radio",
+        label: "Radio button",
+        value: "",
+        values: ["Option 1", "Option 2", "Option 3"],
         hide: false,
         required: false,
         password: false,
@@ -136,16 +140,16 @@ const CForm = forwardRef((props, ref) => {
         phone: false,
         number: false,
         next: false,
-        return: 'done',
+        return: "done",
       },
     ],
     customAddingForm = null,
     disabledButton = false,
-    statusButton2 = 'primary',
-    labelButton = '',
+    statusButton2 = "primary",
+    labelButton = "",
     labelButton2 = undefined,
-    typeButton = 'filled',
-    typeButton2 = 'filled',
+    typeButton = "filled",
+    typeButton2 = "filled",
     onSubmit = () => {},
     onSubmit2 = undefined,
   } = props;
@@ -165,7 +169,7 @@ const CForm = forwardRef((props, ref) => {
 
   const handleChangeValue = (idxInput, newValue) => {
     let tmpValues = [...values];
-    tmpValues[idxInput].value = newValue + '';
+    tmpValues[idxInput].value = newValue + "";
     setValues(tmpValues);
   };
 
@@ -211,107 +215,107 @@ const CForm = forwardRef((props, ref) => {
 
     for (i = 0; i < values.length; i++) {
       /** Check required */
-      if (values[i].required && values[i].type === 'text') {
-        if (values[i].value.trim() === '') {
+      if (values[i].required && values[i].type === "text") {
+        if (values[i].value.trim() === "") {
           tmpIsError = true;
           tmpErrors[i].status = true;
-          tmpErrors[i].type = 'required';
-          tmpErrors[i].helper = t('error:empty_length');
+          tmpErrors[i].type = "required";
+          tmpErrors[i].helper = t("error:empty_length");
         } else if (
-          values[i].value.trim() !== '' &&
-          tmpErrors[i].type === 'required'
+          values[i].value.trim() !== "" &&
+          tmpErrors[i].type === "required"
         ) {
           tmpIsError = false;
           tmpErrors[i].status = false;
-          tmpErrors[i].type = '';
-          tmpErrors[i].helper = '';
+          tmpErrors[i].type = "";
+          tmpErrors[i].helper = "";
         } else if (tmpErrors[i].status) {
           tmpIsError = true;
         }
       }
-      if (values[i].required && values[i].type === 'select') {
-        if (values[i].value === '') {
+      if (values[i].required && values[i].type === "select") {
+        if (values[i].value === "") {
           tmpIsError = true;
           tmpErrors[i].status = true;
-          tmpErrors[i].type = 'required';
-          tmpErrors[i].helper = t('error:empty_length');
+          tmpErrors[i].type = "required";
+          tmpErrors[i].helper = t("error:empty_length");
         } else if (
-          values[i].value !== '' &&
-          tmpErrors[i].type === 'required'
+          values[i].value !== "" &&
+          tmpErrors[i].type === "required"
         ) {
           tmpIsError = false;
           tmpErrors[i].status = false;
-          tmpErrors[i].type = '';
-          tmpErrors[i].helper = '';
+          tmpErrors[i].type = "";
+          tmpErrors[i].helper = "";
         } else if (tmpErrors[i].status) {
           tmpIsError = true;
         }
       }
       if (values[i].required
-        && values[i].type === 'datePicker'
-        && typeof values[i].value === 'object') {
-        if (values[i].value.time === '') {
+        && values[i].type === "datePicker"
+        && typeof values[i].value === "object") {
+        if (values[i].value.time === "") {
           tmpIsError = true;
           tmpErrors[i].status = true;
-          tmpErrors[i].type = 'required';
-          tmpErrors[i].helper = t('error:empty_length');
+          tmpErrors[i].type = "required";
+          tmpErrors[i].helper = t("error:empty_length");
         } else if (
-          values[i].value.time !== '' &&
-          tmpErrors[i].type === 'required'
+          values[i].value.time !== "" &&
+          tmpErrors[i].type === "required"
         ) {
           tmpIsError = false;
           tmpErrors[i].status = false;
-          tmpErrors[i].type = '';
-          tmpErrors[i].helper = '';
+          tmpErrors[i].type = "";
+          tmpErrors[i].helper = "";
         } else if (tmpErrors[i].status) {
           tmpIsError = true;
         }
       }
 
       /** Check is email */
-      if (values[i].validate === 'format_email') {
+      if (values[i].validate === "format_email") {
         let isTrueValue = validatEemail(values[i].value.trim());
         if (!isTrueValue) {
           tmpIsError = true;
           tmpErrors[i].status = true;
-          tmpErrors[i].type = 'format_email';
-          tmpErrors[i].helper = t('error:format_email');
-        } else if (tmpErrors[i].type === 'format_email') {
+          tmpErrors[i].type = "format_email";
+          tmpErrors[i].helper = t("error:format_email");
+        } else if (tmpErrors[i].type === "format_email") {
           tmpIsError = false;
           tmpErrors[i].status = false;
-          tmpErrors[i].type = '';
-          tmpErrors[i].helper = '';
+          tmpErrors[i].type = "";
+          tmpErrors[i].helper = "";
         } else if (tmpErrors[i].status) {
           tmpIsError = true;
         }
       }
 
       /** Check min length */
-      if (values[i].validate === 'min_length') {
+      if (values[i].validate === "min_length") {
         let isTrueValue = values[i].value.trim();
         isTrueValue = isTrueValue.length >= Number(values[i].validateHelper);
         if (!isTrueValue) {
           tmpIsError = true;
           tmpErrors[i].status = true;
-          tmpErrors[i].type = 'min_length';
+          tmpErrors[i].type = "min_length";
           tmpErrors[i].helper =
-            t('error:min_length') +
-            ' ' +
+            t("error:min_length") +
+            " " +
             values[i].validateHelper +
-            ' ' +
-            t('common:character');
-        } else if (tmpErrors[i].type === 'min_length') {
+            " " +
+            t("common:character");
+        } else if (tmpErrors[i].type === "min_length") {
           tmpIsError = false;
           tmpErrors[i].status = false;
-          tmpErrors[i].type = '';
-          tmpErrors[i].helper = '';
+          tmpErrors[i].type = "";
+          tmpErrors[i].helper = "";
         } else if (tmpErrors[i].status) {
           tmpIsError = true;
         }
       }
 
       /** Check confirm like */
-      if (values[i].validate === 'like') {
+      if (values[i].validate === "like") {
         let curValue = values[i].value.trim();
         let preValue = values[i - 1] ? values[i - 1].value.trim() : null;
         if (!preValue) return;
@@ -319,13 +323,13 @@ const CForm = forwardRef((props, ref) => {
           if (curValue !== preValue) {
             tmpIsError = true;
             tmpErrors[i].status = true;
-            tmpErrors[i].type = 'like';
-            tmpErrors[i].helper = t('error:not_like');
-          } else if (tmpErrors[i].type === 'like') {
+            tmpErrors[i].type = "like";
+            tmpErrors[i].helper = t("error:not_like");
+          } else if (tmpErrors[i].type === "like") {
             tmpIsError = false;
             tmpErrors[i].status = false;
-            tmpErrors[i].type = '';
-            tmpErrors[i].helper = '';
+            tmpErrors[i].type = "";
+            tmpErrors[i].helper = "";
           } else if (tmpErrors[i].status) {
             tmpIsError = true;
           }
@@ -360,12 +364,12 @@ const CForm = forwardRef((props, ref) => {
           tmpValue = {};
           tmpError = {};
         let fValue = -1;
-        if (tmpInput.values && tmpInput.type !== 'datePicker') {
+        if (tmpInput.values && tmpInput.type !== "datePicker") {
           fValue = tmpInput.values.findIndex(f =>
             f[tmpInput.keyToCompare] === tmpInput.value
           );
         }
-        if (tmpInput.values && tmpInput.type === 'datePicker' && tmpInput.chooseTime) {
+        if (tmpInput.values && tmpInput.type === "datePicker" && tmpInput.chooseTime) {
           fValue = tmpInput.values.findIndex(f =>
             f[tmpInput.keyToCompare] === tmpInput.valueTime
           );
@@ -378,22 +382,22 @@ const CForm = forwardRef((props, ref) => {
           value: fValue !== -1 ? fValue : tmpInput.value,
           values: tmpInput.values,
           required: tmpInput.required,
-          validate: tmpInput.validate ? tmpInput.validate.type : '',
-          validateHelper: tmpInput.validate ? tmpInput.validate.helper : '',
+          validate: tmpInput.validate ? tmpInput.validate.type : "",
+          validateHelper: tmpInput.validate ? tmpInput.validate.helper : "",
           secureTextEntry: tmpInput.password,
         };
-        if (tmpInput.type === 'datePicker' && tmpInput.chooseTime) {
+        if (tmpInput.type === "datePicker" && tmpInput.chooseTime) {
           tmpValue.value = {date: tmpValue.value, time: tmpInput.timeValue};
         }
 
         tmpError = {
           status: false,
           type: tmpInput.required
-            ? 'required'
+            ? "required"
             : tmpInput.validate
             ? tmpInput.validate.type
-            : '',
-          helper: '',
+            : "",
+          helper: "",
         };
         tmpValues.push(tmpValue);
         tmpErrors.push(tmpError);
@@ -413,7 +417,7 @@ const CForm = forwardRef((props, ref) => {
   /************
    ** RENDER **
    ************/
-  let kbType = 'default';
+  let kbType = "default";
   if (inputs.length === 0) {
     return;
   }
@@ -423,29 +427,30 @@ const CForm = forwardRef((props, ref) => {
   return (
     <View style={containerStyle}>
       {inputs.map((item, index) => {
-        kbType = 'default';
+        kbType = "default";
         if (item.email) {
-          kbType = 'email-address';
+          kbType = "email-address";
         }
         if (item.phone) {
-          kbType = 'phone-pad';
+          kbType = "phone-pad";
         }
         if (item.number) {
-          kbType = 'number-pad';
+          kbType = "number-pad";
         }
 
-        if (item.type === 'text') {
+        if (item.type === "text") {
           if (item.hide) return <View />;
           return (
             <Input
-              key={item.type + item.id + '_' + index}
+              key={item.type + item.id + "_" + index}
               ref={values[index].ref}
               style={[cStyles.mt16, item.style]}
-              selectionColor={theme['color-primary-500']}
+              selectionColor={theme[colorPrimary]}
               nativeID={item.id}
               disabled={loading || item.disabled}
               value={values[index].value}
-              label={propsL => RenderLabel(propsL, t, item.required, item.label)}
+              label={propsL =>
+                RenderLabel(propsL, t, item.required, item.label)}
               placeholder={t(item.holder)}
               keyboardAppearance={themeContext.themeApp}
               keyboardType={kbType}
@@ -462,7 +467,9 @@ const CForm = forwardRef((props, ref) => {
                       )
                   : undefined
               }
-              status={errors && errors[index].status ? 'danger' : 'basic'}
+              status={errors && errors[index].status
+                ? "danger"
+                : "basic"}
               caption={
                 errors && errors[index].status
                   ? errors[index].helper
@@ -473,13 +480,15 @@ const CForm = forwardRef((props, ref) => {
             />
           );
         }
-        if (item.type === 'select') {
+        if (item.type === "select") {
           if (item.hide) return <View />;
           return (
             <Select
               style={[cStyles.mt16, item.style]}
               label={propsL => RenderLabel(propsL, t, item.required, item.label)}
-              status={errors && errors[index].status ? 'danger' : 'basic'}
+              status={errors && errors[index].status
+                ? "danger"
+                : "basic"}
               caption={
                 errors && errors[index] && errors[index].status
                   ? errors[index].helper
@@ -502,14 +511,14 @@ const CForm = forwardRef((props, ref) => {
             </Select>
           );
         }
-        if (item.type === 'toggle') {
+        if (item.type === "toggle") {
           if (item.hide) return <View />;
           return (
             <View
               style={[
-                item.position === 'left' && cStyles.itemsStart,
-                item.position === 'right' && cStyles.itemsEnd,
-                item.position === 'center' && cStyles.itemsCenter,
+                item.position === "left" && cStyles.itemsStart,
+                item.position === "right" && cStyles.itemsEnd,
+                item.position === "center" && cStyles.itemsCenter,
                 cStyles.mt16,
                 item.style,
                 ,
@@ -523,7 +532,7 @@ const CForm = forwardRef((props, ref) => {
             </View>
           );
         }
-        if (item.type === 'radio') {
+        if (item.type === "radio") {
           if (item.hide) return <View />;
           return (
             <View style={[cStyles.mt16, item.style]}>
@@ -548,7 +557,7 @@ const CForm = forwardRef((props, ref) => {
             </View>
           );
         }
-        if (item.type === 'datePicker') {
+        if (item.type === "datePicker") {
           if (item.hide) return <View />;
           return (
             <View
@@ -565,8 +574,10 @@ const CForm = forwardRef((props, ref) => {
                 label={propsL => RenderLabel(propsL, t, item.required, item.label)}
                 placeholder={t(item.holder)}
                 status={!item.chooseTime
-                  ? errors && errors[index].status ? 'danger' : 'basic'
-                  : 'basic'}
+                  ? errors && errors[index].status
+                    ? "danger"
+                    : "basic"
+                  : "basic"}
                 caption={!item.chooseTime
                   ?  errors && errors[index].status
                     ? errors[index].helper
@@ -579,7 +590,8 @@ const CForm = forwardRef((props, ref) => {
                 }
                 min={item.min || moment(Configs.minDate)}
                 max={item.max || moment(Configs.maxDate)}
-                onSelect={newDate => handleChangeDatePicker(index, newDate, item.chooseTime)}
+                onSelect={newDate =>
+                  handleChangeDatePicker(index, newDate, item.chooseTime)}
                 accessoryRight={RenderCalendarIcon}
               />
               </View>
@@ -592,14 +604,16 @@ const CForm = forwardRef((props, ref) => {
                         ? errors[index].helper
                         : undefined
                       : undefined}
-                    status={errors && errors[index].status ? 'danger' : 'basic'}
+                    status={errors && errors[index].status
+                      ? "danger"
+                      : "basic"}
                     placeholder="Select one of below..."
                     disabled={loading || item.disabled}
                     value={(item.values &&
                       values[index].value.time > -1 &&
                       item.values[values[index].value.time])
                       ? item.values[values[index].value.time][item.keyToShow]
-                      : '-'}
+                      : "-"}
                     selectedIndex={new IndexPath(values[index].value.time)}
                     onSelect={idxSelect =>
                       handleSelectedIndex(index, idxSelect, item.chooseTime)}>
@@ -624,7 +638,7 @@ const CForm = forwardRef((props, ref) => {
       {customAddingForm}
 
       {/** Buttons */}
-      {labelButton !== '' && !labelButton2 && (
+      {labelButton !== "" && !labelButton2 && (
         <Button
           style={cStyles.mt24}
           appearance={typeButton}
@@ -634,7 +648,7 @@ const CForm = forwardRef((props, ref) => {
           {t(labelButton)}
         </Button>
       )}
-      {labelButton !== '' && labelButton2 && (
+      {labelButton !== "" && labelButton2 && (
         <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween, cStyles.mt24]}>
           <Button
             style={styles.con_button_left}
@@ -674,8 +688,8 @@ CForm.propTypes = {
   disabledButton: PropTypes.bool,
   labelButton: PropTypes.string,
   labelButton2: PropTypes.string,
-  typeButton: PropTypes.oneOf(['filled', 'outline', 'ghost']),
-  typeButton2: PropTypes.oneOf(['filled', 'outline', 'ghost']),
+  typeButton: PropTypes.oneOf(["filled", "outline", "ghost"]),
+  typeButton2: PropTypes.oneOf(["filled", "outline", "ghost"]),
   onSubmit: PropTypes.func.isRequired,
   onSubmit2: PropTypes.func,
 };

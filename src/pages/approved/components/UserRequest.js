@@ -4,23 +4,23 @@
  ** CreateAt: 2021
  ** Description: Description of UserRequest.js
  **/
-import PropTypes from 'prop-types';
-import React from 'react';
-import {useTranslation} from 'react-i18next';
-import {Card, Avatar, Text} from '@ui-kitten/components';
-import {View} from 'react-native';
+import PropTypes from "prop-types";
+import React from "react";
+import {useTranslation} from "react-i18next";
+import {Card, Avatar, Text} from "@ui-kitten/components";
+import {View} from "react-native";
 /* COMMON */
-import {Assets} from '~/utils/asset';
-import {cStyles} from '~/utils/style';
+import {Assets} from "~/utils/asset";
+import {cStyles} from "~/utils/style";
 
 function UserRequest(props) {
   const {t} = useTranslation();
   const {
     avatar = null,
-    fullName = '',
-    job = 'No Job',
-    region = '',
-    department = '',
+    fullName = "",
+    job = "No Job",
+    region = "",
+    department = "",
   } = props;
 
   /************
@@ -37,7 +37,7 @@ function UserRequest(props) {
             cStyles.itemsStart,
             cStyles.justifyBetween,
           ]}>
-          <Text category="s1">{t('add_approved_assets:request_user')}</Text>
+          <Text category="s1">{t("add_approved_assets:request_user")}</Text>
           <View style={[cStyles.row, cStyles.itemsCenter]}>
             <Avatar size="small" source={avatar || Assets.iconUser} />
             <View style={cStyles.ml10}>
@@ -46,7 +46,7 @@ function UserRequest(props) {
                 style={cStyles.mt5}
                 category="c1"
                 appearance="hint">
-                {job || 'No Job'}
+                {job || "No Job"}
               </Text>
             </View>
           </View>
@@ -56,14 +56,14 @@ function UserRequest(props) {
         <View>
           <Text>{region}</Text>
           <Text style={cStyles.mt5} category="c1" appearance="hint">
-            {t('add_approved_assets:region')}
+            {t("add_approved_assets:region")}
           </Text>
         </View>
 
         <View>
           <Text>{department}</Text>
           <Text style={cStyles.mt5} category="c1" appearance="hint">
-            {t('add_approved_assets:department')}
+            {t("add_approved_assets:department")}
           </Text>
         </View>
       </View>

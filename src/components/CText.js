@@ -4,41 +4,41 @@
  ** CreateAt: 2021
  ** Description: Description of CText.js
  **/
-import PropTypes from 'prop-types';
-import React, {useContext, useState} from 'react';
-import {useTranslation} from 'react-i18next';
-import {Button, Text, Icon} from '@ui-kitten/components';
-import {View} from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
+import PropTypes from "prop-types";
+import React, {useContext, useState} from "react";
+import {useTranslation} from "react-i18next";
+import {Button, Text, Icon} from "@ui-kitten/components";
+import {View} from "react-native";
+import LinearGradient from "react-native-linear-gradient";
 /** COMMON */
-import {cStyles} from '~/utils/style';
-import {LIGHT} from '~/configs/constants';
-import {ThemeContext} from '~/configs/theme-context';
+import {cStyles} from "~/utils/style";
+import {LIGHT} from "~/configs/constants";
+import {ThemeContext} from "~/configs/theme-context";
 
 const COLORS = {
   BG_SHOW_LIGHT: [
-    'rgba(255,255,255,0)',
-    'rgba(255,255,255,0.08)',
-    'rgba(255,255,255,0.8)',
-    'rgba(255,255,255,1)'],
+    "rgba(255,255,255,0)",
+    "rgba(255,255,255,0.08)",
+    "rgba(255,255,255,0.8)",
+    "rgba(255,255,255,1)"],
   BG_SHOW_DARK: [
-    'rgba(0,0,0,0)',
-    'rgba(34,43,69,0.08)',
-    'rgba(34,43,69,0.8)',
-    'rgba(34,43,69,1)',
+    "rgba(0,0,0,0)",
+    "rgba(34,43,69,0.08)",
+    "rgba(34,43,69,0.8)",
+    "rgba(34,43,69,1)",
   ],
-  BG_LESS: ['transparent']
+  BG_LESS: ["transparent"]
 }
 
 /*********************
  ** OTHER COMPONENT **
  *********************/
 const RanderShowMoreIcon = props => (
-  <Icon {...props} name={'arrowhead-down-outline'} />
+  <Icon {...props} name={"arrowhead-down-outline"} />
 );
 
 const RanderShowLessIcon = props => (
-  <Icon {...props} name={'arrowhead-up-outline'} />
+  <Icon {...props} name={"arrowhead-up-outline"} />
 );
 
 /********************
@@ -49,33 +49,33 @@ function CText(props) {
   const themeContext = useContext(ThemeContext);
   const {
     style = {},
-    category = 'p1',
+    category = "p1",
     maxLines = 5,
   } = props;
   let lineHeight = 0;
-  if (category === 'h1') {
+  if (category === "h1") {
     lineHeight = 34;
-  } else if (category === 'h2') {
+  } else if (category === "h2") {
     lineHeight = 32;
-  } else if (category === 'h3') {
+  } else if (category === "h3") {
     lineHeight = 30;
-  } else if (category === 'h4') {
+  } else if (category === "h4") {
     lineHeight = 28;
-  } else if (category === 'h5') {
+  } else if (category === "h5") {
     lineHeight = 26;
-  } else if (category === 'h6') {
+  } else if (category === "h6") {
     lineHeight = 24;
-  } else if (category === 's1') {
+  } else if (category === "s1") {
     lineHeight = 22;
-  } else if (category === 's2') {
+  } else if (category === "s2") {
     lineHeight = 21;
-  } else if (category === 'p1') {
+  } else if (category === "p1") {
     lineHeight = 20;
-  } else if (category === 'p2') {
+  } else if (category === "p2") {
     lineHeight = 19;
-  } else if (category === 'c1') {
+  } else if (category === "c1") {
     lineHeight = 17;
-  } else if (category === 'c2') {
+  } else if (category === "c2") {
     lineHeight = 15;
   } else if (category === "s1") {
     lineHeight = 20;
@@ -134,7 +134,7 @@ function CText(props) {
             onPress={handleShowMore}>
             {evaProps => (
               <Text category="c1" status="primary">
-                {t('common:show_more')}
+                {t("common:show_more")}
               </Text>
             )}
           </Button>

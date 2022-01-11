@@ -4,26 +4,26 @@
  ** CreateAt: 2021
  ** Description: Description of ProjectDetails.js
  **/
-import PropTypes from 'prop-types';
-import React from 'react';
-import {Avatar, Divider, Text} from '@ui-kitten/components';
-import {StyleSheet, View, ScrollView} from 'react-native';
-import IoniIcon from 'react-native-vector-icons/Ionicons';
-import moment from 'moment';
-import 'moment/locale/en-sg';
+import PropTypes from "prop-types";
+import React from "react";
+import {Avatar, Divider, Text} from "@ui-kitten/components";
+import {StyleSheet, View, ScrollView} from "react-native";
+import IoniIcon from "react-native-vector-icons/Ionicons";
+import moment from "moment";
+import "moment/locale/en-sg";
 /* COMPONENTS */
-import CStatus from '~/components/CStatus';
+import CStatus from "~/components/CStatus";
 /* COMMON */
-import {cStyles} from '~/utils/style';
-import {Assets} from '~/utils/asset';
+import {cStyles} from "~/utils/style";
+import {Assets} from "~/utils/asset";
 import {
   checkEmpty,
   moderateScale,
-} from '~/utils/helper';
+} from "~/utils/helper";
 import {
   DEFAULT_FORMAT_DATE_4,
   DEFAULT_FORMAT_DATE_9,
-} from '~/configs/constants';
+} from "~/configs/constants";
 
 const sIcon = moderateScale(16);
 
@@ -46,7 +46,7 @@ function ProjectDetails(props) {
         <View style={[cStyles.row, cStyles.itemsCenter, styles.con_half]}>
           <View style={styles.con_left}>
             <Text category="label" appearance="hint">
-              {trans('project_management:is_public')}
+              {trans("project_management:is_public")}
             </Text>
           </View>
           <View style={styles.con_right}>
@@ -55,8 +55,8 @@ function ProjectDetails(props) {
                 ? "checkmark-circle-outline"
                 : "close-circle-outline"}
               color={project.isPublic
-                ? theme['color-success-500']
-                : theme['color-danger-500']}
+                ? theme["color-success-500"]
+                : theme["color-danger-500"]}
               size={sIcon}
             />
           </View>
@@ -75,26 +75,26 @@ function ProjectDetails(props) {
         <View style={[cStyles.row, cStyles.itemsCenter, styles.con_half]}>
           <View style={styles.con_left}>
             <Text category="label" appearance="hint">
-              {trans('project_management:start_date')}
+              {trans("project_management:start_date")}
             </Text>
           </View>
           <View style={styles.con_right}>
             <Text>{project.startDate
               ? moment(project.startDate, DEFAULT_FORMAT_DATE_4).format(DEFAULT_FORMAT_DATE_9)
-              : '-'}
+              : "-"}
             </Text>
           </View>
         </View>
         <View style={[cStyles.row, cStyles.itemsCenter, styles.con_half]}>
           <View style={styles.con_left}>
             <Text category="label" appearance="hint">
-              {trans('project_management:end_date')}
+              {trans("project_management:end_date")}
             </Text>
           </View>
           <View style={styles.con_right}>
             <Text>{project.endDate
               ? moment(project.endDate, DEFAULT_FORMAT_DATE_4).format(DEFAULT_FORMAT_DATE_9)
-              : '-'}
+              : "-"}
             </Text>
           </View>
         </View>
@@ -104,7 +104,7 @@ function ProjectDetails(props) {
       <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt10]}>
         <View style={styles.con_left_2}>
           <Text category="label" appearance="hint">
-            {trans('project_management:owner')}
+            {trans("project_management:owner")}
           </Text>
         </View>
         <View style={[cStyles.row, cStyles.itemsCenter, styles.con_right_2]}>
@@ -118,7 +118,7 @@ function ProjectDetails(props) {
         <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt10]}>
           <View style={styles.con_left_2}>
             <Text category="label" appearance="hint">
-              {trans('project_management:appraisal_time')}
+              {trans("project_management:appraisal_time")}
             </Text>
           </View>
           <View style={styles.con_right_2}>
@@ -133,7 +133,7 @@ function ProjectDetails(props) {
       <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt10]}>
         <View style={styles.con_left_2}>
           <Text category="label" appearance="hint">
-            {trans('project_management:description')}
+            {trans("project_management:description")}
           </Text>
         </View>
         <View style={styles.con_right_2}>
@@ -145,7 +145,7 @@ function ProjectDetails(props) {
       {usersInvitedLength > 0 && (
         <View style={cStyles.mt10}>
           <Text category="label" appearance="hint">
-            {trans('project_management:user_invited')}
+            {trans("project_management:user_invited")}
           </Text>
           <ScrollView
             style={[
@@ -153,15 +153,15 @@ function ProjectDetails(props) {
               cStyles.rounded1,
               cStyles.borderAll,
               {
-                backgroundColor: theme['background-basic-color-2'],
-                borderColor: theme['border-basic-color-3'],
+                backgroundColor: theme["background-basic-color-2"],
+                borderColor: theme["border-basic-color-3"],
               },
               styles.list_invited,
             ]}>
             {project.lstUserInvited.map((itemU, indexU) => {
               return (
                 <View
-                  key={itemU.userName + '_' + indexU}
+                  key={itemU.userName + "_" + indexU}
                   style={[cStyles.row, cStyles.itemsCenter, cStyles.ml3]}>
                   <View style={cStyles.px10}>
                     <Avatar size="small" source={Assets.iconUser} />

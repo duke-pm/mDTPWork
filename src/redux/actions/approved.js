@@ -5,10 +5,10 @@
  ** Description: Description of Approved.js
  **/
 /* COMMON */
-import Services from '~/services';
+import Services from "~/services";
 /** REDUX */
-import * as types from './types';
-import * as Actions from '~/redux/actions';
+import * as types from "./types";
+import * as Actions from "~/redux/actions";
 
 export const resetAllApproved = () => ({
   type: types.RESET_REQUEST_APPROVED,
@@ -59,7 +59,7 @@ export const fetchListRequestApproved = (params, navigation) => {
       })
       .catch(error => {
         dispatch(listRequestApprovedError(error));
-        if (error.message && error.message.search('Authorization') !== -1) {
+        if (error.message && error.message.search("Authorization") !== -1) {
           let tmp = {
             RefreshToken: params["RefreshToken"],
             Lang: params["Lang"],
@@ -103,7 +103,7 @@ export const fetchRequestDetail = (params, navigation) => {
       })
       .catch(error => {
         dispatch(requestDetailError(error));
-        if (error.message && error.message.search('Authorization') !== -1) {
+        if (error.message && error.message.search("Authorization") !== -1) {
           let tmp = {
             RefreshToken: params["RefreshToken"],
             Lang: params["Lang"],
@@ -166,7 +166,7 @@ export const fetchListRequestDamage = (params, navigation) => {
       })
       .catch(error => {
         dispatch(listRequestDamageError(error));
-        if (error.message && error.message.search('Authorization') !== -1) {
+        if (error.message && error.message.search("Authorization") !== -1) {
           let tmp = {
             RefreshToken: params["RefreshToken"],
             Lang: params["Lang"],
@@ -229,7 +229,7 @@ export const fetchListRequestLost = (params, navigation) => {
       })
       .catch(error => {
         dispatch(listRequestLostError(error));
-        if (error.message && error.message.search('Authorization') !== -1) {
+        if (error.message && error.message.search("Authorization") !== -1) {
           let tmp = {
             RefreshToken: params["RefreshToken"],
             Lang: params["Lang"],
@@ -274,7 +274,7 @@ export const fetchAddRequestApproved = (params, navigation) => {
       })
       .catch(error => {
         dispatch(addRequestApprovedError(error));
-        if (error.message && error.message.search('Authorization') !== -1) {
+        if (error.message && error.message.search("Authorization") !== -1) {
           let tmp = {
             RefreshToken: params.RefreshToken,
             Lang: params.Lang,
@@ -319,7 +319,7 @@ export const fetchApprovedRequest = (params, navigation) => {
       })
       .catch(error => {
         dispatch(approvedRequestError(error));
-        if (error.message && error.message.search('Authorization') !== -1) {
+        if (error.message && error.message.search("Authorization") !== -1) {
           let tmp = {
             RefreshToken: params.RefreshToken,
             Lang: params.Lang,
@@ -364,7 +364,7 @@ export const fetchRejectRequest = (params, navigation) => {
       })
       .catch(error => {
         dispatch(rejectRequestError(error));
-        if (error.message && error.message.search('Authorization') !== -1) {
+        if (error.message && error.message.search("Authorization") !== -1) {
           let tmp = {
             RefreshToken: params.RefreshToken,
             Lang: params.Lang,
@@ -412,7 +412,7 @@ export const fetchAddRequestLostDamage = (params, formData, navigation) => {
         if (
           error &&
           error.message &&
-          error.message.search('Authorization') !== -1
+          error.message.search("Authorization") !== -1
         ) {
           let tmp = {
             RefreshToken: params.RefreshToken,

@@ -5,9 +5,9 @@
  ** Description: Description of approved.js
  **/
 /** COMMON */
-import jwtServiceConfig from '../jwtServiceConfig';
-import Routes from '../routesApi';
-import API from '../axios';
+import jwtServiceConfig from "../jwtServiceConfig";
+import Routes from "../routesApi";
+import API from "../axios";
 
 export default {
   listProject: params => {
@@ -47,7 +47,7 @@ export default {
         tmpConfigs,
       )
         .then(response => {
-          console.log('FETCH LIST PROJECT => ', response);
+          console.log("FETCH LIST PROJECT => ", response);
           if (response.status === 200 && response.data) {
             resolve(response.data);
           } else {
@@ -55,7 +55,7 @@ export default {
           }
         })
         .catch(error => {
-          console.log('ERROR LIST PROJECT => ', error);
+          console.log("ERROR LIST PROJECT => ", error);
           reject(error.response ? error.response.data : error);
         });
     });
@@ -100,7 +100,7 @@ export default {
         tmpConfigs,
       )
         .then(response => {
-          console.log('FETCH LIST TASK => ', response);
+          console.log("FETCH LIST TASK => ", response);
           if (response.status === 200 && response.data) {
             resolve(response.data);
           } else {
@@ -108,7 +108,7 @@ export default {
           }
         })
         .catch(error => {
-          console.log('ERROR LIST TASK => ', error);
+          console.log("ERROR LIST TASK => ", error);
           reject(error.response ? error.response.data : error);
         });
     });
@@ -128,7 +128,7 @@ export default {
         tmpConfigs,
       )
         .then(response => {
-          console.log('FETCH TASK DETAIL => ', response);
+          console.log("FETCH TASK DETAIL => ", response);
           if (response.status === 200 && response.data) {
             resolve(response.data);
           } else {
@@ -136,7 +136,7 @@ export default {
           }
         })
         .catch(error => {
-          console.log('ERROR TASK DETAIL => ', error);
+          console.log("ERROR TASK DETAIL => ", error);
           reject(error.response ? error.response.data : error);
         });
     });
@@ -148,7 +148,7 @@ export default {
         params,
       )
         .then(response => {
-          console.log('FETCH TASK COMMENT => ', response);
+          console.log("FETCH TASK COMMENT => ", response);
           if (response.status === 200 && response.data) {
             resolve(response.data);
           } else {
@@ -156,7 +156,7 @@ export default {
           }
         })
         .catch(error => {
-          console.log('ERROR TASK COMMENT => ', error);
+          console.log("ERROR TASK COMMENT => ", error);
           reject(error.response ? error.response.data : error);
         });
     });
@@ -168,7 +168,7 @@ export default {
         params,
       )
         .then(response => {
-          console.log('FETCH TASK WATCHER => ', response);
+          console.log("FETCH TASK WATCHER => ", response);
           if (response.status === 200 && response.data) {
             resolve(response.data);
           } else {
@@ -176,7 +176,7 @@ export default {
           }
         })
         .catch(error => {
-          console.log('ERROR TASK WATCHER => ', error);
+          console.log("ERROR TASK WATCHER => ", error);
           reject(error.response ? error.response.data : error);
         });
     });
@@ -188,7 +188,7 @@ export default {
         params,
       )
         .then(response => {
-          console.log('FETCH TASK UPDATE => ', response);
+          console.log("FETCH TASK UPDATE => ", response);
           if (response.status === 200 && response.data) {
             resolve(response.data);
           } else {
@@ -196,7 +196,7 @@ export default {
           }
         })
         .catch(error => {
-          console.log('ERROR TASK UPDATE => ', error);
+          console.log("ERROR TASK UPDATE => ", error);
           reject(error.response ? error.response.data : error);
         });
     });
@@ -241,7 +241,7 @@ export default {
         tmpConfigs,
       )
         .then(response => {
-          console.log('FETCH PROJECT OVERVIEW => ', response);
+          console.log("FETCH PROJECT OVERVIEW => ", response);
           if (response.status === 200 && response.data) {
             resolve(response.data);
           } else {
@@ -249,7 +249,7 @@ export default {
           }
         })
         .catch(error => {
-          console.log('ERROR PROJECT OVERVIEW => ', error);
+          console.log("ERROR PROJECT OVERVIEW => ", error);
           reject(error.response ? error.response.data : error);
         });
     });

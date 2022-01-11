@@ -5,28 +5,28 @@
  ** CreateAt: 2021
  ** Description: Description of Project.js
  **/
-import React, {useState, useEffect} from 'react';
-import {useSelector, useDispatch} from 'react-redux';
-import {useTranslation} from 'react-i18next';
-import {showMessage} from 'react-native-flash-message';
-import {View} from 'react-native';
+import React, {useState, useEffect} from "react";
+import {useSelector, useDispatch} from "react-redux";
+import {useTranslation} from "react-i18next";
+import {showMessage} from "react-native-flash-message";
+import {View} from "react-native";
 /* COMPONENTS */
-import CContainer from '~/components/CContainer';
-import CTopNavigation from '~/components/CTopNavigation';
-import Filter from '../components/Filter';
-import ListTask from '../list/Task';
+import CContainer from "~/components/CContainer";
+import CTopNavigation from "~/components/CTopNavigation";
+import Filter from "../components/Filter";
+import ListTask from "../list/Task";
 /** COMMON */
-import Configs from '~/configs';
-import Routes from '~/navigator/Routes';
-import FieldsAuth from '~/configs/fieldsAuth';
-import {getSecretInfo, resetRoute} from '~/utils/helper';
+import Configs from "~/configs";
+import Routes from "~/navigator/Routes";
+import FieldsAuth from "~/configs/fieldsAuth";
+import {getSecretInfo, resetRoute} from "~/utils/helper";
 import {
   REFRESH,
   LOAD_MORE,
   AST_LOGIN,
-} from '~/configs/constants';
+} from "~/configs/constants";
 /** REDUX */
-import * as Actions from '~/redux/actions';
+import * as Actions from "~/redux/actions";
 
 function ProjectDetail(props) {
   const {t} = useTranslation();
@@ -61,7 +61,7 @@ function ProjectDetail(props) {
     statusID: null,
     sectorID: null,
     page: 1,
-    search: '',
+    search: "",
     tasks: [],
   });
 
@@ -102,7 +102,7 @@ function ProjectDetail(props) {
       activeSector,
       perPageMaster,
       1,
-      '',
+      "",
     );
     return setLoading({...loading, startFetch: true});
   };
@@ -116,7 +116,7 @@ function ProjectDetail(props) {
     sectorID = null,
     perPage = perPageMaster,
     page = 1,
-    search = '',
+    search = "",
   ) => {
     let params = {
       TaskParentID: taskID,
@@ -189,10 +189,10 @@ function ProjectDetail(props) {
 
   const onError = () => {
     showMessage({
-      message: t('common:app_name'),
-      description: t('error:list_request'),
-      type: 'danger',
-      icon: 'danger',
+      message: t("common:app_name"),
+      description: t("error:list_request"),
+      type: "danger",
+      icon: "danger",
     });
     return onDone(false);
   };
@@ -329,13 +329,13 @@ function ProjectDetail(props) {
   /************
    ** RENDER **
    ************/
-  let title = `${t('project_management:list_task')} #${projectID}`;
+  let title = `${t("project_management:list_task")} #${projectID}`;
   if (taskID) {
-    title = `${t('project_management:task_parent')} #${taskID}`;
+    title = `${t("project_management:task_parent")} #${taskID}`;
   }
   return (
     <CContainer
-      safeArea={['top', 'bottom']}
+      safeArea={["top", "bottom"]}
       loading={loading.main || loading.startFetch}
       headerComponent={
         <CTopNavigation

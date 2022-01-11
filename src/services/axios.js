@@ -5,9 +5,9 @@
  ** Description: Description of Axios.js
  **/
 /** LIBRARY */
-import axios from 'axios';
+import axios from "axios";
 /** COMMON */
-import {jwtServiceConfig} from './jwtServiceConfig';
+import {jwtServiceConfig} from "./jwtServiceConfig";
 
 const API = axios.create(jwtServiceConfig);
 

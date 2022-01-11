@@ -4,14 +4,17 @@
  ** CreateAt: 2021
  ** Description: Description of CActionSheet.js
  **/
-import PropTypes from 'prop-types';
-import React from 'react';
-import {useTranslation} from 'react-i18next';
-import {Button, Icon, useTheme, Text} from '@ui-kitten/components';
-import {View} from 'react-native';
-import ActionSheet from 'react-native-actions-sheet';
+import PropTypes from "prop-types";
+import React from "react";
+import {useTranslation} from "react-i18next";
+import {Button, Icon, useTheme, Text} from "@ui-kitten/components";
+import {View} from "react-native";
+import ActionSheet from "react-native-actions-sheet";
 /** COMMON */
-import {cStyles} from '~/utils/style';
+import {cStyles} from "~/utils/style";
+
+const colorBackground = "background-basic-color-1";
+const colorIndicator = "color-basic-600";
 
 /*********************
  ** OTHER COMPONENT **
@@ -51,23 +54,18 @@ function CActionSheet(props) {
   const handleConfirm = () => {
     needUpdate = true;
     actionRef.current?.hide();
-    if (onConfirm) {
-      onConfirm(needUpdate);
-    }
+    if (onConfirm) onConfirm(needUpdate);
   };
 
   /**********
    ** FUNC **
    **********/
-  const onOpenAS = () => (needUpdate = false);
+  const onOpenAS = () => needUpdate = false;
 
   const onCloseAS = () => {
     if (onClose) {
-      if (needUpdate) {
-        onClose(true);
-      } else {
-        onClose(false);
-      }
+      if (needUpdate) onClose(true);
+      else onClose(false);
     }
   };
 
@@ -80,16 +78,16 @@ function CActionSheet(props) {
       containerStyle={[
         cStyles.roundedTopLeft3,
         cStyles.roundedTopRight3,
-        {backgroundColor: theme['background-basic-color-1']}
+        {backgroundColor: theme[colorBackground]}
       ]}
       elevation={5}
       nestedScrollEnabled={true}
       headerAlwaysVisible={true}
       gestureEnabled={false}
-      indicatorColor={theme['color-basic-600']}
+      indicatorColor={theme[colorIndicator]}
+      CustomHeaderComponent={undefined}
       onClose={onCloseAS}
       onOpen={onOpenAS}
-      CustomHeaderComponent={undefined}
       {...props}>
       {headerChoose ? (
         <View
@@ -107,7 +105,7 @@ function CActionSheet(props) {
             accessoryLeft={RenderCloseIcon}
             onPress={handleClose}
           />
-          <View style={[cStyles.flexCenter]}>
+          <View style={cStyles.flexCenter}>
             {headerChooseTitle && (
               <Text style={cStyles.mt10} category="label">
                 {t(headerChooseTitle)}
@@ -132,7 +130,7 @@ CActionSheet.propTypes = {
   actionRef: PropTypes.any,
   customHeader: PropTypes.element,
   headerChoose: PropTypes.bool,
-  headerChooseTitle: PropTypes.oneOfType[(PropTypes.string, PropTypes.any)],
+  headerChooseTitle: PropTypes.string,
   children: PropTypes.element,
   onConfirm: PropTypes.func,
   onClose: PropTypes.func,

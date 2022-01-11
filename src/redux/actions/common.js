@@ -5,7 +5,7 @@
  ** Description: Description of Common.js
  **/
 /** REDUX */
-import * as types from './types';
+import * as types from "./types";
 
 export const changeLanguage = language => ({
   type: types.CHANGE_LANGUAGE,

@@ -5,10 +5,10 @@
  ** Description: Description of masterData.js
  **/
 /* COMMON */
-import Services from '~/services';
+import Services from "~/services";
 /** REDUX */
-import * as types from './types';
-import * as Actions from '~/redux/actions';
+import * as types from "./types";
+import * as Actions from "~/redux/actions";
 
 export const resetStatusMasterData = () => ({
   type: types.RESET_STATUS_MASTER_DATA,
@@ -41,7 +41,7 @@ export const fetchMasterData = (params, navigation) => {
       })
       .catch(error => {
         dispatch(getError(error));
-        if (error.message && error.message.search('Authorization') !== -1) {
+        if (error.message && error.message.search("Authorization") !== -1) {
           let tmp = {
             RefreshToken: params.RefreshToken,
             Lang: params.Lang,
@@ -76,7 +76,7 @@ export const fetchAssetByUser = (params, navigation) => {
       })
       .catch(error => {
         dispatch(getError(error));
-        if (error.message && error.message.search('Authorization') !== -1) {
+        if (error.message && error.message.search("Authorization") !== -1) {
           let tmp = {
             RefreshToken: params.RefreshToken,
             Lang: params.Lang,

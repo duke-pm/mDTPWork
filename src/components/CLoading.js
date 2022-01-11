@@ -4,19 +4,19 @@
  ** CreateAt: 2021
  ** Description: Description of CLoading.js
  **/
-import PropTypes from 'prop-types';
-import React from 'react';
-import {useTranslation} from 'react-i18next';
-import {Spinner, Modal, Text, Layout} from '@ui-kitten/components';
-import {StyleSheet, View} from 'react-native';
+import PropTypes from "prop-types";
+import React from "react";
+import {useTranslation} from "react-i18next";
+import {Spinner, Modal, Text, Layout} from "@ui-kitten/components";
+import {StyleSheet, View} from "react-native";
 /* COMMON */
-import {colors, cStyles} from '~/utils/style';
+import {colors, cStyles} from "~/utils/style";
 
 function CLoading(props) {
   const {t} = useTranslation();
   const {
     show = false,
-    description = 'common:loading'
+    description = "common:loading"
   } = props;
 
   /************

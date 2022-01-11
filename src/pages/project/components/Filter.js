@@ -5,21 +5,21 @@
  ** CreateAt: 2021
  ** Description: Description of Filter.js
  **/
-import PropTypes from 'prop-types';
-import React, {useState, useEffect} from 'react';
-import {useTranslation} from 'react-i18next';
+import PropTypes from "prop-types";
+import React, {useState, useEffect} from "react";
+import {useTranslation} from "react-i18next";
 import {
   Select, SelectItem, Button, Divider, Layout,
   IndexPath, Spinner, Avatar, Text,
-} from '@ui-kitten/components';
-import {StyleSheet, View} from 'react-native';
-import moment from 'moment';
-import 'moment/locale/en-sg';
+} from "@ui-kitten/components";
+import {StyleSheet, View} from "react-native";
+import moment from "moment";
+import "moment/locale/en-sg";
 /* COMMON */
-import {Assets } from '~/utils/asset';
-import {cStyles} from '~/utils/style';
-import {sW} from '~/utils/helper';
-import {DATA_YEAR_FILTER} from '~/configs/constants';
+import {Assets } from "~/utils/asset";
+import {cStyles} from "~/utils/style";
+import {sW} from "~/utils/helper";
+import {DATA_YEAR_FILTER} from "~/configs/constants";
 
 const RenderAvatar = props => (
   <Avatar size="tiny" source={Assets.iconUser} />
@@ -71,17 +71,17 @@ function Filter(props) {
     let tmpSectorsID = [], tmpOwnersID = [], tmpStatusID = [];
     if (isSector && selectedSector.length > 0) {
       for (let select of selectedSector) {
-        tmpSectorsID.push(masterData.sectors[select - 1]['sectorID']);
+        tmpSectorsID.push(masterData.sectors[select - 1]["sectorID"]);
       }
     }
     if (selectedOwner.length > 0) {
       for (let select of selectedOwner) {
-        tmpOwnersID.push(masterData.users[select - 1]['empID']);
+        tmpOwnersID.push(masterData.users[select - 1]["empID"]);
       }
     }
     if (selectedStatus.length > 0) {
       for (let select of selectedStatus) {
-        tmpStatusID.push(masterData.status[select - 1]['statusID']);
+        tmpStatusID.push(masterData.status[select - 1]["statusID"]);
       }
     }
 
@@ -115,7 +115,7 @@ function Filter(props) {
 
   useEffect(() => {
     if (loading && data.ownerID) {
-      let arrOwner = data.ownerID.split(','),
+      let arrOwner = data.ownerID.split(","),
         tmpSelected = [];
       for (let item of arrOwner) {
         let fOwner = masterData.users.findIndex(f => f.empID == item);
@@ -133,7 +133,7 @@ function Filter(props) {
 
   useEffect(() => {
     if (loading && data.statusID) {
-      let arrStatus = data.statusID.split(','),
+      let arrStatus = data.statusID.split(","),
         tmpSelected = [];
       for (let item of arrStatus) {
         let fStatus = masterData.status.findIndex(f => f.statusID == item);
@@ -151,7 +151,7 @@ function Filter(props) {
 
   useEffect(() => {
     if (loading && data.sectorID) {
-      let arrSector = data.sectorID.split(','),
+      let arrSector = data.sectorID.split(","),
         tmpSelected = [];
       for (let item of arrSector) {
         let fSector = masterData.sectors.findIndex(f => f.sectorID == item);
@@ -190,13 +190,13 @@ function Filter(props) {
    ************/
   const displayYear = DATA_YEAR_FILTER[year - 1];
   const displayOwner = selectedOwner.map(index => {
-    return masterData.users[index.row]['empName'];
+    return masterData.users[index.row]["empName"];
   });
   const displayStatus = selectedStatus.map(index => {
-    return masterData.status[index.row]['statusName'];
+    return masterData.status[index.row]["statusName"];
   });
   const displaySector = selectedSector.map(index => {
-    return masterData.sectors[index.row]['sectorName'];
+    return masterData.sectors[index.row]["sectorName"];
   });
   return (
     <Layout style={[cStyles.pb20, styles.con_filter]}>
@@ -208,7 +208,7 @@ function Filter(props) {
           cStyles.pb10,
           cStyles.pt5,
         ]}>
-        <Text category="s1">{t('common:filter')}</Text>
+        <Text category="s1">{t("common:filter")}</Text>
         <View style={[cStyles.row, cStyles.itemsCenter]}>
           <Button
             appearance="outline"
@@ -216,7 +216,7 @@ function Filter(props) {
             status="basic"
             onPress={handleReset}>
             {propsT =>
-              <Text category="label">{t('common:reset')}</Text>
+              <Text category="label">{t("common:reset")}</Text>
             }
           </Button>
           <Button
@@ -224,7 +224,7 @@ function Filter(props) {
             size="small"
             onPress={handleFilter}>
             {propsT =>
-              <Text category="label" status="control">{t('common:apply')}</Text>
+              <Text category="label" status="control">{t("common:apply")}</Text>
             }
           </Button>
         </View>
@@ -240,13 +240,13 @@ function Filter(props) {
           <View style={[cStyles.row, cStyles.itemsCenter]}>
             <Select
               style={cStyles.flex1}
-              label={t('project_management:year')}
-              placeholder={t('project_management:holder_year')}
+              label={t("project_management:year")}
+              placeholder={t("project_management:holder_year")}
               value={displayYear}
               selectedIndex={year}
               onSelect={setYear}>
               {DATA_YEAR_FILTER.map((itemY, indexY) => (
-                <SelectItem key={itemY + '_' + indexY} title={itemY} />
+                <SelectItem key={itemY + "_" + indexY} title={itemY} />
               ))}
             </Select>
           </View>
@@ -255,14 +255,14 @@ function Filter(props) {
           <View style={[cStyles.row, cStyles.itemsCenter, isYear && cStyles.mt16]}>
             <Select
               style={cStyles.flex1}
-              label={t('project_management:sector')}
-              placeholder={t('project_management:holder_sector')}
+              label={t("project_management:sector")}
+              placeholder={t("project_management:holder_sector")}
               multiSelect={true}
-              value={displaySector.join(', ')}
+              value={displaySector.join(", ")}
               selectedIndex={selectedSector}
               onSelect={setSelectedSector}>
               {masterData.sectors.map((itemS, indexS) => (
-                <SelectItem key={itemS.sectorID + '_' + indexS}
+                <SelectItem key={itemS.sectorID + "_" + indexS}
                   title={itemS.sectorName}
                 />
               ))}
@@ -273,14 +273,14 @@ function Filter(props) {
           <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt16]}>
             <Select
               style={cStyles.flex1}
-              label={t('project_management:title_owner')}
-              placeholder={t('project_management:holder_owner')}
+              label={t("project_management:title_owner")}
+              placeholder={t("project_management:holder_owner")}
               multiSelect={true}
-              value={displayOwner.join(', ')}
+              value={displayOwner.join(", ")}
               selectedIndex={selectedOwner}
               onSelect={setSelectedOwner}>
               {masterData.users.map((itemO, indexO) => (
-                <SelectItem key={itemO.empID + '_' + indexO}
+                <SelectItem key={itemO.empID + "_" + indexO}
                   title={propsT => 
                     <View style={[cStyles.row, cStyles.itemsCenter, propsT.style]}>
                       {RenderAvatar()}
@@ -297,15 +297,15 @@ function Filter(props) {
           <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt16]}>
             <Select
               style={cStyles.flex1}
-              label={t('project_management:status_filter')}
-              placeholder={t('project_management:holder_status')}
+              label={t("project_management:status_filter")}
+              placeholder={t("project_management:holder_status")}
               multiSelect={true}
-              value={displayStatus.join(', ')}
+              value={displayStatus.join(", ")}
               selectedIndex={selectedStatus}
               onSelect={setSelectedStatus}>
               {masterData.status.map((itemS, indexS) => (
                 <SelectItem
-                  key={itemS.statusID + '_' + indexS}
+                  key={itemS.statusID + "_" + indexS}
                   title={propsT =>
                     <View style={propsT.style}>
                       <Text
@@ -326,7 +326,7 @@ function Filter(props) {
 }
 
 const styles = StyleSheet.create({
-  con_filter: {width: sW('85%')},
+  con_filter: {width: sW("85%")},
 });
 
 Filter.propTypes = {

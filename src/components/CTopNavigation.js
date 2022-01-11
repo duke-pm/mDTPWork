@@ -5,39 +5,39 @@
  ** CreateAt: 2021
  ** Description: Description of CTopNavigation.js
  **/
-import PropTypes from 'prop-types';
-import React, {useContext, useState, useEffect} from 'react';
-import {useTranslation} from 'react-i18next';
-import {useNavigation} from '@react-navigation/native';
+import PropTypes from "prop-types";
+import React, {useContext, useState, useEffect} from "react";
+import {useTranslation} from "react-i18next";
+import {useNavigation} from "@react-navigation/native";
 import {
   TopNavigation, TopNavigationAction, Toggle, useTheme,
   Icon, Button, Tooltip, Text, OverflowMenu, MenuItem,
-} from '@ui-kitten/components';
+} from "@ui-kitten/components";
 import {
   TouchableOpacity, View, LayoutAnimation, UIManager,
   StyleSheet,
-} from 'react-native';
-import FastImage from 'react-native-fast-image';
-import IoniIcon from 'react-native-vector-icons/Ionicons';
+} from "react-native";
+import FastImage from "react-native-fast-image";
+import IoniIcon from "react-native-vector-icons/Ionicons";
 /** COMPONENTS */
-import CSearchBar from './CSearchBar';
+import CSearchBar from "./CSearchBar";
 /* COMMON */
-import Routes from '~/navigator/Routes';
-import {Assets} from '~/utils/asset';
-import {ThemeContext} from '~/configs/theme-context';
-import {colors, cStyles} from '~/utils/style';
+import Routes from "~/navigator/Routes";
+import {Assets} from "~/utils/asset";
+import {ThemeContext} from "~/configs/theme-context";
+import {colors, cStyles} from "~/utils/style";
 import {
   AST_DARK_MODE,
   DARK,
   LIGHT,
-} from '~/configs/constants';
+} from "~/configs/constants";
 import {
   getLocalInfo,
   saveLocalInfo,
   moderateScale,
   IS_ANDROID,
   IS_IOS,
-} from '~/utils/helper';
+} from "~/utils/helper";
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -45,10 +45,10 @@ if (IS_ANDROID) {
   }
 }
 const initSizeIcon = moderateScale(20);
-const initColorText = 'text-basic-color';
-const initColorDanger = 'color-danger-500';
-const initBorder = 'border-basic-color-3';
-const initBGColor1 = 'background-basic-color-1';
+const initColorText = "text-basic-color";
+const initColorDanger = "color-danger-500";
+const initBorder = "border-basic-color-3";
+const initBGColor1 = "background-basic-color-1";
 
 /*********************
  ** OTHER COMPONENT **
@@ -72,8 +72,8 @@ const RenderBackicon = props => (
   <Icon
     {...props}
     name={IS_IOS
-      ? 'arrow-ios-back-outline'
-      : 'arrow-back-outline'}
+      ? "arrow-ios-back-outline"
+      : "arrow-back-outline"}
   />
 );
 
@@ -131,8 +131,8 @@ const RenderTopLeft = (
               <MenuItem
                 key={itemB.key}
                 title={!itemB.params.projectID
-                  ? t('project_management:title')
-                  : `${t('project_management:project_parent')} #${itemB.params.projectID}`}
+                  ? t("project_management:title")
+                  : `${t("project_management:project_parent")} #${itemB.params.projectID}`}
                 onPress={() => handleItemBack(arrRouteProject.length - indexB - 1)}
               />
             )
@@ -157,8 +157,8 @@ const RenderTopLeft = (
               <MenuItem
                 key={itemB.key}
                 title={itemB.params.data.taskID
-                  ? `${t('project_management:task_parent')} #${itemB.params.data.taskID}`
-                  : `${t('project_management:list_task')} #${itemB.params.data.projectID}`}
+                  ? `${t("project_management:task_parent")} #${itemB.params.data.taskID}`
+                  : `${t("project_management:list_task")} #${itemB.params.data.projectID}`}
                 onPress={() => handleItemBack(arrRouteTask.length - indexB - 1)}
               />
             )
@@ -193,26 +193,26 @@ const RenderTopRight = (
   showFilter,
   renderFilter,
 ) => {
-  if (type === 'darkmode') {
-    return <Toggle {...onPress}>{t('common:dark_mode')}</Toggle>;
+  if (type === "darkmode") {
+    return <Toggle {...onPress}>{t("common:dark_mode")}</Toggle>;
   }
-  if (type === 'notification') {
+  if (type === "notification") {
     return RenderGlobalIcon(
       theme,
-      'notifications-outline',
+      "notifications-outline",
       iconStyle.size,
       iconStyle.color,
       onPress);
   }
-  if (type === 'search') {
+  if (type === "search") {
     return RenderGlobalIcon(
       theme,
-      'search-outline',
+      "search-outline",
       iconStyle.size,
       iconStyle.color,
       onPress);
   }
-  if (type === 'filter') {
+  if (type === "filter") {
     return (
       <View>
         <Tooltip
@@ -233,10 +233,10 @@ const RenderTopRight = (
       </View>
     );
   }
-  if (type === 'searchFilter') {
+  if (type === "searchFilter") {
     return (
       <View style={[cStyles.row, cStyles.itemsCenter]}>
-        {RenderGlobalIcon(theme, 'search-outline', iconStyle.size, iconStyle.color, onPress)}
+        {RenderGlobalIcon(theme, "search-outline", iconStyle.size, iconStyle.color, onPress)}
         <View>
           <Tooltip
             style={{backgroundColor: theme[initBGColor1]}}
@@ -320,11 +320,11 @@ function CTopNavigation(props) {
     arrayBackProject = false,
     arrayBackTask = false,
     darkmode = false,
-    title = '',
-    subtitle = '',
+    title = "",
+    subtitle = "",
     leftTitle = null,
     leftSubtitle = null,
-    alignment = 'center',
+    alignment = "center",
     customTitle = null,
     customLeftComponent = null,
     customRightComponent = null,
@@ -335,10 +335,10 @@ function CTopNavigation(props) {
   } = props;
   let navigationState = navigation.getState();
   if (arrayBackProject) {
-    navigationState = navigationState.routes.filter(f => f.name === 'Project');
+    navigationState = navigationState.routes.filter(f => f.name === "Project");
   }
   if (arrayBackTask) {
-    navigationState = navigationState.routes.filter(f => f.name === 'ProjectDetail');
+    navigationState = navigationState.routes.filter(f => f.name === "ProjectDetail");
   }
 
   /** Use state */
@@ -394,7 +394,7 @@ function CTopNavigation(props) {
 
   if (darkmode) {
     rightComponent = RenderTopRight(
-      'darkmode',
+      "darkmode",
       theme,
       iconStyle,
       t,
@@ -403,7 +403,7 @@ function CTopNavigation(props) {
   }
   if (search) {
     rightComponent = RenderTopRight(
-      'search',
+      "search",
       theme,
       iconStyle,
       t,
@@ -412,7 +412,7 @@ function CTopNavigation(props) {
   }
   if (filter) {
     rightComponent = RenderTopRight(
-      'filter',
+      "filter",
       theme,
       iconStyle,
       t,
@@ -424,7 +424,7 @@ function CTopNavigation(props) {
   }
   if (searchFilter) {
     rightComponent = RenderTopRight(
-      'searchFilter',
+      "searchFilter",
       theme,
       iconStyle,
       t,
@@ -436,7 +436,7 @@ function CTopNavigation(props) {
   }
   if (notification) {
     rightComponent = RenderTopRight(
-      'notification',
+      "notification",
       theme,
       iconStyle,
       t,
@@ -470,7 +470,7 @@ function CTopNavigation(props) {
               {...evaProps}
               style={[cStyles.textCenter, titleStyle]}
               category="s1">
-              {title !== '' ? t(title) : ''}
+              {title !== "" ? t(title) : ""}
             </Text>
           )
         }
@@ -535,7 +535,7 @@ CTopNavigation.propTypes = {
   subtitle: PropTypes.string,
   leftTitle: PropTypes.string,
   leftSubtitle: PropTypes.string,
-  alignment: PropTypes.oneOf(['center', 'start']),
+  alignment: PropTypes.oneOf(["center", "start"]),
   customTitle: PropTypes.element,
   customLeftComponent: PropTypes.element,
   customRightComponent: PropTypes.element,

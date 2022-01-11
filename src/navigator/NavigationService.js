@@ -4,7 +4,7 @@
  ** CreateAt: 2021
  ** Description: Description of NavigationService.js
  **/
-import {CommonActions} from '@react-navigation/native';
+import {CommonActions} from "@react-navigation/native";
 
 let _navigator;
 

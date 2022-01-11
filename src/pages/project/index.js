@@ -5,17 +5,17 @@
  ** CreateAt: 2021
  ** Description: Description of ProjectManagement.js
  **/
-import React, {useRef, useState, useEffect} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import React, {useRef, useState, useEffect} from "react";
+import {useDispatch, useSelector} from "react-redux";
 /** COMPONENTS */
-import CContainer from '~/components/CContainer';
-import CTopNavigation from '~/components/CTopNavigation';
-import CContentSubMenu from '~/components/CContentSubMenu';
+import CContainer from "~/components/CContainer";
+import CTopNavigation from "~/components/CTopNavigation";
+import CContentSubMenu from "~/components/CContentSubMenu";
 /** COMMON */
-import Configs from '~/configs';
-import {Animations} from '~/utils/asset';
+import Configs from "~/configs";
+import {Animations} from "~/utils/asset";
 /** REDUX */
-import * as Actions from '~/redux/actions';
+import * as Actions from "~/redux/actions";
 
 function ProjectManagement(props) {
   const {navigation, route} = props;
@@ -48,7 +48,7 @@ function ProjectManagement(props) {
    **********/
   const onPrepareMasterData = () => {
     let paramsMaster = {
-      ListType: 'Users, PrjSector, PrjStatus',
+      ListType: "Users, PrjSector, PrjStatus",
       RefreshToken: refreshToken,
       Lang: language,
     };
@@ -98,7 +98,7 @@ function ProjectManagement(props) {
    ************/
   return (
     <CContainer
-      safeArea={['top']}
+      safeArea={["top"]}
       headerComponent={
         <CTopNavigation
           title="project_management:main_title"
@@ -110,8 +110,8 @@ function ProjectManagement(props) {
         loading={loading}
         contentRef={contentRef}
         routes={routes}
-        title={'project_management:project_services'}
-        holder={'project_management:project_services_holder'}
+        title={"project_management:project_services"}
+        holder={"project_management:project_services_holder"}
         animTypeImage={Animations.projectHolder}
         colorsItem={Configs.colorsSubMenu.project}
         onPressItem={handleItem}

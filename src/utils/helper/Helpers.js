@@ -6,17 +6,17 @@
  ** Description: Description of Helpers.js
  **/
 /** LIBRARY */
-import {PixelRatio, Platform, Dimensions, Alert} from 'react-native';
-import {PERMISSIONS, request} from 'react-native-permissions';
-import ImagePicker from 'react-native-image-crop-picker';
-import EncryptedStorage from 'react-native-encrypted-storage';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import FileViewer from 'react-native-file-viewer';
-import RNFS from 'react-native-fs';
-import moment from 'moment';
+import {PixelRatio, Platform, Dimensions, Alert} from "react-native";
+import {PERMISSIONS, request} from "react-native-permissions";
+import ImagePicker from "react-native-image-crop-picker";
+import EncryptedStorage from "react-native-encrypted-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import FileViewer from "react-native-file-viewer";
+import RNFS from "react-native-fs";
+import moment from "moment";
 
-export const SCREEN_HEIGHT = Dimensions.get('window').height;
-export const SCREEN_WIDTH = Dimensions.get('window').width;
+export const SCREEN_HEIGHT = Dimensions.get("window").height;
+export const SCREEN_WIDTH = Dimensions.get("window").width;
 
 const guidelineBaseWidth = 360;
 const guidelineBaseHeight = 592;
@@ -27,8 +27,8 @@ export const verticalScale = size =>
 export const moderateScale = (size, factor = 0.5) =>
   size + (scale(size) - size) * factor;
 
-export const IS_ANDROID = Platform.OS === 'android';
-export const IS_IOS = Platform.OS === 'ios';
+export const IS_ANDROID = Platform.OS === "android";
+export const IS_IOS = Platform.OS === "ios";
 const regex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
 /* PARSE HEIGHT WITH SREEN SIZE */
@@ -60,11 +60,11 @@ export function validatEemail(data) {
 
 export function alert(t, message, onPressOK) {
   return Alert.alert(
-    t('common:app_name'),
+    t("common:app_name"),
     t(message),
     [
-      {text: t('common:close'), style: 'cancel', onPress: () => null},
-      {text: t('common:ok'), onPress: onPressOK},
+      {text: t("common:close"), style: "cancel", onPress: () => null},
+      {text: t("common:ok"), onPress: onPressOK},
     ],
     {cancelable: true},
   );
@@ -82,9 +82,9 @@ export async function askPermissionsCalendar() {
     ? PERMISSIONS.ANDROID.WRITE_CALENDAR
     : PERMISSIONS.IOS.CALENDARS;
   let result = await request(permission);
-  if (result !== 'granted') {
+  if (result !== "granted") {
     alert(
-      'You need allow permission for Calendar to remind task manager in Settings!',
+      "You need allow permission for Calendar to remind task manager in Settings!",
     );
     return false;
   } else {
@@ -97,9 +97,9 @@ export async function askPermissionsCamera() {
     ? PERMISSIONS.ANDROID.CAMERA
     : PERMISSIONS.IOS.CAMERA;
   let result = await request(permission);
-  if (result !== 'granted') {
+  if (result !== "granted") {
     alert(
-      'You need allow permission for Camera to upload avatar or album in Settings!',
+      "You need allow permission for Camera to upload avatar or album in Settings!",
     );
     return false;
   } else {
@@ -107,9 +107,9 @@ export async function askPermissionsCamera() {
       ? PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE
       : PERMISSIONS.IOS.PHOTO_LIBRARY;
     result = await request(perGallery);
-    if (result !== 'granted') {
+    if (result !== "granted") {
       alert(
-        'You need allow permission for Gallery to upload avatar or album in Settings!',
+        "You need allow permission for Gallery to upload avatar or album in Settings!",
       );
       return false;
     } else {
@@ -120,7 +120,7 @@ export async function askPermissionsCamera() {
 
 export async function choosePhotoFromCamera(props) {
   let params = {
-    mediaTypes: 'photo',
+    mediaTypes: "photo",
     includeBase64: true,
     forceJpg: true,
     cropping: true,
@@ -136,7 +136,7 @@ export async function choosePhotoFromCamera(props) {
 
 export async function choosePhotoFromGallery(props) {
   let params = {
-    mediaTypes: 'photo',
+    mediaTypes: "photo",
     includeBase64: true,
     forceJpg: true,
     cropping: true,
@@ -230,14 +230,14 @@ export function checkEmpty(
   isNumber = false,
   formatDate = null,
 ) {
-  if (value === 0 || value === '' || !value) {
+  if (value === 0 || value === "" || !value) {
     if (replaceValue) {
       if (isNumber) {
         return Number(replaceValue).format();
       }
       return replaceValue;
     }
-    return '-';
+    return "-";
   } else {
     if (isNumber) {
       return Number(value).format();
@@ -254,7 +254,7 @@ export async function checkExistsFile(name = null) {
   return isExistsFile;
 }
 
-export async function previewFile(url = '', name = null) {
+export async function previewFile(url = "", name = null) {
   const localFile = `${RNFS.DocumentDirectoryPath}/${name}`;
   const isExistsFile = await RNFS.exists(localFile);
   if (isExistsFile) {
@@ -267,7 +267,7 @@ export async function previewFile(url = '', name = null) {
       fromUrl: url,
       toFile: localFile,
       begin: res => {
-        console.log('[LOG] === Begin download ===> ', res);
+        console.log("[LOG] === Begin download ===> ", res);
       },
       progress: res => {},
     };
@@ -278,13 +278,13 @@ export async function previewFile(url = '', name = null) {
 }
 
 export const isTimeBetween = (startTime, endTime, serverTime) => {
-  let start = moment(startTime, 'HH:mm');
-  let end = moment(endTime, 'HH:mm');
-  let server = moment(serverTime, 'HH:mm');
+  let start = moment(startTime, "HH:mm");
+  let end = moment(endTime, "HH:mm");
+  let server = moment(serverTime, "HH:mm");
   if (end < start) {
     return (
-      (server >= start && server <= moment('23:59:59', 'h:mm:ss')) ||
-      (server >= moment('0:00:00', 'h:mm:ss') && server < end)
+      (server >= start && server <= moment("23:59:59", "h:mm:ss")) ||
+      (server >= moment("0:00:00", "h:mm:ss") && server < end)
     );
   }
   return server >= start && server < end;

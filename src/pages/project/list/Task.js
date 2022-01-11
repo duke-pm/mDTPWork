@@ -4,19 +4,19 @@
  ** CreateAt: 2021
  ** Description: Description of Task.js
  **/
-import PropTypes from 'prop-types';
-import React from 'react';
-import {useTranslation} from 'react-i18next';
-import {useNavigation} from '@react-navigation/native';
-import {List} from '@ui-kitten/components';
-import {View} from 'react-native';
+import PropTypes from "prop-types";
+import React from "react";
+import {useTranslation} from "react-i18next";
+import {useNavigation} from "@react-navigation/native";
+import {List} from "@ui-kitten/components";
+import {View} from "react-native";
 /* COMPONENTS */
-import CEmpty from '~/components/CEmpty';
-import TaskItem from '../components/TaskItem';
+import CEmpty from "~/components/CEmpty";
+import TaskItem from "../components/TaskItem";
 /** COMMON */
-import Routes from '~/navigator/Routes';
-import {cStyles} from '~/utils/style';
-import {IS_ANDROID} from '~/utils/helper';
+import Routes from "~/navigator/Routes";
+import {cStyles} from "~/utils/style";
+import {IS_ANDROID} from "~/utils/helper";
 
 function ListTask(props) {
   const {t} = useTranslation();
@@ -72,7 +72,7 @@ function ListTask(props) {
         contentContainerStyle={cStyles.p10}
         data={props.data}
         renderItem={RenderTaskItem}
-        keyExtractor={(item, index) => item.taskID + '_' + index}
+        keyExtractor={(item, index) => item.taskID + "_" + index}
         removeClippedSubviews={IS_ANDROID}
         refreshing={props.refreshing}
         onRefresh={onRefreshTasks}

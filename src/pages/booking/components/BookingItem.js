@@ -4,23 +4,23 @@
  ** CreateAt: 2021
  ** Description: Description of BookingItem.js
  **/
-import PropTypes from 'prop-types';
-import React from 'react';
-import {Avatar, Button, Card, Text} from '@ui-kitten/components';
-import {View} from 'react-native';
-import moment from 'moment';
-import 'moment/locale/en-sg';
+import PropTypes from "prop-types";
+import React from "react";
+import {Avatar, Button, Card, Text} from "@ui-kitten/components";
+import {View} from "react-native";
+import moment from "moment";
+import "moment/locale/en-sg";
 /* COMPONENTS */
-import CStatus from '~/components/CStatus';
-import CAvatar from '~/components/CAvatar';
+import CStatus from "~/components/CStatus";
+import CAvatar from "~/components/CAvatar";
 /* COMMON */
-import {Assets} from '~/utils/asset';
-import {cStyles} from '~/utils/style';
-import {Commons} from '~/utils/common';
+import {Assets} from "~/utils/asset";
+import {cStyles} from "~/utils/style";
+import {Commons} from "~/utils/common";
 import {
   DEFAULT_FORMAT_DATE_4,
   DEFAULT_FORMAT_DATE_9,
-} from '~/configs/constants';
+} from "~/configs/constants";
 
 function BookingItem(props) {
   const {
@@ -45,12 +45,12 @@ function BookingItem(props) {
    ************/
   if (!data) return null;
 
-  let colorStatus = 'warning',
+  let colorStatus = "warning",
     arrAvatarParticipant = [];
   if (data.statusID === Commons.BOOKING_STATUS.HAPPENNING.value) {
-    colorStatus = 'success';
+    colorStatus = "success";
   } else if (data.statusID === Commons.BOOKING_STATUS.HAPPENED.value) {
-    colorStatus = 'basic';
+    colorStatus = "basic";
   }
   if (data.lstUserJoined.length > 0) {
     arrAvatarParticipant = data.lstUserJoined.map(item =>
@@ -72,7 +72,7 @@ function BookingItem(props) {
           <View style={[cStyles.itemsStart, cStyles.pr10]}>
             <Text category="s1">{`${data.purpose}`}</Text>
             <Text style={cStyles.mt5} category="c1" appearance="hint">
-              {`${trans('common:created_at')} ${moment(
+              {`${trans("common:created_at")} ${moment(
                 data.crtdDate,
                 DEFAULT_FORMAT_DATE_4,
               ).format(DEFAULT_FORMAT_DATE_9)}`}
@@ -95,7 +95,7 @@ function BookingItem(props) {
             ).format(DEFAULT_FORMAT_DATE_9)} - ${data.strStartTime}`}
           </Text>
           <Text style={cStyles.mt5} category="c1" appearance="hint">
-            {trans('bookings:start_time')}
+            {trans("bookings:start_time")}
           </Text>
         </View>
         {isMyBooking && arrAvatarParticipant.length > 0 && (
@@ -106,7 +106,7 @@ function BookingItem(props) {
               sources={arrAvatarParticipant}
             />
             <Text style={cStyles.mt5} category="c1" appearance="hint">
-              {trans('bookings:participants')}
+              {trans("bookings:participants")}
             </Text>
           </View>
         )}
@@ -117,7 +117,7 @@ function BookingItem(props) {
               <Text style={cStyles.ml10}>{data.ownerName}</Text>
             </View>
             <Text style={cStyles.mt5} category="c1" appearance="hint">
-              {trans('bookings:owner')}
+              {trans("bookings:owner")}
             </Text>
           </View>
         )}
@@ -137,7 +137,7 @@ function BookingItem(props) {
             ).format(DEFAULT_FORMAT_DATE_9)} - ${data.strEndTime}`}
           </Text>
           <Text style={cStyles.mt5} category="c1" appearance="hint">
-            {trans('bookings:end_time')}
+            {trans("bookings:end_time")}
           </Text>
         </View>
         {!isMyBooking && (
@@ -154,7 +154,7 @@ function BookingItem(props) {
               }
             </Button>
             <Text category="c1" appearance="hint">
-              {trans('bookings:resource')}
+              {trans("bookings:resource")}
             </Text>
           </View>
         )}
@@ -162,7 +162,7 @@ function BookingItem(props) {
           <View style={{flex: 0.5}}>
             <Text>{data.resourceName}</Text>
             <Text style={cStyles.mt5} category="c1" appearance="hint">
-              {trans('bookings:resource')}
+              {trans("bookings:resource")}
             </Text>
           </View>
         )}

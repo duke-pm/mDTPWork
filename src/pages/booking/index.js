@@ -5,17 +5,17 @@
  ** CreateAt: 2021
  ** Description: Description of BookingManagement.js
  **/
-import React, {useRef, useState, useEffect} from 'react';
-import {useSelector, useDispatch} from 'react-redux';
+import React, {useRef, useState, useEffect} from "react";
+import {useSelector, useDispatch} from "react-redux";
 /** COMPONENTS */
-import CContainer from '~/components/CContainer';
-import CTopNavigation from '~/components/CTopNavigation';
-import CContentSubMenu from '~/components/CContentSubMenu';
+import CContainer from "~/components/CContainer";
+import CTopNavigation from "~/components/CTopNavigation";
+import CContentSubMenu from "~/components/CContentSubMenu";
 /** COMMON */
-import Configs from '~/configs';
-import {Animations} from '~/utils/asset';
+import Configs from "~/configs";
+import {Animations} from "~/utils/asset";
 /* REDUX */
-import * as Actions from '~/redux/actions';
+import * as Actions from "~/redux/actions";
 
 function BookingManagement(props) {
   const {navigation, route} = props;
@@ -49,7 +49,7 @@ function BookingManagement(props) {
    **********/
   const onPrepareMasterData = () => {
     let params = {
-      listType: 'BKColor, BKResource, Users',
+      listType: "BKColor, BKResource, Users",
       RefreshToken: refreshToken,
       Lang: language,
     };
@@ -109,7 +109,7 @@ function BookingManagement(props) {
    ************/
   return (
     <CContainer
-      safeArea={['top']}
+      safeArea={["top"]}
       headerComponent={
         <CTopNavigation
           title="booking_management:title"
@@ -122,8 +122,8 @@ function BookingManagement(props) {
         contentRef={contentRef}
         animTypeImage={Animations.bookingHolder}
         routes={routes}
-        title={'booking_management:booking_services'}
-        holder={'booking_management:booking_services_holder'}
+        title={"booking_management:booking_services"}
+        holder={"booking_management:booking_services_holder"}
         colorsItem={Configs.colorsSubMenu.booking}
         onPressItem={handleItem}
       />

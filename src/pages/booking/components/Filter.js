@@ -5,28 +5,28 @@
  ** CreateAt: 2021
  ** Description: Description of Filter.js
  **/
-import PropTypes from 'prop-types';
-import React, {useState, useEffect} from 'react';
-import {useTranslation} from 'react-i18next';
-import {showMessage} from 'react-native-flash-message';
-import {Button, Datepicker, Divider, Icon, Text} from '@ui-kitten/components';
-import {MomentDateService} from '@ui-kitten/moment';
-import {StyleSheet, View} from 'react-native';
-import moment from 'moment';
-import 'moment/locale/en-sg';
-import 'moment/locale/en-sg';
+import PropTypes from "prop-types";
+import React, {useState, useEffect} from "react";
+import {useTranslation} from "react-i18next";
+import {showMessage} from "react-native-flash-message";
+import {Button, Datepicker, Divider, Icon, Text} from "@ui-kitten/components";
+import {MomentDateService} from "@ui-kitten/moment";
+import {StyleSheet, View} from "react-native";
+import moment from "moment";
+import "moment/locale/en-sg";
+import "moment/locale/en-sg";
 /* COMPONENTS */
-import CGroupFilter from '~/components/CGroupFilter';
+import CGroupFilter from "~/components/CGroupFilter";
 /* COMMON */
-import Configs from '~/configs';
-import {cStyles} from '~/utils/style';
-import {sW} from '~/utils/helper';
+import Configs from "~/configs";
+import {cStyles} from "~/utils/style";
+import {sW} from "~/utils/helper";
 import {
   DEFAULT_FORMAT_DATE_1,
-} from '~/configs/constants';
+} from "~/configs/constants";
 
 /** All init avriables */
-const formatDateService = new MomentDateService('en-sg');
+const formatDateService = new MomentDateService("en-sg");
 
 const RenderCalendarIcon = props => (
   <Icon {...props} name="calendar" />
@@ -59,14 +59,14 @@ function Filter(props) {
 
   const handleFilter = () => {
     let tmpFromDate =
-      data.fromDate !== '' ? moment(data.fromDate, formatDate).valueOf() : null;
+      data.fromDate !== "" ? moment(data.fromDate, formatDate).valueOf() : null;
     let tmpToDate =
-      data.toDate !== '' ? moment(data.toDate, formatDate).valueOf() : null;
+      data.toDate !== "" ? moment(data.toDate, formatDate).valueOf() : null;
     if (tmpFromDate && tmpToDate && tmpFromDate > tmpToDate) {
-      return onErrorValidation('error:from_date_larger_than_to_date');
+      return onErrorValidation("error:from_date_larger_than_to_date");
     }
     if (data.resources.length === 0) {
-      return onErrorValidation('error:resource_not_found');
+      return onErrorValidation("error:resource_not_found");
     }
     let tmpResourceORG = dataResources.filter(item =>
       data.resources.includes(item.value),
@@ -106,10 +106,10 @@ function Filter(props) {
 
   const onErrorValidation = messageKey => {
     return showMessage({
-      message: t('common:app_name'),
+      message: t("common:app_name"),
       description: t(messageKey),
-      type: 'warning',
-      icon: 'warning',
+      type: "warning",
+      icon: "warning",
     });
   };
 
@@ -135,7 +135,7 @@ function Filter(props) {
       let tmp = {
         fromDate: props.data.fromDate,
         toDate: props.data.toDate,
-        resources: JSON.parse('[' + props.data.resources + ']'),
+        resources: JSON.parse("[" + props.data.resources + "]"),
       };
       setData(tmp);
     }
@@ -154,7 +154,7 @@ function Filter(props) {
           cStyles.pb10,
           cStyles.pt5,
         ]}>
-        <Text category="s1">{t('common:filter')}</Text>
+        <Text category="s1">{t("common:filter")}</Text>
         <View style={[cStyles.row, cStyles.itemsCenter]}>
           <Button
             appearance="outline"
@@ -162,7 +162,7 @@ function Filter(props) {
             status="basic"
             onPress={handleReset}>
             {propsT =>
-              <Text category="label">{t('common:reset')}</Text>
+              <Text category="label">{t("common:reset")}</Text>
             }
           </Button>
           <Button
@@ -170,7 +170,7 @@ function Filter(props) {
             size="small"
             onPress={handleFilter}>
             {propsT =>
-              <Text category="label" status="control">{t('common:apply')}</Text>
+              <Text category="label" status="control">{t("common:apply")}</Text>
             }
           </Button>
         </View>
@@ -180,12 +180,12 @@ function Filter(props) {
         <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween]}>
           <Datepicker
             style={cStyles.mt16}
-            label={t('bookings:from_date')}
+            label={t("bookings:from_date")}
             accessoryRight={RenderCalendarIcon}
             dateService={formatDateService}
-            placeholder={t('bookings:from_date')}
-            date={data.fromDate === ''
-              ? ''
+            placeholder={t("bookings:from_date")}
+            date={data.fromDate === ""
+              ? ""
               : moment(data.fromDate)}
             min={moment(Configs.minDate)}
             max={moment(Configs.maxDate)}
@@ -193,12 +193,12 @@ function Filter(props) {
           />
           <Datepicker
             style={cStyles.mt16}
-            label={t('bookings:to_date')}
+            label={t("bookings:to_date")}
             accessoryRight={RenderCalendarIcon}
             dateService={formatDateService}
-            placeholder={t('bookings:to_date')}
-            date={data.toDate === ''
-              ? ''
+            placeholder={t("bookings:to_date")}
+            date={data.toDate === ""
+              ? ""
               : moment(data.toDate)}
               min={moment(Configs.minDate)}
               max={moment(Configs.maxDate)}
@@ -208,10 +208,10 @@ function Filter(props) {
 
         {!loading &&
           <CGroupFilter
-            label={'bookings:resource'}
+            label={"bookings:resource"}
             items={dataResources}
             itemsChoose={data.resources}
-            primaryColor={'primary'}
+            primaryColor={"primary"}
             onChange={handleChangeResource}
           />
         }
@@ -221,7 +221,7 @@ function Filter(props) {
 }
 
 const styles = StyleSheet.create({
-  con_filter: {width: sW('85%')},
+  con_filter: {width: sW("85%")},
 });
 
 Filter.propTypes = {

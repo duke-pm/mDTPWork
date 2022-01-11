@@ -4,23 +4,26 @@
  ** CreateAt: 2021
  ** Description: Description of CMenuAccount.js
  **/
-import PropTypes from 'prop-types';
-import React from 'react';
-import {useTranslation} from 'react-i18next';
-import {useNavigation} from '@react-navigation/native';
+import PropTypes from "prop-types";
+import React from "react";
+import {useTranslation} from "react-i18next";
+import {useNavigation} from "@react-navigation/native";
 import {
   Layout, ListItem, Menu, Text, Icon, useTheme,
-} from '@ui-kitten/components';
-import {StyleSheet, View} from 'react-native';
+} from "@ui-kitten/components";
+import {StyleSheet, View} from "react-native";
 /* COMMON */
-import Routes from '~/navigator/Routes';
-import {colors, cStyles} from '~/utils/style';
-import {moderateScale} from '~/utils/helper';
+import Routes from "~/navigator/Routes";
+import {colors, cStyles} from "~/utils/style";
+import {moderateScale} from "~/utils/helper";
+
+const colorError = "color-danger-500";
 
 /*********************
  ** OTHER COMPONENT **
  *********************/
-const RenderRightValue = info => <Text appearance="hint">{info.value}</Text>;
+const RenderRightValue = info =>
+  <Text appearance="hint">{info.value}</Text>;
 
 const RenderForwardIcon = (props, theme, info) => (
   <View style={[cStyles.row, cStyles.itemsCenter]}>
@@ -29,7 +32,7 @@ const RenderForwardIcon = (props, theme, info) => (
         style={[
           cStyles.rounded4,
           cStyles.center,
-          {backgroundColor: theme['color-danger-500']},
+          {backgroundColor: theme[colorError]},
           styles.con_holder_row,
         ]}>
         <Text category="c1" status="control">{info.alert}</Text>
@@ -66,23 +69,23 @@ function CMenuAccount(props) {
     containerStyle = {},
     data = [
       {
-        id: 'help',
-        title: 'account:help',
-        icon: 'question-mark-circle-outline',
-        color: 'color-primary-500',
-        bgColor: 'color-primary-transparent-500',
+        id: "help",
+        title: "account:help",
+        icon: "question-mark-circle-outline",
+        color: "color-primary-500",
+        bgColor: "color-primary-transparent-500",
         renderNext: true,
-        nextRoute: Routes.HELP.name,
+        nextRoute: Routes.MY_ACCOUNT.name,
         value: null,
         alert: null,
         onPress: null,
       },
       {
-        id: 'log_out',
-        title: 'account:log_out',
-        icon: 'log-out-outline',
-        color: 'color-danger-500',
-        bgColor: 'color-danger-transparent-500',
+        id: "log_out",
+        title: "account:log_out",
+        icon: "log-out-outline",
+        color: "color-danger-500",
+        bgColor: "color-danger-transparent-500",
         renderNext: false,
         nextRoute: null,
         value: null,
@@ -103,39 +106,48 @@ function CMenuAccount(props) {
    ** RENDER **
    ************/
   return (
-    <Layout style={[cStyles.rounded1, cStyles.mx10, cStyles.mt10, containerStyle]}>
-      <Menu scrollEnabled={false} style={[cStyles.rounded2, styles.con_menu]}>
-        {data.map((item, index) => {
+    <Layout
+      style={[
+        cStyles.rounded1,
+        cStyles.mx10,
+        cStyles.mt10,
+        containerStyle,
+      ]}>
+      <Menu
+        style={[cStyles.rounded2, styles.con_menu]}
+        scrollEnabled={false}>
+        {data.map((itemM, indexM) => {
           return (
             <ListItem
-              key={item.id + '_' + index}
+              key={itemM.id + "_" + indexM}
               style={[
-                index === 0 && cStyles.roundedTopLeft1,
-                index === 0 && cStyles.roundedTopRight1,
-                index === data.length - 1 && cStyles.roundedBottomLeft1,
-                index === data.length - 1 && cStyles.roundedBottomRight1,
+                indexM === 0 && cStyles.roundedTopLeft1,
+                indexM === 0 && cStyles.roundedTopRight1,
+                indexM === data.length - 1 && cStyles.roundedBottomLeft1,
+                indexM === data.length - 1 && cStyles.roundedBottomRight1,
               ]}
               title={propsT =>
-                <Text style={cStyles.ml8} category="s1">{t(item.title)}</Text>
+                <Text style={cStyles.ml8} category="s1">{t(itemM.title)}</Text>
               }
-              description={item.subtitle ? propsD =>
-                <Text style={cStyles.ml8} category="c1" appearance="hint">
-                  {t(item.subtitle)}
-                </Text>
-               : undefined
+              description={itemM.subtitle
+                ? propsD =>
+                  <Text style={cStyles.ml8} category="c1" appearance="hint">
+                    {t(itemM.subtitle)}
+                  </Text>
+                : undefined
               }
               accessoryLeft={propsIc =>
-                RenderLeftIcon(propsIc, theme, item.icon, item.color, item.bgColor)
+                RenderLeftIcon(propsIc, theme, itemM.icon, itemM.color, itemM.bgColor)
               }
-              accessoryRight={item.renderNext
-                ? propsR => RenderForwardIcon(propsR, theme, item)
-                : item.value
-                  ? propsR => RenderRightValue(item)
+              accessoryRight={itemM.renderNext
+                ? propsR => RenderForwardIcon(propsR, theme, itemM)
+                : itemM.value
+                  ? propsR => RenderRightValue(itemM)
                   : undefined
               }
-              onPress={item.renderNext
-                ? () => handleGoMenuItem(item.nextRoute)
-                : item.onPress
+              onPress={itemM.renderNext
+                ? () => handleGoMenuItem(itemM.nextRoute)
+                : itemM.onPress
               }
             />
           )

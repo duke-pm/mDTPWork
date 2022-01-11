@@ -5,51 +5,51 @@
  ** CreateAt: 2021
  ** Description: Description of Bookings.js
  **/
-import React, {useState, useEffect} from 'react';
-import {useSelector, useDispatch} from 'react-redux';
-import {useTranslation} from 'react-i18next';
-import {View} from 'react-native';
-import {showMessage} from 'react-native-flash-message';
+import React, {useState, useEffect} from "react";
+import {useSelector, useDispatch} from "react-redux";
+import {useTranslation} from "react-i18next";
+import {View} from "react-native";
+import {showMessage} from "react-native-flash-message";
 import {
   ExpandableCalendar, Timeline, CalendarProvider,
-} from 'react-native-calendars';
-import {useTheme} from '@ui-kitten/components';
-import XDate from 'xdate';
-import moment from 'moment';
-import 'moment/locale/en-sg';
+} from "react-native-calendars";
+import {useTheme} from "@ui-kitten/components";
+import XDate from "xdate";
+import moment from "moment";
+import "moment/locale/en-sg";
 /* COMPONENTS */
-import CContainer from '~/components/CContainer';
-import CTopNavigation from '~/components/CTopNavigation';
-import CLoading from '~/components/CLoading';
-import CButtonAdd from '~/components/CButtonAdd';
-import BookingList from '../components/BookingList';
-import Filter from '../components/Filter';
+import CContainer from "~/components/CContainer";
+import CTopNavigation from "~/components/CTopNavigation";
+import CLoading from "~/components/CLoading";
+import CButtonAdd from "~/components/CButtonAdd";
+import BookingList from "../components/BookingList";
+import Filter from "../components/Filter";
 /* COMMON */
-import Routes from '~/navigator/Routes';
-import {colors, cStyles} from '~/utils/style';
+import Routes from "~/navigator/Routes";
+import {colors, cStyles} from "~/utils/style";
 import {
   moderateScale,
   IS_ANDROID,
-} from '~/utils/helper';
+} from "~/utils/helper";
 import {
   REFRESH,
   LOAD_MORE,
-} from '~/configs/constants';
+} from "~/configs/constants";
 /* REDUX */
-import * as Actions from '~/redux/actions';
+import * as Actions from "~/redux/actions";
 
 /** All init */
 const THEME_CALENDAR = {
   textDayFontSize: cStyles.textCallout.fontSize,
   textMonthFontSize: cStyles.textCallout.fontSize,
   textDayHeaderFontSize: cStyles.textCallout.fontSize,
-  textMonthFontWeight: 'bold',
-  textDayHeaderFontWeight: 'bold',
+  textMonthFontWeight: "bold",
+  textDayHeaderFontWeight: "bold",
   arrowColor: colors.BLACK,
   selectedDotColor: colors.WHITE,
   selectedDayTextColor: colors.WHITE,
   todayTextColor: colors.PRIMARY,
-  'stylesheet.calendar.header': {
+  "stylesheet.calendar.header": {
     dayTextAtIndex5: {
       color: colors.RED,
     },
@@ -64,13 +64,13 @@ const THEME_CALENDAR = {
   textDayFontWeight: cStyles.textBody.fontWeight,
   textDayStyle: {marginTop: IS_ANDROID ? moderateScale(2) : moderateScale(7)},
   // disabled date
-  textDisabledColor: 'grey',
+  textDisabledColor: "grey",
   // dot (marked date)
   dotColor: colors.PRIMARY,
-  disabledDotColor: 'grey',
+  disabledDotColor: "grey",
   dotStyle: {marginTop: -2},
 };
-const MONTH_FORMAT = 'MMMM - yyyy';
+const MONTH_FORMAT = "MMMM - yyyy";
 
 function Bookings(props) {
   const {t} = useTranslation();
@@ -107,11 +107,11 @@ function Bookings(props) {
   const [choosedReSrc, setChoosedReSrc] = useState(null);
   const [marked, setMarked] = useState({});
   const [form, setForm] = useState({
-    fromDate: moment().clone().startOf('month').format(formatDate),
-    toDate: moment().clone().endOf('month').format(formatDate),
+    fromDate: moment().clone().startOf("month").format(formatDate),
+    toDate: moment().clone().endOf("month").format(formatDate),
     page: 1,
-    search: '',
-    resources: '',
+    search: "",
+    resources: "",
     resourcesORG: [],
   });
 
@@ -120,7 +120,7 @@ function Bookings(props) {
    *****************/
   const handleAddNew = () => {
     navigation.navigate(Routes.ADD_BOOKING.name, {
-      type: 'ADD',
+      type: "ADD",
       isFilterByResource: choosedReSrc,
       onRefresh: () => onRefresh(),
     });
@@ -142,7 +142,7 @@ function Bookings(props) {
 
   const handleChangeResource = (
     resourceID = -1,
-    resourceName = '',
+    resourceName = "",
     fromDate = form.fromDate,
     toDate = form.toDate,
   ) => {
@@ -157,7 +157,7 @@ function Bookings(props) {
       });
     } else {
       setChoosedReSrc(null);
-      setForm({...form, resources: ''});
+      setForm({...form, resources: ""});
     }
     let params = {
       FromDate: fromDate,
@@ -174,7 +174,7 @@ function Bookings(props) {
   const handleBookingItem = booking => {
     dispatch(Actions.resetBookingDetail());
     navigation.navigate(Routes.ADD_BOOKING.name, {
-      type: 'UPDATE',
+      type: "UPDATE",
       bookingID: booking.dataFull.bookID,
       onRefresh: () => onRefresh(),
     });
@@ -189,8 +189,8 @@ function Bookings(props) {
     fromDate = form.fromDate,
     toDate = form.toDate,
     page = 1,
-    search = '',
-    resources = '',
+    search = "",
+    resources = "",
   ) => {
     let params = {
       FromDate: fromDate,
@@ -240,16 +240,16 @@ function Bookings(props) {
         tmpMarker = {},
         itemBooking = null,
         itemCalendar = {},
-        startDate = '',
-        endDate = '',
-        startTime = '',
-        endTime = '';
+        startDate = "",
+        endDate = "",
+        startTime = "",
+        endTime = "";
 
       for (itemBooking of dataBookings) {
-        startDate = itemBooking.startDate.split('T')[0];
-        endDate = itemBooking.endDate.split('T')[0];
-        startTime = itemBooking.strStartTime + ':00';
-        endTime = itemBooking.strEndTime + ':00';
+        startDate = itemBooking.startDate.split("T")[0];
+        endDate = itemBooking.endDate.split("T")[0];
+        startTime = itemBooking.strStartTime + ":00";
+        endTime = itemBooking.strEndTime + ":00";
 
         itemCalendar = {};
 
@@ -262,14 +262,14 @@ function Bookings(props) {
         });
 
         itemCalendar.dataFull = itemBooking;
-        itemCalendar.start = startDate + ' ' + startTime;
-        itemCalendar.end = endDate + ' ' + endTime;
+        itemCalendar.start = startDate + " " + startTime;
+        itemCalendar.end = endDate + " " + endTime;
         itemCalendar.title = itemBooking.purpose;
         itemCalendar.summary =
-          t('my_bookings:notes') +
-          `${itemBooking.remarks !== '' ? itemBooking.remarks : '-'}\n${t(
-            'my_bookings:owner',
-          )}${itemBooking.ownerName}\n${t('my_bookings:resource')}${
+          t("my_bookings:notes") +
+          `${itemBooking.remarks !== "" ? itemBooking.remarks : "-"}\n${t(
+            "my_bookings:owner",
+          )}${itemBooking.ownerName}\n${t("my_bookings:resource")}${
             itemBooking.resourceName
           }`;
         itemCalendar.color = itemBooking.color;
@@ -308,10 +308,10 @@ function Bookings(props) {
 
   const onError = () => {
     showMessage({
-      message: t('common:app_name'),
-      description: t('error:list_request'),
-      type: 'danger',
-      icon: 'danger',
+      message: t("common:app_name"),
+      description: t("error:list_request"),
+      type: "danger",
+      icon: "danger",
     });
     return onDone({
       main: false,
@@ -342,10 +342,10 @@ function Bookings(props) {
 
   const onMonthChanged = newMonth => {
     let tmpFromDate = moment(newMonth.dateString)
-      .startOf('month')
+      .startOf("month")
       .format(formatDate);
     let tmpEndDate = moment(newMonth.dateString)
-      .endOf('month')
+      .endOf("month")
       .format(formatDate);
 
     setForm({
@@ -355,7 +355,7 @@ function Bookings(props) {
     });
     handleChangeResource(
       choosedReSrc,
-      '',
+      "",
       tmpFromDate,
       tmpEndDate,
     );
@@ -424,12 +424,12 @@ function Bookings(props) {
    ************/
   return (
     <CContainer
-      safeArea={['top', 'bottom']}
+      safeArea={["top", "bottom"]}
       loading={loading.main}
       headerComponent={
         <CTopNavigation
           loading={loading.startFetch}
-          title={'bookings:title'}
+          title={"bookings:title"}
           back
           searchFilter
           onSearch={handleSearch}
@@ -466,33 +466,33 @@ function Bookings(props) {
           onDateChanged={onDateChanged}
           onMonthChange={onMonthChanged}>
           <ExpandableCalendar
-            style={[cStyles.borderBottom, {borderBottomColor: theme['border-basic-color-3']}]}
+            style={[cStyles.borderBottom, {borderBottomColor: theme["border-basic-color-3"]}]}
             displayLoadingIndicator={
               loading.changeType || loading.startFetch
             }
             disableAllTouchEventsForDisabledDays
             allowShadow={false}
             firstDay={1}
-            markingType={'multi-dot'}
+            markingType={"multi-dot"}
             markedDates={marked}
             monthFormat={MONTH_FORMAT}
             enableSwipeMonths={false}
             theme={{
               ...THEME_CALENDAR,
-              arrowColor: theme['text-hint-color'],
-              calendarBackground: theme['background-basic-color-1'],
-              textDayStyle: {color: theme['text-basic-color']},
-              monthTextColor: theme['text-basic-color'],
-              selectedDayBackgroundColor: theme['color-primary-500']
+              arrowColor: theme["text-hint-color"],
+              calendarBackground: theme["background-basic-color-1"],
+              textDayStyle: {color: theme["text-basic-color"]},
+              monthTextColor: theme["text-basic-color"],
+              selectedDayBackgroundColor: theme["color-primary-500"]
             }}
           />
           <Timeline
             styles={{
               contentStyle: {
-                backgroundColor: theme['background-basic-color-3'],
+                backgroundColor: theme["background-basic-color-3"],
               },
               line: {
-                backgroundColor: theme['outline-color'],
+                backgroundColor: theme["outline-color"],
               },
             }}
             format24h

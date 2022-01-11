@@ -5,7 +5,7 @@
  ** Description: Description of Booking.js
  **/
 /** REDUX */
-import * as types from '../actions/types';
+import * as types from "../actions/types";
 
 export const initialState = {
   submittingList: false,
@@ -19,13 +19,13 @@ export const initialState = {
   successDetail: false,
 
   errorList: false,
-  errorHelperList: '',
+  errorHelperList: "",
   errorAdd: false,
-  errorHelperAdd: '',
+  errorHelperAdd: "",
   errorRemove: false,
-  errorHelperRemove: '',
+  errorHelperRemove: "",
   errorDetail: false,
-  errorHelperDetail: '',
+  errorHelperDetail: "",
 
   bookings: [],
   bookingDetail: null,

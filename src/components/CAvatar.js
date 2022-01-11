@@ -4,26 +4,34 @@
  ** CreateAt: 2021
  ** Description: Description of CAvatar.js
  **/
-import PropTypes from 'prop-types';
-import React, {useState} from 'react';
-import {useTheme, Layout, Avatar, Text} from '@ui-kitten/components';
-import {StyleSheet, ScrollView, TouchableOpacity, View} from 'react-native';
+import PropTypes from "prop-types";
+import React, {useState} from "react";
+import {
+  useTheme, Layout, Avatar, Text,
+} from "@ui-kitten/components";
+import {
+  StyleSheet, ScrollView, TouchableOpacity, View,
+} from "react-native";
 /** COMPONENTS */
-import CAlert from './CAlert';
+import CAlert from "./CAlert";
 /* COMMON */
-import {Assets} from '~/utils/asset';
-import {cStyles} from '~/utils/style';
-import {moderateScale} from '~/utils/helper';
+import {Assets} from "~/utils/asset";
+import {cStyles} from "~/utils/style";
+import {
+  moderateScale,
+} from "~/utils/helper";
 
 /** All init */
 const SIZE = {
-  THIN: 'thin',
-  TINY: 'tiny',
-  SMALL: 'small',
-  MEDIUM: 'medium',
-  LARGE: 'large',
-  GIANT: 'giant',
+  THIN: "thin",
+  TINY: "tiny",
+  SMALL: "small",
+  MEDIUM: "medium",
+  LARGE: "large",
+  GIANT: "giant",
 };
+const borderColor = "border-basic-color-3";
+const colorBgAlert = "background-basic-color-2";
 
 function CAvatar(props) {
   const theme = useTheme();
@@ -31,13 +39,12 @@ function CAvatar(props) {
     style = {},
     numberShow = 3,
     absolute = true,
-    size = 'large',
-    shape = 'round',
+    size = "large",
+    shape = "round",
     sources = [],
     source = null,
     details = [],
   } = props;
-  const bodColor = theme['border-basic-color-3'];
 
   /** Use state */
   const [showDetails, setShowDetails] = useState(false);
@@ -79,10 +86,10 @@ function CAvatar(props) {
   if (sources.length === 0 && source) {
     return (
       <Avatar
-        style={[cStyles.borderAll, {borderColor: bodColor}]}
+        style={[cStyles.borderAll, {borderColor: theme[borderColor]}]}
         size={size}
         shape={shape}
-        source={typeof source === 'string'
+        source={typeof source === "string"
           ? {uri: source}
           : source
         }
@@ -105,13 +112,13 @@ function CAvatar(props) {
             if (indexA === numberShow) {
               return (
                 <Layout
-                  key={'avatar_holder_' + indexA}
+                  key={"avatar_holder_" + indexA}
                   style={[
                     cStyles.center,
-                    cStyles.borderAll,
                     holderSize,
                     borderRadiusHolder,
-                    {borderColor: bodColor},
+                    cStyles.borderAll,
+                    {borderColor: theme[borderColor]},
                     absolute && cStyles.abs,
                     absolute && {left: indexA * 15},
                   ]}
@@ -124,16 +131,16 @@ function CAvatar(props) {
             }
             return (
               <Avatar
-                key={'avatar_' + indexA}
+                key={"avatar_" + indexA}
                 style={[
-                  cStyles.borderAll,
                   absolute && cStyles.abs,
                   absolute && {left: indexA * 15},
-                  {borderColor: bodColor},
+                  cStyles.borderAll,
+                  {borderColor: theme[borderColor]},
                 ]}
                 size={size}
                 shape={shape}
-                source={typeof itemA === 'string'
+                source={typeof itemA === "string"
                   ? {uri: itemA}
                   : itemA
                 }
@@ -144,7 +151,7 @@ function CAvatar(props) {
 
         <CAlert
           show={showDetails}
-          label={'project_management:user_invited'}
+          label={"project_management:user_invited"}
           cancel
           customMessage={
             <ScrollView
@@ -153,15 +160,15 @@ function CAvatar(props) {
                 cStyles.rounded1,
                 cStyles.borderAll,
                 {
-                  backgroundColor: theme['background-basic-color-2'],
-                  borderColor: theme['border-basic-color-3'],
+                  backgroundColor: theme[colorBgAlert],
+                  borderColor: theme[borderColor],
                 },
                 styles.list_invited,
               ]}>
               {details.map((itemU, indexU) => {
                 return (
                   <View
-                    key={itemU.userName + '_' + indexU}
+                    key={itemU.userName + "_" + indexU}
                     style={[cStyles.row, cStyles.itemsCenter, cStyles.ml3]}>
                     <View style={cStyles.px10}>
                       <Avatar size="small" source={Assets.iconUser} />
@@ -207,8 +214,8 @@ CAvatar.propTypes = {
   style: PropTypes.object,
   numberShow: PropTypes.number,
   absolute: PropTypes.bool,
-  size: PropTypes.oneOf(['tiny', 'small', 'medium', 'large', 'giant']),
-  shape: PropTypes.oneOf(['round', 'rounded', 'square']),
+  size: PropTypes.oneOf(["tiny", "small", "medium", "large", "giant"]),
+  shape: PropTypes.oneOf(["round", "rounded", "square"]),
   sources: PropTypes.array,
   source: PropTypes.object,
   details: PropTypes.array,

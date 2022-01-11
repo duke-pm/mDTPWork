@@ -6,30 +6,30 @@
  ** CreateAt: 2021
  ** Description: Description of Percentage.js
  **/
-import PropTypes from 'prop-types';
-import React, {createRef, useState, useEffect, useContext} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {useTranslation} from 'react-i18next';
-import {showMessage} from 'react-native-flash-message';
-import {Button, Input, useTheme, Text, Icon} from '@ui-kitten/components';
-import {StyleSheet, View} from 'react-native';
+import PropTypes from "prop-types";
+import React, {createRef, useState, useEffect, useContext} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {useTranslation} from "react-i18next";
+import {showMessage} from "react-native-flash-message";
+import {Button, Input, useTheme, Text, Icon} from "@ui-kitten/components";
+import {StyleSheet, View} from "react-native";
 /* COMMON */
-import {Commons} from '~/utils/common';
-import {cStyles} from '~/utils/style';
-import {ThemeContext} from '~/configs/theme-context';
+import {Commons} from "~/utils/common";
+import {cStyles} from "~/utils/style";
+import {ThemeContext} from "~/configs/theme-context";
 import {
   alert,
   moderateScale,
-} from '~/utils/helper';
+} from "~/utils/helper";
 /** REDUX */
-import * as Actions from '~/redux/actions';
+import * as Actions from "~/redux/actions";
 
 /** All ref */
 const PERCENT_COMPLETE = 100;
 const PERCENT_HALF = 35;
 let percentRef = createRef();
-let curStatus = '';
-let curPercent = '';
+let curStatus = "";
+let curPercent = "";
 
 /*********************
  ** OTHER COMPONENT **
@@ -56,8 +56,8 @@ function Percentage(props) {
   const {
     disabled = false,
     navigation = {},
-    language = 'vi',
-    refreshToken = '',
+    language = "vi",
+    refreshToken = "",
     onStartUpdate = () => null,
     onEndUpdate = () => null,
   } = props;
@@ -78,11 +78,11 @@ function Percentage(props) {
   const handleChangePercent = () => {
     if (percent.visible) {
       if (percent.value < 0 || percent.value > PERCENT_COMPLETE) {
-        alert(t, 'project_management:warning_input_percent', () =>
+        alert(t, "project_management:warning_input_percent", () =>
           percentRef.focus(),
         );
       } else if (Number(percent.value) === PERCENT_COMPLETE) {
-        alert(t, 'project_management:confirm_change_to_100', () =>
+        alert(t, "project_management:confirm_change_to_100", () =>
           onFetchPercent(true),
         );
       } else {
@@ -114,23 +114,23 @@ function Percentage(props) {
 
   const onUpdateActivities = (isSuccess) => {
     let taskDetail = projectState["taskDetail"];
-    let comment = '';
+    let comment = "";
     if (taskDetail.percentage === PERCENT_COMPLETE) {
-      comment = `* ${t('project_management:status_filter').toUpperCase()} ${t(
-        'project_management:holder_change_from',
-      )} ${curStatus} ${t('project_management:holder_change_to')} ${
+      comment = `* ${t("project_management:status_filter").toUpperCase()} ${t(
+        "project_management:holder_change_from",
+      )} ${curStatus} ${t("project_management:holder_change_to")} ${
         taskDetail.statusName
-      }.\n* ${t('project_management:holder_task_percentage').toUpperCase()} ${t(
-        'project_management:holder_change_from',
-      )} ${curPercent} ${t('project_management:holder_change_to')} ${
+      }.\n* ${t("project_management:holder_task_percentage").toUpperCase()} ${t(
+        "project_management:holder_change_from",
+      )} ${curPercent} ${t("project_management:holder_change_to")} ${
         taskDetail.percentage
       }.`;
     } else {
       comment = `* ${t(
-        'project_management:holder_task_percentage',
+        "project_management:holder_task_percentage",
       ).toUpperCase()} ${t(
-        'project_management:holder_change_from',
-      )} ${curPercent} ${t('project_management:holder_change_to')} ${
+        "project_management:holder_change_from",
+      )} ${curPercent} ${t("project_management:holder_change_to")} ${
         taskDetail.percentage
       }.`;
     }
@@ -160,21 +160,21 @@ function Percentage(props) {
   const onChangePercent = value => {
     return setPercent({
       ...percent,
-      value: Number(value) + '',
+      value: Number(value) + "",
     });
   };
 
   const onNotification = isSuccess => {
     let des = isSuccess
-      ? 'success:change_percent'
+      ? "success:change_percent"
       : projectState["errorHelperTaskUpdate"];
-    let type = isSuccess ? 'success' : 'danger';
+    let type = isSuccess ? "success" : "danger";
     if (!isSuccess) {
       setPercent({...percent, value: props.task.percentage});
     }
     onEndUpdate(isSuccess);
     return showMessage({
-      message: t(isSuccess ? 'success:title' : 'error:title'),
+      message: t(isSuccess ? "success:title" : "error:title"),
       description: isSuccess ? t(des) : des,
       type,
       icon: type,
@@ -262,8 +262,8 @@ function Percentage(props) {
                   width: `${percent.value}%`,
                   backgroundColor:
                     !props.task.isUpdated || isDisable
-                      ? theme['text-hint-color']
-                      : theme['color-primary-500'],
+                      ? theme["text-hint-color"]
+                      : theme["color-primary-500"],
                 },
               ]}>
               {percent.value > PERCENT_HALF && (
@@ -294,8 +294,8 @@ function Percentage(props) {
                     {
                       color:
                         !props.task.isUpdated || isDisable
-                        ? theme['text-hint-color']
-                        : theme['color-primary-500']
+                        ? theme["text-hint-color"]
+                        : theme["color-primary-500"]
                     }]
                   }>
                   {`${percent.value}%`}</Text>
@@ -327,11 +327,11 @@ function Percentage(props) {
               selectTextOnFocus
               blurOnSubmit
               disabled={disabled}
-              placeholder={t('project_management:holder_task_percentage')}
-              value={percent.value + ''}
+              placeholder={t("project_management:holder_task_percentage")}
+              value={percent.value + ""}
               keyboardAppearance={themeContext.themeApp}
-              keyboardType={'number-pad'}
-              returnKeyType={'done'}
+              keyboardType={"number-pad"}
+              returnKeyType={"done"}
               onChangeText={onChangePercent}
               onSubmitEditing={handleChangePercent}
             />
@@ -359,7 +359,7 @@ function Percentage(props) {
 const styles = StyleSheet.create({
   percent_active: {height: moderateScale(16)},
   percent_body: {height: moderateScale(16)},
-  percent_input: {width: '40%', height: moderateScale(45)},
+  percent_input: {width: "40%", height: moderateScale(45)},
   con_percent: {height: moderateScale(16)},
 });
 

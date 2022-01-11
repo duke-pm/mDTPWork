@@ -4,18 +4,20 @@
  ** CreateAt: 2021
  ** Description: Description of CContentSubMenu.js
  **/
-import PropTypes from 'prop-types';
-import React from 'react';
-import {useTranslation} from 'react-i18next';
-import {Card, Layout, Spinner, Text} from '@ui-kitten/components';
-import {StyleSheet, View} from 'react-native';
-import LottieView from 'lottie-react-native';
+import PropTypes from "prop-types";
+import React from "react";
+import {useTranslation} from "react-i18next";
+import {Card, Layout, Spinner, Text} from "@ui-kitten/components";
+import {StyleSheet, View} from "react-native";
+import LottieView from "lottie-react-native";
 import * as Animatable from "react-native-animatable";
 /* COMPONENTS */
-import CItem from '~/components/CItem';
+import CItem from "~/components/CItem";
 /* COMMON */
-import {cStyles} from '~/utils/style';
-import {moderateScale} from '~/utils/helper';
+import {cStyles} from "~/utils/style";
+import {
+  moderateScale,
+} from "~/utils/helper";
 
 const MyContent = Animatable.createAnimatableComponent(Layout);
 
@@ -24,10 +26,10 @@ function CContentSubMenu(props) {
   const {
     loading = false,
     contentRef = null,
-    animTypeImage = '',
+    animTypeImage = "",
     routes = [],
-    title = '',
-    holder = '',
+    title = "",
+    holder = "",
     colorsItem = [],
     onPressItem = () => null,
   } = props;
@@ -42,11 +44,12 @@ function CContentSubMenu(props) {
         appearance="filled"
         disabled
         header={<Text category="h6">{t(title).toUpperCase()}</Text>}>
-        <View style={[
-          cStyles.row,
-          cStyles.itemsStart,
-          cStyles.justifyBetween,
-        ]}>
+        <View
+          style={[
+            cStyles.row,
+            cStyles.itemsStart,
+            cStyles.justifyBetween,
+          ]}>
           <View style={styles.description_left}>
             <Text style={cStyles.mt5}>{t(holder)}</Text>
           </View>
@@ -90,7 +93,7 @@ function CContentSubMenu(props) {
               const timeAnim = (indexS + 1) * 150;
               return (
                 <Animatable.View
-                  key={indexS + '_sub_menu_' + indexS}
+                  key={indexS + "_sub_menu_" + indexS}
                   animation="fadeInUp"
                   duration={timeAnim}>
                   <CItem

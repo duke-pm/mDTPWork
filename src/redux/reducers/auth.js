@@ -5,7 +5,7 @@
  ** Description: Description of Auth.js
  **/
 /** REDUX */
-import * as types from '../actions/types';
+import * as types from "../actions/types";
 
 export const initialState = {
   submitting: false,

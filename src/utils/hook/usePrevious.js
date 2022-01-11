@@ -5,7 +5,7 @@
  ** Description: Description of usePrevious.js
  **/
 /* LIBRARY */
-import {useEffect, useRef} from 'react';
+import {useEffect, useRef} from "react";
 
 function usePrevious(value) {
   // The ref object is a generic container whose current property is mutable ...

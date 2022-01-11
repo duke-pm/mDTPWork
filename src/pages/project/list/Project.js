@@ -4,23 +4,23 @@
  ** CreateAt: 2021
  ** Description: Description of Projects.js
  **/
-import PropTypes from 'prop-types';
-import React, {useState, useEffect} from 'react';
-import {useTranslation} from 'react-i18next';
-import {useNavigation} from '@react-navigation/native';
-import {useTheme, List, Spinner} from '@ui-kitten/components';
-import {View, LayoutAnimation, UIManager} from 'react-native';
-import moment from 'moment';
+import PropTypes from "prop-types";
+import React, {useState, useEffect} from "react";
+import {useTranslation} from "react-i18next";
+import {useNavigation} from "@react-navigation/native";
+import {useTheme, List, Spinner} from "@ui-kitten/components";
+import {View, LayoutAnimation, UIManager} from "react-native";
+import moment from "moment";
 /* COMPONENTS */
-import CEmpty from '~/components/CEmpty';
-import CAlert from '~/components/CAlert';
-import ProjectItem from '../components/ProjectItem';
-import ProjectDetails from '../components/ProjectDetails';
-import ProjectPlan from '../components/ProjectPlan';
+import CEmpty from "~/components/CEmpty";
+import CAlert from "~/components/CAlert";
+import ProjectItem from "../components/ProjectItem";
+import ProjectDetails from "../components/ProjectDetails";
+import ProjectPlan from "../components/ProjectPlan";
 /** COMMON */
-import Routes from '~/navigator/Routes';
-import {IS_ANDROID, sW} from '~/utils/helper';
-import {cStyles} from '~/utils/style';
+import Routes from "~/navigator/Routes";
+import {IS_ANDROID, sW} from "~/utils/helper";
+import {cStyles} from "~/utils/style";
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -132,7 +132,7 @@ function ListProject(props) {
         contentContainerStyle={cStyles.p10}
         data={props.data}
         renderItem={RenderProjectItem}
-        keyExtractor={(item, index) => item.prjID + '_' + index}
+        keyExtractor={(item, index) => item.prjID + "_" + index}
         removeClippedSubviews={IS_ANDROID}
         refreshing={props.refreshing}
         onRefresh={onRefresh}
@@ -144,7 +144,7 @@ function ListProject(props) {
 
       <CAlert
         show={showModalDetail}
-        label={chooseProject ? chooseProject.prjName : ''}
+        label={chooseProject ? chooseProject.prjName : ""}
         customMessage={loadingModal
         ? RenderLoading()
         :
@@ -160,9 +160,9 @@ function ListProject(props) {
       />
 
       <CAlert
-        contentStyle={{width: sW('96%')}}
+        contentStyle={{width: sW("96%")}}
         show={showModalOverview}
-        label={chooseProject ? chooseProject.prjName : ''}
+        label={chooseProject ? chooseProject.prjName : ""}
         customMessage={
           loadingModal ? RenderLoading() : (
             <ProjectPlan

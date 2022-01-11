@@ -5,17 +5,16 @@
  ** CreateAt: 2021
  ** Description: All tags of filter requests
  **/
-import PropTypes from 'prop-types';
-import React, {createRef, useState, useEffect} from 'react';
-import {Button, Icon, Layout, useTheme, Text} from '@ui-kitten/components';
-import {StyleSheet, View} from 'react-native';
-import Picker from '@gregfrench/react-native-wheel-picker';
-import moment from 'moment';
-import 'moment/locale/en-sg';
+import PropTypes from "prop-types";
+import React, {createRef, useState, useEffect} from "react";
+import {Button, Icon, Layout, useTheme, Text} from "@ui-kitten/components";
+import {StyleSheet, View} from "react-native";
+import moment from "moment";
+import "moment/locale/en-sg";
 /* COMMON */
-import Icons from '~/utils/common/Icons';
-import {colors, cStyles} from '~/utils/style';
-import {moderateScale, verticalScale} from '~/utils/helper';
+import Icons from "~/utils/common/Icons";
+import {colors, cStyles} from "~/utils/style";
+import {moderateScale, verticalScale} from "~/utils/helper";
 
 /** All ref */
 const asResourceRef = createRef();
@@ -44,7 +43,7 @@ function FilterTags(props) {
 
   /** use states */
   const [dataResources, setDataResources] = useState(resourcesMaster);
-  const [findResource, setFindResource] = useState('');
+  const [findResource, setFindResource] = useState("");
   const [reSrc, setReSrc] = useState(0);
 
   /*****************
@@ -54,7 +53,7 @@ function FilterTags(props) {
 
   const handleChangeResource = () => {
     let tmpResource = null;
-    if (findResource === '') {
+    if (findResource === "") {
       tmpResource = dataResources[reSrc];
     } else {
       if (dataResources.length > 0) {
@@ -77,7 +76,7 @@ function FilterTags(props) {
       const newData = dataResources.filter(function (item) {
         const itemData = item.resourceName
           ? item.resourceName.toUpperCase()
-          : ''.toUpperCase();
+          : "".toUpperCase();
         const textData = text.toUpperCase();
         return itemData.indexOf(textData) > -1;
       });
@@ -150,170 +149,12 @@ function FilterTags(props) {
       )}
     </View>
   );
-  return (
-    <View
-      style={[
-        cStyles.flexWrap,
-        cStyles.row,
-        cStyles.itemsCenter,
-        cStyles.px6,
-        cStyles.pt10,
-        cStyles.pb6,
-      ]}>
-      <CIcon name={Icons.tags} />
-      {!resource.id && (
-        <View
-          style={[
-            cStyles.px6,
-            cStyles.py2,
-            cStyles.mx4,
-            cStyles.rounded1,
-            {backgroundColor: primaryColor},
-          ]}>
-          <Text
-            styles={'textCaption2'}
-            customLabel={`${trans('common:from_date')}${
-              fromDate !== '' ? moment(fromDate).format(formatDateView) : '#'
-            }\n${trans('common:to_date')}${
-              toDate !== '' ? moment(toDate).format(formatDateView) : '#'
-            }`}
-          />
-        </View>
-      )}
-
-      {!resource.id && search !== '' && (
-        <View
-          style={[
-            cStyles.px6,
-            cStyles.py2,
-            cStyles.mx4,
-            cStyles.mt3,
-            cStyles.rounded1,
-            {backgroundColor: primaryColor},
-          ]}>
-          <Text
-            styles={'textCaption2 colorBlack'}
-            customLabel={`${trans('common:find')}: "${search}"`}
-          />
-        </View>
-      )}
-
-      {resource.id && (
-        <View
-          style={[
-            cStyles.px6,
-            cStyles.mx4,
-            cStyles.mt3,
-            cStyles.rounded1,
-            cStyles.row,
-            cStyles.itemsCenter,
-            {backgroundColor: primaryColor},
-          ]}>
-          <Text
-            styles={'textCaption2 colorBlack pr4'}
-            customLabel={`${trans('bookings:resource')}: ${
-              resource.name
-            }`}
-          />
-          <CIconButton iconName={Icons.change} onPress={handleResource} />
-          <CIconButton iconName={Icons.remove} onPress={onPressRemoveReSrc} />
-        </View>
-      )}
-
-      {!resource.id &&
-        resources &&
-        resources !== 'all' &&
-        resources.map((itemResrc, index) => {
-          return (
-            <View
-              key={itemResrc.label + index}
-              style={[
-                cStyles.px6,
-                cStyles.py2,
-                cStyles.mr4,
-                cStyles.mt8,
-                cStyles.rounded1,
-                {backgroundColor: primaryColor},
-              ]}>
-              <Text
-                styles={'textCaption2 colorBlack'}
-                customLabel={itemResrc.label}
-              />
-            </View>
-          );
-        })}
-
-      {!resource.id && resources && resources === 'all' && (
-        <View
-          style={[
-            cStyles.px6,
-            cStyles.py2,
-            cStyles.mr4,
-            cStyles.mt8,
-            cStyles.rounded1,
-            {backgroundColor: primaryColor},
-          ]}>
-          <Text
-            styles={'textCaption2'}
-            customLabel={`${trans('bookings:resource')}: ${trans(
-              'common:all',
-            )}`}
-          />
-        </View>
-      )}
-
-      {resource.id && (
-        <CActionSheet
-          headerChoose
-          actionRef={asResourceRef}
-          headerChooseTitle={'bookings:choose_resource'}
-          onConfirm={handleChangeResource}>
-          <View style={cStyles.px16}>
-            <CInput
-              containerStyle={cStyles.my10}
-              styleFocus={styles.input_focus}
-              holder={'add_booking:holder_find_resource'}
-              returnKey={'search'}
-              icon={Icons.search}
-              value={findResource}
-              onChangeValue={onSearchResources}
-            />
-            <Picker
-              style={[styles.action, cStyles.fullWidth, cStyles.justifyCenter]}
-              itemStyle={{
-                fontSize: TXT_AS_SIZE,
-                color: customColors.text,
-              }}
-              selectedValue={reSrc}
-              onValueChange={onChangeResource}>
-              {dataResources.length > 0 ? (
-                dataResources.map((value, i) => (
-                  <Picker.Item
-                    label={value.resourceName}
-                    value={i}
-                    key={value.resourceID}
-                  />
-                ))
-              ) : (
-                <View style={[cStyles.center, styles.content_picker]}>
-                  <Text
-                    styles={'textCaption1'}
-                    label={'add_booking:holder_empty_resource'}
-                  />
-                </View>
-              )}
-            </Picker>
-          </View>
-        </CActionSheet>
-      )}
-    </View>
-  );
 }
 
 const styles = StyleSheet.create({
   input_focus: {borderColor: colors.SECONDARY},
   action: {height: verticalScale(180)},
-  content_picker: {height: '40%'},
+  content_picker: {height: "40%"},
 });
 
 FilterTags.propTypes = {

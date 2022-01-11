@@ -5,7 +5,7 @@
  ** Description: Description of Approved.js
  **/
 /** REDUX */
-import * as types from '../actions/types';
+import * as types from "../actions/types";
 
 export const initialState = {
   submittingList: false,
@@ -22,7 +22,7 @@ export const initialState = {
   processApproved: [],
   successListRequest: false,
   errorListRequest: false,
-  errorHelperListRequest: '',
+  errorHelperListRequest: "",
 
   countRequestsDamage: 0,
   requestsDamage: [],
@@ -30,7 +30,7 @@ export const initialState = {
   processDamageApproved: [],
   successListRequestDamage: false,
   errorListRequestDamage: false,
-  errorHelperListRequestDamage: '',
+  errorHelperListRequestDamage: "",
 
   countRequestsLost: 0,
   requestsLost: [],
@@ -38,7 +38,7 @@ export const initialState = {
   processLostApproved: [],
   successListRequestLost: false,
   errorListRequestLost: false,
-  errorHelperListRequestLost: '',
+  errorHelperListRequestLost: "",
 
   requestDetail: null,
   requestAssetsDetail: null,
@@ -46,19 +46,19 @@ export const initialState = {
 
   successRequestDetail: false,
   errorRequestDetail: false,
-  errorHelperRequestDetail: '',
+  errorHelperRequestDetail: "",
 
   successAddRequest: false,
   errorAddRequest: false,
-  errorHelperAddRequest: '',
+  errorHelperAddRequest: "",
 
   successApprovedRequest: false,
   errorApprovedRequest: false,
-  errorHelperApprovedRequest: '',
+  errorHelperApprovedRequest: "",
 
   successRejectRequest: false,
   errorRejectRequest: false,
-  errorHelperRejectRequest: '',
+  errorHelperRejectRequest: "",
 };
 
 export default function (state = initialState, action = {}) {
@@ -72,13 +72,13 @@ export default function (state = initialState, action = {}) {
         submittingReject: false,
         successAddRequest: false,
         errorAddRequest: false,
-        errorHelperAddRequest: '',
+        errorHelperAddRequest: "",
         successApprovedRequest: false,
         errorApprovedRequest: false,
-        errorHelperApprovedRequest: '',
+        errorHelperApprovedRequest: "",
         successRejectRequest: false,
         errorRejectRequest: false,
-        errorHelperRejectRequest: '',
+        errorHelperRejectRequest: "",
         requests: [],
         requestsDetail: [],
         processApproved: [],
@@ -97,7 +97,7 @@ export default function (state = initialState, action = {}) {
         submittingList: true,
         successListRequest: false,
         errorListRequest: false,
-        errorHelperListRequest: '',
+        errorHelperListRequest: "",
         requestDetail: null,
       };
 
@@ -111,7 +111,7 @@ export default function (state = initialState, action = {}) {
         submittingList: false,
         successListRequest: true,
         errorListRequest: false,
-        errorHelperListRequest: '',
+        errorHelperListRequest: "",
       };
 
     case types.ERROR_FETCH_LIST_REQUEST_APPROVED:

@@ -5,70 +5,76 @@
  ** CreateAt: 2021
  ** Description: Description of CContainer.js
  **/
-import PropTypes from 'prop-types';
-import React, {useContext, useEffect} from 'react';
-import {useTranslation} from 'react-i18next';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {Layout, Spinner, useTheme, Text} from '@ui-kitten/components';
-import {StatusBar, View} from 'react-native';
+import PropTypes from "prop-types";
+import React, {useContext, useEffect} from "react";
+import {useTranslation} from "react-i18next";
+import {SafeAreaView} from "react-native-safe-area-context";
+import {
+  Layout, Spinner, useTheme, Text,
+} from "@ui-kitten/components";
+import {StatusBar, View} from "react-native";
 /* COMMON */
-import {cStyles} from '~/utils/style';
-import {IS_ANDROID} from '~/utils/helper';
-import {ThemeContext} from '~/configs/theme-context';
-import {DARK, LIGHT} from '~/configs/constants';
+import {cStyles} from "~/utils/style";
+import {ThemeContext} from "~/configs/theme-context";
+import {IS_ANDROID} from "~/utils/helper";
+import {
+  DARK,
+  LIGHT,
+} from "~/configs/constants";
+
+const colorBackground = "background-basic-color-1";
 
 function CContainer(props) {
-  const theme = useTheme();
   const {t} = useTranslation();
   const themeContext = useContext(ThemeContext);
+  const theme = useTheme();
   const {
     safeArea = [],
     backgroundColor = null,
     loading = false,
-    padder = false,
     headerComponent = null,
     children = null,
   } = props;
-  const bgHeader = theme['background-basic-color-1'];
+  const mainColor = backgroundColor || theme[colorBackground];
 
   /****************
    ** LIFE CYCLE **
    ****************/
   useEffect(() => {
     if (themeContext.themeApp === LIGHT) {
-      StatusBar.setBarStyle('dark-content', true);
+      StatusBar.setBarStyle("dark-content", true);
       IS_ANDROID &&
-        StatusBar.setBackgroundColor(backgroundColor || bgHeader, true);
+        StatusBar.setBackgroundColor(mainColor, true);
     }
     if (themeContext.themeApp === DARK) {
-      StatusBar.setBarStyle('light-content', true);
+      StatusBar.setBarStyle("light-content", true);
       IS_ANDROID &&
-        StatusBar.setBackgroundColor(backgroundColor || bgHeader, true);
+        StatusBar.setBackgroundColor(mainColor, true);
     }
   }, [themeContext.themeApp]);
 
   /************
    ** RENDER **
    ************/
-  let safeAreaScreen = ['left', 'right'];
+  let safeAreaScreen = ["left", "right"];
   safeAreaScreen = safeAreaScreen.concat(safeArea);
   return (
     <SafeAreaView
-      style={[
-        cStyles.flex1,
-        {backgroundColor: backgroundColor || bgHeader},
-      ]}
+      style={[cStyles.flex1, {backgroundColor: mainColor}]}
       edges={safeAreaScreen}>
       {headerComponent}
       <Layout
-        style={[cStyles.flex1, padder && cStyles.px16, padder && cStyles.py10]}
+        style={cStyles.flex1}
         level="2">
         {!loading && children}
         {loading && (
           <View style={cStyles.flexCenter}>
             <Spinner />
-            <Text style={cStyles.mt10} category="c1" appearance="hint">
-              {t('common:loading')}
+            <Text
+              style={cStyles.mt10}
+              category="c1"
+              appearance="hint">
+              {t("common:loading")}
             </Text>
           </View>
         )}
@@ -81,7 +87,6 @@ CContainer.propTypes = {
   safeArea: PropTypes.array,
   backgroundColor: PropTypes.string,
   loading: PropTypes.bool,
-  padder: PropTypes.bool,
   headerComponent: PropTypes.element,
   children: PropTypes.element,
 };

@@ -5,32 +5,32 @@
  ** CreateAt: 2021
  ** Description: Description of Status.js
  **/
-import PropTypes from 'prop-types';
-import React, {createRef, useEffect, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {useTranslation} from 'react-i18next';
-import {showMessage} from 'react-native-flash-message';
-import {Icon, Text, useTheme} from '@ui-kitten/components';
-import {StyleSheet, View} from 'react-native';
-import Picker from '@gregfrench/react-native-wheel-picker';
+import PropTypes from "prop-types";
+import React, {createRef, useEffect, useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {useTranslation} from "react-i18next";
+import {showMessage} from "react-native-flash-message";
+import {Icon, Text, useTheme} from "@ui-kitten/components";
+import {StyleSheet, View} from "react-native";
+import Picker from "@gregfrench/react-native-wheel-picker";
 /* COMPONENTS */
-import CActionSheet from '~/components/CActionSheet';
-import CStatus from '~/components/CStatus';
+import CActionSheet from "~/components/CActionSheet";
+import CStatus from "~/components/CStatus";
 /* COMMON */
-import {Commons} from '~/utils/common';
-import {colors, cStyles} from '~/utils/style';
+import {Commons} from "~/utils/common";
+import {colors, cStyles} from "~/utils/style";
 import {
   alert,
   moderateScale,
-} from '~/utils/helper';
+} from "~/utils/helper";
 /* REDUX */
-import * as Actions from '~/redux/actions';
+import * as Actions from "~/redux/actions";
 
 /** All ref */
 const PERCENT_COMPLETE = 100;
 const asStatusRef = createRef();
-let curStatus = '';
-let curPercent = '';
+let curStatus = "";
+let curPercent = "";
 
 function Status(props) {
   const {t} = useTranslation();
@@ -38,8 +38,8 @@ function Status(props) {
   const {
     disabled = false,
     isUpdate = false,
-    language = 'vi',
-    refreshToken = '',
+    language = "vi",
+    refreshToken = "",
     navigation = {},
     onStartUpdate = () => null,
     onEndUpdate = () => null,
@@ -65,7 +65,7 @@ function Status(props) {
 
   const handleChangeStatus = needUpdate => {
     if (status.data[status.active]["statusID"] === Commons.STATUS_PROJECT[4]["value"]) {
-      return alert(t, 'project_management:confirm_change_to_finished', () =>
+      return alert(t, "project_management:confirm_change_to_finished", () =>
         onCloseActionSheet(needUpdate, true),
       );
     } else {
@@ -104,25 +104,25 @@ function Status(props) {
 
   const onUpdateActivities = isSuccess => {
     let taskDetail = projectState["taskDetail"];
-    let comment = '';
+    let comment = "";
     if (taskDetail.statusID === Commons.STATUS_PROJECT[4]["value"]) {
-      comment = `* ${t('project_management:status_filter').toUpperCase()} ${t(
-        'project_management:holder_change_from',
-      )} ${curStatus} ${t('project_management:holder_change_to')} ${
+      comment = `* ${t("project_management:status_filter").toUpperCase()} ${t(
+        "project_management:holder_change_from",
+      )} ${curStatus} ${t("project_management:holder_change_to")} ${
         taskDetail.statusName
-      }.\n* ${t('project_management:holder_task_percentage').toUpperCase()} ${t(
-        'project_management:holder_change_from',
-      )} ${curPercent} ${t('project_management:holder_change_to')} ${
+      }.\n* ${t("project_management:holder_task_percentage").toUpperCase()} ${t(
+        "project_management:holder_change_from",
+      )} ${curPercent} ${t("project_management:holder_change_to")} ${
         taskDetail.percentage
       }.`;
     } else {
-      comment = `* ${t('project_management:status_filter').toUpperCase()} ${t(
-        'project_management:holder_change_from',
-      )} ${curStatus} ${t('project_management:holder_change_to')} ${
+      comment = `* ${t("project_management:status_filter").toUpperCase()} ${t(
+        "project_management:holder_change_from",
+      )} ${curStatus} ${t("project_management:holder_change_to")} ${
         taskDetail.statusName
       }.`;
     }
-    console.log('[LOG] === onUpdateActivities ===> ', comment);
+    console.log("[LOG] === onUpdateActivities ===> ", comment);
     
     let paramsActivities = {
       LineNum: 0,
@@ -145,12 +145,12 @@ function Status(props) {
 
   const onNotification = isSuccess => {
     let des = isSuccess
-      ? 'success:change_status'
+      ? "success:change_status"
       : projectState["errorHelperTaskUpdate"];
-    let type = isSuccess ? 'success' : 'danger';
+    let type = isSuccess ? "success" : "danger";
     onEndUpdate(isSuccess);
     return showMessage({
-      message: t(isSuccess ? 'success:title' : 'error:title'),
+      message: t(isSuccess ? "success:title" : "error:title"),
       description: isSuccess ? t(des) : des,
       type,
       icon: type,
@@ -240,7 +240,7 @@ function Status(props) {
           style={[cStyles.justifyCenter, styles.con_action]}
           itemStyle={{
             fontSize: moderateScale(21),
-            color: theme['text-basic-color'],
+            color: theme["text-basic-color"],
           }}
           selectedValue={status.active}
           onValueChange={onChangeStatus}>
@@ -258,7 +258,7 @@ function Status(props) {
 }
 
 const styles = StyleSheet.create({
-  con_action: {width: '100%', height: moderateScale(200)},
+  con_action: {width: "100%", height: moderateScale(200)},
   icon_status: {height: moderateScale(14), width: moderateScale(14)},
 });
 

@@ -6,46 +6,46 @@
  ** CreateAt: 2021
  ** Description: Description of MyBookings.js
  **/
-import React, {useState, useEffect} from 'react';
-import {useSelector, useDispatch} from 'react-redux';
-import {useTranslation} from 'react-i18next';
-import {showMessage} from 'react-native-flash-message';
-import {ExpandableCalendar, Timeline, CalendarProvider} from 'react-native-calendars';
-import {Layout, useTheme} from '@ui-kitten/components';
-import {StyleSheet, View} from 'react-native';
-import XDate from 'xdate';
-import moment from 'moment';
-import 'moment/locale/en-sg';
+import React, {useState, useEffect} from "react";
+import {useSelector, useDispatch} from "react-redux";
+import {useTranslation} from "react-i18next";
+import {showMessage} from "react-native-flash-message";
+import {ExpandableCalendar, Timeline, CalendarProvider} from "react-native-calendars";
+import {Layout, useTheme} from "@ui-kitten/components";
+import {StyleSheet, View} from "react-native";
+import XDate from "xdate";
+import moment from "moment";
+import "moment/locale/en-sg";
 /* COMPONENTS */
-import CContainer from '~/components/CContainer';
-import CTopNavigation from '~/components/CTopNavigation';
-import CButtonAdd from '~/components/CButtonAdd';
-import CLoading from '~/components/CLoading';
-import BookingList from '../components/BookingList';
-import GroupTypeShow from '../components/GroupTypeShow';
-import Filter from '../components/Filter';
+import CContainer from "~/components/CContainer";
+import CTopNavigation from "~/components/CTopNavigation";
+import CButtonAdd from "~/components/CButtonAdd";
+import CLoading from "~/components/CLoading";
+import BookingList from "../components/BookingList";
+import GroupTypeShow from "../components/GroupTypeShow";
+import Filter from "../components/Filter";
 /* COMMON */
-import Routes from '~/navigator/Routes';
-import {colors, cStyles} from '~/utils/style';
-import {Commons} from '~/utils/common';
-import {IS_ANDROID, moderateScale} from '~/utils/helper';
-import {REFRESH, LOAD_MORE} from '~/configs/constants';
-import {usePrevious} from '~/utils/hook';
+import Routes from "~/navigator/Routes";
+import {colors, cStyles} from "~/utils/style";
+import {Commons} from "~/utils/common";
+import {IS_ANDROID, moderateScale} from "~/utils/helper";
+import {REFRESH, LOAD_MORE} from "~/configs/constants";
+import {usePrevious} from "~/utils/hook";
 /* REDUX */
-import * as Actions from '~/redux/actions';
+import * as Actions from "~/redux/actions";
 
 /** All init */
 const THEME_CALENDAR = {
   textDayFontSize: cStyles.textCallout.fontSize,
   textMonthFontSize: cStyles.textCallout.fontSize,
   textDayHeaderFontSize: cStyles.textCallout.fontSize,
-  textMonthFontWeight: 'bold',
-  textDayHeaderFontWeight: 'bold',
+  textMonthFontWeight: "bold",
+  textDayHeaderFontWeight: "bold",
   arrowColor: colors.BLACK,
   selectedDotColor: colors.WHITE,
   selectedDayTextColor: colors.WHITE,
   todayTextColor: colors.PRIMARY,
-  'stylesheet.calendar.header': {
+  "stylesheet.calendar.header": {
     dayTextAtIndex5: {
       color: colors.RED,
     },
@@ -60,13 +60,13 @@ const THEME_CALENDAR = {
   textDayFontWeight: cStyles.textBody.fontWeight,
   textDayStyle: {marginTop: IS_ANDROID ? moderateScale(2) : moderateScale(7)},
   // disabled date
-  textDisabledColor: 'grey',
+  textDisabledColor: "grey",
   // dot (marked date)
   dotColor: colors.PRIMARY,
-  disabledDotColor: 'grey',
+  disabledDotColor: "grey",
   dotStyle: {marginTop: -2},
 };
-const MONTH_FORMAT = 'MMMM - yyyy';
+const MONTH_FORMAT = "MMMM - yyyy";
 
 function MyBookings(props) {
   const {t} = useTranslation();
@@ -106,11 +106,11 @@ function MyBookings(props) {
     Commons.TYPE_SHOW_BOOKING.CALENDAR.value,
   );
   const [form, setForm] = useState({
-    fromDate: moment().clone().startOf('month').format(formatDate),
-    toDate: moment().clone().endOf('month').format(formatDate),
+    fromDate: moment().clone().startOf("month").format(formatDate),
+    toDate: moment().clone().endOf("month").format(formatDate),
     page: 1,
-    search: '',
-    resources: '',
+    search: "",
+    resources: "",
     resourcesORG: [],
   });
 
@@ -123,14 +123,14 @@ function MyBookings(props) {
    *****************/
   const handleAddNew = () => {
     navigation.navigate(Routes.ADD_BOOKING.name, {
-      type: 'ADD',
+      type: "ADD",
       onRefresh: () => onRefresh(),
     });
   };
 
   const handleBookingItem = booking => {
     navigation.navigate(Routes.ADD_BOOKING.name, {
-      type: 'UPDATE',
+      type: "UPDATE",
       data: booking.dataFull,
       onRefresh: () => onRefresh(),
     });
@@ -168,10 +168,10 @@ function MyBookings(props) {
 
   const onMonthChanged = newMonth => {
     let tmpFromDate = moment(newMonth.dateString)
-      .startOf('month')
+      .startOf("month")
       .format(formatDate);
     let tmpEndDate = moment(newMonth.dateString)
-      .endOf('month')
+      .endOf("month")
       .format(formatDate);
 
     setForm({...form, fromDate: tmpFromDate, toDate: tmpEndDate});
@@ -183,8 +183,8 @@ function MyBookings(props) {
     fromDate = form.fromDate,
     toDate = form.toDate,
     page = 1,
-    search = '',
-    resources = '',
+    search = "",
+    resources = "",
   ) => {
     let params = {
       FromDate: fromDate,
@@ -249,16 +249,16 @@ function MyBookings(props) {
         tmpMarker = {},
         itemBooking = null,
         itemCalendar = {},
-        startDate = '',
-        endDate = '',
-        startTime = '',
-        endTime = '';
+        startDate = "",
+        endDate = "",
+        startTime = "",
+        endTime = "";
 
       for (itemBooking of dataBookings) {
-        startDate = itemBooking.startDate.split('T')[0];
-        endDate = itemBooking.endDate.split('T')[0];
-        startTime = itemBooking.strStartTime + ':00';
-        endTime = itemBooking.strEndTime + ':00';
+        startDate = itemBooking.startDate.split("T")[0];
+        endDate = itemBooking.endDate.split("T")[0];
+        startTime = itemBooking.strStartTime + ":00";
+        endTime = itemBooking.strEndTime + ":00";
 
         itemCalendar = {};
 
@@ -271,14 +271,14 @@ function MyBookings(props) {
         });
 
         itemCalendar.dataFull = itemBooking;
-        itemCalendar.start = startDate + ' ' + startTime;
-        itemCalendar.end = endDate + ' ' + endTime;
+        itemCalendar.start = startDate + " " + startTime;
+        itemCalendar.end = endDate + " " + endTime;
         itemCalendar.title = itemBooking.purpose;
         itemCalendar.summary =
-          t('my_bookings:notes') +
-          `${itemBooking.remarks !== '' ? itemBooking.remarks : '-'}\n${t(
-            'my_bookings:owner',
-          )}${itemBooking.ownerName}\n${t('my_bookings:resource')}${
+          t("my_bookings:notes") +
+          `${itemBooking.remarks !== "" ? itemBooking.remarks : "-"}\n${t(
+            "my_bookings:owner",
+          )}${itemBooking.ownerName}\n${t("my_bookings:resource")}${
             itemBooking.resourceName
           }`;
         itemCalendar.color = itemBooking.color;
@@ -331,10 +331,10 @@ function MyBookings(props) {
 
   const onError = () => {
     showMessage({
-      message: t('common:app_name'),
-      description: t('error:list_request'),
-      type: 'danger',
-      icon: 'danger',
+      message: t("common:app_name"),
+      description: t("error:list_request"),
+      type: "danger",
+      icon: "danger",
     });
     return onDone({
       ...loading,
@@ -417,7 +417,7 @@ function MyBookings(props) {
    ************/
   return (
     <CContainer
-      safeArea={['top', 'bottom']}
+      safeArea={["top", "bottom"]}
       headerComponent={
         <CTopNavigation
           title="my_bookings:title"
@@ -459,33 +459,33 @@ function MyBookings(props) {
             onDateChanged={onDateChanged}
             onMonthChange={onMonthChanged}>
             <ExpandableCalendar
-              style={[cStyles.borderBottom, {borderBottomColor: theme['border-basic-color-3']}]}
+              style={[cStyles.borderBottom, {borderBottomColor: theme["border-basic-color-3"]}]}
               displayLoadingIndicator={
                 loading.changeType || loading.startFetch
               }
               disableAllTouchEventsForDisabledDays
               firstDay={1}
               allowShadow={false}
-              markingType={'multi-dot'}
+              markingType={"multi-dot"}
               markedDates={marked}
               monthFormat={MONTH_FORMAT}
               enableSwipeMonths={false}
               theme={{
                 ...THEME_CALENDAR,
-                arrowColor: theme['text-hint-color'],
-                calendarBackground: theme['background-basic-color-1'],
-                textDayStyle: {color: theme['text-basic-color']},
-                monthTextColor: theme['text-basic-color'],
-                selectedDayBackgroundColor: theme['color-primary-500'],
+                arrowColor: theme["text-hint-color"],
+                calendarBackground: theme["background-basic-color-1"],
+                textDayStyle: {color: theme["text-basic-color"]},
+                monthTextColor: theme["text-basic-color"],
+                selectedDayBackgroundColor: theme["color-primary-500"],
               }}
             />
             <Timeline
               styles={{
                 contentStyle: {
-                  backgroundColor: theme['background-basic-color-3'],
+                  backgroundColor: theme["background-basic-color-3"],
                 },
                 line: {
-                  backgroundColor: theme['outline-color'],
+                  backgroundColor: theme["outline-color"],
                 },
               }}
               format24h

@@ -5,9 +5,9 @@
  ** Description: Description of approved.js
  **/
 /** COMMON */
-import jwtServiceConfig from '../jwtServiceConfig';
-import Routes from '../routesApi';
-import API from '../axios';
+import jwtServiceConfig from "../jwtServiceConfig";
+import Routes from "../routesApi";
+import API from "../axios";
 
 export default {
   listRequest: params => {
@@ -43,7 +43,7 @@ export default {
         tmpConfigs,
       )
         .then(response => {
-          console.log('FETCH LIST REQUEST => ', response);
+          console.log("FETCH LIST REQUEST => ", response);
           if (response.status === 200 && response.data) {
             resolve(response.data);
           } else {
@@ -51,7 +51,7 @@ export default {
           }
         })
         .catch(error => {
-          console.log('ERROR LIST REQUEST => ', error);
+          console.log("ERROR LIST REQUEST => ", error);
           reject(error.response ? error.response.data : error);
         });
     });
@@ -72,7 +72,7 @@ export default {
         tmpConfigs,
       )
         .then(response => {
-          console.log('FETCH REQUEST APPROVED DETAIL => ', response);
+          console.log("FETCH REQUEST APPROVED DETAIL => ", response);
           if (response.status === 200 && response.data) {
             resolve(response.data);
           } else {
@@ -80,7 +80,7 @@ export default {
           }
         })
         .catch(error => {
-          console.log('ERROR REQUEST APPROVED DETAIL => ', error);
+          console.log("ERROR REQUEST APPROVED DETAIL => ", error);
           reject(error.response ? error.response.data : error);
         });
     });
@@ -90,7 +90,7 @@ export default {
     return new Promise((resolve, reject) => {
       API.post(jwtServiceConfig.baseURL + Routes.APPROVED.ADD_REQUEST, params)
         .then(response => {
-          console.log('FETCH ADD REQUEST => ', response);
+          console.log("FETCH ADD REQUEST => ", response);
           if (response.status === 200 && response.data) {
             resolve(response.data);
           } else {
@@ -98,7 +98,7 @@ export default {
           }
         })
         .catch(error => {
-          console.log('ERROR ADD REQUEST => ', error);
+          console.log("ERROR ADD REQUEST => ", error);
           reject(error.response ? error.response.data : error);
         });
     });
@@ -109,10 +109,10 @@ export default {
       API.post(
         jwtServiceConfig.baseURL + Routes.APPROVED.ADD_REQUEST_LOST_DAMAGE,
         params,
-        {headers: {'Content-Type': 'multipart/form-data'}},
+        {headers: {"Content-Type": "multipart/form-data"}},
       )
         .then(response => {
-          console.log('FETCH ADD REQUEST LOST DAMAGE => ', response);
+          console.log("FETCH ADD REQUEST LOST DAMAGE => ", response);
           if (response.status === 200 && response.data) {
             resolve(response.data);
           } else {
@@ -120,7 +120,7 @@ export default {
           }
         })
         .catch(error => {
-          console.log('ERROR ADD REQUEST LOST DAMAGE => ', error);
+          console.log("ERROR ADD REQUEST LOST DAMAGE => ", error);
           reject(error.response ? error.response.data : error);
         });
     });
@@ -133,7 +133,7 @@ export default {
         params,
       )
         .then(response => {
-          console.log('FETCH APPROVED REQUEST => ', response);
+          console.log("FETCH APPROVED REQUEST => ", response);
           if (response.status === 200 && response.data) {
             resolve(response.data);
           } else {
@@ -141,7 +141,7 @@ export default {
           }
         })
         .catch(error => {
-          console.log('ERROR APPROVED REQUEST => ', error);
+          console.log("ERROR APPROVED REQUEST => ", error);
           reject(error.response ? error.response.data : error);
         });
     });
@@ -154,7 +154,7 @@ export default {
         params,
       )
         .then(response => {
-          console.log('FETCH REJECT REQUEST => ', response);
+          console.log("FETCH REJECT REQUEST => ", response);
           if (response.status === 200 && response.data) {
             resolve(response.data);
           } else {
@@ -162,7 +162,7 @@ export default {
           }
         })
         .catch(error => {
-          console.log('ERROR REJECT REQUEST => ', error);
+          console.log("ERROR REJECT REQUEST => ", error);
           reject(error.response ? error.response.data : error);
         });
     });

@@ -6,26 +6,26 @@
  ** CreateAt: 2021
  ** Description: Description of Project.js
  **/
-import React, {useState, useEffect} from 'react';
-import {useSelector, useDispatch} from 'react-redux';
-import {useTranslation} from 'react-i18next';
-import {View} from 'react-native';
-import {showMessage} from 'react-native-flash-message';
-import moment from 'moment';
-import 'moment/locale/en-sg';
+import React, {useState, useEffect} from "react";
+import {useSelector, useDispatch} from "react-redux";
+import {useTranslation} from "react-i18next";
+import {View} from "react-native";
+import {showMessage} from "react-native-flash-message";
+import moment from "moment";
+import "moment/locale/en-sg";
 /** COMPONENTS */
-import CContainer from '~/components/CContainer';
-import CTopNavigation from '~/components/CTopNavigation';
-import ListProject from '../list/Project';
-import Filter from '../components/Filter';
+import CContainer from "~/components/CContainer";
+import CTopNavigation from "~/components/CTopNavigation";
+import ListProject from "../list/Project";
+import Filter from "../components/Filter";
 /** COMMON */
-import Configs from '~/configs';
+import Configs from "~/configs";
 import {
   LOAD_MORE,
   REFRESH,
-} from '~/configs/constants';
+} from "~/configs/constants";
 /** REDUX */
-import * as Actions from '~/redux/actions';
+import * as Actions from "~/redux/actions";
 
 function Project(props) {
   const {t} = useTranslation();
@@ -56,7 +56,7 @@ function Project(props) {
     statusID: null,
     ownerID: null,
     page: 1,
-    search: '',
+    search: "",
     projects: [],
   });
 
@@ -76,7 +76,7 @@ function Project(props) {
       activeStatus,
       perPageMaster,
       1,
-      '',
+      "",
     );
     setLoading({...loading, startFetch: true});
     return setData({
@@ -96,7 +96,7 @@ function Project(props) {
     statusID = null,
     perPage = perPageMaster,
     page = 1,
-    search = '',
+    search = "",
   ) => {
     let params = {
       ProjectID: projectID,
@@ -140,10 +140,10 @@ function Project(props) {
 
   const onError = () => {
     showMessage({
-      message: t('common:app_name'),
-      description: t('error:list_request'),
-      type: 'danger',
-      icon: 'danger',
+      message: t("common:app_name"),
+      description: t("error:list_request"),
+      type: "danger",
+      icon: "danger",
     });
     return setLoading({
       main: false,
@@ -237,13 +237,13 @@ function Project(props) {
   /************
    ** RENDER **
    ************/
-  let title = 'project_management:title';
+  let title = "project_management:title";
   if (projectID) {
-    title = `${t('project_management:project_parent')} #${projectID}`;
+    title = `${t("project_management:project_parent")} #${projectID}`;
   }
   return (
     <CContainer
-      safeArea={['top', 'bottom']}
+      safeArea={["top", "bottom"]}
       loading={loading.main || loading.startFetch}
       headerComponent={
         <CTopNavigation

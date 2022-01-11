@@ -5,33 +5,33 @@
  ** CreateAt: 2021
  ** Description: Description of ProjectPlan.js
  **/
-import PropTypes from 'prop-types';
-import React, {useState, useEffect, useContext} from 'react';
-import {Button, Spinner, Text} from '@ui-kitten/components';
-import {StyleSheet, View, ScrollView, processColor} from 'react-native';
-import {HorizontalBarChart} from 'react-native-charts-wrapper';
-import moment from 'moment';
-import 'moment/locale/en-sg';
+import PropTypes from "prop-types";
+import React, {useState, useEffect, useContext} from "react";
+import {Button, Spinner, Text} from "@ui-kitten/components";
+import {StyleSheet, View, ScrollView, processColor} from "react-native";
+import {HorizontalBarChart} from "react-native-charts-wrapper";
+import moment from "moment";
+import "moment/locale/en-sg";
 /* COMPONENTS */
-import CEmpty from '~/components/CEmpty';
+import CEmpty from "~/components/CEmpty";
 /* COMMON */
-import Services from '~/services';
-import Commons from '~/utils/common/Commons';
-import {cStyles} from '~/utils/style';
-import {ThemeContext} from '~/configs/theme-context';
+import Services from "~/services";
+import Commons from "~/utils/common/Commons";
+import {cStyles} from "~/utils/style";
+import {ThemeContext} from "~/configs/theme-context";
 import {
   verticalScale,
-} from '~/utils/helper';
+} from "~/utils/helper";
 import {
   DARK,
   DEFAULT_FORMAT_DATE_4,
-} from '~/configs/constants';
+} from "~/configs/constants";
   
 /** All init */
 const ANIM_CHART = {
   durationX: 0,
   durationY: 1000,
-  easingY: 'EaseInOutQuart',
+  easingY: "EaseInOutQuart",
 };
 
 function ProjectPlan(props) {
@@ -56,13 +56,13 @@ function ProjectPlan(props) {
     marker: {
       enabled: true,
       digits: 0,
-      markerColor: processColor('orange'),
-      textColor: processColor('white'),
+      markerColor: processColor("orange"),
+      textColor: processColor("white"),
       textSize: cStyles.textBody.fontSize,
     },
     xAxis: {
       valueFormatter: [],
-      position: 'BOTTOM',
+      position: "BOTTOM",
       axisLineWidth: 1,
       granularityEnabled: false,
       granularity: 0,
@@ -75,8 +75,8 @@ function ProjectPlan(props) {
       labelCount: 0,
       textSize: 12,
       textColor: isDark
-        ? processColor('white')
-        : processColor('black'),
+        ? processColor("white")
+        : processColor("black"),
     },
     yAxis: {
       left: {
@@ -91,10 +91,10 @@ function ProjectPlan(props) {
           spaceLength: 5,
           phase: 1,
         },
-        gridColor: processColor('gainsboro'),
+        gridColor: processColor("gainsboro"),
         textColor: isDark
-          ? processColor('white')
-          : processColor('black'),
+          ? processColor("white")
+          : processColor("black"),
       },
       right: {enabled: false},
     },
@@ -139,11 +139,11 @@ function ProjectPlan(props) {
           {
             values: [],
             config: {
-              valueFormatter: '#',
-              color: processColor('royalblue'),
+              valueFormatter: "#",
+              color: processColor("royalblue"),
               highlightAlpha: 90,
-              highlightColor: processColor('red'),
-              valueTextColor: processColor('white'),
+              highlightColor: processColor("red"),
+              valueTextColor: processColor("white"),
             },
           },
         ],
@@ -152,13 +152,13 @@ function ProjectPlan(props) {
         if (item.parentID === 0) {
           durations = moment(item.endDate, DEFAULT_FORMAT_DATE_4).diff(
             moment(item.startDate, DEFAULT_FORMAT_DATE_4),
-            'days',
+            "days",
           );
           dataChart[0].values.unshift({
             y: durations + 1,
-            marker: durations + 1 + ` ${trans('common:days')}`,
+            marker: durations + 1 + ` ${trans("common:days")}`,
           });
-          xValueFormatter.unshift('#' + item.taskID);
+          xValueFormatter.unshift("#" + item.taskID);
           dataTask.push({
             id: item.taskID,
             name: item.taskName,
@@ -233,13 +233,13 @@ function ProjectPlan(props) {
           drawValueAboveBar={false}
           chartDescription={{
             textColor: isDark
-              ? processColor('white')
-              : processColor('black'),
-            text: `${trans('common:durations')} (${trans('common:days')})`,
+              ? processColor("white")
+              : processColor("black"),
+            text: `${trans("common:durations")} (${trans("common:days")})`,
           }}
         />
         <View style={[cStyles.flex1, cStyles.mt10]}>
-          <Text category="label">{trans('common:note_chart')}</Text>
+          <Text category="label">{trans("common:note_chart")}</Text>
           {chart.dataTask.map((itemT, indexT) => {
             return (
               <View
@@ -278,8 +278,8 @@ function ProjectPlan(props) {
     return (
       <View style={[cStyles.center, styles.empty]}>
         <CEmpty
-          label={'common:empty_data'}
-          description={'common:cannot_find_data_filter'}
+          label={"common:empty_data"}
+          description={"common:cannot_find_data_filter"}
         />
       </View>
     );

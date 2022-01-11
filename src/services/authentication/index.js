@@ -5,16 +5,16 @@
  ** Description: Description of Authentication.js
  **/
 /** COMMON */
-import jwtServiceConfig from '../jwtServiceConfig';
-import Routes from '../routesApi';
-import API from '../axios';
+import jwtServiceConfig from "../jwtServiceConfig";
+import Routes from "../routesApi";
+import API from "../axios";
 
 export default {
   login: params => {
     return new Promise((resolve, reject) => {
       API.post(jwtServiceConfig.baseURL + Routes.AUTHENTICATION.LOGIN, params)
         .then(response => {
-          console.log('FETCH USER LOGIN => ', response);
+          console.log("FETCH USER LOGIN => ", response);
           if (response.status === 200 && response.data) {
             resolve(response.data);
           } else {
@@ -22,7 +22,7 @@ export default {
           }
         })
         .catch(error => {
-          console.log('ERROR USER LOGIN => ', error);
+          console.log("ERROR USER LOGIN => ", error);
           reject(error.response ? error.response.data : error);
         });
     });
@@ -34,7 +34,7 @@ export default {
         params,
       )
         .then(response => {
-          console.log('FETCH REFRESH TOKEN => ', response);
+          console.log("FETCH REFRESH TOKEN => ", response);
           if (response.status === 200 && response.data) {
             resolve(response.data);
           } else {
@@ -42,7 +42,7 @@ export default {
           }
         })
         .catch(error => {
-          console.log('ERROR REFRESH TOKEN => ', error);
+          console.log("ERROR REFRESH TOKEN => ", error);
           reject(error.response ? error.response.data : error);
         });
     });
@@ -54,7 +54,7 @@ export default {
         params,
       )
         .then(response => {
-          console.log('FETCH CHANGE PASSWORD => ', response);
+          console.log("FETCH CHANGE PASSWORD => ", response);
           if (response.status === 200 && response.data) {
             resolve(response.data);
           } else {
@@ -62,7 +62,7 @@ export default {
           }
         })
         .catch(error => {
-          console.log('ERROR CHANGE PASSWORD => ', error);
+          console.log("ERROR CHANGE PASSWORD => ", error);
           reject(error.response ? error.response.data : error);
         });
     });
@@ -74,7 +74,7 @@ export default {
         params,
       )
         .then(response => {
-          console.log('FETCH UDPATE PASSWORD => ', response);
+          console.log("FETCH UDPATE PASSWORD => ", response);
           if (response.status === 200 && response.data) {
             resolve(response.data);
           } else {
@@ -82,7 +82,7 @@ export default {
           }
         })
         .catch(error => {
-          console.log('ERROR UDPATE PASSWORD => ', error);
+          console.log("ERROR UDPATE PASSWORD => ", error);
           reject(error.response ? error.response.data : error);
         });
     });
@@ -101,7 +101,7 @@ export default {
         tmpConfigs,
       )
         .then(response => {
-          console.log('FETCH FORGOT PASSWORD => ', response);
+          console.log("FETCH FORGOT PASSWORD => ", response);
           if (response.status === 200 && response.data) {
             resolve(response.data);
           } else {
@@ -109,7 +109,7 @@ export default {
           }
         })
         .catch(error => {
-          console.log('ERROR FORGOT PASSWORD => ', error);
+          console.log("ERROR FORGOT PASSWORD => ", error);
           reject(error.response ? error.response.data : error);
         });
     });
@@ -128,7 +128,7 @@ export default {
         tmpConfigs,
       )
         .then(response => {
-          console.log('FETCH CHECK TOKEN PASSWORD => ', response);
+          console.log("FETCH CHECK TOKEN PASSWORD => ", response);
           if (response.status === 200 && response.data) {
             resolve(response.data);
           } else {
@@ -136,7 +136,7 @@ export default {
           }
         })
         .catch(error => {
-          console.log('ERROR CHECK TOKEN PASSWORD => ', error);
+          console.log("ERROR CHECK TOKEN PASSWORD => ", error);
           reject(error.response ? error.response.data : error);
         });
     });

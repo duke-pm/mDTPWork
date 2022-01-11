@@ -5,7 +5,7 @@
  ** Description: Description of useTimeout.js
  **/
 /* LIBRARY */
-import {useEffect, useRef} from 'react';
+import {useEffect, useRef} from "react";
 
 function useTimeout(callback, delay) {
   const callbackRef = useRef(callback);
@@ -15,7 +15,7 @@ function useTimeout(callback, delay) {
   }, [callback]);
 
   useEffect(() => {
-    if (delay && callback && typeof callback === 'function') {
+    if (delay && callback && typeof callback === "function") {
       let timer = setTimeout(callbackRef.current, delay || 0);
       return () => {
         if (timer) {

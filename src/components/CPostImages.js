@@ -4,17 +4,17 @@
  ** CreateAt: 2021
  ** Description: Description of .js
  **/
-import PropTypes from 'prop-types';
-import React, {useState, useEffect} from 'react';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {Layout, Button, List, Text} from '@ui-kitten/components';
-import {StyleSheet, LayoutAnimation, UIManager, View} from 'react-native';
-import ImageView from 'react-native-image-view';
-import FastImage from 'react-native-fast-image';
-import IoniIcon from 'react-native-vector-icons/Ionicons';
+import PropTypes from "prop-types";
+import React, {useState, useEffect} from "react";
+import {SafeAreaView} from "react-native-safe-area-context";
+import {Layout, Button, List, Text} from "@ui-kitten/components";
+import {StyleSheet, LayoutAnimation, UIManager, View} from "react-native";
+import ImageView from "react-native-image-view";
+import FastImage from "react-native-fast-image";
+import IoniIcon from "react-native-vector-icons/Ionicons";
 /* COMMON */
-import {colors, cStyles} from '~/utils/style';
-import {IS_ANDROID, moderateScale, SCREEN_WIDTH} from '~/utils/helper';
+import {colors, cStyles} from "~/utils/style";
+import {IS_ANDROID, moderateScale, SCREEN_WIDTH} from "~/utils/helper";
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -54,7 +54,7 @@ const RenderFooterFullImage = (images, curIndex) => {
               {curIndex === info.index && (
                 <View style={[cStyles.center, cStyles.abs, cStyles.inset0, {backgroundColor: colors.BG_BACKDROP}]}>
                   <IoniIcon
-                    name={'eye'}
+                    name={"eye"}
                     color={colors.WHITE}
                     size={moderateScale(18)}
                   />
@@ -106,7 +106,7 @@ function CPostImages(props) {
    ****************/
   useEffect(() => {
     if (images.length > 0) {
-      let image = null, tmpImages = [], objImage = {source: '', height: 0, width: 0};
+      let image = null, tmpImages = [], objImage = {source: "", height: 0, width: 0};
       for (image of images) {
         objImage = {source: {}, height: 0, width: 0};
         objImage.source = {uri: image};
@@ -128,8 +128,8 @@ function CPostImages(props) {
       {images.length === 1 && (
         <Button
           style={[cStyles.px1, cStyles.py1]}
-          appearance={'ghost'}
-          status={'basic'}
+          appearance={"ghost"}
+          status={"basic"}
           onPress={() => toggleAlertFullImage(0)}>
           {evaProps => (
             <Layout style={cStyles.flex1} >
@@ -151,8 +151,8 @@ function CPostImages(props) {
         <Layout style={[cStyles.flex1, cStyles.row, cStyles.itemsCenter]} >
           <Button
             style={[cStyles.flex1, cStyles.px0, cStyles.py1]}
-            appearance={'ghost'}
-            status={'basic'}
+            appearance={"ghost"}
+            status={"basic"}
             onPress={() => toggleAlertFullImage(0)}>
             {evaProps => (
               <View style={cStyles.flex1}>
@@ -175,8 +175,8 @@ function CPostImages(props) {
           </Button>
           <Button
             style={[cStyles.flex1, cStyles.px0, cStyles.py1]}
-            appearance={'ghost'}
-            status={'basic'}
+            appearance={"ghost"}
+            status={"basic"}
             onPress={() => toggleAlertFullImage(1)}>
             {evaProps => (
               <View style={cStyles.flex1}>
@@ -205,8 +205,8 @@ function CPostImages(props) {
           <Layout style={[cStyles.flex1, cStyles.row, cStyles.itemsCenter]} >
             <Button
               style={[cStyles.flex1, cStyles.px0, cStyles.py0]}
-              appearance={'ghost'}
-              status={'basic'}
+              appearance={"ghost"}
+              status={"basic"}
               onPress={() => toggleAlertFullImage(0)}>
               {evaProps => (
                 <View style={cStyles.flex1}>
@@ -224,8 +224,8 @@ function CPostImages(props) {
             </Button>
             <Button
               style={[cStyles.flex1, cStyles.px0, cStyles.py0]}
-              appearance={'ghost'}
-              status={'basic'}
+              appearance={"ghost"}
+              status={"basic"}
               onPress={() => toggleAlertFullImage(1)}>
               {evaProps => (
                 <View style={cStyles.flex1}>
@@ -245,8 +245,8 @@ function CPostImages(props) {
           <Layout style={cStyles.flex1} >
             <Button
               style={[cStyles.flex1, cStyles.px0, cStyles.py0]}
-              appearance={'ghost'}
-              status={'basic'}
+              appearance={"ghost"}
+              status={"basic"}
               onPress={() => toggleAlertFullImage(2)}>
               {evaProps => (
                 <View style={cStyles.flex1}>
@@ -276,8 +276,8 @@ function CPostImages(props) {
           <Layout style={[cStyles.flex1, cStyles.row, cStyles.itemsCenter]} >
             <Button
               style={[cStyles.flex1, cStyles.px0, cStyles.py0]}
-              appearance={'ghost'}
-              status={'basic'}
+              appearance={"ghost"}
+              status={"basic"}
               onPress={() => toggleAlertFullImage(0)}>
               {evaProps => (
                 <View style={cStyles.flex1}>
@@ -295,8 +295,8 @@ function CPostImages(props) {
             </Button>
             <Button
               style={[cStyles.flex1, cStyles.px0, cStyles.py0]}
-              appearance={'ghost'}
-              status={'basic'}
+              appearance={"ghost"}
+              status={"basic"}
               onPress={() => toggleAlertFullImage(1)}>
               {evaProps => (
                 <View style={cStyles.flex1}>
@@ -316,8 +316,8 @@ function CPostImages(props) {
           <Layout style={[cStyles.flex1, cStyles.row, cStyles.itemsCenter]} >
             <Button
               style={[cStyles.flex1, cStyles.px0, cStyles.py0]}
-              appearance={'ghost'}
-              status={'basic'}
+              appearance={"ghost"}
+              status={"basic"}
               onPress={() => toggleAlertFullImage(2)}>
               {evaProps => (
                 <View style={cStyles.flex1}>
@@ -335,8 +335,8 @@ function CPostImages(props) {
             </Button>
             <Button
               style={[cStyles.flex1, cStyles.px0, cStyles.py0]}
-              appearance={'ghost'}
-              status={'basic'}
+              appearance={"ghost"}
+              status={"basic"}
               onPress={() => toggleAlertFullImage(3)}>
               {evaProps => (
                 <View style={cStyles.flex1}>
@@ -361,8 +361,8 @@ function CPostImages(props) {
           <Layout style={[cStyles.flex1, cStyles.row, cStyles.itemsCenter]} >
             <Button
               style={[cStyles.flex1, cStyles.px0, cStyles.py0]}
-              appearance={'ghost'}
-              status={'basic'}
+              appearance={"ghost"}
+              status={"basic"}
               onPress={() => toggleAlertFullImage(0)}>
               {evaProps => (
                 <View style={cStyles.flex1}>
@@ -380,8 +380,8 @@ function CPostImages(props) {
             </Button>
             <Button
               style={[cStyles.flex1, cStyles.px0, cStyles.py0]}
-              appearance={'ghost'}
-              status={'basic'}
+              appearance={"ghost"}
+              status={"basic"}
               onPress={() => toggleAlertFullImage(1)}>
               {evaProps => (
                 <View style={cStyles.flex1}>
@@ -401,8 +401,8 @@ function CPostImages(props) {
           <Layout style={[cStyles.flex1, cStyles.row, cStyles.itemsCenter]} >
             <Button
               style={[cStyles.flex1, cStyles.px0, cStyles.py0]}
-              appearance={'ghost'}
-              status={'basic'}
+              appearance={"ghost"}
+              status={"basic"}
               onPress={() => toggleAlertFullImage(2)}>
               {evaProps => (
                 <View style={cStyles.flex1}>
@@ -420,8 +420,8 @@ function CPostImages(props) {
             </Button>
             <Button
               style={[cStyles.flex1, cStyles.px0, cStyles.py0]}
-              appearance={'ghost'}
-              status={'basic'}
+              appearance={"ghost"}
+              status={"basic"}
               onPress={() => toggleAlertFullImage(3)}>
               {evaProps => (
                 <View style={cStyles.flex1}>

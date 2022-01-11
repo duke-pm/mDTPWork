@@ -5,10 +5,10 @@
  ** Description: Description of ProjectManagement.js
  **/
 /* COMMON */
-import Services from '~/services';
+import Services from "~/services";
 /** REDUX */
-import * as types from './types';
-import * as Actions from '~/redux/actions';
+import * as types from "./types";
+import * as Actions from "~/redux/actions";
 
 export const resetAllProject = () => ({
   type: types.RESET_REQUEST_PROJECT,
@@ -45,7 +45,7 @@ export const fetchListProject = (params, navigation) => {
       })
       .catch(error => {
         dispatch(listProjectError(error));
-        if (error.message && error.message.search('Authorization') !== -1) {
+        if (error.message && error.message.search("Authorization") !== -1) {
           let tmp = {
             RefreshToken: params["RefreshToken"],
             Lang: params["Lang"],
@@ -94,7 +94,7 @@ export const fetchListTask = (params, navigation) => {
       })
       .catch(error => {
         dispatch(listTaskError(error));
-        if (error.message && error.message.search('Authorization') !== -1) {
+        if (error.message && error.message.search("Authorization") !== -1) {
           let tmp = {
             RefreshToken: params["RefreshToken"],
             Lang: params["Lang"],
@@ -138,7 +138,7 @@ export const fetchTaskDetail = (params, navigation) => {
       })
       .catch(error => {
         dispatch(taskDetailError(error));
-        if (error.message && error.message.search('Authorization') !== -1) {
+        if (error.message && error.message.search("Authorization") !== -1) {
           let tmp = {
             RefreshToken: params["RefreshToken"],
             Lang: params["Lang"],
@@ -182,7 +182,7 @@ export const fetchTaskComment = (params, navigation) => {
       })
       .catch(error => {
         dispatch(taskCommentError(error));
-        if (error.message && error.message.search('Authorization') !== -1) {
+        if (error.message && error.message.search("Authorization") !== -1) {
           let tmp = {
             RefreshToken: params["RefreshToken"],
             Lang: params["Lang"],
@@ -226,7 +226,7 @@ export const fetchTaskWatcher = (params, navigation) => {
       })
       .catch(error => {
         dispatch(taskWatcherError(error));
-        if (error.message && error.message.search('Authorization') !== -1) {
+        if (error.message && error.message.search("Authorization") !== -1) {
           let tmp = {
             RefreshToken: params["RefreshToken"],
             Lang: params["Lang"],
@@ -294,7 +294,7 @@ export const fetchUpdatePerTask = (params, navigation) => {
       })
       .catch(error => {
         dispatch(updatePerTaskError(error));
-        if (error.message && error.message.search('Authorization') !== -1) {
+        if (error.message && error.message.search("Authorization") !== -1) {
           let tmp = {
             RefreshToken: params["RefreshToken"],
             Lang: params["Lang"],
@@ -362,7 +362,7 @@ export const fetchUpdateStaTask = (params, navigation) => {
       })
       .catch(error => {
         dispatch(updateStaTaskError(error));
-        if (error.message && error.message.search('Authorization') !== -1) {
+        if (error.message && error.message.search("Authorization") !== -1) {
           let tmp = {
             RefreshToken: params["RefreshToken"],
             Lang: params["Lang"],
@@ -411,7 +411,7 @@ export const fetchProjectOverview = (params, navigation) => {
       })
       .catch(error => {
         dispatch(projectOverviewError(error));
-        if (error.message && error.message.search('Authorization') !== -1) {
+        if (error.message && error.message.search("Authorization") !== -1) {
           let tmp = {
             RefreshToken: params["RefreshToken"],
             Lang: params["Lang"],

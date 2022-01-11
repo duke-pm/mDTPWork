@@ -4,14 +4,16 @@
  ** CreateAt: 2021
  ** Description: Description of CButtonAdd.js
  **/
-import PropTypes from 'prop-types';
-import React from 'react';
-import {useTranslation} from 'react-i18next';
-import {Button, Icon} from '@ui-kitten/components';
-import {StyleSheet} from 'react-native';
+import PropTypes from "prop-types";
+import React from "react";
+import {useTranslation} from "react-i18next";
+import {Button, Icon} from "@ui-kitten/components";
+import {StyleSheet} from "react-native";
 /* COMMON */
-import {cStyles} from '~/utils/style';
-import {moderateScale} from '~/utils/helper';
+import {cStyles} from "~/utils/style";
+import {
+  moderateScale,
+} from "~/utils/helper";
 
 /*********************
  ** OTHER COMPONENT **
@@ -38,7 +40,11 @@ function CButtonAdd(props) {
   if (label) {
     return (
       <Button
-        style={[cStyles.abs, cStyles.shadow3, styles.con_button]}
+        style={[
+          cStyles.abs,
+          cStyles.shadow3,
+          styles.con_button,
+        ]}
         accessoryLeft={RenderAddIcon}
         onPress={onPress}
         {...props}>
@@ -48,7 +54,11 @@ function CButtonAdd(props) {
   }
   return (
     <Button
-      style={[cStyles.abs, cStyles.shadow3, styles.con_button]}
+      style={[
+        cStyles.abs,
+        cStyles.shadow3,
+        styles.con_button,
+      ]}
       accessoryLeft={RenderAddIcon}
       onPress={onPress}
       {...props}

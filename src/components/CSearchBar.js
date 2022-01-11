@@ -4,21 +4,21 @@
  ** CreateAt: 2021
  ** Description: Description of CSearchBar.js
  **/
-import PropTypes from 'prop-types';
-import React, {useContext, useState} from 'react';
-import {useTranslation} from 'react-i18next';
-import {Input, Button, Icon, Spinner} from '@ui-kitten/components';
-import {Platform, View} from 'react-native';
+import PropTypes from "prop-types";
+import React, {useContext, useState} from "react";
+import {useTranslation} from "react-i18next";
+import {Input, Button, Icon, Spinner} from "@ui-kitten/components";
+import {Platform, View} from "react-native";
 /* COMMON */
-import {cStyles} from '~/utils/style';
-import {moderateScale} from '~/utils/helper';
-import {ThemeContext} from '~/configs/theme-context';
+import {cStyles} from "~/utils/style";
+import {moderateScale} from "~/utils/helper";
+import {ThemeContext} from "~/configs/theme-context";
 
 /** All init */
 const ICON = {
   CLOSE: {
-    ios: 'close-circle',
-    android: 'close',
+    ios: "close-circle",
+    android: "close",
   }
 };
 const HEIGHT = moderateScale(33);
@@ -28,7 +28,7 @@ const HEIGHT = moderateScale(33);
  *********************/
 const RenderSearchIcon = props => {
   return (
-    <Icon {...props} name={'search'} />
+    <Icon {...props} name={"search"} />
   );
 }
 
@@ -42,14 +42,14 @@ const RenderLeftIcon = (props, loading, handleSearch) => {
   if (loading) {
     return (
       <View style={[props.style, cStyles.center, {height: HEIGHT, width: HEIGHT}]}>
-        <Spinner size={'tiny'} />
+        <Spinner size={"tiny"} />
       </View>
     )
   }
   return (
     <Button
-      size={'small'}
-      appearance={'ghost'}
+      size={"small"}
+      appearance={"ghost"}
       accessoryLeft={RenderSearchIcon}
       onPress={handleSearch}
     />
@@ -60,10 +60,10 @@ const RenderRightIcon = (props, loading, handleRemove) => {
   if (loading) return null;
   return (
     <Button
-      size={'small'}
-      appearance={'ghost'}
+      size={"small"}
+      appearance={"ghost"}
       accessoryLeft={RenderRemoveIcon}
-      status={'danger'}
+      status={"danger"}
       onPress={handleRemove}
     />
   )
@@ -82,14 +82,14 @@ function CSearchBar(props) {
   } = props;
 
   /** Use state */
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState("");
 
   /*****************
    ** HANDLE FUNC **
    *****************/
   const handleRemove = () => {
-    setValue('');
-    onSearch('');
+    setValue("");
+    onSearch("");
   };
 
   const handleSearch = () => {
@@ -109,12 +109,12 @@ function CSearchBar(props) {
       disabled={loading}
       value={value}
       keyboardAppearance={themeContext.themeApp}
-      placeholder={t('common:write_something_to_search')}
-      returnKeyType={'search'}
+      placeholder={t("common:write_something_to_search")}
+      returnKeyType={"search"}
       autoFocus={autoFocus}
       accessoryLeft={propsL =>
-        RenderLeftIcon(propsL, loading, value !== ''  ? handleSearch : null)}
-      accessoryRight={value !== '' 
+        RenderLeftIcon(propsL, loading, value !== ""  ? handleSearch : null)}
+      accessoryRight={value !== "" 
         ? propsR => RenderRightIcon(propsR, loading, handleRemove)
         : undefined
       }

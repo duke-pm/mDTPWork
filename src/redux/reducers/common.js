@@ -11,9 +11,9 @@ import {
   DEFAULT_FORMAT_DATE_2,
   DEFAULT_FORMAT_DATE_3,
   DEFAULT_PER_PAGE,
-} from '~/configs/constants';
+} from "~/configs/constants";
 /** REDUX */
-import * as types from '../actions/types';
+import * as types from "../actions/types";
 
 export const initialState = {
   connection: true,
