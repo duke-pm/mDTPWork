@@ -97,7 +97,7 @@ function Login(props) {
       Username: tmpCallback.valuesAll[0].value.trim().toLowerCase(),
       Password: tmpCallback.valuesAll[1].value.trim(),
       TypeLogin: 2,
-      Lang: commonState.get("language"),
+      Lang: commonState["language"],
     };
     dispatch(Actions.fetchLogin(params));
   };
@@ -119,7 +119,7 @@ function Login(props) {
       let dataLogin = {},
         item;
       for (item of FieldsAuth) {
-        dataLogin[item.value] = authState.getIn(["login", item.value]);
+        dataLogin[item.value] = authState["login"][item.value];
       }
       await saveSecretInfo({key: AST_LOGIN, value: dataLogin});
     } else {
@@ -163,7 +163,7 @@ function Login(props) {
   };
 
   const onLoginError = () => {
-    let eLogin = authState.get("errorHelperLogin");
+    let eLogin = authState["errorHelperLogin"];
     if (typeof eLogin === "object") {
       eLogin = t("sign_in:error_login");
     }
@@ -203,15 +203,15 @@ function Login(props) {
 
   useEffect(() => {
     if (loading.submit && !loading.main) {
-      if (!authState.get("submitting")) {
-        if (authState.get("successLogin")) {
+      if (!authState["submitting"]) {
+        if (authState["successLogin"]) {
           return contentRef.current.fadeOutDown(1000).then(endState => {
             if (endState.finished) {
               onPrepareData();
             }
           });
         }
-        if (authState.get("errorLogin")) {
+        if (authState["errorLogin"]) {
           return onLoginError();
         }
       }
@@ -219,9 +219,9 @@ function Login(props) {
   }, [
     loading.main,
     loading.submit,
-    authState.get("submitting"),
-    authState.get("successLogin"),
-    authState.get("errorLogin"),
+    authState["submitting"],
+    authState["successLogin"],
+    authState["errorLogin"],
   ]);
 
   useEffect(() => {

@@ -6,7 +6,6 @@
  ** CreateAt: 2021
  ** Description: Description of Task.js
  **/
-import {fromJS} from "immutable";
 import React, {useState, useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {useTranslation} from "react-i18next";
@@ -54,9 +53,9 @@ function Task(props) {
   const projectState = useSelector(({projectManagement}) => projectManagement);
   const commonState = useSelector(({common}) => common);
   const authState = useSelector(({auth}) => auth);
-  const language = commonState.get("language");
-  const refreshToken = authState.getIn(["login", "refreshToken"]);
-  const userName = authState.getIn(["login", "userName"]);
+  const language = commonState["language"];
+  const refreshToken = authState["login"]["refreshToken"];
+  const userName = authState["login"]["userName"];
 
   /** Use state */
   const [loading, setLoading] = useState({
@@ -118,20 +117,20 @@ function Task(props) {
   };
 
   const onFetchData = () => {
-    let params = fromJS({
+    let params = {
       TaskID: taskID,
       Lang: language,
       RefreshToken: refreshToken,
-    });
+    };
     dispatch(Actions.fetchTaskDetail(params, navigation));
     return setLoading({...loading, startFetch: true});
   };
 
   const onPrepareData = async () => {
-    let taskDetail = projectState.get("taskDetail");
-    let activities = projectState.get("activities");
-    let watchers = projectState.get("watchers");
-    let isWatched = projectState.get("isWatched");
+    let taskDetail = projectState["taskDetail"];
+    let activities = projectState["activities"];
+    let watchers = projectState["watchers"];
+    let isWatched = projectState["isWatched"];
 
     if (activities.length > 0) {
       let lastComment = await getLocalInfo(AST_LAST_COMMENT_TASK);
@@ -172,8 +171,8 @@ function Task(props) {
     if (isSuccess) {
       if (!newComment) setNewComment(true);
       if (!needRefresh) setNeedRefresh(true);
-      let taskDetail = projectState.get("taskDetail");
-      let watchers = projectState.get("watchers");
+      let taskDetail = projectState["taskDetail"];
+      let watchers = projectState["watchers"];
       setData({...data, taskDetail, watchers});
       setLoading({...loading, update: false});
       return showMessage({
@@ -235,7 +234,7 @@ function Task(props) {
    ** LIFE CYCLE **
    ****************/
   useEffect(() => {
-    let isLogin = authState.get("successLogin");
+    let isLogin = authState["successLogin"];
     if (isLogin && !loading.startFetchLogin) {
       onFetchData();
     } else {
@@ -246,58 +245,58 @@ function Task(props) {
 
   useEffect(() => {
     if (loading.startFetchLogin) {
-      if (!authState.get("submitting")) {
-        if (authState.get("successLogin")) {
+      if (!authState["submitting"]) {
+        if (authState["successLogin"]) {
           return onFetchData();
         }
-        if (authState.get("errorLogin")) {
+        if (authState["errorLogin"]) {
           return onGoToSignIn();
         }
       }
     }
   }, [
     loading.startFetchLogin,
-    authState.get("submitting"),
-    authState.get("successLogin"),
-    authState.get("errorLogin"),
+    authState["submitting"],
+    authState["successLogin"],
+    authState["errorLogin"],
   ]);
 
   useEffect(() => {
     if (loading.startFetch) {
-      if (!projectState.get("submittingTaskDetail")) {
-        if (projectState.get("successTaskDetail")) {
+      if (!projectState["submittingTaskDetail"]) {
+        if (projectState["successTaskDetail"]) {
           return onPrepareData();
         }
 
-        if (projectState.get("errorTaskDetail")) {
+        if (projectState["errorTaskDetail"]) {
           return onError();
         }
       }
     }
   }, [
     loading.startFetch,
-    projectState.get("submittingTaskDetail"),
-    projectState.get("successTaskDetail"),
-    projectState.get("errorTaskDetail"),
+    projectState["submittingTaskDetail"],
+    projectState["successTaskDetail"],
+    projectState["errorTaskDetail"],
   ]);
 
   useEffect(() => {
     if (loading.fastWatch) {
-      if (!projectState.get("submittingTaskWatcher")) {
-        if (projectState.get("successTaskWatcher")) {
+      if (!projectState["submittingTaskWatcher"]) {
+        if (projectState["successTaskWatcher"]) {
           return onPrepareWatch();
         }
 
-        if (projectState.get("errorTaskWatcher")) {
+        if (projectState["errorTaskWatcher"]) {
           return onError("error:send_follow");
         }
       }
     }
   }, [
     loading.fastWatch,
-    projectState.get("submittingTaskWatcher"),
-    projectState.get("successTaskWatcher"),
-    projectState.get("errorTaskWatcher"),
+    projectState["submittingTaskWatcher"],
+    projectState["successTaskWatcher"],
+    projectState["errorTaskWatcher"],
   ]);
 
   useEffect(() => {

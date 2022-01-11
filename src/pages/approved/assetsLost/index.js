@@ -6,7 +6,6 @@
  ** Description: Description of ApprovedAssetsLost.js
  **/
 import PropTypes from "prop-types";
-import {fromJS} from "immutable";
 import React, {useState, useEffect} from "react";
 import {useSelector, useDispatch} from "react-redux";
 import {useTranslation} from "react-i18next";
@@ -34,10 +33,10 @@ function ApprovedAssetsLost(props) {
   const commonState = useSelector(({common}) => common);
   const approvedState = useSelector(({approved}) => approved);
   const authState = useSelector(({auth}) => auth);
-  const perPage = commonState.get("perPage");
-  const formatDate = commonState.get("formatDate");
-  const refreshToken = authState.getIn(["login", "refreshToken"]);
-  const language = commonState.get("language");
+  const perPage = commonState["perPage"];
+  const formatDate = commonState["formatDate"];
+  const refreshToken = authState["login"]["refreshToken"];
+  const language = commonState["language"];
 
   /** Use state */
   const [loading, setLoading] = useState({
@@ -71,7 +70,7 @@ function ApprovedAssetsLost(props) {
     statusId = data.status,
     search = data.search,
   ) => {
-    let params = fromJS({
+    let params = {
       FromDate: fromDate,
       ToDate: toDate,
       StatusID: statusId,
@@ -82,7 +81,7 @@ function ApprovedAssetsLost(props) {
       IsResolveRequest: false,
       RefreshToken: refreshToken,
       Lang: language,
-    });
+    };
     return dispatch(Actions.fetchListRequestLost(params, navigation));
   };
 
@@ -91,9 +90,9 @@ function ApprovedAssetsLost(props) {
     let cRequests = [...data.requests],
       cRequestDetail = [...data.requestsDetail],
       cProcessApproveds = [...data.processApproveds];
-    let nRequestsLost = approvedState.get("requestsLost"),
-      nRequestsLostDetail = approvedState.get("requestsLostDetail"),
-      nProcessLostApproved = approvedState.get("processLostApproved");
+    let nRequestsLost = approvedState["requestsLost"],
+      nRequestsLostDetail = approvedState["requestsLostDetail"],
+      nProcessLostApproved = approvedState["processLostApproved"];
 
     /* *
      * If data result from server have
@@ -212,17 +211,17 @@ function ApprovedAssetsLost(props) {
 
   useEffect(() => {
     if (loading.startFetch || loading.refreshing || loading.loadmore) {
-      if (!approvedState.get("submittingListLost")) {
+      if (!approvedState["submittingListLost"]) {
         let type = REFRESH;
         if (loading.loadmore) {
           type = LOAD_MORE;
         }
 
-        if (approvedState.get("successListRequestLost")) {
+        if (approvedState["successListRequestLost"]) {
           return onPrepareData(type);
         }
 
-        if (approvedState.get("errorListRequestLost")) {
+        if (approvedState["errorListRequestLost"]) {
           return onError();
         }
       }
@@ -231,9 +230,9 @@ function ApprovedAssetsLost(props) {
     loading.startFetch,
     loading.refreshing,
     loading.loadmore,
-    approvedState.get("submittingListLost"),
-    approvedState.get("successListRequestLost"),
-    approvedState.get("errorListRequestLost"),
+    approvedState["submittingListLost"],
+    approvedState["successListRequestLost"],
+    approvedState["errorListRequestLost"],
   ]);
 
   /************

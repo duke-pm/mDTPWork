@@ -67,9 +67,9 @@ function Languages(props) {
    ** LIFE CYCLE **
    ****************/
   useEffect(() => {
-    if (commonState.get("language") !== language.languages[0].id) {
+    if (commonState["language"] !== language.languages[0].id) {
       let fLanguage = language.languages.findIndex(f =>
-          f.id == commonState.get("language"));
+          f.id == commonState["language"]);
       if (fLanguage !== -1) {
         setLanguage({...language, active: fLanguage});
       }

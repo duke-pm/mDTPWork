@@ -4,12 +4,10 @@
  ** CreatedAt: 2021
  ** Description: Description of masterData.js
  **/
-/* LIBRARY */
-import {fromJS} from 'immutable';
 /** REDUX */
 import * as types from '../actions/types';
 
-export const initialState = fromJS({
+export const initialState = {
   submitting: false,
   success: false,
   error: false,
@@ -31,29 +29,36 @@ export const initialState = fromJS({
   projectPriority: [],
   bkColor: [],
   bkReSource: [],
-});
+};
 
 export default function (state = initialState, action = {}) {
   const {type, payload} = action;
   switch (type) {
     case types.RESET_STATUS_MASTER_DATA:
-      return state
-        .set('success', false)
-        .set('error', false)
-        .set('errorHelper', '');
+      return {
+        ...state,
+        success: false,
+        error: false,
+        errorHelper: "",
+      };
+
     case types.START_FETCH_MASTER_DATA:
-      return state
-        .set('submitting', true)
-        .set('success', false)
-        .set('error', false)
-        .set('errorHelper', '');
+      return {
+        ...state,
+        submitting: true,
+        success: false,
+        error: false,
+        errorHelper: "",
+      };
 
     case types.ERROR_FETCH_MASTER_DATA:
-      return state
-        .set('submitting', false)
-        .set('success', false)
-        .set('error', true)
-        .set('errorHelper', payload);
+      return {
+        ...state,
+        submitting: false,
+        success: false,
+        error: true,
+        errorHelper: payload,
+      };
 
     case types.CHANGE_MASTER_ALL:
       let tmpUsers = payload.users;
@@ -61,46 +66,30 @@ export default function (state = initialState, action = {}) {
         tmpUsers.shift();
       }
 
-      return state
-        .set('submitting', false)
-        .set('success', true)
-        .set('error', false)
-        .set('errorHelper', '')
-        .set('region', payload.region || state.get('region'))
-        .set('department', payload.department || state.get('department'))
-        .set('employees', payload.employees || state.get('employees'))
-        .set('supplier', payload.supplier || state.get('supplier'))
-        .set('company', payload.company || state.get('company'))
-        .set('assetType', payload.assetType || state.get('assetType'))
-        .set('assetGroup', payload.assetGroup || state.get('assetGroup'))
-        .set('users', tmpUsers || state.get('users'))
-        .set('assetByUser', payload.assetByUser || [])
-        .set(
-          'assetGroupDetail',
-          payload.assetGroupDetail || state.get('assetGroupDetail'),
-        )
-        .set(
-          'projectStatus',
-          payload.projectStatus || state.get('projectStatus'),
-        )
-        .set(
-          'projectSector',
-          payload.projectSector || state.get('projectSector'),
-        )
-        .set(
-          'projectComponent',
-          payload.projectComponent || state.get('projectComponent'),
-        )
-        .set(
-          'projectPriority',
-          payload.projectPriority || state.get('projectPriority'),
-        )
-        .set(
-          'bookingResource',
-          payload.bookingResource || state.get('bookingResource'),
-        )
-        .set('bkColor', payload.bkColor || state.get('bkColor'))
-        .set('bkReSource', payload.bkReSource || state.get('bkReSource'));
+      return {
+        ...state,
+        submitting: false,
+        success: true,
+        error: false,
+        errorHelper: "",
+        region: payload.region || state["region"],
+        department: payload.department || state["department"],
+        employees: payload.employees || state["employees"],
+        supplier: payload.supplier || state["supplier"],
+        company: payload.company || state["company"],
+        assetType: payload.assetType || state["assetType"],
+        assetGroup: payload.assetGroup || state["assetGroup"],
+        users: tmpUsers || state["users"],
+        assetByUser: payload.assetByUser || [],
+        assetGroupDetail: payload.assetGroupDetail || state["assetGroupDetail"],
+        projectStatus: payload.projectStatus || state["projectStatus"],
+        projectSector: payload.projectSector || state["projectSector"],
+        projectComponent: payload.projectComponent || state["projectComponent"],
+        projectPriority: payload.projectPriority || state["projectPriority"],
+        bookingResource: payload.bookingResource || state["bookingResource"],
+        bkColor: payload.bkColor || state["bkColor"],
+        bkReSource: payload.bkReSource || state["bkReSource"],
+      };
 
     default:
       return state;

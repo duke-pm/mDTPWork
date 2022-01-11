@@ -43,7 +43,7 @@ function Dashboard(props) {
 
   /** Use redux */
   const authState = useSelector(({auth}) => auth);
-  const fullName = authState.getIn(["login", "fullName"]);
+  const fullName = authState["login"]["fullName"];
 
   /** Use State */
   const [loading, setLoading] = useState(true);
@@ -62,7 +62,7 @@ function Dashboard(props) {
    ** FUNC **
    **********/
   const onPrepareData = () => {
-    let tmpListMenu = authState.getIn(["login", "lstMenu"]);
+    let tmpListMenu = authState["login"]["lstMenu"];
     if (tmpListMenu && tmpListMenu.lstPermissionItem.length > 0) {
       /** Check permission user can access */
       let item = null,

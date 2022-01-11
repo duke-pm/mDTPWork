@@ -5,7 +5,6 @@
  ** CreateAt: 2021
  ** Description: Description of index.js
  **/
-import {fromJS} from "immutable";
 import React, {useRef, useState, useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {useTranslation} from "react-i18next";
@@ -48,7 +47,7 @@ function ForgotPassword(props) {
   const dispatch = useDispatch();
   const authState = useSelector(({auth}) => auth);
   const commonState = useSelector(({common}) => common);
-  const language = commonState.get("language");
+  const language = commonState["language"];
 
   /** Use state */
   const [loading, setLoading] = useState(false);
@@ -69,10 +68,10 @@ function ForgotPassword(props) {
     let tmpCallback = formRef.current?.onCallbackValue();
     setValues({email: tmpCallback.valuesAll[0].value});
     /** Submit */
-    let params = fromJS({
+    let params = {
       Lang: language,
       Email: tmpCallback.valuesAll[0].value.toLowerCase(),
-    });
+    };
     dispatch(Actions.fetchForgotPassword(params));
   };
 
@@ -86,8 +85,8 @@ function ForgotPassword(props) {
    ****************/
   useEffect(() => {
     if (loading) {
-      if (!authState.get("submittingForgotPass")) {
-        if (authState.get("successForgotPass")) {
+      if (!authState["submittingForgotPass"]) {
+        if (authState["successForgotPass"]) {
           return contentRef.current.fadeOutDown(1000).then(endState => {
             if (endState.finished) {
               onCompleteSend(true);
@@ -95,16 +94,16 @@ function ForgotPassword(props) {
           });
         }
 
-        if (authState.get("errorForgotPass")) {
+        if (authState["errorForgotPass"]) {
           return onCompleteSend(false);
         }
       }
     }
   }, [
     loading,
-    authState.get("submittingForgotPass"),
-    authState.get("successForgotPass"),
-    authState.get("errorForgotPass"),
+    authState["submittingForgotPass"],
+    authState["successForgotPass"],
+    authState["errorForgotPass"],
   ]);
 
   /************

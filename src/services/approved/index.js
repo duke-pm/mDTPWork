@@ -13,29 +13,29 @@ export default {
   listRequest: params => {
     return new Promise((resolve, reject) => {
       let tmpConfigs = {params: {}};
-      if (params.get('StatusID')) {
-        tmpConfigs.params.StatusID = params.get('StatusID');
+      if (params["StatusID"]) {
+        tmpConfigs.params.StatusID = params["StatusID"];
       }
-      if (params.get('FromDate')) {
-        tmpConfigs.params.FromDate = params.get('FromDate');
+      if (params["FromDate"]) {
+        tmpConfigs.params.FromDate = params["FromDate"];
       }
-      if (params.get('ToDate')) {
-        tmpConfigs.params.ToDate = params.get('ToDate');
+      if (params["ToDate"]) {
+        tmpConfigs.params.ToDate = params["ToDate"];
       }
-      if (params.get('PageSize')) {
-        tmpConfigs.params.PageSize = params.get('PageSize');
+      if (params["PageSize"]) {
+        tmpConfigs.params.PageSize = params["PageSize"];
       }
-      if (params.get('PageNum')) {
-        tmpConfigs.params.PageNum = params.get('PageNum');
+      if (params["PageNum"]) {
+        tmpConfigs.params.PageNum = params["PageNum"];
       }
-      if (params.get('Search')) {
-        tmpConfigs.params.Search = params.get('Search');
+      if (params["Search"]) {
+        tmpConfigs.params.Search = params["Search"];
       }
-      if (params.get('RequestTypeID')) {
-        tmpConfigs.params.RequestTypeID = params.get('RequestTypeID');
+      if (params["RequestTypeID"]) {
+        tmpConfigs.params.RequestTypeID = params["RequestTypeID"];
       }
-      if (params.get('IsResolveRequest')) {
-        tmpConfigs.params.IsResolveRequest = params.get('IsResolveRequest');
+      if (params["IsResolveRequest"]) {
+        tmpConfigs.params.IsResolveRequest = params["IsResolveRequest"];
       }
 
       API.get(
@@ -60,11 +60,11 @@ export default {
   requestDetail: params => {
     return new Promise((resolve, reject) => {
       let tmpConfigs = {params: {}};
-      if (params.get('RequestID')) {
-        tmpConfigs.params.RequestID = params.get('RequestID');
+      if (params["RequestID"]) {
+        tmpConfigs.params.RequestID = params["RequestID"];
       }
-      if (params.get('Lang')) {
-        tmpConfigs.params.Lang = params.get('Lang');
+      if (params["Lang"]) {
+        tmpConfigs.params.Lang = params["Lang"];
       }
 
       API.get(

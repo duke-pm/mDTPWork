@@ -4,8 +4,6 @@
  ** CreatedAt: 2021
  ** Description: Description of Common.js
  **/
-/* LIBRARY */
-import {fromJS} from 'immutable';
 import {
   DEFAULT_LANGUAGE_CODE,
   DEFAULT_THEME,
@@ -17,7 +15,7 @@ import {
 /** REDUX */
 import * as types from '../actions/types';
 
-export const initialState = fromJS({
+export const initialState = {
   connection: true,
   language: DEFAULT_LANGUAGE_CODE,
   theme: DEFAULT_THEME,
@@ -25,31 +23,52 @@ export const initialState = fromJS({
   formatDateView: DEFAULT_FORMAT_DATE_2,
   formatDateCustom1: DEFAULT_FORMAT_DATE_3,
   perPage: DEFAULT_PER_PAGE,
-});
+};
 
 export default function (state = initialState, action = {}) {
   const {type, payload} = action;
   switch (type) {
     case types.CHANGE_CONNECTION_STATUS:
-      return state.set('connection', payload);
+      return {
+        ...state,
+        connection: payload,
+      };
 
     case types.CHANGE_LANGUAGE:
-      return state.set('language', payload);
+      return {
+        ...state,
+        language: payload,
+      };
 
     case types.CHANGE_THEME:
-      return state.set('theme', payload);
+      return {
+        ...state,
+        theme: payload,
+      };
 
     case types.CHANGE_FORMAT_DATE:
-      return state.set('formatDate', payload);
+      return {
+        ...state,
+        formatDate: payload,
+      };
 
     case types.CHANGE_FORMAT_DATE_VIEW:
-      return state.set('formatDateView', payload);
+      return {
+        ...state,
+        formatDateView: payload,
+      };
 
     case types.CHANGE_FORMAT_DATE_CUSTOM1:
-      return state.set('formatDateCustom1', payload);
+      return {
+        ...state,
+        formatDateCustom1: payload,
+      };
 
     case types.CHANGE_PER_PAGE:
-      return state.set('perPage', payload);
+      return {
+        ...state,
+        perPage: payload,
+      };
 
     default:
       return state;

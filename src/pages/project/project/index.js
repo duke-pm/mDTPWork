@@ -6,7 +6,6 @@
  ** CreateAt: 2021
  ** Description: Description of Project.js
  **/
-import {fromJS} from 'immutable';
 import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
@@ -40,8 +39,8 @@ function Project(props) {
   const masterState = useSelector(({masterData}) => masterData);
   const commonState = useSelector(({common}) => common);
   const authState = useSelector(({auth}) => auth);
-  const language = commonState.get('language');
-  const refreshToken = authState.getIn(['login', 'refreshToken']);
+  const language = commonState["language"];
+  const refreshToken = authState["login"]["refreshToken"];
   const perPageMaster = Configs.perPageProjects;
 
   /** Use state */
@@ -99,7 +98,7 @@ function Project(props) {
     page = 1,
     search = '',
   ) => {
-    let params = fromJS({
+    let params = {
       ProjectID: projectID,
       Year: year,
       OwnerID: ownerID,
@@ -109,7 +108,7 @@ function Project(props) {
       Search: search,
       RefreshToken: refreshToken,
       Lang: language,
-    });
+    };
     return dispatch(Actions.fetchListProject(params, navigation));
   };
 
@@ -117,8 +116,8 @@ function Project(props) {
     let isLoadmore = true;
     let tmpProjects = [...data.projects];
     // Prepare data projects
-    let projects = projectState.get('projects');
-    let pagesProjects = projectState.get('pagesProjects');
+    let projects = projectState["projects"];
+    let pagesProjects = projectState["pagesProjects"];
     // Check if count result < perPage => loadmore is unavailable
     if (data.page >= pagesProjects) {
       isLoadmore = false;
@@ -213,15 +212,15 @@ function Project(props) {
 
   useEffect(() => {
     if (loading.startFetch || loading.refreshing || loading.loadmore) {
-      if (!projectState.get('submittingListProject')) {
-        if (projectState.get('successListProject')) {
+      if (!projectState["submittingListProject"]) {
+        if (projectState["successListProject"]) {
           let type = REFRESH;
           if (loading.loadmore) {
             type = LOAD_MORE;
           }
           return onPrepareData(type);
         }
-        if (projectState.get('errorListProject')) {
+        if (projectState["errorListProject"]) {
           return onError();
         }
       }
@@ -230,9 +229,9 @@ function Project(props) {
     loading.startFetch,
     loading.refreshing,
     loading.loadmore,
-    projectState.get('submittingListProject'),
-    projectState.get('successListProject'),
-    projectState.get('errorListProject'),
+    projectState["submittingListProject"],
+    projectState["successListProject"],
+    projectState["errorListProject"],
   ]);
 
   /************
@@ -262,9 +261,9 @@ function Project(props) {
                 isSector={false}
                 data={data}
                 masterData={{
-                  users: masterState.get('users'),
-                  status: masterState.get('projectStatus'),
-                  sectors: masterState.get('projectSector')
+                  users: masterState["users"],
+                  status: masterState["projectStatus"],
+                  sectors: masterState["projectSector"],
                 }}
                 onFilter={(year, sector, activeOwner, activeStatus) =>
                   handleFilter(year, activeOwner, activeStatus, toggleFilter)

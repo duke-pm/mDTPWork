@@ -6,7 +6,6 @@
  ** Description: Description of ApprovedAssets.js
  **/
 import PropTypes from "prop-types";
-import {fromJS} from "immutable";
 import React, {useState, useEffect} from "react";
 import {useSelector, useDispatch} from "react-redux";
 import {useTranslation} from "react-i18next";
@@ -37,10 +36,10 @@ function ApprovedAssets(props) {
   const commonState = useSelector(({common}) => common);
   const approvedState = useSelector(({approved}) => approved);
   const authState = useSelector(({auth}) => auth);
-  const perPage = commonState.get("perPage");
-  const formatDate = commonState.get("formatDate");
-  const refreshToken = authState.getIn(["login", "refreshToken"]);
-  const language = commonState.get("language");
+  const perPage = commonState["perPage"];
+  const formatDate = commonState["formatDate"];
+  const refreshToken = authState["login"]["refreshToken"];
+  const language = commonState["language"];
 
   /** Use state */
   const [loading, setLoading] = useState({
@@ -74,7 +73,7 @@ function ApprovedAssets(props) {
     statusId = data.status,
     search = data.search,
   ) => {
-    let params = fromJS({
+    let params = {
       FromDate: fromDate,
       ToDate: toDate,
       StatusID: statusId,
@@ -85,7 +84,7 @@ function ApprovedAssets(props) {
       IsResolveRequest: false,
       RefreshToken: refreshToken,
       Lang: language,
-    });
+    };
     return dispatch(Actions.fetchListRequestApproved(params, navigation));
   };
 
@@ -94,9 +93,9 @@ function ApprovedAssets(props) {
       tmpRequests = [...data.requests],
       tmpRequestsDetail = [...data.requestsDetail],
       tmpProcessApproveds = [...data.processApproveds],
-      tmpLastRequests = approvedState.get("requests"),
-      tmpLastRequestsDetail = approvedState.get("requestsDetail"),
-      tmpLastProcessApproved = approvedState.get("processApproved");
+      tmpLastRequests = approvedState["requests"],
+      tmpLastRequestsDetail = approvedState["requestsDetail"],
+      tmpLastProcessApproved = approvedState["processApproved"];
 
     /* *
      * If data result from server have
@@ -213,17 +212,17 @@ function ApprovedAssets(props) {
 
   useEffect(() => {
     if (loading.startFetch || loading.refreshing || loading.loadmore) {
-      if (!approvedState.get("submittingList")) {
+      if (!approvedState["submittingList"]) {
         let type = REFRESH;
         if (loading.loadmore) {
           type = LOAD_MORE;
         }
 
-        if (approvedState.get("successListRequest")) {
+        if (approvedState["successListRequest"]) {
           return onPrepareData(type);
         }
 
-        if (approvedState.get("errorListRequest")) {
+        if (approvedState["errorListRequest"]) {
           return onError();
         }
       }
@@ -232,9 +231,9 @@ function ApprovedAssets(props) {
     loading.startFetch,
     loading.refreshing,
     loading.loadmore,
-    approvedState.get("submittingList"),
-    approvedState.get("successListRequest"),
-    approvedState.get("errorListRequest"),
+    approvedState["submittingList"],
+    approvedState["successListRequest"],
+    approvedState["errorListRequest"],
   ]);
 
   /************

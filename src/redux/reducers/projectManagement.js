@@ -4,12 +4,10 @@
  ** CreatedAt: 2021
  ** Description: Description of Approved.js
  **/
-/* LIBRARY */
-import {fromJS, List} from 'immutable';
 /** REDUX */
 import * as types from '../actions/types';
 
-export const initialState = fromJS({
+export const initialState = {
   submittingListProject: false,
   submittingTaskDetail: false,
   submittingTaskComment: false,
@@ -54,145 +52,173 @@ export const initialState = fromJS({
   pagesTasks: 0,
   pagesOverview: 0,
   taskDetail: null,
-  activities: List(),
-  watchers: List(),
-});
+  activities: [],
+  watchers: [],
+};
 
 export default function (state = initialState, action = {}) {
   const {type, payload} = action;
   switch (type) {
     case types.RESET_REQUEST_PROJECT:
-      return state
-        .set('submittingTaskComment', false)
-        .set('submittingTaskWatcher', false)
-        .set('submittingTaskUpdatePer', false)
-        .set('submittingTaskUpdateSta', false)
-        .set('successTaskComment', false)
-        .set('successTaskWatcher', false)
-        .set('successTaskUpdatePer', false)
-        .set('successTaskUpdateSta', false)
-        .set('errorTaskComment', false)
-        .set('errorTaskWatcher', false)
-        .set('errorTaskUpdatePer', false)
-        .set('errorTaskUpdateSta', false)
-        .set('errorHelperTaskComment', false)
-        .set('errorHelperTaskWatcher', false)
-        .set('errorHelperTaskUpdatePer', false)
-        .set('errorHelperTaskUpdateSta', false);
+      return {
+        ...state,
+        submittingTaskComment: false,
+        submittingTaskWatcher: false,
+        submittingTaskUpdatePer: false,
+        submittingTaskUpdateSta: false,
+        successTaskComment: false,
+        successTaskWatcher: false,
+        successTaskUpdatePer: false,
+        successTaskUpdateSta: false,
+        errorTaskComment: false,
+        errorTaskWatcher: false,
+        errorTaskUpdatePer: false,
+        errorTaskUpdateSta: false,
+        errorHelperTaskComment: "",
+        errorHelperTaskWatcher: "",
+        errorHelperTaskUpdatePer: "",
+        errorHelperTaskUpdateSta: "",
+      };
         
     /** For list project **/
     case types.START_FETCH_LIST_PROJECT:
-      return state
-        .set('submittingListProject', true)
-        .set('successListProject', false)
-        .set('errorListProject', false)
-        .set('errorHelperListProject', '');
+      return {
+        ...state,
+        submittingListProject: true,
+        successListProject: false,
+        errorListProject: false,
+        errorHelperListProject: "",
+      };
 
     case types.SUCCESS_FETCH_LIST_PROJECT:
-      return state
-        .set('submittingListProject', false)
-        .set('successListProject', true)
-        .set('errorListProject', false)
-        .set('errorHelperListProject', '')
-        .set('projects', payload.data)
-        .set('pagesProjects', payload.pages);
+      return {
+        ...state,
+        submittingListProject: false,
+        successListProject: true,
+        errorListProject: false,
+        errorHelperListProject: "",
+        projects: payload.data,
+        pagesProjects: payload.pages,
+      };
 
     case types.ERROR_FETCH_LIST_PROJECT:
-      return state
-        .set('submittingListProject', false)
-        .set('successListProject', false)
-        .set('errorListProject', true)
-        .set('errorHelperListProject', payload);
+      return {
+        ...state,
+        submittingListProject: false,
+        successListProject: false,
+        errorListProject: true,
+        errorHelperListProject: payload,
+      };
 
     /** For list task of project **/
     case types.START_FETCH_LIST_TASK:
-      return state
-        .set('submittingListTask', true)
-        .set('successListTask', false)
-        .set('errorListTask', false)
-        .set('errorHelperListTask', '');
+      return {
+        ...state,
+        submittingListTask: true,
+        successListTask: false,
+        errorListTask: false,
+        errorHelperListTask: "",
+      };
 
     case types.SUCCESS_FETCH_LIST_TASK:
-      return state
-        .set('submittingListTask', false)
-        .set('successListTask', true)
-        .set('errorListTask', false)
-        .set('errorHelperListTask', '')
-        .set('tasks', payload.data)
-        .set('pagesTasks', payload.pages);
+      return {
+        ...state,
+        submittingListTask: false,
+        successListTask: true,
+        errorListTask: false,
+        errorHelperListTask: "",
+        tasks: payload.data,
+        pagesTasks: payload.pages,
+      };
 
     case types.ERROR_FETCH_LIST_TASK:
-      return state
-        .set('submittingListTask', false)
-        .set('successListTask', false)
-        .set('errorListTask', true)
-        .set('errorHelperListTask', payload);
+      return {
+        ...state,
+        submittingListTask: false,
+        successListTask: false,
+        errorListTask: true,
+        errorHelperListTask: payload,
+      };
 
     /** For task detail **/
     case types.START_FETCH_TASK_DETAIL:
-      return state
-        .set('submittingTaskDetail', true)
-        .set('successTaskDetail', false)
-        .set('errorTaskDetail', false)
-        .set('errorHelperTaskDetail', '');
+      return {
+        ...state,
+        submittingTaskDetail: true,
+        successTaskDetail: false,
+        errorTaskDetail: false,
+        errorHelperTaskDetail: "",
+      };
 
     case types.SUCCESS_FETCH_TASK_DETAIL:
-      return state
-        .set('submittingTaskDetail', false)
-        .set('successTaskDetail', true)
-        .set('errorTaskDetail', false)
-        .set('errorHelperTaskDetail', '')
-        .set('taskDetail', payload.detail)
-        .set('activities', payload.activities)
-        .set('watchers', payload.watcher)
-        .set('isWatched', payload.isWatched)
-        .set('isReceivedEmail', payload.isReceivedEmail);
+      return {
+        ...state,
+        submittingTaskDetail: false,
+        successTaskDetail: true,
+        errorTaskDetail: false,
+        errorHelperTaskDetail: "",
+        taskDetail: payload.detail,
+        activities: payload.activities,
+        watchers: payload.watcher,
+        isWatched: payload.isWatched,
+        isReceivedEmail: payload.isReceivedEmail,
+      };
 
     case types.ERROR_FETCH_TASK_DETAIL:
-      return state
-        .set('submittingTaskDetail', false)
-        .set('successTaskDetail', false)
-        .set('errorTaskDetail', true)
-        .set('errorHelperTaskDetail', payload);
+      return {
+        ...state,
+        submittingTaskDetail: false,
+        successTaskDetail: false,
+        errorTaskDetail: true,
+        errorHelperTaskDetail: payload,
+      };
 
     /** For task comment **/
     case types.START_FETCH_TASK_COMMENT:
-      return state
-        .set('submittingTaskComment', true)
-        .set('successTaskComment', false)
-        .set('errorTaskComment', false)
-        .set('errorHelperTaskComment', '');
+      return {
+        ...state,
+        submittingTaskComment: true,
+        successTaskComment: false,
+        errorTaskComment: false,
+        errorHelperTaskComment: "",
+      };
 
     case types.SUCCESS_FETCH_TASK_COMMENT:
-      let tmpActivities = state.get('activities');
+      let tmpActivities = state["activities"];
       let tmpActivities2 = payload;
 
-      return state
-        .set('submittingTaskComment', false)
-        .set('successTaskComment', true)
-        .set('errorTaskComment', false)
-        .set('errorHelperTaskComment', '')
-        .set('activities', tmpActivities.concat(tmpActivities2));
+      return {
+        ...state,
+        submittingTaskComment: false,
+        successTaskComment: true,
+        errorTaskComment: false,
+        errorHelperTaskComment: "",
+        activities: tmpActivities.concat(tmpActivities2),
+      };
 
     case types.ERROR_FETCH_TASK_COMMENT:
-      return state
-        .set('submittingTaskComment', false)
-        .set('successTaskComment', false)
-        .set('errorTaskComment', true)
-        .set('errorHelperTaskComment', payload);
+      return {
+        ...state,
+        submittingTaskComment: false,
+        successTaskComment: false,
+        errorTaskComment: true,
+        errorHelperTaskComment: payload,
+      };
 
     /** For task watchers **/
     case types.START_FETCH_TASK_WATCHERS:
-      return state
-        .set('submittingTaskWatcher', true)
-        .set('successTaskWatcher', false)
-        .set('errorTaskWatcher', false)
-        .set('errorHelperTaskWatcher', '');
+      return {
+        ...state,
+        submittingTaskWatcher: true,
+        successTaskWatcher: false,
+        errorTaskWatcher: false,
+        errorHelperTaskWatcher: "",
+      };
 
     case types.SUCCESS_FETCH_TASK_WATCHERS:
-      let tmpWatchers = state.get('watchers');
-      let tmpIsWatched = state.get('isWatched');
-      let tmpIsReceivedEmail = state.get('isReceivedEmail');
+      let tmpWatchers = state["watchers"];
+      let tmpIsWatched = state["isWatched"];
+      let tmpIsReceivedEmail = state["isReceivedEmail"];
       let tmpWatchers2 = null;
 
       if (payload.data.watcher) {
@@ -219,35 +245,39 @@ export default function (state = initialState, action = {}) {
         tmpIsWatched = payload.data.isWatched;
         tmpIsReceivedEmail = payload.data.isReceivedEmail;
       }
-      return state
-        .set('submittingTaskWatcher', false)
-        .set('successTaskWatcher', true)
-        .set('errorTaskWatcher', false)
-        .set('errorHelperTaskWatcher', '')
-        .set(
-          'watchers',
-          tmpWatchers2 ? tmpWatchers.concat(tmpWatchers2) : tmpWatchers,
-        )
-        .set('isWatched', tmpIsWatched)
-        .set('isReceivedEmail', tmpIsReceivedEmail);
+
+      return {
+        ...state,
+        submittingTaskWatcher: false,
+        successTaskWatcher: true,
+        errorTaskWatcher: false,
+        errorHelperTaskWatcher: "",
+        watchers: tmpWatchers2 ? tmpWatchers.concat(tmpWatchers2) : tmpWatchers,
+        isWatched: tmpIsWatched,
+        isReceivedEmail: tmpIsReceivedEmail,
+      };
 
     case types.ERROR_FETCH_TASK_WATCHERS:
-      return state
-        .set('submittingTaskWatcher', false)
-        .set('successTaskWatcher', false)
-        .set('errorTaskWatcher', true)
-        .set('errorHelperTaskWatcher', payload);
+      return {
+        ...state,
+        submittingTaskWatcher: false,
+        successTaskWatcher: false,
+        errorTaskWatcher: true,
+        errorHelperTaskWatcher: payload,
+      };
 
     /** For task update per task **/
     case types.START_FETCH_TASK_UPDATE_PER:
-      return state
-        .set('submittingTaskUpdatePer', true)
-        .set('successTaskUpdatePer', false)
-        .set('errorTaskUpdatePer', false)
-        .set('errorHelperTaskUpdatePer', '');
+      return {
+        ...state,
+        submittingTaskUpdatePer: true,
+        successTaskUpdatePer: false,
+        errorTaskUpdatePer: false,
+        errorHelperTaskUpdatePer: "",
+      };
 
     case types.SUCCESS_FETCH_TASK_UPDATE_PER:
-      let tmpTaskPer = state.get('taskDetail');
+      let tmpTaskPer = state["taskDetail"];
       // Update task detail
       tmpTaskPer.statusID = payload.status.statusID;
       tmpTaskPer.statusName = payload.status.statusName;
@@ -256,30 +286,36 @@ export default function (state = initialState, action = {}) {
       tmpTaskPer.colorOpacityCode = payload.status.colorOpacityCode;
       tmpTaskPer.percentage = payload.percentage;
 
-      return state
-        .set('submittingTaskUpdatePer', false)
-        .set('successTaskUpdatePer', true)
-        .set('errorTaskUpdatePer', false)
-        .set('errorHelperTaskUpdatePer', '')
-        .set('taskDetail', tmpTaskPer);
+      return {
+        ...state,
+        submittingTaskUpdatePer: false,
+        successTaskUpdatePer: true,
+        errorTaskUpdatePer: false,
+        errorHelperTaskUpdatePer: "",
+        taskDetail: tmpTaskPer,
+      };
 
     case types.ERROR_FETCH_TASK_UPDATE_PER:
-      return state
-        .set('submittingTaskUpdatePer', false)
-        .set('successTaskUpdatePer', false)
-        .set('errorTaskUpdatePer', true)
-        .set('errorHelperTaskUpdatePer', payload);
+      return {
+        ...state,
+        submittingTaskUpdatePer: false,
+        successTaskUpdatePer: false,
+        errorTaskUpdatePer: true,
+        errorHelperTaskUpdatePer: payload,
+      };
 
     /** For task update sta task **/
     case types.START_FETCH_TASK_UPDATE_STA:
-      return state
-        .set('submittingTaskUpdateSta', true)
-        .set('successTaskUpdateSta', false)
-        .set('errorTaskUpdateSta', false)
-        .set('errorHelperTaskUpdateSta', '');
+      return {
+        ...state,
+        submittingTaskUpdateSta: true,
+        successTaskUpdateSta: false,
+        errorTaskUpdateSta: false,
+        errorHelperTaskUpdateSta: "",
+      };
 
     case types.SUCCESS_FETCH_TASK_UPDATE_STA:
-      let tmpTaskSta = state.get('taskDetail');
+      let tmpTaskSta = state["taskDetail"];
       // Update task detail
       tmpTaskSta.statusID = payload.status.statusID;
       tmpTaskSta.statusName = payload.status.statusName;
@@ -288,43 +324,53 @@ export default function (state = initialState, action = {}) {
       tmpTaskSta.colorOpacityCode = payload.status.colorOpacityCode;
       tmpTaskSta.percentage = payload.percentage;
 
-      return state
-        .set('submittingTaskUpdateSta', false)
-        .set('successTaskUpdateSta', true)
-        .set('errorTaskUpdateSta', false)
-        .set('errorHelperTaskUpdateSta', '')
-        .set('taskDetail', tmpTaskSta);
+      return {
+        ...state,
+        submittingTaskUpdateSta: false,
+        successTaskUpdateSta: true,
+        errorTaskUpdateSta: false,
+        errorHelperTaskUpdateSta: "",
+        taskDetail: tmpTaskSta,
+      };
 
     case types.ERROR_FETCH_TASK_UPDATE_STA:
-      return state
-        .set('submittingTaskUpdateSta', false)
-        .set('successTaskUpdateSta', false)
-        .set('errorTaskUpdateSta', true)
-        .set('errorHelperTaskUpdateSta', payload);
+      return {
+        ...state,
+        submittingTaskUpdateSta: false,
+        successTaskUpdateSta: false,
+        errorTaskUpdateSta: true,
+        errorHelperTaskUpdateSta: payload,
+      };
 
     /** For overview **/
     case types.START_FETCH_PROJECT_OVERVIEW:
-      return state
-        .set('submittingOverview', true)
-        .set('successOverview', false)
-        .set('errorOverview', false)
-        .set('errorHelperTasOverview', '');
+      return {
+        ...state,
+        submittingOverview: true,
+        successOverview: false,
+        errorOverview: false,
+        errorHelperTasOverview: "",
+      };
 
     case types.SUCCESS_FETCH_PROJECT_OVERVIEW:
-      return state
-        .set('submittingOverview', false)
-        .set('successOverview', true)
-        .set('errorOverview', false)
-        .set('errorHelperTasOverview', '')
-        .set('overview', payload.data)
-        .set('pagesOverview', payload.pages);
+      return {
+        ...state,
+        submittingOverview: false,
+        successOverview: true,
+        errorOverview: false,
+        errorHelperTasOverview: "",
+        overview: payload.data,
+        pagesOverview: payload.pages,
+      };
 
     case types.ERROR_FETCH_PROJECT_OVERVIEW:
-      return state
-        .set('submittingOverview', false)
-        .set('successOverview', false)
-        .set('errorOverview', true)
-        .set('errorHelperTasOverview', payload);
+      return {
+        ...state,
+        submittingOverview: false,
+        successOverview: false,
+        errorOverview: true,
+        errorHelperTasOverview: payload,
+      };
 
     default:
       return state;

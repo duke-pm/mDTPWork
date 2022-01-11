@@ -218,9 +218,9 @@ function Activity(props) {
   const projectState = useSelector(({projectManagement}) => projectManagement);
   const commonState = useSelector(({common}) => common);
   const authState = useSelector(({auth}) => auth);
-  const userName = authState.getIn(["login", "userName"]);
-  const refreshToken = authState.getIn(["login", "refreshToken"]);
-  const language = commonState.get("language");
+  const userName = authState["login"]["userName"];
+  const refreshToken = authState["login"]["refreshToken"];
+  const language = commonState["language"];
 
   /** Use state */
   const [loading, setLoading] = useState({
@@ -237,7 +237,7 @@ function Activity(props) {
 
   const onPrepareData = async isUpdate => {
     let array = [];
-    let activities = projectState.get("activities");
+    let activities = projectState["activities"];
     if (!isUpdate) {
       let item = null,
         date = null,
@@ -315,7 +315,7 @@ function Activity(props) {
   };
 
   const onUpdateLastComment = async () => {
-    let activities = projectState.get("activities");
+    let activities = projectState["activities"];
     if (activities.length > 0) {
       let tmpLastComment = await getLocalInfo(AST_LAST_COMMENT_TASK);
       if (!tmpLastComment) {
@@ -357,22 +357,22 @@ function Activity(props) {
 
   useEffect(() => {
     if (loading.send) {
-      if (!projectState.get("submittingTaskComment")) {
-        if (projectState.get("successTaskComment")) {
+      if (!projectState["submittingTaskComment"]) {
+        if (projectState["successTaskComment"]) {
           onUpdateLastComment();
           return onPrepareData(true);
         }
 
-        if (projectState.get("errorTaskComment")) {
+        if (projectState["errorTaskComment"]) {
           return onError();
         }
       }
     }
   }, [
     loading.send,
-    projectState.get("submittingTaskComment"),
-    projectState.get("successTaskComment"),
-    projectState.get("errorTaskComment"),
+    projectState["submittingTaskComment"],
+    projectState["successTaskComment"],
+    projectState["errorTaskComment"],
   ]);
 
   /************

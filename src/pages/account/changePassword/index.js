@@ -49,8 +49,8 @@ function ChangePassword(props) {
   const dispatch = useDispatch();
   const authState = useSelector(({auth}) => auth);
   const commonState = useSelector(({common}) => common);
-  const language = commonState.get("language");
-  const refreshToken = authState.getIn(["login", "refreshToken"]);
+  const language = commonState["language"];
+  const refreshToken = authState["login"]["refreshToken"];
 
   /** Use state */
   const [loading, setLoading] = useState(false);
@@ -117,16 +117,16 @@ function ChangePassword(props) {
    ****************/
   useEffect(() => {
     if (loading) {
-      if (!authState.get("submittingChangePass")) {
-        if (authState.get("successChangePass")) {
+      if (!authState["submittingChangePass"]) {
+        if (authState["successChangePass"]) {
           return onCompleteChange(true, null, true);
         }
 
-        if (authState.get("errorChangePass")) {
+        if (authState["errorChangePass"]) {
           return onCompleteChange(
             false,
-            typeof authState.get("errorHelperChangePass") === "string"
-              ? authState.get("errorHelperChangePass")
+            typeof authState["errorHelperChangePass"] === "string"
+              ? authState["errorHelperChangePass"]
               : null,
             false,
           );
@@ -135,9 +135,9 @@ function ChangePassword(props) {
     }
   }, [
     loading,
-    authState.get("submittingChangePass"),
-    authState.get("successChangePass"),
-    authState.get("errorChangePass"),
+    authState["submittingChangePass"],
+    authState["successChangePass"],
+    authState["errorChangePass"],
   ]);
 
   /************

@@ -4,12 +4,10 @@
  ** CreatedAt: 2021
  ** Description: Description of Auth.js
  **/
-/* LIBRARY */
-import {fromJS} from 'immutable';
 /** REDUX */
 import * as types from '../actions/types';
 
-export const initialState = fromJS({
+export const initialState = {
   submitting: false,
   submittingChangePass: false,
   submittingForgotPass: false,
@@ -21,23 +19,23 @@ export const initialState = fromJS({
 
   successLogin: false,
   errorLogin: false,
-  errorHelperLogin: '',
+  errorHelperLogin: "",
 
   successChangePass: false,
   errorChangePass: false,
-  errorHelperChangePass: '',
+  errorHelperChangePass: "",
 
   successForgotPass: false,
   errorForgotPass: false,
-  errorHelperForgotPass: '',
+  errorHelperForgotPass: "",
 
   successUpdatePass: false,
   errorUpdatePass: false,
-  errorHelperUpdatePass: '',
+  errorHelperUpdatePass: "",
 
   successCheckTokenPass: false,
   errorCheckTokenPass: false,
-  errorHelperCheckTokenPass: '',
+  errorHelperCheckTokenPass: "",
 
   login: {
     accessToken: null,
@@ -54,202 +52,225 @@ export const initialState = fromJS({
     groupID: null,
     lstMenu: null,
   },
-});
+};
 
 export default function (state = initialState, action = {}) {
   const {type, payload} = action;
   switch (type) {
     /** Common */
     case types.LOGOUT:
-      return state
-        .set('submitting', false)
-        .set('successLogin', false)
-        .set('errorLogin', false)
-        .set('errorHelperLogin', '')
-
-        .setIn(['login', 'accessToken'], null)
-        .setIn(['login', 'tokenType'], null)
-        .setIn(['login', 'refreshToken'], null)
-        .setIn(['login', 'userName'], null)
-        .setIn(['login', 'userID'], null)
-        .setIn(['login', 'userId'], null)
-        .setIn(['login', 'empCode'], null)
-        .setIn(['login', 'fullName'], null)
-        .setIn(['login', 'regionCode'], null)
-        .setIn(['login', 'deptCode'], null)
-        .setIn(['login', 'jobTitle'], null)
-        .setIn(['login', 'groupID'], null)
-        .setIn(['login', 'lstMenu'], null);
+      return {
+        ...state,
+        submitting: false,
+        successLogin: false,
+        errorLogin: false,
+        errorHelperLogin: "",
+        login: {
+          ...state.login,
+          accessToken: null,
+          tokenType: null,
+          refreshToken: null,
+          userName: null,
+          userID: null,
+          userId: null,
+          empCode: null,
+          fullName: null,
+          regionCode: null,
+          deptCode: null,
+          jobTitle: null,
+          groupID: null,
+          lstMenu: null,
+        }
+      };
     /*****************************/
 
     /** For refresh token **/
     case types.START_REFRESH_TOKEN:
-      return state
-        .set('submitting', true)
-        .set('successRefreshToken', false)
-        .set('errorRefreshToken', false);
+      return {
+        ...state,
+        submitting: true,
+        successRefreshToken: false,
+        errorRefreshToken: false,
+      };
     case types.SUCCESS_REFRESH_TOKEN:
-      return state
-        .set('submitting', true)
-        .set('successRefreshToken', true)
-        .set('errorRefreshToken', false);
+      return {
+        ...state,
+        submitting: false,
+        successRefreshToken: true,
+        errorRefreshToken: false,
+      };
     case types.ERROR_REFRESH_TOKEN:
-      return state
-        .set('submitting', true)
-        .set('successRefreshToken', false)
-        .set('errorRefreshToken', true);
+      return {
+        ...state,
+        submitting: false,
+        successRefreshToken: false,
+        errorRefreshToken: true,
+      };
     /*****************************/
 
     /** For login **/
     case types.START_LOGIN:
-      return state
-        .set('submitting', true)
-        .set('successLogin', false)
-        .set('errorLogin', false)
-        .set('errorHelperLogin', '');
+      return {
+        ...state,
+        submitting: false,
+        successLogin: false,
+        errorLogin: false,
+        errorHelperLogin: "",
+      };
     case types.SUCCESS_LOGIN:
-      return state
-        .set('submitting', false)
-        .set('successLogin', true)
-        .set('successRefreshToken', true)
-        .set('errorRefreshToken', false)
-        .set('errorLogin', false)
-        .set('errorHelperLogin', '')
-
-        .setIn(['login', 'accessToken'], payload.accessToken)
-        .setIn(['login', 'tokenType'], payload.tokenType)
-        .setIn(['login', 'refreshToken'], payload.refreshToken)
-        .setIn(['login', 'userName'], payload.userName)
-        .setIn(['login', 'userID'], payload.userID)
-        .setIn(['login', 'userId'], payload.userId)
-        .setIn(['login', 'empCode'], payload.empCode)
-        .setIn(['login', 'fullName'], payload.fullName)
-        .setIn(['login', 'regionCode'], payload.regionCode)
-        .setIn(['login', 'deptCode'], payload.deptCode)
-        .setIn(['login', 'jobTitle'], payload.jobTitle)
-        .setIn(['login', 'groupID'], payload.groupID)
-        .setIn(['login', 'lstMenu'], payload.lstMenu);
+      return {
+        ...state,
+        submitting: false,
+        successLogin: true,
+        successRefreshToken: true,
+        errorRefreshToken: false,
+        errorLogin: false,
+        errorHelperLogin: "",
+        login: {
+          ...state.login,
+          accessToken: payload.accessToken,
+          tokenType: payload.tokenType,
+          refreshToken: payload.refreshToken,
+          userName: payload.userName,
+          userID: payload.userID,
+          userId: payload.userId,
+          empCode: payload.empCode,
+          fullName: payload.fullName,
+          regionCode: payload.regionCode,
+          deptCode: payload.deptCode,
+          jobTitle: payload.jobTitle,
+          groupID: payload.groupID,
+          lstMenu: payload.lstMenu,
+        }
+      };
     case types.ERROR_LOGIN:
-      return state
-        .set('submitting', false)
-        .set('successLogin', false)
-        .set('errorLogin', true)
-        .set('errorHelperLogin', payload);
+      return {
+        ...state,
+        submitting: false,
+        successLogin: false,
+        errorLogin: true,
+        errorHelperLogin: payload,
+      };
     /*****************************/
 
     /** For change password **/
     case types.START_CHANGE_PASSWORD:
-      return state
-        .set('submittingChangePass', true)
-        .set('successChangePass', false)
-        .set('errorChangePass', false)
-        .set('errorHelperChangePass', '');
+      return {
+        ...state,
+        submittingChangePass: true,
+        successChangePass: false,
+        errorChangePass: false,
+        errorHelperChangePass: "",
+      };
     case types.SUCCESS_CHANGE_PASSWORD:
-      return state
-        .set('submittingChangePass', false)
-        .set('successChangePass', true)
-        .set('errorChangePass', false)
-        .set('errorHelperChangePass', '');
+      return {
+        ...state,
+        submittingChangePass: false,
+        successChangePass: true,
+        errorChangePass: false,
+        errorHelperChangePass: "",
+      };
     case types.ERROR_CHANGE_PASSWORD:
-      return state
-        .set('submittingChangePass', false)
-        .set('successChangePass', false)
-        .set('errorChangePass', true)
-        .set('errorHelperChangePass', payload);
+      return {
+        ...state,
+        submittingChangePass: false,
+        successChangePass: false,
+        errorChangePass: true,
+        errorHelperChangePass: payload,
+      };
     /*****************************/
 
     /** For change password **/
     case types.START_FORGOT_PASSWORD:
-      return state
-        .set('submittingForgotPass', true)
-        .set('successForgotPass', false)
-        .set('errorForgotPass', false)
-        .set('errorHelperForgotPass', '');
+      return {
+        ...state,
+        submittingForgotPass: true,
+        successForgotPass: false,
+        errorForgotPass: false,
+        errorHelperForgotPass: "",
+      };
     case types.SUCCESS_FORGOT_PASSWORD:
-      return state
-        .set('submittingForgotPass', false)
-        .set('successForgotPass', true)
-        .set('errorForgotPass', false)
-        .set('errorHelperForgotPass', '');
+      return {
+        ...state,
+        submittingForgotPass: false,
+        successForgotPass: true,
+        errorForgotPass: false,
+        errorHelperForgotPass: "",
+      };
     case types.ERROR_FORGOT_PASSWORD:
-      return state
-        .set('submittingForgotPass', false)
-        .set('successForgotPass', false)
-        .set('errorForgotPass', true)
-        .set('errorHelperForgotPass', payload);
-    /*****************************/
-
-    /** For change password **/
-    case types.START_FORGOT_PASSWORD:
-      return state
-        .set('submittingForgotPass', true)
-        .set('successForgotPass', false)
-        .set('errorForgotPass', false)
-        .set('errorHelperForgotPass', '');
-    case types.SUCCESS_FORGOT_PASSWORD:
-      return state
-        .set('submittingForgotPass', false)
-        .set('successForgotPass', true)
-        .set('errorForgotPass', false)
-        .set('errorHelperForgotPass', '');
-    case types.ERROR_FORGOT_PASSWORD:
-      return state
-        .set('submittingForgotPass', false)
-        .set('successForgotPass', false)
-        .set('errorForgotPass', true)
-        .set('errorHelperForgotPass', payload);
+      return {
+        ...state,
+        submittingForgotPass: false,
+        successForgotPass: false,
+        errorForgotPass: true,
+        errorHelperForgotPass: payload,
+      };
     /*****************************/
 
     /** For update password **/
     case types.START_UPDATE_PASSWORD:
-      return state
-        .set('submittingUpdatePass', true)
-        .set('successUpdatePass', false)
-        .set('errorUpdatePass', false)
-        .set('errorHelperUpdatePass', '');
+      return {
+        ...state,
+        submittingUpdatePass: true,
+        successUpdatePass: false,
+        errorUpdatePass: false,
+        errorHelperUpdatePass: "",
+      };
     case types.SUCCESS_UPDATE_PASSWORD:
-      return state
-        .set('submittingUpdatePass', false)
-        .set('successUpdatePass', true)
-        .set('errorUpdatePass', false)
-        .set('errorHelperUpdatePass', '');
+      return {
+        ...state,
+        submittingUpdatePass: false,
+        successUpdatePass: true,
+        errorUpdatePass: false,
+        errorHelperUpdatePass: "",
+      };
     case types.ERROR_UPDATE_PASSWORD:
-      return state
-        .set('submittingUpdatePass', false)
-        .set('successUpdatePass', false)
-        .set('errorUpdatePass', true)
-        .set('errorHelperUpdatePass', payload);
+      return {
+        ...state,
+        submittingUpdatePass: false,
+        successUpdatePass: false,
+        errorUpdatePass: true,
+        errorHelperUpdatePass: payload,
+      };
     /*****************************/
 
     /** For check token password **/
     case types.RESET_CHECK_TOKEN_PASSWORD:
-      return state
-        .set('submittingCheckTokenPass', false)
-        .set('successCheckTokenPass', false)
-        .set('errorCheckTokenPass', false)
-        .set('errorHelperCheckTokenPass', '')
-        .set('submittingUpdatePass', false)
-        .set('successUpdatePass', false)
-        .set('errorUpdatePass', false)
-        .set('errorHelperUpdatePass', '');
+      return {
+        ...state,
+        submittingCheckTokenPass: false,
+        successCheckTokenPass: false,
+        errorCheckTokenPass: false,
+        errorHelperCheckTokenPass: "",
+        submittingUpdatePass: false,
+        successUpdatePass: false,
+        errorUpdatePass: false,
+        errorHelperUpdatePass: ""
+      };
     case types.START_CHECK_TOKEN_PASSWORD:
-      return state
-        .set('submittingCheckTokenPass', true)
-        .set('successCheckTokenPass', false)
-        .set('errorCheckTokenPass', false)
-        .set('errorHelperCheckTokenPass', '');
+      return {
+        ...state,
+        submittingCheckTokenPass: true,
+        successCheckTokenPass: false,
+        errorCheckTokenPass: false,
+        errorHelperCheckTokenPass: "",
+      };
     case types.SUCCESS_CHECK_TOKEN_PASSWORD:
-      return state
-        .set('submittingCheckTokenPass', false)
-        .set('successCheckTokenPass', true)
-        .set('errorCheckTokenPass', false)
-        .set('errorHelperCheckTokenPass', '');
+      return {
+        ...state,
+        submittingCheckTokenPass: false,
+        successCheckTokenPass: true,
+        errorCheckTokenPass: false,
+        errorHelperCheckTokenPass: "",
+      };
     case types.ERROR_CHECK_TOKEN_PASSWORD:
-      return state
-        .set('submittingCheckTokenPass', false)
-        .set('successCheckTokenPass', false)
-        .set('errorCheckTokenPass', true)
-        .set('errorHelperCheckTokenPass', payload);
+      return {
+        ...state,
+        submittingCheckTokenPass: false,
+        successCheckTokenPass: false,
+        errorCheckTokenPass: true,
+        errorHelperCheckTokenPass: payload,
+      };
     /*****************************/
     default:
       return state;

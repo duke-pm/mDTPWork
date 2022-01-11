@@ -5,7 +5,6 @@
  ** CreateAt: 2021
  ** Description: Description of RequestLostDamage.js
  **/
-import {fromJS} from "immutable";
 import React, {createRef, useRef, useEffect, useState} from "react";
 import {useSelector, useDispatch} from "react-redux";
 import {useTranslation} from "react-i18next";
@@ -100,9 +99,9 @@ function AddRequest(props) {
   const commonState = useSelector(({common}) => common);
   const approvedState = useSelector(({approved}) => approved);
   const authState = useSelector(({auth}) => auth);
-  const refreshToken = authState.getIn(["login", "refreshToken"]);
-  const formatDate = commonState.get("formatDate");
-  const language = commonState.get("language");
+  const refreshToken = authState["login"]["refreshToken"];
+  const formatDate = commonState["formatDate"];
+  const language = commonState["language"];
   moment.locale(language);
 
   /** Use state */
@@ -123,7 +122,7 @@ function AddRequest(props) {
   const [process, setProcess] = useState([]);
   const [form, setForm] = useState({
     id: "",
-    name: authState.getIn(["login", "fullName"]),
+    name: authState["login"]["fullName"],
     dateRequest: moment().format(formatDate),
     typeUpdate: Commons.APPROVED_TYPE.DAMAGED.value, // 2: Damage, 3: Lost
     assetID: "",
@@ -133,8 +132,8 @@ function AddRequest(props) {
     reason: "",
     status: 1,
     isAllowApproved: false,
-    department: authState.getIn(["login", "deptCode"]),
-    region: authState.getIn(["login", "regionCode"]),
+    department: authState["login"]["deptCode"],
+    region: authState["login"]["regionCode"],
   });
 
   /*****************
@@ -163,7 +162,7 @@ function AddRequest(props) {
 
   const onGetAssetsByUser = () => {
     let params = {
-      EmpCode: authState.getIn(["login", "empCode"]),
+      EmpCode: authState["login"]["empCode"],
       RefreshToken: refreshToken,
       Lang: language,
     };
@@ -176,10 +175,10 @@ function AddRequest(props) {
     let tmpCallback = formRef.current?.onCallbackValue();
     /** prepare assets */
     let formData = new FormData();
-    formData.append("EmpCode", authState.getIn(["login", "empCode"]));
-    formData.append("DeptCode", authState.getIn(["login", "deptCode"]));
-    formData.append("RegionCode", authState.getIn(["login", "regionCode"]));
-    formData.append("JobTitle", authState.getIn(["login", "jobTitle"]));
+    formData.append("EmpCode", authState["login"]["empCode"]);
+    formData.append("DeptCode", authState["login"]["deptCode"]);
+    formData.append("RegionCode", authState["login"]["regionCode"]);
+    formData.append("JobTitle", authState["login"]["jobTitle"]);
     formData.append("RequestDate", tmpCallback.valuesAll[0].value);
     formData.append("Reasons", tmpCallback.valuesAll[2].value);
     formData.append(
@@ -210,19 +209,19 @@ function AddRequest(props) {
       id: dataRequest ? dataRequest?.requestID : "",
       personRequestId: dataRequest
         ? dataRequest?.personRequestID
-        : Number(authState.getIn(["login", "userId"])),
+        : Number(authState["login"]["userId"]),
       name: dataRequest
         ? dataRequest?.personRequest
-        : authState.getIn(["login", "fullName"]),
+        : authState["login"]["fullName"],
       dateRequest: dataRequest
         ? moment(dataRequest?.requestDate, DEFAULT_FORMAT_DATE_4).format(formatDate)
         : moment().format(formatDate),
       department: dataRequest
         ? dataRequest?.deptCode
-        : authState.getIn(["login", "deptCode"]),
+        : authState["login"]["deptCode"],
       region: dataRequest
         ? dataRequest?.regionCode
-        : authState.getIn(["login", "regionCode"]),
+        : authState["login"]["regionCode"],
       assetID: dataRequest ? dataRequest?.assetID : "",
       reason: dataRequest ? dataRequest?.reason : "",
       typeUpdate: dataRequest
@@ -300,11 +299,11 @@ function AddRequest(props) {
   };
 
   const onFetchRequestDetail = requestID => {
-    let params = fromJS({
+    let params = {
       RequestID: requestID,
       Lang: language,
       RefreshToken: refreshToken,
-    });
+    };
     dispatch(Actions.fetchRequestDetail(params, navigation));
   };
 
@@ -327,7 +326,7 @@ function AddRequest(props) {
    ****************/
   useEffect(() => {
     dispatch(Actions.resetStatusMasterData());
-    let isLogin = authState.get("successLogin");
+    let isLogin = authState["successLogin"];
     if (isLogin) {
       onCheckDeeplink();
     } else {
@@ -338,26 +337,26 @@ function AddRequest(props) {
 
   useEffect(() => {
     if (loading.startFetchLogin) {
-      if (!authState.get("submitting")) {
-        if (authState.get("successLogin")) {
+      if (!authState["submitting"]) {
+        if (authState["successLogin"]) {
           return onCheckDeeplink();
         }
-        if (authState.get("errorLogin")) {
+        if (authState["errorLogin"]) {
           return onGoToSignIn();
         }
       }
     }
   }, [
     loading.startFetchLogin,
-    authState.get("submitting"),
-    authState.get("successLogin"),
-    authState.get("errorLogin"),
+    authState["submitting"],
+    authState["successLogin"],
+    authState["errorLogin"],
   ]);
 
   useEffect(() => {
     if (loading.main) {
-      if (!masterState.get("submitting")) {
-        if (masterState.get("department").length > 0) {
+      if (!masterState["submitting"]) {
+        if (masterState["department"].length > 0) {
           dispatch(Actions.resetStatusMasterData());
           setLoading({...loading, main: false, startFetch: true});
           onGetAssetsByUser();
@@ -366,14 +365,14 @@ function AddRequest(props) {
     }
   }, [
     loading.main,
-    masterState.get("submitting"),
-    masterState.get("department"),
+    masterState["submitting"],
+    masterState["department"],
   ]);
 
   useEffect(() => {
     if (loading.startFetch && !loading.startFetchDetails) {
-      if (!masterState.get("submitting")) {
-        if (masterState.get("success") && !masterState.get("error")) {
+      if (!masterState["submitting"]) {
+        if (masterState["success"] && !masterState["error"]) {
           if (isDetail) {
             onPrepareDetail(route.params?.data, route.params?.dataProcess);
             setCurrentProcess({
@@ -393,23 +392,23 @@ function AddRequest(props) {
     }
   }, [
     loading.startFetch,
-    masterState.get("submitting"),
-    masterState.get("success"),
-    masterState.get("error"),
-    approvedState.get("requestDetail"),
+    masterState["submitting"],
+    masterState["success"],
+    masterState["error"],
+    approvedState["requestDetail"],
   ]);
 
   useEffect(() => {
     if (loading.startFetchDetails) {
-      if (!approvedState.get("submittingRequestDetail")) {
-        if (approvedState.get("successRequestDetail")) {
-          let tmp = approvedState.get("requestDetail");
+      if (!approvedState["submittingRequestDetail"]) {
+        if (approvedState["successRequestDetail"]) {
+          let tmp = approvedState["requestDetail"];
           if (tmp) {
             setRequestDetail(tmp);
             setCurrentProcess({statusID: tmp.statusID, statusName: tmp.statusName});
             onPrepareDetail(
               tmp,
-              approvedState.get("requestProcessDetail"),
+              approvedState["requestProcessDetail"],
             );
           }
         }
@@ -417,15 +416,15 @@ function AddRequest(props) {
     }
   }, [
     loading.startFetchDetails,
-    approvedState.get("submittingRequestDetail"),
-    approvedState.get("successRequestDetail"),
-    approvedState.get("requestDetail"),
+    approvedState["submittingRequestDetail"],
+    approvedState["successRequestDetail"],
+    approvedState["requestDetail"],
   ]);
 
   useEffect(() => {
     if (loading.submitAdd) {
-      if (!approvedState.get("submittingAdd")) {
-        if (approvedState.get("successAddRequest")) {
+      if (!approvedState["submittingAdd"]) {
+        if (approvedState["successAddRequest"]) {
           setLoading({...loading, submitAdd: false});
           showMessage({
             message: t("success:send_request"),
@@ -438,8 +437,8 @@ function AddRequest(props) {
           }
         }
 
-        if (approvedState.get("errorAddRequest")) {
-          let tmpMsg = approvedState.get("errorHelperAddRequest");
+        if (approvedState["errorAddRequest"]) {
+          let tmpMsg = approvedState["errorHelperAddRequest"];
           if (typeof tmpMsg !== "string") {
             tmpMsg = t("error:add_request_lost_damage");
           }
@@ -455,15 +454,15 @@ function AddRequest(props) {
     }
   }, [
     loading.submitAdd,
-    approvedState.get("submittingAdd"),
-    approvedState.get("successAddRequest"),
-    approvedState.get("errorAddRequest"),
+    approvedState["submittingAdd"],
+    approvedState["successAddRequest"],
+    approvedState["errorAddRequest"],
   ]);
 
   useEffect(() => {
     if (loading.submitApproved) {
-      if (!approvedState.get("submittingApproved")) {
-        if (approvedState.get("successApprovedRequest")) {
+      if (!approvedState["submittingApproved"]) {
+        if (approvedState["successApprovedRequest"]) {
           setLoading({...loading, submitApproved: false});
           showMessage({
             message: t("common:app_name"),
@@ -477,8 +476,8 @@ function AddRequest(props) {
           }
         }
 
-        if (approvedState.get("errorApprovedRequest")) {
-          let tmpMsg = approvedState.get("errorHelperApprovedRequest");
+        if (approvedState["errorApprovedRequest"]) {
+          let tmpMsg = approvedState["errorHelperApprovedRequest"];
           if (typeof tmpMsg !== "string") {
             tmpMsg = t("error:approved_request_lost_damage");
           }
@@ -495,16 +494,16 @@ function AddRequest(props) {
     }
   }, [
     loading.submitApproved,
-    approvedState.get("submittingApproved"),
-    approvedState.get("successApprovedRequest"),
-    approvedState.get("errorApprovedRequest"),
+    approvedState["submittingApproved"],
+    approvedState["successApprovedRequest"],
+    approvedState["errorApprovedRequest"],
   ]);
 
   useEffect(() => {
     if (loading.submitReject) {
-      if (!approvedState.get("submittingReject")) {
+      if (!approvedState["submittingReject"]) {
         setShowReject(false);
-        if (approvedState.get("successRejectRequest")) {
+        if (approvedState["successRejectRequest"]) {
           setLoading({...loading, submitReject: false});
           showMessage({
             message: t("common:app_name"),
@@ -518,8 +517,8 @@ function AddRequest(props) {
           }
         }
 
-        if (approvedState.get("errorRejectRequest")) {
-          let tmpMsg = approvedState.get("errorHelperRejectRequest");
+        if (approvedState["errorRejectRequest"]) {
+          let tmpMsg = approvedState["errorHelperRejectRequest"];
           if (typeof tmpMsg !== "string") {
             tmpMsg = t("error:reject_request_lost_damage");
           }
@@ -536,9 +535,9 @@ function AddRequest(props) {
     }
   }, [
     loading.submitReject,
-    approvedState.get("submittingReject"),
-    approvedState.get("successRejectRequest"),
-    approvedState.get("errorRejectRequest"),
+    approvedState["submittingReject"],
+    approvedState["successRejectRequest"],
+    approvedState["errorRejectRequest"],
   ]);
 
   /************
@@ -547,8 +546,8 @@ function AddRequest(props) {
   const isShowApprovedReject =
     isDetail && form.isAllowApproved && route.params?.permissionWrite;
   let userRegion = "", userDepartment = "",
-    masterRegion = masterState.get("region"),
-    masterDepartment = masterState.get("department");
+    masterRegion = masterState["region"],
+    masterDepartment = masterState["department"];
   userRegion = masterRegion.find(f => f.regionCode == form.region);
   userDepartment = masterDepartment.find(f => f.deptCode == form.department);
   let title = "";
@@ -588,7 +587,7 @@ function AddRequest(props) {
         <UserRequest
           avatar={null}
           fullName={form.name}
-          job={authState.getIn(["login", "jobTitle"])}
+          job={authState["login"]["jobTitle"]}
           region={userRegion ? userRegion.regionName : ""}
           department={userDepartment ? userDepartment.deptName : ""}
         />
@@ -730,7 +729,7 @@ function AddRequest(props) {
                   label: "add_approved_lost_damaged:assets",
                   holder: "add_approved_lost_damaged:holder_assets",
                   value: form.assetID,
-                  values: masterState.get("assetByUser"),
+                  values: masterState["assetByUser"],
                   keyToCompare: "assetID",
                   keyToShow: "assetName",
                   disabled: isDetail || requestDetail,

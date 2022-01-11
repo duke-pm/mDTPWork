@@ -54,7 +54,7 @@ function ListRequestAll(props) {
   /** Use redux */
   const dispatch = useDispatch();
   const commonState = useSelector(({common}) => common);
-  const formatDate = commonState.get("formatDate");
+  const formatDate = commonState["formatDate"];
 
   /** Use state */
   const [index, setIndex] = useState(0);

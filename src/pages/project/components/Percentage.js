@@ -113,7 +113,7 @@ function Percentage(props) {
   };
 
   const onUpdateActivities = (isSuccess) => {
-    let taskDetail = projectState.get('taskDetail');
+    let taskDetail = projectState["taskDetail"];
     let comment = '';
     if (taskDetail.percentage === PERCENT_COMPLETE) {
       comment = `* ${t('project_management:status_filter').toUpperCase()} ${t(
@@ -134,7 +134,6 @@ function Percentage(props) {
         taskDetail.percentage
       }.`;
     }
-    console.log('[LOG] === onUpdateActivities ===> ', comment);
 
     let paramsActivities = {
       LineNum: 0,
@@ -168,7 +167,7 @@ function Percentage(props) {
   const onNotification = isSuccess => {
     let des = isSuccess
       ? 'success:change_percent'
-      : projectState.get('errorHelperTaskUpdate');
+      : projectState["errorHelperTaskUpdate"];
     let type = isSuccess ? 'success' : 'danger';
     if (!isSuccess) {
       setPercent({...percent, value: props.task.percentage});
@@ -197,22 +196,22 @@ function Percentage(props) {
 
   useEffect(() => {
     if (disabled) {
-      if (!projectState.get('submittingTaskUpdatePer')) {
-        if (projectState.get('successTaskUpdatePer')) {
+      if (!projectState["submittingTaskUpdatePer"]) {
+        if (projectState["successTaskUpdatePer"]) {
           dispatch(Actions.resetAllProject());
           onUpdateActivities(true);
         }
   
-        if (projectState.get('errorTaskUpdatePer')) {
+        if (projectState["errorTaskUpdatePer"]) {
           return onNotification(false);
         }
       }
     }
   }, [
     disabled,
-    projectState.get('submittingTaskUpdatePer'),
-    projectState.get('successTaskUpdatePer'),
-    projectState.get('errorTaskUpdatePer'),
+    projectState["submittingTaskUpdatePer"],
+    projectState["successTaskUpdatePer"],
+    projectState["errorTaskUpdatePer"],
   ]);
   
   /************

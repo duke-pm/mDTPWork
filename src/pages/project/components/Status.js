@@ -49,7 +49,7 @@ function Status(props) {
   const dispatch = useDispatch();
   const masterState = useSelector(({masterData}) => masterData);
   const projectState = useSelector(({projectManagement}) => projectManagement);
-  const statusMaster = masterState.get('projectStatus');
+  const statusMaster = masterState["projectStatus"];
 
   /** Use state */
   const [isEdit, setIsEdit] = useState(true);
@@ -103,7 +103,7 @@ function Status(props) {
   };
 
   const onUpdateActivities = isSuccess => {
-    let taskDetail = projectState.get('taskDetail');
+    let taskDetail = projectState["taskDetail"];
     let comment = '';
     if (taskDetail.statusID === Commons.STATUS_PROJECT[4]["value"]) {
       comment = `* ${t('project_management:status_filter').toUpperCase()} ${t(
@@ -146,7 +146,7 @@ function Status(props) {
   const onNotification = isSuccess => {
     let des = isSuccess
       ? 'success:change_status'
-      : projectState.get('errorHelperTaskUpdate');
+      : projectState["errorHelperTaskUpdate"];
     let type = isSuccess ? 'success' : 'danger';
     onEndUpdate(isSuccess);
     return showMessage({
@@ -170,7 +170,7 @@ function Status(props) {
   };
 
   const onCheckStatus = () => {
-    let taskDetail = projectState.get('taskDetail');
+    let taskDetail = projectState["taskDetail"];
     if (taskDetail.statusID === Commons.STATUS_PROJECT[6]["value"]) {
       setIsEdit(false);
     }
@@ -185,13 +185,13 @@ function Status(props) {
 
   useEffect(() => {
     if (disabled) {
-      if (!projectState.get('submittingTaskUpdateSta')) {
-        if (projectState.get('successTaskUpdateSta')) {
+      if (!projectState["submittingTaskUpdateSta"]) {
+        if (projectState["successTaskUpdateSta"]) {
           dispatch(Actions.resetAllProject());
           return onUpdateActivities(true);
         }
   
-        if (projectState.get('errorTaskUpdateSta')) {
+        if (projectState["errorTaskUpdateSta"]) {
           onPrepareStatus();
           return onNotification(false);
         }
@@ -199,9 +199,9 @@ function Status(props) {
     }
   }, [
     disabled,
-    projectState.get('submittingTaskUpdateSta'),
-    projectState.get('successTaskUpdateSta'),
-    projectState.get('errorTaskUpdateSta'),
+    projectState["submittingTaskUpdateSta"],
+    projectState["successTaskUpdateSta"],
+    projectState["errorTaskUpdateSta"],
   ]);
 
   /************

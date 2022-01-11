@@ -53,8 +53,8 @@ function MyAccount(props) {
   const authState = useSelector(({auth}) => auth);
   const commonState = useSelector(({common}) => common);
   const masterState = useSelector(({masterData}) => masterData);
-  const language = commonState.get("language");
-  const refreshToken = authState.getIn(["login", "refreshToken"]);
+  const language = commonState["language"];
+  const refreshToken = authState["login"]["refreshToken"];
 
   /*****************
    ** HANDLE FUNC **
@@ -83,17 +83,17 @@ function MyAccount(props) {
   useEffect(() => {
     if (loading) {
       if (!department || !region) {
-        if (masterState.get("department").length > 0 && !department) {
-          let departments = masterState.get("department");
-          let myDeptCode = authState.getIn(["login", "deptCode"]);
+        let departments = masterState["department"];
+        let regions = masterState["region"];
+        if (departments.length > 0 && !department) {
+          let myDeptCode = authState["login"]["deptCode"];
           let findDept = departments.find(f => f.deptCode === myDeptCode);
           if (findDept) {
             setDepartment(findDept);
           }
         }
-        if (masterState.get("region").length > 0 && !region) {
-          let regions = masterState.get("region");
-          let myRegionCode = authState.getIn(["login", "regionCode"]);
+        if (regions.length > 0 && !region) {
+          let myRegionCode = authState["login"]["regionCode"];
           let findRegion = regions.find(f => f.regionCode === myRegionCode);
           if (findRegion) {
             setRegion(findRegion);
@@ -152,7 +152,7 @@ function MyAccount(props) {
                 type: "text",
                 label: "my_account:employee_code",
                 holder: "my_account:employee_code",
-                value: authState.getIn(["login", "empCode"]),
+                value: authState["login"]["empCode"],
                 required: true,
                 password: false,
                 email: false,
@@ -166,7 +166,7 @@ function MyAccount(props) {
                 type: "text",
                 label: "my_account:user_name",
                 holder: "my_account:user_name",
-                value: authState.getIn(["login", "userName"]),
+                value: authState["login"]["userName"],
                 required: true,
                 password: false,
                 email: false,
@@ -180,7 +180,7 @@ function MyAccount(props) {
                 type: "text",
                 label: "my_account:full_name",
                 holder: "my_account:full_name",
-                value: authState.getIn(["login", "fullName"]),
+                value: authState["login"]["fullName"],
                 required: true,
                 password: false,
                 email: false,

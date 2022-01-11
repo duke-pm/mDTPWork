@@ -5,7 +5,6 @@
  ** CreateAt: 2021
  ** Description: Description of Project.js
  **/
-import {fromJS} from 'immutable';
 import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
@@ -44,8 +43,8 @@ function ProjectDetail(props) {
   const masterState = useSelector(({masterData}) => masterData);
   const commonState = useSelector(({common}) => common);
   const authState = useSelector(({auth}) => auth);
-  const language = commonState.get('language');
-  const refreshToken = authState.getIn(['login', 'refreshToken']);
+  const language = commonState["language"];
+  const refreshToken = authState["login"]["refreshToken"];
   const perPageMaster = Configs.perPageProjects;
 
   /** Use state */
@@ -119,7 +118,7 @@ function ProjectDetail(props) {
     page = 1,
     search = '',
   ) => {
-    let params = fromJS({
+    let params = {
       TaskParentID: taskID,
       PrjID: projectID,
       OwnerID: ownerID,
@@ -130,7 +129,7 @@ function ProjectDetail(props) {
       Search: search,
       RefreshToken: refreshToken,
       Lang: language,
-    });
+    };
     dispatch(Actions.fetchListTask(params, navigation));
   };
 
@@ -139,8 +138,8 @@ function ProjectDetail(props) {
     let tmpTasks = [...data.tasks];
 
     // Prepare data tasks
-    let tasks = projectState.get('tasks');
-    let pagesTasks = projectState.get('pagesTasks');
+    let tasks = projectState["tasks"];
+    let pagesTasks = projectState["pagesTasks"];
 
     // Check if count result < perPage => loadmore is unavailable
     if (data.page >= pagesTasks) {
@@ -269,7 +268,7 @@ function ProjectDetail(props) {
    ** LIFE CYCLE **
    ****************/
   useEffect(() => {
-    let isLogin = authState.get('successLogin');
+    let isLogin = authState["successLogin"];
     if (isLogin && !loading.startFetchLogin) {
       onFetchData();
       setLoading({...loading, startFetch: true});
@@ -281,8 +280,8 @@ function ProjectDetail(props) {
 
   useEffect(() => {
     if (loading.startFetchLogin) {
-      if (!authState.get('submitting')) {
-        if (authState.get('successLogin')) {
+      if (!authState["submitting"]) {
+        if (authState["successLogin"]) {
           onFetchData();
           return setLoading({
             ...loading,
@@ -290,22 +289,22 @@ function ProjectDetail(props) {
             startFetchLogin: false,
           });
         }
-        if (authState.get('errorLogin')) {
+        if (authState["errorLogin"]) {
           return onGoToSignIn();
         }
       }
     }
   }, [
     loading.startFetchLogin,
-    authState.get('submitting'),
-    authState.get('successLogin'),
-    authState.get('errorLogin'),
+    authState["submitting"],
+    authState["successLogin"],
+    authState["errorLogin"],
   ]);
 
   useEffect(() => {
     if (loading.startFetch || loading.refreshing || loading.loadmore) {
-      if (!projectState.get('submittingListTask')) {
-        if (projectState.get('successListTask')) {
+      if (!projectState["submittingListTask"]) {
+        if (projectState["successListTask"]) {
           let type = REFRESH;
           if (loading.loadmore) {
             type = LOAD_MORE;
@@ -313,7 +312,7 @@ function ProjectDetail(props) {
           return onPrepareData(type);
         }
 
-        if (projectState.get('errorListTask')) {
+        if (projectState["errorListTask"]) {
           return onError();
         }
       }
@@ -322,9 +321,9 @@ function ProjectDetail(props) {
     loading.startFetch,
     loading.refreshing,
     loading.loadmore,
-    projectState.get('submittingListTask'),
-    projectState.get('successListTask'),
-    projectState.get('errorListTask'),
+    projectState["submittingListTask"],
+    projectState["successListTask"],
+    projectState["errorListTask"],
   ]);
 
   /************
@@ -354,9 +353,9 @@ function ProjectDetail(props) {
                 isSector={true}
                 data={data}
                 masterData={{
-                  users: masterState.get('users'),
-                  status: masterState.get('projectStatus'),
-                  sectors: masterState.get('projectSector')
+                  users: masterState["users"],
+                  status: masterState["projectStatus"],
+                  sectors: masterState["projectSector"],
                 }}
                 onFilter={(year, sector, activeOwner, activeStatus) =>
                   handleFilter(sector, activeOwner, activeStatus, toggleFilter)

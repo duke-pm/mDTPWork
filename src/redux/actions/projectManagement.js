@@ -47,8 +47,8 @@ export const fetchListProject = (params, navigation) => {
         dispatch(listProjectError(error));
         if (error.message && error.message.search('Authorization') !== -1) {
           let tmp = {
-            RefreshToken: params.get('RefreshToken'),
-            Lang: params.get('Lang'),
+            RefreshToken: params["RefreshToken"],
+            Lang: params["Lang"],
           };
           return dispatch(
             Actions.fetchRefreshToken(
@@ -96,8 +96,8 @@ export const fetchListTask = (params, navigation) => {
         dispatch(listTaskError(error));
         if (error.message && error.message.search('Authorization') !== -1) {
           let tmp = {
-            RefreshToken: params.get('RefreshToken'),
-            Lang: params.get('Lang'),
+            RefreshToken: params["RefreshToken"],
+            Lang: params["Lang"],
           };
           return dispatch(
             Actions.fetchRefreshToken(
@@ -140,8 +140,8 @@ export const fetchTaskDetail = (params, navigation) => {
         dispatch(taskDetailError(error));
         if (error.message && error.message.search('Authorization') !== -1) {
           let tmp = {
-            RefreshToken: params.get('RefreshToken'),
-            Lang: params.get('Lang'),
+            RefreshToken: params["RefreshToken"],
+            Lang: params["Lang"],
           };
           return dispatch(
             Actions.fetchRefreshToken(
@@ -184,8 +184,8 @@ export const fetchTaskComment = (params, navigation) => {
         dispatch(taskCommentError(error));
         if (error.message && error.message.search('Authorization') !== -1) {
           let tmp = {
-            RefreshToken: params.get('RefreshToken'),
-            Lang: params.get('Lang'),
+            RefreshToken: params["RefreshToken"],
+            Lang: params["Lang"],
           };
           return dispatch(
             Actions.fetchRefreshToken(
@@ -228,8 +228,8 @@ export const fetchTaskWatcher = (params, navigation) => {
         dispatch(taskWatcherError(error));
         if (error.message && error.message.search('Authorization') !== -1) {
           let tmp = {
-            RefreshToken: params.get('RefreshToken'),
-            Lang: params.get('Lang'),
+            RefreshToken: params["RefreshToken"],
+            Lang: params["Lang"],
           };
           return dispatch(
             Actions.fetchRefreshToken(
@@ -296,8 +296,8 @@ export const fetchUpdatePerTask = (params, navigation) => {
         dispatch(updatePerTaskError(error));
         if (error.message && error.message.search('Authorization') !== -1) {
           let tmp = {
-            RefreshToken: params.get('RefreshToken'),
-            Lang: params.get('Lang'),
+            RefreshToken: params["RefreshToken"],
+            Lang: params["Lang"],
           };
           return dispatch(
             Actions.fetchRefreshToken(
@@ -364,8 +364,8 @@ export const fetchUpdateStaTask = (params, navigation) => {
         dispatch(updateStaTaskError(error));
         if (error.message && error.message.search('Authorization') !== -1) {
           let tmp = {
-            RefreshToken: params.get('RefreshToken'),
-            Lang: params.get('Lang'),
+            RefreshToken: params["RefreshToken"],
+            Lang: params["Lang"],
           };
           return dispatch(
             Actions.fetchRefreshToken(
@@ -413,8 +413,8 @@ export const fetchProjectOverview = (params, navigation) => {
         dispatch(projectOverviewError(error));
         if (error.message && error.message.search('Authorization') !== -1) {
           let tmp = {
-            RefreshToken: params.get('RefreshToken'),
-            Lang: params.get('Lang'),
+            RefreshToken: params["RefreshToken"],
+            Lang: params["Lang"],
           };
           return dispatch(
             Actions.fetchRefreshToken(

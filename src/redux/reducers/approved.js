@@ -4,12 +4,10 @@
  ** CreatedAt: 2021
  ** Description: Description of Approved.js
  **/
-/* LIBRARY */
-import {fromJS} from 'immutable';
 /** REDUX */
 import * as types from '../actions/types';
 
-export const initialState = fromJS({
+export const initialState = {
   submittingList: false,
   submittingListDamage: false,
   submittingListLost: false,
@@ -61,307 +59,356 @@ export const initialState = fromJS({
   successRejectRequest: false,
   errorRejectRequest: false,
   errorHelperRejectRequest: '',
-});
+};
 
 export default function (state = initialState, action = {}) {
   const {type, payload} = action;
   switch (type) {
     case types.RESET_REQUEST_APPROVED:
-      return state
-        .set('submittingAdd', false)
-        .set('submittingApproved', false)
-        .set('submittingReject', false)
-        .set('successAddRequest', false)
-        .set('errorAddRequest', false)
-        .set('errorHelperAddRequest', '')
-        .set('successApprovedRequest', false)
-        .set('errorApprovedRequest', false)
-        .set('errorHelperApprovedRequest', '')
-        .set('successRejectRequest', false)
-        .set('errorRejectRequest', false)
-        .set('errorHelperRejectRequest', '')
-        .set('requests', [])
-        .set('requestsDetail', [])
-        .set('processApproved', [])
-        .set('requestsDamage', [])
-        .set('requestsDamageDetail', [])
-        .set('processDamageApproved', [])
-        .set('requestsLost', [])
-        .set('requestsLostDetail', [])
-        .set('processLostApproved', []);
+      return {
+        ...state,
+        submittingAdd: false,
+        submittingApproved: false,
+        submittingReject: false,
+        successAddRequest: false,
+        errorAddRequest: false,
+        errorHelperAddRequest: '',
+        successApprovedRequest: false,
+        errorApprovedRequest: false,
+        errorHelperApprovedRequest: '',
+        successRejectRequest: false,
+        errorRejectRequest: false,
+        errorHelperRejectRequest: '',
+        requests: [],
+        requestsDetail: [],
+        processApproved: [],
+        requestsDamage: [],
+        requestsDamageDetail: [],
+        processDamageApproved: [],
+        requestsLost: [],
+        requestsLostDetail: [],
+        processLostApproved: [],
+      };
 
     /** For list request **/
     case types.START_FETCH_LIST_REQUEST_APPROVED:
-      return state
-        .set('submittingList', true)
-        .set('successListRequest', false)
-        .set('errorListRequest', false)
-        .set('errorHelperListRequest', '')
-        .set('requestDetail', null);
+      return {
+        ...state,
+        submittingList: true,
+        successListRequest: false,
+        errorListRequest: false,
+        errorHelperListRequest: '',
+        requestDetail: null,
+      };
 
     case types.SUCCESS_FETCH_LIST_REQUEST_APPROVED:
-      return state
-        .set('countRequests', payload.countRequests)
-        .set('requests', payload.requests)
-        .set('requestsDetail', payload.requestsDetail)
-        .set('processApproved', payload.processApproved)
-        .set('submittingList', false)
-        .set('successListRequest', true)
-        .set('errorListRequest', false)
-        .set('errorHelperListRequest', '');
+      return {
+        ...state,
+        countRequests: payload.countRequests,
+        requests: payload.requests,
+        requestsDetail: payload.requestsDetail,
+        processApproved: payload.processApproved,
+        submittingList: false,
+        successListRequest: true,
+        errorListRequest: false,
+        errorHelperListRequest: '',
+      };
 
     case types.ERROR_FETCH_LIST_REQUEST_APPROVED:
-      return state
-        .set('submittingList', false)
-        .set('successListRequest', false)
-        .set('errorListRequest', true)
-        .set('errorHelperListRequest', payload);
+      return {
+        ...state,
+        submittingList: false,
+        successListRequest: false,
+        errorListRequest: true,
+        errorHelperListRequest: payload,
+      };
     /*****************************/
 
     /** For list request damage **/
     case types.START_FETCH_LIST_REQUEST_DAMAGE:
-      return state
-        .set('submittingListDamage', true)
-        .set('successListRequestDamage', false)
-        .set('errorListRequestDamage', false)
-        .set('errorHelperListRequestDamage', '')
-        .set('requestDetail', null);
+      return {
+        ...state,
+        submittingListDamage: true,
+        successListRequestDamage: false,
+        errorListRequestDamage: false,
+        errorHelperListRequestDamage: "",
+        requestDetail: null,
+      };
 
     case types.SUCCESS_FETCH_LIST_REQUEST_DAMAGE:
-      return state
-        .set('countRequestsDamage', payload.countRequests)
-        .set('requestsDamage', payload.requests)
-        .set('requestsDamageDetail', payload.requestsDetail)
-        .set('processDamageApproved', payload.processApproved)
-        .set('submittingListDamage', false)
-        .set('successListRequestDamage', true)
-        .set('errorListRequestDamage', false)
-        .set('errorHelperListRequestDamage', '');
+      return {
+        ...state,
+        countRequestsDamage: payload.countRequests,
+        requestsDamage: payload.requests,
+        requestsDamageDetail: payload.requestsDetail,
+        processDamageApproved: payload.processApproved,
+        submittingListDamage: false,
+        successListRequestDamage: true,
+        errorListRequestDamage: false,
+        errorHelperListRequestDamage: "",
+      };
 
     case types.ERROR_FETCH_LIST_REQUEST_DAMAGE:
-      return state
-        .set('submittingListDamage', false)
-        .set('successListRequestDamage', false)
-        .set('errorListRequestDamage', true)
-        .set('errorHelperListRequestDamage', payload);
+      return {
+        ...state,
+        submittingListDamage: false,
+        successListRequestDamage: false,
+        errorListRequestDamage: true,
+        errorHelperListRequestDamage: payload,
+      };
     /*****************************/
 
     /** For list request lost **/
     case types.START_FETCH_LIST_REQUEST_LOST:
-      return state
-        .set('submittingListLost', true)
-        .set('successListRequestLost', false)
-        .set('errorListRequestLost', false)
-        .set('errorHelperListRequestLost', '')
-        .set('requestDetail', null);
+      return {
+        ...state,
+        submittingListLost: true,
+        successListRequestLost: false,
+        errorListRequestLost: false,
+        errorHelperListRequestLost: "",
+        requestDetail: null,
+      };
 
     case types.SUCCESS_FETCH_LIST_REQUEST_LOST:
-      return state
-        .set('countRequestsLost', payload.countRequests)
-        .set('requestsLost', payload.requests)
-        .set('requestsLostDetail', payload.requestsDetail)
-        .set('processLostApproved', payload.processApproved)
-        .set('submittingListLost', false)
-        .set('successListRequestLost', true)
-        .set('errorListRequestLost', false)
-        .set('errorHelperListRequestLost', '');
+      return {
+        ...state,
+        countRequestsLost: payload.countRequests,
+        requestsLost: payload.requests,
+        requestsLostDetail: payload.requestsDetail,
+        processLostApproved: payload.processApproved,
+        submittingListLost: false,
+        successListRequestLost: true,
+        errorListRequestLost: false,
+        errorHelperListRequestLost: "",
+      };
 
     case types.ERROR_FETCH_LIST_REQUEST_LOST:
-      return state
-        .set('submittingListLost', false)
-        .set('successListRequestLost', false)
-        .set('errorListRequestLost', true)
-        .set('errorHelperListRequestLost', payload);
+      return {
+        ...state,
+        submittingListLost: false,
+        successListRequestLost: false,
+        errorListRequestLost: true,
+        errorHelperListRequestLost: payload,
+      };
     /*****************************/
 
     /** For request detail **/
     case types.START_FETCH_REQUEST_DETAIL:
-      return state
-        .set('submittingRequestDetail', true)
-        .set('successRequestDetail', false)
-        .set('errorRequestDetail', false)
-        .set('errorHelperRequestDetail', '')
-        .set('requestDetail', null);
+      return {
+        ...state,
+        submittingRequestDetail: true,
+        successRequestDetail: false,
+        errorRequestDetail: false,
+        errorHelperRequestDetail: "",
+        requestDetail: null,
+      };
 
     case types.SUCCESS_FETCH_REQUEST_DETAIL:
-      return state
-        .set('submittingRequestDetail', false)
-        .set('successRequestDetail', true)
-        .set('errorRequestDetail', false)
-        .set('errorHelperRequestDetail', '')
-        .set('requestDetail', payload.listRequest[0] || null)
-        .set('requestAssetsDetail', payload.listRequestDetail)
-        .set('requestProcessDetail', payload.listProcessApprove);
+      return {
+        ...state,
+        submittingRequestDetail: false,
+        successRequestDetail: true,
+        errorRequestDetail: false,
+        errorHelperRequestDetail: "",
+        requestDetail: payload.listRequest[0] || null,
+        requestAssetsDetail: payload.listRequestDetail,
+        requestProcessDetail: payload.listProcessApprove,
+      };
 
     case types.ERROR_FETCH_REQUEST_DETAIL:
-      return state
-        .set('submittingRequestDetail', false)
-        .set('successRequestDetail', false)
-        .set('errorRequestDetail', true)
-        .set('errorHelperRequestDetail', payload);
+      return {
+        ...state,
+        submittingRequestDetail: false,
+        successRequestDetail: false,
+        errorRequestDetail: true,
+        errorHelperRequestDetail: payload,
+      };
 
     /** For add request **/
     case types.START_FETCH_ADD_REQUEST_APPROVED:
-      return state
-        .set('submittingAdd', true)
-        .set('successAddRequest', false)
-        .set('errorAddRequest', false)
-        .set('errorHelperAddRequest', '')
-        .set('successApprovedRequest', false)
-        .set('errorApprovedRequest', false)
-        .set('errorHelperApprovedRequest', '')
-        .set('successRejectRequest', false)
-        .set('errorRejectRequest', false)
-        .set('errorHelperRejectRequest', '');
+      return {...state,
+        submittingAdd: true,
+        successAddRequest: false,
+        errorAddRequest: false,
+        errorHelperAddRequest: "",
+        successApprovedRequest: false,
+        errorApprovedRequest: false,
+        errorHelperApprovedRequest: "",
+        successRejectRequest: false,
+        errorRejectRequest: false,
+        errorHelperRejectRequest: "",
+      };
 
     case types.SUCCESS_FETCH_ADD_REQUEST_APPROVED:
-      return state
-        .set('submittingAdd', false)
-        .set('successAddRequest', true)
-        .set('errorAddRequest', false)
-        .set('errorHelperAddRequest', '')
-        .set('successApprovedRequest', false)
-        .set('errorApprovedRequest', false)
-        .set('errorHelperApprovedRequest', '')
-        .set('successRejectRequest', false)
-        .set('errorRejectRequest', false)
-        .set('errorHelperRejectRequest', '');
+      return {
+        ...state,
+        submittingAdd: false,
+        successAddRequest: true,
+        errorAddRequest: false,
+        errorHelperAddRequest: "",
+        successApprovedRequest: false,
+        errorApprovedRequest: false,
+        errorHelperApprovedRequest: "",
+        successRejectRequest: false,
+        errorRejectRequest: false,
+        errorHelperRejectRequest: "",
+      };
 
     case types.ERROR_FETCH_ADD_REQUEST_APPROVED:
-      return state
-        .set('submittingAdd', false)
-        .set('successAddRequest', false)
-        .set('errorAddRequest', true)
-        .set('errorHelperAddRequest', payload)
-        .set('successApprovedRequest', false)
-        .set('errorApprovedRequest', false)
-        .set('errorHelperApprovedRequest', '')
-        .set('successRejectRequest', false)
-        .set('errorRejectRequest', false)
-        .set('errorHelperRejectRequest', '');
+      return {
+        ...state,
+        submittingAdd: false,
+        successAddRequest: false,
+        errorAddRequest: true,
+        errorHelperAddRequest: payload,
+        successApprovedRequest: false,
+        errorApprovedRequest: false,
+        errorHelperApprovedRequest: "",
+        successRejectRequest: false,
+        errorRejectRequest: false,
+        errorHelperRejectRequest: "",
+      };
     /*****************************/
 
     /** For add request lost/damage **/
     case types.START_FETCH_ADD_REQUEST_LOST:
-      return state
-        .set('submittingAdd', true)
-        .set('successAddRequest', false)
-        .set('errorAddRequest', false)
-        .set('errorHelperAddRequest', '')
-        .set('successApprovedRequest', false)
-        .set('errorApprovedRequest', false)
-        .set('errorHelperApprovedRequest', '')
-        .set('successRejectRequest', false)
-        .set('errorRejectRequest', false)
-        .set('errorHelperRejectRequest', '');
+      return {
+        ...state,
+        submittingAdd: true,
+        successAddRequest: false,
+        errorAddRequest: false,
+        errorHelperAddRequest: "",
+        successApprovedRequest: false,
+        errorApprovedRequest: false,
+        errorHelperApprovedRequest: "",
+        successRejectRequest: false,
+        errorRejectRequest: false,
+        errorHelperRejectRequest: "",
+      };
 
     case types.SUCCESS_FETCH_ADD_REQUEST_LOST:
-      return state
-        .set('submittingAdd', false)
-        .set('successAddRequest', true)
-        .set('errorAddRequest', false)
-        .set('errorHelperAddRequest', '')
-        .set('successApprovedRequest', false)
-        .set('errorApprovedRequest', false)
-        .set('errorHelperApprovedRequest', '')
-        .set('successRejectRequest', false)
-        .set('errorRejectRequest', false)
-        .set('errorHelperRejectRequest', '');
+      return {
+        ...state,
+        submittingAdd: false,
+        successAddRequest: true,
+        errorAddRequest: false,
+        errorHelperAddRequest: "",
+        successApprovedRequest: false,
+        errorApprovedRequest: false,
+        errorHelperApprovedRequest: "",
+        successRejectRequest: false,
+        errorRejectRequest: false,
+        errorHelperRejectRequest: "",
+      };
 
     case types.ERROR_FETCH_ADD_REQUEST_LOST:
-      return state
-        .set('submittingAdd', false)
-        .set('successAddRequest', false)
-        .set('errorAddRequest', true)
-        .set('errorHelperAddRequest', payload)
-        .set('successApprovedRequest', false)
-        .set('errorApprovedRequest', false)
-        .set('errorHelperApprovedRequest', '')
-        .set('successRejectRequest', false)
-        .set('errorRejectRequest', false)
-        .set('errorHelperRejectRequest', '');
+      return {
+        ...state,
+        submittingAdd: false,
+        successAddRequest: false,
+        errorAddRequest: true,
+        errorHelperAddRequest: payload,
+        successApprovedRequest: false,
+        errorApprovedRequest: false,
+        errorHelperApprovedRequest: "",
+        successRejectRequest: false,
+        errorRejectRequest: false,
+        errorHelperRejectRequest: "",
+      };
     /*****************************/
 
     /** For approved request **/
     case types.START_FETCH_APPROVED_REQUEST:
-      return state
-        .set('submittingApproved', true)
-        .set('successApprovedRequest', false)
-        .set('errorApprovedRequest', false)
-        .set('errorHelperApprovedRequest', '')
-        .set('successRejectRequest', false)
-        .set('errorRejectRequest', false)
-        .set('errorHelperRejectRequest', '')
-        .set('successAddRequest', false)
-        .set('errorAddRequest', false)
-        .set('errorHelperAddRequest', '');
+      return {
+        ...state,
+        submittingApproved: true,
+        successApprovedRequest: false,
+        errorApprovedRequest: false,
+        errorHelperApprovedRequest: "",
+        successRejectRequest: false,
+        errorRejectRequest: false,
+        errorHelperRejectRequest: "",
+        successAddRequest: false,
+        errorAddRequest: false,
+        errorHelperAddRequest: "",
+      };
 
     case types.SUCCESS_FETCH_APPROVED_REQUEST:
-      return state
-        .set('submittingApproved', false)
-        .set('successApprovedRequest', true)
-        .set('errorApprovedRequest', false)
-        .set('errorHelperApprovedRequest', '')
-        .set('successRejectRequest', false)
-        .set('errorRejectRequest', false)
-        .set('errorHelperRejectRequest', '')
-        .set('successAddRequest', false)
-        .set('errorAddRequest', false)
-        .set('errorHelperAddRequest', '');
+      return {
+        ...state,
+        submittingApproved: false,
+        successApprovedRequest: true,
+        errorApprovedRequest: false,
+        errorHelperApprovedRequest: "",
+        successRejectRequest: false,
+        errorRejectRequest: false,
+        errorHelperRejectRequest: "",
+        successAddRequest: false,
+        errorAddRequest: false,
+        errorHelperAddRequest: "",
+      };
 
     case types.ERROR_FETCH_APPROVED_REQUEST:
-      return state
-        .set('submittingApproved', false)
-        .set('successApprovedRequest', false)
-        .set('errorApprovedRequest', true)
-        .set('errorHelperApprovedRequest', payload)
-        .set('successRejectRequest', false)
-        .set('errorRejectRequest', false)
-        .set('errorHelperRejectRequest', '')
-        .set('successAddRequest', false)
-        .set('errorAddRequest', false)
-        .set('errorHelperAddRequest', '');
+      return {
+        ...state,
+        submittingApproved: false,
+        successApprovedRequest: false,
+        errorApprovedRequest: true,
+        errorHelperApprovedRequest: payload,
+        successRejectRequest: false,
+        errorRejectRequest: false,
+        errorHelperRejectRequest: "",
+        successAddRequest: false,
+        errorAddRequest: false,
+        errorHelperAddRequest: "",
+      };
     /*****************************/
 
     /** For reject request **/
     case types.START_FETCH_REJECT_REQUEST:
-      return state
-        .set('submittingReject', true)
-        .set('successApprovedRequest', false)
-        .set('errorApprovedRequest', false)
-        .set('errorHelperApprovedRequest', '')
-        .set('successRejectRequest', false)
-        .set('errorRejectRequest', false)
-        .set('errorHelperRejectRequest', '')
-        .set('successAddRequest', false)
-        .set('errorAddRequest', false)
-        .set('errorHelperAddRequest', '');
+      return {
+        ...state,
+        submittingReject: true,
+        successApprovedRequest: false,
+        errorApprovedRequest: false,
+        errorHelperApprovedRequest: "",
+        successRejectRequest: false,
+        errorRejectRequest: false,
+        errorHelperRejectRequest: "",
+        successAddRequest: false,
+        errorAddRequest: false,
+        errorHelperAddRequest: "",
+      };
 
     case types.SUCCESS_FETCH_REJECT_REQUEST:
-      return state
-        .set('submittingReject', false)
-        .set('successApprovedRequest', false)
-        .set('errorApprovedRequest', false)
-        .set('errorHelperApprovedRequest', '')
-        .set('successRejectRequest', true)
-        .set('errorRejectRequest', false)
-        .set('errorHelperRejectRequest', '')
-        .set('successAddRequest', false)
-        .set('errorAddRequest', false)
-        .set('errorHelperAddRequest', '');
+      return {
+        ...state,
+        submittingReject: false,
+        successApprovedRequest: false,
+        errorApprovedRequest: false,
+        errorHelperApprovedRequest: "",
+        successRejectRequest: true,
+        errorRejectRequest: false,
+        errorHelperRejectRequest: "",
+        successAddRequest: false,
+        errorAddRequest: false,
+        errorHelperAddRequest: "",
+      };
 
     case types.ERROR_FETCH_REJECT_REQUEST:
-      return state
-        .set('submittingReject', false)
-        .set('successApprovedRequest', false)
-        .set('errorApprovedRequest', false)
-        .set('errorHelperApprovedRequest', '')
-        .set('successRejectRequest', false)
-        .set('errorRejectRequest', true)
-        .set('errorHelperRejectRequest', payload)
-        .set('successAddRequest', false)
-        .set('errorAddRequest', false)
-        .set('errorHelperAddRequest', '');
+      return {
+        ...state,
+        submittingReject: false,
+        successApprovedRequest: false,
+        errorApprovedRequest: false,
+        errorHelperApprovedRequest: "",
+        successRejectRequest: false,
+        errorRejectRequest: true,
+        errorHelperRejectRequest: payload,
+        successAddRequest: false,
+        errorAddRequest: false,
+        errorHelperAddRequest: "",
+      };
     /*****************************/
 
     default:

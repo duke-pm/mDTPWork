@@ -6,7 +6,6 @@
  ** Description: Description of ProjectPlan.js
  **/
 import PropTypes from 'prop-types';
-import {fromJS} from 'immutable';
 import React, {useState, useEffect, useContext} from 'react';
 import {Button, Spinner, Text} from '@ui-kitten/components';
 import {StyleSheet, View, ScrollView, processColor} from 'react-native';
@@ -107,11 +106,11 @@ function ProjectPlan(props) {
   const onDone = (main, data) => setLoading({main, data});
 
   const onFetchData = async (newpage = 1) => {
-    let paramsListTask = fromJS({
+    let paramsListTask = {
       PrjID: project.prjID,
       PageSize: -1,
       PageNum: newpage,
-    });
+    };
     let res = await Services.projectManagement.listTask(paramsListTask);
     if (res && !res.isError) {
       let listTask = [...tasks];

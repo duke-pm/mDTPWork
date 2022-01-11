@@ -27,8 +27,8 @@ function ProjectManagement(props) {
   const dispatch = useDispatch();
   const commonState = useSelector(({common}) => common);
   const authState = useSelector(({auth}) => auth);
-  const language = commonState.get('language');
-  const refreshToken = authState.getIn(['login', 'refreshToken']);
+  const language = commonState["language"];
+  const refreshToken = authState["login"]["refreshToken"];
 
   /** Use State */
   const [loading, setLoading] = useState(true);
@@ -56,7 +56,7 @@ function ProjectManagement(props) {
   };
 
   const onPrepareData = () => {
-    let tmpListMenu = authState.getIn(['login', 'lstMenu']);
+    let tmpListMenu = authState["login"]["lstMenu"];
     if (route.params.idRouteParent && tmpListMenu) {
       let findChildren = tmpListMenu.lstPermissionItem.find(
         f => f.menuID === route.params.idRouteParent,

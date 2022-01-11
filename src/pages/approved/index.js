@@ -41,7 +41,7 @@ function Approved(props) {
    ** FUNC **
    **********/
   const onPrepareData = () => {
-    let tmpListMenu = authState.getIn(["login", "lstMenu"]);
+    let tmpListMenu = authState["login"]["lstMenu"];
     if (route.params.idRouteParent && tmpListMenu) {
       let findChildren = tmpListMenu.lstPermissionItem.find(
         f => f.menuID === route.params.idRouteParent,

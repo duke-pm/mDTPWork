@@ -5,7 +5,6 @@
  ** CreateAt: 2021
  ** Description: Description of index.js
  **/
-import {fromJS} from "immutable";
 import React, {useRef, useState, useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {useTranslation} from "react-i18next";
@@ -50,7 +49,7 @@ function ResetPassword(props) {
   const dispatch = useDispatch();
   const authState = useSelector(({auth}) => auth);
   const commonState = useSelector(({common}) => common);
-  const language = commonState.get("language");
+  const language = commonState["language"];
 
   /** Use state */
   const [loading, setLoading] = useState({
@@ -88,10 +87,10 @@ function ResetPassword(props) {
   };
 
   const onCheckTokenExpired = () => {
-    let params = fromJS({
+    let params = {
       Token: tokenData,
       Lang: language,
-    });
+    };
     dispatch(Actions.fetchCheckTokenPassword(params));
     setLoading({...loading, check: true});
   };
@@ -129,8 +128,8 @@ function ResetPassword(props) {
 
   useEffect(() => {
     if (loading.check) {
-      if (!authState.get("submittingCheckTokenPass")) {
-        if (authState.get("successCheckTokenPass")) {
+      if (!authState["submittingCheckTokenPass"]) {
+        if (authState["successCheckTokenPass"]) {
           return contentRef.current.fadeOutDown(1000).then(endState => {
             if (endState.finished) {
               onCompleteCheck(true);
@@ -138,30 +137,30 @@ function ResetPassword(props) {
           });
         }
 
-        if (authState.get("errorCheckTokenPass")) {
+        if (authState["errorCheckTokenPass"]) {
           return onCompleteCheck(false);
         }
       }
     }
   }, [
     loading.check,
-    authState.get("submittingCheckTokenPass"),
-    authState.get("successCheckTokenPass"),
-    authState.get("errorCheckTokenPass"),
+    authState["submittingCheckTokenPass"],
+    authState["successCheckTokenPass"],
+    authState["errorCheckTokenPass"],
   ]);
 
   useEffect(() => {
     if (loading.update) {
-      if (!authState.get("submittingUpdatePass")) {
-        if (authState.get("successUpdatePass")) {
+      if (!authState["submittingUpdatePass"]) {
+        if (authState["successUpdatePass"]) {
           return onCompleteChange(true);
         }
 
-        if (authState.get("errorUpdatePass")) {
+        if (authState["errorUpdatePass"]) {
           return onCompleteChange(
             false,
-            typeof authState.get("errorHelperUpdatePass") === "string"
-              ? authState.get("errorHelperUpdatePass")
+            typeof authState["errorHelperUpdatePass"] === "string"
+              ? authState["errorHelperUpdatePass"]
               : null,
           );
         }
@@ -169,9 +168,9 @@ function ResetPassword(props) {
     }
   }, [
     loading.update,
-    authState.get("submittingUpdatePass"),
-    authState.get("successUpdatePass"),
-    authState.get("errorUpdatePass"),
+    authState["submittingUpdatePass"],
+    authState["successUpdatePass"],
+    authState["errorUpdatePass"],
   ]);
 
   /************

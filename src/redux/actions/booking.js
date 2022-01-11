@@ -46,8 +46,8 @@ export const fetchListBooking = (params, navigation) => {
         dispatch(listBookingError(error));
         if (error.message && error.message.search('Authorization') !== -1) {
           let tmp = {
-            RefreshToken: params.get('RefreshToken'),
-            Lang: params.get('Lang'),
+            RefreshToken: params["RefreshToken"],
+            Lang: params["Lang"],
           };
           return dispatch(
             Actions.fetchRefreshToken(
@@ -177,8 +177,8 @@ export const fetchBookingDetail = (params, navigation) => {
         dispatch(bookingDetailError(error));
         if (error.message && error.message.search('Authorization') !== -1) {
           let tmp = {
-            RefreshToken: params.get('RefreshToken'),
-            Lang: params.get('Lang'),
+            RefreshToken: params["RefreshToken"],
+            Lang: params["Lang"],
           };
           return dispatch(
             Actions.fetchRefreshToken(
@@ -221,8 +221,8 @@ export const fetchListBookingByReSrc = (params, navigation) => {
         dispatch(listBookingByReSrcError(error));
         if (error.message && error.message.search('Authorization') !== -1) {
           let tmp = {
-            RefreshToken: params.get('RefreshToken'),
-            Lang: params.get('Lang'),
+            RefreshToken: params["RefreshToken"],
+            Lang: params["Lang"],
           };
           return dispatch(
             Actions.fetchRefreshToken(

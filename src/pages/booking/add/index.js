@@ -5,7 +5,6 @@
  ** CreateAt: 2021
  ** Description: Description of AddBooking.js
  **/
-import {fromJS} from 'immutable';
 import React, {useState, useEffect, useRef} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
@@ -83,9 +82,9 @@ function AddBooking(props) {
   const commonState = useSelector(({common}) => common);
   const authState = useSelector(({auth}) => auth);
   const bookingState = useSelector(({booking}) => booking);
-  const formatDate = commonState.get('formatDate');
-  const refreshToken = authState.getIn(['login', 'refreshToken']);
-  const language = commonState.get('language');
+  const formatDate = commonState["formatDate"];
+  const refreshToken = authState["login"]["refreshToken"];
+  const language = commonState["language"];
 
   /** use states */
   const [loading, setLoading] = useState({
@@ -132,7 +131,7 @@ function AddBooking(props) {
   const onPrepareDetail = users => {
     let detail = route.params?.data;
     if (!detail) {
-      detail = bookingState.get('bookingDetail');
+      detail = bookingState["bookingDetail"];
     }
     if (detail) {
       /** Find participants */
@@ -178,8 +177,8 @@ function AddBooking(props) {
   };
 
   const onPrepareData = () => {
-    let tmpDataResources = masterState.get('bkReSource'),
-      tmpDataUsers = masterState.get('users');
+    let tmpDataResources = masterState["bkReSource"],
+      tmpDataUsers = masterState["users"];
     if (tmpDataResources.length > 0 && tmpDataUsers.length > 0) {
       setDataResources(tmpDataResources);
       tmpDataUsers = groupBy(tmpDataUsers, 'groupName');
@@ -227,9 +226,9 @@ function AddBooking(props) {
 
   const onSubmitRemove = () => {
     setLoading({...loading, submitRemove: true});
-    let params = fromJS({
+    let params = {
       BookID: isDetail ? dataBooking.id : -1,
-    });
+    };
     dispatch(Actions.fetchRemoveBooking(params, navigation));
   };
 
@@ -309,11 +308,11 @@ function AddBooking(props) {
   };
 
   const onFetchBookingDetail = bookingID => {
-    let params = fromJS({
+    let params = {
       BookID: bookingID,
       Lang: language,
       RefreshToken: refreshToken,
-    });
+    };
     dispatch(Actions.fetchBookingDetail(params, navigation));
     return setLoading({...loading, startFetch: true});
   };
@@ -331,7 +330,7 @@ function AddBooking(props) {
    ** LIFE CYCLE **
    ****************/
   useEffect(() => {
-    let isLogin = authState.get('successLogin');
+    let isLogin = authState["successLogin"];
     if (isLogin) {
       return onCheckDeeplink();
     } else {
@@ -342,45 +341,45 @@ function AddBooking(props) {
 
   useEffect(() => {
     if (loading.startFetchLogin) {
-      if (!authState.get('submitting')) {
-        if (authState.get('successLogin')) {
+      if (!authState["submitting"]) {
+        if (authState["successLogin"]) {
           return onCheckDeeplink();
         }
-        if (authState.get('errorLogin')) {
+        if (authState["errorLogin"]) {
           return onGoToSignIn();
         }
       }
     }
   }, [
     loading.startFetchLogin,
-    authState.get('submitting'),
-    authState.get('successLogin'),
-    authState.get('errorLogin'),
+    authState["submitting"],
+    authState["successLogin"],
+    authState["errorLogin"],
   ]);
 
   useEffect(() => {
     if (loading.startFetch) {
-      if (!bookingState.get('submittingDetail')) {
-        if (bookingState.get('successDetail')) {
+      if (!bookingState["submittingDetail"]) {
+        if (bookingState["successDetail"]) {
           return onPrepareData();
         }
 
-        if (bookingState.get('errorDetail')) {
+        if (bookingState["errorDetail"]) {
           return onGoToSignIn();
         }
       }
     }
   }, [
     loading.startFetch,
-    bookingState.get('submittingDetail'),
-    bookingState.get('successDetail'),
-    bookingState.get('errorDetail'),
+    bookingState["submittingDetail"],
+    bookingState["successDetail"],
+    bookingState["errorDetail"],
   ]);
 
   useEffect(() => {
     if (loading.submitAdd) {
-      if (!bookingState.get('submittingAdd')) {
-        if (bookingState.get('successAdd')) {
+      if (!bookingState["submittingAdd"]) {
+        if (bookingState["successAdd"]) {
           setLoading({...loading, submitAdd: false});
           let msg = 'success:send_request_booking';
           if (isDetail) {
@@ -398,22 +397,22 @@ function AddBooking(props) {
           }
         }
 
-        if (bookingState.get('errorAdd')) {
-          onError(bookingState.get('errorHelperAdd'));
+        if (bookingState["errorAdd"]) {
+          onError(bookingState["errorHelperAdd"]);
         }
       }
     }
   }, [
     loading.submitAdd,
-    bookingState.get('submittingAdd'),
-    bookingState.get('successAdd'),
-    bookingState.get('errorAdd'),
+    bookingState["submittingAdd"],
+    bookingState["successAdd"],
+    bookingState["errorAdd"],
   ]);
 
   useEffect(() => {
     if (loading.submitRemove) {
-      if (!bookingState.get('submittingRemove')) {
-        if (bookingState.get('successRemove')) {
+      if (!bookingState["submittingRemove"]) {
+        if (bookingState["successRemove"]) {
           setLoading({...loading, submitRemove: false});
           showMessage({
             message: t('common:app_name'),
@@ -427,16 +426,16 @@ function AddBooking(props) {
           }
         }
 
-        if (bookingState.get('errorRemove')) {
-          onError(bookingState.get('errorHelperRemove'));
+        if (bookingState["errorRemove"]) {
+          onError(bookingState["errorHelperRemove"]);
         }
       }
     }
   }, [
     loading.submitRemove,
-    bookingState.get('submittingRemove'),
-    bookingState.get('successRemove'),
-    bookingState.get('errorRemove'),
+    bookingState["submittingRemove"],
+    bookingState["successRemove"],
+    bookingState["errorRemove"],
   ]);
 
   /************

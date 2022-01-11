@@ -5,7 +5,6 @@
  ** CreateAt: 2021
  ** Description: Description of ListHandling.js
  **/
-import {fromJS} from "immutable";
 import React, {useState, useEffect} from "react";
 import {useSelector, useDispatch} from "react-redux";
 import {useTranslation} from "react-i18next";
@@ -38,10 +37,10 @@ function ListRequestHandling(props) {
   const approvedState = useSelector(({approved}) => approved);
   const masterState = useSelector(({masterData}) => masterData);
   const authState = useSelector(({auth}) => auth);
-  const perPage = commonState.get("perPage");
-  const formatDate = commonState.get("formatDate");
-  const language = commonState.get("language");
-  const refreshToken = authState.getIn(["login", "refreshToken"]);
+  const perPage = commonState["perPage"];
+  const formatDate = commonState["formatDate"];
+  const language = commonState["language"];
+  const refreshToken = authState["login"]["refreshToken"];
 
   /** Use state */
   const [loading, setLoading] = useState({
@@ -89,7 +88,7 @@ function ListRequestHandling(props) {
     search = data.search,
     requestTypeID = "1,2,3",
   ) => {
-    let params = fromJS({
+    let params = {
       IsResolveRequest: true,
       FromDate: fromDate,
       ToDate: toDate,
@@ -99,7 +98,7 @@ function ListRequestHandling(props) {
       PageNum: pageNum,
       RefreshToken: refreshToken,
       Lang: language,
-    });
+    };
     return dispatch(Actions.fetchListRequestApproved(params, navigation));
   };
 
@@ -107,9 +106,9 @@ function ListRequestHandling(props) {
     let tmpRequests = [...data.requests],
       tmpRequestDetail = [...data.requestsDetail],
       tmpProcessApproveds = [...data.processApproveds],
-      tmpLastRequests = approvedState.get("requests"),
-      tmpLastRequestsDetail = approvedState.get("requestsDetail"),
-      tmpLastProcessApproved = approvedState.get("processApproved"),
+      tmpLastRequests = approvedState["requests"],
+      tmpLastRequestsDetail = approvedState["requestsDetail"],
+      tmpLastProcessApproved = approvedState["processApproved"],
       isLoadmore = true;
 
     /* *
@@ -187,7 +186,7 @@ function ListRequestHandling(props) {
 
   useEffect(() => {
     if (loading.main && !loading.startFetch) {
-      if (!masterState.get("submitting")) {
+      if (!masterState["submitting"]) {
         setLoading({...loading, startFetch: true});
         onFetchData();
       }
@@ -195,22 +194,22 @@ function ListRequestHandling(props) {
   }, [
     loading.main,
     loading.startFetch,
-    masterState.get("submitting"),
+    masterState["submitting"],
   ]);
 
   useEffect(() => {
     if (loading.startFetch || loading.refreshing || loading.loadmore) {
-      if (!approvedState.get("submittingList")) {
+      if (!approvedState["submittingList"]) {
         let type = REFRESH;
         if (loading.loadmore) {
           type = LOAD_MORE;
         }
 
-        if (approvedState.get("successListRequest")) {
+        if (approvedState["successListRequest"]) {
           return onPrepareData(type);
         }
 
-        if (approvedState.get("errorListRequest")) {
+        if (approvedState["errorListRequest"]) {
           return onError();
         }
       }
@@ -219,9 +218,9 @@ function ListRequestHandling(props) {
     loading.startFetch,
     loading.refreshing,
     loading.loadmore,
-    approvedState.get("submittingList"),
-    approvedState.get("successListRequest"),
-    approvedState.get("errorListRequest"),
+    approvedState["submittingList"],
+    approvedState["successListRequest"],
+    approvedState["errorListRequest"],
   ]);
 
   /************

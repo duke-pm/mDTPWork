@@ -66,9 +66,9 @@ function Watchers(props) {
   const projectState = useSelector(({projectManagement}) => projectManagement);
   const commonState = useSelector(({common}) => common);
   const authState = useSelector(({auth}) => auth);
-  const userName = authState.getIn(["login", "userName"]);
-  const refreshToken = authState.getIn(["login", "refreshToken"]);
-  const language = commonState.get("language");
+  const userName = authState["login"]["userName"];
+  const refreshToken = authState["login"]["refreshToken"];
+  const language = commonState["language"];
 
   /** Use state */
   const [loading, setLoading] = useState({
@@ -78,8 +78,8 @@ function Watchers(props) {
   const [needRefresh, setNeedRefresh] = useState(false);
   const [watchers, setWatchers] = useState([]);
   const [watched, setWatched] = useState({
-    status: projectState.get("isWatched"),
-    email: projectState.get("isReceivedEmail"),
+    status: projectState["isWatched"],
+    email: projectState["isReceivedEmail"],
   });
 
   /*****************
@@ -129,7 +129,7 @@ function Watchers(props) {
   const onPrepareData = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     /** Set list watchers */
-    let tmpWatchers = projectState.get("watchers");
+    let tmpWatchers = projectState["watchers"];
     setWatchers(tmpWatchers);
     return done();
   };
@@ -152,21 +152,21 @@ function Watchers(props) {
 
   useEffect(() => {
     if (loading.send) {
-      if (!projectState.get("submittingTaskWatcher")) {
-        if (projectState.get("successTaskWatcher")) {
+      if (!projectState["submittingTaskWatcher"]) {
+        if (projectState["successTaskWatcher"]) {
           return onPrepareData();
         }
 
-        if (projectState.get("errorTaskWatcher")) {
+        if (projectState["errorTaskWatcher"]) {
           return onError();
         }
       }
     }
   }, [
     loading.send,
-    projectState.get("submittingTaskWatcher"),
-    projectState.get("successTaskWatcher"),
-    projectState.get("errorTaskWatcher"),
+    projectState["submittingTaskWatcher"],
+    projectState["successTaskWatcher"],
+    projectState["errorTaskWatcher"],
   ]);
 
   /************

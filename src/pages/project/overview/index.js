@@ -6,7 +6,6 @@
  ** CreateAt: 2021
  ** Description: Description of ProjectOverview.js
  **/
-import {fromJS} from 'immutable';
 import React, {useEffect, useRef, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
@@ -150,9 +149,9 @@ function ProjectOverview(props) {
   const masterState = useSelector(({masterData}) => masterData);
   const commonState = useSelector(({common}) => common);
   const authState = useSelector(({auth}) => auth);
-  const language = commonState.get('language');
-  const formatDateView = commonState.get('formatDateView');
-  const refreshToken = authState.getIn(['login', 'refreshToken']);
+  const language = commonState["language"];
+  const formatDateView = commonState["formatDateView"];
+  const refreshToken = authState["login"]["refreshToken"];
   const perPageMaster = Configs.perPageProjectOverview;
 
   /** Use state */
@@ -268,7 +267,7 @@ function ProjectOverview(props) {
     perPage = params.perPage,
     page = params.page,
   ) => {
-    let paramsFetch = fromJS({
+    let paramsFetch = {
       Year: year,
       FromDate: fromDate,
       ToDate: toDate,
@@ -279,7 +278,7 @@ function ProjectOverview(props) {
       PageNum: page,
       Lang: language,
       RefreshToken: refreshToken,
-    });
+    };
     dispatch(Actions.fetchProjectOverview(paramsFetch, navigation));
   };
 
@@ -289,8 +288,8 @@ function ProjectOverview(props) {
       isLoadmore = true;
 
     // Prepare data overview
-    let overview = projectState.get('overview');
-    let pagesOverview = projectState.get('pagesOverview');
+    let overview = projectState["overview"];
+    let pagesOverview = projectState["pagesOverview"];
 
     // Check if count result < perPage => loadmore is unavailable
     if (params.page >= pagesOverview) {
@@ -387,11 +386,11 @@ function ProjectOverview(props) {
 
   useEffect(() => {
     if (loading.startFetch || loading.refreshing || loading.loadmore) {
-      if (!projectState.get('submittingOverview')) {
-        if (projectState.get('successOverview')) {
+      if (!projectState["submittingOverview"]) {
+        if (projectState["successOverview"]) {
           return onPrepareData();
         }
-        if (projectState.get('errorOverview')) {
+        if (projectState["errorOverview"]) {
           return onError();
         }
       }
@@ -400,9 +399,9 @@ function ProjectOverview(props) {
     loading.startFetch,
     loading.refreshing,
     loading.loadmore,
-    projectState.get('submittingOverview'),
-    projectState.get('successOverview'),
-    projectState.get('errorOverview'),
+    projectState["submittingOverview"],
+    projectState["successOverview"],
+    projectState["errorOverview"],
   ]);
 
   /************
@@ -424,9 +423,9 @@ function ProjectOverview(props) {
                 isSector={true}
                 data={params}
                 masterData={{
-                  users: masterState.get('users'),
-                  status: masterState.get('projectStatus'),
-                  sectors: masterState.get('projectSector')
+                  users: masterState["users"],
+                  status: masterState["projectStatus"],
+                  sectors: masterState["projectSector"],
                 }}
                 onFilter={(year, activeSector, activeOwner, activeStatus) =>
                   handleFilter(year, activeSector, activeOwner, activeStatus, toggleFilter)

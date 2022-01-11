@@ -5,7 +5,6 @@
  ** CreateAt: 2021
  ** Description: Description of Request.js
  **/
-import {fromJS} from "immutable";
 import React, {createRef, useEffect, useState, useRef} from "react";
 import {useSelector, useDispatch} from "react-redux";
 import {useTranslation} from "react-i18next";
@@ -116,9 +115,9 @@ function AddRequest(props) {
   const commonState = useSelector(({common}) => common);
   const approvedState = useSelector(({approved}) => approved);
   const authState = useSelector(({auth}) => auth);
-  const formatDate = commonState.get("formatDate");
-  const language = commonState.get("language");
-  const refreshToken = authState.getIn(["login", "refreshToken"]);
+  const formatDate = commonState["formatDate"];
+  const language = commonState["language"];
+  const refreshToken = authState["login"]["refreshToken"];
 
   /** Use state */
   const [loading, setLoading] = useState({
@@ -139,9 +138,9 @@ function AddRequest(props) {
     id: "",
     personRequestId: "",
     dateRequest: moment().format(formatDate),
-    name: authState.getIn(["login", "fullName"]),
-    department: authState.getIn(["login", "deptCode"]),
-    region: authState.getIn(["login", "regionCode"]),
+    name: authState["login"]["fullName"],
+    department: authState["login"]["deptCode"],
+    region: authState["login"]["regionCode"],
     assets: {
       width: WIDTH_ITEM_TABLE,
       header: [
@@ -153,7 +152,7 @@ function AddRequest(props) {
       ],
       data: [[null, "", "", "", ""]],
     },
-    whereUse: authState.getIn(["login", "deptCode"]),
+    whereUse: authState["login"]["deptCode"],
     reason: "",
     typeAssets: "N",
     inPlanning: false,
@@ -196,7 +195,7 @@ function AddRequest(props) {
       id: dataRequest ? dataRequest?.requestID : "",
       personRequestId: dataRequest
         ? dataRequest?.personRequestID
-        : Number(authState.getIn(["login", "userId"])),
+        : Number(authState["login"]["userId"]),
       dateRequest: dataRequest
         ? moment(dataRequest?.requestDate, DEFAULT_FORMAT_DATE_4).format(
             formatDate,
@@ -204,13 +203,13 @@ function AddRequest(props) {
         : moment().format(formatDate),
       name: dataRequest
         ? dataRequest?.personRequest
-        : authState.getIn(["login", "fullName"]),
+        : authState["login"]["fullName"],
       department: dataRequest
         ? dataRequest?.deptCode
-        : authState.getIn(["login", "deptCode"]),
+        : authState["login"]["deptCode"],
       region: dataRequest
         ? dataRequest?.regionCode
-        : authState.getIn(["login", "regionCode"]),
+        : authState["login"]["regionCode"],
       assets: {
         width: WIDTH_ITEM_TABLE,
         header: [
@@ -310,10 +309,10 @@ function AddRequest(props) {
       }
       console.log("[LOG] ===  ===> ", tmpCallback.valuesAll);
       let params = {
-        EmpCode: authState.getIn(["login", "empCode"]),
-        DeptCode: authState.getIn(["login", "deptCode"]),
-        RegionCode: authState.getIn(["login", "regionCode"]),
-        JobTitle: authState.getIn(["login", "jobTitle"]),
+        EmpCode: authState["login"]["empCode"],
+        DeptCode: authState["login"]["deptCode"],
+        RegionCode: authState["login"]["regionCode"],
+        JobTitle: authState["login"]["jobTitle"],
         RequestDate: tmpCallback.valuesAll[0].value,
         Location: tmpCallback.valuesAll[1].values[tmpCallback.valuesAll[1].value]["deptCode"],
         Reason: tmpCallback.valuesAll[2].value.trim(),
@@ -352,30 +351,17 @@ function AddRequest(props) {
   };
 
   const onFetchRequestDetail = requestID => {
-    let params = fromJS({
+    let params = {
       RequestID: requestID,
       Lang: language,
       RefreshToken: refreshToken,
-    });
+    };
     dispatch(Actions.fetchRequestDetail(params, navigation));
     return setLoading({...loading, startFetch: true});
   };
 
   const onCheckDeeplink = () => {
     onPrepareData();
-    if (typeof requestParam === "object" || requestParam === -1) {
-      onPrepareDetail(
-        route.params?.data,
-        route.params?.dataDetail,
-        route.params?.dataProcess,
-      );
-      setCurrentProcess({
-        statusID: route.params?.currentProcess?.statusID,
-        statusName: route.params?.currentProcess?.statusName,
-      });
-    } else {
-      onFetchRequestDetail(requestParam);
-    }
   };
 
   /****************
@@ -383,7 +369,7 @@ function AddRequest(props) {
    ****************/
   useEffect(() => {
     dispatch(Actions.resetStatusMasterData());
-    let isLogin = authState.get("successLogin");
+    let isLogin = authState["successLogin"];
     if (isLogin) {
       onCheckDeeplink();
     } else {
@@ -394,34 +380,66 @@ function AddRequest(props) {
 
   useEffect(() => {
     if (loading.startFetchLogin) {
-      if (!authState.get("submitting")) {
-        if (authState.get("successLogin")) {
+      if (!authState["submitting"]) {
+        if (authState["successLogin"]) {
           return onCheckDeeplink();
         }
-        if (authState.get("errorLogin")) {
+        if (authState["errorLogin"]) {
           return onGoToSignIn();
         }
       }
     }
   }, [
     loading.startFetchLogin,
-    authState.get("submitting"),
-    authState.get("successLogin"),
-    authState.get("errorLogin"),
+    authState["submitting"],
+    authState["successLogin"],
+    authState["errorLogin"],
+  ]);
+
+  useEffect(() => {
+    if (loading.main) {
+      if (!masterState["submitting"]) {
+        if (masterState["success"]) {
+          if (masterState["department"].length > 0) {
+            if (typeof requestParam === "object" || requestParam === -1) {
+              onPrepareDetail(
+                route.params?.data,
+                route.params?.dataDetail,
+                route.params?.dataProcess,
+              );
+              setCurrentProcess({
+                statusID: route.params?.currentProcess?.statusID,
+                statusName: route.params?.currentProcess?.statusName,
+              });
+            } else {
+              onFetchRequestDetail(requestParam);
+            }
+          }
+        }
+      }
+    }
+  }, [
+    loading.main,
+    masterState["submitting"],
+    masterState["success"],
+    masterState["department"],
   ]);
 
   useEffect(() => {
     if (loading.main && loading.startFetch) {
-      if (!masterState.get("submitting")) {
-        if (masterState.get("department").length > 0) {
-          if (approvedState.get("requestDetail")) {
-            let tmp = approvedState.get("requestDetail");
-            setRequestDetail(tmp);
-            setCurrentProcess({statusID: tmp.statusID, statusName: tmp.statusName});
+      if (!approvedState["submittingRequestDetail"]) {
+        if (approvedState["successRequestDetail"]) {
+          if (approvedState["requestDetail"]) {
+            let reqDetails = approvedState["requestDetail"];
+            setRequestDetail(reqDetails);
+            setCurrentProcess({
+              statusID: reqDetails.statusID,
+              statusName: reqDetails.statusName,
+            });
             onPrepareDetail(
-              approvedState.get("requestDetail"),
-              approvedState.get("requestAssetsDetail"),
-              approvedState.get("requestProcessDetail"),
+              approvedState["requestDetail"],
+              approvedState["requestAssetsDetail"],
+              approvedState["requestProcessDetail"],
             );
           } else {
             if (isDetail) {
@@ -439,20 +457,30 @@ function AddRequest(props) {
             }
           }
         }
+        if (approvedState["errorRequestDetail"]) {
+          setLoading({...loading, main: false, startFetch: false});
+          showMessage({
+            message: t("common:app_name"),
+            description: approvedState["errorHelperRequestDetail"],
+            type: "danger",
+            icon: "danger",
+          });
+        }
       }
     }
   }, [
     loading.main,
     loading.startFetch,
-    masterState.get("submitting"),
-    masterState.get("department"),
-    approvedState.get("requestDetail"),
+    approvedState["submittingRequestDetail"],
+    approvedState["successRequestDetail"],
+    approvedState["errorRequestDetail"],
+    approvedState["requestDetail"],
   ]);
 
   useEffect(() => {
     if (loading.submitAdd) {
-      if (!approvedState.get("submittingAdd")) {
-        if (approvedState.get("successAddRequest")) {
+      if (!approvedState["submittingAdd"]) {
+        if (approvedState["successAddRequest"]) {
           setLoading({...loading, submitAdd: false});
           showMessage({
             message: t("common:app_name"),
@@ -466,8 +494,8 @@ function AddRequest(props) {
           }
         }
 
-        if (approvedState.get("errorAddRequest")) {
-          let tmpMsg = approvedState.get("errorHelperAddRequest");
+        if (approvedState["errorAddRequest"]) {
+          let tmpMsg = approvedState["errorHelperAddRequest"];
           if (typeof tmpMsg !== "string") {
             tmpMsg = t("error:add_request_assets");
           }
@@ -483,15 +511,15 @@ function AddRequest(props) {
     }
   }, [
     loading.submitAdd,
-    approvedState.get("submittingAdd"),
-    approvedState.get("successAddRequest"),
-    approvedState.get("errorAddRequest"),
+    approvedState["submittingAdd"],
+    approvedState["successAddRequest"],
+    approvedState["errorAddRequest"],
   ]);
 
   useEffect(() => {
     if (loading.submitApproved) {
-      if (!approvedState.get("submittingApproved")) {
-        if (approvedState.get("successApprovedRequest")) {
+      if (!approvedState["submittingApproved"]) {
+        if (approvedState["successApprovedRequest"]) {
           setLoading({...loading, submitApproved: false});
           showMessage({
             message: t("common:app_name"),
@@ -505,8 +533,8 @@ function AddRequest(props) {
           }
         }
 
-        if (approvedState.get("errorApprovedRequest")) {
-          let tmpMsg = approvedState.get("errorHelperApprovedRequest");
+        if (approvedState["errorApprovedRequest"]) {
+          let tmpMsg = approvedState["errorHelperApprovedRequest"];
           if (typeof tmpMsg !== "string") {
             tmpMsg = t("error:approved_request_assets");
           }
@@ -523,16 +551,16 @@ function AddRequest(props) {
     }
   }, [
     loading.submitApproved,
-    approvedState.get("submittingApproved"),
-    approvedState.get("successApprovedRequest"),
-    approvedState.get("errorApprovedRequest"),
+    approvedState["submittingApproved"],
+    approvedState["successApprovedRequest"],
+    approvedState["errorApprovedRequest"],
   ]);
 
   useEffect(() => {
     if (loading.submitReject) {
-      if (!approvedState.get("submittingReject")) {
+      if (!approvedState["submittingReject"]) {
         setShowReject(false);
-        if (approvedState.get("successRejectRequest")) {
+        if (approvedState["successRejectRequest"]) {
           setLoading({...loading, submitReject: false});
           showMessage({
             message: t("common:app_name"),
@@ -546,8 +574,8 @@ function AddRequest(props) {
           }
         }
 
-        if (approvedState.get("errorRejectRequest")) {
-          let tmpMsg = approvedState.get("errorHelperRejectRequest");
+        if (approvedState["errorRejectRequest"]) {
+          let tmpMsg = approvedState["errorHelperRejectRequest"];
           if (typeof tmpMsg !== "string") {
             tmpMsg = t("error:reject_request_assets");
           }
@@ -564,9 +592,9 @@ function AddRequest(props) {
     }
   }, [
     loading.submitReject,
-    approvedState.get("submittingReject"),
-    approvedState.get("successRejectRequest"),
-    approvedState.get("errorRejectRequest"),
+    approvedState["submittingReject"],
+    approvedState["successRejectRequest"],
+    approvedState["errorRejectRequest"],
   ]);
 
   /************
@@ -575,8 +603,8 @@ function AddRequest(props) {
   const isShowApprovedReject =
     isDetail && form.isAllowApproved && route.params?.permissionWrite;
   let userRegion = "", userDepartment = "",
-    masterRegion = masterState.get("region"),
-    masterDepartment = masterState.get("department");
+    masterRegion = masterState["region"],
+    masterDepartment = masterState["department"];
   userRegion = masterRegion.find(f => f.regionCode == form.region);
   userDepartment = masterDepartment.find(f => f.deptCode == form.department);
   let title = "";
@@ -616,7 +644,7 @@ function AddRequest(props) {
         <UserRequest
           avatar={null}
           fullName={form.name}
-          job={authState.getIn(["login", "jobTitle"])}
+          job={authState["login"]["jobTitle"]}
           region={userRegion ? userRegion.regionName : ""}
           department={userDepartment ? userDepartment.deptName : ""}
         />
@@ -667,7 +695,7 @@ function AddRequest(props) {
                   label: "add_approved_assets:where_use",
                   holder: "add_approved_assets:holder_where_use",
                   value: form.whereUse,
-                  values: masterState.get("department"),
+                  values: masterState["department"],
                   keyToCompare: "deptCode",
                   keyToShow: "deptName",
                   disabled: isDetail || requestDetail,

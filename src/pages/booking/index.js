@@ -28,8 +28,8 @@ function BookingManagement(props) {
   const masterState = useSelector(({masterData}) => masterData);
   const commonState = useSelector(({common}) => common);
   const authState = useSelector(({auth}) => auth);
-  const language = commonState.get('language');
-  const refreshToken = authState.getIn(['login', 'refreshToken']);
+  const language = commonState["language"];
+  const refreshToken = authState["login"]["refreshToken"];
 
   /** Use State */
   const [loading, setLoading] = useState(true);
@@ -57,7 +57,7 @@ function BookingManagement(props) {
   };
 
   const onPrepareData = () => {
-    let tmpListMenu = authState.getIn(['login', 'lstMenu']);
+    let tmpListMenu = authState["login"]["lstMenu"];
     if (route.params.idRouteParent && tmpListMenu) {
       let findChildren = tmpListMenu.lstPermissionItem.find(
         f => f.menuID === route.params.idRouteParent,
@@ -85,15 +85,13 @@ function BookingManagement(props) {
 
   useEffect(() => {
     if (loading) {
-      if (!masterState.get('submitting')) {
+      if (!masterState["submitting"]) {
         onPrepareData();
       }
     }
   }, [
     loading,
-    masterState.get('submitting'),
-    masterState.get('success'),
-    masterState.get('error'),
+    masterState["submitting"],
   ]);
 
   useEffect(() => {

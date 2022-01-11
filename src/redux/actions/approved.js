@@ -61,8 +61,8 @@ export const fetchListRequestApproved = (params, navigation) => {
         dispatch(listRequestApprovedError(error));
         if (error.message && error.message.search('Authorization') !== -1) {
           let tmp = {
-            RefreshToken: params.get('RefreshToken'),
-            Lang: params.get('Lang'),
+            RefreshToken: params["RefreshToken"],
+            Lang: params["Lang"],
           };
           return dispatch(
             Actions.fetchRefreshToken(
@@ -105,8 +105,8 @@ export const fetchRequestDetail = (params, navigation) => {
         dispatch(requestDetailError(error));
         if (error.message && error.message.search('Authorization') !== -1) {
           let tmp = {
-            RefreshToken: params.get('RefreshToken'),
-            Lang: params.get('Lang'),
+            RefreshToken: params["RefreshToken"],
+            Lang: params["Lang"],
           };
           return dispatch(
             Actions.fetchRefreshToken(
@@ -168,8 +168,8 @@ export const fetchListRequestDamage = (params, navigation) => {
         dispatch(listRequestDamageError(error));
         if (error.message && error.message.search('Authorization') !== -1) {
           let tmp = {
-            RefreshToken: params.get('RefreshToken'),
-            Lang: params.get('Lang'),
+            RefreshToken: params["RefreshToken"],
+            Lang: params["Lang"],
           };
           return dispatch(
             Actions.fetchRefreshToken(
@@ -231,8 +231,8 @@ export const fetchListRequestLost = (params, navigation) => {
         dispatch(listRequestLostError(error));
         if (error.message && error.message.search('Authorization') !== -1) {
           let tmp = {
-            RefreshToken: params.get('RefreshToken'),
-            Lang: params.get('Lang'),
+            RefreshToken: params["RefreshToken"],
+            Lang: params["Lang"],
           };
           return dispatch(
             Actions.fetchRefreshToken(

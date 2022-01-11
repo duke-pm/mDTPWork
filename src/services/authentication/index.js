@@ -90,11 +90,11 @@ export default {
   forgotPassword: params => {
     return new Promise((resolve, reject) => {
       let tmpConfigs = {params: {}};
-      if (params.get('Email')) {
-        tmpConfigs.params.Email = params.get('Email');
+      if (params["Email"]) {
+        tmpConfigs.params.Email = params["Email"];
       }
-      if (params.get('Lang')) {
-        tmpConfigs.params.Lang = params.get('Lang');
+      if (params["Lang"]) {
+        tmpConfigs.params.Lang = params["Lang"];
       }
       API.get(
         jwtServiceConfig.baseURL + Routes.AUTHENTICATION.FORGOT_PASSWORD,
@@ -117,11 +117,11 @@ export default {
   checkTokenPassword: params => {
     return new Promise((resolve, reject) => {
       let tmpConfigs = {params: {}};
-      if (params.get('Token')) {
-        tmpConfigs.params.Token = params.get('Token');
+      if (params["Token"]) {
+        tmpConfigs.params.Token = params["Token"];
       }
-      if (params.get('Lang')) {
-        tmpConfigs.params.Lang = params.get('Lang');
+      if (params["Lang"]) {
+        tmpConfigs.params.Lang = params["Lang"];
       }
       API.get(
         jwtServiceConfig.baseURL + Routes.AUTHENTICATION.CHECK_TOKEN_PASSWORD,

@@ -244,10 +244,10 @@ function Account(props) {
           </ImageBackground>
         </View>
         <Text style={cStyles.mt16} category="h6" status="control">
-          {`${authState.getIn(["login", "fullName"])}`}
+          {`${authState["login"]["fullName"]}`}
         </Text>
         <Text category="c1" status="control">
-          {authState.getIn(["login", "jobTitle"])}
+          {authState["login", "jobTitle"]}
         </Text>
       </View>
 

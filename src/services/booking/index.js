@@ -13,35 +13,35 @@ export default {
   listBooking: params => {
     return new Promise((resolve, reject) => {
       let tmpConfigs = {params: {}};
-      if (params.get('FromDate')) {
-        tmpConfigs.params.FromDate = params.get('FromDate');
+      if (params["FromDate"]) {
+        tmpConfigs.params.FromDate = params["FromDate"];
       }
-      if (params.get('ToDate')) {
-        tmpConfigs.params.ToDate = params.get('ToDate');
+      if (params["ToDate"]) {
+        tmpConfigs.params.ToDate = params["ToDate"];
       }
-      if (params.get('Search')) {
-        tmpConfigs.params.Search = params.get('Search');
+      if (params["Search"]) {
+        tmpConfigs.params.Search = params["Search"];
       }
-      if (params.get('ResourceID')) {
-        tmpConfigs.params.ResourceID = params.get('ResourceID');
+      if (params["ResourceID"]) {
+        tmpConfigs.params.ResourceID = params["ResourceID"];
       }
-      if (params.get('IsMyBooking')) {
-        tmpConfigs.params.IsMyBooking = params.get('IsMyBooking');
+      if (params["IsMyBooking"]) {
+        tmpConfigs.params.IsMyBooking = params["IsMyBooking"];
       } else {
         tmpConfigs.params.IsMyBooking = false;
       }
-      if (params.get('PageSize')) {
-        tmpConfigs.params.PageSize = params.get('PageSize');
+      if (params["PageSize"]) {
+        tmpConfigs.params.PageSize = params["PageSize"];
       } else {
         tmpConfigs.params.PageSize = 10;
       }
-      if (params.get('PageNum')) {
-        tmpConfigs.params.PageNum = params.get('PageNum');
+      if (params["PageNum"]) {
+        tmpConfigs.params.PageNum = params["PageNum"];
       } else {
         tmpConfigs.params.PageNum = 1;
       }
-      if (params.get('Lang')) {
-        tmpConfigs.params.Lang = params.get('Lang');
+      if (params["Lang"]) {
+        tmpConfigs.params.Lang = params["Lang"];
       }
 
       API.get(
@@ -84,8 +84,8 @@ export default {
   removeBooking: params => {
     return new Promise((resolve, reject) => {
       let tmpConfigs = {params: {}};
-      if (params.get('BookID')) {
-        tmpConfigs.params.BookID = params.get('BookID');
+      if (params["BookID"]) {
+        tmpConfigs.params.BookID = params["BookID"];
       }
 
       API.get(
@@ -110,11 +110,11 @@ export default {
   bookingDetail: params => {
     return new Promise((resolve, reject) => {
       let tmpConfigs = {params: {}};
-      if (params.get('BookID')) {
-        tmpConfigs.params.BookID = params.get('BookID');
+      if (params["BookID"]) {
+        tmpConfigs.params.BookID = params["BookID"];
       }
-      if (params.get('Lang')) {
-        tmpConfigs.params.Lang = params.get('Lang');
+      if (params["Lang"]) {
+        tmpConfigs.params.Lang = params["Lang"];
       }
 
       API.get(
@@ -139,30 +139,30 @@ export default {
   listBookingByResource: params => {
     return new Promise((resolve, reject) => {
       let tmpConfigs = {params: {}};
-      if (params.get('FromDate')) {
-        tmpConfigs.params.FromDate = params.get('FromDate');
+      if (params["FromDate"]) {
+        tmpConfigs.params.FromDate = params["FromDate"];
       }
-      if (params.get('ToDate')) {
-        tmpConfigs.params.ToDate = params.get('ToDate');
+      if (params["ToDate"]) {
+        tmpConfigs.params.ToDate = params["ToDate"];
       }
-      if (params.get('ResourceID')) {
-        tmpConfigs.params.ResourceID = params.get('ResourceID');
+      if (params["ResourceID"]) {
+        tmpConfigs.params.ResourceID = params["ResourceID"];
       }
-      if (params.get('StatusID')) {
-        tmpConfigs.params.StatusID = params.get('StatusID');
+      if (params["StatusID"]) {
+        tmpConfigs.params.StatusID = params["StatusID"];
       }
-      if (params.get('PageSize')) {
-        tmpConfigs.params.PageSize = params.get('PageSize');
+      if (params["PageSize"]) {
+        tmpConfigs.params.PageSize = params["PageSize"];
       } else {
         tmpConfigs.params.PageSize = -1;
       }
-      if (params.get('PageNum')) {
-        tmpConfigs.params.PageNum = params.get('PageNum');
+      if (params["PageNum"]) {
+        tmpConfigs.params.PageNum = params["PageNum"];
       } else {
         tmpConfigs.params.PageNum = 1;
       }
-      if (params.get('Lang')) {
-        tmpConfigs.params.Lang = params.get('Lang');
+      if (params["Lang"]) {
+        tmpConfigs.params.Lang = params["Lang"];
       }
 
       API.get(

@@ -13,33 +13,33 @@ export default {
   listProject: params => {
     return new Promise((resolve, reject) => {
       let tmpConfigs = {params: {}};
-      if (params.get('ProjectID')) {
-        tmpConfigs.params.PrjParentID = params.get('ProjectID');
+      if (params["ProjectID"]) {
+        tmpConfigs.params.PrjParentID = params["ProjectID"];
       }
-      if (params.get('StatusID')) {
-        tmpConfigs.params.StatusID = params.get('StatusID');
+      if (params["StatusID"]) {
+        tmpConfigs.params.StatusID = params["StatusID"];
       }
-      if (params.get('OwnerID')) {
-        tmpConfigs.params.OwnerID = params.get('OwnerID');
+      if (params["OwnerID"]) {
+        tmpConfigs.params.OwnerID = params["OwnerID"];
       }
-      if (params.get('Year')) {
-        tmpConfigs.params.Year = params.get('Year');
+      if (params["Year"]) {
+        tmpConfigs.params.Year = params["Year"];
       }
-      if (params.get('PageSize')) {
-        tmpConfigs.params.PageSize = params.get('PageSize');
+      if (params["PageSize"]) {
+        tmpConfigs.params.PageSize = params["PageSize"];
       } else {
         tmpConfigs.params.PageSize = 25;
       }
-      if (params.get('PageNum')) {
-        tmpConfigs.params.PageNum = params.get('PageNum');
+      if (params["PageNum"]) {
+        tmpConfigs.params.PageNum = params["PageNum"];
       } else {
         tmpConfigs.params.PageSize = 1;
       }
-      if (params.get('Lang')) {
-        tmpConfigs.params.Lang = params.get('Lang');
+      if (params["Lang"]) {
+        tmpConfigs.params.Lang = params["Lang"];
       }
-      if (params.get('Search')) {
-        tmpConfigs.params.Search = params.get('Search');
+      if (params["Search"]) {
+        tmpConfigs.params.Search = params["Search"];
       }
 
       API.get(
@@ -63,36 +63,36 @@ export default {
   listTask: params => {
     return new Promise((resolve, reject) => {
       let tmpConfigs = {params: {}};
-      if (params.get('TaskParentID')) {
-        tmpConfigs.params.TaskParentID = params.get('TaskParentID');
+      if (params["TaskParentID"]) {
+        tmpConfigs.params.TaskParentID = params["TaskParentID"];
       }
-      if (params.get('PrjID')) {
-        tmpConfigs.params.PrjID = params.get('PrjID');
+      if (params["PrjID"]) {
+        tmpConfigs.params.PrjID = params["PrjID"];
       }
-      if (params.get('StatusID')) {
-        tmpConfigs.params.StatusID = params.get('StatusID');
+      if (params["StatusID"]) {
+        tmpConfigs.params.StatusID = params["StatusID"];
       }
-      if (params.get('OwnerID')) {
-        tmpConfigs.params.OwnerID = params.get('OwnerID');
+      if (params["OwnerID"]) {
+        tmpConfigs.params.OwnerID = params["OwnerID"];
       }
-      if (params.get('SectorID')) {
-        tmpConfigs.params.SectorID = params.get('SectorID');
+      if (params["SectorID"]) {
+        tmpConfigs.params.SectorID = params["SectorID"];
       }
-      if (params.get('PageSize')) {
-        tmpConfigs.params.PageSize = params.get('PageSize');
+      if (params["PageSize"]) {
+        tmpConfigs.params.PageSize = params["PageSize"];
       } else {
         tmpConfigs.params.PageSize = 25;
       }
-      if (params.get('PageNum')) {
-        tmpConfigs.params.PageNum = params.get('PageNum');
+      if (params["PageNum"]) {
+        tmpConfigs.params.PageNum = params["PageNum"];
       } else {
         tmpConfigs.params.PageSize = 1;
       }
-      if (params.get('Lang')) {
-        tmpConfigs.params.Lang = params.get('Lang');
+      if (params["Lang"]) {
+        tmpConfigs.params.Lang = params["Lang"];
       }
-      if (params.get('Search')) {
-        tmpConfigs.params.Search = params.get('Search');
+      if (params["Search"]) {
+        tmpConfigs.params.Search = params["Search"];
       }
 
       API.get(
@@ -116,11 +116,11 @@ export default {
   taskDetail: params => {
     return new Promise((resolve, reject) => {
       let tmpConfigs = {params: {}};
-      if (params.get('TaskID')) {
-        tmpConfigs.params.TaskID = params.get('TaskID');
+      if (params["TaskID"]) {
+        tmpConfigs.params.TaskID = params["TaskID"];
       }
-      if (params.get('Lang')) {
-        tmpConfigs.params.Lang = params.get('Lang');
+      if (params["Lang"]) {
+        tmpConfigs.params.Lang = params["Lang"];
       }
 
       API.get(
@@ -204,36 +204,36 @@ export default {
   projectOverview: params => {
     return new Promise((resolve, reject) => {
       let tmpConfigs = {params: {}};
-      if (params.get('Year')) {
-        tmpConfigs.params.Year = params.get('Year');
+      if (params["Year"]) {
+        tmpConfigs.params.Year = params["Year"];
       }
-      if (params.get('FromDate')) {
-        tmpConfigs.params.FromDate = params.get('FromDate');
+      if (params["FromDate"]) {
+        tmpConfigs.params.FromDate = params["FromDate"];
       }
-      if (params.get('ToDate')) {
-        tmpConfigs.params.ToDate = params.get('ToDate');
+      if (params["ToDate"]) {
+        tmpConfigs.params.ToDate = params["ToDate"];
       }
-      if (params.get('OwnerID')) {
-        tmpConfigs.params.OwnerID = params.get('OwnerID');
+      if ( params["OwnerID"]) {
+        tmpConfigs.params.OwnerID = params["OwnerID"];
       }
-      if (params.get('SectorID')) {
-        tmpConfigs.params.SectorID = params.get('SectorID');
+      if (params["SectorID"]) {
+        tmpConfigs.params.SectorID = params["SectorID"];
       }
-      if (params.get('StatusID')) {
-        tmpConfigs.params.StatusID = params.get('StatusID');
+      if (params["StatusID"]) {
+        tmpConfigs.params.StatusID = params["StatusID"];
       }
-      if (params.get('PageSize')) {
-        tmpConfigs.params.PageSize = params.get('PageSize');
+      if (params["PageSize"]) {
+        tmpConfigs.params.PageSize = params["PageSize"];
       } else {
         tmpConfigs.params.PageSize = 25;
       }
-      if (params.get('PageNum')) {
-        tmpConfigs.params.PageNum = params.get('PageNum');
+      if (params["PageNum"]) {
+        tmpConfigs.params.PageNum = params["PageNum"];
       } else {
         tmpConfigs.params.PageSize = 1;
       }
-      if (params.get('Lang')) {
-        tmpConfigs.params.Lang = params.get('Lang');
+      if (params["Lang"]) {
+        tmpConfigs.params.Lang = params["Lang"];
       }
 
       API.get(

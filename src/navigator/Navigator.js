@@ -34,11 +34,11 @@ function Navigator(props) {
   useEffect(() => onStartApp(), []);
 
   useEffect(() => {
-    if (commonState.get('language') !== props.i18n.language) {
-      props.i18n.changeLanguage(commonState.get('language'));
+    if (commonState["language"] !== props.i18n.language) {
+      props.i18n.changeLanguage(commonState["language"]);
     }
   }, [
-    commonState.get('language'),
+    commonState["language"],
     props.i18n.language,
     props.i18n.changeLanguage,
   ]);

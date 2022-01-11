@@ -6,7 +6,6 @@
  ** CreateAt: 2021
  ** Description: Description of MyBookings.js
  **/
-import {fromJS} from 'immutable';
 import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {useTranslation} from 'react-i18next';
@@ -81,11 +80,11 @@ function MyBookings(props) {
   const authState = useSelector(({auth}) => auth);
   const bookingState = useSelector(({booking}) => booking);
   const masterState = useSelector(({masterData}) => masterData);
-  const resourcesMaster = masterState.get('bkReSource');
-  const perPage = commonState.get('perPage');
-  const formatDate = commonState.get('formatDate');
-  const refreshToken = authState.getIn(['login', 'refreshToken']);
-  const language = commonState.get('language');
+  const resourcesMaster = masterState["bkReSource"];
+  const perPage = commonState["perPage"];
+  const formatDate = commonState["formatDate"];
+  const refreshToken = authState["login"]["refreshToken"];
+  const language = commonState["language"];
 
   /** All state */
   const [loading, setLoading] = useState({
@@ -187,7 +186,7 @@ function MyBookings(props) {
     search = '',
     resources = '',
   ) => {
-    let params = fromJS({
+    let params = {
       FromDate: fromDate,
       ToDate: toDate,
       PageNum: page,
@@ -198,14 +197,14 @@ function MyBookings(props) {
       IsMyBooking: true,
       RefreshToken: refreshToken,
       Lang: language,
-    });
+    };
     dispatch(Actions.fetchListBooking(params, navigation));
   };
 
   const onPrepareData = type => {
     let isLoadmore = true,
       cBookings = [...dataList],
-      nBookings = bookingState.get('bookings');
+      nBookings = bookingState["bookings"];
 
     // If count result < perPage => loadmore is unavailable
     if (typeShow === Commons.TYPE_SHOW_BOOKING.LIST.value) {
@@ -370,17 +369,17 @@ function MyBookings(props) {
 
   useEffect(() => {
     if (loading.startFetch || loading.refreshing || loading.loadmore) {
-      if (!bookingState.get('submittingList')) {
+      if (!bookingState["submittingList"]) {
         let type = REFRESH;
         if (loading.loadmore) {
           type = LOAD_MORE;
         }
 
-        if (bookingState.get('successList')) {
+        if (bookingState["successList"]) {
           return onPrepareData(type);
         }
 
-        if (bookingState.get('errorList')) {
+        if (bookingState["errorList"]) {
           return onError();
         }
       }
@@ -389,9 +388,9 @@ function MyBookings(props) {
     loading.startFetch,
     loading.refreshing,
     loading.loadmore,
-    bookingState.get('submittingList'),
-    bookingState.get('successList'),
-    bookingState.get('errorList'),
+    bookingState["submittingList"],
+    bookingState["successList"],
+    bookingState["errorList"],
   ]);
 
   useEffect(() => {
