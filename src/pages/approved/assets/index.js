@@ -38,6 +38,7 @@ function ApprovedAssets(props) {
   const authState = useSelector(({auth}) => auth);
   const perPage = commonState["perPage"];
   const formatDate = commonState["formatDate"];
+  const formatDateView = commonState["formatDateView"];
   const refreshToken = authState["login"]["refreshToken"];
   const language = commonState["language"];
 
@@ -245,6 +246,7 @@ function ApprovedAssets(props) {
         <ListRequest
           loadmore={loading.loadmore}
           refreshing={loading.refreshing}
+          formatDateView={formatDateView}
           data={data.requests}
           dataDetail={data.requestsDetail}
           dataProcess={data.processApproveds}

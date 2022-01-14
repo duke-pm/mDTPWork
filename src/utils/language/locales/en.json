@@ -258,10 +258,13 @@
     "vi": "Vietnamese",
     "en": "English",
     "appearance": "Appearance",
+    "holder_appearance": "Appearance to light/dark/Auto",
     "dark": "Dark",
     "light": "Light",
     "biometrics": "Fast login",
-    "holder_biometrics": "Support TouchID or FaceID (if any)"
+    "holder_biometrics": "Support TouchID or FaceID (if any)",
+    "format_date": "Date - Time",
+    "holder_format_date": "Change your format date/time"
   },
   "appearance": {
     "title": "Appearance",

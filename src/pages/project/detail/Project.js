@@ -44,6 +44,7 @@ function ProjectDetail(props) {
   const commonState = useSelector(({common}) => common);
   const authState = useSelector(({auth}) => auth);
   const language = commonState["language"];
+  const formatDateView = commonState["formatDateView"];
   const refreshToken = authState["login"]["refreshToken"];
   const perPageMaster = Configs.perPageProjects;
 
@@ -368,6 +369,7 @@ function ProjectDetail(props) {
       {/** Content */}
       {!loading.main && !loading.startFetch && (
         <ListTask
+          formatDateView={formatDateView}
           data={data.tasks}
           loadmore={loading.loadmore}
           refreshing={loading.refreshing}

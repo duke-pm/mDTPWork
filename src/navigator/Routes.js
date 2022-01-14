@@ -22,6 +22,7 @@ import ContactUsPage from "~/pages/account/contactUs";
 import SettingsPage from "~/pages/account/settings";
 import AppearancePage from "~/pages/account/appearance";
 import LanguagesPage from "~/pages/account/languages";
+import DateTimePage from "~/pages/account/dateTime";
 /** APPROVED */
 import ApprovedPage from "~/pages/approved";
 import ListRequestPage from "~/pages/approved/listAssets";
@@ -100,6 +101,10 @@ const Routes = {
   LANGUAGES: {
     name: "Languages",
     path: LanguagesPage,
+  },
+  DATE_TIME: {
+    name: "DateTime",
+    path: DateTimePage,
   },
   /** Approved flow */
   APPROVED: {

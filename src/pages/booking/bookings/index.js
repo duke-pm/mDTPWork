@@ -87,6 +87,8 @@ function Bookings(props) {
   const resourcesMaster = masterState["bkReSource"];
   const perPage = commonState["perPage"];
   const formatDate = commonState["formatDate"];
+  const formatDateView = commonState["formatDateView"];
+  const formatTimeView = commonState["formatTimeView"];
   const refreshToken = authState["login"]["refreshToken"];
   const language = commonState["language"];
 
@@ -452,6 +454,8 @@ function Bookings(props) {
           navigation={navigation}
           refreshing={loading.refreshing}
           loadmore={loading.loadmore}
+          formatDateView={formatDateView}
+          formatTimeView={formatTimeView}
           isMyBooking={false}
           data={dataList}
           onRefresh={onRefresh}

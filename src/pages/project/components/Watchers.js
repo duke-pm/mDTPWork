@@ -5,6 +5,7 @@
  ** CreateAt: 2021
  ** Description: Description of Watchers.js
  **/
+import PropTypes from 'prop-types';
 import React, {useState, useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {useTranslation} from "react-i18next";
@@ -59,7 +60,11 @@ const RenderUnwatchIcon = props => (
 function Watchers(props) {
   const {t} = useTranslation();
   const theme = useTheme();
-  const {navigation, taskID = -1} = props;
+  const {
+    navigation = {},
+    formatDateView = DEFAULT_FORMAT_DATE_9,
+    taskID = -1,
+  } = props;
 
   /** Use redux */
   const dispatch = useDispatch();
@@ -224,7 +229,7 @@ function Watchers(props) {
                 let date = moment(
                   item.timeUpdate,
                   DEFAULT_FORMAT_DATE_7,
-                ).format(DEFAULT_FORMAT_DATE_9);
+                ).format(formatDateView);
 
                 return (
                   <View
@@ -304,6 +309,12 @@ function Watchers(props) {
     </Layout>
   );
 }
+
+Watchers.propTypes = {
+  taskID: PropTypes.number,
+  navigation: PropTypes.object,
+  formatDateView: PropTypes.string,
+};
 
 const styles = StyleSheet.create({
   con_watch_left: {flex: 0.4},

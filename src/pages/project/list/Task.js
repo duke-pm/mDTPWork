@@ -17,11 +17,13 @@ import TaskItem from "../components/TaskItem";
 import Routes from "~/navigator/Routes";
 import {cStyles} from "~/utils/style";
 import {IS_ANDROID} from "~/utils/helper";
+import {DEFAULT_FORMAT_DATE_9} from "~/configs/constants";
 
 function ListTask(props) {
   const {t} = useTranslation();
   const navigation = useNavigation();
   const {
+    formatDateView = DEFAULT_FORMAT_DATE_9,
     onLoadmore = undefined,
     onRefreshTasks = undefined,
   } = props;
@@ -57,6 +59,7 @@ function ListTask(props) {
     return (
       <TaskItem
         trans={t}
+        formatDateView={formatDateView}
         index={info.index}
         data={info.item}
         onPress={handleTaskItem}
@@ -86,6 +89,7 @@ function ListTask(props) {
 }
 
 ListTask.propTypes = {
+  formatDateView: PropTypes.string,
   data: PropTypes.array,
   refreshing: PropTypes.bool,
   loadmore: PropTypes.bool,

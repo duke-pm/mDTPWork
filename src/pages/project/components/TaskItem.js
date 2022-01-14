@@ -22,15 +22,15 @@ import {
   DEFAULT_FORMAT_DATE_9,
 } from "~/configs/constants";
 
-const RenderToDate = (trans, data, delay, onPress) => {
+const RenderToDate = (trans, formatDateView, data, delay, onPress) => {
   return (
     <TouchableOpacity
       style={[cStyles.itemsStart, styles.con_flex]}
       disabled={delay === 0}
       onPress={onPress}>
       <View>
-        <Text status={delay > 0 ? "danger" : "basic"}>
-          {moment(data, DEFAULT_FORMAT_DATE_4).format(DEFAULT_FORMAT_DATE_9)}
+        <Text status={delay > 0 ? "danger" : "basic"} category="c1">
+          {moment(data, DEFAULT_FORMAT_DATE_4).format(formatDateView)}
         </Text>
         <Text style={cStyles.mt5} category="c1" appearance="hint">
           {trans("project_management:end_date")}
@@ -43,6 +43,7 @@ const RenderToDate = (trans, data, delay, onPress) => {
 function TaskItem(props) {
   const {
     trans = null,
+    formatDateView = DEFAULT_FORMAT_DATE_9,
     data = null,
     onPress = () => null,
   } = props;
@@ -100,7 +101,7 @@ function TaskItem(props) {
             <View style={[cStyles.row, cStyles.itemsCenter, cStyles.mt5]}>
               <Avatar size="tiny" source={Assets.iconUser} />
               <View style={cStyles.ml10}>
-                <Text>{`${data.ownerName}`}</Text>
+                <Text category="c1">{`${data.ownerName}`}</Text>
               </View>
             </View>
           </View>
@@ -116,8 +117,8 @@ function TaskItem(props) {
       <View style={[cStyles.row, cStyles.itemsCenter]}>
         {data.startDate && (
           <View style={[cStyles.itemsStart, styles.con_flex]}>
-            <Text>
-              {moment(data.startDate, DEFAULT_FORMAT_DATE_4).format(DEFAULT_FORMAT_DATE_9)}
+            <Text category="c1">
+              {moment(data.startDate, DEFAULT_FORMAT_DATE_4).format(formatDateView)}
             </Text>
             <Text style={cStyles.mt5} category="c1" appearance="hint">
               {trans("project_management:start_date")}
@@ -131,7 +132,13 @@ function TaskItem(props) {
             visible={tooltipDelay}
             onBackdropPress={toggleTooltipDelay}
             anchor={() =>
-              RenderToDate(trans, data.endDate, delay, toggleTooltipDelay)}>
+              RenderToDate(
+                trans,
+                formatDateView,
+                data.endDate,
+                delay,
+                toggleTooltipDelay,
+              )}>
             {`${trans(
               "project_management:delay_date_1"
               )} ${delay} ${trans(
@@ -142,7 +149,7 @@ function TaskItem(props) {
 
         {data.countChild === 0 && (
           <View style={[cStyles.itemsStart, styles.con_flex]}>
-            <Text>{`${data.percentage}%`}</Text>
+            <Text category="c1">{`${data.percentage}%`}</Text>
             <Text style={cStyles.mt5} category="c1" appearance="hint">
               {trans("project_management:holder_task_percentage")}
             </Text>
@@ -151,7 +158,7 @@ function TaskItem(props) {
 
         {data.countChild > 0 && (
           <View style={[cStyles.itemsStart, styles.con_flex]}>
-            <Text>{data.countChild}</Text>
+            <Text category="c1">{data.countChild}</Text>
             <Text style={cStyles.mt5} category="c1" appearance="hint">
               {trans("project_management:child_tasks")}
             </Text>
@@ -168,6 +175,7 @@ const styles = StyleSheet.create({
 });
 
 TaskItem.propTypes = {
+  formatDateView: PropTypes.string,
   data: PropTypes.object.isRequired,
   trans: PropTypes.func,
   onPress: PropTypes.func,

@@ -5,6 +5,7 @@
  ** CreateAt: 2021
  ** Description: Description of Activity.js
  **/
+import PropTypes from 'prop-types';
 import React, {useState, useEffect, useContext} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {useTranslation} from "react-i18next";
@@ -30,7 +31,7 @@ import {ThemeContext} from "~/configs/theme-context";
 import {
   AST_LAST_COMMENT_TASK,
   DEFAULT_FORMAT_DATE_7,
-  DEFAULT_FORMAT_DATE_8,
+  DEFAULT_FORMAT_DATE_9,
   LIGHT,
 } from "~/configs/constants";
 import {
@@ -210,6 +211,7 @@ function Activity(props) {
   const themeContext = useContext(ThemeContext);
   const {
     taskID = -1,
+    formatDateView = DEFAULT_FORMAT_DATE_9,
     navigation = null,
   } = props;
 
@@ -245,7 +247,7 @@ function Activity(props) {
         tmp = null;
       for (item of activities) {
         date = moment(item.timeUpdate, DEFAULT_FORMAT_DATE_7).format(
-          DEFAULT_FORMAT_DATE_8,
+          formatDateView,
         );
         find = array.findIndex(f => f.title === date);
         if (find !== -1) {
@@ -272,7 +274,7 @@ function Activity(props) {
       array = [...messages];
       let lastCmt = activities[activities.length - 1];
       let date = moment(lastCmt.timeUpdate, DEFAULT_FORMAT_DATE_7).format(
-        DEFAULT_FORMAT_DATE_8,
+        formatDateView,
       );
       let find = array.findIndex(f => f.title === date);
       if (find !== -1) {
@@ -416,6 +418,11 @@ function Activity(props) {
     </Layout>
   );
 }
+
+Activity.propTypes = {
+  taskID: PropTypes.number,
+  navigation: PropTypes.object,
+};
 
 const styles = StyleSheet.create({
   con_person_left: {flex: 0.2},

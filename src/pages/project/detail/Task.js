@@ -30,7 +30,6 @@ import {
   AST_LOGIN,
   AST_LAST_COMMENT_TASK,
   DEFAULT_FORMAT_DATE_4,
-  DEFAULT_FORMAT_DATE_9,
 } from "~/configs/constants";
 import {
   getLocalInfo,
@@ -54,6 +53,7 @@ function Task(props) {
   const commonState = useSelector(({common}) => common);
   const authState = useSelector(({auth}) => auth);
   const language = commonState["language"];
+  const formatDateView = commonState["formatDateView"];
   const refreshToken = authState["login"]["refreshToken"];
   const userName = authState["login"]["userName"];
 
@@ -354,7 +354,7 @@ function Task(props) {
                   <Text category="c1">{` ${moment(
                     data.taskDetail.crtdDate,
                     DEFAULT_FORMAT_DATE_4,
-                  ).format(DEFAULT_FORMAT_DATE_9)} `}</Text>
+                  ).format(formatDateView)} `}</Text>
                   <Text category="c1">{t("project_management:created_by_2")}</Text>
                   <Text category="label" status="primary">
                     {` ${data.taskDetail.crtdUser}`}
@@ -368,7 +368,7 @@ function Task(props) {
             )} ${moment(
               data.taskDetail.lUpdDate,
               DEFAULT_FORMAT_DATE_4,
-            ).format(DEFAULT_FORMAT_DATE_9)} ${t(
+            ).format(formatDateView)} ${t(
               "project_management:assignee_by",
             )} `}
             <Text category="label" status="primary">
@@ -391,6 +391,7 @@ function Task(props) {
               permissionChangeStatus={perChangeStatus}
               language={language}
               refreshToken={refreshToken}
+              formatDateView={formatDateView}
               navigation={navigation}
               task={data.taskDetail}
               onStartUpdate={onStartUpdate}
@@ -413,6 +414,7 @@ function Task(props) {
           <Layout style={cStyles.flex1}>
             <Activities
               navigation={navigation}
+              formatDateView={formatDateView}
               taskID={data.taskDetail ? data.taskDetail.taskID : -1}
             />
           </Layout>
@@ -421,8 +423,9 @@ function Task(props) {
         <Tab title={t("project_management:title_watcher")}>
           <Layout style={cStyles.flex1} level="2">
             <Watchers
+              navigation={navigation}
+              formatDateView={formatDateView}
               taskID={data.taskDetail ? data.taskDetail.taskID : -1}
-              watchers={data.watchers}
             />
           </Layout>
         </Tab>

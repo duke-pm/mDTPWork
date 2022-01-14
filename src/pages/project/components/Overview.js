@@ -4,6 +4,7 @@
  ** CreateAt: 2021
  ** Description: Description of Overview.js
  **/
+import PropTypes from 'prop-types';
 import React, {useState} from "react";
 import {useTranslation} from "react-i18next";
 import {
@@ -142,11 +143,11 @@ const RenderAuthorIcon = props => (
   />
 );
 
-const RenderToDate = (delay, data, onPress) => {
+const RenderToDate = (formatDateView, delay, data, onPress) => {
   return (
     <TouchableOpacity disabled={delay === 0} onPress={onPress}>
       <Text status={delay > 0 ? "danger" : "basic"}>
-        {moment(data, DEFAULT_FORMAT_DATE_4).format(DEFAULT_FORMAT_DATE_9)}
+        {moment(data, DEFAULT_FORMAT_DATE_4).format(formatDateView)}
       </Text>
     </TouchableOpacity>
   );
@@ -163,6 +164,7 @@ function Overview(props) {
     permissionChangeStatus = false,
     language = "vi",
     refreshToken = "",
+    formatDateView = DEFAULT_FORMAT_DATE_9,
     navigation = {},
     task = null,
     onStartUpdate = () => null,
@@ -267,20 +269,31 @@ function Overview(props) {
             <ListItem
               disabled={true}
               title={propsT =>
-                <Text appearance="hint">{t("project_management:estimated_time")}</Text>}
+                <Text appearance="hint">
+                  {t("project_management:estimated_time")}
+                </Text>}
               accessoryLeft={RenderTimeIcon}
               accessoryRight={propsR =>
-                <View style={[cStyles.flex1, cStyles.row, cStyles.itemsCenter, cStyles.justifyEnd]}>
+                <View
+                  style={[
+                    cStyles.flex1,
+                    cStyles.row,
+                    cStyles.itemsCenter,
+                    cStyles.justifyEnd,
+                  ]}>
                   <Text>
-                    {moment(task.startDate, DEFAULT_FORMAT_DATE_4).format(DEFAULT_FORMAT_DATE_9)}
+                    {moment(task.startDate, DEFAULT_FORMAT_DATE_4).format(formatDateView)}
                   </Text>
                   <Text>  &#8594;  </Text>
                   <Tooltip
                     backdropStyle={styles.con_backdrop}
                     visible={tooltipDelay}
                     onBackdropPress={toggleTooltipDelay}
-                    anchor={() => RenderToDate(delay, task.endDate, toggleTooltipDelay)}>
-                    {`${t("project_management:delay_date_1")} ${delay} ${t("project_management:delay_date_2")}`}
+                    anchor={() =>
+                      RenderToDate(formatDateView, delay, task.endDate, toggleTooltipDelay)}>
+                    {`${t("project_management:delay_date_1")} ${
+                      delay
+                    } ${t("project_management:delay_date_2")}`}
                   </Tooltip>
                 </View>
               }
@@ -447,6 +460,20 @@ function Overview(props) {
     </KeyboardAwareScrollView>
   );
 }
+
+Overview.propTypes = {
+  loading: PropTypes.bool,
+  update: PropTypes.bool,
+  permissionChangeStatus: PropTypes.bool,
+  language: PropTypes.string,
+  refreshToken: PropTypes.string,
+  formatDateView: PropTypes.string,
+  navigation: PropTypes.object,
+  task: PropTypes.any,
+  onStartUpdate: PropTypes.func,
+  onEndUpdate: PropTypes.func,
+  onNeedUpdate: PropTypes.func,
+};
 
 const styles = StyleSheet.create({
   con_flex: {flex: 0.48},

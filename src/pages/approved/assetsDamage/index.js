@@ -35,6 +35,7 @@ function ApprovedAssetsDamage(props) {
   const authState = useSelector(({auth}) => auth);
   const perPage = commonState["perPage"];
   const formatDate = commonState["formatDate"];
+  const formatDateView = commonState["formatDateView"];
   const refreshToken = authState["login"]["refreshToken"];
   const language = commonState["language"];
 
@@ -242,6 +243,7 @@ function ApprovedAssetsDamage(props) {
         <ListRequest
           loadmore={loading.loadmore}
           refreshing={loading.refreshing}
+          formatDateView={formatDateView}
           data={data.requests}
           dataDetail={data.requestsDetail}
           dataProcess={data.processApproveds}

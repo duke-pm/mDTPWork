@@ -16,6 +16,7 @@ import BookingItem from "./BookingItem";
 /* COMMON */
 import Routes from "~/navigator/Routes";
 import {cStyles} from "~/utils/style";
+import {DEFAULT_FORMAT_DATE_9, DEFAULT_FORMAT_TIME_1} from "~/configs/constants";
 
 function BookingList(props) {
   const {t} = useTranslation();
@@ -23,6 +24,8 @@ function BookingList(props) {
     navigation = null,
     refreshing = false,
     loadmore = false,
+    formatDateView = DEFAULT_FORMAT_DATE_9,
+    formatTimeView = DEFAULT_FORMAT_TIME_1,
     isMyBooking = false,
     data = [],
     onRefresh = undefined,
@@ -53,6 +56,8 @@ function BookingList(props) {
           <BookingItem
             index={info.index}
             data={info.item}
+            formatDateView={formatDateView}
+            formatTimeView={formatTimeView}
             isMyBooking={isMyBooking}
             trans={t}
             onPress={handleBookingItem}
@@ -80,6 +85,8 @@ function BookingList(props) {
 BookingList.propTypes = {
   navigation: PropTypes.any,
   refreshing: PropTypes.bool,
+  formatDateView: PropTypes.string,
+  formatTimeView: PropTypes.string,
   loadmore: PropTypes.bool,
   isMyBooking: PropTypes.bool,
   data: PropTypes.array,

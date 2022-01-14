@@ -255,13 +255,16 @@
     "title": "Cài đặt ứng dụng",
     "language": "Ngôn ngữ",
     "holder_change_language": "Vui lòng chọn ngôn ngữ dưới đây",
-    "vi": "Tiếng việt",
-    "en": "Tiếng anh",
+    "vi": "Tiếng Việt",
+    "en": "Tiếng Anh",
     "appearance": "Giao diện",
+    "holder_appearance": "Giao diện sáng/tối/tự động",
     "dark": "Tối",
     "light": "Sáng",
     "biometrics": "Đăng nhập nhanh",
-    "holder_biometrics": "Hỗ trợ TouchID hoặc FaceID (nếu có)"
+    "holder_biometrics": "Hỗ trợ TouchID hoặc FaceID (nếu có)",
+    "format_date": "Ngày - Giờ",
+    "holder_format_date": "Đổi định dạng ngày/giờ"
   },
   "appearance": {
     "title": "Giao diện",
@@ -276,6 +279,11 @@
     "english": "Tiếng Anh",
     "vietnamese": "Tiếng Việt",
     "loading": "Đang đặt ngôn ngữ..."
+  },
+  "date_time": {
+    "title": "Ngày - Giờ",
+    "holder_change_date": "Chọn định dạng ngày mà bạn muốn hiển thị",
+    "holder_change_time": "Chọn định dạng thời gian mà bạn muốn hiển thị"
   },
   "approved": {
     "title": "Tài sản",

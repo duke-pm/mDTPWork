@@ -42,7 +42,7 @@ const RenderDetailsIcon = props => (
   <Icon {...props} name="info-outline" />
 );
 
-const RenderToDate = (trans, data, delay, onPress) => {
+const RenderToDate = (trans, formatDateView, data, delay, onPress) => {
   return (
     <TouchableOpacity
       style={[cStyles.itemsStart, styles.con_flex]}
@@ -50,7 +50,7 @@ const RenderToDate = (trans, data, delay, onPress) => {
       onPress={onPress}>
       <View>
         <Text status={delay > 0 ? "danger" : "basic"}>
-          {moment(data, DEFAULT_FORMAT_DATE_4).format(DEFAULT_FORMAT_DATE_9)}
+          {moment(data, DEFAULT_FORMAT_DATE_4).format(formatDateView)}
         </Text>
         <Text style={cStyles.mt5} category="c1" appearance="hint">
           {trans("project_management:end_date")}
@@ -64,6 +64,7 @@ function ProjectItem(props) {
   const {
     trans = {},
     theme = {},
+    formatDateView = DEFAULT_FORMAT_DATE_9,
     index = -1,
     data = null,
     onPress = () => null,
@@ -113,9 +114,8 @@ function ProjectItem(props) {
       header={propsH =>
         <View
           style={[
-            cStyles.flex1,
             cStyles.row,
-            cStyles.itemsCenter,
+            cStyles.itemsStart,
             cStyles.justifyBetween,
             cStyles.px16,
             cStyles.py10,
@@ -128,7 +128,7 @@ function ProjectItem(props) {
               <View style={[cStyles.row, cStyles.itemsCenter]}>
                 <Avatar size="tiny" source={Assets.iconUser} />
                 <View style={cStyles.ml10}>
-                  <Text>{data.ownerName}</Text>
+                  <Text category="c1">{data.ownerName}</Text>
                   {data.priorityLevel > 0 && (
                     <View style={[cStyles.row, cStyles.itemsCenter]}>
                       <Text category="c1" appearance="hint">
@@ -198,8 +198,8 @@ function ProjectItem(props) {
       <View style={[cStyles.row, cStyles.itemsCenter]}>
         {data.startDate && (
           <View style={[cStyles.itemsStart, styles.con_flex]}>
-            <Text>
-              {moment(data.startDate, DEFAULT_FORMAT_DATE_4).format(DEFAULT_FORMAT_DATE_9)}
+            <Text category="c1">
+              {moment(data.startDate, DEFAULT_FORMAT_DATE_4).format(formatDateView)}
             </Text>
             <Text style={cStyles.mt5} category="c1" appearance="hint">
               {trans("project_management:start_date")}
@@ -211,8 +211,8 @@ function ProjectItem(props) {
           <View style={[cStyles.itemsStart, styles.con_flex]}>
             {delay === 0 && (
               <View>
-                <Text>
-                  {moment(data.endDate, DEFAULT_FORMAT_DATE_4).format(DEFAULT_FORMAT_DATE_9)}
+                <Text category="c1">
+                  {moment(data.endDate, DEFAULT_FORMAT_DATE_4).format(formatDateView)}
                 </Text>
                 <Text style={cStyles.mt5} category="c1" appearance="hint">
                   {trans("project_management:end_date")}
@@ -225,7 +225,13 @@ function ProjectItem(props) {
                 visible={tooltipDelay}
                 onBackdropPress={toggleTooltipDelay}
                 anchor={() =>
-                  RenderToDate(trans, data.endDate, delay, toggleTooltipDelay)}>
+                  RenderToDate(
+                    trans,
+                    formatDateView,
+                    data.endDate,
+                    delay,
+                    toggleTooltipDelay,
+                  )}>
                 {`${trans(
                   "project_management:delay_date_1"
                 )} ${delay} ${trans(
@@ -238,8 +244,8 @@ function ProjectItem(props) {
 
         {data.appraisalTime && (
           <View style={[cStyles.itemsStart, styles.con_flex]}>
-            <Text>
-              {moment(data.appraisalTime, DEFAULT_FORMAT_DATE_4).format(DEFAULT_FORMAT_DATE_9)}
+            <Text category="c1">
+              {moment(data.appraisalTime, DEFAULT_FORMAT_DATE_4).format(formatDateView)}
             </Text>
             <Text style={cStyles.mt5} category="c1" appearance="hint">
               {trans("project_management:appraisal_time")}
@@ -249,7 +255,7 @@ function ProjectItem(props) {
 
         {data.countChild > 0 && (
           <View style={[cStyles.itemsStart, styles.con_flex]}>
-            <Text>{data.countChild}</Text>
+            <Text category="c1">{data.countChild}</Text>
             <Text style={cStyles.mt5} category="c1" appearance="hint">
               {trans("project_management:child_projects")}
             </Text>
@@ -257,7 +263,7 @@ function ProjectItem(props) {
         )}
         {data.countTask > 0 && (
           <View style={[cStyles.itemsStart, styles.con_flex]}>
-            <Text>{data.countTask}</Text>
+            <Text category="c1">{data.countTask}</Text>
             <Text style={cStyles.mt5} category="c1" appearance="hint">
               {trans("project_management:child_tasks")}
             </Text>
@@ -276,6 +282,7 @@ const styles = StyleSheet.create({
 ProjectItem.propTypes = {
   trans: PropTypes.object,
   theme: PropTypes.object,
+  formatDateView: PropTypes.string,
   index: PropTypes.number,
   data: PropTypes.object,
   onPress: PropTypes.func,

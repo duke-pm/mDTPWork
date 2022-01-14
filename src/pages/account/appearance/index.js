@@ -162,6 +162,7 @@ function Appearance(props) {
   const themeContext = useContext(ThemeContext);
   const systemTheme = useColorScheme();
   let prevTheme = usePrevious(themeContext.themeApp);
+  const {navigation, route} = props;
 
   /** Use redux */
   const dispatch = useDispatch();
@@ -189,6 +190,13 @@ function Appearance(props) {
   /**********
    ** FUNC **
    **********/
+   const onBack = () => {
+    if (route.params.onRefresh) {
+      route.params.onRefresh();
+    }
+    navigation.goBack();
+  };
+
   const onChangeSystemTheme = () => {
     if (!darkmodeAutoToggle.checked) {
       onSaveSettings({theme: themeSystem});
@@ -261,7 +269,11 @@ function Appearance(props) {
     <CContainer
       safeArea={["top"]}
       headerComponent={
-        <CTopNavigation title="appearance:title" back />
+        <CTopNavigation
+          title="appearance:title"
+          back
+          onPressCustomBack={onBack}
+        />
       }>
       <Layout
         style={[

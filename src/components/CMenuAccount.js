@@ -23,7 +23,11 @@ const colorError = "color-danger-500";
  ** OTHER COMPONENT **
  *********************/
 const RenderRightValue = info =>
-  <Text appearance="hint">{info.value}</Text>;
+  <Text
+    style={cStyles.textRight}
+    category="c1"
+    appearance="hint"
+    >{info.value}</Text>;
 
 const RenderForwardIcon = (props, theme, info) => (
   <View style={[cStyles.row, cStyles.itemsCenter]}>
@@ -39,7 +43,12 @@ const RenderForwardIcon = (props, theme, info) => (
       </View>
     )}
     {info.value && (
-      <Text appearance="hint">{info.value}</Text>
+      <Text
+        style={cStyles.textRight}
+        category="c1"
+        appearance="hint">
+        {info.value}
+      </Text>
     )}
     <Icon {...props} name="arrow-ios-forward" />
   </View>
@@ -98,8 +107,12 @@ function CMenuAccount(props) {
   /**********
    ** FUNC **
    **********/
-  const handleGoMenuItem = nextRoute => {
-    if (nextRoute) navigation.navigate(nextRoute);
+  const handleGoMenuItem = (nextRoute, onRefresh) => {
+    if (nextRoute) {
+      navigation.navigate(nextRoute, {
+        onRefresh,
+      });
+    }
   };
 
   /************
@@ -113,8 +126,11 @@ function CMenuAccount(props) {
         cStyles.mt10,
         containerStyle,
       ]}>
-      <Menu
-        style={[cStyles.rounded2, styles.con_menu]}
+      <View
+        style={[
+          cStyles.rounded2,
+          styles.con_menu,
+        ]}
         scrollEnabled={false}>
         {data.map((itemM, indexM) => {
           return (
@@ -146,13 +162,13 @@ function CMenuAccount(props) {
                   : undefined
               }
               onPress={itemM.renderNext
-                ? () => handleGoMenuItem(itemM.nextRoute)
+                ? () => handleGoMenuItem(itemM.nextRoute, itemM.onRefresh)
                 : itemM.onPress
               }
             />
           )
         })}
-      </Menu>
+      </View>
     </Layout>
   );
 }

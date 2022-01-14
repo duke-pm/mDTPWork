@@ -24,6 +24,7 @@ import * as Actions from "~/redux/actions";
 
 function Languages(props) {
   const {t} = useTranslation();
+  const {navigation, route} = props;
 
   /** Use redux */
   const dispatch = useDispatch();
@@ -62,6 +63,12 @@ function Languages(props) {
   /**********
    ** FUNC **
    **********/
+  const onBack = () => {
+    if (route.params.onRefresh) {
+      route.params.onRefresh();
+    }
+    navigation.goBack();
+  };
 
   /****************
    ** LIFE CYCLE **
@@ -83,7 +90,11 @@ function Languages(props) {
     <CContainer
       safeArea={["top"]}
       headerComponent={
-        <CTopNavigation title="languages:title" back />
+        <CTopNavigation
+          title="languages:title"
+          back
+          onPressCustomBack={onBack}
+        />
       }>
       <Layout style={[cStyles.p16, cStyles.m10]}>
         <Text >{t("languages:holder_choose")}</Text>

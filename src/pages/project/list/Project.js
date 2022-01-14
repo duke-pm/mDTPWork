@@ -21,6 +21,7 @@ import ProjectPlan from "../components/ProjectPlan";
 import Routes from "~/navigator/Routes";
 import {IS_ANDROID, sW} from "~/utils/helper";
 import {cStyles} from "~/utils/style";
+import { DEFAULT_FORMAT_DATE_9 } from "~/configs/constants";
 
 if (IS_ANDROID) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -39,6 +40,7 @@ function ListProject(props) {
   const navigation = useNavigation();
   const theme = useTheme();
   const {
+    formatDateView = DEFAULT_FORMAT_DATE_9,
     year = moment().year(),
     onLoadmore = undefined,
     onRefresh = undefined,
@@ -116,6 +118,7 @@ function ListProject(props) {
       <ProjectItem
         trans={t}
         theme={theme}
+        formatDateView={formatDateView}
         index={info.index}
         data={info.item}
         onPress={handleItem}
@@ -183,6 +186,7 @@ function ListProject(props) {
 ListProject.propTypes = {
   refreshing: PropTypes.bool,
   loadmore: PropTypes.bool,
+  formatDateView: PropTypes.string,
   year: PropTypes.number,
   data: PropTypes.array,
   onLoadmore: PropTypes.func,

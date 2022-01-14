@@ -135,6 +135,10 @@ export function RootMain(props) {
         name={Routes.LANGUAGES.name}
         component={Routes.LANGUAGES.path}
       />
+      <StackMain.Screen
+        name={Routes.DATE_TIME.name}
+        component={Routes.DATE_TIME.path}
+      />
       {/** Approved flow */}
       <StackMain.Screen
         name={Routes.APPROVED.name}

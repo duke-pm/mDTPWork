@@ -8,9 +8,10 @@ import {
   DEFAULT_LANGUAGE_CODE,
   DEFAULT_THEME,
   DEFAULT_FORMAT_DATE_1,
-  DEFAULT_FORMAT_DATE_2,
   DEFAULT_FORMAT_DATE_3,
+  DEFAULT_FORMAT_DATE_9,
   DEFAULT_PER_PAGE,
+  DEFAULT_FORMAT_TIME_1,
 } from "~/configs/constants";
 /** REDUX */
 import * as types from "../actions/types";
@@ -20,8 +21,10 @@ export const initialState = {
   language: DEFAULT_LANGUAGE_CODE,
   theme: DEFAULT_THEME,
   formatDate: DEFAULT_FORMAT_DATE_1,
-  formatDateView: DEFAULT_FORMAT_DATE_2,
+  formatDateView: DEFAULT_FORMAT_DATE_9,
   formatDateCustom1: DEFAULT_FORMAT_DATE_3,
+  formatTime: DEFAULT_FORMAT_TIME_1,
+  formatTimeView: DEFAULT_FORMAT_TIME_1,
   perPage: DEFAULT_PER_PAGE,
 };
 
@@ -62,6 +65,18 @@ export default function (state = initialState, action = {}) {
       return {
         ...state,
         formatDateCustom1: payload,
+      };
+    
+    case types.CHANGE_FORMAT_TIME:
+      return {
+        ...state,
+        formatTime: payload,
+      };
+
+    case types.CHANGE_FORMAT_TIME_VIEW:
+      return {
+        ...state,
+        formatTimeView: payload,
       };
 
     case types.CHANGE_PER_PAGE:

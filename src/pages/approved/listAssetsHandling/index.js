@@ -39,6 +39,7 @@ function ListRequestHandling(props) {
   const authState = useSelector(({auth}) => auth);
   const perPage = commonState["perPage"];
   const formatDate = commonState["formatDate"];
+  const formatDateView = commonState["formatDateView"];
   const language = commonState["language"];
   const refreshToken = authState["login"]["refreshToken"];
 
@@ -271,6 +272,7 @@ function ListRequestHandling(props) {
           permissionWrite={isPermissionWrite}
           loadmore={loading.loadmore}
           refreshing={loading.refreshing}
+          formatDateView={formatDateView}
           data={data.requests}
           dataDetail={data.requestsDetail}
           dataProcess={data.processApproveds}

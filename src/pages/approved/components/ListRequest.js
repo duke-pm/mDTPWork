@@ -19,11 +19,13 @@ import Routes from "~/navigator/Routes";
 import {Commons} from "~/utils/common";
 import {cStyles} from "~/utils/style";
 import {IS_ANDROID} from "~/utils/helper";
+import {DEFAULT_FORMAT_DATE_9} from "~/configs/constants";
 
 function ListRequest(props) {
   const {t} = useTranslation();
   const navigation = useNavigation();
   const {
+    formatDateView = DEFAULT_FORMAT_DATE_9,
     permissionWrite = false,
     onLoadmore = undefined,
     onRefresh = undefined,
@@ -67,6 +69,7 @@ function ListRequest(props) {
         return (
           <RequestItem
             trans={t}
+            formatDateView={formatDateView}
             index={info.index}
             data={info.item}
             dataDetail={detail}
@@ -94,6 +97,7 @@ function ListRequest(props) {
 }
 
 ListRequest.propTypes = {
+  formatDateView: PropTypes.string,
   permissionWrite: PropTypes.bool.isRequired,
   customColors: PropTypes.object.isRequired,
   onRefresh: PropTypes.func,

@@ -83,6 +83,8 @@ function MyBookings(props) {
   const resourcesMaster = masterState["bkReSource"];
   const perPage = commonState["perPage"];
   const formatDate = commonState["formatDate"];
+  const formatDateView = commonState["formatDateView"];
+  const formatTimeView = commonState["formatTimeView"];
   const refreshToken = authState["login"]["refreshToken"];
   const language = commonState["language"];
 
@@ -503,6 +505,8 @@ function MyBookings(props) {
         typeShow === Commons.TYPE_SHOW_BOOKING.LIST.value && (
           <BookingList
             navigation={navigation}
+            formatDateView={formatDateView}
+            formatTimeView={formatTimeView}
             refreshing={loading.refreshing}
             loadmore={loading.loadmore}
             isMyBooking

@@ -8,10 +8,12 @@ import React, {useState, useEffect, useContext} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {useTheme, Text} from "@ui-kitten/components";
 import {
-  StyleSheet, View, ImageBackground, StatusBar, ScrollView,
+  StyleSheet, View, StatusBar, ScrollView,
   Linking,
 } from "react-native";
+import FastImage from "react-native-fast-image";
 import VersionCheck from "react-native-version-check";
+import LinearGradient from "react-native-linear-gradient";
 /* COMPONENTS */
 import CContainer from "~/components/CContainer";
 import CMenuAccount from "~/components/CMenuAccount";
@@ -36,13 +38,15 @@ import {
 import * as Actions from "~/redux/actions";
 
 /** All init */
-const brAvatar = moderateScale(50);
+const colorPrimary1 = "color-primary-500";
+const colorPrimary2 = "color-primary-300";
+const colorPrimary3 = "color-primary-100";
+const colorBackground = "background-basic-color-2";
 
 function Account(props) {
   const theme = useTheme();
   const themeContext = useContext(ThemeContext);
   const {navigation} = props;
-  const bgHeader = theme["color-primary-400"];
 
   /** Use redux */
   const dispatch = useDispatch();
@@ -212,9 +216,9 @@ function Account(props) {
   useEffect(() => {
     if (themeContext.themeApp === LIGHT) {
       const unsubscribe = navigation.addListener("focus", () => {
-        StatusBar.setBarStyle("dark-content", true);
+        StatusBar.setBarStyle("light-content", true);
         IS_ANDROID &&
-          StatusBar.setBackgroundColor(bgHeader, true);
+          StatusBar.setBackgroundColor(theme[colorPrimary1], true);
       });
       return unsubscribe;
     }
@@ -224,32 +228,36 @@ function Account(props) {
    ** RENDER **
    ************/
   return (
-    <CContainer safeArea={["top"]} backgroundColor={bgHeader}>
+    <CContainer safeArea={["top"]} backgroundColor={theme[colorPrimary1]}>
       {/** Avatar + Name */}
-      <View
+      <LinearGradient
         style={[
           cStyles.itemsCenter,
           cStyles.pb20,
           cStyles.pt10,
           cStyles.roundedBottomLeft8,
           cStyles.roundedBottomRight8,
-          {backgroundColor: bgHeader}
+        ]}
+        colors={[
+          theme[colorPrimary1],
+          theme[colorPrimary2],
+          theme[colorPrimary3],
+          theme[colorBackground],
         ]}>
         <View style={[styles.con_avatar, cStyles.center]}>
-          <ImageBackground
-            style={styles.img_avatar}
-            borderRadius={brAvatar}
-            resizeMode="cover"
-            source={Assets.iconUser}>
-          </ImageBackground>
+          <FastImage
+            style={[cStyles.rounded10, styles.img_avatar]}
+            resizeMode={FastImage.resizeMode.cover}
+            source={Assets.iconUser}
+          />
         </View>
-        <Text style={cStyles.mt16} category="h6" status="control">
+        <Text style={cStyles.mt16} category="h6">
           {`${authState["login"]["fullName"]}`}
         </Text>
-        <Text category="c1" status="control">
-          {authState["login", "jobTitle"]}
+        <Text style={cStyles.mt5} category="c1">
+          {authState["login"]["jobTitle"]}
         </Text>
-      </View>
+      </LinearGradient>
 
       {/** Actions */}
       <ScrollView style={cStyles.flex1}>

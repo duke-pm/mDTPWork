@@ -40,6 +40,7 @@ function Project(props) {
   const commonState = useSelector(({common}) => common);
   const authState = useSelector(({auth}) => auth);
   const language = commonState["language"];
+  const formatDateView = commonState["formatDateView"];
   const refreshToken = authState["login"]["refreshToken"];
   const perPageMaster = Configs.perPageProjects;
 
@@ -276,6 +277,7 @@ function Project(props) {
       {/** Content */}
       {!loading.main && !loading.startFetch && (
         <ListProject
+          formatDateView={formatDateView}
           year={data.year}
           data={data.projects}
           loadmore={loading.loadmore}

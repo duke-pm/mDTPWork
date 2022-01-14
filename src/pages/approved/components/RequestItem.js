@@ -8,16 +8,21 @@ import PropTypes from "prop-types";
 import React from "react";
 import {Avatar, Card, Text} from "@ui-kitten/components";
 import {StyleSheet, View} from "react-native";
+import moment from "moment";
 /** COMPONENTS */
 import CStatus from "~/components/CStatus";
 /* COMMON */
 import {Assets} from "~/utils/asset";
-import {Commons} from "~/utils/common";
 import {cStyles} from "~/utils/style";
+import {
+  DEFAULT_FORMAT_DATE_4,
+  DEFAULT_FORMAT_DATE_9,
+} from "~/configs/constants";
 
 function RequestItem(props) {
   const {
     trans = {},
+    formatDateView = DEFAULT_FORMAT_DATE_9,
     index = -1,
     data = null,
     dataProcess = [],
@@ -38,13 +43,6 @@ function RequestItem(props) {
   /************
    ** RENDER **
    ************/
-  let title =
-    `${data.requestID} | ${trans("approved_assets:title_request_item")}`;
-  if (data.requestTypeID !== Commons.APPROVED_TYPE.ASSETS.value) {
-    title = `${data.requestID} | ${trans("approved_lost_damaged:title_request_item_1")}${
-      data.requestTypeName
-    }`;
-  }
   return (
     <Card
       onPress={handleRequestItem}
@@ -59,7 +57,11 @@ function RequestItem(props) {
             cStyles.py10,
           ]}>
           <View style={[cStyles.itemsStart, cStyles.pr10]}>
-            <Text category="s1">{title}</Text>
+            <Text category="s1">{data.requestTypeName}</Text>
+            <Text category="c1" appearance="hint">
+              {`${trans('common:created_at')} ` +
+              moment(data.requestDate, DEFAULT_FORMAT_DATE_4).format(formatDateView)}
+            </Text>
           </View>
           <View style={cStyles.itemsEnd}>
             <CStatus
@@ -75,7 +77,7 @@ function RequestItem(props) {
           <View style={[cStyles.row, cStyles.itemsCenter]}>
             <Avatar size="tiny" source={Assets.iconUser} />
             <View style={cStyles.ml10}>
-              <Text>{data.personRequest}</Text>
+              <Text category="c1">{data.personRequest}</Text>
               <Text style={cStyles.mt5} category="c1" appearance="hint">
                 {data.jobTitle}
               </Text>
@@ -83,7 +85,7 @@ function RequestItem(props) {
           </View>
         </View>
         <View style={styles.con_right}>
-          <Text>{data.regionName}</Text>
+          <Text category="c1">{data.regionName}</Text>
           <Text style={cStyles.mt5} category="c1" appearance="hint">
             {trans("list_request_assets_handling:region")}
           </Text>
@@ -100,6 +102,7 @@ const styles = StyleSheet.create({
 
 RequestItem.propTypes = {
   trans: PropTypes.object,
+  formatDateView: PropTypes.string,
   index: PropTypes.number,
   data: PropTypes.object,
   dataProcess: PropTypes.array,
