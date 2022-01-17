@@ -6,14 +6,13 @@
  **/
 import React, {useState, useEffect, useContext} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {useTheme, Text} from "@ui-kitten/components";
+import {useTheme, Text, Layout} from "@ui-kitten/components";
 import {
   StyleSheet, View, StatusBar, ScrollView,
   Linking,
 } from "react-native";
 import FastImage from "react-native-fast-image";
 import VersionCheck from "react-native-version-check";
-import LinearGradient from "react-native-linear-gradient";
 /* COMPONENTS */
 import CContainer from "~/components/CContainer";
 import CMenuAccount from "~/components/CMenuAccount";
@@ -32,16 +31,9 @@ import {
   removeSecretInfo,
   resetRoute,
   moderateScale,
-  IS_ANDROID,
 } from "~/utils/helper";
 /* REDUX */
 import * as Actions from "~/redux/actions";
-
-/** All init */
-const colorPrimary1 = "color-primary-500";
-const colorPrimary2 = "color-primary-300";
-const colorPrimary3 = "color-primary-100";
-const colorBackground = "background-basic-color-2";
 
 function Account(props) {
   const theme = useTheme();
@@ -68,7 +60,7 @@ function Account(props) {
       title: "account:my_account",
       subtitle: "account:holder_edit_account",
       icon: "person-outline",
-      color: "color-primary-600",
+      color: "color-primary-500",
       bgColor: "color-primary-transparent-500",
       renderNext: true,
       nextRoute: "MyAccount",
@@ -80,7 +72,7 @@ function Account(props) {
       title: "account:change_password",
       subtitle: "account:holder_change_password",
       icon: "unlock-outline",
-      color: "color-danger-600",
+      color: "color-danger-500",
       bgColor: "color-danger-transparent-500",
       renderNext: true,
       nextRoute: "UpdatePassword",
@@ -94,7 +86,7 @@ function Account(props) {
       title: "account:app_settings",
       subtitle: "account:holder_settings",
       icon: "settings-outline",
-      color: "color-basic-600",
+      color: "color-basic-500",
       bgColor: "color-basic-transparent-500",
       renderNext: true,
       nextRoute: "Settings",
@@ -106,7 +98,7 @@ function Account(props) {
       title: "account:help_and_info",
       subtitle: "account:holder_information",
       icon: "info-outline",
-      color: "color-info-600",
+      color: "color-info-500",
       bgColor: "color-info-transparent-500",
       renderNext: true,
       nextRoute: "HelpAndInfo",
@@ -118,7 +110,7 @@ function Account(props) {
       title: "account:hotline",
       subtitle: null,
       icon: "phone-outline",
-      color: "color-success-600",
+      color: "color-success-500",
       bgColor: "color-success-transparent-500",
       renderNext: false,
       nextRoute: null,
@@ -131,7 +123,7 @@ function Account(props) {
       title: "account:version",
       subtitle: null,
       icon: "message-square-outline",
-      color: "color-primary-600",
+      color: "color-primary-500",
       bgColor: "color-primary-transparent-500",
       renderNext: false,
       nextRoute: null,
@@ -143,7 +135,7 @@ function Account(props) {
       title: "account:sign_out",
       subtitle: null,
       icon: "log-out-outline",
-      color: "color-danger-600",
+      color: "color-danger-500",
       bgColor: "color-danger-transparent-500",
       renderNext: false,
       nextRoute: null,
@@ -217,8 +209,6 @@ function Account(props) {
     if (themeContext.themeApp === LIGHT) {
       const unsubscribe = navigation.addListener("focus", () => {
         StatusBar.setBarStyle("light-content", true);
-        IS_ANDROID &&
-          StatusBar.setBackgroundColor(theme[colorPrimary1], true);
       });
       return unsubscribe;
     }
@@ -228,21 +218,15 @@ function Account(props) {
    ** RENDER **
    ************/
   return (
-    <CContainer safeArea={["top"]} backgroundColor={theme[colorPrimary1]}>
+    <CContainer safeArea={["top"]}>
       {/** Avatar + Name */}
-      <LinearGradient
+      <Layout
         style={[
           cStyles.itemsCenter,
           cStyles.pb20,
           cStyles.pt10,
           cStyles.roundedBottomLeft8,
           cStyles.roundedBottomRight8,
-        ]}
-        colors={[
-          theme[colorPrimary1],
-          theme[colorPrimary2],
-          theme[colorPrimary3],
-          theme[colorBackground],
         ]}>
         <View style={[styles.con_avatar, cStyles.center]}>
           <FastImage
@@ -257,7 +241,7 @@ function Account(props) {
         <Text style={cStyles.mt5} category="c1">
           {authState["login"]["jobTitle"]}
         </Text>
-      </LinearGradient>
+      </Layout>
 
       {/** Actions */}
       <ScrollView style={cStyles.flex1}>

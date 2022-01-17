@@ -852,15 +852,21 @@ function AddRequest(props) {
       )}
 
       {/** Loading of page */}
-      <CLoading show={
-        loading.main ||
-        loading.startFetch ||
-        loading.startFetchDetails ||
-        loading.startFetchLogin ||
-        loading.submitAdd ||
-        loading.submitApproved ||
-        loading.submitReject
-      } />
+      <CLoading
+        show={
+          loading.main ||
+          loading.startFetch ||
+          loading.startFetchDetails ||
+          loading.startFetchLogin ||
+          loading.submitAdd ||
+          loading.submitApproved ||
+          loading.submitReject
+        }
+        description={
+          (loading.submitAdd || loading.submitApproved || loading.submitReject)
+            ? "common:doing_signin"
+            : undefined}
+      />
     </CContainer>
   );
 }
