@@ -49,7 +49,7 @@ const RenderToDate = (trans, formatDateView, data, delay, onPress) => {
       disabled={delay === 0}
       onPress={onPress}>
       <View>
-        <Text status={delay > 0 ? "danger" : "basic"}>
+        <Text status={delay > 0 ? "danger" : "basic"} category="c1">
           {moment(data, DEFAULT_FORMAT_DATE_4).format(formatDateView)}
         </Text>
         <Text style={cStyles.mt5} category="c1" appearance="hint">

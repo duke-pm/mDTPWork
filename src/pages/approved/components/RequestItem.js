@@ -57,7 +57,7 @@ function RequestItem(props) {
             cStyles.py10,
           ]}>
           <View style={[cStyles.itemsStart, cStyles.pr10]}>
-            <Text category="s1">{data.requestTypeName}</Text>
+            <Text category="s1">{`${data.requestID} | ${data.requestTypeName}`}</Text>
             <Text category="c1" appearance="hint">
               {`${trans('common:created_at')} ` +
               moment(data.requestDate, DEFAULT_FORMAT_DATE_4).format(formatDateView)}

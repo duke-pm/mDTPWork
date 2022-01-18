@@ -54,16 +54,16 @@ function UserRequest(props) {
       }>
       <View style={[cStyles.row, cStyles.itemsCenter, cStyles.justifyBetween]}>
         <View>
-          <Text>{region}</Text>
+          <Text>{department}</Text>
           <Text style={cStyles.mt5} category="c1" appearance="hint">
-            {t("add_approved_assets:region")}
+            {t("add_approved_assets:department")}
           </Text>
         </View>
 
         <View>
-          <Text>{department}</Text>
+          <Text>{region}</Text>
           <Text style={cStyles.mt5} category="c1" appearance="hint">
-            {t("add_approved_assets:department")}
+            {t("add_approved_assets:region")}
           </Text>
         </View>
       </View>
