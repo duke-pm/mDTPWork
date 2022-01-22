@@ -82,7 +82,7 @@ export const fetchLogin = params => {
 /*****************************/
 
 /** For refresh login */
-export const fetchRefreshToken = (params, callback, navigation) => {
+export const fetchRefreshToken = (params, navigation) => {
   return dispatch => {
     dispatch({
       type: types.START_REFRESH_TOKEN,
@@ -92,8 +92,7 @@ export const fetchRefreshToken = (params, callback, navigation) => {
       .refreshToken(params)
       .then(res => {
         if (!res.isError) {
-          dispatch(loginSuccess(res.data, true));
-          return dispatch(callback());
+          return dispatch(loginSuccess(res.data, true));
         } else {
           removeSecretInfo(AST_LOGIN);
           dispatch(loginError("error"));
@@ -147,13 +146,7 @@ export const fetchChangePassword = (params, navigation) => {
             RefreshToken: params.RefreshToken,
             Lang: params.Lang,
           };
-          return dispatch(
-            Actions.fetchRefreshToken(
-              tmp,
-              () => fetchChangePassword(params),
-              navigation,
-            ),
-          );
+          return dispatch(Actions.fetchRefreshToken(tmp, navigation));
         }
       });
   };

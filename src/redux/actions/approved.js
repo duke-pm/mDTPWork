@@ -64,13 +64,7 @@ export const fetchListRequestApproved = (params, navigation) => {
             RefreshToken: params["RefreshToken"],
             Lang: params["Lang"],
           };
-          return dispatch(
-            Actions.fetchRefreshToken(
-              tmp,
-              () => fetchListRequestApproved(params),
-              navigation,
-            ),
-          );
+          return dispatch(Actions.fetchRefreshToken(tmp, navigation));
         }
       });
   };
@@ -108,13 +102,7 @@ export const fetchRequestDetail = (params, navigation) => {
             RefreshToken: params["RefreshToken"],
             Lang: params["Lang"],
           };
-          return dispatch(
-            Actions.fetchRefreshToken(
-              tmp,
-              () => fetchRequestDetail(params),
-              navigation,
-            ),
-          );
+          return dispatch(Actions.fetchRefreshToken(tmp, navigation));
         }
       });
   };
@@ -171,13 +159,7 @@ export const fetchListRequestDamage = (params, navigation) => {
             RefreshToken: params["RefreshToken"],
             Lang: params["Lang"],
           };
-          return dispatch(
-            Actions.fetchRefreshToken(
-              tmp,
-              () => fetchListRequestDamage(params),
-              navigation,
-            ),
-          );
+          return dispatch(Actions.fetchRefreshToken(tmp, navigation));
         }
       });
   };
@@ -234,13 +216,7 @@ export const fetchListRequestLost = (params, navigation) => {
             RefreshToken: params["RefreshToken"],
             Lang: params["Lang"],
           };
-          return dispatch(
-            Actions.fetchRefreshToken(
-              tmp,
-              () => fetchListRequestLost(params),
-              navigation,
-            ),
-          );
+          return dispatch(Actions.fetchRefreshToken(tmp, navigation));
         }
       });
   };
@@ -279,13 +255,7 @@ export const fetchAddRequestApproved = (params, navigation) => {
             RefreshToken: params.RefreshToken,
             Lang: params.Lang,
           };
-          return dispatch(
-            Actions.fetchRefreshToken(
-              tmp,
-              () => fetchAddRequestApproved(params),
-              navigation,
-            ),
-          );
+          return dispatch(Actions.fetchRefreshToken(tmp, navigation));
         }
       });
   };
@@ -324,13 +294,7 @@ export const fetchApprovedRequest = (params, navigation) => {
             RefreshToken: params.RefreshToken,
             Lang: params.Lang,
           };
-          return dispatch(
-            Actions.fetchRefreshToken(
-              tmp,
-              () => fetchApprovedRequest(params),
-              navigation,
-            ),
-          );
+          return dispatch(Actions.fetchRefreshToken(tmp, navigation));
         }
       });
   };
@@ -369,13 +333,7 @@ export const fetchRejectRequest = (params, navigation) => {
             RefreshToken: params.RefreshToken,
             Lang: params.Lang,
           };
-          return dispatch(
-            Actions.fetchRefreshToken(
-              tmp,
-              () => fetchRejectRequest(params),
-              navigation,
-            ),
-          );
+          return dispatch(Actions.fetchRefreshToken(tmp, navigation));
         }
       });
   };
@@ -418,13 +376,7 @@ export const fetchAddRequestLostDamage = (params, formData, navigation) => {
             RefreshToken: params.RefreshToken,
             Lang: params.Lang,
           };
-          return dispatch(
-            Actions.fetchRefreshToken(
-              tmp,
-              () => fetchAddRequestLostDamage(params, formData),
-              navigation,
-            ),
-          );
+          return dispatch(Actions.fetchRefreshToken(tmp, navigation));
         }
       });
   };

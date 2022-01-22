@@ -13,7 +13,9 @@ import {
 } from "@ui-kitten/components";
 import {StyleSheet, View} from "react-native";
 import {showMessage} from "react-native-flash-message";
-import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
+import {
+  KeyboardAwareScrollView,
+} from "react-native-keyboard-aware-scroll-view";
 import moment from "moment";
 import "moment/locale/en-sg";
 /* COMPONENTS */
@@ -864,7 +866,7 @@ function AddRequest(props) {
         }
         description={
           (loading.submitAdd || loading.submitApproved || loading.submitReject)
-            ? "common:doing_signin"
+            ? "common:doing_send"
             : undefined}
       />
     </CContainer>

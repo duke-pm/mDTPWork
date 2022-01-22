@@ -50,13 +50,7 @@ export const fetchListProject = (params, navigation) => {
             RefreshToken: params["RefreshToken"],
             Lang: params["Lang"],
           };
-          return dispatch(
-            Actions.fetchRefreshToken(
-              tmp,
-              () => fetchListProject(params),
-              navigation,
-            ),
-          );
+          return dispatch(Actions.fetchRefreshToken(tmp, navigation));
         }
       });
   };
@@ -99,13 +93,7 @@ export const fetchListTask = (params, navigation) => {
             RefreshToken: params["RefreshToken"],
             Lang: params["Lang"],
           };
-          return dispatch(
-            Actions.fetchRefreshToken(
-              tmp,
-              () => fetchListTask(params),
-              navigation,
-            ),
-          );
+          return dispatch(Actions.fetchRefreshToken(tmp, navigation));
         }
       });
   };
@@ -143,13 +131,7 @@ export const fetchTaskDetail = (params, navigation) => {
             RefreshToken: params["RefreshToken"],
             Lang: params["Lang"],
           };
-          return dispatch(
-            Actions.fetchRefreshToken(
-              tmp,
-              () => fetchTaskDetail(params),
-              navigation,
-            ),
-          );
+          return dispatch(Actions.fetchRefreshToken(tmp, navigation));
         }
       });
   };
@@ -187,13 +169,7 @@ export const fetchTaskComment = (params, navigation) => {
             RefreshToken: params["RefreshToken"],
             Lang: params["Lang"],
           };
-          return dispatch(
-            Actions.fetchRefreshToken(
-              tmp,
-              () => fetchTaskComment(params),
-              navigation,
-            ),
-          );
+          return dispatch(Actions.fetchRefreshToken(tmp, navigation));
         }
       });
   };
@@ -231,13 +207,7 @@ export const fetchTaskWatcher = (params, navigation) => {
             RefreshToken: params["RefreshToken"],
             Lang: params["Lang"],
           };
-          return dispatch(
-            Actions.fetchRefreshToken(
-              tmp,
-              () => fetchTaskWatcher(params),
-              navigation,
-            ),
-          );
+          return dispatch(Actions.fetchRefreshToken(tmp, navigation));
         }
       });
   };
@@ -299,13 +269,7 @@ export const fetchUpdatePerTask = (params, navigation) => {
             RefreshToken: params["RefreshToken"],
             Lang: params["Lang"],
           };
-          return dispatch(
-            Actions.fetchRefreshToken(
-              tmp,
-              () => fetchUpdatePerTask(params),
-              navigation,
-            ),
-          );
+          return dispatch(Actions.fetchRefreshToken(tmp, navigation));
         }
       });
   };
@@ -367,13 +331,7 @@ export const fetchUpdateStaTask = (params, navigation) => {
             RefreshToken: params["RefreshToken"],
             Lang: params["Lang"],
           };
-          return dispatch(
-            Actions.fetchRefreshToken(
-              tmp,
-              () => fetchUpdateStaTask(params),
-              navigation,
-            ),
-          );
+          return dispatch(Actions.fetchRefreshToken(tmp, navigation));
         }
       });
   };
@@ -416,13 +374,7 @@ export const fetchProjectOverview = (params, navigation) => {
             RefreshToken: params["RefreshToken"],
             Lang: params["Lang"],
           };
-          return dispatch(
-            Actions.fetchRefreshToken(
-              tmp,
-              () => fetchProjectOverview(params),
-              navigation,
-            ),
-          );
+          return dispatch(Actions.fetchRefreshToken(tmp, navigation));
         }
       });
   };

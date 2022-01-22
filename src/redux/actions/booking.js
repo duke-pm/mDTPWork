@@ -49,13 +49,7 @@ export const fetchListBooking = (params, navigation) => {
             RefreshToken: params["RefreshToken"],
             Lang: params["Lang"],
           };
-          return dispatch(
-            Actions.fetchRefreshToken(
-              tmp,
-              () => fetchListBooking(params),
-              navigation,
-            ),
-          );
+          return dispatch(Actions.fetchRefreshToken(tmp, navigation));
         }
       });
   };
@@ -93,13 +87,7 @@ export const fetchAddBooking = (params, navigation) => {
             RefreshToken: params.RefreshToken,
             Lang: params.Lang,
           };
-          return dispatch(
-            Actions.fetchRefreshToken(
-              tmp,
-              () => fetchAddBooking(params),
-              navigation,
-            ),
-          );
+          return dispatch(Actions.fetchRefreshToken(tmp, navigation));
         }
       });
   };
@@ -136,13 +124,7 @@ export const fetchRemoveBooking = (params, navigation) => {
             RefreshToken: params.RefreshToken,
             Lang: params.Lang,
           };
-          return dispatch(
-            Actions.fetchRefreshToken(
-              tmp,
-              () => fetchRemoveBooking(params),
-              navigation,
-            ),
-          );
+          return dispatch(Actions.fetchRefreshToken(tmp, navigation));
         }
       });
   };
@@ -180,13 +162,7 @@ export const fetchBookingDetail = (params, navigation) => {
             RefreshToken: params["RefreshToken"],
             Lang: params["Lang"],
           };
-          return dispatch(
-            Actions.fetchRefreshToken(
-              tmp,
-              () => fetchBookingDetail(params),
-              navigation,
-            ),
-          );
+          return dispatch(Actions.fetchRefreshToken(tmp, navigation));
         }
       });
   };
@@ -224,13 +200,7 @@ export const fetchListBookingByReSrc = (params, navigation) => {
             RefreshToken: params["RefreshToken"],
             Lang: params["Lang"],
           };
-          return dispatch(
-            Actions.fetchRefreshToken(
-              tmp,
-              () => fetchListBookingByReSrc(params),
-              navigation,
-            ),
-          );
+          return dispatch(Actions.fetchRefreshToken(tmp, navigation));
         }
       });
   };

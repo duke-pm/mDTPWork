@@ -869,7 +869,7 @@ function AddRequest(props) {
         }
         description={
           (loading.submitAdd || loading.submitApproved || loading.submitReject)
-            ? "common:doing_signin"
+            ? "common:doing_send"
             : undefined}
       />
     </CContainer>

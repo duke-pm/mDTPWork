@@ -46,13 +46,7 @@ export const fetchMasterData = (params, navigation) => {
             RefreshToken: params.RefreshToken,
             Lang: params.Lang,
           };
-          return dispatch(
-            Actions.fetchRefreshToken(
-              tmp,
-              () => fetchMasterData(params),
-              navigation,
-            ),
-          );
+          return dispatch(Actions.fetchRefreshToken(tmp, navigation));
         }
       });
   };
@@ -81,13 +75,7 @@ export const fetchAssetByUser = (params, navigation) => {
             RefreshToken: params.RefreshToken,
             Lang: params.Lang,
           };
-          return dispatch(
-            Actions.fetchRefreshToken(
-              tmp,
-              () => fetchMasterData(params),
-              navigation,
-            ),
-          );
+          return dispatch(Actions.fetchRefreshToken(tmp, navigation));
         }
       });
   };
