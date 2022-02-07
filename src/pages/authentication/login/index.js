@@ -8,8 +8,12 @@ import React, {useRef, useState, useEffect, useContext} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {useTranslation} from "react-i18next";
 import {usePrevious} from "~/utils/hook";
-import {useTheme, Layout, CheckBox, Button, Text} from "@ui-kitten/components";
-import {View, StatusBar, Linking, ScrollView} from "react-native";
+import {
+  useTheme, Layout, CheckBox, Button, Text,
+} from "@ui-kitten/components";
+import {
+  View, StatusBar, Linking, ScrollView,
+} from "react-native";
 import {showMessage} from "react-native-flash-message";
 import VersionCheck from "react-native-version-check";
 import * as Animatable from "react-native-animatable";
@@ -24,8 +28,12 @@ import Configs from "~/configs";
 import Routes from "~/navigator/Routes";
 import FieldsAuth from "~/configs/fieldsAuth";
 import {ThemeContext} from "~/configs/theme-context";
-import {AST_LANGUAGE, AST_LOGIN} from "~/configs/constants";
 import {cStyles} from "~/utils/style";
+import {
+  AST_LOGIN,
+  AST_LANGUAGE,
+  REDUX_LOGIN,
+} from "~/configs/constants";
 import {
   getLocalInfo,
   getSecretInfo,
@@ -53,7 +61,7 @@ function Login(props) {
   const bgHeader = theme["background-basic-color-2"];
   let prevTheme = usePrevious(themeContext.themeApp);
 
-  /** use ref */
+  /** Use ref */
   const formRef = useRef();
   const contentRef = useRef();
 
@@ -89,10 +97,11 @@ function Login(props) {
   };
 
   const handleSignIn = () => {
+    /** Start fetch sign in */
     setLoading({...loading, submit: true});
-    /** Set value for email */
+    /** Get value of all field */
     let tmpCallback = formRef.current?.onCallbackValue();
-    /** Submit */
+    /** Prepare and submit to server */
     let params = {
       Username: tmpCallback.valuesAll[0].value.trim().toLowerCase(),
       Password: tmpCallback.valuesAll[1].value.trim(),
@@ -103,28 +112,31 @@ function Login(props) {
   };
 
   const handleUpdateAppNow = () => {
-    VersionCheck.needUpdate()
-      .then(async res => {
-        if (res.isNeeded) {
-          Linking.openURL(res.storeUrl);
-        }
-      });
+    VersionCheck.needUpdate().then(async res => {
+      if (res.isNeeded) {
+        Linking.openURL(res.storeUrl);
+      }
+    });
   };
 
   /**********
    ** FUNC **
    **********/
   const onPrepareData = async () => {
+    /** Check save account optional */
     if (values.saveAccount) {
       let dataLogin = {},
-        item;
+        item = null;
       for (item of FieldsAuth) {
-        dataLogin[item.value] = authState["login"][item.value];
+        if (item) {
+          dataLogin[item.value] = authState[REDUX_LOGIN][item.value];
+        }
       }
       await saveSecretInfo({key: AST_LOGIN, value: dataLogin});
     } else {
       await removeSecretInfo(AST_LOGIN);
     }
+    /** Start page */
     onStart();
   };
 
@@ -134,13 +146,13 @@ function Login(props) {
   };
 
   const onCheckLocalLogin = async () => {
-    /** Check Data Language */
+    /** Check data storage of language */
     let dataLanguage = await getLocalInfo(AST_LANGUAGE);
     if (dataLanguage) {
       dispatch(Actions.changeLanguage(dataLanguage.value));
     }
 
-    /** Check Data Login */
+    /** Check data storage of login */
     let dataLogin = await getSecretInfo(AST_LOGIN);
     if (dataLogin) {
       console.log("[LOG] === SignIn Local === ", dataLogin);
@@ -313,8 +325,8 @@ function Login(props) {
                   {t("sign_in:save_account")}
                 </CheckBox>
                 <Button
-                  disabled={loading.main || loading.submit}
                   appearance="ghost"
+                  disabled={loading.main || loading.submit}
                   onPress={handleGoForgotPassword}>
                   {propsB =>
                     <Text style={cStyles.textUnderline} status="primary">
@@ -344,8 +356,13 @@ function Login(props) {
                 </Button>
               )}
             </View>
-            <Text style={[cStyles.mt10, cStyles.textCenter]} category="c1" appearance="hint">
-              &#169; {`${moment().year()} ${t("sign_in:copyright_by")}\n${Configs.nameOfCompany}`}
+            <Text
+              style={[cStyles.mt10, cStyles.textCenter]}
+              category="c1"
+              appearance="hint">
+              &#169; {`${moment().year()} ${t(
+                "sign_in:copyright_by"
+              )}\n${Configs.nameOfCompany}`}
             </Text>
           </View>
         </MyContent>

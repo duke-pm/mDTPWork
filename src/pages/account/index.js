@@ -26,6 +26,7 @@ import {ThemeContext} from "~/configs/theme-context";
 import {
   AST_LOGIN,
   LIGHT,
+  REDUX_LOGIN,
 } from "~/configs/constants";
 import {
   removeSecretInfo,
@@ -205,15 +206,6 @@ function Account(props) {
     }
   }, []);
 
-  useEffect(() => {
-    if (themeContext.themeApp === LIGHT) {
-      const unsubscribe = navigation.addListener("focus", () => {
-        StatusBar.setBarStyle("light-content", true);
-      });
-      return unsubscribe;
-    }
-  }, [themeContext.themeApp, navigation]);
-
   /************
    ** RENDER **
    ************/
@@ -236,10 +228,10 @@ function Account(props) {
           />
         </View>
         <Text style={cStyles.mt16} category="h6">
-          {`${authState["login"]["fullName"]}`}
+          {`${authState[REDUX_LOGIN]["fullName"]}`}
         </Text>
         <Text style={cStyles.mt5} category="c1">
-          {authState["login"]["jobTitle"]}
+          {authState[REDUX_LOGIN]["jobTitle"]}
         </Text>
       </Layout>
 

@@ -22,6 +22,7 @@ import {Commons} from "~/utils/common";
 import {
   LOAD_MORE,
   REFRESH,
+  REDUX_LOGIN,
 } from "~/configs/constants";
 /* REDUX */
 import * as Actions from "~/redux/actions";
@@ -41,7 +42,7 @@ function ListRequestHandling(props) {
   const formatDate = commonState["formatDate"];
   const formatDateView = commonState["formatDateView"];
   const language = commonState["language"];
-  const refreshToken = authState["login"]["refreshToken"];
+  const refreshToken = authState[REDUX_LOGIN]["refreshToken"];
 
   /** Use state */
   const [loading, setLoading] = useState({

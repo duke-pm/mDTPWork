@@ -27,6 +27,7 @@ import FieldsAuth from "~/configs/fieldsAuth";
 import {Commons} from "~/utils/common";
 import {cStyles} from "~/utils/style";
 import {
+  REDUX_LOGIN,
   AST_LOGIN,
   AST_LAST_COMMENT_TASK,
   DEFAULT_FORMAT_DATE_4,
@@ -54,8 +55,8 @@ function Task(props) {
   const authState = useSelector(({auth}) => auth);
   const language = commonState["language"];
   const formatDateView = commonState["formatDateView"];
-  const refreshToken = authState["login"]["refreshToken"];
-  const userName = authState["login"]["userName"];
+  const refreshToken = authState[REDUX_LOGIN]["refreshToken"];
+  const userName = authState[REDUX_LOGIN]["userName"];
 
   /** Use state */
   const [loading, setLoading] = useState({

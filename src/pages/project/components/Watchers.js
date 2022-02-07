@@ -32,6 +32,7 @@ import {
   IS_ANDROID,
 } from "~/utils/helper";
 import {
+  REDUX_LOGIN,
   DEFAULT_FORMAT_DATE_7,
   DEFAULT_FORMAT_DATE_9,
   DEFAULT_FORMAT_TIME_1,
@@ -71,8 +72,8 @@ function Watchers(props) {
   const projectState = useSelector(({projectManagement}) => projectManagement);
   const commonState = useSelector(({common}) => common);
   const authState = useSelector(({auth}) => auth);
-  const userName = authState["login"]["userName"];
-  const refreshToken = authState["login"]["refreshToken"];
+  const userName = authState[REDUX_LOGIN]["userName"];
+  const refreshToken = authState[REDUX_LOGIN]["refreshToken"];
   const language = commonState["language"];
 
   /** Use state */

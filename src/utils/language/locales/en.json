@@ -123,7 +123,7 @@
     "not_like": "Reconfirm the new password is not correct!"
   },
   "sign_in": {
-    "title": "Welcome,",
+    "title": "Hello",
     "button_sign_in": "Sign in",
     "sub_title": "Sign in to continue!",
     "input_username": "Username",
@@ -143,18 +143,18 @@
     "holder_update_now": "New version is available!"
   },
   "forgot_password": {
-    "title": "Forgot password,",
-    "caption": "Enter your e-mail address below and we will send you a link to reset your password.",
+    "title": "Forgot password",
+    "caption": "Enter your e-mail address below.\nThen we will send a link for you can to reset your password.",
     "input_email": "E-mail",
-    "input_holder_email": "E-mail...",
+    "input_holder_email": "Your e-mail...",
     "sub_title": "Please enter your E-mail so we can resend your new password!",
     "error_email_not_fill": "E-mail cannot be empty!",
     "error_email_format": "Email invalidate!",
     "error_title": "Recovery failed!",
-    "error_content_1": "Unable to recover password from e-mail",
-    "error_content_2": "Make sure you have entered the correct or the e-mail you entered is not in the system. Please contact IT department for more details.",
+    "error_content_1": "Unable to recover password from this e-mail",
+    "error_content_2": "Make sure you have entered the correct or this e-mail is not in the system.\nPlease contact IT department for more details.",
     "success_title": "Verify email address",
-    "success_content_1": "A confirmation e-mail has been sent to",
+    "success_content_1": "A confirmation address has been sent to e-mail",
     "success_content_2": "Please check your inbox and choose",
     "success_content_3": "Link to App",
     "success_content_4": "to change new passwords.",

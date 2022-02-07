@@ -29,8 +29,12 @@ import Routes from "~/navigator/Routes";
 import {colors, cStyles} from "~/utils/style";
 import {Commons} from "~/utils/common";
 import {IS_ANDROID, moderateScale} from "~/utils/helper";
-import {REFRESH, LOAD_MORE} from "~/configs/constants";
 import {usePrevious} from "~/utils/hook";
+import {
+  REFRESH,
+  LOAD_MORE,
+  REDUX_LOGIN,
+} from "~/configs/constants";
 /* REDUX */
 import * as Actions from "~/redux/actions";
 
@@ -85,7 +89,7 @@ function MyBookings(props) {
   const formatDate = commonState["formatDate"];
   const formatDateView = commonState["formatDateView"];
   const formatTimeView = commonState["formatTimeView"];
-  const refreshToken = authState["login"]["refreshToken"];
+  const refreshToken = authState[REDUX_LOGIN]["refreshToken"];
   const language = commonState["language"];
 
   /** All state */

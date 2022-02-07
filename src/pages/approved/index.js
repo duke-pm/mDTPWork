@@ -14,6 +14,9 @@ import CContentSubMenu from "~/components/CContentSubMenu";
 /** COMMON */
 import Configs from "~/configs";
 import {Animations} from "~/utils/asset";
+import {
+  REDUX_LOGIN,
+} from "~/configs/constants";
 
 function Approved(props) {
   const {navigation, route} = props;
@@ -41,7 +44,7 @@ function Approved(props) {
    ** FUNC **
    **********/
   const onPrepareData = () => {
-    let tmpListMenu = authState["login"]["lstMenu"];
+    let tmpListMenu = authState[REDUX_LOGIN]["lstMenu"];
     if (route.params.idRouteParent && tmpListMenu) {
       let findChildren = tmpListMenu.lstPermissionItem.find(
         f => f.menuID === route.params.idRouteParent,

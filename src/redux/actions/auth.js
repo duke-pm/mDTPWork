@@ -36,6 +36,7 @@ export const loginSuccess = (data, isRefresh) => {
     API.defaults.headers.Authorization =
       "Bearer " + data.tokenInfo.access_token;
   }
+  
   let payload = {},
     item;
   if (isRefresh) {
@@ -98,7 +99,7 @@ export const fetchRefreshToken = (params, navigation) => {
           dispatch(loginError("error"));
           dispatch(Actions.logout());
           showMessage({
-            message: "The session has expired. Please log in again!",
+            message: "Your session has expired. Please sign in again!",
             type: "warning",
             icon: "warning",
           });

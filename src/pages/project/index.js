@@ -14,6 +14,9 @@ import CContentSubMenu from "~/components/CContentSubMenu";
 /** COMMON */
 import Configs from "~/configs";
 import {Animations} from "~/utils/asset";
+import {
+  REDUX_LOGIN,
+} from "~/configs/constants";
 /** REDUX */
 import * as Actions from "~/redux/actions";
 
@@ -28,7 +31,7 @@ function ProjectManagement(props) {
   const commonState = useSelector(({common}) => common);
   const authState = useSelector(({auth}) => auth);
   const language = commonState["language"];
-  const refreshToken = authState["login"]["refreshToken"];
+  const refreshToken = authState[REDUX_LOGIN]["refreshToken"];
 
   /** Use State */
   const [loading, setLoading] = useState(true);
@@ -56,7 +59,7 @@ function ProjectManagement(props) {
   };
 
   const onPrepareData = () => {
-    let tmpListMenu = authState["login"]["lstMenu"];
+    let tmpListMenu = authState[REDUX_LOGIN]["lstMenu"];
     if (route.params.idRouteParent && tmpListMenu) {
       let findChildren = tmpListMenu.lstPermissionItem.find(
         f => f.menuID === route.params.idRouteParent,

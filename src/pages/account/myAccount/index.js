@@ -22,6 +22,9 @@ import CForm from "~/components/CForm";
 import {Assets} from "~/utils/asset";
 import {cStyles} from "~/utils/style";
 import {
+  REDUX_LOGIN,
+} from "~/configs/constants";
+import {
   moderateScale,
 } from "~/utils/helper";
 /* REDUX */
@@ -54,7 +57,7 @@ function MyAccount(props) {
   const commonState = useSelector(({common}) => common);
   const masterState = useSelector(({masterData}) => masterData);
   const language = commonState["language"];
-  const refreshToken = authState["login"]["refreshToken"];
+  const refreshToken = authState[REDUX_LOGIN]["refreshToken"];
 
   /*****************
    ** HANDLE FUNC **
@@ -86,14 +89,14 @@ function MyAccount(props) {
         let departments = masterState["department"];
         let regions = masterState["region"];
         if (departments.length > 0 && !department) {
-          let myDeptCode = authState["login"]["deptCode"];
+          let myDeptCode = authState[REDUX_LOGIN]["deptCode"];
           let findDept = departments.find(f => f.deptCode === myDeptCode);
           if (findDept) {
             setDepartment(findDept);
           }
         }
         if (regions.length > 0 && !region) {
-          let myRegionCode = authState["login"]["regionCode"];
+          let myRegionCode = authState[REDUX_LOGIN]["regionCode"];
           let findRegion = regions.find(f => f.regionCode === myRegionCode);
           if (findRegion) {
             setRegion(findRegion);
@@ -152,7 +155,7 @@ function MyAccount(props) {
                 type: "text",
                 label: "my_account:employee_code",
                 holder: "my_account:employee_code",
-                value: authState["login"]["empCode"],
+                value: authState[REDUX_LOGIN]["empCode"],
                 required: true,
                 password: false,
                 email: false,
@@ -166,7 +169,7 @@ function MyAccount(props) {
                 type: "text",
                 label: "my_account:user_name",
                 holder: "my_account:user_name",
-                value: authState["login"]["userName"],
+                value: authState[REDUX_LOGIN]["userName"],
                 required: true,
                 password: false,
                 email: false,
@@ -180,7 +183,7 @@ function MyAccount(props) {
                 type: "text",
                 label: "my_account:full_name",
                 holder: "my_account:full_name",
-                value: authState["login"]["fullName"],
+                value: authState[REDUX_LOGIN]["fullName"],
                 required: true,
                 password: false,
                 email: false,

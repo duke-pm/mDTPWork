@@ -44,6 +44,7 @@ import {
   DEFAULT_FORMAT_DATE_4,
   DEFAULT_FORMAT_DATE_9,
   AST_LOGIN,
+  REDUX_LOGIN,
 } from "~/configs/constants";
 /* REDUX */
 import * as Actions from "~/redux/actions";
@@ -101,7 +102,7 @@ function AddRequest(props) {
   const commonState = useSelector(({common}) => common);
   const approvedState = useSelector(({approved}) => approved);
   const authState = useSelector(({auth}) => auth);
-  const refreshToken = authState["login"]["refreshToken"];
+  const refreshToken = authState[REDUX_LOGIN]["refreshToken"];
   const formatDate = commonState["formatDate"];
   const language = commonState["language"];
   moment.locale(language);
@@ -124,7 +125,7 @@ function AddRequest(props) {
   const [process, setProcess] = useState([]);
   const [form, setForm] = useState({
     id: "",
-    name: authState["login"]["fullName"],
+    name: authState[REDUX_LOGIN]["fullName"],
     dateRequest: moment().format(formatDate),
     typeUpdate: Commons.APPROVED_TYPE.DAMAGED.value, // 2: Damage, 3: Lost
     assetID: "",
@@ -134,8 +135,8 @@ function AddRequest(props) {
     reason: "",
     status: 1,
     isAllowApproved: false,
-    department: authState["login"]["deptCode"],
-    region: authState["login"]["regionCode"],
+    department: authState[REDUX_LOGIN]["deptCode"],
+    region: authState[REDUX_LOGIN]["regionCode"],
   });
 
   /*****************
@@ -164,7 +165,7 @@ function AddRequest(props) {
 
   const onGetAssetsByUser = () => {
     let params = {
-      EmpCode: authState["login"]["empCode"],
+      EmpCode: authState[REDUX_LOGIN]["empCode"],
       RefreshToken: refreshToken,
       Lang: language,
     };
@@ -177,10 +178,10 @@ function AddRequest(props) {
     let tmpCallback = formRef.current?.onCallbackValue();
     /** prepare assets */
     let formData = new FormData();
-    formData.append("EmpCode", authState["login"]["empCode"]);
-    formData.append("DeptCode", authState["login"]["deptCode"]);
-    formData.append("RegionCode", authState["login"]["regionCode"]);
-    formData.append("JobTitle", authState["login"]["jobTitle"]);
+    formData.append("EmpCode", authState[REDUX_LOGIN]["empCode"]);
+    formData.append("DeptCode", authState[REDUX_LOGIN]["deptCode"]);
+    formData.append("RegionCode", authState[REDUX_LOGIN]["regionCode"]);
+    formData.append("JobTitle", authState[REDUX_LOGIN]["jobTitle"]);
     formData.append("RequestDate", tmpCallback.valuesAll[0].value);
     formData.append("Reasons", tmpCallback.valuesAll[2].value);
     formData.append(
@@ -211,19 +212,19 @@ function AddRequest(props) {
       id: dataRequest ? dataRequest?.requestID : "",
       personRequestId: dataRequest
         ? dataRequest?.personRequestID
-        : Number(authState["login"]["userId"]),
+        : Number(authState[REDUX_LOGIN]["userId"]),
       name: dataRequest
         ? dataRequest?.personRequest
-        : authState["login"]["fullName"],
+        : authState[REDUX_LOGIN]["fullName"],
       dateRequest: dataRequest
         ? moment(dataRequest?.requestDate, DEFAULT_FORMAT_DATE_4).format(formatDate)
         : moment().format(formatDate),
       department: dataRequest
         ? dataRequest?.deptCode
-        : authState["login"]["deptCode"],
+        : authState[REDUX_LOGIN]["deptCode"],
       region: dataRequest
         ? dataRequest?.regionCode
-        : authState["login"]["regionCode"],
+        : authState[REDUX_LOGIN]["regionCode"],
       assetID: dataRequest ? dataRequest?.assetID : "",
       reason: dataRequest ? dataRequest?.reason : "",
       typeUpdate: dataRequest
@@ -589,7 +590,7 @@ function AddRequest(props) {
         <UserRequest
           avatar={null}
           fullName={form.name}
-          job={authState["login"]["jobTitle"]}
+          job={authState[REDUX_LOGIN]["jobTitle"]}
           region={userRegion ? userRegion.regionName : ""}
           department={userDepartment ? userDepartment.deptName : ""}
         />

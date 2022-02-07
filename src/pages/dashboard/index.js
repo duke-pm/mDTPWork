@@ -5,10 +5,14 @@
  ** CreateAt: 2021
  ** Description: Description of Dashboard.js
  **/
-import React, {useRef, useContext, useEffect, useState} from "react";
+import React, {
+  useRef, useContext, useEffect, useState,
+} from "react";
 import {useSelector} from "react-redux";
 import {useTranslation} from "react-i18next";
-import {useTheme, Avatar, Layout, Text, Spinner} from "@ui-kitten/components";
+import {
+  useTheme, Avatar, Layout, Text, Spinner,
+} from "@ui-kitten/components";
 import {StatusBar, StyleSheet, View} from "react-native";
 import * as Animatable from "react-native-animatable";
 import moment from "moment";
@@ -25,8 +29,9 @@ import {
   IS_ANDROID,
 } from "~/utils/helper";
 import {
-  DEFAULT_FORMAT_DATE_10,
   LIGHT,
+  DEFAULT_FORMAT_DATE_10,
+  REDUX_LOGIN,
 } from "~/configs/constants";
 
 const MyContent = Animatable.createAnimatableComponent(Layout);
@@ -43,7 +48,7 @@ function Dashboard(props) {
 
   /** Use redux */
   const authState = useSelector(({auth}) => auth);
-  const fullName = authState["login"]["fullName"];
+  const fullName = authState[REDUX_LOGIN]["fullName"];
 
   /** Use State */
   const [loading, setLoading] = useState(true);
@@ -62,7 +67,7 @@ function Dashboard(props) {
    ** FUNC **
    **********/
   const onPrepareData = () => {
-    let tmpListMenu = authState["login"]["lstMenu"];
+    let tmpListMenu = authState[REDUX_LOGIN]["lstMenu"];
     if (tmpListMenu && tmpListMenu.lstPermissionItem.length > 0) {
       /** Check permission user can access */
       let item = null,
@@ -99,17 +104,6 @@ function Dashboard(props) {
       });
     }
   }, [loading, routes]);
-
-  useEffect(() => {
-    if (themeContext.themeApp === LIGHT) {
-      const unsubscribe = navigation.addListener("focus", () => {
-        StatusBar.setBarStyle("dark-content", true);
-        IS_ANDROID &&
-          StatusBar.setBackgroundColor(theme[colorBgHeader], true);
-      });
-      return unsubscribe;
-    }
-  }, [themeContext.themeApp, navigation]);
 
   /************
    ** RENDER **

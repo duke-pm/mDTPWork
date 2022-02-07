@@ -34,6 +34,7 @@ import {
   DATA_TIME_BOOKING,
   DEFAULT_FORMAT_DATE_3,
   AST_LOGIN,
+  REDUX_LOGIN,
 } from "~/configs/constants";
 /* REDUX */
 import * as Actions from "~/redux/actions";
@@ -83,7 +84,7 @@ function AddBooking(props) {
   const authState = useSelector(({auth}) => auth);
   const bookingState = useSelector(({booking}) => booking);
   const formatDate = commonState["formatDate"];
-  const refreshToken = authState["login"]["refreshToken"];
+  const refreshToken = authState[REDUX_LOGIN]["refreshToken"];
   const language = commonState["language"];
 
   /** use states */

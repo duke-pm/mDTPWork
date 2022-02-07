@@ -24,6 +24,7 @@ import {
   REFRESH,
   LOAD_MORE,
   AST_LOGIN,
+  REDUX_LOGIN,
 } from "~/configs/constants";
 /** REDUX */
 import * as Actions from "~/redux/actions";
@@ -45,7 +46,7 @@ function ProjectDetail(props) {
   const authState = useSelector(({auth}) => auth);
   const language = commonState["language"];
   const formatDateView = commonState["formatDateView"];
-  const refreshToken = authState["login"]["refreshToken"];
+  const refreshToken = authState[REDUX_LOGIN]["refreshToken"];
   const perPageMaster = Configs.perPageProjects;
 
   /** Use state */

@@ -39,7 +39,7 @@ function ForgotPassword(props) {
   const colorSuccess = theme["color-success-500"];
   const colorError = theme["color-danger-500"];
 
-  /** use ref */
+  /** Use ref */
   const formRef = useRef();
   const contentRef = useRef();
 
@@ -63,11 +63,12 @@ function ForgotPassword(props) {
    ** FUNC **
    **********/
   const onSubmitSend = () => {
+    /** Start fetch forgot password */
     setLoading(true);
-    /** Set value for email */
+    /** Get value for email */
     let tmpCallback = formRef.current?.onCallbackValue();
     setValues({email: tmpCallback.valuesAll[0].value});
-    /** Submit */
+    /** Submit to server */
     let params = {
       Lang: language,
       Email: tmpCallback.valuesAll[0].value.toLowerCase(),

@@ -140,7 +140,7 @@ export default function (state = initialState, action = {}) {
           deptCode: payload.deptCode,
           jobTitle: payload.jobTitle,
           groupID: payload.groupID,
-          lstMenu: payload.lstMenu,
+          lstMenu: payload.lstMenu || state.login.lstMenu,
         }
       };
     case types.ERROR_LOGIN:

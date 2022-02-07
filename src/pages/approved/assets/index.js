@@ -23,6 +23,7 @@ import {usePrevious} from "~/utils/hook";
 import {
   LOAD_MORE,
   REFRESH,
+  REDUX_LOGIN,
 } from "~/configs/constants";
 /* REDUX */
 import * as Actions from "~/redux/actions";
@@ -39,7 +40,7 @@ function ApprovedAssets(props) {
   const perPage = commonState["perPage"];
   const formatDate = commonState["formatDate"];
   const formatDateView = commonState["formatDateView"];
-  const refreshToken = authState["login"]["refreshToken"];
+  const refreshToken = authState[REDUX_LOGIN]["refreshToken"];
   const language = commonState["language"];
 
   /** Use state */

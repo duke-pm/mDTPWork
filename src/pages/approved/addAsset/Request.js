@@ -41,6 +41,7 @@ import {
   resetRoute,
 } from "~/utils/helper";
 import {
+  REDUX_LOGIN,
   AST_LOGIN,
   DEFAULT_FORMAT_DATE_4,
 } from "~/configs/constants";
@@ -117,7 +118,7 @@ function AddRequest(props) {
   const authState = useSelector(({auth}) => auth);
   const formatDate = commonState["formatDate"];
   const language = commonState["language"];
-  const refreshToken = authState["login"]["refreshToken"];
+  const refreshToken = authState[REDUX_LOGIN]["refreshToken"];
 
   /** Use state */
   const [loading, setLoading] = useState({
@@ -138,9 +139,9 @@ function AddRequest(props) {
     id: "",
     personRequestId: "",
     dateRequest: moment().format(formatDate),
-    name: authState["login"]["fullName"],
-    department: authState["login"]["deptCode"],
-    region: authState["login"]["regionCode"],
+    name: authState[REDUX_LOGIN]["fullName"],
+    department: authState[REDUX_LOGIN]["deptCode"],
+    region: authState[REDUX_LOGIN]["regionCode"],
     assets: {
       width: WIDTH_ITEM_TABLE,
       header: [
@@ -152,7 +153,7 @@ function AddRequest(props) {
       ],
       data: [[null, "", "", "", ""]],
     },
-    whereUse: authState["login"]["deptCode"],
+    whereUse: authState[REDUX_LOGIN]["deptCode"],
     reason: "",
     typeAssets: "N",
     inPlanning: false,
@@ -195,7 +196,7 @@ function AddRequest(props) {
       id: dataRequest ? dataRequest?.requestID : "",
       personRequestId: dataRequest
         ? dataRequest?.personRequestID
-        : Number(authState["login"]["userId"]),
+        : Number(authState[REDUX_LOGIN]["userId"]),
       dateRequest: dataRequest
         ? moment(dataRequest?.requestDate, DEFAULT_FORMAT_DATE_4).format(
             formatDate,
@@ -203,13 +204,13 @@ function AddRequest(props) {
         : moment().format(formatDate),
       name: dataRequest
         ? dataRequest?.personRequest
-        : authState["login"]["fullName"],
+        : authState[REDUX_LOGIN]["fullName"],
       department: dataRequest
         ? dataRequest?.deptCode
-        : authState["login"]["deptCode"],
+        : authState[REDUX_LOGIN]["deptCode"],
       region: dataRequest
         ? dataRequest?.regionCode
-        : authState["login"]["regionCode"],
+        : authState[REDUX_LOGIN]["regionCode"],
       assets: {
         width: WIDTH_ITEM_TABLE,
         header: [
@@ -309,10 +310,10 @@ function AddRequest(props) {
       }
       console.log("[LOG] ===  ===> ", tmpCallback.valuesAll);
       let params = {
-        EmpCode: authState["login"]["empCode"],
-        DeptCode: authState["login"]["deptCode"],
-        RegionCode: authState["login"]["regionCode"],
-        JobTitle: authState["login"]["jobTitle"],
+        EmpCode: authState[REDUX_LOGIN]["empCode"],
+        DeptCode: authState[REDUX_LOGIN]["deptCode"],
+        RegionCode: authState[REDUX_LOGIN]["regionCode"],
+        JobTitle: authState[REDUX_LOGIN]["jobTitle"],
         RequestDate: tmpCallback.valuesAll[0].value,
         Location: tmpCallback.valuesAll[1].values[tmpCallback.valuesAll[1].value]["deptCode"],
         Reason: tmpCallback.valuesAll[2].value.trim(),
@@ -644,7 +645,7 @@ function AddRequest(props) {
         <UserRequest
           avatar={null}
           fullName={form.name}
-          job={authState["login"]["jobTitle"]}
+          job={authState[REDUX_LOGIN]["jobTitle"]}
           region={userRegion ? userRegion.regionName : ""}
           department={userDepartment ? userDepartment.deptName : ""}
         />

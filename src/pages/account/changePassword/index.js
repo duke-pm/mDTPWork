@@ -23,6 +23,7 @@ import Routes from "~/navigator/Routes";
 import {cStyles} from "~/utils/style";
 import {
   AST_LOGIN,
+  REDUX_LOGIN,
 } from "~/configs/constants";
 import {
   removeSecretInfo,
@@ -50,7 +51,7 @@ function ChangePassword(props) {
   const authState = useSelector(({auth}) => auth);
   const commonState = useSelector(({common}) => common);
   const language = commonState["language"];
-  const refreshToken = authState["login"]["refreshToken"];
+  const refreshToken = authState[REDUX_LOGIN]["refreshToken"];
 
   /** Use state */
   const [loading, setLoading] = useState(false);

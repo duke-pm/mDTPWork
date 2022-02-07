@@ -33,6 +33,7 @@ import {
   DEFAULT_FORMAT_DATE_7,
   DEFAULT_FORMAT_DATE_9,
   LIGHT,
+  REDUX_LOGIN,
 } from "~/configs/constants";
 import {
   saveLocalInfo,
@@ -220,8 +221,8 @@ function Activity(props) {
   const projectState = useSelector(({projectManagement}) => projectManagement);
   const commonState = useSelector(({common}) => common);
   const authState = useSelector(({auth}) => auth);
-  const userName = authState["login"]["userName"];
-  const refreshToken = authState["login"]["refreshToken"];
+  const userName = authState[REDUX_LOGIN]["userName"];
+  const refreshToken = authState[REDUX_LOGIN]["refreshToken"];
   const language = commonState["language"];
 
   /** Use state */

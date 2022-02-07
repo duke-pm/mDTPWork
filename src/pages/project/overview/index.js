@@ -28,6 +28,7 @@ import {
   FIRST_CELL_WIDTH_LARGE,
   CELL_HEIGHT,
   CELL_WIDTH,
+  REDUX_LOGIN,
 } from "~/configs/constants";
 /** REDUX */
 import * as Actions from "~/redux/actions";
@@ -150,7 +151,7 @@ function ProjectOverview(props) {
   const authState = useSelector(({auth}) => auth);
   const language = commonState["language"];
   const formatDateView = commonState["formatDateView"];
-  const refreshToken = authState["login"]["refreshToken"];
+  const refreshToken = authState[REDUX_LOGIN]["refreshToken"];
   const perPageMaster = Configs.perPageProjectOverview;
 
   /** Use state */

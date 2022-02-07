@@ -178,6 +178,8 @@ export const DATA_CONTACT_US = [
   },
 ];
 
+/** Keys of Async Storage Secret */
+export const REDUX_LOGIN = "login";
 /** Keys of Async Storage */
 export const AST_DARK_MODE = "AST_DARK_MODE";
 export const AST_LANGUAGE = "AST_LANGUAGE";
